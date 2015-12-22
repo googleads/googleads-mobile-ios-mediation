@@ -21,21 +21,32 @@
 
 #import "SampleAdapter.h"
 
+#import "../SDK/SampleBanner.h"
+#import "../SDK/SampleInterstitial.h"
+#import "../SDK/SampleNativeAdLoader.h"
 #import "GADMAdNetworkConnectorProtocol.h"
 #import "GADMEnums.h"
-#import "SampleBanner.h"
-#import "SampleInterstitial.h"
+#import "SampleAdapterMediatedNativeAppInstallAd.h"
+#import "SampleAdapterMediatedNativeContentAd.h"
 
 /// Constant for adapter error domain.
 static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 
-@interface SampleAdapter () <SampleBannerAdDelegate, SampleInterstitialAdDelegate>
+@interface SampleAdapter () <SampleBannerAdDelegate, SampleInterstitialAdDelegate,
+                             SampleNativeAdLoaderDelegate>
+
 /// Connector from Google Mobile Ads SDK to receive ad configurations.
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+
 /// Handle banner ads from Sample SDK.
 @property(nonatomic, strong) SampleBanner *bannerAd;
+
 /// Handle interstitial ads from Sample SDK.
 @property(nonatomic, strong) SampleInterstitial *interstitialAd;
+
+/// An ad loader to use in loading native ads from Sample SDK.
+@property(nonatomic, strong) SampleNativeAdLoader *nativeAdLoader;
+
 @end
 
 @implementation SampleAdapter
@@ -74,21 +85,6 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeFullBanner) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Invalid ad type %@, not going to get ad.",
-                                   NSStringFromGADAdSize(adSize)];
-    NSDictionary *errorInfo = [NSDictionary
-        dictionaryWithObjectsAndKeys:errorDescription, NSLocalizedDescriptionKey, nil];
-    NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorMediationInvalidAdSize
-                                     userInfo:errorInfo];
-    [self.connector adapter:self didFailAd:error];
-    return;
-  }
   self.bannerAd =
       [[SampleBanner alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)];
 
@@ -101,6 +97,38 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
   request.keywords = self.connector.userKeywords;
   [self.bannerAd fetchAd:request];
   NSLog(@"Requesting banner from Sample Ad Network");
+}
+
+- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
+  self.nativeAdLoader = [[SampleNativeAdLoader alloc] init];
+  self.nativeAdLoader.adUnitID = [self.connector credentials][@"ad_unit"];
+  self.nativeAdLoader.delegate = self;
+
+  SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
+
+  // Part of the adapter's job is to examine the ad types and options, and then
+  // create a request for the mediated network's SDK that matches them.
+  for (NSString *adType in adTypes) {
+    if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
+      sampleRequest.contentAdsRequested = YES;
+    } else if ([adType isEqual:kGADAdLoaderAdTypeNativeAppInstall]) {
+      sampleRequest.appInstallAdsRequested = YES;
+    }
+  }
+
+  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
+    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      continue;
+    }
+
+    sampleRequest.shouldRequestPortraitImages = imageOptions.preferredImageOrientation ==
+                                                GADNativeAdImageAdLoaderOptionsOrientationPortrait;
+    sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
+  }
+
+  [self.nativeAdLoader fetchAd:sampleRequest];
+  NSLog(@"Requesting native ad from Sample Ad Network");
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -126,7 +154,7 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 
 - (void)banner:(SampleBanner *)banner didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
   NSError *adapterError = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
-  [self.connector adapter:self didFailInterstitial:adapterError];
+  [self.connector adapter:self didFailAd:adapterError];
 }
 
 - (void)bannerWillLeaveApplication:(SampleBanner *)banner {
@@ -143,7 +171,7 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 - (void)interstitial:(SampleInterstitial *)interstitial
     didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
   NSError *adapterError = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
-  [self.connector adapter:self didFailInterstitial:adapterError];
+  [self.connector adapter:self didFailAd:adapterError];
 }
 
 - (void)interstitialWillPresentScreen:(SampleInterstitial *)interstitial {
@@ -161,6 +189,29 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 - (void)interstitialWillLeaveApplication:(SampleInterstitial *)interstitial {
   [self.connector adapterDidGetAdClick:self];
   [self.connector adapterWillLeaveApplication:self];
+}
+
+#pragma mark SampleNativeAdLoaderDelegate implementation
+
+- (void)adLoader:(SampleNativeAdLoader *)adLoader
+    didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
+  SampleAdapterMediatedNativeAppInstallAd *mediatedAd =
+      [[SampleAdapterMediatedNativeAppInstallAd alloc]
+          initWithSampleNativeAppInstallAd:nativeAppInstallAd];
+  [self.connector adapter:self didReceiveMediatedNativeAd:mediatedAd];
+}
+
+- (void)adLoader:(SampleNativeAdLoader *)adLoader
+    didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
+  SampleAdapterMediatedNativeContentAd *mediatedAd =
+      [[SampleAdapterMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd];
+  [self.connector adapter:self didReceiveMediatedNativeAd:mediatedAd];
+}
+
+- (void)adLoader:(SampleNativeAdLoader *)adLoader
+    didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
+  NSError *error = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
+  [self.connector adapter:self didFailAd:error];
 }
 
 @end

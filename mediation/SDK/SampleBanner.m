@@ -45,6 +45,8 @@
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelTap:)];
   [self addGestureRecognizer:tapGesture];
   self.textColor = [UIColor blackColor];
+  self.backgroundColor = [UIColor lightGrayColor];
+  self.textAlignment = NSTextAlignmentCenter;
   [self layoutIfNeeded];
 }
 

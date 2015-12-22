@@ -44,20 +44,6 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
                   label:(NSString *)serverLabel
                 request:(GADCustomEventRequest *)request {
   // Create the bannerView with the appropriate size.
-  if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeFullBanner) &&
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
-    NSString *errorDesc = [NSString stringWithFormat:@"Invalid ad type %@, not going to get ad.",
-                                                     NSStringFromGADAdSize(adSize)];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-    NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorMediationInvalidAdSize
-                                     userInfo:errorInfo];
-    [self.delegate customEventBanner:self didFailAd:error];
-    return;
-  }
   self.bannerAd =
       [[SampleBanner alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)];
 
