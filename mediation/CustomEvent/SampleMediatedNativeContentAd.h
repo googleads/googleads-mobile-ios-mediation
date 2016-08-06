@@ -28,7 +28,9 @@
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
 @interface SampleMediatedNativeContentAd : NSObject<GADMediatedNativeContentAd>
 
-- (instancetype)initWithSampleNativeContentAd:(nonnull SampleNativeContentAd *)sampleNativeContentAd
-    NS_DESIGNATED_INITIALIZER;
+- (null_unspecified instancetype)init NS_UNAVAILABLE;
+
+- (nullable instancetype)initWithSampleNativeContentAd:
+        (nonnull SampleNativeContentAd *)sampleNativeContentAd NS_DESIGNATED_INITIALIZER;
 
 @end

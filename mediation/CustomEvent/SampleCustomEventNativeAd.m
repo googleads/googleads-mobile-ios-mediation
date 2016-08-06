@@ -45,6 +45,13 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
   // Part of the custom event's job is to examine the properties of the GADCustomEventRequest and
   // create a request for the mediated network's SDK that matches them.
+  //
+  // Care needs to be taken to make sure the custom event respects the publisher's wishes in regard
+  // to native ad formats. For example, if the mediated ad network only provides app install ads,
+  // and the publisher requests content ads alone, the custom event must report an error by calling
+  // the delegate's customEventNativeAd:didReceiveMediatedNativeAd: method with an error code set to
+  // kGADErrorInvalidRequest. It should *not* request an app install ad anyway, and then attempt to
+  // map it to the content ad format.
   for (NSString *adType in adTypes) {
     if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
       sampleRequest.contentAdsRequested = YES;
@@ -53,15 +60,41 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
     }
   }
 
-  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
-    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-      continue;
-    }
+  // The Google Mobile Ads SDK requires the image assets to be downloaded automatically unless
+  // the publisher specifies otherwise by using the GADNativeAdImageAdLoaderOptions object's
+  // disableImageLoading property. If your network doesn't have an option like this and instead only
+  // ever returns URLs for images (rather than the images themselves), your adapter should download
+  // image assets on behalf of the publisher. This should be done after receiving the native ad
+  // object from your network's SDK, and before calling the connector's
+  // adapter:didReceiveMediatedNativeAd: method.
+  sampleRequest.shouldDownloadImages = YES;
 
-    sampleRequest.shouldRequestPortraitImages = imageOptions.preferredImageOrientation ==
-                                                GADNativeAdImageAdLoaderOptionsOrientationPortrait;
-    sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
-    sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
+  sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+  sampleRequest.shouldRequestMultipleImages = NO;
+
+  for (GADAdLoaderOptions *loaderOptions in options) {
+    if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      GADNativeAdImageAdLoaderOptions *imageOptions =
+          (GADNativeAdImageAdLoaderOptions *)loaderOptions;
+      switch (imageOptions.preferredImageOrientation) {
+        case GADNativeAdImageAdLoaderOptionsOrientationLandscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
+          break;
+        case GADNativeAdImageAdLoaderOptionsOrientationPortrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
+          break;
+        case GADNativeAdImageAdLoaderOptionsOrientationAny:
+        default:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+          break;
+      }
+
+      sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
+
+      // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
+      // should send just the URLs for the images.
+      sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    }
   }
 
   // This custom event uses the server parameter to carry an ad unit ID, which is the most common
@@ -70,6 +103,12 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
   adLoader.delegate = self;
 
   [adLoader fetchAd:sampleRequest];
+}
+
+// Indicates if the custom event handles user clicks. Return YES if the custom event should handle
+// user clicks.
+- (BOOL)handlesUserClicks {
+  return YES;
 }
 
 #pragma mark SampleNativeAdLoaderDelegate implementation

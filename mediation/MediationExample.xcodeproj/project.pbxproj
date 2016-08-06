@@ -22,7 +22,6 @@
 		26E4630A1B8916FA00D2C50F /* SampleNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463091B8916FA00D2C50F /* SampleNativeContentAd.m */; };
 		26E4630D1B89170900D2C50F /* SampleNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E4630C1B89170900D2C50F /* SampleNativeAppInstallAd.m */; };
 		26E463101B8AEA2800D2C50F /* SampleNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E4630F1B8AEA2800D2C50F /* SampleNativeAdRequest.m */; };
-		4A0575BD1C287FFB0085EBE0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A0575BB1C287FFB0085EBE0 /* Info.plist */; };
 		4A0575BE1C287FFB0085EBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0575BC1C287FFB0085EBE0 /* main.m */; };
 		4A8B03681C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */; };
 		4A8B03691C286F5C0052A060 /* ExampleNativeContentAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */; };
@@ -33,6 +32,10 @@
 		4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */; };
 		4A93FA591C286D8F00479579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93FA481C286D8F00479579 /* Images.xcassets */; };
 		4A93FA601C286D8F00479579 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA511C286D8F00479579 /* ViewController.m */; };
+		C1106AB31D0773470045F5F9 /* SampleRewardBasedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */; };
+		C1106AB71D09E03E0045F5F9 /* SampleRewardBasedVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */; };
+		C1106ABB1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */; };
+		C1F187871D00FCB4003222D1 /* SampleAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +90,15 @@
 		4A93FA481C286D8F00479579 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MediationExample/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4A93FA501C286D8F00479579 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = MediationExample/ViewController.h; sourceTree = SOURCE_ROOT; };
 		4A93FA511C286D8F00479579 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = MediationExample/ViewController.m; sourceTree = SOURCE_ROOT; };
+		C1106AB11D0773470045F5F9 /* SampleRewardBasedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideo.h; path = SDK/SampleRewardBasedVideo.h; sourceTree = "<group>"; };
+		C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideo.m; path = SDK/SampleRewardBasedVideo.m; sourceTree = "<group>"; };
+		C1106AB51D09E03E0045F5F9 /* SampleRewardBasedVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoController.h; path = SDK/SampleRewardBasedVideoController.h; sourceTree = "<group>"; };
+		C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideoController.m; path = SDK/SampleRewardBasedVideoController.m; sourceTree = "<group>"; };
+		C1106AB91D0F6F850045F5F9 /* SampleRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoAd.h; path = SDK/SampleRewardBasedVideoAd.h; sourceTree = "<group>"; };
+		C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideoAd.m; path = SDK/SampleRewardBasedVideoAd.m; sourceTree = "<group>"; };
+		C1B53EAE1D1897490027EF3A /* SampleRewardBasedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoDelegate.h; path = SDK/SampleRewardBasedVideoDelegate.h; sourceTree = "<group>"; };
+		C1F187851D00FCB4003222D1 /* SampleAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterDelegate.h; path = Adapter/SampleAdapterDelegate.h; sourceTree = "<group>"; };
+		C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdapterDelegate.m; path = Adapter/SampleAdapterDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +182,13 @@
 				26E462F71B87BFF800D2C50F /* SampleInterstitial.h */,
 				26E462F81B87BFF800D2C50F /* SampleInterstitial.m */,
 				26E462F91B87BFF800D2C50F /* SampleInterstitialAdDelegate.h */,
+				C1106AB11D0773470045F5F9 /* SampleRewardBasedVideo.h */,
+				C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */,
+				C1B53EAE1D1897490027EF3A /* SampleRewardBasedVideoDelegate.h */,
+				C1106AB51D09E03E0045F5F9 /* SampleRewardBasedVideoController.h */,
+				C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */,
+				C1106AB91D0F6F850045F5F9 /* SampleRewardBasedVideoAd.h */,
+				C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */,
 				26E463041B8911AD00D2C50F /* SampleNativeAdLoader.h */,
 				26E463051B8911AD00D2C50F /* SampleNativeAdLoader.m */,
 				26E463071B89163200D2C50F /* SampleNativeAdLoaderDelegate.h */,
@@ -188,6 +207,8 @@
 			children = (
 				26E462E91B87BFDB00D2C50F /* SampleAdapter.h */,
 				26E462EA1B87BFDB00D2C50F /* SampleAdapter.m */,
+				C1F187851D00FCB4003222D1 /* SampleAdapterDelegate.h */,
+				C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */,
 				26D056541BBC859D002286F4 /* SampleAdapterConstants.h */,
 				26D056551BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.h */,
 				26D056561BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m */,
@@ -265,7 +286,6 @@
 			files = (
 				4A8B03781C286FDA0052A060 /* Main.storyboard in Resources */,
 				4A93FA591C286D8F00479579 /* Images.xcassets in Resources */,
-				4A0575BD1C287FFB0085EBE0 /* Info.plist in Resources */,
 				4A8B03681C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib in Resources */,
 				4A8B03771C286FDA0052A060 /* LaunchScreen.xib in Resources */,
 				4A8B03691C286F5C0052A060 /* ExampleNativeContentAdView.xib in Resources */,
@@ -279,17 +299,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1106ABB1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m in Sources */,
 				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m in Sources */,
 				26E4630D1B89170900D2C50F /* SampleNativeAppInstallAd.m in Sources */,
 				26E463101B8AEA2800D2C50F /* SampleNativeAdRequest.m in Sources */,
 				26E462FB1B87BFF800D2C50F /* SampleBanner.m in Sources */,
 				26E462EB1B87BFDB00D2C50F /* SampleAdapter.m in Sources */,
+				C1F187871D00FCB4003222D1 /* SampleAdapterDelegate.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
 				26E462FC1B87BFF800D2C50F /* SampleInterstitial.m in Sources */,
 				267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */,
+				C1106AB31D0773470045F5F9 /* SampleRewardBasedVideo.m in Sources */,
 				26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */,
 				4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */,
 				4A0575BE1C287FFB0085EBE0 /* main.m in Sources */,
+				C1106AB71D09E03E0045F5F9 /* SampleRewardBasedVideoController.m in Sources */,
 				26E462FA1B87BFF800D2C50F /* SampleAdRequest.m in Sources */,
 				26D0565A1BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m in Sources */,
 				4A93FA571C286D8F00479579 /* ExampleNativeAppInstallAdView.m in Sources */,
@@ -360,7 +384,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -406,7 +430,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -429,7 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MediationExample;
 			};
@@ -439,7 +463,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MediationExample;
 			};

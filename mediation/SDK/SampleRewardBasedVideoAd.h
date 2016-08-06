@@ -1,8 +1,8 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2016 Google, Inc.
 //
-// SampleAdapter.h
-// Sample Ad Network Adapter
+// SampleRewardBasedVideoAd.h
+// Sample Ad Network SDK
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,13 +18,17 @@
 //
 
 @import Foundation;
-@import GoogleMobileAds;
 
-#import "GADMAdNetworkAdapterProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+/// SampleRewardBasedVideoAd class contains reward-based video ad name and reward amount.
+@interface SampleRewardBasedVideoAd : NSObject
 
-/// Adapter for communicating with the Sample SDK to fetch banner ads, native ads, reward-based
-/// video ads, and interstitial ads.
-@interface SampleAdapter : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+/// Reward-based video ad name.
+@property(nonatomic, readonly, copy) NSString *adName;
+
+/// Reward-based video ad reward amount.
+@property(nonatomic, readonly) int rewardAmount;
+
+/// Returns a SampleRewardBasedVideoAd with |adName| and |reward|.
+- (instancetype)initWithAdName:(NSString *)adName reward:(int)reward;
 
 @end

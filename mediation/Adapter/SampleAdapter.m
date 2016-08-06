@@ -17,35 +17,42 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
-
 #import "SampleAdapter.h"
+
+@import GoogleMobileAds;
 
 #import "../SDK/SampleBanner.h"
 #import "../SDK/SampleInterstitial.h"
 #import "../SDK/SampleNativeAdLoader.h"
+#import "../SDK/SampleRewardBasedVideo.h"
 #import "GADMAdNetworkConnectorProtocol.h"
 #import "GADMEnums.h"
+#import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAppInstallAd.h"
 #import "SampleAdapterMediatedNativeContentAd.h"
 
-/// Constant for adapter error domain.
-static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
+@interface SampleAdapter () {
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-@interface SampleAdapter () <SampleBannerAdDelegate, SampleInterstitialAdDelegate,
-                             SampleNativeAdLoaderDelegate>
+  /// Connector from Google Mobile Ads SDK to receive reward-based video ad configurations.
+  __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
 
-/// Connector from Google Mobile Ads SDK to receive ad configurations.
-@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+  /// Handles delegate notifications.
+  SampleAdapterDelegate *_adapterDelegate;
 
-/// Handle banner ads from Sample SDK.
-@property(nonatomic, strong) SampleBanner *bannerAd;
+  /// Handle banner ads from Sample SDK.
+  SampleBanner *_bannerAd;
 
-/// Handle interstitial ads from Sample SDK.
-@property(nonatomic, strong) SampleInterstitial *interstitialAd;
+  /// Handle interstitial ads from Sample SDK.
+  SampleInterstitial *_interstitialAd;
 
-/// An ad loader to use in loading native ads from Sample SDK.
-@property(nonatomic, strong) SampleNativeAdLoader *nativeAdLoader;
+  /// Handle reward-based video ads from Sample SDK.
+  SampleRewardBasedVideo *_rewardBasedVideoAd;
+
+  /// An ad loader to use in loading native ads from Sample SDK.
+  SampleNativeAdLoader *_nativeAdLoader;
+}
 
 @end
 
@@ -56,58 +63,80 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  // OPTIONAL: Create your own class implementating GADAdNetworkExtras and return that class type
+  // OPTIONAL: Create your own class implementing GADAdNetworkExtras and return that class type
   // here for your publishers to use. This class does not use extras.
-
   return Nil;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  if (!connector) {
+    return nil;
+  }
+
   self = [super init];
   if (self) {
     _connector = connector;
+    _adapterDelegate = [[SampleAdapterDelegate alloc] initWithAdapter:self connector:_connector];
   }
   return self;
 }
 
 - (void)getInterstitial {
-  self.interstitialAd = [[SampleInterstitial alloc] init];
-  self.interstitialAd.delegate = self;
-  self.interstitialAd.adUnit = [self.connector credentials][@"ad_unit"];
+  _interstitialAd = [[SampleInterstitial alloc] init];
+  _interstitialAd.delegate = _adapterDelegate;
+  _interstitialAd.adUnit = [_connector credentials][@"ad_unit"];
 
   SampleAdRequest *request = [[SampleAdRequest alloc] init];
-  // Setup request parameters.
-  request.testMode = self.connector.testMode;
-  request.keywords = self.connector.userKeywords;
+  // Set up request parameters.
+  request.testMode = _connector.testMode;
+  request.keywords = _connector.userKeywords;
 
-  [self.interstitialAd fetchAd:request];
+  [_interstitialAd fetchAd:request];
   NSLog(@"Requesting interstitial from Sample Ad Network");
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  self.bannerAd =
+  _bannerAd =
       [[SampleBanner alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)];
 
-  self.bannerAd.delegate = self;
-  self.bannerAd.adUnit = [self.connector credentials][@"ad_unit"];
+  _bannerAd.delegate = _adapterDelegate;
+  _bannerAd.adUnit = [_connector credentials][@"ad_unit"];
 
-  // Setup request parameters.
+  // Set up request parameters.
   SampleAdRequest *request = [[SampleAdRequest alloc] init];
-  request.testMode = self.connector.testMode;
-  request.keywords = self.connector.userKeywords;
-  [self.bannerAd fetchAd:request];
+  request.testMode = _connector.testMode;
+  request.keywords = _connector.userKeywords;
+  [_bannerAd fetchAd:request];
   NSLog(@"Requesting banner from Sample Ad Network");
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  self.nativeAdLoader = [[SampleNativeAdLoader alloc] init];
-  self.nativeAdLoader.adUnitID = [self.connector credentials][@"ad_unit"];
-  self.nativeAdLoader.delegate = self;
+  _nativeAdLoader = [[SampleNativeAdLoader alloc] init];
+  _nativeAdLoader.adUnitID = [_connector credentials][@"ad_unit"];
+  _nativeAdLoader.delegate = _adapterDelegate;
 
   SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
 
-  // Part of the adapter's job is to examine the ad types and options, and then
-  // create a request for the mediated network's SDK that matches them.
+  // Part of the adapter's job is to examine the ad types and options, and then create a request for
+  // the mediated network's SDK that matches them.
+  //
+  // Care needs to be taken to make sure the adapter respects the publisher's wishes in regard to
+  // native ad formats. For example, if your ad network only provides app install ads, and the
+  // publisher requests content ads alone, the adapter must report an error by calling the
+  // connector's adapter:didFailAd: method with an error code set to kGADErrorInvalidRequest. It
+  // should *not* request an app install ad anyway, and then attempt to map it to the content ad
+  // format.
+  if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall] &&
+      ![adTypes containsObject:kGADAdLoaderAdTypeNativeContent]) {
+    NSString *description = @"At least one ad type must be selected.";
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    NSError *error =
+        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
+    [_connector adapter:self didFailAd:error];
+    return;
+  }
+
   for (NSString *adType in adTypes) {
     if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
       sampleRequest.contentAdsRequested = YES;
@@ -116,18 +145,44 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
     }
   }
 
-  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
-    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-      continue;
-    }
+  // The Google Mobile Ads SDK requires the image assets to be downloaded automatically unless the
+  // publisher specifies otherwise by using the GADNativeAdImageAdLoaderOptions object's
+  // disableImageLoading property. If your network doesn't have an option like this and instead only
+  // ever returns URLs for images (rather than the images themselves), your adapter should download
+  // image assets on behalf of the publisher. This should be done after receiving the native ad
+  // object from your network's SDK, and before calling the connector's
+  // adapter:didReceiveMediatedNativeAd: method.
+  sampleRequest.shouldDownloadImages = YES;
 
-    sampleRequest.shouldRequestPortraitImages = imageOptions.preferredImageOrientation ==
-                                                GADNativeAdImageAdLoaderOptionsOrientationPortrait;
-    sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
-    sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
+  sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+  sampleRequest.shouldRequestMultipleImages = NO;
+
+  for (GADAdLoaderOptions *loaderOptions in options) {
+    if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      GADNativeAdImageAdLoaderOptions *imageOptions =
+          (GADNativeAdImageAdLoaderOptions *)loaderOptions;
+      switch (imageOptions.preferredImageOrientation) {
+        case GADNativeAdImageAdLoaderOptionsOrientationLandscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
+          break;
+        case GADNativeAdImageAdLoaderOptionsOrientationPortrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
+          break;
+        case GADNativeAdImageAdLoaderOptionsOrientationAny:
+        default:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+          break;
+      }
+
+      sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
+
+      // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
+      // should send just the URLs for the images.
+      sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    }
   }
 
-  [self.nativeAdLoader fetchAd:sampleRequest];
+  [_nativeAdLoader fetchAd:sampleRequest];
   NSLog(@"Requesting native ad from Sample Ad Network");
 }
 
@@ -136,82 +191,66 @@ static NSString *const adapterErrorDomain = @"com.google.SampleAdapter";
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  if ([self.interstitialAd isInterstitialLoaded]) {
-    [self.interstitialAd show];
+  if ([_interstitialAd isInterstitialLoaded]) {
+    [_interstitialAd show];
   }
 }
 
 - (void)stopBeingDelegate {
-  self.bannerAd.delegate = nil;
-  self.interstitialAd.delegate = nil;
+  _bannerAd.delegate = nil;
+  _interstitialAd.delegate = nil;
+  _nativeAdLoader.delegate = nil;
+  _rewardBasedVideoAd.delegate = nil;
 }
 
-#pragma mark SampleBannerAdDelegate methods
+#pragma mark Reward-based Video Ad Methods
 
-- (void)bannerDidLoad:(SampleBanner *)banner {
-  [self.connector adapter:self didReceiveAdView:banner];
+/// Initializes and returns a sample adapter with a reward based video ad connector.
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
+    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+  if (!connector) {
+    return nil;
+  }
+
+  self = [super init];
+  if (self) {
+    _rewardBasedVideoAdConnector = connector;
+    _adapterDelegate = [[SampleAdapterDelegate alloc] initWithRewardBasedVideoAdAdapter:self
+                                                            rewardBasedVideoAdconnector:connector];
+  }
+  return self;
 }
 
-- (void)banner:(SampleBanner *)banner didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
-  NSError *adapterError = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
-  [self.connector adapter:self didFailAd:adapterError];
+/// Tells the adapter to set up reward based video ads. When set up fails, the Sample SDK may try to
+/// set up the adapter again.
+- (void)setUp {
+  _rewardBasedVideoAd = [SampleRewardBasedVideo sharedInstance];
+  _rewardBasedVideoAd.delegate = _adapterDelegate;
+  NSString *adUnit = [_rewardBasedVideoAdConnector credentials][@"ad_unit"];
+  _rewardBasedVideoAd.adUnit = adUnit;
+
+  SampleAdRequest *request = [[SampleAdRequest alloc] init];
+  // Set up request parameters.
+  request.testMode = _connector.testMode;
+  request.keywords = _connector.userKeywords;
+
+  [_rewardBasedVideoAd initializeWithAdRequest:request adUnitID:adUnit];
 }
 
-- (void)bannerWillLeaveApplication:(SampleBanner *)banner {
-  [self.connector adapterDidGetAdClick:self];
-  [self.connector adapterWillLeaveApplication:self];
+/// Tells the adapter to request a reward based video ad, if isAdAvailable is true. If fails, tries
+/// to load ad again.
+- (void)requestRewardBasedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  if (_rewardBasedVideoAd isAdAvailable) {
+    [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
+  } else {
+    [_rewardBasedVideoAd loadAd];
+  }
 }
 
-#pragma mark SampleInterstitialAdDelegate methods
-
-- (void)interstitialDidLoad:(SampleInterstitial *)interstitial {
-  [self.connector adapterDidReceiveInterstitial:self];
-}
-
-- (void)interstitial:(SampleInterstitial *)interstitial
-    didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
-  NSError *adapterError = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
-  [self.connector adapter:self didFailAd:adapterError];
-}
-
-- (void)interstitialWillPresentScreen:(SampleInterstitial *)interstitial {
-  [self.connector adapterWillPresentInterstitial:self];
-}
-
-- (void)interstitialWillDismissScreen:(SampleInterstitial *)interstitial {
-  [self.connector adapterWillDismissInterstitial:self];
-}
-
-- (void)interstitialDidDismissScreen:(SampleInterstitial *)interstitial {
-  [self.connector adapterDidDismissInterstitial:self];
-}
-
-- (void)interstitialWillLeaveApplication:(SampleInterstitial *)interstitial {
-  [self.connector adapterDidGetAdClick:self];
-  [self.connector adapterWillLeaveApplication:self];
-}
-
-#pragma mark SampleNativeAdLoaderDelegate implementation
-
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
-  SampleAdapterMediatedNativeAppInstallAd *mediatedAd =
-      [[SampleAdapterMediatedNativeAppInstallAd alloc]
-          initWithSampleNativeAppInstallAd:nativeAppInstallAd];
-  [self.connector adapter:self didReceiveMediatedNativeAd:mediatedAd];
-}
-
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
-  SampleAdapterMediatedNativeContentAd *mediatedAd =
-      [[SampleAdapterMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd];
-  [self.connector adapter:self didReceiveMediatedNativeAd:mediatedAd];
-}
-
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
-  NSError *error = [NSError errorWithDomain:adapterErrorDomain code:errorCode userInfo:nil];
-  [self.connector adapter:self didFailAd:error];
+/// Tells the adapter to present the reward based video ad with the provided view controller.
+- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
+  [_rewardBasedVideoAd presentFromRootViewController:viewController];
 }
 
 @end

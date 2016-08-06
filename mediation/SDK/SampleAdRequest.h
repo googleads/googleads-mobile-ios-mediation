@@ -19,19 +19,21 @@
 
 @import Foundation;
 
+/// Sample error codes.
 typedef NS_ENUM(NSInteger, SampleErrorCode) {
-  SampleErrorCodeBadRequest = 0,
-  SampleErrorCodeUnknown = 1,
-  SampleErrorCodeNetworkError = 2,
-  SampleErrorCodeNoInventory = 3,
+  SampleErrorCodeBadRequest,    ///< Bad request.
+  SampleErrorCodeUnknown,       ///< Unknown error.
+  SampleErrorCodeNetworkError,  ///< Network error.
+  SampleErrorCodeNoInventory,   ///< No inventory.
 };
 
+/// The SampleAdRequest class is used for making an ad request.
 @interface SampleAdRequest : NSObject
 
 /// Test ads will be returned if set to YES.
 @property(nonatomic, assign) BOOL testMode;
 
 /// Array of keyword strings for describing the current user activity.
-@property(nonatomic, copy) NSArray *keywords;
+@property(nonatomic, copy) NSArray<NSString *> *keywords;
 
 @end

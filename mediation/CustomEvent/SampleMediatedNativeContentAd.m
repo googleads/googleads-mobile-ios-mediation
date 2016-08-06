@@ -53,7 +53,7 @@
 @implementation SampleMediatedNativeContentAd
 
 - (instancetype)initWithSampleNativeContentAd:
-        (nonnull SampleNativeContentAd *)sampleNativeContentAd {
+        (SampleNativeContentAd *)sampleNativeContentAd {
   if (!sampleNativeContentAd) {
     return nil;
   }

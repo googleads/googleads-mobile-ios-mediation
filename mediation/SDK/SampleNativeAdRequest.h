@@ -21,6 +21,13 @@
 
 #import "SampleAdRequest.h"
 
+/// Native ad image orientation preference.
+typedef NS_ENUM(NSInteger, NativeAdImageOrientation) {
+  NativeAdImageOrientationAny,       ///< No orientation preference.
+  NativeAdImageOrientationPortrait,  ///< Prefer portrait images.
+  NativeAdImageOrientationLandscape  ///< Prefer landscape images.
+};
+
 @interface SampleNativeAdRequest : SampleAdRequest
 
 /// Indicates whether app install ads are requested.
@@ -38,8 +45,8 @@
 // can demonstrate how to take a request from the Google Mobile Ads SDK and translate it
 // into one for the Sample SDK.
 
-/// Indicates whether portrait images are preferred over landscape ones.
-@property(nonatomic, assign) BOOL shouldRequestPortraitImages;
+/// Indicates the preferred image orientation.
+@property(nonatomic, assign) NativeAdImageOrientation preferredImageOrientation;
 
 /// Indicates whether multiple images should be returned for assets that offer them.
 @property(nonatomic, assign) BOOL shouldRequestMultipleImages;

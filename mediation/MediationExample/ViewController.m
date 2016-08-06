@@ -203,23 +203,44 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
   appInstallAdView.nativeAppInstallAd = nativeAppInstallAd;
 
   // Populate the app install ad view with the app install ad assets.
+  // Some assets are guaranteed to be present in every app install ad.
   ((UILabel *)appInstallAdView.headlineView).text = nativeAppInstallAd.headline;
   ((UIImageView *)appInstallAdView.iconView).image = nativeAppInstallAd.icon.image;
   ((UILabel *)appInstallAdView.bodyView).text = nativeAppInstallAd.body;
-  ((UILabel *)appInstallAdView.storeView).text = nativeAppInstallAd.store;
-  ((UILabel *)appInstallAdView.priceView).text = nativeAppInstallAd.price;
   ((UIImageView *)appInstallAdView.imageView).image =
       ((GADNativeAdImage *)[nativeAppInstallAd.images firstObject]).image;
-  ((UIImageView *)appInstallAdView.starRatingView).image =
-      [self imageForStars:nativeAppInstallAd.starRating];
   [((UIButton *)appInstallAdView.callToActionView)setTitle:nativeAppInstallAd.callToAction
                                                   forState:UIControlStateNormal];
+
+  // Other assets are not, however, and should be checked first.
+  if (nativeAppInstallAd.starRating) {
+    ((UIImageView *)appInstallAdView.starRatingView).image =
+        [self imageForStars:nativeAppInstallAd.starRating];
+    appInstallAdView.starRatingView.hidden = NO;
+  } else {
+    appInstallAdView.starRatingView.hidden = YES;
+  }
+
+  if (nativeAppInstallAd.store) {
+    ((UILabel *)appInstallAdView.storeView).text = nativeAppInstallAd.store;
+    appInstallAdView.storeView.hidden = NO;
+  } else {
+    appInstallAdView.storeView.hidden = YES;
+  }
+
+  if (nativeAppInstallAd.price) {
+    ((UILabel *)appInstallAdView.priceView).text = nativeAppInstallAd.price;
+    appInstallAdView.priceView.hidden = NO;
+  } else {
+    appInstallAdView.priceView.hidden = YES;
+  }
 
   // If the ad came from the Sample SDK, it should contain an extra asset, which is retrieved here.
   NSString *degreeOfAwesomeness = nativeAppInstallAd.extraAssets[awesomenessKey];
 
   if (degreeOfAwesomeness) {
     appInstallAdView.degreeOfAwesomenessView.text = degreeOfAwesomeness;
+    appInstallAdView.degreeOfAwesomenessView.hidden = NO;
   } else {
     appInstallAdView.degreeOfAwesomenessView.hidden = YES;
   }
@@ -274,20 +295,29 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
   contentAdView.nativeContentAd = nativeContentAd;
 
   // Populate the content ad view with the content ad assets.
+  // Some assets are guaranteed to be present in every content ad.
   ((UILabel *)contentAdView.headlineView).text = nativeContentAd.headline;
   ((UILabel *)contentAdView.bodyView).text = nativeContentAd.body;
   ((UIImageView *)contentAdView.imageView).image =
       ((GADNativeAdImage *)[nativeContentAd.images firstObject]).image;
-  ((UIImageView *)contentAdView.logoView).image = nativeContentAd.logo.image;
   ((UILabel *)contentAdView.advertiserView).text = nativeContentAd.advertiser;
   [((UIButton *)contentAdView.callToActionView)setTitle:nativeContentAd.callToAction
                                                forState:UIControlStateNormal];
+
+  // Other assets are not, however, and should be checked first.
+  if (nativeContentAd.logo && nativeContentAd.logo.image) {
+    ((UIImageView *)contentAdView.logoView).image = nativeContentAd.logo.image;
+    contentAdView.logoView.hidden = NO;
+  } else {
+    contentAdView.logoView.hidden = YES;
+  }
 
   // If the ad came from the Sample SDK, it should contain an extra asset, which is retrieved here.
   NSString *degreeOfAwesomeness = nativeContentAd.extraAssets[awesomenessKey];
 
   if (degreeOfAwesomeness) {
     contentAdView.degreeOfAwesomenessView.text = degreeOfAwesomeness;
+    contentAdView.degreeOfAwesomenessView.hidden = NO;
   } else {
     contentAdView.degreeOfAwesomenessView.hidden = YES;
   }

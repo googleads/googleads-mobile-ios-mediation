@@ -53,7 +53,7 @@
 @implementation SampleMediatedNativeAppInstallAd
 
 - (instancetype)initWithSampleNativeAppInstallAd:
-        (nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
+        (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
   if (!sampleNativeAppInstallAd) {
     return nil;
   }

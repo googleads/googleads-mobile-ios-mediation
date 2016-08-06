@@ -28,7 +28,9 @@
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
 @interface SampleAdapterMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
 
-- (instancetype)initWithSampleNativeAppInstallAd:
+- (null_unspecified instancetype)init NS_UNAVAILABLE;
+
+- (nullable instancetype)initWithSampleNativeAppInstallAd:
         (nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd NS_DESIGNATED_INITIALIZER;
 
 @end
