@@ -41,7 +41,7 @@
 // share code between them), they each get their own copies of these classes,
 // with slightly different names.
 
-@interface SampleMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate>
+@interface SampleMediatedNativeAppInstallAd ()<GADMediatedNativeAdDelegate>
 
 @property(nonatomic, strong) SampleNativeAppInstallAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
@@ -53,7 +53,7 @@
 @implementation SampleMediatedNativeAppInstallAd
 
 - (instancetype)initWithSampleNativeAppInstallAd:
-        (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
+    (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
   if (!sampleNativeAppInstallAd) {
     return nil;
   }
@@ -125,12 +125,13 @@
 
 // Because the Sample SDK handles click and impression tracking via methods on its native
 // ad object, there's no need to pass it a reference to the UIView being used to display
-// the native ad. So there's no need to implement mediatedNativeAd:didRenderInView here.
-// If your mediated network does need a reference to the view, this method can be used to
+// the native ad. So there's no need to implement mediatedNativeAd:didRenderInView:viewController
+// here. If your mediated network does need a reference to the view, this method can be used to
 // provide one.
 
 //- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-//         didRenderInView:(UIView *)view {
+//         didRenderInView:(UIView *)view
+//          viewController:(UIViewController *)viewController {
 //  Here you would pass the UIView back to the mediated network's SDK.
 //}
 

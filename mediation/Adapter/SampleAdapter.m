@@ -27,6 +27,7 @@
 #import "../SDK/SampleRewardBasedVideo.h"
 #import "GADMAdNetworkConnectorProtocol.h"
 #import "GADMEnums.h"
+#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAppInstallAd.h"
 #import "SampleAdapterMediatedNativeContentAd.h"
@@ -207,7 +208,7 @@
 
 /// Initializes and returns a sample adapter with a reward based video ad connector.
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }
@@ -227,7 +228,7 @@
   _rewardBasedVideoAd = [SampleRewardBasedVideo sharedInstance];
   _rewardBasedVideoAd.delegate = _adapterDelegate;
   NSString *adUnit = [_rewardBasedVideoAdConnector credentials][@"ad_unit"];
-  _rewardBasedVideoAd.adUnit = adUnit;
+  _rewardBasedVideoAd.adUnitID = adUnit;
 
   SampleAdRequest *request = [[SampleAdRequest alloc] init];
   // Set up request parameters.
@@ -237,20 +238,34 @@
   [_rewardBasedVideoAd initializeWithAdRequest:request adUnitID:adUnit];
 }
 
-/// Tells the adapter to request a reward based video ad, if isAdAvailable is true. If fails, tries
-/// to load ad again.
+/// Tells the adapter to request a reward based video ad, if checkAdAvailability is true. Otherwise,
+/// the connector notifies the adapter that the reward based video ad failed to load.
 - (void)requestRewardBasedVideoAd {
   id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  if (_rewardBasedVideoAd isAdAvailable) {
+  if ([_rewardBasedVideoAd checkAdAvailability]) {
     [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
   } else {
-    [_rewardBasedVideoAd loadAd];
+    NSString *description = @"Failed to load ad.";
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    NSError *error =
+        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
+    [strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
   }
 }
 
-/// Tells the adapter to present the reward based video ad with the provided view controller.
+/// Tells the adapter to present the reward based video ad with the provided view controller, if the
+/// ad is available. Otherwise, logs a message with the reason for failure.
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-  [_rewardBasedVideoAd presentFromRootViewController:viewController];
+  if ([_rewardBasedVideoAd checkAdAvailability]) {
+    // The reward based video ad is available, present the ad.
+    [_rewardBasedVideoAd presentFromRootViewController:viewController];
+  } else {
+    // Because publishers are expected to check that an ad is available before trying to show one,
+    // the above conditional should always hold true. If for any reason the adapter is not ready to
+    // present an ad, however, it should log an error with reason for failure.
+    NSLog(@"No ads to show.");
+  }
 }
 
 @end

@@ -25,12 +25,15 @@
 #import "../SDK/SampleRewardBasedVideo.h"
 #import "GADMAdNetworkAdapterProtocol.h"
 #import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
+#import "SampleAdapterMediatedNativeAppInstallAd.h"
+#import "SampleAdapterMediatedNativeContentAd.h"
 
 /// Constant for adapter error domain.
 static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
 
-@interface SampleAdapterDelegate ()<SampleBannerAdDelegate, SampleInterstitialAdDelegate,
-                                    SampleNativeAdLoaderDelegate, SampleRewardBasedVideoDelegate> {
+@interface SampleAdapterDelegate () <SampleBannerAdDelegate, SampleInterstitialAdDelegate,
+                                     SampleNativeAdLoaderDelegate, SampleRewardBasedVideoDelegate> {
   /// Connector from Google AdMob SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 

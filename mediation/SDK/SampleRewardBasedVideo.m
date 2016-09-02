@@ -28,7 +28,7 @@
   NSMutableArray *_rewardBasedVideos;
 
   /// YES, if the SDK is initialized.
-  BOOL _isInitialized;
+  BOOL _isSDKInitialized;
 }
 
 @end
@@ -56,31 +56,28 @@
 - (void)initializeWithAdRequest:(SampleAdRequest *)request adUnitID:(NSString *)adUnitID {
   _adUnitID = [adUnitID copy];
 
-  if (_isInitialized) {
+  if (_isSDKInitialized) {
     NSLog(@"Sample SDK is already initialized.");
     return;
   }
 
   if (!_adUnitID) {
-    [self failedToLoadAdWithError:SampleErrorCodeBadRequest];
+    id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
+    [strongDelegate rewardBasedVideoAd:self didFailToInitializeWithError:SampleErrorCodeBadRequest];
+
     return;
   }
 
-  _isInitialized = YES;
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdInitialized:)]) {
-    [strongDelegate rewardBasedVideoAdInitialized:self];
-  }
+  _isSDKInitialized = YES;
+  [self loadAd];
 }
 
+/// Loads a reward-based video ad.
 - (void)loadAd {
-  if ([self isAdAvailable]) {
-    [self adLoadedSuccessfully];
-    return;
-  }
-
   // Randomly decide whether to succeed or fail.
   int randomValue = arc4random_uniform(100);
+  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
+
   if (randomValue < 85) {
     if (randomValue < 20) {
       [self createSampleRewardBasedVideoAds:2 rewardAmount:5];
@@ -91,13 +88,31 @@
     } else {
       [self createSampleRewardBasedVideoAds:8 rewardAmount:20];
     }
-    [self adLoadedSuccessfully];
+
+    if (!_isSDKInitialized) {
+      _isSDKInitialized = YES;
+      if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdInitialized:)]) {
+        [strongDelegate rewardBasedVideoAdInitialized:self];
+      }
+    }
   } else if (randomValue < 90) {
-    [self failedToLoadAdWithError:SampleErrorCodeUnknown];
+    if ([strongDelegate
+            respondsToSelector:@selector(rewardBasedVideoAd:didFailToInitializeWithError:)]) {
+      [strongDelegate rewardBasedVideoAd:self didFailToInitializeWithError:SampleErrorCodeUnknown];
+    }
   } else if (randomValue < 95) {
-    [self failedToLoadAdWithError:SampleErrorCodeNetworkError];
+    if ([strongDelegate
+            respondsToSelector:@selector(rewardBasedVideoAd:didFailToInitializeWithError:)]) {
+      [strongDelegate rewardBasedVideoAd:self
+            didFailToInitializeWithError:SampleErrorCodeNetworkError];
+    }
+
   } else {
-    [self failedToLoadAdWithError:SampleErrorCodeNoInventory];
+    if ([strongDelegate
+            respondsToSelector:@selector(rewardBasedVideoAd:didFailToInitializeWithError:)]) {
+      [strongDelegate rewardBasedVideoAd:self
+            didFailToInitializeWithError:SampleErrorCodeNoInventory];
+    }
   }
 }
 
@@ -111,34 +126,22 @@
   }
 }
 
-- (BOOL)isAdAvailable {
-  if (!_isInitialized) {
+- (BOOL)checkAdAvailability {
+  if (!_isSDKInitialized) {
     NSLog(@"Sample SDK is not initialized.");
     return NO;
   }
-  return [_rewardBasedVideos count] > 0;
-}
 
-/// Ad load finished successfully. This method then notifies the publisher's delegate that ad
-/// loading has successfully finished.
-- (void)adLoadedSuccessfully {
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdDidReceiveAd:)]) {
-    [strongDelegate rewardBasedVideoAdDidReceiveAd:self];
-  }
-}
-
-/// Failed loading an ad. This method then notifies the publisher's delegate that ad loading has
-/// failed.
-- (void)failedToLoadAdWithError:(SampleErrorCode)errorCode {
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAd:didFailToLoadWithError:)]) {
-    [strongDelegate rewardBasedVideoAd:self didFailToLoadWithError:errorCode];
+  if (_rewardBasedVideos.count > 0) {
+    return YES;
+  } else {
+    [self loadAd];
+    return NO;
   }
 }
 
 - (void)presentFromRootViewController:(UIViewController *)viewController {
-  if (![self isAdAvailable]) {
+  if (![self checkAdAvailability]) {
     return;
   }
 

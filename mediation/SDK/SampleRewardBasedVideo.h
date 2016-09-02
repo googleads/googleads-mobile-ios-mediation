@@ -33,20 +33,18 @@
 /// Delegate for receiving reward-based video ad notifications.
 @property(nonatomic, weak) id<SampleRewardBasedVideoDelegate> delegate;
 
-/// Returns YES if the reward-based video ad is available.
-- (BOOL)isAdAvailable;
+/// Checks whether or not a rewarded video ad is available. If an ad is not available, a new loadAd:
+/// request is made.
+- (BOOL)checkAdAvailability;
 
 /// Sample ad request instance.
 @property(nonatomic, strong) SampleAdRequest *request;
 
-/// Returns the shared SampleRewardBasedVideoAd instance.
+/// Returns the shared SampleRewardBasedVideo instance.
 + (SampleRewardBasedVideo *)sharedInstance;
 
 /// Initializes with |request| and |adUnitID|.
 - (void)initializeWithAdRequest:(SampleAdRequest *)request adUnitID:(NSString *)adUnitID;
-
-/// Loads a reward-based video ad.
-- (void)loadAd;
 
 /// Presents the reward-based video ad with the provided view controller.
 - (void)presentFromRootViewController:(UIViewController *)viewController;

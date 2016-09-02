@@ -53,8 +53,8 @@
 - (void)rewardBasedVideoAd:(SampleRewardBasedVideo *)rewardBasedVideo
       rewardUserWithReward:(int)reward;
 
-/// Tells the delegate that the sample reward-based video has failed to load.
+/// Tells the delegate that the sample reward-based video failed to initialize.
 - (void)rewardBasedVideoAd:(SampleRewardBasedVideo *)rewardBasedVideo
-    didFailToLoadWithError:(SampleErrorCode)error;
+    didFailToInitializeWithError:(SampleErrorCode)error;
 
 @end
