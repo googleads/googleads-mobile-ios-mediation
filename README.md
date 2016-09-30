@@ -5,10 +5,9 @@ featuring refined ad formats and streamlined APIs for access to mobile ad
 networks and advertising solutions. The SDK enables mobile app developers to
 maximize their monetization in native mobile apps.
 
-This repository contains the source code of examples and developer resources for
-the Mediation components of the Google Mobile Ads SDK.
+This repository is broken into two sections:
 
-# Project structure
+## Example adapter and custom event project
 
 This repository contains the source code for a sample project demonstrating how
 an ad network can plug into AdMob Mediation. There are four main components:
@@ -31,7 +30,7 @@ and (as long as you don't change the *names* of those two classes) test your
 own implementation. The ad units provided as part of the project are keyed to
 the names of the adapter and custom event classes.
 
-# Building the project
+### Building the example project
 
 To build the project, follow these steps:
 
@@ -39,25 +38,33 @@ To build the project, follow these steps:
 2.  Run 'pod update' in the project's root directory (this will download the
     SDK).
 3.  Open the workspace file in Xcode.
-4.  Add the Mediation Adapters header files to the MedationExample project. Right
-    click on the MediationExample project and choose "Add Files to MediationExample".
-    Navigate to Pods/Google-Mobile-Ads-SDK/GoogleMobileAdsSdkiOS-#.#.#/Mediation Adapters/
+4.  Add the Mediation Adapters header files to the MedationExample project.
+    * Right click on the MediationExample project and choose "Add Files to
+      MediationExample".
+    * Navigate to `Pods/Google-Mobile-Ads-SDK/GoogleMobileAdsSdkiOS-#.#.#/Mediation Adapters/`
     and add this folder.
 5.  Run the project.
 
-# Mediation
+## Mediation Adapters
 
-*   [Mediation Example](https://github.com/googleads/googleads-mobile-ios-mediation/tree/master/mediation)
+Open source adapters for mediating the following networks via the Google Mobile
+Ads SDK:
+
+* Unity Ads
+* Chartboost
 
 # Downloads
 
-Please check out our [releases](https://github.com/googleads/googleads-mobile-ios-mediation/releases)
+Please check out our
+[releases](https://github.com/googleads/googleads-mobile-ios-mediation/releases)
 for the latest downloads of our Mediation apps.
 
 # Documentation
 
-Check out our [developers site](https://developers.google.com/mobile-ads-sdk/) for documentation on using the SDK,
-and join the developer community on [our forum](https://groups.google.com/forum/#!forum/google-admob-ads-sdk).
+Check out our
+[developers site](https://firebase.google.com/docs/admob/) for documentation on
+using the SDK, and join the developer community on
+[our forum](https://groups.google.com/forum/#!forum/google-admob-ads-sdk).
 
 # Suggesting improvements
 

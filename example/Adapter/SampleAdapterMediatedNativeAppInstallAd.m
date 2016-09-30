@@ -1,8 +1,8 @@
 //
 // Copyright (C) 2015 Google, Inc.
 //
-// SampleForwardingNativeContentAd.m
-// Sample Ad Network Custom Event
+// SampleAdapterMediatedNativeAppInstallAd.m
+// Sample Ad Network Adapter
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,12 +19,12 @@
 
 @import GoogleMobileAds;
 
-#import "../SDK/SampleNativeContentAd.h"
-#import "SampleCustomEventConstants.h"
-#import "SampleMediatedNativeContentAd.h"
+#import "../SDK/SampleNativeAppInstallAd.h"
+#import "SampleAdapterConstants.h"
+#import "SampleAdapterMediatedNativeAppInstallAd.h"
 
-// You may notice that this class and the Mediation Adapter's
-// SampleAdapterMediatedNativeContentAd class look an awful lot alike. That's not
+// You may notice that this class and the Custom Event's
+// SampleMediatedNativeAppInstallAd class look an awful lot alike. That's not
 // by accident. They're the same class, with the same methods and properties,
 // but with two different names.
 //
@@ -41,40 +41,41 @@
 // share code between them), they each get their own copies of these classes,
 // with slightly different names.
 
-@interface SampleMediatedNativeContentAd ()<GADMediatedNativeAdDelegate>
+@interface SampleAdapterMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate>
 
-@property(nonatomic, strong) SampleNativeContentAd *sampleAd;
+@property(nonatomic, strong) SampleNativeAppInstallAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
-@property(nonatomic, strong) GADNativeAdImage *mappedLogo;
+@property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, copy) NSDictionary *extras;
 
 @end
 
-@implementation SampleMediatedNativeContentAd
+@implementation SampleAdapterMediatedNativeAppInstallAd
 
-- (instancetype)initWithSampleNativeContentAd:(SampleNativeContentAd *)sampleNativeContentAd {
-  if (!sampleNativeContentAd) {
+- (instancetype)initWithSampleNativeAppInstallAd:
+        (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
+  if (!sampleNativeAppInstallAd) {
     return nil;
   }
 
   self = [super init];
   if (self) {
-    _sampleAd = sampleNativeContentAd;
-    _extras = @{SampleCustomEventExtraKeyAwesomeness : _sampleAd.degreeOfAwesomeness};
+    _sampleAd = sampleNativeAppInstallAd;
+    _extras = @{SampleAdapterExtraKeyAwesomeness : _sampleAd.degreeOfAwesomeness};
 
     if (_sampleAd.image) {
       _mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:_sampleAd.image] ];
     } else {
-      NSURL *imageUrl = [[NSURL alloc] initFileURLWithPath:_sampleAd.imageURL];
+      NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.imageURL];
       _mappedImages =
-          @[ [[GADNativeAdImage alloc] initWithURL:imageUrl scale:_sampleAd.imageScale] ];
+          @[ [[GADNativeAdImage alloc] initWithURL:imageURL scale:_sampleAd.imageScale] ];
     }
 
-    if (_sampleAd.logo) {
-      _mappedLogo = [[GADNativeAdImage alloc] initWithImage:_sampleAd.logo];
+    if (_sampleAd.icon) {
+      _mappedIcon = [[GADNativeAdImage alloc] initWithImage:_sampleAd.icon];
     } else {
-      NSURL *logoURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.logoURL];
-      _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoURL scale:_sampleAd.logoScale];
+      NSURL *iconURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.iconURL];
+      _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:_sampleAd.iconScale];
     }
   }
   return self;
@@ -84,24 +85,32 @@
   return self.sampleAd.headline;
 }
 
-- (NSString *)body {
-  return self.sampleAd.body;
-}
-
 - (NSArray *)images {
   return self.mappedImages;
 }
 
-- (GADNativeAdImage *)logo {
-  return self.mappedLogo;
+- (NSString *)body {
+  return self.sampleAd.body;
+}
+
+- (GADNativeAdImage *)icon {
+  return self.mappedIcon;
 }
 
 - (NSString *)callToAction {
   return self.sampleAd.callToAction;
 }
 
-- (NSString *)advertiser {
-  return self.sampleAd.advertiser;
+- (NSDecimalNumber *)starRating {
+  return self.sampleAd.starRating;
+}
+
+- (NSString *)store {
+  return self.sampleAd.store;
+}
+
+- (NSString *)price {
+  return self.sampleAd.price;
 }
 
 - (NSDictionary *)extraAssets {
@@ -120,11 +129,17 @@
 // here. If your mediated network does need a reference to the view, this method can be used to
 // provide one.
 
-//- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-//         didRenderInView:(UIView *)view
-//          viewController:(UIViewController *)viewController {
-//  Here you would pass the UIView back to the mediated network's SDK.
-//}
+- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
+         didRenderInView:(UIView *)view
+          viewController:(UIViewController *)viewController {
+  // This method is called when the native ad view is rendered. Here you would pass the UIView back
+  // to the mediated network's SDK.
+}
+
+- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+  // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
+  // Here you would remove any tracking from the view that has mediated native ad.
+}
 
 - (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
   if (self.sampleAd) {

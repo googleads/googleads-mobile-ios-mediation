@@ -1,8 +1,8 @@
 //
 // Copyright (C) 2015 Google, Inc.
 //
-// SampleAdapterMediatedNativeAppInstallAd.m
-// Sample Ad Network Adapter
+// SampleForwardingNativeAppInstallAd.m
+// Sample Ad Network Custom Event
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
 @import GoogleMobileAds;
 
 #import "../SDK/SampleNativeAppInstallAd.h"
-#import "SampleAdapterConstants.h"
-#import "SampleAdapterMediatedNativeAppInstallAd.h"
+#import "SampleCustomEventConstants.h"
+#import "SampleMediatedNativeAppInstallAd.h"
 
-// You may notice that this class and the Custom Event's
-// SampleMediatedNativeAppInstallAd class look an awful lot alike. That's not
+// You may notice that this class and the Mediation Adapter's
+// SampleAdapterMediatedNativeAppInstallAd class look an awful lot alike. That's not
 // by accident. They're the same class, with the same methods and properties,
 // but with two different names.
 //
@@ -41,7 +41,7 @@
 // share code between them), they each get their own copies of these classes,
 // with slightly different names.
 
-@interface SampleAdapterMediatedNativeAppInstallAd ()<GADMediatedNativeAdDelegate>
+@interface SampleMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate>
 
 @property(nonatomic, strong) SampleNativeAppInstallAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
@@ -50,10 +50,10 @@
 
 @end
 
-@implementation SampleAdapterMediatedNativeAppInstallAd
+@implementation SampleMediatedNativeAppInstallAd
 
 - (instancetype)initWithSampleNativeAppInstallAd:
-    (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
+        (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
   if (!sampleNativeAppInstallAd) {
     return nil;
   }
@@ -61,7 +61,7 @@
   self = [super init];
   if (self) {
     _sampleAd = sampleNativeAppInstallAd;
-    _extras = @{SampleAdapterExtraKeyAwesomeness : _sampleAd.degreeOfAwesomeness};
+    _extras = @{SampleCustomEventExtraKeyAwesomeness : _sampleAd.degreeOfAwesomeness};
 
     if (_sampleAd.image) {
       _mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:_sampleAd.image] ];
@@ -129,11 +129,17 @@
 // here. If your mediated network does need a reference to the view, this method can be used to
 // provide one.
 
-//- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-//         didRenderInView:(UIView *)view
-//          viewController:(UIViewController *)viewController {
-//  Here you would pass the UIView back to the mediated network's SDK.
-//}
+- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
+         didRenderInView:(UIView *)view
+          viewController:(UIViewController *)viewController {
+  // This method is called when the native ad view is rendered. Here you would pass the UIView back
+  // to the mediated network's SDK.
+}
+
+- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+  // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
+  // Here you would remove any tracking from the view that has mediated native ad.
+}
 
 - (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
   if (self.sampleAd) {
