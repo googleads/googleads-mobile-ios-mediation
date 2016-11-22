@@ -18,6 +18,7 @@
 //
 
 @import Foundation;
+@import GoogleMobileAds;
 
 #import "../SDK/SampleNativeAppInstallAd.h"
 
@@ -31,6 +32,8 @@
 - (null_unspecified instancetype)init NS_UNAVAILABLE;
 
 - (nullable instancetype)initWithSampleNativeAppInstallAd:
-        (nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd NS_DESIGNATED_INITIALIZER;
+            (nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd
+                                    nativeAdViewAdOptions:
+            (nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions NS_DESIGNATED_INITIALIZER;
 
 @end

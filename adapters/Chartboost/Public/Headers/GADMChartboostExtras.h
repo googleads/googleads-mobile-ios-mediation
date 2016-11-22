@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-@import Foundation;
-
 #import <Chartboost/Chartboost.h>
+
+@import Foundation;
+@import GoogleMobileAds;
 
 /// Keys for the Chartboost extra assets.
 @interface GADMChartboostExtras : NSObject<GADAdNetworkExtras>

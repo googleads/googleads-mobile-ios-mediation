@@ -19,7 +19,6 @@
 
 #import "SampleRewardBasedVideo.h"
 
-#import "SampleAdRequest.h"
 #import "SampleRewardBasedVideoAd.h"
 #import "SampleRewardBasedVideoController.h"
 

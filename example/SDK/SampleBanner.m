@@ -17,8 +17,6 @@
 // limitations under the License.
 //
 
-#import "SampleAdRequest.h"
-
 #import "SampleBanner.h"
 
 @implementation SampleBanner

@@ -18,7 +18,7 @@
 //
 
 #import "SampleNativeAdLoader.h"
-#import "SampleNativeAdRequest.h"
+
 #import "SampleNativeAppInstallAd.h"
 #import "SampleNativeContentAd.h"
 

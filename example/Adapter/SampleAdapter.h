@@ -20,11 +20,11 @@
 @import Foundation;
 @import GoogleMobileAds;
 
-#import "GADMAdNetworkAdapterProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+#import "SampleAdapterProtocol.h"
 
 /// Adapter for communicating with the Sample SDK to fetch banner ads, native ads, reward-based
 /// video ads, and interstitial ads.
-@interface SampleAdapter : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+@interface SampleAdapter : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter,
+                                    SampleAdapterDataProvider>
 
 @end

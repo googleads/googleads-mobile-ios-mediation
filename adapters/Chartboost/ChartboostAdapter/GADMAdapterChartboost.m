@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-
 #import "GADMAdapterChartboost.h"
 
-#import "GADMAdNetworkConnectorProtocol.h"
+#import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
-#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
-
-NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 
 @interface GADMAdapterChartboost () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -46,7 +41,7 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 @implementation GADMAdapterChartboost
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterChartboostVersion;
+  return GADMAdapterChartboostVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -56,7 +51,7 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 #pragma mark Rewardbased video
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }
@@ -68,17 +63,19 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 }
 
 - (void)setUp {
-  NSString *appID = [[[_rewardbasedVideoAdConnector credentials] objectForKey:@"appId"]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *appSignature =
-      [[[_rewardbasedVideoAdConnector credentials] objectForKey:@"appSignature"]
+  NSString *appID =
+      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAppID]
           stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *adLocation = [[[_rewardbasedVideoAdConnector credentials] objectForKey:@"adLocation"]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *appSignature =
+      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAppSignature]
+          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *adLocation =
+      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
+          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   if (adLocation) {
-    _chartboostAdLocation = adLocation;
+    _chartboostAdLocation = [adLocation copy];
   } else {
-    _chartboostAdLocation = CBLocationDefault;
+    _chartboostAdLocation = [CBLocationDefault copy];
   }
 
   if (!appID || !appSignature) {
@@ -88,25 +85,22 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
   }
 
   _initialized = NO;
-  [[GADMAdapterChartboostSingleton sharedManager]
-      configureRewardBasedVideoAdWithAppID:appID
-                            adAppSignature:appSignature
-                                adLocation:_chartboostAdLocation
-                                  delegate:self];
+  [[GADMAdapterChartboostSingleton sharedManager] configureRewardBasedVideoAdWithAppID:appID
+                                                                        adAppSignature:appSignature
+                                                                              delegate:self];
 }
 
 - (void)requestRewardBasedVideoAd {
-  NSString *adLocation = [[[_rewardbasedVideoAdConnector credentials] objectForKey:@"adLocation"]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *adLocation =
+      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
+          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   if (adLocation) {
-    _chartboostAdLocation = adLocation;
+    _chartboostAdLocation = [adLocation copy];
   } else {
-    _chartboostAdLocation = CBLocationDefault;
+    _chartboostAdLocation = [CBLocationDefault copy];
   }
   _loading = YES;
-  [[GADMAdapterChartboostSingleton sharedManager]
-      requestRewardBasedVideoForDelegate:self
-                              adLocation:_chartboostAdLocation];
+  [[GADMAdapterChartboostSingleton sharedManager] requestRewardBasedVideoForDelegate:self];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
@@ -131,16 +125,18 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 }
 
 - (void)getInterstitial {
-  NSString *appID = [[[_interstitialConnector credentials] objectForKey:@"appId"]
+  NSString *appID = [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *appSignature = [[[_interstitialConnector credentials] objectForKey:@"appSignature"]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *adLocation = [[[_interstitialConnector credentials] objectForKey:@"adLocation"]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *appSignature =
+      [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAppSignature]
+          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *adLocation =
+      [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
+          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   if (adLocation) {
-    _chartboostAdLocation = adLocation;
+    _chartboostAdLocation = [adLocation copy];
   } else {
-    _chartboostAdLocation = CBLocationDefault;
+    _chartboostAdLocation = [CBLocationDefault copy];
   }
 
   if (!appID || !appSignature) {
@@ -149,11 +145,9 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
     return;
   }
   _loading = YES;
-  [[GADMAdapterChartboostSingleton sharedManager]
-      configureInterstitialAdWithAppID:appID
-                        adAppSignature:appSignature
-                            adLocation:_chartboostAdLocation
-                              delegate:self];
+  [[GADMAdapterChartboostSingleton sharedManager] configureInterstitialAdWithAppID:appID
+                                                                    adAppSignature:appSignature
+                                                                          delegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -172,7 +166,11 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
   return YES;
 }
 
-#pragma mark - Chartboost Delegate Protocol Methods -
+#pragma mark GADMAdapterChartboostDataProvider Methods
+
+- (NSString *)getAdLocation {
+  return _chartboostAdLocation;
+}
 
 - (GADMChartboostExtras *)extras {
   GADMChartboostExtras *chartboostExtras;
@@ -184,15 +182,16 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
   return chartboostExtras;
 }
 
+#pragma mark ChartboostDelegate Methods
+
 - (void)didInitialize:(BOOL)status {
   if (_initialized) {
     return;
   }
-  if (status) {
-    _initialized = YES;
+  _initialized = status;
+  if (_initialized) {
     [_rewardbasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
-    _initialized = NO;
     NSString *description = [NSString stringWithFormat:@"%@ failed to setup reward based video ad.",
                                                        NSStringFromClass([Chartboost class])];
     NSError *error = GADChartboostErrorWithDescription(description);
@@ -200,7 +199,7 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
   }
 }
 
-#pragma mark - Chartboost Interstitial Delegate Methods
+#pragma mark - Chartboost Interstitial Ad Delegate Methods
 
 - (void)didDisplayInterstitial:(CBLocation)location {
   [_interstitialConnector adapterWillPresentInterstitial:self];
@@ -221,6 +220,7 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 }
 
 - (void)didDismissInterstitial:(CBLocation)location {
+  [_interstitialConnector adapterWillDismissInterstitial:self];
   [_interstitialConnector adapterDidDismissInterstitial:self];
 }
 
@@ -232,6 +232,7 @@ NSString *const kGADMAdapterChartboostVersion = @"1.1.0";
 #pragma mark - Chartboost Reward Based Video Ad Delegate Methods
 
 - (void)didDisplayRewardedVideo:(CBLocation)location {
+  [_rewardbasedVideoAdConnector adapterDidOpenRewardBasedVideoAd:self];
   [_rewardbasedVideoAdConnector adapterDidStartPlayingRewardBasedVideoAd:self];
 }
 

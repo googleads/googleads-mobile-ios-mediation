@@ -19,13 +19,12 @@
 
 #import "SampleAdapterDelegate.h"
 
+@import GoogleMobileAds;
+
 #import "../SDK/SampleBanner.h"
 #import "../SDK/SampleInterstitial.h"
 #import "../SDK/SampleNativeAdLoader.h"
 #import "../SDK/SampleRewardBasedVideo.h"
-#import "GADMAdNetworkAdapterProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
 #import "SampleAdapterMediatedNativeAppInstallAd.h"
 #import "SampleAdapterMediatedNativeContentAd.h"
 
@@ -50,7 +49,7 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
 
 @implementation SampleAdapterDelegate
 
-- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
+- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter, SampleAdapterDataProvider>)adapter
                       connector:(id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
@@ -122,14 +121,17 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
     didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
   SampleAdapterMediatedNativeAppInstallAd *mediatedAd =
       [[SampleAdapterMediatedNativeAppInstallAd alloc]
-          initWithSampleNativeAppInstallAd:nativeAppInstallAd];
+          initWithSampleNativeAppInstallAd:nativeAppInstallAd
+       nativeAdViewAdOptions:[(id<SampleAdapterDataProvider>)_adapter nativeAdViewAdOptions]];
   [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedAd];
 }
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader
     didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
   SampleAdapterMediatedNativeContentAd *mediatedAd =
-      [[SampleAdapterMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd];
+      [[SampleAdapterMediatedNativeContentAd alloc]
+       initWithSampleNativeContentAd:nativeContentAd
+       nativeAdViewAdOptions:[(id<SampleAdapterDataProvider>)_adapter nativeAdViewAdOptions]];
   [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedAd];
 }
 

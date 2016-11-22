@@ -19,15 +19,10 @@
 
 #import "SampleAdapter.h"
 
-@import GoogleMobileAds;
-
 #import "../SDK/SampleBanner.h"
 #import "../SDK/SampleInterstitial.h"
 #import "../SDK/SampleNativeAdLoader.h"
 #import "../SDK/SampleRewardBasedVideo.h"
-#import "GADMAdNetworkConnectorProtocol.h"
-#import "GADMEnums.h"
-#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAppInstallAd.h"
 #import "SampleAdapterMediatedNativeContentAd.h"
@@ -53,6 +48,9 @@
 
   /// An ad loader to use in loading native ads from Sample SDK.
   SampleNativeAdLoader *_nativeAdLoader;
+
+  /// Native ad view options.
+  GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
 }
 
 @end
@@ -180,6 +178,8 @@
       // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
       // should send just the URLs for the images.
       sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
+      _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
     }
   }
 
@@ -202,6 +202,12 @@
   _interstitialAd.delegate = nil;
   _nativeAdLoader.delegate = nil;
   _rewardBasedVideoAd.delegate = nil;
+}
+
+#pragma mark SampleAdapterDataProvider Methods
+
+- (GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
+  return _nativeAdViewAdOptions;
 }
 
 #pragma mark Reward-based Video Ad Methods

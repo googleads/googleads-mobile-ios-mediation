@@ -1,0 +1,11 @@
+framework module ChartboostAdapter {
+  umbrella header "ChartboostAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  header "GADMChartboostExtras.h"
+}

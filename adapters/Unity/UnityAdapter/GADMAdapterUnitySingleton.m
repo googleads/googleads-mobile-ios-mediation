@@ -180,7 +180,7 @@
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
   // If the error is of type show, we will not have it's delegate reference in our adapterDelegate
-  //  list. Delegate instances are being removed when we get unityAdsReady callback.
+  // list. Delegate instances are being removed when we get unityAdsReady callback.
   if (error == kUnityAdsErrorShowError) {
     [_currentShowingUnityDelegate unityAdsDidError:error withMessage:message];
     return;

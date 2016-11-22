@@ -17,9 +17,8 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-
-@import GoogleMobileAds;
+@import Foundation;
+@import UIKit;
 
 @interface SampleNativeAppInstallAd : NSObject
 

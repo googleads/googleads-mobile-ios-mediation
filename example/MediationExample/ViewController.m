@@ -17,13 +17,14 @@
 // limitations under the License.
 //
 
+#import "ViewController.h"
+
 @import GoogleMobileAds;
 
-#import "../CustomEvent/SampleCustomEventConstants.h"
 #import "../Adapter/SampleAdapterConstants.h"
+#import "../CustomEvent/SampleCustomEventConstants.h"
 #import "ExampleNativeAppInstallAdView.h"
 #import "ExampleNativeContentAdView.h"
-#import "ViewController.h"
 
 NSString *const kCustomEventBannerAdUnitID = @"ca-app-pub-3940256099942544/2493674513";
 NSString *const kCustomEventInterstitialAdUnitID = @"ca-app-pub-3940256099942544/3970407716";
@@ -78,11 +79,14 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
   [self requestCustomEventInterstitial];
   [self requestAdapterInterstitial];
 
+  GADNativeAdViewAdOptions *adViewOptions = [[GADNativeAdViewAdOptions alloc] init];
+  adViewOptions.preferredAdChoicesPosition = GADAdChoicesPositionBottomRightCorner;
+
   self.customEventAdLoader = [[GADAdLoader alloc]
         initWithAdUnitID:kCustomEventNativeAdUnitID
       rootViewController:self
                  adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall, kGADAdLoaderAdTypeNativeContent ]
-                 options:nil];
+                 options:@[ adViewOptions ]];
   self.customEventAdLoader.delegate = self;
   [self.customEventAdLoader loadRequest:[GADRequest request]];
 
@@ -90,7 +94,7 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
         initWithAdUnitID:kAdapterNativeAdUnitID
       rootViewController:self
                  adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall, kGADAdLoaderAdTypeNativeContent ]
-                 options:nil];
+                 options:@[ adViewOptions ]];
   self.adapterAdLoader.delegate = self;
   [self.adapterAdLoader loadRequest:[GADRequest request]];
 }
@@ -134,7 +138,7 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
 
   // Add new ad view and set constraints to fill its container.
   [placeholder addSubview:nativeAdView];
-  [nativeAdView setTranslatesAutoresizingMaskIntoConstraints:NO];
+  nativeAdView.translatesAutoresizingMaskIntoConstraints = NO;
 
   NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(nativeAdView);
   [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[nativeAdView]|"

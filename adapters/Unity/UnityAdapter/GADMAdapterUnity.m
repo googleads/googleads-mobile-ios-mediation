@@ -14,11 +14,8 @@
 
 #import "GADMAdapterUnity.h"
 
-@import GoogleMobileAds;
-
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnitySingleton.h"
-#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
 #import "GADUnityError.h"
 
 @interface GADMAdapterUnity () {

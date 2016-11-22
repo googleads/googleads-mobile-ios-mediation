@@ -14,15 +14,11 @@
 
 @import Foundation;
 
-#import <Chartboost/Chartboost.h>
+/// The purpose of the GADMAdapterUnityDataProvider protocol is to allow the singleton to interact
+/// with the adapter.
+@protocol GADMAdapterUnityDataProvider <NSObject>
 
-#import "GADMChartboostExtras.h"
-
-/// The purpose of the GADMAdapterChartboostDelegateProtocol protocol is to allow the singleton to
-/// interact with the adapter.
-@protocol GADMAdapterChartboostDelegateProtocol<ChartboostDelegate>
-
-/// Returns the Chartboost extras object.
-- (GADMChartboostExtras *)extras;
+/// Returns placement ID for either reward-based video ad or interstitial ad of Unity Ads network.
+- (NSString *)getPlacementID;
 
 @end

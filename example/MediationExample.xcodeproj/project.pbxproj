@@ -32,6 +32,7 @@
 		4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */; };
 		4A93FA591C286D8F00479579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93FA481C286D8F00479579 /* Images.xcassets */; };
 		4A93FA601C286D8F00479579 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA511C286D8F00479579 /* ViewController.m */; };
+		7D0E28A21DCA988E00641A8C /* SampleAdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */; };
 		C1106AB31D0773470045F5F9 /* SampleRewardBasedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */; };
 		C1106AB71D09E03E0045F5F9 /* SampleRewardBasedVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */; };
 		C1106ABB1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */; };
@@ -90,6 +91,9 @@
 		4A93FA481C286D8F00479579 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MediationExample/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4A93FA501C286D8F00479579 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = MediationExample/ViewController.h; sourceTree = SOURCE_ROOT; };
 		4A93FA511C286D8F00479579 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = MediationExample/ViewController.m; sourceTree = SOURCE_ROOT; };
+		7D0E28A01DCA988E00641A8C /* SampleAdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdInfoView.h; path = SDK/SampleAdInfoView.h; sourceTree = "<group>"; };
+		7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdInfoView.m; path = SDK/SampleAdInfoView.m; sourceTree = "<group>"; };
+		7DE79DF71DC9249500F9B652 /* SampleAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterProtocol.h; path = Adapter/SampleAdapterProtocol.h; sourceTree = "<group>"; };
 		C1106AB11D0773470045F5F9 /* SampleRewardBasedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideo.h; path = SDK/SampleRewardBasedVideo.h; sourceTree = "<group>"; };
 		C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideo.m; path = SDK/SampleRewardBasedVideo.m; sourceTree = "<group>"; };
 		C1106AB51D09E03E0045F5F9 /* SampleRewardBasedVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoController.h; path = SDK/SampleRewardBasedVideoController.h; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +203,8 @@
 				26E4630C1B89170900D2C50F /* SampleNativeAppInstallAd.m */,
 				26E4630E1B8AEA2800D2C50F /* SampleNativeAdRequest.h */,
 				26E4630F1B8AEA2800D2C50F /* SampleNativeAdRequest.m */,
+				7D0E28A01DCA988E00641A8C /* SampleAdInfoView.h */,
+				7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */,
 			);
 			name = SDK;
 			sourceTree = "<group>";
@@ -210,6 +217,7 @@
 				C1F187851D00FCB4003222D1 /* SampleAdapterDelegate.h */,
 				C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */,
 				26D056541BBC859D002286F4 /* SampleAdapterConstants.h */,
+				7DE79DF71DC9249500F9B652 /* SampleAdapterProtocol.h */,
 				26D056551BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.h */,
 				26D056561BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m */,
 				26D056571BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.h */,
@@ -253,7 +261,7 @@
 		26E462AA1B8693F600D2C50F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Google, Inc.";
 				TargetAttributes = {
 					26E462B11B8693F600D2C50F = {
@@ -306,6 +314,7 @@
 				26E462FB1B87BFF800D2C50F /* SampleBanner.m in Sources */,
 				26E462EB1B87BFDB00D2C50F /* SampleAdapter.m in Sources */,
 				C1F187871D00FCB4003222D1 /* SampleAdapterDelegate.m in Sources */,
+				7D0E28A21DCA988E00641A8C /* SampleAdInfoView.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
 				26E462FC1B87BFF800D2C50F /* SampleInterstitial.m in Sources */,
 				267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */,
@@ -454,7 +463,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
 			};
 			name = Debug;
@@ -464,7 +475,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
 			};
 			name = Release;

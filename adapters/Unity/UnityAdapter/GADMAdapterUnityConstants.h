@@ -14,21 +14,16 @@
 
 @import Foundation;
 
-#import <Chartboost/Chartboost.h>
+/// Unity Ads game ID.
+static NSString *const GADMAdapterUnityGameID = @"gameId";
 
-#import "GADMAdNetworkAdapterProtocol.h"
-#import "GADMAdapterChartboostDelegateProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+/// Unity Ads placement ID.
+/// Unity Ads has moved from zoneId to placementId, but to keep backward compatibility, we are still
+/// using zoneId as a value.
+static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
 
-@protocol GADMAdapterChartboostDelegateProtocol;
+/// Ad mediation network adapter version.
+static NSString *const GADMAdapterUnityVersion = @"2.0.5.0";
 
-/// Adapter version.
-GAD_EXTERN NSString *const kGADMAdapterChartboostVersion;
-
-/// Adapter for communicating with the Chartboost Network to fetch reward-based video ads and
-/// interstitial ads.
-@interface GADMAdapterChartboost
-    : NSObject<GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter,
-               GADMAdapterChartboostDelegateProtocol>
-
-@end
+/// Ad mediation network name.
+static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";

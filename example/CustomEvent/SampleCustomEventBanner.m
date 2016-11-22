@@ -17,9 +17,9 @@
 // limitations under the License.
 //
 
-@import Foundation;
-
 #import "SampleCustomEventBanner.h"
+
+@import Foundation;
 
 #import "SampleBanner.h"
 

@@ -17,12 +17,10 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import UIKit;
-
 #import "SampleInterstitial.h"
 
-#import "SampleAdRequest.h"
+@import Foundation;
+@import UIKit;
 
 @interface SampleInterstitial () <UIAlertViewDelegate>
 @end

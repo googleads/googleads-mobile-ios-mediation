@@ -38,12 +38,7 @@ To build the project, follow these steps:
 2.  Run 'pod update' in the project's root directory (this will download the
     SDK).
 3.  Open the workspace file in Xcode.
-4.  Add the Mediation Adapters header files to the MedationExample project.
-    * Right click on the MediationExample project and choose "Add Files to
-      MediationExample".
-    * Navigate to `Pods/Google-Mobile-Ads-SDK/GoogleMobileAdsSdkiOS-#.#.#/Mediation Adapters/`
-    and add this folder.
-5.  Run the project.
+4.  Run the project.
 
 ## Mediation Adapters
 

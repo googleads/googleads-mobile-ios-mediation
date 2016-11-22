@@ -1,0 +1,29 @@
+# Chartboost Ads Mediation Adapter for Google Mobile Ads SDK for iOS
+
+## Version 6.6.0.0
+- Verified compatibility with Chartboost SDK 6.6.0.
+
+## Version 6.5.2.1
+- Enabled bitcode support.
+- Now distributing Chartboost adapter as a framework.
+- To import `ChartboostAdapter.framework` in your project, make sure to set
+  `Allow Non-modular Includes in Framework Modules` to `YES` under Build
+  Settings of your target.
+
+## Version 6.5.2.0
+- Changed the version naming system to
+  [Chartboost SDK version].[adapter patch version].
+- Updated the minimum required Chartboost SDK to v6.5.1.
+- Updated the minimum required Google Mobile Ads SDK to v7.10.1.
+- Fixed a bug to support multiple Chartboost ad locations.
+- Apps now get the `interstitialWillDismissScreen:` callback when the
+  interstitial ad is about to dismiss.
+- Apps now get the `rewardBasedVideoAdDidOpen:` callback when a reward-based
+  video ad is opened.
+
+## Version 1.1.0
+- Removed Chartboost Ad Location from Chartboost extras. Ad Location is now
+specified in the AdMob console when configuring Chartboost for mediation.
+
+## Version 1.0.0
+- Initial release. Supports reward-based video ads and interstitial ads.

@@ -19,15 +19,17 @@
 
 @import Foundation;
 
+#import "SampleAdapterProtocol.h"
+
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
-@protocol GADMRewardBasedVideoAdNetworkConnector;
 @protocol GADMRewardBasedVideoAdNetworkAdapter;
+@protocol GADMRewardBasedVideoAdNetworkConnector;
 
 @interface SampleAdapterDelegate : NSObject
 
 /// Returns a SampleAdapterDelegate with an adapter and connector.
-- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
+- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter, SampleAdapterDataProvider>)adapter
                       connector:(id<GADMAdNetworkConnector>)connector NS_DESIGNATED_INITIALIZER;
 
 /// Returns a SampleAdapterDelegate with a reward-based video ad adapter and reward-based video ad

@@ -1,0 +1,9 @@
+framework module UnityAdapter {
+  umbrella header "UnityAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+}

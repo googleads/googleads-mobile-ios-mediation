@@ -17,11 +17,10 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
-
-#import "../SDK/SampleNativeAppInstallAd.h"
-#import "SampleAdapterConstants.h"
 #import "SampleAdapterMediatedNativeAppInstallAd.h"
+
+#import "../SDK/SampleAdInfoView.h"
+#import "SampleAdapterConstants.h"
 
 // You may notice that this class and the Custom Event's
 // SampleMediatedNativeAppInstallAd class look an awful lot alike. That's not
@@ -47,13 +46,16 @@
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, copy) NSDictionary *extras;
+@property(nonatomic, strong) GADNativeAdViewAdOptions *nativeAdViewAdOptions;
+@property(nonatomic, strong) SampleAdInfoView *adInfoView;
 
 @end
 
 @implementation SampleAdapterMediatedNativeAppInstallAd
 
-- (instancetype)initWithSampleNativeAppInstallAd:
-        (SampleNativeAppInstallAd *)sampleNativeAppInstallAd {
+- (instancetype)
+    initWithSampleNativeAppInstallAd:(SampleNativeAppInstallAd *)sampleNativeAppInstallAd
+               nativeAdViewAdOptions:(nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
   if (!sampleNativeAppInstallAd) {
     return nil;
   }
@@ -77,6 +79,8 @@
       NSURL *iconURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.iconURL];
       _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:_sampleAd.iconScale];
     }
+
+    _nativeAdViewAdOptions = nativeAdViewAdOptions;
   }
   return self;
 }
@@ -128,17 +132,41 @@
 // the native ad. So there's no need to implement mediatedNativeAd:didRenderInView:viewController
 // here. If your mediated network does need a reference to the view, this method can be used to
 // provide one.
-
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
           viewController:(UIViewController *)viewController {
   // This method is called when the native ad view is rendered. Here you would pass the UIView back
   // to the mediated network's SDK.
+
+  // Your adapter is responsible for placing the AdChoices icon in Google's native ad view.
+  // You should use the mediatedNativeAd:didRenderInView:viewController: and
+  // mediatedNativeAd:didUntrackView: APIs provided in GADMediatedNativeAdDelegate to add and remove
+  // your AdChoices view.
+
+  // The adapter must also respect the publisher’s preference of AdChoices location by
+  // checking the preferredAdChoicesPosition in GADNativeAdViewAdOptions and render the ad in the
+  // publisher’s preferred corner. If a preferred corner is not set, AdChoices should be rendered in
+  // the top right corner.
+
+  // The sample SDK provides an AdChoices view(SampleAdInfoView). If your SDK provides image
+  // and click through URLs instead of the view asset, the adapter is responsible for downloading
+  // the icon image and creating the AdChoices icon view.
+  if (!_adInfoView) {
+    _adInfoView = [[SampleAdInfoView alloc] init];
+  }
+
+  [view addSubview:_adInfoView];
+  [self updateAdInfoViewPositionInSuperView:view];
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
   // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
   // Here you would remove any tracking from the view that has mediated native ad.
+
+  // Remove the previously added AdChoices view from the ad view.
+  if (_adInfoView) {
+    [_adInfoView removeFromSuperview];
+  }
 }
 
 - (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
@@ -154,6 +182,48 @@
   if (self.sampleAd) {
     [self.sampleAd handleClickOnView:view];
   }
+}
+
+#pragma mark Convenience Methods
+
+/// Updates the _adInfoView position inside the |superView|.
+- (void)updateAdInfoViewPositionInSuperView:(UIView *)superView {
+  CGSize viewSize = CGRectStandardize(_adInfoView.frame).size;
+  NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_adInfoView);
+  _adInfoView.translatesAutoresizingMaskIntoConstraints = NO;
+
+  NSString *horizontalFormat, *verticalFormat;
+  switch (_nativeAdViewAdOptions.preferredAdChoicesPosition) {
+    case GADAdChoicesPositionTopLeftCorner:
+      verticalFormat = [[NSString alloc] initWithFormat:@"V:|[_adInfoView(%f)]", viewSize.height];
+      horizontalFormat = [[NSString alloc] initWithFormat:@"H:|[_adInfoView(%f)]", viewSize.width];
+      break;
+    case GADAdChoicesPositionBottomLeftCorner:
+      verticalFormat = [[NSString alloc] initWithFormat:@"V:[_adInfoView(%f)]|", viewSize.height];
+      horizontalFormat = [[NSString alloc] initWithFormat:@"H:|[_adInfoView(%f)]", viewSize.width];
+      break;
+    case GADAdChoicesPositionBottomRightCorner:
+      verticalFormat = [[NSString alloc] initWithFormat:@"V:[_adInfoView(%f)]|", viewSize.height];
+      horizontalFormat = [[NSString alloc] initWithFormat:@"H:[_adInfoView(%f)]|", viewSize.width];
+      break;
+    case GADAdChoicesPositionTopRightCorner:
+      // Fall through.
+    default:
+      verticalFormat = [[NSString alloc] initWithFormat:@"V:|[_adInfoView(%f)]", viewSize.height];
+      horizontalFormat = [[NSString alloc] initWithFormat:@"H:[_adInfoView(%f)]|", viewSize.width];
+      break;
+  }
+
+  // Adding vertical layout constraints.
+  [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:verticalFormat
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:viewDictionary]];
+  // Adding horizontal layout constraints.
+  [superView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalFormat
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:viewDictionary]];
 }
 
 @end

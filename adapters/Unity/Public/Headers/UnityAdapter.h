@@ -12,16 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import UnityAds;
-
-#import "GADMAdapterUnityProtocol.h"
-#import "GADMAdNetworkAdapterProtocol.h"
-#import "GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
-
-/// Adapter for communicating with the Unity Ads Network to fetch reward-based video ads and
-/// interstitial ads.
-@interface GADMAdapterUnity : NSObject <GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter,
-                                        GADMAdapterUnityDataProvider, UnityAdsDelegate>
-
-@end
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>

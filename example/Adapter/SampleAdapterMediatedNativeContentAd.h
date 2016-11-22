@@ -18,6 +18,7 @@
 //
 
 @import Foundation;
+@import GoogleMobileAds;
 
 #import "../SDK/SampleNativeContentAd.h"
 
@@ -31,6 +32,8 @@
 - (null_unspecified instancetype)init NS_UNAVAILABLE;
 
 - (nullable instancetype)initWithSampleNativeContentAd:
-        (nonnull SampleNativeContentAd *)sampleNativeContentAd NS_DESIGNATED_INITIALIZER;
+        (nonnull SampleNativeContentAd *)sampleNativeContentAd
+                                 nativeAdViewAdOptions:
+        (nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -28,7 +28,11 @@
 /// Constant for Sample Ad Network custom event error domain.
 static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
-@interface SampleCustomEventNativeAd () <SampleNativeAdLoaderDelegate>
+@interface SampleCustomEventNativeAd () <SampleNativeAdLoaderDelegate> {
+  /// Native ad view options.
+  GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
+}
+
 @end
 
 @implementation SampleCustomEventNativeAd
@@ -94,6 +98,8 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
       // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
       // should send just the URLs for the images.
       sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
+      _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
     }
   }
 
@@ -116,14 +122,16 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 - (void)adLoader:(SampleNativeAdLoader *)adLoader
     didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
   SampleMediatedNativeAppInstallAd *mediatedAd = [[SampleMediatedNativeAppInstallAd alloc]
-      initWithSampleNativeAppInstallAd:nativeAppInstallAd];
+      initWithSampleNativeAppInstallAd:nativeAppInstallAd
+                                                  nativeAdViewAdOptions:_nativeAdViewAdOptions];
   [self.delegate customEventNativeAd:self didReceiveMediatedNativeAd:mediatedAd];
 }
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader
     didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
   SampleMediatedNativeContentAd *mediatedAd =
-      [[SampleMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd];
+      [[SampleMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd
+                                                     nativeAdViewAdOptions:_nativeAdViewAdOptions];
   [self.delegate customEventNativeAd:self didReceiveMediatedNativeAd:mediatedAd];
 }
 
