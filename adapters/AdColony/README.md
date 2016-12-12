@@ -17,8 +17,18 @@
 - Please see the [set up guide](https://support.google.com/admob/answer/3124703)
   for detailed instructions on how to set up mediation.
 
-You can optionally register a `GADMAdapterAdColonyExtras` class in the ad request
-to optionally configure userId and rewarded dialogs:
+The latest documentation and code samples for the Google Mobile Ads SDK are available [here](https://firebase.google.com/docs/admob/ios/quick-start).
+
+### Optimizations
+To ensure AdColony video ads are available as often as possible, you can initialize the AdColony SDK directly early in the application lifecycle and outside of the Google Mobile Ads SDK. To do so, insert the following code into the application:didFinishLaunchingWithOptions: method:
+
+<pre><code>[AdColony configureWithAppID:@"your_adcolony_app_id"
+                     zoneIDs:@[@"Zone_ID_1", @"Zone_ID_2"]
+                     options:options
+                  completion:nil];</code></pre>
+
+### Videos-for-Virtual-Currency
+You can optionally register a `GADMAdapterAdColonyExtras` class in the ad request to optionally configure userId and rewarded dialogs:
 
 <pre><code>GADRequest *request = [GADRequest request];
 GADMAdapterAdColonyExtras *extras = [[GADMAdapterAdColonyExtras alloc] init];
@@ -26,6 +36,3 @@ extras.userId = @"your_user_id";
 extras.showPrePopup = YES;
 extras.showPostPopup = YES;
 [request registerAdNetworkExtras:extras];</code></pre>
-
-The latest documentation and code samples for the Google Mobile Ads SDK are
-available [here](https://firebase.google.com/docs/admob/ios/quick-start).
