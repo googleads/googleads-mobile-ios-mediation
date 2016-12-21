@@ -1,25 +1,44 @@
-Steps to generate universal static library and framework for iOS Devices and
-Simulators with supported architectures.
+# Tapjoy Mediation Adapter for Google Mobile Ads SDK for iOS
 
-Prerequisites:
+## Prerequisites
 - Xcode 6.0 or higher
-- Deployment target of 6.0 or higher
-- Google Mobile Ads SDK
-- Tapjoy SDK
-- Tapjoy Adapter Source Code
+- iOS Deployment target of 7.0 or higher
+- Minimum required Google Mobile Ads SDK 7.10.1
+- Minimum required Tapjoy SDK 11.9.1
 
-Setup Instructions:
-- Drop GoogleMobileAds framework to
-  Project Directory->Drop_Framework_And_Headers.
-- Drop Tapjoy framework to Project Directory->Drop_Framework_And_Headers.
+## Instructions
+- Add the Google Mobile Ads SDK. See the
+  [quick start guide](https://firebase.google.com/docs/admob/ios/quick-start)
+  for detailed instructions on how to integrate the Google Mobile Ads SDK.
+- Add or drag the adapter .framework into your Xcode project.
+- Drag the Tapjoy framework into your Xcode project. You can find the
+  Tapjoy SDK [here](http://dev.tapjoy.com/sdk-integration/ios).
+- Enable the Ad network in the Ad Network Mediation UI.
+- TapjoyAdapter framework has a `GADMTapjoyExtras` class to provide
+  `debugEnabled` parameter. The `debugEnabled` is used to enabled logs for
+  debugging purposes only. It should not be turned on for production release.
+- If you want to pass a value for `debugEnabled`to the adapter, you can do 
+  this through the `GADMTapjoyExtras` object. Here is
+  an example of how to enable logging:
 
-Build Instructions:
-- To build a static library, select target scheme (FatAdapter). Edit scheme to
-  Release OR Build.
-- Clean and Run/Archive.
-- To build a framework, select target scheme (Framework). Edit scheme to
-  Release OR Build.
-- Clean and Run/Archive.
+  <pre><code>GADRequest *adRequest = [GADRequest request];
+  GADMTapjoyExtras *tjExtras = [[GADMTapjoyExtras alloc] init];
+  tjExtras.debugEnabled = YES;
+  [adRequest registerAdNetworkExtras:tjExtras];</code></pre>
 
-Note: New adapter file and/or framework will be generated in your
-      Project Directory->Library folder.
+**Notes:** 
+- Different Placements must be used to load multiple ad units simultaneously. 
+  For example: when creating multiple instances of GADInterstitial,
+  each instance will need to use a different adUnitID on init. If the same 
+  adUnitID  is used, only one instance will be able to load/show, the second 
+  instance will do nothing.
+- The Tapjoy SDK does not pass specific reward values for rewarded
+  video ads, the adapter defaults to a reward of type "" with value 0. Please
+  override the reward value in the AdMob console.
+  For more information on setting reward values for AdMob ad units, see the
+  Rewarded Interstitial section of this article 
+  [Help Center Article](https://support.google.com/admob/answer/3052638).
+
+The latest documentation and code samples for the Google Mobile Ads SDK are
+available [here](https://firebase.google.com/docs/admob/ios/quick-start).
+
