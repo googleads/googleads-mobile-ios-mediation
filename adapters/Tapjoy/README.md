@@ -15,7 +15,7 @@
   Tapjoy SDK [here](http://dev.tapjoy.com/sdk-integration/ios).
 - Enable the Ad network in the Ad Network Mediation UI.
 - TapjoyAdapter framework has a `GADMTapjoyExtras` class to provide
-  `debugEnabled` parameter. The `debugEnabled` is used to enabled logs for
+  `debugEnabled` parameter. The `debugEnabled` is used to enable Tapjoy logging for
   debugging purposes only. It should not be turned on for production release.
 - If you want to pass a value for `debugEnabled`to the adapter, you can do 
   this through the `GADMTapjoyExtras` object. Here is
