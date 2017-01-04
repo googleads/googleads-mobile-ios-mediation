@@ -1,5 +1,4 @@
-# Steps to generate universal static library and framework for iOS Devices and
-Simulators with supported architectures.
+# Steps to generate universal static library and framework for iOS Devices and Simulators with supported architectures.
 
 ## Prerequisites
 - Xcode 6.0 or higher
