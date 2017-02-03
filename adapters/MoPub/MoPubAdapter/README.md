@@ -1,0 +1,1 @@
+Put adapter source code files in this folder except the public header files.
