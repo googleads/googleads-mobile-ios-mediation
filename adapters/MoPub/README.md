@@ -33,7 +33,6 @@ This is an adapter to be used in conjunction with the Google Mobile Ads SDK.
 
 ## Notes #TODO
 - Include anything else a potential publisher would need to know.
-- Include instructions on how to build the adapter from source.
 
 The latest documentation and code samples for the Google Mobile Ads SDK are
 available at the
