@@ -15,11 +15,11 @@
 @import Foundation;
 @import GoogleMobileAds;
 
-// Adapter version.
+/// Adapter version.
 GAD_EXTERN NSString *const kGADMAdapterTapjoyVersion;
 
-// Adapter for communicating with the Tapjoy Network to fetch reward-based video ads
-// and interstitial ads.
-@interface GADMAdapterTapjoy : NSObject<GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter>
+/// Adapter for communicating with the Tapjoy Network to fetch reward-based video ads and
+/// interstitial ads.
+@interface GADMAdapterTapjoy : NSObject <GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter>
 
 @end

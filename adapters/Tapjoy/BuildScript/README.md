@@ -1,5 +1,10 @@
 # Steps to generate universal static library and framework for iOS Devices and Simulators with supported architectures.
 
+**Note:** These build scripts are intended only for publishers who want to
+modify and rebuild the Tapjoy adapter framework. If you just want to use the
+Tapjoy adapter, simply add `pod 'GoogleMobileAdsMediationTapjoy'` to
+your Podfile and run `pod install`.
+
 ## Prerequisites
 - Xcode 6.0 or higher
 - Deployment target of 6.0 or higher

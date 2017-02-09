@@ -55,6 +55,8 @@
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		7D9083761E4BCB3E0071C8AD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		7D9083781E4BCF4C0071C8AD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		7DE821BD1DB04B5000AA08CF /* BuildScript */ = {
 			isa = PBXGroup;
 			children = (
+				7D9083781E4BCF4C0071C8AD /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
 			);
@@ -111,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				7DE821BF1DB04B5000AA08CF /* README.md */,
+				7D9083761E4BCB3E0071C8AD /* CHANGELOG.md */,
 				7D1BDEB21DD283920081D7AD /* TapjoyAdapter */,
 				8895D57A1E01D620008BE231 /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
@@ -357,7 +361,6 @@
 		};
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A31DB7ED230001E48B /* Debug.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				SKIP_INSTALL = YES;
@@ -366,7 +369,6 @@
 		};
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				SKIP_INSTALL = YES;
@@ -375,7 +377,6 @@
 		};
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A31DB7ED230001E48B /* Debug.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};
@@ -383,7 +384,6 @@
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};

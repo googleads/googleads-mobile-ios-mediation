@@ -6,4 +6,6 @@ framework module TapjoyAdapter {
 
   link framework "Foundation"
   link framework "UIKit"
+
+  header "GADMTapjoyExtras.h"
 }

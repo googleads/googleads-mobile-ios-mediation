@@ -47,6 +47,8 @@ Ads SDK:
 
 * Unity Ads
 * Chartboost
+* AdColony
+* Tapjoy
 
 # Downloads
 
