@@ -10,7 +10,7 @@
 
 ### Using CocoaPods
 - Add the following line to your project's Podfile:
-`pod 'GoogleMobileAdsMediationAdColony'`.
+  `pod 'GoogleMobileAdsMediationAdColony'`.
 - Run `pod install`.
 
 ### Manual
@@ -18,14 +18,21 @@
   [quick start guide](https://firebase.google.com/docs/admob/ios/quick-start)
   for detailed instructions on how to integrate the Google Mobile Ads SDK.
 - Add or drag the adapter .framework into your Xcode project.
-- Add the AdColony SDK into your Xcode project. You can find the AdColony SDK setup
-  guide [here](https://github.com/AdColony/AdColony-iOS-SDK-3/wiki).
+- Add the AdColony SDK into your Xcode project. You can find the AdColony SDK
+  setup guide [here](https://github.com/AdColony/AdColony-iOS-SDK-3/wiki).
 - Add AdColony to the mediation configuration for your AdMob ad unit.
 - Please see the [set up guide](https://support.google.com/admob/answer/3124703)
   for detailed instructions on how to set up mediation.
 
-The latest documentation and code samples for the Google Mobile Ads SDK are
-available [here](https://firebase.google.com/docs/admob/ios/quick-start).
+### Unity Integration
+For publishers who are using Unity IDE to develop games/apps for iOS platform
+must follow the steps below.
+
+- Export an Xcode project from Unity IDE.
+- Add or drag the `AdColonyAdapter.framework` into your Xcode project.
+- Add the AdColony SDK into your Xcode project. You can find the AdColony SDK
+  setup guide [here](https://github.com/AdColony/AdColony-iOS-SDK-3/wiki).
+- Import `libz.tbd` library in the Build Phases of your Xcode project.
 
 ### Optimizations
 To ensure AdColony video ads are available as often as possible, you can
@@ -49,12 +56,5 @@ extras.showPrePopup = YES;
 extras.showPostPopup = YES;
 [request registerAdNetworkExtras:extras];</code></pre>
 
-### Unity Integration
-For publishers who are using Unity IDE to develop games/apps for iOS platform
-must follow the steps below.
-
-- Export an Xcode project from Unity IDE.
-- Add or drag the `AdColonyAdapter.framework` into your Xcode project.
-- Add the AdColony SDK into your Xcode project. You can find the AdColony SDK
-  setup guide [here](https://github.com/AdColony/AdColony-iOS-SDK-3/wiki).
-- Import `libz.tbd` library in the Build Phases of your Xcode project.
+The latest documentation and code samples for the Google Mobile Ads SDK are
+available [here](https://firebase.google.com/docs/admob/ios/quick-start).

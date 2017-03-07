@@ -196,6 +196,19 @@
   _isLoading = NO;
 }
 
+- (void)unityAdsDidClick:(NSString *)placementID {
+  // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
+  // that a click event indicates the user is leaving the application for a browser or deeplink, and
+  // notifies the Google Mobile Ads SDK accordingly.
+  if (_interstitialConnector) {
+    [_interstitialConnector adapterDidGetAdClick:self];
+    [_interstitialConnector adapterWillLeaveApplication:self];
+  } else {
+    [_rewardBasedVideoAdConnector adapterDidGetAdClick:self];
+    [_rewardBasedVideoAdConnector adapterWillLeaveApplication:self];
+  }
+}
+
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
   if (!_isLoading) {
     // Unity Ads show error will only happen after the ad has been loaded. So, we will send

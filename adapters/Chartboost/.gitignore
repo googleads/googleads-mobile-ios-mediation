@@ -5,6 +5,7 @@
 _open_project.bash
 _build_xcode_project.bash
 bazel-*
+blaze-*
 xcuserdata
 *.xcodeproj/project.xcworkspace
 *.xcodeproj/xcuserdata

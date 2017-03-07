@@ -17,12 +17,12 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityWeakReference.h"
 
-@interface GADMAdapterUnitySingleton () <UnityAdsDelegate> {
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
   /// Array to hold all adapter delegates.
   NSMutableArray *_adapterDelegates;
 
   /// Connector from unity adapter to send Unity callbacks.
-  __weak id<GADMAdapterUnityDataProvider, UnityAdsDelegate> _currentShowingUnityDelegate;
+  __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
 }
 
 @end
@@ -56,7 +56,8 @@
   [UnityAds initialize:gameID delegate:self];
 }
 
-- (void)addAdapterDelegate:(id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)adapterDelegate {
+- (void)addAdapterDelegate:
+                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
   GADMAdapterUnityWeakReference *delegateReference =
       [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
   // Removes duplicate delegate references.
@@ -80,8 +81,9 @@
 #pragma mark - Rewardbased video ad methods
 
 - (BOOL)configureRewardBasedVideoAdWithGameID:(NSString *)gameID
-                                     delegate:(id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)
-                                                  adapterDelegate {
+                                     delegate:
+                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                            adapterDelegate {
   if ([UnityAds isSupported]) {
     if (![UnityAds isInitialized]) {
       // Add delegate reference in adapterDelegate list only if Unity Ads is not initialized.
@@ -94,7 +96,7 @@
 }
 
 - (void)requestRewardBasedVideoAdWithDelegate:
-        (id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)adapterDelegate {
+        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
   if ([UnityAds isInitialized]) {
     NSString *placementID = [adapterDelegate getPlacementID];
     if ([UnityAds isReady:placementID]) {
@@ -110,8 +112,8 @@
 
 - (void)presentRewardBasedVideoAdForViewController:(UIViewController *)viewController
                                           delegate:
-                                              (id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)
-                                                  adapterDelegate {
+                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                            adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
   // The Unity Ads show method checks whether an ad is available.
   [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
@@ -120,8 +122,9 @@
 #pragma mark - Interstitial ad methods
 
 - (void)configureInterstitialAdWithGameID:(NSString *)gameID
-                                 delegate:(id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)
-                                              adapterDelegate {
+                                 delegate:
+                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                            adapterDelegate {
   if ([UnityAds isSupported]) {
     if ([UnityAds isInitialized]) {
       NSString *placementID = [adapterDelegate getPlacementID];
@@ -147,8 +150,9 @@
 }
 
 - (void)presentInterstitialAdForViewController:(UIViewController *)viewController
-                                      delegate:(id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)
-                                                   adapterDelegate {
+                                      delegate:
+                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                            adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
   // The Unity Ads show method checks whether an ad is available.
   [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
@@ -171,11 +175,15 @@
         GADMAdapterUnityWeakReference *weakReference = obj;
         if ([[(id<GADMAdapterUnityDataProvider>)weakReference.weakObject getPlacementID]
                 isEqualToString:placementID]) {
-          [(id<UnityAdsDelegate>)weakReference.weakObject unityAdsReady:placementID];
+          [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsReady:placementID];
           [delegatesToRemove addObject:obj];
         }
       }];
   [_adapterDelegates removeObjectsInArray:delegatesToRemove];
+}
+
+- (void)unityAdsDidClick:(NSString *)placementID {
+  [_currentShowingUnityDelegate unityAdsDidClick:placementID];
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
@@ -189,13 +197,15 @@
   [_adapterDelegates
       enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         GADMAdapterUnityWeakReference *weakReference = obj;
-        [(id<UnityAdsDelegate>)weakReference.weakObject unityAdsDidError:error withMessage:message];
+        [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsDidError:error
+                                                                     withMessage:message];
         [delegatesToRemove addObject:obj];
       }];
   [_adapterDelegates removeObjectsInArray:delegatesToRemove];
 }
 
-- (void)stopTrackingDelegate:(id<GADMAdapterUnityDataProvider, UnityAdsDelegate>)adapterDelegate {
+- (void)stopTrackingDelegate:(id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                 adapterDelegate {
   GADMAdapterUnityWeakReference *delegateReference =
       [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
   [self removeAdapterDelegate:delegateReference];

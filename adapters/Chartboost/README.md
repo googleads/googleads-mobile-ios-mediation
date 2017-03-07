@@ -7,6 +7,13 @@
 - Minimum required Chartboost SDK 6.5.1
 
 ## Instructions
+
+### Using CocoaPods
+- Add the following line to your project's Podfile:
+ `pod 'GoogleMobileAdsMediationChartboost'`.
+- Run `pod install`.
+
+### Manual
 - Add the Google Mobile Ads SDK. See the
   [quick start guide](https://firebase.google.com/docs/admob/ios/quick-start)
   for detailed instructions on how to integrate the Google Mobile Ads SDK.

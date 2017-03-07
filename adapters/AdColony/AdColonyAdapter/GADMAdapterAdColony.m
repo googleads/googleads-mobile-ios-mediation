@@ -11,7 +11,7 @@
 
 #if DEBUG_LOGGING
 #define NSLogDebug(...)  NSLog(__VA_ARGS__)
-#else 
+#else
 #define NSLogDebug(...)
 #endif
 

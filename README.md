@@ -65,8 +65,9 @@ using the SDK, and join the developer community on
 
 # Suggesting improvements
 
-To file bugs, make feature requests, or to suggest other improvements, please use
-[github's issue tracker](https://github.com/googleads/googleads-mobile-ios-mediation/issues).
+To file bugs, make feature requests, or to suggest other improvements, please
+use [github's issue tracker]
+(https://github.com/googleads/googleads-mobile-ios-mediation/issues).
 
 # License
 

@@ -1,5 +1,17 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 2.0.8.0
+- Verified compatibility with Unity Ads SDK 2.0.8.
+
+## Version 2.0.7.0
+- Adapter now tracks Unity Ads clicks so the AdMob and the Unity Ads click
+  statistics can match up.
+- Apps now get `interstitialWillLeaveApplication:` and
+  `rewardBasedVideoAdWillLeaveApplication:` callbacks.
+
+## Version 2.0.6.0
+- Verified compatibility with Unity Ads SDK 2.0.6.
+
 ## Version 2.0.5.0
 - Verified compatibility with Unity Ads SDK 2.0.5.
 
