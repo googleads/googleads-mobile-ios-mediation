@@ -1,39 +1,46 @@
-################################################################
-# Instructions on the different pieces of this file:
-################################################################
-#
-# TODO: Resolve all TODOs in this file
-# TODO: Delete these instructions
-################################################################
+# MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
-# [AD NETWORK NAME] Adapter for Google Mobile Ads SDK for iOS # TODO
-
-This is an adapter to be used in conjunction with the Google Mobile Ads SDK.
-
-## Requirements
-- Xcode [MIN XCODE VERSION] or later # TODO
-- iOS deployment target [MIN iOS VERSION] or later # TODO
-- Google Mobile Ads SDK [MIN SDK VERSION] or later # TODO
-- [AD_NETWORK_NAME] SDK [MIN SDK VERSION] or later #TODO
+## Prerequisites
+- Xcode 6.1 or higher
+- iOS Deployment target of 7.0 or higher
+- Minimum required Google Mobile Ads SDK 7.14.0
+- Minimum required MoPub SDK 4.10.0
 
 ## Instructions
+- Add the Google Mobile Ads SDK. See the
+[quick start guide](https://firebase.google.com/docs/admob/ios/quick-start)
+for detailed instructions on how to integrate the Google Mobile Ads SDK.
+- Add or drag the MoPubAdapter.framework into your Xcode project.
+- Add the MoPub SDK into your Xcode project. You can find the MoPub SDK at the
+[MoPub Github repo](https://github.com/mopub/mopub-ios-sdk).
+- Enable the Ad network in the Ad Network Mediation UI. The latest
+documentation and code samples for the Google Mobile Ads SDK are
+available at the [AdMob Developer Docs]
+                  (https://firebase.google.com/docs/admob/ios/quick-start).
 
-### Using CocoaPods
-- Add the following line to your project's Podfile:
- `pod 'GoogleMobileAdsMediation[AD_NETWORK_NAME]'`. # TODO
-- Run `pod install`.
+You can optionally register a `GADMoPubNetworkExtras` class with the ad request
+to set the desired size for the MoPub privacy icon in points. Values can range
+from 10 to 30 inclusive, with a default size of 20.
 
-### Manual
+<pre><code>GADRequest *request = [GADRequest request];
+GADMoPubNetworkExtras *extras = [[GADMoPubNetworkExtras alloc] init];
+extras.privacyIconSize = 20;
+[request registerAdNetworkExtras:extras];</code></pre>
 
-## Additional Code Required # TODO
-- Optional, remove if no additional code is required
+## Native Ads Notes
 
-## Register Extas in Ad Request # TODO
-- Optional, remove if the adapter does not use any extra parameters.
+### Ad Rendering
+- MoPub has 5 assets including icon, title, description, main image and
+CTA text.
+- Currently MoPub adapter is built to return app install ads via
+Google mediation. If you are requesting content ads only, there will be
+no ads returned.
 
-## Notes #TODO
-- Include anything else a potential publisher would need to know.
+### Impression and Click Tracking
+- MoPub and Google Mobile Ads SDKs will be tracking impressions in their own
+way, so please expect discrepancies. Clicks are matched between the two
+SDKs.
 
 The latest documentation and code samples for the Google Mobile Ads SDK are
-available at the
-[AdMob Developer Docs](https://firebase.google.com/docs/admob/ios/quick-start).
+available at the [AdMob Developer Docs]
+                  (https://firebase.google.com/docs/admob/ios/quick-start).

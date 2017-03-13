@@ -1,11 +1,11 @@
-# This is the changelog for your adapter. Each release should have an entry that
-# lists the version along with the changes it introduces. See the other
-# changelog files in this repo for examples (and be sure to delete these
-# instructions before you push!).
+# MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
-# [NETWORK NAME] Adapter for Google Mobile Ads SDK for iOS Changelog
+## Version 4.12.0
 
-## x.y.z.0
+- Added support to configure the privacy icon size for MoPub's native ads.
+- Added support for MoPub native ads.
+- Now distributing MoPub adapter as a framework.
 
-- First release!
-- Adds support for banners, interstitials, etc.
+## Previous Versions
+
+- Support for MoPub banner and interstitial ads.
