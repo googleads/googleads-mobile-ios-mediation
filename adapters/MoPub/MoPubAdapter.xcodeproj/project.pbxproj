@@ -32,7 +32,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7D800A181DDFB0E0005FD610 /* <AD_NETWORK_NAME>Adapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D800A171DDFB0E0005FD610 /* <AD_NETWORK_NAME>Adapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D5F6F7E1E7742BC00B9B9F5 /* GADMAdapterMoPub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */; };
+		7D5F6F7F1E7742BC00B9B9F5 /* GADMAdapterMoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */; };
+		7D5F6F801E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */; };
+		7D5F6F811E7742BC00B9B9F5 /* MoPubAdapterConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */; };
+		7D5F6F821E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */; };
+		7D5F6F831E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */; };
+		7D5F6F891E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F861E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,12 +58,19 @@
 		7D37C14F1DDCEFED00207DCB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D39D3DB1DE5090400D7A314 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
+		7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMoPub.h; sourceTree = "<group>"; };
+		7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMoPub.m; sourceTree = "<group>"; };
+		7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMoPubNetworkExtras.m; sourceTree = "<group>"; };
+		7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapterConstants.h; sourceTree = "<group>"; };
+		7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapterMediatedNativeAd.h; sourceTree = "<group>"; };
+		7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoPubAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
+		7D5F6F861E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMoPubNetworkExtras.h; sourceTree = "<group>"; };
+		7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapter.h; sourceTree = "<group>"; };
+		7D5F6F881E7742EC00B9B9F5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		7D800A171DDFB0E0005FD610 /* <AD_NETWORK_NAME>Adapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "<AD_NETWORK_NAME>Adapter.h"; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
-		7DA7825B1DDA681E000C088E /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -82,26 +96,33 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		7D800A191DDFB1F2005FD610 /* MoPubAdapter */ = {
+		7D5F6F771E7742BC00B9B9F5 /* MoPubAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */,
+				7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */,
+				7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */,
+				7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */,
+				7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */,
+				7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */,
 			);
 			path = MoPubAdapter;
 			sourceTree = "<group>";
 		};
-		7DA782571DDA681E000C088E /* Public */ = {
+		7D5F6F841E7742EC00B9B9F5 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				7DA782591DDA681E000C088E /* Headers */,
-				7DA7825B1DDA681E000C088E /* module.modulemap */,
+				7D5F6F851E7742EC00B9B9F5 /* Headers */,
+				7D5F6F881E7742EC00B9B9F5 /* module.modulemap */,
 			);
 			path = Public;
 			sourceTree = "<group>";
 		};
-		7DA782591DDA681E000C088E /* Headers */ = {
+		7D5F6F851E7742EC00B9B9F5 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				7D800A171DDFB0E0005FD610 /* <AD_NETWORK_NAME>Adapter.h */,
+				7D5F6F861E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h */,
+				7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -121,8 +142,8 @@
 			children = (
 				7DE821BF1DB04B5000AA08CF /* README.md */,
 				7D39D3DB1DE5090400D7A314 /* CHANGELOG.md */,
-				7D800A191DDFB1F2005FD610 /* MoPubAdapter */,
-				7DA782571DDA681E000C088E /* Public */,
+				7D5F6F771E7742BC00B9B9F5 /* MoPubAdapter */,
+				7D5F6F841E7742EC00B9B9F5 /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
@@ -144,7 +165,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D800A181DDFB0E0005FD610 /* <AD_NETWORK_NAME>Adapter.h in Headers */,
+				7D5F6F821E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h in Headers */,
+				7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */,
+				7D5F6F891E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h in Headers */,
+				7D5F6F7E1E7742BC00B9B9F5 /* GADMAdapterMoPub.h in Headers */,
+				7D5F6F811E7742BC00B9B9F5 /* MoPubAdapterConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +269,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D5F6F801E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m in Sources */,
+				7D5F6F7F1E7742BC00B9B9F5 /* GADMAdapterMoPub.m in Sources */,
+				7D5F6F831E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

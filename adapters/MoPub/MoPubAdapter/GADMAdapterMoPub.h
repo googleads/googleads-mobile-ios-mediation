@@ -3,5 +3,4 @@
 
 @interface GADMAdapterMoPub : NSObject<GADMAdNetworkAdapter>
 
-
 @end

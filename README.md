@@ -49,6 +49,7 @@ Ads SDK:
 * Chartboost
 * AdColony
 * Tapjoy
+* MoPub
 
 # Downloads
 

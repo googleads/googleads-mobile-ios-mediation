@@ -5,6 +5,9 @@
 
 @interface MoPubAdapterMediatedNativeAd : NSObject<GADMediatedNativeAppInstallAd>
 
-- (instancetype)initWithMoPubNativeAd:(nonnull MPNativeAd *)mopubNativeAd mappedImages: (nullable NSMutableDictionary *) downloadedImages nativeAdViewOptions: (nonnull GADNativeAdViewAdOptions*) nativeAdViewOptions networkExtras:(nullable GADMoPubNetworkExtras *)networkExtras;
+- (instancetype)initWithMoPubNativeAd:(nonnull MPNativeAd *)mopubNativeAd
+                         mappedImages:(nullable NSMutableDictionary *)downloadedImages
+                  nativeAdViewOptions:(nonnull GADNativeAdViewAdOptions *)nativeAdViewOptions
+                        networkExtras:(nullable GADMoPubNetworkExtras *)networkExtras;
 
 @end

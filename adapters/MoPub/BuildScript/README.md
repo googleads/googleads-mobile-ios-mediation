@@ -1,11 +1,3 @@
-################################################################
-# Instructions on the different pieces of this file:
-################################################################
-#
-# TODO: Resolve all TODOs in this file
-# TODO: Delete these instructions
-################################################################
-
 # Steps to generate universal static library and framework
 
 **Note:** These build scripts are intended only for publishers who want to
@@ -15,10 +7,10 @@ your Podfile and run `pod install`.
 
 ## Prerequisites
 - Xcode 6.0 or higher
-- Deployment target of 6.0 or higher
+- Deployment target of 7.0 or higher
 - Google Mobile Ads SDK
-- MoPub SDK version x.y.z #TODO
-- MoPub Adapter Source Code #TODO
+- MoPub SDK
+- MoPub Adapter Source Code
 
 ## Setup Instructions
 - Drop GoogleMobileAds framework to

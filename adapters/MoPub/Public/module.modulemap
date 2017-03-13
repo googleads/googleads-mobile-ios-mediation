@@ -1,5 +1,5 @@
-framework module [AD_NETWORK_NAME]Adapter {
-  umbrella header "[AD_NETWORK_NAME]Adapter.h"
+framework module MoPubAdapter {
+  umbrella header "MoPubAdapter.h"
 
   export *
   module * { export * }
@@ -7,5 +7,5 @@ framework module [AD_NETWORK_NAME]Adapter {
   link framework "Foundation"
   link framework "UIKit"
 
-  header "YOUR_PUBLIC_HEADERS.h"
+  header "GADMoPubNetworkExtras.h"
 }
