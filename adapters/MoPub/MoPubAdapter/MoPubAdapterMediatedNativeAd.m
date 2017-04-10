@@ -182,9 +182,8 @@
       UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
       break;
   }
-  
+
   [view addSubview:_privacyIconImageView];
-  
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd

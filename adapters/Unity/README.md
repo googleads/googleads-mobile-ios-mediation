@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - Xcode 6.0 or higher
-- Deployment target of 6.0 or higher
+- Deployment target of 7.0 or higher
 - Google Mobile Ads SDK 7.10.1 or higher
 - Unity Ads SDK 2.0.7 or higher
 

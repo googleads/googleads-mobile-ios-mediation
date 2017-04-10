@@ -160,6 +160,14 @@
 
 #pragma mark - Unity Delegate Methods
 
+- (void)unityAdsPlacementStateChanged:(NSString *)placementId
+                             oldState:(UnityAdsPlacementState)oldState
+                             newState:(UnityAdsPlacementState)newState {
+  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
+  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
+  // Google Mobile Ads SDK.
+}
+
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
   if (_interstitialConnector) {
     [_interstitialConnector adapterWillDismissInterstitial:self];

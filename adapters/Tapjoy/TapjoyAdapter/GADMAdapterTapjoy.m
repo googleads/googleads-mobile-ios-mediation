@@ -17,7 +17,7 @@
 
 #import <Tapjoy/Tapjoy.h>
 
-NSString *const kGADMAdapterTapjoyVersion = @"11.9.1.0";
+NSString *const kGADMAdapterTapjoyVersion = @"11.10.0.0";
 NSString *const kMediationAgent = @"admob";
 NSString *const kTapjoyInternalAdapterVersion = @"1.0.0";
 

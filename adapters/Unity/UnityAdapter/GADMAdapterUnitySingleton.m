@@ -160,6 +160,13 @@
 
 #pragma mark - Unity Delegate Methods
 
+- (void)unityAdsPlacementStateChanged:(NSString *)placementId
+                             oldState:(UnityAdsPlacementState)oldState
+                             newState:(UnityAdsPlacementState)newState {
+  // The unityAdsReady: and unityAdsDidError: callback methods are used to forward Unity Ads SDK
+  // states to the adapters. No need to forward this callback to the adapters.
+}
+
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }

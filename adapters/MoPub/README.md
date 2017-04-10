@@ -11,7 +11,7 @@
 ### Using CocoaPods
 - Add the following line to your project's Podfile:
   `pod 'GoogleMobileAdsMediationMoPub'`.
-- Run `pod install`.
+- Run `pod update`.
 
 ### Manual
 - Add the Google Mobile Ads SDK. See the
@@ -27,26 +27,27 @@
 
 You can optionally register a `GADMoPubNetworkExtras` class with the ad request
 to set the desired size for the MoPub privacy icon in points. Values can range
-from 10 to 30 inclusive, with a default size of 20.
+from 10 to 30 inclusive. The default size for the privacy icon is 20.
 
 <pre><code>GADRequest *request = [GADRequest request];
 GADMoPubNetworkExtras *extras = [[GADMoPubNetworkExtras alloc] init];
-extras.privacyIconSize = 20;
+extras.privacyIconSize = 15;
 [request registerAdNetworkExtras:extras];</code></pre>
 
 ## Native Ads Notes
 
 ### Ad Rendering
 - MoPub has 5 assets including icon, title, description, main image and
-  CTA text.
+  CTA(call to action) text.
 - Currently MoPub adapter is built to return app install ads via
   Google mediation. If you are requesting content ads only, there will be
   no ads returned.
 
 ### Impression and Click Tracking
-- MoPub and Google Mobile Ads SDKs will be tracking impressions in their own
-  way, so please expect discrepancies. Clicks are matched between the two
-  SDKs.
+- MoPub and Google Mobile Ads SDKs track impressions in their own
+  way, so there may be discrepancies. Clicks are detected by the
+  Google Mobile Ads SDK and are forwarded to MoPub SDK, so click reporting will
+  be in sync.
 
 The latest documentation and code samples for the Google Mobile Ads SDK are
 available at the

@@ -180,7 +180,7 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-  return @"3.0.6.0";
+  return @"3.1.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
