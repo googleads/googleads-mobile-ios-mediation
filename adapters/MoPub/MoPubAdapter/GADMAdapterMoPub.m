@@ -37,7 +37,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"4.13.0.0";
+  return @"4.13.1.1";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -56,7 +56,6 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 - (void)stopBeingDelegate {
   _bannerAd.delegate = nil;
   _interstitialAd.delegate = nil;
-  _nativeAd.delegate = nil;
 }
 
 #pragma mark - Interstitial Ads
@@ -109,8 +108,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *publisherID = [_connector credentials][@"pubid"];
-  _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID
-                                            size:CGSizeMake(adSize.size.width, adSize.size.height)];
+  _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
   [_bannerAd loadAd];
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");

@@ -1,5 +1,12 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.13.1.1
+- Fixed a bug where native ads failed to detect clicks when loaded from the same
+  `GADAdLoader` instance.
+
+## Version 4.13.1.0
+- Verified compatibility with MoPub SDK 4.13.1.
+
 ## Version 4.13.0.0
 - Verified compatibility with MoPub SDK 4.13.0.
 
