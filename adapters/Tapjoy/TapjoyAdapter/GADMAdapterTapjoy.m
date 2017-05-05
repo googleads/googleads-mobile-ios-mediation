@@ -328,7 +328,7 @@ didFailToSetUpRewardBasedVideoAdWithError:adapterError];
 - (void)videoDidComplete:(TJPlacement*)placement {
   // Tapjoy only supports fixed rewards and doesn't provide a reward type or amount.
   GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                   rewardAmount:[NSDecimalNumber zero]];
+                                                   rewardAmount:[NSDecimalNumber one]];
   [_rewardBasedVideoAdConnector adapter:self didRewardUserWithReward:reward];
 }
 

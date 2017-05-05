@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Chartboost/Chartboost.h>
-
 @import Foundation;
 @import GoogleMobileAds;
+
+typedef NS_ENUM(NSUInteger, CBFramework);
 
 /// Keys for the Chartboost extra assets.
 @interface GADMChartboostExtras : NSObject<GADAdNetworkExtras>

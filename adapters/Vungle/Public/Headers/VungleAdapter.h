@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-/// Chartboost mediation network adapter version.
-static NSString *const GADMAdapterChartboostVersion = @"6.6.3.0";
-
-/// Chartboost App ID.
-static NSString *const GADMAdapterChartboostAppID = @"appId";
-
-/// Chartboost App Signature.
-static NSString *const GADMAdapterChartboostAppSignature = @"appSignature";
-
-/// Chartboost Ad Location.
-static NSString *const GADMAdapterChartboostAdLocation = @"adLocation";
+// Import any public headers below.
+//#import <VungleAdapter/YOUR_PUBLIC_HEADER.h>

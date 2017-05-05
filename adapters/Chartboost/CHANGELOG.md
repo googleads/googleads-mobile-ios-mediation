@@ -1,5 +1,12 @@
 # Chartboost Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 6.6.3.0
+- Verified compatibility with Chartboost SDK 6.6.3.
+- Removed the support for 'armv7s' architecture.
+- Fixed a bug where publishers faced a compilation issue in Swift when importing
+  `ChartboostAdapter.framework` as a module which was importing non-modular
+  Chartboost SDK.
+
 ## Version 6.6.2.0
 - Verified compatibility with Chartboost SDK 6.6.2.
 
