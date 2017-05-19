@@ -47,6 +47,7 @@ Ads SDK:
 
 * Unity Ads
 * Chartboost
+* Facebook Audience Network
 * AdColony
 * Tapjoy
 * MoPub
