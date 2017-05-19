@@ -16,4 +16,4 @@
 #import <UIKit/UIKit.h>
 
 // Import any public headers below.
-//#import <InMobiAdapter/YOUR_PUBLIC_HEADER.h>
+#import <InMobiAdapter/GADInMobiExtras.h>
