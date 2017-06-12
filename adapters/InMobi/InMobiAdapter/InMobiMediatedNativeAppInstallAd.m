@@ -37,7 +37,6 @@
     self.native = nativeAd;
     NSData *data = [self.native.adContent dataUsingEncoding:NSUTF8StringEncoding];
     NSError* error = nil;
-    shouldDownloadImage=true;
 
     if (data) {
         self.nativeAdContentDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
@@ -84,6 +83,7 @@
                     }
                     else{
                         [self inmobiMediatedNativeAppInstallAdFailed];
+                        return;
                     }
                 
                     [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -105,6 +105,7 @@
                     }
                     else{
                         [self inmobiMediatedNativeAppInstallAdFailed];
+                        return;
                     }
                 
                     [self inmobiMediatedNativeAppInstallAdSuccessful:self];
@@ -161,14 +162,10 @@
 }
 
 - (NSString *)store {
-//    if([[self.nativeAdContentDictionary objectForKey:PACKAGE_NAME] length]){
-//        return @"AppleStore";
-//    }
-//    return @"Others";
     NSString *landingURL = [self.nativeAdContentDictionary objectForKey:LANDING_URL];
     if(landingURL){
-        NSRange   searchedRange = NSMakeRange(0, [landingURL length]);
-        NSError  *error = nil;
+        NSRange searchedRange = NSMakeRange(0, [landingURL length]);
+        NSError *error = nil;
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*" options:0 error:&error];
         NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL options:0 range: searchedRange];
         if(numberOfMatches == 0)

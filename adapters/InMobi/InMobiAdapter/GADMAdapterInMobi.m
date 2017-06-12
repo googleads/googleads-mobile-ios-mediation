@@ -195,27 +195,11 @@ static void initialize_imageCache() {
         }
     }
     serveAnyAd = (isAppInstallRequest && isNativeContentRequest);
-    
-//    if(!serveAnyAd && isNativeContentRequest){
-//        GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-//                                                                code:kGADErrorMediationNoFill
-//                                                            userInfo:nil];
-//        [self.connector adapter:self didFailAd:reqError];
-//        return;
-//    }
-//    
-//    if(!isNativeContentRequest && !isAppInstallRequest){
-//        GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-//                                                                code:kGADErrorInvalidRequest
-//                                                            userInfo:nil];
-//        
-//        [self.connector adapter:self didFailAd:reqError];
-//        return;
-//    }
+
     
     if (!serveAnyAd){
         GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                                code:kGADErrorMediationNoFill
+                                                                code:kGADErrorInvalidRequest
                                                             userInfo:nil];
         [self.connector adapter:self didFailAd:reqError];
         return;
@@ -394,15 +378,6 @@ static void initialize_imageCache() {
         
     }
 }
-
-//- (void)dealloc {
-//    [self stopBeingDelegate];
-//    [self.adView removeFromSuperview];
-//    self.adView = nil;
-//    self.interstitial = nil;
-//    self.adRewarded = nil;
-//    [super dealloc];
-//}
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType
 {
@@ -604,29 +579,6 @@ static void initialize_imageCache() {
  */
 -(void)nativeDidFinishLoading:(IMNative*)native{
     
-    /*
-     BOOL isPerfAd = [self isPerformanceAd:native];
-    if((!serveAnyAd) && ((isPerfAd && isNativeContentRequest)||(!isPerfAd && isAppInstallRequest))){
-        GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                                code:kGADErrorMediationNoFill
-                                                            userInfo:nil];
-        [self.connector adapter:self didFailAd:reqError];
-        isNativeContentRequest = NO;
-        isAppInstallRequest = NO;
-        return;
-    }
-    
-    if(isPerfAd){
-        installAd= [[InMobiMediatedNativeAppInstallAd alloc]initWithInMobiNativeAppInstallAd:native withAdapter:self shouldDownloadImage:shouldDownloadImages withDelegate:self];
-    }
-    else{
-        GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                                code:kGADErrorMediationNoFill
-                                                            userInfo:nil];
-        [self.connector adapter:self didFailAd:reqError];
-        return;
-    }
-     */
     if(self.native != native){
         GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
                                                                 code:kGADErrorMediationNoFill
