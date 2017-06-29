@@ -39,6 +39,10 @@
     NSError* error = nil;
 
     if (data) {
+        if(![[self.nativeAdContentDictionary objectForKey:TITLE] length] || ![[self.nativeAdContentDictionary objectForKey:DESCRIPTION] length] || ![[self.nativeAdContentDictionary objectForKey:CTA] length] || ![[self.nativeAdContentDictionary objectForKey:CTA] length]){
+            [self inmobiMediatedNativeAppInstallAdFailed];
+            return nil;
+        }
         self.nativeAdContentDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         NSDictionary *iconDictionary = [self.nativeAdContentDictionary objectForKey:ICON];
         NSDictionary *imageDictionary = [self.nativeAdContentDictionary objectForKey:SCREENSHOTS];;
@@ -121,7 +125,7 @@
         return [self.nativeAdContentDictionary objectForKey:TITLE];
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
-    return @"";
+    return nil;
 }
 
 - (NSArray *)images {
@@ -136,7 +140,7 @@
         return [self.nativeAdContentDictionary objectForKey:DESCRIPTION];
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
-    return @"";
+    return nil;
 }
 
 - (GADNativeAdImage *)icon {
@@ -151,7 +155,7 @@
         return [self.nativeAdContentDictionary objectForKey:CTA];
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
-    return @"";
+    return nil;
 }
 
 - (NSDecimalNumber *)starRating {
