@@ -1,5 +1,18 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.23.0.1
+- Added support for the `backgroundShown` property on Facebook's AdChoices view
+  via network extras.
+- Updated the default AdChoices icon behaviour. The adapter lets Facebook set
+  the default behaviour if no extras are provided.
+
+## Version 4.23.0.0
+- Verified compatibility with FAN SDK 4.23.0.
+
+## Version 4.22.1.0
+- Verified compatibility with FAN SDK 4.22.1.
+- Removed the support for `armv7s` architecture.
+
 ## Version 4.22.0.0
 - Verified compatibility with FAN SDK 4.22.0.
 

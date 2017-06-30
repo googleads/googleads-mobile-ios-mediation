@@ -302,9 +302,15 @@ static NSString *const GADNativeAdIcon = @"2";
   id obj = [strongConnector networkExtras];
   GADFBNetworkExtras *networkExtras = [obj isKindOfClass:[GADFBNetworkExtras class]] ? obj : nil;
   if (!_adChoicesView) {
-    _adChoicesView = [[FBAdChoicesView alloc] initWithNativeAd:_nativeAd
-                                                    expandable:networkExtras.adChoicesExpandable];
+    if (networkExtras) {
+      _adChoicesView = [[FBAdChoicesView alloc] initWithNativeAd:_nativeAd
+                                                      expandable:networkExtras.adChoicesExpandable];
+      _adChoicesView.backgroundShown = networkExtras.adChoicesBackgroundShown;
+    } else {
+      _adChoicesView = [[FBAdChoicesView alloc] initWithNativeAd:_nativeAd];
+    }
   }
+
   UIView *renderedView = view;
   [renderedView addSubview:_adChoicesView];
   CGSize size = CGRectStandardize(_adChoicesView.frame).size;
