@@ -3,7 +3,7 @@
 **Note:** These build scripts are intended only for publishers who want to
 modify and rebuild the MoPub adapter framework. If you just want to use the
 MoPub adapter, simply add `pod 'GoogleMobileAdsMediationMoPub'` to
-your Podfile and run `pod install`.
+your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
 - Xcode 6.0 or higher

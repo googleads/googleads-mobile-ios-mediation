@@ -37,7 +37,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"4.13.1.1";
+  return @"4.15.0.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
