@@ -180,7 +180,7 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-  return @"3.1.1.0";
+  return @"3.1.1.1";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -407,10 +407,12 @@ typedef enum {
   if (self.rewardConnector) {
     AdColonyZone *zone = [AdColony zoneForID:self.ad.zoneID];
     [zone setReward:^(BOOL success, NSString * _Nonnull name, int amount) {
-      GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:name
-                                                       rewardAmount:
-                             (NSDecimalNumber *)[NSDecimalNumber numberWithInt:amount]];
-      [weakSelf.rewardConnector adapter:weakSelf didRewardUserWithReward:reward];
+      if (success) {
+        GADAdReward *reward = [[GADAdReward alloc]
+            initWithRewardType:name
+                  rewardAmount:(NSDecimalNumber *)[NSDecimalNumber numberWithInt:amount]];
+        [weakSelf.rewardConnector adapter:weakSelf didRewardUserWithReward:reward];
+      }
     }];
   }
 
