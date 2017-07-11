@@ -14,6 +14,7 @@
 				7D1B6CA61DC2AD7700D8CABF /* Framework Script */,
 			);
 			dependencies = (
+				A8435CF61F152C9400AA595E /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -25,6 +26,7 @@
 				7DD2DCBD1DD12E3E00888FDB /* Static Library Script */,
 			);
 			dependencies = (
+				A8435CF41F152C8E00AA595E /* PBXTargetDependency */,
 			);
 			name = FatAdapter;
 			productName = FatAdapter;
@@ -32,9 +34,33 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7D1575701EB7FB9200059469 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7D15756F1EB7FB9200059469 /* README.md */; };
 		7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* VungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */; };
+		A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */; };
+		A85428E21F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */; };
+		A85428E31F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */; };
+		A85428E41F11853A00C135E7 /* VungleAdNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428DC1F11853A00C135E7 /* VungleAdNetworkExtras.h */; };
+		A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */; };
+		A85428E61F11853A00C135E7 /* vungleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428DE1F11853A00C135E7 /* vungleHelper.h */; };
+		A85428E71F11853A00C135E7 /* vungleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A85428DF1F11853A00C135E7 /* vungleHelper.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8435CF31F152C8E00AA595E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+		A8435CF51F152C9400AA595E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
@@ -49,7 +75,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7D15756F1EB7FB9200059469 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D1575711EB7FBB200059469 /* VungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdapter.h; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -61,6 +86,14 @@
 		7DC8681F1DDA8D4400F0F1C4 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleInterstitial.h; sourceTree = "<group>"; };
+		A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleInterstitial.m; sourceTree = "<group>"; };
+		A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRewardBasedVideoAd.h; sourceTree = "<group>"; };
+		A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleRewardBasedVideoAd.m; sourceTree = "<group>"; };
+		A85428DC1F11853A00C135E7 /* VungleAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdNetworkExtras.h; sourceTree = "<group>"; };
+		A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleAdNetworkExtras.m; sourceTree = "<group>"; };
+		A85428DE1F11853A00C135E7 /* vungleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vungleHelper.h; sourceTree = "<group>"; };
+		A85428DF1F11853A00C135E7 /* vungleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vungleHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +110,14 @@
 		7D15756E1EB7FB9200059469 /* VungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				7D15756F1EB7FB9200059469 /* README.md */,
+				A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */,
+				A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */,
+				A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */,
+				A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */,
+				A85428DC1F11853A00C135E7 /* VungleAdNetworkExtras.h */,
+				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
+				A85428DE1F11853A00C135E7 /* vungleHelper.h */,
+				A85428DF1F11853A00C135E7 /* vungleHelper.m */,
 			);
 			path = VungleAdapter;
 			sourceTree = "<group>";
@@ -147,7 +187,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A85428E41F11853A00C135E7 /* VungleAdNetworkExtras.h in Headers */,
+				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
 				7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */,
+				A85428E21F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
+				A85428E61F11853A00C135E7 /* vungleHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,11 +291,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D1575701EB7FB9200059469 /* README.md in Sources */,
+				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
+				A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */,
+				A85428E71F11853A00C135E7 /* vungleHelper.m in Sources */,
+				A85428E31F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8435CF41F152C8E00AA595E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DFABB1C1DA8682C00322E02 /* Adapter */;
+			targetProxy = A8435CF31F152C8E00AA595E /* PBXContainerItemProxy */;
+		};
+		A8435CF61F152C9400AA595E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DFABB1C1DA8682C00322E02 /* Adapter */;
+			targetProxy = A8435CF51F152C9400AA595E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
@@ -350,6 +410,10 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};
@@ -358,6 +422,10 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};

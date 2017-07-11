@@ -8,4 +8,5 @@ framework module VungleAdapter {
   link framework "UIKit"
 
   // Add any public headers here.
+  header "VungleAdNetworkExtras.h"
 }
