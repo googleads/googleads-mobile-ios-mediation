@@ -36,7 +36,7 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 	NSError *error = [NSError errorWithDomain:@"google"
 										 code:0
 									 userInfo:@{
-												NSLocalizedDescriptionKey : @"No ad fetched."
+												NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."
 												}];
 	[_connector adapter:self didFailAd:error];
 }
@@ -52,8 +52,8 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 
 - (void)getInterstitial {
 	VungleAdNetworkExtras* extras = [_connector networkExtras];
-	desiredPlacement = extras.placement;
-	if (!extras || !extras.placements || [extras.placements count] == 0) {
+	desiredPlacement = extras.playingPlacement;
+	if (!extras || !extras.allPlacements || [extras.allPlacements count] == 0) {
 		NSLog(@"Placements should be specified!");
 		[_connector adapter:self didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleInterstitial" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Placements should be specified!"}]];
 		return;
@@ -64,7 +64,7 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 	} else {
 		NSDictionary *serverParameters = [_connector credentials];
 		NSString *applicationID = [serverParameters objectForKey:kGADMAdapterVungleInterstitialKeyApplicationID];
-		[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.placements adapter:InterstitialAdapter];
+		[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.allPlacements adapter:InterstitialAdapter];
 	}
 }
 

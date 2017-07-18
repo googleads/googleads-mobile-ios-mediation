@@ -22,8 +22,8 @@
 @property (nonatomic, assign) BOOL muted;
 
 
-@property (nonatomic, copy) NSArray<NSString *> * _Nonnull placements;
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull allPlacements;
 
-@property (nonatomic, copy) NSString * _Nonnull placement;
+@property (nonatomic, copy) NSString * _Nonnull playingPlacement;
 
 @end
