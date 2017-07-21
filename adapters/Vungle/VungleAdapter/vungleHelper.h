@@ -3,32 +3,26 @@
 
 #import "VungleAdNetworkExtras.h"
 
-typedef enum {
-    InterstitialAdapter = 1 << 1,
-    RewardBasedAdapter = 1 << 2
-} Adapter;
-
 @protocol VungleDelegate <NSObject>
 -(void)initialized:(BOOL)isSuccess error:(NSError *)error;
 -(void)adAvailable;
 -(void)willShowAd;
 -(void)willLeaveApplication;
 -(void)willCloseAd:(bool)completedView;
-@property (strong) NSString * desiredPlacement;
+@property (readonly, strong) NSString * desiredPlacement;
+@property (readonly, assign) BOOL waitingInit;
 @end
 
 @interface vungleHelper : NSObject<VungleSDKDelegate>
-@property (strong) id<VungleDelegate> interstitialDelegate;
-@property (strong) id<VungleDelegate> rewardDelegate;
 @property (readonly) BOOL isInitialising;
-@property (readonly) BOOL isInitialised;
 
 + (NSString *)adapterVersion;
 
 + (vungleHelper*) sharedInstance;
 
--(void)initWithAppId:(NSString *)appId placements:(NSArray<NSString *>*)placements adapter:(Adapter)adapter;
--(BOOL)isAdPlayableFor:(NSString *)placement;
--(BOOL)playAd:(UIViewController *)viewController adapter:(Adapter)adapter placement:(NSString *)placement extras:(VungleAdNetworkExtras *)extras;
--(void)loadAd:(Adapter)adapter placement:(NSString *)placement;
+-(void)initWithAppId:(NSString *)appId placements:(NSArray<NSString *>*)placements;
+-(BOOL)playAd:(UIViewController *)viewController delegate:(id<VungleDelegate>)delegate extras:(VungleAdNetworkExtras *)extras;
+-(void)loadAd:(NSString *)placement;
+-(void)addDelegate:(id<VungleDelegate>)delegate;
+-(void)removeDelegate:(id<VungleDelegate>)delegate;
 @end

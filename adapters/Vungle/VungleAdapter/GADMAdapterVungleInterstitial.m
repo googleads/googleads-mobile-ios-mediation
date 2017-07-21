@@ -22,14 +22,14 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 	self = [super init];
 	if (self) {
 		self.connector = connector;
-		[vungleHelper sharedInstance].interstitialDelegate = self;
+		[[vungleHelper sharedInstance] addDelegate:self];
 	}
 	return self;
 }
 
 
 - (void)dealloc {
-	[vungleHelper sharedInstance].interstitialDelegate = nil;
+	[self stopBeingDelegate];
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize{
@@ -42,11 +42,7 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 }
 
 - (void) loadAd {
-	if ([[vungleHelper sharedInstance] isAdPlayableFor:desiredPlacement]) {
-		[_connector adapterDidReceiveInterstitial:self];
-	} else {
-		[[vungleHelper sharedInstance] loadAd:InterstitialAdapter placement:desiredPlacement];
-	}
+	[[vungleHelper sharedInstance] loadAd:desiredPlacement];
 }
 
 
@@ -58,29 +54,25 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 		[_connector adapter:self didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleInterstitial" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Placements should be specified!"}]];
 		return;
 	}
-	
-	if ([[vungleHelper sharedInstance] isInitialised]) {
-		[self loadAd];
-	} else {
-		NSDictionary *serverParameters = [_connector credentials];
-		NSString *applicationID = [serverParameters objectForKey:kGADMAdapterVungleInterstitialKeyApplicationID];
-		[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.allPlacements adapter:InterstitialAdapter];
-	}
+	waitingInit = YES;
+	NSDictionary *serverParameters = [_connector credentials];
+	NSString *applicationID = [serverParameters objectForKey:kGADMAdapterVungleInterstitialKeyApplicationID];
+	[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.allPlacements];
 }
 
 - (void)stopBeingDelegate {
 	_connector = nil;
-	[vungleHelper sharedInstance].interstitialDelegate = nil;
+	[[vungleHelper sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType{
 	return YES;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController{
-    if (![[vungleHelper sharedInstance] playAd:rootViewController adapter:InterstitialAdapter placement:desiredPlacement extras:[_connector networkExtras]]) {
-        [_connector adapterDidDismissInterstitial:self];
-    }
+- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+	if (![[vungleHelper sharedInstance] playAd:rootViewController delegate:self extras:[_connector networkExtras]]) {
+		[_connector adapterDidDismissInterstitial:self];
+	}
 }
 
 #pragma mark - vungleHelper delegates
@@ -88,8 +80,11 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 
 @synthesize desiredPlacement;
 
+@synthesize waitingInit;
+
 -(void)initialized:(BOOL)isSuccess error:(NSError *)error {
-	if (isSuccess) {
+	waitingInit = NO;
+	if (isSuccess && desiredPlacement) {
 		if (desiredPlacement) {
 			[self loadAd];
 		}
@@ -113,6 +108,7 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 -(void)willCloseAd:(bool)completedView{
 	[_connector adapterWillDismissInterstitial:self];
 	[_connector adapterDidDismissInterstitial:self];
+	desiredPlacement = nil;
 }
 
 @end
