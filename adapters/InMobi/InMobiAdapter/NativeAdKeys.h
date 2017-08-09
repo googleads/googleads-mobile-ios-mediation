@@ -6,7 +6,6 @@
 //
 //
 
-
 static NSString *const TITLE = @"title";
 static NSString *const DESCRIPTION = @"description";
 static NSString *const SCREENSHOTS = @"screenshots";

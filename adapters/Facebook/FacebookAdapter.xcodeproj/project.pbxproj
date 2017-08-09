@@ -32,20 +32,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7DC868201DDA8D4400F0F1C4 /* GADFBAdapterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8680B1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.h */; };
-		7DC868211DDA8D4400F0F1C4 /* GADFBAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC8680C1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.m */; };
-		7DC868221DDA8D4400F0F1C4 /* GADFBBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8680D1DDA8D4300F0F1C4 /* GADFBBannerAd.h */; };
-		7DC868231DDA8D4400F0F1C4 /* GADFBBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC8680E1DDA8D4300F0F1C4 /* GADFBBannerAd.m */; };
-		7DC868241DDA8D4400F0F1C4 /* GADFBError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8680F1DDA8D4400F0F1C4 /* GADFBError.h */; };
-		7DC868251DDA8D4400F0F1C4 /* GADFBError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868101DDA8D4400F0F1C4 /* GADFBError.m */; };
-		7DC868261DDA8D4400F0F1C4 /* GADFBExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868111DDA8D4400F0F1C4 /* GADFBExtraAssets.m */; };
-		7DC868271DDA8D4400F0F1C4 /* GADFBInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC868121DDA8D4400F0F1C4 /* GADFBInterstitialAd.h */; };
-		7DC868281DDA8D4400F0F1C4 /* GADFBInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868131DDA8D4400F0F1C4 /* GADFBInterstitialAd.m */; };
-		7DC868291DDA8D4400F0F1C4 /* GADFBNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC868141DDA8D4400F0F1C4 /* GADFBNativeAd.h */; };
-		7DC8682A1DDA8D4400F0F1C4 /* GADFBNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868151DDA8D4400F0F1C4 /* GADFBNativeAd.m */; };
-		7DC8682B1DDA8D4400F0F1C4 /* GADFBNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868161DDA8D4400F0F1C4 /* GADFBNetworkExtras.m */; };
-		7DC8682C1DDA8D4400F0F1C4 /* GADMAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC868171DDA8D4400F0F1C4 /* GADMAdapterFacebook.h */; };
-		7DC8682D1DDA8D4400F0F1C4 /* GADMAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC868181DDA8D4400F0F1C4 /* GADMAdapterFacebook.m */; };
+		56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */; };
+		56148C511F26626D0041F201 /* GADFBAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */; };
+		56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C421F26626D0041F201 /* GADFBBannerAd.h */; };
+		56148C531F26626D0041F201 /* GADFBBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C431F26626D0041F201 /* GADFBBannerAd.m */; };
+		56148C541F26626D0041F201 /* GADFBError.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C441F26626D0041F201 /* GADFBError.h */; };
+		56148C551F26626D0041F201 /* GADFBError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C451F26626D0041F201 /* GADFBError.m */; };
+		56148C561F26626D0041F201 /* GADFBExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C461F26626D0041F201 /* GADFBExtraAssets.m */; };
+		56148C571F26626D0041F201 /* GADFBInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C471F26626D0041F201 /* GADFBInterstitialAd.h */; };
+		56148C581F26626D0041F201 /* GADFBInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C481F26626D0041F201 /* GADFBInterstitialAd.m */; };
+		56148C591F26626D0041F201 /* GADFBNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C491F26626D0041F201 /* GADFBNativeAd.h */; };
+		56148C5A1F26626D0041F201 /* GADFBNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4A1F26626D0041F201 /* GADFBNativeAd.m */; };
+		56148C5B1F26626D0041F201 /* GADFBNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */; };
+		56148C5C1F26626D0041F201 /* GADFBRewardedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C4C1F26626D0041F201 /* GADFBRewardedVideoAd.h */; };
+		56148C5D1F26626D0041F201 /* GADFBRewardedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4D1F26626D0041F201 /* GADFBRewardedVideoAd.m */; };
+		56148C5E1F26626D0041F201 /* GADMAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */; };
+		56148C5F1F26626D0041F201 /* GADMAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */; };
 		7DC8682E1DDA8D4400F0F1C4 /* FacebookAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* FacebookAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,6 +66,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBAdapterDelegate.h; sourceTree = "<group>"; };
+		56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBAdapterDelegate.m; sourceTree = "<group>"; };
+		56148C421F26626D0041F201 /* GADFBBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBBannerAd.h; sourceTree = "<group>"; };
+		56148C431F26626D0041F201 /* GADFBBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBBannerAd.m; sourceTree = "<group>"; };
+		56148C441F26626D0041F201 /* GADFBError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBError.h; sourceTree = "<group>"; };
+		56148C451F26626D0041F201 /* GADFBError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBError.m; sourceTree = "<group>"; };
+		56148C461F26626D0041F201 /* GADFBExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBExtraAssets.m; sourceTree = "<group>"; };
+		56148C471F26626D0041F201 /* GADFBInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBInterstitialAd.h; sourceTree = "<group>"; };
+		56148C481F26626D0041F201 /* GADFBInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBInterstitialAd.m; sourceTree = "<group>"; };
+		56148C491F26626D0041F201 /* GADFBNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBNativeAd.h; sourceTree = "<group>"; };
+		56148C4A1F26626D0041F201 /* GADFBNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNativeAd.m; sourceTree = "<group>"; };
+		56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNetworkExtras.m; sourceTree = "<group>"; };
+		56148C4C1F26626D0041F201 /* GADFBRewardedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBRewardedVideoAd.h; sourceTree = "<group>"; };
+		56148C4D1F26626D0041F201 /* GADFBRewardedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBRewardedVideoAd.m; sourceTree = "<group>"; };
+		56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFacebook.h; sourceTree = "<group>"; };
+		56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFacebook.m; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -71,20 +89,6 @@
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
-		7DC8680B1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBAdapterDelegate.h; sourceTree = "<group>"; };
-		7DC8680C1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBAdapterDelegate.m; sourceTree = "<group>"; };
-		7DC8680D1DDA8D4300F0F1C4 /* GADFBBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBBannerAd.h; sourceTree = "<group>"; };
-		7DC8680E1DDA8D4300F0F1C4 /* GADFBBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBBannerAd.m; sourceTree = "<group>"; };
-		7DC8680F1DDA8D4400F0F1C4 /* GADFBError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBError.h; sourceTree = "<group>"; };
-		7DC868101DDA8D4400F0F1C4 /* GADFBError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBError.m; sourceTree = "<group>"; };
-		7DC868111DDA8D4400F0F1C4 /* GADFBExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBExtraAssets.m; sourceTree = "<group>"; };
-		7DC868121DDA8D4400F0F1C4 /* GADFBInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBInterstitialAd.h; sourceTree = "<group>"; };
-		7DC868131DDA8D4400F0F1C4 /* GADFBInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBInterstitialAd.m; sourceTree = "<group>"; };
-		7DC868141DDA8D4400F0F1C4 /* GADFBNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBNativeAd.h; sourceTree = "<group>"; };
-		7DC868151DDA8D4400F0F1C4 /* GADFBNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNativeAd.m; sourceTree = "<group>"; };
-		7DC868161DDA8D4400F0F1C4 /* GADFBNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNetworkExtras.m; sourceTree = "<group>"; };
-		7DC868171DDA8D4400F0F1C4 /* GADMAdapterFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFacebook.h; sourceTree = "<group>"; };
-		7DC868181DDA8D4400F0F1C4 /* GADMAdapterFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFacebook.m; sourceTree = "<group>"; };
 		7DC8681C1DDA8D4400F0F1C4 /* FacebookAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAdapter.h; sourceTree = "<group>"; };
 		7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBExtraAssets.h; sourceTree = "<group>"; };
 		7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBNetworkExtras.h; sourceTree = "<group>"; };
@@ -104,6 +108,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		564846D51F1936C900D5B552 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,20 +128,22 @@
 		7DC8680A1DDA8D4300F0F1C4 /* FacebookAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				7DC8680B1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.h */,
-				7DC8680C1DDA8D4300F0F1C4 /* GADFBAdapterDelegate.m */,
-				7DC8680D1DDA8D4300F0F1C4 /* GADFBBannerAd.h */,
-				7DC8680E1DDA8D4300F0F1C4 /* GADFBBannerAd.m */,
-				7DC8680F1DDA8D4400F0F1C4 /* GADFBError.h */,
-				7DC868101DDA8D4400F0F1C4 /* GADFBError.m */,
-				7DC868111DDA8D4400F0F1C4 /* GADFBExtraAssets.m */,
-				7DC868121DDA8D4400F0F1C4 /* GADFBInterstitialAd.h */,
-				7DC868131DDA8D4400F0F1C4 /* GADFBInterstitialAd.m */,
-				7DC868141DDA8D4400F0F1C4 /* GADFBNativeAd.h */,
-				7DC868151DDA8D4400F0F1C4 /* GADFBNativeAd.m */,
-				7DC868161DDA8D4400F0F1C4 /* GADFBNetworkExtras.m */,
-				7DC868171DDA8D4400F0F1C4 /* GADMAdapterFacebook.h */,
-				7DC868181DDA8D4400F0F1C4 /* GADMAdapterFacebook.m */,
+				56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */,
+				56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */,
+				56148C421F26626D0041F201 /* GADFBBannerAd.h */,
+				56148C431F26626D0041F201 /* GADFBBannerAd.m */,
+				56148C441F26626D0041F201 /* GADFBError.h */,
+				56148C451F26626D0041F201 /* GADFBError.m */,
+				56148C461F26626D0041F201 /* GADFBExtraAssets.m */,
+				56148C471F26626D0041F201 /* GADFBInterstitialAd.h */,
+				56148C481F26626D0041F201 /* GADFBInterstitialAd.m */,
+				56148C491F26626D0041F201 /* GADFBNativeAd.h */,
+				56148C4A1F26626D0041F201 /* GADFBNativeAd.m */,
+				56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */,
+				56148C4C1F26626D0041F201 /* GADFBRewardedVideoAd.h */,
+				56148C4D1F26626D0041F201 /* GADFBRewardedVideoAd.m */,
+				56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */,
+				56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */,
 			);
 			path = FacebookAdapter;
 			sourceTree = "<group>";
@@ -174,6 +187,7 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
+				564846D51F1936C900D5B552 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -192,15 +206,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DC868271DDA8D4400F0F1C4 /* GADFBInterstitialAd.h in Headers */,
-				7DC868221DDA8D4400F0F1C4 /* GADFBBannerAd.h in Headers */,
+				56148C5C1F26626D0041F201 /* GADFBRewardedVideoAd.h in Headers */,
+				56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */,
+				56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */,
 				7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */,
-				7DC868241DDA8D4400F0F1C4 /* GADFBError.h in Headers */,
 				7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */,
-				7DC868201DDA8D4400F0F1C4 /* GADFBAdapterDelegate.h in Headers */,
-				7DC868291DDA8D4400F0F1C4 /* GADFBNativeAd.h in Headers */,
+				56148C541F26626D0041F201 /* GADFBError.h in Headers */,
+				56148C591F26626D0041F201 /* GADFBNativeAd.h in Headers */,
+				56148C5E1F26626D0041F201 /* GADMAdapterFacebook.h in Headers */,
+				56148C571F26626D0041F201 /* GADFBInterstitialAd.h in Headers */,
 				7DC8682E1DDA8D4400F0F1C4 /* FacebookAdapter.h in Headers */,
-				7DC8682C1DDA8D4400F0F1C4 /* GADMAdapterFacebook.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,7 +246,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -300,14 +315,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DC868281DDA8D4400F0F1C4 /* GADFBInterstitialAd.m in Sources */,
-				7DC868261DDA8D4400F0F1C4 /* GADFBExtraAssets.m in Sources */,
-				7DC868211DDA8D4400F0F1C4 /* GADFBAdapterDelegate.m in Sources */,
-				7DC868231DDA8D4400F0F1C4 /* GADFBBannerAd.m in Sources */,
-				7DC8682D1DDA8D4400F0F1C4 /* GADMAdapterFacebook.m in Sources */,
-				7DC8682A1DDA8D4400F0F1C4 /* GADFBNativeAd.m in Sources */,
-				7DC8682B1DDA8D4400F0F1C4 /* GADFBNetworkExtras.m in Sources */,
-				7DC868251DDA8D4400F0F1C4 /* GADFBError.m in Sources */,
+				56148C581F26626D0041F201 /* GADFBInterstitialAd.m in Sources */,
+				56148C561F26626D0041F201 /* GADFBExtraAssets.m in Sources */,
+				56148C511F26626D0041F201 /* GADFBAdapterDelegate.m in Sources */,
+				56148C531F26626D0041F201 /* GADFBBannerAd.m in Sources */,
+				56148C5A1F26626D0041F201 /* GADFBNativeAd.m in Sources */,
+				56148C5F1F26626D0041F201 /* GADMAdapterFacebook.m in Sources */,
+				56148C5B1F26626D0041F201 /* GADFBNetworkExtras.m in Sources */,
+				56148C551F26626D0041F201 /* GADFBError.m in Sources */,
+				56148C5D1F26626D0041F201 /* GADFBRewardedVideoAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,14 +333,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -336,14 +352,20 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -366,7 +388,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -378,14 +402,20 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -402,6 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -410,7 +441,7 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -418,7 +449,7 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -426,14 +457,14 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};

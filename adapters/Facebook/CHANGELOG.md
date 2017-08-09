@@ -1,5 +1,12 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.25.0.0
+- Updated the adapter's view tracking for native ads to register individual
+  asset views with the Facebook SDK rather than the entire ad view. This means
+  that background (or "whitespace") clicks on the native ad will no longer
+  result in clickthroughs.
+- Verified compatibility with FAN SDK v4.25.0.
+
 ## Version 4.24.0.0
 - Verified compatibility with FAN SDK 4.24.0.
 

@@ -14,14 +14,17 @@
 
 @class InMobiMediatedNativeAppInstallAd;
 
-@protocol InMobiMediatedNativeAppInstallAdDelegate <NSObject>
+@protocol InMobiMediatedNativeAppInstallAdDelegate<NSObject>
 - (void)inmobiMediatedNativeAppInstallAdSuccessful:(nullable InMobiMediatedNativeAppInstallAd *)ad;
 - (void)inmobiMediatedNativeAppInstallAdFailed;
 @end
 
 @interface InMobiMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
 
--(nullable instancetype)initWithInMobiNativeAppInstallAd:(nullable IMNative *)nativeInstallAd withAdapter:(nullable GADMAdapterInMobi*)adapter shouldDownloadImage:(BOOL)shouldDownloadImage withCache:(nullable NSCache*)imageCache;
+- (nullable instancetype)initWithInMobiNativeAppInstallAd:(nullable IMNative *)nativeInstallAd
+                                              withAdapter:(nullable GADMAdapterInMobi *)adapter
+                                      shouldDownloadImage:(BOOL)shouldDownloadImage
+                                                withCache:(nullable NSCache *)imageCache;
 
 @property(nonatomic, strong, nullable) GADMAdapterInMobi *adapter;
 @end
