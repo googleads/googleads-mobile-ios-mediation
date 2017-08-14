@@ -1,4 +1,7 @@
-# Vungle Adapter for Google Mobile Ads SDK for iOS
+# Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
+
+## VERSION 5.1.0.0
+- Compatibility with Vungle SDK 5.1.0
 
 
 ## Changelog

@@ -17,9 +17,12 @@
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
+@protocol GADMRewardBasedVideoAdNetworkConnector;
+@protocol GADMRewardBasedVideoAdNetworkAdapter;
 
 /// Delegate for listening to notifications from Facebook's Audience Network (FAN).
-@interface GADFBAdapterDelegate : NSObject<FBAdViewDelegate, FBInterstitialAdDelegate>
+@interface GADFBAdapterDelegate
+    : NSObject<FBAdViewDelegate, FBInterstitialAdDelegate, FBRewardedVideoAdDelegate>
 
 /// FAN banner views can have flexible width. Set this property to the desired banner view's size.
 /// Set to CGSizeZero if resizing is not desired.
@@ -28,6 +31,12 @@
 /// Initializes a new instance with |adapter| and |connector|.
 - (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
                       connector:(id<GADMAdNetworkConnector>)connector NS_DESIGNATED_INITIALIZER;
+
+/// Initializes a new instance for reward-based video ads with |adapter| and |connector|.
+- (instancetype)initWithRewardBasedVideoAdAdapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)adapter
+                      rewardBasedVideoAdconnector:
+                          (id<GADMRewardBasedVideoAdNetworkConnector>)connector
+    NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init __unavailable;

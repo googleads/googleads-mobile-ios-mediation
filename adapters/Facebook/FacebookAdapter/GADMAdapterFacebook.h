@@ -14,8 +14,9 @@
 
 @import GoogleMobileAds;
 
-/// Adapter for communicating with Facebook's Audience Network to fetch banner, interstitial, and
-/// native ads.
-@interface GADMAdapterFacebook : NSObject<GADMAdNetworkAdapter>
+/// Adapter for communicating with Facebook's Audience Network to fetch banner, interstitial,
+/// reward-based video, and native ads.
+@interface GADMAdapterFacebook
+    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
 
 @end

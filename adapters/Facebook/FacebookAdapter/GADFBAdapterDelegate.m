@@ -17,11 +17,14 @@
 @import GoogleMobileAds;
 
 @interface GADFBAdapterDelegate () {
-  /// Connector from Google AdMob SDK to receive ad configurations.
+  /// Connector from Google AdMob SDK which will receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
-
   /// Adapter for receiving notification of ad request.
   __weak id<GADMAdNetworkAdapter> _adapter;
+  /// Connector from Google Mobile Ads SDK which will receive reward-based video ad configurations.
+  __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
+  /// Adapter for receiving notification of reward-based video ad request.
+  __weak id<GADMRewardBasedVideoAdNetworkAdapter> _rewardBasedVideoAdAdapter;
 }
 @end
 
@@ -39,6 +42,17 @@
 
 - (instancetype)init {
   return nil;
+}
+/// Initializes a new instance for reward-based video ads with |adapter| and |connector|.
+- (instancetype)initWithRewardBasedVideoAdAdapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)adapter
+                      rewardBasedVideoAdconnector:
+                          (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+  self = [super init];
+  if (self) {
+    _rewardBasedVideoAdConnector = connector;
+    _rewardBasedVideoAdAdapter = adapter;
+  }
+  return self;
 }
 
 #pragma mark - FBAdViewDelegate
@@ -150,4 +164,45 @@
   }
 }
 
+#pragma mark - FBRewardedVideoAdDelegate
+
+- (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
+  [strongConnector adapterDidGetAdClick:strongAdapter];
+}
+
+- (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
+  [strongConnector adapterDidReceiveRewardBasedVideoAd:strongAdapter];
+}
+
+- (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
+  [strongConnector adapterDidCloseRewardBasedVideoAd:strongAdapter];
+}
+
+- (void)rewardedVideoAdWillClose:(FBRewardedVideoAd *)rewardedVideoAd {
+  // Google Mobile Ads SDK doesn't have a matching event, do nothing.
+}
+
+- (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
+  [strongConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
+}
+
+- (void)rewardedVideoAdComplete:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
+  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
+  [strongConnector adapter:strongAdapter
+      didRewardUserWithReward:[[GADAdReward alloc] initWithRewardType:@""
+                                                         rewardAmount:[NSDecimalNumber one]]];
+}
+
+- (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
+  // Google Mobile Ads SDK does its own impression tracking for reward-based video ads.
+}
 @end
