@@ -1,5 +1,9 @@
 #import "vungleHelper.h"
 
+static NSString *const kApplicationID = @"application_id";
+static NSString *const kPlacementID = @"placementID";
+static NSString *const placementsDelimiter = @",";
+
 @interface vungleHelper()
 @property (strong) NSMutableArray<id<VungleDelegate>> * delegates;
 @property (strong) id<VungleDelegate> playingDelegate;
@@ -36,7 +40,9 @@
         NSString *version = [[vungleHelper adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-        [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:) withObject:@"admob" withObject:version];
+        [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
+                                    withObject:@"admob"
+                                    withObject:version];
 #pragma clang diagnostic pop
     });
 	VungleSDK* sdk = [VungleSDK sharedSDK];
@@ -51,10 +57,60 @@
 	_isInitialising = true;
 	
 	NSError* err = nil;
+	_allPlacements = placements;
 	[sdk startWithAppId:appId placements:placements error:&err];
 	if (err) {
 		[self initialized:false error:err];
 	}
+}
+
++(void)parseServerParameters:(NSDictionary*)serverParameters networkExtras:(VungleAdNetworkExtras*)networkExtras result:(ParameterCB)result {
+	NSMutableArray* allPlacements = [NSMutableArray array];
+	if (networkExtras && networkExtras.allPlacements && [networkExtras.allPlacements count] > 0) {
+		[allPlacements addObjectsFromArray:networkExtras.allPlacements];
+	}
+	
+	if (!serverParameters || ![serverParameters objectForKey:kApplicationID]) {
+		NSLog(@"Vungle app ID should be specified!");
+		result(@{NSLocalizedDescriptionKey: @"Vungle app ID should be specified!"}, nil, nil);
+		return;
+	}
+	NSString* appId = [serverParameters objectForKey:kApplicationID];
+	if ([appId containsString:placementsDelimiter]){
+		NSMutableArray* parts = [[appId componentsSeparatedByString:placementsDelimiter] mutableCopy];
+		appId = [parts objectAtIndex:0];
+		[parts removeObjectAtIndex:0];
+		if (allPlacements.count > 0) {
+			NSLog(@"'allPlacements' had a value in both serverParameters and networkExtras. Used combined value");
+		}
+		for(NSString* placement in parts) {
+			if (placement.length > 0 && ![allPlacements containsObject:placement]) {
+				[allPlacements addObject:placement];
+			}
+		}
+	}
+	
+	if (allPlacements.count == 0) {
+		NSLog(@"At least one placement should be specified!");
+		result(@{NSLocalizedDescriptionKey: @"At least one placement should be specified!"}, nil, nil);
+		return;
+	}
+	result(nil, appId, allPlacements);
+}
+
++(NSString*)findPlacement:(NSDictionary*)serverParameters networkExtras:(VungleAdNetworkExtras*)networkExtras {
+	NSString* ret = nil;
+	if (serverParameters && [serverParameters objectForKey:kPlacementID]) {
+		ret = [serverParameters objectForKey:kPlacementID];
+	}
+	if (networkExtras && networkExtras.playingPlacement) {
+		if (ret)
+			NSLog(@"'placementID' had a value in both serverParameters and networkExtras. Used one from serverParameters");
+		else
+			ret = networkExtras.playingPlacement;
+	}
+
+	return ret;
 }
 
 -(void)addDelegate:(id<VungleDelegate>)delegate {
@@ -98,7 +154,10 @@
     [VungleSDK sharedSDK].muted = extras.muted;
 	if (extras.userId)
 		[options setObject:extras.userId forKey:VunglePlayAdOptionKeyUser];
-    if (![[VungleSDK sharedSDK] playAd:viewController options:options placementID:delegate.desiredPlacement error:&error]){
+    if (![[VungleSDK sharedSDK] playAd:viewController
+                               options:options
+                           placementID:delegate.desiredPlacement
+                                 error:&error]){
         startPlaying = false;
     }
     if (error) {

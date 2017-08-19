@@ -335,7 +335,7 @@ static NSString *const GADNativeAdIcon = @"2";
       horizontalFormat = [[NSString alloc] initWithFormat:@"H:[_adChoicesView(%f)]|", size.width];
       break;
     case GADAdChoicesPositionTopRightCorner:
-      // Fall through.
+    // Fall through.
     default:
       // Default placement of AdChoices icon is the top right corner.
       corner = UIRectCornerTopRight;
@@ -359,7 +359,46 @@ static NSString *const GADNativeAdIcon = @"2";
                                                                metrics:nil
                                                                  views:viewDictionary]];
 
-  [_nativeAd registerViewForInteraction:renderedView withViewController:viewController];
+  // Checking the view is instance of GADNativeAppInstallAdView and adding the assetsView of
+  // GADNativeAppInstallAdView instance to assets array.
+  NSMutableArray *assets = [[NSMutableArray alloc] init];
+  if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
+    GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
+    if (adView.headlineView != nil) {
+      [assets addObject:adView.headlineView];
+    }
+    if (adView.imageView != nil) {
+      [assets addObject:adView.imageView];
+    }
+    if (adView.iconView != nil) {
+      [assets addObject:adView.iconView];
+    }
+    if (adView.adChoicesView != nil) {
+      [assets addObject:adView.adChoicesView];
+    }
+    if (adView.bodyView != nil) {
+      [assets addObject:adView.bodyView];
+    }
+    if (adView.callToActionView != nil) {
+      [assets addObject:adView.callToActionView];
+    }
+    if (adView.priceView != nil) {
+      [assets addObject:adView.priceView];
+    }
+    if (adView.starRatingView != nil) {
+      [assets addObject:adView.starRatingView];
+    }
+    if (adView.storeView != nil) {
+      [assets addObject:adView.storeView];
+    }
+  } else {
+    NSLog(@"View is not the instance of GADNativeAppInstallAdView, Failed to register View for "
+          @"user interaction");
+  }
+
+  [_nativeAd registerViewForInteraction:view
+                     withViewController:viewController
+                     withClickableViews:assets];
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {

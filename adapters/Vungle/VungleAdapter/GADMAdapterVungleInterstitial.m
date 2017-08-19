@@ -2,8 +2,6 @@
 #import "GADMAdapterVungleInterstitial.h"
 #import "vungleHelper.h"
 
-static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"application_id";
-
 @interface GADMAdapterVungleInterstitial () <VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @end
@@ -27,7 +25,6 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 	return self;
 }
 
-
 - (void)dealloc {
 	[self stopBeingDelegate];
 }
@@ -45,19 +42,25 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 	[[vungleHelper sharedInstance] loadAd:desiredPlacement];
 }
 
-
 - (void)getInterstitial {
-	VungleAdNetworkExtras* extras = [_connector networkExtras];
-	desiredPlacement = extras.playingPlacement;
-	if (!extras || !extras.allPlacements || [extras.allPlacements count] == 0) {
-		NSLog(@"Placements should be specified!");
-		[_connector adapter:self didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleInterstitial" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Placements should be specified!"}]];
-		return;
-	}
-	waitingInit = YES;
-	NSDictionary *serverParameters = [_connector credentials];
-	NSString *applicationID = [serverParameters objectForKey:kGADMAdapterVungleInterstitialKeyApplicationID];
-	[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.allPlacements];
+	[vungleHelper parseServerParameters:[_connector credentials]
+                          networkExtras:[_connector networkExtras]
+                                 result:^void(NSDictionary* error, NSString* appId, NSArray* placements) {
+		if (error) {
+			[_connector adapter:self
+                      didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleInterstitial"
+                                                                   code:0
+                                                               userInfo:error]];
+			return;
+		}
+		desiredPlacement = [vungleHelper findPlacement:[_connector credentials] networkExtras:[_connector networkExtras]];
+		if (!desiredPlacement) {
+			desiredPlacement = [placements firstObject];
+			NSLog(@"'placementID' not specified. Used first from 'allPlacements': %@", desiredPlacement);
+		}
+		waitingInit = YES;
+		[[vungleHelper sharedInstance] initWithAppId:appId placements:placements];
+	}];
 }
 
 - (void)stopBeingDelegate {
@@ -70,13 +73,14 @@ static NSString *const kGADMAdapterVungleInterstitialKeyApplicationID = @"applic
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-	if (![[vungleHelper sharedInstance] playAd:rootViewController delegate:self extras:[_connector networkExtras]]) {
+	if (![[vungleHelper sharedInstance] playAd:rootViewController
+                                      delegate:self
+                                        extras:[_connector networkExtras]]) {
 		[_connector adapterDidDismissInterstitial:self];
 	}
 }
 
 #pragma mark - vungleHelper delegates
-
 
 @synthesize desiredPlacement;
 

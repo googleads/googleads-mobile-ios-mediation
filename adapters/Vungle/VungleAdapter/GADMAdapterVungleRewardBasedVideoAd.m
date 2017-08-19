@@ -3,8 +3,6 @@
 #import "vungleHelper.h"
 #import "VungleAdNetworkExtras.h"
 
-static NSString *const kGADMAdapterVungleRewardBasedVideoAdKeyApplicationID = @"application_id";
-
 @interface GADMAdapterVungleRewardBasedVideoAd () <VungleDelegate>
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
 @end
@@ -19,7 +17,8 @@ static NSString *const kGADMAdapterVungleRewardBasedVideoAdKeyApplicationID = @"
   return [VungleAdNetworkExtras class];
 }
 
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
+        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     self.connector = connector;
@@ -33,27 +32,35 @@ static NSString *const kGADMAdapterVungleRewardBasedVideoAdKeyApplicationID = @"
 }
 
 - (void)setUp {
-    NSDictionary *serverParameters = [_connector credentials];
-    NSString *applicationID = [serverParameters objectForKey:kGADMAdapterVungleRewardBasedVideoAdKeyApplicationID];
-	VungleAdNetworkExtras* extras = [_connector networkExtras];
-	if (!extras || !extras.allPlacements || [extras.allPlacements count] == 0) {
-		NSLog(@"Placements should be specified!");
-		[_connector adapter:self didFailToSetUpRewardBasedVideoAdWithError:[NSError errorWithDomain:@"GADMAdapterVungleRewardBasedVideoAd" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Placements should be specified!"}]];
-		return;
-	}
-	waitingInit = YES;
-	[[vungleHelper sharedInstance] initWithAppId:applicationID placements:extras.allPlacements];
+	[vungleHelper parseServerParameters:[_connector credentials]
+                          networkExtras:[_connector networkExtras]
+                                 result:^void(NSDictionary* error, NSString* appId, NSArray* placements) {
+		if (error) {
+			[_connector adapter:self didFailToSetUpRewardBasedVideoAdWithError:[NSError errorWithDomain:@"GADMAdapterVungleRewardBasedVideoAd"
+                                                                                                   code:0
+                                                                                               userInfo:error]];
+			return;
+		}
+		waitingInit = YES;
+		[[vungleHelper sharedInstance] initWithAppId:appId placements:placements];
+	}];
 }
 
 - (void)requestRewardBasedVideoAd {
-	desiredPlacement = ((VungleAdNetworkExtras *)[_connector networkExtras]).playingPlacement;
+	desiredPlacement = [vungleHelper findPlacement:[_connector credentials] networkExtras:[_connector networkExtras]];
+	if (!desiredPlacement) {
+		desiredPlacement = [[vungleHelper sharedInstance].allPlacements firstObject];
+		NSLog(@"'placementID' not specified. Used first one from 'allPlacements': %@", desiredPlacement);
+	}
 	[[vungleHelper sharedInstance] loadAd:desiredPlacement];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-	if (![[vungleHelper sharedInstance] playAd:viewController delegate:self extras:[_connector networkExtras]]) {
-		[_connector adapterDidCloseRewardBasedVideoAd:self];
-	}
+  if (![[vungleHelper sharedInstance] playAd:viewController
+                                    delegate:self
+                                      extras:[_connector networkExtras]]) {
+    [_connector adapterDidCloseRewardBasedVideoAd:self];
+  }
 }
 
 - (void)stopBeingDelegate {
@@ -91,7 +98,8 @@ static NSString *const kGADMAdapterVungleRewardBasedVideoAdKeyApplicationID = @"
 
 -(void)willCloseAd:(bool)completedView{
 	if (completedView){
-		GADAdReward* reward = [[GADAdReward alloc] initWithRewardType:@"vungle" rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
+		GADAdReward* reward = [[GADAdReward alloc] initWithRewardType:@"vungle"
+                                                         rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
 		[_connector adapter:self didRewardUserWithReward:reward];
 	}
 	[_connector adapterDidCloseRewardBasedVideoAd:self];

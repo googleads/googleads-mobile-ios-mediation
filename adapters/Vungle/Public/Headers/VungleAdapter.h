@@ -15,5 +15,4 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-// Import any public headers below.
-//#import <VungleAdapter/YOUR_PUBLIC_HEADER.h>
+#import <VungleAdapter/VungleAdNetworkExtras.h>
