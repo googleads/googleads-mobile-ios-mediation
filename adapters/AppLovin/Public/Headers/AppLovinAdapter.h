@@ -16,4 +16,4 @@
 #import <UIKit/UIKit.h>
 
 /// Import all your public header files here.
-//#import <AppLovinAdapter/YOUR_PUBLIC_HEADER.h>
+#import <AppLovinAdapter/GADMAdapterAppLovinExtras.h>
