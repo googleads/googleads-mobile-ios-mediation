@@ -48,12 +48,16 @@
     }
     else {
       NSURL *mainImageUrl =
-      [[NSURL alloc] initFileURLWithPath:[_nativeAdProperties objectForKey:kAdMainImageKey]];
+      [[NSURL alloc] URLWithString:[_nativeAdProperties objectForKey:kAdMainImageKey]];
+      if (mainImageUrl != nil) {
       _mappedImages =
       @[[[GADNativeAdImage alloc] initWithURL:mainImageUrl scale:defaultImageScale]];
+      }
       NSURL *logoImageURL =
-      [[NSURL alloc] initFileURLWithPath:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+      [[NSURL alloc] URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+      if (logoImageURL != nil) {
       _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
+      }
     }
   }
   return self;
