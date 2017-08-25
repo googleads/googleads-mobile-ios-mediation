@@ -1,8 +1,9 @@
 #import "vungleHelper.h"
 
+static NSString *const vungleAdapterVersion = @"5.1.0";
+
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
-static NSString *const placementsDelimiter = @",";
 
 @interface vungleHelper()
 @property (strong) NSMutableArray<id<VungleDelegate>> * delegates;
@@ -13,7 +14,7 @@ static NSString *const placementsDelimiter = @",";
 
 
 + (NSString *)adapterVersion {
-    return @"5.1.0";
+    return vungleAdapterVersion;
 }
 
 + (vungleHelper*) sharedInstance{
@@ -76,25 +77,13 @@ static NSString *const placementsDelimiter = @",";
 		return;
 	}
 	NSString* appId = [serverParameters objectForKey:kApplicationID];
-	if ([appId containsString:placementsDelimiter]){
-		NSMutableArray* parts = [[appId componentsSeparatedByString:placementsDelimiter] mutableCopy];
-		appId = [parts objectAtIndex:0];
-		[parts removeObjectAtIndex:0];
-		if (allPlacements.count > 0) {
-			NSLog(@"'allPlacements' had a value in both serverParameters and networkExtras. Used combined value");
-		}
-		for(NSString* placement in parts) {
-			if (placement.length > 0 && ![allPlacements containsObject:placement]) {
-				[allPlacements addObject:placement];
-			}
-		}
-	}
-	
+    
 	if (allPlacements.count == 0) {
 		NSLog(@"At least one placement should be specified!");
 		result(@{NSLocalizedDescriptionKey: @"At least one placement should be specified!"}, nil, nil);
 		return;
 	}
+    
 	result(nil, appId, allPlacements);
 }
 
@@ -104,10 +93,11 @@ static NSString *const placementsDelimiter = @",";
 		ret = [serverParameters objectForKey:kPlacementID];
 	}
 	if (networkExtras && networkExtras.playingPlacement) {
-		if (ret)
+        if (ret) {
 			NSLog(@"'placementID' had a value in both serverParameters and networkExtras. Used one from serverParameters");
-		else
+        } else {
 			ret = networkExtras.playingPlacement;
+        } 
 	}
 
 	return ret;
