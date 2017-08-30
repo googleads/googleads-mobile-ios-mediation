@@ -131,6 +131,8 @@
                                          userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adaptor requested to display a rewarded video before one was loaded"}];
         
         [_connector adapter: self didFailToSetUpRewardBasedVideoAdWithError: error];
+        [_connector adapterDidOpenRewardBasedVideoAd: self];
+        [_connector adapterDidCloseRewardBasedVideoAd: self];
     }
 }
 

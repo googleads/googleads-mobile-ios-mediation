@@ -120,6 +120,8 @@ static bool loggingEnabled = NO;
                                          userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adaptor requested to display an interstitial before one was loaded"}];
         
         [self.connector adapter: self didFailAd: error];
+        [self.connector adapterWillPresentInterstitial: self];
+        [self.connector adapterDidDismissInterstitial: self];
     }
 }
 
