@@ -34,6 +34,7 @@
 @end
 
 @implementation GADMAdapterAppLovinRewardBasedVideoAd
+static bool loggingEnabled = NO;
 
 #pragma mark - GADMRewardBasedVideoAdNetworkAdapter Protocol
 
@@ -125,12 +126,6 @@
     else
     {
         [self log: @"No ad available or attempted to show rewarded video before one was loaded"];
-        
-        NSError *error = [NSError errorWithDomain: kGADMAdapterAppLovinErrorDomain
-                                             code: [GADMAdapterAppLovinUtils toAdMobErrorCode: kALErrorCodeUnableToRenderAd]
-                                         userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adaptor requested to display a rewarded video before one was loaded"}];
-        
-        [_connector adapter: self didFailToSetUpRewardBasedVideoAdWithError: error];
         [_connector adapterDidOpenRewardBasedVideoAd: self];
         [_connector adapterDidCloseRewardBasedVideoAd: self];
     }
@@ -254,6 +249,9 @@
 
 - (void)log:(NSString *)format, ...
 {
+    if ( !loggingEnabled )
+        return;
+    
     va_list valist;
     va_start(valist, format);
     NSString *message = [[NSString alloc] initWithFormat: format arguments: valist];

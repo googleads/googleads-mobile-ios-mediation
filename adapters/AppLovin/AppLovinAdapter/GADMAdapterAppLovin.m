@@ -114,12 +114,6 @@ static bool loggingEnabled = NO;
     else
     {
         [self log: @"Failed to show an AppLovin interstitial before one was loaded"];
-        
-        NSError *error = [NSError errorWithDomain: kGADMAdapterAppLovinErrorDomain
-                                             code: kALErrorCodeUnableToRenderAd
-                                         userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adaptor requested to display an interstitial before one was loaded"}];
-        
-        [self.connector adapter: self didFailAd: error];
         [self.connector adapterWillPresentInterstitial: self];
         [self.connector adapterDidDismissInterstitial: self];
     }
