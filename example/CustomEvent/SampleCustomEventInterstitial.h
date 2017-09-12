@@ -19,6 +19,7 @@
 
 @import Foundation;
 @import GoogleMobileAds;
+@import SampleAdSDK;
 
 @interface SampleCustomEventInterstitial : NSObject<GADCustomEventInterstitial>
 @end

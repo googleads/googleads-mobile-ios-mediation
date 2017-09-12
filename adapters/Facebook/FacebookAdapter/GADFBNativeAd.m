@@ -66,6 +66,9 @@ static NSString *const GADNativeAdIcon = @"2";
 
   /// YES if an impression has been logged.
   BOOL _impressionLogged;
+
+  /// Facebook media view.
+  FBMediaView *_mediaView;
 }
 
 @end
@@ -134,13 +137,15 @@ static NSString *const GADNativeAdIcon = @"2";
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
-
+  _mediaView = [[FBMediaView alloc] initWithNativeAd:_nativeAd];
+  _mediaView.delegate = self;
   _nativeAd.delegate = self;
   [_nativeAd loadAd];
 }
 
 - (void)stopBeingDelegate {
   _nativeAd.delegate = nil;
+  _mediaView.delegate = nil;
 }
 
 - (void)loadNativeAdImages {
@@ -293,6 +298,18 @@ static NSString *const GADNativeAdIcon = @"2";
   return nil;
 }
 
+/// Media view.
+- (UIView *GAD_NULLABLE_TYPE)mediaView {
+  return _mediaView;
+}
+
+/// Returns YES if the ad has video content.
+/// Because the FAN SDK doesn't offer a way to determine whether a native ad contains a
+/// video asset or not, the adapter always returns a MediaView and claims to have video content.
+- (BOOL)hasVideoContent {
+  return YES;
+}
+
 #pragma mark - GADMediatedNativeAdDelegate
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
@@ -391,6 +408,9 @@ static NSString *const GADNativeAdIcon = @"2";
     if (adView.storeView != nil) {
       [assets addObject:adView.storeView];
     }
+    if (adView.mediaView != nil) {
+      [assets addObject:adView.mediaView];
+    }
   } else {
     NSLog(@"View is not the instance of GADNativeAppInstallAdView, Failed to register View for "
           @"user interaction");
@@ -435,6 +455,20 @@ static NSString *const GADNativeAdIcon = @"2";
 
 - (void)nativeAdDidFinishHandlingClick:(FBNativeAd *)nativeAd {
   // Do nothing.
+}
+
+#pragma mark - FBMediaViewDelegate
+
+- (void)mediaViewVideoDidComplete:(FBMediaView *)mediaView {
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
+}
+
+- (void)mediaViewVideoDidPlay:(FBMediaView *)mediaView {
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
+}
+
+- (void)mediaViewVideoDidPause:(FBMediaView *)mediaView {
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
 }
 
 @end

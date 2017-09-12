@@ -19,8 +19,6 @@
 
 #import "SampleCustomEventInterstitial.h"
 
-#import "../SDK/SampleInterstitial.h"
-
 /// Constant for Sample Ad Network custom event error domain.
 static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 

@@ -20,108 +20,82 @@
 #import "ViewController.h"
 
 @import GoogleMobileAds;
+@import SampleAdSDK;
 
-#import "../Adapter/SampleAdapterConstants.h"
-#import "../CustomEvent/SampleCustomEventConstants.h"
+#import "AdSourceConfig.h"
 #import "ExampleNativeAppInstallAdView.h"
 #import "ExampleNativeContentAdView.h"
-
-NSString *const kCustomEventBannerAdUnitID = @"ca-app-pub-3940256099942544/2493674513";
-NSString *const kCustomEventInterstitialAdUnitID = @"ca-app-pub-3940256099942544/3970407716";
-NSString *const kCustomEventNativeAdUnitID = @"ca-app-pub-3940256099942544/2099734914";
-NSString *const kAdapterBannerAdUnitID = @"ca-app-pub-3940256099942544/5855720519";
-NSString *const kAdapterInterstitialAdUnitID = @"ca-app-pub-3940256099942544/8809186917";
-NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/2239335711";
 
 @interface ViewController () <GADInterstitialDelegate, GADNativeAppInstallAdLoaderDelegate,
                               GADNativeContentAdLoaderDelegate>
 
-@property(nonatomic, weak) IBOutlet GADBannerView *adapterBanner;
-@property(nonatomic, weak) IBOutlet GADBannerView *customEventBanner;
+@property (nonatomic, strong) AdSourceConfig *config;
 
-@property(nonatomic, weak) IBOutlet UIButton *adapterInterstitialButton;
-@property(nonatomic, weak) IBOutlet UIButton *customEventInterstitialButton;
+@property(nonatomic, weak) IBOutlet GADBannerView *bannerAdView;
 
-@property(nonatomic, weak) IBOutlet UIView *adapterNativeAdPlaceholder;
-@property(nonatomic, weak) IBOutlet UIView *customEventNativeAdPlaceholder;
+@property(nonatomic, weak) IBOutlet UIButton *interstitialButton;
 
-@property(nonatomic, strong) GADInterstitial *adapterInterstitial;
-@property(nonatomic, strong) GADInterstitial *customEventInterstitial;
+@property(nonatomic, weak) IBOutlet UIView *nativeAdPlaceholder;
 
-@property(nonatomic, strong) UIView *adapterNativeAdView;
-@property(nonatomic, strong) UIView *customEventNativeAdView;
+@property(nonatomic, strong) GADInterstitial *interstitial;
 
 /// You must keep a strong reference to the GADAdLoader during the ad loading process.
-@property(nonatomic, strong) GADAdLoader *adapterAdLoader;
-@property(nonatomic, strong) GADAdLoader *customEventAdLoader;
+@property(nonatomic, strong) GADAdLoader *adLoader;
 
-/// Shows the most recently loaded custom event interstitial in response to a button tap.
-- (IBAction)showCustomEventInterstitial:(UIButton *)sender;
-
-/// Shows the most recently loaded adapter interstitial in response to a button tap.
-- (IBAction)showAdapterInterstitial:(UIButton *)sender;
+/// Shows the most recently loaded interstitial in response to a button tap.
+- (IBAction)showInterstitial:(UIButton *)sender;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
++ (instancetype)controllerWithAdSourceConfig:(AdSourceConfig *)adSourceConfig {
+  ViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
+                                                          bundle:nil]
+                                instantiateViewControllerWithIdentifier:@"ViewController"];
+  controller.config = adSourceConfig;
+  return controller;
+}
 
-  self.customEventBanner.adUnitID = kCustomEventBannerAdUnitID;
-  self.customEventBanner.rootViewController = self;
-  [self.customEventBanner loadRequest:[GADRequest request]];
-
-  self.adapterBanner.adUnitID = kAdapterBannerAdUnitID;
-  self.adapterBanner.rootViewController = self;
-  [self.adapterBanner loadRequest:[GADRequest request]];
-
-  [self requestCustomEventInterstitial];
-  [self requestAdapterInterstitial];
-
+- (IBAction)refreshNativeAd:(id)sender {
   GADNativeAdViewAdOptions *adViewOptions = [[GADNativeAdViewAdOptions alloc] init];
   adViewOptions.preferredAdChoicesPosition = GADAdChoicesPositionBottomRightCorner;
 
-  self.customEventAdLoader = [[GADAdLoader alloc]
-        initWithAdUnitID:kCustomEventNativeAdUnitID
-      rootViewController:self
-                 adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall, kGADAdLoaderAdTypeNativeContent ]
-                 options:@[ adViewOptions ]];
-  self.customEventAdLoader.delegate = self;
-  [self.customEventAdLoader loadRequest:[GADRequest request]];
-
-  self.adapterAdLoader = [[GADAdLoader alloc]
-        initWithAdUnitID:kAdapterNativeAdUnitID
-      rootViewController:self
-                 adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall, kGADAdLoaderAdTypeNativeContent ]
-                 options:@[ adViewOptions ]];
-  self.adapterAdLoader.delegate = self;
-  [self.adapterAdLoader loadRequest:[GADRequest request]];
+  self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:self.config.nativeAdUnitID
+                                     rootViewController:self
+                                                adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall,
+                                                           kGADAdLoaderAdTypeNativeContent]
+                                                options:@[ adViewOptions ]];
+  self.adLoader.delegate = self;
+  [self.adLoader loadRequest:[GADRequest request]];
 }
 
-- (void)requestCustomEventInterstitial {
-  self.customEventInterstitial =
-      [[GADInterstitial alloc] initWithAdUnitID:kCustomEventInterstitialAdUnitID];
-  self.customEventInterstitial.delegate = self;
-  [self.customEventInterstitial loadRequest:[GADRequest request]];
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.title = self.config.title;
+
+  self.bannerAdView.adUnitID = self.config.bannerAdUnitID;
+  self.bannerAdView.rootViewController = self;
+  [self.bannerAdView loadRequest:[GADRequest request]];
+
+  [self requestInterstitial];
+
+  [self refreshNativeAd:nil];
 }
 
-- (void)requestAdapterInterstitial {
-  self.adapterInterstitial =
-      [[GADInterstitial alloc] initWithAdUnitID:kAdapterInterstitialAdUnitID];
-  self.adapterInterstitial.delegate = self;
-  [self.adapterInterstitial loadRequest:[GADRequest request]];
+- (void)requestInterstitial {
+  self.interstitial =
+      [[GADInterstitial alloc] initWithAdUnitID:self.config.interstitialAdUnitID];
+  self.interstitial.delegate = self;
+  [self.interstitial loadRequest:[GADRequest request]];
 }
 
-- (IBAction)showCustomEventInterstitial:(UIButton *)sender {
-  if (self.customEventInterstitial.isReady) {
-    [self.customEventInterstitial presentFromRootViewController:self];
-  }
-}
 
-- (IBAction)showAdapterInterstitial:(UIButton *)sender {
-  if (self.adapterInterstitial.isReady) {
-    [self.adapterInterstitial presentFromRootViewController:self];
+- (IBAction)showInterstitial:(UIButton *)sender {
+  if (self.interstitial.isReady) {
+    [self.interstitial presentFromRootViewController:self];
+  } else {
+    [self requestInterstitial];
   }
 }
 
@@ -155,20 +129,12 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
 
 - (void)interstitial:(GADInterstitial *)interstitial
     didFailToReceiveAdWithError:(GADRequestError *)error {
-  if (interstitial == self.customEventInterstitial) {
-    NSLog(@"Custom Event Interstitial failed to load with error code %@.",
-          error.localizedDescription);
-  } else if (interstitial == self.adapterInterstitial) {
-    NSLog(@"Adapter Interstitial failed to load with error code %@.", error.localizedDescription);
-  }
+  NSLog(@"Interstitial failed to load with error code %@.",
+        error.localizedDescription);
 }
 
 - (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
-  if (interstitial == self.customEventInterstitial) {
-    [self requestCustomEventInterstitial];
-  } else if (interstitial == self.adapterInterstitial) {
-    [self requestAdapterInterstitial];
-  }
+  [self requestInterstitial];
 }
 
 #pragma mark GADAdLoaderDelegate implementation
@@ -188,17 +154,8 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
       [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeAppInstallAdView" owner:nil options:nil];
   ExampleNativeAppInstallAdView *appInstallAdView = nibLoadResult.firstObject;
 
-  // The adapter and custom event have their own placeholders and keys for the extra field.
-  UIView *placeholder = nil;
-  NSString *awesomenessKey = nil;
-
-  if (adLoader == self.customEventAdLoader) {
-    placeholder = self.customEventNativeAdPlaceholder;
-    awesomenessKey = SampleCustomEventExtraKeyAwesomeness;
-  } else {
-    placeholder = self.adapterNativeAdPlaceholder;
-    awesomenessKey = SampleAdapterExtraKeyAwesomeness;
-  }
+  UIView *placeholder = self.nativeAdPlaceholder;;
+  NSString *awesomenessKey = self.config.awesomenessKey;
 
   [self replaceNativeAdView:appInstallAdView inPlaceholder:placeholder];
 
@@ -280,17 +237,8 @@ NSString *const kAdapterNativeAdUnitID = @"ca-app-pub-3940256099942544/223933571
       [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeContentAdView" owner:nil options:nil];
   ExampleNativeContentAdView *contentAdView = nibLoadResult.firstObject;
 
-  // The adapter and custom event have their own placeholders and keys for the extra field.
-  UIView *placeholder = nil;
-  NSString *awesomenessKey = nil;
-
-  if (adLoader == self.customEventAdLoader) {
-    placeholder = self.customEventNativeAdPlaceholder;
-    awesomenessKey = SampleCustomEventExtraKeyAwesomeness;
-  } else {
-    placeholder = self.adapterNativeAdPlaceholder;
-    awesomenessKey = SampleAdapterExtraKeyAwesomeness;
-  }
+  UIView *placeholder = self.nativeAdPlaceholder;;
+  NSString *awesomenessKey = self.config.awesomenessKey;
 
   [self replaceNativeAdView:contentAdView inPlaceholder:placeholder];
 

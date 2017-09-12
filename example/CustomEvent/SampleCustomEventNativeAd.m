@@ -17,10 +17,6 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
-
-#import "../SDK/SampleNativeAdLoader.h"
-#import "../SDK/SampleNativeAdRequest.h"
 #import "SampleCustomEventNativeAd.h"
 #import "SampleMediatedNativeAppInstallAd.h"
 #import "SampleMediatedNativeContentAd.h"
