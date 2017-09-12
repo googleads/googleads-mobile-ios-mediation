@@ -19,6 +19,9 @@
 /// Constant for adapter error domain.
 static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter";
 
+/// Internal to MoPub
+static NSString *const kAdapterTpValue =@"gmext";
+
 @interface GADMAdapterMoPub ()
 <MPNativeAdDelegate, MPAdViewDelegate, MPInterstitialAdControllerDelegate>
 
@@ -64,6 +67,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
   NSString *publisherID = [_connector credentials][@"pubid"];
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
+  _interstitialAd.keywords = [kAdapterTpValue stringByAppendingString: @"Additional Keywords passed by the pub"];
   [_interstitialAd loadAd];
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
 }
@@ -110,6 +114,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
   NSString *publisherID = [_connector credentials][@"pubid"];
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
+  _bannerAd.keywords =[kAdapterTpValue stringByAppendingString: @"Additional Keywords passed by the pub"];
   [_bannerAd loadAd];
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
 }
@@ -165,8 +170,10 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
   NSString *publisherID = [_connector credentials][@"pubid"];
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[config]];
+    
 
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
+  targeting.keywords = [kAdapterTpValue stringByAppendingString: @"Additional Keywords passed by the pub"];
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
                                                            longitude:_connector.userLongitude];
   targeting.location = currentlocation;
