@@ -47,13 +47,15 @@
       _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
     }
     else {
-      NSURL *mainImageUrl =
-      [[NSURL alloc] initFileURLWithPath:[_nativeAdProperties objectForKey:kAdMainImageKey]];
+      NSURL *mainImageUrl = [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdMainImageKey]];
+      if (mainImageUrl != nil) {
       _mappedImages =
       @[[[GADNativeAdImage alloc] initWithURL:mainImageUrl scale:defaultImageScale]];
-      NSURL *logoImageURL =
-      [[NSURL alloc] initFileURLWithPath:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+      }
+      NSURL *logoImageURL = [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+      if (logoImageURL != nil) {
       _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
+      }
     }
   }
   return self;
