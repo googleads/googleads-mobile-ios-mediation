@@ -75,9 +75,6 @@ typedef enum {
       [AdColony setAppOptions:options];
     }
 
-    [options setMediationNetwork:ADCAdMob];
-    [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
-
     if (self.initState == INIT_STATE_INITIALIZED) {
       if (callback) {
         callback();
