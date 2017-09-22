@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object Retrieval
 
-@property (nonatomic, assign, readonly) NSUInteger count;
-@property (nonatomic, assign, readonly, getter=isEmpty) BOOL empty;
+@property(nonatomic, assign, readonly) NSUInteger count;
+@property(nonatomic, assign, readonly, getter=isEmpty) BOOL empty;
 
-@property (nonatomic, strong, readonly, nullable) ObjectType firstObject;
-@property (nonatomic, strong, readonly, nullable) ObjectType lastObject;
+@property(nonatomic, strong, readonly, nullable) ObjectType firstObject;
+@property(nonatomic, strong, readonly, nullable) ObjectType lastObject;
 - (nullable ObjectType)objectAtIndex:(NSUInteger)index;
 
 @end
