@@ -22,7 +22,7 @@ import SampleAdSDK
 
 @objc public class SampleCustomEventConstantsSwift : NSObject {
 
-  public static let awesomenessKey: String = "DegreeOfAwesomeness"
+  @objc public static let awesomenessKey: String = "DegreeOfAwesomeness"
 
 }
 

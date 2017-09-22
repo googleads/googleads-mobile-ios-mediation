@@ -311,6 +311,7 @@
 				TargetAttributes = {
 					AE50D6701F3BC46B0007AF85 = {
 						CreatedOnToolsVersion = 8.3.3;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					AEABBAE71F606493003BB4D2 = {
@@ -506,7 +507,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -524,7 +526,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
