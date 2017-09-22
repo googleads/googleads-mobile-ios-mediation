@@ -1,5 +1,9 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.26.0.0
+- Added support for native video ads.
+- Verified compatibility with FAN SDK 4.26.0.
+
 ## Version 4.25.0.0
 - Updated the adapter's view tracking for native ads to register individual
   asset views with the Facebook SDK rather than the entire ad view. This means
