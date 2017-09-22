@@ -1,0 +1,12 @@
+framework module [AD_NETWORK_NAME]Adapter {
+  umbrella header "[AD_NETWORK_NAME]Adapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Import all your public header files here.
+  //header "YOUR_PUBLIC_HEADER.h"
+}
