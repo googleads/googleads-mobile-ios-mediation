@@ -112,34 +112,41 @@ typedef enum {
 }
 
 - (AdColonyAppOptions *)getAppOptionsFromRequest:(id<GADMediationAdRequest>)request {
+  BOOL foundOptions = FALSE;
   AdColonyAppOptions *options = [AdColonyAppOptions new];
   options.userMetadata = [AdColonyUserMetadata new];
 
   GADMAdapterAdColonyExtras *extras = request.networkExtras;
   if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
+    foundOptions = TRUE;
     options.userID = extras.userId;
-    options.testMode = extras.testMode;
   }
 
   GADGender gender = [request userGender];
   if (gender == kGADGenderMale) {
+    foundOptions = TRUE;
     options.userMetadata.userGender = ADCUserMale;
   } else if (gender == kGADGenderFemale) {
+    foundOptions = TRUE;
     options.userMetadata.userGender = ADCUserFemale;
   }
 
   NSDate *birthday = [request userBirthday];
   if (birthday) {
+    foundOptions = TRUE;
     options.userMetadata.userAge = [self getNumberOfYearsSinceDate:birthday];
   }
 
   if ([request userHasLocation]) {
+    foundOptions = TRUE;
     options.userMetadata.userLatitude = @([request userLatitude]);
     options.userMetadata.userLongitude = @([request userLongitude]);
   }
 
-  [options setMediationNetwork:ADCAdMob];
-  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
+  // Don't return an empty options/metadata object if nothing was found.
+  if (!foundOptions) {
+    options = nil;
+  }
 
   return options;
 }
@@ -173,9 +180,7 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-    NSString* version = @"3.2.1-";
-    version = [version stringByAppendingString:[AdColony getSDKVersion]];
-    return version;
+  return @"3.2.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {

@@ -113,6 +113,10 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
   return YES;
 }
 
+- (BOOL)handlesUserImpressions {
+  return NO;
+}
+
 #pragma mark SampleNativeAdLoaderDelegate implementation
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader

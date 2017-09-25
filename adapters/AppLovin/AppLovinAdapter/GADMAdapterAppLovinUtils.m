@@ -19,54 +19,40 @@
 
 @implementation GADMAdapterAppLovinUtils
 
-+ (ALSdk *)sdkForCredentials:(NSDictionary *)credentials
-{
-    NSString *sdkKey = [[credentials objectForKey: kGADMAdapterAppLovinSdkKey] copy];
-    
-    // if no sdk key pulled from the dashboard, grab the key from the .plist
-    if ( sdkKey == nil || [sdkKey isEqualToString: @""] )
-    {
-        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        sdkKey = [info objectForKey: @"AppLovinSdkKey"];
-    }
-    
-    ALSdk *sdk = [ALSdk sharedWithKey: sdkKey];
-    
-    if ( sdk )
-    {
-        [sdk setPluginVersion: kGADMAdapterAppLovinVersion];
-    }
-    
-    return sdk;
++ (ALSdk *)sdkForCredentials:(NSDictionary *)credentials {
+  NSString *sdkKey = [[credentials objectForKey:kGADMAdapterAppLovinSdkKey] copy];
+
+  // if no sdk key pulled from the dashboard, grab the key from the .plist
+  if (sdkKey == nil || [sdkKey isEqualToString:@""]) {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    sdkKey = [info objectForKey:@"AppLovinSdkKey"];
+  }
+
+  ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
+
+  if (sdk) {
+    [sdk setPluginVersion:kGADMAdapterAppLovinVersion];
+  }
+
+  return sdk;
 }
 
-+ (NSString *)placementFromCredentials:(NSDictionary *)credentials
-{
-    return [[credentials objectForKey: kGADMAdapterAppLovinPlacement] copy];
++ (NSString *)placementFromCredentials:(NSDictionary *)credentials {
+  return [[credentials objectForKey:kGADMAdapterAppLovinPlacement] copy];
 }
 
-+ (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode
-{
-    if ( appLovinErrorCode == kALErrorCodeNoFill )
-    {
-        return kGADErrorMediationNoFill;
-    }
-    else if ( appLovinErrorCode == kALErrorCodeAdRequestNetworkTimeout )
-    {
-        return kGADErrorTimeout;
-    }
-    else if ( appLovinErrorCode == kALErrorCodeInvalidResponse )
-    {
-        return kGADErrorReceivedInvalidResponse;
-    }
-    else if ( appLovinErrorCode == kALErrorCodeUnableToRenderAd )
-    {
-        return kGADErrorServerError;
-    }
-    else
-    {
-        return kGADErrorInternalError;
-    }
++ (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode {
+  if (appLovinErrorCode == kALErrorCodeNoFill) {
+    return kGADErrorMediationNoFill;
+  } else if (appLovinErrorCode == kALErrorCodeAdRequestNetworkTimeout) {
+    return kGADErrorTimeout;
+  } else if (appLovinErrorCode == kALErrorCodeInvalidResponse) {
+    return kGADErrorReceivedInvalidResponse;
+  } else if (appLovinErrorCode == kALErrorCodeUnableToRenderAd) {
+    return kGADErrorServerError;
+  } else {
+    return kGADErrorInternalError;
+  }
 }
 
 @end
