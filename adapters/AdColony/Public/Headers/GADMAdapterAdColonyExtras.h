@@ -17,4 +17,7 @@
 /// Enables reward dialogs to be shown after an advertisement.
 @property BOOL showPostPopup;
 
+/// Enables test ads for your application without changing dashboard settings.
+@property BOOL testMode;
+
 @end

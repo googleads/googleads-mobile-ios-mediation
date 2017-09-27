@@ -2,11 +2,13 @@
 
 ## Version 3.2.1.0
 - Verified compatibility with AdColony SDK 3.2.1.
+- Added testMode
+- Added mediation network metadata
 
 ## Version 3.2.0.0
 - Verified compatibility with AdColony SDK 3.2.0.
 
-## 3.1.1.1
+## Version 3.1.1.1
 - Removed support for the `armv7s` architecture.
 - Fixed an issue that caused the adapter to incorrectly invoke the rewarded
   callback when used with recent versions of the AdColony SDK.
