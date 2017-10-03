@@ -39,7 +39,7 @@
   self.adapter = adapter;
   // self.connector = connector;
   self.native = nativeAd;
-  NSData *data = [self.native.adContent dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [self.native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
 
   if (data) {
@@ -64,22 +64,38 @@
       NSURL *imageURL = [NSURL URLWithString:imageStringURL];
       NSString *iconStringURL = [iconDictionary objectForKey:URL];
       NSURL *iconURL = [NSURL URLWithString:iconStringURL];
-
-      if (!shouldDownloadImage) {
-        SEL inmobiMediatedNativeAppInstallAdSuccessful =
-            @selector(inmobiMediatedNativeAppInstallAdSuccessful:);
-        self.mappedImages = @[
-          [[GADNativeAdImage alloc]
-              initWithURL:imageURL
-                    scale:[[imageDictionary objectForKey:ASPECT_RATIO] floatValue]]
-        ];
-        self.mappedIcon = [[GADNativeAdImage alloc]
-            initWithURL:iconURL
-                  scale:[[iconDictionary objectForKey:ASPECT_RATIO] floatValue]];
-        if ([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]) {
-          [self inmobiMediatedNativeAppInstallAdSuccessful:self];
-        }
-      } else {
+        CGFloat imageScale;
+        CGFloat iconScale;
+        if(!shouldDownloadImage){
+            SEL inmobiMediatedNativeAppInstallAdSuccessful = @selector(inmobiMediatedNativeAppInstallAdSuccessful:);
+            if([imageDictionary objectForKey:ASPECT_RATIO]){
+                imageScale = [[imageDictionary objectForKey:ASPECT_RATIO] floatValue];
+            }
+            else{
+                CGFloat width = [[imageDictionary objectForKey:WIDTH] floatValue];
+                CGFloat height = [[imageDictionary objectForKey:HEIGHT] floatValue];
+                if(width > 0 && height > 0){
+                    imageScale = width / height;
+                }
+            }
+            self.mappedImages = @[ [[GADNativeAdImage alloc] initWithURL:imageURL scale:imageScale]];
+            
+            if([iconDictionary objectForKey:ASPECT_RATIO]){
+                iconScale = [[iconDictionary objectForKey:ASPECT_RATIO] floatValue];
+            }
+            else{
+                CGFloat width = [[iconDictionary objectForKey:WIDTH] floatValue];
+                CGFloat height = [[iconDictionary objectForKey:HEIGHT] floatValue];
+                if(width > 0 && height > 0){
+                    iconScale = width / height;
+                }
+            }
+            
+            self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:iconScale];
+            if([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]){
+                [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+            }
+        } else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
           UIImage *img, *icon;
           [imageStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -130,50 +146,70 @@
 }
 
 - (NSString *)headline {
-  return [self.nativeAdContentDictionary objectForKey:TITLE];
+    if( [self.native.adTitle length]){
+        return self.native.adTitle;
+    }
+    [self inmobiMediatedNativeAppInstallAdFailed];
+    return @"";
 }
 
 - (NSArray *)images {
-  return self.mappedImages;
+    if(self.mappedImages)
+        return self.mappedImages;
+    [self inmobiMediatedNativeAppInstallAdFailed];
+    return nil;
 }
 
 - (NSString *)body {
-  return [self.nativeAdContentDictionary objectForKey:DESCRIPTION];
+    if([self.native.adDescription length]){
+        return self.native.adDescription;
+    }
+    [self inmobiMediatedNativeAppInstallAdFailed];
+    return @"";
 }
 
 - (GADNativeAdImage *)icon {
-  return self.mappedIcon;
+    if(self.mappedIcon)
+        return self.mappedIcon;
+    [self inmobiMediatedNativeAppInstallAdFailed];
+    return nil;
 }
 
 - (NSString *)callToAction {
-  return [self.nativeAdContentDictionary objectForKey:CTA];
+    if([self.native.adCtaText length]){
+        return self.native.adCtaText;
+    }
+    [self inmobiMediatedNativeAppInstallAdFailed];
+    return @"";
 }
 
 - (NSDecimalNumber *)starRating {
-  return (NSDecimalNumber *)[self.nativeAdContentDictionary objectForKey:RATING];
+    if(self.native){
+        return (NSDecimalNumber*)self.native.adRating;
+    }
+    return 0;
 }
 
 - (NSString *)store {
-  NSString *landingURL = [self.nativeAdContentDictionary objectForKey:LANDING_URL];
-  if (landingURL) {
-    NSRange searchedRange = NSMakeRange(0, [landingURL length]);
-    NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
-                                                  options:0
-                                                    error:&error];
-    NSUInteger numberOfMatches =
-        [regex numberOfMatchesInString:landingURL options:0 range:searchedRange];
-    if (numberOfMatches == 0)
-      return @"Others";
-    else
-      return @"Itunes";
-  }
-  return @"";
+    NSString *landingURL = (NSString*)(self.native.adLandingPageUrl.absoluteString);
+    if(landingURL){
+        NSRange   searchedRange = NSMakeRange(0, [landingURL length]);
+        NSError  *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*" options:0 error:&error];
+        NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL options:0 range: searchedRange];
+        if(numberOfMatches == 0)
+            return @"Others";
+        else
+            return @"Itunes";
+    }
+    return @"";
 }
 
 - (NSString *)price {
-  return [self.nativeAdContentDictionary objectForKey:PRICE];
+    if([[self.nativeAdContentDictionary objectForKey:PRICE] length]){
+        return [self.nativeAdContentDictionary objectForKey:PRICE];
+    }
+    return @"";
 }
 
 - (NSDictionary *)extraAssets {
@@ -189,22 +225,41 @@
                              view:(UIView *)view
                    viewController:(UIViewController *)viewController {
   if (self.native) {
-    [self.native reportAdClickAndOpenLandingURL:nil];
+    [self.native reportAdClickAndOpenLandingPage];
   }
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
           viewController:(UIViewController *)viewController {
-  if (self.native) {
-    [IMNative bindNative:self.native toView:view];
-  }
+    if([self.nativeAdContentDictionary objectForKey:IMPRESSION_TRACKERS]){
+        NSArray* impressionURLs = [self.nativeAdContentDictionary objectForKey:IMPRESSION_TRACKERS];
+        NSMutableURLRequest* request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            for(int i=0; i < [impressionURLs count]; i++){
+                NSString *url = [impressionURLs objectAtIndex:i];
+                NSDate *currentDate = [[NSDate alloc] init];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy.MM.dd.HH.mm.ss.SS"];
+                
+                NSString *timeStamp = [dateFormatter stringFromDate:currentDate];
+                url =[ url stringByReplacingOccurrencesOfString:@"\\/" withString:@"/" ];
+                url =[ url stringByReplacingOccurrencesOfString:@"$TS" withString:timeStamp ];
+                [request setURL:[NSURL URLWithString:url]];
+                NSError *error = nil;
+                NSHTTPURLResponse *responseCode = nil;
+                NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+                for(int j=0; j < 3 && [responseCode statusCode]!=200; j++){
+                    NSLog(@"Impression beacon failed");
+                    oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+                }
+            }
+        });
+    }
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-  if (self.native) {
-    [IMNative unBindView:view];
-  }
 }
 
 - (void)inmobiMediatedNativeAppInstallAdFailed {
