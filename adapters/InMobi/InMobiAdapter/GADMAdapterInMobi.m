@@ -85,7 +85,12 @@ __attribute__((constructor)) static void initialize_imageCache() {
              [self.rewardedConnector userGender] == kGADGenderFemale) {
     [IMSdk setGender:kIMSDKGenderFemale];
   }
-
+    
+  if([self.connector userBirthday] != nil){
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth NSCalendarUnitYear fromDate:[self.connector userBirthday]];
+    [IMSdk setYearOfBirth:[components year]];
+  }
+    
   if (self.rewardedConnector) {
     extraInfo = [self.rewardedConnector networkExtras];
   } else if (self.connector) {
