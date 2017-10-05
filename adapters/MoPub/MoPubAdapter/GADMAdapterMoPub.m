@@ -236,7 +236,8 @@ static NSString *const kAdapterTpValue =@"gmext";
         && [[_nativeAd.properties objectForKey:key] isKindOfClass:[NSString class]]) {
       if ([_nativeAd.properties objectForKey:key]) {
         NSURL *URL = [NSURL URLWithString:_nativeAd.properties[key]];
-        [imageURLs addObject:URL];
+          if (URL != nil) {
+              [imageURLs addObject:URL];
       }
       else {
         NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
