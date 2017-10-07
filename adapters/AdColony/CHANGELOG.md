@@ -1,9 +1,11 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 3.2.1.1
+- Added `testMode` to extras. Publishers can use this property to mark AdColony
+  requests as test requests.
+
 ## Version 3.2.1.0
 - Verified compatibility with AdColony SDK 3.2.1.
-- Added testMode
-- Added mediation network metadata
 
 ## Version 3.2.0.0
 - Verified compatibility with AdColony SDK 3.2.0.
