@@ -6,8 +6,8 @@ MoPub adapter, simply add `pod 'GoogleMobileAdsMediationMoPub'` to
 your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
-- Xcode 6.0 or higher
-- Deployment target of 7.0 or higher
+- Xcode 8.0 or higher
+- Deployment target of 8.0 or higher
 - Google Mobile Ads SDK
 - MoPub SDK
 - MoPub Adapter Source Code
