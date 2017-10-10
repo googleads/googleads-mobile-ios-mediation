@@ -33,6 +33,19 @@
 
 /* Begin PBXBuildFile section */
 		7D233F411DC407F400762177 /* MyTargetAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D233F401DC407F400762177 /* MyTargetAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89D573211F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89D573221F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */; };
+		89DF93EE1F7D17A00027A171 /* GADMAdapterMyTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */; };
+		89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */; };
+		89DF93F01F7D17A00027A171 /* GADMAdapterMyTargetUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */; };
+		89DF93F11F7D17A00027A171 /* GADMAdapterMyTargetConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */; };
+		89DF93F21F7D17A00027A171 /* GADMAdapterMyTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */; };
+		89DF94401F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */; };
+		89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */; };
+		89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */; };
+		89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */; };
+		89DF94481F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */; };
+		89DF94491F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +73,19 @@
 		7D9552BB1DC02128005DCE8D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetExtras.h; sourceTree = "<group>"; };
+		89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetExtras.m; sourceTree = "<group>"; };
+		89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTarget.h; sourceTree = "<group>"; };
+		89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetUtils.m; sourceTree = "<group>"; };
+		89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetUtils.h; sourceTree = "<group>"; };
+		89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetConstants.h; sourceTree = "<group>"; };
+		89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTarget.m; sourceTree = "<group>"; };
+		89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetRewarded.h; sourceTree = "<group>"; };
+		89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetRewarded.m; sourceTree = "<group>"; };
+		89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetNative.h; sourceTree = "<group>"; };
+		89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetNative.m; sourceTree = "<group>"; };
+		89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetMediatedNativeAd.h; sourceTree = "<group>"; };
+		89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetMediatedNativeAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				7D233F401DC407F400762177 /* MyTargetAdapter.h */,
+				89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -84,6 +111,18 @@
 		351317FC1F7482300000179F /* MyTargetAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */,
+				89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */,
+				89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */,
+				89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */,
+				89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */,
+				89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */,
+				89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */,
+				89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */,
+				89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */,
+				89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */,
+				89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */,
+				89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */,
 				351317FE1F7483BD0000179F /* README.md */,
 			);
 			path = MyTargetAdapter;
@@ -146,7 +185,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89DF93F11F7D17A00027A171 /* GADMAdapterMyTargetConstants.h in Headers */,
+				89DF93EE1F7D17A00027A171 /* GADMAdapterMyTarget.h in Headers */,
+				89DF94401F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h in Headers */,
+				89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */,
+				89DF94481F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h in Headers */,
+				89DF93F01F7D17A00027A171 /* GADMAdapterMyTargetUtils.h in Headers */,
 				7D233F411DC407F400762177 /* MyTargetAdapter.h in Headers */,
+				89D573211F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,8 +223,8 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = Google;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "Mail.Ru Group";
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -246,6 +292,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */,
+				89DF94491F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m in Sources */,
+				89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */,
+				89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */,
+				89D573221F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m in Sources */,
+				89DF93F21F7D17A00027A171 /* GADMAdapterMyTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,14 +324,20 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -302,7 +360,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -314,14 +374,20 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -338,6 +404,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};

@@ -16,4 +16,4 @@
 #import <UIKit/UIKit.h>
 
 /// Import all your public header files here.
-//#import <[AD_NETWORK_NAME]Adapter/YOUR_PUBLIC_HEADER.h>
+#import <MyTargetAdapter/GADMAdapterMyTargetExtras.h>

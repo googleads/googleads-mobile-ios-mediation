@@ -1,0 +1,186 @@
+//
+//  GADMAdapterMyTargetRewarded.m
+//  MyTargetAdapter
+//
+//  Created by Andrey Seredkin on 29.09.17.
+//  Copyright © 2017 Mail.Ru Group. All rights reserved.
+//
+
+@import MyTargetSDK;
+
+#import "GADMAdapterMyTargetRewarded.h"
+#import "GADMAdapterMyTargetConstants.h"
+#import "GADMAdapterMyTargetUtils.h"
+#import "GADMAdapterMyTargetExtras.h"
+
+#define guard(CONDITION) if (CONDITION) {}
+
+@interface GADMAdapterMyTargetRewarded () <MTRGInterstitialAdDelegate>
+
+@end
+
+@implementation GADMAdapterMyTargetRewarded
+{
+	__weak id<GADMRewardBasedVideoAdNetworkConnector> _connector;
+	MTRGInterstitialAd *_interstitialAd;
+	BOOL _isInterstitialAllowed;
+	BOOL _isInterstitialStarted;
+}
+
++ (NSString *)adapterVersion
+{
+	return kGADMAdapterMyTargetVersion;
+}
+
++ (Class<GADAdNetworkExtras>)networkExtrasClass
+{
+	return [GADMAdapterMyTargetExtras class];
+}
+
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)connector
+{
+	self = [super init];
+	if (self)
+	{
+		id<GADAdNetworkExtras> networkExtras = connector.networkExtras;
+		if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]])
+		{
+			GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
+			[GADMAdapterMyTargetLogger setEnabled:extras.isDebugMode];
+		}
+
+		[self logDebug:NSStringFromSelector(_cmd)];
+		[self logDebug:[NSString stringWithFormat:@"Credentials: %@", connector.credentials]];
+		_connector = connector;
+		_isInterstitialAllowed = NO;
+		_isInterstitialStarted = NO;
+	}
+	return self;
+}
+
+- (void)setUp
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+
+	NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
+	guard(slotId > 0) else
+	{
+		[self logError:kGADMAdapterMyTargetErrorSlotId];
+		[strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId]];
+		return;
+	}
+
+	_isInterstitialAllowed = NO;
+	_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
+	_interstitialAd.delegate = self;
+	[GADMAdapterMyTargetUtils fillCustomParams:_interstitialAd.customParams withConnector:strongConnector];
+	[_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob forKey:kMTRGCustomParamsMediationKey];
+	[strongConnector adapterDidSetUpRewardBasedVideoAd:self];
+}
+
+- (void)requestRewardBasedVideoAd
+{
+	[self logDebug:NSStringFromSelector(_cmd)];
+	[_interstitialAd load];
+}
+
+- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController
+{
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(_isInterstitialAllowed && _interstitialAd) else return;
+	[_interstitialAd showWithController:viewController];
+	_isInterstitialStarted = YES;
+}
+
+- (void)stopBeingDelegate
+{
+	[self logDebug:NSStringFromSelector(_cmd)];
+	_connector = nil;
+	if (_interstitialAd)
+	{
+		_interstitialAd.delegate = nil;
+		_interstitialAd = nil;
+	}
+}
+
+#pragma mark - MTRGInterstitialAdDelegate
+
+- (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	_isInterstitialAllowed = YES;
+	[strongConnector adapterDidReceiveRewardBasedVideoAd:self];
+}
+
+- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
+	[self logError:description];
+	guard(strongConnector) else return;
+	NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
+	[strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
+}
+
+- (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	[strongConnector adapterDidGetAdClick:self];
+}
+
+- (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	[strongConnector adapterDidCloseRewardBasedVideoAd:self];
+}
+
+- (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	NSNumber *amount = @0; //must not be nil
+	NSString *rewardType = @""; //must not be nil
+	NSDecimalNumber *rewardAmount = [NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]];
+	GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType rewardAmount:rewardAmount];
+	[strongConnector adapter:self didRewardUserWithReward:adReward];
+}
+
+- (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	[strongConnector adapterDidOpenRewardBasedVideoAd:self];
+	[strongConnector adapterDidStartPlayingRewardBasedVideoAd:self];
+}
+
+- (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+	[self logDebug:NSStringFromSelector(_cmd)];
+	guard(strongConnector) else return;
+	[strongConnector adapterWillLeaveApplication:self];
+}
+
+#pragma mark - helpers
+
+- (void)logDebug:(NSString *)message
+{
+	gadm_amt_log_d(@"%@ %@", NSStringFromClass([self class]), message);
+}
+
+- (void)logError:(NSString *)message
+{
+	gadm_amt_log_e(@"%@ %@", NSStringFromClass([self class]), message);
+}
+
+@end
