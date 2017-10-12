@@ -39,8 +39,8 @@
 		_delegate = delegate;
 		if (promoBanner)
 		{
-			_headline = promoBanner.title;
-			_body = promoBanner.descriptionText;
+			_headline = (promoBanner.title != nil) ? promoBanner.title : @"";
+			_body = (promoBanner.descriptionText != nil) ? promoBanner.descriptionText : @"";
 			_callToAction = promoBanner.ctaText;
 			_advertiser = promoBanner.advertisingLabel;
 			_logo = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];
@@ -122,8 +122,8 @@
 		_delegate = delegate;
 		if (promoBanner)
 		{
-			_headline = promoBanner.title;
-			_body = promoBanner.descriptionText;
+			_headline = (promoBanner.title != nil) ? promoBanner.title : @"";
+			_body = (promoBanner.descriptionText != nil) ? promoBanner.descriptionText : @"";
 			_callToAction = promoBanner.ctaText;
 			_starRating = [NSDecimalNumber decimalNumberWithDecimal:promoBanner.rating.decimalValue];
 			_icon = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];

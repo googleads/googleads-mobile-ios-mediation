@@ -46,11 +46,11 @@
 		if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]])
 		{
 			GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
-			[GADMAdapterMyTargetLogger setEnabled:extras.isDebugMode];
+			[GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
 		}
 
-		[self logDebug:NSStringFromSelector(_cmd)];
-		[self logDebug:[NSString stringWithFormat:@"Credentials: %@", connector.credentials]];
+		MTRGLogInfo();
+		MTRGLogDebug(@"Credentials: %@", connector.credentials);
 		_connector = connector;
 		_isInterstitialAllowed = NO;
 		_isInterstitialStarted = NO;
@@ -61,13 +61,13 @@
 - (void)setUp
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 
 	NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
 	guard(slotId > 0) else
 	{
-		[self logError:kGADMAdapterMyTargetErrorSlotId];
+		MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
 		[strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId]];
 		return;
 	}
@@ -82,13 +82,13 @@
 
 - (void)requestRewardBasedVideoAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	[_interstitialAd load];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_isInterstitialAllowed && _interstitialAd) else return;
 	[_interstitialAd showWithController:viewController];
 	_isInterstitialStarted = YES;
@@ -96,7 +96,7 @@
 
 - (void)stopBeingDelegate
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	_connector = nil;
 	if (_interstitialAd)
 	{
@@ -110,7 +110,7 @@
 - (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	_isInterstitialAllowed = YES;
 	[strongConnector adapterDidReceiveRewardBasedVideoAd:self];
@@ -120,7 +120,7 @@
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
 	NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
-	[self logError:description];
+	MTRGLogError(description);
 	guard(strongConnector) else return;
 	NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
 	[strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
@@ -129,7 +129,7 @@
 - (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapterDidGetAdClick:self];
 }
@@ -137,7 +137,7 @@
 - (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapterDidCloseRewardBasedVideoAd:self];
 }
@@ -145,7 +145,7 @@
 - (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	NSNumber *amount = @0; //must not be nil
 	NSString *rewardType = @""; //must not be nil
@@ -157,7 +157,7 @@
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapterDidOpenRewardBasedVideoAd:self];
 	[strongConnector adapterDidStartPlayingRewardBasedVideoAd:self];
@@ -166,21 +166,9 @@
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapterWillLeaveApplication:self];
-}
-
-#pragma mark - helpers
-
-- (void)logDebug:(NSString *)message
-{
-	gadm_amt_log_d(@"%@ %@", NSStringFromClass([self class]), message);
-}
-
-- (void)logError:(NSString *)message
-{
-	gadm_amt_log_e(@"%@ %@", NSStringFromClass([self class]), message);
 }
 
 @end

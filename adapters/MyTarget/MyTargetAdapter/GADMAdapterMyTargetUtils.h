@@ -9,10 +9,16 @@
 @import GoogleMobileAds;
 @import MyTargetSDK;
 
+#define MTRGLogInfo() if ([GADMAdapterMyTargetUtils isLogEnabled]) { NSLog(@"[%@ info] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd)); }
+#define MTRGLogDebug(format, ...) if ([GADMAdapterMyTargetUtils isLogEnabled]) { NSLog(@"[%@ debug] %@", NSStringFromClass([self class]), [NSString stringWithFormat:(format), ##__VA_ARGS__]); }
+#define MTRGLogError(message) if ([GADMAdapterMyTargetUtils isLogEnabled]) { NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); }
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterMyTargetUtils : NSObject
 
++ (BOOL)isLogEnabled;
++ (void)setLogEnabled:(BOOL)isLogEnabled;
 + (NSError *)errorWithDescription:(NSString *)description;
 + (NSString *)noAdWithReason:(NSString *)reason;
 + (NSUInteger)slotIdFromCredentials:(NSDictionary *)credentials;
@@ -22,16 +28,5 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
 
 @end
-
-@interface GADMAdapterMyTargetLogger : NSObject
-
-+ (BOOL)isEnabled;
-+ (void)setEnabled:(BOOL)isEnabled;
-
-@end
-
-extern void gadm_amt_log_i(NSString *, ...);
-extern void gadm_amt_log_d(NSString *, ...);
-extern void gadm_amt_log_e(NSString *, ...);
 
 NS_ASSUME_NONNULL_END

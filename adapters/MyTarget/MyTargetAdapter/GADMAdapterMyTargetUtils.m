@@ -13,6 +13,18 @@
 
 @implementation GADMAdapterMyTargetUtils
 
+static BOOL _isLogEnabled = YES;
+
++ (BOOL)isLogEnabled
+{
+	return _isLogEnabled;
+}
+
++ (void)setLogEnabled:(BOOL)isLogEnabled
+{
+	_isLogEnabled = isLogEnabled;
+}
+
 + (NSError *)errorWithDescription:(NSString *)description
 {
 	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description };
@@ -92,50 +104,3 @@
 }
 
 @end
-
-@implementation GADMAdapterMyTargetLogger
-
-static BOOL _isEnabled = YES;
-
-+ (BOOL)isEnabled
-{
-	return _isEnabled;
-}
-
-+ (void)setEnabled:(BOOL)isEnabled
-{
-	_isEnabled = isEnabled;
-}
-
-@end
-
-void gadm_amt_log_i(NSString *format, ...)
-{
-
-	guard (GADMAdapterMyTargetLogger.isEnabled && format) else return;
-	NSString *finalFormat = [@"[GADMAdapterMyTarget info] " stringByAppendingString:format];
-	va_list args;
-	va_start(args, format);
-	NSLogv(finalFormat, args);
-	va_end(args);
-}
-
-void gadm_amt_log_d(NSString *format, ...)
-{
-	guard (GADMAdapterMyTargetLogger.isEnabled && format) else return;
-	NSString *finalFormat = [@"[GADMAdapterMyTarget debug] " stringByAppendingString:format];
-	va_list args;
-	va_start(args, format);
-	NSLogv(finalFormat, args);
-	va_end(args);
-}
-
-void gadm_amt_log_e(NSString *format, ...)
-{
-	guard (GADMAdapterMyTargetLogger.isEnabled && format) else return;
-	NSString *finalFormat = [@"[GADMAdapterMyTarget error] " stringByAppendingString:format];
-	va_list args;
-	va_start(args, format);
-	NSLogv(finalFormat, args);
-	va_end(args);
-}

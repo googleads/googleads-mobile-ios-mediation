@@ -49,11 +49,11 @@
 		if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]])
 		{
 			GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
-			[GADMAdapterMyTargetLogger setEnabled:extras.isDebugMode];
+			[GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
 		}
 
-		[self logDebug:NSStringFromSelector(_cmd)];
-		[self logDebug:[NSString stringWithFormat:@"Credentials: %@", connector.credentials]];
+		MTRGLogInfo();
+		MTRGLogDebug(@"Credentials: %@", connector.credentials);
 		_connector = connector;
 	}
 	return self;
@@ -62,7 +62,7 @@
 - (void)getBannerWithSize:(GADAdSize)adSize
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
-	[self logError:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorBannersNotSupported]];
 }
@@ -70,14 +70,14 @@
 - (void)getInterstitial
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
-	[self logError:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorInterstitialNotSupported]];
 }
 
 - (void)stopBeingDelegate
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	_connector = nil;
 	if (_nativeAd)
 	{
@@ -94,7 +94,7 @@
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
-	[self logError:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 	[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorInterstitialNotSupported]];
 }
@@ -102,13 +102,13 @@
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 
 	NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
 	guard(slotId > 0) else
 	{
-		[self logError:kGADMAdapterMyTargetErrorSlotId];
+		MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
 		[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId]];
 		return;
 	}
@@ -120,17 +120,17 @@
 	guard(_isContentAdRequested || _isAppInstallAdRequested) else
 	{
 		NSString *description = [NSString stringWithFormat:kGADMAdapterMyTargetErrorInvalidNativeAdType, _adTypesRequested];
-		[self logError:description];
+		MTRGLogError(description);
 		[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:description]];
 		return;
 	}
 
-	BOOL shouldDownloadImages = NO;
+	BOOL shouldDownloadImages = YES;
 	for (GADNativeAdImageAdLoaderOptions *imageOptions in options)
 	{
-		if ([imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]] && !imageOptions.disableImageLoading)
+		if ([imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]] && imageOptions.disableImageLoading)
 		{
-			shouldDownloadImages = YES;
+			shouldDownloadImages = NO;
 			break;
 		}
 	}
@@ -167,13 +167,13 @@
 - (void)onLoadWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(strongConnector) else return;
 
 	_mediatedNativeAd = [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner delegate:self];
 	guard(_mediatedNativeAd) else
 	{
-		[self logError:kGADMAdapterMyTargetErrorMediatedAdInvalid];
+		MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
 		[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorMediatedAdInvalid]];
 		return;
 	}
@@ -182,7 +182,7 @@
 		  _isAppInstallAdRequested && [mediatedNativeAdClass conformsToProtocol:@protocol(GADMediatedNativeAppInstallAd)]) else
 	{
 		NSString *description = [NSString stringWithFormat:kGADMAdapterMyTargetErrorMediatedAdDoesNotMatch, NSStringFromClass(mediatedNativeAdClass), _adTypesRequested];
-		[self logError:description];
+		MTRGLogError(description);
 		[strongConnector adapter:self didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:description]];
 		return;
 	}
@@ -193,7 +193,7 @@
 {
 	id<GADMAdNetworkConnector> strongConnector = _connector;
 	NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
-	[self logError:description];
+	MTRGLogError(description);
 	guard(strongConnector) else return;
 	NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
 	[strongConnector adapter:self didFailAd:error];
@@ -201,28 +201,28 @@
 
 - (void)onAdShowWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_mediatedNativeAd) else return;
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:_mediatedNativeAd];
 }
 
 - (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_mediatedNativeAd) else return;
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordClick:_mediatedNativeAd];
 }
 
 - (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_mediatedNativeAd) else return;
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:_mediatedNativeAd];
 }
 
 - (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_mediatedNativeAd) else return;
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:_mediatedNativeAd];
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:_mediatedNativeAd];
@@ -230,7 +230,7 @@
 
 - (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_mediatedNativeAd) else return;
 	[GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:_mediatedNativeAd];
 }
@@ -239,7 +239,7 @@
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didRenderInView:(UIView *)view viewController:(UIViewController *)viewController
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_nativeAd) else return;
 	[_nativeAd registerView:view withController:viewController];
 }
@@ -256,21 +256,9 @@
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view
 {
-	[self logDebug:NSStringFromSelector(_cmd)];
+	MTRGLogInfo();
 	guard(_nativeAd) else return;
 	[_nativeAd unregisterView];
-}
-
-#pragma mark - helpers
-
-- (void)logDebug:(NSString *)message
-{
-	gadm_amt_log_d(@"%@ %@", NSStringFromClass([self class]), message);
-}
-
-- (void)logError:(NSString *)message
-{
-	gadm_amt_log_e(@"%@ %@", NSStringFromClass([self class]), message);
 }
 
 @end
