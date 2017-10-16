@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterMyTargetMediatedNativeAd : NSObject
 
-+ (nullable id<GADMediatedNativeAd>)mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(nullable id<GADMediatedNativeAdDelegate>)delegate;
++ (nullable id<GADMediatedNativeAd>)mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(nullable id<GADMediatedNativeAdDelegate>)delegate autoLoadImages:(BOOL)autoLoadImages;
 
 @end
 

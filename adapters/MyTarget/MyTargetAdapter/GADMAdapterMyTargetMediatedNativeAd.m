@@ -12,7 +12,7 @@
 
 @interface GADMAdapterMyTargetMediatedNativeAd ()
 
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(MTRGImageData *)imageData;
++ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
 
 @end
 
@@ -39,10 +39,10 @@
 		_delegate = delegate;
 		if (promoBanner)
 		{
-			_headline = (promoBanner.title != nil) ? promoBanner.title : @"";
-			_body = (promoBanner.descriptionText != nil) ? promoBanner.descriptionText : @"";
+			_headline = promoBanner.title;
+			_body = promoBanner.descriptionText;
 			_callToAction = promoBanner.ctaText;
-			_advertiser = promoBanner.advertisingLabel;
+			_advertiser = promoBanner.domain;
 			_logo = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];
 
 			GADNativeAdImage *image = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
@@ -122,8 +122,8 @@
 		_delegate = delegate;
 		if (promoBanner)
 		{
-			_headline = (promoBanner.title != nil) ? promoBanner.title : @"";
-			_body = (promoBanner.descriptionText != nil) ? promoBanner.descriptionText : @"";
+			_headline = promoBanner.title;
+			_body = promoBanner.descriptionText;
 			_callToAction = promoBanner.ctaText;
 			_starRating = [NSDecimalNumber decimalNumberWithDecimal:promoBanner.rating.decimalValue];
 			_icon = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];
@@ -194,15 +194,20 @@
 
 @implementation GADMAdapterMyTargetMediatedNativeAd
 
-+ (id<GADMediatedNativeAd>)mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(id<GADMediatedNativeAdDelegate>)delegate
++ (id<GADMediatedNativeAd>)mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(id<GADMediatedNativeAdDelegate>)delegate autoLoadImages:(BOOL)autoLoadImages
 {
 	if (promoBanner.navigationType == MTRGNavigationTypeWeb)
 	{
+		guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image && promoBanner.ctaText && promoBanner.domain) else return nil;
+		guard((autoLoadImages && promoBanner.image.image) || (!autoLoadImages && promoBanner.image.url)) else return nil;
 		GADMAdapterMyTargetMediatedNativeContentAd *mediatedNativeContentAd = [[GADMAdapterMyTargetMediatedNativeContentAd alloc] initWithPromoBanner:promoBanner delegate:delegate];
 		return mediatedNativeContentAd;
 	}
 	else if (promoBanner.navigationType == MTRGNavigationTypeStore)
 	{
+		guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image && promoBanner.icon && promoBanner.ctaText) else return nil;
+		guard((autoLoadImages && promoBanner.image.image) || (!autoLoadImages && promoBanner.image.url)) else return nil;
+		guard((autoLoadImages && promoBanner.icon.image) || (!autoLoadImages && promoBanner.icon.url)) else return nil;
 		GADMAdapterMyTargetMediatedNativeAppInstallAd *mediatedNativeAppInstallAd = [[GADMAdapterMyTargetMediatedNativeAppInstallAd alloc] initWithPromoBanner:promoBanner delegate:delegate];
 		return mediatedNativeAppInstallAd;
 	}

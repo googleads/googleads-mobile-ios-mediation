@@ -27,6 +27,7 @@
 	__weak id<GADMAdNetworkConnector> _connector;
 	BOOL _isContentAdRequested;
 	BOOL _isAppInstallAdRequested;
+	BOOL _autoLoadImages;
 	NSString *_adTypesRequested;
 }
 
@@ -125,19 +126,21 @@
 		return;
 	}
 
-	BOOL shouldDownloadImages = YES;
-	for (GADNativeAdImageAdLoaderOptions *imageOptions in options)
+	_autoLoadImages = YES;
+	for (GADAdLoaderOptions *adLoaderOptions in options)
 	{
-		if ([imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]] && imageOptions.disableImageLoading)
+		guard([adLoaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) else continue;
+		GADNativeAdImageAdLoaderOptions *imageOptions = (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
+		if (imageOptions.disableImageLoading)
 		{
-			shouldDownloadImages = NO;
+			_autoLoadImages = NO;
 			break;
 		}
 	}
 
 	_nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
 	_nativeAd.delegate = self;
-	_nativeAd.autoLoadImages = shouldDownloadImages;
+	_nativeAd.autoLoadImages = _autoLoadImages;
 	[GADMAdapterMyTargetUtils fillCustomParams:_nativeAd.customParams withConnector:strongConnector];
 	[_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob forKey:kMTRGCustomParamsMediationKey];
 
@@ -170,7 +173,7 @@
 	MTRGLogInfo();
 	guard(strongConnector) else return;
 
-	_mediatedNativeAd = [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner delegate:self];
+	_mediatedNativeAd = [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner delegate:self autoLoadImages:_autoLoadImages];
 	guard(_mediatedNativeAd) else
 	{
 		MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);

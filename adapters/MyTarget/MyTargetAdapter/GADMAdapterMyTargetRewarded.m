@@ -147,9 +147,8 @@
 	id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
 	MTRGLogInfo();
 	guard(strongConnector) else return;
-	NSNumber *amount = @0; //must not be nil
 	NSString *rewardType = @""; //must not be nil
-	NSDecimalNumber *rewardAmount = [NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]];
+	NSDecimalNumber *rewardAmount = [NSDecimalNumber one]; //must not be nil
 	GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType rewardAmount:rewardAmount];
 	[strongConnector adapter:self didRewardUserWithReward:adReward];
 }
