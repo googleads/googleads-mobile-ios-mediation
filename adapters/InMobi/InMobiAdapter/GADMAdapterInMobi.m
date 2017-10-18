@@ -87,7 +87,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
     
   if([self.connector userBirthday] != nil){
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth NSCalendarUnitYear fromDate:[self.connector userBirthday]];
+      NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[self.connector userBirthday]];
     [IMSdk setYearOfBirth:[components year]];
   }
     
