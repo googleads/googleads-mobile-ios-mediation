@@ -45,12 +45,15 @@ To build the project, follow these steps:
 Open source adapters for mediating the following networks via the Google Mobile
 Ads SDK:
 
-* Unity Ads
+* AdColony
+* AppLovin
 * Chartboost
 * Facebook Audience Network
-* AdColony
-* Tapjoy
+* InMobi
 * MoPub
+* Tapjoy
+* Unity Ads
+* Vungle
 
 # Downloads
 
