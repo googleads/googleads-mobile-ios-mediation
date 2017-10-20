@@ -11,3 +11,5 @@ xcuserdata
 *.xcodeproj/project.xcworkspace
 *.xcodeproj/xcuserdata
 *.xccheckout
+Drop_Framework_And_Headers
+Library
