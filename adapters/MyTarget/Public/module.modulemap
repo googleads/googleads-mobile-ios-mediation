@@ -9,4 +9,5 @@ framework module MyTargetAdapter {
 
   // Import all your public header files here.
   header "GADMAdapterMyTargetExtras.h"
+  header "GADMAdapterMyTargetExtraAssets.h"
 }

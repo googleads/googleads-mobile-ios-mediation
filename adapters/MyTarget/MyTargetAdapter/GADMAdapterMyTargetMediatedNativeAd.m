@@ -7,6 +7,7 @@
 //
 
 #import "GADMAdapterMyTargetMediatedNativeAd.h"
+#import "GADMAdapterMyTargetExtraAssets.h"
 
 #define guard(CONDITION) if (CONDITION) {}
 
@@ -29,6 +30,7 @@
 	GADNativeAdImage *_logo;
 	NSString *_callToAction;
 	NSString *_advertiser;
+	NSMutableDictionary *_extraAssets;
 }
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(id<GADMediatedNativeAdDelegate>)delegate
@@ -47,9 +49,19 @@
 
 			GADNativeAdImage *image = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
 			_images = (image != nil) ? @[image] : nil;
+
+			_extraAssets = [NSMutableDictionary new];
+			[self addExtraAsset:promoBanner.advertisingLabel forKey:kGADMAdapterMyTargetExtraAssetAdvertisingLabel];
+			[self addExtraAsset:promoBanner.ageRestrictions forKey:kGADMAdapterMyTargetExtraAssetAgeRestrictions];
 		}
 	}
 	return self;
+}
+
+- (void)addExtraAsset:(NSString *)asset forKey:(NSString *)key
+{
+	guard(asset && ![asset isEqualToString:@""]) else return;
+	[_extraAssets setObject:asset forKey:key];
 }
 
 - (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate
@@ -59,7 +71,7 @@
 
 - (NSDictionary *)extraAssets
 {
-	return nil;
+	return (_extraAssets.count > 0) ? _extraAssets : nil;
 }
 
 - (NSString *)headline
@@ -112,6 +124,7 @@
 	GADNativeAdImage *_icon;
 	NSString *_callToAction;
 	NSDecimalNumber *_starRating;
+	NSMutableDictionary *_extraAssets;
 }
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner delegate:(id<GADMediatedNativeAdDelegate>)delegate
@@ -130,9 +143,25 @@
 
 			GADNativeAdImage *image = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
 			_images = (image != nil) ? @[image] : nil;
+
+			_extraAssets = [NSMutableDictionary new];
+			[self addExtraAsset:promoBanner.advertisingLabel forKey:kGADMAdapterMyTargetExtraAssetAdvertisingLabel];
+			[self addExtraAsset:promoBanner.ageRestrictions forKey:kGADMAdapterMyTargetExtraAssetAgeRestrictions];
+			[self addExtraAsset:promoBanner.category forKey:kGADMAdapterMyTargetExtraAssetCategory];
+			[self addExtraAsset:promoBanner.subcategory forKey:kGADMAdapterMyTargetExtraAssetSubcategory];
+			if (promoBanner.votes > 0)
+			{
+				[_extraAssets setObject:[NSNumber numberWithUnsignedInteger:promoBanner.votes] forKey:kGADMAdapterMyTargetExtraAssetVotes];
+			}
 		}
 	}
 	return self;
+}
+
+- (void)addExtraAsset:(NSString *)asset forKey:(NSString *)key
+{
+	guard(asset && ![asset isEqualToString:@""]) else return;
+	[_extraAssets setObject:asset forKey:key];
 }
 
 - (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate
@@ -142,7 +171,7 @@
 
 - (NSDictionary *)extraAssets
 {
-	return nil;
+	return (_extraAssets.count > 0) ? _extraAssets : nil;
 }
 
 - (NSString *)headline

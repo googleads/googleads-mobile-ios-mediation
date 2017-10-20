@@ -17,3 +17,4 @@
 
 /// Import all your public header files here.
 #import <MyTargetAdapter/GADMAdapterMyTargetExtras.h>
+#import <MyTargetAdapter/GADMAdapterMyTargetExtraAssets.h>
