@@ -7,7 +7,7 @@ your Podfile and run `pod install`.
 
 ## Prerequisites
 - Xcode 6.0 or higher
-- Deployment target of 7.0 or higher
+- Deployment target of 8.0 or higher
 - Google Mobile Ads SDK
 - Chartboost SDK
 - Chartboost Adapter Source Code
