@@ -196,6 +196,11 @@
 }
 
 - (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
+  if (error == CBLoadErrorInternetUnavailableAtShow) {
+    // Chartboost SDK failed to present an ad. Notify the current showing adapter delegate.
+    [_currentShowingDelegate didFailToLoadInterstitial:location withError:error];
+    return;
+  }
   dispatch_barrier_async(_queue, ^{
     [_interstitialDelegates
         enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
@@ -244,6 +249,11 @@
 }
 
 - (void)didFailToLoadRewardedVideo:(CBLocation)location withError:(CBLoadError)error {
+  if (error == CBLoadErrorInternetUnavailableAtShow) {
+    // Chartboost SDK failed to present an ad. Notify the current showing adapter delegate.
+    [_currentShowingDelegate didFailToLoadRewardedVideo:location withError:error];
+    return;
+  }
   dispatch_barrier_async(_queue, ^{
     [_rewardbasedVideoDelegates
         enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
