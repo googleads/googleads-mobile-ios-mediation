@@ -16,6 +16,7 @@
 
 @property(nonatomic, strong) IMNative *native;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
+@property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, copy) NSDictionary *extras;
 @property(nonatomic, strong) NSDictionary *nativeAdContentDictionary;
 
@@ -61,12 +62,39 @@
         NSString *iconStringURL = [iconDictionary objectForKey:URL];
         NSURL *iconURL = [NSURL URLWithString:iconStringURL];
         CGFloat iconScale = 1.0;
-            
-        self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:iconScale];
-        if([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]){
-            [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+        if(!shouldDownloadImage){
+            self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:iconScale];
+            if([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]){
+                [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+            }
         }
-      }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            UIImage *img, *icon;
+            img = [UIImage alloc];
+            self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
+            
+            [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
+            if(cacheIcon){
+                icon = cacheIcon;
+            }
+            else{
+                NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:iconStringURL]];
+                icon = [UIImage imageWithData:iconData];
+                [imageCache setObject:icon forKey:iconStringURL];
+            }
+            
+            self.mappedIcon = [[GADNativeAdImage alloc] initWithImage:icon];
+            
+            if (icon && img) {
+                [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+            }
+            else {
+                [self inmobiMediatedNativeAppInstallAdFailed];
+            }
+        });
+    }
   }
   return self;
 }
@@ -131,7 +159,10 @@
     return @"";
 }
 
-- (NSArray * _Nullable)images {
+- (NSArray *)images {
+    if(self.mappedImages)
+        return self.mappedImages;
+    [self inmobiMediatedNativeAppInstallAdFailed];
     return nil;
 }
 
