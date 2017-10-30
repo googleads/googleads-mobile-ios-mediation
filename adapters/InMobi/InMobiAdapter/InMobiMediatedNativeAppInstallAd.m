@@ -62,6 +62,12 @@
         NSString *iconStringURL = [iconDictionary objectForKey:URL];
         NSURL *iconURL = [NSURL URLWithString:iconStringURL];
         CGFloat iconScale = 1.0;
+        
+        //Pass a blank image since we are using only mediaview
+        UIImage *img;
+        img = [UIImage alloc];
+        self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
+        
         if(!shouldDownloadImage){
             self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:iconScale];
             if([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]){
@@ -69,12 +75,8 @@
             }
         }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            UIImage *img, *icon;
-            img = [UIImage alloc];
-            self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
-            
+            UIImage *icon;
             [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            
             UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
             if(cacheIcon){
                 icon = cacheIcon;
