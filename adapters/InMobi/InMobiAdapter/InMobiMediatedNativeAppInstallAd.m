@@ -65,7 +65,10 @@
         
         //Pass a blank image since we are using only mediaview
         UIImage *img;
-        img = [UIImage alloc];
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
         self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
         
         if(!shouldDownloadImage){
