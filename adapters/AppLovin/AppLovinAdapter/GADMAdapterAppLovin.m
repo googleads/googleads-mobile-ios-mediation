@@ -231,9 +231,9 @@ static bool loggingEnabled = NO;
 
 #pragma mark - Banner Utility Methods
 
-- (ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size
+- (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size
 {
-    if ( GADAdSizeEqualToSize(kGADAdSizeBanner, size ) || GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size ) )
+    if ( GADAdSizeEqualToSize(kGADAdSizeBanner, size ) )
     {
         return [ALAdSize sizeBanner];
     }
@@ -252,7 +252,7 @@ static bool loggingEnabled = NO;
         if ( CGRectGetWidth([UIScreen mainScreen].bounds) == frameSize.width )
         {
             CGFloat frameHeight = frameSize.height;
-            if ( frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height || frameHeight == CGSizeFromGADAdSize(kGADAdSizeLargeBanner).height )
+            if ( frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height )
             {
                 return [ALAdSize sizeBanner];
             }
