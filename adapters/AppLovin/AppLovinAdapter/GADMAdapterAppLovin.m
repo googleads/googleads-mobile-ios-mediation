@@ -19,7 +19,7 @@
     #import "ALInterstitialAd.h"
 #endif
 
-#define AD_VIEW_EVENT_DELEGATE_AVAILABLE [[ALSdk version] compare: @"4.3.0" options: NSNumericSearch] != NSOrderedAscending
+#define AD_VIEW_EVENT_DELEGATE_AVAILABLE ([[ALSdk version] compare: @"4.3.0" options: NSNumericSearch] != NSOrderedAscending)
 
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 
