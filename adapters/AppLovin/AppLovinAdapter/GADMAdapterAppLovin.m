@@ -19,6 +19,8 @@
     #import "ALInterstitialAd.h"
 #endif
 
+#define AD_VIEW_EVENT_DELEGATE_AVAILABLE [[ALSdk version] compare: @"4.3.0" options: NSNumericSearch] != NSOrderedAscending
+
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 
 @property(nonatomic, strong) ALSdk *sdk;
@@ -205,7 +207,7 @@ static bool loggingEnabled = NO;
         self.adView.adDisplayDelegate = delegate;
         
         // As of AppLovin iOS SDK >= 4.3.0, we added a delegate for banner events
-        if ( [self.adView respondsToSelector: @selector(setAdEventDelegate:)] )
+        if ( AD_VIEW_EVENT_DELEGATE_AVAILABLE )
         {
             self.adView.adEventDelegate = delegate;
         }
@@ -342,7 +344,11 @@ static bool loggingEnabled = NO;
     [self.parentAdapter log: @"Banner clicked"];
     
     [self.parentAdapter.connector adapterDidGetAdClick: self.parentAdapter];
-    [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
+    
+    if ( !AD_VIEW_EVENT_DELEGATE_AVAILABLE )
+    {
+        [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
+    }
 }
 
 #pragma mark - Ad View Event Delegate
@@ -367,8 +373,12 @@ static bool loggingEnabled = NO;
 
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView
 {
-    // We will fire adapterWillLeaveApplication: in the ad:wasClickedIn: callback
     [self.parentAdapter log: @"Banner left application"];
+    
+    if ( AD_VIEW_EVENT_DELEGATE_AVAILABLE )
+    {
+        [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
+    }
 }
 
 - (void)ad:(ALAd *)ad didFailToDisplayInAdView:(ALAdView *)adView withError:(ALAdViewDisplayErrorCode)code
