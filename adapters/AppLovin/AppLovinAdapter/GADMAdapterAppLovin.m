@@ -33,7 +33,7 @@
 
 @end
 
-@interface AppLovinAdMobBannerDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+@interface AppLovinGADMAdapterBannerDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 @property (nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
 - (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
 @end
@@ -202,7 +202,7 @@ static bool loggingEnabled = NO;
                                                  size: appLovinAdSize
                                                   sdk: self.sdk];
         
-        AppLovinAdMobBannerDelegate *delegate = [[AppLovinAdMobBannerDelegate alloc] initWithParentAdapter: self];
+        AppLovinGADMAdapterBannerDelegate *delegate = [[AppLovinGADMAdapterBannerDelegate alloc] initWithParentAdapter: self];
         self.adView.adLoadDelegate = delegate;
         self.adView.adDisplayDelegate = delegate;
         
@@ -291,7 +291,7 @@ static bool loggingEnabled = NO;
 
 @end
 
-@implementation AppLovinAdMobBannerDelegate
+@implementation AppLovinGADMAdapterBannerDelegate
 
 #pragma mark - Initialization
 
