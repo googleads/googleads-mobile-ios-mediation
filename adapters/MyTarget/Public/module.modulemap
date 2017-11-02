@@ -1,5 +1,5 @@
-framework module [AD_NETWORK_NAME]Adapter {
-  umbrella header "[AD_NETWORK_NAME]Adapter.h"
+framework module MyTargetAdapter {
+  umbrella header "MyTargetAdapter.h"
 
   export *
   module * { export * }
@@ -8,5 +8,6 @@ framework module [AD_NETWORK_NAME]Adapter {
   link framework "UIKit"
 
   // Import all your public header files here.
-  //header "YOUR_PUBLIC_HEADER.h"
+  header "GADMAdapterMyTargetExtras.h"
+  header "GADMAdapterMyTargetExtraAssets.h"
 }
