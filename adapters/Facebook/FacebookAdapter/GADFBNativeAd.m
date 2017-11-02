@@ -461,15 +461,15 @@ static NSString *const GADNativeAdIcon = @"2";
 #pragma mark - FBMediaViewDelegate
 
 - (void)mediaViewVideoDidComplete:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
+  // Do nothing.
 }
 
 - (void)mediaViewVideoDidPlay:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
+  // Do nothing.
 }
 
 - (void)mediaViewVideoDidPause:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
+  // Do nothing.
 }
 
 @end
