@@ -33,6 +33,17 @@
 
 /* Begin PBXBuildFile section */
 		3582A58D1FB2355D00490786 /* MaioAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3582A58B1FB2355D00490786 /* MaioAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C29F39231FB996B400A32028 /* GADMMaioDelegateAggregate.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F391A1FB98B2E00A32028 /* GADMMaioDelegateAggregate.m */; };
+		C29F39241FB996B400A32028 /* GADMMaioError.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F391B1FB98B2E00A32028 /* GADMMaioError.m */; };
+		C29F39251FB996B400A32028 /* GADMMaioMaioInstanceRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F391C1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.m */; };
+		C29F39261FB996B400A32028 /* GADMMaioParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F391F1FB98B2E00A32028 /* GADMMaioParameter.m */; };
+		C29F39271FB996B400A32028 /* GADMMaioRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */; };
+		C29F39281FB996CD00A32028 /* GADMMaioConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */; };
+		C29F39291FB996CD00A32028 /* GADMMaioDelegateAggregate.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39211FB98B2F00A32028 /* GADMMaioDelegateAggregate.h */; };
+		C29F392A1FB996CD00A32028 /* GADMMaioError.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F391D1FB98B2E00A32028 /* GADMMaioError.h */; };
+		C29F392B1FB996CD00A32028 /* GADMMaioMaioInstanceRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F391E1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.h */; };
+		C29F392C1FB996CD00A32028 /* GADMMaioParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39191FB98B2E00A32028 /* GADMMaioParameter.h */; };
+		C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,7 +62,6 @@
 		3582A58B1FB2355D00490786 /* MaioAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaioAdapter.h; sourceTree = "<group>"; };
 		3582A58C1FB2355D00490786 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		3582A58E1FB2361000490786 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		3582A58F1FB2371900490786 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3582A5901FB239E400490786 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -60,6 +70,17 @@
 		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioConstants.h; sourceTree = "<group>"; };
+		C29F39191FB98B2E00A32028 /* GADMMaioParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioParameter.h; sourceTree = "<group>"; };
+		C29F391A1FB98B2E00A32028 /* GADMMaioDelegateAggregate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioDelegateAggregate.m; sourceTree = "<group>"; };
+		C29F391B1FB98B2E00A32028 /* GADMMaioError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioError.m; sourceTree = "<group>"; };
+		C29F391C1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioMaioInstanceRepository.m; sourceTree = "<group>"; };
+		C29F391D1FB98B2E00A32028 /* GADMMaioError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioError.h; sourceTree = "<group>"; };
+		C29F391E1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioMaioInstanceRepository.h; sourceTree = "<group>"; };
+		C29F391F1FB98B2E00A32028 /* GADMMaioParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioParameter.m; sourceTree = "<group>"; };
+		C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioRewardedAdapter.m; sourceTree = "<group>"; };
+		C29F39211FB98B2F00A32028 /* GADMMaioDelegateAggregate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioDelegateAggregate.h; sourceTree = "<group>"; };
+		C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioRewardedAdapter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +124,17 @@
 		7D72B8C11DB97C10006EAE11 /* MaioAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				3582A58F1FB2371900490786 /* README.md */,
+				C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */,
+				C29F39211FB98B2F00A32028 /* GADMMaioDelegateAggregate.h */,
+				C29F391A1FB98B2E00A32028 /* GADMMaioDelegateAggregate.m */,
+				C29F391D1FB98B2E00A32028 /* GADMMaioError.h */,
+				C29F391B1FB98B2E00A32028 /* GADMMaioError.m */,
+				C29F391E1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.h */,
+				C29F391C1FB98B2E00A32028 /* GADMMaioMaioInstanceRepository.m */,
+				C29F39191FB98B2E00A32028 /* GADMMaioParameter.h */,
+				C29F391F1FB98B2E00A32028 /* GADMMaioParameter.m */,
+				C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */,
+				C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */,
 			);
 			path = MaioAdapter;
 			sourceTree = "<group>";
@@ -147,6 +178,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3582A58D1FB2355D00490786 /* MaioAdapter.h in Headers */,
+				C29F39281FB996CD00A32028 /* GADMMaioConstants.h in Headers */,
+				C29F39291FB996CD00A32028 /* GADMMaioDelegateAggregate.h in Headers */,
+				C29F392A1FB996CD00A32028 /* GADMMaioError.h in Headers */,
+				C29F392B1FB996CD00A32028 /* GADMMaioMaioInstanceRepository.h in Headers */,
+				C29F392C1FB996CD00A32028 /* GADMMaioParameter.h in Headers */,
+				C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +283,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C29F39231FB996B400A32028 /* GADMMaioDelegateAggregate.m in Sources */,
+				C29F39241FB996B400A32028 /* GADMMaioError.m in Sources */,
+				C29F39251FB996B400A32028 /* GADMMaioMaioInstanceRepository.m in Sources */,
+				C29F39261FB996B400A32028 /* GADMMaioParameter.m in Sources */,
+				C29F39271FB996B400A32028 /* GADMMaioRewardedAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
