@@ -217,10 +217,11 @@
  *  Maio 用の Custom Event パラメータをロードします。
  */
 + (id)loadCustomEventParametersServerFromConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)connector {
-    NSString *parameter = [connector credentials][GADCustomEventParametersServer];
-    NSLog(@"parameter: %@", parameter);
+    NSString *mediaId = [connector credentials][GADMMaioAdapterMediaId];
+    NSString *zoneId = [connector credentials][GADMMaioAdapterZoneId];
+    NSLog(@"mediaId: %@ zoneId: %@", mediaId, zoneId);
     
-    return [GADMMaioParameter parameterWithJsonString:parameter];
+    return [[GADMMaioParameter alloc] initWithMediaId:mediaId zoneId:zoneId];
 }
 
 /**
