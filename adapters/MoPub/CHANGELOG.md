@@ -1,5 +1,8 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.18.0.0
+- Verified compatibility with MoPub SDK 4.18.0.
+
 ## Version 4.17.0.0
 - Updated the deployment target to iOS 8.
 - Updated the adapter to make it compatibe with MoPub SDK 4.17.0.

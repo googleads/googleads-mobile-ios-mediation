@@ -12,16 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-/// Chartboost mediation network adapter version.
-static NSString *const GADMAdapterChartboostVersion = @"7.0.3.0";
-
-/// Chartboost App ID.
-static NSString *const GADMAdapterChartboostAppID = @"appId";
-
-/// Chartboost App Signature.
-static NSString *const GADMAdapterChartboostAppSignature = @"appSignature";
-
-/// Chartboost Ad Location.
-static NSString *const GADMAdapterChartboostAdLocation = @"adLocation";
+/// Import all your public header files here.
+//#import <NendAdapter/YOUR_PUBLIC_HEADER.h>
