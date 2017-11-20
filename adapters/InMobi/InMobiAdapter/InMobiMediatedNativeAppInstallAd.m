@@ -48,8 +48,7 @@
     if (![[self.nativeAdContentDictionary objectForKey:TITLE] length] ||
         ![[self.nativeAdContentDictionary objectForKey:DESCRIPTION] length] ||
         ![[self.nativeAdContentDictionary objectForKey:CTA] length] ||
-        ![self.nativeAdContentDictionary objectForKey:ICON] ||
-        ![self.nativeAdContentDictionary objectForKey:SCREENSHOTS]) {
+        ![self.nativeAdContentDictionary objectForKey:ICON]) {
       [self inmobiMediatedNativeAppInstallAdFailed];
       return nil;
     }
@@ -174,6 +173,17 @@
 
 - (NSDictionary *)extraAssets {
   return self.extras;
+}
+
+-  (UIView *GAD_NULLABLE_TYPE)mediaView{
+    UIView* placeHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    placeHolderView.userInteractionEnabled = NO;
+    return placeHolderView;
+}
+
+
+- (BOOL)hasVideoContent{
+    return true;
 }
 
 - (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
