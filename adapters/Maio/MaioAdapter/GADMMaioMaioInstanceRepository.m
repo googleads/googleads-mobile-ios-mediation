@@ -24,11 +24,15 @@ static BOOL _isInitialized = NO;
 }
 
 - (BOOL)isInitializedWithMediaId:(NSString *)mediaId {
-    return _isInitialized;
+    @synchronized(self) {
+        return _isInitialized;
+    }
 }
 
 - (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId {
-    _isInitialized = value;
+    @synchronized(self) {
+        _isInitialized = value;
+    }
 }
 
 @end

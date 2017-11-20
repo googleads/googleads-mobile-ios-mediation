@@ -1,5 +1,6 @@
 //
 //  GADMMaioRewardedAdapter.h
+//  GADMMaioAdapter
 //
 //  Copyright © 2017 i-mobile, Inc. All rights reserved.
 //
