@@ -76,35 +76,37 @@
                 [self inmobiMediatedNativeAppInstallAdSuccessful:self];
             }
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            UIImage *icon;
-            [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
-            if(cacheIcon){
-                icon = cacheIcon;
-            }
-            else{
-                NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:iconStringURL]];
-                icon = [UIImage imageWithData:iconData];
-                [imageCache setObject:icon forKey:iconStringURL];
-            }
-            
-            self.mappedIcon = [[GADNativeAdImage alloc] initWithImage:icon];
-            
-            if (icon && img) {
-                [self inmobiMediatedNativeAppInstallAdSuccessful:self];
-            }
-            else {
-                [self inmobiMediatedNativeAppInstallAdFailed];
-            }
-        });
+        else{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                UIImage *icon;
+                [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
+                if(cacheIcon){
+                    icon = cacheIcon;
+                }
+                else{
+                    NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:iconStringURL]];
+                    icon = [UIImage imageWithData:iconData];
+                    [imageCache setObject:icon forKey:iconStringURL];
+                }
+                
+                self.mappedIcon = [[GADNativeAdImage alloc] initWithImage:icon];
+                
+                if (icon && img) {
+                    [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+                }
+                else {
+                    [self inmobiMediatedNativeAppInstallAdFailed];
+                }
+            });
+        }
     }
   }
   return self;
 }
 
 - (NSString *)headline {
-    if( [self.native.adTitle length]){
+    if(self.native.adTitle){
         return self.native.adTitle;
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
@@ -112,7 +114,7 @@
 }
 
 - (NSString *)body {
-    if([self.native.adDescription length]){
+    if(self.native.adDescription){
         return self.native.adDescription;
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
@@ -127,7 +129,7 @@
 }
 
 - (NSString *)callToAction {
-    if([self.native.adCtaText length]){
+    if(self.native.adCtaText){
         return self.native.adCtaText;
     }
     [self inmobiMediatedNativeAppInstallAdFailed];
@@ -176,7 +178,7 @@
 }
 
 -  (UIView *GAD_NULLABLE_TYPE)mediaView{
-    UIView* placeHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    UIView* placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
     placeHolderView.userInteractionEnabled = NO;
     return placeHolderView;
 }
