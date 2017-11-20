@@ -5,7 +5,7 @@
 static NSString *const kGADMAdapterAppLovinErrorDomain =
     @"com.applovin.sdk.mediation.admob.errorDomain";
 
-static NSString *const kGADMAdapterAppLovinVersion = @"4.4.1.1";
+static NSString *const kGADMAdapterAppLovinVersion = @"4.5.1.0";
 
 // constant keys for dashboard settings
 static NSString *const kGADMAdapterAppLovinSdkKey = @"sdkKey";
