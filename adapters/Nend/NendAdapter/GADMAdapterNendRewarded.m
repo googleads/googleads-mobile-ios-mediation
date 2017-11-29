@@ -1,14 +1,15 @@
 //
 //  GADMAdapterNendRewarded.m
+//  NendAdapter
 //
 //  Copyright © 2017 F@N Communications. All rights reserved.
 //
 
 #import "GADMAdapterNendRewarded.h"
+#import "GADMAdapterNendSetting.h"
 #import "GADNendRewardedNetworkExtras.h"
 @import NendAd;
 
-static NSString *const kNendRewardedAdapterVersion = @"1.0.0";
 static NSString *const kAdMobMediationName = @"AdMob";
 static NSString *const kDictionaryKeySpotId = @"spotId";
 static NSString *const kDictionaryKeyApiKey = @"apiKey";
@@ -22,19 +23,15 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
 
 @implementation GADMAdapterNendRewarded
 
-+ (NSString *)adapterVersion
-{
-    return kNendRewardedAdapterVersion;
++ (NSString *)adapterVersion {
+    return GADM_ADAPTER_NEND_VERSION;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass
-{
++ (Class<GADAdNetworkExtras>)networkExtrasClass {
     return [GADNendRewardedNetworkExtras class];
 }
 
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-(id<GADMRewardBasedVideoAdNetworkConnector>)connector
-{
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)connector {
     if (!connector) {
         return nil;
     }
@@ -47,8 +44,7 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
     return self;
 }
 
-- (void)setUp
-{
+- (void)setUp {
     NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
     NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
     
@@ -69,25 +65,23 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
     }
 }
 
-- (void)requestRewardBasedVideoAd
-{
+- (void)requestRewardBasedVideoAd {
     [self.rewardedVideo loadAd];
 }
 
-- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController
-{
+- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
     if (self.rewardedVideo.isReady) {
         [self.rewardedVideo showAdFromViewController:viewController];
     }
 }
 
-- (void)stopBeingDelegate
-{
+- (void)stopBeingDelegate {
     self.rewardedVideo.delegate = nil;
     [self.rewardedVideo releaseVideoAd];
 }
 
 #pragma mark - NADRewardedVideoDelegate
+
 - (void)nadRewardVideoAdDidReceiveAd:(NADRewardedVideo *)nadRewardedVideoAd {
     [self.connector adapterDidReceiveRewardBasedVideoAd:self];
 }
@@ -129,8 +123,7 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
 
 #pragma mark - Internal
 
-- (NSString *)getNendAdParam:(NSString *)paramKey
-{
+- (NSString *)getNendAdParam:(NSString *)paramKey {
     return [self.connector credentials][paramKey];
 }
 
