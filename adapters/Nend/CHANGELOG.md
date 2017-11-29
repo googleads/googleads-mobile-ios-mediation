@@ -1,7 +1,6 @@
 # Nend Adapter for Google Mobile Ads SDK for iOS
 
-## Version 1.0.0.0
+## Version 1.4.0.0
 
-- First release!
+- First release as googleads-mobile-ios-mediation.
 - Adds support for rewaded video ads.
-
