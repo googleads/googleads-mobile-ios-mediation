@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		62D22D531E87BBF400E9E1F9 /* FatAdapter */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 62D22D541E87BBF400E9E1F9 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
+			buildPhases = (
+				62D22D571E87BBFB00E9E1F9 /* Static Library Script */,
+			);
+			dependencies = (
+			);
+			name = FatAdapter;
+			productName = FatAdapter;
+		};
+		62D22D581E87BC5200E9E1F9 /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 62D22D591E87BC5200E9E1F9 /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				62D22D5C1E87BC5D00E9E1F9 /* Framework Script */,
+			);
+			dependencies = (
+			);
+			name = Framework;
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		AC6572711FBC7A840073C27E /* GADMIronSourceExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D22D3C1E87B87500E9E1F9 /* GADMIronSourceExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC6572721FBC7A840073C27E /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D22D371E87B73600E9E1F9 /* IronSourceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC6572731FBC7AAF0073C27E /* GADMAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */; };
+		AC6572741FBC7AAF0073C27E /* GADMIronSourceExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */; };
+		AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		62D22D3F1E87BA6A00E9E1F9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		62D22D291E87B68E00E9E1F9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		62D22D2A1E87B68E00E9E1F9 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
+		62D22D2B1E87B68E00E9E1F9 /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
+		62D22D361E87B6C700E9E1F9 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		62D22D371E87B73600E9E1F9 /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IronSourceAdapter.h; sourceTree = "<group>"; };
+		62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMIronSourceExtras.m; sourceTree = "<group>"; };
+		62D22D3C1E87B87500E9E1F9 /* GADMIronSourceExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMIronSourceExtras.h; sourceTree = "<group>"; };
+		62D22D411E87BA6A00E9E1F9 /* libAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdMobAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSource.h; sourceTree = "<group>"; };
+		62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSource.m; sourceTree = "<group>"; };
+		62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
+		62D22D5E1E87DDE400E9E1F9 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		62D22D5F1E87DDF600E9E1F9 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		62D22D3E1E87BA6A00E9E1F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		62D22D131E87AE7800E9E1F9 = {
+			isa = PBXGroup;
+			children = (
+				62D22D1E1E87AE7800E9E1F9 /* IronSourceAdMobAdapter */,
+				62D22D321E87B6C700E9E1F9 /* Public */,
+				62D22D281E87B68E00E9E1F9 /* BuildScript */,
+				62D22D2C1E87B69700E9E1F9 /* Configuration */,
+				62D22D1D1E87AE7800E9E1F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		62D22D1D1E87AE7800E9E1F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D411E87BA6A00E9E1F9 /* libAdMobAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62D22D1E1E87AE7800E9E1F9 /* IronSourceAdMobAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */,
+				62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */,
+				62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */,
+			);
+			path = IronSourceAdMobAdapter;
+			sourceTree = "<group>";
+		};
+		62D22D281E87B68E00E9E1F9 /* BuildScript */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D291E87B68E00E9E1F9 /* README.md */,
+				62D22D2A1E87B68E00E9E1F9 /* Script_Framework.sh */,
+				62D22D2B1E87B68E00E9E1F9 /* Script_Library.sh */,
+			);
+			path = BuildScript;
+			sourceTree = "<group>";
+		};
+		62D22D2C1E87B69700E9E1F9 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */,
+				62D22D5E1E87DDE400E9E1F9 /* Debug.xcconfig */,
+				62D22D5F1E87DDF600E9E1F9 /* Release.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		62D22D321E87B6C700E9E1F9 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D331E87B6C700E9E1F9 /* Headers */,
+				62D22D361E87B6C700E9E1F9 /* module.modulemap */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		62D22D331E87B6C700E9E1F9 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				62D22D3C1E87B87500E9E1F9 /* GADMIronSourceExtras.h */,
+				62D22D371E87B73600E9E1F9 /* IronSourceAdapter.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		62D22D4F1E87BB6A00E9E1F9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC6572711FBC7A840073C27E /* GADMIronSourceExtras.h in Headers */,
+				AC6572721FBC7A840073C27E /* IronSourceAdapter.h in Headers */,
+				AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		62D22D401E87BA6A00E9E1F9 /* Adapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62D22D471E87BA6A00E9E1F9 /* Build configuration list for PBXNativeTarget "Adapter" */;
+			buildPhases = (
+				62D22D3D1E87BA6A00E9E1F9 /* Sources */,
+				62D22D3E1E87BA6A00E9E1F9 /* Frameworks */,
+				62D22D3F1E87BA6A00E9E1F9 /* CopyFiles */,
+				62D22D4F1E87BB6A00E9E1F9 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Adapter;
+			productName = Adapter;
+			productReference = 62D22D411E87BA6A00E9E1F9 /* libAdMobAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		62D22D141E87AE7800E9E1F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "ironSource Ltd";
+				TargetAttributes = {
+					62D22D401E87BA6A00E9E1F9 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = Automatic;
+					};
+					62D22D531E87BBF400E9E1F9 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = Automatic;
+					};
+					62D22D581E87BC5200E9E1F9 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 62D22D171E87AE7800E9E1F9 /* Build configuration list for PBXProject "IronSourceAdMobAdapter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 62D22D131E87AE7800E9E1F9;
+			productRefGroup = 62D22D1D1E87AE7800E9E1F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62D22D401E87BA6A00E9E1F9 /* Adapter */,
+				62D22D531E87BBF400E9E1F9 /* FatAdapter */,
+				62D22D581E87BC5200E9E1F9 /* Framework */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		62D22D571E87BBFB00E9E1F9 /* Static Library Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Static Library Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"";
+		};
+		62D22D5C1E87BC5D00E9E1F9 /* Framework Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Framework Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		62D22D3D1E87BA6A00E9E1F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC6572731FBC7AAF0073C27E /* GADMAdapterIronSource.m in Sources */,
+				AC6572741FBC7AAF0073C27E /* GADMIronSourceExtras.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		62D22D231E87AE7800E9E1F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		62D22D241E87AE7800E9E1F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		62D22D481E87BA6A00E9E1F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = AdMobAdapter;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Debug;
+		};
+		62D22D491E87BA6A00E9E1F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = AdMobAdapter;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Release;
+		};
+		62D22D551E87BBF400E9E1F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				PRODUCT_NAME = AdMobAdapter;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Debug;
+		};
+		62D22D561E87BBF400E9E1F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				PRODUCT_NAME = AdMobAdapter;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Release;
+		};
+		62D22D5A1E87BC5200E9E1F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				PRODUCT_NAME = AdMobAdapter;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Debug;
+		};
+		62D22D5B1E87BC5200E9E1F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				PRODUCT_NAME = AdMobAdapter;
+				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62D22D171E87AE7800E9E1F9 /* Build configuration list for PBXProject "IronSourceAdMobAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D22D231E87AE7800E9E1F9 /* Debug */,
+				62D22D241E87AE7800E9E1F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62D22D471E87BA6A00E9E1F9 /* Build configuration list for PBXNativeTarget "Adapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D22D481E87BA6A00E9E1F9 /* Debug */,
+				62D22D491E87BA6A00E9E1F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62D22D541E87BBF400E9E1F9 /* Build configuration list for PBXAggregateTarget "FatAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D22D551E87BBF400E9E1F9 /* Debug */,
+				62D22D561E87BBF400E9E1F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62D22D591E87BC5200E9E1F9 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62D22D5A1E87BC5200E9E1F9 /* Debug */,
+				62D22D5B1E87BC5200E9E1F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 62D22D141E87AE7800E9E1F9 /* Project object */;
+}
