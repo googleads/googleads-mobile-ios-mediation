@@ -29,7 +29,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 #pragma mark - MaioDelegate
 
 - (void)maioDidInitialize {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidInitialize)]) {
             [delegate maioDidInitialize];
         }
@@ -37,7 +37,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioDidChangeCanShow:(NSString *)zoneId newValue:(BOOL)newValue {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidChangeCanShow:newValue:)]) {
             [delegate maioDidChangeCanShow:zoneId newValue:newValue];
         }
@@ -45,7 +45,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioWillStartAd:(NSString *)zoneId {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioWillStartAd:)]) {
             [delegate maioWillStartAd:zoneId];
         }
@@ -53,7 +53,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioDidFinishAd:(NSString *)zoneId playtime:(NSInteger)playtime skipped:(BOOL)skipped rewardParam:(NSString *)rewardParam {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidFinishAd:playtime:skipped:rewardParam:)]) {
             [delegate maioDidFinishAd:zoneId playtime:playtime skipped:skipped rewardParam:rewardParam];
         }
@@ -61,7 +61,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioDidClickAd:(NSString *)zoneId {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidClickAd:)]) {
             [delegate maioDidClickAd:zoneId];
         }
@@ -69,7 +69,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioDidCloseAd:(NSString *)zoneId {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidCloseAd:)]) {
             [delegate maioDidCloseAd:zoneId];
         }
@@ -77,7 +77,7 @@ static GADMMaioDelegateAggregate* _instance = nil;
 }
 
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-    for (id<MaioDelegate> delegate in self.delegates) {
+    for (id<MaioDelegate> delegate in self.delegates.allObjects) {
         if ([delegate respondsToSelector:@selector(maioDidFail:reason:)]) {
             [delegate maioDidFail:zoneId reason:reason];
         }
