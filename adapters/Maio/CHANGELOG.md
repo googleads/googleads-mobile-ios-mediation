@@ -1,6 +1,10 @@
 # maio Adapter for Google Mobile Ads SDK for iOS
 
-## x.y.z.0
+## 1.2.18.1
+
+- Fixed the problem that objects are released at unintended timing in for-in.
+
+## 1.2.18.0
 
 - First release!
-- Adds support for banners, interstitials, etc.
+- Adds support for interstitials, rewardedVideos.
