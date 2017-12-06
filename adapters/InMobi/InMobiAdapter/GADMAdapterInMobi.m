@@ -4,15 +4,9 @@
 //  Copyright (c) 2015 InMobi. All rights reserved.
 //
 
-#import <GoogleMobileAds/GADAdSize.h>
 #import "GADMAdapterInMobi.h"
 #import "GADInMobiExtras.h"
-#import <GoogleMobileAds/GADRequestError.h>
-#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
-#import <GoogleMobileAds/GADMediatedNativeAdNotificationSource.h>
-
 #import <InMobiSDK/IMSdk.h>
-#import "GADInMobiExtras.h"
 #import "InMobiMediatedNativeAppInstallAd.h"
 #import "NativeAdKeys.h"
 
