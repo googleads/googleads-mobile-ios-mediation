@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "InMobiMediatedNativeAppInstallAd.h"
-#import <GoogleMobileAds/GADMediatedNativeAdDelegate.h>
 #import "NativeAdKeys.h"
 
 @interface InMobiMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate,
@@ -45,10 +44,10 @@
   if (data) {
     self.nativeAdContentDictionary =
         [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if (![[self.nativeAdContentDictionary objectForKey:TITLE] length] ||
-        ![[self.nativeAdContentDictionary objectForKey:DESCRIPTION] length] ||
-        ![[self.nativeAdContentDictionary objectForKey:CTA] length] ||
-        ![self.nativeAdContentDictionary objectForKey:ICON]) {
+    if (![[self.native adTitle] length] ||
+        ![[self.native adDescription] length] ||
+        ![[self.native adCtaText] length] ||
+        ![self.native adIcon]) {
       [self inmobiMediatedNativeAppInstallAdFailed];
       return nil;
     }
