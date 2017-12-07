@@ -4,12 +4,7 @@
 //  Copyright (c) 2015 InMobi. All rights reserved.
 //
 
-#import <GoogleMobileAds/Mediation/GADMAdNetworkAdapterProtocol.h>
-#import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
-#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkAdapterProtocol.h>
-
+@import GoogleMobileAds;
 #import <InMobiSDK/IMBanner.h>
 #import <InMobiSDK/IMBannerDelegate.h>
 #import <InMobiSDK/IMInterstitial.h>
