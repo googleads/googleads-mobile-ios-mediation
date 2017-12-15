@@ -21,6 +21,9 @@
  */
 @property (nonatomic, assign) BOOL muted;
 
+@property (nonatomic, assign) NSUInteger ordinal;
+
+@property (nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
 
 @property (nonatomic, copy) NSArray<NSString *> * _Nonnull allPlacements;
 

@@ -109,7 +109,7 @@
 	[_connector adapterWillLeaveApplication:self];
 }
 
--(void)willCloseAd:(bool)completedView{
+- (void)willCloseAd:(BOOL)completedView {
 	[_connector adapterWillDismissInterstitial:self];
 	[_connector adapterDidDismissInterstitial:self];
 	desiredPlacement = nil;

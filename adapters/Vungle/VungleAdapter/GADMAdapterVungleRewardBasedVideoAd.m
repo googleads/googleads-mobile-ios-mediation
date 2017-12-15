@@ -96,7 +96,7 @@
 	[_connector adapterWillLeaveApplication:self];
 }
 
--(void)willCloseAd:(bool)completedView{
+- (void)willCloseAd:(BOOL)completedView {
 	if (completedView){
 		GADAdReward* reward = [[GADAdReward alloc] initWithRewardType:@"vungle"
                                                          rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];

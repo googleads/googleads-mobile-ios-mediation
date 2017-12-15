@@ -1,6 +1,6 @@
 #import "vungleHelper.h"
 
-static NSString *const vungleAdapterVersion = @"5.3.0";
+static NSString *const vungleAdapterVersion = @"5.3.2";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
@@ -144,6 +144,10 @@ static NSString *const kPlacementID = @"placementID";
     [VungleSDK sharedSDK].muted = extras.muted;
 	if (extras.userId)
 		[options setObject:extras.userId forKey:VunglePlayAdOptionKeyUser];
+    if (extras.ordinal)
+        [options setObject:@(extras.ordinal) forKey:VunglePlayAdOptionKeyOrdinal];
+    if (extras.flexViewAutoDismissSeconds)
+        [options setObject:@(extras.flexViewAutoDismissSeconds) forKey:VunglePlayAdOptionKeyFlexViewAutoDismissSeconds];
     if (![[VungleSDK sharedSDK] playAd:viewController
                                options:options
                            placementID:delegate.desiredPlacement
@@ -179,7 +183,7 @@ static NSString *const kPlacementID = @"placementID";
 
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info placementID:(nonnull NSString *)placementID {
 	if (_playingDelegate) {
-		[_playingDelegate willCloseAd:info.completedView];
+		[_playingDelegate willCloseAd:[info.completedView boolValue]];
 	}
 }
 
