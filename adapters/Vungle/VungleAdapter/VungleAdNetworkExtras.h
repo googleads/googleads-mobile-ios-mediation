@@ -11,22 +11,24 @@
 @interface VungleAdNetworkExtras : NSObject<GADAdNetworkExtras>
 
 /*!
- * @brief NSString with user identifier that will be passed if the ad is incentivized.
- * @discussion Optional. The value passed as 'user' in the an incentivized server-to-server call.
+ * @brief NSString with user identifier that will be passed if the ad is
+ * incentivized.
+ * @discussion Optional. The value passed as 'user' in the an incentivized
+ * server-to-server call.
  */
-@property (nonatomic, copy) NSString * _Nullable userId;
+@property(nonatomic, copy) NSString *_Nullable userId;
 
 /*!
  * @brief Controls whether presented ads will start in a muted state or not.
  */
-@property (nonatomic, assign) BOOL muted;
+@property(nonatomic, assign) BOOL muted;
 
-@property (nonatomic, assign) NSUInteger ordinal;
+@property(nonatomic, assign) NSUInteger ordinal;
 
-@property (nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
+@property(nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
 
-@property (nonatomic, copy) NSArray<NSString *> * _Nonnull allPlacements;
+@property(nonatomic, copy) NSArray<NSString *> *_Nonnull allPlacements;
 
-@property (nonatomic, copy) NSString * _Nonnull playingPlacement;
+@property(nonatomic, copy) NSString *_Nonnull playingPlacement;
 
 @end
