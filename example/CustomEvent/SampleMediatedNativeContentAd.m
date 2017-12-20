@@ -19,7 +19,6 @@
 
 #import "SampleMediatedNativeContentAd.h"
 
-#import "../SDK/SampleAdInfoView.h"
 #import "SampleCustomEventConstants.h"
 
 // You may notice that this class and the Mediation Adapter's

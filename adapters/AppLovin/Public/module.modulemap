@@ -8,5 +8,5 @@ framework module AppLovinAdapter {
   link framework "UIKit"
 
   // Import all your public header files here.
-  //header "YOUR_PUBLIC_HEADER.h"
+  header "GADMAdapterAppLovinExtras.h"
 }

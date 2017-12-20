@@ -17,10 +17,6 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
-
-#import "../SDK/SampleNativeAdLoader.h"
-#import "../SDK/SampleNativeAdRequest.h"
 #import "SampleCustomEventNativeAd.h"
 #import "SampleMediatedNativeAppInstallAd.h"
 #import "SampleMediatedNativeContentAd.h"
@@ -115,6 +111,10 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 // user clicks.
 - (BOOL)handlesUserClicks {
   return YES;
+}
+
+- (BOOL)handlesUserImpressions {
+  return NO;
 }
 
 #pragma mark SampleNativeAdLoaderDelegate implementation

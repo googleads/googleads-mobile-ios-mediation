@@ -1,5 +1,12 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 2.1.2.0
+- Verified compatibility with Unity Ads SDK 2.1.2.
+- Removed the support for 'armv7s' architecture.
+
+## Version 2.1.1.0
+- Verified compatibility with Unity Ads SDK 2.1.1.
+
 ## Version 2.1.0.0
 - Updated the adapter to make it compatible with Unity Ads SDK 2.1.0.
 

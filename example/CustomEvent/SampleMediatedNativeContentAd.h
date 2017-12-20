@@ -19,8 +19,7 @@
 
 @import Foundation;
 @import GoogleMobileAds;
-
-#import "../SDK/SampleNativeContentAd.h"
+@import SampleAdSDK;
 
 /// This class is responsible for "mapping" a native content ad to the interface
 /// expected by the Google Mobile Ads SDK. The names and data types of assets provided

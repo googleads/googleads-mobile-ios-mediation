@@ -42,34 +42,30 @@ To build the project, follow these steps:
 
 ## Mediation Adapters
 
-Open source adapters for mediating the following networks via the Google Mobile
-Ads SDK:
-
-* Unity Ads
-* Chartboost
-* Facebook Audience Network
-* AdColony
-* Tapjoy
-* MoPub
+Open source adapters for mediating via the Google Mobile Ads SDK. A list of
+these adapters is available on our
+[Mediation](https://developers.google.com/admob/ios/mediation#choosing_your_mediation_networks)
+page.
 
 # Downloads
 
-Please check out our
-[releases](https://github.com/googleads/googleads-mobile-ios-mediation/releases)
-for the latest downloads of our Mediation apps.
+For prebuilt versions of these adapters, see our
+[Bintray repository](https://bintray.com/google/mobile-ads-adapters-ios).
 
 # Documentation
 
 Check out our
-[developers site](https://firebase.google.com/docs/admob/) for documentation on
-using the SDK, and join the developer community on
+[developer site](https://developers.google.com/admob/ios) for documentation on
+using the SDK, and our
+[mediation developer guide](https://developers.google.com/admob/ios/mediation-developer)
+for information on how to create an adapter.
+You can also join the developer community on
 [our forum](https://groups.google.com/forum/#!forum/google-admob-ads-sdk).
 
 # Suggesting improvements
 
 To file bugs, make feature requests, or to suggest other improvements, please
-use [github's issue tracker]
-(https://github.com/googleads/googleads-mobile-ios-mediation/issues).
+use [github's issue tracker](https://github.com/googleads/googleads-mobile-ios-mediation/issues).
 
 # License
 

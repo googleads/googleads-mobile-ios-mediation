@@ -20,8 +20,7 @@
 #import "SampleCustomEventBanner.h"
 
 @import Foundation;
-
-#import "../SDK/SampleBanner.h"
+@import SampleAdSDK;
 
 /// Constant for Sample Ad Network custom event error domain.
 static NSString *const customEventErrorDomain = @"com.google.CustomEvent";

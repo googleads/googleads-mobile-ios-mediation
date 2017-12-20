@@ -18,7 +18,10 @@
 //
 
 @import UIKit;
+#import "AdSourceConfig.h"
 
 @interface ViewController : UIViewController
+
++ (instancetype)controllerWithAdSourceConfig:(AdSourceConfig *)adSourceConfig;
 
 @end

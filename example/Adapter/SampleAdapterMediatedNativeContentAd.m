@@ -19,7 +19,6 @@
 
 #import "SampleAdapterMediatedNativeContentAd.h"
 
-#import "../SDK/SampleAdInfoView.h"
 #import "SampleAdapterConstants.h"
 
 // You may notice that this class and the Custom Event's

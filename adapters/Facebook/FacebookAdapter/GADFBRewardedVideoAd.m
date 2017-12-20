@@ -13,12 +13,14 @@
 // limitations under the License.
 
 #import "GADFBRewardedVideoAd.h"
+
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+
+@import GoogleMobileAds;
+
 #import "GADFBAdapterDelegate.h"
 #import "GADMAdapterFacebook.h"
 #import "GADFBError.h"
-
-@import FBAudienceNetwork;
-@import GoogleMobileAds;
 
 @interface GADFBRewardedVideoAd () {
   /// Connector from Google Mobile Ads SDK which will receive ad configurations.

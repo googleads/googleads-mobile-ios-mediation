@@ -4,15 +4,9 @@
 //  Copyright (c) 2015 InMobi. All rights reserved.
 //
 
-#import <GoogleMobileAds/GADAdSize.h>
 #import "GADMAdapterInMobi.h"
 #import "GADInMobiExtras.h"
-#import <GoogleMobileAds/GADRequestError.h>
-#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
-#import <GoogleMobileAds/GADMediatedNativeAdNotificationSource.h>
-
 #import <InMobiSDK/IMSdk.h>
-#import "GADInMobiExtras.h"
 #import "InMobiMediatedNativeAppInstallAd.h"
 #import "NativeAdKeys.h"
 
@@ -85,7 +79,12 @@ __attribute__((constructor)) static void initialize_imageCache() {
              [self.rewardedConnector userGender] == kGADGenderFemale) {
     [IMSdk setGender:kIMSDKGenderFemale];
   }
-
+    
+  if([self.connector userBirthday] != nil){
+      NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[self.connector userBirthday]];
+    [IMSdk setYearOfBirth:[components year]];
+  }
+    
   if (self.rewardedConnector) {
     extraInfo = [self.rewardedConnector networkExtras];
   } else if (self.connector) {
@@ -99,8 +98,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
     if (extraInfo.age != nil) [IMSdk setAge:extraInfo.age];
     if (extraInfo.nationality != nil) [IMSdk setNationality:extraInfo.nationality];
     if (extraInfo.income != nil) [IMSdk setIncome:extraInfo.income];
-    if (extraInfo.loginId != nil) [IMSdk addId:extraInfo.loginId forType:kIMSDKIdTypeLogin];
-    if (extraInfo.sessionId != nil) [IMSdk addId:extraInfo.sessionId forType:kIMSDKIdTypeSession];
     if (extraInfo.yearOfBirth != nil) [IMSdk setYearOfBirth:extraInfo.yearOfBirth];
     if (extraInfo.city && extraInfo.state && extraInfo.country) {
       [IMSdk setLocationWithCity:extraInfo.city state:extraInfo.state country:extraInfo.country];
@@ -141,7 +138,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (Boolean)isPerformanceAd:(IMNative *)imNative {
-  NSData *data = [imNative.adContent dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [imNative.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
   NSDictionary *jsonDictionary =
       [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
@@ -185,7 +182,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
     [self.connector adapter:self didFailAd:reqError];
     return;
   }
-
   for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
     if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       continue;

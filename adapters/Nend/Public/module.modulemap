@@ -1,0 +1,11 @@
+framework module NendAdapter {
+  umbrella header "NendAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  header "GADNendRewardedNetworkExtras.h"
+}

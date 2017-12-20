@@ -32,8 +32,18 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		359ADF9B1EFDA81900E2DBFE /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 359ADF9A1EFDA81900E2DBFE /* README.md */; };
-		359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; };
+		359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3F32F6F1F4CDED3006FD441 /* ALGADQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F6D1F4CDED3006FD441 /* ALGADQueue.h */; };
+		B3F32F701F4CDED3006FD441 /* ALGADQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F32F6E1F4CDED3006FD441 /* ALGADQueue.m */; };
+		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3F32F7B1F4CDF18006FD441 /* GADMAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F731F4CDF18006FD441 /* GADMAdapterAppLovin.h */; };
+		B3F32F7C1F4CDF18006FD441 /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F32F741F4CDF18006FD441 /* GADMAdapterAppLovin.m */; };
+		B3F32F7D1F4CDF18006FD441 /* GADMAdapterAppLovinConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F751F4CDF18006FD441 /* GADMAdapterAppLovinConstants.h */; };
+		B3F32F7E1F4CDF18006FD441 /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F32F761F4CDF18006FD441 /* GADMAdapterAppLovinExtras.m */; };
+		B3F32F7F1F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F771F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.h */; };
+		B3F32F801F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F32F781F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
+		B3F32F811F4CDF18006FD441 /* GADMAdapterAppLovinUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F791F4CDF18006FD441 /* GADMAdapterAppLovinUtils.h */; };
+		B3F32F821F4CDF18006FD441 /* GADMAdapterAppLovinUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F32F7A1F4CDF18006FD441 /* GADMAdapterAppLovinUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,7 +59,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		359ADF9A1EFDA81900E2DBFE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		359ADF9C1EFDA83600E2DBFE /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppLovinAdapter.h; sourceTree = "<group>"; };
 		359ADFA11EFDBDC900E2DBFE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -61,6 +70,17 @@
 		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3F32F6D1F4CDED3006FD441 /* ALGADQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALGADQueue.h; sourceTree = "<group>"; };
+		B3F32F6E1F4CDED3006FD441 /* ALGADQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALGADQueue.m; sourceTree = "<group>"; };
+		B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinExtras.h; sourceTree = "<group>"; };
+		B3F32F731F4CDF18006FD441 /* GADMAdapterAppLovin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovin.h; sourceTree = "<group>"; };
+		B3F32F741F4CDF18006FD441 /* GADMAdapterAppLovin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovin.m; sourceTree = "<group>"; };
+		B3F32F751F4CDF18006FD441 /* GADMAdapterAppLovinConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinConstants.h; sourceTree = "<group>"; };
+		B3F32F761F4CDF18006FD441 /* GADMAdapterAppLovinExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinExtras.m; sourceTree = "<group>"; };
+		B3F32F771F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinRewardBasedVideoAd.h; sourceTree = "<group>"; };
+		B3F32F781F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinRewardBasedVideoAd.m; sourceTree = "<group>"; };
+		B3F32F791F4CDF18006FD441 /* GADMAdapterAppLovinUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinUtils.h; sourceTree = "<group>"; };
+		B3F32F7A1F4CDF18006FD441 /* GADMAdapterAppLovinUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +106,7 @@
 		359ADF971EFDA7D900E2DBFE /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */,
 				359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */,
 			);
 			path = Headers;
@@ -104,7 +125,16 @@
 		7D72B8C11DB97C10006EAE11 /* AppLovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				359ADF9A1EFDA81900E2DBFE /* README.md */,
+				B3F32F731F4CDF18006FD441 /* GADMAdapterAppLovin.h */,
+				B3F32F741F4CDF18006FD441 /* GADMAdapterAppLovin.m */,
+				B3F32F751F4CDF18006FD441 /* GADMAdapterAppLovinConstants.h */,
+				B3F32F761F4CDF18006FD441 /* GADMAdapterAppLovinExtras.m */,
+				B3F32F771F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.h */,
+				B3F32F781F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.m */,
+				B3F32F791F4CDF18006FD441 /* GADMAdapterAppLovinUtils.h */,
+				B3F32F7A1F4CDF18006FD441 /* GADMAdapterAppLovinUtils.m */,
+				B3F32F6D1F4CDED3006FD441 /* ALGADQueue.h */,
+				B3F32F6E1F4CDED3006FD441 /* ALGADQueue.m */,
 			);
 			path = AppLovinAdapter;
 			sourceTree = "<group>";
@@ -148,6 +178,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
+				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
+				B3F32F7F1F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
+				B3F32F6F1F4CDED3006FD441 /* ALGADQueue.h in Headers */,
+				B3F32F7B1F4CDF18006FD441 /* GADMAdapterAppLovin.h in Headers */,
+				B3F32F811F4CDF18006FD441 /* GADMAdapterAppLovinUtils.h in Headers */,
+				B3F32F7D1F4CDF18006FD441 /* GADMAdapterAppLovinConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +283,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				359ADF9B1EFDA81900E2DBFE /* README.md in Sources */,
+				B3F32F7E1F4CDF18006FD441 /* GADMAdapterAppLovinExtras.m in Sources */,
+				B3F32F701F4CDED3006FD441 /* ALGADQueue.m in Sources */,
+				B3F32F801F4CDF18006FD441 /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
+				B3F32F7C1F4CDF18006FD441 /* GADMAdapterAppLovin.m in Sources */,
+				B3F32F821F4CDF18006FD441 /* GADMAdapterAppLovinUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

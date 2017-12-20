@@ -1,0 +1,13 @@
+framework module MyTargetAdapter {
+  umbrella header "MyTargetAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Import all your public header files here.
+  header "GADMAdapterMyTargetExtras.h"
+  header "GADMAdapterMyTargetExtraAssets.h"
+}

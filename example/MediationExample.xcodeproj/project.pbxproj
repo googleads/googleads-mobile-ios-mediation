@@ -9,19 +9,9 @@
 /* Begin PBXBuildFile section */
 		267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m */; };
 		267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5CE1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m */; };
-		26D056591BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26D056561BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m */; };
-		26D0565A1BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26D056581BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m */; };
-		26E462EB1B87BFDB00D2C50F /* SampleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462EA1B87BFDB00D2C50F /* SampleAdapter.m */; };
 		26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462ED1B87BFE900D2C50F /* SampleCustomEventBanner.m */; };
 		26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */; };
-		26E462FA1B87BFF800D2C50F /* SampleAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462F31B87BFF800D2C50F /* SampleAdRequest.m */; };
-		26E462FB1B87BFF800D2C50F /* SampleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462F51B87BFF800D2C50F /* SampleBanner.m */; };
-		26E462FC1B87BFF800D2C50F /* SampleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462F81B87BFF800D2C50F /* SampleInterstitial.m */; };
 		26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */; };
-		26E463061B8911AD00D2C50F /* SampleNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463051B8911AD00D2C50F /* SampleNativeAdLoader.m */; };
-		26E4630A1B8916FA00D2C50F /* SampleNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463091B8916FA00D2C50F /* SampleNativeContentAd.m */; };
-		26E4630D1B89170900D2C50F /* SampleNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E4630C1B89170900D2C50F /* SampleNativeAppInstallAd.m */; };
-		26E463101B8AEA2800D2C50F /* SampleNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E4630F1B8AEA2800D2C50F /* SampleNativeAdRequest.m */; };
 		4A0575BE1C287FFB0085EBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0575BC1C287FFB0085EBE0 /* main.m */; };
 		4A8B03681C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */; };
 		4A8B03691C286F5C0052A060 /* ExampleNativeContentAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */; };
@@ -32,50 +22,48 @@
 		4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */; };
 		4A93FA591C286D8F00479579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93FA481C286D8F00479579 /* Images.xcassets */; };
 		4A93FA601C286D8F00479579 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA511C286D8F00479579 /* ViewController.m */; };
-		7D0E28A21DCA988E00641A8C /* SampleAdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */; };
-		C1106AB31D0773470045F5F9 /* SampleRewardBasedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */; };
-		C1106AB71D09E03E0045F5F9 /* SampleRewardBasedVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */; };
-		C1106ABB1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */; };
-		C1F187871D00FCB4003222D1 /* SampleAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */; };
+		AE5DE0491F3E0F32005C0A1D /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE0481F3E0F32005C0A1D /* StartViewController.m */; };
+		AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */; };
+		AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */; };
+		AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */; };
+		AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */; };
+		AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */; };
+		AE5DE0561F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */; };
+		AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; };
+		AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
+		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AEA5C54B1F3A828A00C96491 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */,
+				AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeAppInstallAd.h; path = CustomEvent/SampleMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
 		267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeAppInstallAd.m; path = CustomEvent/SampleMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
 		267DA5CD1B8D1DD500E6570E /* SampleMediatedNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeContentAd.h; path = CustomEvent/SampleMediatedNativeContentAd.h; sourceTree = "<group>"; };
 		267DA5CE1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeContentAd.m; path = CustomEvent/SampleMediatedNativeContentAd.m; sourceTree = "<group>"; };
-		26D056541BBC859D002286F4 /* SampleAdapterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterConstants.h; path = Adapter/SampleAdapterConstants.h; sourceTree = "<group>"; };
-		26D056551BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterMediatedNativeAppInstallAd.h; path = Adapter/SampleAdapterMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
-		26D056561BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdapterMediatedNativeAppInstallAd.m; path = Adapter/SampleAdapterMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
-		26D056571BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterMediatedNativeContentAd.h; path = Adapter/SampleAdapterMediatedNativeContentAd.h; sourceTree = "<group>"; };
-		26D056581BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdapterMediatedNativeContentAd.m; path = Adapter/SampleAdapterMediatedNativeContentAd.m; sourceTree = "<group>"; };
 		26DB16A81BA8E49700CC3C04 /* SampleCustomEventConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventConstants.h; path = CustomEvent/SampleCustomEventConstants.h; sourceTree = "<group>"; };
 		26E462B21B8693F600D2C50F /* MediationExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediationExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		26E462E91B87BFDB00D2C50F /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapter.h; path = Adapter/SampleAdapter.h; sourceTree = "<group>"; };
-		26E462EA1B87BFDB00D2C50F /* SampleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdapter.m; path = Adapter/SampleAdapter.m; sourceTree = "<group>"; };
 		26E462EC1B87BFE900D2C50F /* SampleCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventBanner.h; path = CustomEvent/SampleCustomEventBanner.h; sourceTree = "<group>"; };
 		26E462ED1B87BFE900D2C50F /* SampleCustomEventBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventBanner.m; path = CustomEvent/SampleCustomEventBanner.m; sourceTree = "<group>"; };
 		26E462EE1B87BFE900D2C50F /* SampleCustomEventInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventInterstitial.h; path = CustomEvent/SampleCustomEventInterstitial.h; sourceTree = "<group>"; };
 		26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventInterstitial.m; path = CustomEvent/SampleCustomEventInterstitial.m; sourceTree = "<group>"; };
-		26E462F21B87BFF800D2C50F /* SampleAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdRequest.h; path = SDK/SampleAdRequest.h; sourceTree = "<group>"; };
-		26E462F31B87BFF800D2C50F /* SampleAdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdRequest.m; path = SDK/SampleAdRequest.m; sourceTree = "<group>"; };
-		26E462F41B87BFF800D2C50F /* SampleBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleBanner.h; path = SDK/SampleBanner.h; sourceTree = "<group>"; };
-		26E462F51B87BFF800D2C50F /* SampleBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleBanner.m; path = SDK/SampleBanner.m; sourceTree = "<group>"; };
-		26E462F61B87BFF800D2C50F /* SampleBannerAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleBannerAdDelegate.h; path = SDK/SampleBannerAdDelegate.h; sourceTree = "<group>"; };
-		26E462F71B87BFF800D2C50F /* SampleInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleInterstitial.h; path = SDK/SampleInterstitial.h; sourceTree = "<group>"; };
-		26E462F81B87BFF800D2C50F /* SampleInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleInterstitial.m; path = SDK/SampleInterstitial.m; sourceTree = "<group>"; };
-		26E462F91B87BFF800D2C50F /* SampleInterstitialAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleInterstitialAdDelegate.h; path = SDK/SampleInterstitialAdDelegate.h; sourceTree = "<group>"; };
 		26E463011B890E8800D2C50F /* SampleCustomEventNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventNativeAd.h; path = CustomEvent/SampleCustomEventNativeAd.h; sourceTree = "<group>"; };
 		26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventNativeAd.m; path = CustomEvent/SampleCustomEventNativeAd.m; sourceTree = "<group>"; };
-		26E463041B8911AD00D2C50F /* SampleNativeAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleNativeAdLoader.h; path = SDK/SampleNativeAdLoader.h; sourceTree = "<group>"; };
-		26E463051B8911AD00D2C50F /* SampleNativeAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleNativeAdLoader.m; path = SDK/SampleNativeAdLoader.m; sourceTree = "<group>"; };
-		26E463071B89163200D2C50F /* SampleNativeAdLoaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleNativeAdLoaderDelegate.h; path = SDK/SampleNativeAdLoaderDelegate.h; sourceTree = "<group>"; };
-		26E463081B8916FA00D2C50F /* SampleNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleNativeContentAd.h; path = SDK/SampleNativeContentAd.h; sourceTree = "<group>"; };
-		26E463091B8916FA00D2C50F /* SampleNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleNativeContentAd.m; path = SDK/SampleNativeContentAd.m; sourceTree = "<group>"; };
-		26E4630B1B89170900D2C50F /* SampleNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleNativeAppInstallAd.h; path = SDK/SampleNativeAppInstallAd.h; sourceTree = "<group>"; };
-		26E4630C1B89170900D2C50F /* SampleNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleNativeAppInstallAd.m; path = SDK/SampleNativeAppInstallAd.m; sourceTree = "<group>"; };
-		26E4630E1B8AEA2800D2C50F /* SampleNativeAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleNativeAdRequest.h; path = SDK/SampleNativeAdRequest.h; sourceTree = "<group>"; };
-		26E4630F1B8AEA2800D2C50F /* SampleNativeAdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleNativeAdRequest.m; path = SDK/SampleNativeAdRequest.m; sourceTree = "<group>"; };
 		4A0575BB1C287FFB0085EBE0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MediationExample/Info.plist; sourceTree = SOURCE_ROOT; };
 		4A0575BC1C287FFB0085EBE0 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MediationExample/main.m; sourceTree = SOURCE_ROOT; };
 		4A8B03651C286F5C0052A060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MediationExample/Base.lproj/ExampleNativeAppInstallAdView.xib; sourceTree = SOURCE_ROOT; };
@@ -91,18 +79,18 @@
 		4A93FA481C286D8F00479579 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MediationExample/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4A93FA501C286D8F00479579 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = MediationExample/ViewController.h; sourceTree = SOURCE_ROOT; };
 		4A93FA511C286D8F00479579 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = MediationExample/ViewController.m; sourceTree = SOURCE_ROOT; };
-		7D0E28A01DCA988E00641A8C /* SampleAdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdInfoView.h; path = SDK/SampleAdInfoView.h; sourceTree = "<group>"; };
-		7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdInfoView.m; path = SDK/SampleAdInfoView.m; sourceTree = "<group>"; };
-		7DE79DF71DC9249500F9B652 /* SampleAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterProtocol.h; path = Adapter/SampleAdapterProtocol.h; sourceTree = "<group>"; };
-		C1106AB11D0773470045F5F9 /* SampleRewardBasedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideo.h; path = SDK/SampleRewardBasedVideo.h; sourceTree = "<group>"; };
-		C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideo.m; path = SDK/SampleRewardBasedVideo.m; sourceTree = "<group>"; };
-		C1106AB51D09E03E0045F5F9 /* SampleRewardBasedVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoController.h; path = SDK/SampleRewardBasedVideoController.h; sourceTree = "<group>"; };
-		C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideoController.m; path = SDK/SampleRewardBasedVideoController.m; sourceTree = "<group>"; };
-		C1106AB91D0F6F850045F5F9 /* SampleRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoAd.h; path = SDK/SampleRewardBasedVideoAd.h; sourceTree = "<group>"; };
-		C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleRewardBasedVideoAd.m; path = SDK/SampleRewardBasedVideoAd.m; sourceTree = "<group>"; };
-		C1B53EAE1D1897490027EF3A /* SampleRewardBasedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleRewardBasedVideoDelegate.h; path = SDK/SampleRewardBasedVideoDelegate.h; sourceTree = "<group>"; };
-		C1F187851D00FCB4003222D1 /* SampleAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAdapterDelegate.h; path = Adapter/SampleAdapterDelegate.h; sourceTree = "<group>"; };
-		C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAdapterDelegate.m; path = Adapter/SampleAdapterDelegate.m; sourceTree = "<group>"; };
+		AE5DE0471F3E0F32005C0A1D /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartViewController.h; path = MediationExample/StartViewController.h; sourceTree = SOURCE_ROOT; };
+		AE5DE0481F3E0F32005C0A1D /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = MediationExample/StartViewController.m; sourceTree = SOURCE_ROOT; };
+		AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventConstantsSwift.swift; sourceTree = "<group>"; };
+		AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventBannerSwift.swift; sourceTree = "<group>"; };
+		AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventInterstitialSwift.swift; sourceTree = "<group>"; };
+		AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventNativeAdSwift.swift; sourceTree = "<group>"; };
+		AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeAppInstallAdSwift.swift; sourceTree = "<group>"; };
+		AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeContentAdSwift.swift; sourceTree = "<group>"; };
+		AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDKAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
+		AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdSourceConfig.h; path = MediationExample/AdSourceConfig.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +98,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
+				AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */,
+				AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,11 +109,11 @@
 		26E462A91B8693F600D2C50F = {
 			isa = PBXGroup;
 			children = (
-				26E462E81B87BFC700D2C50F /* Adapter */,
 				26E462E61B87BFB500D2C50F /* CustomEvent */,
-				26E462E71B87BFC100D2C50F /* SDK */,
+				AE5DE04A1F3E14FA005C0A1D /* CustomEventSwift */,
 				26E462B41B8693F600D2C50F /* MediationExample */,
 				26E462B31B8693F600D2C50F /* Products */,
+				74DBB23D50D2FE6107613784 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,16 +135,19 @@
 				4A93FA461C286D8F00479579 /* ExampleNativeContentAdView.h */,
 				4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */,
 				4A93FA481C286D8F00479579 /* Images.xcassets */,
+				AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */,
+				AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */,
 				4A93FA501C286D8F00479579 /* ViewController.h */,
 				4A93FA511C286D8F00479579 /* ViewController.m */,
+				AE5DE0471F3E0F32005C0A1D /* StartViewController.h */,
+				AE5DE0481F3E0F32005C0A1D /* StartViewController.m */,
 				4A8B03751C286FDA0052A060 /* Main.storyboard */,
 				4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */,
 				4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */,
 				4A8B03731C286FDA0052A060 /* LaunchScreen.xib */,
 				4A8B037B1C28702D0052A060 /* Supporting Files */,
 			);
-			name = MediationExample;
-			path = MediationAdapterExample;
+			path = MediationExample;
 			sourceTree = "<group>";
 		};
 		26E462E61B87BFB500D2C50F /* CustomEvent */ = {
@@ -176,56 +168,6 @@
 			name = CustomEvent;
 			sourceTree = "<group>";
 		};
-		26E462E71B87BFC100D2C50F /* SDK */ = {
-			isa = PBXGroup;
-			children = (
-				26E462F21B87BFF800D2C50F /* SampleAdRequest.h */,
-				26E462F31B87BFF800D2C50F /* SampleAdRequest.m */,
-				26E462F41B87BFF800D2C50F /* SampleBanner.h */,
-				26E462F51B87BFF800D2C50F /* SampleBanner.m */,
-				26E462F61B87BFF800D2C50F /* SampleBannerAdDelegate.h */,
-				26E462F71B87BFF800D2C50F /* SampleInterstitial.h */,
-				26E462F81B87BFF800D2C50F /* SampleInterstitial.m */,
-				26E462F91B87BFF800D2C50F /* SampleInterstitialAdDelegate.h */,
-				C1106AB11D0773470045F5F9 /* SampleRewardBasedVideo.h */,
-				C1106AB21D0773470045F5F9 /* SampleRewardBasedVideo.m */,
-				C1B53EAE1D1897490027EF3A /* SampleRewardBasedVideoDelegate.h */,
-				C1106AB51D09E03E0045F5F9 /* SampleRewardBasedVideoController.h */,
-				C1106AB61D09E03E0045F5F9 /* SampleRewardBasedVideoController.m */,
-				C1106AB91D0F6F850045F5F9 /* SampleRewardBasedVideoAd.h */,
-				C1106ABA1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m */,
-				26E463041B8911AD00D2C50F /* SampleNativeAdLoader.h */,
-				26E463051B8911AD00D2C50F /* SampleNativeAdLoader.m */,
-				26E463071B89163200D2C50F /* SampleNativeAdLoaderDelegate.h */,
-				26E463081B8916FA00D2C50F /* SampleNativeContentAd.h */,
-				26E463091B8916FA00D2C50F /* SampleNativeContentAd.m */,
-				26E4630B1B89170900D2C50F /* SampleNativeAppInstallAd.h */,
-				26E4630C1B89170900D2C50F /* SampleNativeAppInstallAd.m */,
-				26E4630E1B8AEA2800D2C50F /* SampleNativeAdRequest.h */,
-				26E4630F1B8AEA2800D2C50F /* SampleNativeAdRequest.m */,
-				7D0E28A01DCA988E00641A8C /* SampleAdInfoView.h */,
-				7D0E28A11DCA988E00641A8C /* SampleAdInfoView.m */,
-			);
-			name = SDK;
-			sourceTree = "<group>";
-		};
-		26E462E81B87BFC700D2C50F /* Adapter */ = {
-			isa = PBXGroup;
-			children = (
-				26E462E91B87BFDB00D2C50F /* SampleAdapter.h */,
-				26E462EA1B87BFDB00D2C50F /* SampleAdapter.m */,
-				C1F187851D00FCB4003222D1 /* SampleAdapterDelegate.h */,
-				C1F187861D00FCB4003222D1 /* SampleAdapterDelegate.m */,
-				26D056541BBC859D002286F4 /* SampleAdapterConstants.h */,
-				7DE79DF71DC9249500F9B652 /* SampleAdapterProtocol.h */,
-				26D056551BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.h */,
-				26D056561BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m */,
-				26D056571BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.h */,
-				26D056581BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m */,
-			);
-			name = Adapter;
-			sourceTree = "<group>";
-		};
 		4A8B037B1C28702D0052A060 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +175,28 @@
 				4A0575BC1C287FFB0085EBE0 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74DBB23D50D2FE6107613784 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */,
+				AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AE5DE04A1F3E14FA005C0A1D /* CustomEventSwift */ = {
+			isa = PBXGroup;
+			children = (
+				AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */,
+				AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */,
+				AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */,
+				AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */,
+				AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */,
+				AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */,
+			);
+			path = CustomEventSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +209,7 @@
 				26E462AE1B8693F600D2C50F /* Sources */,
 				26E462AF1B8693F600D2C50F /* Frameworks */,
 				26E462B01B8693F600D2C50F /* Resources */,
+				AEA5C54B1F3A828A00C96491 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -266,6 +231,7 @@
 				TargetAttributes = {
 					26E462B11B8693F600D2C50F = {
 						CreatedOnToolsVersion = 6.3.2;
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -307,29 +273,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1106ABB1D0F6F850045F5F9 /* SampleRewardBasedVideoAd.m in Sources */,
 				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m in Sources */,
-				26E4630D1B89170900D2C50F /* SampleNativeAppInstallAd.m in Sources */,
-				26E463101B8AEA2800D2C50F /* SampleNativeAdRequest.m in Sources */,
-				26E462FB1B87BFF800D2C50F /* SampleBanner.m in Sources */,
-				26E462EB1B87BFDB00D2C50F /* SampleAdapter.m in Sources */,
-				C1F187871D00FCB4003222D1 /* SampleAdapterDelegate.m in Sources */,
-				7D0E28A21DCA988E00641A8C /* SampleAdInfoView.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
-				26E462FC1B87BFF800D2C50F /* SampleInterstitial.m in Sources */,
 				267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */,
-				C1106AB31D0773470045F5F9 /* SampleRewardBasedVideo.m in Sources */,
+				AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */,
+				AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift in Sources */,
 				26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */,
+				AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */,
+				AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */,
+				AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */,
+				AE5DE0491F3E0F32005C0A1D /* StartViewController.m in Sources */,
 				4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */,
 				4A0575BE1C287FFB0085EBE0 /* main.m in Sources */,
-				C1106AB71D09E03E0045F5F9 /* SampleRewardBasedVideoController.m in Sources */,
-				26E462FA1B87BFF800D2C50F /* SampleAdRequest.m in Sources */,
-				26D0565A1BBC859D002286F4 /* SampleAdapterMediatedNativeContentAd.m in Sources */,
+				AE5DE0561F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift in Sources */,
+				AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */,
 				4A93FA571C286D8F00479579 /* ExampleNativeAppInstallAdView.m in Sources */,
-				26E463061B8911AD00D2C50F /* SampleNativeAdLoader.m in Sources */,
 				26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */,
-				26D056591BBC859D002286F4 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */,
-				26E4630A1B8916FA00D2C50F /* SampleNativeContentAd.m in Sources */,
 				4A93FA521C286D8F00479579 /* AppDelegate.m in Sources */,
 				4A93FA601C286D8F00479579 /* ViewController.m in Sources */,
 			);
@@ -463,10 +422,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -475,10 +436,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
