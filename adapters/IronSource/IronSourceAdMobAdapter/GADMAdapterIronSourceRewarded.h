@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import "GADMAdapterIronSourceBase.h"
 
-/// Adapter for communicating with the IronSource Network to fetch nterstitial video ads
-@interface GADMAdapterIronSource : GADMAdapterIronSourceBase < GADMAdNetworkAdapter, ISInterstitialDelegate>
+/// Adapter for communicating with the IronSource Network to fetch reward-based video ads
+@interface GADMAdapterIronSourceRewarded : GADMAdapterIronSourceBase <GADMRewardBasedVideoAdNetworkAdapter, ISRewardedVideoDelegate>
 
 @end

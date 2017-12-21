@@ -37,6 +37,10 @@
 		AC6572731FBC7AAF0073C27E /* GADMAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */; };
 		AC6572741FBC7AAF0073C27E /* GADMIronSourceExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */; };
 		AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */; };
+		BF95CC941FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = BF95CC921FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.m */; };
+		BF95CC951FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = BF95CC931FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.h */; };
+		BFAC62E01FEBAD6100464237 /* GADMAdapterIronSourceBase.h in Headers */ = {isa = PBXBuildFile; fileRef = BFAC62DE1FEBAD6100464237 /* GADMAdapterIronSourceBase.h */; };
+		BFAC62E11FEBAD6100464237 /* GADMAdapterIronSourceBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAC62DF1FEBAD6100464237 /* GADMAdapterIronSourceBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +69,10 @@
 		62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		62D22D5E1E87DDE400E9E1F9 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		62D22D5F1E87DDF600E9E1F9 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		BF95CC921FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRewarded.m; sourceTree = "<group>"; };
+		BF95CC931FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRewarded.h; sourceTree = "<group>"; };
+		BFAC62DE1FEBAD6100464237 /* GADMAdapterIronSourceBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceBase.h; sourceTree = "<group>"; };
+		BFAC62DF1FEBAD6100464237 /* GADMAdapterIronSourceBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceBase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +108,13 @@
 		62D22D1E1E87AE7800E9E1F9 /* IronSourceAdMobAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				62D22D331E87B6C700E9E1F9 /* Headers */,
+				BFAC62DE1FEBAD6100464237 /* GADMAdapterIronSourceBase.h */,
+				BFAC62DF1FEBAD6100464237 /* GADMAdapterIronSourceBase.m */,
 				62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */,
 				62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */,
+				BF95CC931FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.h */,
+				BF95CC921FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.m */,
 				62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */,
 			);
 			path = IronSourceAdMobAdapter;
@@ -130,7 +143,6 @@
 		62D22D321E87B6C700E9E1F9 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				62D22D331E87B6C700E9E1F9 /* Headers */,
 				62D22D361E87B6C700E9E1F9 /* module.modulemap */,
 			);
 			path = Public;
@@ -152,8 +164,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFAC62E01FEBAD6100464237 /* GADMAdapterIronSourceBase.h in Headers */,
 				AC6572711FBC7A840073C27E /* GADMIronSourceExtras.h in Headers */,
 				AC6572721FBC7A840073C27E /* IronSourceAdapter.h in Headers */,
+				BF95CC951FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.h in Headers */,
 				AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,8 +274,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFAC62E11FEBAD6100464237 /* GADMAdapterIronSourceBase.m in Sources */,
 				AC6572731FBC7AAF0073C27E /* GADMAdapterIronSource.m in Sources */,
 				AC6572741FBC7AAF0073C27E /* GADMIronSourceExtras.m in Sources */,
+				BF95CC941FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
