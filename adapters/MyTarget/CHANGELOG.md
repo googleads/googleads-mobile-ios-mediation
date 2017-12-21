@@ -1,5 +1,5 @@
 # myTarget Adapter for Google Mobile Ads SDK for iOS
 
-## Version x.y.z.p
+## Version 4.6.24.0
 - First release!
 - Added support for banner, interstitial, rewarded, and native ads.

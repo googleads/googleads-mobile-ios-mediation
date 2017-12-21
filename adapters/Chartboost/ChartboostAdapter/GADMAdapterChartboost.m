@@ -213,10 +213,18 @@
 }
 
 - (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  if (_loading && [location isEqual:_chartboostAdLocation]) {
-    [_interstitialConnector adapter:self didFailAd:[self adRequestErrorTypeForCBLoadError:error]];
-    _loading = NO;
-  };
+  if ([location isEqual:_chartboostAdLocation]) {
+    if (_loading) {
+      [_interstitialConnector adapter:self didFailAd:[self adRequestErrorTypeForCBLoadError:error]];
+      _loading = NO;
+    } else if (error == CBLoadErrorInternetUnavailableAtShow) {
+      // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
+      // fails to present an ad for which a didCacheInterstitial event has already been sent.
+      [_interstitialConnector adapterWillPresentInterstitial:self];
+      [_interstitialConnector adapterWillDismissInterstitial:self];
+      [_interstitialConnector adapterDidDismissInterstitial:self];
+    }
+  }
 }
 
 - (void)didDismissInterstitial:(CBLocation)location {
@@ -244,10 +252,17 @@
 }
 
 - (void)didFailToLoadRewardedVideo:(CBLocation)location withError:(CBLoadError)error {
-  if (_loading && [location isEqual:_chartboostAdLocation]) {
-    [_rewardbasedVideoAdConnector adapter:self
-        didFailToLoadRewardBasedVideoAdwithError:[self adRequestErrorTypeForCBLoadError:error]];
-    _loading = NO;
+  if ([location isEqual:_chartboostAdLocation]) {
+    if (_loading) {
+      [_rewardbasedVideoAdConnector adapter:self
+          didFailToLoadRewardBasedVideoAdwithError:[self adRequestErrorTypeForCBLoadError:error]];
+      _loading = NO;
+    } else if (error == CBLoadErrorInternetUnavailableAtShow) {
+      // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
+      // fails to present an ad for which a didCacheRewardedVideo event has already been sent.
+      [_rewardbasedVideoAdConnector adapterDidOpenRewardBasedVideoAd:self];
+      [_rewardbasedVideoAdConnector adapterDidCloseRewardBasedVideoAd:self];
+    }
   }
 }
 
@@ -311,6 +326,12 @@
       break;
     case CBLoadErrorPrefetchingIncomplete:
       description = @"Video prefetching is not finished.";
+      break;
+    case CBLoadErrorWebViewScriptError:
+      description = @"Web view script error.";
+      break;
+    case CBLoadErrorInternetUnavailableAtShow:
+      description = @"Internet unavailable while presenting.";
       break;
     default:
       description = @"No inventory.";

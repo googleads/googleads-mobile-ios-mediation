@@ -8,7 +8,7 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterMyTargetExtras : NSObject <GADAdNetworkExtras>
+@interface GADMAdapterMyTargetExtras : NSObject<GADAdNetworkExtras>
 
 @property BOOL isDebugMode;
 

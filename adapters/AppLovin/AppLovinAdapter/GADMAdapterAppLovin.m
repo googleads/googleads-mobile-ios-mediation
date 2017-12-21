@@ -19,6 +19,9 @@
     #import "ALInterstitialAd.h"
 #endif
 
+#define AD_VIEW_EVENT_DELEGATE_AVAILABLE \
+  ([[ALSdk version] compare:@"4.3.0" options:NSNumericSearch] != NSOrderedAscending)
+
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 
 @property(nonatomic, strong) ALSdk *sdk;
@@ -26,6 +29,15 @@
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @property(nonatomic, copy) NSString *placement;
 
+// Banner properties
+@property(nonatomic, strong) ALAdView *adView;
+
+@end
+
+@interface AppLovinGADMAdapterBannerDelegate
+    : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+@property(nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
+- (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
 @end
 
 @implementation GADMAdapterAppLovin
@@ -111,23 +123,6 @@ static bool loggingEnabled = NO;
   self.connector = nil;
 }
 
-#pragma mark - Banner Methods
-
-- (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      [NSError errorWithDomain:kGADMAdapterAppLovinErrorDomain
-                          code:kGADErrorInvalidRequest
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : @"Banners are not supported by this adapter"
-                      }];
-
-  [self.connector adapter:self didFailAd:error];
-}
-
-- (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-  return NO;
-}
-
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
@@ -193,15 +188,174 @@ static bool loggingEnabled = NO;
   return _interstitial;
 }
 
+#pragma mark - Banner Implementation
+
+- (void)getBannerWithSize:(GADAdSize)adSize {
+  [self log:@"Requesting AppLovin banner of size %@", NSStringFromGADAdSize(adSize)];
+
+  // Convert requested size to AppLovin Ad Size
+  ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize:adSize];
+  if (appLovinAdSize) {
+    CGSize size = CGSizeFromGADAdSize(adSize);
+
+    self.adView = [[ALAdView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, size.width, size.height)
+                                             size:appLovinAdSize
+                                              sdk:self.sdk];
+
+    AppLovinGADMAdapterBannerDelegate *delegate =
+        [[AppLovinGADMAdapterBannerDelegate alloc] initWithParentAdapter:self];
+    self.adView.adLoadDelegate = delegate;
+    self.adView.adDisplayDelegate = delegate;
+
+    // As of AppLovin iOS SDK >= 4.3.0, we added a delegate for banner events
+    if (AD_VIEW_EVENT_DELEGATE_AVAILABLE) {
+      self.adView.adEventDelegate = delegate;
+    }
+
+    [self.sdk.adService loadNextAd:appLovinAdSize andNotify:delegate];
+  } else {
+    [self log:@"Failed to create an AppLovin Banner with invalid size"];
+
+    NSError *error = [NSError errorWithDomain:kGADMAdapterAppLovinErrorDomain
+                                         code:kGADErrorMediationInvalidAdSize
+                                     userInfo:nil];
+
+    [self.connector adapter:self didFailAd:error];
+  }
+}
+
+- (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
+  return YES;
+}
+
+#pragma mark - Banner Utility Methods
+
+- (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size {
+  if (GADAdSizeEqualToSize(kGADAdSizeBanner, size)) {
+    return [ALAdSize sizeBanner];
+  } else if (GADAdSizeEqualToSize(kGADAdSizeMediumRectangle, size)) {
+    return [ALAdSize sizeMRec];
+  } else if (GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size)) {
+    return [ALAdSize sizeLeader];
+  }
+  // This is not a concrete size, so attempt to check for fluid size
+  else {
+    CGSize frameSize = size.size;
+    if (CGRectGetWidth([UIScreen mainScreen].bounds) == frameSize.width) {
+      CGFloat frameHeight = frameSize.height;
+      if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height) {
+        return [ALAdSize sizeBanner];
+      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeMediumRectangle).height) {
+        return [ALAdSize sizeMRec];
+      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeLeaderboard).height) {
+        return [ALAdSize sizeLeader];
+      }
+    }
+  }
+
+  [self log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
+
+  return nil;
+}
+
+#pragma mark - Utility Methods
+
 - (void)log:(NSString *)format, ... {
-  if (!loggingEnabled) return;
+  if (loggingEnabled) {
+    va_list valist;
+    va_start(valist, format);
+    NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+    va_end(valist);
 
-  va_list valist;
-  va_start(valist, format);
-  NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
-  va_end(valist);
+    NSLog(@"AppLovinAdapter: %@", message);
+  }
+}
 
-  NSLog(@"AppLovinAdapter: %@", message);
+@end
+
+@implementation AppLovinGADMAdapterBannerDelegate
+
+#pragma mark - Initialization
+
+- (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter {
+  self = [super init];
+  if (self) {
+    self.parentAdapter = parentAdapter;
+  }
+  return self;
+}
+
+#pragma mark - AppLovin Ad Load Delegate
+
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
+  [self.parentAdapter log:@"Banner did load ad: %@", ad.adIdNumber];
+
+  NSString *placement =
+      [GADMAdapterAppLovinUtils placementFromCredentials:self.parentAdapter.connector.credentials];
+  [self.parentAdapter.adView render:ad overPlacement:placement];
+
+  [self.parentAdapter.connector adapter:self.parentAdapter
+                       didReceiveAdView:self.parentAdapter.adView];
+}
+
+- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
+  [self.parentAdapter log:@"Banner failed to load with error: %d", code];
+
+  NSError *error = [NSError errorWithDomain:kGADMAdapterAppLovinErrorDomain
+                                       code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
+                                   userInfo:nil];
+  [self.parentAdapter.connector adapter:self.parentAdapter didFailAd:error];
+}
+
+#pragma mark - Ad Display Delegate
+
+- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
+  [self.parentAdapter log:@"Banner displayed"];
+}
+
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+  [self.parentAdapter log:@"Banner dismissed"];
+}
+
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
+  [self.parentAdapter log:@"Banner clicked"];
+
+  [self.parentAdapter.connector adapterDidGetAdClick:self.parentAdapter];
+
+  if (!AD_VIEW_EVENT_DELEGATE_AVAILABLE) {
+    [self.parentAdapter.connector adapterWillLeaveApplication:self.parentAdapter];
+  }
+}
+
+#pragma mark - Ad View Event Delegate
+
+- (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView {
+  [self.parentAdapter log:@"Banner presented fullscreen"];
+  [self.parentAdapter.connector adapterWillPresentFullScreenModal:self.parentAdapter];
+}
+
+- (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView {
+  [self.parentAdapter log:@"Banner will dismiss fullscreen"];
+  [self.parentAdapter.connector adapterWillDismissFullScreenModal:self.parentAdapter];
+}
+
+- (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView {
+  [self.parentAdapter log:@"Banner did dismiss fullscreen"];
+  [self.parentAdapter.connector adapterDidDismissFullScreenModal:self.parentAdapter];
+}
+
+- (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView {
+  [self.parentAdapter log:@"Banner left application"];
+
+  if (AD_VIEW_EVENT_DELEGATE_AVAILABLE) {
+    [self.parentAdapter.connector adapterWillLeaveApplication:self.parentAdapter];
+  }
+}
+
+- (void)ad:(ALAd *)ad
+    didFailToDisplayInAdView:(ALAdView *)adView
+                   withError:(ALAdViewDisplayErrorCode)code {
+  [self.parentAdapter log:@"Banner failed to display: %ld", code];
 }
 
 @end
