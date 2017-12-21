@@ -10,12 +10,14 @@
 
 @implementation GADMAdapterMyTargetExtras
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _isDebugMode = YES;
-  }
-  return self;
+- (instancetype)init
+{
+	self = [super init];
+	if (self)
+	{
+		_isDebugMode = YES;
+	}
+	return self;
 }
 
 @end
