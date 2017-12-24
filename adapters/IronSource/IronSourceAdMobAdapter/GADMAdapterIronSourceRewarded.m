@@ -18,7 +18,7 @@
     // Connector from Google Mobile Ads SDK to receive rewarded video ad configurations.
     __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardbasedVideoAdConnector;
 
-    // IronSource interstitial placement name
+    // IronSource rewardedVideo placement name
     NSString *_rewardedVideoPlacementName;
 }
 
@@ -57,23 +57,24 @@
     if ([[strongConnector credentials] objectForKey:@"rewardedVideoPlacement"]) {
         _rewardedVideoPlacementName = [[strongConnector credentials] objectForKey:@"rewardedVideoPlacement"];
     }
-    
-    NSString *log = [NSString stringWithFormat:@"setUp params: appKey=%@, self.isTestEnabled=%d, _rewardedVideoPlacementName=%@", applicationKey, self.isTestEnabled, _rewardedVideoPlacementName];
-    [self onLog:log];
-    
-    if ([self isEmpty:applicationKey]) {
+
+    if (![self isEmpty:applicationKey]) {
+        NSString *log = [NSString stringWithFormat:@"setUp params: appKey=%@, self.isTestEnabled=%d, _rewardedVideoPlacementName=%@", applicationKey, self.isTestEnabled, _rewardedVideoPlacementName];
+        [self onLog:log];
+        
         [IronSource setRewardedVideoDelegate:self];
         [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_REWARDED_VIDEO];
         [self requestRewardBasedVideoAd];
     } else {
+        NSString *log = [NSString stringWithFormat:@"Fail to setup, appKey parameter is missing"];
+        [self onLog:log];
+        
         NSError *error = [self createErrorWith:@"IronSource Adapter failed to setUp"
                                      andReason:@"appKey parameter is missing"
                                  andSuggestion:@"make sure that 'appKey' server parameter is added"];
         
         [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
     }
-    
-    [self onLog:@"setUp"];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
