@@ -14,6 +14,8 @@
 
 #import "GADMAdapterIronSourceRewarded.h"
 
+NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPlacement";
+
 @interface GADMAdapterIronSourceRewarded () {
     // Connector from Google Mobile Ads SDK to receive rewarded video ad configurations.
     __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardbasedVideoAdConnector;
@@ -43,19 +45,19 @@
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     
     NSString *applicationKey = @"";
-    if ([[strongConnector credentials] objectForKey:@"appKey"]) {
-        applicationKey = [[strongConnector credentials] objectForKey:@"appKey"];
+    if ([[strongConnector credentials] objectForKey:@kGADMAdapterIronSourceAppKey]) {
+        applicationKey = [[strongConnector credentials] objectForKey:kGADMAdapterIronSourceAppKey];
     }
     
-    if ([[strongConnector credentials] objectForKey:@"isTestEnabled"] != nil) {
-        self.isTestEnabled = [[[strongConnector credentials] objectForKey:@"isTestEnabled"] boolValue];
+    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceIsTestEnabled] != nil) {
+        self.isTestEnabled = [[[strongConnector credentials] objectForKey:kGADMAdapterIronSourceIsTestEnabled] boolValue];
     } else {
         self.isTestEnabled = NO;
     }
     
     _rewardedVideoPlacementName = @"";
-    if ([[strongConnector credentials] objectForKey:@"rewardedVideoPlacement"]) {
-        _rewardedVideoPlacementName = [[strongConnector credentials] objectForKey:@"rewardedVideoPlacement"];
+    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceRewardedVideoPlacement]) {
+        _rewardedVideoPlacementName = [[strongConnector credentials] objectForKey:kGADMAdapterIronSourceRewardedVideoPlacement];
     }
 
     if (![self isEmpty:applicationKey]) {
