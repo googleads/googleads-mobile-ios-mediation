@@ -392,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				MODULE_MAP_PATH = "$(SRCROOT)/Public/*";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AdMobAdapter;
 				SKIP_INSTALL = YES;
@@ -403,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				MODULE_MAP_PATH = "$(SRCROOT)/Public/*";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AdMobAdapter;
 				SKIP_INSTALL = YES;
