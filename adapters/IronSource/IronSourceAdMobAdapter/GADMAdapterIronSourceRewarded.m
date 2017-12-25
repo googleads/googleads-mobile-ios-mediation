@@ -45,7 +45,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     
     NSString *applicationKey = @"";
-    if ([[strongConnector credentials] objectForKey:@kGADMAdapterIronSourceAppKey]) {
+    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceAppKey]) {
         applicationKey = [[strongConnector credentials] objectForKey:kGADMAdapterIronSourceAppKey];
     }
     
