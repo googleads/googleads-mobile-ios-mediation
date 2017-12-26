@@ -28,7 +28,16 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 
 @implementation GADMAdapterIronSourceRewarded
 
+static BOOL initRewardedVideoSuccessfully;
+
 #pragma mark Admob GADMRewardBasedVideoAdNetworkAdapter
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self onLog:@"general RV init"];
+    }
+    return self;
+}
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector: (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
     if (!connector) {
@@ -37,6 +46,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
     self = [super init];
     if (self) {
         _rewardbasedVideoAdConnector = connector;
+        [self onLog:@"RV init"];
     }
     return self;
 }
@@ -65,7 +75,12 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
         [self onLog:log];
         
         [IronSource setRewardedVideoDelegate:self];
-        [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_REWARDED_VIDEO];
+        
+        if (!initRewardedVideoSuccessfully) {
+            [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_REWARDED_VIDEO];
+            initRewardedVideoSuccessfully = YES;
+        }
+        
         [self requestRewardBasedVideoAd];
     } else {
         NSString *log = [NSString stringWithFormat:@"Fail to setup, appKey parameter is missing"];

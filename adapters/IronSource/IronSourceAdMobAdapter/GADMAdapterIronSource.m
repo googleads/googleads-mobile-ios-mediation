@@ -29,7 +29,17 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 
 @implementation GADMAdapterIronSource
 
+static BOOL initInterstitialSuccessfully;
+
+
 #pragma mark Admob GADMAdNetworkConnector
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self onLog:@"general IS init"];
+    }
+    return self;
+}
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
     if (!connector) {
@@ -37,6 +47,7 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
     }
     self = [super init];
     if (self) {
+        [self onLog:@"IS init"];
         _interstitialConnector = connector;
     }
     return self;
@@ -67,7 +78,12 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
     if (![self isEmpty:applicationKey]) {
         
         [IronSource setInterstitialDelegate:self];
-        [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_INTERSTITIAL];
+        
+        if (!initInterstitialSuccessfully) {
+            [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_INTERSTITIAL];
+            initInterstitialSuccessfully = YES;
+        }
+        
         [self loadInterstitialAd];
     } else {
         
