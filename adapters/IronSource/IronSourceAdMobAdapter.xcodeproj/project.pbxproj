@@ -35,12 +35,12 @@
 		AC6572731FBC7AAF0073C27E /* GADMAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D4C1E87BB3100E9E1F9 /* GADMAdapterIronSource.m */; };
 		AC6572741FBC7AAF0073C27E /* GADMIronSourceExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */; };
 		AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */; };
-		BF43521C1FEFB432001577AA /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BF43521A1FEFB432001577AA /* IronSourceAdapter.h */; };
-		BF43521D1FEFB432001577AA /* GADMIronSourceExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = BF43521B1FEFB432001577AA /* GADMIronSourceExtras.h */; };
 		BF95CC941FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = BF95CC921FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.m */; };
 		BF95CC951FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = BF95CC931FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.h */; };
 		BFAC62E01FEBAD6100464237 /* GADMAdapterIronSourceBase.h in Headers */ = {isa = PBXBuildFile; fileRef = BFAC62DE1FEBAD6100464237 /* GADMAdapterIronSourceBase.h */; };
 		BFAC62E11FEBAD6100464237 /* GADMAdapterIronSourceBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAC62DF1FEBAD6100464237 /* GADMAdapterIronSourceBase.m */; };
+		BFBF837E1FF3E94800FC73CB /* GADMIronSourceExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBF837B1FF3E94800FC73CB /* GADMIronSourceExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFBF837F1FF3E94800FC73CB /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBF837C1FF3E94800FC73CB /* IronSourceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,7 +59,6 @@
 		62D22D291E87B68E00E9E1F9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		62D22D2A1E87B68E00E9E1F9 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		62D22D2B1E87B68E00E9E1F9 /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
-		62D22D361E87B6C700E9E1F9 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		62D22D3A1E87B81400E9E1F9 /* GADMIronSourceExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMIronSourceExtras.m; sourceTree = "<group>"; };
 		62D22D411E87BA6A00E9E1F9 /* libAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdMobAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		62D22D4B1E87BB3100E9E1F9 /* GADMAdapterIronSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSource.h; sourceTree = "<group>"; };
@@ -67,12 +66,13 @@
 		62D22D5D1E87DCE500E9E1F9 /* Adapter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		62D22D5E1E87DDE400E9E1F9 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		62D22D5F1E87DDF600E9E1F9 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		BF43521A1FEFB432001577AA /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IronSourceAdapter.h; path = Headers/IronSourceAdapter.h; sourceTree = "<group>"; };
-		BF43521B1FEFB432001577AA /* GADMIronSourceExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADMIronSourceExtras.h; path = Headers/GADMIronSourceExtras.h; sourceTree = "<group>"; };
 		BF95CC921FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRewarded.m; sourceTree = "<group>"; };
 		BF95CC931FEAC0820007AB8E /* GADMAdapterIronSourceRewarded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRewarded.h; sourceTree = "<group>"; };
 		BFAC62DE1FEBAD6100464237 /* GADMAdapterIronSourceBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceBase.h; sourceTree = "<group>"; };
 		BFAC62DF1FEBAD6100464237 /* GADMAdapterIronSourceBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceBase.m; sourceTree = "<group>"; };
+		BFBF837B1FF3E94800FC73CB /* GADMIronSourceExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMIronSourceExtras.h; sourceTree = "<group>"; };
+		BFBF837C1FF3E94800FC73CB /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IronSourceAdapter.h; sourceTree = "<group>"; };
+		BFBF837D1FF3E94800FC73CB /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				62D22D1E1E87AE7800E9E1F9 /* IronSourceAdMobAdapter */,
-				62D22D321E87B6C700E9E1F9 /* Public */,
+				BFBF83791FF3E94800FC73CB /* Public */,
 				62D22D281E87B68E00E9E1F9 /* BuildScript */,
 				62D22D2C1E87B69700E9E1F9 /* Configuration */,
 				62D22D1D1E87AE7800E9E1F9 /* Products */,
@@ -139,14 +139,22 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		62D22D321E87B6C700E9E1F9 /* Public */ = {
+		BFBF83791FF3E94800FC73CB /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				BF43521B1FEFB432001577AA /* GADMIronSourceExtras.h */,
-				BF43521A1FEFB432001577AA /* IronSourceAdapter.h */,
-				62D22D361E87B6C700E9E1F9 /* module.modulemap */,
+				BFBF837A1FF3E94800FC73CB /* Headers */,
+				BFBF837D1FF3E94800FC73CB /* module.modulemap */,
 			);
 			path = Public;
+			sourceTree = "<group>";
+		};
+		BFBF837A1FF3E94800FC73CB /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				BFBF837B1FF3E94800FC73CB /* GADMIronSourceExtras.h */,
+				BFBF837C1FF3E94800FC73CB /* IronSourceAdapter.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,11 +164,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF43521D1FEFB432001577AA /* GADMIronSourceExtras.h in Headers */,
+				BFBF837E1FF3E94800FC73CB /* GADMIronSourceExtras.h in Headers */,
+				BFBF837F1FF3E94800FC73CB /* IronSourceAdapter.h in Headers */,
 				BFAC62E01FEBAD6100464237 /* GADMAdapterIronSourceBase.h in Headers */,
 				BF95CC951FEAC0830007AB8E /* GADMAdapterIronSourceRewarded.h in Headers */,
 				AC6572751FBC7AC10073C27E /* GADMAdapterIronSource.h in Headers */,
-				BF43521C1FEFB432001577AA /* IronSourceAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +400,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public/*";
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AdMobAdapter;
 				SKIP_INSTALL = YES;
@@ -404,7 +412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public/*";
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AdMobAdapter;
 				SKIP_INSTALL = YES;
