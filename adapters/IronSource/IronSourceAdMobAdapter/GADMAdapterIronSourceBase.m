@@ -15,7 +15,11 @@
 
 #import "GADMAdapterIronSourceBase.h"
 
-@implementation GADMAdapterIronSourceBase 
+@implementation GADMAdapterIronSourceBase {
+    BOOL _initSucceeded;
+}
+
+
 // IronSource internal reporting const
 NSString *const kGADMMediationName = @"AdMob";
 // IronSource parameters keys
@@ -42,15 +46,18 @@ NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
     // 1 - We are not sending user ID from adapters anymore,
     //     the IronSource SDK will take care of this identifier
     // 2 - We assume the init is always successful (we will fail in load if needed)
-    [self onLog:@"initIronSourceSDKWithAppKey"];
-    [IronSource setMediationType:kGADMMediationName];
-    [IronSource initWithAppKey:appKey adUnits:@[adUnit]];
+    if (!_initSucceeded) {
+        [self onLog:@"initIronSourceSDKWithAppKey"];
+        [IronSource setMediationType:kGADMMediationName];
+        [IronSource initWithAppKey:appKey adUnits:@[adUnit]];
+        _initSucceeded = YES;
+    }
 }
 
 - (void)onLog: (NSString *)log {
-    //if (self.isTestEnabled) {
+    if (self.isTestEnabled) {
         NSLog(@"IronSourceAdapter: %@" , log);
-   // }
+    }
 }
 
 -(BOOL)isEmpty:(id)value
