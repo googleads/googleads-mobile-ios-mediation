@@ -1,5 +1,8 @@
 # Chartboost Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.0.4.0
+- Verified compatibility with Chartboost SDK 7.0.4.
+
 ## Version 7.0.3.0
 - Verified compatibility with Chartboost SDK 7.0.3.
 

@@ -15,8 +15,7 @@
 @import Foundation;
 @import UIKit;
 @import GoogleMobileAds;
-
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
+@import FBAudienceNetwork;
 
 #import "GADFBAdapterDelegate.h"
 

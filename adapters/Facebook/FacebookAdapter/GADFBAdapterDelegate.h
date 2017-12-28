@@ -13,8 +13,7 @@
 // limitations under the License.
 
 @import Foundation;
-
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
+@import FBAudienceNetwork;
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
