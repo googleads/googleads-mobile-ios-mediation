@@ -1,2 +1,4 @@
-Drop all necessary frameworks in this folder. Don’t link them to any target in
-Xcode project.
+
+Drop all necessary frameworks in this folder.
+Include: 'GoogleMobileAds.framework', 'IronSource.framework'.
+Don’t link them to any target in Xcode project.
