@@ -1,4 +1,4 @@
-# Tapjoy Mediation Adapter for Google Mobile Ads SDK for iOS
+# IronSource Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Version 11.9.1.0
+## Version 6.7.4
 - Initial release. Supports reward-based video ads and interstitial ads.
