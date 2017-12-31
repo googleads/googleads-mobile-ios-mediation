@@ -2,8 +2,6 @@
 # Combine iOS Device and Simulator libraries for the various architectures
 # into a single framework.
 
-UNIVERSAL_OUTPUTFOLDER="../../iOS-Testers/ISMedAdapters/AdaptersFrameworks"
-
 # Remove build directories if exist.
 if [ -d "${BUILT_PRODUCTS_DIR}" ]; then
 rm -rf "${BUILT_PRODUCTS_DIR}"
@@ -17,7 +15,6 @@ fi
 # Create output directory.
 mkdir -p "${OUTPUT_FOLDER}"
 
-
 # Export framework at path.
 export FRAMEWORK_LOCATION="${BUILT_PRODUCTS_DIR}/${FRAMEWORK_NAME}.framework"
 
@@ -30,11 +27,8 @@ mkdir -p "${FRAMEWORK_LOCATION}/Versions/A/Headers"
 /bin/ln -sfh "Versions/Current/${FRAMEWORK_NAME}" \
 "${FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
 
-echo $FRAMEWORK_NAME
-echo 'oooooooooo'
-
 # Build static library for iOS Device.
-xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphoneos" ARCHS="armv7 armv7s arm64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
+xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphoneos" ARCHS="armv7 arm64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
 
 # Build static library for iOS Simulator.
 xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphonesimulator" ARCHS="i386 x86_64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
@@ -49,17 +43,8 @@ lipo -create "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${LIB_NAME}.a" "${BUILD_DIR
 # Copy the framework to the library directory.
 ditto "${FRAMEWORK_LOCATION}" "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework"
 
-echo $FRAMEWORK_NAME 
-
 # Create Modules directory.
 mkdir -p "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework/Modules"
 
 # Copy the module map to modules directory.
 /bin/cp -a "${MODULE_MAP_PATH}/module.modulemap" "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework/Modules/module.modulemap"
-
-# Convenience step to copy the framework to the tester directory
-if [ -d "${UNIVERSAL_OUTPUTFOLDER}" ]; then
-rm -fr "${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework"
-cp -R "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework" "${UNIVERSAL_OUTPUTFOLDER}/"
-fi
-
