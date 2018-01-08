@@ -6,9 +6,9 @@
 //
 //
 
+#import "GADMAdapterInMobi.h"
 #import <Foundation/Foundation.h>
 #import <InMobiSDK/IMNative.h>
-#import "GADMAdapterInMobi.h"
 
 @class InMobiMediatedNativeAppInstallAd;
 
