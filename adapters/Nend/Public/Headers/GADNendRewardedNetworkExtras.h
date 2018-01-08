@@ -7,9 +7,8 @@
 
 @import GoogleMobileAds;
 
-@interface GADNendRewardedNetworkExtras : NSObject <GADAdNetworkExtras>
+@interface GADNendRewardedNetworkExtras : NSObject<GADAdNetworkExtras>
 
-@property (nonatomic, copy) NSString *userId;
+@property(nonatomic, copy) NSString *userId;
 
 @end
-
