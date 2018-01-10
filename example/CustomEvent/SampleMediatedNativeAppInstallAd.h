@@ -30,9 +30,9 @@
 
 - (null_unspecified instancetype)init NS_UNAVAILABLE;
 
-- (nullable instancetype)initWithSampleNativeAppInstallAd:
-            (nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd
-                                    nativeAdViewAdOptions:
-            (nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)
+    initWithSampleNativeAppInstallAd:(nonnull SampleNativeAppInstallAd *)sampleNativeAppInstallAd
+               nativeAdViewAdOptions:(nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions
+    NS_DESIGNATED_INITIALIZER;
 
 @end
