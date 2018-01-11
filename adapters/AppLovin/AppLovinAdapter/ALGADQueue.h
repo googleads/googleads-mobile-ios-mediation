@@ -1,6 +1,6 @@
 //
 //  ALGADQueue.h
-//  sdk
+//
 //
 //  Created by Thomas So on 10/27/16.
 //
