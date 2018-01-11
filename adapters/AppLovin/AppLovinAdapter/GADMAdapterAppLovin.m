@@ -16,8 +16,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-#define AD_VIEW_EVENT_DELEGATE_AVAILABLE ([[ALSdk version] compare:@"4.3.0" options:NSNumericSearch] != NSOrderedAscending)
-
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate>
 
 // Controlled Properties
@@ -105,10 +103,7 @@ static bool kALLoggingEnabled = NO;
     
     self.adView.adLoadDelegate = nil;
     self.adView.adDisplayDelegate = nil;
-    if ( AD_VIEW_EVENT_DELEGATE_AVAILABLE )
-    {
-        self.adView.adEventDelegate = nil;
-    }
+    self.adView.adEventDelegate = nil;
 }
 
 #pragma mark - GAD Ad Network Protocol Interstitial Methods
@@ -206,12 +201,7 @@ static bool kALLoggingEnabled = NO;
         GADMAdapterAppLovinBannerDelegate *delegate = [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter: self];
         self.adView.adLoadDelegate = delegate;
         self.adView.adDisplayDelegate = delegate;
-        
-        // As of AppLovin iOS SDK >= 4.3.0, we added a delegate for banner events
-        if ( AD_VIEW_EVENT_DELEGATE_AVAILABLE )
-        {
-            self.adView.adEventDelegate = delegate;
-        }
+        self.adView.adEventDelegate = delegate;
         
         [self.sdk.adService loadNextAd: appLovinAdSize andNotify: delegate];
     }
@@ -423,13 +413,7 @@ static bool kALLoggingEnabled = NO;
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
 {
     [self.parentAdapter log: @"Banner clicked"];
-    
     [self.parentAdapter.connector adapterDidGetAdClick: self.parentAdapter];
-    
-    if ( !AD_VIEW_EVENT_DELEGATE_AVAILABLE )
-    {
-        [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
-    }
 }
 
 #pragma mark - Ad View Event Delegate
@@ -455,11 +439,7 @@ static bool kALLoggingEnabled = NO;
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView
 {
     [self.parentAdapter log: @"Banner left application"];
-    
-    if ( AD_VIEW_EVENT_DELEGATE_AVAILABLE )
-    {
-        [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
-    }
+    [self.parentAdapter.connector adapterWillLeaveApplication: self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad didFailToDisplayInAdView:(ALAdView *)adView withError:(ALAdViewDisplayErrorCode)code
@@ -470,4 +450,3 @@ static bool kALLoggingEnabled = NO;
 @end
 
 #pragma clang diagnostic pop
-
