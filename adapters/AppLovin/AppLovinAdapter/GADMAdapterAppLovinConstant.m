@@ -35,4 +35,9 @@
     return @"bundleId";
 }
 
++ (BOOL)loggingEnabled
+{
+    return YES;
+}
+
 @end

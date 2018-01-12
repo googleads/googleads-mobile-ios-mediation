@@ -7,41 +7,39 @@
 //
 
 #import "GADMAdapterAppLovinRewardBasedVideoAd.h"
-#import "GADMAdapterAppLovinConstants.h"
+#import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAdapterAppLovinExtras.h"
-
-#if __has_include(<AppLovinSDK/AppLovinSDK.h>)
 #import <AppLovinSDK/AppLovinSDK.h>
-#else
-#import "ALSdk.h"
-#import "ALIncentivizedInterstitialAd.h"
-#endif
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @interface GADMAdapterAppLovinRewardBasedVideoAd () <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate, ALAdRewardDelegate>
 
-@property(nonatomic, strong) ALSdk *sdk;
-@property(nonatomic, strong) ALIncentivizedInterstitialAd *incent;
+@property (nonatomic, strong) ALSdk *sdk;
+@property (nonatomic, strong) ALIncentivizedInterstitialAd *incent;
 
-@property(nonatomic, assign) BOOL fullyWatched;
-@property(nonatomic, strong) GADAdReward *reward;
-@property(nonatomic, strong) NSString *placement;
+@property (nonatomic, assign) BOOL fullyWatched;
+@property (nonatomic, strong) GADAdReward *reward;
+@property (nonatomic,   copy) NSString *placement;
 
-@property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
-@property(nonatomic, strong) GADMAdapterAppLovinExtras *extras;
+@property (nonatomic,   weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
+@property (nonatomic, strong) GADMAdapterAppLovinExtras *extras;
 
 @end
 
 @implementation GADMAdapterAppLovinRewardBasedVideoAd
-static bool loggingEnabled = NO;
 
-#pragma mark - GADMRewardBasedVideoAdNetworkAdapter Protocol
+#pragma mark - GADMRewardBasedVideoAdNetworkAdapter Methods
 
-+ (NSString *)adapterVersion {
-    return kGADMAdapterAppLovinVersion;
++ (NSString *)adapterVersion
+{
+    return GADMAdapterAppLovinConstant.adapterVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (Class<GADAdNetworkExtras>)networkExtrasClass
+{
     return [GADMAdapterAppLovinExtras class];
 }
 
@@ -55,163 +53,175 @@ static bool loggingEnabled = NO;
     return self;
 }
 
-- (void)setUp {
-    [self log:@"Attempting to initialize SDK"];
+- (void)setUp
+{
+    [self log: @"Attempting to initialize SDK"];
     
-    self.sdk = [GADMAdapterAppLovinUtils sdkForCredentials:_connector.credentials];
+    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: self.connector.credentials];
     
-    if (self.sdk) {
-        [self log:@"Successfully initialized SDK"];
-        [self.connector adapterDidSetUpRewardBasedVideoAd:self];
-    } else {
-        [self log:@"Failed to initialize SDK"];
-        NSError *error = [NSError errorWithDomain:kGADMAdapterAppLovinErrorDomain
-                                             code:kGADErrorMediationAdapterError
-                                         userInfo:@{
-                                                    NSLocalizedFailureReasonErrorKey :
-                                                        @"AppLovin rewarded adapter unable to initialize."
-                                                    }];
-        [self.connector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
+    if ( self.sdk )
+    {
+        [self log: @"Successfully initialized SDK"];
+        [self.connector adapterDidSetUpRewardBasedVideoAd: self];
+    }
+    else
+    {
+        [self log: @"Failed to initialize SDK"];
+        NSError *error = [NSError errorWithDomain: GADMAdapterAppLovinConstant.errorDomain
+                                             code: kGADErrorMediationAdapterError
+                                         userInfo: @{NSLocalizedFailureReasonErrorKey : @"Failed to initialize AppLovin rewarded video adapter"}];
+        [self.connector adapter: self didFailToSetUpRewardBasedVideoAdWithError: error];
     }
 }
 
-- (void)requestRewardBasedVideoAd {
-    [self log:@"Requesting AppLovin rewarded video"];
+- (void)requestRewardBasedVideoAd
+{
+    [self log: @"Requesting rewarded video"];
     
-    self.placement = self.connector.credentials[kGADMAdapterAppLovinPlacement];
+    self.placement = self.connector.credentials[GADMAdapterAppLovinConstant.placementKey];
     
-    if (self.incent.readyForDisplay) {
-        [_connector adapterDidReceiveRewardBasedVideoAd:self];
-    } else {
-        [self.incent preloadAndNotify:self];
+    if ( [self.incent isReadyForDisplay] )
+    {
+        [self.connector adapterDidReceiveRewardBasedVideoAd: self];
+    }
+    else
+    {
+        [self.incent preloadAndNotify: self];
     }
 }
 
-- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-    if (self.incent.readyForDisplay) {
+- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController
+{
+    if ( [self.incent isReadyForDisplay] )
+    {
+        // Reset reward states
         self.reward = nil;
         self.fullyWatched = NO;
         
-        GADMAdapterAppLovinExtras *extras = _connector.networkExtras;
+        // Update mute state
+        GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
+        self.sdk.settings.muted = networkExtras.muteAudio;
         
-        if (extras && extras.muteAudio) {
-            self.sdk.settings.muted = YES;
-        }
-        
-        if (self.placement) {
-            [self.incent showOver:[UIApplication sharedApplication].keyWindow
-                        placement:self.placement
-                        andNotify:self];
-        } else {
-            [self.incent showAndNotify:self];
-        }
-    } else {
-        [self log:@"No ad available or attempted to show rewarded video before one was loaded"];
-        [_connector adapterDidOpenRewardBasedVideoAd:self];
-        [_connector adapterDidCloseRewardBasedVideoAd:self];
+        [self.incent showOver: [UIApplication sharedApplication].keyWindow
+                    placement: self.placement
+                    andNotify: self];
+    }
+    else
+    {
+        [self log: @"Adapter requested to display a rewarded video before one was loaded"];
+        [self.connector adapterDidOpenRewardBasedVideoAd: self];
+        [self.connector adapterDidCloseRewardBasedVideoAd: self];
     }
 }
 
-- (void)stopBeingDelegate {
+- (void)stopBeingDelegate
+{
     self.connector = nil;
+    
+    self.incent.adVideoPlaybackDelegate = self;
+    self.incent.adDisplayDelegate = self;
 }
 
 #pragma mark - Ad Load Delegate
 
-- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-    [self log:@"Rewarded video did load ad: %@", ad.adIdNumber];
-    [self.connector adapterDidReceiveRewardBasedVideoAd:self];
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
+{
+    [self log: @"Rewarded video did load ad: %@", ad.adIdNumber];
+    [self.connector adapterDidReceiveRewardBasedVideoAd: self];
 }
 
-- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-    [self log:@"Rewarded video failed to load with error: %d", code];
+- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
+{
+    [self log: @"Rewarded video failed to load with error: %d", code];
     
-    NSError *error =
-    [NSError errorWithDomain:kGADMAdapterAppLovinErrorDomain
-                        code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
-                    userInfo:@{
-                               NSLocalizedFailureReasonErrorKey :
-                                   @"Adapter requested to display a rewarded video before one was loaded"
-                               }];
-    [self.connector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
+    NSError *error = [NSError errorWithDomain: GADMAdapterAppLovinConstant.errorDomain
+                                         code: [GADMAdapterAppLovinUtils toAdMobErrorCode: code]
+                                     userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adapter requested to display a rewarded video before one was loaded"}];
+    [self.connector adapter: self didFailToLoadRewardBasedVideoAdwithError: error];
 }
 
 #pragma mark - Ad Display Delegate
 
-- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
-    [self log:@"Rewarded video displayed"];
-    [self.connector adapterDidOpenRewardBasedVideoAd:self];
+- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view
+{
+    [self log: @"Rewarded video displayed"];
+    [self.connector adapterDidOpenRewardBasedVideoAd: self];
 }
 
-- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-    [self log:@"Rewarded video dismissed"];
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view
+{
+    [self log: @"Rewarded video dismissed"];
     
-    self.sdk.settings.muted = NO;
-    
-    if (self.fullyWatched && self.reward) {
-        [_connector adapter:self didRewardUserWithReward:self.reward];
+    if ( self.fullyWatched && self.reward )
+    {
+        [self.connector adapter: self didRewardUserWithReward: self.reward];
     }
     
-    [_connector adapterDidCloseRewardBasedVideoAd:self];
+    [self.connector adapterDidCloseRewardBasedVideoAd: self];
 }
 
-- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
-    [self log:@"Rewarded video clicked"];
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
+{
+    [self log: @"Rewarded video clicked"];
     
-    [_connector adapterDidGetAdClick:self];
-    [_connector adapterWillLeaveApplication:self];
+    [self.connector adapterDidGetAdClick: self];
+    [self.connector adapterWillLeaveApplication: self];
 }
 
 #pragma mark - Video Playback Delegate
 
-- (void)videoPlaybackBeganInAd:(ALAd *)ad {
-    [self log:@"Interstitial video playback began"];
-    [_connector adapterDidStartPlayingRewardBasedVideoAd:self];
+- (void)videoPlaybackBeganInAd:(ALAd *)ad
+{
+    [self log: @"Rewarded video playback began"];
+    [self.connector adapterDidStartPlayingRewardBasedVideoAd: self];
 }
 
-- (void)videoPlaybackEndedInAd:(ALAd *)ad
-             atPlaybackPercent:(NSNumber *)percentPlayed
-                  fullyWatched:(BOOL)wasFullyWatched {
-    [self log:@"Interstitial video playback ended at playback percent: %lu",
-     percentPlayed.unsignedIntegerValue];
+- (void)videoPlaybackEndedInAd:(ALAd *)ad atPlaybackPercent:(NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
+{
+    [self log: @"Rewarded video playback ended at playback percent: %lu%%", percentPlayed.unsignedIntegerValue];
     
     self.fullyWatched = wasFullyWatched;
 }
 
 #pragma mark - Reward Delegate
 
-- (void)rewardValidationRequestForAd:(ALAd *)ad
-          didExceedQuotaWithResponse:(NSDictionary *)response {
-    [self
-     log:@"Rewarded video validation request for ad did exceed quota with response: %@", response];
+- (void)rewardValidationRequestForAd:(ALAd *)ad didExceedQuotaWithResponse:(NSDictionary *)response
+{
+    [self log: @"Rewarded video validation request for ad did exceed quota with response: %@", response];
 }
 
-- (void)rewardValidationRequestForAd:(ALAd *)ad didFailWithError:(NSInteger)responseCode {
-    [self log:@"Rewarded video validation request for ad failed with error code: %ld", responseCode];
+- (void)rewardValidationRequestForAd:(ALAd *)ad didFailWithError:(NSInteger)responseCode
+{
+    [self log: @"Rewarded video validation request for ad failed with error code: %ld", responseCode];
 }
 
-- (void)rewardValidationRequestForAd:(ALAd *)ad wasRejectedWithResponse:(NSDictionary *)response {
-    [self log:@"Rewarded video validation request was rejected with response: %@", response];
+- (void)rewardValidationRequestForAd:(ALAd *)ad wasRejectedWithResponse:(NSDictionary *)response
+{
+    [self log: @"Rewarded video validation request was rejected with response: %@", response];
 }
 
-- (void)userDeclinedToViewAd:(ALAd *)ad {
-    [self log:@"User declined to view rewarded video"];
+- (void)userDeclinedToViewAd:(ALAd *)ad
+{
+    [self log: @"User declined to view rewarded video"];
 }
 
-- (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(NSDictionary *)response {
-    NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:response[@"amount"]];
+- (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(NSDictionary *)response
+{
+    NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString: response[@"amount"]];
     NSString *currency = response[@"currency"];
     
-    [self log:@"Rewarded %@ %@", amount, currency];
+    [self log: @"Rewarded %@ %@", amount, currency];
     
-    self.reward = [[GADAdReward alloc] initWithRewardType:currency rewardAmount:amount];
+    self.reward = [[GADAdReward alloc] initWithRewardType: currency rewardAmount: amount];
 }
 
 #pragma mark - Incentivized Interstitial
 
-- (ALIncentivizedInterstitialAd *)incent {
-    if (!_incent) {
-        _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
+- (ALIncentivizedInterstitialAd *)incent
+{
+    if ( !_incent )
+    {
+        _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk: self.sdk];
         _incent.adVideoPlaybackDelegate = self;
         _incent.adDisplayDelegate = self;
     }
@@ -219,17 +229,21 @@ static bool loggingEnabled = NO;
     return _incent;
 }
 
-#pragma mark - Utility Methods
+#pragma mark - Logging
 
-- (void)log:(NSString *)format, ... {
-    if (!loggingEnabled) return;
-    
-    va_list valist;
-    va_start(valist, format);
-    NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
-    va_end(valist);
-    
-    NSLog(@"AppLovinRewardedAdapter: %@", message);
+- (void)log:(NSString *)format, ...
+{
+    if ( GADMAdapterAppLovinConstant.loggingEnabled )
+    {
+        va_list valist;
+        va_start(valist, format);
+        NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+        va_end(valist);
+        
+        NSLog(@"AppLovinRewardedAdapter: %@", message);
+    }
 }
 
 @end
+
+#pragma clang diagnostic pop

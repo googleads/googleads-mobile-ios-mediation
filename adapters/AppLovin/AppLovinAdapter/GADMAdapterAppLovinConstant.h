@@ -10,11 +10,13 @@
 
 @interface GADMAdapterAppLovinConstant : NSObject
 
-@property (nonatomic, copy, class, readonly) NSString *errorDomain;
-@property (nonatomic, copy, class, readonly) NSString *adapterVersion;
+@property (class, nonatomic, copy, readonly) NSString *errorDomain;
+@property (class, nonatomic, copy, readonly) NSString *adapterVersion;
 
-@property (nonatomic, copy, class, readonly) NSString *sdkKey;
-@property (nonatomic, copy, class, readonly) NSString *placementKey;
-@property (nonatomic, copy, class, readonly) NSString *bundleIdentifierKey;
+@property (class, nonatomic, copy, readonly) NSString *sdkKey;
+@property (class, nonatomic, copy, readonly) NSString *placementKey;
+@property (class, nonatomic, copy, readonly) NSString *bundleIdentifierKey;
+
+@property (class, nonatomic, assign, readonly) BOOL loggingEnabled;
 
 @end

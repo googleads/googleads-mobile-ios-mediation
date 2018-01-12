@@ -56,8 +56,6 @@ static const NSUInteger ALInterstitialAdQueueMinCapacity = 2; // AdMob preloads 
 static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
 static const CGFloat kALBannerStandardHeight = 50.0f;
 
-static bool kALLoggingEnabled = NO;
-
 #pragma mark - Class Initialization
 
 + (void)initialize
@@ -140,12 +138,12 @@ static bool kALLoggingEnabled = NO;
         dequeuedAd = [ALInterstitialAdQueue dequeue];
     }
     
+    // Update mute state
+    GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
+    self.sdk.settings.muted = networkExtras.muteAudio;
+    
     if ( dequeuedAd )
     {
-        // If pub explicitly requested to mute audio, mute it
-        GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
-        if ( networkExtras.muteAudio ) self.sdk.settings.muted = YES;
-        
         [self log: @"Showing interstitial for placement: %@", self.placement];
         [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
                           placement: self.placement
@@ -295,11 +293,11 @@ static bool kALLoggingEnabled = NO;
     [self.connector adapter: self didFailAd: error];
 }
 
-#pragma mark - Utility Methods
+#pragma mark - Logging
 
 - (void)log:(NSString *)format, ...
 {
-    if ( kALLoggingEnabled )
+    if ( GADMAdapterAppLovinConstant.loggingEnabled )
     {
         va_list valist;
         va_start(valist, format);
