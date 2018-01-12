@@ -62,6 +62,7 @@
     if ( self.sdk )
     {
         [self log: @"Successfully initialized SDK"];
+        [self.sdk setPluginVersion: GADMAdapterAppLovinConstant.adapterVersion];
         [self.connector adapterDidSetUpRewardBasedVideoAd: self];
     }
     else
@@ -237,7 +238,7 @@
     {
         va_list valist;
         va_start(valist, format);
-        NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+        NSString *message = [[NSString alloc] initWithFormat: format arguments: valist];
         va_end(valist);
         
         NSLog(@"AppLovinRewardedAdapter: %@", message);

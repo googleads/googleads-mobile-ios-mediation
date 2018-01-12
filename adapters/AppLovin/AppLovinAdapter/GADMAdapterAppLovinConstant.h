@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GADMAdapterAppLovinConstant : NSObject
 
 @property (class, nonatomic, copy, readonly) NSString *errorDomain;
@@ -20,3 +22,5 @@
 @property (class, nonatomic, assign, readonly) BOOL loggingEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END
