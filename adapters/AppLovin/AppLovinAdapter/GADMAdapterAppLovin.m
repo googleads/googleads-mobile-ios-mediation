@@ -11,7 +11,7 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "ALGADQueue.h"
+#import "GADMAdapterAppLovinQueue.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -49,7 +49,7 @@
 
 @implementation GADMAdapterAppLovin
 
-static ALGADQueue<ALAd *> *ALInterstitialAdQueue;
+static GADMAdapterAppLovinQueue<ALAd *> *ALInterstitialAdQueue;
 static NSObject *ALInterstitialAdQueueLock;
 static const NSUInteger ALInterstitialAdQueueMinCapacity = 2; // AdMob preloads ads in bursts of 2 requests
 
@@ -60,7 +60,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 + (void)initialize
 {
-    ALInterstitialAdQueue = [ALGADQueue queue];
+    ALInterstitialAdQueue = [GADMAdapterAppLovinQueue queue];
     ALInterstitialAdQueueLock = [[NSObject alloc] init];
 }
 

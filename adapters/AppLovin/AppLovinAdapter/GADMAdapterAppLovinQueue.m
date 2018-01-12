@@ -1,19 +1,19 @@
 //
-//  ALGADQueue.m
+//  GADMAdapterAppLovinQueue.m
 //
 //
 //  Created by Thomas So on 10/27/16.
 //
 //
 
-#import "ALGADQueue.h"
+#import "GADMAdapterAppLovinQueue.h"
 
-@interface ALGADQueue ()
+@interface GADMAdapterAppLovinQueue ()
 @property(nonatomic, strong) NSMutableArray *backingArray;
 @property(nonatomic, strong) NSObject *lock;
 @end
 
-@implementation ALGADQueue
+@implementation GADMAdapterAppLovinQueue
 @dynamic empty, count;
 @dynamic firstObject, lastObject;
 
@@ -26,7 +26,7 @@ static const NSUInteger ALQueueDefaultCapacity = 32;
 }
 
 + (instancetype)queueWithCapacity:(NSUInteger)capacity {
-  return [[ALGADQueue alloc] initWithCapacity:capacity];
+  return [[GADMAdapterAppLovinQueue alloc] initWithCapacity:capacity];
 }
 
 - (instancetype)init {
@@ -125,7 +125,7 @@ static const NSUInteger ALQueueDefaultCapacity = 32;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-  ALGADQueue *copy = [[[self class] allocWithZone:zone] init];
+  GADMAdapterAppLovinQueue *copy = [[[self class] allocWithZone:zone] init];
   copy.backingArray = [self.backingArray copy];
   copy.lock = [[NSObject alloc] init];
 

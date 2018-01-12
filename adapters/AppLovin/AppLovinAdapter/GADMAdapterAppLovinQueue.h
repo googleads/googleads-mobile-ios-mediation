@@ -1,5 +1,5 @@
 //
-//  ALGADQueue.h
+//  GADMAdapterAppLovinQueue.h
 //
 //
 //  Created by Thomas So on 10/27/16.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ALGADQueue<ObjectType> : NSObject<NSCopying, NSCoding>
+@interface GADMAdapterAppLovinQueue<ObjectType> : NSObject<NSCopying, NSCoding>
 
 #pragma mark - Initialization
 
