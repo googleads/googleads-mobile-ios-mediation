@@ -83,7 +83,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     {
         self.connector = connector;
         self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: connector.credentials];
-        [self.sdk setPluginVersion: GADMAdapterAppLovinConstant.adapterVersion];
         
         if ( !self.sdk )
         {

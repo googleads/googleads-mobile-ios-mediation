@@ -62,7 +62,6 @@
     if ( self.sdk )
     {
         [self log: @"Successfully initialized SDK"];
-        [self.sdk setPluginVersion: GADMAdapterAppLovinConstant.adapterVersion];
         [self.connector adapterDidSetUpRewardBasedVideoAd: self];
     }
     else
