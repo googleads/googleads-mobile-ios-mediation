@@ -136,7 +136,7 @@
     
     NSError *error = [NSError errorWithDomain: GADMAdapterAppLovinConstant.errorDomain
                                          code: [GADMAdapterAppLovinUtils toAdMobErrorCode: code]
-                                     userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adapter requested to display a rewarded video before one was loaded"}];
+                                     userInfo: @{NSLocalizedFailureReasonErrorKey : @"Unable to load rewarded video"}];
     [self.connector adapter: self didFailToLoadRewardBasedVideoAdwithError: error];
 }
 
