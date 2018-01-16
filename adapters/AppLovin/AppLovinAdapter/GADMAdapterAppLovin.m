@@ -110,7 +110,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 {
     self.placement = self.connector.credentials[GADMAdapterAppLovinConstant.placementKey];
     
-    @synchronized ( ALInterstitialAdQueueLock )
+    @synchronized (ALInterstitialAdQueueLock)
     {
         // If we already have preloaded ads, don't fire off redundant requests
         if ( ALInterstitialAdQueue.count < ALInterstitialAdQueueMaxCapacity )
@@ -131,37 +131,35 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController
 {
-    ALAd *dequeuedAd;
-    
-    @synchronized ( ALInterstitialAdQueueLock )
+    @synchronized (ALInterstitialAdQueueLock)
     {
-        dequeuedAd = [ALInterstitialAdQueue dequeue];
-    }
-    
-    // Update mute state
-    GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
-    self.sdk.settings.muted = networkExtras.muteAudio;
-    
-    if ( dequeuedAd )
-    {
-        [self log: @"Showing interstitial for placement: %@", self.placement];
-        [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
-                          placement: self.placement
-                          andRender: dequeuedAd];
-    }
-    else
-    {
-        [self log: @"Attempting to show interstitial before one was loaded"];
+        // Update mute state
+        GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
+        self.sdk.settings.muted = networkExtras.muteAudio;
         
-        if ( [self.interstitial isReadyForDisplay] )
+        ALAd *dequeuedAd = [ALInterstitialAdQueue dequeue];
+        
+        if ( dequeuedAd )
         {
-            [self log: @"Showing preloaded interstitial for placement: %@", self.placement];
-            [self.interstitial showOverPlacement: self.placement];
+            [self log: @"Showing interstitial for placement: %@", self.placement];
+            [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
+                              placement: self.placement
+                              andRender: dequeuedAd];
         }
         else
         {
-            [self.connector adapterWillPresentInterstitial: self];
-            [self.connector adapterDidDismissInterstitial: self];
+            [self log: @"Attempting to show interstitial before one was loaded"];
+            
+            if ( [self.interstitial isReadyForDisplay] )
+            {
+                [self log: @"Showing preloaded interstitial for placement: %@", self.placement];
+                [self.interstitial showOverPlacement: self.placement];
+            }
+            else
+            {
+                [self.connector adapterWillPresentInterstitial: self];
+                [self.connector adapterDidDismissInterstitial: self];
+            }
         }
     }
 }
@@ -178,6 +176,29 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     }
     
     return _interstitial;
+}
+
+#pragma mark - Interstitial Ad Load Delegate
+
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
+{
+    [self log: @"Interstitial did load ad: %@ for placement: %@", ad.adIdNumber, self.placement];
+    
+    @synchronized (ALInterstitialAdQueueLock)
+    {
+        [ALInterstitialAdQueue enqueue: ad];
+        [self.connector adapterDidReceiveInterstitial: self];
+    }
+}
+
+- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
+{
+    [self log: @"Interstitial failed to load with error: %d", code];
+    
+    NSError *error = [NSError errorWithDomain: GADMAdapterAppLovinConstant.errorDomain
+                                         code: [GADMAdapterAppLovinUtils toAdMobErrorCode: code]
+                                     userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adapter requested to display an interstitial before one was loaded"}];
+    [self.connector adapter: self didFailAd: error];
 }
 
 #pragma mark - GAD Ad Network Protocol Banner Methods
@@ -267,30 +288,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     [self log: @"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
     
     return nil;
-}
-
-#pragma mark - Interstitial Ad Load Delegate
-
-- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
-{
-    [self log: @"Interstitial did load ad: %@ for placement: %@", ad.adIdNumber, self.placement];
-    
-    @synchronized (ALInterstitialAdQueueLock)
-    {
-        [ALInterstitialAdQueue enqueue: ad];
-    }
-    
-    [self.connector adapterDidReceiveInterstitial: self];
-}
-
-- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
-{
-    [self log: @"Interstitial failed to load with error: %d", code];
-    
-    NSError *error = [NSError errorWithDomain: GADMAdapterAppLovinConstant.errorDomain
-                                         code: [GADMAdapterAppLovinUtils toAdMobErrorCode: code]
-                                     userInfo: @{NSLocalizedFailureReasonErrorKey : @"Adapter requested to display an interstitial before one was loaded"}];
-    [self.connector adapter: self didFailAd: error];
 }
 
 #pragma mark - Logging
