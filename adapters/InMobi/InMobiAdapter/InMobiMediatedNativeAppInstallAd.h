@@ -6,11 +6,9 @@
 //
 //
 
+#import "GADMAdapterInMobi.h"
 #import <Foundation/Foundation.h>
 #import <InMobiSDK/IMNative.h>
-#import <GoogleMobileAds/GADMediatedNativeAppInstallAd.h>
-#import <GoogleMobileAds/GADNativeAdImage+Mediation.h>
-#import "GADMAdapterInMobi.h"
 
 @class InMobiMediatedNativeAppInstallAd;
 

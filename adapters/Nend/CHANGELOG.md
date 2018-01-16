@@ -1,6 +1,8 @@
 # Nend Adapter for Google Mobile Ads SDK for iOS
 
-## x.y.z.0
+## Version 4.0.2.0
+- First release in Google Mobile Ads mediation open source project.
+- Added support for reward-based video ads.
 
-- First release!
-- Adds support for banners, interstitials, etc.
+## Previous Versions
+- Supports banner and interstitial ads.

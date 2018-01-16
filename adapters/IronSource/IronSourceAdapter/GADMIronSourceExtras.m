@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-@import Foundation;
+#import "GADMIronSourceExtras.h"
 
-/// Network extras for the Ironsource adapter.
-@interface GADMIronSourceExtras : NSObject <GADAdNetworkExtras>
-
-/// Indicates whether the SDK debug logs are enabled. Defaults to NO.
-@property(nonatomic, assign) BOOL debugEnabled;
+@implementation GADMIronSourceExtras
 
 @end
-

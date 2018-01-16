@@ -9,8 +9,4 @@ blaze-*
 xcuserdata
 *.xcodeproj/project.xcworkspace
 *.xcodeproj/xcuserdata
-*.xcodeproj/xcshareddata
 *.xccheckout
-build
-Drop_Framework_And_Headers/IronSource.framework
-Drop_Framework_And_Headers/GoogleMobileAds.framework

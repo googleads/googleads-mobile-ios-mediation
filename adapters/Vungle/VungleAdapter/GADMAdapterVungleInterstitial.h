@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import <GoogleMobileAds/Mediation/GADMAdNetworkAdapterProtocol.h>
+@import GoogleMobileAds;
 
 @interface GADMAdapterVungleInterstitial : NSObject<GADMAdNetworkAdapter>
 @end

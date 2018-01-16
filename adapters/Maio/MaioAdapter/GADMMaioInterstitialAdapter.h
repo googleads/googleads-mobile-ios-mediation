@@ -8,6 +8,6 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
-@interface GADMMaioInterstitialAdapter : NSObject<GADMAdNetworkAdapter>
+@interface GADMMaioInterstitialAdapter : NSObject <GADMAdNetworkAdapter>
 
 @end

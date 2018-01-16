@@ -1,5 +1,5 @@
 framework module IronSourceAdapter {
-  umbrella header "GADMAdapterIronSource.h"
+  umbrella header "IronSourceAdapter.h"
 
   export *
   module * { export * }
@@ -7,5 +7,6 @@ framework module IronSourceAdapter {
   link framework "Foundation"
   link framework "UIKit"
 
-  header "GADMIronSourceExtras"
+  // Import all your public header files here.
+  //header "YOUR_PUBLIC_HEADER.h"
 }

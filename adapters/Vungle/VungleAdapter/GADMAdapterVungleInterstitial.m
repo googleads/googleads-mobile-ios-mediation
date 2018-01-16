@@ -1,8 +1,7 @@
-#import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "GADMAdapterVungleInterstitial.h"
 #import "vungleHelper.h"
 
-@interface GADMAdapterVungleInterstitial () <VungleDelegate>
+@interface GADMAdapterVungleInterstitial ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @end
 
@@ -30,12 +29,10 @@
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      [NSError errorWithDomain:@"google"
-                          code:0
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."
-                      }];
+  NSError *error = [NSError
+      errorWithDomain:@"google"
+                 code:0
+             userInfo:@{NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."}];
   [_connector adapter:self didFailAd:error];
 }
 
@@ -114,7 +111,7 @@
   [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)willCloseAd:(bool)completedView {
+- (void)willCloseAd:(BOOL)completedView {
   [_connector adapterWillDismissInterstitial:self];
   [_connector adapterDidDismissInterstitial:self];
   desiredPlacement = nil;

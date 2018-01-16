@@ -14,6 +14,3 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-/// Import all your public header files here.
-//#import <MaioAdapter/YOUR_PUBLIC_HEADER.h>
