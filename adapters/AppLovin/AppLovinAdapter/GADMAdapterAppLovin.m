@@ -51,7 +51,7 @@
 
 static GADMAdapterAppLovinQueue<ALAd *> *ALInterstitialAdQueue;
 static NSObject *ALInterstitialAdQueueLock;
-static const NSUInteger ALInterstitialAdQueueMinCapacity = 2; // AdMob preloads ads in bursts of 2 requests
+static const NSUInteger ALInterstitialAdQueueMaxCapacity = 2; // AdMob preloads ads in bursts of 2 requests
 
 static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
 static const CGFloat kALBannerStandardHeight = 50.0f;
@@ -113,7 +113,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     @synchronized ( ALInterstitialAdQueueLock )
     {
         // If we already have preloaded ads, don't fire off redundant requests
-        if ( ALInterstitialAdQueue.count < ALInterstitialAdQueueMinCapacity )
+        if ( ALInterstitialAdQueue.count < ALInterstitialAdQueueMaxCapacity )
         {
             [self log: @"Requesting interstitial for placement: %@", self.placement];
             [self.sdk.adService loadNextAd: [ALAdSize sizeInterstitial] andNotify: self];
