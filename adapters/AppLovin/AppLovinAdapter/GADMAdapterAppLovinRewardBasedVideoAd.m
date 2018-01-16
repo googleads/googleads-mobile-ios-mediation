@@ -118,8 +118,8 @@
 {
     self.connector = nil;
     
-    self.incent.adVideoPlaybackDelegate = self;
-    self.incent.adDisplayDelegate = self;
+    self.incent.adVideoPlaybackDelegate = nil;
+    self.incent.adDisplayDelegate = nil;
 }
 
 #pragma mark - Ad Load Delegate
