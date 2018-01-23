@@ -1,5 +1,9 @@
 //
-//  Copyright © 2017 AppLovin, Inc. All rights reserved.
+//  GADMAdapterAppLovinExtras.m
+//
+//
+//  Created by Thomas So on 1/11/18.
+//
 //
 
 #import "GADMAdapterAppLovinExtras.h"

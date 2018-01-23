@@ -1,12 +1,12 @@
 //
 //  GADMAdapterAppLovin.h
-//  AdMobAdapterDev
 //
-//  Created by Josh Gleeson on 8/15/17.
-//  Copyright © 2017 AppLovin. All rights reserved.
+//
+//  Created by Thomas So on 1/10/18.
+//
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterAppLovin : NSObject<GADMAdNetworkAdapter>
 
