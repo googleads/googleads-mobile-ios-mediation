@@ -18,6 +18,9 @@
 
 #define DEFAULT_ZONE @""
 
+#define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate>
 
 // Controlled Properties
@@ -276,7 +279,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size
 {
-    if ( GADAdSizeEqualToSize(kGADAdSizeBanner, size) || GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) )
+    if ( GADAdSizeEqualToSize(kGADAdSizeBanner, size) ||
+        GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) ||
+        (IS_IPHONE && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait, size)) ) // Smart iPhone portrait banners 50px tall
     {
         return [ALAdSize sizeBanner];
     }
@@ -284,7 +289,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     {
         return [ALAdSize sizeMRec];
     }
-    else if ( GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size) )
+    else if ( GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size) || (IS_IPAD && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait, size)) ) // Smart iPad portrait "banners" 90px tall
     {
         return [ALAdSize sizeLeader];
     }
