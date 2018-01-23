@@ -16,18 +16,23 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
+#define DEFAULT_ZONE @""
+
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate>
 
 // Controlled Properties
 @property (nonatomic, strong) ALSdk *sdk;
 @property (nonatomic,   weak) id<GADMAdNetworkConnector> connector;
-@property (nonatomic,   copy, nullable) NSString *placement;
 
 // Interstitial Properties
 @property (nonatomic, strong, nullable) ALInterstitialAd *interstitial;
 
 // Banner Properties
 @property (nonatomic, strong, nullable) ALAdView *adView;
+
+// Dynamic Properties - Please note: placements are left in this adapter for backwards-compatibility purposes
+@property (nonatomic, copy, readonly) NSString *placement;
+@property (nonatomic, copy, readonly) NSString *zoneIdentifier;
 
 @end
 
@@ -48,8 +53,9 @@
 @end
 
 @implementation GADMAdapterAppLovin
+@dynamic placement, zoneIdentifier;
 
-static GADMAdapterAppLovinQueue<ALAd *> *ALInterstitialAdQueue;
+static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<ALAd *> *> *ALInterstitialAdQueues;
 static NSObject *ALInterstitialAdQueueLock;
 static const NSUInteger ALInterstitialAdQueueMaxCapacity = 2;
 
@@ -60,7 +66,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 + (void)initialize
 {
-    ALInterstitialAdQueue = [GADMAdapterAppLovinQueue queue];
+    ALInterstitialAdQueues = [NSMutableDictionary dictionary];
     ALInterstitialAdQueueLock = [[NSObject alloc] init];
 }
 
@@ -108,19 +114,29 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)getInterstitial
 {
-    self.placement = self.connector.credentials[GADMAdapterAppLovinConstant.placementKey];
-    
     @synchronized (ALInterstitialAdQueueLock)
     {
+        NSString *placement = [self placement];
+        NSString *zoneIdentifier = [self zoneIdentifier];
+        
         // If we already have preloaded ads, don't fire off redundant requests
-        if ( ALInterstitialAdQueue.count < ALInterstitialAdQueueMaxCapacity )
+        GADMAdapterAppLovinQueue *queue = ALInterstitialAdQueues[zoneIdentifier];
+        if ( queue.count < ALInterstitialAdQueueMaxCapacity )
         {
-            [self log: @"Requesting interstitial for placement: %@", self.placement];
-            [self.sdk.adService loadNextAd: [ALAdSize sizeInterstitial] andNotify: self];
+            if ( zoneIdentifier.length > 0 )
+            {
+                [self log: @"Requesting interstitial for zone: %@", zoneIdentifier];
+                [self.sdk.adService loadNextAdForZoneIdentifier: zoneIdentifier andNotify: self];
+            }
+            else
+            {
+                [self log: @"Requesting interstitial for placement: %@", placement];
+                [self.sdk.adService loadNextAd: [ALAdSize sizeInterstitial] andNotify: self];
+            }
         }
         else
         {
-            [self log: @"Requesting interstitial for placement: %@ when %lu are preloaded already", self.placement, ALInterstitialAdQueue.count];
+            [self log: @"Requesting interstitial for zone: %@ and placement: %@ when %lu are preloaded already", zoneIdentifier, placement, queue.count];
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.connector adapterDidReceiveInterstitial: self];
@@ -137,24 +153,27 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
         self.sdk.settings.muted = networkExtras.muteAudio;
         
-        ALAd *dequeuedAd = [ALInterstitialAdQueue dequeue];
+        NSString *placement = [self placement];
+        NSString *zoneIdentifier = [self zoneIdentifier];
         
+        ALAd *dequeuedAd = [ALInterstitialAdQueues[zoneIdentifier] dequeue];
         if ( dequeuedAd )
         {
-            [self log: @"Showing interstitial for placement: %@", self.placement];
+            [self log: @"Showing interstitial for zone: %@ placement: %@", zoneIdentifier, placement];
             [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
-                              placement: self.placement
+                              placement: placement
                               andRender: dequeuedAd];
         }
         else
         {
             [self log: @"Attempting to show interstitial before one was loaded"];
             
-            if ( [self.interstitial isReadyForDisplay] )
+            // Check if we have a default zone interstitial available
+            if ( zoneIdentifier.length == 0 && [self.interstitial isReadyForDisplay] )
             {
-                [self log: @"Showing preloaded interstitial for placement: %@", self.placement];
-                [self.interstitial showOverPlacement: self.placement];
+                [self.interstitial showOverPlacement: placement];
             }
+            // TODO: Show ad for zone identifier if exists
             else
             {
                 [self.connector adapterWillPresentInterstitial: self];
@@ -182,11 +201,19 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self log: @"Interstitial did load ad: %@ for placement: %@", ad.adIdNumber, self.placement];
+    [self log: @"Interstitial did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, ad.zoneIdentifier, self.placement];
     
     @synchronized (ALInterstitialAdQueueLock)
     {
-        [ALInterstitialAdQueue enqueue: ad];
+        GADMAdapterAppLovinQueue<ALAd *> *preloadedAds = ALInterstitialAdQueues[ad.zoneIdentifier];
+        if ( !preloadedAds )
+        {
+            preloadedAds = [GADMAdapterAppLovinQueue queueWithCapacity: ALInterstitialAdQueueMaxCapacity];
+            ALInterstitialAdQueues[ad.zoneIdentifier] = preloadedAds;
+        }
+        
+        [preloadedAds enqueue: ad];
+        
         [self.connector adapterDidReceiveInterstitial: self];
     }
 }
@@ -211,18 +238,25 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize: adSize];
     if ( appLovinAdSize )
     {
-        CGSize size = CGSizeFromGADAdSize(adSize);
+        NSString *zoneIdentifier = [self zoneIdentifier];
+        self.adView = [[ALAdView alloc] initWithSize: appLovinAdSize zoneIdentifier: zoneIdentifier];
         
-        self.adView = [[ALAdView alloc] initWithFrame: CGRectMake(0, 0, size.width, size.height)
-                                                 size: appLovinAdSize
-                                                  sdk: self.sdk];
+        CGSize size = CGSizeFromGADAdSize(adSize);
+        self.adView.frame = CGRectMake(0, 0, size.width, size.height);
         
         GADMAdapterAppLovinBannerDelegate *delegate = [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter: self];
         self.adView.adLoadDelegate = delegate;
         self.adView.adDisplayDelegate = delegate;
         self.adView.adEventDelegate = delegate;
         
-        [self.sdk.adService loadNextAd: appLovinAdSize andNotify: delegate];
+        if ( zoneIdentifier.length > 0 )
+        {
+            [self.sdk.adService loadNextAdForZoneIdentifier: zoneIdentifier andNotify: delegate];
+        }
+        else
+        {
+            [self.sdk.adService loadNextAd: appLovinAdSize andNotify: delegate];
+        }
     }
     else
     {
@@ -305,6 +339,18 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     }
 }
 
+#pragma mark - Dynamic Properties
+
+- (NSString *)placement
+{
+    return self.connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
+}
+
+- (NSString *)zoneIdentifier
+{
+    return ((GADMAdapterAppLovinExtras *) self.connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
+}
+
 @end
 
 @implementation GADMAdapterAppLovinInterstitialDelegate
@@ -377,9 +423,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 {
     [self.parentAdapter log: @"Banner did load ad: %@", ad.adIdNumber];
     
-    NSString *placement = self.parentAdapter.connector.credentials[GADMAdapterAppLovinConstant.placementKey];
-    [self.parentAdapter.adView render: ad overPlacement: placement];
-    
+    [self.parentAdapter.adView render: ad overPlacement: self.parentAdapter.placement];
     [self.parentAdapter.connector adapter: self.parentAdapter didReceiveAdView: self.parentAdapter.adView];
 }
 
