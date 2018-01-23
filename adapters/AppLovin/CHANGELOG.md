@@ -1,5 +1,8 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.6.1.1
+- Added various optimizations and cleaned up code.
+
 ## Version 4.6.1.0
 - Verified compatibility with AppLovin SDK 4.6.1.
 
