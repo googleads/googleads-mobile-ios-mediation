@@ -15,21 +15,42 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-@interface GADMAdapterAppLovinRewardBasedVideoAd () <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate, ALAdRewardDelegate>
+#define DEFAULT_ZONE @""
+
+@interface GADMAdapterAppLovinRewardBasedVideoAd()<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate, ALAdRewardDelegate>
 
 @property (nonatomic, strong) ALSdk *sdk;
 @property (nonatomic, strong) ALIncentivizedInterstitialAd *incent;
 
 @property (nonatomic, assign) BOOL fullyWatched;
-@property (nonatomic, strong) GADAdReward *reward;
-@property (nonatomic,   copy) NSString *placement;
+@property (nonatomic, strong, nullable) GADAdReward *reward;
 
-@property (nonatomic,   weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
-@property (nonatomic, strong) GADMAdapterAppLovinExtras *extras;
+@property (nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
+
+// Dynamic Properties - Please note: placements are left in this adapter for backwards-compatibility purposes
+@property (nonatomic, copy, readonly) NSString *placement;
+@property (nonatomic, copy, readonly) NSString *zoneIdentifier;
 
 @end
 
 @implementation GADMAdapterAppLovinRewardBasedVideoAd
+@dynamic placement, zoneIdentifier;
+
+// A dictionary of Zone -> `ALIncentivizedInterstitialAd` to be shared by instances of the custom event.
+// This prevents skipping of ads as this adapter will be re-created and preloaded (along with underlying `ALIncentivizedInterstitialAd`)
+// on every ad load regardless if ad was actually displayed or not.
+static NSMutableDictionary<NSString *, ALIncentivizedInterstitialAd *> *ALGlobalIncentivizedInterstitialAds;
+static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
+
+#pragma mark - Class Initialization
+
++ (void)initialize
+{
+    [super initialize];
+    
+    ALGlobalIncentivizedInterstitialAds = [NSMutableDictionary dictionary];
+    ALGlobalIncentivizedInterstitialAdsLock = [[NSObject alloc] init];
+}
 
 #pragma mark - GADMRewardBasedVideoAdNetworkAdapter Methods
 
@@ -78,7 +99,34 @@
 {
     [self log: @"Requesting rewarded video"];
     
-    self.placement = self.connector.credentials[GADMAdapterAppLovinConstant.placementKey];
+    NSString *zoneIdentifier = [self zoneIdentifier];
+    
+    @synchronized ( ALGlobalIncentivizedInterstitialAdsLock )
+    {
+        // Check if incentivized ad for zone already exists
+        if ( ALGlobalIncentivizedInterstitialAds[zoneIdentifier] )
+        {
+            self.incent = ALGlobalIncentivizedInterstitialAds[zoneIdentifier];
+        }
+        else
+        {
+            // If this is a default Zone, create the incentivized ad normally
+            if ( [DEFAULT_ZONE isEqualToString: zoneIdentifier] )
+            {
+                self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk: self.sdk];
+            }
+            // Otherwise, use the Zones API
+            else
+            {
+                self.incent = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier: zoneIdentifier];
+            }
+            
+            ALGlobalIncentivizedInterstitialAds[zoneIdentifier] = self.incent;
+        }
+    }
+    
+    self.incent.adVideoPlaybackDelegate = self;
+    self.incent.adDisplayDelegate = self;
     
     if ( [self.incent isReadyForDisplay] )
     {
@@ -109,6 +157,7 @@
     else
     {
         [self log: @"Adapter requested to display a rewarded video before one was loaded"];
+        
         [self.connector adapterDidOpenRewardBasedVideoAd: self];
         [self.connector adapterDidCloseRewardBasedVideoAd: self];
     }
@@ -126,7 +175,7 @@
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self log: @"Rewarded video did load ad: %@", ad.adIdNumber];
+    [self log: @"Rewarded video did load ad: %@ for zone: %@", ad.adIdNumber, ad.zoneIdentifier];
     [self.connector adapterDidReceiveRewardBasedVideoAd: self];
 }
 
@@ -215,20 +264,6 @@
     self.reward = [[GADAdReward alloc] initWithRewardType: currency rewardAmount: amount];
 }
 
-#pragma mark - Incentivized Interstitial
-
-- (ALIncentivizedInterstitialAd *)incent
-{
-    if ( !_incent )
-    {
-        _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk: self.sdk];
-        _incent.adVideoPlaybackDelegate = self;
-        _incent.adDisplayDelegate = self;
-    }
-    
-    return _incent;
-}
-
 #pragma mark - Logging
 
 - (void)log:(NSString *)format, ...
@@ -244,6 +279,19 @@
     }
 }
 
+#pragma mark - Dynamic Properties
+
+- (NSString *)placement
+{
+    return self.connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
+}
+
+- (NSString *)zoneIdentifier
+{
+    return ((GADMAdapterAppLovinExtras *) self.connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
+}
+
 @end
 
 #pragma clang diagnostic pop
+
