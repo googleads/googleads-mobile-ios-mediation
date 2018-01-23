@@ -201,15 +201,15 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self log: @"Interstitial did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, ad.zoneIdentifier, self.placement];
+    [self log: @"Interstitial did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, self.zoneIdentifier, self.placement];
     
     @synchronized (ALInterstitialAdQueueLock)
     {
-        GADMAdapterAppLovinQueue<ALAd *> *preloadedAds = ALInterstitialAdQueues[ad.zoneIdentifier];
+        GADMAdapterAppLovinQueue<ALAd *> *preloadedAds = ALInterstitialAdQueues[self.zoneIdentifier];
         if ( !preloadedAds )
         {
             preloadedAds = [GADMAdapterAppLovinQueue queueWithCapacity: ALInterstitialAdQueueMaxCapacity];
-            ALInterstitialAdQueues[ad.zoneIdentifier] = preloadedAds;
+            ALInterstitialAdQueues[self.zoneIdentifier] = preloadedAds;
         }
         
         [preloadedAds enqueue: ad];
