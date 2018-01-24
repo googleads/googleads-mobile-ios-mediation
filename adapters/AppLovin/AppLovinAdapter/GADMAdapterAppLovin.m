@@ -33,9 +33,9 @@
 // Banner Properties
 @property (nonatomic, strong, nullable) ALAdView *adView;
 
-// Dynamic Properties - Please note: placements are left in this adapter for backwards-compatibility purposes
-@property (nonatomic, copy, readonly) NSString *placement;
-@property (nonatomic, copy, readonly) NSString *zoneIdentifier;
+// Controller properties - The connector/credentials referencing these properties may get deallocated.
+@property (nonatomic, copy) NSString *placement; // Placements are left in this adapter for backwards-compatibility purposes.
+@property (nonatomic, copy) NSString *zoneIdentifier;
 
 @end
 
@@ -56,7 +56,6 @@
 @end
 
 @implementation GADMAdapterAppLovin
-@dynamic placement, zoneIdentifier;
 
 static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<ALAd *> *> *ALInterstitialAdQueues;
 static NSObject *ALInterstitialAdQueueLock;
@@ -119,27 +118,27 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 {
     @synchronized (ALInterstitialAdQueueLock)
     {
-        NSString *placement = [self placement];
-        NSString *zoneIdentifier = [self zoneIdentifier];
+        self.placement = [self retrievePlacement];
+        self.zoneIdentifier = [self retrieveZoneIdentifier];
+        
+        [self log: @"Requesting interstitial for zone: %@ and placement: %@", self.zoneIdentifier, self.placement];
         
         // If we already have preloaded ads, don't fire off redundant requests
-        GADMAdapterAppLovinQueue *queue = ALInterstitialAdQueues[zoneIdentifier];
+        GADMAdapterAppLovinQueue *queue = ALInterstitialAdQueues[self.zoneIdentifier];
         if ( queue.count < ALInterstitialAdQueueMaxCapacity )
         {
-            if ( zoneIdentifier.length > 0 )
+            if ( self.zoneIdentifier.length > 0 )
             {
-                [self log: @"Requesting interstitial for zone: %@", zoneIdentifier];
-                [self.sdk.adService loadNextAdForZoneIdentifier: zoneIdentifier andNotify: self];
+                [self.sdk.adService loadNextAdForZoneIdentifier: self.zoneIdentifier andNotify: self];
             }
             else
             {
-                [self log: @"Requesting interstitial for placement: %@", placement];
                 [self.sdk.adService loadNextAd: [ALAdSize sizeInterstitial] andNotify: self];
             }
         }
         else
         {
-            [self log: @"Requesting interstitial for zone: %@ and placement: %@ when %lu are preloaded already", zoneIdentifier, placement, queue.count];
+            [self log: @"Interstitial queue at max capacity. Finishing load..."];
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.connector adapterDidReceiveInterstitial: self];
@@ -156,15 +155,15 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
         self.sdk.settings.muted = networkExtras.muteAudio;
         
-        NSString *placement = [self placement];
-        NSString *zoneIdentifier = [self zoneIdentifier];
+        self.placement = [self retrievePlacement];
+        self.zoneIdentifier = [self retrieveZoneIdentifier];
         
-        ALAd *dequeuedAd = [ALInterstitialAdQueues[zoneIdentifier] dequeue];
+        ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
         if ( dequeuedAd )
         {
-            [self log: @"Showing interstitial for zone: %@ placement: %@", zoneIdentifier, placement];
+            [self log: @"Showing interstitial for zone: %@ placement: %@", self.zoneIdentifier, self.placement];
             [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
-                              placement: placement
+                              placement: self.placement
                               andRender: dequeuedAd];
         }
         else
@@ -172,9 +171,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
             [self log: @"Attempting to show interstitial before one was loaded"];
             
             // Check if we have a default zone interstitial available
-            if ( zoneIdentifier.length == 0 && [self.interstitial isReadyForDisplay] )
+            if ( self.zoneIdentifier.length == 0 && [self.interstitial isReadyForDisplay] )
             {
-                [self.interstitial showOverPlacement: placement];
+                [self.interstitial showOverPlacement: self.placement];
             }
             // TODO: Show ad for zone identifier if exists
             else
@@ -235,7 +234,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)getBannerWithSize:(GADAdSize)adSize
 {
-    [self log: @"Requesting banner of size %@", NSStringFromGADAdSize(adSize)];
+    [self log: @"Requesting banner of size %@ for zone: %@ and placement: %@", NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
     
     // Convert requested size to AppLovin Ad Size
     ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize: adSize];
@@ -344,14 +343,14 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     }
 }
 
-#pragma mark - Dynamic Properties
+#pragma mark - Controlled Properties Retrieval
 
-- (NSString *)placement
+- (NSString *)retrievePlacement
 {
     return self.connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
 }
 
-- (NSString *)zoneIdentifier
+- (NSString *)retrieveZoneIdentifier
 {
     return ((GADMAdapterAppLovinExtras *) self.connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
 }
@@ -426,7 +425,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self.parentAdapter log: @"Banner did load ad: %@", ad.adIdNumber];
+    [self.parentAdapter log: @"Banner did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, self.parentAdapter.zoneIdentifier, self.parentAdapter.placement];
     
     [self.parentAdapter.adView render: ad overPlacement: self.parentAdapter.placement];
     [self.parentAdapter.connector adapter: self.parentAdapter didReceiveAdView: self.parentAdapter.adView];
@@ -494,3 +493,4 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 @end
 
 #pragma clang diagnostic pop
+
