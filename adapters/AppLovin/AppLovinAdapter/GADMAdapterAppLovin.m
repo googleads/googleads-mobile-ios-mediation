@@ -16,10 +16,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-#define DEFAULT_ZONE @""
-#define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-
 @interface GADMAdapterAppLovin () <ALAdLoadDelegate>
 
 // Controlled Properties
