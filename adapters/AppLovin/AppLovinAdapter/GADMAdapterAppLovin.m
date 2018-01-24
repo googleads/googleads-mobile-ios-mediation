@@ -480,4 +480,3 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 @end
 
 #pragma clang diagnostic pop
-
