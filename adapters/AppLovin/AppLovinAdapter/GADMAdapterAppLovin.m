@@ -16,8 +16,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-#define DEFAULT_ZONE @""
-
 #define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
@@ -118,8 +116,8 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 {
     @synchronized (ALInterstitialAdQueueLock)
     {
-        self.placement = [self retrievePlacement];
-        self.zoneIdentifier = [self retrieveZoneIdentifier];
+        self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector: self.connector];
+        self.zoneIdentifier = [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector: self.connector];
         
         [self log: @"Requesting interstitial for zone: %@ and placement: %@", self.zoneIdentifier, self.placement];
         
@@ -155,8 +153,8 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
         self.sdk.settings.muted = networkExtras.muteAudio;
         
-        self.placement = [self retrievePlacement];
-        self.zoneIdentifier = [self retrieveZoneIdentifier];
+        self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector: self.connector];
+        self.zoneIdentifier = [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector: self.connector];
         
         ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
         if ( dequeuedAd )
@@ -173,6 +171,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
             // Check if we have a default zone interstitial available
             if ( self.zoneIdentifier.length == 0 && [self.interstitial isReadyForDisplay] )
             {
+                [self log: @"Showing interstitial preloaded by SDK"];
                 [self.interstitial showOverPlacement: self.placement];
             }
             // TODO: Show ad for zone identifier if exists
@@ -341,18 +340,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         
         NSLog(@"AppLovinAdapter: %@", message);
     }
-}
-
-#pragma mark - Controlled Properties Retrieval
-
-- (NSString *)retrievePlacement
-{
-    return self.connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
-}
-
-- (NSString *)retrieveZoneIdentifier
-{
-    return ((GADMAdapterAppLovinExtras *) self.connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
 }
 
 @end

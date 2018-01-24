@@ -11,6 +11,8 @@
 #import "GADMAdapterAppLovinExtras.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
+#define DEFAULT_ZONE @""
+
 @implementation GADMAdapterAppLovinUtils
 
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials
@@ -26,6 +28,16 @@
     [sdk setPluginVersion: GADMAdapterAppLovinConstant.adapterVersion];
     
     return sdk;
+}
+
++ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector
+{
+    return connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
+}
+
++ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector
+{
+    return ((GADMAdapterAppLovinExtras *) connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
 }
 
 + (GADErrorCode)toAdMobErrorCode:(int)code
