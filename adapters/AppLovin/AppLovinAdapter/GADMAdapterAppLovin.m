@@ -199,7 +199,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self log: @"Interstitial did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, self.zoneIdentifier, self.placement];
+    [self log: @"Interstitial did load ad: %@ for zone: %@ and placement: %@", ad.adIdNumber, self.zoneIdentifier, self.placement];
     
     @synchronized (ALInterstitialAdQueueLock)
     {
@@ -412,7 +412,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    [self.parentAdapter log: @"Banner did load ad: %@ for zoneIdentifier: %@ and placement: %@", ad.adIdNumber, self.parentAdapter.zoneIdentifier, self.parentAdapter.placement];
+    [self.parentAdapter log: @"Banner did load ad: %@ for zone: %@ and placement: %@", ad.adIdNumber, self.parentAdapter.zoneIdentifier, self.parentAdapter.placement];
     
     [self.parentAdapter.adView render: ad overPlacement: self.parentAdapter.placement];
     [self.parentAdapter.connector adapter: self.parentAdapter didReceiveAdView: self.parentAdapter.adView];
