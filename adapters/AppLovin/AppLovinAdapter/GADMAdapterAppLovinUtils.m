@@ -42,6 +42,10 @@
 
 + (GADErrorCode)toAdMobErrorCode:(int)code
 {
+    //
+    // TODO: Be more exhaustive
+    //
+    
     if ( code == kALErrorCodeNoFill )
     {
         return kGADErrorMediationNoFill;
