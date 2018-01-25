@@ -110,7 +110,7 @@ DUNativeAdDelegate> {
     
     // -[DUNativeAd initWithPlacementID:] throws an NSInvalidArgumentException if the placement ID is
     // nil.
-    NSString *placementID = [strongConnector publisherId];
+    NSString *placementID = [strongConnector credentials][@"placementId"];
     if (!placementID) {
         NSError *error = GADDUErrorWithDescription(@"Placement ID cannot be nil.");
         [strongConnector adapter:strongAdapter didFailAd:error];
