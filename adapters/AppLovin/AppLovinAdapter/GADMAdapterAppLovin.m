@@ -54,7 +54,6 @@
 
 static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<ALAd *> *> *ALInterstitialAdQueues;
 static NSObject *ALInterstitialAdQueueLock;
-static const NSUInteger ALInterstitialAdQueueMaxCapacity = 2;
 
 static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
 static const CGFloat kALBannerStandardHeight = 50.0f;
@@ -118,10 +117,11 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         
         [self log: @"Requesting interstitial for zone: %@ and placement: %@", self.zoneIdentifier, self.placement];
         
-        // If we already have preloaded ads, don't fire off redundant requests
         GADMAdapterAppLovinQueue *queue = ALInterstitialAdQueues[self.zoneIdentifier];
-        if ( queue.count < ALInterstitialAdQueueMaxCapacity )
+        if ( queue.count == 0 )
         {
+            // If we don't already have enqueued ads, fetch from SDK
+            
             if ( self.zoneIdentifier.length > 0 )
             {
                 [self.sdk.adService loadNextAdForZoneIdentifier: self.zoneIdentifier andNotify: self];
@@ -133,7 +133,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         }
         else
         {
-            [self log: @"Interstitial queue at max capacity. Finishing load..."];
+            [self log: @"Enqueued interstitial found. Finishing load..."];
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [self.connector adapterDidReceiveInterstitial: self];
@@ -206,7 +206,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         GADMAdapterAppLovinQueue<ALAd *> *preloadedAds = ALInterstitialAdQueues[self.zoneIdentifier];
         if ( !preloadedAds )
         {
-            preloadedAds = [GADMAdapterAppLovinQueue queueWithCapacity: ALInterstitialAdQueueMaxCapacity];
+            preloadedAds = [GADMAdapterAppLovinQueue queueWithCapacity: 1];
             ALInterstitialAdQueues[self.zoneIdentifier] = preloadedAds;
         }
         
