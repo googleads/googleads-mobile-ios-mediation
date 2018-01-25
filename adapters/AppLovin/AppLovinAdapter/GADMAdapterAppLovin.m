@@ -150,9 +150,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
         self.sdk.settings.muted = networkExtras.muteAudio;
         
-        self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector: self.connector];
-        self.zoneIdentifier = [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector: self.connector];
-        
         ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
         if ( dequeuedAd )
         {
@@ -230,6 +227,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (void)getBannerWithSize:(GADAdSize)adSize
 {
+    self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector: self.connector];
+    self.zoneIdentifier = [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector: self.connector];
+    
     [self log: @"Requesting banner of size %@ for zone: %@ and placement: %@", NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
     
     // Convert requested size to AppLovin Ad Size
