@@ -156,7 +156,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
         if ( dequeuedAd )
         {
-            [self log: @"Showing interstitial for zone: %@ placement: %@", self.zoneIdentifier, self.placement];
+            [self log: @"Showing interstitial ad: %@ for zone: %@ placement: %@", dequeuedAd.adIdNumber, self.zoneIdentifier, self.placement];
             [self.interstitial showOver: [UIApplication sharedApplication].keyWindow
                               placement: self.placement
                               andRender: dequeuedAd];
