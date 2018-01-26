@@ -118,7 +118,7 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
             // Otherwise, use the Zones API
             else
             {
-                self.incent = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier: self.zoneIdentifier];
+                self.incent = [GADMAdapterAppLovinUtils incentivizedInterstitialAdWithZoneIdentifier: self.zoneIdentifier sdk: self.sdk];
             }
             
             ALGlobalIncentivizedInterstitialAds[self.zoneIdentifier] = self.incent;

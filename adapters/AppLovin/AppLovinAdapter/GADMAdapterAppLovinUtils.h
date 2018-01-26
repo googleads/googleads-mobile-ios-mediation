@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
 
+/**
+ * Dynamically create an instance of ALIncentivizedAd with a given zone and SDK. We must do it dynamically as it is not exposed publically until iOS SDK 4.7.0.
+ */
++ (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:(NSString *)zoneIdentifier sdk:(ALSdk *)sdk;
+
 @end
 
 NS_ASSUME_NONNULL_END
