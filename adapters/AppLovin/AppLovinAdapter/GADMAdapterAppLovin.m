@@ -239,8 +239,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize: adSize];
     if ( appLovinAdSize )
     {
-        NSString *zoneIdentifier = [self zoneIdentifier];
-        self.adView = [[ALAdView alloc] initWithSize: appLovinAdSize zoneIdentifier: zoneIdentifier];
+        self.adView = [[ALAdView alloc] initWithSdk: self.sdk size: appLovinAdSize];
         
         CGSize size = CGSizeFromGADAdSize(adSize);
         self.adView.frame = CGRectMake(0, 0, size.width, size.height);
@@ -250,9 +249,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         self.adView.adDisplayDelegate = delegate;
         self.adView.adEventDelegate = delegate;
         
-        if ( zoneIdentifier.length > 0 )
+        if ( self.zoneIdentifier.length > 0 )
         {
-            [self.sdk.adService loadNextAdForZoneIdentifier: zoneIdentifier andNotify: delegate];
+            [self.sdk.adService loadNextAdForZoneIdentifier: self.zoneIdentifier andNotify: delegate];
         }
         else
         {
