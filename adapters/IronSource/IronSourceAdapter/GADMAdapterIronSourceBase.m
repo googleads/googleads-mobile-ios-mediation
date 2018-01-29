@@ -18,12 +18,12 @@
     BOOL _initSucceeded;
 }
 
-
 // IronSource internal reporting const
 NSString *const kGADMMediationName = @"AdMob";
 // IronSource parameters keys
-NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
+NSString *const kGADMAdapterIronSourceAppKey        = @"appKey";
 NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
+NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
 
 #pragma mark - Admob
 
@@ -41,6 +41,16 @@ NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 
 #pragma mark Utils Methods
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _instanceId = @"0";
+        _isTestEnabled = NO;
+    }
+    return self;
+}
+
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
     // 1 - We are not sending user ID from adapters anymore,
     //     the IronSource SDK will take care of this identifier
@@ -48,12 +58,12 @@ NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
     if (!_initSucceeded) {
         [self onLog:@"initIronSourceSDKWithAppKey"];
         [IronSource setMediationType:kGADMMediationName];
-        [IronSource initWithAppKey:appKey adUnits:@[adUnit]];
+        [IronSource initISDemandOnly:appKey adUnits:@[adUnit]];
         _initSucceeded = YES;
     }
 }
 
-- (void)onLog: (NSString *)log {
+- (void)onLog:(NSString *)log {
     if (self.isTestEnabled) {
         NSLog(@"IronSourceAdapter: %@" , log);
     }
@@ -62,10 +72,10 @@ NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 -(BOOL)isEmpty:(id)value
 {
     return value == nil
-        || [value isKindOfClass:[NSNull class]]
-        || ([value respondsToSelector:@selector(length)] && [(NSString *)value length] == 0)
-        || ([value respondsToSelector:@selector(length)] && [(NSData *)value length] == 0)
-        || ([value respondsToSelector:@selector(count)] && [(NSArray *)value count] == 0);
+    || [value isKindOfClass:[NSNull class]]
+    || ([value respondsToSelector:@selector(length)] && [(NSString *)value length] == 0)
+    || ([value respondsToSelector:@selector(length)] && [(NSData *)value length] == 0)
+    || ([value respondsToSelector:@selector(count)] && [(NSArray *)value count] == 0);
 }
 
 - (NSError *)createErrorWith:(NSString *)description andReason:(NSString *)reason andSuggestion:(NSString *)suggestion {
@@ -80,3 +90,4 @@ NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 
 
 @end
+

@@ -25,11 +25,13 @@ extern NSString *const kGADMMediationName;
 // IronSource parameters keys
 extern NSString *const kGADMAdapterIronSourceAppKey;
 extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
+extern NSString *const kGADMAdapterIronSourceInstanceId;
 
 // Yes if we want to show adapter logs
-@property (nonatomic, assign) BOOL isTestEnabled; 
+@property (nonatomic, assign) BOOL isTestEnabled;
 
-// Admob methods
+//Holds the id of the instance to be presented
+@property (nonatomic, strong) NSString *instanceId;
 
 + (NSString *)adapterVersion;
 

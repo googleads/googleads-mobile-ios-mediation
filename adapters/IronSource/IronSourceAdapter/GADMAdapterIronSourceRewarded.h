@@ -16,6 +16,6 @@
 #import "GADMAdapterIronSourceBase.h"
 
 /// Adapter for communicating with the IronSource Network to fetch reward-based video ads
-@interface GADMAdapterIronSourceRewarded : GADMAdapterIronSourceBase <GADMRewardBasedVideoAdNetworkAdapter, ISRewardedVideoDelegate>
+@interface GADMAdapterIronSourceRewarded : GADMAdapterIronSourceBase <GADMRewardBasedVideoAdNetworkAdapter, ISDemandOnlyRewardedVideoDelegate>
 
 @end

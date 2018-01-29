@@ -16,6 +16,6 @@
 #import "GADMAdapterIronSourceBase.h"
 
 /// Adapter for communicating with the IronSource Network to fetch nterstitial video ads
-@interface GADMAdapterIronSource : GADMAdapterIronSourceBase < GADMAdNetworkAdapter, ISInterstitialDelegate>
+@interface GADMAdapterIronSource : GADMAdapterIronSourceBase < GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
 
 @end

@@ -14,15 +14,10 @@
 
 #import "GADMAdapterIronSource.h"
 
-NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlacement";
-
 @interface GADMAdapterIronSource () {
     
     //Connector from Google Mobile Ads SDK to receive interstitial ad configurations.
     __weak id<GADMAdNetworkConnector> _interstitialConnector;
-    
-    //IronSource rewarded video placement name
-    NSString *_interstitialPlacementName;
 }
 
 @end
@@ -30,7 +25,7 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 @implementation GADMAdapterIronSource
 
 #pragma mark Admob GADMAdNetworkConnector
-
+    
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
     if (!connector) {
         return nil;
@@ -44,51 +39,43 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 
 - (void)getInterstitial {
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+    NSDictionary *credentials = [strongConnector credentials];
+
+    /* Parse enabling testing mode key */
+    GADMIronSourceExtras *extras = [strongConnector networkExtras];
+    self.isTestEnabled = extras.debugEnabled;
     
+    /* Parse application key */
     NSString *applicationKey = @"";
-    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceAppKey]) {
-        applicationKey = [[strongConnector credentials] objectForKey:kGADMAdapterIronSourceAppKey];
+    if ([credentials objectForKey:kGADMAdapterIronSourceAppKey]) {
+        applicationKey = [credentials objectForKey:kGADMAdapterIronSourceAppKey];
     }
     
-    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceIsTestEnabled] != nil) {
-        self.isTestEnabled = [[[strongConnector credentials] objectForKey:kGADMAdapterIronSourceIsTestEnabled] boolValue];
-    } else {
-        self.isTestEnabled = NO;
+    /* Parse instance id key */
+    if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
+        self.instanceId = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
     }
     
-    _interstitialPlacementName = @"";
-    if ([[strongConnector credentials] objectForKey:kGADMAdapterIronSourceInterstitialPlacement]) {
-        _interstitialPlacementName = [[strongConnector credentials] objectForKey:kGADMAdapterIronSourceInterstitialPlacement];
-    }
-    
-    NSString *log = [NSString stringWithFormat:@"getInterstitial params: appKey=%@, self.isTestEnabled=%d,  _interstitialPlacementName=%@", applicationKey, self.isTestEnabled,_interstitialPlacementName];
+    NSString *log = [NSString stringWithFormat:@"getInterstitial params: appKey=%@, is testing enabled=%d, instance id: %@", applicationKey, self.isTestEnabled,self.instanceId];
     [self onLog:log];
     
     if (![self isEmpty:applicationKey]) {
-        
-        [IronSource setInterstitialDelegate:self];
+        [IronSource setISDemandOnlyInterstitialDelegate:self];
         [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_INTERSTITIAL];
         [self loadInterstitialAd];
     } else {
-        
         NSError *error = [self createErrorWith:@"IronSource Adapter failed to getInterstitial"
                                      andReason:@"appKey parameter is missing"
                                  andSuggestion:@"make sure that 'appKey' server parameter is added"];
         
         [strongConnector adapter:self didFailAd:error];
     }
-    
-    [self onLog:@"getInterstitial"];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self onLog:@"presentInterstitialFromRootViewController"];
+    [self onLog:[NSString stringWithFormat:@"presentInterstitialFromRootViewController for instance %@",self.instanceId]];
     
-    if (_interstitialPlacementName) {
-        [IronSource showInterstitialWithViewController:rootViewController placement:_interstitialPlacementName];
-    } else {
-        [IronSource showInterstitialWithViewController:rootViewController];
-    }
+    [IronSource showISDemandOnlyInterstitial:rootViewController instanceId:self.instanceId];
 }
 
 #pragma mark Admob Banner
@@ -111,12 +98,12 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 #pragma mark Interstitial Utils Methods
 
 - (void)loadInterstitialAd {
-    [self onLog:@"loadInterstitialAd"];
+    [self onLog:[NSString stringWithFormat:@"loadInterstitialAd for instance %@",self.instanceId]];
     
-    if ([IronSource hasInterstitial]) {
+    if ([IronSource hasISDemandOnlyInterstitial:self.instanceId]) {
         [_interstitialConnector adapterDidReceiveInterstitial:self];
     } else {
-        [IronSource loadInterstitial];
+        [IronSource loadISDemandOnlyInterstitial:self.instanceId];
     }
 }
 
@@ -125,8 +112,13 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 /**
  * @discussion Called after an interstitial has been loaded
  */
-- (void)interstitialDidLoad {
-    [self onLog:@"interstitialDidLoad"];
+- (void)interstitialDidLoad:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"interstitialDidLoad for instance: %@",instanceId]];
+    
+    // We will notify only changes regarding to the registered instance.
+    if (![self.instanceId isEqualToString:instanceId]) {
+        return;
+    }
     
     [_interstitialConnector adapterDidReceiveInterstitial:self];
 }
@@ -137,8 +129,14 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
  *             You can learn about the reason by examining the ‘error’ value
  */
 
-- (void)interstitialDidFailToLoadWithError:(NSError *)error {
-    [self onLog:[NSString stringWithFormat:@"interstitialDidFailToLoadWithError: %@", error.localizedDescription]];
+- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+    NSString *log = [NSString stringWithFormat:@"interstitialDidFailToLoadWithError: %@, for instance: %@", error.localizedDescription, instanceId];
+    [self onLog:log];
+    
+    // We will notify only changes regarding to the registered instance.
+    if (![self.instanceId isEqualToString:instanceId]) {
+        return;
+    }
     
     if (!error) {
         error = [self createErrorWith:@"network load error"
@@ -152,17 +150,17 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 /*!
  * @discussion Called each time the Interstitial window is about to open
  */
-- (void)interstitialDidOpen {
-    [self onLog:@"interstitialDidOpen"];
+- (void)interstitialDidOpen:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"interstitialDidOpen for instance:%@",instanceId]];
     [_interstitialConnector adapterWillPresentInterstitial:self];
 }
 
 /*!
  * @discussion Called each time the Interstitial window is about to close
  */
-- (void)interstitialDidClose {
-    [self onLog:@"interstitialDidClose"];
-    
+- (void)interstitialDidClose:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"interstitialDidClose for instance:%@",instanceId]];
+
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
     [strongConnector adapterWillDismissInterstitial:self];
     [strongConnector adapterDidDismissInterstitial:self];
@@ -171,8 +169,8 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 /*!
  * @discussion Called each time the Interstitial window has opened successfully.
  */
-- (void)interstitialDidShow {
-    [self onLog:@"interstitialDidShow"];
+- (void)interstitialDidShow:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"interstitialDidShow for instance:%@",instanceId]];
 }
 
 /*!
@@ -180,8 +178,8 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
  *
  *              You can learn about the reason by examining the ‘error’ value
  */
-- (void)interstitialDidFailToShowWithError:(NSError *)error {
-    [self onLog:[NSString stringWithFormat:@"interstitialDidFailToShowWithError: %@", error.localizedDescription]];
+- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"interstitialDidFailToShowWithError: %@, for instance: %@", error.localizedDescription, instanceId]];
     
     if (!error) {
         error = [self createErrorWith:@"Interstitial show error"
@@ -195,8 +193,8 @@ NSString *const kGADMAdapterIronSourceInterstitialPlacement = @"interstitialPlac
 /*!
  * @discussion Called each time the end user has clicked on the Interstitial ad.
  */
-- (void)didClickInterstitial{
-    [self onLog:@"didClickInterstitial"];
+- (void)didClickInterstitial:(NSString *)instanceId {
+    [self onLog:[NSString stringWithFormat:@"didClickInterstitial for instance:%@",instanceId]];
     
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
     [strongConnector adapterDidGetAdClick:self];
