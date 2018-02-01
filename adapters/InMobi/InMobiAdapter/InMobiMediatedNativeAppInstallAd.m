@@ -8,15 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "InMobiMediatedNativeAppInstallAd.h"
-#import <GoogleMobileAds/GADMediatedNativeAdDelegate.h>
 #import "NativeAdKeys.h"
 
 @interface InMobiMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate,
                                                 InMobiMediatedNativeAppInstallAdDelegate>
 
 @property(nonatomic, strong) IMNative *native;
-@property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
+@property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, copy) NSDictionary *extras;
 @property(nonatomic, strong) NSDictionary *nativeAdContentDictionary;
 
@@ -37,108 +36,79 @@
   }
   self = [super init];
   self.adapter = adapter;
-  // self.connector = connector;
   self.native = nativeAd;
-  NSData *data = [self.native.adContent dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [self.native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
+  SEL inmobiMediatedNativeAppInstallAdSuccessful =
+      @selector(inmobiMediatedNativeAppInstallAdSuccessful:);
 
   if (data) {
     self.nativeAdContentDictionary =
         [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if (![[self.nativeAdContentDictionary objectForKey:TITLE] length] ||
-        ![[self.nativeAdContentDictionary objectForKey:DESCRIPTION] length] ||
-        ![[self.nativeAdContentDictionary objectForKey:CTA] length] ||
-        ![self.nativeAdContentDictionary objectForKey:ICON] ||
-        ![self.nativeAdContentDictionary objectForKey:SCREENSHOTS]) {
-      [self inmobiMediatedNativeAppInstallAdFailed];
-      return nil;
-    }
     NSDictionary *iconDictionary = [self.nativeAdContentDictionary objectForKey:ICON];
-    NSDictionary *imageDictionary = [self.nativeAdContentDictionary objectForKey:SCREENSHOTS];
-    self.extras = [[NSDictionary alloc]
-        initWithObjectsAndKeys:[self.nativeAdContentDictionary objectForKey:LANDING_URL],
-                               LANDING_URL, nil];
 
-    if (imageDictionary && iconDictionary) {
-      NSString *imageStringURL = [imageDictionary objectForKey:URL];
-      NSURL *imageURL = [NSURL URLWithString:imageStringURL];
+    if (iconDictionary) {
       NSString *iconStringURL = [iconDictionary objectForKey:URL];
-      NSURL *iconURL = [NSURL URLWithString:iconStringURL];
-
-      if (!shouldDownloadImage) {
-        SEL inmobiMediatedNativeAppInstallAdSuccessful =
-            @selector(inmobiMediatedNativeAppInstallAdSuccessful:);
-        self.mappedImages = @[
-          [[GADNativeAdImage alloc]
-              initWithURL:imageURL
-                    scale:[[imageDictionary objectForKey:ASPECT_RATIO] floatValue]]
-        ];
-        self.mappedIcon = [[GADNativeAdImage alloc]
-            initWithURL:iconURL
-                  scale:[[iconDictionary objectForKey:ASPECT_RATIO] floatValue]];
-        if ([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]) {
-          [self inmobiMediatedNativeAppInstallAdSuccessful:self];
-        }
+      if (![[self.native adTitle] length] || ![[self.native adDescription] length] ||
+          ![[self.native adCtaText] length] || ![self.native adIcon] || ![iconStringURL length]) {
+        [self inmobiMediatedNativeAppInstallAdFailed];
+        return nil;
       } else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-          UIImage *img, *icon;
-          [imageStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        self.extras = [[NSDictionary alloc]
+            initWithObjectsAndKeys:[self.nativeAdContentDictionary objectForKey:LANDING_URL],
+                                   LANDING_URL, nil];
+        NSURL *iconURL = [NSURL URLWithString:iconStringURL];
+        CGFloat iconScale = 1.0;
 
-          UIImage *cachedImage = [imageCache objectForKey:imageStringURL];
-          if (cachedImage) {
-            img = cachedImage;
-          } else {
-            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageStringURL]];
-            img = [UIImage imageWithData:imageData];
-            if (img != nil) {
-              [imageCache setObject:img forKey:imageStringURL];
-            }
+        // Pass a blank image since we are using only mediaview.
+        UIImage *img;
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
+
+        if (!shouldDownloadImage) {
+          self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:iconScale];
+          if ([self respondsToSelector:inmobiMediatedNativeAppInstallAdSuccessful]) {
+            [self inmobiMediatedNativeAppInstallAdSuccessful:self];
           }
-          if (img != nil) {
-            self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
-          } else {
-            [self inmobiMediatedNativeAppInstallAdFailed];
-            return;
-          }
-
-          [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-          UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
-          if (cacheIcon) {
-            icon = cacheIcon;
-          } else {
-            NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:iconStringURL]];
-            icon = [UIImage imageWithData:iconData];
-            if (icon != nil) {
+        } else {
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            UIImage *icon;
+            [iconStringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            UIImage *cacheIcon = [imageCache objectForKey:iconStringURL];
+            if (cacheIcon) {
+              icon = cacheIcon;
+            } else {
+              NSData *iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:iconStringURL]];
+              icon = [UIImage imageWithData:iconData];
               [imageCache setObject:icon forKey:iconStringURL];
             }
-          }
 
-          if (icon != nil) {
             self.mappedIcon = [[GADNativeAdImage alloc] initWithImage:icon];
-          } else {
-            [self inmobiMediatedNativeAppInstallAdFailed];
-            return;
-          }
 
-          [self inmobiMediatedNativeAppInstallAdSuccessful:self];
-        });
+            if (icon && img) {
+              [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+            } else {
+              [self inmobiMediatedNativeAppInstallAdFailed];
+            }
+          });
+        }
       }
+    } else {
+      [self inmobiMediatedNativeAppInstallAdFailed];
     }
   }
   return self;
 }
 
 - (NSString *)headline {
-  return [self.nativeAdContentDictionary objectForKey:TITLE];
-}
-
-- (NSArray *)images {
-  return self.mappedImages;
+  return self.native.adTitle;
 }
 
 - (NSString *)body {
-  return [self.nativeAdContentDictionary objectForKey:DESCRIPTION];
+  return self.native.adDescription;
 }
 
 - (GADNativeAdImage *)icon {
@@ -146,15 +116,18 @@
 }
 
 - (NSString *)callToAction {
-  return [self.nativeAdContentDictionary objectForKey:CTA];
+  return self.native.adCtaText;
 }
 
 - (NSDecimalNumber *)starRating {
-  return (NSDecimalNumber *)[self.nativeAdContentDictionary objectForKey:RATING];
+    if(self.native){
+        return (NSDecimalNumber*)self.native.adRating;
+    }
+    return 0;
 }
 
 - (NSString *)store {
-  NSString *landingURL = [self.nativeAdContentDictionary objectForKey:LANDING_URL];
+  NSString *landingURL = (NSString *)(self.native.adLandingPageUrl.absoluteString);
   if (landingURL) {
     NSRange searchedRange = NSMakeRange(0, [landingURL length]);
     NSError *error = nil;
@@ -167,17 +140,34 @@
     if (numberOfMatches == 0)
       return @"Others";
     else
-      return @"Itunes";
+      return @"iTunes";
   }
   return @"";
 }
 
 - (NSString *)price {
-  return [self.nativeAdContentDictionary objectForKey:PRICE];
+    if([[self.nativeAdContentDictionary objectForKey:PRICE] length]){
+        return [self.nativeAdContentDictionary objectForKey:PRICE];
+    }
+    return @"";
+}
+
+- (NSArray *)images {
+  return self.mappedImages;
 }
 
 - (NSDictionary *)extraAssets {
   return self.extras;
+}
+
+- (UIView *GAD_NULLABLE_TYPE)mediaView {
+  UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
+  placeHolderView.userInteractionEnabled = NO;
+  return placeHolderView;
+}
+
+- (BOOL)hasVideoContent {
+  return true;
 }
 
 - (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
@@ -189,22 +179,22 @@
                              view:(UIView *)view
                    viewController:(UIViewController *)viewController {
   if (self.native) {
-    [self.native reportAdClickAndOpenLandingURL:nil];
+    [self.native reportAdClickAndOpenLandingPage];
   }
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
           viewController:(UIViewController *)viewController {
-  if (self.native) {
-    [IMNative bindNative:self.native toView:view];
-  }
+  GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
+  GADMediaView *mediaView = adView.mediaView;
+  UIView *primaryView = [self.native primaryViewOfWidth:mediaView.frame.size.width];
+  [mediaView addSubview:primaryView];
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-  if (self.native) {
-    [IMNative unBindView:view];
-  }
+  [self.native recyclePrimaryView];
+  self.native = nil;
 }
 
 - (void)inmobiMediatedNativeAppInstallAdFailed {

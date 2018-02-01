@@ -1,9 +1,8 @@
-#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
 #import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import "vungleHelper.h"
 #import "VungleAdNetworkExtras.h"
 
-@interface GADMAdapterVungleRewardBasedVideoAd () <VungleDelegate>
+@interface GADMAdapterVungleRewardBasedVideoAd ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
 @end
 
@@ -18,7 +17,7 @@
 }
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     self.connector = connector;
@@ -101,7 +100,7 @@
   [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)willCloseAd:(bool)completedView {
+- (void)willCloseAd:(BOOL)completedView {
   if (completedView) {
     GADAdReward* reward =
         [[GADAdReward alloc] initWithRewardType:@"vungle"

@@ -135,7 +135,7 @@ extension SampleMediatedNativeAppInstallAdSwift: GADMediatedNativeAdDelegate {
     // to the mediated network's SDK.
   }
 
-  func mediatedNativeAd(_ mediatedNativeAd: GADMediatedNativeAd, didUntrackView view: UIView) {
+  func mediatedNativeAd(_ mediatedNativeAd: GADMediatedNativeAd, didUntrackView view: UIView?) {
     // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
     // Here you would remove any tracking from the view that has mediated native ad.
   }
