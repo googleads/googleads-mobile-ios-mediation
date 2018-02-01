@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <GoogleMobileAds/GADAdNetworkExtras.h>
+@import GoogleMobileAds;
 
 @interface VungleAdNetworkExtras : NSObject<GADAdNetworkExtras>
 
@@ -24,5 +24,9 @@
 @property(nonatomic, copy) NSArray<NSString *> *_Nonnull allPlacements;
 
 @property(nonatomic, copy) NSString *_Nonnull playingPlacement;
+
+@property(nonatomic, assign) NSUInteger ordinal;
+
+@property(nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
 
 @end

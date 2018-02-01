@@ -10,7 +10,7 @@
 
 @interface GADMMaioError : NSObject
 
-+ (NSError *) errorWithDescription: (NSString *)description;
++ (NSError *)errorWithDescription:(NSString *)description;
 + (NSString *)stringFromFailReason:(MaioFailReason)failReason;
 
 @end

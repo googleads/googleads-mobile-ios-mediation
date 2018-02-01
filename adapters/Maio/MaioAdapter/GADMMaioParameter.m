@@ -11,12 +11,12 @@
 @implementation GADMMaioParameter
 
 - (instancetype)initWithMediaId:(NSString *)mediaId zoneId:(NSString *)zoneId {
-    self = [super init];
-    if (self) {
-        _mediaId = mediaId;
-        _zoneId = zoneId;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _mediaId = mediaId;
+    _zoneId = zoneId;
+  }
+  return self;
 }
 
 @end

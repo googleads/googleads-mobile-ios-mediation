@@ -10,10 +10,10 @@
 
 @interface GADMMaioMaioInstanceRepository : NSObject
 
-- (MaioInstance*) maioInstanceByMediaId:(NSString*) mediaId;
-- (void) addMaioInstance:(MaioInstance*) instance;
+- (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId;
+- (void)addMaioInstance:(MaioInstance *)instance;
 
-- (BOOL) isInitializedWithMediaId: (NSString*) mediaId;
-- (void) setInitialized:(BOOL)value mediaId:(NSString*) mediaId;
+- (BOOL)isInitializedWithMediaId:(NSString *)mediaId;
+- (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId;
 
 @end

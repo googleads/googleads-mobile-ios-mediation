@@ -1,5 +1,13 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 5.3.2.0
+- Added two new extras to `VungleAdNetworkExtras`:
+  - `ordinal` - An integer indicating the order in which this ad was shown in
+    the game session.
+  - `flexViewAutoDismissSeconds` - Sets Flex View ads to automatically close in
+    the specified amount of seconds.
+- Verified compatibility with Vungle SDK 5.3.2.
+
 ## VERSION 5.3.0.0
 - Updated the deployment target to iOS 8.
 - Verified compatibility with Vungle SDK 5.3.0.

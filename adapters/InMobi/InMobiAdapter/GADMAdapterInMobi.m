@@ -6,9 +6,9 @@
 
 #import "GADMAdapterInMobi.h"
 #import "GADInMobiExtras.h"
-#import <InMobiSDK/IMSdk.h>
 #import "InMobiMediatedNativeAppInstallAd.h"
 #import "NativeAdKeys.h"
+#import <InMobiSDK/IMSdk.h>
 
 @interface GADInMobiExtras ()
 @property(nonatomic, retain) NSString *city, *state, *country;
@@ -40,7 +40,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return [IMSdk getVersion];
+  return @"7.0.4.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -79,12 +79,14 @@ __attribute__((constructor)) static void initialize_imageCache() {
              [self.rewardedConnector userGender] == kGADGenderFemale) {
     [IMSdk setGender:kIMSDKGenderFemale];
   }
-    
-  if([self.connector userBirthday] != nil){
-      NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[self.connector userBirthday]];
+
+  if ([self.connector userBirthday] != nil) {
+    NSDateComponents *components = [[NSCalendar currentCalendar]
+        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
+          fromDate:[self.connector userBirthday]];
     [IMSdk setYearOfBirth:[components year]];
   }
-    
+
   if (self.rewardedConnector) {
     extraInfo = [self.rewardedConnector networkExtras];
   } else if (self.connector) {

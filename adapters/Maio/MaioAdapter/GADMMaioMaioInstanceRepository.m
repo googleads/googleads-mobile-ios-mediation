@@ -14,25 +14,24 @@ static MaioInstance *_maioInstance = nil;
 /// YES if maio SDK is initialized.
 static BOOL _isInitialized = NO;
 
-
 - (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
-    return _maioInstance;
+  return _maioInstance;
 }
 
 - (void)addMaioInstance:(MaioInstance *)instance {
-    _maioInstance = instance;
+  _maioInstance = instance;
 }
 
 - (BOOL)isInitializedWithMediaId:(NSString *)mediaId {
-    @synchronized(self) {
-        return _isInitialized;
-    }
+  @synchronized(self) {
+    return _isInitialized;
+  }
 }
 
 - (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId {
-    @synchronized(self) {
-        _isInitialized = value;
-    }
+  @synchronized(self) {
+    _isInitialized = value;
+  }
 }
 
 @end

@@ -10,4 +10,3 @@
 
 #import <NendAdapter/GADMAdapterNend.h>
 #import <NendAdapter/GADNendRewardedNetworkExtras.h>
-

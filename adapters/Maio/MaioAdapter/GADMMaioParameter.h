@@ -9,10 +9,10 @@
 
 @interface GADMMaioParameter : NSObject
 
-@property (nonatomic, readonly) NSString *mediaId;
-@property (nonatomic, readonly) NSString *zoneId;
+@property(nonatomic, readonly) NSString *mediaId;
+@property(nonatomic, readonly) NSString *zoneId;
 
-+ (GADMMaioParameter*)parameterWithJsonString:(NSString*)jsonString;
++ (GADMMaioParameter *)parameterWithJsonString:(NSString *)jsonString;
 - (instancetype)initWithMediaId:(NSString *)mediaId zoneId:(NSString *)zoneId;
 
 @end

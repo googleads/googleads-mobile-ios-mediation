@@ -123,7 +123,7 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
     didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
   SampleMediatedNativeAppInstallAd *mediatedAd = [[SampleMediatedNativeAppInstallAd alloc]
       initWithSampleNativeAppInstallAd:nativeAppInstallAd
-                                                  nativeAdViewAdOptions:_nativeAdViewAdOptions];
+                 nativeAdViewAdOptions:_nativeAdViewAdOptions];
   [self.delegate customEventNativeAd:self didReceiveMediatedNativeAd:mediatedAd];
 }
 
