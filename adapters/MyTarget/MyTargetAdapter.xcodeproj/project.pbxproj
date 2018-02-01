@@ -64,7 +64,6 @@
 
 /* Begin PBXFileReference section */
 		351317FD1F7483040000179F /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		351317FE1F7483BD0000179F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		351317FF1F7483E40000179F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D233F401DC407F400762177 /* MyTargetAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTargetAdapter.h; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -129,7 +128,6 @@
 				89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */,
 				89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */,
 				89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */,
-				351317FE1F7483BD0000179F /* README.md */,
 			);
 			path = MyTargetAdapter;
 			sourceTree = "<group>";
