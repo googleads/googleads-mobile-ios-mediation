@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable id<GADMediatedNativeAd>)
     mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
                                  delegate:(nullable id<GADMediatedNativeAdDelegate>)delegate
-                           autoLoadImages:(BOOL)autoLoadImages;
+                           autoLoadImages:(BOOL)autoLoadImages
+                              mediaAdView:(MTRGMediaAdView *)mediaAdView;
 
 @end
 
