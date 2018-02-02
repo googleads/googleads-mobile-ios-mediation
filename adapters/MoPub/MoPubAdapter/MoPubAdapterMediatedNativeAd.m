@@ -43,8 +43,7 @@
 
     CGFloat defaultImageScale = 1;
     if (downloadedImages != nil) {
-      _mappedImages =
-          [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
+      _mappedImages = [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
       _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
     } else {
       NSURL *mainImageUrl =
@@ -128,6 +127,13 @@
   } else {
     MPLogWarn(@"Could not add impression trackers.");
   }
+    
+    if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
+        GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
+        GADNativeAdImage *image = (GADNativeAdImage *) _mappedImages[0];
+        UIImageView *mainImageView = [[UIImageView alloc] initWithImage:(UIImage *)image];
+        [adView.mediaView addSubview:mainImageView];
+    }
 
   UITapGestureRecognizer *tapRecognizer =
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
