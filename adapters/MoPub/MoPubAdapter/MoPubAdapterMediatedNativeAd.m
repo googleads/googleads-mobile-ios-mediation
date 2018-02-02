@@ -130,8 +130,9 @@
     
     if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
         GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
-        GADNativeAdImage *image = (GADNativeAdImage *) _mappedImages[0];
-        UIImageView *mainImageView = [[UIImageView alloc] initWithImage:(UIImage *)image];
+        GADNativeAdImage *nativeAdImage = (GADNativeAdImage *) _mappedImages[0];
+        UIImage *image = [(UIImage *) nativeAdImage valueForKey:@"image"];
+        UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
         [adView.mediaView addSubview:mainImageView];
     }
 
