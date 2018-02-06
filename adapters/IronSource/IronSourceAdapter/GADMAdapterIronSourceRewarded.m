@@ -38,12 +38,12 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 }
 
 - (void)setUp {
+    
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     NSDictionary *credentials = [strongConnector credentials];
     
-    /* Parse enabling testing mode key */
-    GADMIronSourceExtras *extras = [strongConnector networkExtras];
-    self.isTestEnabled = extras.debugEnabled;
+    /* Parse enabling testing mode key for log */
+    self.isLogEnabled = strongConnector.testMode;
     
     /* Parse application key */
     NSString *applicationKey = @"";
@@ -56,7 +56,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
         /* Parse all other credentials */
         [self parseCredentials];
         
-        NSString *log = [NSString stringWithFormat:@"rewarded setUp params: appKey=%@, is testing enabled=%d, instance id: %@", applicationKey, self.isTestEnabled,self.instanceId];
+        NSString *log = [NSString stringWithFormat:@"rewarded setUp params: appKey=%@, is testing enabled=%d, instance id: %@", applicationKey, self.isLogEnabled,self.instanceId];
         [self onLog:log];
         
         [IronSource setISDemandOnlyRewardedVideoDelegate:self];

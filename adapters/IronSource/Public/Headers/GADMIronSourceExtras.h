@@ -18,8 +18,5 @@
 /// Network extras for the Ironsource adapter.
 @interface GADMIronSourceExtras : NSObject <GADAdNetworkExtras>
 
-/// Indicates whether the SDK debug logs are enabled. Defaults to NO.
-@property(nonatomic, assign) BOOL debugEnabled;
-
 @end
 

@@ -46,7 +46,7 @@ NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
     self = [super init];
     if (self) {
         _instanceId = @"0";
-        _isTestEnabled = NO;
+        _isLogEnabled = NO;
     }
     return self;
 }
@@ -64,7 +64,7 @@ NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
 }
 
 - (void)onLog:(NSString *)log {
-    if (self.isTestEnabled) {
+    if (_isLogEnabled) {
         NSLog(@"IronSourceAdapter: %@" , log);
     }
 }

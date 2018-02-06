@@ -27,10 +27,10 @@ extern NSString *const kGADMAdapterIronSourceAppKey;
 extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
 extern NSString *const kGADMAdapterIronSourceInstanceId;
 
-// Yes if we want to show adapter logs
-@property (nonatomic, assign) BOOL isTestEnabled;
+// Yes if we want to show IronSource adapter logs
+@property (nonatomic, assign) BOOL isLogEnabled;
 
-//Holds the id of the instance to be presented
+//Holds the ID of the ad instance to be presented
 @property (nonatomic, strong) NSString *instanceId;
 
 + (NSString *)adapterVersion;

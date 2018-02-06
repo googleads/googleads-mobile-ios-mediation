@@ -33,6 +33,7 @@
     self = [super init];
     if (self) {
         _interstitialConnector = connector;
+        
     }
     return self;
 }
@@ -41,9 +42,8 @@
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
     NSDictionary *credentials = [strongConnector credentials];
 
-    /* Parse enabling testing mode key */
-    GADMIronSourceExtras *extras = [strongConnector networkExtras];
-    self.isTestEnabled = extras.debugEnabled;
+    /* Parse enabling testing mode key for log */
+    self.isLogEnabled = strongConnector.testMode;
     
     /* Parse application key */
     NSString *applicationKey = @"";
@@ -56,7 +56,7 @@
         self.instanceId = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
     }
     
-    NSString *log = [NSString stringWithFormat:@"getInterstitial params: appKey=%@, is testing enabled=%d, instance id: %@", applicationKey, self.isTestEnabled,self.instanceId];
+    NSString *log = [NSString stringWithFormat:@"getInterstitial params: appKey=%@, is testing enabled=%d, instance id: %@", applicationKey, self.isLogEnabled,self.instanceId];
     [self onLog:log];
     
     if (![self isEmpty:applicationKey]) {
