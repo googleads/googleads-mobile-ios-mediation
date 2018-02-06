@@ -36,14 +36,37 @@
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
+    NSLog(@"native -------- networkExtrasClass");
     return [GADDuAdNetworkExtras class];
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+    NSLog(@"native -------- initWithGADMAdNetworkConnector");
     self = [self init];
     if (self) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            NSLog(@"native -------- initWithGADMAdNetworkConnector----dispatch_once");
+            id obj = [connector networkExtras];
+            NSLog(@"native -------- initWithGADMAdNetworkConnector----dispatch_once--obj : %@", obj);
+            GADDuAdNetworkExtras *networkExtras = [obj isKindOfClass:[GADDuAdNetworkExtras class]] ? obj : nil;
+            NSLog(@"native -------- initWithGADMAdNetworkConnector----dispatch_once--networkExtras : %@", networkExtras);
+            if (networkExtras) {
+                NSLog(@"native -------- initWithGADMAdNetworkConnector----has networkExtras");
+                if (networkExtras.appLicense && networkExtras.placementIds) {
+                    NSDictionary *nativeIds = [[NSMutableDictionary alloc] init];
+                    for (NSString *pid in networkExtras.placementIds) {
+                        [nativeIds setValue:pid forKey:@"pid"];
+                    }
+                    NSDictionary *config = [NSDictionary dictionaryWithObject:nativeIds forKey:@"native"];
+                    [DUAdNetwork initWithConfigDic:config withLicense:networkExtras.appLicense];
+                    NSLog(@"native -------- initWithGADMAdNetworkConnector----networkExtras.userId : %@, config : %@", networkExtras.appLicense, config);
+                }
+            }
+        });
         _nativeAd = [[GADDuAdNativeAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
         _connector = connector;
+        NSLog(@"native -------- initWithGADMAdNetworkConnector----next step");
     }
     return self;
 }
