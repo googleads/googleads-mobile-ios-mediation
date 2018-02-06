@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IronSourceAdapter_h
-#define IronSourceAdapter_h
-
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <IronSourceAdapter/GADMIronSourceExtras.h>
+#import "GADMAdapterIronSourceBase.h"
 
-#endif /* IronSourceAdapter_h */
+/// Adapter for communicating with the IronSource Network to fetch reward-based video ads
+@interface GADMAdapterIronSourceRewarded : GADMAdapterIronSourceBase <GADMRewardBasedVideoAdNetworkAdapter, ISDemandOnlyRewardedVideoDelegate>
+
+@end

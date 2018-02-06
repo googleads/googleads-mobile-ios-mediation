@@ -1,6 +1,4 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
-## x.y.z.0
-
-- First release!
-- Added support for banners, interstitials, etc.
+## 6.7.5.0
+- Initial release!

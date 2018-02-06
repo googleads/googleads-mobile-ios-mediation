@@ -12,11 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IronSourceAdapter_h
-#define IronSourceAdapter_h
+#import "GADMIronSourceExtras.h"
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <IronSourceAdapter/GADMIronSourceExtras.h>
+@implementation GADMIronSourceExtras
 
-#endif /* IronSourceAdapter_h */
+@end
