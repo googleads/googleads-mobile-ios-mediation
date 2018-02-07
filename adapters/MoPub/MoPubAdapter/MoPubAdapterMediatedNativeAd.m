@@ -127,7 +127,7 @@
   } else {
     MPLogWarn(@"Could not add impression trackers.");
   }
-    
+    // Returning the main UIImageView via AdMob's GADMediaView
     if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
         GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
         GADNativeAdImage *nativeAdImage = (GADNativeAdImage *) _mappedImages[0];
