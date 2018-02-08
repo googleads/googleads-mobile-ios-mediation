@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef IronSourceAdapter_h
-#define IronSourceAdapter_h
+@import GoogleMobileAds;
+@import Foundation;
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <IronSourceAdapter/GADMIronSourceExtras.h>
+/// Network extras for the Ironsource adapter.
+@interface GADMIronSourceExtras : NSObject <GADAdNetworkExtras>
 
-#endif /* IronSourceAdapter_h */
+@end
+
