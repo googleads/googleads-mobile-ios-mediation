@@ -11,7 +11,9 @@
 
 @interface GADMAdapterAppLovinExtras : NSObject<GADAdNetworkExtras>
 
-// Optional: Disable audio for video ads, must be set on each ad request.
+/**
+ * Use this to mute audio for video ads. Must be set on each ad request.
+ */
 @property (nonatomic, assign) BOOL muteAudio;
 
 /**

@@ -42,6 +42,10 @@
 
 + (GADErrorCode)toAdMobErrorCode:(int)code
 {
+    //
+    // TODO: Be more exhaustive
+    //
+    
     if ( code == kALErrorCodeNoFill )
     {
         return kGADErrorMediationNoFill;
@@ -64,5 +68,21 @@
     }
 }
 
-@end
++ (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:(NSString *)zoneIdentifier sdk:(ALSdk *)sdk
+{
+    // Prematurely create instance of ALAdView to store initialized one in later
+    ALIncentivizedInterstitialAd *incent = [ALIncentivizedInterstitialAd alloc];
+    
+    // We must use NSInvocation over performSelector: for initializers
+    NSMethodSignature *methodSignature = [ALIncentivizedInterstitialAd instanceMethodSignatureForSelector: @selector(initWithZoneIdentifier:sdk:)];
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature: methodSignature];
+    [inv setSelector: @selector(initWithZoneIdentifier:sdk:)];
+    [inv setArgument: &zoneIdentifier atIndex: 2];
+    [inv setArgument: &sdk atIndex: 3];
+    [inv setReturnValue: &incent];
+    [inv invokeWithTarget: incent];
+    
+    return incent;
+}
 
+@end
