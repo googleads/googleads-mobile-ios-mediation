@@ -1,5 +1,4 @@
 #import "GADMAdapterVungleInterstitial.h"
-#import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "vungleHelper.h"
 
 @interface GADMAdapterVungleInterstitial ()<VungleDelegate>

@@ -20,6 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials;
 
 /**
+ * Retrieves the placement from an appropriate connector object. Will use empty string if none exists.
+ */
++ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector;
+
+/**
+ * Retrieves the zone identifier from an appropriate connector object. Will use empty string if none exists.
+ */
++ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector;
+
+/**
  * Convert the given AppLovin SDK error code into the appropriate AdMob error code.
  */
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
