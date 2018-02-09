@@ -20,7 +20,7 @@
 
 @interface GADMAdapterMyTargetNative () <MTRGNativeAdDelegate, GADMediatedNativeAdDelegate>
 
-@property (nonatomic, strong) MTRGNativeAd *nativeAd;
+@property(nonatomic, strong) MTRGNativeAd *nativeAd;
 
 @end
 
@@ -175,8 +175,8 @@
   _mediatedNativeAd =
       [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner
                                                                         delegate:self
-																  autoLoadImages:_autoLoadImages
-																	 mediaAdView:_mediaAdView];
+                                                                  autoLoadImages:_autoLoadImages
+                                                                     mediaAdView:_mediaAdView];
   guard(_mediatedNativeAd) else {
     MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
     [strongConnector adapter:self
@@ -268,9 +268,12 @@
   guard(_nativeAd) else return;
   NSArray<UIView *> *clickableViews = [self clickableViewsWithView:view];
 
-  //NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but it will appear a little bit later.
+  // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
+  // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.nativeAd registerView:view withController:viewController withClickableViews:clickableViews];
+    [self.nativeAd registerView:view
+                 withController:viewController
+             withClickableViews:clickableViews];
   });
 }
 
@@ -308,7 +311,8 @@
   } else if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
     GADNativeAppInstallAdView *appInstallAdView = (GADNativeAppInstallAdView *)view;
     if (appInstallAdView.headlineView) [clickableViews addObject:appInstallAdView.headlineView];
-    if (appInstallAdView.callToActionView) [clickableViews addObject:appInstallAdView.callToActionView];
+    if (appInstallAdView.callToActionView)
+      [clickableViews addObject:appInstallAdView.callToActionView];
     if (appInstallAdView.iconView) [clickableViews addObject:appInstallAdView.iconView];
     if (appInstallAdView.bodyView) [clickableViews addObject:appInstallAdView.bodyView];
     if (appInstallAdView.storeView) [clickableViews addObject:appInstallAdView.storeView];
