@@ -21,8 +21,9 @@
 
 #import "SampleAdapterDelegate.h"
 
-#import "SampleAdapterMediatedNativeAppInstallAd.h"
+#import "SampleAdapterMediatedNativeAd.h"
 #import "SampleAdapterMediatedNativeContentAd.h"
+#import "SampleAdapterMediatedNativeAppInstallAd.h"
 
 /// Constant for adapter error domain.
 static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
@@ -33,7 +34,7 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
   __weak id<GADMAdNetworkConnector> _connector;
 
   /// Adapter for receiving notification of ad request.
-  __weak id<GADMAdNetworkAdapter> _adapter;
+  __weak id<GADMAdNetworkAdapter, SampleAdapterDataProvider> _adapter;
 
   /// Connector from Google Mobile Ads SDK to receive reward-based video ad configurations.
   __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
@@ -113,22 +114,35 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
 
 #pragma mark SampleNativeAdLoaderDelegate implementation
 
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
-  SampleAdapterMediatedNativeAppInstallAd *mediatedAd =
-      [[SampleAdapterMediatedNativeAppInstallAd alloc]
-          initWithSampleNativeAppInstallAd:nativeAppInstallAd
-       nativeAdViewAdOptions:[(id<SampleAdapterDataProvider>)_adapter nativeAdViewAdOptions]];
-  [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedAd];
-}
-
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
-  SampleAdapterMediatedNativeContentAd *mediatedAd =
-      [[SampleAdapterMediatedNativeContentAd alloc]
-       initWithSampleNativeContentAd:nativeContentAd
-       nativeAdViewAdOptions:[(id<SampleAdapterDataProvider>)_adapter nativeAdViewAdOptions]];
-  [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedAd];
+- (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd {
+  // If a unified native ad was requested, return one.
+  if ([[_adapter adTypes] containsObject:kGADAdLoaderAdTypeUnifiedNative]) {
+    SampleAdapterMediatedNativeAd *mediatedAd = [[SampleAdapterMediatedNativeAd alloc]
+        initWithSampleNativeAd:nativeAd
+         nativeAdViewAdOptions:[_adapter nativeAdViewAdOptions]];
+    [_connector adapter:_adapter didReceiveMediatedUnifiedNativeAd:mediatedAd];
+    // Otherwise, the ad must be mapped to either the app install or content ad formats, based
+    // on which one better matches the assets returned for the ad. For the mock ads returned
+    // by the sample network, it's easy to just check whether the store asset is present. If it
+    // is, the ad is for an app and can be mapped to the app install format. Otherwise, it's a
+    // content ad. Each ad network will need to check the required assets for each of the
+    // formats, and determine how best to map their ads to those used by the Google Mobile Ads
+    // SDK.
+  } else if (nativeAd.store != nil) {
+    // If the store asset is present, map to an app install ad.
+    SampleAdapterMediatedNativeAppInstallAd *mediatedAd =
+        [[SampleAdapterMediatedNativeAppInstallAd alloc]
+            initWithSampleNativeAd:nativeAd
+             nativeAdViewAdOptions:[_adapter nativeAdViewAdOptions]];
+    [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedAd];
+    // Otherwise, map to a content ad.
+  } else {
+    SampleAdapterMediatedNativeContentAd *mediatedContentAd =
+        [[SampleAdapterMediatedNativeContentAd alloc]
+            initWithSampleNativeAd:nativeAd
+             nativeAdViewAdOptions:[_adapter nativeAdViewAdOptions]];
+    [_connector adapter:_adapter didReceiveMediatedNativeAd:mediatedContentAd];
+  }
 }
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader

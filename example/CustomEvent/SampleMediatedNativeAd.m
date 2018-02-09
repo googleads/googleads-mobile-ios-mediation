@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2015 Google, Inc.
 //
-// SampleForwardingNativeAppInstallAd.m
+// SampleMediatedNativeAd.m
 // Sample Ad Network Custom Event
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,17 @@
 // limitations under the License.
 //
 
-#import "SampleMediatedNativeAppInstallAd.h"
+#import "SampleMediatedNativeAd.h"
 
 #import "SampleCustomEventConstants.h"
 
 // You may notice that this class and the Mediation Adapter's
-// SampleAdapterMediatedNativeAppInstallAd class look an awful lot alike. That's not
+// SampleAdapterMediatedNativeAd class look an awful lot alike. That's not
 // by accident. They're the same class, with the same methods and properties,
 // but with two different names.
 //
 // Mediation adapters and custom events map their native ads for the
-// Google Mobile Ads SDK using extensions of the same two classes:
-// GADMediatedNativeAppInstallAd and GADMediatedNativeContentAd. Because both
+// Google Mobile Ads SDK using an extension of GADMediatedUnifiedNativeAd. Because both
 // the adapter and custom event in this example are mediating the same Sample
 // SDK, they both need the same work done: take a native ad object from the
 // Sample SDK and map it to the interface the Google Mobile Ads SDK expects.
@@ -36,12 +35,11 @@
 //
 // Because we wanted this project to have a complete example of an
 // adapter and a complete example of a custom event (and we didn't want to
-// share code between them), they each get their own copies of these classes,
+// share code between them), they each get their own copies of this class,
 // with slightly different names.
 
-@interface SampleMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate>
-
-@property(nonatomic, strong) SampleNativeAppInstallAd *sampleAd;
+@interface SampleMediatedNativeAd ()
+@property(nonatomic, strong) SampleNativeAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, copy) NSDictionary *extras;
@@ -50,18 +48,17 @@
 
 @end
 
-@implementation SampleMediatedNativeAppInstallAd
+@implementation SampleMediatedNativeAd
 
-- (instancetype)
-    initWithSampleNativeAppInstallAd:(SampleNativeAppInstallAd *)sampleNativeAppInstallAd
-               nativeAdViewAdOptions:(nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
-  if (!sampleNativeAppInstallAd) {
+- (instancetype)initWithSampleNativeAd:(SampleNativeAd *)sampleNativeAd
+                 nativeAdViewAdOptions:(nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
+  if (!sampleNativeAd) {
     return nil;
   }
 
   self = [super init];
   if (self) {
-    _sampleAd = sampleNativeAppInstallAd;
+    _sampleAd = sampleNativeAd;
     _extras = @{SampleCustomEventExtraKeyAwesomeness : _sampleAd.degreeOfAwesomeness};
 
     if (_sampleAd.image) {
@@ -87,6 +84,10 @@
     _adInfoView = [[SampleAdInfoView alloc] init];
   }
   return self;
+}
+
+- (NSString *)advertiser {
+  return self.sampleAd.advertiser;
 }
 
 - (NSString *)headline {
@@ -129,39 +130,38 @@
   return self.adInfoView;
 }
 
-- (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
-}
-
-#pragma mark - GADMediatedNativeAdDelegate implementation
-
-// Because the Sample SDK handles click and impression tracking via methods on its native
-// ad object, there's no need to pass it a reference to the UIView being used to display
-// the native ad. So there's no need to implement mediatedNativeAd:didRenderInView:viewController
-// here. If your mediated network does need a reference to the view, this method can be used to
-// provide one.
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-         didRenderInView:(UIView *)view
-          viewController:(UIViewController *)viewController {
+// Because the Sample SDK has click and impression tracking via methods on its native ad object
+// which the developer is required to call, there's no need to pass it a reference to the UIView
+// being used to display the native ad. So there's no need to implement
+// mediatedNativeAd:didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews here.
+// If your mediated network does need a reference to the view, this method can be used to provide
+// one.
+// You can also access the clickable and non-clickable views by asset key if the mediation network
+// needs this information.
+- (void)didRenderInView:(UIView *)view
+       clickableAssetViews:
+           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
   // This method is called when the native ad view is rendered. Here you would pass the UIView back
   // to the mediated network's SDK.
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+- (void)didUntrackView:(UIView *)view {
   // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
   // Here you would remove any tracking from the view that has mediated native ad.
 }
 
-- (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
+- (void)didRecordImpression {
   if (self.sampleAd) {
     [self.sampleAd recordImpression];
   }
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-    didRecordClickOnAssetWithName:(NSString *)assetName
-                             view:(UIView *)view
-                   viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(UIView *)view
+                       viewController:(UIViewController *)viewController {
   if (self.sampleAd) {
     [self.sampleAd handleClickOnView:view];
   }

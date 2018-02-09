@@ -32,8 +32,8 @@ typedef enum : NSUInteger {
 @implementation StartViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -57,6 +57,5 @@ typedef enum : NSUInteger {
   ViewController *controller = [ViewController controllerWithAdSourceConfig:config];
   [self.navigationController pushViewController:controller animated:YES];
 }
-
 
 @end

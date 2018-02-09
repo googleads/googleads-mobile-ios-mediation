@@ -14,8 +14,7 @@
 		AE50D6811F3BC49C0007AF85 /* SampleRewardBasedVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65A1F3BC3D20007AF85 /* SampleRewardBasedVideoController.m */; };
 		AE50D6821F3BC49C0007AF85 /* SampleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65C1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.m */; };
 		AE50D6831F3BC49C0007AF85 /* SampleNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */; };
-		AE50D6841F3BC49C0007AF85 /* SampleNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6611F3BC3D20007AF85 /* SampleNativeContentAd.m */; };
-		AE50D6851F3BC49C0007AF85 /* SampleNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6631F3BC3D20007AF85 /* SampleNativeAppInstallAd.m */; };
+		AE50D6851F3BC49C0007AF85 /* SampleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6631F3BC3D20007AF85 /* SampleNativeAd.m */; };
 		AE50D6861F3BC49C0007AF85 /* SampleNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6651F3BC3D20007AF85 /* SampleNativeAdRequest.m */; };
 		AE50D6871F3BC49C0007AF85 /* SampleAdInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6671F3BC3D20007AF85 /* SampleAdInfoView.m */; };
 		AE50D68E1F3BC4B30007AF85 /* SampleAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,22 +28,23 @@
 		AE50D6961F3BC4B30007AF85 /* SampleRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65B1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6971F3BC4B30007AF85 /* SampleNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6981F3BC4B40007AF85 /* SampleNativeAdLoaderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D6991F3BC4B40007AF85 /* SampleNativeContentAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6601F3BC3D20007AF85 /* SampleNativeContentAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D69A1F3BC4B40007AF85 /* SampleNativeAppInstallAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6621F3BC3D20007AF85 /* SampleNativeAppInstallAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AE50D69A1F3BC4B40007AF85 /* SampleNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6621F3BC3D20007AF85 /* SampleNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D69B1F3BC4B40007AF85 /* SampleNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6641F3BC3D20007AF85 /* SampleNativeAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D69C1F3BC4B40007AF85 /* SampleAdInfoView.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6661F3BC3D20007AF85 /* SampleAdInfoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBAEA1F606494003BB4D2 /* SampleAdSDKAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB061F606689003BB4D2 /* SampleAdapterConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB071F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBAFD1F606688003BB4D2 /* SampleAdapterMediatedNativeContentAd.m */; };
 		AEABBB081F606689003BB4D2 /* SampleAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBAFE1F606688003BB4D2 /* SampleAdapterDelegate.m */; };
 		AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */; };
 		AEABBB0A1F606689003BB4D2 /* SampleAdapterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB001F606688003BB4D2 /* SampleAdapterProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB0B1F606689003BB4D2 /* SampleAdapterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB011F606688003BB4D2 /* SampleAdapterDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB0C1F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEABBB0C1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB031F606689003BB4D2 /* SampleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.m */; };
-		AEABBB0F1F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB051F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */; };
 		AEC0D11D1F3BC63F005B3813 /* SampleAdSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEF73705202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEF73706202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */; };
+		AEF737092021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEF7370A2021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,10 +76,8 @@
 		AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeAdLoader.h; sourceTree = "<group>"; };
 		AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeAdLoader.m; sourceTree = "<group>"; };
 		AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleNativeAdLoaderDelegate.h; sourceTree = "<group>"; };
-		AE50D6601F3BC3D20007AF85 /* SampleNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeContentAd.h; sourceTree = "<group>"; };
-		AE50D6611F3BC3D20007AF85 /* SampleNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeContentAd.m; sourceTree = "<group>"; };
-		AE50D6621F3BC3D20007AF85 /* SampleNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeAppInstallAd.h; sourceTree = "<group>"; };
-		AE50D6631F3BC3D20007AF85 /* SampleNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeAppInstallAd.m; sourceTree = "<group>"; };
+		AE50D6621F3BC3D20007AF85 /* SampleNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeAd.h; sourceTree = "<group>"; };
+		AE50D6631F3BC3D20007AF85 /* SampleNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeAd.m; sourceTree = "<group>"; };
 		AE50D6641F3BC3D20007AF85 /* SampleNativeAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeAdRequest.h; sourceTree = "<group>"; };
 		AE50D6651F3BC3D20007AF85 /* SampleNativeAdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeAdRequest.m; sourceTree = "<group>"; };
 		AE50D6661F3BC3D20007AF85 /* SampleAdInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdInfoView.h; sourceTree = "<group>"; };
@@ -91,16 +89,18 @@
 		AEABBAEA1F606494003BB4D2 /* SampleAdSDKAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdSDKAdapter.h; sourceTree = "<group>"; };
 		AEABBAEB1F606494003BB4D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterConstants.h; sourceTree = "<group>"; };
-		AEABBAFD1F606688003BB4D2 /* SampleAdapterMediatedNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeContentAd.m; sourceTree = "<group>"; };
 		AEABBAFE1F606688003BB4D2 /* SampleAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterDelegate.m; sourceTree = "<group>"; };
 		AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapter.m; sourceTree = "<group>"; };
 		AEABBB001F606688003BB4D2 /* SampleAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterProtocol.h; sourceTree = "<group>"; };
 		AEABBB011F606688003BB4D2 /* SampleAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterDelegate.h; sourceTree = "<group>"; };
-		AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
+		AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeAd.h; sourceTree = "<group>"; };
 		AEABBB031F606689003BB4D2 /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapter.h; sourceTree = "<group>"; };
-		AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
-		AEABBB051F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeContentAd.h; sourceTree = "<group>"; };
+		AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
 		AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeContentAd.h; sourceTree = "<group>"; };
+		AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeContentAd.m; sourceTree = "<group>"; };
+		AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
+		AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,10 +161,8 @@
 				AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */,
 				AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */,
 				AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */,
-				AE50D6601F3BC3D20007AF85 /* SampleNativeContentAd.h */,
-				AE50D6611F3BC3D20007AF85 /* SampleNativeContentAd.m */,
-				AE50D6621F3BC3D20007AF85 /* SampleNativeAppInstallAd.h */,
-				AE50D6631F3BC3D20007AF85 /* SampleNativeAppInstallAd.m */,
+				AE50D6621F3BC3D20007AF85 /* SampleNativeAd.h */,
+				AE50D6631F3BC3D20007AF85 /* SampleNativeAd.m */,
 				AE50D6641F3BC3D20007AF85 /* SampleNativeAdRequest.h */,
 				AE50D6651F3BC3D20007AF85 /* SampleNativeAdRequest.m */,
 				AE50D6661F3BC3D20007AF85 /* SampleAdInfoView.h */,
@@ -202,10 +200,12 @@
 				AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */,
 				AEABBB011F606688003BB4D2 /* SampleAdapterDelegate.h */,
 				AEABBAFE1F606688003BB4D2 /* SampleAdapterDelegate.m */,
-				AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.h */,
-				AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.m */,
-				AEABBB051F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.h */,
-				AEABBAFD1F606688003BB4D2 /* SampleAdapterMediatedNativeContentAd.m */,
+				AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAd.h */,
+				AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */,
+				AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */,
+				AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */,
+				AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */,
+				AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */,
 				AEABBB001F606688003BB4D2 /* SampleAdapterProtocol.h */,
 			);
 			name = Adapter;
@@ -239,8 +239,7 @@
 				AE50D6961F3BC4B30007AF85 /* SampleRewardBasedVideoAd.h in Headers */,
 				AE50D6971F3BC4B30007AF85 /* SampleNativeAdLoader.h in Headers */,
 				AE50D6981F3BC4B40007AF85 /* SampleNativeAdLoaderDelegate.h in Headers */,
-				AE50D6991F3BC4B40007AF85 /* SampleNativeContentAd.h in Headers */,
-				AE50D69A1F3BC4B40007AF85 /* SampleNativeAppInstallAd.h in Headers */,
+				AE50D69A1F3BC4B40007AF85 /* SampleNativeAd.h in Headers */,
 				AE50D69B1F3BC4B40007AF85 /* SampleNativeAdRequest.h in Headers */,
 				AE50D69C1F3BC4B40007AF85 /* SampleAdInfoView.h in Headers */,
 			);
@@ -251,10 +250,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEABBB061F606689003BB4D2 /* SampleAdapterConstants.h in Headers */,
-				AEABBB0C1F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */,
+				AEABBB0C1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.h in Headers */,
 				AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */,
+				AEF737092021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */,
 				AEABBB0A1F606689003BB4D2 /* SampleAdapterProtocol.h in Headers */,
-				AEABBB0F1F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.h in Headers */,
+				AEF73705202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h in Headers */,
 				AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */,
 				AEABBB0B1F606689003BB4D2 /* SampleAdapterDelegate.h in Headers */,
 			);
@@ -359,7 +359,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE50D6851F3BC49C0007AF85 /* SampleNativeAppInstallAd.m in Sources */,
+				AE50D6851F3BC49C0007AF85 /* SampleNativeAd.m in Sources */,
 				AE50D6861F3BC49C0007AF85 /* SampleNativeAdRequest.m in Sources */,
 				AE50D6801F3BC49C0007AF85 /* SampleRewardBasedVideo.m in Sources */,
 				AE50D67D1F3BC49C0007AF85 /* SampleAdRequest.m in Sources */,
@@ -369,7 +369,6 @@
 				AE50D6821F3BC49C0007AF85 /* SampleRewardBasedVideoAd.m in Sources */,
 				AE50D6831F3BC49C0007AF85 /* SampleNativeAdLoader.m in Sources */,
 				AE50D6871F3BC49C0007AF85 /* SampleAdInfoView.m in Sources */,
-				AE50D6841F3BC49C0007AF85 /* SampleNativeContentAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,9 +376,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */,
+				AEF73706202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m in Sources */,
+				AEF7370A2021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */,
+				AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */,
 				AEABBB081F606689003BB4D2 /* SampleAdapterDelegate.m in Sources */,
-				AEABBB071F606689003BB4D2 /* SampleAdapterMediatedNativeContentAd.m in Sources */,
 				AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,7 +554,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDKAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -582,7 +581,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDKAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

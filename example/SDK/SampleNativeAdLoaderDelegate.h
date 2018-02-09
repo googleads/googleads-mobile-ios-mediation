@@ -22,18 +22,12 @@
 #import "SampleAdRequest.h"
 
 @class SampleNativeAdLoader;
-@class SampleNativeAppInstallAd;
-@class SampleNativeContentAd;
+@class SampleNativeAd;
 
 @protocol SampleNativeAdLoaderDelegate<NSObject>
 
-/// Sent when the SampleNativeAdLoader has received a native app install ad.
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd;
-
-/// Sent when the SampleNativeAdLoader has received a native content ad.
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd;
+/// Sent when the SampleNativeAdLoader has received a native ad.
+- (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd;
 
 /// Sent when the SampleNativeAdLoader has generated an error code.
 - (void)adLoader:(SampleNativeAdLoader *)adLoader
