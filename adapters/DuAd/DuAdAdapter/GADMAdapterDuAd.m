@@ -19,6 +19,7 @@
 #import "GADDuAdAdapterDelegate.h"
 #import "GADDuAdInterstitialAd.h"
 #import "GADDuAdNetworkExtras.h"
+#import "GADDuAdInitializer.h"
 
 @interface GADMAdapterDuAd () {
     /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -50,6 +51,7 @@
 }
 
 - (void)getInterstitial {
+    [[GADDuAdInitializer sharedInstance] initWithConnector:_connector];
     [_interstitialAd getInterstitial];
 }
 

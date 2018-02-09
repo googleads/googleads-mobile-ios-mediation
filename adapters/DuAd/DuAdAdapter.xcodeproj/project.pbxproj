@@ -47,6 +47,8 @@
 		A408FBE5200DEE8C0082ACFA /* GADMAdapterDuAdNative.m in Sources */ = {isa = PBXBuildFile; fileRef = A408FBE3200DEE8C0082ACFA /* GADMAdapterDuAdNative.m */; };
 		A408FBE8200DF4180082ACFA /* GADMAdapterDuAd.h in Headers */ = {isa = PBXBuildFile; fileRef = A408FBE6200DF4180082ACFA /* GADMAdapterDuAd.h */; };
 		A408FBE9200DF4180082ACFA /* GADMAdapterDuAd.m in Sources */ = {isa = PBXBuildFile; fileRef = A408FBE7200DF4180082ACFA /* GADMAdapterDuAd.m */; };
+		A494D9B3202D7210006758A8 /* GADDuAdInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = A494D9B1202D7210006758A8 /* GADDuAdInitializer.h */; };
+		A494D9B4202D7210006758A8 /* GADDuAdInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A494D9B2202D7210006758A8 /* GADDuAdInitializer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -87,6 +89,8 @@
 		A408FBE3200DEE8C0082ACFA /* GADMAdapterDuAdNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterDuAdNative.m; sourceTree = "<group>"; };
 		A408FBE6200DF4180082ACFA /* GADMAdapterDuAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterDuAd.h; sourceTree = "<group>"; };
 		A408FBE7200DF4180082ACFA /* GADMAdapterDuAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterDuAd.m; sourceTree = "<group>"; };
+		A494D9B1202D7210006758A8 /* GADDuAdInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADDuAdInitializer.h; sourceTree = "<group>"; };
+		A494D9B2202D7210006758A8 /* GADDuAdInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADDuAdInitializer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,8 @@
 				A408FBE3200DEE8C0082ACFA /* GADMAdapterDuAdNative.m */,
 				A408FBE6200DF4180082ACFA /* GADMAdapterDuAd.h */,
 				A408FBE7200DF4180082ACFA /* GADMAdapterDuAd.m */,
+				A494D9B1202D7210006758A8 /* GADDuAdInitializer.h */,
+				A494D9B2202D7210006758A8 /* GADDuAdInitializer.m */,
 			);
 			path = DuAdAdapter;
 			sourceTree = "<group>";
@@ -195,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A408FBDC200DED810082ACFA /* GADDuAdError.h in Headers */,
+				A494D9B3202D7210006758A8 /* GADDuAdInitializer.h in Headers */,
 				A408FBD8200DEBE90082ACFA /* GADDuAdInterstitialAd.h in Headers */,
 				A408FBD4200DEBA20082ACFA /* GADDuAdNativeAd.h in Headers */,
 				A408FBE0200DEE1B0082ACFA /* GADDuAdAdapterDelegate.h in Headers */,
@@ -306,6 +313,7 @@
 				A408FBD9200DEBE90082ACFA /* GADDuAdInterstitialAd.m in Sources */,
 				A408FBE1200DEE1B0082ACFA /* GADDuAdAdapterDelegate.m in Sources */,
 				A408FBD5200DEBA20082ACFA /* GADDuAdNativeAd.m in Sources */,
+				A494D9B4202D7210006758A8 /* GADDuAdInitializer.m in Sources */,
 				A408FBE9200DF4180082ACFA /* GADMAdapterDuAd.m in Sources */,
 				56148C5B1F26626D0041F201 /* GADDuAdNetworkExtras.m in Sources */,
 			);
