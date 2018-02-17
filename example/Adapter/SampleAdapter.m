@@ -20,8 +20,7 @@
 
 #import "SampleAdapter.h"
 #import "SampleAdapterDelegate.h"
-#import "SampleAdapterMediatedNativeAppInstallAd.h"
-#import "SampleAdapterMediatedNativeContentAd.h"
+#import "SampleAdapterMediatedNativeAd.h"
 
 @interface SampleAdapter () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -47,6 +46,9 @@
 
   /// Native ad view options.
   GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
+
+  /// Native ad types requested.
+  NSArray<GADAdLoaderAdType> *_nativeAdTypes;
 }
 
 @end
@@ -121,9 +123,16 @@
   // connector's adapter:didFailAd: method with an error code set to kGADErrorInvalidRequest. It
   // should *not* request an app install ad anyway, and then attempt to map it to the content ad
   // format.
-  if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall] &&
-      ![adTypes containsObject:kGADAdLoaderAdTypeNativeContent]) {
-    NSString *description = @"At least one ad type must be selected.";
+  //
+  // In the case where an SDK doesn't distinguish between these ad types, this is not relevant.
+  // For example, the Admob SDK now supports the unified native ad type, which covers both the app
+  // install and content ad ad types.
+  BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
+  BOOL requestedBothFormats = ([adTypes containsObject:kGADAdLoaderAdTypeNativeContent] &&
+                               [adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]);
+  if (!(requestedUnified || requestedBothFormats)) {
+    NSString *description = @"You must either select the unified native ad format, or both app \
+    install and content ad formats.";
     NSDictionary *userInfo =
         @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
     NSError *error =
@@ -131,14 +140,7 @@
     [_connector adapter:self didFailAd:error];
     return;
   }
-
-  for (NSString *adType in adTypes) {
-    if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
-      sampleRequest.contentAdsRequested = YES;
-    } else if ([adType isEqual:kGADAdLoaderAdTypeNativeAppInstall]) {
-      sampleRequest.appInstallAdsRequested = YES;
-    }
-  }
+  _nativeAdTypes = adTypes;
 
   // The Google Mobile Ads SDK requires the image assets to be downloaded automatically unless the
   // publisher specifies otherwise by using the GADNativeAdImageAdLoaderOptions object's
@@ -204,6 +206,10 @@
 
 - (GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
   return _nativeAdViewAdOptions;
+}
+
+- (NSArray<GADAdLoaderAdType> *)adTypes {
+  return _nativeAdTypes;
 }
 
 #pragma mark Reward-based Video Ad Methods

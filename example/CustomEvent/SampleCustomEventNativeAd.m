@@ -18,8 +18,7 @@
 //
 
 #import "SampleCustomEventNativeAd.h"
-#import "SampleMediatedNativeAppInstallAd.h"
-#import "SampleMediatedNativeContentAd.h"
+#import "SampleMediatedNativeAd.h"
 
 /// Constant for Sample Ad Network custom event error domain.
 static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
@@ -40,25 +39,27 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
                              adTypes:(NSArray *)adTypes
                              options:(NSArray *)options
                   rootViewController:(UIViewController *)rootViewController {
+  BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
+
+  // This custom event assumes you have implemented unified native advanced in your app as is done
+  // in this sample. If you have implemented app install and content ad formats in your app,
+  // then instead of the `SampleMediatedNativeAd` implementing the `GADMediatedUnifiedNativeAd`
+  // protocol, you should implement the `GADMediatedNativeAppInstallAd` and
+  // `GADMediatedNativeContentAd` protocols in separate ad classes, then in the ad loader delegate
+  // callback, instantiate and return the relevant ad type to the custom event delegate.
+  // For an example of this, see the `SampleAdapter` and `SampleAdapterDelegate` in this project.
+  if (!requestedUnified) {
+    NSString *description = @"You must request the unified native ad format.";
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    NSError *error =
+        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
+    [self.delegate customEventNativeAd:self didFailToLoadWithError:error];
+    return;
+  }
+
   SampleNativeAdLoader *adLoader = [[SampleNativeAdLoader alloc] init];
   SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
-
-  // Part of the custom event's job is to examine the properties of the GADCustomEventRequest and
-  // create a request for the mediated network's SDK that matches them.
-  //
-  // Care needs to be taken to make sure the custom event respects the publisher's wishes in regard
-  // to native ad formats. For example, if the mediated ad network only provides app install ads,
-  // and the publisher requests content ads alone, the custom event must report an error by calling
-  // the delegate's customEventNativeAd:didReceiveMediatedNativeAd: method with an error code set to
-  // kGADErrorInvalidRequest. It should *not* request an app install ad anyway, and then attempt to
-  // map it to the content ad format.
-  for (NSString *adType in adTypes) {
-    if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
-      sampleRequest.contentAdsRequested = YES;
-    } else if ([adType isEqual:kGADAdLoaderAdTypeNativeAppInstall]) {
-      sampleRequest.appInstallAdsRequested = YES;
-    }
-  }
 
   // The Google Mobile Ads SDK requires the image assets to be downloaded automatically unless
   // the publisher specifies otherwise by using the GADNativeAdImageAdLoaderOptions object's
@@ -119,20 +120,11 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
 #pragma mark SampleNativeAdLoaderDelegate implementation
 
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeAppInstallAd:(SampleNativeAppInstallAd *)nativeAppInstallAd {
-  SampleMediatedNativeAppInstallAd *mediatedAd = [[SampleMediatedNativeAppInstallAd alloc]
-      initWithSampleNativeAppInstallAd:nativeAppInstallAd
-                 nativeAdViewAdOptions:_nativeAdViewAdOptions];
-  [self.delegate customEventNativeAd:self didReceiveMediatedNativeAd:mediatedAd];
-}
-
-- (void)adLoader:(SampleNativeAdLoader *)adLoader
-    didReceiveNativeContentAd:(SampleNativeContentAd *)nativeContentAd {
-  SampleMediatedNativeContentAd *mediatedAd =
-      [[SampleMediatedNativeContentAd alloc] initWithSampleNativeContentAd:nativeContentAd
-                                                     nativeAdViewAdOptions:_nativeAdViewAdOptions];
-  [self.delegate customEventNativeAd:self didReceiveMediatedNativeAd:mediatedAd];
+- (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd {
+  SampleMediatedNativeAd *mediatedAd =
+      [[SampleMediatedNativeAd alloc] initWithSampleNativeAd:nativeAd
+                                       nativeAdViewAdOptions:_nativeAdViewAdOptions];
+  [self.delegate customEventNativeAd:self didReceiveMediatedUnifiedNativeAd:mediatedAd];
 }
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader

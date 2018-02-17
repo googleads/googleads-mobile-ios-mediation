@@ -1,8 +1,8 @@
 //
 // Copyright (C) 2015 Google, Inc.
 //
-// ExampleNativeContentAdView.h
-// Mediation Example
+// sampleNativeAd.m
+// Sample Ad Network SDK
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,19 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
+#import "SampleNativeAd.h"
 
-@interface ExampleNativeContentAdView : GADNativeContentAdView
+@implementation SampleNativeAd
 
-@property(nonatomic, weak) IBOutlet UILabel *degreeOfAwesomenessView;
+- (void)handleClickOnView:(UIView *)view {
+  NSLog(@"A click occurred on a sampleNativeAd!");
+  // In a real SDK, some type of click action (such as the opening of the App Store)
+  // would likely be initiated here.
+}
+
+- (void)recordImpression {
+  NSLog(@"An impression was recorded for a sampleNativeAd!");
+  // In a real SDK, some work would be done here to record the impression.
+}
 
 @end

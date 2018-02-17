@@ -28,12 +28,11 @@ typedef NS_ENUM(NSUInteger, AdSourceType) {
 @interface AdSourceConfig : NSObject
 
 @property(nonatomic, readonly, assign) AdSourceType adSourceType;
-@property (nonatomic, readonly, copy) NSString *title;
-@property (nonatomic, readonly, copy) NSString *bannerAdUnitID;
-@property (nonatomic, readonly, copy) NSString *interstitialAdUnitID;
-@property (nonatomic, readonly, copy) NSString *nativeAdUnitID;
-@property (nonatomic, readonly, copy) NSString *awesomenessKey;
-
+@property(nonatomic, readonly, copy) NSString *title;
+@property(nonatomic, readonly, copy) NSString *bannerAdUnitID;
+@property(nonatomic, readonly, copy) NSString *interstitialAdUnitID;
+@property(nonatomic, readonly, copy) NSString *nativeAdUnitID;
+@property(nonatomic, readonly, copy) NSString *awesomenessKey;
 
 + (instancetype)configWithType:(AdSourceType)adSourceType;
 

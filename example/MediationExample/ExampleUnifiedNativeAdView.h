@@ -1,7 +1,7 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2017 Google, Inc.
 //
-// ExampleNativeContentAdView.m
+// ExampleUnifiedNativeAdView.h
 // Mediation Example
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,10 @@
 // limitations under the License.
 //
 
-#import "ExampleNativeContentAdView.h"
+@import GoogleMobileAds;
 
-@implementation ExampleNativeContentAdView
+@interface ExampleUnifiedNativeAdView : GADUnifiedNativeAdView
+
+@property(nonatomic, weak) IBOutlet UILabel *degreeOfAwesomenessView;
 
 @end
