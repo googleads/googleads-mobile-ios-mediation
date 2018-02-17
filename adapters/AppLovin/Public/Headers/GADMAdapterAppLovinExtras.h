@@ -16,9 +16,4 @@
  */
 @property (nonatomic, assign) BOOL muteAudio;
 
-/**
- * The accompanying zone identifier with this ad request, if any.
- */
-@property (nonatomic, copy, alnullable) NSString *zoneIdentifier;
-
 @end

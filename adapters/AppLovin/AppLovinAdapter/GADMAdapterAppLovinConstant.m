@@ -30,6 +30,11 @@
     return @"placement";
 }
 
++ (NSString *)zoneIdentifierKey
+{
+    return @"zone_id";
+}
+
 + (NSString *)bundleIdentifierKey
 {
     return @"bundleId";

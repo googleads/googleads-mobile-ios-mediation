@@ -37,7 +37,7 @@
 
 + (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector
 {
-    return ((GADMAdapterAppLovinExtras *) connector.networkExtras).zoneIdentifier ?: DEFAULT_ZONE;
+    return connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
 }
 
 + (GADErrorCode)toAdMobErrorCode:(int)code
