@@ -15,27 +15,27 @@
 #import "GADMAdapterIronSourceBase.h"
 
 @implementation GADMAdapterIronSourceBase {
-    BOOL _initSucceeded;
+  
 }
 
-// IronSource internal reporting const
+// IronSource internal reporting const.
 NSString *const kGADMMediationName = @"AdMob";
 NSString *const kGADMAdapterIronSourceVersion = @"2.6.1";
 
-// IronSource parameters keys
-NSString *const kGADMAdapterIronSourceAppKey        = @"appKey";
+// IronSource parameters keys.
+NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
 NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
-NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
+NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 
 
 #pragma mark - Admob
 
 + (NSString *)adapterVersion {
-    return [IronSource sdkVersion];
+  return [IronSource sdkVersion];
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return [GADMIronSourceExtras class];
+  return Nil;
 }
 
 - (void)stopBeingDelegate {
@@ -43,14 +43,13 @@ NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
 
 #pragma mark Utils Methods
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        _instanceId = @"0";
-        _isLogEnabled = NO;
-    }
-    return self;
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _instanceId = @"0";
+    _isLogEnabled = NO;
+  }
+  return self;
 }
 
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
@@ -59,30 +58,28 @@ NSString *const kGADMAdapterIronSourceInstanceId    = @"instanceId";
 }
 
 - (void)onLog:(NSString *)log {
-    if (_isLogEnabled) {
-        NSLog(@"IronSourceAdapter: %@" , log);
-    }
+  if (_isLogEnabled) {
+    NSLog(@"IronSourceAdapter: %@", log);
+  }
 }
 
--(BOOL)isEmpty:(id)value
-{
-    return value == nil
-    || [value isKindOfClass:[NSNull class]]
-    || ([value respondsToSelector:@selector(length)] && [(NSString *)value length] == 0)
-    || ([value respondsToSelector:@selector(length)] && [(NSData *)value length] == 0)
-    || ([value respondsToSelector:@selector(count)] && [(NSArray *)value count] == 0);
+- (BOOL)isEmpty:(id)value {
+  return value == nil || [value isKindOfClass:[NSNull class]] ||
+         ([value respondsToSelector:@selector(length)] && [(NSString *)value length] == 0) ||
+         ([value respondsToSelector:@selector(length)] && [(NSData *)value length] == 0) ||
+         ([value respondsToSelector:@selector(count)] && [(NSArray *)value count] == 0);
 }
 
-- (NSError *)createErrorWith:(NSString *)description andReason:(NSString *)reason andSuggestion:(NSString *)suggestion {
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(suggestion, nil)
-                               };
-    
-    return [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:userInfo];
-}
+- (NSError *)createErrorWith:(NSString *)description
+                   andReason:(NSString *)reason
+               andSuggestion:(NSString *)suggestion {
+  NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey : NSLocalizedString(description, nil),
+    NSLocalizedFailureReasonErrorKey : NSLocalizedString(reason, nil),
+    NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(suggestion, nil)
+  };
 
+  return [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:userInfo];
+}
 
 @end
-

@@ -27,9 +27,10 @@ static BOOL initRewardedVideoSuccessfully = NO;
 static BOOL recivedAvailability = NO;
 
 @implementation GADMAdapterIronSourceRewarded
-    
+
 #pragma mark Admob GADMRewardBasedVideoAdNetworkAdapter
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector: (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
+(id<GADMRewardBasedVideoAdNetworkConnector>)connector {
     if (!connector) {
         return nil;
     }
@@ -41,9 +42,6 @@ static BOOL recivedAvailability = NO;
 }
 
 - (void)setUp {
-    
-    [self onLog:@"Set up for IronSource rewarded video adapter"];
-
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     NSDictionary *credentials = [strongConnector credentials];
     
@@ -55,7 +53,7 @@ static BOOL recivedAvailability = NO;
     if ([credentials objectForKey:kGADMAdapterIronSourceAppKey]) {
         applicationKey = [credentials objectForKey:kGADMAdapterIronSourceAppKey];
     }
-
+    
     if (![self isEmpty:applicationKey]) {
         
         /* Parse all other credentials */
@@ -78,15 +76,14 @@ static BOOL recivedAvailability = NO;
 }
 
 - (void)requestRewardBasedVideoAd {
-
     [self onLog:@"Requesting IronSource Rewarded Video ad"];
-
+    
     /* Parse all other credentials */
     [self parseCredentials];
     
     if (recivedAvailability) {
         id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
-
+        
         if([IronSource hasISDemandOnlyRewardedVideo:self.instanceId]) {
             [self onLog:[NSString stringWithFormat:@"Reward based video ad is available for instance is: %@",self.instanceId]];
             [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
@@ -122,7 +119,7 @@ static BOOL recivedAvailability = NO;
 
 #pragma mark RewardBasedVideo Utils Methods
 
--(void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
+- (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
     [super initIronSourceSDKWithAppKey:appKey adUnit:adUnit];
     
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
@@ -130,11 +127,10 @@ static BOOL recivedAvailability = NO;
 }
 
 - (void)parseCredentials {
-    
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     NSDictionary *credentials = [strongConnector credentials];
     
-    /* Parse instance id key */
+    // Parse instance id key.
     if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
         self.instanceId = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
     }
@@ -142,15 +138,12 @@ static BOOL recivedAvailability = NO;
 
 #pragma mark IronSource Rewarded Video Delegate implementation
 
-/*!
- * @discussion Invoked when there is a change in the ad availability status.
- *
- *              hasAvailableAds - value will change to YES when rewarded videos are available.
- *              You can then show the video by calling showRV(). Value will change to NO when no videos are available.
- */
+/// Invoked when there is a change in the ad availability status.
+/// hasAvailableAds - value will change to YES when rewarded videos are available. You can then show
+/// the video by calling showRV(). Value will change to NO when no videos are available.
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo has changed availability - %@, for instance: %@ " , available ? @"YES" : @"NO", instanceId]];
-
+    
     // We will notify only changes regarding to the registered instance.
     if (![self.instanceId isEqualToString:instanceId]) {
         return;
@@ -171,11 +164,11 @@ static BOOL recivedAvailability = NO;
 }
 
 /*!
-* @discussion Invoked when the user completed the video and should be rewarded.
-*
-*              If using server-to-server callbacks you may ignore these events and wait for the callback from the IronSource server.
-*              placementInfo - IronSourcePlacementInfo - an object contains the placement's reward name and amount
-*/
+ * @discussion Invoked when the user completed the video and should be rewarded.
+ *
+ *              If using server-to-server callbacks you may ignore these events and wait for the callback from the IronSource server.
+ *              placementInfo - IronSourcePlacementInfo - an object contains the placement's reward name and amount
+ */
 - (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
     
     GADAdReward *reward;
@@ -188,7 +181,7 @@ static BOOL recivedAvailability = NO;
         id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
         [strongConnector adapter:self didRewardUserWithReward:reward];
         [self onLog:[NSString stringWithFormat:@"IronSource received reward for placement %@ ,for instance:%@",rewardName ,instanceId]];
-
+        
     } else {
         [self onLog:@"IronSource received reward for placement - without placement info"];
     }
@@ -201,34 +194,31 @@ static BOOL recivedAvailability = NO;
  *          The error contains error.code and error.localizedDescription
  */
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
-    [self onLog:[NSString stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, for intance: %@", error.description, instanceId]];
+    NSString *log =[NSString stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, for intance: %@", error.description, instanceId];
+    [self onLog:log];
 }
 
-/*!
- * @discussion Invoked when the RewardedVideo ad view has opened.
- */
+/// Invoked when the RewardedVideo ad view has opened.
 - (void)rewardedVideoDidOpen:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did open for instance:%@",instanceId]];
-
+    
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     [strongConnector adapterDidOpenRewardBasedVideoAd:self];
     [strongConnector adapterDidStartPlayingRewardBasedVideoAd:self];
 }
 
-/*!
- * @discussion Invoked when the user is about to return to the application after closing the RewardedVideo ad.
- */
+/// Invoked when the user is about to return to the application after closing the RewardedVideo ad.
 - (void)rewardedVideoDidClose:(NSString *)instanceId {
+    
     [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did close for instance:%@",instanceId]];
-
+    
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     [strongConnector adapterDidCloseRewardBasedVideoAd:self];
 }
 
-/*!
- * @discussion Invoked after a video has been clicked.
- */
+/// Invoked after a video has been clicked.
 - (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
+    
     [self onLog:[NSString stringWithFormat:@"Did click IronSource RewardedVideo for instance:%@",instanceId]];
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
     [strongConnector adapterDidGetAdClick:self];

@@ -15,8 +15,7 @@
 #import "GADMAdapterIronSource.h"
 
 @interface GADMAdapterIronSource () {
-    
-    //Connector from Google Mobile Ads SDK to receive interstitial ad configurations.
+    // Connector from Google Mobile Ads SDK to receive interstitial ad configurations.
     __weak id<GADMAdNetworkConnector> _interstitialConnector;
 }
 
@@ -28,7 +27,7 @@ static BOOL initInterstitialSuccessfully;
 @implementation GADMAdapterIronSource
 
 #pragma mark Admob GADMAdNetworkConnector
-    
+
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
     if (!connector) {
         return nil;
@@ -36,7 +35,6 @@ static BOOL initInterstitialSuccessfully;
     self = [super init];
     if (self) {
         _interstitialConnector = connector;
-        
     }
     return self;
 }
@@ -44,7 +42,7 @@ static BOOL initInterstitialSuccessfully;
 - (void)getInterstitial {
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
     NSDictionary *credentials = [strongConnector credentials];
-
+    
     /* Parse enabling testing mode key for log */
     self.isLogEnabled = strongConnector.testMode;
     
@@ -77,7 +75,6 @@ static BOOL initInterstitialSuccessfully;
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [self onLog:[NSString stringWithFormat:@"Present IronSource interstitial ad for instance %@",self.instanceId]];
-
     [IronSource showISDemandOnlyInterstitial:rootViewController instanceId:self.instanceId];
 }
 
@@ -94,7 +91,9 @@ static BOOL initInterstitialSuccessfully;
 
 - (void)showBannersNotSupportedError {
     // IronSource Adapter doesn't support banner ads.
-    NSError *error = [self createErrorWith:@"IronSource Adapter doesn't support banner ads" andReason:@"" andSuggestion:@""];
+    NSError *error = [self createErrorWith:@"IronSource Adapter doesn't support banner ads"
+                                 andReason:@""
+                             andSuggestion:@""];
     [_interstitialConnector adapter:self didFailAd:error];
 }
 
@@ -102,15 +101,12 @@ static BOOL initInterstitialSuccessfully;
 
 - (void)loadInterstitialAd {
     [self onLog:[NSString stringWithFormat:@"Load IronSource interstitial ad for instance %@",self.instanceId]];
-
     [IronSource loadISDemandOnlyInterstitial:self.instanceId];
 }
 
 #pragma mark IronSource Interstitial Delegates implementation
 
-/**
- * @discussion Called after an interstitial has been loaded
- */
+/// Called after an interstitial has been loaded.
 - (void)interstitialDidLoad:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did load for instance %@",instanceId]];
     
@@ -122,13 +118,10 @@ static BOOL initInterstitialSuccessfully;
     [_interstitialConnector adapterDidReceiveInterstitial:self];
 }
 
-/**
- * @discussion Called after an interstitial has attempted to load but failed.
- *
- *             You can learn about the reason by examining the ‘error’ value
- */
-
+/// Called after an interstitial has attempted to load but failed. You can learn about the reason by
+/// examining the |error| value.
 - (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+    
     NSString *log = [NSString stringWithFormat:@"IronSource interstitial ad did fail to load with error: %@, for instance: %@", error.localizedDescription, instanceId];
     [self onLog:log];
     
@@ -146,37 +139,28 @@ static BOOL initInterstitialSuccessfully;
     [_interstitialConnector adapter:self didFailAd:error];
 }
 
-/*!
- * @discussion Called each time the Interstitial window is about to open
- */
+/// Called each time the Interstitial window is about to open.
 - (void)interstitialDidOpen:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did open for instance %@",instanceId]];
     [_interstitialConnector adapterWillPresentInterstitial:self];
 }
 
-/*!
- * @discussion Called each time the Interstitial window is about to close
- */
+/// Called each time the Interstitial window is about to close.
 - (void)interstitialDidClose:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did close for instance %@",instanceId]];
-
+    
     id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
     [strongConnector adapterWillDismissInterstitial:self];
     [strongConnector adapterDidDismissInterstitial:self];
 }
 
-/*!
- * @discussion Called each time the Interstitial window has opened successfully.
- */
+/// Called each time the Interstitial window has opened successfully.
 - (void)interstitialDidShow:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did show for instance %@",instanceId]];
 }
 
-/*!
- * @discussion Called if showing the Interstitial for the user has failed.
- *
- *              You can learn about the reason by examining the ‘error’ value
- */
+/// Called if showing the Interstitial for the user has failed. You can learn about the reason by
+/// examining the |error| value.
 - (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did fail to show with error %@, for instance: %@", error.localizedDescription, instanceId]];
     
@@ -189,9 +173,7 @@ static BOOL initInterstitialSuccessfully;
     [_interstitialConnector adapter:self didFailAd:error];
 }
 
-/*!
- * @discussion Called each time the end user has clicked on the Interstitial ad.
- */
+/// Called each time the end user has clicked on the Interstitial ad.
 - (void)didClickInterstitial:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"Did click IronSource interstitial ad for instance %@",instanceId]];
     
