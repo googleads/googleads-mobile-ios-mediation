@@ -1,19 +1,44 @@
 //
 //  GADMAdapterAppLovinUtils.h
-//  AdMobAdapterDev
 //
-//  Created by Josh Gleeson on 8/15/17.
-//  Copyright © 2017 AppLovin. All rights reserved.
+//
+//  Created by Thomas So on 1/10/18.
+//
 //
 
-@import GoogleMobileAds;
-@import Foundation;
-@class ALSdk;
+#import <Foundation/Foundation.h>
+#import <AppLovinSDK/AppLovinSDK.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterAppLovinUtils : NSObject
 
-+ (ALSdk *)sdkForCredentials:(NSDictionary *)credentials;
-+ (NSString *)placementFromCredentials:(NSDictionary *)credentials;
+/**
+ * Retrieves the appropriate instance of AppLovin's SDK from the SDK key given in the credentials, or Info.plist.
+ */
++ (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials;
+
+/**
+ * Retrieves the placement from an appropriate connector object. Will use empty string if none exists.
+ */
++ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector;
+
+/**
+ * Retrieves the zone identifier from an appropriate connector object. Will use empty string if none exists.
+ */
++ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector;
+
+/**
+ * Convert the given AppLovin SDK error code into the appropriate AdMob error code.
+ */
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
 
+/**
+ * Dynamically create an instance of ALIncentivizedAd with a given zone and SDK. We must do it dynamically as it is not exposed publically until iOS SDK 4.7.0.
+ */
++ (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:(NSString *)zoneIdentifier sdk:(ALSdk *)sdk;
+
 @end
+
+NS_ASSUME_NONNULL_END
