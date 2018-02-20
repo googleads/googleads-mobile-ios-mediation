@@ -6,7 +6,4 @@ framework module IronSourceAdapter {
 
   link framework "Foundation"
   link framework "UIKit"
-
-  // Import all your public header files here.
-  //header "YOUR_PUBLIC_HEADER.h"
 }
