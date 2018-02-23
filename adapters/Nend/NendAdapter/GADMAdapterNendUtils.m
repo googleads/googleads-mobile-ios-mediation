@@ -24,7 +24,9 @@
   }
   if (request.userBirthday) {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:request.userBirthday];
+    NSDateComponents *components =
+        [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
+                    fromDate:request.userBirthday];
     [feature setBirthdayWithYear:components.year month:components.month day:components.day];
   }
   return feature;

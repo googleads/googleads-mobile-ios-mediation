@@ -80,7 +80,8 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
     self.interstitialVideo.delegate = self;
     self.interstitialVideo.userId = extras.userId;
     self.interstitialVideo.mediationName = @"AdMob";
-    self.interstitialVideo.userFeature = [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
+    self.interstitialVideo.userFeature =
+        [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
     [self.interstitialVideo loadAd];
   } else {
     self.interstitial = [NADInterstitial sharedInstance];

@@ -59,9 +59,10 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
     if (extras) {
       self.rewardedVideo.userId = extras.userId;
     }
-      
-    self.rewardedVideo.userFeature = [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
-    
+
+    self.rewardedVideo.userFeature =
+        [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
+
     self.rewardedVideo.delegate = self;
     [self.connector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
