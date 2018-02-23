@@ -15,74 +15,61 @@
 
 @implementation GADMAdapterAppLovinUtils
 
-+ (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials
-{
-    NSString *sdkKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
-    
-    if ( sdkKey.length == 0 )
-    {
-        sdkKey = [[NSBundle mainBundle] infoDictionary][@"AppLovinSdkKey"];
-    }
-    
-    ALSdk *sdk = [ALSdk sharedWithKey: sdkKey];
-    [sdk setPluginVersion: GADMAdapterAppLovinConstant.adapterVersion];
-    
-    return sdk;
++ (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
+  NSString *sdkKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
+
+  if (sdkKey.length == 0) {
+    sdkKey = [[NSBundle mainBundle] infoDictionary][@"AppLovinSdkKey"];
+  }
+
+  ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
+  [sdk setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion];
+
+  return sdk;
 }
 
-+ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector
-{
-    return connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
++ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector {
+  return connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
 }
 
-+ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector
-{
-    return connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
++ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
+  return connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
 }
 
-+ (GADErrorCode)toAdMobErrorCode:(int)code
-{
-    //
-    // TODO: Be more exhaustive
-    //
-    
-    if ( code == kALErrorCodeNoFill )
-    {
-        return kGADErrorMediationNoFill;
-    }
-    else if ( code == kALErrorCodeAdRequestNetworkTimeout )
-    {
-        return kGADErrorTimeout;
-    }
-    else if ( code == kALErrorCodeInvalidResponse )
-    {
-        return kGADErrorReceivedInvalidResponse;
-    }
-    else if ( code == kALErrorCodeUnableToRenderAd )
-    {
-        return kGADErrorServerError;
-    }
-    else
-    {
-        return kGADErrorInternalError;
-    }
++ (GADErrorCode)toAdMobErrorCode:(int)code {
+  //
+  // TODO: Be more exhaustive.
+  //
+
+  if (code == kALErrorCodeNoFill) {
+    return kGADErrorMediationNoFill;
+  } else if (code == kALErrorCodeAdRequestNetworkTimeout) {
+    return kGADErrorTimeout;
+  } else if (code == kALErrorCodeInvalidResponse) {
+    return kGADErrorReceivedInvalidResponse;
+  } else if (code == kALErrorCodeUnableToRenderAd) {
+    return kGADErrorServerError;
+  } else {
+    return kGADErrorInternalError;
+  }
 }
 
-+ (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:(NSString *)zoneIdentifier sdk:(ALSdk *)sdk
-{
-    // Prematurely create instance of ALAdView to store initialized one in later
-    ALIncentivizedInterstitialAd *incent = [ALIncentivizedInterstitialAd alloc];
-    
-    // We must use NSInvocation over performSelector: for initializers
-    NSMethodSignature *methodSignature = [ALIncentivizedInterstitialAd instanceMethodSignatureForSelector: @selector(initWithZoneIdentifier:sdk:)];
-    NSInvocation *inv = [NSInvocation invocationWithMethodSignature: methodSignature];
-    [inv setSelector: @selector(initWithZoneIdentifier:sdk:)];
-    [inv setArgument: &zoneIdentifier atIndex: 2];
-    [inv setArgument: &sdk atIndex: 3];
-    [inv setReturnValue: &incent];
-    [inv invokeWithTarget: incent];
-    
-    return incent;
++ (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:
+                                      (NSString *)zoneIdentifier sdk:(ALSdk *)sdk {
+  // Prematurely create instance of ALAdView to store initialized one in later.
+  ALIncentivizedInterstitialAd *incent = [ALIncentivizedInterstitialAd alloc];
+
+  // We must use NSInvocation over performSelector: for initializers.
+  NSMethodSignature *methodSignature = [ALIncentivizedInterstitialAd
+      instanceMethodSignatureForSelector:@selector(initWithZoneIdentifier:sdk:)];
+  NSInvocation *inv = [NSInvocation invocationWithMethodSignature:methodSignature];
+  [inv setSelector:@selector(initWithZoneIdentifier:sdk:)];
+  [inv setArgument:&zoneIdentifier atIndex:2];
+  [inv setArgument:&sdk atIndex:3];
+  [inv setReturnValue:&incent];
+  [inv invokeWithTarget:incent];
+
+  return incent;
 }
 
 @end

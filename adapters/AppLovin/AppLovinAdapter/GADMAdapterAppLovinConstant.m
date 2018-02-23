@@ -10,39 +10,32 @@
 
 @implementation GADMAdapterAppLovinConstant
 
-+ (NSString *)errorDomain
-{
-    return @"com.applovin.sdk.mediation.admob.errorDomain";
++ (NSString *)errorDomain {
+  return @"com.applovin.sdk.mediation.admob.errorDomain";
 }
 
-+ (NSString *)adapterVersion
-{
-    return @"4.6.1.1";
++ (NSString *)adapterVersion {
+  return @"4.8.3.0";
 }
 
-+ (NSString *)sdkKey
-{
-    return @"sdkKey";
++ (NSString *)sdkKey {
+  return @"sdkKey";
 }
 
-+ (NSString *)placementKey
-{
-    return @"placement";
++ (NSString *)placementKey {
+  return @"placement";
 }
 
-+ (NSString *)zoneIdentifierKey
-{
-    return @"zone_id";
++ (NSString *)zoneIdentifierKey {
+  return @"zone_id";
 }
 
-+ (NSString *)bundleIdentifierKey
-{
-    return @"bundleId";
++ (NSString *)bundleIdentifierKey {
+  return @"bundleId";
 }
 
-+ (BOOL)loggingEnabled
-{
-    return YES;
++ (BOOL)loggingEnabled {
+  return YES;
 }
 
 @end
