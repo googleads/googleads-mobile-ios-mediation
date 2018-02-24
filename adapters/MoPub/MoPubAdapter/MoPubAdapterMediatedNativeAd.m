@@ -43,8 +43,8 @@
 
     CGFloat defaultImageScale = 1;
     if (downloadedImages != nil) {
-      _mappedImages =
-          [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
+      _mappedImages = [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
+        
       _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
     } else {
       NSURL *mainImageUrl =
@@ -128,7 +128,7 @@
   } else {
     MPLogWarn(@"Could not add impression trackers.");
   }
-
+    
   UITapGestureRecognizer *tapRecognizer =
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
 
@@ -195,6 +195,13 @@
   if (_nativeAd) {
     [_nativeAd performSelector:@selector(adViewTapped)];
   }
+}
+
+- (UIView *GAD_NULLABLE_TYPE)mediaView {
+    GADNativeAdImage *nativeAdImage = (GADNativeAdImage *) _mappedImages[0];
+    UIImage *image = [(UIImage *) nativeAdImage valueForKey:@"image"];
+    UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
+    return mainImageView;
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
