@@ -40,27 +40,37 @@
     if (connector) {
         id obj = [connector networkExtras];
         GADDuAdNetworkExtras *networkExtras = [obj isKindOfClass:[GADDuAdNetworkExtras class]] ? obj : nil;
-        if (networkExtras) {
-            if (networkExtras.appLicense && networkExtras.placementIds) {
-                BOOL modified = NO;
-                NSMutableArray *tmp = [[NSMutableArray alloc] init];
-                for (NSString *pid in networkExtras.placementIds) {
-                    if ([self.m_nativeIds indexOfObject:pid] == NSNotFound) {
-                        [tmp addObject:pid];
-                        modified = YES;
-                    }
+        NSString *appId = [connector credentials][@"appId"];
+        NSString *placementID = [connector credentials][@"placementId"];
+        
+        if(appId) {
+            NSMutableArray *args = [[NSMutableArray alloc] init];
+            if (networkExtras && networkExtras.placementIds) {
+                [args addObjectsFromArray:networkExtras.placementIds];
+            }
+            if (placementID && [args indexOfObject:placementID] == NSNotFound) {
+                [args addObject:placementID];
+            }
+            
+            BOOL modified = NO;
+            NSMutableArray *tmp = [[NSMutableArray alloc] init];
+            for (NSString *pid in args) {
+                if ([self.m_nativeIds indexOfObject:pid] == NSNotFound) {
+                    [tmp addObject:pid];
+                    modified = YES;
                 }
-                if (modified) {
-                    [self.m_nativeIds addObjectsFromArray:tmp];
-                    NSMutableArray *nativeIds = [[NSMutableArray alloc] init];
-                    for (NSString *pid in self.m_nativeIds) {
-                        NSDictionary *nativeId = [[NSMutableDictionary alloc] init];
-                        [nativeId setValue:pid forKey:@"pid"];
-                        [nativeIds addObject:nativeId];
-                    }
-                    NSDictionary *config = [NSDictionary dictionaryWithObject:nativeIds forKey:@"native"];
-                    [DUAdNetwork initWithConfigDic:config withLicense:networkExtras.appLicense];
+            }
+            
+            if (modified) {
+                [self.m_nativeIds addObjectsFromArray:tmp];
+                NSMutableArray *nativeIds = [[NSMutableArray alloc] init];
+                for (NSString *pid in self.m_nativeIds) {
+                    NSDictionary *nativeId = [[NSMutableDictionary alloc] init];
+                    [nativeId setValue:pid forKey:@"pid"];
+                    [nativeIds addObject:nativeId];
                 }
+                NSDictionary *config = [NSDictionary dictionaryWithObject:nativeIds forKey:@"native"];
+                [DUAdNetwork initWithConfigDic:config withLicense:appId];
             }
         }
     }

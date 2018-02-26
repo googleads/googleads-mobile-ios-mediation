@@ -18,12 +18,6 @@
 /// Network extras for the DuAd adapter.
 @interface GADDuAdNetworkExtras : NSObject<GADAdNetworkExtras>
 
-/*!
- * @brief NSString with user identifier that will be passed if the ad is incentivized.
- * @discussion Optional. The value passed as 'user' in the an incentivized server-to-server call.
- */
-@property(nonatomic, copy) NSString *_Nonnull appLicense;
-
 @property(nonatomic, copy) NSArray<NSString *> *_Nonnull placementIds;
 
 @end
