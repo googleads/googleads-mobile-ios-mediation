@@ -10,7 +10,7 @@
 #import "MPNativeAdConstants.h"
 
 @interface MoPubAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate,
-MPAdDestinationDisplayAgentDelegate>
+                                            MPAdDestinationDisplayAgentDelegate>
 
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, copy) GADNativeAdImage *mappedLogo;
@@ -30,84 +30,85 @@ MPAdDestinationDisplayAgentDelegate>
 - (instancetype)initWithMoPubNativeAd:(nonnull MPNativeAd *)moPubNativeAd
                          mappedImages:(nullable NSMutableDictionary *)downloadedImages
                   nativeAdViewOptions:(nonnull GADNativeAdViewAdOptions *)nativeAdViewOptions
-                        networkExtras:(nullable GADMoPubNetworkExtras *)networkExtras
-{
-    if (!moPubNativeAd) {
-        return nil;
-    }
-    self = [super init];
-    if (self) {
-        _nativeAd = moPubNativeAd;
-        _nativeAdProperties = moPubNativeAd.properties;
-        _nativeAdViewOptions = nativeAdViewOptions;
-        _networkExtras = networkExtras;
-        
-        CGFloat defaultImageScale = 1;
-        
-        if (downloadedImages != nil) {
-            _mappedImages = [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
-            if ([downloadedImages objectForKey:kAdIconImageKey]) {
-                _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
-            } else {
-                NSURL *logoImageURL = [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
-                if (logoImageURL != nil) {
-                    _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
-                }
-            }
+                        networkExtras:(nullable GADMoPubNetworkExtras *)networkExtras {
+  if (!moPubNativeAd) {
+    return nil;
+  }
+  self = [super init];
+  if (self) {
+    _nativeAd = moPubNativeAd;
+    _nativeAdProperties = moPubNativeAd.properties;
+    _nativeAdViewOptions = nativeAdViewOptions;
+    _networkExtras = networkExtras;
+
+    CGFloat defaultImageScale = 1;
+
+    if (downloadedImages != nil) {
+      _mappedImages =
+          [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
+      if ([downloadedImages objectForKey:kAdIconImageKey]) {
+        _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
+      } else {
+        NSURL *logoImageURL =
+            [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+        if (logoImageURL != nil) {
+          _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
         }
+      }
     }
-    return self;
+  }
+  return self;
 }
 
 - (NSString *)headline {
-    return [_nativeAdProperties objectForKey:kAdTitleKey];
+  return [_nativeAdProperties objectForKey:kAdTitleKey];
 }
 
 - (NSString *)body {
-    return [_nativeAdProperties objectForKey:kAdTextKey];
+  return [_nativeAdProperties objectForKey:kAdTextKey];
 }
 
 - (GADNativeAdImage *)icon {
-    return _mappedLogo;
+  return _mappedLogo;
 }
 
 - (NSArray *)images {
-    return _mappedImages;
+  return _mappedImages;
 }
 
 - (NSString *)callToAction {
-    return [_nativeAdProperties objectForKey:kAdCTATextKey];
+  return [_nativeAdProperties objectForKey:kAdCTATextKey];
 }
 
 - (NSString *)advertiser {
-    return nil;
+  return nil;
 }
 
 - (NSDictionary *)extraAssets {
-    return _extras;
+  return _extras;
 }
 
 - (NSDecimalNumber *)starRating {
-    return 0;
+  return 0;
 }
 
 - (NSString *)store {
-    return nil;
+  return nil;
 }
 
 - (NSString *)price {
-    return nil;
+  return nil;
 }
 
 - (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-    return self;
+  return self;
 }
 
 - (void)privacyIconTapped {
-    _displayDestinationAgent =
-    [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
-    [_displayDestinationAgent
-     displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
+  _displayDestinationAgent =
+      [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
+  [_displayDestinationAgent
+      displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
 }
 
 #pragma mark - GADMediatedNativeAdDelegate implementation
@@ -116,114 +117,113 @@ MPAdDestinationDisplayAgentDelegate>
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
           viewController:(UIViewController *)viewController {
-    _baseViewController = viewController;
-    if ([_nativeAd respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
-        [_nativeAd performSelector:@selector(willAttachToView:withAdContentViews:)
-                        withObject:view
-                        withObject:nil];
+  _baseViewController = viewController;
+  if ([_nativeAd respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
+    [_nativeAd performSelector:@selector(willAttachToView:withAdContentViews:)
+                    withObject:view
+                    withObject:nil];
+  } else {
+    MPLogWarn(@"Could not add impression trackers.");
+  }
+
+  UITapGestureRecognizer *tapRecognizer =
+      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
+
+  // Loading the MoPub privacy icon either from the Main or the MoPub bundle.
+  NSString *privacyIconImagePath = MPResourcePathForResource(kDAAIconImageName);
+  UIImage *privacyIconImage = [UIImage imageWithContentsOfFile:privacyIconImagePath];
+  _privacyIconImageView = [[UIImageView alloc] initWithImage:privacyIconImage];
+  _privacyIconImageView.userInteractionEnabled = YES;
+  [_privacyIconImageView addGestureRecognizer:tapRecognizer];
+
+  float privacyIconSize;
+  if (_networkExtras) {
+    if (_networkExtras.privacyIconSize < MINIMUM_MOPUB_PRIVACY_ICON_SIZE) {
+      privacyIconSize = MINIMUM_MOPUB_PRIVACY_ICON_SIZE;
+    } else if (_networkExtras.privacyIconSize > MAXIMUM_MOPUB_PRIVACY_ICON_SIZE) {
+      privacyIconSize = MAXIMUM_MOPUB_PRIVACY_ICON_SIZE;
     } else {
-        MPLogWarn(@"Could not add impression trackers.");
+      privacyIconSize = _networkExtras.privacyIconSize;
     }
-    
-    UITapGestureRecognizer *tapRecognizer =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
-    
-    // Loading the MoPub privacy icon either from the Main or the MoPub bundle.
-    NSString *privacyIconImagePath = MPResourcePathForResource(kDAAIconImageName);
-    UIImage *privacyIconImage = [UIImage imageWithContentsOfFile:privacyIconImagePath];
-    _privacyIconImageView = [[UIImageView alloc] initWithImage:privacyIconImage];
-    _privacyIconImageView.userInteractionEnabled = YES;
-    [_privacyIconImageView addGestureRecognizer:tapRecognizer];
-    
-    float privacyIconSize;
-    if (_networkExtras) {
-        if (_networkExtras.privacyIconSize < MINIMUM_MOPUB_PRIVACY_ICON_SIZE) {
-            privacyIconSize = MINIMUM_MOPUB_PRIVACY_ICON_SIZE;
-        } else if (_networkExtras.privacyIconSize > MAXIMUM_MOPUB_PRIVACY_ICON_SIZE) {
-            privacyIconSize = MAXIMUM_MOPUB_PRIVACY_ICON_SIZE;
-        } else {
-            privacyIconSize = _networkExtras.privacyIconSize;
-        }
-    } else {
-        privacyIconSize = DEFAULT_MOPUB_PRIVACY_ICON_SIZE;
-    }
-    
-    switch (_nativeAdViewOptions.preferredAdChoicesPosition) {
-        case GADAdChoicesPositionTopLeftCorner:
-            _privacyIconImageView.frame = CGRectMake(0, 0, privacyIconSize, privacyIconSize);
-            _privacyIconImageView.autoresizingMask =
-            UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-            break;
-        case GADAdChoicesPositionBottomLeftCorner:
-            _privacyIconImageView.frame = CGRectMake(0, view.bounds.size.height - privacyIconSize,
-                                                     privacyIconSize, privacyIconSize);
-            _privacyIconImageView.autoresizingMask =
-            UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
-            break;
-        case GADAdChoicesPositionBottomRightCorner:
-            _privacyIconImageView.frame =
-            CGRectMake(view.bounds.size.width - privacyIconSize,
-                       view.bounds.size.height - privacyIconSize, privacyIconSize, privacyIconSize);
-            _privacyIconImageView.autoresizingMask =
-            UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-            break;
-        case GADAdChoicesPositionTopRightCorner:
-            _privacyIconImageView.frame =
-            CGRectMake(view.bounds.size.width - privacyIconSize, 0, privacyIconSize, privacyIconSize);
-            _privacyIconImageView.autoresizingMask =
-            UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
-            break;
-        default:
-            _privacyIconImageView.frame =
-            CGRectMake(view.bounds.size.width - privacyIconSize, 0, privacyIconSize, privacyIconSize);
-            _privacyIconImageView.autoresizingMask =
-            UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
-            break;
-    }
-    
-    [view addSubview:_privacyIconImageView];
+  } else {
+    privacyIconSize = DEFAULT_MOPUB_PRIVACY_ICON_SIZE;
+  }
+
+  switch (_nativeAdViewOptions.preferredAdChoicesPosition) {
+    case GADAdChoicesPositionTopLeftCorner:
+      _privacyIconImageView.frame = CGRectMake(0, 0, privacyIconSize, privacyIconSize);
+      _privacyIconImageView.autoresizingMask =
+          UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+      break;
+    case GADAdChoicesPositionBottomLeftCorner:
+      _privacyIconImageView.frame = CGRectMake(0, view.bounds.size.height - privacyIconSize,
+                                               privacyIconSize, privacyIconSize);
+      _privacyIconImageView.autoresizingMask =
+          UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin;
+      break;
+    case GADAdChoicesPositionBottomRightCorner:
+      _privacyIconImageView.frame =
+          CGRectMake(view.bounds.size.width - privacyIconSize,
+                     view.bounds.size.height - privacyIconSize, privacyIconSize, privacyIconSize);
+      _privacyIconImageView.autoresizingMask =
+          UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+      break;
+    case GADAdChoicesPositionTopRightCorner:
+      _privacyIconImageView.frame =
+          CGRectMake(view.bounds.size.width - privacyIconSize, 0, privacyIconSize, privacyIconSize);
+      _privacyIconImageView.autoresizingMask =
+          UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+      break;
+    default:
+      _privacyIconImageView.frame =
+          CGRectMake(view.bounds.size.width - privacyIconSize, 0, privacyIconSize, privacyIconSize);
+      _privacyIconImageView.autoresizingMask =
+          UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+      break;
+  }
+
+  [view addSubview:_privacyIconImageView];
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-didRecordClickOnAssetWithName:(NSString *)assetName
-                    view:(UIView *)view
-          viewController:(UIViewController *)viewController {
-    if (_nativeAd) {
-        [_nativeAd performSelector:@selector(adViewTapped)];
-    }
+    didRecordClickOnAssetWithName:(NSString *)assetName
+                             view:(UIView *)view
+                   viewController:(UIViewController *)viewController {
+  if (_nativeAd) {
+    [_nativeAd performSelector:@selector(adViewTapped)];
+  }
 }
 
 - (UIView *GAD_NULLABLE_TYPE)mediaView {
-    GADNativeAdImage *nativeAdImage = (GADNativeAdImage *) _mappedImages[0];
-    UIImage *image = [(UIImage *) nativeAdImage valueForKey:@"image"];
-    UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
-    return mainImageView;
+  GADNativeAdImage *nativeAdImage = (GADNativeAdImage *)_mappedImages[0];
+  UIImage *image = [(UIImage *)nativeAdImage valueForKey:@"image"];
+  UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
+  return mainImageView;
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-    if (_privacyIconImageView) {
-        [_privacyIconImageView removeFromSuperview];
-    }
+  if (_privacyIconImageView) {
+    [_privacyIconImageView removeFromSuperview];
+  }
 }
 
 #pragma mark - MPAdDestinationDisplayAgentDelegate
 
 - (UIViewController *)viewControllerForPresentingModalView {
-    return _baseViewController;
+  return _baseViewController;
 }
 
 - (void)displayAgentDidDismissModal {
-    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self];
-    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self];
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self];
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self];
 }
 
 - (void)displayAgentWillPresentModal {
-    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self];
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self];
 }
 
 - (void)displayAgentWillLeaveApplication {
-    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
 }
 
 @end
-
