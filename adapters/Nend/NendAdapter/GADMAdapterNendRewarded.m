@@ -8,6 +8,8 @@
 #import "GADMAdapterNendRewarded.h"
 #import "GADMAdapterNendSetting.h"
 #import "GADNendRewardedNetworkExtras.h"
+#import "GADMAdapterNendUtils.h"
+
 @import NendAd;
 
 static NSString *const kAdMobMediationName = @"AdMob";
@@ -58,6 +60,9 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
       self.rewardedVideo.userId = extras.userId;
     }
 
+    self.rewardedVideo.userFeature =
+        [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
+
     self.rewardedVideo.delegate = self;
     [self.connector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
@@ -106,6 +111,10 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
 
 - (void)nadRewardVideoAdDidStartPlaying:(NADRewardedVideo *)nadRewardedVideoAd {
   [self.connector adapterDidStartPlayingRewardBasedVideoAd:self];
+}
+
+- (void)nadRewardVideoAdDidCompletePlaying:(NADRewardedVideo *)nadRewardedVideoAd {
+  [self.connector adapterDidCompletePlayingRewardBasedVideoAd:self];
 }
 
 - (void)nadRewardVideoAdDidClickAd:(NADRewardedVideo *)nadRewardedVideoAd {

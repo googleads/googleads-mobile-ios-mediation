@@ -4,7 +4,7 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterAdColony : NSObject
-  <GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMAdapterAdColony
+    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
 
 @end

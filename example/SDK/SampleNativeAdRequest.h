@@ -30,12 +30,6 @@ typedef NS_ENUM(NSInteger, NativeAdImageOrientation) {
 
 @interface SampleNativeAdRequest : SampleAdRequest
 
-/// Indicates whether app install ads are requested.
-@property(nonatomic, assign) BOOL appInstallAdsRequested;
-
-/// Indicates whether content ads are requested.
-@property(nonatomic, assign) BOOL contentAdsRequested;
-
 /// Indicates whether images should be downloaded automatically or returned as URL/scale values
 /// instead.
 @property(nonatomic, assign) BOOL shouldDownloadImages;

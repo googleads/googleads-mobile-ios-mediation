@@ -1,7 +1,7 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2017 Google, Inc.
 //
-// SampleNativeContentAd.h
+// sampleNativeAd.h
 // Sample Ad Network SDK
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@
 @import Foundation;
 @import UIKit;
 
-@interface SampleNativeContentAd : NSObject
+@interface SampleNativeAd : NSObject
 
 /// The name of an advertiser.
 @property(nonatomic, copy) NSString *advertiser;
@@ -34,6 +34,15 @@
 /// The ad's headline.
 @property(nonatomic, copy) NSString *headline;
 
+/// The icon image associated with the ad.
+@property(nonatomic, strong) UIImage *icon;
+
+/// The URL from which the icon image can be downloaded.
+@property(nonatomic, copy) NSString *iconURL;
+
+/// The scale of the image file (pixels/pts) that can be downloaded from iconURL.
+@property(nonatomic, assign) CGFloat iconScale;
+
 /// The main image associated with the ad.
 @property(nonatomic, strong) UIImage *image;
 
@@ -43,14 +52,14 @@
 /// The scale of the image file (pixels/pts) that can be downloaded from imageURL.
 @property(nonatomic, assign) CGFloat imageScale;
 
-/// The logo image associated with the ad.
-@property(nonatomic, strong) UIImage *logo;
+/// The price of the app being advertised.
+@property(nonatomic, copy) NSString *price;
 
-/// The URL from which the logo image can be downloaded.
-@property(nonatomic, copy) NSString *logoURL;
+/// The star rating of the advertised app.
+@property(nonatomic, copy) NSDecimalNumber *starRating;
 
-/// The scale of the image file (pixels/pts) that can be downloaded from logoURL.
-@property(nonatomic, assign) CGFloat logoScale;
+/// The store from which the app can be purchased.
+@property(nonatomic, copy) NSString *store;
 
 /// The ad's degree of awesomeness. This is a simple string field designed to show how
 /// custom events and adapters can handle extra assets.

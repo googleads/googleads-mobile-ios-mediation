@@ -37,7 +37,7 @@
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
                            delegate:(id<GADMediatedNativeAdDelegate>)delegate
-						mediaAdView:(MTRGMediaAdView *)mediaAdView {
+                        mediaAdView:(MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _delegate = delegate;
@@ -133,7 +133,7 @@
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
                            delegate:(id<GADMediatedNativeAdDelegate>)delegate
-						mediaAdView:(MTRGMediaAdView *)mediaAdView {
+                        mediaAdView:(MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _delegate = delegate;
@@ -240,7 +240,7 @@
     GADMAdapterMyTargetMediatedNativeContentAd *mediatedNativeContentAd =
         [[GADMAdapterMyTargetMediatedNativeContentAd alloc] initWithPromoBanner:promoBanner
                                                                        delegate:delegate
-																	mediaAdView:mediaAdView];
+                                                                    mediaAdView:mediaAdView];
     return mediatedNativeContentAd;
   } else if (promoBanner.navigationType == MTRGNavigationTypeStore) {
     guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
@@ -252,7 +252,7 @@
     GADMAdapterMyTargetMediatedNativeAppInstallAd *mediatedNativeAppInstallAd =
         [[GADMAdapterMyTargetMediatedNativeAppInstallAd alloc] initWithPromoBanner:promoBanner
                                                                           delegate:delegate
-																	   mediaAdView:mediaAdView];
+                                                                       mediaAdView:mediaAdView];
     return mediatedNativeAppInstallAd;
   }
   return nil;

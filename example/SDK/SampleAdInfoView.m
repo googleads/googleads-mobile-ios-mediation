@@ -28,7 +28,8 @@
     [self createInfoImageView];
     self.backgroundColor = [UIColor clearColor];
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc]
-                                initWithTarget:self action:@selector(infoViewTapped)]];
+                                   initWithTarget:self
+                                           action:@selector(infoViewTapped)]];
   }
 
   return self;
@@ -36,8 +37,8 @@
 
 /// Creates and adds info image in the view hierarchy.
 - (void)createInfoImageView {
-  UIImageView *infoImageView = [[UIImageView alloc]
-                                initWithImage:[UIImage imageNamed:@"info_icon"]];
+  UIImageView *infoImageView =
+      [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"info_icon"]];
   [self addSubview:infoImageView];
 
   // Adding constraints to info image to cover the super view.

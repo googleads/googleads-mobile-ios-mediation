@@ -42,21 +42,18 @@
     _networkExtras = networkExtras;
 
     CGFloat defaultImageScale = 1;
+
     if (downloadedImages != nil) {
       _mappedImages =
           [[NSArray alloc] initWithObjects:[downloadedImages objectForKey:kAdMainImageKey], nil];
-      _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
-    } else {
-      NSURL *mainImageUrl =
-          [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdMainImageKey]];
-      if (mainImageUrl != nil) {
-        _mappedImages =
-            @[ [[GADNativeAdImage alloc] initWithURL:mainImageUrl scale:defaultImageScale] ];
-      }
-      NSURL *logoImageURL =
-          [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
-      if (logoImageURL != nil) {
-        _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
+      if ([downloadedImages objectForKey:kAdIconImageKey]) {
+        _mappedLogo = [downloadedImages objectForKey:kAdIconImageKey];
+      } else {
+        NSURL *logoImageURL =
+            [NSURL URLWithString:[_nativeAdProperties objectForKey:kAdIconImageKey]];
+        if (logoImageURL != nil) {
+          _mappedLogo = [[GADNativeAdImage alloc] initWithURL:logoImageURL scale:defaultImageScale];
+        }
       }
     }
   }
@@ -195,6 +192,13 @@
   if (_nativeAd) {
     [_nativeAd performSelector:@selector(adViewTapped)];
   }
+}
+
+- (UIView *GAD_NULLABLE_TYPE)mediaView {
+  GADNativeAdImage *nativeAdImage = (GADNativeAdImage *)_mappedImages[0];
+  UIImage *image = [(UIImage *)nativeAdImage valueForKey:@"image"];
+  UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
+  return mainImageView;
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {

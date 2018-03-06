@@ -15,23 +15,22 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/IronSource.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import "GADMIronSourceExtras.h"
 
 /// Holds Shared code for IronSource adapters.
 @interface GADMAdapterIronSourceBase : NSObject
 
-// IronSource internal reporting const
+// IronSource internal reporting const.
 extern NSString *const kGADMMediationName;
-// IronSource parameters keys
+// IronSource parameters keys.
 extern NSString *const kGADMAdapterIronSourceAppKey;
 extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
 extern NSString *const kGADMAdapterIronSourceInstanceId;
 
-// Yes if we want to show IronSource adapter logs
-@property (nonatomic, assign) BOOL isLogEnabled;
+/// Yes if we want to show IronSource adapter logs.
+@property(nonatomic, assign) BOOL isLogEnabled;
 
-//Holds the ID of the ad instance to be presented
-@property (nonatomic, strong) NSString *instanceId;
+/// Holds the ID of the ad instance to be presented.
+@property(nonatomic, strong) NSString *instanceId;
 
 + (NSString *)adapterVersion;
 
@@ -39,13 +38,15 @@ extern NSString *const kGADMAdapterIronSourceInstanceId;
 
 - (void)stopBeingDelegate;
 
-// IronSource Util methods
+// IronSource Util methods.
 
 - (void)onLog:(NSString *)log;
 
 - (BOOL)isEmpty:(id)value;
 
-- (NSError *)createErrorWith:(NSString *)description andReason:(NSString *)reason andSuggestion:(NSString *)suggestion;
+- (NSError *)createErrorWith:(NSString *)description
+                   andReason:(NSString *)reason
+               andSuggestion:(NSString *)suggestion;
 
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit;
 

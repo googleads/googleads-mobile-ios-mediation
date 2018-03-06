@@ -2,3 +2,4 @@
 
 ## 6.7.5.0
 - Initial release!
+- Supports interstitial and rewarded video ads.

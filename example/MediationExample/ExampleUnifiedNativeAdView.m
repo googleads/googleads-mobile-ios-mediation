@@ -1,7 +1,7 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2017 Google, Inc.
 //
-// ExampleNativeAppInstallAdView.m
+// ExampleUnifiedNativeAdView.m
 // Mediation Example
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,8 @@
 // limitations under the License.
 //
 
-#import "ExampleNativeAppInstallAdView.h"
+#import "ExampleUnifiedNativeAdView.h"
 
-@implementation ExampleNativeAppInstallAdView
+@implementation ExampleUnifiedNativeAdView
 
 @end
