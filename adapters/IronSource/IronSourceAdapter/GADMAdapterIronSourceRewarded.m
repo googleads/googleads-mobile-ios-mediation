@@ -23,7 +23,10 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 
 @end
 
+// Internal state for IronSource SDK Initialisation for RewardedVideo.
 static BOOL initRewardedVideoSuccessfully = NO;
+
+// Internal state to acknowledge first availability callback on registered instance id.
 static BOOL recivedAvailability = NO;
 
 @implementation GADMAdapterIronSourceRewarded
