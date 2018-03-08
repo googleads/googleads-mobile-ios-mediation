@@ -24,10 +24,10 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 @end
 
 // Internal state for IronSource SDK Initialisation for RewardedVideo.
-static BOOL initRewardedVideoSuccessfully = NO;
+static BOOL didIronSourceInitiateRewardedVideo = NO;
 
 // Internal state to acknowledge first availability callback on registered instance id.
-static BOOL recivedAvailability = NO;
+static BOOL didIronSourceReceiveFirstAvailability = NO;
 
 @implementation GADMAdapterIronSourceRewarded
 
@@ -63,8 +63,8 @@ static BOOL recivedAvailability = NO;
         [self parseCredentials];
         
         [IronSource setISDemandOnlyRewardedVideoDelegate:self];
-        if (!initRewardedVideoSuccessfully) {
-            initRewardedVideoSuccessfully = YES;
+        if (!didIronSourceInitiateRewardedVideo) {
+            didIronSourceInitiateRewardedVideo = YES;
             [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_REWARDED_VIDEO];
         }
     } else {
@@ -84,7 +84,7 @@ static BOOL recivedAvailability = NO;
     /* Parse all other credentials */
     [self parseCredentials];
     
-    if (recivedAvailability) {
+    if (didIronSourceReceiveFirstAvailability) {
         id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
         
         if([IronSource hasISDemandOnlyRewardedVideo:self.instanceId]) {
@@ -92,15 +92,15 @@ static BOOL recivedAvailability = NO;
             [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
         }
         else {
-            NSError *AvailableAdsError = [self createErrorWith:@"IronSource network isn't available"
+            NSError *availableAdsError = [self createErrorWith:@"IronSource network isn't available"
                                                      andReason:@"Network fill issue"
-                                                 andSuggestion:@"Please talk with your PM and check that your network configuration are according to the documentation."];
-            [strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:AvailableAdsError];
+                                                 andSuggestion:@"Check that your network configuration are according to the documentation."];
+            [strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:availableAdsError];
         }
     } else {
         // We are waiting for a response from IronSource SDK (see: 'rewardedVideoHasChangedAvailability').
-        // Once we retrived a response we notify MOPUB for avialbilty.
-        // From then on for every other load we update MOPUB with IronSource rewarded video current availability (see: 'hasAdAvailable').
+        // Once we retrived a response we notify AdMob for availability.
+        // From then on for every other load we update AdMob with IronSource rewarded video current availability (see: 'hasISDemandOnlyRewardedVideo').
     }
 }
 
@@ -142,8 +142,6 @@ static BOOL recivedAvailability = NO;
 #pragma mark IronSource Rewarded Video Delegate implementation
 
 /// Invoked when there is a change in the ad availability status.
-/// hasAvailableAds - value will change to YES when rewarded videos are available. You can then show
-/// the video by calling showRV(). Value will change to NO when no videos are available.
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
     [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo has changed availability - %@, for instance: %@ " , available ? @"YES" : @"NO", instanceId]];
     
@@ -152,8 +150,8 @@ static BOOL recivedAvailability = NO;
         return;
     }
     
-    if (!recivedAvailability) {
-        recivedAvailability = YES;
+    if (!didIronSourceReceiveFirstAvailability) {
+        didIronSourceReceiveFirstAvailability = YES;
         id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
         if (available) {
             [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
@@ -166,12 +164,9 @@ static BOOL recivedAvailability = NO;
     }
 }
 
-/*!
- * @discussion Invoked when the user completed the video and should be rewarded.
- *
- *              If using server-to-server callbacks you may ignore these events and wait for the callback from the IronSource server.
- *              placementInfo - IronSourcePlacementInfo - an object contains the placement's reward name and amount
- */
+
+/// Invoked when the user completed the video and should be rewarded.
+/// placementInfo - IronSourcePlacementInfo - an object contains the placement's reward name and amount
 - (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
     
     GADAdReward *reward;
@@ -190,12 +185,10 @@ static BOOL recivedAvailability = NO;
     }
 }
 
-/*!
- * @discussion Invoked when an Ad failed to display.
- *
- *          error - NSError which contains the reason for the failure.
- *          The error contains error.code and error.localizedDescription
- */
+
+/// Invoked when an Ad failed to display.
+/// error - NSError which contains the reason for the failure.
+/// The error contains error.code and error.localizedDescription
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
     NSString *log =[NSString stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, for intance: %@", error.description, instanceId];
     [self onLog:log];

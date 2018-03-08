@@ -19,8 +19,7 @@
 }
 
 // IronSource internal reporting const.
-NSString *const kGADMMediationName = @"AdMob";
-NSString *const kGADMAdapterIronSourceVersion = @"2.6.1";
+NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
 
 // IronSource parameters keys.
 NSString *const kGADMAdapterIronSourceAppKey = @"appKey";

@@ -21,7 +21,7 @@
 
 @end
 
-static BOOL initInterstitialSuccessfully;
+static BOOL didIronSourceInitiateInterstitial;
 
 
 @implementation GADMAdapterIronSource
@@ -59,8 +59,8 @@ static BOOL initInterstitialSuccessfully;
     
     if (![self isEmpty:applicationKey]) {
         [IronSource setISDemandOnlyInterstitialDelegate:self];
-        if (!initInterstitialSuccessfully) {
-            initInterstitialSuccessfully = YES;
+        if (!didIronSourceInitiateInterstitial) {
+            didIronSourceInitiateInterstitial = YES;
             [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_INTERSTITIAL];
         }
         [self loadInterstitialAd];
