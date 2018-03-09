@@ -20,6 +20,7 @@
 
 // IronSource internal reporting const.
 NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
+NSString *const kGADMAdapterIronSourceAdapterVersion = @"6.7.7.0";
 
 // IronSource parameters keys.
 NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
@@ -30,7 +31,7 @@ NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 #pragma mark - Admob
 
 + (NSString *)adapterVersion {
-  return [IronSource sdkVersion];
+  return kGADMAdapterIronSourceAdapterVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
