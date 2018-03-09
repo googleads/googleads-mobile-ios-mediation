@@ -17,6 +17,6 @@
 
 /// Adapter for communicating with the IronSource Network to fetch nterstitial video ads.
 @interface GADMAdapterIronSource
-    : GADMAdapterIronSourceBase<GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
+    : GADMAdapterIronSourceBase <GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
 
 @end

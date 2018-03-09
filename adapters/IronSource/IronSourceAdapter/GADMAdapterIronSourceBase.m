@@ -15,20 +15,23 @@
 #import "GADMAdapterIronSourceBase.h"
 
 @implementation GADMAdapterIronSourceBase {
-  BOOL _initSucceeded;
+  
 }
 
 // IronSource internal reporting const.
-NSString *const kGADMMediationName = @"AdMob";
+NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
+NSString *const kGADMAdapterIronSourceAdapterVersion = @"6.7.7.0";
+
 // IronSource parameters keys.
 NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
 NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 
+
 #pragma mark - Admob
 
 + (NSString *)adapterVersion {
-  return [IronSource sdkVersion];
+  return kGADMAdapterIronSourceAdapterVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -36,7 +39,6 @@ NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 }
 
 - (void)stopBeingDelegate {
-  [self onLog:@"stopBeingDelegate"];
 }
 
 #pragma mark Utils Methods
@@ -51,15 +53,8 @@ NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 }
 
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
-  // 1 - We are not sending user ID from adapters anymore,
-  //     the IronSource SDK will take care of this identifier.
-  // 2 - We assume the init is always successful (we will fail in load if needed).
-  if (!_initSucceeded) {
-    [self onLog:@"initIronSourceSDKWithAppKey"];
     [IronSource setMediationType:kGADMMediationName];
-    [IronSource initISDemandOnly:appKey adUnits:@[ adUnit ]];
-    _initSucceeded = YES;
-  }
+    [IronSource initISDemandOnly:appKey adUnits:@[adUnit]];
 }
 
 - (void)onLog:(NSString *)log {
