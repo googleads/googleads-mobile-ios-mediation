@@ -20,9 +20,8 @@
 }
 
 @end
-
+// Internal state for IronSource SDK Initialisation for Interstitial.
 static BOOL didIronSourceInitiateInterstitial;
-
 
 @implementation GADMAdapterIronSource
 
@@ -183,3 +182,4 @@ static BOOL didIronSourceInitiateInterstitial;
 }
 
 @end
+

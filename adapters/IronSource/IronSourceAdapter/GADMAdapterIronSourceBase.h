@@ -26,26 +26,19 @@ extern NSString *const kGADMAdapterIronSourceInstanceId;
 
 /// Yes if we want to show IronSource adapter logs.
 @property(nonatomic, assign) BOOL isLogEnabled;
-
 /// Holds the ID of the ad instance to be presented.
 @property(nonatomic, strong) NSString *instanceId;
 
 + (NSString *)adapterVersion;
-
 + (Class<GADAdNetworkExtras>)networkExtrasClass;
-
 - (void)stopBeingDelegate;
 
 // IronSource Util methods.
-
 - (void)onLog:(NSString *)log;
-
 - (BOOL)isEmpty:(id)value;
-
 - (NSError *)createErrorWith:(NSString *)description
                    andReason:(NSString *)reason
                andSuggestion:(NSString *)suggestion;
-
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit;
 
 @end
