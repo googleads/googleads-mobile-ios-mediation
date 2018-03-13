@@ -27,7 +27,6 @@ NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
 NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 
-
 #pragma mark - Admob
 
 + (NSString *)adapterVersion {
@@ -53,7 +52,7 @@ NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 }
 
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
-    [IronSource setMediationType:kGADMMediationName];
+    [IronSource setMediationType:kGADMAdapterIronSourceMediationName];
     [IronSource initISDemandOnly:appKey adUnits:@[adUnit]];
 }
 

@@ -19,8 +19,6 @@
 /// Holds Shared code for IronSource adapters.
 @interface GADMAdapterIronSourceBase : NSObject
 
-// IronSource internal reporting const.
-extern NSString *const kGADMMediationName;
 // IronSource parameters keys.
 extern NSString *const kGADMAdapterIronSourceAppKey;
 extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
