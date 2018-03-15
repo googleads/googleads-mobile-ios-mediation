@@ -20,12 +20,14 @@
 
 @interface GADMAdapterMyTargetNative () <MTRGNativeAdDelegate, GADMediatedNativeAdDelegate>
 
+@property(nonatomic, strong) MTRGNativeAd *nativeAd;
+
 @end
 
 @implementation GADMAdapterMyTargetNative {
-  MTRGNativeAd *_nativeAd;
   id<GADMediatedNativeAd> _mediatedNativeAd;
   __weak id<GADMAdNetworkConnector> _connector;
+  MTRGMediaAdView *_mediaAdView;
   BOOL _isContentAdRequested;
   BOOL _isAppInstallAdRequested;
   BOOL _autoLoadImages;
@@ -169,10 +171,12 @@
   MTRGLogInfo();
   guard(strongConnector) else return;
 
+  _mediaAdView = [MTRGNativeViewsFactory createMediaAdView];
   _mediatedNativeAd =
       [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner
                                                                         delegate:self
-                                                                  autoLoadImages:_autoLoadImages];
+                                                                  autoLoadImages:_autoLoadImages
+                                                                     mediaAdView:_mediaAdView];
   guard(_mediatedNativeAd) else {
     MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
     [strongConnector adapter:self
@@ -237,6 +241,24 @@
   [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:_mediatedNativeAd];
 }
 
+- (void)onVideoPlayWithNativeAd:(MTRGNativeAd *)nativeAd {
+  MTRGLogInfo();
+  guard(_mediatedNativeAd) else return;
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:_mediatedNativeAd];
+}
+
+- (void)onVideoPauseWithNativeAd:(MTRGNativeAd *)nativeAd {
+  MTRGLogInfo();
+  guard(_mediatedNativeAd) else return;
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:_mediatedNativeAd];
+}
+
+- (void)onVideoCompleteWithNativeAd:(MTRGNativeAd *)nativeAd {
+  MTRGLogInfo();
+  guard(_mediatedNativeAd) else return;
+  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:_mediatedNativeAd];
+}
+
 #pragma mark - GADMediatedNativeAdDelegate
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
@@ -244,7 +266,15 @@
           viewController:(UIViewController *)viewController {
   MTRGLogInfo();
   guard(_nativeAd) else return;
-  [_nativeAd registerView:view withController:viewController];
+  NSArray<UIView *> *clickableViews = [self clickableViewsWithView:view];
+
+  // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
+  // it will appear a little bit later.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.nativeAd registerView:view
+                 withController:viewController
+             withClickableViews:clickableViews];
+  });
 }
 
 - (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
@@ -262,6 +292,36 @@
   MTRGLogInfo();
   guard(_nativeAd) else return;
   [_nativeAd unregisterView];
+}
+
+#pragma mark - helpers
+
+- (NSArray<UIView *> *)clickableViewsWithView:(UIView *)view {
+  NSMutableArray<UIView *> *clickableViews = [NSMutableArray<UIView *> new];
+  if (_mediaAdView) [clickableViews addObject:_mediaAdView];
+  if ([view isKindOfClass:[GADNativeContentAdView class]]) {
+    GADNativeContentAdView *contentAdView = (GADNativeContentAdView *)view;
+    if (contentAdView.headlineView) [clickableViews addObject:contentAdView.headlineView];
+    if (contentAdView.bodyView) [clickableViews addObject:contentAdView.bodyView];
+    if (contentAdView.imageView) [clickableViews addObject:contentAdView.imageView];
+    if (contentAdView.logoView) [clickableViews addObject:contentAdView.logoView];
+    if (contentAdView.callToActionView) [clickableViews addObject:contentAdView.callToActionView];
+    if (contentAdView.advertiserView) [clickableViews addObject:contentAdView.advertiserView];
+    if (contentAdView.adChoicesView) [clickableViews addObject:contentAdView.adChoicesView];
+  } else if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
+    GADNativeAppInstallAdView *appInstallAdView = (GADNativeAppInstallAdView *)view;
+    if (appInstallAdView.headlineView) [clickableViews addObject:appInstallAdView.headlineView];
+    if (appInstallAdView.callToActionView)
+      [clickableViews addObject:appInstallAdView.callToActionView];
+    if (appInstallAdView.iconView) [clickableViews addObject:appInstallAdView.iconView];
+    if (appInstallAdView.bodyView) [clickableViews addObject:appInstallAdView.bodyView];
+    if (appInstallAdView.storeView) [clickableViews addObject:appInstallAdView.storeView];
+    if (appInstallAdView.priceView) [clickableViews addObject:appInstallAdView.priceView];
+    if (appInstallAdView.imageView) [clickableViews addObject:appInstallAdView.imageView];
+    if (appInstallAdView.starRatingView) [clickableViews addObject:appInstallAdView.starRatingView];
+    if (appInstallAdView.adChoicesView) [clickableViews addObject:appInstallAdView.adChoicesView];
+  }
+  return clickableViews;
 }
 
 @end

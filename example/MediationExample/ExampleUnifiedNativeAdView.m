@@ -1,7 +1,7 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2017 Google, Inc.
 //
-// ExampleNativeAppInstallAdView.h
+// ExampleUnifiedNativeAdView.m
 // Mediation Example
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,8 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
+#import "ExampleUnifiedNativeAdView.h"
 
-@interface ExampleNativeAppInstallAdView : GADNativeAppInstallAdView
-
-@property(nonatomic, weak) IBOutlet UILabel *degreeOfAwesomenessView;
+@implementation ExampleUnifiedNativeAdView
 
 @end

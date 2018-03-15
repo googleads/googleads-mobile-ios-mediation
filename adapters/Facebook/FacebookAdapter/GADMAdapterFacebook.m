@@ -14,20 +14,21 @@
 
 #import "GADMAdapterFacebook.h"
 
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
+@import FBAudienceNetwork;
 
+#import "GADFBAdapterDelegate.h"
 #import "GADFBBannerAd.h"
 #import "GADFBError.h"
 #import "GADFBInterstitialAd.h"
 #import "GADFBNativeAd.h"
 #import "GADFBNetworkExtras.h"
-#import "GADFBAdapterDelegate.h"
 #import "GADFBRewardedVideoAd.h"
 
 @interface GADMAdapterFacebook () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
-  /// Connector from Google Mobile Ads SDK to receive reward-based video ad configurations.
+  /// Connector from Google Mobile Ads SDK to receive reward-based video ad
+  /// configurations.
   __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
 
   /// Facebook Audience Network banner ad wrapper.
@@ -44,7 +45,7 @@
 @implementation GADMAdapterFacebook
 
 + (NSString *)adapterVersion {
-  return @"4.26.1.0";
+  return @"4.27.2.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -118,7 +119,8 @@
 
 #pragma mark Reward-based Video Ad Methods
 
-/// Initializes and returns a sample adapter with a reward based video ad connector.
+/// Initializes and returns a sample adapter with a reward based video ad
+/// connector.
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
         (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   if (!connector) {
@@ -139,8 +141,9 @@
   [_rewardedVideoAd setUp];
 }
 
-/// Tells the adapter to request a reward based video ad, if checkAdAvailability is true. Otherwise,
-/// the connector notifies the adapter that the reward based video ad failed to load.
+/// Tells the adapter to request a reward based video ad, if checkAdAvailability
+/// is true. Otherwise, the connector notifies the adapter that the reward based
+/// video ad failed to load.
 - (void)requestRewardBasedVideoAd {
   id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
   if ([strongConnector respondsToSelector:@selector(childDirectedTreatment)] &&
@@ -150,8 +153,9 @@
   [_rewardedVideoAd getRewardedVideoAd];
 }
 
-/// Tells the adapter to present the reward based video ad with the provided view controller, if the
-/// ad is available. Otherwise, logs a message with the reason for failure.
+/// Tells the adapter to present the reward based video ad with the provided
+/// view controller, if the ad is available. Otherwise, logs a message with the
+/// reason for failure.
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
   [_rewardedVideoAd presentRewardedVideoAdFromRootViewController:viewController];
 }

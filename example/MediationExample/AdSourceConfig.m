@@ -32,7 +32,6 @@ NSString *const kCustomEventSwiftBannerAdUnitID = @"ca-app-pub-3940256099942544/
 NSString *const kCustomEventSwiftInterstitialAdUnitID = @"ca-app-pub-3940256099942544/6597517739";
 NSString *const kCustomEventSwiftNativeAdUnitID = @"ca-app-pub-3940256099942544/1645833135";
 
-
 @implementation AdSourceConfig
 
 + (instancetype)configWithType:(AdSourceType)adSourceType {
@@ -101,6 +100,5 @@ NSString *const kCustomEventSwiftNativeAdUnitID = @"ca-app-pub-3940256099942544/
       return @"SampleAdSDK Adapter";
   }
 }
-
 
 @end

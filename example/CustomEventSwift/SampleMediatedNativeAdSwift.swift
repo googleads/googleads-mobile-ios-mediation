@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2017 Google, Inc.
 //
-// SampleMediatedNativeAppInstallAdSwift.swift
+// SampleMediatedNativeAdSwift.swift
 // Mediation Example
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,20 +20,19 @@ import Foundation
 import GoogleMobileAds
 import SampleAdSDK
 
-/// This class is responsible for "mapping" a native app install ad to the interface
+/// This class is responsible for "mapping" a native ad to the interface
 /// expected by the Google Mobile Ads SDK. The names and data types of assets provided
 /// by a mediated network don't always line up with the ones expected by the Google
 /// Mobile Ads SDK (one might have "title" while the other expects "headline," for
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
-class SampleMediatedNativeAppInstallAdSwift: NSObject {
+class SampleMediatedUnifiedNativeAdSwift: NSObject {
   // You may notice that this class and the Mediation Adapter's
-  // SampleAdapterMediatedNativeAppInstallAd class look an awful lot alike. That's not
+  // SampleAdapterMediatedNativeAd class look an awful lot alike. That's not
   // by accident. They're the same class, with the same methods and properties,
   // but with two different names.
   //
   // Mediation adapters and custom events map their native ads for the
-  // Google Mobile Ads SDK using extensions of the same two classes:
-  // GADMediatedNativeAppInstallAd and GADMediatedNativeContentAd. Because both
+  // Google Mobile Ads SDK using an extension of GADMediatedUnifiedNativeAd. Because both
   // the adapter and custom event in this example are mediating the same Sample
   // SDK, they both need the same work done: take a native ad object from the
   // Sample SDK and map it to the interface the Google Mobile Ads SDK expects.
@@ -41,19 +40,19 @@ class SampleMediatedNativeAppInstallAdSwift: NSObject {
   //
   // Because we wanted this project to have a complete example of an
   // adapter and a complete example of a custom event (and we didn't want to
-  // share code between them), they each get their own copies of these classes,
+  // share code between them), they each get their own copies of this class,
   // with slightly different names.
 
-  var sampleAd: SampleNativeAppInstallAd
-  var mappedImages = [Any]()
+  var sampleAd: SampleNativeAd
+  var mappedImages = [GADNativeAdImage]()
   var mappedIcon: GADNativeAdImage?
-  var extras = [AnyHashable: Any]()
+  var extras = [String: Any]()
   var nativeAdViewAdOptions: GADNativeAdViewAdOptions?
   let adInfoView = SampleAdInfoView()
 
-  init(sampleNativeAppInstallAd: SampleNativeAppInstallAd, nativeAdViewAdOptions: GADNativeAdViewAdOptions?) {
+  init(sampleNativeAd: SampleNativeAd, nativeAdViewAdOptions: GADNativeAdViewAdOptions?) {
 
-    sampleAd = sampleNativeAppInstallAd
+    sampleAd = sampleNativeAd
     super.init()
 
     extras = [SampleCustomEventConstantsSwift.awesomenessKey: sampleAd.degreeOfAwesomeness ?? ""]
@@ -68,7 +67,7 @@ class SampleMediatedNativeAppInstallAdSwift: NSObject {
       mappedIcon = GADNativeAdImage(image: icon)
     }
     else {
-      let iconURL = URL(fileURLWithPath: sampleNativeAppInstallAd.iconURL)
+      let iconURL = URL(fileURLWithPath: sampleNativeAd.iconURL)
       mappedIcon = GADNativeAdImage(url: iconURL, scale: sampleAd.iconScale)
     }
     self.nativeAdViewAdOptions = nativeAdViewAdOptions
@@ -76,75 +75,76 @@ class SampleMediatedNativeAppInstallAdSwift: NSObject {
 
 }
 
-extension SampleMediatedNativeAppInstallAdSwift : GADMediatedNativeAppInstallAd {
+/// This is a concrete implementation for the GADMediatedUnifiedNativeAd protocol.
+extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
 
-  func headline() -> String? {
+  var advertiser : String? {
+    return sampleAd.advertiser
+  }
+
+  var headline : String? {
     return sampleAd.headline
   }
 
-  func images() -> [Any]? {
+  var images : [GADNativeAdImage]? {
     return mappedImages
   }
 
-  func body() -> String? {
+  var body : String? {
     return sampleAd.body
   }
 
-  func icon() -> GADNativeAdImage? {
+  var icon : GADNativeAdImage? {
     return mappedIcon
   }
 
-  func callToAction() -> String? {
+  var callToAction : String? {
     return sampleAd.callToAction
   }
 
-  func starRating() -> NSDecimalNumber? {
+  var starRating : NSDecimalNumber? {
     return sampleAd.starRating
   }
 
-  func store() -> String? {
+  var store : String? {
     return sampleAd.store
   }
 
-  func price() -> String? {
+  var price : String? {
     return sampleAd.price
   }
 
-  func extraAssets() -> [AnyHashable : Any]? {
+  var adChoicesView : UIView? {
+    return adInfoView
+  }
+
+  var extraAssets : [String : Any]? {
     return extras
   }
 
-  func mediatedNativeAdDelegate() -> GADMediatedNativeAdDelegate? {
-    return self
-  }
-
-  func adChoicesView() -> UIView? {
-    return adInfoView
-  }
-}
-
-extension SampleMediatedNativeAppInstallAdSwift: GADMediatedNativeAdDelegate {
-
-  // Because the Sample SDK handles click and impression tracking via methods on its native
-  // ad object, there's no need to pass it a reference to the UIView being used to display
-  // the native ad. So there's no need to implement mediatedNativeAd:didRenderInView:viewController
-  // here. If your mediated network does need a reference to the view, this method can be used to
-  // provide one.
-  func mediatedNativeAd(_ mediatedNativeAd: GADMediatedNativeAd, didRenderIn view: UIView, viewController: UIViewController) {
-    // This method is called when the native ad view is rendered. Here you would pass the UIView back
-    // to the mediated network's SDK.
-  }
-
-  func mediatedNativeAd(_ mediatedNativeAd: GADMediatedNativeAd, didUntrackView view: UIView?) {
-    // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
-    // Here you would remove any tracking from the view that has mediated native ad.
-  }
-
-  func mediatedNativeAdDidRecordImpression(_ mediatedNativeAd: GADMediatedNativeAd) {
+  func didRecordImpression() {
     sampleAd.recordImpression()
   }
 
-  func mediatedNativeAd(_ mediatedNativeAd: GADMediatedNativeAd, didRecordClickOnAssetWithName assetName: String, view: UIView, viewController: UIViewController) {
+  // Because the Sample SDK has click and impression tracking via methods on its native ad object
+  // which the developer is required to call, there's no need to pass it a reference to the UIView
+  // being used to display the native ad. So there's no need to implement
+  // mediatedNativeAd:didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews here.
+  // If your mediated network does need a reference to the view, this method can be used to provide
+  // one.
+  // You can also access the clickable and non-clickable views by asset key if the mediation network
+  // needs this information.
+  func didRender(in view: UIView, clickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView], nonclickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView], viewController: UIViewController) {
+    // This method is called when the native ad view is rendered. Here you would pass the UIView
+    // back to the mediated network's SDK.
+  }
+
+  func didRecordClickOnAsset(withName assetName: GADUnifiedNativeAssetIdentifier, view: UIView, viewController: UIViewController) {
     sampleAd.handleClick(on: view)
+  }
+
+  func didUntrackView(_ view: UIView?) {
+    // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
+    // Here you would remove any tracking from the view that has mediated native ad.
   }
 }

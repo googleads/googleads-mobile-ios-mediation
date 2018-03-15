@@ -1,8 +1,8 @@
 //
-// Copyright (C) 2015 Google, Inc.
+// Copyright (C) 2017 Google, Inc.
 //
-// SampleMediatedNativeContentAd.h
-// Sample Ad Network Custom Event
+// SampleAdapterMediatedNativeAd.h
+// Sample Ad Network Adapter
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@
 @import GoogleMobileAds;
 @import SampleAdSDK;
 
-/// This class is responsible for "mapping" a native content ad to the interface
+/// This class is responsible for "mapping" a native ad to the interface
 /// expected by the Google Mobile Ads SDK. The names and data types of assets provided
 /// by a mediated network don't always line up with the ones expected by the Google
 /// Mobile Ads SDK (one might have "title" while the other expects "headline," for
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
-@interface SampleMediatedNativeContentAd : NSObject<GADMediatedNativeContentAd>
+@interface SampleAdapterMediatedNativeAd : NSObject<GADMediatedUnifiedNativeAd, GADMediatedNativeAd>
 
 - (null_unspecified instancetype)init NS_UNAVAILABLE;
 
-- (nullable instancetype)initWithSampleNativeContentAd:
-            (nonnull SampleNativeContentAd *)sampleNativeContentAd
-                                 nativeAdViewAdOptions:
-            (nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithSampleNativeAd:(nonnull SampleNativeAd *)sampleNativeAd
+                          nativeAdViewAdOptions:
+                              (nullable GADNativeAdViewAdOptions *)nativeAdViewAdOptions
+    NS_DESIGNATED_INITIALIZER;
 
 @end

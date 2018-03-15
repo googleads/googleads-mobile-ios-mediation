@@ -14,8 +14,7 @@
 
 #import "GADFBRewardedVideoAd.h"
 
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
-
+@import FBAudienceNetwork;
 @import GoogleMobileAds;
 
 #import "GADFBAdapterDelegate.h"

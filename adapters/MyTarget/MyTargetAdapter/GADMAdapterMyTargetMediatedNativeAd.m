@@ -29,13 +29,15 @@
   NSString *_body;
   NSArray<GADNativeAdImage *> *_images;
   GADNativeAdImage *_logo;
+  MTRGMediaAdView *_mediaAdView;
   NSString *_callToAction;
   NSString *_advertiser;
   NSMutableDictionary *_extraAssets;
 }
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
-                           delegate:(id<GADMediatedNativeAdDelegate>)delegate {
+                           delegate:(id<GADMediatedNativeAdDelegate>)delegate
+                        mediaAdView:(MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _delegate = delegate;
@@ -49,6 +51,8 @@
       GADNativeAdImage *image =
           [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
       _images = (image != nil) ? @[ image ] : nil;
+
+      _mediaAdView = mediaAdView;
 
       _extraAssets = [NSMutableDictionary new];
       [self addExtraAsset:promoBanner.advertisingLabel
@@ -101,6 +105,14 @@
   return nil;
 }
 
+- (UIView *)mediaView {
+  return _mediaAdView;
+}
+
+- (BOOL)hasVideoContent {
+  return YES;
+}
+
 @end
 
 @interface GADMAdapterMyTargetMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
@@ -113,13 +125,15 @@
   NSString *_body;
   NSArray<GADNativeAdImage *> *_images;
   GADNativeAdImage *_icon;
+  MTRGMediaAdView *_mediaAdView;
   NSString *_callToAction;
   NSDecimalNumber *_starRating;
   NSMutableDictionary *_extraAssets;
 }
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
-                           delegate:(id<GADMediatedNativeAdDelegate>)delegate {
+                           delegate:(id<GADMediatedNativeAdDelegate>)delegate
+                        mediaAdView:(MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _delegate = delegate;
@@ -133,6 +147,8 @@
       GADNativeAdImage *image =
           [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
       _images = (image != nil) ? @[ image ] : nil;
+
+      _mediaAdView = mediaAdView;
 
       _extraAssets = [NSMutableDictionary new];
       [self addExtraAsset:promoBanner.advertisingLabel
@@ -199,6 +215,14 @@
   return nil;
 }
 
+- (UIView *)mediaView {
+  return _mediaAdView;
+}
+
+- (BOOL)hasVideoContent {
+  return YES;
+}
+
 @end
 
 @implementation GADMAdapterMyTargetMediatedNativeAd
@@ -206,7 +230,8 @@
 + (id<GADMediatedNativeAd>)
     mediatedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
                                  delegate:(id<GADMediatedNativeAdDelegate>)delegate
-                           autoLoadImages:(BOOL)autoLoadImages {
+                           autoLoadImages:(BOOL)autoLoadImages
+                              mediaAdView:(MTRGMediaAdView *)mediaAdView {
   if (promoBanner.navigationType == MTRGNavigationTypeWeb) {
     guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
           promoBanner.ctaText && promoBanner.domain) else return nil;
@@ -214,7 +239,8 @@
           (!autoLoadImages && promoBanner.image.url)) else return nil;
     GADMAdapterMyTargetMediatedNativeContentAd *mediatedNativeContentAd =
         [[GADMAdapterMyTargetMediatedNativeContentAd alloc] initWithPromoBanner:promoBanner
-                                                                       delegate:delegate];
+                                                                       delegate:delegate
+                                                                    mediaAdView:mediaAdView];
     return mediatedNativeContentAd;
   } else if (promoBanner.navigationType == MTRGNavigationTypeStore) {
     guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
@@ -225,7 +251,8 @@
           (!autoLoadImages && promoBanner.icon.url)) else return nil;
     GADMAdapterMyTargetMediatedNativeAppInstallAd *mediatedNativeAppInstallAd =
         [[GADMAdapterMyTargetMediatedNativeAppInstallAd alloc] initWithPromoBanner:promoBanner
-                                                                          delegate:delegate];
+                                                                          delegate:delegate
+                                                                       mediaAdView:mediaAdView];
     return mediatedNativeAppInstallAd;
   }
   return nil;

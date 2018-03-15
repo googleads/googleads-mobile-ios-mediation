@@ -1,5 +1,12 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.20.0.0
+- The adapter now returns a media view for every native ad.
+- Verified compatibility with MoPub SDK 4.20.0.
+
+## Version 4.19.0.0
+- Verified compatibility with MoPub SDK 4.19.0.
+
 ## Version 4.18.0.0
 - Verified compatibility with MoPub SDK 4.18.0.
 
