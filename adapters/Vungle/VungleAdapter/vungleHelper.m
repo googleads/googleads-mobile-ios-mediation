@@ -1,6 +1,6 @@
 #import "vungleHelper.h"
 
-static NSString *const vungleAdapterVersion = @"5.3.2";
+static NSString *const vungleAdapterVersion = @"5.4.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
@@ -196,9 +196,14 @@ static NSString *const kPlacementID = @"placementID";
   }
 }
 
-- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(nullable NSString *)placementID {
+- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
+                      placementID:(NSString *)placementID
+                            error:(NSError *)error {
   if (isAdPlayable) {
     [self notifyAdIsReady:placementID];
+  } else if (error) {
+    // do we want to do anything with the error here?
+    NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
   }
 }
 
