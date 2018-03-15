@@ -1,6 +1,6 @@
 #import "vungleHelper.h"
 
-static NSString *const vungleAdapterVersion = @"5.4.0";
+static NSString *const vungleAdapterVersion = @"5.4.0.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";

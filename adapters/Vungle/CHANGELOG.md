@@ -1,5 +1,8 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 5.4.0.0
+- Verified compatibility with Vungle SDK 5.4.0.
+
 ## VERSION 5.3.2.0
 - Added two new extras to `VungleAdNetworkExtras`:
   - `ordinal` - An integer indicating the order in which this ad was shown in
