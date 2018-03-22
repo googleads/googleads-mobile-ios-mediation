@@ -99,8 +99,8 @@ static CGFloat const DefaultIconScale = 1.0;
             NSData *imageData = [NSData dataWithContentsOfURL:url];
             UIImage *image = [UIImage imageWithData:imageData];
             if (image) {
-                [imageCache setObject:cachedImage forKey:cacheKey];
                 cachedImage = image;
+                [imageCache setObject:cachedImage forKey:cacheKey];
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
