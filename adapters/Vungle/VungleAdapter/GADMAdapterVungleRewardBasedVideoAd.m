@@ -1,6 +1,7 @@
 #import "GADMAdapterVungleRewardBasedVideoAd.h"
-#import "vungleHelper.h"
+#import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
 #import "VungleAdNetworkExtras.h"
+#import "vungleHelper.h"
 
 @interface GADMAdapterVungleRewardBasedVideoAd ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
