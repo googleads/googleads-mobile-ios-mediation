@@ -21,7 +21,6 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 
 /// Internal to MoPub
 static NSString *const kAdapterTpValue = @"gmext";
-Boolean shouldDownloadImages;
 
 @interface GADMAdapterMoPub () <MPNativeAdDelegate, MPAdViewDelegate,
                                 MPInterstitialAdControllerDelegate>
@@ -35,13 +34,14 @@ Boolean shouldDownloadImages;
 @property(nonatomic, strong) MPImageDownloadQueue *imageDownloadQueue;
 @property(nonatomic, strong) NSMutableDictionary *imagesDictionary;
 @property(nonatomic, strong) GADNativeAdViewAdOptions *nativeAdViewAdOptions;
+@property(nonatomic, assign) BOOL shouldDownloadImages;
 
 @end
 
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"4.20.0.0";
+  return @"4.20.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -62,37 +62,36 @@ Boolean shouldDownloadImages;
   _interstitialAd.delegate = nil;
 }
 
-- (NSString *) getKeywords {
-
- NSDate *birthday = [_connector userBirthday];
+- (NSString *)getKeywords {
+  NSDate *birthday = [_connector userBirthday];
   NSString *ageString = @"";
 
-if (birthday) {
+  if (birthday) {
     NSInteger ageInteger = [self ageFromBirthday:birthday];
     ageString = [@"m_age:" stringByAppendingString:[@(ageInteger) stringValue]];
-}
+  }
 
-GADGender gender = [_connector userGender];
-NSString *genderString = @"";
+  GADGender gender = [_connector userGender];
+  NSString *genderString = @"";
 
-if (gender == kGADGenderMale) {
+  if (gender == kGADGenderMale) {
     genderString = @"m_gender:m";
-} else if (gender == kGADGenderFemale) {
+  } else if (gender == kGADGenderFemale) {
     genderString = @"m_gender:f";
-}
+  }
 
-NSString *keywordsBuilder = [NSString stringWithFormat: @"%@,%@,%@", kAdapterTpValue, ageString, genderString];
-return keywordsBuilder;
+  NSString *keywordsBuilder =
+      [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
+  return keywordsBuilder;
 }
 
 - (NSInteger)ageFromBirthday:(NSDate *)birthdate {
-NSDate *today = [NSDate date];
-NSDateComponents *ageComponents = [[NSCalendar currentCalendar]
-                                   components:NSCalendarUnitYear
-                                   fromDate:birthdate
-                                   toDate:today
-                                   options:0];
-return ageComponents.year;
+  NSDate *today = [NSDate date];
+  NSDateComponents *ageComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear
+                                                                    fromDate:birthdate
+                                                                      toDate:today
+                                                                     options:0];
+  return ageComponents.year;
 }
 
 #pragma mark - Interstitial Ads
@@ -221,14 +220,14 @@ return ageComponents.year;
     } else {
       _nativeAd = response;
       _nativeAd.delegate = self;
-      shouldDownloadImages = YES;
+      _shouldDownloadImages = YES;
 
       if (options != nil) {
         for (GADAdLoaderOptions *loaderOptions in options) {
           if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
             GADNativeAdImageAdLoaderOptions *imageOptions =
                 (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-            shouldDownloadImages = !imageOptions.disableImageLoading;
+            _shouldDownloadImages = !imageOptions.disableImageLoading;
           } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
             _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
           }
@@ -353,7 +352,7 @@ return ageComponents.year;
                }
              }];
   } else {
-    if (shouldDownloadImages) {
+    if (_shouldDownloadImages) {
       _mediatedAd =
           [[MoPubAdapterMediatedNativeAd alloc] initWithMoPubNativeAd:self.nativeAd
                                                          mappedImages:_imagesDictionary
