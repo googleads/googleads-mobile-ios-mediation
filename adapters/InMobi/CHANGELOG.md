@@ -1,5 +1,9 @@
 # InMobi Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.0.4.1
+- Fixed an issue causing duplicate symbol errors when the adapter was used with
+  those of other networks.
+
 ## Version 7.0.4.0
 - Updated the adapter to make it compatibility with InMobi SDK 7.0.4.
 - Added support for native video ads.
