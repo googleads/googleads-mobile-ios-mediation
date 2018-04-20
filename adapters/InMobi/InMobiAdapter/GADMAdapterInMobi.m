@@ -40,7 +40,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return @"7.0.4.0";
+  return @"7.1.0.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -102,8 +102,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
     if (self.extraInfo.areaCode != nil) [IMSdk setAreaCode:self.extraInfo.areaCode];
     if (self.extraInfo.interests != nil) [IMSdk setInterests:self.extraInfo.interests];
     if (self.extraInfo.age != nil) [IMSdk setAge:self.extraInfo.age];
-    if (self.extraInfo.nationality != nil) [IMSdk setNationality:self.extraInfo.nationality];
-    if (self.extraInfo.income != nil) [IMSdk setIncome:self.extraInfo.income];
     if (self.extraInfo.yearOfBirth != nil) [IMSdk setYearOfBirth:self.extraInfo.yearOfBirth];
     if (self.extraInfo.city && self.extraInfo.state && self.extraInfo.country) {
       [IMSdk setLocationWithCity:self.extraInfo.city
@@ -654,5 +652,18 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSLog(@"InMobi recorded impression successfully");
   [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.installAd];
 }
+
+- (void)native:(IMNative *)native didInteractWithParams:(NSDictionary *)params {
+  NSLog(@"User did interact with native");
+}
+
+- (void)nativeDidFinishPlayingMedia:(IMNative *)native {
+  NSLog(@"Native ad finished playing media");
+}
+
+- (void)userDidSkipPlayingMediaFromNative:(IMNative *)native {
+  NSLog(@"User did skip playing media from native");
+}
+
 
 @end

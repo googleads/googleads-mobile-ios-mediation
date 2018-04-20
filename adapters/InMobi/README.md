@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - Xcode 7.0 or higher
-- iOS Deployment target of 7.0 or higher
+- iOS Deployment target of 8.0 or higher
 - Minimum required Google Mobile Ads SDK 7.14.0
 - InMobi SDK
 
