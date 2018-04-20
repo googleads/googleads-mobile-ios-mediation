@@ -89,7 +89,7 @@
     return;
   }
   _rewardedVideoAd.delegate = _adapterDelegate;
-  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]];
+  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_rewardedVideoAd loadAd];
 }
 

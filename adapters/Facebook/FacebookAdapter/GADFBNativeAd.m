@@ -141,7 +141,7 @@ static NSString *const GADNativeAdIcon = @"2";
   _mediaView = [[FBMediaView alloc] initWithNativeAd:_nativeAd];
   _mediaView.delegate = self;
   _nativeAd.delegate = self;
-  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]];
+  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_nativeAd loadAd];
 }
 
