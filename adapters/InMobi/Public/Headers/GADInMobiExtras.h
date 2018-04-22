@@ -13,10 +13,6 @@
 
 #pragma mark Optional Parameters for targeted advertising during an Ad Request
 /**
- * User income in USD.
- */
-@property(nonatomic, assign) unsigned int income;
-/**
  * Age of the user may be used to deliver more relevant ads.
  */
 @property(nonatomic, assign) NSUInteger age;
@@ -37,23 +33,9 @@
  */
 @property(nonatomic, assign) IMSDKEducation educationType;
 /**
- * Ethnicity of the user may be used to deliver more relevant ads.
- */
-@property(nonatomic, assign) IMSDKEthnicity ethnicityType;
-/**
- * Nationality of the user may be used to deliver more relevant ads.
- */
-@property(nonatomic, copy) NSString *nationality;
-/**
- * User's household income to deliver more relevant ads.
- */
-@property(nonatomic, assign) IMSDKHouseholdIncome householdIncome;
-
-/**
 Set InMobi SDK logLevel.
  */
 @property(nonatomic, assign) IMSDKLogLevel logLevel;
-
 /**
  * Year of birth of the user may be used to deliver more relevant ads.
  */

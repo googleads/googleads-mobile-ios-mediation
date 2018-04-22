@@ -1,5 +1,17 @@
 # myTarget Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.7.8.0
+- Verified compatibility with myTarget SDK version 4.7.8.
+
+## Version 4.7.7.0
+- Verified compatibility with myTarget SDK version 4.7.7.
+
+## Version 4.7.6.0
+- Verified compatibility with myTarget SDK version 4.7.6.
+
+## Version 4.7.5.0
+- Verified compatibility with myTarget SDK version 4.7.5.
+
 ## Version 4.7.4.0
 - Verified compatibility with myTarget SDK version 4.7.4.
 

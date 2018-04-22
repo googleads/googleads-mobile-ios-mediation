@@ -7,5 +7,5 @@
 
 #ifndef NendAdapter_GADMAdapterNendSetting_h
 #define NendAdapter_GADMAdapterNendSetting_h
-#define GADM_ADAPTER_NEND_VERSION (@"4.0.3.0")
+#define GADM_ADAPTER_NEND_VERSION (@"4.0.4.0")
 #endif
