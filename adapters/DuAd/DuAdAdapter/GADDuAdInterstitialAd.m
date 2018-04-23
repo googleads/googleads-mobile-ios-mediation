@@ -21,17 +21,17 @@
 #import "GADDuAdError.h"
 
 @interface GADDuAdInterstitialAd () {
-    /// Connector from Google Mobile Ads SDK to receive ad configurations.
-    __weak id<GADMAdNetworkConnector> _connector;
-    
-    /// Adapter for receiving ad request notifications.
-    __weak id<GADMAdNetworkAdapter> _adapter;
-    
-    /// DuAd Audience Network interstitial.
-    DUInterstitialAd *_interstitialAd;
-    
-    /// Handles delegate notifications from interstitialAd.
-    GADDUAdapterDelegate *_adapterDelegate;
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  /// Adapter for receiving ad request notifications.
+  __weak id<GADMAdNetworkAdapter> _adapter;
+
+  /// DuAd Audience Network interstitial.
+  DUInterstitialAd *_interstitialAd;
+
+  /// Handles delegate notifications from interstitialAd.
+  GADDUAdapterDelegate *_adapterDelegate;
 }
 @end
 
@@ -39,56 +39,55 @@
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
                                        adapter:(id<GADMAdNetworkAdapter>)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _connector = connector;
-        _adapterDelegate = [[GADDUAdapterDelegate alloc] initWithAdapter:adapter connector:connector];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _adapter = adapter;
+    _connector = connector;
+    _adapterDelegate = [[GADDUAdapterDelegate alloc] initWithAdapter:adapter connector:connector];
+  }
+  return self;
 }
 
 - (instancetype)init {
-    return nil;
+  return nil;
 }
 
 - (void)getInterstitial {
-    id<GADMAdNetworkConnector> strongConnector = _connector;
-    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    
-    if (!strongConnector || !strongAdapter) {
-        return;
-    }
-    
-    // -[DUInterstitialAd initWithPlacementID:adSize:rootViewController:] throws an
-    // NSInvalidArgumentException if the placement ID is nil.
-    NSString *placementID = [strongConnector credentials][@"placementId"];
-    if (!placementID) {
-        NSError *error = GADDUErrorWithDescription(@"Placement ID cannot be nil.");
-        [strongConnector adapter:strongAdapter didFailAd:error];
-        return;
-    }
-    
-    _interstitialAd = [[DUInterstitialAd alloc] initWithPlacementID:placementID];
-    if (!_interstitialAd) {
-        NSString *description = [NSString
-                                 stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([DUInterstitialAd class])];
-        NSError *error = GADDUErrorWithDescription(description);
-        [strongConnector adapter:strongAdapter didFailAd:error];
-        return;
-    }
-    
-    _interstitialAd.delegate = _adapterDelegate;
-    [_interstitialAd loadAd];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+
+  // -[DUInterstitialAd initWithPlacementID:adSize:rootViewController:] throws an
+  // NSInvalidArgumentException if the placement ID is nil.
+  NSString *placementID = [strongConnector credentials][@"placementId"];
+  if (!placementID) {
+    NSError *error = GADDUErrorWithDescription(@"Placement ID cannot be nil.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
+  _interstitialAd = [[DUInterstitialAd alloc] initWithPlacementID:placementID];
+  if (!_interstitialAd) {
+    NSString *description = [NSString
+        stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([DUInterstitialAd class])];
+    NSError *error = GADDUErrorWithDescription(description);
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
+  _interstitialAd.delegate = _adapterDelegate;
+  [_interstitialAd loadAd];
 }
 
 - (void)stopBeingDelegate {
-    _adapterDelegate = nil;
+  _adapterDelegate = nil;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [_interstitialAd showAdFromRootViewController:rootViewController];
+  [_interstitialAd showAdFromRootViewController:rootViewController];
 }
 
 @end
-
