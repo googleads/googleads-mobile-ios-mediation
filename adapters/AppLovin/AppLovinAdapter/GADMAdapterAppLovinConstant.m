@@ -15,7 +15,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return @"4.8.4.0";
+  return @"4.8.4.1";
 }
 
 + (NSString *)sdkKey {
