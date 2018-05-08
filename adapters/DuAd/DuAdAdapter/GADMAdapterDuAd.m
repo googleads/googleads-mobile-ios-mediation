@@ -33,7 +33,7 @@
 @implementation GADMAdapterDuAd
 
 + (NSString *)adapterVersion {
-  return @"1.0.7.1.0";
+  return @"1.0.8.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
