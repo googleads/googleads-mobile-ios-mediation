@@ -19,6 +19,7 @@
 
 #import "SampleNativeAdLoader.h"
 
+#import "SampleMediaView.h"
 #import "SampleNativeAd.h"
 
 @interface SampleNativeAdLoader ()
@@ -76,12 +77,15 @@
 
   if (randomValue > 50) {
     // Create a fake ad by an advertiser with generic content.
-    newAd.body = @"This is a sample ad, so there's no real content. In the event of a real "
+    newAd.body =
+        @"This is a sample ad, so there's no real content. In the event of a real "
         @"ad, though, some persuasive text would appear here.";
     newAd.callToAction = @"Take Action";
     newAd.headline = @"Sample Content!";
     newAd.advertiser = @"An advertiser";
     newAd.degreeOfAwesomeness = @"Fairly Awesome!";
+    newAd.mediaView = [[SampleMediaView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    [newAd.mediaView createMediaContent];
   } else {
     // Create a fake ad for an App.
     newAd.body = @"This app doesn't actually exist.";
@@ -91,6 +95,8 @@
     newAd.starRating = [[NSDecimalNumber alloc] initWithDouble:4.5];
     newAd.store = @"Sample Store";
     newAd.degreeOfAwesomeness = @"Quite Awesome!";
+    newAd.mediaView = [[SampleMediaView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    [newAd.mediaView createMediaContent];
   }
 
   // If this were a real SDK, it would check some of the other image options in the request. To keep

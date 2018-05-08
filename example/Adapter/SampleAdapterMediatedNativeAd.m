@@ -47,6 +47,7 @@
 @property(nonatomic, copy) NSDictionary *extras;
 @property(nonatomic, strong) GADNativeAdViewAdOptions *nativeAdViewAdOptions;
 @property(nonatomic, strong) SampleAdInfoView *adInfoView;
+@property(nonatomic, strong) SampleMediaView *mediaView;
 
 @end
 
@@ -77,7 +78,7 @@
       NSURL *iconURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.iconURL];
       _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:_sampleAd.iconScale];
     }
-
+    _mediaView = _sampleAd.mediaView;
     _nativeAdViewAdOptions = nativeAdViewAdOptions;
 
     // The sample SDK provides an AdChoices view (SampleAdInfoView). If your SDK provides image
@@ -86,6 +87,14 @@
     _adInfoView = [[SampleAdInfoView alloc] init];
   }
   return self;
+}
+
+- (BOOL)hasVideoContent {
+  return self.sampleAd.mediaView != nil;
+}
+
+- (UIView *)mediaView {
+  return _mediaView;
 }
 
 - (NSString *)advertiser {
@@ -180,6 +189,9 @@
             viewController:(UIViewController *)viewController {
   // This method is called when the native ad view is rendered. Here you would pass the UIView back
   // to the mediated network's SDK.
+
+  // Playing video using SampleMediaView's playVideo method
+  [_sampleAd playVideo];
 }
 
 - (void)didUntrackView:(UIView *)view {

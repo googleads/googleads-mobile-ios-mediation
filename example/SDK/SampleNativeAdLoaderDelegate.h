@@ -24,7 +24,7 @@
 @class SampleNativeAdLoader;
 @class SampleNativeAd;
 
-@protocol SampleNativeAdLoaderDelegate<NSObject>
+@protocol SampleNativeAdLoaderDelegate <NSObject>
 
 /// Sent when the SampleNativeAdLoader has received a native ad.
 - (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd;
