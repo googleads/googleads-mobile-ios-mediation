@@ -15,10 +15,8 @@
 #import "GADDuAdError.h"
 
 NSError *GADDUErrorWithDescription(NSString *description) {
-    NSDictionary *userInfo =
-    @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error =
-    [NSError errorWithDomain:@"com.google.mediation.duad" code:0 userInfo:userInfo];
-    return error;
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:@"com.google.mediation.duad" code:0 userInfo:userInfo];
+  return error;
 }
-

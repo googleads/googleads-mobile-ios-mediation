@@ -40,7 +40,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return @"7.1.0.0";
+  return @"7.1.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {

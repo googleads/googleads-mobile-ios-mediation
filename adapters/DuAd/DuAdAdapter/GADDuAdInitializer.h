@@ -9,8 +9,6 @@
 
 + (id)sharedInstance;
 
-- (void) initWithConnector:(id<GADMAdNetworkConnector>)connector;
+- (void)initWithConnector:(id<GADMAdNetworkConnector>)connector;
 
 @end
-
-

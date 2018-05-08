@@ -16,7 +16,7 @@
 @import GoogleMobileAds;
 
 /// Network extras for the DuAd adapter.
-@interface GADDuAdNetworkExtras : NSObject<GADAdNetworkExtras>
+@interface GADDuAdNetworkExtras : NSObject <GADAdNetworkExtras>
 
 @property(nonatomic, copy) NSArray<NSString *> *_Nonnull placementIds;
 

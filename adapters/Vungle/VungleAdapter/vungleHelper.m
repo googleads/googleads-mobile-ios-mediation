@@ -1,6 +1,6 @@
 #import "vungleHelper.h"
 
-static NSString *const vungleAdapterVersion = @"5.4.0.0";
+static NSString *const vungleAdapterVersion = @"6.2.0.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
@@ -59,7 +59,7 @@ static NSString *const kPlacementID = @"placementID";
 
   NSError *err = nil;
   _allPlacements = placements;
-  [sdk startWithAppId:appId placements:placements error:&err];
+  [sdk startWithAppId:appId error:&err];
   if (err) {
     [self initialized:false error:err];
   }

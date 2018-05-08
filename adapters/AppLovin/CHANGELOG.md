@@ -1,7 +1,8 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
-## Version 4.8.4.1
-- Add support for native ads.
+
+## Version 5.0.1.0
+- Verified compatibility with Applovin SDK 5.0.1.
 
 ## Version 4.8.4.0
 - Verified compatibility with Applovin SDK 4.8.4.
