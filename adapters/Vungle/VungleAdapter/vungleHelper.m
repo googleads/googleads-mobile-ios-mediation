@@ -59,7 +59,7 @@ static NSString *const kPlacementID = @"placementID";
 
   NSError *err = nil;
   _allPlacements = placements;
-  [sdk startWithAppId:appId placements:placements error:&err];
+  [sdk startWithAppId:appId error:&err];
   if (err) {
     [self initialized:false error:err];
   }
