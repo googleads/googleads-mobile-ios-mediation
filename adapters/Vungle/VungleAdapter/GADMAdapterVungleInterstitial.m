@@ -2,7 +2,7 @@
 #import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "vungleHelper.h"
 
-@interface GADMAdapterVungleInterstitial () <VungleDelegate>
+@interface GADMAdapterVungleInterstitial ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @end
 
@@ -30,12 +30,10 @@
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      [NSError errorWithDomain:@"google"
-                          code:0
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."
-                      }];
+  NSError *error = [NSError
+      errorWithDomain:@"google"
+                 code:0
+             userInfo:@{NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."}];
   [_connector adapter:self didFailAd:error];
 }
 
@@ -47,7 +45,7 @@
   [vungleHelper
       parseServerParameters:[_connector credentials]
               networkExtras:[_connector networkExtras]
-                     result:^void(NSDictionary *error, NSString *appId, NSArray *placements) {
+                     result:^void(NSDictionary *error, NSString *appId) {
                        if (error) {
                          [_connector
                                adapter:self
@@ -59,12 +57,19 @@
                        desiredPlacement = [vungleHelper findPlacement:[_connector credentials]
                                                         networkExtras:[_connector networkExtras]];
                        if (!desiredPlacement) {
-                         desiredPlacement = [placements firstObject];
-                         NSLog(@"'placementID' not specified. Used first from 'allPlacements': %@",
-                               desiredPlacement);
+                         [_connector
+                               adapter:self
+                             didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleInterstitial"
+                                                           code:0
+                                                       userInfo:@{
+                                                         NSLocalizedDescriptionKey :
+                                                             @"'placementID' not specified"
+                                                       }]];
+                         return;
                        }
+                       [vungleHelper updateConsentStatus:[_connector networkExtras]];
                        waitingInit = YES;
-                       [[vungleHelper sharedInstance] initWithAppId:appId placements:placements];
+                       [[vungleHelper sharedInstance] initWithAppId:appId];
                      }];
 }
 
@@ -110,17 +115,15 @@
   [_connector adapterWillPresentInterstitial:self];
 }
 
-- (void)willLeaveApplication {
-  [_connector adapterWillLeaveApplication:self];
-}
-
-- (void)willCloseAd:(BOOL)completedView didClickDownload:(BOOL)didClickDownload {
-  if (didClickDownload) {
-    // Only the donload button is clickable for Vungle ads, so the didClickDownload flag can be used
-    // to track clicks.
+- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+  if (didDownload) {
     [_connector adapterDidGetAdClick:self];
+    [_connector adapterWillLeaveApplication:self];
   }
   [_connector adapterWillDismissInterstitial:self];
+}
+
+- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
   [_connector adapterDidDismissInterstitial:self];
   desiredPlacement = nil;
 }
