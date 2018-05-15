@@ -3,7 +3,7 @@
 #import "VungleAdNetworkExtras.h"
 #import "vungleHelper.h"
 
-@interface GADMAdapterVungleRewardBasedVideoAd ()<VungleDelegate>
+@interface GADMAdapterVungleRewardBasedVideoAd () <VungleDelegate>
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
 @end
 
@@ -18,7 +18,7 @@
 }
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     self.connector = connector;
@@ -101,7 +101,12 @@
   [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)willCloseAd:(BOOL)completedView {
+- (void)willCloseAd:(BOOL)completedView didClickDownload:(BOOL)didClickDownload {
+  if (didClickDownload) {
+    // Only the download button is clickable for Vungle ads, so the didClickDownload flag can be used
+    // to track clicks.
+    [_connector adapterDidGetAdClick:self];
+  }
   if (completedView) {
     GADAdReward* reward =
         [[GADAdReward alloc] initWithRewardType:@"vungle"

@@ -216,7 +216,7 @@
 
 /// Initializes and returns a sample adapter with a reward based video ad connector.
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }

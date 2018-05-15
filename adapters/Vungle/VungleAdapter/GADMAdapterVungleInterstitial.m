@@ -2,7 +2,7 @@
 #import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "vungleHelper.h"
 
-@interface GADMAdapterVungleInterstitial ()<VungleDelegate>
+@interface GADMAdapterVungleInterstitial () <VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @end
 
@@ -30,10 +30,12 @@
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error = [NSError
-      errorWithDomain:@"google"
-                 code:0
-             userInfo:@{NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."}];
+  NSError *error =
+      [NSError errorWithDomain:@"google"
+                          code:0
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : @"Vungle doesn't support banner ads."
+                      }];
   [_connector adapter:self didFailAd:error];
 }
 
@@ -112,7 +114,12 @@
   [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)willCloseAd:(BOOL)completedView {
+- (void)willCloseAd:(BOOL)completedView didClickDownload:(BOOL)didClickDownload {
+  if (didClickDownload) {
+    // Only the donload button is clickable for Vungle ads, so the didClickDownload flag can be used
+    // to track clicks.
+    [_connector adapterDidGetAdClick:self];
+  }
   [_connector adapterWillDismissInterstitial:self];
   [_connector adapterDidDismissInterstitial:self];
   desiredPlacement = nil;

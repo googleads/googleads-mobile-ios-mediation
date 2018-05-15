@@ -1,7 +1,14 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 6.2.0.1
+- Updated Vungle SDK initializer correctly.
+
+## VERSION 6.2.0.0
+- Verified compatibility with Vungle SDK 6.2.0.
+
 ## VERSION 5.4.0.0
 - Verified compatibility with Vungle SDK 5.4.0.
+- Updated adapter to correctly report clicks to the Google Mobile Ads SDK.
 
 ## VERSION 5.3.2.0
 - Added two new extras to `VungleAdNetworkExtras`:

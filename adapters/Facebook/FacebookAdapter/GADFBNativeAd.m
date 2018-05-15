@@ -25,7 +25,8 @@
 static NSString *const GADNativeAdCoverImage = @"1";
 static NSString *const GADNativeAdIcon = @"2";
 
-@interface GADFBNativeAd () <GADMediatedNativeAppInstallAd, GADMediatedNativeAdDelegate,
+@interface GADFBNativeAd () <GADMediatedNativeAppInstallAd,
+                             GADMediatedNativeAdDelegate,
                              FBNativeAdDelegate> {
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
@@ -101,9 +102,9 @@ static NSString *const GADNativeAdIcon = @"2";
   // Facebook only supports app install ads.
   if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall] ||
       ![adTypes containsObject:kGADAdLoaderAdTypeNativeContent]) {
-    NSError *error =
-        GADFBErrorWithDescription(@"Ad types must include kGADAdLoaderAdTypeNativeAppInstall and "
-                                  @"kGADAdLoaderAdTypeNativeContent.");
+    NSError *error = GADFBErrorWithDescription(
+        @"Ad types must include kGADAdLoaderAdTypeNativeAppInstall and "
+        @"kGADAdLoaderAdTypeNativeContent.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -140,6 +141,7 @@ static NSString *const GADNativeAdIcon = @"2";
   _mediaView = [[FBMediaView alloc] initWithNativeAd:_nativeAd];
   _mediaView.delegate = self;
   _nativeAd.delegate = self;
+  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_nativeAd loadAd];
 }
 
@@ -376,8 +378,8 @@ static NSString *const GADNativeAdIcon = @"2";
                                                                metrics:nil
                                                                  views:viewDictionary]];
 
-  // Checking the view is instance of GADNativeAppInstallAdView and adding the assetsView of
-  // GADNativeAppInstallAdView instance to assets array.
+  // Checking whether the view is instance of GADNativeAppInstallAdView, and if so adding its  asset
+  // views to the array that will be registered with Facebook.
   NSMutableArray *assets = [[NSMutableArray alloc] init];
   if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
     GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
@@ -411,14 +413,56 @@ static NSString *const GADNativeAdIcon = @"2";
     if (adView.mediaView != nil) {
       [assets addObject:adView.mediaView];
     }
+    // Checking whether the view is an instance of GADUnifiedNativeAdView, and if so adding its
+    // asset views to the array that will be registered with Facebook.
+  } else if ([view isKindOfClass:[GADUnifiedNativeAdView class]]) {
+    GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
+    if (adView.headlineView != nil) {
+      [assets addObject:adView.headlineView];
+    }
+    if (adView.imageView != nil) {
+      [assets addObject:adView.imageView];
+    }
+    if (adView.iconView != nil) {
+      [assets addObject:adView.iconView];
+    }
+    if (adView.adChoicesView != nil) {
+      [assets addObject:adView.adChoicesView];
+    }
+    if (adView.bodyView != nil) {
+      [assets addObject:adView.bodyView];
+    }
+    if (adView.callToActionView != nil) {
+      [assets addObject:adView.callToActionView];
+    }
+    if (adView.priceView != nil) {
+      [assets addObject:adView.priceView];
+    }
+    if (adView.starRatingView != nil) {
+      [assets addObject:adView.starRatingView];
+    }
+    if (adView.storeView != nil) {
+      [assets addObject:adView.storeView];
+    }
+    if (adView.mediaView != nil) {
+      [assets addObject:adView.mediaView];
+    }
+    if (adView.advertiserView != nil) {
+      [assets addObject:adView.advertiserView];
+    }
   } else {
-    NSLog(@"View is not the instance of GADNativeAppInstallAdView, Failed to register View for "
-          @"user interaction");
+    NSLog(
+        @"View is not an instance of GADNativeAppInstallAdView or GADUnifiedNativeAdView, Failed"
+        @"to register view for user interaction");
   }
 
-  [_nativeAd registerViewForInteraction:view
-                     withViewController:viewController
-                     withClickableViews:assets];
+  if (assets.count > 0) {
+    [_nativeAd registerViewForInteraction:view
+                       withViewController:viewController
+                       withClickableViews:assets];
+  } else {
+    [_nativeAd registerViewForInteraction:view withViewController:viewController];
+  }
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
@@ -434,8 +478,9 @@ static NSString *const GADNativeAdIcon = @"2";
 
 - (void)nativeAdWillLogImpression:(FBNativeAd *)nativeAd {
   if (_impressionLogged) {
-    GADFB_LOG(@"FBNativeAd is trying to log an impression again. Adapter will ignore duplicate "
-               "impression pings.");
+    GADFB_LOG(
+        @"FBNativeAd is trying to log an impression again. Adapter will ignore duplicate "
+         "impression pings.");
     return;
   }
 

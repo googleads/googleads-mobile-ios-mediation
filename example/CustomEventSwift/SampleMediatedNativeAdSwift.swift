@@ -25,7 +25,7 @@ import SampleAdSDK
 /// by a mediated network don't always line up with the ones expected by the Google
 /// Mobile Ads SDK (one might have "title" while the other expects "headline," for
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
-class SampleMediatedUnifiedNativeAdSwift: NSObject {
+class SampleMediatedUnifiedNativeAdSwift : NSObject {
   // You may notice that this class and the Mediation Adapter's
   // SampleAdapterMediatedNativeAd class look an awful lot alike. That's not
   // by accident. They're the same class, with the same methods and properties,
@@ -43,41 +43,39 @@ class SampleMediatedUnifiedNativeAdSwift: NSObject {
   // share code between them), they each get their own copies of this class,
   // with slightly different names.
 
-  var sampleAd: SampleNativeAd
+  var sampleAd : SampleNativeAd
   var mappedImages = [GADNativeAdImage]()
   var mappedIcon: GADNativeAdImage?
-  var extras = [String: Any]()
+  var extras = [String:Any]()
   var nativeAdViewAdOptions: GADNativeAdViewAdOptions?
   let adInfoView = SampleAdInfoView()
-
-  init(sampleNativeAd: SampleNativeAd, nativeAdViewAdOptions: GADNativeAdViewAdOptions?) {
-
+  var sampleMediaView : SampleMediaView?
+  init(sampleNativeAd : SampleNativeAd, nativeAdViewAdOptions : GADNativeAdViewAdOptions?) {
     sampleAd = sampleNativeAd
     super.init()
-
     extras = [SampleCustomEventConstantsSwift.awesomenessKey: sampleAd.degreeOfAwesomeness ?? ""]
     if let image = sampleAd.image {
-      mappedImages = [GADNativeAdImage(image: image)]
+      mappedImages = [GADNativeAdImage(image : image)]
     }
     else {
-      let imageUrl = URL(fileURLWithPath: sampleAd.imageURL)
-      mappedImages = [GADNativeAdImage(url: imageUrl, scale: sampleAd.imageScale)]
+      let imageUrl = URL(fileURLWithPath : sampleAd.imageURL)
+      mappedImages = [GADNativeAdImage(url : imageUrl, scale : sampleAd.imageScale)]
     }
     if let icon = sampleAd.icon {
-      mappedIcon = GADNativeAdImage(image: icon)
+      mappedIcon = GADNativeAdImage(image : icon)
     }
     else {
-      let iconURL = URL(fileURLWithPath: sampleNativeAd.iconURL)
-      mappedIcon = GADNativeAdImage(url: iconURL, scale: sampleAd.iconScale)
+      let iconURL = URL(fileURLWithPath : sampleNativeAd.iconURL)
+      mappedIcon = GADNativeAdImage(url : iconURL, scale : sampleAd.iconScale)
     }
     self.nativeAdViewAdOptions = nativeAdViewAdOptions
+    self.sampleMediaView = self.sampleAd.mediaView
   }
 
 }
 
 /// This is a concrete implementation for the GADMediatedUnifiedNativeAd protocol.
 extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
-
   var advertiser : String? {
     return sampleAd.advertiser
   }
@@ -122,6 +120,14 @@ extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
     return extras
   }
 
+  var mediaView : UIView?{
+    return self.sampleMediaView!
+  }
+
+  var hasVideoContent : Bool {
+    return self.sampleAd.mediaView != nil
+  }
+
   func didRecordImpression() {
     sampleAd.recordImpression()
   }
@@ -134,9 +140,12 @@ extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
   // one.
   // You can also access the clickable and non-clickable views by asset key if the mediation network
   // needs this information.
-  func didRender(in view: UIView, clickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView], nonclickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView], viewController: UIViewController) {
+  func didRender(in view: UIView, clickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView],
+                               nonclickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView],
+                                       viewController: UIViewController) {
     // This method is called when the native ad view is rendered. Here you would pass the UIView
     // back to the mediated network's SDK.
+    self.sampleAd.mediaView.playMedia()
   }
 
   func didRecordClickOnAsset(withName assetName: GADUnifiedNativeAssetIdentifier, view: UIView, viewController: UIViewController) {

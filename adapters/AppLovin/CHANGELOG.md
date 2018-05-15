@@ -1,5 +1,11 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.0.1.0
+- Verified compatibility with Applovin SDK 5.0.1.
+
+## Version 4.8.4.0
+- Verified compatibility with Applovin SDK 4.8.4.
+
 ## Version 4.8.3.0
 - Add support for zones and smart banners.
 
