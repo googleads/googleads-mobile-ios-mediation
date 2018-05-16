@@ -98,7 +98,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:connector.credentials];
 
     if (!self.sdk) {
-      [GADMAdapterAppLovinUtils log:@"Failed to initialize SDK"];
+      [GADMAdapterAppLovin log:@"Failed to initialize SDK"];
     }
   }
   return self;
@@ -123,7 +123,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     self.zoneIdentifier =
         [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
 
-    [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
+    [GADMAdapterAppLovin log:@"Requesting interstitial for zone: %@ and placement: %@",
                              self.zoneIdentifier, self.placement];
 
     GADMAdapterAppLovinQueue *__nullable queue = ALInterstitialAdQueues[self.zoneIdentifier];
@@ -154,7 +154,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         [self.sdk.adService loadNextAd:[ALAdSize sizeInterstitial] andNotify:delegate];
       }
     } else {
-      [GADMAdapterAppLovinUtils log:@"Enqueued interstitial found. Finishing load..."];
+      [GADMAdapterAppLovin log:@"Enqueued interstitial found. Finishing load..."];
 
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.connector adapterDidReceiveInterstitial:self];
@@ -171,17 +171,17 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
     ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
     if (dequeuedAd) {
-      [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@ placement: %@",
+      [GADMAdapterAppLovin log:@"Showing interstitial ad: %@ for zone: %@ placement: %@",
                                dequeuedAd.adIdNumber, self.zoneIdentifier, self.placement];
       [self.interstitial showOver:[UIApplication sharedApplication].keyWindow
                         placement:self.placement
                         andRender:dequeuedAd];
     } else {
-      [GADMAdapterAppLovinUtils log:@"Attempting to show interstitial before one was loaded"];
+      [GADMAdapterAppLovin log:@"Attempting to show interstitial before one was loaded"];
 
       // Check if we have a default zone interstitial available.
       if (self.zoneIdentifier.length == 0 && [self.interstitial isReadyForDisplay]) {
-        [GADMAdapterAppLovinUtils log:@"Showing interstitial preloaded by SDK"];
+        [GADMAdapterAppLovin log:@"Showing interstitial preloaded by SDK"];
         [self.interstitial showOverPlacement:self.placement];
       }
       // TODO: Show ad for zone identifier if exists.
@@ -213,7 +213,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
   self.zoneIdentifier =
       [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
 
-  [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@ and placement: %@",
+  [GADMAdapterAppLovin log:@"Requesting banner of size %@ for zone: %@ and placement: %@",
                            NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
 
   // Convert requested size to AppLovin Ad Size.
@@ -236,7 +236,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
       [self.sdk.adService loadNextAd:appLovinAdSize andNotify:delegate];
     }
   } else {
-    [GADMAdapterAppLovinUtils log:@"Failed to request banner with unsupported size"];
+    [GADMAdapterAppLovin log:@"Failed to request banner with unsupported size"];
 
     NSError *error =
         [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
@@ -292,10 +292,23 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     }
   }
 
-  [GADMAdapterAppLovinUtils
+  [GADMAdapterAppLovin
       log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
 
   return nil;
+}
+
+#pragma mark - Logging
+
++ (void)log:(NSString *)format, ... {
+  if (GADMAdapterAppLovinConstant.loggingEnabled) {
+    va_list valist;
+    va_start(valist, format);
+    NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+    va_end(valist);
+
+    NSLog(@"AppLovinAdapter: %@", message);
+  }
 }
 
 @end
@@ -315,7 +328,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils
+  [GADMAdapterAppLovin
       log:@"Interstitial did load ad: %@ for zone: %@", ad.adIdNumber, self.zoneIdentifier];
 
   @synchronized(ALInterstitialAdQueueLock) {
@@ -338,7 +351,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-  [GADMAdapterAppLovinUtils log:@"Interstitial failed to load with error: %d", code];
+  [GADMAdapterAppLovin log:@"Interstitial failed to load with error: %d", code];
 
   NSError *error =
       [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
@@ -374,18 +387,18 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Ad Display Delegate
 
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Interstitial displayed"];
+  [GADMAdapterAppLovin log:@"Interstitial displayed"];
   [self.parentAdapter.connector adapterWillPresentInterstitial:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Interstitial dismissed"];
+  [GADMAdapterAppLovin log:@"Interstitial dismissed"];
   [self.parentAdapter.connector adapterWillDismissInterstitial:self.parentAdapter];
   [self.parentAdapter.connector adapterDidDismissInterstitial:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Interstitial clicked"];
+  [GADMAdapterAppLovin log:@"Interstitial clicked"];
   [self.parentAdapter.connector adapterDidGetAdClick:self.parentAdapter];
   [self.parentAdapter.connector adapterWillLeaveApplication:self.parentAdapter];
 }
@@ -393,13 +406,13 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Video Playback Delegate
 
 - (void)videoPlaybackBeganInAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Interstitial video playback began"];
+  [GADMAdapterAppLovin log:@"Interstitial video playback began"];
 }
 
 - (void)videoPlaybackEndedInAd:(ALAd *)ad
              atPlaybackPercent:(NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
-  [GADMAdapterAppLovinUtils log:@"Interstitial video playback ended at playback percent: %lu%%",
+  [GADMAdapterAppLovin log:@"Interstitial video playback ended at playback percent: %lu%%",
                            percentPlayed.unsignedIntegerValue];
 }
 
@@ -420,7 +433,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@ and placement: %@", ad.adIdNumber,
+  [GADMAdapterAppLovin log:@"Banner did load ad: %@ for zone: %@ and placement: %@", ad.adIdNumber,
                            self.parentAdapter.zoneIdentifier, self.parentAdapter.placement];
 
   [self.parentAdapter.adView render:ad overPlacement:self.parentAdapter.placement];
@@ -429,7 +442,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-  [GADMAdapterAppLovinUtils log:@"Banner failed to load with error: %d", code];
+  [GADMAdapterAppLovin log:@"Banner failed to load with error: %d", code];
 
   NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.placementKey
                                        code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
@@ -440,44 +453,44 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Ad Display Delegate
 
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner displayed"];
+  [GADMAdapterAppLovin log:@"Banner displayed"];
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner dismissed"];
+  [GADMAdapterAppLovin log:@"Banner dismissed"];
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner clicked"];
+  [GADMAdapterAppLovin log:@"Banner clicked"];
   [self.parentAdapter.connector adapterDidGetAdClick:self.parentAdapter];
 }
 
 #pragma mark - Ad View Event Delegate
 
 - (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner presented fullscreen"];
+  [GADMAdapterAppLovin log:@"Banner presented fullscreen"];
   [self.parentAdapter.connector adapterWillPresentFullScreenModal:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner will dismiss fullscreen"];
+  [GADMAdapterAppLovin log:@"Banner will dismiss fullscreen"];
   [self.parentAdapter.connector adapterWillDismissFullScreenModal:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner did dismiss fullscreen"];
+  [GADMAdapterAppLovin log:@"Banner did dismiss fullscreen"];
   [self.parentAdapter.connector adapterDidDismissFullScreenModal:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner left application"];
+  [GADMAdapterAppLovin log:@"Banner left application"];
   [self.parentAdapter.connector adapterWillLeaveApplication:self.parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad
     didFailToDisplayInAdView:(ALAdView *)adView
                    withError:(ALAdViewDisplayErrorCode)code {
-  [GADMAdapterAppLovinUtils log:@"Banner failed to display: %ld", code];
+  [GADMAdapterAppLovin log:@"Banner failed to display: %ld", code];
 }
 
 @end
