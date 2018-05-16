@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:
                                       (NSString *)zoneIdentifier sdk:(ALSdk *)sdk;
 
++ (void)log:(NSString *)format, ...;
+
 @end
 
 NS_ASSUME_NONNULL_END
