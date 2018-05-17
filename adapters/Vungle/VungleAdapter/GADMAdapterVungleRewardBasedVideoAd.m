@@ -44,7 +44,6 @@
                                                  userInfo:error]];
                          return;
                        }
-                       [vungleHelper updateConsentStatus:[_connector networkExtras]];
                        waitingInit = YES;
                        [[vungleHelper sharedInstance] initWithAppId:appId];
                      }];

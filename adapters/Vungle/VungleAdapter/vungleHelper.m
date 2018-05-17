@@ -104,13 +104,6 @@ static NSString *const kPlacementID = @"placementID";
   return ret;
 }
 
-+ (void)updateConsentStatus:(VungleAdNetworkExtras *)networkExtras {
-  if (networkExtras.consentStatus == VungleExtrasConsentAccepted)
-    [[VungleSDK sharedSDK] updateConsentStatus:VungleConsentAccepted];
-  else if (networkExtras.consentStatus == VungleExtrasConsentDenied)
-    [[VungleSDK sharedSDK] updateConsentStatus:VungleConsentDenied];
-}
-
 - (void)addDelegate:(id<VungleDelegate>)delegate {
   if (delegate && ![_delegates containsObject:delegate]) {
     [_delegates addObject:delegate];

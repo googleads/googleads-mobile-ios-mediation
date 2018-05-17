@@ -26,7 +26,6 @@ typedef void (^ParameterCB)(NSDictionary *error, NSString *appId);
                        result:(ParameterCB)result;
 + (NSString *)findPlacement:(NSDictionary *)serverParameters
               networkExtras:(VungleAdNetworkExtras *)networkExtras;
-+ (void)updateConsentStatus:(VungleAdNetworkExtras *)networkExtras;
 - (void)initWithAppId:(NSString *)appId;
 - (BOOL)playAd:(UIViewController *)viewController
       delegate:(id<VungleDelegate>)delegate

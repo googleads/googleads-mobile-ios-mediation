@@ -8,11 +8,6 @@
 
 #import <GoogleMobileAds/GADAdNetworkExtras.h>
 
-typedef NS_ENUM(NSInteger, VungleExtrasConsentStatus) {
-  VungleExtrasConsentAccepted = 1,
-  VungleExtrasConsentDenied
-};
-
 @interface VungleAdNetworkExtras : NSObject<GADAdNetworkExtras>
 
 /*!
@@ -33,7 +28,5 @@ typedef NS_ENUM(NSInteger, VungleExtrasConsentStatus) {
 @property(nonatomic, copy) NSArray<NSString *> *_Nullable allPlacements;
 
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
-
-@property(nonatomic, assign) VungleExtrasConsentStatus consentStatus;
 
 @end
