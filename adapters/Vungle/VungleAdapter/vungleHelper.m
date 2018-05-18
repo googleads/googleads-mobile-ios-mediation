@@ -1,6 +1,6 @@
 #import "vungleHelper.h"
 
-static NSString *const vungleAdapterVersion = @"5.3.2";
+static NSString *const vungleAdapterVersion = @"6.2.0.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
@@ -59,7 +59,7 @@ static NSString *const kPlacementID = @"placementID";
 
   NSError *err = nil;
   _allPlacements = placements;
-  [sdk startWithAppId:appId placements:placements error:&err];
+  [sdk startWithAppId:appId error:&err];
   if (err) {
     [self initialized:false error:err];
   }
@@ -75,14 +75,18 @@ static NSString *const kPlacementID = @"placementID";
 
   if (!serverParameters || ![serverParameters objectForKey:kApplicationID]) {
     NSLog(@"Vungle app ID should be specified!");
-    result(@{NSLocalizedDescriptionKey : @"Vungle app ID should be specified!"}, nil, nil);
+    result(@{ NSLocalizedDescriptionKey : @"Vungle app ID should be specified!" }, nil, nil);
     return;
   }
   NSString *appId = [serverParameters objectForKey:kApplicationID];
 
   if (allPlacements.count == 0) {
     NSLog(@"At least one placement should be specified!");
-    result(@{NSLocalizedDescriptionKey : @"At least one placement should be specified!"}, nil, nil);
+    result(
+        @{
+          NSLocalizedDescriptionKey : @"At least one placement should be specified!"
+        },
+        nil, nil);
     return;
   }
 
@@ -97,9 +101,8 @@ static NSString *const kPlacementID = @"placementID";
   }
   if (networkExtras && networkExtras.playingPlacement) {
     if (ret) {
-      NSLog(
-          @"'placementID' had a value in both serverParameters and networkExtras. Used one from "
-          @"serverParameters");
+      NSLog(@"'placementID' had a value in both serverParameters and networkExtras. Used one from "
+            @"serverParameters");
     } else {
       ret = networkExtras.playingPlacement;
     }
@@ -192,7 +195,8 @@ static NSString *const kPlacementID = @"placementID";
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                           placementID:(nonnull NSString *)placementID {
   if (_playingDelegate) {
-    [_playingDelegate willCloseAd:[info.completedView boolValue]];
+    [_playingDelegate willCloseAd:[info.completedView boolValue]
+                 didClickDownload:[info.didDownload boolValue]];
   }
 }
 

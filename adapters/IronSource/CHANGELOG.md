@@ -1,6 +1,12 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
-## x.y.z.0
 
-- First release!
-- Added support for banners, interstitials, etc.
+## 6.7.8.0
+- Verified compatibility with ironSource SDK 6.7.8
+
+## 6.7.7.0
+- Initiate IronSource SDK once per ad unit.
+
+## 6.7.5.0
+- Initial release!
+- Supports interstitial and rewarded video ads.

@@ -8,7 +8,7 @@
 - (void)adAvailable;
 - (void)willShowAd;
 - (void)willLeaveApplication;
-- (void)willCloseAd:(BOOL)completedView;
+- (void)willCloseAd:(BOOL)completedView didClickDownload:(BOOL)didClickDownload;
 @property(readonly, strong) NSString *desiredPlacement;
 @property(readonly, assign) BOOL waitingInit;
 @end

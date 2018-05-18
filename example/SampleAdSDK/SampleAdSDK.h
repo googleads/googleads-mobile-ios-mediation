@@ -36,7 +36,7 @@ FOUNDATION_EXPORT const unsigned char SampleAdSDKVersionString[];
 #import <SampleAdSDK/SampleRewardBasedVideoAd.h>
 #import <SampleAdSDK/SampleNativeAdLoader.h>
 #import <SampleAdSDK/SampleNativeAdLoaderDelegate.h>
-#import <SampleAdSDK/SampleNativeContentAd.h>
-#import <SampleAdSDK/SampleNativeAppInstallAd.h>
+#import <SampleAdSDK/SampleNativeAd.h>
 #import <SampleAdSDK/SampleNativeAdRequest.h>
 #import <SampleAdSDK/SampleAdInfoView.h>
+#import <SampleAdSDK/SampleMediaView.h>
