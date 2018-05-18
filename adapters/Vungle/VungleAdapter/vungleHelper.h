@@ -7,16 +7,15 @@
 - (void)initialized:(BOOL)isSuccess error:(NSError *)error;
 - (void)adAvailable;
 - (void)willShowAd;
-- (void)willLeaveApplication;
-- (void)willCloseAd:(BOOL)completedView didClickDownload:(BOOL)didClickDownload;
+- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
+- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 @property(readonly, strong) NSString *desiredPlacement;
 @property(readonly, assign) BOOL waitingInit;
 @end
 
 @interface vungleHelper : NSObject<VungleSDKDelegate>
 @property(readonly) BOOL isInitialising;
-@property(readonly, strong) NSArray *allPlacements;
-typedef void (^ParameterCB)(NSDictionary *, NSString *, NSArray<NSString *> *);
+typedef void (^ParameterCB)(NSDictionary *error, NSString *appId);
 
 + (NSString *)adapterVersion;
 
@@ -27,7 +26,7 @@ typedef void (^ParameterCB)(NSDictionary *, NSString *, NSArray<NSString *> *);
                        result:(ParameterCB)result;
 + (NSString *)findPlacement:(NSDictionary *)serverParameters
               networkExtras:(VungleAdNetworkExtras *)networkExtras;
-- (void)initWithAppId:(NSString *)appId placements:(NSArray<NSString *> *)placements;
+- (void)initWithAppId:(NSString *)appId;
 - (BOOL)playAd:(UIViewController *)viewController
       delegate:(id<VungleDelegate>)delegate
         extras:(VungleAdNetworkExtras *)extras;
