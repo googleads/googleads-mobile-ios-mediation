@@ -106,7 +106,7 @@
 
 - (void)privacyIconTapped {
   _displayDestinationAgent =
-      [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
+      [MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
       displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
 }
