@@ -22,7 +22,6 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 
 /// Internal to MoPub
 static NSString *const kAdapterTpValue = @"gmext";
-BOOL isMoPubInitialized = NO;
 
 @interface GADMAdapterMoPub () <MPNativeAdDelegate, MPAdViewDelegate,
                                 MPInterstitialAdControllerDelegate>
@@ -51,12 +50,11 @@ BOOL isMoPubInitialized = NO;
 }
 
 - (void) initializeMoPub:(NSString *) adUnitId {
-    if (!isMoPubInitialized) {
+    if (![[MoPub sharedInstance] isSdkInitialized]) {
         MPMoPubConfiguration * sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization: adUnitId];
 
         [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
             NSLog(@"MoPub SDK initialized.");
-            isMoPubInitialized = YES;
         }];
     }
 }
