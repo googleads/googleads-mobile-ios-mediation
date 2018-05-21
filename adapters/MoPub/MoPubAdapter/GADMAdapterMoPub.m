@@ -62,7 +62,7 @@ static NSString *const kAdapterTpValue = @"gmext";
   _interstitialAd.delegate = nil;
 }
 
-- (NSString *)getKeywords {
+- (NSString *)getKeywords:(BOOL) intendedForPII {
   NSDate *birthday = [_connector userBirthday];
   NSString *ageString = @"";
 
@@ -79,10 +79,13 @@ static NSString *const kAdapterTpValue = @"gmext";
   } else if (gender == kGADGenderFemale) {
     genderString = @"m_gender:f";
   }
+  NSString *keywordsBuilder = [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
 
-  NSString *keywordsBuilder =
-      [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
-  return keywordsBuilder;
+  if (intendedForPII) {
+    return [self keywordsContainPII:_connector]? keywordsBuilder : @"";
+  } else {
+    return [self keywordsContainPII:_connector]? @"" : keywordsBuilder;
+  }
 }
 
 - (NSInteger)ageFromBirthday:(NSDate *)birthdate {
@@ -94,13 +97,18 @@ static NSString *const kAdapterTpValue = @"gmext";
   return ageComponents.year;
 }
 
+- (BOOL) keywordsContainPII:(id<GADMAdNetworkConnector>) connector {
+    return [_connector userGender] || [_connector userBirthday] || [_connector userHasLocation];
+}
+
 #pragma mark - Interstitial Ads
 
 - (void)getInterstitial {
   NSString *publisherID = [_connector credentials][@"pubid"];
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
-  _interstitialAd.keywords = [self getKeywords];
+  _interstitialAd.keywords = [self getKeywords:false];
+  _interstitialAd.userDataKeywords = [self getKeywords:true];
   [_interstitialAd loadAd];
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
 }
@@ -145,7 +153,8 @@ static NSString *const kAdapterTpValue = @"gmext";
   NSString *publisherID = [_connector credentials][@"pubid"];
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
-  _bannerAd.keywords = [self getKeywords];
+  _bannerAd.keywords = [self getKeywords:false];
+  _bannerAd.userDataKeywords = [self getKeywords:true];
   [_bannerAd loadAd];
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
 }
@@ -204,7 +213,8 @@ static NSString *const kAdapterTpValue = @"gmext";
                                                          rendererConfigurations:@[ config ]];
 
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
-  targeting.keywords = [self getKeywords];
+    targeting.keywords = [self getKeywords:false];
+    targeting.userDataKeywords = [self getKeywords:true];
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
                                                            longitude:_connector.userLongitude];
   targeting.location = currentlocation;
