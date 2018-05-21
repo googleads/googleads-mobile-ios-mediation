@@ -1,6 +1,7 @@
 #import "GADMAdapterMoPub.h"
 
 #import "GADMoPubNetworkExtras.h"
+#import "MoPub.h"
 #import "MoPubAdapterMediatedNativeAd.h"
 #import "MPAdView.h"
 #import "MPImageDownloadQueue.h"
@@ -21,6 +22,7 @@ static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter"
 
 /// Internal to MoPub
 static NSString *const kAdapterTpValue = @"gmext";
+BOOL isMoPubInitialized = NO;
 
 @interface GADMAdapterMoPub () <MPNativeAdDelegate, MPAdViewDelegate,
                                 MPInterstitialAdControllerDelegate>
@@ -46,6 +48,17 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMoPubNetworkExtras class];
+}
+
+- (void) initializeMoPub:(NSString *) adUnitId {
+    if (!isMoPubInitialized) {
+        MPMoPubConfiguration * sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization: adUnitId];
+
+        [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
+            NSLog(@"MoPub SDK initialized.");
+            isMoPubInitialized = YES;
+        }];
+    }
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -105,6 +118,8 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getInterstitial {
   NSString *publisherID = [_connector credentials][@"pubid"];
+  [self initializeMoPub:publisherID];
+    
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
   _interstitialAd.keywords = [self getKeywords:false];
@@ -151,6 +166,8 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *publisherID = [_connector credentials][@"pubid"];
+  [self initializeMoPub:publisherID];
+    
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
@@ -209,6 +226,8 @@ static NSString *const kAdapterTpValue = @"gmext";
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
 
   NSString *publisherID = [_connector credentials][@"pubid"];
+  [self initializeMoPub:publisherID];
+
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[ config ]];
 
