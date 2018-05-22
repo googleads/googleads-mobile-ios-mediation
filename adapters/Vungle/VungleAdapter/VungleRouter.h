@@ -13,19 +13,18 @@
 @property(readonly, assign) BOOL waitingInit;
 @end
 
-@interface vungleHelper : NSObject<VungleSDKDelegate>
+@interface VungleRouter : NSObject<VungleSDKDelegate>
 @property(readonly) BOOL isInitialising;
 typedef void (^ParameterCB)(NSDictionary *error, NSString *appId);
 
 + (NSString *)adapterVersion;
-
-+ (vungleHelper *)sharedInstance;
-
++ (VungleRouter *)sharedInstance;
 + (void)parseServerParameters:(NSDictionary *)serverParameters
                 networkExtras:(VungleAdNetworkExtras *)networkExtras
                        result:(ParameterCB)result;
 + (NSString *)findPlacement:(NSDictionary *)serverParameters
               networkExtras:(VungleAdNetworkExtras *)networkExtras;
+
 - (void)initWithAppId:(NSString *)appId;
 - (BOOL)playAd:(UIViewController *)viewController
       delegate:(id<VungleDelegate>)delegate
