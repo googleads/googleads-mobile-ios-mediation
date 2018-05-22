@@ -1,6 +1,6 @@
 #import "GADMAdapterVungleInterstitial.h"
 #import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
-#import "vungleHelper.h"
+#import "VungleRouter.h"
 
 @interface GADMAdapterVungleInterstitial ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
@@ -9,7 +9,7 @@
 @implementation GADMAdapterVungleInterstitial
 
 + (NSString *)adapterVersion {
-  return [vungleHelper adapterVersion];
+  return [VungleRouter adapterVersion];
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -20,7 +20,7 @@
   self = [super init];
   if (self) {
     self.connector = connector;
-    [[vungleHelper sharedInstance] addDelegate:self];
+    [[VungleRouter sharedInstance] addDelegate:self];
   }
   return self;
 }
@@ -38,11 +38,11 @@
 }
 
 - (void)loadAd {
-  [[vungleHelper sharedInstance] loadAd:desiredPlacement];
+  [[VungleRouter sharedInstance] loadAd:desiredPlacement];
 }
 
 - (void)getInterstitial {
-  [vungleHelper
+  [VungleRouter
       parseServerParameters:[_connector credentials]
               networkExtras:[_connector networkExtras]
                      result:^void(NSDictionary *error, NSString *appId) {
@@ -54,7 +54,7 @@
                                                        userInfo:error]];
                          return;
                        }
-                       desiredPlacement = [vungleHelper findPlacement:[_connector credentials]
+                       desiredPlacement = [VungleRouter findPlacement:[_connector credentials]
                                                         networkExtras:[_connector networkExtras]];
                        if (!desiredPlacement) {
                          [_connector
@@ -68,13 +68,13 @@
                          return;
                        }
                        waitingInit = YES;
-                       [[vungleHelper sharedInstance] initWithAppId:appId];
+                       [[VungleRouter sharedInstance] initWithAppId:appId];
                      }];
 }
 
 - (void)stopBeingDelegate {
   _connector = nil;
-  [[vungleHelper sharedInstance] removeDelegate:self];
+  [[VungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -82,14 +82,14 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  if (![[vungleHelper sharedInstance] playAd:rootViewController
+  if (![[VungleRouter sharedInstance] playAd:rootViewController
                                     delegate:self
                                       extras:[_connector networkExtras]]) {
     [_connector adapterDidDismissInterstitial:self];
   }
 }
 
-#pragma mark - vungleHelper delegates
+#pragma mark - VungleRouter delegates
 
 @synthesize desiredPlacement;
 

@@ -1,7 +1,7 @@
 #import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import <GoogleMobileAds/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h>
 #import "VungleAdNetworkExtras.h"
-#import "vungleHelper.h"
+#import "VungleRouter.h"
 
 @interface GADMAdapterVungleRewardBasedVideoAd ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> connector;
@@ -10,7 +10,7 @@
 @implementation GADMAdapterVungleRewardBasedVideoAd
 
 + (NSString *)adapterVersion {
-  return [vungleHelper adapterVersion];
+  return [VungleRouter adapterVersion];
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -22,7 +22,7 @@
   self = [super init];
   if (self) {
     self.connector = connector;
-    [[vungleHelper sharedInstance] addDelegate:self];
+    [[VungleRouter sharedInstance] addDelegate:self];
   }
   return self;
 }
@@ -32,7 +32,7 @@
 }
 
 - (void)setUp {
-  [vungleHelper
+  [VungleRouter
       parseServerParameters:[_connector credentials]
               networkExtras:[_connector networkExtras]
                      result:^void(NSDictionary *error, NSString *appId) {
@@ -45,12 +45,12 @@
                          return;
                        }
                        waitingInit = YES;
-                       [[vungleHelper sharedInstance] initWithAppId:appId];
+                       [[VungleRouter sharedInstance] initWithAppId:appId];
                      }];
 }
 
 - (void)requestRewardBasedVideoAd {
-  desiredPlacement = [vungleHelper findPlacement:[_connector credentials]
+  desiredPlacement = [VungleRouter findPlacement:[_connector credentials]
                                    networkExtras:[_connector networkExtras]];
   if (!desiredPlacement) {
     [_connector adapter:self
@@ -61,11 +61,11 @@
                        userInfo:@{NSLocalizedDescriptionKey : @"'placementID' not specified"}]];
     return;
   }
-  [[vungleHelper sharedInstance] loadAd:desiredPlacement];
+  [[VungleRouter sharedInstance] loadAd:desiredPlacement];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-  if (![[vungleHelper sharedInstance] playAd:viewController
+  if (![[VungleRouter sharedInstance] playAd:viewController
                                     delegate:self
                                       extras:[_connector networkExtras]]) {
     [_connector adapterDidCloseRewardBasedVideoAd:self];
@@ -74,10 +74,10 @@
 
 - (void)stopBeingDelegate {
   _connector = nil;
-  [[vungleHelper sharedInstance] removeDelegate:self];
+  [[VungleRouter sharedInstance] removeDelegate:self];
 }
 
-#pragma mark - vungleHelper delegates
+#pragma mark - VungleRouter delegates
 
 @synthesize desiredPlacement;
 

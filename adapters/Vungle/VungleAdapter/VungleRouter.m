@@ -1,26 +1,27 @@
-#import "vungleHelper.h"
+#import "VungleRouter.h"
+#import "VungleRouterConsent.h"
 
 static NSString *const vungleAdapterVersion = @"6.2.0.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
 
-@interface vungleHelper ()
+@interface VungleRouter ()
 @property(strong) NSMutableArray<id<VungleDelegate>> *delegates;
 @property(strong) id<VungleDelegate> playingDelegate;
 @end
 
-@implementation vungleHelper
+@implementation VungleRouter
 
 + (NSString *)adapterVersion {
   return vungleAdapterVersion;
 }
 
-+ (vungleHelper *)sharedInstance {
-  static vungleHelper *instance = nil;
++ (VungleRouter *)sharedInstance {
+  static VungleRouter *instance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    instance = [[vungleHelper alloc] init];
+    instance = [[VungleRouter alloc] init];
   });
   return instance;
 }
@@ -38,7 +39,7 @@ static NSString *const kPlacementID = @"placementID";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSString *version =
-        [[vungleHelper adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        [[VungleRouter adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
@@ -212,6 +213,11 @@ static NSString *const kPlacementID = @"placementID";
 }
 
 - (void)vungleSDKDidInitialize {
+  VungleSDK *sdk = [VungleSDK sharedSDK];
+  if ([VungleRouterConsent getConsentStatus] > 0) {
+    [sdk updateConsentStatus:[VungleRouterConsent getConsentStatus]];
+  }
+
   [self initialized:true error:nil];
 }
 
