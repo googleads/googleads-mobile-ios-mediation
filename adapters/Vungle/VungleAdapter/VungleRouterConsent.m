@@ -8,11 +8,11 @@
 
 #import "VungleRouterConsent.h"
 
-static VungleConsentStatus currentConsentSataus = 0;
+static VungleConsentStatus currentConsentStatus = 0;
 
 @implementation VungleRouterConsent
 + (void)updateConsentStatus:(VungleConsentStatus)consentStatus {
-  currentConsentSataus = consentStatus;
+  currentConsentStatus = consentStatus;
   VungleSDK *sdk = [VungleSDK sharedSDK];
   if (sdk.initialized && consentStatus > 0) {
     [sdk updateConsentStatus:consentStatus];
@@ -20,7 +20,7 @@ static VungleConsentStatus currentConsentSataus = 0;
 }
 
 + (VungleConsentStatus)getConsentStatus {
-  return currentConsentSataus;
+  return currentConsentStatus;
 }
 
 @end
