@@ -7,20 +7,19 @@
 
 #import <AdColony/AdColony.h>
 
-#define DEBUG_LOGGING   0
+#define DEBUG_LOGGING 0
 
 #if DEBUG_LOGGING
-#define NSLogDebug(...)  NSLog(__VA_ARGS__)
+#define NSLogDebug(...) NSLog(__VA_ARGS__)
 #else
 #define NSLogDebug(...)
 #endif
 
 typedef enum {
-    INIT_STATE_UNINITIALIZED,
-    INIT_STATE_INITIALIZED,
-    INIT_STATE_INITIALIZING
+  INIT_STATE_UNINITIALIZED,
+  INIT_STATE_INITIALIZED,
+  INIT_STATE_INITIALIZING
 } InitState;
-
 
 @interface AdColonyInitializer : NSObject
 
@@ -31,7 +30,6 @@ typedef enum {
 + (AdColonyInitializer *)sharedInstance;
 
 @end
-
 
 @implementation AdColonyInitializer
 
@@ -55,8 +53,8 @@ typedef enum {
 - (void)initializeAdColonyWithAppId:(NSString *)appId
                               zones:(NSArray *)newZones
                             request:(id<GADMediationAdRequest>)request
-                           callback:(void(^)())callback {
-  @synchronized (self) {
+                           callback:(void (^)())callback {
+  @synchronized(self) {
     NSLogDebug(@"new zones: %@", newZones);
     NSLogDebug(@"old zones: %@", self.zones);
 
@@ -92,11 +90,11 @@ typedef enum {
         [AdColony configureWithAppID:appId
                              zoneIDs:[self.zones allObjects]
                              options:options
-                          completion:^(NSArray<AdColonyZone *> * _Nonnull zones) {
+                          completion:^(NSArray<AdColonyZone *> *_Nonnull zones) {
                             NSLogDebug(@"config callback");
-                            @synchronized (weakSelf) {
+                            @synchronized(weakSelf) {
                               weakSelf.initState = INIT_STATE_INITIALIZED;
-                              for (void(^localCallback)() in weakSelf.callbacks) {
+                              for (void (^localCallback)() in weakSelf.callbacks) {
                                 localCallback();
                               }
                               weakSelf.callbacks = [NSArray array];
@@ -145,18 +143,16 @@ typedef enum {
 }
 
 - (NSInteger)getNumberOfYearsSinceDate:(NSDate *)date {
-  NSCalendar *calendar = [[NSCalendar alloc]
-                          initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *components = [calendar components:NSCalendarUnitYear
-                                             fromDate:date
-                                               toDate:[NSDate date]
-                                              options:0];
+  NSCalendar *calendar =
+      [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+  NSDateComponents *components =
+      [calendar components:NSCalendarUnitYear fromDate:date toDate:[NSDate date] options:0];
   return [components year];
 }
 
 @end
 
-@interface GADMAdapterAdColony()
+@interface GADMAdapterAdColony ()
 
 @property AdColonyInterstitial *ad;
 @property NSString *appId;
@@ -169,7 +165,6 @@ typedef enum {
 
 @end
 
-
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
@@ -181,7 +176,7 @@ typedef enum {
 }
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-(id<GADMRewardBasedVideoAdNetworkConnector>)connector {
+        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   if (self = [super init]) {
     self.rewardConnector = connector;
     self.request = connector;
@@ -207,8 +202,9 @@ typedef enum {
   } else {
     NSError *error = [NSError errorWithDomain:kGADErrorDomain
                                          code:kGADErrorMediationAdapterError
-                                     userInfo:@{NSLocalizedDescriptionKey:
-                                                  @"Adapter not initialized"}];
+                                     userInfo:@{
+                                       NSLocalizedDescriptionKey : @"Adapter not initialized"
+                                     }];
     [self.rewardConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
   }
 }
@@ -220,8 +216,8 @@ typedef enum {
 
   // Trim all whitespace and add to result if not empty.
   for (NSString *zoneID in zoneIDs) {
-    NSString *trimmed = [zoneID stringByTrimmingCharactersInSet:
-                         [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *trimmed =
+        [zoneID stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (![trimmed isEqualToString:@""]) {
       [result addObject:trimmed];
     }
@@ -230,7 +226,7 @@ typedef enum {
 }
 
 - (void)setupZoneFromRequest:(id<GADMediationAdRequest>)request
-                    callback:(void(^)(NSString *zone))callback {
+                    callback:(void (^)(NSString *zone))callback {
   NSDictionary *credentials = [request credentials];
 
   // Support arrays for older implementations, they won't have to change their zones on the
@@ -241,12 +237,13 @@ typedef enum {
   NSString *zone = [_zones firstObject];
 
   [[AdColonyInitializer sharedInstance] initializeAdColonyWithAppId:self.appId
-                                                              zones:@[zone]
-                                                            request:request callback:^{
-                                                              if (callback) {
-                                                                callback(zone);
-                                                              }
-                                                            }];
+                                                              zones:@[ zone ]
+                                                            request:request
+                                                           callback:^{
+                                                             if (callback) {
+                                                               callback(zone);
+                                                             }
+                                                           }];
 }
 
 - (void)getInterstitialFromZoneId:(NSString *)zone withRequest:(id<GADMediationAdRequest>)request {
@@ -259,8 +256,8 @@ typedef enum {
   NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
 
   [AdColony requestInterstitialInZone:zone
-                              options:options
-                              success:^(AdColonyInterstitial * _Nonnull ad) {
+      options:options
+      success:^(AdColonyInterstitial *_Nonnull ad) {
         NSLogDebug(@"Retrieve ad: %@", zone);
 
         weakSelf.ad = ad;
@@ -272,14 +269,16 @@ typedef enum {
             [weakSelf.rewardConnector adapterDidReceiveRewardBasedVideoAd:weakSelf];
           } else {
             NSLog(@"AdColonyAdapter [**Error**] : Zone used for rewarded video is not a rewarded"
-                  "video zone on AdColony portal.");
-            NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                                 code:kGADErrorInvalidRequest
-                                             userInfo:@{NSLocalizedDescriptionKey:
-                                                          @"Zone used for rewarded video is not a"
-                                                        "rewarded video zone on AdColony portal"}];
+                   "video zone on AdColony portal.");
+            NSError *error = [NSError
+                errorWithDomain:kGADErrorDomain
+                           code:kGADErrorInvalidRequest
+                       userInfo:@{
+                         NSLocalizedDescriptionKey : @"Zone used for rewarded video is not a"
+                                                      "rewarded video zone on AdColony portal"
+                       }];
             [weakSelf.rewardConnector adapter:weakSelf
-     didFailToLoadRewardBasedVideoAdwithError:error];
+                didFailToLoadRewardBasedVideoAdwithError:error];
           }
         }
 
@@ -293,22 +292,25 @@ typedef enum {
         __weak AdColonyInterstitial *weakAd = ad;
         [ad setExpire:^{
           NSLog(@"AdColonyAdapter [Info]: Ad expired from zone: %@", weakAd.zoneID);
-          [weakSelf setupZoneFromRequest:request callback:^(NSString *ignoredZone) {
-            [weakSelf getInterstitialFromZoneId:zone withRequest:request];
-          }];
+          [weakSelf setupZoneFromRequest:request
+                                callback:^(NSString *ignoredZone) {
+                                  [weakSelf getInterstitialFromZoneId:zone withRequest:request];
+                                }];
         }];
-    } failure:^(AdColonyAdRequestError * _Nonnull err) {
-      NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                           code:kGADErrorInvalidRequest
-                                       userInfo:@{NSLocalizedDescriptionKey:
-                                                    err.localizedDescription}];
-      if (weakSelf.connector) {
-        [weakSelf.connector adapter:weakSelf didFailAd:error];
-      } else if (weakSelf.rewardConnector) {
-        [weakSelf.rewardConnector adapter:weakSelf didFailToLoadRewardBasedVideoAdwithError:error];
       }
-      NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
-  }];
+      failure:^(AdColonyAdRequestError *_Nonnull err) {
+        NSError *error =
+            [NSError errorWithDomain:kGADErrorDomain
+                                code:kGADErrorInvalidRequest
+                            userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
+        if (weakSelf.connector) {
+          [weakSelf.connector adapter:weakSelf didFailAd:error];
+        } else if (weakSelf.rewardConnector) {
+          [weakSelf.rewardConnector adapter:weakSelf
+              didFailToLoadRewardBasedVideoAdwithError:error];
+        }
+        NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
+      }];
 }
 
 #pragma mark - Rewarded
@@ -318,9 +320,10 @@ typedef enum {
   // returned from the API.
   // Rewarded videos from admob only initializes once, need to get zone from the request every time,
   // interstitials are instantiated every time.
-  [self setupZoneFromRequest:self.rewardConnector callback:^(NSString *zone) {
-    [self getInterstitialFromZoneId:zone withRequest:self.rewardConnector];
-  }];
+  [self setupZoneFromRequest:self.rewardConnector
+                    callback:^(NSString *zone) {
+                      [self getInterstitialFromZoneId:zone withRequest:self.rewardConnector];
+                    }];
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
@@ -332,9 +335,10 @@ typedef enum {
 #pragma mark - Interstitial
 
 - (void)getInterstitial {
-  [self setupZoneFromRequest:self.connector callback:^(NSString *zone) {
-    [self getInterstitialFromZoneId:zone withRequest:self.connector];
-  }];
+  [self setupZoneFromRequest:self.connector
+                    callback:^(NSString *zone) {
+                      [self getInterstitialFromZoneId:zone withRequest:self.connector];
+                    }];
 }
 
 - (AdColonyAdOptions *)getAdOptionsFromRequest:(id<GADMediationAdRequest>)request {
@@ -399,7 +403,7 @@ typedef enum {
   // Only for rewarded videos.
   if (self.rewardConnector) {
     AdColonyZone *zone = [AdColony zoneForID:self.ad.zoneID];
-    [zone setReward:^(BOOL success, NSString * _Nonnull name, int amount) {
+    [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
       if (success) {
         GADAdReward *reward = [[GADAdReward alloc]
             initWithRewardType:name
@@ -417,11 +421,13 @@ typedef enum {
 #pragma mark - Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                       code:kGADErrorInvalidRequest
-                                   userInfo:@{NSLocalizedDescriptionKey:
-                                                @"AdColony adapter doesn't currently support"
-                                              "Instant-Feed videos."}];
+  NSError *error =
+      [NSError errorWithDomain:kGADErrorDomain
+                          code:kGADErrorInvalidRequest
+                      userInfo:@{
+                        NSLocalizedDescriptionKey : @"AdColony adapter doesn't currently support"
+                                                     "Instant-Feed videos."
+                      }];
   [self.connector adapter:self didFailAd:error];
 }
 

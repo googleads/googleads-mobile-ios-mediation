@@ -1,6 +1,30 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.28.1.1
+- Set mediation service for Facebook adapter.
+
+## Version 4.28.1.0
+- Verified compatibility with FAN SDK 4.28.1.
+- Updated rewarded video delegate method.
+
+## Version 4.28.0.0
+- Verified compatibility with FAN SDK 4.28.0.
+- Added support for Google Unified Native Ads.
+
+## Version 4.27.2.0
+- Verified compatibility with FAN SDK 4.27.2.
+
+## Version 4.27.1.0
+- Verified compatibility with FAN SDK 4.27.1.
+
+## Version 4.27.0.0
+- Verified compatibility with FAN SDK 4.27.0.
+
+## Version 4.26.1.0
+- Verified compatibility with FAN SDK 4.26.1.
+
 ## Version 4.26.0.0
+- Added support for rewarded video ads.
 - Added support for native video ads.
 - Verified compatibility with FAN SDK 4.26.0.
 

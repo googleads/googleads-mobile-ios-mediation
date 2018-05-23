@@ -17,7 +17,6 @@
 @import GoogleMobileAds;
 @import FBAudienceNetwork;
 
-#import <Foundation/Foundation.h>
 #import "GADFBAdapterDelegate.h"
 
 @protocol GADMAdNetworkAdapter;

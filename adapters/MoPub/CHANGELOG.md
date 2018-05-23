@@ -1,6 +1,30 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.20.1.0
+- Fixed an issue causing duplicate symbol errors when the adapter was used with
+  those of other networks.
+- Verified compatibility with MoPub SDK 4.20.1.
+
+## Version 4.20.0.0
+- The adapter now returns a media view for every native ad.
+- Verified compatibility with MoPub SDK 4.20.0.
+
+## Version 4.19.0.0
+- Verified compatibility with MoPub SDK 4.19.0.
+
+## Version 4.18.0.0
+- Verified compatibility with MoPub SDK 4.18.0.
+
+## Version 4.17.0.0
+- Updated the deployment target to iOS 8.
+- Updated the adapter to make it compatibe with MoPub SDK 4.17.0.
+
 ## Version 4.16.0.0
+- The adapter now depends on `mopub-ios-sdk/Core`. MoPub SDK uses Integral Ad
+  Science, Inc. (“IAS”) and Moat, Inc for reporting and viewability measurement.
+  If you wish to use these libaries, they need to be added to your app
+  separately. See [Disabling Viewability Measurement](https://github.com/mopub/mopub-ios-sdk#disabling-viewability-measurement)
+  for more details on how to add these libraries separately.
 - Verified compatibility with MoPub SDK 4.16.0.
 
 ## Version 4.15.0.0

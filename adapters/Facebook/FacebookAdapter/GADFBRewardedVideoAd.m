@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import "GADFBRewardedVideoAd.h"
-#import "GADFBAdapterDelegate.h"
-#import "GADMAdapterFacebook.h"
-#import "GADFBError.h"
 
 @import FBAudienceNetwork;
 @import GoogleMobileAds;
+
+#import "GADFBAdapterDelegate.h"
+#import "GADMAdapterFacebook.h"
+#import "GADFBError.h"
 
 @interface GADFBRewardedVideoAd () {
   /// Connector from Google Mobile Ads SDK which will receive ad configurations.
@@ -88,6 +89,7 @@
     return;
   }
   _rewardedVideoAd.delegate = _adapterDelegate;
+  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_rewardedVideoAd loadAd];
 }
 

@@ -1,11 +1,17 @@
 //
-//  Copyright © 2017 AppLovin, Inc. All rights reserved.
+//  GADMAdapterAppLovinExtras.h
+//
+//
+//  Created by Thomas So on 1/11/18.
+//
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <AppLovinSDk/AppLovinSDK.h>
 
 @interface GADMAdapterAppLovinExtras : NSObject<GADAdNetworkExtras>
-// Optional settings
-// Disable audio for video ads, must be set on each ad request
-@property BOOL muteAudio;
+
+/// Use this to mute audio for video ads. Must be set on each ad request.
+@property(nonatomic, assign) BOOL muteAudio;
+
 @end

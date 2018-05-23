@@ -15,12 +15,12 @@
 @implementation GADInMobiExtras
 
 @synthesize additionalParameters;
-@synthesize postalCode, areaCode, ageGroup, householdIncome;
-@synthesize keywords, interests, nationality;
-@synthesize income, age, yearOfBirth;
+@synthesize postalCode, areaCode, ageGroup;
+@synthesize keywords, interests;
+@synthesize age, yearOfBirth;
 @synthesize loginId, sessionId;
 @synthesize city, state, country, location;
-@synthesize educationType, ethnicityType;
+@synthesize educationType;
 @synthesize language;
 
 - (void)setLocationWithCity:(NSString *)_city
@@ -39,14 +39,8 @@
   [IMSdk setEducation:newEducationType];
 }
 
-- (void)setEthnicityType:(IMSDKEthnicity)newEthnicityType {
-  [IMSdk setEthnicity:newEthnicityType];
-}
 - (void)setAgeGroup:(IMSDKAgeGroup)newAgeGroup {
   [IMSdk setAgeGroup:newAgeGroup];
-}
-- (void)setHouseholdIncome:(IMSDKHouseholdIncome)newHouseholdIncome {
-  [IMSdk setHouseholdIncome:newHouseholdIncome];
 }
 
 - (void)setLogLevel:(IMSDKLogLevel)logLevel {

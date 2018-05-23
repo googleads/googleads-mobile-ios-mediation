@@ -7,34 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m */; };
-		267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5CE1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m */; };
+		267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */; };
 		26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462ED1B87BFE900D2C50F /* SampleCustomEventBanner.m */; };
 		26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */; };
 		26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */; };
 		4A0575BE1C287FFB0085EBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0575BC1C287FFB0085EBE0 /* main.m */; };
-		4A8B03681C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */; };
-		4A8B03691C286F5C0052A060 /* ExampleNativeContentAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */; };
 		4A8B03771C286FDA0052A060 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03731C286FDA0052A060 /* LaunchScreen.xib */; };
 		4A8B03781C286FDA0052A060 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A8B03751C286FDA0052A060 /* Main.storyboard */; };
 		4A93FA521C286D8F00479579 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA3A1C286D8F00479579 /* AppDelegate.m */; };
-		4A93FA571C286D8F00479579 /* ExampleNativeAppInstallAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA451C286D8F00479579 /* ExampleNativeAppInstallAdView.m */; };
-		4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */; };
 		4A93FA591C286D8F00479579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A93FA481C286D8F00479579 /* Images.xcassets */; };
 		4A93FA601C286D8F00479579 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A93FA511C286D8F00479579 /* ViewController.m */; };
+		AE2AA9251FC3907100758247 /* ExampleUnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE2AA9231FC3907100758247 /* ExampleUnifiedNativeAdView.xib */; };
+		AE2AA9281FC3919200758247 /* ExampleUnifiedNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2AA9261FC3919100758247 /* ExampleUnifiedNativeAdView.m */; };
 		AE5DE0491F3E0F32005C0A1D /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE0481F3E0F32005C0A1D /* StartViewController.m */; };
 		AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */; };
 		AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */; };
 		AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */; };
 		AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */; };
-		AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */; };
-		AE5DE0561F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */; };
+		AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */; };
 		AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; };
 		AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
 		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AE776FC7201AA7990096DF82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AE50D6711F3BC46B0007AF85;
+			remoteInfo = SampleAdSDK;
+		};
+		AE776FC9201AA7990096DF82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEABBAE81F606493003BB4D2;
+			remoteInfo = SampleAdSDKAdapter;
+		};
+		AE776FCB201AA7A30096DF82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AE50D6701F3BC46B0007AF85;
+			remoteInfo = SampleAdSDK;
+		};
+		AE776FCD201AA7A70096DF82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AEABBAE71F606493003BB4D2;
+			remoteInfo = SampleAdSDKAdapter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		AEA5C54B1F3A828A00C96491 /* Embed Frameworks */ = {
@@ -52,10 +79,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeAppInstallAd.h; path = CustomEvent/SampleMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
-		267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeAppInstallAd.m; path = CustomEvent/SampleMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
-		267DA5CD1B8D1DD500E6570E /* SampleMediatedNativeContentAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeContentAd.h; path = CustomEvent/SampleMediatedNativeContentAd.h; sourceTree = "<group>"; };
-		267DA5CE1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeContentAd.m; path = CustomEvent/SampleMediatedNativeContentAd.m; sourceTree = "<group>"; };
+		267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeAd.h; path = CustomEvent/SampleMediatedNativeAd.h; sourceTree = "<group>"; };
+		267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeAd.m; path = CustomEvent/SampleMediatedNativeAd.m; sourceTree = "<group>"; };
 		26DB16A81BA8E49700CC3C04 /* SampleCustomEventConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventConstants.h; path = CustomEvent/SampleCustomEventConstants.h; sourceTree = "<group>"; };
 		26E462B21B8693F600D2C50F /* MediationExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediationExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26E462EC1B87BFE900D2C50F /* SampleCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventBanner.h; path = CustomEvent/SampleCustomEventBanner.h; sourceTree = "<group>"; };
@@ -66,27 +91,24 @@
 		26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventNativeAd.m; path = CustomEvent/SampleCustomEventNativeAd.m; sourceTree = "<group>"; };
 		4A0575BB1C287FFB0085EBE0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MediationExample/Info.plist; sourceTree = SOURCE_ROOT; };
 		4A0575BC1C287FFB0085EBE0 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MediationExample/main.m; sourceTree = SOURCE_ROOT; };
-		4A8B03651C286F5C0052A060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MediationExample/Base.lproj/ExampleNativeAppInstallAdView.xib; sourceTree = SOURCE_ROOT; };
-		4A8B03671C286F5C0052A060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MediationExample/Base.lproj/ExampleNativeContentAdView.xib; sourceTree = SOURCE_ROOT; };
 		4A8B03741C286FDA0052A060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = MediationExample/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		4A8B03761C286FDA0052A060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = MediationExample/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		4A93FA391C286D8F00479579 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MediationExample/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		4A93FA3A1C286D8F00479579 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MediationExample/AppDelegate.m; sourceTree = SOURCE_ROOT; };
-		4A93FA441C286D8F00479579 /* ExampleNativeAppInstallAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExampleNativeAppInstallAdView.h; path = MediationExample/ExampleNativeAppInstallAdView.h; sourceTree = SOURCE_ROOT; };
-		4A93FA451C286D8F00479579 /* ExampleNativeAppInstallAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExampleNativeAppInstallAdView.m; path = MediationExample/ExampleNativeAppInstallAdView.m; sourceTree = SOURCE_ROOT; };
-		4A93FA461C286D8F00479579 /* ExampleNativeContentAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExampleNativeContentAdView.h; path = MediationExample/ExampleNativeContentAdView.h; sourceTree = SOURCE_ROOT; };
-		4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExampleNativeContentAdView.m; path = MediationExample/ExampleNativeContentAdView.m; sourceTree = SOURCE_ROOT; };
 		4A93FA481C286D8F00479579 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MediationExample/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4A93FA501C286D8F00479579 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = MediationExample/ViewController.h; sourceTree = SOURCE_ROOT; };
 		4A93FA511C286D8F00479579 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = MediationExample/ViewController.m; sourceTree = SOURCE_ROOT; };
+		AE2AA9241FC3907100758247 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ExampleUnifiedNativeAdView.xib; sourceTree = "<group>"; };
+		AE2AA9261FC3919100758247 /* ExampleUnifiedNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleUnifiedNativeAdView.m; sourceTree = "<group>"; };
+		AE2AA9271FC3919100758247 /* ExampleUnifiedNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleUnifiedNativeAdView.h; sourceTree = "<group>"; };
 		AE5DE0471F3E0F32005C0A1D /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartViewController.h; path = MediationExample/StartViewController.h; sourceTree = SOURCE_ROOT; };
 		AE5DE0481F3E0F32005C0A1D /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartViewController.m; path = MediationExample/StartViewController.m; sourceTree = SOURCE_ROOT; };
 		AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventConstantsSwift.swift; sourceTree = "<group>"; };
 		AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventBannerSwift.swift; sourceTree = "<group>"; };
 		AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventInterstitialSwift.swift; sourceTree = "<group>"; };
 		AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventNativeAdSwift.swift; sourceTree = "<group>"; };
-		AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeAppInstallAdSwift.swift; sourceTree = "<group>"; };
-		AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeContentAdSwift.swift; sourceTree = "<group>"; };
+		AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeAdSwift.swift; sourceTree = "<group>"; };
+		AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleAdSDK.xcodeproj; path = SampleAdSDK/SampleAdSDK.xcodeproj; sourceTree = "<group>"; };
 		AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDKAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
@@ -112,6 +134,7 @@
 				26E462E61B87BFB500D2C50F /* CustomEvent */,
 				AE5DE04A1F3E14FA005C0A1D /* CustomEventSwift */,
 				26E462B41B8693F600D2C50F /* MediationExample */,
+				AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */,
 				26E462B31B8693F600D2C50F /* Products */,
 				74DBB23D50D2FE6107613784 /* Frameworks */,
 			);
@@ -130,10 +153,8 @@
 			children = (
 				4A93FA391C286D8F00479579 /* AppDelegate.h */,
 				4A93FA3A1C286D8F00479579 /* AppDelegate.m */,
-				4A93FA441C286D8F00479579 /* ExampleNativeAppInstallAdView.h */,
-				4A93FA451C286D8F00479579 /* ExampleNativeAppInstallAdView.m */,
-				4A93FA461C286D8F00479579 /* ExampleNativeContentAdView.h */,
-				4A93FA471C286D8F00479579 /* ExampleNativeContentAdView.m */,
+				AE2AA9271FC3919100758247 /* ExampleUnifiedNativeAdView.h */,
+				AE2AA9261FC3919100758247 /* ExampleUnifiedNativeAdView.m */,
 				4A93FA481C286D8F00479579 /* Images.xcassets */,
 				AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */,
 				AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */,
@@ -142,8 +163,7 @@
 				AE5DE0471F3E0F32005C0A1D /* StartViewController.h */,
 				AE5DE0481F3E0F32005C0A1D /* StartViewController.m */,
 				4A8B03751C286FDA0052A060 /* Main.storyboard */,
-				4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */,
-				4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */,
+				AE2AA9231FC3907100758247 /* ExampleUnifiedNativeAdView.xib */,
 				4A8B03731C286FDA0052A060 /* LaunchScreen.xib */,
 				4A8B037B1C28702D0052A060 /* Supporting Files */,
 			);
@@ -160,10 +180,8 @@
 				26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */,
 				26E463011B890E8800D2C50F /* SampleCustomEventNativeAd.h */,
 				26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */,
-				267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.h */,
-				267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m */,
-				267DA5CD1B8D1DD500E6570E /* SampleMediatedNativeContentAd.h */,
-				267DA5CE1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m */,
+				267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAd.h */,
+				267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */,
 			);
 			name = CustomEvent;
 			sourceTree = "<group>";
@@ -193,10 +211,18 @@
 				AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */,
 				AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */,
 				AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */,
-				AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift */,
-				AE5DE0501F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift */,
+				AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */,
 			);
 			path = CustomEventSwift;
+			sourceTree = "<group>";
+		};
+		AE776FC3201AA7990096DF82 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE776FC8201AA7990096DF82 /* SampleAdSDK.framework */,
+				AE776FCA201AA7990096DF82 /* SampleAdSDKAdapter.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +240,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AE776FCE201AA7A70096DF82 /* PBXTargetDependency */,
+				AE776FCC201AA7A30096DF82 /* PBXTargetDependency */,
 			);
 			name = MediationExample;
 			productName = MediationAdapterExample;
@@ -246,6 +274,12 @@
 			mainGroup = 26E462A91B8693F600D2C50F;
 			productRefGroup = 26E462B31B8693F600D2C50F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AE776FC3201AA7990096DF82 /* Products */;
+					ProjectRef = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				26E462B11B8693F600D2C50F /* MediationExample */,
@@ -253,16 +287,32 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		AE776FC8201AA7990096DF82 /* SampleAdSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SampleAdSDK.framework;
+			remoteRef = AE776FC7201AA7990096DF82 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AE776FCA201AA7990096DF82 /* SampleAdSDKAdapter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SampleAdSDKAdapter.framework;
+			remoteRef = AE776FC9201AA7990096DF82 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		26E462B01B8693F600D2C50F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE2AA9251FC3907100758247 /* ExampleUnifiedNativeAdView.xib in Resources */,
 				4A8B03781C286FDA0052A060 /* Main.storyboard in Resources */,
 				4A93FA591C286D8F00479579 /* Images.xcassets in Resources */,
-				4A8B03681C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib in Resources */,
 				4A8B03771C286FDA0052A060 /* LaunchScreen.xib in Resources */,
-				4A8B03691C286F5C0052A060 /* ExampleNativeContentAdView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,46 +323,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAppInstallAd.m in Sources */,
+				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAd.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
-				267DA5CF1B8D1DD500E6570E /* SampleMediatedNativeContentAd.m in Sources */,
 				AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */,
-				AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAppInstallAdSwift.swift in Sources */,
+				AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift in Sources */,
 				26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */,
 				AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */,
 				AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */,
 				AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */,
 				AE5DE0491F3E0F32005C0A1D /* StartViewController.m in Sources */,
-				4A93FA581C286D8F00479579 /* ExampleNativeContentAdView.m in Sources */,
 				4A0575BE1C287FFB0085EBE0 /* main.m in Sources */,
-				AE5DE0561F3E1510005C0A1D /* SampleMediatedNativeContentAdSwift.swift in Sources */,
 				AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */,
-				4A93FA571C286D8F00479579 /* ExampleNativeAppInstallAdView.m in Sources */,
 				26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */,
 				4A93FA521C286D8F00479579 /* AppDelegate.m in Sources */,
 				4A93FA601C286D8F00479579 /* ViewController.m in Sources */,
+				AE2AA9281FC3919200758247 /* ExampleUnifiedNativeAdView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AE776FCC201AA7A30096DF82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SampleAdSDK;
+			targetProxy = AE776FCB201AA7A30096DF82 /* PBXContainerItemProxy */;
+		};
+		AE776FCE201AA7A70096DF82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SampleAdSDKAdapter;
+			targetProxy = AE776FCD201AA7A70096DF82 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		4A8B03641C286F5C0052A060 /* ExampleNativeAppInstallAdView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4A8B03651C286F5C0052A060 /* Base */,
-			);
-			name = ExampleNativeAppInstallAdView.xib;
-			sourceTree = "<group>";
-		};
-		4A8B03661C286F5C0052A060 /* ExampleNativeContentAdView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4A8B03671C286F5C0052A060 /* Base */,
-			);
-			name = ExampleNativeContentAdView.xib;
-			sourceTree = "<group>";
-		};
 		4A8B03731C286FDA0052A060 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -327,6 +371,14 @@
 				4A8B03761C286FDA0052A060 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AE2AA9231FC3907100758247 /* ExampleUnifiedNativeAdView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE2AA9241FC3907100758247 /* Base */,
+			);
+			name = ExampleUnifiedNativeAdView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -427,7 +479,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -441,7 +493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Google.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MediationExample;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

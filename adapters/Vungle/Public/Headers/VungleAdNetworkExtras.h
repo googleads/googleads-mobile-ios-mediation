@@ -21,8 +21,12 @@
  */
 @property(nonatomic, assign) BOOL muted;
 
-@property(nonatomic, copy) NSArray<NSString *> *_Nonnull allPlacements;
+@property(nonatomic, assign) NSUInteger ordinal;
 
-@property(nonatomic, copy) NSString *_Nonnull playingPlacement;
+@property(nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
+
+@property(nonatomic, copy) NSArray<NSString *> *_Nullable allPlacements;
+
+@property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
 @end

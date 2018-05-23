@@ -23,13 +23,11 @@
 @import SampleAdSDK;
 
 #import "AdSourceConfig.h"
-#import "ExampleNativeAppInstallAdView.h"
-#import "ExampleNativeContentAdView.h"
+#import "ExampleUnifiedNativeAdView.h"
 
-@interface ViewController () <GADInterstitialDelegate, GADNativeAppInstallAdLoaderDelegate,
-                              GADNativeContentAdLoaderDelegate>
+@interface ViewController () <GADInterstitialDelegate, GADUnifiedNativeAdLoaderDelegate>
 
-@property (nonatomic, strong) AdSourceConfig *config;
+@property(nonatomic, strong) AdSourceConfig *config;
 
 @property(nonatomic, weak) IBOutlet GADBannerView *bannerAdView;
 
@@ -50,21 +48,19 @@
 @implementation ViewController
 
 + (instancetype)controllerWithAdSourceConfig:(AdSourceConfig *)adSourceConfig {
-  ViewController *controller = [[UIStoryboard storyboardWithName:@"Main"
-                                                          bundle:nil]
-                                instantiateViewControllerWithIdentifier:@"ViewController"];
+  ViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]
+      instantiateViewControllerWithIdentifier:@"ViewController"];
   controller.config = adSourceConfig;
   return controller;
 }
 
 - (IBAction)refreshNativeAd:(id)sender {
   GADNativeAdViewAdOptions *adViewOptions = [[GADNativeAdViewAdOptions alloc] init];
-  adViewOptions.preferredAdChoicesPosition = GADAdChoicesPositionBottomRightCorner;
+  adViewOptions.preferredAdChoicesPosition = GADAdChoicesPositionTopRightCorner;
 
   self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:self.config.nativeAdUnitID
                                      rootViewController:self
-                                                adTypes:@[ kGADAdLoaderAdTypeNativeAppInstall,
-                                                           kGADAdLoaderAdTypeNativeContent]
+                                                adTypes:@[ kGADAdLoaderAdTypeUnifiedNative ]
                                                 options:@[ adViewOptions ]];
   self.adLoader.delegate = self;
   [self.adLoader loadRequest:[GADRequest request]];
@@ -84,12 +80,10 @@
 }
 
 - (void)requestInterstitial {
-  self.interstitial =
-      [[GADInterstitial alloc] initWithAdUnitID:self.config.interstitialAdUnitID];
+  self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:self.config.interstitialAdUnitID];
   self.interstitial.delegate = self;
   [self.interstitial loadRequest:[GADRequest request]];
 }
-
 
 - (IBAction)showInterstitial:(UIButton *)sender {
   if (self.interstitial.isReady) {
@@ -129,8 +123,7 @@
 
 - (void)interstitial:(GADInterstitial *)interstitial
     didFailToReceiveAdWithError:(GADRequestError *)error {
-  NSLog(@"Interstitial failed to load with error code %@.",
-        error.localizedDescription);
+  NSLog(@"Interstitial failed to load with error code %@.", error.localizedDescription);
 }
 
 - (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
@@ -143,72 +136,7 @@
   NSLog(@"%@ failed with error: %@", adLoader, error.localizedDescription);
 }
 
-#pragma mark GADNativeAppInstallAdLoaderDelegate implementation
-
-- (void)adLoader:(GADAdLoader *)adLoader
-    didReceiveNativeAppInstallAd:(GADNativeAppInstallAd *)nativeAppInstallAd {
-  NSLog(@"Received native app install ad: %@", nativeAppInstallAd);
-
-  // Create and place ad in view hierarchy.
-  NSArray *nibLoadResult =
-      [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeAppInstallAdView" owner:nil options:nil];
-  ExampleNativeAppInstallAdView *appInstallAdView = nibLoadResult.firstObject;
-
-  UIView *placeholder = self.nativeAdPlaceholder;;
-  NSString *awesomenessKey = self.config.awesomenessKey;
-
-  [self replaceNativeAdView:appInstallAdView inPlaceholder:placeholder];
-
-  // Associate the app install ad view with the app install ad object. This is required to make the
-  // ad clickable.
-  appInstallAdView.nativeAppInstallAd = nativeAppInstallAd;
-
-  // Populate the app install ad view with the app install ad assets.
-  // Some assets are guaranteed to be present in every app install ad.
-  ((UILabel *)appInstallAdView.headlineView).text = nativeAppInstallAd.headline;
-  ((UIImageView *)appInstallAdView.iconView).image = nativeAppInstallAd.icon.image;
-  ((UILabel *)appInstallAdView.bodyView).text = nativeAppInstallAd.body;
-  ((UIImageView *)appInstallAdView.imageView).image =
-      ((GADNativeAdImage *)[nativeAppInstallAd.images firstObject]).image;
-  [((UIButton *)appInstallAdView.callToActionView)setTitle:nativeAppInstallAd.callToAction
-                                                  forState:UIControlStateNormal];
-
-  // Other assets are not, however, and should be checked first.
-  if (nativeAppInstallAd.starRating) {
-    ((UIImageView *)appInstallAdView.starRatingView).image =
-        [self imageForStars:nativeAppInstallAd.starRating];
-    appInstallAdView.starRatingView.hidden = NO;
-  } else {
-    appInstallAdView.starRatingView.hidden = YES;
-  }
-
-  if (nativeAppInstallAd.store) {
-    ((UILabel *)appInstallAdView.storeView).text = nativeAppInstallAd.store;
-    appInstallAdView.storeView.hidden = NO;
-  } else {
-    appInstallAdView.storeView.hidden = YES;
-  }
-
-  if (nativeAppInstallAd.price) {
-    ((UILabel *)appInstallAdView.priceView).text = nativeAppInstallAd.price;
-    appInstallAdView.priceView.hidden = NO;
-  } else {
-    appInstallAdView.priceView.hidden = YES;
-  }
-
-  // If the ad came from the Sample SDK, it should contain an extra asset, which is retrieved here.
-  NSString *degreeOfAwesomeness = nativeAppInstallAd.extraAssets[awesomenessKey];
-
-  if (degreeOfAwesomeness) {
-    appInstallAdView.degreeOfAwesomenessView.text = degreeOfAwesomeness;
-    appInstallAdView.degreeOfAwesomenessView.hidden = NO;
-  } else {
-    appInstallAdView.degreeOfAwesomenessView.hidden = YES;
-  }
-
-  // In order for the SDK to process touch events properly, user interaction should be disabled.
-  appInstallAdView.callToActionView.userInteractionEnabled = NO;
-}
+#pragma mark Utility Method
 
 /// Gets an image representing the number of stars. Returns nil if rating is less than 3.5 stars.
 - (UIImage *)imageForStars:(NSDecimalNumber *)numberOfStars {
@@ -226,56 +154,95 @@
   }
 }
 
-#pragma mark GADNativeContentAdLoaderDelegate implementation
+#pragma mark GADUnifiedNatveAdLoaderDelegate implementation
 
-- (void)adLoader:(GADAdLoader *)adLoader
-    didReceiveNativeContentAd:(GADNativeContentAd *)nativeContentAd {
-  NSLog(@"Received native content ad: %@", nativeContentAd);
+- (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd {
+  NSLog(@"%s, %@", __PRETTY_FUNCTION__, nativeAd);
 
   // Create and place ad in view hierarchy.
-  NSArray *nibLoadResult =
-      [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeContentAdView" owner:nil options:nil];
-  ExampleNativeContentAdView *contentAdView = nibLoadResult.firstObject;
+  ExampleUnifiedNativeAdView *nativeAdView =
+      [[NSBundle mainBundle] loadNibNamed:@"ExampleUnifiedNativeAdView" owner:nil options:nil]
+          .firstObject;
 
-  UIView *placeholder = self.nativeAdPlaceholder;;
+  nativeAdView.nativeAd = nativeAd;
+  UIView *placeholder = self.nativeAdPlaceholder;
+  ;
   NSString *awesomenessKey = self.config.awesomenessKey;
 
-  [self replaceNativeAdView:contentAdView inPlaceholder:placeholder];
+  [self replaceNativeAdView:nativeAdView inPlaceholder:placeholder];
 
-  // Associate the content ad view with the content ad object. This is required to make the ad
-  // clickable.
-  contentAdView.nativeContentAd = nativeContentAd;
+  if (nativeAd.videoController.hasVideoContent) {
+    nativeAdView.imageView.hidden = YES;
+    nativeAdView.mediaView.contentMode = UIViewContentModeScaleAspectFit;
+    nativeAdView.mediaView.hidden = NO;
+  } else {
+    nativeAdView.imageView.hidden = NO;
+    nativeAdView.mediaView.hidden = YES;
+    GADNativeAdImage *image = nativeAd.images.firstObject;
+    if (image != nil) {
+      ((UIImageView *)nativeAdView.imageView).image = image.image;
+    }
+  }
 
-  // Populate the content ad view with the content ad assets.
-  // Some assets are guaranteed to be present in every content ad.
-  ((UILabel *)contentAdView.headlineView).text = nativeContentAd.headline;
-  ((UILabel *)contentAdView.bodyView).text = nativeContentAd.body;
-  ((UIImageView *)contentAdView.imageView).image =
-      ((GADNativeAdImage *)[nativeContentAd.images firstObject]).image;
-  ((UILabel *)contentAdView.advertiserView).text = nativeContentAd.advertiser;
-  [((UIButton *)contentAdView.callToActionView)setTitle:nativeContentAd.callToAction
+  // Populate the native ad view with the native ad assets.
+  // Some assets are guaranteed to be present in every native ad.
+  ((UILabel *)nativeAdView.headlineView).text = nativeAd.headline;
+  ((UILabel *)nativeAdView.bodyView).text = nativeAd.body;
+  [((UIButton *)nativeAdView.callToActionView) setTitle:nativeAd.callToAction
                                                forState:UIControlStateNormal];
 
-  // Other assets are not, however, and should be checked first.
-  if (nativeContentAd.logo && nativeContentAd.logo.image) {
-    ((UIImageView *)contentAdView.logoView).image = nativeContentAd.logo.image;
-    contentAdView.logoView.hidden = NO;
+  GADNativeAdImage *image = nativeAd.images.firstObject;
+  if (image != nil) {
+    ((UIImageView *)nativeAdView.imageView).image = image.image;
+  }
+
+  // These assets are not guaranteed to be present, and should be checked first.
+  ((UIImageView *)nativeAdView.iconView).image = nativeAd.icon.image;
+  if (nativeAd.icon != nil) {
+    nativeAdView.iconView.hidden = NO;
   } else {
-    contentAdView.logoView.hidden = YES;
+    nativeAdView.iconView.hidden = YES;
+  }
+  ((UIImageView *)nativeAdView.starRatingView).image = [self imageForStars:nativeAd.starRating];
+  if (nativeAd.starRating) {
+    nativeAdView.starRatingView.hidden = NO;
+  } else {
+    nativeAdView.starRatingView.hidden = YES;
+  }
+
+  ((UILabel *)nativeAdView.storeView).text = nativeAd.store;
+  if (nativeAd.store) {
+    nativeAdView.storeView.hidden = NO;
+  } else {
+    nativeAdView.storeView.hidden = YES;
+  }
+
+  ((UILabel *)nativeAdView.priceView).text = nativeAd.price;
+  if (nativeAd.price) {
+    nativeAdView.priceView.hidden = NO;
+  } else {
+    nativeAdView.priceView.hidden = YES;
+  }
+
+  ((UILabel *)nativeAdView.advertiserView).text = nativeAd.advertiser;
+  if (nativeAd.advertiser) {
+    nativeAdView.advertiserView.hidden = NO;
+  } else {
+    nativeAdView.advertiserView.hidden = YES;
   }
 
   // If the ad came from the Sample SDK, it should contain an extra asset, which is retrieved here.
-  NSString *degreeOfAwesomeness = nativeContentAd.extraAssets[awesomenessKey];
+  NSString *degreeOfAwesomeness = nativeAd.extraAssets[awesomenessKey];
 
   if (degreeOfAwesomeness) {
-    contentAdView.degreeOfAwesomenessView.text = degreeOfAwesomeness;
-    contentAdView.degreeOfAwesomenessView.hidden = NO;
+    nativeAdView.degreeOfAwesomenessView.text = degreeOfAwesomeness;
+    nativeAdView.degreeOfAwesomenessView.hidden = NO;
   } else {
-    contentAdView.degreeOfAwesomenessView.hidden = YES;
+    nativeAdView.degreeOfAwesomenessView.hidden = YES;
   }
 
   // In order for the SDK to process touch events properly, user interaction should be disabled.
-  contentAdView.callToActionView.userInteractionEnabled = NO;
+  nativeAdView.callToActionView.userInteractionEnabled = NO;
 }
 
 @end
