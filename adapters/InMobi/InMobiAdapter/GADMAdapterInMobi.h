@@ -17,7 +17,7 @@
     : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter, IMBannerDelegate,
                IMInterstitialDelegate, IMNativeDelegate> {
 }
-
++(BOOL) isAppInitialised;
 @property(nonatomic, retain) IMBanner *adView;
 @property(nonatomic, retain) IMInterstitial *interstitial;
 @property(nonatomic, retain) IMInterstitial *adRewarded;
