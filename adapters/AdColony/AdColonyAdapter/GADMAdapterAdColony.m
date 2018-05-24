@@ -21,6 +21,9 @@ typedef enum {
   INIT_STATE_INITIALIZING
 } InitState;
 
+static NSString *const kAdColonyExplicitConsentGiven = @"explicit_consent_given";
+static NSString *const kAdColonyConsentResponse = @"consent_response";
+
 @interface AdColonyInitializer : NSObject
 
 @property NSSet *zones;
@@ -117,6 +120,14 @@ typedef enum {
   if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
     options.userID = extras.userId;
     options.testMode = extras.testMode;
+
+    if (extras.additionalParameters) {
+      NSString *npa = extras.additionalParameters[@"npa"];
+      if (npa) {
+        [options setOption:kAdColonyExplicitConsentGiven withNumericValue:@YES];
+        [options setOption:kAdColonyConsentResponse withNumericValue:@(![npa isEqualToString:@"1"])];
+      }
+    }
   }
 
   GADGender gender = [request userGender];
@@ -168,11 +179,11 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-    return [AdColony getSDKVersion];
+  return @"3.3.4.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  return NSClassFromString(@"GADMAdapterAdColonyExtras");
+  return GADMAdapterAdColonyExtras.class;
 }
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
