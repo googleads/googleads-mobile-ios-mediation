@@ -4,7 +4,7 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterAdColonyExtras : NSObject<GADAdNetworkExtras>
+@interface GADMAdapterAdColonyExtras : GADExtras
 
 /// Optional custom identifier for the current user for rewarded video, this will be used within
 /// server authoritative rewards.
