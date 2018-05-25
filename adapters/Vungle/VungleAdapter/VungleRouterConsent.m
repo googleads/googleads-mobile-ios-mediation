@@ -7,6 +7,7 @@
 //
 
 #import "VungleRouterConsent.h"
+#import <VungleSDK/VungleSDK.h>
 
 static VungleConsentStatus currentConsentStatus = 0;
 
