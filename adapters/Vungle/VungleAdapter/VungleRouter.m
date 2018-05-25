@@ -1,26 +1,27 @@
-#import "vungleHelper.h"
+#import "VungleRouter.h"
+#import "VungleRouterConsent.h"
 
 static NSString *const vungleAdapterVersion = @"6.2.0.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
 
-@interface vungleHelper ()
+@interface VungleRouter ()
 @property(strong) NSMutableArray<id<VungleDelegate>> *delegates;
 @property(strong) id<VungleDelegate> playingDelegate;
 @end
 
-@implementation vungleHelper
+@implementation VungleRouter
 
 + (NSString *)adapterVersion {
   return vungleAdapterVersion;
 }
 
-+ (vungleHelper *)sharedInstance {
-  static vungleHelper *instance = nil;
++ (VungleRouter *)sharedInstance {
+  static VungleRouter *instance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    instance = [[vungleHelper alloc] init];
+    instance = [[VungleRouter alloc] init];
   });
   return instance;
 }
@@ -34,11 +35,11 @@ static NSString *const kPlacementID = @"placementID";
   return self;
 }
 
-- (void)initWithAppId:(NSString *)appId placements:(NSArray<NSString *> *)placements {
+- (void)initWithAppId:(NSString *)appId {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSString *version =
-        [[vungleHelper adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        [[VungleRouter adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
@@ -58,7 +59,6 @@ static NSString *const kPlacementID = @"placementID";
   _isInitialising = true;
 
   NSError *err = nil;
-  _allPlacements = placements;
   [sdk startWithAppId:appId error:&err];
   if (err) {
     [self initialized:false error:err];
@@ -68,29 +68,22 @@ static NSString *const kPlacementID = @"placementID";
 + (void)parseServerParameters:(NSDictionary *)serverParameters
                 networkExtras:(VungleAdNetworkExtras *)networkExtras
                        result:(ParameterCB)result {
-  NSMutableArray *allPlacements = [NSMutableArray array];
-  if (networkExtras && networkExtras.allPlacements && [networkExtras.allPlacements count] > 0) {
-    [allPlacements addObjectsFromArray:networkExtras.allPlacements];
+  if ([networkExtras.allPlacements count] > 0) {
+    NSLog(
+        @"No need to pass placement IDs through `VungleAdNetworkExtras` with Vungle iOS SDK "
+        @"version %@ and plugin version %@",
+        VungleSDKVersion, vungleAdapterVersion);
   }
 
-  if (!serverParameters || ![serverParameters objectForKey:kApplicationID]) {
-    NSLog(@"Vungle app ID should be specified!");
-    result(@{ NSLocalizedDescriptionKey : @"Vungle app ID should be specified!" }, nil, nil);
-    return;
-  }
-  NSString *appId = [serverParameters objectForKey:kApplicationID];
-
-  if (allPlacements.count == 0) {
-    NSLog(@"At least one placement should be specified!");
-    result(
-        @{
-          NSLocalizedDescriptionKey : @"At least one placement should be specified!"
-        },
-        nil, nil);
+  NSString *appId = serverParameters[kApplicationID];
+  if (!appId) {
+    NSString *const message = @"Vungle app ID should be specified!";
+    NSLog(message);
+    result(@{NSLocalizedDescriptionKey : message}, nil);
     return;
   }
 
-  result(nil, appId, allPlacements);
+  result(nil, appId);
 }
 
 + (NSString *)findPlacement:(NSDictionary *)serverParameters
@@ -101,8 +94,9 @@ static NSString *const kPlacementID = @"placementID";
   }
   if (networkExtras && networkExtras.playingPlacement) {
     if (ret) {
-      NSLog(@"'placementID' had a value in both serverParameters and networkExtras. Used one from "
-            @"serverParameters");
+      NSLog(
+          @"'placementID' had a value in both serverParameters and networkExtras. Used one from "
+          @"serverParameters");
     } else {
       ret = networkExtras.playingPlacement;
     }
@@ -196,17 +190,34 @@ static NSString *const kPlacementID = @"placementID";
                           placementID:(nonnull NSString *)placementID {
   if (_playingDelegate) {
     [_playingDelegate willCloseAd:[info.completedView boolValue]
-                 didClickDownload:[info.didDownload boolValue]];
+                      didDownload:[info.didDownload boolValue]];
   }
 }
 
-- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(nullable NSString *)placementID {
+- (void)vungleDidCloseAdWithViewInfo:(VungleViewInfo *)info placementID:(NSString *)placementID {
+  if (_playingDelegate) {
+    [_playingDelegate didCloseAd:[info.completedView boolValue]
+                     didDownload:[info.didDownload boolValue]];
+  }
+}
+
+- (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
+                      placementID:(NSString *)placementID
+                            error:(NSError *)error {
   if (isAdPlayable) {
     [self notifyAdIsReady:placementID];
+  } else if (error) {
+    // do we want to do anything with the error here?
+    NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
   }
 }
 
 - (void)vungleSDKDidInitialize {
+  VungleSDK *sdk = [VungleSDK sharedSDK];
+  if ([VungleRouterConsent getConsentStatus] > 0) {
+    [sdk updateConsentStatus:[VungleRouterConsent getConsentStatus]];
+  }
+
   [self initialized:true error:nil];
 }
 
