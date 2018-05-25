@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;
 + (nullable NSNumber *)ageFromBirthday:(NSDate *)birthday;
 + (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
++ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
 
 @end
 
