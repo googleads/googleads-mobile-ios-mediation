@@ -64,6 +64,10 @@ static NSString *const kAdapterTpValue = @"gmext";
   if (self) {
     _connector = connector;
     _imageDownloadQueue = [[MPImageDownloadQueue alloc] init];
+      
+    // Initializing the MoPub SDK. Required as of 5.0.0
+    NSString *publisherID = [_connector credentials][@"pubid"];
+    [self initializeMoPub:publisherID];
   }
   return self;
 }
@@ -72,7 +76,10 @@ static NSString *const kAdapterTpValue = @"gmext";
   _bannerAd.delegate = nil;
   _interstitialAd.delegate = nil;
 }
-
+/*
+ Keywords passed from AdMob are separated into 1) personally identifiable, and 2) non-personally identifiable categories
+ before they are forwarded to MoPub due to GDPR.
+ */
 - (NSString *)getKeywords:(BOOL) intendedForPII {
   NSDate *birthday = [_connector userBirthday];
   NSString *ageString = @"";
@@ -93,9 +100,9 @@ static NSString *const kAdapterTpValue = @"gmext";
   NSString *keywordsBuilder = [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
 
   if (intendedForPII) {
-    return [self keywordsContainPII:_connector]? keywordsBuilder : @"";
+    return [self keywordsContainUserData:_connector]? keywordsBuilder : @"";
   } else {
-    return [self keywordsContainPII:_connector]? @"" : keywordsBuilder;
+    return [self keywordsContainUserData:_connector]? @"" : keywordsBuilder;
   }
 }
 
@@ -108,7 +115,7 @@ static NSString *const kAdapterTpValue = @"gmext";
   return ageComponents.year;
 }
 
-- (BOOL) keywordsContainPII:(id<GADMAdNetworkConnector>) connector {
+- (BOOL) keywordsContainUserData:(id<GADMAdNetworkConnector>) connector {
     return [_connector userGender] || [_connector userBirthday] || [_connector userHasLocation];
 }
 
@@ -116,7 +123,6 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getInterstitial {
   NSString *publisherID = [_connector credentials][@"pubid"];
-  [self initializeMoPub:publisherID];
     
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
@@ -164,7 +170,6 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *publisherID = [_connector credentials][@"pubid"];
-  [self initializeMoPub:publisherID];
     
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
@@ -224,8 +229,6 @@ static NSString *const kAdapterTpValue = @"gmext";
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
 
   NSString *publisherID = [_connector credentials][@"pubid"];
-  [self initializeMoPub:publisherID];
-
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[ config ]];
 
