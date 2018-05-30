@@ -4,7 +4,7 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterAdColonyExtras : GADExtras
+@interface GADMAdapterAdColonyExtras : NSObject<GADAdNetworkExtras>
 
 /// Optional custom identifier for the current user for rewarded video, this will be used within
 /// server authoritative rewards.
@@ -19,5 +19,12 @@
 
 /// Enables test ads for your application without changing dashboard settings.
 @property BOOL testMode;
+
+/// Inform AdColony that GDPR should be considered for the user.
+@property (nonatomic) BOOL gdprRequired;
+
+/// End user's IAB compatiable GDPR consent string.
+/// See: https://github.com/AdColony/AdColony-iOS-SDK-3/wiki/GDPR
+@property (nonatomic) NSString *gdprConsentString;
 
 @end

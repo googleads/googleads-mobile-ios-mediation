@@ -21,9 +21,6 @@ typedef enum {
   INIT_STATE_INITIALIZING
 } InitState;
 
-static NSString *const kAdColonyExplicitConsentGiven = @"explicit_consent_given";
-static NSString *const kAdColonyConsentResponse = @"consent_response";
-
 @interface AdColonyInitializer : NSObject
 
 @property NSSet *zones;
@@ -120,13 +117,9 @@ static NSString *const kAdColonyConsentResponse = @"consent_response";
   if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
     options.userID = extras.userId;
     options.testMode = extras.testMode;
-
-    if (extras.additionalParameters) {
-      NSString *npa = extras.additionalParameters[@"npa"];
-      if (npa) {
-        [options setOption:kAdColonyExplicitConsentGiven withNumericValue:@YES];
-        [options setOption:kAdColonyConsentResponse withNumericValue:@(![npa isEqualToString:@"1"])];
-      }
+    if (extras.gdprRequired) {
+      options.gdprRequired = extras.gdprRequired;
+      options.gdprConsentString = extras.gdprConsentString;
     }
   }
 
