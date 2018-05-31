@@ -1,5 +1,8 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 3.3.4.0
+- Verified compatibility with AdColony SDK 3.3.4.
+
 ## Version 3.3.0.0
 - Verified compatibility with AdColony SDK 3.3.0.
 
