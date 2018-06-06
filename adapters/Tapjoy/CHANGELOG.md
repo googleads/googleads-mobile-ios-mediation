@@ -1,5 +1,8 @@
 # Tapjoy Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 11.12.2.0
+- Verified compatibility with Tapjoy SDK 11.12.2.
+
 ## Version 11.12.1.0
 - Verified compatibility with Tapjoy SDK 11.12.1.
 

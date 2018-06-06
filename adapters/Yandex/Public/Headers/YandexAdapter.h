@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+//  Copyright © 2018 Google. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,5 +15,5 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <VungleAdapter/VungleAdNetworkExtras.h>
-#import <VungleAdapter/VungleRouterConsent.h>
+/// Import all your public header files here.
+//#import <YandexAdapter/YOUR_PUBLIC_HEADER.h>

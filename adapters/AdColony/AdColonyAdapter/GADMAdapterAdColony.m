@@ -117,6 +117,10 @@ typedef enum {
   if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
     options.userID = extras.userId;
     options.testMode = extras.testMode;
+    if (extras.gdprRequired) {
+      options.gdprRequired = extras.gdprRequired;
+      options.gdprConsentString = extras.gdprConsentString;
+    }
   }
 
   GADGender gender = [request userGender];
@@ -168,11 +172,11 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-  return @"3.3.0.0";
+  return @"3.3.4.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  return NSClassFromString(@"GADMAdapterAdColonyExtras");
+  return GADMAdapterAdColonyExtras.class;
 }
 
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
