@@ -24,7 +24,8 @@
 
   ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
   [sdk setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion];
-
+  sdk.mediationProvider = ALMediationProviderAdMob;
+    
   return sdk;
 }
 
@@ -70,6 +71,20 @@
   [inv invokeWithTarget:incent];
 
   return incent;
+}
+
+#pragma mark - Logging
+
++ (void)log:(NSString *)format, ... {
+  if (GADMAdapterAppLovinConstant.loggingEnabled) {
+    va_list valist;
+    va_start(valist, format);
+    NSString *message =
+    [[NSString alloc] initWithFormat:format arguments:valist];
+    va_end(valist);
+
+    NSLog(@"AppLovinAdapter: %@", message);
+  }
 }
 
 @end
