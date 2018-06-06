@@ -109,26 +109,28 @@ didFailToPrecacheVideoForAd
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
  didPrecacheImagesForAd:(nonnull ALNativeAd *)ad {
-    if ([self.adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative]) {
-        GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
-        [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad];
-        if (unifiedNativeAd) {
-            [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
-            [self.connector adapter:self didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
-            return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative]) {
+            GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
+            [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad];
+            if (unifiedNativeAd) {
+                [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
+                [self.connector adapter:self didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
+                return;
+            }
+        } else if ([self.adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]) {
+            GADMAppLovinMediatedNativeAppInstallAd *appInstallNativeAd =
+            [[GADMAppLovinMediatedNativeAppInstallAd alloc] initWithNativeAd:ad];
+            if (appInstallNativeAd) {
+                [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
+                [self.connector adapter:self didReceiveMediatedNativeAd:appInstallNativeAd];
+                return;
+            }
         }
-    } else if ([self.adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]) {
-        GADMAppLovinMediatedNativeAppInstallAd *appInstallNativeAd =
-        [[GADMAppLovinMediatedNativeAppInstallAd alloc] initWithNativeAd:ad];
-        if (appInstallNativeAd) {
-            [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
-            [self.connector adapter:self didReceiveMediatedNativeAd:appInstallNativeAd];
-            return;
-        }
-    }
-    
-    [GADMAdapterAppLovinUtils log:@"Failed to create a native ad."];
-    [self notifyFailureWithErrorCode:kGADErrorNoFill];
+        
+        [GADMAdapterAppLovinUtils log:@"Failed to create a native ad."];
+        [self notifyFailureWithErrorCode:kGADErrorNoFill];
+    });
 }
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service

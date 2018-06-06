@@ -15,6 +15,7 @@
 @property(nonatomic, strong) ALNativeAd *nativeAd;
 @property(nonatomic, strong) NSArray *nativeAdImages;
 @property(nonatomic, strong) GADNativeAdImage *nativeAdIcon;
+@property(nonatomic, strong) UIImageView *mainImageView;
 @property(nonatomic, copy) NSDictionary<NSString *, id> *extras;
 
 @end
@@ -37,6 +38,7 @@
         UIImage *downloadedIcon =
         [UIImage imageWithData: [NSData dataWithContentsOfURL: self.nativeAd.iconURL]];
         self.nativeAdIcon = [[GADNativeAdImage alloc] initWithImage: downloadedIcon];
+        self.mainImageView = [[UIImageView alloc] initWithImage:downloadedImage];
         
         NSMutableDictionary *extraAssets =
         [NSMutableDictionary dictionaryWithObject:self.nativeAd.adIdNumber forKey:GADMAppLovinAdID];
@@ -93,10 +95,7 @@
 }
 
 - (UIView *)mediaView {
-    GADNativeAdImage *nativeAdImage = (GADNativeAdImage *)[self.nativeAdImages firstObject];
-    UIImage *image = [nativeAdImage image];
-    UIImageView *mainImageView = [[UIImageView alloc] initWithImage:image];
-    return mainImageView;
+    return self.mainImageView;
 }
 
 - (void)didRecordImpression {
