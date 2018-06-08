@@ -6,12 +6,12 @@
 //
 //
 
-#import <AppLovinSDK/AppLovinSDK.h>
 #import "GADMAdapterAppLovin.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 #import "GADMAdapterAppLovinConstant.h"
-#import "GADMAdapterAppLovinUtils.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinQueue.h"
+#import "GADMAdapterAppLovinUtils.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -33,28 +33,28 @@
 
 /// Controller properties - The connector/credentials referencing these properties may get
 /// deallocated.
-@property(nonatomic, copy) NSString *
-    placement;  // Placements are left in this adapter for backwards-compatibility purposes.
+@property(nonatomic, copy) NSString
+    *placement;  // Placements are left in this adapter for backwards-compatibility purposes.
 @property(nonatomic, copy) NSString *zoneIdentifier;
 
 @end
 
 /// Interstitial Load Delegate.
-@interface GADMAdapterAppLovinInterstitialLoadDelegate : NSObject<ALAdLoadDelegate>
+@interface GADMAdapterAppLovinInterstitialLoadDelegate : NSObject <ALAdLoadDelegate>
 @property(nonatomic, copy) NSString *zoneIdentifier;
 - (instancetype)initWithZoneIdentifier:(NSString *)zoneIdentifier;
 @end
 
 /// Interstitial Delegate.
 @interface GADMAdapterAppLovinInterstitialDelegate
-    : NSObject<ALAdDisplayDelegate, ALAdVideoPlaybackDelegate, ALAdViewEventDelegate>
+    : NSObject <ALAdDisplayDelegate, ALAdVideoPlaybackDelegate, ALAdViewEventDelegate>
 @property(nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
 - (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
 @end
 
 /// Banner Delegate.
 @interface GADMAdapterAppLovinBannerDelegate
-    : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 @property(nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
 - (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
 @end
@@ -62,10 +62,10 @@
 @implementation GADMAdapterAppLovin
 
 // Use weak references to allow AdMob to release our adapter when needed.
-static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<GADMAdapterAppLovin *> *> *
-    ALInterstitialPendingLoadDelegates;
-static NSMutableDictionary<NSString *, GADMAdapterAppLovinInterstitialLoadDelegate *> *
-    ALInterstitialLoadDelegates;
+static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<GADMAdapterAppLovin *> *>
+    *ALInterstitialPendingLoadDelegates;
+static NSMutableDictionary<NSString *, GADMAdapterAppLovinInterstitialLoadDelegate *>
+    *ALInterstitialLoadDelegates;
 static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<ALAd *> *> *ALInterstitialAdQueues;
 static NSObject *ALInterstitialAdQueueLock;
 
@@ -124,7 +124,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
         [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
 
     [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
-                             self.zoneIdentifier, self.placement];
+                                  self.zoneIdentifier, self.placement];
 
     GADMAdapterAppLovinQueue *__nullable queue = ALInterstitialAdQueues[self.zoneIdentifier];
     if (queue.count == 0)  // If we don't already have enqueued ads, fetch from SDK.
@@ -172,7 +172,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
     ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
     if (dequeuedAd) {
       [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@ placement: %@",
-                               dequeuedAd.adIdNumber, self.zoneIdentifier, self.placement];
+                                    dequeuedAd.adIdNumber, self.zoneIdentifier, self.placement];
       [self.interstitial showOver:[UIApplication sharedApplication].keyWindow
                         placement:self.placement
                         andRender:dequeuedAd];
@@ -214,7 +214,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
       [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
 
   [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@ and placement: %@",
-                           NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
+                                NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
 
   // Convert requested size to AppLovin Ad Size.
   ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize:adSize];
@@ -400,7 +400,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
              atPlaybackPercent:(NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
   [GADMAdapterAppLovinUtils log:@"Interstitial video playback ended at playback percent: %lu%%",
-                           percentPlayed.unsignedIntegerValue];
+                                percentPlayed.unsignedIntegerValue];
 }
 
 @end
@@ -420,8 +420,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@ and placement: %@", ad.adIdNumber,
-                           self.parentAdapter.zoneIdentifier, self.parentAdapter.placement];
+  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@ and placement: %@",
+                                ad.adIdNumber, self.parentAdapter.zoneIdentifier,
+                                self.parentAdapter.placement];
 
   [self.parentAdapter.adView render:ad overPlacement:self.parentAdapter.placement];
   [self.parentAdapter.connector adapter:self.parentAdapter

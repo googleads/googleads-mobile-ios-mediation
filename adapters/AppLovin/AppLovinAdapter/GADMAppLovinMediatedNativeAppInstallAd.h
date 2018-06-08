@@ -6,10 +6,10 @@
 //  Copyright © 2018 AppLovin Corp. All rights reserved.
 //
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAppLovinMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
+@interface GADMAppLovinMediatedNativeAppInstallAd : NSObject <GADMediatedNativeAppInstallAd>
 
 - (instancetype)initWithNativeAd:(ALNativeAd *)nativeAd NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
