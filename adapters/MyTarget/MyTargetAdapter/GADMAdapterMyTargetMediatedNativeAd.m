@@ -14,7 +14,7 @@
   if (CONDITION) {       \
   }
 
-@interface GADMAdapterMyTargetMediatedNativeContentAd : NSObject<GADMediatedNativeContentAd>
+@interface GADMAdapterMyTargetMediatedNativeContentAd : NSObject <GADMediatedNativeContentAd>
 
 @end
 
@@ -110,7 +110,7 @@
 
 @end
 
-@interface GADMAdapterMyTargetMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
+@interface GADMAdapterMyTargetMediatedNativeAppInstallAd : NSObject <GADMediatedNativeAppInstallAd>
 
 @end
 
