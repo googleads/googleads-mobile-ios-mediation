@@ -10,9 +10,10 @@
 
 #import "GADMAdapterMyTargetNative.h"
 #import "GADMAdapterMyTargetConstants.h"
-#import "GADMAdapterMyTargetUtils.h"
-#import "GADMAdapterMyTargetMediatedNativeAd.h"
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetMediatedNativeAd.h"
+#import "GADMAdapterMyTargetMediatedUnifiedNativeAd.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 #define guard(CONDITION) \
   if (CONDITION) {       \
@@ -26,8 +27,10 @@
 
 @implementation GADMAdapterMyTargetNative {
   id<GADMediatedNativeAd> _mediatedNativeAd;
+  id<GADMediatedUnifiedNativeAd> _mediatedUnifiedNativeAd;
   __weak id<GADMAdNetworkConnector> _connector;
   MTRGMediaAdView *_mediaAdView;
+  BOOL _isUnifiedAdRequested;
   BOOL _isContentAdRequested;
   BOOL _isAppInstallAdRequested;
   BOOL _autoLoadImages;
@@ -114,11 +117,12 @@
     return;
   }
 
+  _isUnifiedAdRequested = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
   _isContentAdRequested = [adTypes containsObject:kGADAdLoaderAdTypeNativeContent];
   _isAppInstallAdRequested = [adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall];
   _adTypesRequested = [adTypes componentsJoinedByString:@", "];
 
-  guard(_isContentAdRequested || _isAppInstallAdRequested) else {
+  guard(_isUnifiedAdRequested || _isContentAdRequested || _isAppInstallAdRequested) else {
     NSString *description =
         [NSString stringWithFormat:kGADMAdapterMyTargetErrorInvalidNativeAdType, _adTypesRequested];
     MTRGLogError(description);
@@ -145,10 +149,10 @@
   [_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                   forKey:kMTRGCustomParamsMediationKey];
 
-  if (_isContentAdRequested && !_isAppInstallAdRequested) {
+  if (_isContentAdRequested && !_isAppInstallAdRequested && !_isUnifiedAdRequested) {
     [_nativeAd.customParams setCustomParam:kGADMAdapterMyTargetNativeAdTypeContent
                                     forKey:kGADMAdapterMyTargetNativeAdTypeKey];
-  } else if (_isAppInstallAdRequested && !_isContentAdRequested) {
+  } else if (_isAppInstallAdRequested && !_isContentAdRequested && !_isUnifiedAdRequested) {
     [_nativeAd.customParams setCustomParam:kGADMAdapterMyTargetNativeAdTypeInstall
                                     forKey:kGADMAdapterMyTargetNativeAdTypeKey];
   }
@@ -172,33 +176,51 @@
   guard(strongConnector) else return;
 
   _mediaAdView = [MTRGNativeViewsFactory createMediaAdView];
-  _mediatedNativeAd =
-      [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner
-                                                                        delegate:self
-                                                                  autoLoadImages:_autoLoadImages
-                                                                     mediaAdView:_mediaAdView];
-  guard(_mediatedNativeAd) else {
-    MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
-    [strongConnector adapter:self
-                   didFailAd:[GADMAdapterMyTargetUtils
-                                 errorWithDescription:kGADMAdapterMyTargetErrorMediatedAdInvalid]];
-    return;
+  if (_isUnifiedAdRequested) {
+    _mediatedUnifiedNativeAd = [GADMAdapterMyTargetMediatedUnifiedNativeAd
+        mediatedUnifiedNativeAdWithNativePromoBanner:promoBanner
+                                            nativeAd:_nativeAd
+                                      autoLoadImages:_autoLoadImages
+                                         mediaAdView:_mediaAdView];
+    guard(_mediatedUnifiedNativeAd) else {
+      MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
+      [strongConnector
+            adapter:self
+          didFailAd:[GADMAdapterMyTargetUtils
+                        errorWithDescription:kGADMAdapterMyTargetErrorMediatedAdInvalid]];
+      return;
+    }
+    [strongConnector adapter:self didReceiveMediatedUnifiedNativeAd:_mediatedUnifiedNativeAd];
+  } else {
+    _mediatedNativeAd =
+        [GADMAdapterMyTargetMediatedNativeAd mediatedNativeAdWithNativePromoBanner:promoBanner
+                                                                          delegate:self
+                                                                    autoLoadImages:_autoLoadImages
+                                                                       mediaAdView:_mediaAdView];
+    guard(_mediatedNativeAd) else {
+      MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
+      [strongConnector
+            adapter:self
+          didFailAd:[GADMAdapterMyTargetUtils
+                        errorWithDescription:kGADMAdapterMyTargetErrorMediatedAdInvalid]];
+      return;
+    }
+    Class mediatedNativeAdClass = _mediatedNativeAd.class;
+    guard((_isContentAdRequested &&
+           [mediatedNativeAdClass conformsToProtocol:@protocol(GADMediatedNativeContentAd)]) ||
+          (_isAppInstallAdRequested &&
+           [mediatedNativeAdClass
+               conformsToProtocol:@protocol(GADMediatedNativeAppInstallAd)])) else {
+      NSString *description =
+          [NSString stringWithFormat:kGADMAdapterMyTargetErrorMediatedAdDoesNotMatch,
+                                     NSStringFromClass(mediatedNativeAdClass), _adTypesRequested];
+      MTRGLogError(description);
+      [strongConnector adapter:self
+                     didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:description]];
+      return;
+    }
+    [strongConnector adapter:self didReceiveMediatedNativeAd:_mediatedNativeAd];
   }
-  Class mediatedNativeAdClass = _mediatedNativeAd.class;
-  guard(_isContentAdRequested &&
-            [mediatedNativeAdClass conformsToProtocol:@protocol(GADMediatedNativeContentAd)] ||
-        _isAppInstallAdRequested &&
-            [mediatedNativeAdClass
-                conformsToProtocol:@protocol(GADMediatedNativeAppInstallAd)]) else {
-    NSString *description =
-        [NSString stringWithFormat:kGADMAdapterMyTargetErrorMediatedAdDoesNotMatch,
-                                   NSStringFromClass(mediatedNativeAdClass), _adTypesRequested];
-    MTRGLogError(description);
-    [strongConnector adapter:self
-                   didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:description]];
-    return;
-  }
-  [strongConnector adapter:self didReceiveMediatedNativeAd:_mediatedNativeAd];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd {
@@ -212,69 +234,107 @@
 
 - (void)onAdShowWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidRecordImpression:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:_mediatedNativeAd];
+  }
 }
 
 - (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordClick:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidRecordClick:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordClick:_mediatedNativeAd];
+  }
 }
 
 - (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdWillPresentScreen:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:_mediatedNativeAd];
+  }
 }
 
 - (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:_mediatedNativeAd];
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdWillDismissScreen:_mediatedUnifiedNativeAd];
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidDismissScreen:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:_mediatedNativeAd];
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:_mediatedNativeAd];
+  }
 }
 
 - (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdWillLeaveApplication:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:_mediatedNativeAd];
+  }
 }
 
 - (void)onVideoPlayWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidPlayVideo:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:_mediatedNativeAd];
+  }
 }
 
 - (void)onVideoPauseWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidPauseVideo:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:_mediatedNativeAd];
+  }
 }
 
 - (void)onVideoCompleteWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  guard(_mediatedNativeAd) else return;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:_mediatedNativeAd];
+  if (_mediatedUnifiedNativeAd) {
+    [GADMediatedUnifiedNativeAdNotificationSource
+        mediatedNativeAdDidEndVideoPlayback:_mediatedUnifiedNativeAd];
+  } else if (_mediatedNativeAd) {
+    [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:_mediatedNativeAd];
+  }
 }
 
 #pragma mark - GADMediatedNativeAdDelegate
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
+           didRenderInView:(UIView *)view
+       clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
+  MTRGLogInfo();
+  [self registerView:view
+          withController:viewController
+      withClickableViews:clickableAssetViews.allValues];
+}
+
+- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
           viewController:(UIViewController *)viewController {
+  // Legacy
   MTRGLogInfo();
-  guard(_nativeAd) else return;
   NSArray<UIView *> *clickableViews = [self clickableViewsWithView:view];
-
-  // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
-  // it will appear a little bit later.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.nativeAd registerView:view
-                 withController:viewController
-             withClickableViews:clickableViews];
-  });
+  [self registerView:view withController:viewController withClickableViews:clickableViews];
 }
 
 - (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
@@ -295,6 +355,21 @@
 }
 
 #pragma mark - helpers
+
+- (void)registerView:(UIView *)view
+        withController:(UIViewController *)viewController
+    withClickableViews:(NSArray<UIView *> *)clickableViews {
+  MTRGLogInfo();
+  guard(_nativeAd) else return;
+
+  // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
+  // it will appear a little bit later.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.nativeAd registerView:view
+                 withController:viewController
+             withClickableViews:clickableViews];
+  });
+}
 
 - (NSArray<UIView *> *)clickableViewsWithView:(UIView *)view {
   NSMutableArray<UIView *> *clickableViews = [NSMutableArray<UIView *> new];

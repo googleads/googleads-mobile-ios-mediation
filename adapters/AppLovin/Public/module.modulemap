@@ -9,4 +9,5 @@ framework module AppLovinAdapter {
 
   // Import all your public header files here.
   header "GADMAdapterAppLovinExtras.h"
+  header "GADMAppLovinExtraAssets.h"
 }

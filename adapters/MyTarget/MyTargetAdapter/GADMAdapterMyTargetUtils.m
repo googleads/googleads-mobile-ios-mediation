@@ -97,4 +97,17 @@ static BOOL _isLogEnabled = YES;
          ceilf(size1.size.height) == ceilf(size2.size.height);
 }
 
++ (GADNativeAdImage *)nativeAdImageWithImageData:(MTRGImageData *)imageData {
+  guard(imageData) else return nil;
+
+  GADNativeAdImage *nativeAdImage = nil;
+  if (imageData.image) {
+    nativeAdImage = [[GADNativeAdImage alloc] initWithImage:imageData.image];
+  } else if (imageData.url) {
+    NSURL *url = [NSURL URLWithString:imageData.url];
+    nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
+  }
+  return nativeAdImage;
+}
+
 @end

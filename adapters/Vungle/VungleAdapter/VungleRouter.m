@@ -1,7 +1,7 @@
 #import "VungleRouter.h"
 #import "VungleRouterConsent.h"
 
-static NSString *const vungleAdapterVersion = @"6.2.0.0";
+static NSString *const vungleAdapterVersion = @"6.2.0.2";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";

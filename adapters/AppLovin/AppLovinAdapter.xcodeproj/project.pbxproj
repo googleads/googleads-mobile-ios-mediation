@@ -44,6 +44,14 @@
 		1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
 		1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */; };
 		359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		455AD22320CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */; };
+		455AD22420CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */; };
+		455AD22520CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD21E20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m */; };
+		455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */; };
+		455AD22720CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22020CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h */; };
+		455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */; };
+		455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */; };
+		455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -75,6 +83,14 @@
 		359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppLovinAdapter.h; sourceTree = "<group>"; };
 		359ADFA11EFDBDC900E2DBFE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		359ADFA21EFDBDEB00E2DBFE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinNative.h; sourceTree = "<group>"; };
+		455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinExtraAssets.m; sourceTree = "<group>"; };
+		455AD21E20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
+		455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinMediatedNativeUnifiedAd.m; sourceTree = "<group>"; };
+		455AD22020CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
+		455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinMediatedNativeUnifiedAd.h; sourceTree = "<group>"; };
+		455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinNative.m; sourceTree = "<group>"; };
+		455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinExtraAssets.h; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -108,6 +124,7 @@
 		359ADF971EFDA7D900E2DBFE /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */,
 				B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */,
 				359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */,
 			);
@@ -127,6 +144,13 @@
 		7D72B8C11DB97C10006EAE11 /* AppLovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */,
+				455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */,
+				455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */,
+				455AD22020CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h */,
+				455AD21E20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m */,
+				455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */,
+				455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */,
 				1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */,
 				1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */,
 				1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */,
@@ -180,13 +204,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */,
 				1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */,
 				1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
 				1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */,
+				455AD22320CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h in Headers */,
 				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
+				455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				1D4C082420192BAF00B1876F /* GADMAdapterAppLovinQueue.h in Headers */,
 				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
+				455AD22720CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,9 +316,13 @@
 			files = (
 				1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */,
 				1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */,
+				455AD22420CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m in Sources */,
 				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */,
+				455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */,
+				455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */,
 				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
 				1D4C081D20192BAF00B1876F /* GADMAdapterAppLovinQueue.m in Sources */,
+				455AD22520CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m in Sources */,
 				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

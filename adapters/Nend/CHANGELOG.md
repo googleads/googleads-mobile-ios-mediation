@@ -1,5 +1,9 @@
 # Nend Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.0.6.0
+- Verified compatibility with nend SDK 4.0.6.
+- Remove to set userFeature property.
+
 ## Version 4.0.5.0
 - Verified compatibility with nend SDK 4.0.5.
 

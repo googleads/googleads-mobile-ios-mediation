@@ -16,3 +16,4 @@
 #import <UIKit/UIKit.h>
 
 #import <VungleAdapter/VungleAdNetworkExtras.h>
+#import <VungleAdapter/VungleRouterConsent.h>
