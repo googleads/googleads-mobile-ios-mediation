@@ -202,7 +202,7 @@
             rewardParam:(NSString *)rewardParam {
   if (_zoneId && ![_zoneId isEqualToString:zoneId])
     return;
-
+  [_rewardBasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
   if (!skipped) {
     GADAdReward *reward =
         [[GADAdReward alloc] initWithRewardType:rewardParam ?: @""

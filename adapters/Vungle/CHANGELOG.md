@@ -1,5 +1,8 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 6.2.0.3
+ - Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+ 
 ## VERSION 6.2.0.2
 - Added `VungleRouterConsent` class which contains `updateConsentStatus` and `getConsentStatus` methods.
 

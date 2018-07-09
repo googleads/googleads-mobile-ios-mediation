@@ -107,6 +107,7 @@
 
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
   if (completedView) {
+    [_connector adapterDidCompletePlayingRewardBasedVideoAd:self];
     GADAdReward *reward =
         [[GADAdReward alloc] initWithRewardType:@"vungle"
                                    rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];

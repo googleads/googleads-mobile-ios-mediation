@@ -43,7 +43,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return @"7.1.1.1";
+  return @"7.1.1.2";
 }
 
 + (BOOL) isAppInitialised {
@@ -559,6 +559,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSString *key = [rewards allKeys][0];
 
   if (self.rewardedConnector != nil) {
+    [self.rewardedConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
     GADAdReward *reward =
         [[GADAdReward alloc] initWithRewardType:key rewardAmount:[rewards objectForKey:key]];
     [self.rewardedConnector adapter:self didRewardUserWithReward:reward];
