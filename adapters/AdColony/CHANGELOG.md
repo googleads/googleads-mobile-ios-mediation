@@ -1,5 +1,9 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 3.3.5.0
+- Verified compatibility with AdColony SDK 3.3.5.
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
 ## Version 3.3.4.0
 - Verified compatibility with AdColony SDK 3.3.4.
 

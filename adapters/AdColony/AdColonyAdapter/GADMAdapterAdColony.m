@@ -408,6 +408,7 @@ typedef enum {
   if (self.rewardConnector) {
     AdColonyZone *zone = [AdColony zoneForID:self.ad.zoneID];
     [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
+      [weakSelf.rewardConnector adapterDidCompletePlayingRewardBasedVideoAd:weakSelf];
       if (success) {
         GADAdReward *reward = [[GADAdReward alloc]
             initWithRewardType:name
