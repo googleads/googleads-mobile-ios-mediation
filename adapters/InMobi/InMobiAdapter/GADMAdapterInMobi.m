@@ -9,6 +9,7 @@
 #import "InMobiMediatedNativeAppInstallAd.h"
 #import "NativeAdKeys.h"
 #import <InMobiSDK/IMSdk.h>
+#import "GADMInMobiConsent.h"
 
 @interface GADInMobiExtras ()
 @property(nonatomic, retain) NSString *city, *state, *country;
@@ -33,6 +34,8 @@
 
 static NSCache *imageCache;
 
+static BOOL isAccountInitialised = false;
+
 __attribute__((constructor)) static void initialize_imageCache() {
   imageCache = [[NSCache alloc] init];
 }
@@ -40,7 +43,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return @"7.1.0.0";
+  return @"7.1.1.2";
+}
+
++ (BOOL) isAppInitialised {
+  return isAccountInitialised;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -56,7 +63,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if ((self = [super init])) {
     self.connector = connector;
   }
-  [IMSdk initWithAccountID:[[self.connector credentials] objectForKey:@"accountid"]];
+    [IMSdk initWithAccountID:[[self.connector credentials] objectForKey:@"accountid"] consentDictionary:[GADMInMobiConsent getConsent]];
+    isAccountInitialised = true;
   NSLog(@"Initialized successfully");
   if (self.rewardedConnector) {
     self.rewardedConnector = nil;
@@ -68,7 +76,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (instancetype)initWithRewardBasedVideoAdNetworkConnector:
         (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
   self.rewardedConnector = connector;
-  [IMSdk initWithAccountID:[[self.rewardedConnector credentials] objectForKey:@"accountid"]];
+    [IMSdk initWithAccountID:[[self.rewardedConnector credentials] objectForKey:@"accountid"] consentDictionary:[GADMInMobiConsent getConsent]];
+    isAccountInitialised = true;
   if (self.connector) {
     self.connector = nil;
   }
@@ -550,6 +559,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSString *key = [rewards allKeys][0];
 
   if (self.rewardedConnector != nil) {
+    [self.rewardedConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
     GADAdReward *reward =
         [[GADAdReward alloc] initWithRewardType:key rewardAmount:[rewards objectForKey:key]];
     [self.rewardedConnector adapter:self didRewardUserWithReward:reward];

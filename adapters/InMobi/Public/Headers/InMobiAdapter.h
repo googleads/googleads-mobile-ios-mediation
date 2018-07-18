@@ -17,3 +17,4 @@
 
 // Import any public headers below.
 #import <InMobiAdapter/GADInMobiExtras.h>
+#import <InMobiAdapter/GADMInMobiConsent.h>

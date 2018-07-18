@@ -17,68 +17,68 @@
 @import DUModuleSDK;
 
 #import "GADDuAdAdapterDelegate.h"
+#import "GADDuAdInitializer.h"
 #import "GADDuAdNativeAd.h"
 #import "GADDuAdNetworkExtras.h"
-#import "GADDuAdInitializer.h"
 
 @interface GADMAdapterDuAdNative () {
-    /// Connector from Google Mobile Ads SDK to receive ad configurations.
-    __weak id<GADMAdNetworkConnector> _connector;
-    
-    /// DuAd Audience Network native ad wrapper.
-    GADDuAdNativeAd *_nativeAd;
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  /// DuAd Audience Network native ad wrapper.
+  GADDuAdNativeAd *_nativeAd;
 }
 @end
 
 @implementation GADMAdapterDuAdNative
 
 + (NSString *)adapterVersion {
-    return @"1.0.7.1.0";
+  return @"1.0.7.5.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return [GADDuAdNetworkExtras class];
+  return [GADDuAdNetworkExtras class];
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    self = [self init];
-    if (self) {
-        _nativeAd = [[GADDuAdNativeAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
-        _connector = connector;
-    }
-    return self;
+  self = [self init];
+  if (self) {
+    _nativeAd = [[GADDuAdNativeAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
+    _connector = connector;
+  }
+  return self;
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-    [[GADDuAdInitializer sharedInstance] initWithConnector:_connector];
-    [_nativeAd getNativeAdWithAdTypes:adTypes options:options];
+  [[GADDuAdInitializer sharedInstance] initWithConnector:_connector];
+  [_nativeAd getNativeAdWithAdTypes:adTypes options:options];
 }
 
 - (void)stopBeingDelegate {
-    [_nativeAd stopBeingDelegate];
+  [_nativeAd stopBeingDelegate];
 }
 
 - (void)getInterstitial {
-    return;
+  return;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    return;
+  return;
 }
 
 - (BOOL)handlesUserClicks {
-    return YES;
+  return YES;
 }
 
 - (BOOL)handlesUserImpressions {
-    return YES;
+  return YES;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    return;
+  return;
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-    return YES;
+  return YES;
 }
 @end

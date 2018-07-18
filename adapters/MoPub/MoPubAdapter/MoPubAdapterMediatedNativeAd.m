@@ -106,9 +106,9 @@
 
 - (void)privacyIconTapped {
   _displayDestinationAgent =
-      [[MPCoreInstanceProvider sharedProvider] buildMPAdDestinationDisplayAgentWithDelegate:self];
+      [MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
-      displayDestinationForURL:[NSURL URLWithString:kDAAIconTapDestinationURL]];
+   displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
 }
 
 #pragma mark - GADMediatedNativeAdDelegate implementation
@@ -130,7 +130,7 @@
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
 
   // Loading the MoPub privacy icon either from the Main or the MoPub bundle.
-  NSString *privacyIconImagePath = MPResourcePathForResource(kDAAIconImageName);
+  NSString *privacyIconImagePath = MPResourcePathForResource(kAdIconImageKey);
   UIImage *privacyIconImage = [UIImage imageWithContentsOfFile:privacyIconImagePath];
   _privacyIconImageView = [[UIImageView alloc] initWithImage:privacyIconImage];
   _privacyIconImageView.userInteractionEnabled = YES;

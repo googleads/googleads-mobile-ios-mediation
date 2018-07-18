@@ -19,7 +19,7 @@
 @protocol GADMAdNetworkConnector;
 
 /// Delegate for listening to notifications from DuAd's Audience Network.
-@interface GADDUAdapterDelegate : NSObject<DUInterstitialAdDelegate>
+@interface GADDUAdapterDelegate : NSObject <DUInterstitialAdDelegate>
 
 /// Initializes a new instance with |adapter| and |connector|.
 - (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
@@ -29,4 +29,3 @@
 - (instancetype)init __unavailable;
 
 @end
-

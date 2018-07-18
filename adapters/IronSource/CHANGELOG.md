@@ -1,5 +1,16 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
+## 6.7.9.3.1
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
+## 6.7.9.3.0
+- Verified compatibility with ironSource SDK 6.7.9.3
+
+## 6.7.9.2.0
+- Verified compatibility with ironSource SDK 6.7.9.2
+
+## 6.7.9.1.0
+- Verified compatibility with ironSource SDK 6.7.9.1
 
 ## 6.7.8.0
 - Verified compatibility with ironSource SDK 6.7.8

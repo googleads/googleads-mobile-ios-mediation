@@ -7,9 +7,9 @@
 //
 
 #import "GADMAdapterAppLovinUtils.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import <AppLovinSDK/AppLovinSDK.h>
 
 #define DEFAULT_ZONE @""
 
@@ -24,6 +24,7 @@
 
   ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
   [sdk setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion];
+  sdk.mediationProvider = ALMediationProviderAdMob;
 
   return sdk;
 }
@@ -55,7 +56,8 @@
 }
 
 + (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:
-                                      (NSString *)zoneIdentifier sdk:(ALSdk *)sdk {
+                                      (NSString *)zoneIdentifier
+                                                                           sdk:(ALSdk *)sdk {
   // Prematurely create instance of ALAdView to store initialized one in later.
   ALIncentivizedInterstitialAd *incent = [ALIncentivizedInterstitialAd alloc];
 
@@ -70,6 +72,19 @@
   [inv invokeWithTarget:incent];
 
   return incent;
+}
+
+#pragma mark - Logging
+
++ (void)log:(NSString *)format, ... {
+  if (GADMAdapterAppLovinConstant.loggingEnabled) {
+    va_list valist;
+    va_start(valist, format);
+    NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+    va_end(valist);
+
+    NSLog(@"AppLovinAdapter: %@", message);
+  }
 }
 
 @end

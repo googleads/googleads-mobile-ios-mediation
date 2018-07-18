@@ -135,6 +135,7 @@
 
 - (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
   id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
   MTRGLogInfo();
   guard(strongConnector) else return;
   NSString *rewardType = @"";                            // must not be nil

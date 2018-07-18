@@ -184,6 +184,7 @@ static BOOL didIronSourceReceiveFirstAvailability = NO;
               rewardAmount:[NSDecimalNumber decimalNumberWithDecimal:[rewardAmount decimalValue]]];
 
     id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardbasedVideoAdConnector;
+    [strongConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
     [strongConnector adapter:self didRewardUserWithReward:reward];
     [self
         onLog:[NSString

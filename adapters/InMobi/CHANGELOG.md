@@ -1,5 +1,14 @@
 # InMobi Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.1.1.2
+ - Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+ 
+## Version 7.1.1.1
+- Added the `GADInMobiConsent` class which provides `updateGDPRConsent` and `getConsent` methods.
+
+## Version 7.1.1.0
+- Verified compatibility with InMobi SDK 7.1.1.
+
 ## Version 7.1.0.0
 - Verified compatibility with InMobi SDK 7.1.0.
 

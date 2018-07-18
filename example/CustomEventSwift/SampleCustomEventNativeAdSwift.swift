@@ -21,19 +21,19 @@ import GoogleMobileAds
 import SampleAdSDK
 
 /// Constant for Sample Ad Network custom event error domain.
-private let customEventErrorDomain: String = "com.google.CustomEvent"
+private let customEventErrorDomain : String = "com.google.CustomEvent"
 
-class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
+class SampleCustomEventNativeAdSwift : NSObject, GADCustomEventNativeAd {
   /// Native ad view options.
-  fileprivate var nativeAdViewAdOptions: GADNativeAdViewAdOptions?
-
-  var delegate: GADCustomEventNativeAdDelegate?
-
-  func request(withParameter serverParameter: String, request: GADCustomEventRequest,
-  adTypes: [Any], options: [Any], rootViewController: UIViewController) {
-
+  fileprivate var nativeAdViewAdOptions : GADNativeAdViewAdOptions?
+  var delegate : GADCustomEventNativeAdDelegate?
+  func request(withParameter serverParameter : String,
+                                     request : GADCustomEventRequest,
+                                     adTypes : [Any],
+                                     options : [Any],
+                          rootViewController : UIViewController) {
     let requestedUnified: Bool =
-      adTypes.contains(where: { $0 as? GADAdLoaderAdType == .unifiedNative})
+        adTypes.contains(where: { $0 as? GADAdLoaderAdType == .unifiedNative})
 
     // This custom event assumes you have implemented unified native advanced in your app as is done
     // in this sample. If you have implemented app install and content ad formats in your app,
@@ -50,7 +50,6 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
       delegate?.customEventNativeAd(self, didFailToLoadWithError: error)
       return
     }
-
     let adLoader = SampleNativeAdLoader()
     let sampleRequest = SampleNativeAdRequest()
 
@@ -65,56 +64,52 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
     sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
     sampleRequest.shouldRequestMultipleImages = false
     if let options = options as? [GADAdLoaderOptions] {
-      for loaderOptions: GADAdLoaderOptions in options {
+      for loaderOptions:GADAdLoaderOptions in options {
         if let imageOptions = loaderOptions as? GADNativeAdImageAdLoaderOptions {
-          switch imageOptions.preferredImageOrientation {
-          case GADNativeAdImageAdLoaderOptionsOrientation.landscape:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
-          case GADNativeAdImageAdLoaderOptionsOrientation.portrait:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
-          default:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
+          switch imageOptions.preferredImageOrientation{
+            case GADNativeAdImageAdLoaderOptionsOrientation.landscape:
+              sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
+            case GADNativeAdImageAdLoaderOptionsOrientation.portrait :
+              sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
+            default:
+              sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
           }
           sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages
-          // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the
-          // adapter should send just the URLs for the images.
+          // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is
+          // YES, the adapter should send just the URLs for the images.
           sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading
         }
         else if let options = loaderOptions as? GADNativeAdViewAdOptions {
           nativeAdViewAdOptions = options
         }
-      }
     }
-
-    // This custom event uses the server parameter to carry an ad unit ID, which is the most common
-    // use case.
-    adLoader.adUnitID = serverParameter
-    adLoader.delegate = self
-    adLoader.fetchAd(sampleRequest)
+  }
+  // This custom event uses the server parameter to carry an ad unit ID, which is the most common
+  // use case.
+  adLoader.adUnitID = serverParameter
+  adLoader.delegate = self
+  adLoader.fetchAd(sampleRequest)
   }
 
   // Indicates if the custom event handles user clicks. Return YES if the custom event should handle
   // user clicks.
-  func handlesUserClicks() -> Bool {
+  func handlesUserClicks() -> Bool{
     return true
   }
-
   func handlesUserImpressions() -> Bool {
     return false
   }
 }
 
-extension SampleCustomEventNativeAdSwift: SampleNativeAdLoaderDelegate {
-
-  func adLoader(_ adLoader: SampleNativeAdLoader, didReceive nativeAd: SampleNativeAd) {
+extension SampleCustomEventNativeAdSwift : SampleNativeAdLoaderDelegate {
+  func adLoader(_ adLoader : SampleNativeAdLoader, didReceive nativeAd : SampleNativeAd){
     let mediatedAd = SampleMediatedUnifiedNativeAdSwift(
-        sampleNativeAd:nativeAd,nativeAdViewAdOptions: nativeAdViewAdOptions)
-      delegate?.customEventNativeAd(self, didReceive: mediatedAd)
+        sampleNativeAd : nativeAd, nativeAdViewAdOptions : nativeAdViewAdOptions)
+    delegate?.customEventNativeAd(self, didReceive : mediatedAd)
   }
 
-  func adLoader(_ adLoader: SampleNativeAdLoader, didFailToLoadAdWith errorCode: SampleErrorCode) {
-    let error = NSError(domain: customEventErrorDomain, code: errorCode.rawValue, userInfo: nil)
+  func adLoader(_ adLoader : SampleNativeAdLoader, didFailToLoadAdWith errorCode : SampleErrorCode) {
+    let error = NSError(domain : customEventErrorDomain, code : errorCode.rawValue, userInfo : nil)
     delegate?.customEventNativeAd(self, didFailToLoadWithError: error)
   }
-
 }

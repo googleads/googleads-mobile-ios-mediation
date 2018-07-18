@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4569383F208EBC1C0030CCD1 /* SampleMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4569383D208EBC1C0030CCD1 /* SampleMediaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45693840208EBC1C0030CCD1 /* SampleMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569383E208EBC1C0030CCD1 /* SampleMediaView.m */; };
 		AE50D67D1F3BC49C0007AF85 /* SampleAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */; };
 		AE50D67E1F3BC49C0007AF85 /* SampleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6511F3BC3D20007AF85 /* SampleBanner.m */; };
 		AE50D67F1F3BC49C0007AF85 /* SampleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */; };
@@ -58,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4569383D208EBC1C0030CCD1 /* SampleMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMediaView.h; sourceTree = "<group>"; };
+		4569383E208EBC1C0030CCD1 /* SampleMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleMediaView.m; sourceTree = "<group>"; };
 		AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdRequest.h; sourceTree = "<group>"; };
 		AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdRequest.m; sourceTree = "<group>"; };
 		AE50D6501F3BC3D20007AF85 /* SampleBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleBanner.h; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 		AE50D6681F3BC3D20007AF85 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				4569383D208EBC1C0030CCD1 /* SampleMediaView.h */,
+				4569383E208EBC1C0030CCD1 /* SampleMediaView.m */,
 				AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */,
 				AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */,
 				AE50D6501F3BC3D20007AF85 /* SampleBanner.h */,
@@ -231,6 +237,7 @@
 				AE50D68E1F3BC4B30007AF85 /* SampleAdRequest.h in Headers */,
 				AE50D68F1F3BC4B30007AF85 /* SampleBanner.h in Headers */,
 				AE50D6901F3BC4B30007AF85 /* SampleBannerAdDelegate.h in Headers */,
+				4569383F208EBC1C0030CCD1 /* SampleMediaView.h in Headers */,
 				AE50D6911F3BC4B30007AF85 /* SampleInterstitial.h in Headers */,
 				AE50D6921F3BC4B30007AF85 /* SampleInterstitialAdDelegate.h in Headers */,
 				AE50D6931F3BC4B30007AF85 /* SampleRewardBasedVideo.h in Headers */,
@@ -369,6 +376,7 @@
 				AE50D6821F3BC49C0007AF85 /* SampleRewardBasedVideoAd.m in Sources */,
 				AE50D6831F3BC49C0007AF85 /* SampleNativeAdLoader.m in Sources */,
 				AE50D6871F3BC49C0007AF85 /* SampleAdInfoView.m in Sources */,
+				45693840208EBC1C0030CCD1 /* SampleMediaView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

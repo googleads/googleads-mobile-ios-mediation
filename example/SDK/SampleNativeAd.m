@@ -32,4 +32,8 @@
   // In a real SDK, some work would be done here to record the impression.
 }
 
+- (void)playVideo {
+  [_mediaView playMedia];
+}
+
 @end

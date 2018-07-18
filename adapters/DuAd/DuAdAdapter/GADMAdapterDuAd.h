@@ -16,7 +16,6 @@
 
 /// Adapter for communicating with DuAd's Audience Network to fetch banner, interstitial,
 /// reward-based video, and native ads.
-@interface GADMAdapterDuAd : NSObject<GADMAdNetworkAdapter>
+@interface GADMAdapterDuAd : NSObject <GADMAdNetworkAdapter>
 
 @end
-
