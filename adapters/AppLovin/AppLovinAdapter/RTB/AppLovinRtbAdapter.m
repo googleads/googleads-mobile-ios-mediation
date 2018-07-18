@@ -28,16 +28,15 @@
 #pragma mark GADRTBAdapter
 
 + (void)setUp {
-    //self.sdk = [ALSdk shared];
-    //[self.sdk initializeSdk];
+    [GADMAdapterAppLovinUtils log: @"Setting up sdk..."];
+    
+    self.sdk = [ALSdk shared];
 }
 
 + (void)updateConfiguration:(GADMediationServerConfiguration *)configuration {
     // Pass additional info through to SDK for upcoming request, etc.
     
-    // hmm probably need to lock in an sdk?
-    
-    [GADMAdapterAppLovinUtils log: @"configuration"];
+    [GADMAdapterAppLovinUtils log: @"Updating configuration: %@", configuration];
 //    self.configuration = configuration;
 //    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: configuration.credentials];
 //
@@ -47,22 +46,11 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-    return (GADVersionNumber) { 1, 0, 0 };//TODO: consistent versioning
+    return [GADMAdapterAppLovinUtils toGADVersionNumber:GADMAdapterAppLovinConstant.adapterVersion];
 }
 
 + (GADVersionNumber)adSDKVersion {
-    NSString *sdkVersion = ALSdk.version;
-    NSArray *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
-    
-    GADVersionNumber version = {0};
-    if ( versionComponents.count == 3 )
-    {
-        version.majorVersion = [versionComponents[0] integerValue];
-        version.minorVersion = [versionComponents[1] integerValue];
-        version.patchVersion = [versionComponents[2] integerValue];
-    }
-    
-    return version;
+    return [GADMAdapterAppLovinUtils toGADVersionNumber:ALSdk.version];
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -71,15 +59,10 @@
 
 - (void)collectSignalsForRequestParameters:(nonnull GADMediationRequestParameters *)params
                          completionHandler:(nonnull GADRTBSignalCompletionHandler)handler {
-    if (!self.sdk) {
-        [GADMAdapterAppLovinUtils log:@"Failed to initialize SDK"];
-        return;
-    }
-    
     self.signalCompletionHandler = handler;
     NSString *signal = self.sdk.adService.bidToken;
     
-    handler( signal, nil);
+    handler(signal, nil);
 }
 
 #pragma mark GADRTBAdapter Render Ad
