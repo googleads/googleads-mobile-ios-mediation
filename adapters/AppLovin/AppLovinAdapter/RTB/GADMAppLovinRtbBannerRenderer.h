@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAppLovinRtbBannerRenderer : NSObject
 
+- (instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+               completionHandler:(nonnull GADBannerRenderCompletionHandler)handler;
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
+
+NS_ASSUME_NONNULL_END

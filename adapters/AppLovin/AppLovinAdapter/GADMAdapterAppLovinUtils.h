@@ -29,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Convert the given AppLovin SDK error code into the appropriate AdMob error code.
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
 
+/// Convert version from string into GAD version struct.
++ (GADVersionNumber)toGADVersionNumber:(NSString *)version;
+
++ (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size;
+
 /// Dynamically create an instance of ALIncentivizedAd with a given zone and SDK. We must do it
 /// dynamically as it is not exposed publically until iOS SDK 4.7.0.
 + (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:

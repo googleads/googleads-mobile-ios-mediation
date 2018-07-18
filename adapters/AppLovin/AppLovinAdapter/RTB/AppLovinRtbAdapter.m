@@ -9,8 +9,15 @@
 #import "AppLovinRtbAdapter.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
+#import "GADMAdapterAppLovinConstant.h"
+#import "GADMAppLovinRtbBannerRenderer.h"
+#import "GADMAppLovinRtbInterstitialRenderer.h"
+#import "GADMAppLovinRtbRewardedRenderer.h"
+#import "GADMAppLovinRtbNativeRenderer.h"
 
 #import <AppLovinSDK/AppLovinSDK.h>
+
+static NSString *const kAppLovinRtbAdapterErrorDomain = "com.applovin.AppLovinRtbAdapter";
 
 @interface AppLovinRtbAdapter ()
 // Controlled Properties
@@ -30,27 +37,41 @@
 + (void)setUp {
     [GADMAdapterAppLovinUtils log: @"Setting up sdk..."];
     
+    //TODO: find a way to init sdk by key, passed down from publisher
     self.sdk = [ALSdk shared];
 }
 
 + (void)updateConfiguration:(GADMediationServerConfiguration *)configuration {
-    // Pass additional info through to SDK for upcoming request, etc.
-    
-    [GADMAdapterAppLovinUtils log: @"Updating configuration: %@", configuration];
-//    self.configuration = configuration;
-//    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: configuration.credentials];
-//
-//    if (!self.sdk) {
-//        [GADMAdapterAppLovinUtils log:@"Failed to initialize SDK"];
-//    }
+    self.configuration = configuration;
 }
 
 + (GADVersionNumber)adapterVersion {
-    return [GADMAdapterAppLovinUtils toGADVersionNumber:GADMAdapterAppLovinConstant.adapterVersion];
+    NSString *version = GADMAdapterAppLovinConstant.adapterVersion;
+    NSArray *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
+    
+    GADVersionNumber version = {0};
+    if ( versionComponents.count == 4 )
+    {
+        version.majorVersion = [versionComponents[0] integerValue];
+        version.minorVersion = [versionComponents[1] integerValue];
+        // Adapter versions have 2 patch versions. Multiply the first patch by 100.
+        version.patchVersion = [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
+    }
+    return version;
 }
 
 + (GADVersionNumber)adSDKVersion {
-    return [GADMAdapterAppLovinUtils toGADVersionNumber:ALSdk.version];
+    NSString *version = ALSdk.version;
+    NSArray *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
+    
+    GADVersionNumber version = {0};
+    if ( versionComponents.count == 3 )
+    {
+        version.majorVersion = [versionComponents[0] integerValue];
+        version.minorVersion = [versionComponents[1] integerValue];
+        version.patchVersion = [versionComponents[2] integerValue];
+    }
+    return version;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -60,51 +81,56 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADMediationRequestParameters *)params
                          completionHandler:(nonnull GADRTBSignalCompletionHandler)handler {
     self.signalCompletionHandler = handler;
-    NSString *signal = self.sdk.adService.bidToken;
     
-    handler(signal, nil);
+    if ( params )
+    {
+        [GADMAdapterAppLovinUtils log: @"Extras for signal collection: %@", params.extras];
+    }
+    
+    NSString *signal = self.sdk.adService.bidToken;
+    if ( signal.length > 0 ) {
+        [GADMAdapterAppLovinUtils log: @"Generated bid token %@", signal];
+        handler(signal, nil);
+    } else {
+        //create our own errorcode?
+        NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.rtbErrorDomain
+                                             code:kGADErrorMediationAdapterError
+                                         userInfo:@{
+                                                    NSLocalizedFailureReasonErrorKey : @"Failed to generate bid token"
+                                                    }];
+        [GADMAdapterAppLovinUtils log: @"Failed to generate bid token"];
+        handler(nil, error);
+    }
 }
 
 #pragma mark GADRTBAdapter Render Ad
 
 - (void)renderBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:(GADBannerRenderCompletionHandler)completionHandler {
-    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: adConfiguration.credentials];
-    
-    GADMAdapterAppLovinExtras *extras = adConfiguration.extras;
-    self.sdk.settings.muted = extras.muteAudio;
-    
-    //completionHandler();
+    GADMAppLovinRtbBannerRenderer *bannerRenderer = [[GADMAppLovinRtbBannerRenderer alloc] initWithAdConfiguration: adConfiguration
+                                                                                                 completionHandler: completionHandler];
+    [bannerRenderer loadAd];
 }
 
 - (void)renderInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                            completionHandler:(GADInterstitialRenderCompletionHandler)completionHandler {
-    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: adConfiguration.credentials];
-    
-    GADMAdapterAppLovinExtras *extras = adConfiguration.extras;
-    self.sdk.settings.muted = extras.muteAudio;
-    
-    //completionHandler();
+    GADMAppLovinRtbInterstitialRenderer *interstitialRenderer = [[GADMAppLovinRtbInterstitialRenderer alloc] initWithAdConfiguration: adConfiguration
+                                                                                                                   completionHandler: completionHandler];
+    [interstitialRenderer loadAd];
 }
 
 - (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                          completionHandler:(GADRewardedRenderCompletionHandler)completionHandler {
-    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: adConfiguration.credentials];
-    
-    GADMAdapterAppLovinExtras *extras = adConfiguration.extras;
-    self.sdk.settings.muted = extras.muteAudio;
-    
-    //completionHandler();
+    GADMAppLovinRtbRewardedRenderer *rewardedRenderer = [[GADMAppLovinRtbRewardedRenderer alloc] initWithAdConfiguration: adConfiguration
+                                                                                                       completionHandler: completionHandler];
+    [rewardedRenderer loadAd];
 }
 
 - (void)renderNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                        completionHandler:(GADNativeRenderCompletionHandler)completionHandler {
-    self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: adConfiguration.credentials];
-    
-    GADMAdapterAppLovinExtras *extras = adConfiguration.extras;
-    self.sdk.settings.muted = extras.muteAudio;
-    
-    //completionHandler();
+    GADMediationNativeAdConfiguration *nativeRenderer = [[GADMediationNativeAdConfiguration alloc] initWithAdConfiguration: adConfiguration
+                                                                                                         completionHandler: completionHandler];
+    [nativeRenderer loadAd];
 }
 
 @end
