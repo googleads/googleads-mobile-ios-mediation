@@ -52,6 +52,14 @@
 		455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */; };
 		455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */; };
 		455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A7FA83820FEA4160081941D /* AppLovinRtbAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA83620FEA4160081941D /* AppLovinRtbAdapter.m */; };
+		6A7FA83A20FEA49A0081941D /* AppLovinRtbAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA83920FEA4970081941D /* AppLovinRtbAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A7FA84720FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA84520FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.h */; };
+		6A7FA84820FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA84620FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.m */; };
+		6A7FA84B20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA84920FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.h */; };
+		6A7FA84C20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */; };
+		6A7FA84F20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */; };
+		6A7FA85020FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */; };
 		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -91,6 +99,15 @@
 		455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinMediatedNativeUnifiedAd.h; sourceTree = "<group>"; };
 		455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinNative.m; sourceTree = "<group>"; };
 		455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinExtraAssets.h; sourceTree = "<group>"; };
+		6A7FA83220FE9B080081941D /* Drop_Framework_And_Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Drop_Framework_And_Headers; sourceTree = "<group>"; };
+		6A7FA83620FEA4160081941D /* AppLovinRtbAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppLovinRtbAdapter.m; sourceTree = "<group>"; };
+		6A7FA83920FEA4970081941D /* AppLovinRtbAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinRtbAdapter.h; sourceTree = "<group>"; };
+		6A7FA84520FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRtbBannerRenderer.h; sourceTree = "<group>"; };
+		6A7FA84620FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbBannerRenderer.m; sourceTree = "<group>"; };
+		6A7FA84920FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRtbInterstitialRenderer.h; sourceTree = "<group>"; };
+		6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbInterstitialRenderer.m; sourceTree = "<group>"; };
+		6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRtbRewardedRenderer.h; sourceTree = "<group>"; };
+		6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbRewardedRenderer.m; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -127,8 +144,23 @@
 				455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */,
 				B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */,
 				359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */,
+				6A7FA83920FEA4970081941D /* AppLovinRtbAdapter.h */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		6A7FA85520FEC5410081941D /* RTB */ = {
+			isa = PBXGroup;
+			children = (
+				6A7FA83620FEA4160081941D /* AppLovinRtbAdapter.m */,
+				6A7FA84520FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.h */,
+				6A7FA84620FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.m */,
+				6A7FA84920FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.h */,
+				6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */,
+				6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */,
+				6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */,
+			);
+			path = RTB;
 			sourceTree = "<group>";
 		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
@@ -144,6 +176,7 @@
 		7D72B8C11DB97C10006EAE11 /* AppLovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				6A7FA85520FEC5410081941D /* RTB */,
 				455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */,
 				455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */,
 				455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */,
@@ -185,6 +218,7 @@
 				359ADF951EFDA7C000E2DBFE /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
+				6A7FA83220FE9B080081941D /* Drop_Framework_And_Headers */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -205,16 +239,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */,
+				6A7FA84B20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.h in Headers */,
 				1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */,
 				1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
 				1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */,
 				455AD22320CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h in Headers */,
 				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
+				6A7FA84720FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.h in Headers */,
 				455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				1D4C082420192BAF00B1876F /* GADMAdapterAppLovinQueue.h in Headers */,
 				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
 				455AD22720CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h in Headers */,
+				6A7FA84F20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h in Headers */,
+				6A7FA83A20FEA49A0081941D /* AppLovinRtbAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,16 +352,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A7FA84820FEC3FD0081941D /* GADMAppLovinRtbBannerRenderer.m in Sources */,
 				1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */,
 				1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */,
 				455AD22420CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m in Sources */,
 				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */,
+				6A7FA84C20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m in Sources */,
 				455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */,
 				455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */,
+				6A7FA85020FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m in Sources */,
 				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
 				1D4C081D20192BAF00B1876F /* GADMAdapterAppLovinQueue.m in Sources */,
 				455AD22520CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m in Sources */,
 				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */,
+				6A7FA83820FEA4160081941D /* AppLovinRtbAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,9 @@
 
 #define DEFAULT_ZONE @""
 
+static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
+static const CGFloat kALBannerStandardHeight = 50.0f;
+
 @implementation GADMAdapterAppLovinUtils
 
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
@@ -53,6 +56,51 @@
   } else {
     return kGADErrorInternalError;
   }
+}
+
++ (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size {
+    if (GADAdSizeEqualToSize(kGADAdSizeBanner, size) ||
+        GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) ||
+        (IS_IPHONE && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
+                                           size)))  // Smart iPhone portrait banners 50px tall.
+    {
+        return [ALAdSize sizeBanner];
+    } else if (GADAdSizeEqualToSize(kGADAdSizeMediumRectangle, size)) {
+        return [ALAdSize sizeMRec];
+    } else if (GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size) ||
+               (IS_IPAD && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
+                                                size)))  // Smart iPad portrait "banners" 90px tall.
+    {
+        return [ALAdSize sizeLeader];
+    }
+    // This is not a one of AdMob's predefined size.
+    else {
+        CGSize frameSize = size.size;
+        
+        // Attempt to check for fluid size.
+        if (CGRectGetWidth([UIScreen mainScreen].bounds) == frameSize.width) {
+            CGFloat frameHeight = frameSize.height;
+            if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height ||
+                frameHeight == CGSizeFromGADAdSize(kGADAdSizeLargeBanner).height) {
+                return [ALAdSize sizeBanner];
+            } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeMediumRectangle).height) {
+                return [ALAdSize sizeMRec];
+            } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeLeaderboard).height) {
+                return [ALAdSize sizeLeader];
+            }
+        }
+        
+        // Assume fluid width, and check for height with offset tolerance.
+        CGFloat offset = ABS(kALBannerStandardHeight - frameSize.height);
+        if (offset <= kALBannerHeightOffsetTolerance) {
+            return [ALAdSize sizeBanner];
+        }
+    }
+    
+    [GADMAdapterAppLovinUtils
+     log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
+    
+    return nil;
 }
 
 + (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:

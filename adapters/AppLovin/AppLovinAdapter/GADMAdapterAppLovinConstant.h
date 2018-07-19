@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GADMAdapterAppLovinConstant : NSObject
 
 @property(class, nonatomic, copy, readonly) NSString *errorDomain;
+@property(class, nonatomic, copy, readonly) NSString *rtbErrorDomain;
 @property(class, nonatomic, copy, readonly) NSString *adapterVersion;
 
 @property(class, nonatomic, copy, readonly) NSString *sdkKey;

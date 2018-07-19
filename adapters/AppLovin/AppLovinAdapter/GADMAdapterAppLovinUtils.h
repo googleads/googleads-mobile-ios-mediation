@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 @interface GADMAdapterAppLovinUtils : NSObject
 
 /// Retrieves the appropriate instance of AppLovin's SDK from the SDK key given in the credentials,
@@ -28,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Convert the given AppLovin SDK error code into the appropriate AdMob error code.
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
+
++ (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size;
 
 /// Dynamically create an instance of ALIncentivizedAd with a given zone and SDK. We must do it
 /// dynamically as it is not exposed publically until iOS SDK 4.7.0.
