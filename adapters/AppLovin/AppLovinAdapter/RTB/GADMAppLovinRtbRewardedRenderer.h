@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAppLovinRtbRewardedRenderer : NSObject
 
+- (void)loadAd;
+
+- (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                      completionHandler:(nonnull GADRewardedRenderCompletionHandler)handler;
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
+
+NS_ASSUME_NONNULL_END

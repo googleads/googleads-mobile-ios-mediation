@@ -60,8 +60,6 @@
 		6A7FA84C20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */; };
 		6A7FA84F20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */; };
 		6A7FA85020FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */; };
-		6A7FA85320FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7FA85120FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.h */; };
-		6A7FA85420FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7FA85220FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.m */; };
 		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -110,8 +108,6 @@
 		6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbInterstitialRenderer.m; sourceTree = "<group>"; };
 		6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRtbRewardedRenderer.h; sourceTree = "<group>"; };
 		6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbRewardedRenderer.m; sourceTree = "<group>"; };
-		6A7FA85120FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRtbNativeRenderer.h; sourceTree = "<group>"; };
-		6A7FA85220FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRtbNativeRenderer.m; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -163,8 +159,6 @@
 				6A7FA84A20FEC4120081941D /* GADMAppLovinRtbInterstitialRenderer.m */,
 				6A7FA84D20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h */,
 				6A7FA84E20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m */,
-				6A7FA85120FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.h */,
-				6A7FA85220FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.m */,
 			);
 			path = RTB;
 			sourceTree = "<group>";
@@ -257,7 +251,6 @@
 				1D4C082420192BAF00B1876F /* GADMAdapterAppLovinQueue.h in Headers */,
 				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
 				455AD22720CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h in Headers */,
-				6A7FA85320FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.h in Headers */,
 				6A7FA84F20FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.h in Headers */,
 				6A7FA83A20FEA49A0081941D /* AppLovinRtbAdapter.h in Headers */,
 			);
@@ -369,7 +362,6 @@
 				455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */,
 				6A7FA85020FEC4360081941D /* GADMAppLovinRtbRewardedRenderer.m in Sources */,
 				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
-				6A7FA85420FEC4D20081941D /* GADMAppLovinRtbNativeRenderer.m in Sources */,
 				1D4C081D20192BAF00B1876F /* GADMAdapterAppLovinQueue.m in Sources */,
 				455AD22520CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m in Sources */,
 				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */,
@@ -476,10 +468,6 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)$(LOCAL_LIBRARY_DIR)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};
@@ -488,10 +476,6 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)$(LOCAL_LIBRARY_DIR)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};

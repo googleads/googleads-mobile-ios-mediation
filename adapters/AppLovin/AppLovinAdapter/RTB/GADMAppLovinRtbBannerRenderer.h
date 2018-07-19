@@ -13,8 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAppLovinRtbBannerRenderer : NSObject
 
+- (void)loadAd;
+
 - (instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-               completionHandler:(nonnull GADBannerRenderCompletionHandler)handler;
+                      completionHandler:(nonnull GADBannerRenderCompletionHandler)handler;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

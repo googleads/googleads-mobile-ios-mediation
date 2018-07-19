@@ -10,7 +10,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <GoogleMobileAds/RTBMediation/GADRTBAdapter_Preview.h>
 
-
 @interface AppLovinRtbAdapter : NSObject <GADRTBAdapter>
 
 @end

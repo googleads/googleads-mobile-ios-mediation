@@ -12,7 +12,7 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 
-@interface GADMAppLovinRtbBannerRenderer () <GADMediationBannerAd>
+@interface GADMAppLovinRtbBannerRenderer () <GADMediationBannerAd, ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 
 /// Data used to render an RTB banner ad.
 @property (nonatomic, strong) GADMediationBannerAdConfiguration *adConfiguration;
@@ -21,7 +21,7 @@
 @property (nonatomic, copy) GADBannerRenderCompletionHandler renderCompletionHandler;
 
 /// Delegate to notify the Google Mobile Ads SDK of banner presentation events.
-@property (nonatomic, strong, nullable) id<GADMediationBannerAdEventDelegate> bannerDelegate;
+@property (nonatomic, strong, nullable) id<GADMediationBannerAdEventDelegate> adEventDelegate;
 
 /// Controlled Properties
 @property (nonatomic, strong) ALSdk *sdk;
@@ -41,7 +41,7 @@
         
         // Convert requested size to AppLovin Ad Size.
         self.adSize = [GADMAdapterAppLovinUtils adSizeFromRequestedSize:adConfiguration.adSize];
-        self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials: adConfiguration.credentials];
+        self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:adConfiguration.credentials.settings];
     }
     return self;
 }
@@ -55,7 +55,7 @@
         self.adView.adEventDelegate = self;
         
         // Load ad
-        [self.sdk.adService loadNextAdForAdToken:self.adConfiguration.bidResponse andNotify: self];
+        [self.sdk.adService loadNextAdForAdToken:self.adConfiguration.bidResponse andNotify:self];
     } else {
         NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.rtbErrorDomain
                                              code:kGADErrorMediationInvalidAdSize
@@ -73,20 +73,13 @@
     return self.adView;
 }
 
-@end
-
-@interface GADMAppLovinRtbBannerRenderer (BannerDelegate) <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
-@end
-
-@implementation GADMAppLovinRtbBannerRenderer (BannerDelegate)
-
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
     [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad.adIdNumber];
     
-    self.bannerDelegate = self.renderCompletionHandler(self, nil);
-    [self.adView render: ad];
+    self.adEventDelegate = self.renderCompletionHandler(self, nil);
+    [self.adView render:ad];
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
@@ -102,7 +95,7 @@
 
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
     [GADMAdapterAppLovinUtils log:@"Banner displayed"];
-    [self.bannerDelegate reportImpression];
+    [self.adEventDelegate reportImpression];
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
@@ -111,29 +104,29 @@
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
     [GADMAdapterAppLovinUtils log:@"Banner clicked"];
-    [self.bannerDelegate reportClick];
+    [self.adEventDelegate reportClick];
 }
 
 #pragma mark - Ad View Event Delegate
 
 - (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView {
     [GADMAdapterAppLovinUtils log:@"Banner presented fullscreen"];
-    [self.bannerDelegate willPresentFullScreenView];
+    [self.adEventDelegate willPresentFullScreenView];
 }
 
 - (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView {
     [GADMAdapterAppLovinUtils log:@"Banner will dismiss fullscreen"];
-    [self.bannerDelegate willDismissFullScreenView];
+    [self.adEventDelegate willDismissFullScreenView];
 }
 
 - (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView {
     [GADMAdapterAppLovinUtils log:@"Banner did dismiss fullscreen"];
-    [self.bannerDelegate didDismissFullScreenView];
+    [self.adEventDelegate didDismissFullScreenView];
 }
 
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView {
     [GADMAdapterAppLovinUtils log:@"Banner left application"];
-    [self.bannerDelegate willBackgroundApplication];
+    [self.adEventDelegate willBackgroundApplication];
 }
 
 - (void)ad:(ALAd *)ad didFailToDisplayInAdView:(ALAdView *)adView withError:(ALAdViewDisplayErrorCode)code {

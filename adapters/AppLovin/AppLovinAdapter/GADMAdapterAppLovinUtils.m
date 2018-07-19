@@ -58,19 +58,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
   }
 }
 
-+ (GADVersionNumber)toGADVersionNumber:(NSString *)version {
-    NSArray *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
-    
-    GADVersionNumber version = {0};
-    if ( versionComponents.count == 3 )
-    {
-        version.majorVersion = [versionComponents[0] integerValue];
-        version.minorVersion = [versionComponents[1] integerValue];
-        version.patchVersion = [versionComponents[2] integerValue];
-    }
-    return version;
-}
-
 + (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size {
     if (GADAdSizeEqualToSize(kGADAdSizeBanner, size) ||
         GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) ||

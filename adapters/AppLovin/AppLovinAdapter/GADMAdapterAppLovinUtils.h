@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 @interface GADMAdapterAppLovinUtils : NSObject
 
 /// Retrieves the appropriate instance of AppLovin's SDK from the SDK key given in the credentials,
@@ -28,9 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Convert the given AppLovin SDK error code into the appropriate AdMob error code.
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
-
-/// Convert version from string into GAD version struct.
-+ (GADVersionNumber)toGADVersionNumber:(NSString *)version;
 
 + (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size;
 
