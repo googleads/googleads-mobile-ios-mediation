@@ -1,5 +1,8 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.99.1.0
+- Verified compatibility with FAN SDK 4.99.1.
+
 ## Version 4.28.1.2
 - Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
 
