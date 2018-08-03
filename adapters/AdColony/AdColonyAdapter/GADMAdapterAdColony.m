@@ -172,7 +172,7 @@ typedef enum {
 @implementation GADMAdapterAdColony
 
 + (NSString *)adapterVersion {
-  return @"3.3.4.0";
+  return @"3.3.5.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -408,6 +408,7 @@ typedef enum {
   if (self.rewardConnector) {
     AdColonyZone *zone = [AdColony zoneForID:self.ad.zoneID];
     [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
+      [weakSelf.rewardConnector adapterDidCompletePlayingRewardBasedVideoAd:weakSelf];
       if (success) {
         GADAdReward *reward = [[GADAdReward alloc]
             initWithRewardType:name

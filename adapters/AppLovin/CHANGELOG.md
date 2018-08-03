@@ -1,5 +1,11 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
+## 5.1.0.0
+- Verified compatibility with AppLovin SDK 5.1.0.
+
+## 5.0.2.0
+- Verified compatibility with AppLovin SDK 5.0.2.
+
 ## 5.0.1.1
 - Add support for native ads.
 - Set AdMob as mediation provider on the AppLovin SDK.

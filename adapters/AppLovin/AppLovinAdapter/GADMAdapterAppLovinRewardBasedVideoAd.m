@@ -222,6 +222,10 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
             percentPlayed.unsignedIntegerValue];
 
   self.fullyWatched = wasFullyWatched;
+
+  if(self.fullyWatched) {
+    [self.connector adapterDidCompletePlayingRewardBasedVideoAd:self];
+  }
 }
 
 #pragma mark - Reward Delegate

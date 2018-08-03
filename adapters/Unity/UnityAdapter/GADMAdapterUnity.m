@@ -174,6 +174,7 @@
     [_interstitialConnector adapterDidDismissInterstitial:self];
   } else if (_rewardBasedVideoAdConnector) {
     if (state == kUnityAdsFinishStateCompleted) {
+      [_rewardBasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
       // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
       // amount of 1. Publishers using this adapter should override the reward on the AdMob
       // front-end.
