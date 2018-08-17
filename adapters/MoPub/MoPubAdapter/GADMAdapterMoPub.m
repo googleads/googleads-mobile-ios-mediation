@@ -32,6 +32,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 @property(nonatomic, strong) MPAdView *bannerAd;
 @property(nonatomic, strong) MPInterstitialAdController *interstitialAd;
 @property(nonatomic, strong) MPNativeAd *nativeAd;
+@property(nonatomic, strong) NSArray *nativeAdOptions;
 @property(nonatomic, strong) MoPubAdapterMediatedNativeAd *mediatedAd;
 @property(nonatomic, strong) MPImageDownloadQueue *imageDownloadQueue;
 @property(nonatomic, strong) NSMutableDictionary *imagesDictionary;
@@ -50,16 +51,33 @@ static NSString *const kAdapterTpValue = @"gmext";
   return [GADMoPubNetworkExtras class];
 }
 
-- (void)initializeMoPub:(NSString *)adUnitId {
-  if (![[MoPub sharedInstance] isSdkInitialized]) {
+- (void)initializeMoPub:(NSString *)adUnitId
+           withBannerAd:(MPAdView *) bannerAd
+     withInterstitialAd:(MPInterstitialAdController *) interstitialAd
+           withNativeAd:(MPNativeAdRequest *) nativeAd {
+    
     MPMoPubConfiguration *sdkConfig =
         [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
 
-    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig
-                                                completion:^{
-                                                  NSLog(@"MoPub SDK initialized.");
-                                                }];
-  }
+    if (!MoPub.sharedInstance.isSdkInitialized) {
+        [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
+            NSLog(@"MoPub SDK initialized.");
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Start loading ads now that the MoPub SDK has initialized
+                if (bannerAd != nil) {
+                    [bannerAd loadAd];
+                } else if (interstitialAd != nil) {
+                    [interstitialAd loadAd];
+                } else if (nativeAd != nil) {
+                    [nativeAd startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                                           NSError *error) {
+                        [self handleNativeAdOptions:request withResponse:response withError:error withOptions:_nativeAdOptions];
+                    }];
+                }
+            });
+        }];
+    }
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -67,9 +85,6 @@ static NSString *const kAdapterTpValue = @"gmext";
   if (self) {
     _connector = connector;
     _imageDownloadQueue = [[MPImageDownloadQueue alloc] init];
-    // Initializing the MoPub SDK. Required as of 5.0.0
-    NSString *publisherID = [_connector credentials][@"pubid"];
-    [self initializeMoPub:publisherID];
   }
   return self;
 }
@@ -130,7 +145,13 @@ static NSString *const kAdapterTpValue = @"gmext";
   _interstitialAd.delegate = self;
   _interstitialAd.keywords = [self getKeywords:false];
   _interstitialAd.userDataKeywords = [self getKeywords:true];
-  [_interstitialAd loadAd];
+    
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+      [_interstitialAd loadAd];
+  } else {
+      [self initializeMoPub:publisherID withBannerAd:nil withInterstitialAd:_interstitialAd withNativeAd:nil];
+  }
+    
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
 }
 
@@ -176,7 +197,13 @@ static NSString *const kAdapterTpValue = @"gmext";
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
   _bannerAd.userDataKeywords = [self getKeywords:true];
-  [_bannerAd loadAd];
+    
+    if ([[MoPub sharedInstance] isSdkInitialized]) {
+        [_bannerAd loadAd];
+    } else {
+        [self initializeMoPub:publisherID withBannerAd:_bannerAd withInterstitialAd:nil withNativeAd:nil];
+    }
+
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
 }
 
@@ -244,8 +271,22 @@ static NSString *const kAdapterTpValue = @"gmext";
   targeting.desiredAssets = desiredAssets;
 
   adRequest.targeting = targeting;
-  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
-                                          NSError *error) {
+  _nativeAdOptions = options;
+    
+    if ([[MoPub sharedInstance] isSdkInitialized]) {
+        [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                                NSError *error) {
+            [self handleNativeAdOptions:request withResponse:response withError:error withOptions:_nativeAdOptions];
+        }];
+    } else {
+        [self initializeMoPub:publisherID withBannerAd:nil withInterstitialAd:nil withNativeAd:adRequest];
+    }
+}
+
+- (void) handleNativeAdOptions:(MPNativeAdRequest *) request
+                  withResponse:(MPNativeAd *) response
+                     withError:(NSError *) error
+                   withOptions:(NSArray *) options {
     if (error) {
       [_connector adapter:self didFailAd:error];
     } else {
@@ -265,9 +306,8 @@ static NSString *const kAdapterTpValue = @"gmext";
         }
       }
       [self loadNativeAdImages];
+      MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
     }
-  }];
-  MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
 }
 
 #pragma mark - Helper methods for downloading images
