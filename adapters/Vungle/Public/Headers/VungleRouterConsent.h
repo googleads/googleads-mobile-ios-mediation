@@ -16,6 +16,7 @@
 typedef NS_ENUM (NSInteger, VungleConsentStatus);
 
 @interface VungleRouterConsent : NSObject
-+ (void)updateConsentStatus:(VungleConsentStatus)consentStatus;
++ (void)updateConsentStatus:(VungleConsentStatus)status consentMessageVersion:(NSString *)version;
 + (VungleConsentStatus)getConsentStatus;
++ (NSString *)getConsentMessageVersion;
 @end
