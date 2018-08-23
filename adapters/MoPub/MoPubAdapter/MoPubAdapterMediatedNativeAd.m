@@ -130,7 +130,7 @@
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(privacyIconTapped)];
 
   // Loading the MoPub privacy icon either from the Main or the MoPub bundle.
-  NSString *privacyIconImagePath = MPResourcePathForResource(kAdIconImageKey);
+  NSString *privacyIconImagePath = MPResourcePathForResource(kPrivacyIconImageName);
   UIImage *privacyIconImage = [UIImage imageWithContentsOfFile:privacyIconImagePath];
   _privacyIconImageView = [[UIImageView alloc] initWithImage:privacyIconImage];
   _privacyIconImageView.userInteractionEnabled = YES;
