@@ -25,7 +25,8 @@ static NSString *const GADNativeAdIcon = @"2";
 
 @interface GADDuAdNativeAd () <GADMediatedNativeAppInstallAd,
                                GADMediatedNativeAdDelegate,
-                               DUNativeAdDelegate> {
+                               DUNativeAdDelegate,
+                               DUMediaViewDelegate> {
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
   /// Adapter for receiving ad request notifications.
@@ -273,48 +274,13 @@ static NSString *const GADNativeAdIcon = @"2";
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
          didRenderInView:(UIView *)view
+     clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
+  nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
           viewController:(UIViewController *)viewController {
-  NSMutableArray *assets = [[NSMutableArray alloc] init];
-  if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
-    GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
-    if (adView.headlineView != nil) {
-      [assets addObject:adView.headlineView];
-    }
-    if (adView.imageView != nil) {
-      [assets addObject:adView.imageView];
-    }
-    if (adView.iconView != nil) {
-      [assets addObject:adView.iconView];
-    }
-    if (adView.adChoicesView != nil) {
-      [assets addObject:adView.adChoicesView];
-    }
-    if (adView.bodyView != nil) {
-      [assets addObject:adView.bodyView];
-    }
-    if (adView.callToActionView != nil) {
-      [assets addObject:adView.callToActionView];
-    }
-    if (adView.priceView != nil) {
-      [assets addObject:adView.priceView];
-    }
-    if (adView.starRatingView != nil) {
-      [assets addObject:adView.starRatingView];
-    }
-    if (adView.storeView != nil) {
-      [assets addObject:adView.storeView];
-    }
-    if (adView.mediaView != nil) {
-      [assets addObject:adView.mediaView];
-    }
-  } else {
-    NSLog(
-        @"View is not the instance of GADNativeAppInstallAdView, Failed to register View for "
-        @"user interaction");
-  }
+
   [_nativeAd registerViewForInteraction:view
                      withViewController:viewController
-                     withClickableViews:assets];
+                     withClickableViews:[clickableAssetViews allValues]];
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
