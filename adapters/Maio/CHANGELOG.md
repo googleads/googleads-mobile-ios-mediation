@@ -1,5 +1,8 @@
 # maio Adapter for Google Mobile Ads SDK for iOS
 
+## Version 1.4.0.0
+- Verified compatibility with maio SDK version 1.4.0.
+
 ## Version 1.3.2.0
 - Verified compatibility with maio SDK version 1.3.2.
 
