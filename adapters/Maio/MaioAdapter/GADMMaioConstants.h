@@ -10,7 +10,7 @@
 
 static NSString *const GADMMaioErrorDomain = @"com.google.mediation.maio";
 
-static NSString *const GADMMaioAdapterVersion = @"1.3.2.0";
+static NSString *const GADMMaioAdapterVersion = @"1.4.0.0";
 
 /// Maio media ID.
 static NSString *const GADMMaioAdapterMediaId = @"mediaId";
