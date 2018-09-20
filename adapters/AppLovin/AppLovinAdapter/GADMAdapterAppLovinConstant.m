@@ -15,7 +15,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return @"5.1.1.0";
+  return @"5.1.2.0";
 }
 
 + (NSString *)sdkKey {
