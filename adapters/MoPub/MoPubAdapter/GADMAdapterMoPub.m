@@ -245,12 +245,6 @@ static NSString *const kAdapterTpValue = @"gmext";
 #pragma mark - Native Ads
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]) {
-    NSError *adapterError =
-        [NSError errorWithDomain:kAdapterErrorDomain code:kGADErrorInvalidArgument userInfo:nil];
-    [_connector adapter:self didFailAd:adapterError];
-    return;
-  }
 
   MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
   MPNativeAdRendererConfiguration *config =
