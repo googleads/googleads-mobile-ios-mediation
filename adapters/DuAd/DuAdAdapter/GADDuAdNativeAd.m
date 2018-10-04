@@ -260,6 +260,13 @@ static NSString *const GADNativeAdIcon = @"2";
 
 /// Media view.
 - (UIView *GAD_NULLABLE_TYPE)mediaView {
+  NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self->_nativeAd.imgeUrl]];
+  UIImage *image = [UIImage imageWithData:imageData];
+  if (image) {
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = image;
+    return imageView;
+  }
   return _mediaView;
 }
 
