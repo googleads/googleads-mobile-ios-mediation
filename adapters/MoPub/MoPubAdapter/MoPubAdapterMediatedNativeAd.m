@@ -2,12 +2,12 @@
 
 @import GoogleMobileAds;
 
-#import "MoPubAdapterConstants.h"
 #import "MPAdDestinationDisplayAgent.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPLogging.h"
 #import "MPNativeAd.h"
 #import "MPNativeAdConstants.h"
+#import "MoPubAdapterConstants.h"
 
 @interface MoPubAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate,
                                             MPAdDestinationDisplayAgentDelegate>
@@ -105,10 +105,9 @@
 }
 
 - (void)privacyIconTapped {
-  _displayDestinationAgent =
-      [MPAdDestinationDisplayAgent agentWithDelegate:self];
+  _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
-   displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
+      displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
 }
 
 #pragma mark - GADMediatedNativeAdDelegate implementation
