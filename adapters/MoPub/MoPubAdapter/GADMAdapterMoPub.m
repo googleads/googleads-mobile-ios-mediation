@@ -44,7 +44,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"5.3.0.0";
+  return @"5.4.0.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -52,32 +52,37 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)initializeMoPub:(NSString *)adUnitId
-           withBannerAd:(MPAdView *) bannerAd
-     withInterstitialAd:(MPInterstitialAdController *) interstitialAd
-           withNativeAd:(MPNativeAdRequest *) nativeAd {
-    
-    MPMoPubConfiguration *sdkConfig =
-        [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
+           withBannerAd:(MPAdView *)bannerAd
+     withInterstitialAd:(MPInterstitialAdController *)interstitialAd
+           withNativeAd:(MPNativeAdRequest *)nativeAd {
+  MPMoPubConfiguration *sdkConfig =
+      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
 
-    if (!MoPub.sharedInstance.isSdkInitialized) {
-        [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
-            NSLog(@"MoPub SDK initialized.");
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // Start loading ads now that the MoPub SDK has initialized
-                if (bannerAd != nil) {
-                    [bannerAd loadAd];
-                } else if (interstitialAd != nil) {
-                    [interstitialAd loadAd];
-                } else if (nativeAd != nil) {
-                    [nativeAd startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
-                                                           NSError *error) {
-                        [self handleNativeAdOptions:request withResponse:response withError:error withOptions:_nativeAdOptions];
-                    }];
-                }
-            });
-        }];
-    }
+  if (!MoPub.sharedInstance.isSdkInitialized) {
+    [[MoPub sharedInstance]
+        initializeSdkWithConfiguration:sdkConfig
+                            completion:^{
+                              NSLog(@"MoPub SDK initialized.");
+
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                // Start loading ads now that the MoPub SDK has initialized
+                                if (bannerAd != nil) {
+                                  [bannerAd loadAd];
+                                } else if (interstitialAd != nil) {
+                                  [interstitialAd loadAd];
+                                } else if (nativeAd != nil) {
+                                  [nativeAd startWithCompletionHandler:^(MPNativeAdRequest *request,
+                                                                         MPNativeAd *response,
+                                                                         NSError *error) {
+                                    [self handleNativeAdOptions:request
+                                                   withResponse:response
+                                                      withError:error
+                                                    withOptions:_nativeAdOptions];
+                                  }];
+                                }
+                              });
+                            }];
+  }
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -145,13 +150,16 @@ static NSString *const kAdapterTpValue = @"gmext";
   _interstitialAd.delegate = self;
   _interstitialAd.keywords = [self getKeywords:false];
   _interstitialAd.userDataKeywords = [self getKeywords:true];
-    
+
   if ([[MoPub sharedInstance] isSdkInitialized]) {
-      [_interstitialAd loadAd];
+    [_interstitialAd loadAd];
   } else {
-      [self initializeMoPub:publisherID withBannerAd:nil withInterstitialAd:_interstitialAd withNativeAd:nil];
+    [self initializeMoPub:publisherID
+             withBannerAd:nil
+       withInterstitialAd:_interstitialAd
+             withNativeAd:nil];
   }
-    
+
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
 }
 
@@ -168,8 +176,9 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  NSError *adapterError =
-      [NSError errorWithDomain:kAdapterErrorDomain code:kGADErrorMediationNoFill userInfo:nil];
+  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+                                              code:kGADErrorMediationNoFill
+                                          userInfo:nil];
   [_connector adapter:self didFailAd:adapterError];
 }
 
@@ -197,12 +206,15 @@ static NSString *const kAdapterTpValue = @"gmext";
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
   _bannerAd.userDataKeywords = [self getKeywords:true];
-    
-    if ([[MoPub sharedInstance] isSdkInitialized]) {
-        [_bannerAd loadAd];
-    } else {
-        [self initializeMoPub:publisherID withBannerAd:_bannerAd withInterstitialAd:nil withNativeAd:nil];
-    }
+
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+    [_bannerAd loadAd];
+  } else {
+    [self initializeMoPub:publisherID
+             withBannerAd:_bannerAd
+       withInterstitialAd:nil
+             withNativeAd:nil];
+  }
 
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
 }
@@ -245,7 +257,6 @@ static NSString *const kAdapterTpValue = @"gmext";
 #pragma mark - Native Ads
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-
   MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
   MPNativeAdRendererConfiguration *config =
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
@@ -266,42 +277,48 @@ static NSString *const kAdapterTpValue = @"gmext";
 
   adRequest.targeting = targeting;
   _nativeAdOptions = options;
-    
-    if ([[MoPub sharedInstance] isSdkInitialized]) {
-        [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
-                                                NSError *error) {
-            [self handleNativeAdOptions:request withResponse:response withError:error withOptions:_nativeAdOptions];
-        }];
-    } else {
-        [self initializeMoPub:publisherID withBannerAd:nil withInterstitialAd:nil withNativeAd:adRequest];
-    }
+
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+    [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                            NSError *error) {
+      [self handleNativeAdOptions:request
+                     withResponse:response
+                        withError:error
+                      withOptions:_nativeAdOptions];
+    }];
+  } else {
+    [self initializeMoPub:publisherID
+             withBannerAd:nil
+       withInterstitialAd:nil
+             withNativeAd:adRequest];
+  }
 }
 
-- (void) handleNativeAdOptions:(MPNativeAdRequest *) request
-                  withResponse:(MPNativeAd *) response
-                     withError:(NSError *) error
-                   withOptions:(NSArray *) options {
-    if (error) {
-      [_connector adapter:self didFailAd:error];
-    } else {
-      _nativeAd = response;
-      _nativeAd.delegate = self;
-      _shouldDownloadImages = YES;
+- (void)handleNativeAdOptions:(MPNativeAdRequest *)request
+                 withResponse:(MPNativeAd *)response
+                    withError:(NSError *)error
+                  withOptions:(NSArray *)options {
+  if (error) {
+    [_connector adapter:self didFailAd:error];
+  } else {
+    _nativeAd = response;
+    _nativeAd.delegate = self;
+    _shouldDownloadImages = YES;
 
-      if (options != nil) {
-        for (GADAdLoaderOptions *loaderOptions in options) {
-          if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-            GADNativeAdImageAdLoaderOptions *imageOptions =
-                (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-            _shouldDownloadImages = !imageOptions.disableImageLoading;
-          } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
-            _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
-          }
+    if (options != nil) {
+      for (GADAdLoaderOptions *loaderOptions in options) {
+        if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+          GADNativeAdImageAdLoaderOptions *imageOptions =
+              (GADNativeAdImageAdLoaderOptions *)loaderOptions;
+          _shouldDownloadImages = !imageOptions.disableImageLoading;
+        } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
+          _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
         }
       }
-      [self loadNativeAdImages];
-      MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
     }
+    [self loadNativeAdImages];
+    MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
+  }
 }
 
 #pragma mark - Helper methods for downloading images
