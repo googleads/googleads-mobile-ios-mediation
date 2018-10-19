@@ -30,23 +30,44 @@ static MaioInstance *_maioInstance = nil;
 /// YES if maio SDK is initialized.
 static BOOL _isInitialized = NO;
 
-- (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
-  return _maioInstance;
+static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*> *_collection;
+
++ (void)initialize {
+  if (self == [GADMMaioMaioInstanceRepository class]) {
+    _collection = @{}.mutableCopy;
+  }
 }
 
-- (void)addMaioInstance:(MaioInstance *)instance {
-  _maioInstance = instance;
+- (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
+  @synchronized(self) {
+    return _collection[mediaId].instance;
+  }
+}
+
+- (void)addMaioInstance:(nonnull MaioInstance *)instance {
+  @synchronized(self) {
+    GADMMaioMaioInstanceWrapper *wrapper = [[GADMMaioMaioInstanceWrapper alloc] initWithMaioInstance:instance initialized:NO];
+    _collection[instance.mediaId] = wrapper;
+  }
 }
 
 - (BOOL)isInitializedWithMediaId:(NSString *)mediaId {
   @synchronized(self) {
-    return _isInitialized;
+    GADMMaioMaioInstanceWrapper *wrapper = _collection[mediaId];
+    if (!wrapper) {
+      return NO;
+    }
+    return wrapper.isInitialized;
   }
 }
 
 - (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId {
   @synchronized(self) {
-    _isInitialized = value;
+    GADMMaioMaioInstanceWrapper *wrapper = _collection[mediaId];
+    if (!wrapper) {
+      return;
+    }
+    wrapper.isInitialized = value;
   }
 }
 
