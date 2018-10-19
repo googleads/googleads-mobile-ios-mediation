@@ -80,14 +80,13 @@
   _zoneId = parameter.zoneId;
 
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
-  if (![repository isInitializedWithMediaId:_mediaId]) {
-    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
-    [repository addMaioInstance:
-                    [Maio startWithNonDefaultMediaId:_mediaId
-                                            delegate:[GADMMaioDelegateAggregate
-                                                         sharedInstance]]];
-  } else {
+  if ([repository isInitializedWithMediaId:_mediaId]) {
     [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
+  } else if([repository maioInstanceByMediaId:_mediaId] == nil) {
+    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
+    [repository addMaioInstance:
+     [Maio startWithNonDefaultMediaId:_mediaId delegate:delegate]];
   }
 }
 

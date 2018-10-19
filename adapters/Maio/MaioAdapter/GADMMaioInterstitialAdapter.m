@@ -90,16 +90,15 @@
 
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
-  if (![repository isInitializedWithMediaId:self.mediaId]) {
+  MaioInstance *instance = [repository maioInstanceByMediaId:self.mediaId];
+  if (instance == nil) {
     [Maio setAdTestMode:self.interstitialAdConnector.testMode];
+    id<MaioDelegate> delegate =[GADMMaioDelegateAggregate sharedInstance];
     [repository addMaioInstance:
-                    [Maio startWithNonDefaultMediaId:self.mediaId
-                                            delegate:[GADMMaioDelegateAggregate
-                                                         sharedInstance]]];
+     [Maio startWithNonDefaultMediaId:self.mediaId delegate:delegate]];
     return;
   }
 
-  MaioInstance *instance = [repository maioInstanceByMediaId:self.mediaId];
   if ([instance canShowAtZoneId:self.zoneId]) {
     [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
     return;
