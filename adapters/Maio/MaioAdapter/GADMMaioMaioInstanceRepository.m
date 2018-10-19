@@ -25,11 +25,6 @@
 
 @implementation GADMMaioMaioInstanceRepository
 
-static MaioInstance *_maioInstance = nil;
-
-/// YES if maio SDK is initialized.
-static BOOL _isInitialized = NO;
-
 static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*> *_collection;
 
 + (void)initialize {
