@@ -7,6 +7,22 @@
 
 #import "GADMMaioMaioInstanceRepository.h"
 
+@interface GADMMaioMaioInstanceWrapper : NSObject
+@property (nonatomic, readonly) MaioInstance* instance;
+@property (nonatomic) BOOL isInitialized;
+@end
+
+@implementation GADMMaioMaioInstanceWrapper
+- (instancetype)initWithMaioInstance:(MaioInstance*)instance initialized:(BOOL)initialized {
+  self = [super init];
+  if (self) {
+    _instance = instance;
+    _isInitialized = initialized;
+  }
+  return self;
+}
+@end
+
 @implementation GADMMaioMaioInstanceRepository
 
 static MaioInstance *_maioInstance = nil;
