@@ -82,11 +82,6 @@
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
   if ([repository isInitializedWithMediaId:_mediaId]) {
     [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
-  } else if([repository maioInstanceByMediaId:_mediaId] == nil) {
-    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
-    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
-    [repository addMaioInstance:
-     [Maio startWithNonDefaultMediaId:_mediaId delegate:delegate]];
   }
 }
 
@@ -108,6 +103,14 @@
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
   self.isLoading = YES;
+
+  if (!maioInstance) {
+    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
+    [repository addMaioInstance:
+     [Maio startWithNonDefaultMediaId:_mediaId delegate:delegate]];
+    return;
+  }
 
   if ([maioInstance canShowAtZoneId:_zoneId]) {
     [self maioDidChangeCanShow:_zoneId newValue:YES];
