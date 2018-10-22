@@ -111,11 +111,6 @@
 
     if ([maioInstance canShowAtZoneId:_zoneId]) {
       [self maioDidChangeCanShow:_zoneId newValue:YES];
-    } else {
-      NSString *description = [NSString
-          stringWithFormat:@"%@ failed to receive reward based video ad.",
-                           NSStringFromClass([Maio class])];
-      [self notifyThatDidFailToLoadAdWwithDescription:description];
     }
   }
 }
