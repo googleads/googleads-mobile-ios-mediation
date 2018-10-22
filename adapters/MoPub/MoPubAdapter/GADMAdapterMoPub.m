@@ -146,10 +146,15 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getInterstitial {
   NSString *publisherID = [_connector credentials][@"pubid"];
+    
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
+                                                             longitude:_connector.userLongitude];
+
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
   _interstitialAd.keywords = [self getKeywords:false];
   _interstitialAd.userDataKeywords = [self getKeywords:true];
+  _interstitialAd.location = currentlocation;
 
   if ([[MoPub sharedInstance] isSdkInitialized]) {
     [_interstitialAd loadAd];
@@ -202,10 +207,15 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *publisherID = [_connector credentials][@"pubid"];
+    
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
+                                                             longitude:_connector.userLongitude];
+    
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
   _bannerAd.userDataKeywords = [self getKeywords:true];
+  _bannerAd.location = currentlocation;
 
   if ([[MoPub sharedInstance] isSdkInitialized]) {
     [_bannerAd loadAd];
