@@ -63,26 +63,8 @@
 /// using callbacks provided in the connector. When set up fails, the Google
 /// Mobile Ads SDK may try to set up the adapter again.
 - (void)setUp {
-  GADMMaioMaioInstanceRepository *repository =
-      [GADMMaioMaioInstanceRepository new];
-  // Custom Event パラメータ（mediaId, zoneId）をロード。
-  GADMMaioParameter *parameter =
-      [self.class loadCustomEventParametersServerFromConnector:
-                      _rewardBasedVideoAdConnector];
-  if (!parameter.mediaId) {
-    NSError *error =
-        [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
-    [_rewardBasedVideoAdConnector adapter:self
-        didFailToSetUpRewardBasedVideoAdWithError:error];
-    return;
-  }
-  _mediaId = parameter.mediaId;
-  _zoneId = parameter.zoneId;
-
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
-  if ([repository isInitializedWithMediaId:_mediaId]) {
-    [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
-  }
+  [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
 }
 
 /// Tells the adapter to request a reward based video ad. This method is called
@@ -90,12 +72,18 @@
 /// Mobile Ads SDK if the request succeeds or fails using callbacks provided in
 /// the connector.
 - (void)requestRewardBasedVideoAd {
-
   // メディアID、ゾーンID が変更されるケースがあるので、パラメータを再ロード。
   // - AdMob mediation groupで複数のmaio設定がある場合等
   GADMMaioParameter *parameter =
       [self.class loadCustomEventParametersServerFromConnector:
                      _rewardBasedVideoAdConnector];
+  if (!parameter.mediaId) {
+    NSError *error =
+    [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
+    [_rewardBasedVideoAdConnector adapter:self
+        didFailToSetUpRewardBasedVideoAdWithError:error];
+    return;
+  }
   _mediaId = parameter.mediaId;
   _zoneId = parameter.zoneId;
 
@@ -147,7 +135,6 @@
  */
 - (void)maioDidInitialize {
   [[GADMMaioMaioInstanceRepository new] setInitialized:YES mediaId:_mediaId];
-  [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
 }
 
 /**
