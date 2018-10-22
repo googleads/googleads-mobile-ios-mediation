@@ -95,19 +95,21 @@
 /// Mobile Ads SDK if the request succeeds or fails using callbacks provided in
 /// the connector.
 - (void)requestRewardBasedVideoAd {
+
+  // メディアID、ゾーンID が変更されるケースがあるので、パラメータを再ロード。
+  // - AdMob mediation groupで複数のmaio設定がある場合等
+  GADMMaioParameter *parameter =
+      [self.class loadCustomEventParametersServerFromConnector:
+                     _rewardBasedVideoAdConnector];
+  _mediaId = parameter.mediaId;
+  _zoneId = parameter.zoneId;
+
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
   self.isLoading = YES;
 
   if ([repository isInitializedWithMediaId:_mediaId]) {
-    // ゾーンID が変更（直前とは異なる AdUnitID
-    // を使用）されるケースがあるので、Custom Event パラメータ（mediaId,
-    // zoneId）を再ロード。
-    GADMMaioParameter *parameter =
-        [self.class loadCustomEventParametersServerFromConnector:
-                        _rewardBasedVideoAdConnector];
-    _zoneId = parameter.zoneId;
 
     if ([maioInstance canShowAtZoneId:_zoneId]) {
       [self maioDidChangeCanShow:_zoneId newValue:YES];
