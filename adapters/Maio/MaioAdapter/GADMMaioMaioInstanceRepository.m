@@ -13,7 +13,8 @@
 @end
 
 @implementation GADMMaioMaioInstanceWrapper
-- (instancetype)initWithMaioInstance:(MaioInstance*)instance initialized:(BOOL)initialized {
+- (instancetype)initWithMaioInstance:(MaioInstance*)instance
+                         initialized:(BOOL)initialized {
   self = [super init];
   if (self) {
     _instance = instance;
@@ -25,7 +26,8 @@
 
 @implementation GADMMaioMaioInstanceRepository
 
-static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*> *_collection;
+static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*>
+    *_collection;
 
 + (void)initialize {
   if (self == [GADMMaioMaioInstanceRepository class]) {
@@ -41,7 +43,9 @@ static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*> *_collection
 
 - (void)addMaioInstance:(nonnull MaioInstance *)instance {
   @synchronized(self) {
-    GADMMaioMaioInstanceWrapper *wrapper = [[GADMMaioMaioInstanceWrapper alloc] initWithMaioInstance:instance initialized:NO];
+    GADMMaioMaioInstanceWrapper *wrapper =
+      [[GADMMaioMaioInstanceWrapper alloc] initWithMaioInstance:instance
+                                                    initialized:NO];
     _collection[instance.mediaId] = wrapper;
   }
 }
