@@ -109,11 +109,8 @@
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
   self.isLoading = YES;
 
-  if ([repository isInitializedWithMediaId:_mediaId]) {
-
-    if ([maioInstance canShowAtZoneId:_zoneId]) {
-      [self maioDidChangeCanShow:_zoneId newValue:YES];
-    }
+  if ([maioInstance canShowAtZoneId:_zoneId]) {
+    [self maioDidChangeCanShow:_zoneId newValue:YES];
   }
 }
 
