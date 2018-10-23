@@ -13,6 +13,4 @@
 - (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId;
 - (void)addMaioInstance:(MaioInstance *)instance;
 
-- (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId;
-
 @end

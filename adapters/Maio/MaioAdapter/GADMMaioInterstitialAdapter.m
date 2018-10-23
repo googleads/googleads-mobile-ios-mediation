@@ -148,8 +148,7 @@
  *  全てのゾーンの広告表示準備が完了したら呼ばれます。
  */
 - (void)maioDidInitialize {
-  [[GADMMaioMaioInstanceRepository new] setInitialized:YES
-                                               mediaId:self.mediaId];
+  // noop
 }
 
 /**
