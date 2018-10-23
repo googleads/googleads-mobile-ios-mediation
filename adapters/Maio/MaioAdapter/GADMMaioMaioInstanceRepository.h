@@ -11,6 +11,5 @@
 @interface GADMMaioMaioInstanceRepository : NSObject
 
 - (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId;
-- (void)addMaioInstance:(MaioInstance *)instance;
 
 @end
