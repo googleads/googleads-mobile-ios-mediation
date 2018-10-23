@@ -7,27 +7,9 @@
 
 #import "GADMMaioMaioInstanceRepository.h"
 
-@interface GADMMaioMaioInstanceWrapper : NSObject
-@property (nonatomic, readonly) MaioInstance* instance;
-@property (nonatomic) BOOL isInitialized;
-@end
-
-@implementation GADMMaioMaioInstanceWrapper
-- (instancetype)initWithMaioInstance:(MaioInstance*)instance
-                         initialized:(BOOL)initialized {
-  self = [super init];
-  if (self) {
-    _instance = instance;
-    _isInitialized = initialized;
-  }
-  return self;
-}
-@end
-
 @implementation GADMMaioMaioInstanceRepository
 
-static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*>
-    *_collection;
+static NSMutableDictionary<NSString*, MaioInstance*> *_collection;
 
 + (void)initialize {
   if (self == [GADMMaioMaioInstanceRepository class]) {
@@ -37,16 +19,13 @@ static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*>
 
 - (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
   @synchronized(self) {
-    return _collection[mediaId].instance;
+    return _collection[mediaId];
   }
 }
 
 - (void)addMaioInstance:(nonnull MaioInstance *)instance {
   @synchronized(self) {
-    GADMMaioMaioInstanceWrapper *wrapper =
-      [[GADMMaioMaioInstanceWrapper alloc] initWithMaioInstance:instance
-                                                    initialized:NO];
-    _collection[instance.mediaId] = wrapper;
+    _collection[instance.mediaId] = instance;
   }
 }
 
