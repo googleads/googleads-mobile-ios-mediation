@@ -50,16 +50,6 @@ static NSMutableDictionary<NSString*, GADMMaioMaioInstanceWrapper*>
   }
 }
 
-- (BOOL)isInitializedWithMediaId:(NSString *)mediaId {
-  @synchronized(self) {
-    GADMMaioMaioInstanceWrapper *wrapper = _collection[mediaId];
-    if (!wrapper) {
-      return NO;
-    }
-    return wrapper.isInitialized;
-  }
-}
-
 - (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId {
   @synchronized(self) {
     GADMMaioMaioInstanceWrapper *wrapper = _collection[mediaId];
