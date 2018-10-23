@@ -87,18 +87,12 @@
   _mediaId = parameter.mediaId;
   _zoneId = parameter.zoneId;
 
+  [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
   self.isLoading = YES;
-
-  if (!maioInstance) {
-    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
-    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
-    [repository addMaioInstance:
-     [Maio startWithNonDefaultMediaId:_mediaId delegate:delegate]];
-    return;
-  }
 
   if ([maioInstance canShowAtZoneId:_zoneId]) {
     [self maioDidChangeCanShow:_zoneId newValue:YES];
