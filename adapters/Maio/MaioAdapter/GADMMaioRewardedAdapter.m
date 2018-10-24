@@ -87,11 +87,16 @@
   _mediaId = parameter.mediaId;
   _zoneId = parameter.zoneId;
 
+  // MaioInstance生成時にテストモードかどうかを指定する
   [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
 
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
+
+  // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
+  [maioInstance setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+
   self.isLoading = YES;
 
   if ([maioInstance canShowAtZoneId:_zoneId]) {

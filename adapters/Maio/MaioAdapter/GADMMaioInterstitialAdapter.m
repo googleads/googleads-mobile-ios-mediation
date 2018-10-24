@@ -88,11 +88,15 @@
 
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
 
+  // MaioInstance生成時にテストモードかどうかを指定する
   [Maio setAdTestMode:self.interstitialAdConnector.testMode];
 
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *instance = [repository maioInstanceByMediaId:self.mediaId];
+
+  // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
+  [instance setAdTestMode:_interstitialAdConnector.testMode];
 
   if ([instance canShowAtZoneId:self.zoneId]) {
     [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
