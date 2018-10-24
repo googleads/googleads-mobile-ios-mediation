@@ -24,21 +24,12 @@ static NSMutableDictionary<NSString*, MaioInstance*> *_collection;
     if (exists) {
       return exists;
     }
-    MaioInstance *instance = [self generateMaioInstanceWithMediaId:mediaId];
-    [self addMaioInstance:instance];
+    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
+    MaioInstance *instance = [Maio startWithNonDefaultMediaId:mediaId
+                                                     delegate:delegate];
+    _collection[instance.mediaId] = instance;
     return instance;
   }
-}
-
-- (void)addMaioInstance:(nonnull MaioInstance *)instance {
-  @synchronized(self) {
-    _collection[instance.mediaId] = instance;
-  }
-}
-
-- (MaioInstance*)generateMaioInstanceWithMediaId:(NSString*)mediaId {
-  id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
-  return [Maio startWithNonDefaultMediaId:mediaId delegate:delegate];
 }
 
 @end
