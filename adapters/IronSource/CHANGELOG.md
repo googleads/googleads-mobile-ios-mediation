@@ -1,5 +1,8 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
+## 6.7.12.0
+- Verified compatibility with ironSource SDK 6.7.12
+
 ## 6.7.11.0
 - Verified compatibility with ironSource SDK 6.7.11
 
