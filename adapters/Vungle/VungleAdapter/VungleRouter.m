@@ -1,7 +1,7 @@
 #import "VungleRouter.h"
 #import "VungleRouterConsent.h"
 
-static NSString *const vungleAdapterVersion = @"6.3.0.0";
+static NSString *const vungleAdapterVersion = @"6.3.2.0";
 
 static NSString *const kApplicationID = @"application_id";
 static NSString *const kPlacementID = @"placementID";
@@ -215,8 +215,7 @@ static NSString *const kPlacementID = @"placementID";
 - (void)vungleSDKDidInitialize {
   VungleSDK *sdk = [VungleSDK sharedSDK];
   if ([VungleRouterConsent getConsentStatus] > 0) {
-    [sdk updateConsentStatus:[VungleRouterConsent getConsentStatus]
-       consentMessageVersion:[VungleRouterConsent getConsentMessageVersion]];
+    [sdk updateConsentStatus:[VungleRouterConsent getConsentStatus] consentMessageVersion:@""];
   }
 
   [self initialized:true error:nil];
