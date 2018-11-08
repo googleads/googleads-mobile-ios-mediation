@@ -17,7 +17,7 @@
 
 #import <Tapjoy/Tapjoy.h>
 
-NSString *const kGADMAdapterTapjoyVersion = @"12.0.0.0";
+NSString *const kGADMAdapterTapjoyVersion = @"12.1.0.0";
 NSString *const kMediationAgent = @"admob";
 NSString *const kTapjoyInternalAdapterVersion = @"1.0.0";
 
@@ -247,6 +247,15 @@ didFailToSetUpRewardBasedVideoAdWithError:adapterError];
     _intPlacement.delegate = nil;
   }
 }
+
+- (void)getBannerWithSize:(GADAdSize)adSize {
+  NSError *adapterError = [NSError errorWithDomain:@"com.google.mediation.tapjoy"
+                                              code:0
+                                          userInfo:@{NSLocalizedDescriptionKey:
+                                                       @"This adapter doesn't support banner ads."}];
+  [_interstitialConnector adapter:self didFailAd:adapterError];
+}
+
 
 #pragma mark - TJPlacementDelegate methods
 - (void)requestDidSucceed:(TJPlacement*)placement {
