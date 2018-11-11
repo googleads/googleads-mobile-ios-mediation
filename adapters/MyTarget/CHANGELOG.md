@@ -1,5 +1,14 @@
 # myTarget Adapter for Google Mobile Ads SDK for iOS
 
+## Version 4.8.5.0
+- Verified compatibility with myTarget SDK version 4.8.5.
+
+## Version 4.8.0.0
+- Verified compatibility with myTarget SDK version 4.8.0.
+
+## Version 4.7.11.0
+- Verified compatibility with myTarget SDK version 4.7.11.
+
 ## Version 4.7.10.0
 - Verified compatibility with myTarget SDK version 4.7.10.
 - Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.

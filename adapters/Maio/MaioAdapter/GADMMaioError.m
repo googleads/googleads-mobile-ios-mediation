@@ -42,6 +42,10 @@
     return @"AdStockOut";
   case MaioFailReasonVideoPlayback:
     return @"VideoPlayback";
+  case MaioFailReasonIncorrectMediaId:
+    return @"InCorrectMediaId";
+  case MaioFailReasonIncorrectZoneId:
+    return @"InCorrectZoneId";
   }
 }
 

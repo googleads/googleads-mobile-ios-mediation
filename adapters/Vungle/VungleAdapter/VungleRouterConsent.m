@@ -10,13 +10,15 @@
 #import <VungleSDK/VungleSDK.h>
 
 static VungleConsentStatus currentConsentStatus = 0;
+static NSString *currentConsentMessageVersion = @"";
 
 @implementation VungleRouterConsent
-+ (void)updateConsentStatus:(VungleConsentStatus)consentStatus {
-  currentConsentStatus = consentStatus;
++ (void)updateConsentStatus:(VungleConsentStatus)status consentMessageVersion:(NSString *)version {
+  currentConsentStatus = status;
+  currentConsentMessageVersion = version;
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  if (sdk.initialized && consentStatus > 0) {
-    [sdk updateConsentStatus:consentStatus];
+  if (sdk.initialized && status > 0) {
+    [sdk updateConsentStatus:status consentMessageVersion:version];
   }
 }
 
@@ -24,4 +26,7 @@ static VungleConsentStatus currentConsentStatus = 0;
   return currentConsentStatus;
 }
 
++ (NSString *)getConsentMessageVersion {
+  return currentConsentMessageVersion;
+}
 @end

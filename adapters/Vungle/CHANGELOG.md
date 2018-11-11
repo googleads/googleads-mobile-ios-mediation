@@ -1,8 +1,12 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 6.3.0.0
+- Verified compatibility with Vungle SDK 6.3.0.
+- Updated `updateConsentStatus` method to `updateConsentStatus:consentMessageVersion:` in `VungleRouterConsent` class.
+
 ## VERSION 6.2.0.3
- - Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
- 
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
 ## VERSION 6.2.0.2
 - Added `VungleRouterConsent` class which contains `updateConsentStatus` and `getConsentStatus` methods.
 
