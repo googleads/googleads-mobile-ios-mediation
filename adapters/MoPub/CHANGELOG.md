@@ -1,5 +1,8 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.4.0.1
+- Added location forwading capability to the adapter.
+
 ## Version 5.4.0.0
 - Verifed compatibility with MoPub SDK 5.4.0.
 
