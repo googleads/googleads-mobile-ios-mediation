@@ -44,7 +44,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"5.4.0.1";
+  return @"5.4.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
