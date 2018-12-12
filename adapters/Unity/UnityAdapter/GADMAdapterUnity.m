@@ -18,6 +18,8 @@
 #import "GADMAdapterUnitySingleton.h"
 #import "GADUnityError.h"
 
+#import "GADMAdaptorUnityBannerAd.h"
+
 @interface GADMAdapterUnity () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
@@ -30,6 +32,8 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
+
+  GADMAdaptorUnityBannerAd* banner;
 }
 
 @end
@@ -141,11 +145,10 @@
 
 #pragma mark Banner Methods
 
+
+
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  // Unity Ads doesn't support banner ads.
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSError *error = GADUnityErrorWithDescription(@"Unity Ads doesn't support banner ads.");
-  [strongConnector adapter:self didFailAd:error];
+    GADMAdaptorUnityBannerAd* BannerAds = [[GADMAdaptorUnityBannerAd alloc] initWithGADMAdNetworkConnector:_interstitialConnector adapter:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
