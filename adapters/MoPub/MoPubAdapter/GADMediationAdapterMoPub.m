@@ -14,6 +14,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 /// Connector from Google Mobile Ads SDK to receive ad configurations.
 @property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> rewardedConnector;
 @property(nonatomic, strong) NSString *rewardedAdUnitId;
+@property(nonatomic, assign) BOOL adExpired;
 
 @end
 
@@ -93,6 +94,7 @@ static NSString *const kAdapterTpValue = @"gmext";
         return nil;
     }
 
+    _adExpired = false;
     _rewardedConnector = connector;
     _rewardedAdUnitId = [self.rewardedConnector.credentials objectForKey:@"pubid"];
     
@@ -140,7 +142,8 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-    if ([self.rewardedAdUnitId length] != 0 && [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
+    // MoPub ads have a 4-hour expiration time window
+    if (!_adExpired && [self.rewardedAdUnitId length] != 0 && [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
         NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:self.rewardedAdUnitId];
         MPRewardedVideoReward *reward = rewards[0];
 
@@ -185,6 +188,15 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID {
+    _adExpired = true;
+    id strongAdapter = self;
+    
+    NSString *description = @"Failed to show a MoPub rewarded ad. Ad has expired after 4 hours. Please make a new ad request.";
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
+                               NSLocalizedFailureReasonErrorKey : description};
+    
+    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+    [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
 }
 
 - (void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
