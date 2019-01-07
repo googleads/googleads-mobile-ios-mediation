@@ -1,5 +1,8 @@
 # InMobi Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.2.1.0
+- Verified compatibility with InMobi SDK 7.2.1.
+
 ## Version 7.2.0.0
 - Verified compatibility with InMobi SDK 7.2.0.
 
