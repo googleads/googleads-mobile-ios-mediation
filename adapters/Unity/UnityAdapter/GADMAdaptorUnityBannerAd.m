@@ -58,13 +58,6 @@
         [_connector adapter:_adapter didFailAd:error];
         return;
     }
-    
-    if (self.placementId == nil) {
-    	id<GADMAdNetworkConnector> strongConnector = _connector;
-  		NSError *error = GADUnityErrorWithDescription(@"Placement ID not found");
-  		[strongConnector adapter:_adapter didFailAd:error];
-        return;
-    }
 
     [UnityAdsBanner loadBanner:self.placementId];
 }
@@ -85,7 +78,7 @@
 }
 
 -(void)unityAdsBannerDidUnload:(NSString *)placementId {
-    
+
 }
 
 -(void)unityAdsBannerDidShow:(NSString *)placementId {
@@ -97,13 +90,17 @@
 }
 
 -(void)unityAdsBannerDidClick:(NSString *)placementId {
-
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+    if (strongAdapter && strongConnector) {
+        [strongConnector adapterDidGetAdClick:strongAdapter];
+    }
 }
 
 -(void)unityAdsBannerDidError:(NSString *)message {
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    NSError* error = GADUnityErrorWithDescription(@"Unknown error occured.");
+    NSError* error = GADUnityErrorWithDescription(@"Unknown banner error occured");
     if (strongConnector && strongAdapter) {
         [strongConnector adapter:strongAdapter didFailAd:error];
     }

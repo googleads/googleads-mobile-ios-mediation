@@ -148,7 +148,8 @@
 
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    GADMAdaptorUnityBannerAd* BannerAds = [[GADMAdaptorUnityBannerAd alloc] initWithGADMAdNetworkConnector:_interstitialConnector adapter:self];
+    GADMAdaptorUnityBannerAd* bannerAds = [[GADMAdaptorUnityBannerAd alloc] initWithGADMAdNetworkConnector:_interstitialConnector adapter:self];
+    [bannerAds getBannerWithSize:adSize];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
