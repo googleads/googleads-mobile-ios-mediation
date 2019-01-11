@@ -32,7 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		7D1575721EB7FBB200059469 /* ONEByAOLAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* ONEByAOLAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D1575721EB7FBB200059469 /* OathAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* OathAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,7 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7D1575711EB7FBB200059469 /* ONEByAOLAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONEByAOLAdapter.h; sourceTree = "<group>"; };
+		7D1575711EB7FBB200059469 /* OathAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OathAdapter.h; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -83,12 +83,12 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		7D7CAE551EC1127C005DA12D /* ONEByAOLAdapter */ = {
+		7D7CAE551EC1127C005DA12D /* OathAdapter */ = {
 			isa = PBXGroup;
 			children = (
 				7D7CAE561EC1127C005DA12D /* README.md */,
 			);
-			path = ONEByAOLAdapter;
+			path = OathAdapter;
 			sourceTree = "<group>";
 		};
 		7DC868191DDA8D4400F0F1C4 /* Public */ = {
@@ -103,7 +103,7 @@
 		7DC8681B1DDA8D4400F0F1C4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				7D1575711EB7FBB200059469 /* ONEByAOLAdapter.h */,
+				7D1575711EB7FBB200059469 /* OathAdapter.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -123,7 +123,7 @@
 			children = (
 				7DE821BF1DB04B5000AA08CF /* README.md */,
 				7D264FF01DDD1B4E00027720 /* CHANGELOG.md */,
-				7D7CAE551EC1127C005DA12D /* ONEByAOLAdapter */,
+				7D7CAE551EC1127C005DA12D /* OathAdapter */,
 				7DC868191DDA8D4400F0F1C4 /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
@@ -146,7 +146,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D1575721EB7FBB200059469 /* ONEByAOLAdapter.h in Headers */,
+				7D1575721EB7FBB200059469 /* OathAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +191,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "ONEByAOLAdapter" */;
+			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "OathAdapter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -387,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "ONEByAOLAdapter" */ = {
+		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "OathAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DFABB241DA8682C00322E02 /* Debug */,

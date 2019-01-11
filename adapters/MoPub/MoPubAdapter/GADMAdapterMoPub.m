@@ -44,7 +44,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"5.4.0.0";
+  return @"5.4.1.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -146,7 +146,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getInterstitial {
   NSString *publisherID = [_connector credentials][@"pubid"];
-    
+
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
                                                              longitude:_connector.userLongitude];
 
@@ -207,10 +207,10 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *publisherID = [_connector credentials][@"pubid"];
-    
+
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
                                                              longitude:_connector.userLongitude];
-    
+
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
