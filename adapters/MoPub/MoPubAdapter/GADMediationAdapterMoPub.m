@@ -2,6 +2,7 @@
 
 #import "MoPub.h"
 #import "MPRewardedVideo.h"
+#import "GADMoPubNetworkExtras.h"
 
 /// Constant for adapter error domain.
 static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.GADMediationAdapterMoPub";
@@ -22,6 +23,10 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 + (NSString *)adapterVersion {
   return @"5.4.0.2";
+}
+
++ (Class<GADAdNetworkExtras>)networkExtrasClass {
+    return [GADMoPubNetworkExtras class];
 }
 
 - (void)initializeMoPub:(NSString *)adUnitId {
@@ -124,14 +129,15 @@ static NSString *const kAdapterTpValue = @"gmext";
 
 - (void)setUp {
     [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
-    
-    CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_rewardedConnector.userLatitude
-                                                             longitude:_rewardedConnector.userLongitude];
-    
-    [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:_rewardedAdUnitId keywords:[self getKeywords:false] userDataKeywords:[self getKeywords:true] location:currentlocation mediationSettings:@[]];
+
+    [_rewardedConnector adapterDidSetUpRewardBasedVideoAd:self];
 }
 
 - (void)requestRewardBasedVideoAd {
+    CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_rewardedConnector.userLatitude
+                                                             longitude:_rewardedConnector.userLongitude];
+
+    [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:_rewardedAdUnitId keywords:[self getKeywords:false] userDataKeywords:[self getKeywords:true] location:currentlocation mediationSettings:@[]];
 
     if ([self.rewardedAdUnitId length] != 0 && [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
         [_rewardedConnector adapterDidReceiveRewardBasedVideoAd:self];
@@ -222,6 +228,8 @@ static NSString *const kAdapterTpValue = @"gmext";
     GADAdReward *rewardItem = [[GADAdReward alloc] initWithRewardType:rewardType
                                                          rewardAmount:rewardAmount];
     [_rewardedConnector adapter:strongAdapter didRewardUserWithReward:rewardItem];
+    
+    [_rewardedConnector adapterDidCompletePlayingRewardBasedVideoAd:strongAdapter];
 }
 
 @end
