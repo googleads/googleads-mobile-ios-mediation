@@ -123,7 +123,11 @@ static NSString *const kAdapterTpValue = @"gmext";
       [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
 
   if (intendedForPII) {
-    return [self keywordsContainUserData:_connector] ? keywordsBuilder : @"";
+      if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
+          return [self keywordsContainUserData:_connector] ? keywordsBuilder : @"";
+      } else {
+          return @"";
+      }
   } else {
     return [self keywordsContainUserData:_connector] ? @"" : keywordsBuilder;
   }
