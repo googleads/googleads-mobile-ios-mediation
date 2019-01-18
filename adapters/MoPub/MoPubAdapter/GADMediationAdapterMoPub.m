@@ -1,14 +1,9 @@
 #import "GADMediationAdapterMoPub.h"
 
-#import "MoPub.h"
-#import "MPRewardedVideo.h"
 #import "GADMoPubNetworkExtras.h"
-
-/// Constant for adapter error domain.
-static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.GADMediationAdapterMoPub";
-
-/// Internal to MoPub
-static NSString *const kAdapterTpValue = @"gmext";
+#import "MPRewardedVideo.h"
+#import "MoPub.h"
+#import "MoPubAdapterConstants.h"
 
 @interface GADMediationAdapterMoPub () <MPRewardedVideoDelegate>
 
@@ -22,27 +17,31 @@ static NSString *const kAdapterTpValue = @"gmext";
 @implementation GADMediationAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"5.4.0.2";
+  return GADMAdapterMoPubVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return [GADMoPubNetworkExtras class];
+  return [GADMoPubNetworkExtras class];
 }
 
 - (void)initializeMoPub:(NSString *)adUnitId {
-    
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
-    
-    if (!MoPub.sharedInstance.isSdkInitialized) {
-        [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
-            NSLog(@"MoPub SDK initialized.");
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // No need to request ad at this point. It'll be done when AdMob calls setUp
-                [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
-            });
-        }];
-    }
+  MPMoPubConfiguration *sdkConfig =
+      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
+
+  if (!MoPub.sharedInstance.isSdkInitialized) {
+    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig
+                                                completion:^{
+                                                  NSLog(@"MoPub SDK initialized.");
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                    // No need to request ad at this point. It'll be
+                                                    // done when AdMob calls
+                                                    // requestRewardBasedVideoAd
+                                                    [MPRewardedVideo
+                                                        setDelegate:self
+                                                        forAdUnitId:self.rewardedAdUnitId];
+                                                  });
+                                                }];
+  }
 }
 
 - (void)stopBeingDelegate {
@@ -53,7 +52,8 @@ static NSString *const kAdapterTpValue = @"gmext";
  and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
  */
 - (NSString *)getKeywords:(BOOL)intendedForPII {
-  NSDate *birthday = [_rewardedConnector userBirthday];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardedConnector;
+  NSDate *birthday = [strongConnector userBirthday];
   NSString *ageString = @"";
 
   if (birthday) {
@@ -61,7 +61,7 @@ static NSString *const kAdapterTpValue = @"gmext";
     ageString = [@"m_age:" stringByAppendingString:[@(ageInteger) stringValue]];
   }
 
-  GADGender gender = [_rewardedConnector userGender];
+  GADGender gender = [strongConnector userGender];
   NSString *genderString = @"";
 
   if (gender == kGADGenderMale) {
@@ -73,13 +73,13 @@ static NSString *const kAdapterTpValue = @"gmext";
       [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
 
   if (intendedForPII) {
-      if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
-          return [self keywordsContainUserData:_rewardedConnector] ? keywordsBuilder : @"";
-      } else {
-          return @"";
-      }
+    if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
+      return [self keywordsContainUserData:strongConnector] ? keywordsBuilder : @"";
+    } else {
+      return @"";
+    }
   } else {
-    return [self keywordsContainUserData:_rewardedConnector] ? @"" : keywordsBuilder;
+    return [self keywordsContainUserData:strongConnector] ? @"" : keywordsBuilder;
   }
 }
 
@@ -92,144 +92,146 @@ static NSString *const kAdapterTpValue = @"gmext";
   return ageComponents.year;
 }
 
-- (BOOL)keywordsContainUserData:(id<GADMAdNetworkConnector>)rewardedConnector {
-  return [_rewardedConnector userGender] || [_rewardedConnector userBirthday] || [_rewardedConnector userHasLocation];
+- (BOOL)keywordsContainUserData:(id<GADMRewardBasedVideoAdNetworkConnector>)rewardedConnector {
+  return [rewardedConnector userGender] || [rewardedConnector userBirthday] ||
+         [rewardedConnector userHasLocation];
 }
 
 #pragma mark - Rewarded Video
 
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector: (id)connector {
-    if (!connector) {
-        return nil;
-    }
-
+- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id)connector {
+  if (!connector) {
+    return nil;
+  }
+  self = [super init];
+  if (self) {
     _adExpired = false;
     _rewardedConnector = connector;
     _rewardedAdUnitId = [self.rewardedConnector.credentials objectForKey:@"pubid"];
-    
-    if ([_rewardedAdUnitId length] == 0) {
-        NSString *description = @"Failed to request a MoPub rewarded ad. Ad unit ID is empty.";
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                                   NSLocalizedFailureReasonErrorKey : description};
-        
-        NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
-        [_rewardedConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
-    }
-
     if (![[MoPub sharedInstance] isSdkInitialized]) {
-        [self initializeMoPub:_rewardedAdUnitId];
+      [self initializeMoPub:_rewardedAdUnitId];
     }
-
-    self = [super init];
-    if (self) {
-        [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
-    }
-    return self;
+  }
+  return self;
 }
 
 - (void)setUp {
-    [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardedConnector;
+  if ([_rewardedAdUnitId length] == 0) {
+    NSString *description = @"Failed to request a MoPub rewarded ad. Ad unit ID is empty.";
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
 
-    [_rewardedConnector adapterDidSetUpRewardBasedVideoAd:self];
+    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+    [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
+  }
+  [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
+  [strongConnector adapterDidSetUpRewardBasedVideoAd:self];
 }
 
 - (void)requestRewardBasedVideoAd {
-    CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_rewardedConnector.userLatitude
-                                                             longitude:_rewardedConnector.userLongitude];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardedConnector;
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
+                                                           longitude:strongConnector.userLongitude];
 
-    [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:_rewardedAdUnitId keywords:[self getKeywords:false] userDataKeywords:[self getKeywords:true] location:currentlocation mediationSettings:@[]];
-
-    if ([self.rewardedAdUnitId length] != 0 && [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
-        [_rewardedConnector adapterDidReceiveRewardBasedVideoAd:self];
-    } else {
-        NSString *description = @"Failed to show a MoPub rewarded ad. No ad available.";
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                                   NSLocalizedFailureReasonErrorKey : description};
-
-        NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
-        [_rewardedConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
-    }
+  if ([self.rewardedAdUnitId length] != 0 &&
+      [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
+    [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
+  } else {
+    [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:_rewardedAdUnitId
+                                            keywords:[self getKeywords:false]
+                                    userDataKeywords:[self getKeywords:true]
+                                            location:currentlocation
+                                   mediationSettings:@[]];
+  }
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-    // MoPub ads have a 4-hour expiration time window
-    if (!_adExpired && [self.rewardedAdUnitId length] != 0 && [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
-        NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:self.rewardedAdUnitId];
-        MPRewardedVideoReward *reward = rewards[0];
+  // MoPub ads have a 4-hour expiration time window
+  if (!_adExpired && [self.rewardedAdUnitId length] != 0 &&
+      [MPRewardedVideo hasAdAvailableForAdUnitID:self.rewardedAdUnitId]) {
+    NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:self.rewardedAdUnitId];
+    MPRewardedVideoReward *reward = rewards[0];
 
-        [MPRewardedVideo presentRewardedVideoAdForAdUnitID:self.rewardedAdUnitId fromViewController:viewController withReward:reward];
-    } else {
-        NSString *description = @"Failed to show a MoPub rewarded ad. No ad available.";
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                                   NSLocalizedFailureReasonErrorKey : description};
-        
-        NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
-        [_rewardedConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
-    }
+    [MPRewardedVideo presentRewardedVideoAdForAdUnitID:self.rewardedAdUnitId
+                                    fromViewController:viewController
+                                            withReward:reward];
+  } else {
+    NSString *description = @"Failed to show a MoPub rewarded ad. No ad available.";
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+
+    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+    [_rewardedConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
+  }
 }
 
 #pragma mark SampleRewardBasedVideoDelegate methods
 
 - (void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID {
-    id strongAdapter = self;
-    [_rewardedConnector adapterDidReceiveRewardBasedVideoAd:strongAdapter];
+  id strongAdapter = self;
+  [_rewardedConnector adapterDidReceiveRewardBasedVideoAd:strongAdapter];
 }
 
 - (void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
-    id strongAdapter = self;
-    [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
+  id strongAdapter = self;
+  [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
 }
 
 - (void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID {
 }
 
 - (void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID {
-    id strongAdapter = self;
-    [_rewardedConnector adapterDidStartPlayingRewardBasedVideoAd:strongAdapter];
-    [_rewardedConnector adapterDidOpenRewardBasedVideoAd:strongAdapter];
+  id strongAdapter = self;
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardedConnector;
+  [strongConnector adapterDidStartPlayingRewardBasedVideoAd:strongAdapter];
+  [strongConnector adapterDidOpenRewardBasedVideoAd:strongAdapter];
 }
 
 - (void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID {
 }
 
 - (void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID {
-    id strongAdapter = self;
-    [_rewardedConnector adapterDidCloseRewardBasedVideoAd:strongAdapter];
+  id strongAdapter = self;
+  [_rewardedConnector adapterDidCloseRewardBasedVideoAd:strongAdapter];
 }
 
 - (void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID {
-    _adExpired = true;
-    id strongAdapter = self;
-    
-    NSString *description = @"Failed to show a MoPub rewarded ad. Ad has expired after 4 hours. Please make a new ad request.";
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                               NSLocalizedFailureReasonErrorKey : description};
-    
-    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
-    [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
+  _adExpired = true;
+  id strongAdapter = self;
+
+  NSString *description = @"Failed to show a MoPub rewarded ad. Ad has expired after 4 hours. "
+                          @"Please make a new ad request.";
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+
+  NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+  [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
 }
 
 - (void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
-    id strongAdapter = self;
-    [_rewardedConnector adapterDidGetAdClick:strongAdapter];
+  id strongAdapter = self;
+  [_rewardedConnector adapterDidGetAdClick:strongAdapter];
 }
 
 - (void)rewardedVideoWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
-    id strongAdapter = self;
-    [_rewardedConnector adapterWillLeaveApplication:strongAdapter];
+  id strongAdapter = self;
+  [_rewardedConnector adapterWillLeaveApplication:strongAdapter];
 }
 
-- (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPRewardedVideoReward *)reward {
-    id strongAdapter = self;
-    
-    NSDecimalNumber *rewardAmount = [NSDecimalNumber decimalNumberWithDecimal:[reward.amount decimalValue]];
-    NSString *rewardType = reward.currencyType;
-    
-    GADAdReward *rewardItem = [[GADAdReward alloc] initWithRewardType:rewardType
-                                                         rewardAmount:rewardAmount];
-    [_rewardedConnector adapter:strongAdapter didRewardUserWithReward:rewardItem];
-    
-    [_rewardedConnector adapterDidCompletePlayingRewardBasedVideoAd:strongAdapter];
+- (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID
+                                        reward:(MPRewardedVideoReward *)reward {
+  id strongAdapter = self;
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardedConnector;
+  NSDecimalNumber *rewardAmount =
+      [NSDecimalNumber decimalNumberWithDecimal:[reward.amount decimalValue]];
+  NSString *rewardType = reward.currencyType;
+
+  GADAdReward *rewardItem = [[GADAdReward alloc] initWithRewardType:rewardType
+                                                       rewardAmount:rewardAmount];
+
+  [strongConnector adapterDidCompletePlayingRewardBasedVideoAd:strongAdapter];
+  [strongConnector adapter:strongAdapter didRewardUserWithReward:rewardItem];
 }
 
 @end
