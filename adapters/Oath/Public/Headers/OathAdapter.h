@@ -16,4 +16,4 @@
 #import <UIKit/UIKit.h>
 
 // Import any public headers below.
-//#import <ONEByAOLAdapter/YOUR_PUBLIC_HEADER.h>
+//#import <Oathdapter/YOUR_PUBLIC_HEADER.h>

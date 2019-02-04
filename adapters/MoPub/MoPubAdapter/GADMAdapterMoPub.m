@@ -1,7 +1,6 @@
 #import "GADMAdapterMoPub.h"
 
 #import "GADMoPubNetworkExtras.h"
-#import "MoPubAdapterMediatedNativeAd.h"
 #import "MPAdView.h"
 #import "MPImageDownloadQueue.h"
 #import "MPInterstitialAdController.h"
@@ -15,14 +14,12 @@
 #import "MPNativeCache.h"
 #import "MPStaticNativeAdRenderer.h"
 #import "MPStaticNativeAdRendererSettings.h"
+#import "MoPub.h"
+#import "MoPubAdapterConstants.h"
+#import "MoPubAdapterMediatedNativeAd.h"
 
-/// Constant for adapter error domain.
-static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter";
-
-/// Internal to MoPub
-static NSString *const kAdapterTpValue = @"gmext";
-
-@interface GADMAdapterMoPub () <MPNativeAdDelegate, MPAdViewDelegate,
+@interface GADMAdapterMoPub () <MPNativeAdDelegate,
+                                MPAdViewDelegate,
                                 MPInterstitialAdControllerDelegate>
 
 /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -30,6 +27,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 @property(nonatomic, strong) MPAdView *bannerAd;
 @property(nonatomic, strong) MPInterstitialAdController *interstitialAd;
 @property(nonatomic, strong) MPNativeAd *nativeAd;
+@property(nonatomic, strong) NSArray *nativeAdOptions;
 @property(nonatomic, strong) MoPubAdapterMediatedNativeAd *mediatedAd;
 @property(nonatomic, strong) MPImageDownloadQueue *imageDownloadQueue;
 @property(nonatomic, strong) NSMutableDictionary *imagesDictionary;
@@ -41,11 +39,45 @@ static NSString *const kAdapterTpValue = @"gmext";
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return @"4.20.1.0";
+  return GADMAdapterMoPubVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMoPubNetworkExtras class];
+}
+
+- (void)initializeMoPub:(NSString *)adUnitId
+           withBannerAd:(MPAdView *)bannerAd
+     withInterstitialAd:(MPInterstitialAdController *)interstitialAd
+           withNativeAd:(MPNativeAdRequest *)nativeAd {
+  MPMoPubConfiguration *sdkConfig =
+      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
+
+  if (!MoPub.sharedInstance.isSdkInitialized) {
+    [[MoPub sharedInstance]
+        initializeSdkWithConfiguration:sdkConfig
+                            completion:^{
+                              NSLog(@"MoPub SDK initialized.");
+
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                // Start loading ads now that the MoPub SDK has initialized
+                                if (bannerAd != nil) {
+                                  [bannerAd loadAd];
+                                } else if (interstitialAd != nil) {
+                                  [interstitialAd loadAd];
+                                } else if (nativeAd != nil) {
+                                  [nativeAd startWithCompletionHandler:^(MPNativeAdRequest *request,
+                                                                         MPNativeAd *response,
+                                                                         NSError *error) {
+                                    [self handleNativeAdOptions:request
+                                                   withResponse:response
+                                                      withError:error
+                                                    withOptions:self->_nativeAdOptions];
+                                  }];
+                                }
+                              });
+                            }];
+  }
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -61,9 +93,13 @@ static NSString *const kAdapterTpValue = @"gmext";
   _bannerAd.delegate = nil;
   _interstitialAd.delegate = nil;
 }
-
-- (NSString *)getKeywords {
-  NSDate *birthday = [_connector userBirthday];
+/*
+ Keywords passed from AdMob are separated into 1) personally identifiable,
+ and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
+ */
+- (NSString *)getKeywords:(BOOL)intendedForPII {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  NSDate *birthday = [strongConnector userBirthday];
   NSString *ageString = @"";
 
   if (birthday) {
@@ -71,7 +107,7 @@ static NSString *const kAdapterTpValue = @"gmext";
     ageString = [@"m_age:" stringByAppendingString:[@(ageInteger) stringValue]];
   }
 
-  GADGender gender = [_connector userGender];
+  GADGender gender = [strongConnector userGender];
   NSString *genderString = @"";
 
   if (gender == kGADGenderMale) {
@@ -79,10 +115,18 @@ static NSString *const kAdapterTpValue = @"gmext";
   } else if (gender == kGADGenderFemale) {
     genderString = @"m_gender:f";
   }
-
   NSString *keywordsBuilder =
       [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
-  return keywordsBuilder;
+
+  if (intendedForPII) {
+    if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
+      return [self keywordsContainUserData:strongConnector] ? keywordsBuilder : @"";
+    } else {
+      return @"";
+    }
+  } else {
+    return [self keywordsContainUserData:strongConnector] ? @"" : keywordsBuilder;
+  }
 }
 
 - (NSInteger)ageFromBirthday:(NSDate *)birthdate {
@@ -94,14 +138,34 @@ static NSString *const kAdapterTpValue = @"gmext";
   return ageComponents.year;
 }
 
+- (BOOL)keywordsContainUserData:(id<GADMAdNetworkConnector>)connector {
+  return [connector userGender] || [connector userBirthday] || [connector userHasLocation];
+}
+
 #pragma mark - Interstitial Ads
 
 - (void)getInterstitial {
-  NSString *publisherID = [_connector credentials][@"pubid"];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  NSString *publisherID = [strongConnector credentials][@"pubid"];
+
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
+                                                           longitude:strongConnector.userLongitude];
+
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
-  _interstitialAd.keywords = [self getKeywords];
-  [_interstitialAd loadAd];
+  _interstitialAd.keywords = [self getKeywords:false];
+  _interstitialAd.userDataKeywords = [self getKeywords:true];
+  _interstitialAd.location = currentlocation;
+
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+    [_interstitialAd loadAd];
+  } else {
+    [self initializeMoPub:publisherID
+              withBannerAd:nil
+        withInterstitialAd:_interstitialAd
+              withNativeAd:nil];
+  }
+
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
 }
 
@@ -118,8 +182,9 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  NSError *adapterError =
-      [NSError errorWithDomain:kAdapterErrorDomain code:kGADErrorMediationNoFill userInfo:nil];
+  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+                                              code:kGADErrorMediationNoFill
+                                          userInfo:nil];
   [_connector adapter:self didFailAd:adapterError];
 }
 
@@ -142,11 +207,27 @@ static NSString *const kAdapterTpValue = @"gmext";
 #pragma mark - Banner Ads
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSString *publisherID = [_connector credentials][@"pubid"];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  NSString *publisherID = [strongConnector credentials][@"pubid"];
+
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
+                                                           longitude:strongConnector.userLongitude];
+
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
   _bannerAd.delegate = self;
-  _bannerAd.keywords = [self getKeywords];
-  [_bannerAd loadAd];
+  _bannerAd.keywords = [self getKeywords:false];
+  _bannerAd.userDataKeywords = [self getKeywords:true];
+  _bannerAd.location = currentlocation;
+
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+    [_bannerAd loadAd];
+  } else {
+    [self initializeMoPub:publisherID
+              withBannerAd:_bannerAd
+        withInterstitialAd:nil
+              withNativeAd:nil];
+  }
+
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
 }
 
@@ -172,13 +253,15 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)willPresentModalViewForAd:(MPAdView *)view {
-  [_connector adapterDidGetAdClick:self];
-  [_connector adapterWillPresentFullScreenModal:self];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillPresentFullScreenModal:self];
 }
 
 - (void)didDismissModalViewForAd:(MPAdView *)view {
-  [_connector adapterWillDismissFullScreenModal:self];
-  [_connector adapterDidDismissFullScreenModal:self];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterWillDismissFullScreenModal:self];
+  [strongConnector adapterDidDismissFullScreenModal:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -188,60 +271,75 @@ static NSString *const kAdapterTpValue = @"gmext";
 #pragma mark - Native Ads
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]) {
-    NSError *adapterError =
-        [NSError errorWithDomain:kAdapterErrorDomain code:kGADErrorInvalidArgument userInfo:nil];
-    [_connector adapter:self didFailAd:adapterError];
-    return;
-  }
-
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   MPStaticNativeAdRendererSettings *settings = [[MPStaticNativeAdRendererSettings alloc] init];
   MPNativeAdRendererConfiguration *config =
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
 
-  NSString *publisherID = [_connector credentials][@"pubid"];
+  NSString *publisherID = [strongConnector credentials][@"pubid"];
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[ config ]];
 
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
-  targeting.keywords = [self getKeywords];
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:_connector.userLatitude
-                                                           longitude:_connector.userLongitude];
+  targeting.keywords = [self getKeywords:false];
+  targeting.userDataKeywords = [self getKeywords:true];
+  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
+                                                           longitude:strongConnector.userLongitude];
   targeting.location = currentlocation;
   NSSet *desiredAssets = [NSSet
       setWithObjects:kAdTitleKey, kAdTextKey, kAdIconImageKey, kAdMainImageKey, kAdCTATextKey, nil];
   targeting.desiredAssets = desiredAssets;
 
   adRequest.targeting = targeting;
-  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
-                                          NSError *error) {
-    if (error) {
-      [_connector adapter:self didFailAd:error];
-    } else {
-      _nativeAd = response;
-      _nativeAd.delegate = self;
-      _shouldDownloadImages = YES;
+  _nativeAdOptions = options;
 
-      if (options != nil) {
-        for (GADAdLoaderOptions *loaderOptions in options) {
-          if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-            GADNativeAdImageAdLoaderOptions *imageOptions =
-                (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-            _shouldDownloadImages = !imageOptions.disableImageLoading;
-          } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
-            _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
-          }
+  if ([[MoPub sharedInstance] isSdkInitialized]) {
+    [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                            NSError *error) {
+      [self handleNativeAdOptions:request
+                     withResponse:response
+                        withError:error
+                      withOptions:self->_nativeAdOptions];
+    }];
+  } else {
+    [self initializeMoPub:publisherID
+              withBannerAd:nil
+        withInterstitialAd:nil
+              withNativeAd:adRequest];
+  }
+}
+
+- (void)handleNativeAdOptions:(MPNativeAdRequest *)request
+                 withResponse:(MPNativeAd *)response
+                    withError:(NSError *)error
+                  withOptions:(NSArray *)options {
+  if (error) {
+    [_connector adapter:self didFailAd:error];
+  } else {
+    _nativeAd = response;
+    _nativeAd.delegate = self;
+    _shouldDownloadImages = YES;
+
+    if (options != nil) {
+      for (GADAdLoaderOptions *loaderOptions in options) {
+        if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+          GADNativeAdImageAdLoaderOptions *imageOptions =
+              (GADNativeAdImageAdLoaderOptions *)loaderOptions;
+          _shouldDownloadImages = !imageOptions.disableImageLoading;
+        } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
+          _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
         }
       }
-      [self loadNativeAdImages];
     }
-  }];
-  MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
+    [self loadNativeAdImages];
+    MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
+  }
 }
 
 #pragma mark - Helper methods for downloading images
 
 - (void)loadNativeAdImages {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   NSMutableArray *imageURLs = [NSMutableArray array];
   NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
                                               code:kGADErrorReceivedInvalidResponse
@@ -255,11 +353,11 @@ static NSString *const kAdapterTpValue = @"gmext";
         if (URL != nil) {
           [imageURLs addObject:URL];
         } else {
-          [_connector adapter:self didFailAd:adapterError];
+          [strongConnector adapter:self didFailAd:adapterError];
           return;
         }
       } else {
-        [_connector adapter:self didFailAd:adapterError];
+        [strongConnector adapter:self didFailAd:adapterError];
         return;
       }
     }
@@ -280,6 +378,7 @@ static NSString *const kAdapterTpValue = @"gmext";
 }
 
 - (void)precacheImagesWithURL:(NSArray *)imageURLs {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   _imagesDictionary = [[NSMutableDictionary alloc] init];
 
   for (NSURL *imageURL in imageURLs) {
@@ -311,6 +410,7 @@ static NSString *const kAdapterTpValue = @"gmext";
                __strong typeof(self) strongSelf = weakSelf;
                if (strongSelf) {
                  if (errors.count == 0) {
+                   id<GADMAdNetworkConnector> strongConnector = strongSelf.connector;
                    for (NSURL *imageURL in imageURLs) {
                      UIImage *image =
                          [UIImage imageWithData:[[MPNativeCache sharedCache]
@@ -328,8 +428,8 @@ static NSString *const kAdapterTpValue = @"gmext";
                          initWithMoPubNativeAd:strongSelf.nativeAd
                                   mappedImages:strongSelf.imagesDictionary
                            nativeAdViewOptions:strongSelf.nativeAdViewAdOptions
-                                 networkExtras:[strongSelf.connector networkExtras]];
-                     [strongSelf.connector adapter:strongSelf
+                                 networkExtras:[strongConnector networkExtras]];
+                     [strongConnector adapter:strongSelf
                          didReceiveMediatedNativeAd:strongSelf.mediatedAd];
                    }
                  } else {
@@ -337,39 +437,39 @@ static NSString *const kAdapterTpValue = @"gmext";
                    NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
                                                                code:kGADErrorNetworkError
                                                            userInfo:nil];
-                   [strongSelf.connector adapter:strongSelf didFailAd:adapterError];
+                   [strongConnector adapter:strongSelf didFailAd:adapterError];
                    return;
                  }
                } else {
-                 MPLogDebug(@"MPNativeAd deallocated before \
-                            loadImageForURL:intoImageView: download completion \
-                            block was called");
+                 MPLogDebug(
+                     @"MPNativeAd deallocated before loadImageForURL:intoImageView: download "
+                     @"completion block was called");
                  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
                                                              code:kGADErrorInternalError
                                                          userInfo:nil];
-                 [strongSelf.connector adapter:strongSelf didFailAd:adapterError];
+                 [strongConnector adapter:strongSelf didFailAd:adapterError];
                  return;
                }
              }];
   } else {
     if (_shouldDownloadImages) {
-      _mediatedAd =
-          [[MoPubAdapterMediatedNativeAd alloc] initWithMoPubNativeAd:self.nativeAd
-                                                         mappedImages:_imagesDictionary
-                                                  nativeAdViewOptions:_nativeAdViewAdOptions
-                                                        networkExtras:[_connector networkExtras]];
-      [_connector adapter:self didReceiveMediatedNativeAd:_mediatedAd];
+      _mediatedAd = [[MoPubAdapterMediatedNativeAd alloc]
+          initWithMoPubNativeAd:self.nativeAd
+                   mappedImages:_imagesDictionary
+            nativeAdViewOptions:_nativeAdViewAdOptions
+                  networkExtras:[strongConnector networkExtras]];
+      [strongConnector adapter:self didReceiveMediatedNativeAd:_mediatedAd];
     } else {
       NSMutableDictionary *_mainImageDictionary = [[NSMutableDictionary alloc] init];
       GADNativeAdImage *_tempMainImage = _imagesDictionary[kAdMainImageKey];
       _mainImageDictionary[kAdMainImageKey] = _tempMainImage;
 
-      _mediatedAd =
-          [[MoPubAdapterMediatedNativeAd alloc] initWithMoPubNativeAd:_nativeAd
-                                                         mappedImages:_mainImageDictionary
-                                                  nativeAdViewOptions:_nativeAdViewAdOptions
-                                                        networkExtras:[_connector networkExtras]];
-      [_connector adapter:self didReceiveMediatedNativeAd:_mediatedAd];
+      _mediatedAd = [[MoPubAdapterMediatedNativeAd alloc]
+          initWithMoPubNativeAd:_nativeAd
+                   mappedImages:_mainImageDictionary
+            nativeAdViewOptions:_nativeAdViewAdOptions
+                  networkExtras:[strongConnector networkExtras]];
+      [strongConnector adapter:self didReceiveMediatedNativeAd:_mediatedAd];
     }
   }
 }

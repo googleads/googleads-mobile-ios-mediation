@@ -6,8 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,7 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Dynamically create an instance of ALIncentivizedAd with a given zone and SDK. We must do it
 /// dynamically as it is not exposed publically until iOS SDK 4.7.0.
 + (ALIncentivizedInterstitialAd *)incentivizedInterstitialAdWithZoneIdentifier:
-                                      (NSString *)zoneIdentifier sdk:(ALSdk *)sdk;
+                                      (NSString *)zoneIdentifier
+                                                                           sdk:(ALSdk *)sdk;
+
++ (void)log:(NSString *)format, ...;
 
 @end
 

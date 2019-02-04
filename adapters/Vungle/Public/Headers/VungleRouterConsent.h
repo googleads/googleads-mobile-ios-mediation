@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-typedef NS_ENUM (NSInteger, VungleConsentStatus);
+typedef NS_ENUM(NSInteger, VungleConsentStatus);
 
 @interface VungleRouterConsent : NSObject
-+ (void)updateConsentStatus:(VungleConsentStatus)consentStatus;
++ (BOOL)updateConsentStatus:(VungleConsentStatus)consentStatus;
 + (VungleConsentStatus)getConsentStatus;
 @end

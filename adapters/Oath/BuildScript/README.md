@@ -1,16 +1,16 @@
 # Steps to generate universal static library and framework
 
 **Note:** These build scripts are intended only for publishers who want to
-modify and rebuild the ONEByAOL adapter framework. If you just want to use the
-ONEByAOL adapter, simply add `pod 'GoogleMobileAdsMediationONEByAOL'` to
+modify and rebuild the Oath adapter framework. If you just want to use the
+Oath adapter, simply add `pod 'GoogleMobileAdsMediationOath'` to
 your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
 - Xcode 7.0 or higher
 - Deployment target of 7.0 or higher
 - Google Mobile Ads SDK
-- One by AOL SDK
-- ONEByAOL Adapter Source Code
+- Oath SDK
+- Oath Adapter Source Code
 
 ## Setup Instructions
 - Drop GoogleMobileAds framework to
