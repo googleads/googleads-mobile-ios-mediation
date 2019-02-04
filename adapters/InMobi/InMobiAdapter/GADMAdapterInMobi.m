@@ -43,7 +43,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 @synthesize connector = connector_;
 
 + (NSString *)adapterVersion {
-  return @"7.2.1.0";
+  return @"7.2.4.0";
 }
 
 + (BOOL) isAppInitialised {
