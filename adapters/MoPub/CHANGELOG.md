@@ -1,5 +1,8 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.5.0.0
+- Verifed compatibility with MoPub SDK 5.5.0.
+
 ## Version 5.4.1.1
 - Added support for requesting MoPub Rewarded video ads via Google Mobile Ads mediation.
 
