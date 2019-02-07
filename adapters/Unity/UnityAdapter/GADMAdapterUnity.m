@@ -152,7 +152,7 @@
     return;
   }
     
-    [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:_placementID delegate:self];
+    [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:gameID delegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
