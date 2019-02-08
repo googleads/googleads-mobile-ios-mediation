@@ -63,7 +63,7 @@
 
   self.adTypes = adTypes;
 
-  [[ALSdk shared].nativeAdService loadNativeAdGroupOfCount:1 andNotify:self];
+  [[ALSdk shared].nativeAdService loadNextAdAndNotify:self];
 }
 
 - (void)stopBeingDelegate {

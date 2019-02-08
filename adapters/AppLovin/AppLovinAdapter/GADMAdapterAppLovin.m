@@ -118,10 +118,11 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - GAD Ad Network Protocol Interstitial Methods
 
 - (void)getInterstitial {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   @synchronized(ALInterstitialAdQueueLock) {
-    self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:self.connector];
+    self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:strongConnector];
     self.zoneIdentifier =
-        [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
+        [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:strongConnector];
 
     [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
                                   self.zoneIdentifier, self.placement];
@@ -164,9 +165,10 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   @synchronized(ALInterstitialAdQueueLock) {
     // Update mute state.
-    GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
+    GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
     self.sdk.settings.muted = networkExtras.muteAudio;
 
     ALAd *dequeuedAd = [ALInterstitialAdQueues[self.zoneIdentifier] dequeue];
@@ -186,8 +188,8 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
       }
       // TODO: Show ad for zone identifier if exists.
       else {
-        [self.connector adapterWillPresentInterstitial:self];
-        [self.connector adapterDidDismissInterstitial:self];
+        [strongConnector adapterWillPresentInterstitial:self];
+        [strongConnector adapterDidDismissInterstitial:self];
       }
     }
   }
@@ -209,9 +211,10 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 #pragma mark - GAD Ad Network Protocol Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:self.connector];
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:strongConnector];
   self.zoneIdentifier =
-      [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
+      [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:strongConnector];
 
   [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@ and placement: %@",
                                 NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
@@ -245,7 +248,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
                           NSLocalizedFailureReasonErrorKey :
                               @"Adapter requested to display a banner ad of unsupported size"
                         }];
-    [self.connector adapter:self didFailAd:error];
+    [strongConnector adapter:self didFailAd:error];
   }
 }
 

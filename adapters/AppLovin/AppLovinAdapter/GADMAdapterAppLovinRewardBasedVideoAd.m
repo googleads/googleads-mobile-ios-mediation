@@ -78,11 +78,13 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
 - (void)setUp {
   [self log:@"Attempting to initialize SDK"];
 
-  self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:self.connector.credentials];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
+
+  self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:strongConnector.credentials];
 
   if (self.sdk) {
     [self log:@"Successfully initialized SDK"];
-    [self.connector adapterDidSetUpRewardBasedVideoAd:self];
+    [strongConnector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
     [self log:@"Failed to initialize SDK"];
     NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
@@ -91,15 +93,16 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
                                        NSLocalizedFailureReasonErrorKey :
                                            @"Failed to initialize AppLovin rewarded video adapter"
                                      }];
-    [self.connector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
+    [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
   }
 }
 
 - (void)requestRewardBasedVideoAd {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
   @synchronized(ALGlobalIncentivizedInterstitialAdsLock) {
-    self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:self.connector];
+    self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:strongConnector];
     self.zoneIdentifier =
-        [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:self.connector];
+        [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:strongConnector];
 
     [self log:@"Requesting interstitial for zone: %@ and placement: %@", self.zoneIdentifier,
               self.placement];
@@ -127,20 +130,21 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
   self.incent.adDisplayDelegate = self;
 
   if ([self.incent isReadyForDisplay]) {
-    [self.connector adapterDidReceiveRewardBasedVideoAd:self];
+    [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
   } else {
     [self.incent preloadAndNotify:self];
   }
 }
 
 - (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
   if ([self.incent isReadyForDisplay]) {
     // Reset reward states.
     self.reward = nil;
     self.fullyWatched = NO;
 
     // Update mute state.
-    GADMAdapterAppLovinExtras *networkExtras = self.connector.networkExtras;
+    GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
     self.sdk.settings.muted = networkExtras.muteAudio;
 
     [self log:@"Showing rewarded video for zone: %@ placement: %@", self.zoneIdentifier,
@@ -152,8 +156,8 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
     [self log:@"Attempting to show rewarded video before one was loaded"];
 
     // TODO: Add support for checking default SDK-preloaded ad.
-    [self.connector adapterDidOpenRewardBasedVideoAd:self];
-    [self.connector adapterDidCloseRewardBasedVideoAd:self];
+    [strongConnector adapterDidOpenRewardBasedVideoAd:self];
+    [strongConnector adapterDidCloseRewardBasedVideoAd:self];
   }
 }
 
@@ -192,20 +196,22 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
   [self log:@"Rewarded video dismissed"];
 
   if (self.fullyWatched && self.reward) {
-    [self.connector adapter:self didRewardUserWithReward:self.reward];
+    [strongConnector adapter:self didRewardUserWithReward:self.reward];
   }
 
-  [self.connector adapterDidCloseRewardBasedVideoAd:self];
+  [strongConnector adapterDidCloseRewardBasedVideoAd:self];
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
   [self log:@"Rewarded video clicked"];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
 
-  [self.connector adapterDidGetAdClick:self];
-  [self.connector adapterWillLeaveApplication:self];
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - Video Playback Delegate
