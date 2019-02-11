@@ -51,8 +51,8 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
   /// Serializes ivar usage.
   dispatch_queue_t _lockQueue;
 
-  /// Facebook AdChoices view.
-  FBAdChoicesView *_adChoicesView;
+  /// Facebook AdOptions view.
+  FBAdOptionsView *_adOptionsView;
 
   /// YES if an impression has been logged.
   BOOL _impressionLogged;
@@ -136,19 +136,30 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
 }
 
 - (void)loadAdChoicesView {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id obj = [strongConnector networkExtras];
-  GADFBNetworkExtras *networkExtras = [obj isKindOfClass:[GADFBNetworkExtras class]] ? obj : nil;
-  if (!_adChoicesView) {
-    if (networkExtras) {
-      _adChoicesView = [[FBAdChoicesView alloc] initWithNativeAd:self->_nativeAd
-                                                      expandable:networkExtras.adChoicesExpandable];
-      _adChoicesView.backgroundShown = networkExtras.adChoicesBackgroundShown;
-    } else {
-      _adChoicesView = [[FBAdChoicesView alloc] initWithNativeAd:self->_nativeAd];
-    }
+  if (!_adOptionsView) {
+      _adOptionsView = [[FBAdOptionsView alloc] init];
+      _adOptionsView.backgroundColor = [UIColor clearColor];
+      
+      NSLayoutConstraint *height = [NSLayoutConstraint
+                                    constraintWithItem:_adOptionsView
+                                    attribute:NSLayoutAttributeHeight
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:nil
+                                    attribute:NSLayoutAttributeNotAnAttribute
+                                    multiplier:0
+                                    constant:FBAdOptionsViewHeight];
+      NSLayoutConstraint *width = [NSLayoutConstraint
+                                   constraintWithItem:_adOptionsView
+                                   attribute:NSLayoutAttributeWidth
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:nil
+                                   attribute:NSLayoutAttributeNotAnAttribute
+                                   multiplier:0
+                                   constant:FBAdOptionsViewWidth];
+      [_adOptionsView addConstraint:height];
+      [_adOptionsView addConstraint:width];
+      [_adOptionsView updateConstraints];
   }
-  [_adChoicesView updateFrameFromSuperview];
 }
 
 #pragma mark - GADMediatedNativeAd
@@ -235,7 +246,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
 }
 
 - (UIView *GAD_NULLABLE_TYPE)adChoicesView {
-  return _adChoicesView;
+  return _adOptionsView;
 }
 
 /// Returns YES if the ad has video content.
@@ -273,10 +284,11 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
                             iconImageView:iconView
                            viewController:viewController];
   }
+  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-  [_adChoicesView removeFromSuperview];
+  [_adOptionsView removeFromSuperview];
   [_nativeAd unregisterView];
 }
 
