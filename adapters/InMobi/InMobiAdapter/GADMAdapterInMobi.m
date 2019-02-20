@@ -12,8 +12,8 @@
 #import "GADMInMobiConsent.h"
 
 @interface GADInMobiExtras ()
-@property(nonatomic, retain) NSString *city, *state, *country;
-@property(nonatomic, retain) CLLocation *location;
+@property(nonatomic, strong) NSString *city, *state, *country;
+@property(nonatomic, strong) CLLocation *location;
 @end
 
 @interface GADMAdapterInMobi ()
@@ -22,6 +22,7 @@
 @property(nonatomic, strong) GADInMobiExtras *extraInfo;
 @property(nonatomic, assign) BOOL isAppInstallRequest;
 @property(nonatomic, assign) BOOL isNativeContentRequest;
+@property(nonatomic, assign) BOOL isUnifiedNativeRequest;
 @property(nonatomic, assign) BOOL shouldDownloadImages;
 @property(nonatomic, assign) BOOL serveAnyAd;
 @end
@@ -58,6 +59,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   self.connector = connector;
   self.isAppInstallRequest = NO;
   self.isNativeContentRequest = NO;
+  self.isUnifiedNativeRequest = NO;
   self.shouldDownloadImages = YES;
   self.serveAnyAd = NO;
   if ((self = [super init])) {
@@ -187,9 +189,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
       self.isNativeContentRequest = YES;
     } else if ([adType isEqual:kGADAdLoaderAdTypeNativeAppInstall]) {
       self.isAppInstallRequest = YES;
+    } else if ([adType isEqual:kGADAdLoaderAdTypeUnifiedNative]){
+        self.isUnifiedNativeRequest = YES;
     }
   }
-  self.serveAnyAd = (self.isAppInstallRequest && self.isNativeContentRequest);
+  self.serveAnyAd = (self.isAppInstallRequest && self.isNativeContentRequest) || self.isUnifiedNativeRequest;
 
   if (!self.serveAnyAd) {
     GADRequestError *reqError =
@@ -589,6 +593,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     [self.connector adapter:self didFailAd:reqError];
     self.isNativeContentRequest = NO;
     self.isAppInstallRequest = NO;
+    self.isUnifiedNativeRequest = NO;
     return;
   }
 
@@ -600,6 +605,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
   self.isNativeContentRequest = NO;
   self.isAppInstallRequest = NO;
+  self.isUnifiedNativeRequest = NO;
 }
 
 /**
@@ -617,6 +623,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   [self.connector adapter:self didFailAd:reqError];
   self.isNativeContentRequest = NO;
   self.isAppInstallRequest = NO;
+  self.isUnifiedNativeRequest = NO;
 }
 
 /**
