@@ -1,5 +1,38 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.5.0.0
+- Verifed compatibility with MoPub SDK 5.5.0.
+
+## Version 5.4.1.1
+- Added support for requesting MoPub Rewarded video ads via Google Mobile Ads mediation.
+
+## Version 5.4.1.0
+- Verifed compatibility with MoPub SDK 5.4.1.
+
+## Version 5.4.0.1
+- Added location forwading capability to the adapter.
+
+## Version 5.4.0.0
+- Verifed compatibility with MoPub SDK 5.4.0.
+
+## Version 5.3.0.2
+- Remove the check that prevents ad requests for native content ad.
+
+## Version 5.3.0.1
+- Initialize MoPub and reattempt ad requests manually in the adapters for use cases that do not do so in the app.
+
+## Version 5.3.0.0
+- Verifed compatibility with MoPub SDK 5.3.0.
+
+## Version 5.2.0.0
+- Verifed compatibility with MoPub SDK 5.2.0.
+
+## Version 5.1.0.0
+- Verfied compatibility with MoPub SDK 5.1.0.
+
+## Version 5.0.0.0
+- Verified compatibility with MoPub SDK 5.0.0.
+
 ## Version 4.20.1.0
 - Fixed an issue causing duplicate symbol errors when the adapter was used with
   those of other networks.

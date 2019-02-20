@@ -6,31 +6,29 @@
 //
 
 #import "GADMMaioMaioInstanceRepository.h"
+#import "GADMMaioDelegateAggregate.h"
 
 @implementation GADMMaioMaioInstanceRepository
 
-static MaioInstance *_maioInstance = nil;
+static NSMutableDictionary<NSString*, MaioInstance*> *_collection;
 
-/// YES if maio SDK is initialized.
-static BOOL _isInitialized = NO;
-
-- (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
-  return _maioInstance;
-}
-
-- (void)addMaioInstance:(MaioInstance *)instance {
-  _maioInstance = instance;
-}
-
-- (BOOL)isInitializedWithMediaId:(NSString *)mediaId {
-  @synchronized(self) {
-    return _isInitialized;
++ (void)initialize {
+  if (self == [GADMMaioMaioInstanceRepository class]) {
+    _collection = @{}.mutableCopy;
   }
 }
 
-- (void)setInitialized:(BOOL)value mediaId:(NSString *)mediaId {
+- (MaioInstance *)maioInstanceByMediaId:(NSString *)mediaId {
   @synchronized(self) {
-    _isInitialized = value;
+    MaioInstance *exists = _collection[mediaId];
+    if (exists) {
+      return exists;
+    }
+    id<MaioDelegate> delegate = [GADMMaioDelegateAggregate sharedInstance];
+    MaioInstance *instance = [Maio startWithNonDefaultMediaId:mediaId
+                                                     delegate:delegate];
+    _collection[instance.mediaId] = instance;
+    return instance;
   }
 }
 

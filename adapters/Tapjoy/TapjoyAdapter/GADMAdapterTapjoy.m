@@ -17,7 +17,7 @@
 
 #import <Tapjoy/Tapjoy.h>
 
-NSString *const kGADMAdapterTapjoyVersion = @"11.12.1.0";
+NSString *const kGADMAdapterTapjoyVersion = @"12.2.0.0";
 NSString *const kMediationAgent = @"admob";
 NSString *const kTapjoyInternalAdapterVersion = @"1.0.0";
 
@@ -248,6 +248,15 @@ didFailToSetUpRewardBasedVideoAdWithError:adapterError];
   }
 }
 
+- (void)getBannerWithSize:(GADAdSize)adSize {
+  NSError *adapterError = [NSError errorWithDomain:@"com.google.mediation.tapjoy"
+                                              code:0
+                                          userInfo:@{NSLocalizedDescriptionKey:
+                                                       @"This adapter doesn't support banner ads."}];
+  [_interstitialConnector adapter:self didFailAd:adapterError];
+}
+
+
 #pragma mark - TJPlacementDelegate methods
 - (void)requestDidSucceed:(TJPlacement*)placement {
   if (!placement.contentAvailable) {
@@ -326,6 +335,7 @@ didFailToSetUpRewardBasedVideoAdWithError:adapterError];
 }
 
 - (void)videoDidComplete:(TJPlacement*)placement {
+  [_rewardBasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
   // Tapjoy only supports fixed rewards and doesn't provide a reward type or amount.
   GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                    rewardAmount:[NSDecimalNumber one]];

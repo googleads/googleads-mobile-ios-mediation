@@ -63,32 +63,8 @@
 /// using callbacks provided in the connector. When set up fails, the Google
 /// Mobile Ads SDK may try to set up the adapter again.
 - (void)setUp {
-  GADMMaioMaioInstanceRepository *repository =
-      [GADMMaioMaioInstanceRepository new];
-  // Custom Event パラメータ（mediaId, zoneId）をロード。
-  GADMMaioParameter *parameter =
-      [self.class loadCustomEventParametersServerFromConnector:
-                      _rewardBasedVideoAdConnector];
-  if (!parameter.mediaId) {
-    NSError *error =
-        [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
-    [_rewardBasedVideoAdConnector adapter:self
-        didFailToSetUpRewardBasedVideoAdWithError:error];
-    return;
-  }
-  _mediaId = parameter.mediaId;
-  _zoneId = parameter.zoneId;
-
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
-  if (![repository isInitializedWithMediaId:_mediaId]) {
-    [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
-    [repository addMaioInstance:
-                    [Maio startWithNonDefaultMediaId:_mediaId
-                                            delegate:[GADMMaioDelegateAggregate
-                                                         sharedInstance]]];
-  } else {
-    [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
-  }
+  [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
 }
 
 /// Tells the adapter to request a reward based video ad. This method is called
@@ -96,28 +72,35 @@
 /// Mobile Ads SDK if the request succeeds or fails using callbacks provided in
 /// the connector.
 - (void)requestRewardBasedVideoAd {
+  // メディアID、ゾーンID が変更されるケースがあるので、パラメータを再ロード。
+  // - AdMob mediation groupで複数のmaio設定がある場合等
+  GADMMaioParameter *parameter =
+      [self.class loadCustomEventParametersServerFromConnector:
+                     _rewardBasedVideoAdConnector];
+  if (!parameter.mediaId) {
+    NSError *error =
+    [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
+    [_rewardBasedVideoAdConnector adapter:self
+        didFailToSetUpRewardBasedVideoAdWithError:error];
+    return;
+  }
+  _mediaId = parameter.mediaId;
+  _zoneId = parameter.zoneId;
+
+  // MaioInstance生成時にテストモードかどうかを指定する
+  [Maio setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   MaioInstance *maioInstance = [repository maioInstanceByMediaId:_mediaId];
+
+  // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
+  [maioInstance setAdTestMode:_rewardBasedVideoAdConnector.testMode];
+
   self.isLoading = YES;
 
-  if ([repository isInitializedWithMediaId:_mediaId]) {
-    // ゾーンID が変更（直前とは異なる AdUnitID
-    // を使用）されるケースがあるので、Custom Event パラメータ（mediaId,
-    // zoneId）を再ロード。
-    GADMMaioParameter *parameter =
-        [self.class loadCustomEventParametersServerFromConnector:
-                        _rewardBasedVideoAdConnector];
-    _zoneId = parameter.zoneId;
-
-    if ([maioInstance canShowAtZoneId:_zoneId]) {
-      [self maioDidChangeCanShow:_zoneId newValue:YES];
-    } else {
-      NSString *description = [NSString
-          stringWithFormat:@"%@ failed to receive reward based video ad.",
-                           NSStringFromClass([Maio class])];
-      [self notifyThatDidFailToLoadAdWwithDescription:description];
-    }
+  if ([maioInstance canShowAtZoneId:_zoneId]) {
+    [self maioDidChangeCanShow:_zoneId newValue:YES];
   }
 }
 
@@ -150,8 +133,7 @@
  *  全てのゾーンの広告表示準備が完了したら呼ばれます。
  */
 - (void)maioDidInitialize {
-  [[GADMMaioMaioInstanceRepository new] setInitialized:YES mediaId:_mediaId];
-  [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
+  // noop
 }
 
 /**
@@ -202,7 +184,7 @@
             rewardParam:(NSString *)rewardParam {
   if (_zoneId && ![_zoneId isEqualToString:zoneId])
     return;
-
+  [_rewardBasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
   if (!skipped) {
     GADAdReward *reward =
         [[GADAdReward alloc] initWithRewardType:rewardParam ?: @""

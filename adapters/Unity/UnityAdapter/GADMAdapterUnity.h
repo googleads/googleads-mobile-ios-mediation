@@ -21,6 +21,6 @@
 /// Adapter for communicating with the Unity Ads Network to fetch reward-based video ads and
 /// interstitial ads.
 @interface GADMAdapterUnity : NSObject <GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter,
-                                        GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
+                                        GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsBannerDelegate>
 
 @end

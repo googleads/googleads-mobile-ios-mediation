@@ -23,7 +23,7 @@
   __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
 
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _interstitialConnector;
+  __weak id<GADMAdNetworkConnector> _networkConnector;
 
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
@@ -60,26 +60,27 @@
 }
 
 - (void)setUp {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
   NSString *gameID =
-      [[[_rewardBasedVideoAdConnector credentials] objectForKey:GADMAdapterUnityGameID] copy];
+      [[[strongConnector credentials] objectForKey:GADMAdapterUnityGameID] copy];
   _placementID =
-      [[[_rewardBasedVideoAdConnector credentials] objectForKey:GADMAdapterUnityPlacementID] copy];
+      [[[strongConnector credentials] objectForKey:GADMAdapterUnityPlacementID] copy];
   if (!gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
-    [_rewardBasedVideoAdConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
+    [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
     return;
   }
   BOOL isConfigured =
       [[GADMAdapterUnitySingleton sharedInstance] configureRewardBasedVideoAdWithGameID:gameID
                                                                                delegate:self];
   if (isConfigured) {
-    [_rewardBasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
+    [strongConnector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
     NSString *description =
         [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
                                          NSStringFromClass([UnityAds class])];
     NSError *error = GADUnityErrorWithDescription(description);
-    [_rewardBasedVideoAdConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
+    [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
   }
 }
 
@@ -110,19 +111,20 @@
 
   self = [super init];
   if (self) {
-    _interstitialConnector = connector;
+    _networkConnector = connector;
   }
   return self;
 }
 
 - (void)getInterstitial {
+  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
   NSString *gameID =
-      [[[_interstitialConnector credentials] objectForKey:GADMAdapterUnityGameID] copy];
+      [[[strongConnector credentials] objectForKey:GADMAdapterUnityGameID] copy];
   _placementID =
-      [[[_interstitialConnector credentials] objectForKey:GADMAdapterUnityPlacementID] copy];
+      [[[strongConnector credentials] objectForKey:GADMAdapterUnityPlacementID] copy];
   if (!gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
-    [_interstitialConnector adapter:self didFailAd:error];
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
   _isLoading = YES;
@@ -133,7 +135,7 @@
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad
   // has already loaded.
-  [_interstitialConnector adapterWillPresentInterstitial:self];
+  [_networkConnector adapterWillPresentInterstitial:self];
   [[GADMAdapterUnitySingleton sharedInstance]
       presentInterstitialAdForViewController:rootViewController
                                     delegate:self];
@@ -142,10 +144,17 @@
 #pragma mark Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  // Unity Ads doesn't support banner ads.
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSError *error = GADUnityErrorWithDescription(@"Unity Ads doesn't support banner ads.");
-  [strongConnector adapter:self didFailAd:error];
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  NSString *gameID =
+      [[[strongNetworkConnector credentials] objectForKey:GADMAdapterUnityGameID] copy];
+  _placementID =
+      [[[strongNetworkConnector credentials] objectForKey:GADMAdapterUnityPlacementID] copy];
+  if (!gameID || !_placementID) {
+    NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+    [strongNetworkConnector adapter:self didFailAd:error];
+    return;
+  }
+  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:gameID delegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -169,77 +178,127 @@
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
-  if (_interstitialConnector) {
-    [_interstitialConnector adapterWillDismissInterstitial:self];
-    [_interstitialConnector adapterDidDismissInterstitial:self];
-  } else if (_rewardBasedVideoAdConnector) {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  id<GADMRewardBasedVideoAdNetworkConnector> strongRewardedConnector = _rewardBasedVideoAdConnector;
+  if (strongNetworkConnector) {
+    [strongNetworkConnector adapterWillDismissInterstitial:self];
+    [strongNetworkConnector adapterDidDismissInterstitial:self];
+  } else if (strongRewardedConnector) {
     if (state == kUnityAdsFinishStateCompleted) {
+      [strongRewardedConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
       // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
       // amount of 1. Publishers using this adapter should override the reward on the AdMob
       // front-end.
       GADAdReward *reward =
           [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:[NSDecimalNumber one]];
-      [_rewardBasedVideoAdConnector adapter:self didRewardUserWithReward:reward];
+      [strongRewardedConnector adapter:self didRewardUserWithReward:reward];
     }
-    [_rewardBasedVideoAdConnector adapterDidCloseRewardBasedVideoAd:self];
+    [strongRewardedConnector adapterDidCloseRewardBasedVideoAd:self];
   }
 }
 
 - (void)unityAdsDidStart:(NSString *)placementID {
-  if (_rewardBasedVideoAdConnector) {
-    [_rewardBasedVideoAdConnector adapterDidStartPlayingRewardBasedVideoAd:self];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongRewardedConnector = _rewardBasedVideoAdConnector;
+  if (strongRewardedConnector) {
+    [strongRewardedConnector adapterDidStartPlayingRewardBasedVideoAd:self];
   }
 }
 
 - (void)unityAdsReady:(NSString *)placementID {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
   if (!_isLoading) {
     return;
   }
-
-  if (_interstitialConnector) {
-    [_interstitialConnector adapterDidReceiveInterstitial:self];
+  
+  if (strongNetworkConnector) {
+    [strongNetworkConnector adapterDidReceiveInterstitial:self];
   } else {
-    [_rewardBasedVideoAdConnector adapterDidReceiveRewardBasedVideoAd:self];
+    [strongRewardedConnector adapterDidReceiveRewardBasedVideoAd:self];
   }
   _isLoading = NO;
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  id<GADMRewardBasedVideoAdNetworkConnector> strongRewardedConnector = _rewardBasedVideoAdConnector;
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
-  if (_interstitialConnector) {
-    [_interstitialConnector adapterDidGetAdClick:self];
-    [_interstitialConnector adapterWillLeaveApplication:self];
+  if (strongNetworkConnector) {
+    [strongNetworkConnector adapterDidGetAdClick:self];
+    [strongNetworkConnector adapterWillLeaveApplication:self];
   } else {
-    [_rewardBasedVideoAdConnector adapterDidGetAdClick:self];
-    [_rewardBasedVideoAdConnector adapterWillLeaveApplication:self];
+    [strongRewardedConnector adapterDidGetAdClick:self];
+    [strongRewardedConnector adapterWillLeaveApplication:self];
   }
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  id<GADMRewardBasedVideoAdNetworkConnector> strongRewardedConnector = _rewardBasedVideoAdConnector;
   if (!_isLoading) {
     // Unity Ads show error will only happen after the ad has been loaded. So, we will send
     // dismiss/close callbacks.
     if (error == kUnityAdsErrorShowError) {
-      if (_interstitialConnector) {
-        [_interstitialConnector adapterWillDismissInterstitial:self];
-        [_interstitialConnector adapterDidDismissInterstitial:self];
+      if (strongNetworkConnector) {
+        [strongNetworkConnector adapterWillDismissInterstitial:self];
+        [strongNetworkConnector adapterDidDismissInterstitial:self];
       } else {
-        [_rewardBasedVideoAdConnector adapterDidCloseRewardBasedVideoAd:self];
+        [strongRewardedConnector adapterDidCloseRewardBasedVideoAd:self];
       }
     }
     return;
   }
 
   NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-  if (_interstitialConnector) {
-    [_interstitialConnector adapter:self didFailAd:errorWithDescription];
-  } else if (_rewardBasedVideoAdConnector) {
-    [_rewardBasedVideoAdConnector adapter:self
+  if (strongNetworkConnector) {
+    [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+  } else if (strongRewardedConnector) {
+    [strongRewardedConnector adapter:self
         didFailToLoadRewardBasedVideoAdwithError:errorWithDescription];
   }
   _isLoading = NO;
 }
 
+#pragma mark - Unity Banner Delegate Methods
+
+- (void)unityAdsBannerDidClick:(nonnull NSString *)placementId {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector) {
+    [strongNetworkConnector adapterDidGetAdClick:self];
+    [strongNetworkConnector adapterWillLeaveApplication:self];
+  }
+}
+
+- (void)unityAdsBannerDidError:(nonnull NSString *)message {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector){
+    NSError *error = GADUnityErrorWithDescription(@"Unity Ads Banner internal error");
+    [strongNetworkConnector adapter:self didFailAd:error];
+  }
+}
+
+- (void)unityAdsBannerDidHide:(nonnull NSString *)placementId {
+  NSLog(@"Unity Ads Banner did hide.");
+}
+
+- (void)unityAdsBannerDidLoad:(nonnull NSString *)placementId view:(nonnull UIView *)view {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if(strongNetworkConnector){
+    [strongNetworkConnector adapter:self didReceiveAdView:view];
+  }else{
+    NSLog(@"ERROR: Network connector for UnityAds banner adapter not found.");
+  }
+}
+
+- (void)unityAdsBannerDidShow:(nonnull NSString *)placementId {
+  NSLog(@"Unity Ads Banner is showing.");
+}
+
+- (void)unityAdsBannerDidUnload:(nonnull NSString *)placementId {
+  NSLog(@"Unity Ads Banner has unloaded.");
+}
+
 @end
+
+

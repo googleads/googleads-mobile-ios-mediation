@@ -1,5 +1,5 @@
-framework module ONEByAOLAdapter {
-  umbrella header "ONEByAOLAdapter.h"
+framework module OathAdapter {
+  umbrella header "OathAdapter.h"
 
   export *
   module * { export * }

@@ -1,5 +1,18 @@
 # Tapjoy Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 12.2.0.0
+- Verified compatibility with Tapjoy SDK 12.2.0.
+
+## Version 12.1.0.0
+- Verified compatibility with Tapjoy SDK 12.1.0.
+
+## Version 12.0.0.0
+- Verified compatibility with Tapjoy SDK 12.0.0.
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
+## Version 11.12.2.0
+- Verified compatibility with Tapjoy SDK 11.12.2.
+
 ## Version 11.12.1.0
 - Verified compatibility with Tapjoy SDK 11.12.1.
 

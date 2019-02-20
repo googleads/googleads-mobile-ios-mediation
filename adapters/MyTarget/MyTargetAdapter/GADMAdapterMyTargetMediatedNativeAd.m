@@ -8,18 +8,13 @@
 
 #import "GADMAdapterMyTargetMediatedNativeAd.h"
 #import "GADMAdapterMyTargetExtraAssets.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 #define guard(CONDITION) \
   if (CONDITION) {       \
   }
 
-@interface GADMAdapterMyTargetMediatedNativeAd ()
-
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
-
-@end
-
-@interface GADMAdapterMyTargetMediatedNativeContentAd : NSObject<GADMediatedNativeContentAd>
+@interface GADMAdapterMyTargetMediatedNativeContentAd : NSObject <GADMediatedNativeContentAd>
 
 @end
 
@@ -46,10 +41,10 @@
       _body = promoBanner.descriptionText;
       _callToAction = promoBanner.ctaText;
       _advertiser = promoBanner.domain;
-      _logo = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];
+      _logo = [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.icon];
 
       GADNativeAdImage *image =
-          [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
+          [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.image];
       _images = (image != nil) ? @[ image ] : nil;
 
       _mediaAdView = mediaAdView;
@@ -115,7 +110,7 @@
 
 @end
 
-@interface GADMAdapterMyTargetMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
+@interface GADMAdapterMyTargetMediatedNativeAppInstallAd : NSObject <GADMediatedNativeAppInstallAd>
 
 @end
 
@@ -142,10 +137,10 @@
       _body = promoBanner.descriptionText;
       _callToAction = promoBanner.ctaText;
       _starRating = [NSDecimalNumber decimalNumberWithDecimal:promoBanner.rating.decimalValue];
-      _icon = [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.icon];
+      _icon = [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.icon];
 
       GADNativeAdImage *image =
-          [GADMAdapterMyTargetMediatedNativeAd nativeAdImageWithImageData:promoBanner.image];
+          [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.image];
       _images = (image != nil) ? @[ image ] : nil;
 
       _mediaAdView = mediaAdView;
@@ -256,19 +251,6 @@
     return mediatedNativeAppInstallAd;
   }
   return nil;
-}
-
-+ (GADNativeAdImage *)nativeAdImageWithImageData:(MTRGImageData *)imageData {
-  guard(imageData) else return nil;
-
-  GADNativeAdImage *nativeAdImage = nil;
-  if (imageData.image) {
-    nativeAdImage = [[GADNativeAdImage alloc] initWithImage:imageData.image];
-  } else if (imageData.url) {
-    NSURL *url = [NSURL URLWithString:imageData.url];
-    nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
-  }
-  return nativeAdImage;
 }
 
 @end

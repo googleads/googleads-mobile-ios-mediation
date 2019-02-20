@@ -1,5 +1,11 @@
 # Chartboost Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.3.0.0
+- Verified compatibility with Chartboost SDK 7.3.0.
+
+## Version 7.2.0.1
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
 ## Version 7.2.0.0
 - Verified compatibility with Chartboost SDK 7.2.0.
 

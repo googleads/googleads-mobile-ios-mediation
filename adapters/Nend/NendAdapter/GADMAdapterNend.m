@@ -7,7 +7,6 @@
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendSetting.h"
-#import "GADMAdapterNendUtils.h"
 
 @import NendAd;
 
@@ -62,15 +61,16 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 }
 
 - (void)getInterstitial {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
   NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
 
   if (![self validateApiKey:apiKey spotId:spotId]) {
-    [self.connector adapter:self didFailAd:nil];
+    [strongConnector adapter:self didFailAd:nil];
     return;
   }
 
-  GADMAdapterNendExtras *extras = [self.connector networkExtras];
+  GADMAdapterNendExtras *extras = [strongConnector networkExtras];
   if (extras) {
     self.interstitialType = extras.interstitialType;
   }
@@ -80,8 +80,6 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
     self.interstitialVideo.delegate = self;
     self.interstitialVideo.userId = extras.userId;
     self.interstitialVideo.mediationName = @"AdMob";
-    self.interstitialVideo.userFeature =
-        [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
     [self.interstitialVideo loadAd];
   } else {
     self.interstitial = [NADInterstitial sharedInstance];
@@ -92,11 +90,12 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&           // 320x50
       !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
       !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
       !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {      // 728x90
-    [self.connector adapter:self didFailAd:nil];
+    [strongConnector adapter:self didFailAd:nil];
     return;
   }
 
@@ -107,14 +106,13 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
 
   if (![self validateApiKey:apiKey spotId:spotId]) {
-    [self.connector adapter:self didFailAd:nil];
+    [strongConnector adapter:self didFailAd:nil];
     return;
   }
 
   [self.nadView setNendID:apiKey spotID:spotId];
   [self.nadView setBackgroundColor:[UIColor clearColor]];
   [self.nadView setDelegate:self];
-  [self.nadView setIsOutputLog:NO];
   [self.nadView load];
 }
 
@@ -177,22 +175,24 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {
-  [self.connector adapterWillDismissInterstitial:self];
-  [self.connector adapterDidDismissInterstitial:self];
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
 }
 
 #pragma mark - NADViewDelegate
 
 - (void)nadViewDidReceiveAd:(NADView *)adView {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   [self.nadView pause];
 
   if ((self.selectedAdSize.height != adView.frame.size.height) ||
       (self.selectedAdSize.width != adView.frame.size.width)) {
     // Size of NADView is different from placement size
-    [self.connector adapter:self didFailAd:nil];
+    [strongConnector adapter:self didFailAd:nil];
     return;
   }
-  [self.connector adapter:self didReceiveAdView:adView];
+  [strongConnector adapter:self didReceiveAdView:adView];
 }
 
 - (void)nadViewDidFailToReceiveAd:(NADView *)adView {
@@ -202,8 +202,9 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 }
 
 - (void)nadViewDidClickAd:(NADView *)adView {
-  [self.connector adapterDidGetAdClick:self];
-  [self.connector adapterWillLeaveApplication:self];
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 - (void)nadViewDidClickInformation:(NADView *)adView {
@@ -213,25 +214,27 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 #pragma mark - NADInterstitialDelegate
 
 - (void)didFinishLoadInterstitialAdWithStatus:(NADInterstitialStatusCode)status {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   if (status == SUCCESS) {
-    [self.connector adapterDidReceiveInterstitial:self];
+    [strongConnector adapterDidReceiveInterstitial:self];
   } else {
-    [self.connector adapter:self didFailAd:nil];
+    [strongConnector adapter:self didFailAd:nil];
   }
 }
 
 - (void)didClickWithType:(NADInterstitialClickType)type {
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
   switch (type) {
     case DOWNLOAD:
     case INFORMATION:
-      [self.connector adapterWillDismissInterstitial:self];
-      [self.connector adapterDidDismissInterstitial:self];
-      [self.connector adapterWillLeaveApplication:self];
+      [strongConnector adapterWillDismissInterstitial:self];
+      [strongConnector adapterDidDismissInterstitial:self];
+      [strongConnector adapterWillLeaveApplication:self];
       break;
     case CLOSE:
       if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [self.connector adapterWillDismissInterstitial:self];
-        [self.connector adapterDidDismissInterstitial:self];
+        [strongConnector adapterWillDismissInterstitial:self];
+        [strongConnector adapterDidDismissInterstitial:self];
       } else {
         self.notificationCenter = [NSNotificationCenter defaultCenter];
         [self.notificationCenter addObserver:self
@@ -265,10 +268,11 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 }
 
 - (void)nadInterstitialVideoAdDidClose:(NADInterstitialVideo *)nadInterstitialVideoAd {
-  [self.connector adapterWillDismissInterstitial:self];
-  [self.connector adapterDidDismissInterstitial:self];
+  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
   if (self.interstitialVideoStatus == InterstitialVideoClickedWhenPlaying) {
-    [self.connector adapterWillLeaveApplication:self];
+    [strongConnector adapterWillLeaveApplication:self];
   }
 }
 

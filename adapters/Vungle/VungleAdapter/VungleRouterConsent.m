@@ -7,16 +7,19 @@
 //
 
 #import "VungleRouterConsent.h"
+#import <VungleSDK/VungleSDK.h>
 
 static VungleConsentStatus currentConsentStatus = 0;
 
 @implementation VungleRouterConsent
-+ (void)updateConsentStatus:(VungleConsentStatus)consentStatus {
-  currentConsentStatus = consentStatus;
++ (BOOL)updateConsentStatus:(VungleConsentStatus)consentStatus {
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  if (sdk.initialized && consentStatus > 0) {
-    [sdk updateConsentStatus:consentStatus];
+  if (consentStatus > 0) {
+    currentConsentStatus = consentStatus;
+    [sdk updateConsentStatus:consentStatus consentMessageVersion:@""];
+    return YES;
   }
+  return NO;
 }
 
 + (VungleConsentStatus)getConsentStatus {

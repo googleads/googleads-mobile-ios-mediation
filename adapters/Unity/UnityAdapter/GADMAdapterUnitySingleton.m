@@ -17,17 +17,24 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityWeakReference.h"
 
-@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate, UnityAdsBannerDelegate> {
   /// Array to hold all adapter delegates.
   NSMutableArray *_adapterDelegates;
 
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
+
+  /// Connector from unity adapter to send Banner callbacks
+  __weak id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate> _currentBannerDelegate;
+
 }
 
 @end
 
 @implementation GADMAdapterUnitySingleton
+
+NSString* _bannerPlacementID = nil;
+bool _bannerRequested = false;
 
 + (instancetype)sharedInstance {
   static GADMAdapterUnitySingleton *sharedManager = nil;
@@ -156,6 +163,66 @@
   _currentShowingUnityDelegate = adapterDelegate;
   // The Unity Ads show method checks whether an ad is available.
   [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
+}
+
+#pragma mark - Banner ad methods
+
+- (void)presentBannerAd:(NSString *)gameID
+                                 delegate:
+(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>) adapterDelegate {
+    _currentBannerDelegate = adapterDelegate;
+    
+    if ([UnityAds isSupported]) {
+        NSString *placementID = [_currentBannerDelegate getPlacementID];
+        if(placementID == nil){
+            NSString *description =
+            [[NSString alloc] initWithFormat:@"Tried to show banners with a nil placement ID"];
+            [_currentBannerDelegate unityAdsBannerDidError:description];
+            return;
+        }else{
+            _bannerPlacementID = placementID;
+        }
+        
+        if (![UnityAds isInitialized]) {
+            [self initializeWithGameID:gameID];
+            _bannerRequested = true;
+        }else{
+            [UnityAdsBanner setDelegate:self];
+            [UnityAdsBanner loadBanner:_bannerPlacementID];
+        }
+    } else {
+        NSString *description =
+        [[NSString alloc] initWithFormat:@"Unity Ads is not supported for this device."];
+        [_currentBannerDelegate unityAdsBannerDidError:description];
+    }
+}
+
+#pragma mark - Unity Banner Delegate Methods
+
+-(void)unityAdsBannerDidLoad:(NSString *)placementId view:(UIView *)view {
+    [_currentBannerDelegate unityAdsBannerDidLoad:_bannerPlacementID view:view];
+}
+
+-(void)unityAdsBannerDidUnload:(NSString *)placementId {
+    [_currentBannerDelegate unityAdsBannerDidUnload:_bannerPlacementID];
+}
+
+-(void)unityAdsBannerDidShow:(NSString *)placementId {
+    [_currentBannerDelegate unityAdsBannerDidShow:_bannerPlacementID];
+}
+
+-(void)unityAdsBannerDidHide:(NSString *)placementId {
+    [_currentBannerDelegate unityAdsBannerDidHide:_bannerPlacementID];
+}
+
+-(void)unityAdsBannerDidClick:(NSString *)placementId {
+    [_currentBannerDelegate unityAdsBannerDidClick:_bannerPlacementID];
+}
+
+-(void)unityAdsBannerDidError:(NSString *)message {
+    NSString *description =
+    [[NSString alloc] initWithFormat:@"Internal Unity Ads banner error"];
+    [_currentBannerDelegate unityAdsBannerDidError:description];
 }
 
 #pragma mark - Unity Delegate Methods
