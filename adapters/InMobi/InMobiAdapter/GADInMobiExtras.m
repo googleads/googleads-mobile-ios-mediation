@@ -7,8 +7,8 @@
 #import "GADInMobiExtras.h"
 
 @interface GADInMobiExtras ()
-@property(nonatomic, retain) NSString *city, *state, *country;
-@property(nonatomic, retain) CLLocation *location;
+@property(nonatomic, strong) NSString *city, *state, *country;
+@property(nonatomic, strong) CLLocation *location;
 
 @end
 

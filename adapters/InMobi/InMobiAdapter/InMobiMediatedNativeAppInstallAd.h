@@ -24,5 +24,5 @@
                                       shouldDownloadImage:(BOOL)shouldDownloadImage
                                                 withCache:(nullable NSCache *)imageCache;
 
-@property(nonatomic, strong, nullable) GADMAdapterInMobi *adapter;
+@property(nonatomic, weak, nullable) GADMAdapterInMobi *adapter;
 @end

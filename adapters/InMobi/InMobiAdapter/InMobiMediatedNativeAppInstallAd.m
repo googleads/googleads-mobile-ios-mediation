@@ -202,8 +202,17 @@ static CGFloat const DefaultIconScale = 1.0;
 }
 
 - (UIView *GAD_NULLABLE_TYPE)mediaView {
-    UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
-    placeHolderView.userInteractionEnabled = NO;
+    __block UIView* placeHolderView;
+    if(![NSThread isMainThread]){
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
+            placeHolderView.userInteractionEnabled = NO;
+        });
+    }
+    else{
+        placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
+        placeHolderView.userInteractionEnabled = NO;
+    }
     return placeHolderView;
 }
 

@@ -59,7 +59,7 @@ Set InMobi SDK logLevel.
 /**
  * Provide additional values to be passed in the ad request as key-value pair.
  */
-@property(nonatomic, retain) NSDictionary *additionalParameters;
+@property(nonatomic, strong) NSDictionary *additionalParameters;
 
 #pragma mark Setting User Location
 /**

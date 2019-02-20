@@ -18,11 +18,11 @@
                IMInterstitialDelegate, IMNativeDelegate> {
 }
 +(BOOL) isAppInitialised;
-@property(nonatomic, retain) IMBanner *adView;
-@property(nonatomic, retain) IMInterstitial *interstitial;
-@property(nonatomic, retain) IMInterstitial *adRewarded;
-@property(nonatomic, retain) IMNative *native;
+@property(nonatomic, strong) IMBanner *adView;
+@property(nonatomic, strong) IMInterstitial *interstitial;
+@property(nonatomic, strong) IMInterstitial *adRewarded;
+@property(nonatomic, strong) IMNative *native;
 @property(nonatomic, readonly) long long placementId;
-@property(nonatomic, strong) id<GADMAdNetworkConnector> connector;
-@property(nonatomic, strong) id<GADMRewardBasedVideoAdNetworkConnector> rewardedConnector;
+@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property(nonatomic, weak) id<GADMRewardBasedVideoAdNetworkConnector> rewardedConnector;
 @end
