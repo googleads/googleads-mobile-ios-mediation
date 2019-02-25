@@ -23,6 +23,7 @@
 #import "GADFBNativeAd.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBRewardedVideoAd.h"
+#import "GADFBUnifiedNativeAd.h"
 
 @interface GADMAdapterFacebook () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -39,13 +40,15 @@
   GADFBRewardedVideoAd *_rewardedVideoAd;
   /// Facebook Audience Network native ad wrapper.
   GADFBNativeAd *_nativeAd;
+  /// Facebook Audience Network native ad wrapper.
+  GADFBUnifiedNativeAd *_unifiedNativeAd;
 }
 @end
 
 @implementation GADMAdapterFacebook
 
 + (NSString *)adapterVersion {
-  return @"5.1.1.0";
+  return @"5.1.1.1";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -62,7 +65,6 @@
     _bannerAd = [[GADFBBannerAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
     _interstitialAd =
         [[GADFBInterstitialAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
-    _nativeAd = [[GADFBNativeAd alloc] initWithGADMAdNetworkConnector:connector adapter:self];
     _connector = connector;
   }
   return self;
@@ -92,7 +94,13 @@
       [strongConnector childDirectedTreatment]) {
     [FBAdSettings setIsChildDirected:[strongConnector childDirectedTreatment].boolValue];
   }
-  [_nativeAd getNativeAdWithAdTypes:adTypes options:options];
+  if ([adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative]) {
+    _unifiedNativeAd = [[GADFBUnifiedNativeAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+    [_unifiedNativeAd getNativeAdWithAdTypes:adTypes options:options];
+  } else {
+    _nativeAd = [[GADFBNativeAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+    [_nativeAd getNativeAdWithAdTypes:adTypes options:options];
+  }
 }
 
 - (void)stopBeingDelegate {
