@@ -220,8 +220,7 @@ bool _bannerRequested = false;
 }
 
 -(void)unityAdsBannerDidError:(NSString *)message {
-    NSString *description =
-    [[NSString alloc] initWithFormat:@"Internal Unity Ads banner error"];
+    NSString *description = [[NSString alloc] initWithFormat:@"Internal Unity Ads banner error"];
     [_currentBannerDelegate unityAdsBannerDidError:description];
 }
 

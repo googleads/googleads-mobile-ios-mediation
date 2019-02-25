@@ -209,11 +209,11 @@
   if (!_isLoading) {
     return;
   }
-  
+
   if (strongNetworkConnector) {
     [strongNetworkConnector adapterDidReceiveInterstitial:self];
   } else {
-    [strongRewardedConnector adapterDidReceiveRewardBasedVideoAd:self];
+    [_rewardBasedVideoAdConnector adapterDidReceiveRewardBasedVideoAd:self];
   }
   _isLoading = NO;
 }
