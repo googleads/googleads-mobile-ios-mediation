@@ -48,7 +48,7 @@
 @implementation GADMAdapterFacebook
 
 + (NSString *)adapterVersion {
-  return @"5.1.1.1";
+  return @"5.2.0.0";
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
