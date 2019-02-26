@@ -148,7 +148,6 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
   guard(strongConnector) else return;
-  [adView start];
   [strongConnector adapter:self didReceiveAdView:adView];
 }
 
