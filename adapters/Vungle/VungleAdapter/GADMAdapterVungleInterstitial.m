@@ -2,7 +2,7 @@
 #import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "VungleRouter.h"
 
-@interface GADMAdapterVungleInterstitial ()<VungleDelegate>
+@interface GADMAdapterVungleInterstitial () <VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @end
 
@@ -67,8 +67,7 @@
                                                        }]];
                          return;
                        }
-                       waitingInit = YES;
-                       [[VungleRouter sharedInstance] initWithAppId:appId];
+                       [[VungleRouter sharedInstance] initWithAppId:appId delegate:self];
                      }];
 }
 
@@ -93,10 +92,7 @@
 
 @synthesize desiredPlacement;
 
-@synthesize waitingInit;
-
 - (void)initialized:(BOOL)isSuccess error:(NSError *)error {
-  waitingInit = NO;
   if (isSuccess && desiredPlacement) {
     if (desiredPlacement) {
       [self loadAd];
