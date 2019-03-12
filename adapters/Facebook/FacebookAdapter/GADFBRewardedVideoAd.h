@@ -12,36 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 @import FBAudienceNetwork;
 
-#import "GADFBAdapterDelegate.h"
-
-@protocol GADMAdNetworkAdapter;
-@protocol GADMAdNetworkConnector;
-
-/// Creates and manages a Facebook Audience Network rewarded video ad.
-@interface GADFBRewardedVideoAd : NSObject
+@interface GADFBRewardedVideoAd : NSObject <FBRewardedVideoAdDelegate, GADMediationRewardedAd>
 
 /// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter
+- (instancetype)initWithGADMediationRewardedAdConfiguration:
+                    (GADMediationRewardedAdConfiguration *)adConfiguration
+                                          completionHandler:
+                                              (GADRewardedLoadCompletionHandler)completionHandler
     NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init __unavailable;
 
-/// Sets up the adapter.
-- (void)setUp;
+- (void)requestRewardedVideoAd;
 
-/// Starts fetching a rewarded video ad from Facebook's Audience Network.
-- (void)getRewardedVideoAd;
-
-/// Stops the receiver from delegating any notifications from Facebook's Audience Network.
-- (void)stopBeingDelegate;
-
-/// Presents a full screen rewarded video ad from |rootViewController|.
-- (void)presentRewardedVideoAdFromRootViewController:(UIViewController *)rootViewController;
 @end

@@ -6,117 +6,138 @@
 //
 //     http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing,software
-// distributed under  the License is distributed on an "AS IS" BASIS,
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
 #import "GADFBRewardedVideoAd.h"
-
-@import FBAudienceNetwork;
-@import GoogleMobileAds;
-
-#import "GADFBAdapterDelegate.h"
-#import "GADMAdapterFacebook.h"
 #import "GADFBError.h"
+#import "GADMediationAdapterFacebook.h"
+@import FBAudienceNetwork;
 
 @interface GADFBRewardedVideoAd () {
-  /// Connector from Google Mobile Ads SDK which will receive ad configurations.
-  __weak id<GADMRewardBasedVideoAdNetworkConnector> _connector;
+  // The completion handler to call when the ad loading succeeds or fails.
+  GADRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
-  /// Adapter for receiving ad request notifications.
-  __weak id<GADMRewardBasedVideoAdNetworkAdapter> _adapter;
+  // Ad configuration for the ad to be rendered.
+  GADMediationAdConfiguration *_adConfiguration;
 
-  /// Facebook Audience Network rewardedVideoAd.
+  // The Facebook rewarded ad.
   FBRewardedVideoAd *_rewardedVideoAd;
 
-  /// Handles delegate notifications from rewardedVideoAd.
-  GADFBAdapterDelegate *_adapterDelegate;
+  // An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 }
 @end
 
 @implementation GADFBRewardedVideoAd
 
-/// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)connector
-                                       adapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)adapter {
+- (instancetype)initWithGADMediationRewardedAdConfiguration:
+                    (GADMediationRewardedAdConfiguration *)adConfiguration
+                                          completionHandler:
+                                              (GADRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
-    _adapter = adapter;
-    _connector = connector;
-    _adapterDelegate = [[GADFBAdapterDelegate alloc] initWithRewardBasedVideoAdAdapter:_adapter
-                                                           rewardBasedVideoAdconnector:_connector];
+    _adLoadCompletionHandler = completionHandler;
+    _adConfiguration = adConfiguration;
   }
   return self;
 }
 
-- (instancetype)init {
-  return nil;
-}
-
-/// Sets up the adapter.
-- (void)setUp {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _adapter;
-  if (!strongConnector || !strongAdapter) {
-    return;
-  }
-  NSString *publisherId = [strongConnector publisherId];
-  if (!publisherId) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
-    [strongConnector adapter:strongAdapter didFailToSetUpRewardBasedVideoAdWithError:error];
-    return;
-  }
-  [strongConnector adapterDidSetUpRewardBasedVideoAd:strongAdapter];
-}
-
 /// Starts fetching a rewarded video ad from Facebook's Audience Network.
-- (void)getRewardedVideoAd {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _adapter;
-  if (!strongConnector || !strongAdapter) {
+- (void)requestRewardedVideoAd {
+  NSString *placementID = [[_adConfiguration.credentials settings]
+      objectForKey:kGADMediationAdapterFacebookPublisherID];
+
+  if (!placementID) {
+    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  NSString *publisherId = [strongConnector publisherId];
-  _rewardedVideoAd = [[FBRewardedVideoAd alloc] initWithPlacementID:publisherId];
+  _rewardedVideoAd = [[FBRewardedVideoAd alloc] initWithPlacementID:placementID];
+
   if (!_rewardedVideoAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBRewardedVideoAd class])];
     NSError *error = GADFBErrorWithDescription(description);
-    [strongConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
+    _adLoadCompletionHandler(nil, error);
     return;
   }
-  _rewardedVideoAd.delegate = _adapterDelegate;
-  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+
+  _rewardedVideoAd.delegate = self;
+  [FBAdSettings
+      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_rewardedVideoAd loadAd];
 }
 
-/// Stops the receiver from delegating any notifications from Facebook's Audience Network.
-- (void)stopBeingDelegate {
-  _adapterDelegate = nil;
+#pragma mark FBRewardedVideoAdDelegate
+
+- (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd {
+  _adEventDelegate = _adLoadCompletionHandler(self, nil);
 }
 
-/// Presents a full screen rewarded video ad from |rootViewController|.
-- (void)presentRewardedVideoAdFromRootViewController:(UIViewController *)rootViewController {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _connector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _adapter;
-  if (!strongConnector || !strongAdapter) {
+- (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
+  _adLoadCompletionHandler(nil, error);
+}
+
+- (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate) {
+    [strongDelegate reportClick];
+  }
+}
+
+- (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate) {
+    [strongDelegate didDismissFullScreenView];
+  }
+}
+
+- (void)rewardedVideoAdWillClose:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate) {
+    [strongDelegate willDismissFullScreenView];
+  }
+}
+
+- (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate) {
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                     rewardAmount:[NSDecimalNumber one]];
+    [strongDelegate didRewardUserWithReward:reward];
+    [strongDelegate didEndVideo];
+  }
+}
+
+- (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  [strongDelegate reportImpression];
+}
+
+#pragma mark GADMediationRewardedAd
+
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  /// The FAN SDK doesn't have callbacks for a rewarded ad opening or playing. Invoke callbacks on
+  /// the Google Mobile Ads SDK within this method instead.
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (!strongDelegate) {
     return;
   }
   if ([_rewardedVideoAd isAdValid]) {
-    [_rewardedVideoAd showAdFromRootViewController:rootViewController];
-
-    /// Calling delegate methods of GADMRewardBasedVideoAdNetworkConnector on connector as FAN
-    /// doesn't have open and playing methods.
-    [strongConnector adapterDidOpenRewardBasedVideoAd:strongAdapter];
-    [strongConnector adapterDidStartPlayingRewardBasedVideoAd:strongAdapter];
+    [_rewardedVideoAd showAdFromRootViewController:viewController];
+    [strongDelegate willPresentFullScreenView];
+    [strongDelegate didStartVideo];
   } else {
-    /// Calling delegate methods of GADMRewardBasedVideoAdNetworkConnector on connector when the Ad
-    /// is not valid.
-    [strongConnector adapterDidOpenRewardBasedVideoAd:strongAdapter];
-    [strongConnector adapterDidCloseRewardBasedVideoAd:strongAdapter];
+    NSString *description = [NSString
+        stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBRewardedVideoAd class])];
+    NSError *error = GADFBErrorWithDescription(description);
+    [strongDelegate didFailToPresentWithError:error];
   }
 }
+
 @end

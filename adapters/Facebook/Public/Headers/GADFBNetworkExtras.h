@@ -18,11 +18,4 @@
 /// Network extras for the Facebook adapter.
 @interface GADFBNetworkExtras : NSObject<GADAdNetworkExtras>
 
-/// Indicates whether the AdChoices icon should be expandable. Defaults to YES.
-@property(nonatomic, assign) BOOL adChoicesExpandable;
-
-/// Indicates whether the AdChoices icon background mask should be shown or a transparent mask
-/// should be used instead. Defaults to YES.
-@property(nonatomic, assign) BOOL adChoicesBackgroundShown;
-
 @end

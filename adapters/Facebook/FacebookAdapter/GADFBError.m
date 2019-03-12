@@ -17,7 +17,8 @@
 NSError *GADFBErrorWithDescription(NSString *description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error =
-      [NSError errorWithDomain:@"com.google.mediation.facebook" code:0 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:@"com.google.mediation.facebook"
+                                       code:0
+                                   userInfo:userInfo];
   return error;
 }

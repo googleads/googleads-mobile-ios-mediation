@@ -134,30 +134,30 @@ static NSString *const GADNativeAdIconView = @"2003";
   _mediaView.delegate = nil;
 }
 
-- (void)loadAdChoicesView {
+- (void)loadAdOptionsView {
   if (!_adOptionsView) {
-      _adOptionsView = [[FBAdOptionsView alloc] init];
-      _adOptionsView.backgroundColor = [UIColor clearColor];
-      
-      NSLayoutConstraint *height = [NSLayoutConstraint
-                                    constraintWithItem:_adOptionsView
-                                    attribute:NSLayoutAttributeHeight
-                                    relatedBy:NSLayoutRelationEqual
-                                    toItem:nil
-                                    attribute:NSLayoutAttributeNotAnAttribute
+    _adOptionsView = [[FBAdOptionsView alloc] init];
+    _adOptionsView.backgroundColor = [UIColor clearColor];
+
+    NSLayoutConstraint *height =
+        [NSLayoutConstraint constraintWithItem:_adOptionsView
+                                     attribute:NSLayoutAttributeHeight
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                     attribute:NSLayoutAttributeNotAnAttribute
                                     multiplier:0
-                                    constant:FBAdOptionsViewHeight];
-      NSLayoutConstraint *width = [NSLayoutConstraint
-                                   constraintWithItem:_adOptionsView
-                                   attribute:NSLayoutAttributeWidth
-                                   relatedBy:NSLayoutRelationEqual
-                                   toItem:nil
-                                   attribute:NSLayoutAttributeNotAnAttribute
-                                   multiplier:0
-                                   constant:FBAdOptionsViewWidth];
-      [_adOptionsView addConstraint:height];
-      [_adOptionsView addConstraint:width];
-      [_adOptionsView updateConstraints];
+                                      constant:FBAdOptionsViewHeight];
+    NSLayoutConstraint *width =
+        [NSLayoutConstraint constraintWithItem:_adOptionsView
+                                     attribute:NSLayoutAttributeWidth
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                     attribute:NSLayoutAttributeNotAnAttribute
+                                    multiplier:0
+                                      constant:FBAdOptionsViewWidth];
+    [_adOptionsView addConstraint:height];
+    [_adOptionsView addConstraint:width];
+    [_adOptionsView updateConstraints];
   }
 }
 
@@ -281,11 +281,9 @@ static NSString *const GADNativeAdIconView = @"2003";
                             iconImageView:iconView
                            viewController:viewController];
   }
-  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-  [_adOptionsView removeFromSuperview];
   [_nativeAd unregisterView];
 }
 
@@ -294,7 +292,7 @@ static NSString *const GADNativeAdIconView = @"2003";
 - (void)nativeAdDidLoad:(FBNativeAd *)nativeAd {
   _mediaView = [[FBMediaView alloc] init];
   _mediaView.delegate = self;
-  [self loadAdChoicesView];
+  [self loadAdOptionsView];
   id<GADMAdNetworkAdapter> strongAdapter = self->_adapter;
   id<GADMAdNetworkConnector> strongConnector = self->_connector;
   [strongConnector adapter:strongAdapter didReceiveMediatedNativeAd:self];

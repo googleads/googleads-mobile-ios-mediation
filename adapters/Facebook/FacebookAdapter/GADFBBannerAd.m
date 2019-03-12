@@ -131,7 +131,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   if (size.size.width < 0) {
     _adapterDelegate.finalBannerSize = adSize.size;
   }
-  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+  [FBAdSettings
+      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
   [_bannerAd loadAd];
 }
 
