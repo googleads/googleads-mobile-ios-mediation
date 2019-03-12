@@ -16,9 +16,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-#define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-
 @interface GADMAdapterAppLovin ()
 
 /// Controlled Properties.
@@ -68,9 +65,6 @@ static NSMutableDictionary<NSString *, GADMAdapterAppLovinInterstitialLoadDelega
     *ALInterstitialLoadDelegates;
 static NSMutableDictionary<NSString *, GADMAdapterAppLovinQueue<ALAd *> *> *ALInterstitialAdQueues;
 static NSObject *ALInterstitialAdQueueLock;
-
-static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
-static const CGFloat kALBannerStandardHeight = 50.0f;
 
 #pragma mark - Class Initialization
 
@@ -128,8 +122,9 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
                                   self.zoneIdentifier, self.placement];
 
     GADMAdapterAppLovinQueue *__nullable queue = ALInterstitialAdQueues[self.zoneIdentifier];
-    if (queue.count == 0)  // If we don't already have enqueued ads, fetch from SDK.
-    {
+
+    // If we don't already have enqueued ads, fetch from SDK.
+    if (queue.count == 0) {
       // Retrieve static delegate (to prevent attaching duplicate delegates for the _same_ ad load
       // event).
       GADMAdapterAppLovinInterstitialLoadDelegate *delegate =
@@ -220,7 +215,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
                                 NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
 
   // Convert requested size to AppLovin Ad Size.
-  ALAdSize *appLovinAdSize = [self appLovinAdSizeFromRequestedSize:adSize];
+  ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils adSizeFromRequestedSize:adSize];
   if (appLovinAdSize) {
     self.adView = [[ALAdView alloc] initWithSdk:self.sdk size:appLovinAdSize];
 
@@ -254,51 +249,6 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
   return YES;
-}
-
-- (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size {
-  if (GADAdSizeEqualToSize(kGADAdSizeBanner, size) ||
-      GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) ||
-      (IS_IPHONE && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
-                                         size)))  // Smart iPhone portrait banners 50px tall.
-  {
-    return [ALAdSize sizeBanner];
-  } else if (GADAdSizeEqualToSize(kGADAdSizeMediumRectangle, size)) {
-    return [ALAdSize sizeMRec];
-  } else if (GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size) ||
-             (IS_IPAD && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
-                                              size)))  // Smart iPad portrait "banners" 90px tall.
-  {
-    return [ALAdSize sizeLeader];
-  }
-  // This is not a one of AdMob's predefined size.
-  else {
-    CGSize frameSize = size.size;
-
-    // Attempt to check for fluid size.
-    if (CGRectGetWidth([UIScreen mainScreen].bounds) == frameSize.width) {
-      CGFloat frameHeight = frameSize.height;
-      if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height ||
-          frameHeight == CGSizeFromGADAdSize(kGADAdSizeLargeBanner).height) {
-        return [ALAdSize sizeBanner];
-      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeMediumRectangle).height) {
-        return [ALAdSize sizeMRec];
-      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeLeaderboard).height) {
-        return [ALAdSize sizeLeader];
-      }
-    }
-
-    // Assume fluid width, and check for height with offset tolerance.
-    CGFloat offset = ABS(kALBannerStandardHeight - frameSize.height);
-    if (offset <= kALBannerHeightOffsetTolerance) {
-      return [ALAdSize sizeBanner];
-    }
-  }
-
-  [GADMAdapterAppLovinUtils
-      log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
-
-  return nil;
 }
 
 @end
@@ -435,7 +385,7 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
   [GADMAdapterAppLovinUtils log:@"Banner failed to load with error: %d", code];
 
-  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.placementKey
+  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                        code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
                                    userInfo:nil];
   [self.parentAdapter.connector adapter:self.parentAdapter didFailAd:error];
