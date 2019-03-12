@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "GADMAdapterIronSourceBase.h"
+#import <IronSource/IronSource.h>
+@import GoogleMobileAds;
 
-/// Adapter for communicating with the IronSource Network to fetch nterstitial video ads.
-@interface GADMAdapterIronSource
-    : GADMAdapterIronSourceBase <GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
+@interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
 
 @end

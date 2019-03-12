@@ -33,6 +33,12 @@
 
 /* Begin PBXBuildFile section */
 		35F410631FB4D85B000B379C /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F410611FB4D85B000B379C /* IronSourceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45BFFB2F2224C5F000C96A67 /* GADMAdapterIronSourceRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB292224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.m */; };
+		45BFFB302224C5F000C96A67 /* GADMediationAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB2A2224C5EF00C96A67 /* GADMediationAdapterIronSource.m */; };
+		45BFFB312224C5F000C96A67 /* ISMediationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB2B2224C5EF00C96A67 /* ISMediationManager.h */; };
+		45BFFB322224C5F000C96A67 /* GADMediationAdapterIronSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB2C2224C5EF00C96A67 /* GADMediationAdapterIronSource.h */; };
+		45BFFB332224C5F000C96A67 /* ISMediationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB2D2224C5EF00C96A67 /* ISMediationManager.m */; };
+		45BFFB342224C5F000C96A67 /* GADMAdapterIronSourceRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB2E2224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.h */; };
 		BF20BE75200E5FA8003FE7F8 /* GADMAdapterIronSourceBase.h in Headers */ = {isa = PBXBuildFile; fileRef = BF20BE6E200E5FA7003FE7F8 /* GADMAdapterIronSourceBase.h */; };
 		BF20BE76200E5FA8003FE7F8 /* GADMAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BF20BE6F200E5FA8003FE7F8 /* GADMAdapterIronSource.m */; };
 		BF20BE77200E5FA8003FE7F8 /* GADMAdapterIronSourceBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BF20BE70200E5FA8003FE7F8 /* GADMAdapterIronSourceBase.m */; };
@@ -58,6 +64,12 @@
 		350BFE01202D074F00C76B52 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		35F410611FB4D85B000B379C /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IronSourceAdapter.h; sourceTree = "<group>"; };
 		35F410621FB4D85B000B379C /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		45BFFB292224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRewardedAd.m; sourceTree = "<group>"; };
+		45BFFB2A2224C5EF00C96A67 /* GADMediationAdapterIronSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterIronSource.m; sourceTree = "<group>"; };
+		45BFFB2B2224C5EF00C96A67 /* ISMediationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMediationManager.h; sourceTree = "<group>"; };
+		45BFFB2C2224C5EF00C96A67 /* GADMediationAdapterIronSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterIronSource.h; sourceTree = "<group>"; };
+		45BFFB2D2224C5EF00C96A67 /* ISMediationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMediationManager.m; sourceTree = "<group>"; };
+		45BFFB2E2224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRewardedAd.h; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -113,6 +125,12 @@
 		7D72B8C11DB97C10006EAE11 /* IronSourceAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				45BFFB2E2224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.h */,
+				45BFFB292224C5EF00C96A67 /* GADMAdapterIronSourceRewardedAd.m */,
+				45BFFB2C2224C5EF00C96A67 /* GADMediationAdapterIronSource.h */,
+				45BFFB2A2224C5EF00C96A67 /* GADMediationAdapterIronSource.m */,
+				45BFFB2B2224C5EF00C96A67 /* ISMediationManager.h */,
+				45BFFB2D2224C5EF00C96A67 /* ISMediationManager.m */,
 				BF20BE71200E5FA8003FE7F8 /* GADMAdapterIronSource.h */,
 				BF20BE6F200E5FA8003FE7F8 /* GADMAdapterIronSource.m */,
 				BF20BE6E200E5FA7003FE7F8 /* GADMAdapterIronSourceBase.h */,
@@ -161,7 +179,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				35F410631FB4D85B000B379C /* IronSourceAdapter.h in Headers */,
+				45BFFB342224C5F000C96A67 /* GADMAdapterIronSourceRewardedAd.h in Headers */,
 				BF20BE78200E5FA8003FE7F8 /* GADMAdapterIronSource.h in Headers */,
+				45BFFB312224C5F000C96A67 /* ISMediationManager.h in Headers */,
+				45BFFB322224C5F000C96A67 /* GADMediationAdapterIronSource.h in Headers */,
 				BF20BE79200E5FA8003FE7F8 /* GADMAdapterIronSourceRewarded.h in Headers */,
 				BF20BE75200E5FA8003FE7F8 /* GADMAdapterIronSourceBase.h in Headers */,
 			);
@@ -263,8 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45BFFB332224C5F000C96A67 /* ISMediationManager.m in Sources */,
 				BF20BE77200E5FA8003FE7F8 /* GADMAdapterIronSourceBase.m in Sources */,
 				BF20BE76200E5FA8003FE7F8 /* GADMAdapterIronSource.m in Sources */,
+				45BFFB302224C5F000C96A67 /* GADMediationAdapterIronSource.m in Sources */,
+				45BFFB2F2224C5F000C96A67 /* GADMAdapterIronSourceRewardedAd.m in Sources */,
 				BF20BE7B200E5FA8003FE7F8 /* GADMAdapterIronSourceRewarded.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
