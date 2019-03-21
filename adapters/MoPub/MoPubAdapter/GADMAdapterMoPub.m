@@ -36,6 +36,25 @@
 
 @end
 
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
+  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
+  GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
+  NSArray *potentials = @[NSValueFromGADAdSize(banner),
+                          NSValueFromGADAdSize(mRect),
+                          NSValueFromGADAdSize(leaderboard)];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  if (IsGADAdSizeValid(closestSize)) {
+    return CGSizeFromGADAdSize(closestSize);
+  }
+
+  MPLogDebug(@"Unable to retrieve supported size from GADAdSize: %@", NSStringFromGADAdSize(size));
+
+  return CGSizeZero;
+}
+
 @implementation GADMAdapterMoPub
 
 + (NSString *)adapterVersion {
@@ -207,13 +226,14 @@
 #pragma mark - Banner Ads
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
+  CGSize supportedSize = GADSupportedAdSizeFromRequestedSize(adSize);
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSString *publisherID = [strongConnector credentials][@"pubid"];
 
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
                                                            longitude:strongConnector.userLongitude];
 
-  _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:CGSizeFromGADAdSize(adSize)];
+  _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID size:supportedSize];
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:false];
   _bannerAd.userDataKeywords = [self getKeywords:true];

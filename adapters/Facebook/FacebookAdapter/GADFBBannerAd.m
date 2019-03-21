@@ -37,7 +37,20 @@
 
 /// Converts ad size from Google Mobile Ads SDK to ad size interpreted by Facebook Audience Network.
 static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleasing *error) {
-  CGSize size = CGSizeFromGADAdSize(gadAdSize);
+  CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
+  GADAdSize banner50 =
+      GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight50Banner.size.height));
+  GADAdSize banner90 =
+      GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight90Banner.size.height));
+  GADAdSize mRect =
+      GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight250Rectangle.size.height));
+  GADAdSize interstitial = GADAdSizeFromCGSize(kFBAdSizeInterstitial.size);
+  NSArray *potentials = @[NSValueFromGADAdSize(banner50),
+                          NSValueFromGADAdSize(banner90),
+                          NSValueFromGADAdSize(mRect),
+                          NSValueFromGADAdSize(interstitial)];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  CGSize size = CGSizeFromGADAdSize(closestSize);
   if (size.height == kFBAdSizeHeight50Banner.size.height) {
     return kFBAdSizeHeight50Banner;
   } else if (size.height == kFBAdSizeHeight90Banner.size.height) {

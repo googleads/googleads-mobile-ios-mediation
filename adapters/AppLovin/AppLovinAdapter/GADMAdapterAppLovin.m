@@ -251,6 +251,29 @@ static NSObject *ALInterstitialAdQueueLock;
   return YES;
 }
 
+- (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size {
+  GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
+  GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
+  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
+  NSArray *potentials = @[NSValueFromGADAdSize(banner),
+                          NSValueFromGADAdSize(mRect),
+                          NSValueFromGADAdSize(leaderboard)];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
+    return [ALAdSize sizeBanner];
+  } else if (CGSizeEqualToSize(CGSizeFromGADAdSize(leaderboard), closestCGSize)) {
+    return [ALAdSize sizeLeader];
+  } else if (CGSizeEqualToSize(CGSizeFromGADAdSize(mRect), closestCGSize)) {
+    return [ALAdSize sizeMRec];
+  }
+
+  [GADMAdapterAppLovinUtils
+      log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
+
+  return nil;
+}
+
 @end
 
 @implementation GADMAdapterAppLovinInterstitialLoadDelegate

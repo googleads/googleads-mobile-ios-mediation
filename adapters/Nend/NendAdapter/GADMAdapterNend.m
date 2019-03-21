@@ -22,7 +22,22 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoClickedWhenPlaying,
 };
 
-@interface GADMAdapterNend () <NADViewDelegate, NADInterstitialDelegate,
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(kGADAdSizeBanner),
+    NSValueFromGADAdSize(kGADAdSizeLargeBanner),
+    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+
+  return closestSize;
+}
+
+@interface GADMAdapterNend () <NADViewDelegate,
+                               NADInterstitialDelegate,
                                NADInterstitialVideoDelegate>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
@@ -91,6 +106,8 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
+  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
+
   if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&           // 320x50
       !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
       !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
