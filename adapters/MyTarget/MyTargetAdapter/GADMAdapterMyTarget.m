@@ -29,9 +29,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard),
   ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
-
-  return closestSize;
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 @implementation GADMAdapterMyTarget {
