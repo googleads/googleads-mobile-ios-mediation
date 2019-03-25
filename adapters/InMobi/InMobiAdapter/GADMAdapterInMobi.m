@@ -34,7 +34,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     NSValueFromGADAdSize(kGADAdSizeFullBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard),
     NSValueFromGADAdSize(kGADAdSizeSkyscraper)
   ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 
   return closestSize;
 }

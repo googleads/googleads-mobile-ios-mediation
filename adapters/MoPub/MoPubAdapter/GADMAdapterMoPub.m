@@ -45,7 +45,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSArray *potentials = @[NSValueFromGADAdSize(banner),
                           NSValueFromGADAdSize(mRect),
                           NSValueFromGADAdSize(leaderboard)];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   if (IsGADAdSizeValid(closestSize)) {
     return CGSizeFromGADAdSize(closestSize);
   }
