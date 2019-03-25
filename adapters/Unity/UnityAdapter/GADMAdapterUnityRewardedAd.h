@@ -21,7 +21,8 @@
     : NSObject <GADMediationRewardedAd, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADRewardedLoadCompletionHandler)completionHandler;
+                      completionHandler:
+                          (GADMediationRewardedLoadCompletionHandler)completionHandler;
 - (instancetype)init __unavailable;
 
 - (void)requestRewardedAd;

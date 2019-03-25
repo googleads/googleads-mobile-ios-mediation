@@ -43,8 +43,6 @@
 		7DA7826D1DDA681E000C088E /* GADMAdapterUnityProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA782611DDA681E000C088E /* GADMAdapterUnityProtocol.h */; };
 		7DA7826E1DDA681E000C088E /* GADMAdapterUnitySingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA782621DDA681E000C088E /* GADMAdapterUnitySingleton.h */; };
 		7DA7826F1DDA681E000C088E /* GADMAdapterUnitySingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA782631DDA681E000C088E /* GADMAdapterUnitySingleton.m */; };
-		7DA782701DDA681E000C088E /* GADMAdapterUnityWeakReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA782641DDA681E000C088E /* GADMAdapterUnityWeakReference.h */; };
-		7DA782711DDA681E000C088E /* GADMAdapterUnityWeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA782651DDA681E000C088E /* GADMAdapterUnityWeakReference.m */; };
 		7DA782721DDA681E000C088E /* GADUnityError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA782661DDA681E000C088E /* GADUnityError.h */; };
 		7DA782731DDA681E000C088E /* GADUnityError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA782671DDA681E000C088E /* GADUnityError.m */; };
 /* End PBXBuildFile section */
@@ -81,8 +79,6 @@
 		7DA782611DDA681E000C088E /* GADMAdapterUnityProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityProtocol.h; sourceTree = "<group>"; };
 		7DA782621DDA681E000C088E /* GADMAdapterUnitySingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnitySingleton.h; sourceTree = "<group>"; };
 		7DA782631DDA681E000C088E /* GADMAdapterUnitySingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnitySingleton.m; sourceTree = "<group>"; };
-		7DA782641DDA681E000C088E /* GADMAdapterUnityWeakReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityWeakReference.h; sourceTree = "<group>"; };
-		7DA782651DDA681E000C088E /* GADMAdapterUnityWeakReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityWeakReference.m; sourceTree = "<group>"; };
 		7DA782661DDA681E000C088E /* GADUnityError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADUnityError.h; sourceTree = "<group>"; };
 		7DA782671DDA681E000C088E /* GADUnityError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADUnityError.m; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -136,8 +132,6 @@
 				7DA782611DDA681E000C088E /* GADMAdapterUnityProtocol.h */,
 				7DA782621DDA681E000C088E /* GADMAdapterUnitySingleton.h */,
 				7DA782631DDA681E000C088E /* GADMAdapterUnitySingleton.m */,
-				7DA782641DDA681E000C088E /* GADMAdapterUnityWeakReference.h */,
-				7DA782651DDA681E000C088E /* GADMAdapterUnityWeakReference.m */,
 				7DA782661DDA681E000C088E /* GADUnityError.h */,
 				7DA782671DDA681E000C088E /* GADUnityError.m */,
 				45BFFB3E222720B900C96A67 /* GADMediationAdapterUnity.h */,
@@ -188,7 +182,6 @@
 			files = (
 				45BFFB40222720B900C96A67 /* GADMediationAdapterUnity.h in Headers */,
 				7DA782681DDA681E000C088E /* UnityAdapter.h in Headers */,
-				7DA782701DDA681E000C088E /* GADMAdapterUnityWeakReference.h in Headers */,
 				7DA7826E1DDA681E000C088E /* GADMAdapterUnitySingleton.h in Headers */,
 				7DA7826D1DDA681E000C088E /* GADMAdapterUnityProtocol.h in Headers */,
 				45BFFB442227210800C96A67 /* GADMAdapterUnityRewardedAd.h in Headers */,
@@ -295,7 +288,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				45BFFB41222720B900C96A67 /* GADMediationAdapterUnity.m in Sources */,
-				7DA782711DDA681E000C088E /* GADMAdapterUnityWeakReference.m in Sources */,
 				7DA782731DDA681E000C088E /* GADUnityError.m in Sources */,
 				45BFFB452227210800C96A67 /* GADMAdapterUnityRewardedAd.m in Sources */,
 				7DA7826B1DDA681E000C088E /* GADMAdapterUnity.m in Sources */,

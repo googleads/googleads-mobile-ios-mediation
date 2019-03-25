@@ -19,7 +19,7 @@
 
 @interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
-  GADRewardedLoadCompletionHandler _adLoadCompletionHandler;
+  GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
@@ -39,7 +39,8 @@
 @implementation GADMAdapterUnityRewardedAd
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                      completionHandler:
+                          (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adLoadCompletionHandler = completionHandler;
@@ -86,10 +87,6 @@
     [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController
                                                                           delegate:self];
   }
-}
-
-- (void)dealloc {
-  [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods

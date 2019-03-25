@@ -13,13 +13,11 @@
 // limitations under the License.
 
 #import "GADMAdapterUnitySingleton.h"
-
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnityWeakReference.h"
 
 @interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate, UnityAdsBannerDelegate> {
   /// Array to hold all adapter delegates.
-  NSMutableArray *_adapterDelegates;
+  NSMapTable *_adapterDelegates;
 
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
@@ -47,7 +45,8 @@ bool _bannerRequested = false;
 - (id)init {
   self = [super init];
   if (self) {
-    _adapterDelegates = [[NSMutableArray alloc] init];
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+                                              valueOptions:NSMapTableWeakMemory];
   }
   return self;
 }
@@ -64,24 +63,9 @@ bool _bannerRequested = false;
 
 - (void)addAdapterDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  GADMAdapterUnityWeakReference *delegateReference =
-      [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
-  // Removes duplicate delegate references.
-  [self removeAdapterDelegate:delegateReference];
-  [_adapterDelegates addObject:delegateReference];
-}
-
-- (void)removeAdapterDelegate:(GADMAdapterUnityWeakReference *)adapterDelegate {
-  // Removes duplicate mediation adapter delegate references.
-  NSMutableArray *delegatesToRemove = [NSMutableArray array];
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        if ([weakReference isEqual:adapterDelegate]) {
-          [delegatesToRemove addObject:obj];
-        }
-      }];
-  [_adapterDelegates removeObjectsInArray:delegatesToRemove];
+  @synchronized (_adapterDelegates) {
+    [_adapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getPlacementID]];
+  }
 }
 
 #pragma mark - Rewardbased video ad methods
@@ -96,15 +80,14 @@ bool _bannerRequested = false;
 
 - (void)requestRewardedAdWithDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  for (id adapterdelegate in _adapterDelegates) {
-    GADMAdapterUnityWeakReference *weakReference = adapterdelegate;
-    id<GADMAdapterUnityDataProvider> adapter =
-        (id<GADMAdapterUnityDataProvider>)weakReference.weakObject;
-    if ([[adapter getPlacementID] isEqualToString:[adapterDelegate getPlacementID]]) {
+  NSString *placementID = [adapterDelegate getPlacementID];
+
+  @synchronized (_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
       NSString *message = @"An ad is already loading for placement ID %@";
       [adapterDelegate
-          unityAdsDidError:kUnityAdsErrorInternalError
-               withMessage:[NSString stringWithFormat:message, [adapter getPlacementID]]];
+       unityAdsDidError:kUnityAdsErrorInternalError
+       withMessage:[NSString stringWithFormat:message, placementID]];
       return;
     }
   }
@@ -112,7 +95,6 @@ bool _bannerRequested = false;
   [self addAdapterDelegate:adapterDelegate];
 
   if ([UnityAds isInitialized]) {
-    NSString *placementID = [adapterDelegate getPlacementID];
     if ([UnityAds isReady:placementID]) {
       [adapterDelegate unityAdsReady:placementID];
     } else {
@@ -239,14 +221,10 @@ bool _bannerRequested = false;
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        if ([[(id<GADMAdapterUnityDataProvider>)weakReference.weakObject getPlacementID]
-                isEqualToString:placementID]) {
-          [self removeAdapterDelegate:obj];
-        }
-      }];
+
+  @synchronized (_adapterDelegates) {
+    [_adapterDelegates removeObjectForKey:placementID];
+  }
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }
 
@@ -255,14 +233,14 @@ bool _bannerRequested = false;
 }
 
 - (void)unityAdsReady:(NSString *)placementID {
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        if ([[(id<GADMAdapterUnityDataProvider>)weakReference.weakObject getPlacementID]
-                isEqualToString:placementID]) {
-          [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsReady:placementID];
-        }
-      }];
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  @synchronized (_adapterDelegates) {
+    adapterDelegate = [_adapterDelegates objectForKey:placementID];
+  }
+
+  if (adapterDelegate) {
+    [adapterDelegate unityAdsReady:placementID];
+  }
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
@@ -275,22 +253,23 @@ bool _bannerRequested = false;
     return;
   }
 
-  NSMutableArray *delegatesToRemove = [NSMutableArray array];
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsDidError:error
-                                                                     withMessage:message];
-        [delegatesToRemove addObject:obj];
-      }];
-  [_adapterDelegates removeObjectsInArray:delegatesToRemove];
+  NSArray *delegates;
+  @synchronized (_adapterDelegates) {
+    delegates = _adapterDelegates.objectEnumerator.allObjects;
+  }
+
+  for (id<UnityAdsExtendedDelegate, UnityAdsExtendedDelegate> delegate in delegates) {
+    [delegate unityAdsDidError:error withMessage:message];
+  }
+
+  @synchronized (_adapterDelegates) {
+    [_adapterDelegates removeAllObjects];
+  }
 }
 
 - (void)stopTrackingDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  GADMAdapterUnityWeakReference *delegateReference =
-      [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
-  [self removeAdapterDelegate:delegateReference];
+  [_adapterDelegates removeObjectForKey:[adapterDelegate getPlacementID]];
 }
 
 @end

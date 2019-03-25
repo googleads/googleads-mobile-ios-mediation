@@ -78,7 +78,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterUnityRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                               completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];

@@ -1,5 +1,8 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Next version
+- Fixed a crash that occurred when deallocating rewarded ads.
+
 ## Version 3.0.0.3
 - Updating adapter to use new rewarded API.
 - Now requires Google Mobile Ads SDK version 7.41.0 or higher.
