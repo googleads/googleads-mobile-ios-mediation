@@ -25,7 +25,7 @@
 @property(nonatomic, strong) GADMediationBannerAdConfiguration *adConfiguration;
 
 /// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
-@property(nonatomic, copy) GADBannerLoadCompletionHandler adLoadCompletionHandler;
+@property(nonatomic, copy) GADMediationBannerLoadCompletionHandler adLoadCompletionHandler;
 
 /// Delegate to notify the Google Mobile Ads SDK of banner presentation events.
 @property(nonatomic, strong, nullable) id<GADMediationBannerAdEventDelegate> delegate;
@@ -40,7 +40,7 @@
 @implementation GADMRTBAdapterAppLovinBannerRenderer
 
 - (instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                      completionHandler:(GADBannerLoadCompletionHandler)handler {
+                      completionHandler:(GADMediationBannerLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;

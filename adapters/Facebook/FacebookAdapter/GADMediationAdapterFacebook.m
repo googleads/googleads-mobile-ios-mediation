@@ -89,7 +89,7 @@ NSString *const kGADMediationAdapterFacebookPublisherID = @"pubid";
 #pragma mark Rewarded Ad Methods
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   if ([adConfiguration respondsToSelector:@selector(childDirectedTreatment)] &&
       adConfiguration.childDirectedTreatment) {
     [FBAdSettings setIsChildDirected:[adConfiguration.childDirectedTreatment boolValue]];

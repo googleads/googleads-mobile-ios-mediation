@@ -23,8 +23,8 @@
 - (instancetype)initWithGADMediationRewardedAdConfiguration:
                     (GADMediationRewardedAdConfiguration*)adConfiguration
                                           completionHandler:
-                                              (GADRewardedLoadCompletionHandler)completionHandler
-    NS_DESIGNATED_INITIALIZER;
+                                              (GADMediationRewardedLoadCompletionHandler)
+                                                  completionHandler NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init __unavailable;

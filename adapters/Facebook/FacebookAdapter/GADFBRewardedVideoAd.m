@@ -19,7 +19,7 @@
 
 @interface GADFBRewardedVideoAd () {
   // The completion handler to call when the ad loading succeeds or fails.
-  GADRewardedLoadCompletionHandler _adLoadCompletionHandler;
+  GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
@@ -37,7 +37,7 @@
 - (instancetype)initWithGADMediationRewardedAdConfiguration:
                     (GADMediationRewardedAdConfiguration *)adConfiguration
                                           completionHandler:
-                                              (GADRewardedLoadCompletionHandler)completionHandler {
+                                              (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adLoadCompletionHandler = completionHandler;

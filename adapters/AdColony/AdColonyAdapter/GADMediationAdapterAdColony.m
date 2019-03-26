@@ -78,7 +78,7 @@ NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterAdColonyRewardedAd alloc] init];
   [self.rewardedAd renderRewardedAdForAdConfiguration:adConfiguration
                                     completionHandler:completionHandler];

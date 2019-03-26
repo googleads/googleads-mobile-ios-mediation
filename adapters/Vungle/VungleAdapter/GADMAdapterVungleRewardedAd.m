@@ -4,7 +4,7 @@
 @interface GADMAdapterVungleRewardedAd () <VungleDelegate>
 
 @property(nonatomic, strong) GADMediationRewardedAdConfiguration *adConfiguration;
-@property(nonatomic, copy) GADRewardedLoadCompletionHandler adLoadCompletionHandler;
+@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
 @property(nonatomic, weak, nullable) id<GADMediationRewardedAdEventDelegate> delegate;
 
 @end
@@ -15,7 +15,7 @@
 BOOL _isAdInUse;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADRewardedLoadCompletionHandler)handler {
+                      completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;

@@ -153,7 +153,7 @@
 #pragma mark - GADMediationAdapter load Ad
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:(GADBannerLoadCompletionHandler)completionHandler {
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   self.bannerRenderer =
       [[GADMRTBAdapterAppLovinBannerRenderer alloc] initWithAdConfiguration:adConfiguration
                                                           completionHandler:completionHandler];
@@ -162,7 +162,7 @@
 
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(GADInterstitialLoadCompletionHandler)completionHandler {
+                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self.interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
       initWithAdConfiguration:adConfiguration
             completionHandler:completionHandler];
@@ -170,7 +170,7 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];

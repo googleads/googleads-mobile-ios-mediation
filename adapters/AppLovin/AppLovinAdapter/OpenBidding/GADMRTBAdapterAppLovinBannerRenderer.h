@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadAd;
 
 - (instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                      completionHandler:(GADBannerLoadCompletionHandler)handler;
+                      completionHandler:(GADMediationBannerLoadCompletionHandler)handler;
 - (instancetype)init NS_UNAVAILABLE;
 
 @end

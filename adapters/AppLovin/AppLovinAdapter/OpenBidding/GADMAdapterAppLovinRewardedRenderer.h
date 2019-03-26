@@ -12,7 +12,7 @@
 @interface GADMAdapterAppLovinRewardedRenderer : NSObject <GADMediationRewardedAd>
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADRewardedLoadCompletionHandler)handler;
+                      completionHandler:(GADMediationRewardedLoadCompletionHandler)handler;
 - (instancetype)init NS_UNAVAILABLE;
 - (void)requestRTBRewardedAd;
 - (void)requestRewardedAd;

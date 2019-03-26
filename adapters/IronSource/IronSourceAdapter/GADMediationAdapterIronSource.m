@@ -28,7 +28,6 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-
   NSMutableSet *appKeys = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
     [appKeys addObject:[cred.settings valueForKey:kGADMAdapterIronSourceAppKey]];
@@ -37,8 +36,10 @@
   NSString *appKey = [appKeys anyObject];
 
   if (appKeys.count != 1) {
-    NSLog(@"Found the following app keys: %@. Please remove any app keys you are not using from the "
-          @"AdMob UI.", appKeys);
+    NSLog(
+        @"Found the following app keys: %@. Please remove any app keys you are not using from the "
+        @"AdMob UI.",
+        appKeys);
     NSLog(@"Initializing IronSource SDK with the app key %@", appKey);
   }
 
@@ -80,7 +81,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   _rewardedAd = [[GADMAdapterIronSourceRewardedAd alloc]
       initWithGADMediationRewardedAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];

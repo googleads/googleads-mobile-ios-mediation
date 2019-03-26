@@ -21,7 +21,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 @interface GADMAdapterIronSourceRewardedAd () <ISAdAvailabilityChangedDelegate>
 
 // The completion handler to call when the ad loading succeeds or fails.
-@property(copy, nonatomic) GADRewardedLoadCompletionHandler adLoadCompletionHandler;
+@property(copy, nonatomic) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
 
 // Ad configuration for the ad to be rendered.
 @property(weak, nonatomic) GADMediationAdConfiguration *adConfiguration;
@@ -38,7 +38,8 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 - (instancetype)initWithGADMediationRewardedAdConfiguration:
                     (GADMediationRewardedAdConfiguration *)adConfiguration
                                           completionHandler:
-                                              (GADRewardedLoadCompletionHandler)completionHandler {
+                                              (GADMediationRewardedLoadCompletionHandler)
+                                                  completionHandler {
   self = [super init];
   if (self) {
     _adLoadCompletionHandler = completionHandler;

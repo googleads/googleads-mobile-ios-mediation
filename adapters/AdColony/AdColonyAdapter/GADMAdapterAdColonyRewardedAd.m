@@ -9,7 +9,7 @@
 
 @interface GADMAdapterAdColonyRewardedAd ()
 
-@property(nonatomic, copy) GADRewardedLoadCompletionHandler loadCompletionHandler;
+@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler loadCompletionHandler;
 
 @property(nonatomic, strong) AdColonyInterstitial *rewardedAd;
 
@@ -23,7 +23,7 @@
 
 /// Render a rewarded ad with the provided ad configuration.
 - (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                         completionHandler:(GADRewardedLoadCompletionHandler)completionHandler {
+                         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.loadCompletionHandler = completionHandler;
   [GADMAdapterAdColonyHelper setupZoneFromAdConfig:adConfiguration
                                           callback:^(NSString *zone, NSError *error) {

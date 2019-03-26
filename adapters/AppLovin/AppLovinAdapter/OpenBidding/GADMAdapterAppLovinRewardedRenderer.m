@@ -26,7 +26,7 @@
 @property(nonatomic, strong) GADMediationRewardedAdConfiguration *adConfiguration;
 
 /// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
-@property(nonatomic, copy) GADRewardedLoadCompletionHandler adLoadCompletionHandler;
+@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
 
 /// Delegate to notify the Google Mobile Ads SDK of rewarded presentation events.
 @property(nonatomic, weak, nullable) id<GADMediationRewardedAdEventDelegate> delegate;
@@ -67,7 +67,7 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
 }
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADRewardedLoadCompletionHandler)handler {
+                      completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;
