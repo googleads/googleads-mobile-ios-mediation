@@ -20,6 +20,8 @@
 @import Foundation;
 @import UIKit;
 
+#import "SampleMediaView.h"
+
 @interface SampleNativeAd : NSObject
 
 /// The name of an advertiser.
@@ -52,6 +54,9 @@
 /// The scale of the image file (pixels/pts) that can be downloaded from imageURL.
 @property(nonatomic, assign) CGFloat imageScale;
 
+/// The main video associated with the ad.
+@property(nonatomic, strong) SampleMediaView *mediaView;
+
 /// The price of the app being advertised.
 @property(nonatomic, copy) NSString *price;
 
@@ -70,5 +75,8 @@
 
 /// Records impressions for the native ad (it just NSLogs them).
 - (void)recordImpression;
+
+/// Starts playing the video after the view is rendered
+- (void)playVideo;
 
 @end

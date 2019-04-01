@@ -1,6 +1,6 @@
 @import Foundation;
 @import GoogleMobileAds;
 
-@interface GADMAdapterMoPub : NSObject<GADMAdNetworkAdapter>
+@interface GADMAdapterMoPub : NSObject <GADMAdNetworkAdapter>
 
 @end

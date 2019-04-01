@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
 
-@import GoogleMobileAds;
+@interface GADMAdapterVungleRewardBasedVideoAd : NSObject
 
-@interface GADMAdapterVungleRewardBasedVideoAd
-    : NSObject<GADMRewardBasedVideoAdNetworkAdapter>
 @end

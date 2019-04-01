@@ -276,6 +276,7 @@
 }
 
 - (void)didCompleteRewardedVideo:(CBLocation)location withReward:(int)reward {
+  [_rewardbasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
   /// Chartboost doesn't provide access to the reward type.
   GADAdReward *adReward =
       [[GADAdReward alloc] initWithRewardType:@""

@@ -88,18 +88,16 @@
 
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
 
+  // MaioInstance生成時にテストモードかどうかを指定する
+  [Maio setAdTestMode:self.interstitialAdConnector.testMode];
+
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
-  if (![repository isInitializedWithMediaId:self.mediaId]) {
-    [Maio setAdTestMode:self.interstitialAdConnector.testMode];
-    [repository addMaioInstance:
-                    [Maio startWithNonDefaultMediaId:self.mediaId
-                                            delegate:[GADMMaioDelegateAggregate
-                                                         sharedInstance]]];
-    return;
-  }
-
   MaioInstance *instance = [repository maioInstanceByMediaId:self.mediaId];
+
+  // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
+  [instance setAdTestMode:_interstitialAdConnector.testMode];
+
   if ([instance canShowAtZoneId:self.zoneId]) {
     [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
     return;
@@ -149,8 +147,7 @@
  *  全てのゾーンの広告表示準備が完了したら呼ばれます。
  */
 - (void)maioDidInitialize {
-  [[GADMMaioMaioInstanceRepository new] setInitialized:YES
-                                               mediaId:self.mediaId];
+  // noop
 }
 
 /**

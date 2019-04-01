@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GADMAdapterAppLovinQueue<ObjectType> : NSObject<NSCopying, NSCoding>
+@interface GADMAdapterAppLovinQueue<ObjectType> : NSObject <NSCopying, NSCoding>
 
 #pragma mark - Initialization
 

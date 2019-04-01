@@ -2,7 +2,7 @@
 // Copyright 2016, AdColony, Inc.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterAdColonyExtras : NSObject<GADAdNetworkExtras>
 
@@ -19,5 +19,12 @@
 
 /// Enables test ads for your application without changing dashboard settings.
 @property BOOL testMode;
+
+/// Inform AdColony that GDPR should be considered for the user.
+@property (nonatomic) BOOL gdprRequired;
+
+/// End user's IAB compatiable GDPR consent string.
+/// See: https://github.com/AdColony/AdColony-iOS-SDK-3/wiki/GDPR
+@property (nonatomic) NSString *gdprConsentString;
 
 @end

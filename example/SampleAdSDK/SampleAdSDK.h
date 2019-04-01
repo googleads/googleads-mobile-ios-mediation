@@ -39,3 +39,4 @@ FOUNDATION_EXPORT const unsigned char SampleAdSDKVersionString[];
 #import <SampleAdSDK/SampleNativeAd.h>
 #import <SampleAdSDK/SampleNativeAdRequest.h>
 #import <SampleAdSDK/SampleAdInfoView.h>
+#import <SampleAdSDK/SampleMediaView.h>

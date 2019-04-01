@@ -10,8 +10,8 @@
 
 #import "GADMAdapterMyTarget.h"
 #import "GADMAdapterMyTargetConstants.h"
-#import "GADMAdapterMyTargetUtils.h"
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 #define guard(CONDITION) \
   if (CONDITION) {       \
@@ -20,6 +20,17 @@
 @interface GADMAdapterMyTarget () <MTRGAdViewDelegate, MTRGInterstitialAdDelegate>
 
 @end
+
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(kGADAdSizeBanner),
+    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+  ];
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+}
 
 @implementation GADMAdapterMyTarget {
   MTRGAdView *_adView;
@@ -61,6 +72,7 @@
   MTRGLogDebug(@"adSize: %.fx%.f", adSize.size.width, adSize.size.height);
   guard(strongConnector) else return;
 
+  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
   MTRGAdSize adViewSize;
   if ([GADMAdapterMyTargetUtils isSize:adSize equalToSize:kGADAdSizeBanner]) {
     adViewSize = MTRGAdSize_320x50;
@@ -148,7 +160,6 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
   guard(strongConnector) else return;
-  [adView start];
   [strongConnector adapter:self didReceiveAdView:adView];
 }
 

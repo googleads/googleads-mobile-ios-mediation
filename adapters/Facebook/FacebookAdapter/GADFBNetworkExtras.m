@@ -19,10 +19,6 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    // Facebook's AdChoices icon is expandable and shows a background by default. If the
-    // publisher doesn't set one of these properties, we will use the default values.
-    self.adChoicesExpandable = YES;
-    self.adChoicesBackgroundShown = YES;
   }
   return self;
 }

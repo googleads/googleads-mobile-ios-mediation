@@ -32,6 +32,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		455AD1C320C737C1009FDF47 /* GADMInMobiConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD1C120C737C0009FDF47 /* GADMInMobiConsent.m */; };
+		455AD1C420C737C1009FDF47 /* GADMInMobiConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD1C220C737C0009FDF47 /* GADMInMobiConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		56C0258B1F31208500B57D6B /* InMobiAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C0258A1F31208500B57D6B /* InMobiAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		56C0258D1F3120A300B57D6B /* GADInMobiExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C0258C1F3120A300B57D6B /* GADInMobiExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F87CEFAA1EEEBE5C0052D774 /* GADMAdapterInMobi.h in Headers */ = {isa = PBXBuildFile; fileRef = F87CEFA91EEEBE5C0052D774 /* GADMAdapterInMobi.h */; };
@@ -55,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		455AD1C120C737C0009FDF47 /* GADMInMobiConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMInMobiConsent.m; sourceTree = "<group>"; };
+		455AD1C220C737C0009FDF47 /* GADMInMobiConsent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMInMobiConsent.h; sourceTree = "<group>"; };
 		56C0258A1F31208500B57D6B /* InMobiAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InMobiAdapter.h; sourceTree = "<group>"; };
 		56C0258C1F3120A300B57D6B /* GADInMobiExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInMobiExtras.h; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 		7D4320841EB123E500B3532A /* InMobiAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				455AD1C120C737C0009FDF47 /* GADMInMobiConsent.m */,
 				F87CEFA91EEEBE5C0052D774 /* GADMAdapterInMobi.h */,
 				F8A580851ECEE8690068E9FA /* GADMAdapterInMobi.m */,
 				F8A580861ECEE8690068E9FA /* InMobiMediatedNativeAppInstallAd.h */,
@@ -121,6 +126,7 @@
 		7DC8681B1DDA8D4400F0F1C4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				455AD1C220C737C0009FDF47 /* GADMInMobiConsent.h */,
 				56C0258C1F3120A300B57D6B /* GADInMobiExtras.h */,
 				56C0258A1F31208500B57D6B /* InMobiAdapter.h */,
 			);
@@ -169,6 +175,7 @@
 				F87CEFAA1EEEBE5C0052D774 /* GADMAdapterInMobi.h in Headers */,
 				56C0258D1F3120A300B57D6B /* GADInMobiExtras.h in Headers */,
 				F8A5808C1ECEE8690068E9FA /* NativeAdKeys.h in Headers */,
+				455AD1C420C737C1009FDF47 /* GADMInMobiConsent.h in Headers */,
 				F8A5808B1ECEE8690068E9FA /* InMobiMediatedNativeAppInstallAd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,7 +207,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -272,6 +279,7 @@
 				F8A580891ECEE8690068E9FA /* GADInMobiExtras.m in Sources */,
 				F8A580881ECEE8690068E9FA /* InMobiMediatedNativeAppInstallAd.m in Sources */,
 				F8A5808A1ECEE8690068E9FA /* GADMAdapterInMobi.m in Sources */,
+				455AD1C320C737C1009FDF47 /* GADMInMobiConsent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,14 +289,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -330,7 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				VALID_ARCHS = "arm64 armv7 i386 x86_64";
@@ -369,7 +377,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 i386 x86_64";
@@ -379,7 +387,7 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -387,7 +395,7 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -395,14 +403,14 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};

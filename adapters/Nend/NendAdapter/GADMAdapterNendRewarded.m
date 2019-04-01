@@ -8,7 +8,6 @@
 #import "GADMAdapterNendRewarded.h"
 #import "GADMAdapterNendSetting.h"
 #import "GADNendRewardedNetworkExtras.h"
-#import "GADMAdapterNendUtils.h"
 
 @import NendAd;
 
@@ -48,6 +47,7 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
 }
 
 - (void)setUp {
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
   NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
   NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
 
@@ -55,19 +55,16 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
     self.rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     self.rewardedVideo.mediationName = kAdMobMediationName;
 
-    GADNendRewardedNetworkExtras *extras = [self.connector networkExtras];
+    GADNendRewardedNetworkExtras *extras = [strongConnector networkExtras];
     if (extras) {
       self.rewardedVideo.userId = extras.userId;
     }
 
-    self.rewardedVideo.userFeature =
-        [GADMAdapterNendUtils getUserFeatureFromMediationRequest:self.connector];
-
     self.rewardedVideo.delegate = self;
-    [self.connector adapterDidSetUpRewardBasedVideoAd:self];
+    [strongConnector adapterDidSetUpRewardBasedVideoAd:self];
   } else {
     NSLog(@"SpotId and apiKey can not be nil.");
-    [self.connector adapter:self
+    [strongConnector adapter:self
         didFailToSetUpRewardBasedVideoAdWithError:
             [NSError errorWithDomain:@"com.google.mediation.nend.rewarded"
                                 code:kGADErrorInternalError
@@ -118,8 +115,9 @@ static NSString *const kDictionaryKeyApiKey = @"apiKey";
 }
 
 - (void)nadRewardVideoAdDidClickAd:(NADRewardedVideo *)nadRewardedVideoAd {
-  [self.connector adapterDidGetAdClick:self];
-  [self.connector adapterWillLeaveApplication:self];
+  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = self.connector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 - (void)nadRewardVideoAdDidClickInformation:(NADRewardedVideo *)nadRewardedVideoAd {

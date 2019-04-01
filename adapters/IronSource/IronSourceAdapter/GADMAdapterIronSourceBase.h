@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <IronSource/IronSource.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/IronSource.h>
 
 /// Holds Shared code for IronSource adapters.
 @interface GADMAdapterIronSourceBase : NSObject
@@ -23,6 +23,7 @@
 extern NSString *const kGADMAdapterIronSourceAppKey;
 extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
 extern NSString *const kGADMAdapterIronSourceInstanceId;
+extern NSString *const kGADMAdapterIronSourceAdapterVersion;
 
 /// Yes if we want to show IronSource adapter logs.
 @property(nonatomic, assign) BOOL isLogEnabled;

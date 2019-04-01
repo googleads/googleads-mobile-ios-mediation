@@ -1,5 +1,34 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 3.0.1.0
+- Verified compatibility with Unity Ads SDK 3.0.1.
+- Fixed a crash that occurred when deallocating rewarded ads.
+
+## Version 3.0.0.3
+- Updating adapter to use new rewarded API.
+- Now requires Google Mobile Ads SDK version 7.41.0 or higher.
+
+## Version 3.0.0.2
+- Added support for banner ads.
+
+## Version 3.0.0.1
+- Fixed an issue where the adapter stores the 'placementId' of previous request.
+
+## Version 3.0.0.0
+- Verified compatibility with Unity Ads SDK 3.0.0.
+
+## Version 2.3.0.0
+- Verified compatibility with Unity Ads SDK 2.3.0.
+
+## Version 2.2.1.1
+- Added `adapterDidCompletePlayingRewardBasedVideoAd:` callback to the adapter.
+
+## Version 2.2.1.0
+- Verified compatibility with Unity Ads SDK 2.2.1.
+
+## Version 2.2.0.0
+- Verified compatibility with Unity Ads SDK 2.2.0.
+
 ## Version 2.1.2.0
 - Verified compatibility with Unity Ads SDK 2.1.2.
 - Removed the support for 'armv7s' architecture.

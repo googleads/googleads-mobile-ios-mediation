@@ -27,8 +27,9 @@ static BOOL _isLogEnabled = YES;
 
 + (NSError *)errorWithDescription:(NSString *)description {
   NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
-  NSError *error =
-      [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain code:1000 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain
+                                       code:1000
+                                   userInfo:userInfo];
   return error;
 }
 
@@ -86,8 +87,10 @@ static BOOL _isLogEnabled = YES;
   guard(birthday) else return nil;
   NSCalendar *calendar =
       [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *components =
-      [calendar components:NSCalendarUnitYear fromDate:birthday toDate:[NSDate date] options:0];
+  NSDateComponents *components = [calendar components:NSCalendarUnitYear
+                                             fromDate:birthday
+                                               toDate:[NSDate date]
+                                              options:0];
   return [NSNumber numberWithInteger:components.year];
 }
 
@@ -95,6 +98,19 @@ static BOOL _isLogEnabled = YES;
   // for compatibility with iPhone X
   return ceilf(size1.size.width) == ceilf(size2.size.width) &&
          ceilf(size1.size.height) == ceilf(size2.size.height);
+}
+
++ (GADNativeAdImage *)nativeAdImageWithImageData:(MTRGImageData *)imageData {
+  guard(imageData) else return nil;
+
+  GADNativeAdImage *nativeAdImage = nil;
+  if (imageData.image) {
+    nativeAdImage = [[GADNativeAdImage alloc] initWithImage:imageData.image];
+  } else if (imageData.url) {
+    NSURL *url = [NSURL URLWithString:imageData.url];
+    nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
+  }
+  return nativeAdImage;
 }
 
 @end

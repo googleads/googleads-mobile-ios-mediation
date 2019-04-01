@@ -1,0 +1,11 @@
+framework module MobFoxAdapter {
+  umbrella header "MobFoxAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Add headers here
+}

@@ -32,6 +32,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		45BFFA9B2215FDC200C96A67 /* GADFBUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFA992215FDC200C96A67 /* GADFBUnifiedNativeAd.h */; };
+		45BFFA9C2215FDC200C96A67 /* GADFBUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */; };
+		45BFFB372225CA3A00C96A67 /* GADMediationAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */; };
+		45BFFB382225CA3A00C96A67 /* GADMediationAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */; };
 		56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */; };
 		56148C511F26626D0041F201 /* GADFBAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */; };
 		56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C421F26626D0041F201 /* GADFBBannerAd.h */; };
@@ -66,6 +70,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		45BFFA992215FDC200C96A67 /* GADFBUnifiedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBUnifiedNativeAd.h; sourceTree = "<group>"; };
+		45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBUnifiedNativeAd.m; sourceTree = "<group>"; };
+		45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFacebook.h; sourceTree = "<group>"; };
+		45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFacebook.m; sourceTree = "<group>"; };
 		56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBAdapterDelegate.h; sourceTree = "<group>"; };
 		56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBAdapterDelegate.m; sourceTree = "<group>"; };
 		56148C421F26626D0041F201 /* GADFBBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBBannerAd.h; sourceTree = "<group>"; };
@@ -144,6 +152,10 @@
 				56148C4D1F26626D0041F201 /* GADFBRewardedVideoAd.m */,
 				56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */,
 				56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */,
+				45BFFA992215FDC200C96A67 /* GADFBUnifiedNativeAd.h */,
+				45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */,
+				45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */,
+				45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */,
 			);
 			path = FacebookAdapter;
 			sourceTree = "<group>";
@@ -206,6 +218,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45BFFB372225CA3A00C96A67 /* GADMediationAdapterFacebook.h in Headers */,
 				56148C5C1F26626D0041F201 /* GADFBRewardedVideoAd.h in Headers */,
 				56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */,
 				56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */,
@@ -216,6 +229,7 @@
 				56148C5E1F26626D0041F201 /* GADMAdapterFacebook.h in Headers */,
 				56148C571F26626D0041F201 /* GADFBInterstitialAd.h in Headers */,
 				7DC8682E1DDA8D4400F0F1C4 /* FacebookAdapter.h in Headers */,
+				45BFFA9B2215FDC200C96A67 /* GADFBUnifiedNativeAd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,9 +330,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				56148C581F26626D0041F201 /* GADFBInterstitialAd.m in Sources */,
+				45BFFA9C2215FDC200C96A67 /* GADFBUnifiedNativeAd.m in Sources */,
 				56148C561F26626D0041F201 /* GADFBExtraAssets.m in Sources */,
 				56148C511F26626D0041F201 /* GADFBAdapterDelegate.m in Sources */,
 				56148C531F26626D0041F201 /* GADFBBannerAd.m in Sources */,
+				45BFFB382225CA3A00C96A67 /* GADMediationAdapterFacebook.m in Sources */,
 				56148C5A1F26626D0041F201 /* GADFBNativeAd.m in Sources */,
 				56148C5F1F26626D0041F201 /* GADMAdapterFacebook.m in Sources */,
 				56148C5B1F26626D0041F201 /* GADFBNetworkExtras.m in Sources */,

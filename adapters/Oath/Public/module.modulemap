@@ -1,0 +1,11 @@
+framework module OathAdapter {
+  umbrella header "OathAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Add any public headers here.
+}
