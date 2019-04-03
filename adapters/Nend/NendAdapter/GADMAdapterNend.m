@@ -108,10 +108,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   adSize = GADSupportedAdSizeFromRequestedSize(adSize);
 
-  if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&           // 320x50
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {      // 728x90
+  if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
     [strongConnector adapter:self didFailAd:nil];
     return;
   }
@@ -203,9 +200,9 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [self.nadView pause];
 
-  if ((self.selectedAdSize.height != adView.frame.size.height) ||
-      (self.selectedAdSize.width != adView.frame.size.width)) {
-    // Size of NADView is different from placement size
+  if ((self.selectedAdSize.height < adView.frame.size.height) ||
+      (self.selectedAdSize.width < adView.frame.size.width)) {
+    // Size of NADView is larger than placement size.
     [strongConnector adapter:self didFailAd:nil];
     return;
   }
