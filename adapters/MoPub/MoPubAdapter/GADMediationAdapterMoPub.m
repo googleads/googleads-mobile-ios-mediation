@@ -17,7 +17,7 @@
 @implementation GADMediationAdapterMoPub
 
 + (NSString *)adapterVersion {
-  return GADMAdapterMoPubVersion;
+  return kGADMAdapterMoPubVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -70,7 +70,7 @@
     genderString = @"m_gender:f";
   }
   NSString *keywordsBuilder =
-      [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
+      [NSString stringWithFormat:@"%@,%@,%@", kGADMAdapterMoPubTpValue, ageString, genderString];
 
   if (intendedForPII) {
     if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
@@ -107,7 +107,7 @@
   if (self) {
     _adExpired = false;
     _rewardedConnector = connector;
-    _rewardedAdUnitId = [self.rewardedConnector.credentials objectForKey:@"pubid"];
+    _rewardedAdUnitId = self.rewardedConnector.credentials[kGADMAdapterMoPubPubIdKey];
     if (![[MoPub sharedInstance] isSdkInitialized]) {
       [self initializeMoPub:_rewardedAdUnitId];
     }
@@ -122,7 +122,7 @@
     NSDictionary *userInfo =
         @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
 
-    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain code:0 userInfo:userInfo];
     [strongConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
   }
   [MPRewardedVideo setDelegate:self forAdUnitId:self.rewardedAdUnitId];
@@ -161,7 +161,7 @@
     NSDictionary *userInfo =
         @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
 
-    NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain code:0 userInfo:userInfo];
     [_rewardedConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
   }
 }
@@ -205,7 +205,7 @@
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
 
-  NSError *error = [NSError errorWithDomain:kAdapterErrorDomain code:0 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain code:0 userInfo:userInfo];
   [_rewardedConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:error];
 }
 
