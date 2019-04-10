@@ -6,15 +6,12 @@
 //
 
 #import "GADMAdapterNend.h"
-#import "GADMAdapterNendSetting.h"
+#import "GADMAdapterNendConstants.h"
 
 @import NendAd;
 
 @implementation GADMAdapterNendExtras
 @end
-
-static NSString *const kDictionaryKeyApiKey = @"apiKey";
-static NSString *const kDictionaryKeySpotId = @"spotId";
 
 typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoStopped,
@@ -54,7 +51,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 @implementation GADMAdapterNend
 
 + (NSString *)adapterVersion {
-  return GADM_ADAPTER_NEND_VERSION;
+  return kGADMAdapterNendVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -77,11 +74,15 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
-  NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
+  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
+  NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
   if (![self validateApiKey:apiKey spotId:spotId]) {
-    [strongConnector adapter:self didFailAd:nil];
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterNendErrorDomain
+                   code:kGADErrorInternalError
+               userInfo:@{NSLocalizedDescriptionKey : @"SpotID and apiKey must not be nil"}];
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -94,7 +95,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     self.interstitialVideo = [[NADInterstitialVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     self.interstitialVideo.delegate = self;
     self.interstitialVideo.userId = extras.userId;
-    self.interstitialVideo.mediationName = @"AdMob";
+    self.interstitialVideo.mediationName = kGADMAdapterNendMediationName;
     [self.interstitialVideo loadAd];
   } else {
     self.interstitial = [NADInterstitial sharedInstance];
@@ -112,18 +113,28 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
       !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
       !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
       !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {      // 728x90
-    [strongConnector adapter:self didFailAd:nil];
+    NSString *errorMsg =
+        [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
+                                   NSStringFromGADAdSize(adSize)];
+    NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                                         code:kGADErrorInternalError
+                                     userInfo:@{NSLocalizedDescriptionKey : errorMsg}];
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
   self.selectedAdSize = (CGSize)adSize.size;
   self.nadView = [[NADView alloc] initWithFrame:CGRectZero];
 
-  NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
-  NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
+  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
+  NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
   if (![self validateApiKey:apiKey spotId:spotId]) {
-    [strongConnector adapter:self didFailAd:nil];
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterNendErrorDomain
+                   code:kGADErrorInternalError
+               userInfo:@{NSLocalizedDescriptionKey : @"SpotID and apiKey must not be nil"}];
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -206,7 +217,13 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   if ((self.selectedAdSize.height != adView.frame.size.height) ||
       (self.selectedAdSize.width != adView.frame.size.width)) {
     // Size of NADView is different from placement size
-    [strongConnector adapter:self didFailAd:nil];
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterNendErrorDomain
+                   code:kGADErrorInternalError
+               userInfo:@{
+                 NSLocalizedDescriptionKey : @"Size of NADView is different from placement size."
+               }];
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
   [strongConnector adapter:self didReceiveAdView:adView];
@@ -215,7 +232,11 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 - (void)nadViewDidFailToReceiveAd:(NADView *)adView {
   NSLog(@"[nend adapter] Banner did fail to load...");
   [self.nadView pause];
-  [self.connector adapter:self didFailAd:nil];
+  NSError *error =
+      [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                          code:kGADErrorInternalError
+                      userInfo:@{NSLocalizedDescriptionKey : @"Failed to load banner ad."}];
+  [self.connector adapter:self didFailAd:error];
 }
 
 - (void)nadViewDidClickAd:(NADView *)adView {
@@ -235,7 +256,11 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   if (status == SUCCESS) {
     [strongConnector adapterDidReceiveInterstitial:self];
   } else {
-    [strongConnector adapter:self didFailAd:nil];
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                            code:kGADErrorInternalError
+                        userInfo:@{NSLocalizedDescriptionKey : @"Failed to load interstitial ad."}];
+    [strongConnector adapter:self didFailAd:error];
   }
 }
 
