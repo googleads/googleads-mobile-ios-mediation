@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
+/// Facebook mediation network adapter version.
+static NSString *const kGADMAdapterFacebookVersion = @"5.2.0.1";
 
-/// Adapter for communicating with Facebook's Audience Network to fetch banner, interstitial,
-/// reward-based video, and native ads.
-@interface GADMAdapterFacebook : NSObject <GADMAdNetworkAdapter>
+static NSString *const kGADMAdapterFacebookOpenBiddingPubID = @"placement_id";
 
-@end
+static NSString *const kGADMAdapterFacebookPubID = @"pubid";
