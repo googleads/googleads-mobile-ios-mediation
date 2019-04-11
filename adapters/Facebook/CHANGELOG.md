@@ -1,6 +1,6 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Version 5.2.0.2
 - Added open bidding capability to the adapter for all ad formats.
 
 ## Version 5.2.0.1
