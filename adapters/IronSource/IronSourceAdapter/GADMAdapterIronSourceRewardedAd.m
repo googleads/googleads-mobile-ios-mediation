@@ -65,7 +65,6 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
                                  andReason:@"'appKey' parameter is missing"
                              andSuggestion:@"Make sure that 'appKey' server parameter is added"];
     _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
     return;
   }
 
@@ -131,8 +130,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
       stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, for intance: %@",
                        error.description, instanceId];
   [self onLog:log];
-  _adLoadCompletionHandler(nil, error);
-  _adLoadCompletionHandler = nil;
+  [_adEventDelegate didFailToPresentWithError:error];
 }
 
 /// Invoked when the RewardedVideo ad view has opened.
@@ -166,12 +164,10 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
   [self onLog:[NSString stringWithFormat:@"Reward based video ad is available for instance is: %@",
                                          self.instanceId]];
   _adEventDelegate = _adLoadCompletionHandler(self, nil);
-  _adLoadCompletionHandler = nil;
 }
 
 - (void)didFailToLoadWithError:(NSError *)error {
   _adLoadCompletionHandler(nil, error);
-  _adLoadCompletionHandler = nil;
 }
 
 - (NSString *)getInstanceID {

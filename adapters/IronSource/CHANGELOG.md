@@ -1,5 +1,8 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
+## Next Version
+- Fix crashes when loading rewarded ads.
+
 ## 6.8.0.1
 - Updated the adapter to use new rewarded API.
 - This version of the adapter requires a Google Mobile Ads SDK of version 7.41.0 or above.
