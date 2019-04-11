@@ -1,5 +1,15 @@
 # Nend Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.1.1.0
+- Verified compatibility with nend SDK 5.1.1.
+- Changed condition that checking banner size.  
+  Appropriate size for SmartBanner
+  - kGADAdSizeSmartBannerPortrait
+    - iPhone: 320×50
+    - iPad: 728×90 or 320×50
+  - kGADAdSizeSmartBannerLandscape
+    - iPad: 728×90 or 320×50
+
 ## Version 5.1.0.0
 - Verified compatibility with nend SDK 5.1.0.
 
