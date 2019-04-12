@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,54 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADFBRewardedVideoAd.h"
-#import "GADFBError.h"
-#import "GADMediationAdapterFacebook.h"
-@import FBAudienceNetwork;
+#import "GADFBRewardedRenderer.h"
 
-@interface GADFBRewardedVideoAd () {
+@import FBAudienceNetwork;
+@import AdSupport;
+
+#import "GADFBError.h"
+#import "GADMAdapetrFacebookConstants.h"
+#import "GADMediationAdapterFacebook.h"
+
+@interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
-  // Ad configuration for the ad to be rendered.
-  GADMediationAdConfiguration *_adConfiguration;
-
   // The Facebook rewarded ad.
-  FBRewardedVideoAd *_rewardedVideoAd;
+  FBRewardedVideoAd *_rewardedAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+
+  BOOL _isRTBRequest;
 }
+
 @end
 
-@implementation GADFBRewardedVideoAd
+@implementation GADFBRewardedRenderer
 
-- (instancetype)initWithGADMediationRewardedAdConfiguration:
-                    (GADMediationRewardedAdConfiguration *)adConfiguration
-                                          completionHandler:
-                                              (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self = [super init];
-  if (self) {
-    _adLoadCompletionHandler = completionHandler;
-    _adConfiguration = adConfiguration;
-  }
-  return self;
-}
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  // Store the ad config and completion handler for later use.
+  _adLoadCompletionHandler = completionHandler;
 
-/// Starts fetching a rewarded video ad from Facebook's Audience Network.
-- (void)requestRewardedVideoAd {
-  NSString *placementID = [[_adConfiguration.credentials settings]
-      objectForKey:kGADMediationAdapterFacebookPublisherID];
-
+  NSString *placementID = adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
     NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  _rewardedVideoAd = [[FBRewardedVideoAd alloc] initWithPlacementID:placementID];
+  _rewardedAd = [[FBRewardedVideoAd alloc] initWithPlacementID:placementID];
 
-  if (!_rewardedVideoAd) {
+  if (!_rewardedAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBRewardedVideoAd class])];
     NSError *error = GADFBErrorWithDescription(description);
@@ -67,10 +61,16 @@
     return;
   }
 
-  _rewardedVideoAd.delegate = self;
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
-  [_rewardedVideoAd loadAd];
+  _rewardedAd.delegate = self;
+
+  if (adConfiguration.bidResponse) {
+    _isRTBRequest = YES;
+    [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
+  } else {
+    [FBAdSettings
+        setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+    [_rewardedAd loadAd];
+  }
 }
 
 #pragma mark FBRewardedVideoAdDelegate
@@ -85,7 +85,7 @@
 
 - (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate) {
+  if (strongDelegate && !_isRTBRequest) {
     [strongDelegate reportClick];
   }
 }
@@ -109,14 +109,16 @@
   if (strongDelegate) {
     GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                      rewardAmount:[NSDecimalNumber one]];
-    [strongDelegate didRewardUserWithReward:reward];
     [strongDelegate didEndVideo];
+    [strongDelegate didRewardUserWithReward:reward];
   }
 }
 
 - (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  [strongDelegate reportImpression];
+  if (strongDelegate && !_isRTBRequest) {
+    [strongDelegate reportImpression];
+  }
 }
 
 #pragma mark GADMediationRewardedAd
@@ -128,8 +130,8 @@
   if (!strongDelegate) {
     return;
   }
-  if ([_rewardedVideoAd isAdValid]) {
-    [_rewardedVideoAd showAdFromRootViewController:viewController];
+  if ([_rewardedAd isAdValid]) {
+    [_rewardedAd showAdFromRootViewController:viewController];
     [strongDelegate willPresentFullScreenView];
     [strongDelegate didStartVideo];
   } else {

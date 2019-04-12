@@ -23,9 +23,8 @@
 #import "GADFBNativeAd.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBUnifiedNativeAd.h"
+#import "GADMAdapetrFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
-
-NSString *const kGADMAdapterFacebookVersion = @"5.2.0.0";
 
 @interface GADMAdapterFacebook () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.

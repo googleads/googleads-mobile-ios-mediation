@@ -112,9 +112,9 @@
     NSError *error = [self createErrorWith:@"No Ad to show for this instance ID"
                                  andReason:nil
                              andSuggestion:nil];
+    [self removeDelegateForInstanceID:instanceID];
     [delegate rewardedVideoDidFailToShowWithError:error instanceId:instanceID];
   }
-  [[ISMediationManager shared] removeDelegateForInstanceID:instanceID];
 }
 
 - (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
@@ -127,6 +127,7 @@
 }
 
 - (void)rewardedVideoDidClose:(NSString *)instanceId {
+  [self removeDelegateForInstanceID:instanceId];
   [_currentShowingUnityDelegate rewardedVideoDidClose:instanceId];
   _currentShowingUnityDelegate = nil;
 }
