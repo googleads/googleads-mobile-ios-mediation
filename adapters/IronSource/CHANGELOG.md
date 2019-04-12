@@ -1,6 +1,7 @@
 # ironSource Adapter for Google Mobile Ads SDK for iOS
 
 ## Next Version
+- Added support to request multiple interstitial ads.
 - Fix crashes when loading rewarded ads.
 
 ## 6.8.0.1

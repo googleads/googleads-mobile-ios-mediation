@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMediationAdapterIronSource.h"
-#import "GADMAdapterIronSourceBase.h"
+#import "GADMAdapterIronSourceConstants.h"
 #import "GADMAdapterIronSourceRewardedAd.h"
 #import "ISMediationManager.h"
 
@@ -29,7 +29,13 @@
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *appKeys = [[NSMutableSet alloc] init];
+  NSMutableSet *ironSourceAdUnits = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
+    if (cred.format == GADAdFormatInterstitial) {
+      [ironSourceAdUnits addObject:IS_INTERSTITIAL];
+    } else if (cred.format == GADAdFormatRewarded) {
+      [ironSourceAdUnits addObject:IS_REWARDED_VIDEO];
+    }
     [appKeys addObject:[cred.settings valueForKey:kGADMAdapterIronSourceAppKey]];
   }
 
@@ -40,12 +46,12 @@
         @"Found the following app keys: %@. Please remove any app keys you are not using from the "
         @"AdMob UI.",
         appKeys);
-    NSLog(@"Initializing IronSource SDK with the app key %@", appKey);
+    NSLog(@"Initializing IronSource SDK with the app key %@, for ad formats %@", appKey,
+          ironSourceAdUnits);
   }
 
-  GADMAdapterIronSourceBase *base = [[GADMAdapterIronSourceBase alloc] init];
-  [base initIronSourceSDKWithAppKey:appKey adUnit:IS_REWARDED_VIDEO];
-  [ISMediationManager shared].ironSourceRewardedInitialized = YES;
+  [[ISMediationManager sharedManager] initIronSourceSDKWithAppKey:appKey
+                                                       forAdUnits:ironSourceAdUnits];
 
   completionHandler(nil);
 }

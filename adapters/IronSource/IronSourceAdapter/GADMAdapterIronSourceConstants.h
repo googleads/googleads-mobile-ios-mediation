@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <IronSource/IronSource.h>
-@import GoogleMobileAds;
+// IronSource internal reporting const.
+static NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
+static NSString *const kGADMAdapterIronSourceAdapterVersion = @"6.8.3.0";
 
-/// Adapter for communicating with the IronSource Network to fetch nterstitial video ads.
-@interface GADMAdapterIronSource : NSObject <GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
-
-@end
+// IronSource parameters keys.
+static NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
+static NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
+static NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";

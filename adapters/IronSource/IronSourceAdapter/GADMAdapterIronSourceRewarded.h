@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "GADMAdapterIronSourceBase.h"
 @import GoogleMobileAds;
 
 @interface GADMAdapterIronSourceRewarded : NSObject

@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import "GADMAdapterIronSourceRewardedAd.h"
+#import "GADMAdapterIronSourceConstants.h"
+#import "GADMAdapterIronSourceUtils.h"
 #import "GADMediationAdapterIronSource.h"
 #import "ISMediationManager.h"
 
-NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPlacement";
-
-@interface GADMAdapterIronSourceRewardedAd () <ISAdAvailabilityChangedDelegate>
+@interface GADMAdapterIronSourceRewardedAd () <ISDemandOnlyRewardedVideoDelegate,
+                                               GADMAdapterIronSourceDelegate>
 
 // The completion handler to call when the ad loading succeeds or fails.
 @property(copy, nonatomic) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
@@ -28,6 +29,12 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 
 // An ad event delegate to invoke when ad rendering events occur.
 @property(weak, nonatomic) id<GADMediationRewardedAdEventDelegate> adEventDelegate;
+
+/// Yes if we want to show IronSource adapter logs.
+@property(nonatomic, assign) BOOL isLogEnabled;
+
+/// Holds the ID of the ad instance to be presented.
+@property(nonatomic, strong) NSString *instanceId;
 
 @end
 
@@ -59,34 +66,31 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
     applicationKey = [credentials objectForKey:kGADMAdapterIronSourceAppKey];
   }
 
-  if ([self isEmpty:applicationKey]) {
+  if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
     [self onLog:@"Fail to setup, 'appKey' parameter is missing"];
-    NSError *error = [self createErrorWith:@"IronSource Adapter failed to setUp"
-                                 andReason:@"'appKey' parameter is missing"
-                             andSuggestion:@"Make sure that 'appKey' server parameter is added"];
+    NSError *error = [GADMAdapterIronSourceUtils
+        createErrorWith:@"IronSource Adapter failed to setUp"
+              andReason:@"'appKey' parameter is missing"
+          andSuggestion:@"Make sure that 'appKey' server parameter is added"];
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  if (![ISMediationManager shared].isIronSourceRewardedInitialized) {
-    [self initIronSourceSDKWithAppKey:applicationKey adUnit:IS_REWARDED_VIDEO];
-    [ISMediationManager shared].ironSourceRewardedInitialized = YES;
-  }
+  ISMediationManager *sharedManager = [ISMediationManager sharedManager];
+  [sharedManager initIronSourceSDKWithAppKey:applicationKey
+                                  forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO]];
 
   /* Parse all other credentials */
   [self parseCredentials];
-  [[ISMediationManager shared] requestRewardedAdWithDelegate:self];
+  [sharedManager requestRewardedAdWithDelegate:self];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [[ISMediationManager shared] presentFromViewController:viewController delegate:self];
+  [[ISMediationManager sharedManager] presentRewardedAdFromViewController:viewController
+                                                                 delegate:self];
 }
 
 #pragma mark RewardBasedVideo Utils Methods
-
-- (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit {
-  [super initIronSourceSDKWithAppKey:appKey adUnit:adUnit];
-}
 
 - (void)parseCredentials {
   NSDictionary *credentials = [_adConfiguration.credentials settings];
@@ -112,10 +116,9 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
     [strongDelegate didEndVideo];
     [strongDelegate didRewardUserWithReward:reward];
 
-    [self
-        onLog:[NSString
-                  stringWithFormat:@"IronSource received reward for placement %@ ,for instance:%@",
-                                   rewardName, instanceId]];
+    [self onLog:[NSString stringWithFormat:
+                              @"IronSource received reward for placement %@ ,for Instance ID: %@",
+                              rewardName, instanceId]];
 
   } else {
     [self onLog:@"IronSource received reward for placement - without placement info"];
@@ -127,15 +130,16 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 /// The error contains error.code and error.localizedDescription
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
   NSString *log = [NSString
-      stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, for intance: %@",
-                       error.description, instanceId];
+      stringWithFormat:
+          @"IronSource rewardedVideo did fail to show with error: %@, for Instance ID: %@",
+          error.description, instanceId];
   [self onLog:log];
   [_adEventDelegate didFailToPresentWithError:error];
 }
 
 /// Invoked when the RewardedVideo ad view has opened.
 - (void)rewardedVideoDidOpen:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did open for instance:%@",
+  [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did open for Instance ID: %@",
                                          instanceId]];
 
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
@@ -145,7 +149,7 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 
 /// Invoked when the user is about to return to the application after closing the RewardedVideo ad.
 - (void)rewardedVideoDidClose:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did close for instance:%@",
+  [self onLog:[NSString stringWithFormat:@"IronSource RewardedVideo did close for Instance ID: %@",
                                          instanceId]];
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate didDismissFullScreenView];
@@ -153,25 +157,40 @@ NSString *const kGADMAdapterIronSourceRewardedVideoPlacement = @"rewardedVideoPl
 
 /// Invoked after a video has been clicked.
 - (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"Did click IronSource RewardedVideo for instance:%@",
+  [self onLog:[NSString stringWithFormat:@"Did click IronSource RewardedVideo for Instance ID: %@",
                                          instanceId]];
 
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate reportClick];
 }
 
-- (void)adReady {
-  [self onLog:[NSString stringWithFormat:@"Reward based video ad is available for instance is: %@",
-                                         self.instanceId]];
-  _adEventDelegate = _adLoadCompletionHandler(self, nil);
+- (NSString *)getInstanceID {
+  return self.instanceId;
 }
 
-- (void)didFailToLoadWithError:(NSError *)error {
+- (void)didFailToLoadAdWithError:(NSError *)error {
   _adLoadCompletionHandler(nil, error);
 }
 
-- (NSString *)getInstanceID {
-  return self.instanceId;
+- (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
+  if (available) {
+    [self onLog:[NSString stringWithFormat:@"Rewarded ad is available for Instance ID: %@",
+                                           self.instanceId]];
+    _adEventDelegate = _adLoadCompletionHandler(self, nil);
+  } else {
+    NSError *error = [GADMAdapterIronSourceUtils
+        createErrorWith:[NSString stringWithFormat:@"Rewarded Ad not available for Instance ID: %@",
+                                                   instanceId]
+              andReason:@"No Ad available"
+          andSuggestion:nil];
+    _adLoadCompletionHandler(nil, error);
+  }
+}
+
+- (void)onLog:(NSString *)log {
+  if (_isLogEnabled) {
+    NSLog(@"IronSourceAdapter: %@", log);
+  }
 }
 
 @end
