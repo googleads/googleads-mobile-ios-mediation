@@ -1,5 +1,9 @@
 # Nend Adapter for Google Mobile Ads SDK for iOS
 
+## Next version
+- Updated the adapter to use the new rewarded API.
+- Now requires Google Mobile Ads SDK version 7.42.2 or higher.
+
 ## Version 5.1.0.0
 - Verified compatibility with nend SDK 5.1.0.
 

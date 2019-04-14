@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,29 +17,12 @@
 #import <IronSource/IronSource.h>
 
 /// Holds Shared code for IronSource adapters.
-@interface GADMAdapterIronSourceBase : NSObject
-
-// IronSource parameters keys.
-extern NSString *const kGADMAdapterIronSourceAppKey;
-extern NSString *const kGADMAdapterIronSourceIsTestEnabled;
-extern NSString *const kGADMAdapterIronSourceInstanceId;
-extern NSString *const kGADMAdapterIronSourceAdapterVersion;
-
-/// Yes if we want to show IronSource adapter logs.
-@property(nonatomic, assign) BOOL isLogEnabled;
-/// Holds the ID of the ad instance to be presented.
-@property(nonatomic, strong) NSString *instanceId;
-
-+ (NSString *)adapterVersion;
-+ (Class<GADAdNetworkExtras>)networkExtrasClass;
-- (void)stopBeingDelegate;
+@interface GADMAdapterIronSourceUtils : NSObject
 
 // IronSource Util methods.
-- (void)onLog:(NSString *)log;
-- (BOOL)isEmpty:(id)value;
-- (NSError *)createErrorWith:(NSString *)description
++ (BOOL)isEmpty:(id)value;
++ (NSError *)createErrorWith:(NSString *)description
                    andReason:(NSString *)reason
                andSuggestion:(NSString *)suggestion;
-- (void)initIronSourceSDKWithAppKey:(NSString *)appKey adUnit:(NSString *)adUnit;
 
 @end

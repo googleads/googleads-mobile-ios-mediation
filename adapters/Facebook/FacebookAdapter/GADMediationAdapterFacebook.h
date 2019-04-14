@@ -15,8 +15,6 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
-extern NSString *const kGADMediationAdapterFacebookPublisherID;
-
-@interface GADMediationAdapterFacebook : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterFacebook : NSObject <GADRTBAdapter>
 
 @end

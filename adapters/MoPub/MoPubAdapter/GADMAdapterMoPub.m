@@ -36,29 +36,17 @@
 
 @end
 
-/// Find closest supported ad size from a given ad size.
-/// Returns nil if no supported size matches.
-static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
-  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
-  GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
-  NSArray *potentials = @[NSValueFromGADAdSize(banner),
-                          NSValueFromGADAdSize(mRect),
-                          NSValueFromGADAdSize(leaderboard)];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  if (IsGADAdSizeValid(closestSize)) {
-    return CGSizeFromGADAdSize(closestSize);
-  }
-
-  MPLogDebug(@"Unable to retrieve supported size from GADAdSize: %@", NSStringFromGADAdSize(size));
-
-  return CGSizeZero;
-}
-
 @implementation GADMAdapterMoPub
 
+static NSMapTable *interstitialAdapterDelegates;
+
++ (void)load {
+  interstitialAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                                       valueOptions:NSPointerFunctionsWeakMemory];
+}
+
 + (NSString *)adapterVersion {
-  return GADMAdapterMoPubVersion;
+  return kGADMAdapterMoPubVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -135,7 +123,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     genderString = @"m_gender:f";
   }
   NSString *keywordsBuilder =
-      [NSString stringWithFormat:@"%@,%@,%@", kAdapterTpValue, ageString, genderString];
+      [NSString stringWithFormat:@"%@,%@,%@", kGADMAdapterMoPubTpValue, ageString, genderString];
 
   if (intendedForPII) {
     if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
@@ -165,7 +153,23 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *publisherID = [strongConnector credentials][@"pubid"];
+  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
+
+  @synchronized(interstitialAdapterDelegates) {
+    if ([interstitialAdapterDelegates objectForKey:publisherID]) {
+      NSError *adapterError = [NSError
+          errorWithDomain:kGADMAdapterMoPubErrorDomain
+                     code:kGADErrorInvalidRequest
+                 userInfo:@{
+                   NSLocalizedDescriptionKey : @"Unable to request a second ad using the sample "
+                                               @"publisher ID while the first ad is still active."
+                 }];
+      [strongConnector adapter:self didFailAd:adapterError];
+      return;
+    } else {
+      [interstitialAdapterDelegates setObject:self forKey:publisherID];
+    }
+  }
 
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
                                                            longitude:strongConnector.userLongitude];
@@ -201,9 +205,12 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+  NSError *adapterError = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
                                               code:kGADErrorMediationNoFill
                                           userInfo:nil];
+  @synchronized(interstitialAdapterDelegates) {
+    [interstitialAdapterDelegates removeObjectForKey:interstitial.adUnitId];
+  }
   [_connector adapter:self didFailAd:adapterError];
 }
 
@@ -216,6 +223,9 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
+  @synchronized(interstitialAdapterDelegates) {
+    [interstitialAdapterDelegates removeObjectForKey:interstitial.adUnitId];
+  }
   [_connector adapterDidDismissInterstitial:self];
 }
 
@@ -225,10 +235,30 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 #pragma mark - Banner Ads
 
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+- (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+  GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
+  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
+  GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect), NSValueFromGADAdSize(leaderboard)
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (IsGADAdSizeValid(closestSize)) {
+    return CGSizeFromGADAdSize(closestSize);
+  }
+
+  MPLogDebug(@"Unable to retrieve supported size from GADAdSize: %@",
+             NSStringFromGADAdSize(gadAdSize));
+
+  return CGSizeZero;
+}
+
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  CGSize supportedSize = GADSupportedAdSizeFromRequestedSize(adSize);
+  CGSize supportedSize = [self GADSupportedAdSizeFromRequestedSize:adSize];
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *publisherID = [strongConnector credentials][@"pubid"];
+  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
 
   CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
                                                            longitude:strongConnector.userLongitude];
@@ -296,7 +326,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   MPNativeAdRendererConfiguration *config =
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
 
-  NSString *publisherID = [strongConnector credentials][@"pubid"];
+  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[ config ]];
 
@@ -361,7 +391,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 - (void)loadNativeAdImages {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSMutableArray *imageURLs = [NSMutableArray array];
-  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+  NSError *adapterError = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
                                               code:kGADErrorReceivedInvalidResponse
                                           userInfo:nil];
 
@@ -454,7 +484,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
                    }
                  } else {
                    MPLogDebug(@"Failed to download images. Giving up for now.");
-                   NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+                   NSError *adapterError = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
                                                                code:kGADErrorNetworkError
                                                            userInfo:nil];
                    [strongConnector adapter:strongSelf didFailAd:adapterError];
@@ -464,7 +494,7 @@ static CGSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
                  MPLogDebug(
                      @"MPNativeAd deallocated before loadImageForURL:intoImageView: download "
                      @"completion block was called");
-                 NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain
+                 NSError *adapterError = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
                                                              code:kGADErrorInternalError
                                                          userInfo:nil];
                  [strongConnector adapter:strongSelf didFailAd:adapterError];

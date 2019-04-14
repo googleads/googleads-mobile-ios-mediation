@@ -15,30 +15,25 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 #import <IronSource/IronSource.h>
-#import "GADMAdapterIronSourceBase.h"
+#import "GADMAdapterIronSourceDelegate.h"
 
-@protocol ISAdAvailabilityChangedDelegate
-- (void)adReady;
-- (void)didFailToLoadWithError:(NSError *)error;
-- (NSString *)getInstanceID;
-- (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId;
-- (void)rewardedVideoDidClose:(NSString *)instanceId;
-- (void)rewardedVideoDidOpen:(NSString *)instanceId;
-- (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId;
-- (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo
-                          instanceId:(NSString *)instanceId;
-@end
+@interface ISMediationManager
+    : NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate>
 
-@interface ISMediationManager : NSObject <ISDemandOnlyRewardedVideoDelegate>
++ (instancetype)sharedManager;
+- (void)initIronSourceSDKWithAppKey:(NSString *)appKey forAdUnits:(NSSet *)adUnits;
+- (void)requestRewardedAdWithDelegate:
+    (id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>)delegate;
 
-+ (instancetype)shared;
-- (void)addDelegate:(id<ISAdAvailabilityChangedDelegate>)adapterDelegate;
-- (void)removeDelegateForInstanceID:(NSString *)instanceID;
-- (void)adAvailabilityChangedWithInstanceID:(NSString *)instanceID available:(BOOL)available;
-- (void)requestRewardedAdWithDelegate:(id<ISAdAvailabilityChangedDelegate>)delegate;
-- (void)presentFromViewController:(nonnull UIViewController *)viewController
-                         delegate:(id<ISAdAvailabilityChangedDelegate>)delegate;
-@property(nonatomic) NSMutableDictionary *adapterDelegates;
-@property(nonatomic, getter=isIronSourceRewardedInitialized) BOOL ironSourceRewardedInitialized;
+- (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
+                                   delegate:(id<ISDemandOnlyRewardedVideoDelegate,
+                                                GADMAdapterIronSourceDelegate>)delegate;
+
+- (void)requestInterstitialAdWithDelegate:
+    (id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>)delegate;
+
+- (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
+                                       delegate:(id<ISDemandOnlyInterstitialDelegate,
+                                                    GADMAdapterIronSourceDelegate>)delegate;
 
 @end

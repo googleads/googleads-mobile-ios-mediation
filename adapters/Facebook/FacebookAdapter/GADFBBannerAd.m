@@ -45,10 +45,10 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   GADAdSize mRect =
       GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight250Rectangle.size.height));
   GADAdSize interstitial = GADAdSizeFromCGSize(kFBAdSizeInterstitial.size);
-  NSArray *potentials = @[NSValueFromGADAdSize(banner50),
-                          NSValueFromGADAdSize(banner90),
-                          NSValueFromGADAdSize(mRect),
-                          NSValueFromGADAdSize(interstitial)];
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(mRect),
+    NSValueFromGADAdSize(interstitial)
+  ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
   if (size.height == kFBAdSizeHeight50Banner.size.height) {
