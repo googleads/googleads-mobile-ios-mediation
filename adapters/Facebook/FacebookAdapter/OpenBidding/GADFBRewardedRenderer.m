@@ -18,7 +18,7 @@
 @import AdSupport;
 
 #import "GADFBError.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 @interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate> {
@@ -67,8 +67,8 @@
     _isRTBRequest = YES;
     [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
   } else {
-    [FBAdSettings
-        setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+    [FBAdSettings setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
+        [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
     [_rewardedAd loadAd];
   }
 }
