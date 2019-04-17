@@ -12,6 +12,7 @@
 @interface GADInMobiExtras : NSObject<GADAdNetworkExtras>
 
 #pragma mark Optional Parameters for targeted advertising during an Ad Request
+
 /**
  * Age of the user may be used to deliver more relevant ads.
  */
