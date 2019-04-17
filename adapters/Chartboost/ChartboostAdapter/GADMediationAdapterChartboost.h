@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-#import <Chartboost/Chartboost.h>
+#import <Foundation/Foundation.h>
+@import GoogleMobileAds;
 
-/// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
-/// set to |description|.
-NSError *GADChartboostErrorWithDescription(NSString *description);
+NS_ASSUME_NONNULL_BEGIN
 
-NSError *adRequestErrorTypeForCBLoadError(CBLoadError error);
+@interface GADMediationAdapterChartboost : NSObject <GADMediationAdapter>
+
+@end
+
+NS_ASSUME_NONNULL_END
