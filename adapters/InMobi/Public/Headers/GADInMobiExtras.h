@@ -85,6 +85,9 @@ Set InMobi SDK logLevel.
  */
 @property(nonatomic, copy) NSString *sessionId;
 
-#pragma mark Setting Device Id Mask
+@property(nonatomic, copy, readonly) NSString *city;
+@property(nonatomic, copy, readonly) NSString *state;
+@property(nonatomic, copy, readonly) NSString *country;
+@property(nonatomic, strong, readonly) CLLocation *location;
 
 @end

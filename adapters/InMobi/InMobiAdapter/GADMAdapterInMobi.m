@@ -13,6 +13,7 @@
 #import "InMobiMediatedNativeAppInstallAd.h"
 #import "NativeAdKeys.h"
 #import "GADMAdapterInMobiUtils.h"
+#import "GADMediationAdapterInMobi.h"
 
 @interface GADMAdapterInMobi ()
 @property(nonatomic, assign) CGFloat width, height;
@@ -51,6 +52,10 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 @synthesize connector = connector_;
+
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterInMobi class];
+}
 
 + (NSString *)adapterVersion {
   return kGADMAdapterInMobiVersion;

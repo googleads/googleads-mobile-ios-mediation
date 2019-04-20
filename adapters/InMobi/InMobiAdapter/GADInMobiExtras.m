@@ -6,15 +6,6 @@
 
 #import "GADInMobiExtras.h"
 
-@interface GADInMobiExtras ()
-
-@property(nonatomic, copy) NSString *city;
-@property(nonatomic, copy) NSString *state;
-@property(nonatomic, copy) NSString *country;
-@property(nonatomic, strong) CLLocation *location;
-
-@end
-
 @implementation GADInMobiExtras
 
 @synthesize additionalParameters;

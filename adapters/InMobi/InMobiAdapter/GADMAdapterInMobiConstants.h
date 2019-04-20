@@ -13,12 +13,12 @@
 // limitations under the License.
 
 // Adapter version string
-NSString *const kGADMAdapterInMobiVersion = @"7.2.4.0";
+static NSString *const kGADMAdapterInMobiVersion = @"8.0.7.0";
 
 // Tapjoy SDK key
-NSString *const kGADMAdapterInMobiAccountID = @"accountid";
+static NSString *const kGADMAdapterInMobiAccountID = @"accountid";
 
 // Tapjoy placemnt name
-NSString *const kGADMAdapterInMobiPlacementID = @"placementid";
+static NSString *const kGADMAdapterInMobiPlacementID = @"placementid";
 
-NSString *const kGADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";
+static NSString *const kGADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";
