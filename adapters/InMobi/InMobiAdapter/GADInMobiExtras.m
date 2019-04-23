@@ -13,20 +13,20 @@
 @synthesize keywords, interests;
 @synthesize age, yearOfBirth;
 @synthesize loginId, sessionId;
-@synthesize city, state, country, location;
 @synthesize educationType;
 @synthesize language;
 
-- (void)setLocationWithCity:(NSString *)_city
-                      state:(NSString *)_state
-                    country:(NSString *)_country {
-  self.city = _city;
-  self.state = _state;
-  self.country = _country;
+- (void)setLocationWithCity:(NSString *)city
+                      state:(NSString *)state
+                    country:(NSString *)country {
+  _city = city;
+  _state = state;
+  _country = country;
 }
 
-- (void)setLocation:(CLLocation *)_location {
-  [IMSdk setLocation:_location];
+- (void)setLocation:(CLLocation *)location {
+  _location = location;
+  [IMSdk setLocation:location];
 }
 
 - (void)setEducationType:(IMSDKEducation)newEducationType {
