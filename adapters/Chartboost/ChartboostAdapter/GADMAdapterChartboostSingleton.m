@@ -76,7 +76,9 @@
   static dispatch_once_t once;
   dispatch_once(&once, ^{
     [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
-    [Chartboost setMediation:CBMediationAdMob withVersion:kGADMAdapterChartboostVersion];
+    [Chartboost setMediation:CBMediationAdMob
+          withLibraryVersion:[GADRequest sdkVersion]
+              adapterVersion:kGADMAdapterChartboostVersion];
     [Chartboost setAutoCacheAds:YES];
   });
   _initState = INITIALIZING;
