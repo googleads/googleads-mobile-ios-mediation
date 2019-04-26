@@ -18,7 +18,7 @@
 @import AdSupport;
 
 #import "GADFBError.h"
-#import "GADMAdapterFacebookConstants.h"
+#import "GADMAdapetrFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 @interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate> {
@@ -43,18 +43,8 @@
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Store the ad config and completion handler for later use.
   _adLoadCompletionHandler = completionHandler;
-  if (adConfiguration.bidResponse) {
-    _isRTBRequest = YES;
-  }
 
-  NSString *placementID;
-
-  if (_isRTBRequest) {
-    placementID = adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
-  } else {
-    placementID = adConfiguration.credentials.settings[kGADMAdapterFacebookPubID];
-  }
-
+  NSString *placementID = adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
     NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
@@ -73,11 +63,12 @@
 
   _rewardedAd.delegate = self;
 
-  if (_isRTBRequest) {
+  if (adConfiguration.bidResponse) {
+    _isRTBRequest = YES;
     [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
   } else {
-    [FBAdSettings setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
-        [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
+    [FBAdSettings
+        setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
     [_rewardedAd loadAd];
   }
 }

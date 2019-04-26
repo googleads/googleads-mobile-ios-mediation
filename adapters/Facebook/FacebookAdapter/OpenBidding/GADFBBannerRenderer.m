@@ -14,7 +14,7 @@
 
 #import "GADFBBannerRenderer.h"
 #import "GADFBError.h"
-#import "GADMAdapterFacebookConstants.h"
+#import "GADMAdapetrFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 @import FBAudienceNetwork;
 @import AdSupport;

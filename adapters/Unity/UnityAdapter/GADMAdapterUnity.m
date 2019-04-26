@@ -91,6 +91,13 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  GADAdSize supportedSize = [self supportedAdSizeFromRequestedSize:adSize];
+  if (!IsGADAdSizeValid(supportedSize)) {
+    NSLog(@"Requested unsupported banner size: %@", NSStringFromGADAdSize(adSize));
+    NSError *error = GADUnityErrorWithDescription(@"Requested unsupported banner size.");
+    [strongNetworkConnector adapter:self didFailAd:error];
+    return;
+  }
   NSString *gameID =
       [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID =
@@ -111,6 +118,14 @@
 
 - (NSString *)getPlacementID {
   return _placementID;
+}
+
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+  NSArray *potentials =
+      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 #pragma mark - Unity Delegate Methods

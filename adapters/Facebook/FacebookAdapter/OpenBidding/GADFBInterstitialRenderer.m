@@ -18,7 +18,7 @@
 @import AdSupport;
 
 #import "GADFBError.h"
-#import "GADMAdapterFacebookConstants.h"
+#import "GADMAdapetrFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 @interface GADFBInterstitialRenderer () <GADMediationInterstitialAd, FBInterstitialAdDelegate> {
