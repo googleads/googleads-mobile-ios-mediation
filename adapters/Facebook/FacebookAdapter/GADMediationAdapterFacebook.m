@@ -19,7 +19,7 @@
 #import "GADFBNativeRenderer.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBRewardedRenderer.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMAdapterFacebook.h"
 @import FBAudienceNetwork;
 
@@ -49,7 +49,7 @@
   }
   FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
       initWithPlacementIDs:[placementIds allObjects]
-                 mediation:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+                 mediationService:[NSString stringWithFormat:@"GOOGLE_%@", [GADRequest sdkVersion]]];
 
   [FBAudienceNetworkAds
       initializeWithSettings:fbSettings

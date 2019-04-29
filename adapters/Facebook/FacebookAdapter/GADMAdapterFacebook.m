@@ -23,7 +23,7 @@
 #import "GADFBNativeAd.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBUnifiedNativeAd.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 @interface GADMAdapterFacebook () {
