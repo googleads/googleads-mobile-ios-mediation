@@ -394,6 +394,10 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};
@@ -402,6 +406,10 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};
