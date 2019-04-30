@@ -21,6 +21,7 @@
 #import "GADFBError.h"
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
+#import "GADMAdapterFacebookConstants.h"
 
 static NSString *const GADUnifiedNativeAdIconView = @"3003";
 
@@ -116,8 +117,8 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     return;
   }
   _nativeAd.delegate = self;
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+  [FBAdSettings setMediationService:[NSString
+      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
   [_nativeAd loadAd];
 }
 
@@ -151,6 +152,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     [_adOptionsView addConstraint:width];
     [_adOptionsView updateConstraints];
   }
+    _adOptionsView.nativeAd = _nativeAd;
 }
 
 #pragma mark - GADMediatedNativeAd
@@ -278,6 +280,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
                             iconImageView:iconView
                            viewController:viewController];
   }
+  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (void)didUntrackView:(UIView *)view {
@@ -287,6 +290,10 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
 #pragma mark - FBNativeAdDelegate
 
 - (void)nativeAdDidLoad:(FBNativeAd *)nativeAd {
+  if (_nativeAd) {
+    [_nativeAd unregisterView];
+  }
+  _nativeAd = nativeAd;
   _mediaView = [[FBMediaView alloc] init];
   _mediaView.delegate = self;
   [self loadAdOptionsView];

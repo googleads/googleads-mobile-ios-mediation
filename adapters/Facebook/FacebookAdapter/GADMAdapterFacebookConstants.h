@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Facebook mediation network adapter version.
-static NSString *const kGADMAdapterFacebookVersion = @"5.2.0.2";
+static NSString *const kGADMAdapterFacebookVersion = @"5.3.0.0";
 
 static NSString *const kGADMAdapterFacebookOpenBiddingPubID = @"placement_id";
 

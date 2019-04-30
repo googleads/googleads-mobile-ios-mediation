@@ -19,6 +19,7 @@
 
 #import "GADFBAdapterDelegate.h"
 #import "GADFBError.h"
+#import "GADMAdapterFacebookConstants.h"
 
 @interface GADFBBannerAd () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -144,8 +145,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   if (size.size.width < 0) {
     _adapterDelegate.finalBannerSize = adSize.size;
   }
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+  [FBAdSettings setMediationService:[NSString
+      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
   [_bannerAd loadAd];
 }
 
