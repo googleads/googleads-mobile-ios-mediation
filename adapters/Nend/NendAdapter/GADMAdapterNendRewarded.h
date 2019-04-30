@@ -7,6 +7,6 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterNendRewarded : NSObject<GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMAdapterNendRewarded : NSObject
 
 @end

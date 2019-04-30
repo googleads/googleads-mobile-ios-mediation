@@ -33,11 +33,15 @@
 
 /* Begin PBXBuildFile section */
 		35F410631FB4D85B000B379C /* NendAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F410611FB4D85B000B379C /* NendAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4588B33B224C0E9600868387 /* GADMediationAdapterNend.h in Headers */ = {isa = PBXBuildFile; fileRef = 4588B339224C0E9600868387 /* GADMediationAdapterNend.h */; };
+		4588B33C224C0E9600868387 /* GADMediationAdapterNend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */; };
+		4588B33F224C0EAB00868387 /* GADMAdapterNendRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 4588B33D224C0EAB00868387 /* GADMAdapterNendRewardedAd.h */; };
+		4588B340224C0EAB00868387 /* GADMAdapterNendRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588B33E224C0EAB00868387 /* GADMAdapterNendRewardedAd.m */; };
 		4F192F601FB93CC10052B8DE /* GADNendRewardedNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F192F5F1FB93CC10052B8DE /* GADNendRewardedNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F192F641FB93CCE0052B8DE /* GADMAdapterNendRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F192F611FB93CCE0052B8DE /* GADMAdapterNendRewarded.h */; };
 		4F192F651FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F192F621FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m */; };
 		4F192F661FB93CCE0052B8DE /* GADMAdapterNendRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F192F631FB93CCE0052B8DE /* GADMAdapterNendRewarded.m */; };
-		4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendSetting.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendSetting.h */; };
+		4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */; };
 		4F2D7CEA1FCEA8E700BB0E23 /* GADMAdapterNend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */; };
 		4F2D7CEC1FCEA8F800BB0E23 /* GADMAdapterNend.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CEB1FCEA8F800BB0E23 /* GADMAdapterNend.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -59,11 +63,15 @@
 		35F410611FB4D85B000B379C /* NendAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NendAdapter.h; sourceTree = "<group>"; };
 		35F410621FB4D85B000B379C /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		35F410651FB4D887000B379C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4588B339224C0E9600868387 /* GADMediationAdapterNend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterNend.h; sourceTree = "<group>"; };
+		4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterNend.m; sourceTree = "<group>"; };
+		4588B33D224C0EAB00868387 /* GADMAdapterNendRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendRewardedAd.h; sourceTree = "<group>"; };
+		4588B33E224C0EAB00868387 /* GADMAdapterNendRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNendRewardedAd.m; sourceTree = "<group>"; };
 		4F192F5F1FB93CC10052B8DE /* GADNendRewardedNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADNendRewardedNetworkExtras.h; sourceTree = "<group>"; };
 		4F192F611FB93CCE0052B8DE /* GADMAdapterNendRewarded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendRewarded.h; sourceTree = "<group>"; };
 		4F192F621FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADNendRewardedNetworkExtras.m; sourceTree = "<group>"; };
 		4F192F631FB93CCE0052B8DE /* GADMAdapterNendRewarded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNendRewarded.m; sourceTree = "<group>"; };
-		4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendSetting.h; sourceTree = "<group>"; };
+		4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendConstants.h; sourceTree = "<group>"; };
 		4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNend.m; sourceTree = "<group>"; };
 		4F2D7CEB1FCEA8F800BB0E23 /* GADMAdapterNend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNend.h; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -118,11 +126,15 @@
 		7D72B8C11DB97C10006EAE11 /* NendAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendSetting.h */,
+				4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */,
 				4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */,
 				4F192F611FB93CCE0052B8DE /* GADMAdapterNendRewarded.h */,
 				4F192F631FB93CCE0052B8DE /* GADMAdapterNendRewarded.m */,
 				4F192F621FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m */,
+				4588B339224C0E9600868387 /* GADMediationAdapterNend.h */,
+				4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */,
+				4588B33D224C0EAB00868387 /* GADMAdapterNendRewardedAd.h */,
+				4588B33E224C0EAB00868387 /* GADMAdapterNendRewardedAd.m */,
 			);
 			path = NendAdapter;
 			sourceTree = "<group>";
@@ -168,7 +180,9 @@
 				4F192F601FB93CC10052B8DE /* GADNendRewardedNetworkExtras.h in Headers */,
 				35F410631FB4D85B000B379C /* NendAdapter.h in Headers */,
 				4F192F641FB93CCE0052B8DE /* GADMAdapterNendRewarded.h in Headers */,
-				4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendSetting.h in Headers */,
+				4588B33B224C0E9600868387 /* GADMediationAdapterNend.h in Headers */,
+				4588B33F224C0EAB00868387 /* GADMAdapterNendRewardedAd.h in Headers */,
+				4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendConstants.h in Headers */,
 				4F2D7CEC1FCEA8F800BB0E23 /* GADMAdapterNend.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +283,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4588B33C224C0E9600868387 /* GADMediationAdapterNend.m in Sources */,
+				4588B340224C0EAB00868387 /* GADMAdapterNendRewardedAd.m in Sources */,
 				4F192F651FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m in Sources */,
 				4F192F661FB93CCE0052B8DE /* GADMAdapterNendRewarded.m in Sources */,
 				4F2D7CEA1FCEA8E700BB0E23 /* GADMAdapterNend.m in Sources */,

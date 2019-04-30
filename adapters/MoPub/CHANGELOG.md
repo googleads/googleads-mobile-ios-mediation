@@ -1,5 +1,9 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.6.0.0
+- Verified compatibility with MoPub SDK 5.6.0.
+- Interstitial requests will now fail if there is already a loaded MoPub ad for that publisher ID. MoPub can only load 1 ad per publisher ID at a time.
+
 ## Version 5.5.0.0
 - Verifed compatibility with MoPub SDK 5.5.0.
 

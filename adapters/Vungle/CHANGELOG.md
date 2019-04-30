@@ -1,5 +1,9 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
+## VERSION 6.3.2.1
+- Updated the adapter to use new rewarded API.
+- Now requires Google Mobile Ads SDK version 7.41.0 or higher.
+
 ## VERSION 6.3.2.0
 - Verified compatibility with Vungle SDK 6.3.2.
 

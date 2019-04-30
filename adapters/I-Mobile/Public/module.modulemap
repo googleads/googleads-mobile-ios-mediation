@@ -1,0 +1,11 @@
+framework module InMobiAdapter {
+  umbrella header "InMobiAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Add any public headers here.
+}

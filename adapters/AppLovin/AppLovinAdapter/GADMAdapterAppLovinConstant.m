@@ -14,8 +14,12 @@
   return @"com.applovin.sdk.mediation.admob.errorDomain";
 }
 
++ (NSString *)rtbErrorDomain {
+  return @"com.applovin.sdk.mediation.admob.rtb.errorDomain";
+}
+
 + (NSString *)adapterVersion {
-  return @"6.2.0.0";
+  return @"6.3.0.0";
 }
 
 + (NSString *)sdkKey {

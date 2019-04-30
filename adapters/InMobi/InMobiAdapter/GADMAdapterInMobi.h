@@ -14,15 +14,12 @@
 #import <InMobiSDK/IMRequestStatus.h>
 
 @interface GADMAdapterInMobi
-    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter, IMBannerDelegate,
-               IMInterstitialDelegate, IMNativeDelegate> {
+    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate> {
 }
-+(BOOL) isAppInitialised;
++ (BOOL)isAppInitialised;
 @property(nonatomic, retain) IMBanner *adView;
 @property(nonatomic, retain) IMInterstitial *interstitial;
-@property(nonatomic, retain) IMInterstitial *adRewarded;
 @property(nonatomic, retain) IMNative *native;
 @property(nonatomic, readonly) long long placementId;
 @property(nonatomic, strong) id<GADMAdNetworkConnector> connector;
-@property(nonatomic, strong) id<GADMRewardBasedVideoAdNetworkConnector> rewardedConnector;
 @end

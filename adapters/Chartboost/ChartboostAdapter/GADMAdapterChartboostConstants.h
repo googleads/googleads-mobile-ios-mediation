@@ -15,13 +15,13 @@
 @import Foundation;
 
 /// Chartboost mediation network adapter version.
-static NSString *const GADMAdapterChartboostVersion = @"7.3.0.0";
+static NSString *const kGADMAdapterChartboostVersion = @"7.5.0.0";
 
 /// Chartboost App ID.
-static NSString *const GADMAdapterChartboostAppID = @"appId";
+static NSString *const kGADMAdapterChartboostAppID = @"appId";
 
 /// Chartboost App Signature.
-static NSString *const GADMAdapterChartboostAppSignature = @"appSignature";
+static NSString *const kGADMAdapterChartboostAppSignature = @"appSignature";
 
 /// Chartboost Ad Location.
-static NSString *const GADMAdapterChartboostAdLocation = @"adLocation";
+static NSString *const kGADMAdapterChartboostAdLocation = @"adLocation";
