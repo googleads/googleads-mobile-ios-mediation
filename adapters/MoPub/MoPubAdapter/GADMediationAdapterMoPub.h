@@ -1,6 +1,6 @@
 @import Foundation;
 @import GoogleMobileAds;
 
-@interface GADMediationAdapterMoPub : NSObject <GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMediationAdapterMoPub : NSObject <GADMediationAdapter>
 
 @end
