@@ -21,24 +21,6 @@
 
 #import "SampleAdapterConstants.h"
 
-// You may notice that this class and the Custom Event's
-// SampleMediatedNativeAppInstallAd class look an awful lot alike. That's not
-// by accident. They're the same class, with the same methods and properties,
-// but with two different names.
-//
-// Mediation adapters and custom events map their native ads for the
-// Google Mobile Ads SDK using extensions of the same two classes:
-// GADMediatedNativeAppInstallAd and GADMediatedNativeContentAd. Because both
-// the adapter and custom event in this example are mediating the same Sample
-// SDK, they both need the same work done: take a native ad object from the
-// Sample SDK and map it to the interface the Google Mobile Ads SDK expects.
-// Thus, the same classes work for both.
-//
-// Because we wanted this project to have a complete example of an
-// adapter and a complete example of a custom event (and we didn't want to
-// share code between them), they each get their own copies of these classes,
-// with slightly different names.
-
 @interface SampleAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate>
 
 @property(nonatomic, strong) SampleNativeAd *sampleAd;
