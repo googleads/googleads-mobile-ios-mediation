@@ -41,7 +41,6 @@ class SampleCustomEventNativeAdSwift : NSObject, GADCustomEventNativeAd {
     // protocol, you should implement the `GADMediatedNativeAppInstallAd` and
     // `GADMediatedNativeContentAd` protocols in separate ad classes, then in the ad loader delegate
     // callback, instantiate and return the relevant ad type to the custom event delegate.
-    // For an example of this, see the `SampleAdapter` and `SampleAdapterDelegate` in this project.
     if !requestedUnified {
       let description = "You must request the unified native ad format."
       let userInfo = [NSLocalizedDescriptionKey: description,

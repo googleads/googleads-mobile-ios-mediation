@@ -13,7 +13,10 @@
 // limitations under the License.
 
 @import Foundation;
+#import <Chartboost/Chartboost.h>
 
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
 /// set to |description|.
 NSError *GADChartboostErrorWithDescription(NSString *description);
+
+NSError *adRequestErrorTypeForCBLoadError(CBLoadError error);

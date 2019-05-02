@@ -17,6 +17,10 @@
 
 #import "GADMAdapterChartboost.h"
 
+typedef enum { INITIALIZED, INITIALIZING, UNINITIALIZED } ChartboostInitState;
+
+typedef void (^ChartbbostInitCompletionHandler)(NSError *_Nullable error);
+
 @protocol GADMAdapterChartboostDataProvider;
 
 @interface GADMAdapterChartboostSingleton : NSObject
@@ -24,34 +28,32 @@
 /// Shared instance.
 + (instancetype)sharedManager;
 
-/// Initializes a new reward-based video ad instance with |appID|, |appSignature| and
-/// |adapterDelegate|.
-- (void)configureRewardBasedVideoAdWithAppID:(NSString *)appID
-                              adAppSignature:(NSString *)appSignature
-                                    delegate:
-                                        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                            adapterDelegate;
+- (void)startWithAppId:(NSString *)appId
+          appSignature:(NSString *)appSignature
+     completionHandler:(ChartbbostInitCompletionHandler)completionHandler;
 
-/// Requests a reward-based video ad for |adapterDelegate|.
-- (void)requestRewardBasedVideoForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
+/// Initializes a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
+- (void)configureRewardedAdWithAppID:(NSString *)appID
+                        appSignature:(NSString *)appSignature
+                            delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+                                         adapterDelegate;
 
-/// Presents the current reward-based video ad for |adapterDelegate|.
-- (void)presentRewardBasedVideoAdForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
+/// Presents the current rewarded ad for |adapterDelegate|.
+- (void)presentRewardedAdForDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 /// Initializes a new interstitial ad instance with |appID|, |appSignature| and |adapterDelegate|.
 - (void)configureInterstitialAdWithAppID:(NSString *)appID
-                          adAppSignature:(NSString *)appSignature
+                            appSignature:(NSString *)appSignature
                                 delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
                                              adapterDelegate;
 
 /// Presents the current interstitial ad for |adapterDelegate|.
 - (void)presentInterstitialAdForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 /// Tells the adapter to remove itself as an |adapterDelegate|.
-- (void)stopTrackingDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
+- (void)stopTrackingInterstitialDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 @end

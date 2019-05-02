@@ -128,11 +128,9 @@
   // For example, the Admob SDK now supports the unified native ad type, which covers both the app
   // install and content ad ad types.
   BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
-  BOOL requestedBothFormats = ([adTypes containsObject:kGADAdLoaderAdTypeNativeContent] &&
-                               [adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]);
-  if (!(requestedUnified || requestedBothFormats)) {
-    NSString *description = @"You must either select the unified native ad format, or both app \
-    install and content ad formats.";
+
+  if (!requestedUnified) {
+    NSString *description = @"You must request a unified native ad.";
     NSDictionary *userInfo =
         @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
     NSError *error =

@@ -8,6 +8,6 @@
 
 @import GoogleMobileAds;
 
-@interface GADMAdapterMyTargetNative : NSObject<GADMAdNetworkAdapter>
+@interface GADMAdapterMyTargetNative : NSObject <GADMAdNetworkAdapter>
 
 @end

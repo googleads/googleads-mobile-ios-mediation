@@ -16,7 +16,6 @@
 
 /// Adapter for communicating with Facebook's Audience Network to fetch banner, interstitial,
 /// reward-based video, and native ads.
-@interface GADMAdapterFacebook
-    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMAdapterFacebook : NSObject <GADMAdNetworkAdapter>
 
 @end

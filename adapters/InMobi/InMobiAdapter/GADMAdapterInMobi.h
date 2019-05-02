@@ -14,9 +14,9 @@
 #import <InMobiSDK/IMRequestStatus.h>
 
 @interface GADMAdapterInMobi
-    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter, IMBannerDelegate,
-               IMInterstitialDelegate, IMNativeDelegate> {
+    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate> {
 }
+
 +(BOOL) isAppInitialised;
 @property(nonatomic, strong) IMBanner *adView;
 @property(nonatomic, strong) IMInterstitial *interstitial;

@@ -3,11 +3,9 @@
 
 static NSString *const vungleAdapterVersion = @"6.3.2.0";
 
-static NSString *const kApplicationID = @"application_id";
-static NSString *const kPlacementID = @"placementID";
-
 @interface VungleRouter ()
 @property(strong) NSMutableArray<id<VungleDelegate>> *delegates;
+@property(strong) NSMutableArray<id<VungleDelegate>> *initializingDelegates;
 @property(strong) id<VungleDelegate> playingDelegate;
 @end
 
@@ -31,15 +29,17 @@ static NSString *const kPlacementID = @"placementID";
   if (self) {
     [VungleSDK sharedSDK].delegate = self;
     _delegates = [NSMutableArray array];
+    _initializingDelegates = [NSMutableArray array];
   }
   return self;
 }
 
-- (void)initWithAppId:(NSString *)appId {
+- (void)initWithAppId:(NSString *)appId
+             delegate:(id<VungleDelegate>)delegate {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    NSString *version =
-        [[VungleRouter adapterVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    NSString *version = [[VungleRouter adapterVersion] stringByReplacingOccurrencesOfString:@"."
+                                                                                 withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
@@ -48,10 +48,16 @@ static NSString *const kPlacementID = @"placementID";
 #pragma clang diagnostic pop
   });
   VungleSDK *sdk = [VungleSDK sharedSDK];
+
+  if (delegate) {
+    [self.initializingDelegates addObject:delegate];
+  }
+
   if ([sdk isInitialized]) {
     [self initialized:true error:nil];
     return;
   }
+
   if ([self isInitialising]) {
     return;
   }
@@ -69,10 +75,9 @@ static NSString *const kPlacementID = @"placementID";
                 networkExtras:(VungleAdNetworkExtras *)networkExtras
                        result:(ParameterCB)result {
   if ([networkExtras.allPlacements count] > 0) {
-    NSLog(
-        @"No need to pass placement IDs through `VungleAdNetworkExtras` with Vungle iOS SDK "
-        @"version %@ and plugin version %@",
-        VungleSDKVersion, vungleAdapterVersion);
+    NSLog(@"No need to pass placement IDs through `VungleAdNetworkExtras` with Vungle iOS SDK "
+          @"version %@ and plugin version %@",
+          VungleSDKVersion, vungleAdapterVersion);
   }
 
   NSString *appId = serverParameters[kApplicationID];
@@ -88,15 +93,11 @@ static NSString *const kPlacementID = @"placementID";
 
 + (NSString *)findPlacement:(NSDictionary *)serverParameters
               networkExtras:(VungleAdNetworkExtras *)networkExtras {
-  NSString *ret = nil;
-  if (serverParameters && [serverParameters objectForKey:kPlacementID]) {
-    ret = [serverParameters objectForKey:kPlacementID];
-  }
+  NSString *ret = [serverParameters objectForKey:kPlacementID];
   if (networkExtras && networkExtras.playingPlacement) {
     if (ret) {
-      NSLog(
-          @"'placementID' had a value in both serverParameters and networkExtras. Used one from "
-          @"serverParameters");
+      NSLog(@"'placementID' had a value in both serverParameters and networkExtras. Used one from "
+            @"serverParameters");
     } else {
       ret = networkExtras.playingPlacement;
     }
@@ -109,6 +110,10 @@ static NSString *const kPlacementID = @"placementID";
   if (delegate && ![_delegates containsObject:delegate]) {
     [_delegates addObject:delegate];
   }
+}
+
+- (NSMutableArray *)getDelegates {
+  return _delegates;
 }
 
 - (void)removeDelegate:(id<VungleDelegate>)delegate {
@@ -171,10 +176,8 @@ static NSString *const kPlacementID = @"placementID";
 
 - (void)initialized:(BOOL)isSuccess error:(NSError *)error {
   _isInitialising = false;
-  for (id<VungleDelegate> item in _delegates) {
-    if ([item waitingInit]) {
-      [item initialized:isSuccess error:error];
-    }
+  for (id<VungleDelegate> item in _initializingDelegates) {
+    [item initialized:isSuccess error:error];
   }
 }
 

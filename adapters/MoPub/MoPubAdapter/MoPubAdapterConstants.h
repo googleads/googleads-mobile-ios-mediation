@@ -3,10 +3,13 @@
 #define MAXIMUM_MOPUB_PRIVACY_ICON_SIZE 30
 
 /// MoPub mediation network adapter version.
-static NSString *const GADMAdapterMoPubVersion = @"5.5.0.0";
+static NSString *const kGADMAdapterMoPubVersion = @"5.6.0.0";
 
 /// Constant for adapter error domain.
-static NSString *const kAdapterErrorDomain = @"com.mopub.mobileads.MoPubAdapter";
+static NSString *const kGADMAdapterMoPubErrorDomain = @"com.mopub.mobileads.mopubadapter";
 
 /// Internal to MoPub
-static NSString *const kAdapterTpValue = @"gmext";
+static NSString *const kGADMAdapterMoPubTpValue = @"gmext";
+
+/// MoPub Pub id Key
+static NSString *const kGADMAdapterMoPubPubIdKey = @"pubid";

@@ -15,15 +15,15 @@
 @import Foundation;
 
 /// Unity Ads game ID.
-static NSString *const GADMAdapterUnityGameID = @"gameId";
+static NSString *const kGADMAdapterUnityGameID = @"gameId";
 
 /// Unity Ads placement ID.
 /// Unity Ads has moved from zoneId to placementId, but to keep backward compatibility, we are still
 /// using zoneId as a value.
-static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
+static NSString *const kGADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const GADMAdapterUnityVersion = @"3.0.1.0";
+static NSString *const kGADMAdapterUnityVersion = @"3.0.1.0";
 
 /// Ad mediation network name.
-static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";
+static NSString *const kGADMAdapterUnityMediationNetworkName = @"AdMob";

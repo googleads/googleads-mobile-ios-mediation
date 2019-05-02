@@ -6,18 +6,18 @@
 //
 //
 
-#import "GADMAdapterInMobi.h"
 #import <Foundation/Foundation.h>
 #import <InMobiSDK/IMNative.h>
+#import "GADMAdapterInMobi.h"
 
 @class InMobiMediatedNativeAppInstallAd;
 
-@protocol InMobiMediatedNativeAppInstallAdDelegate<NSObject>
+@protocol InMobiMediatedNativeAppInstallAdDelegate <NSObject>
 - (void)inmobiMediatedNativeAppInstallAdSuccessful:(nullable InMobiMediatedNativeAppInstallAd *)ad;
 - (void)inmobiMediatedNativeAppInstallAdFailed;
 @end
 
-@interface InMobiMediatedNativeAppInstallAd : NSObject<GADMediatedNativeAppInstallAd>
+@interface InMobiMediatedNativeAppInstallAd : NSObject <GADMediatedNativeAppInstallAd>
 
 - (nullable instancetype)initWithInMobiNativeAppInstallAd:(nullable IMNative *)nativeInstallAd
                                               withAdapter:(nullable GADMAdapterInMobi *)adapter

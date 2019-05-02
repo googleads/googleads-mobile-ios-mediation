@@ -138,8 +138,9 @@
 
 - (void)notifyFailureWithErrorCode:(NSInteger)errorCode {
   [GADMAdapterAppLovinUtils log:@"Native ad failed to load &ld", errorCode];
-  NSError *error =
-      [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain code:errorCode userInfo:nil];
+  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                       code:errorCode
+                                   userInfo:nil];
   [self.connector adapter:self didFailAd:error];
 }
 
