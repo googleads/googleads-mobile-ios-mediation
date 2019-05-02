@@ -54,11 +54,19 @@
 #pragma mark - Interstitial
 
 - (void)getInterstitial {
-  [GADMAdapterAdColonyHelper setupZoneFromConnector:self.connector
-                                           callback:^(NSString *zone, NSError *error) {
-                                             [self getInterstitialFromZoneId:zone
-                                                               withConnector:self.connector];
-                                           }];
+  GADMAdapterAdColony *__weak weakSelf = self;
+  [GADMAdapterAdColonyHelper
+      setupZoneFromConnector:self.connector
+                    callback:^(NSString *zone, NSError *error) {
+                      GADMAdapterAdColony *strongSelf = weakSelf;
+                      if (error && strongSelf) {
+                        [strongSelf.connector adapter:strongSelf didFailAd:error];
+                        return;
+                      }
+
+                      NSLogDebug(@"Zone in interstitial class: %@", zone);
+                      [strongSelf getInterstitialFromZoneId:zone withConnector:self.connector];
+                    }];
 }
 
 - (void)getInterstitialFromZoneId:(NSString *)zone

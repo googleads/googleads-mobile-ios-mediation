@@ -37,13 +37,12 @@ NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
     NSLog(@"Configuring AdColony SDK with the app ID %@", appID);
   }
 
-  [[GADMAdapterAdColonyInitializer sharedInstance]
-    initializeAdColonyWithAppId:appID
-                          zones:[zoneIDs allObjects]
-                        options:nil
-                       callback:^(NSError *error) {
-                         completionHandler(error);
-                        }];
+  [[GADMAdapterAdColonyInitializer sharedInstance] initializeAdColonyWithAppId:appID
+                                                                         zones:[zoneIDs allObjects]
+                                                                       options:nil
+                                                                      callback:^(NSError *error) {
+                                                                        completionHandler(error);
+                                                                      }];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -78,7 +77,8 @@ NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterAdColonyRewardedAd alloc] init];
   [self.rewardedAd renderRewardedAdForAdConfiguration:adConfiguration
                                     completionHandler:completionHandler];

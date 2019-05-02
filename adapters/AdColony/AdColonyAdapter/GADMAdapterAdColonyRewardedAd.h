@@ -9,6 +9,7 @@
 
 /// Render a rewarded ad with the provided ad configuration.
 - (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+                         completionHandler:
+                             (GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

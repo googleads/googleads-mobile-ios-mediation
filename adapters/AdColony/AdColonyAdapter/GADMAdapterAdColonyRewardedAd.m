@@ -23,18 +23,20 @@
 
 /// Render a rewarded ad with the provided ad configuration.
 - (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                         completionHandler:
+                             (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.loadCompletionHandler = completionHandler;
+  GADMAdapterAdColonyRewardedAd *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper setupZoneFromAdConfig:adConfiguration
                                           callback:^(NSString *zone, NSError *error) {
-                                            NSLog(@"Zone in rewarded class:%@", zone);
-                                            GADMAdapterAdColonyRewardedAd __weak *weakSelf = self;
-                                            if (error) {
-                                              weakSelf.loadCompletionHandler(nil, error);
+                                            __strong typeof(weakSelf) strongSelf = weakSelf;
+                                            if (error && strongSelf) {
+                                              strongSelf.loadCompletionHandler(nil, error);
                                               return;
                                             }
-                                            [self getRewardedAdFromZoneId:zone
-                                                             withAdConfig:adConfiguration];
+
+                                            [strongSelf getRewardedAdFromZoneId:zone
+                                                                   withAdConfig:adConfiguration];
                                           }];
 }
 
@@ -43,7 +45,7 @@
   self.rewardedAd = nil;
   self.zoneID = zone;
 
-  __weak typeof(self) weakSelf = self;
+  GADMAdapterAdColonyRewardedAd *__weak weakSelf = self;
 
   NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
 
@@ -53,14 +55,20 @@
       options:options
       success:^(AdColonyInterstitial *_Nonnull ad) {
         NSLogDebug(@"Retrieve ad: %@", zone);
-        [weakSelf handleAdReceived:ad forAdConfig:adConfiguration zone:zone];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+          [strongSelf handleAdReceived:ad forAdConfig:adConfiguration zone:zone];
+        }
       }
       failure:^(AdColonyAdRequestError *_Nonnull err) {
         NSError *error =
             [NSError errorWithDomain:kGADErrorDomain
                                 code:kGADErrorInvalidRequest
                             userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
-        weakSelf.loadCompletionHandler(nil, error);
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf) {
+          strongSelf.loadCompletionHandler(nil, error);
+        }
         NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
       }];
 }
