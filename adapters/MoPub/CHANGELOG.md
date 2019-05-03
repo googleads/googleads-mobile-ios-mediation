@@ -1,6 +1,6 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Version 5.6.0.1
 - Updated adapter to use the new rewarded API.
 - Now requires Google Mobile Ads SDK version 7.42.2 or higher.
 
