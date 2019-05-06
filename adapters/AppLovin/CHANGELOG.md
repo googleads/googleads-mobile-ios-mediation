@@ -1,5 +1,8 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
+## Next version
+- Updated the adapter to handle multiple interstitial requests.
+
 ## 6.3.0.0
 - Verified compatibility with AppLovin SDK 6.3.0.
 - Updated the adapter to use the new rewarded API.

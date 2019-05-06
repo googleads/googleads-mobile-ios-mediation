@@ -26,7 +26,7 @@
 @property(nonatomic, assign) BOOL isLogEnabled;
 
 /// Holds the ID of the ad instance to be presented.
-@property(nonatomic, strong) NSString *instanceId;
+@property(nonatomic, strong) NSString *instanceID;
 
 @end
 
@@ -41,6 +41,8 @@
   self = [super init];
   if (self) {
     _interstitialConnector = connector;
+    // Default instance ID
+    _instanceID = @"0";
   }
   return self;
 }
@@ -71,7 +73,7 @@
 
   /* Parse instance id key */
   if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
-    self.instanceId = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
+    _instanceID = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
@@ -92,7 +94,7 @@
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [self onLog:[NSString stringWithFormat:@"Present IronSource interstitial ad for instance %@",
-                                         self.instanceId]];
+                                         _instanceID]];
   [[ISMediationManager sharedManager] presentInterstitialAdFromViewController:rootViewController
                                                                      delegate:self];
 }
@@ -125,7 +127,7 @@
                                          instanceId]];
 
   // We will notify only changes regarding to the registered instance.
-  if (![self.instanceId isEqualToString:instanceId]) {
+  if (![_instanceID isEqualToString:instanceId]) {
     return;
   }
 
@@ -142,7 +144,7 @@
   [self onLog:log];
 
   // We will notify only changes regarding to the registered instance.
-  if (![self.instanceId isEqualToString:instanceId]) {
+  if (![_instanceID isEqualToString:instanceId]) {
     return;
   }
 
@@ -219,7 +221,7 @@
 }
 
 - (NSString *)getInstanceID {
-  return _instanceId;
+  return _instanceID;
 }
 
 @end

@@ -32,7 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		457AC86F2258017700F8E09D /* GADMAdapetrFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 457AC86E2258017700F8E09D /* GADMAdapetrFacebookConstants.h */; };
+		457AC86F2258017700F8E09D /* GADMAdapterFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 457AC86E2258017700F8E09D /* GADMAdapterFacebookConstants.h */; };
 		457AC8732258041D00F8E09D /* GADFBBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 457AC8712258041D00F8E09D /* GADFBBannerRenderer.h */; };
 		457AC8742258041D00F8E09D /* GADFBBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 457AC8722258041D00F8E09D /* GADFBBannerRenderer.m */; };
 		457AC877225804F100F8E09D /* GADFBInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 457AC875225804F100F8E09D /* GADFBInterstitialRenderer.h */; };
@@ -77,7 +77,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		457AC86E2258017700F8E09D /* GADMAdapetrFacebookConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapetrFacebookConstants.h; sourceTree = "<group>"; };
+		457AC86E2258017700F8E09D /* GADMAdapterFacebookConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFacebookConstants.h; sourceTree = "<group>"; };
 		457AC8712258041D00F8E09D /* GADFBBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBBannerRenderer.h; sourceTree = "<group>"; };
 		457AC8722258041D00F8E09D /* GADFBBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBBannerRenderer.m; sourceTree = "<group>"; };
 		457AC875225804F100F8E09D /* GADFBInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBInterstitialRenderer.h; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 				45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */,
 				45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */,
 				45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */,
-				457AC86E2258017700F8E09D /* GADMAdapetrFacebookConstants.h */,
+				457AC86E2258017700F8E09D /* GADMAdapterFacebookConstants.h */,
 			);
 			path = FacebookAdapter;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45BFFB372225CA3A00C96A67 /* GADMediationAdapterFacebook.h in Headers */,
-				457AC86F2258017700F8E09D /* GADMAdapetrFacebookConstants.h in Headers */,
+				457AC86F2258017700F8E09D /* GADMAdapterFacebookConstants.h in Headers */,
 				56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */,
 				56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */,
 				7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */,
@@ -312,6 +312,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;

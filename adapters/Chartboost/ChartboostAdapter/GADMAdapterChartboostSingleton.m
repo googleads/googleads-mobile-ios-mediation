@@ -15,24 +15,24 @@
 #import "GADMAdapterChartboostSingleton.h"
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostProtocol.h"
-#import "GADMAdapterChartboostWeakReference.h"
+#import "GADMAdapterChartboostDataProvider.h"
+#import "GADMChartboostError.h"
 
 @interface GADMAdapterChartboostSingleton () <ChartboostDelegate> {
-  /// Array to hold all interstitial adapter delegates.
-  NSMutableArray *_interstitialDelegates;
+  /// Hash Map to hold all interstitial adapter delegates.
+  NSMapTable<NSString *, id<GADMAdapterChartboostDataProvider, ChartboostDelegate>>
+      *_interstitialAdapterDelegates;
 
-  /// Array to hold all rewardbased video adapter delegates.
-  NSMutableArray *_rewardbasedVideoDelegates;
-
-  /// Connector from Chartboost adapter to send Chartboost callbacks.
-  __weak id<GADMAdapterChartboostDataProvider, ChartboostDelegate> _currentShowingDelegate;
-
-  /// YES if the Chartboost SDK initialized.
-  BOOL _isChartboostInitialized;
+  /// Hash Map to hold all rewarded adapter delegates.
+  NSMapTable<NSString *, id<GADMAdapterChartboostDataProvider, ChartboostDelegate>>
+      *_rewardedAdapterDelegates;
 
   /// Concurrent dispatch queue.
   dispatch_queue_t _queue;
+
+  ChartboostInitState _initState;
+
+  NSMutableArray<ChartbbostInitCompletionHandler> *_completionHandlers;
 }
 
 @end
@@ -53,246 +53,246 @@
 - (id)init {
   self = [super init];
   if (self) {
-    _interstitialDelegates = [[NSMutableArray alloc] init];
-    _rewardbasedVideoDelegates = [[NSMutableArray alloc] init];
+    _interstitialAdapterDelegates =
+        [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                              valueOptions:NSPointerFunctionsWeakMemory];
+    _rewardedAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                                      valueOptions:NSPointerFunctionsWeakMemory];
     _queue = dispatch_queue_create("com.google.admob.chartboost_adapter_singleton",
                                    DISPATCH_QUEUE_CONCURRENT);
+    _completionHandlers = [[NSMutableArray alloc] init];
   }
   return self;
 }
 
-- (void)startWithAppId:(NSString *)appId appSignature:(NSString *)appSignature {
+- (void)startWithAppId:(NSString *)appId
+          appSignature:(NSString *)appSignature
+     completionHandler:(ChartbbostInitCompletionHandler)completionHandler {
+  if (_initState == INITIALIZED) {
+    completionHandler(nil);
+    return;
+  }
+
   static dispatch_once_t once;
   dispatch_once(&once, ^{
     [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
-    [Chartboost setMediation:CBMediationAdMob withVersion:GADMAdapterChartboostVersion];
+    [Chartboost setMediation:CBMediationAdMob
+          withLibraryVersion:[GADRequest sdkVersion]
+              adapterVersion:kGADMAdapterChartboostVersion];
     [Chartboost setAutoCacheAds:YES];
   });
+  _initState = INITIALIZING;
+  [_completionHandlers addObject:completionHandler];
 }
 
-- (void)addRewardBasedVideoAdapterDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  GADMAdapterChartboostWeakReference *delegateReference =
-      [[GADMAdapterChartboostWeakReference alloc] initWithObject:adapterDelegate];
-  dispatch_barrier_async(_queue, ^{
-    if (![_rewardbasedVideoDelegates containsObject:delegateReference]) {
-      [_rewardbasedVideoDelegates addObject:delegateReference];
-    }
-  });
+- (void)addRewardedAdAdapterDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+  @synchronized(_rewardedAdapterDelegates) {
+    [_rewardedAdapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getAdLocation]];
+  }
+}
+
+- (void)removeRewardedAdAdapterDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+  @synchronized(_rewardedAdapterDelegates) {
+    [_rewardedAdapterDelegates removeObjectForKey:[adapterDelegate getAdLocation]];
+  }
+}
+
+- (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+    getInterstitialAdapterDelegateForAdLocation:(NSString *)adLocation {
+  @synchronized(_interstitialAdapterDelegates) {
+    return [_interstitialAdapterDelegates objectForKey:adLocation];
+  }
+}
+
+- (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+    getRewardedAdapterDelegateForAdLocation:(NSString *)adLocation {
+  @synchronized(_rewardedAdapterDelegates) {
+    return [_rewardedAdapterDelegates objectForKey:adLocation];
+  }
 }
 
 - (void)addInterstitialAdapterDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  GADMAdapterChartboostWeakReference *delegateReference =
-      [[GADMAdapterChartboostWeakReference alloc] initWithObject:adapterDelegate];
-  dispatch_barrier_async(_queue, ^{
-    if (![_interstitialDelegates containsObject:delegateReference]) {
-      [_interstitialDelegates addObject:delegateReference];
-    }
-  });
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+  @synchronized(_interstitialAdapterDelegates) {
+    [_interstitialAdapterDelegates setObject:adapterDelegate
+                                      forKey:[adapterDelegate getAdLocation]];
+  }
 }
 
-#pragma mark - Rewardbased Video Ads Methods
+- (void)removeInterstitialAdapterDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+  @synchronized(_interstitialAdapterDelegates) {
+    [_interstitialAdapterDelegates removeObjectForKey:[adapterDelegate getAdLocation]];
+  }
+}
 
-- (void)configureRewardBasedVideoAdWithAppID:(NSString *)appID
-                              adAppSignature:(NSString *)appSignature
-                                    delegate:
-                                        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                            adapterDelegate {
+#pragma mark - Rewarded Ads Methods
+
+- (void)configureRewardedAdWithAppID:(NSString *)appID
+                        appSignature:(NSString *)appSignature
+                            delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+                                         adapterDelegate {
   GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
   if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
     [Chartboost setFramework:chartboostExtras.framework
                  withVersion:chartboostExtras.frameworkVersion];
   }
-  if (!_isChartboostInitialized) {
-    [self addRewardBasedVideoAdapterDelegate:adapterDelegate];
-    [self startWithAppId:appID appSignature:appSignature];
-  } else {
-    [adapterDelegate didInitialize:YES];
-  }
-}
 
-- (void)requestRewardBasedVideoForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   NSString *adLocation = [adapterDelegate getAdLocation];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> existingDelegate =
+      [self getRewardedAdapterDelegateForAdLocation:adLocation];
+
+  if (existingDelegate) {
+    NSError *error = GADChartboostErrorWithDescription(
+        @"Already requested an ad for this ad location. Can't make another request.");
+    [adapterDelegate didFailToLoadAdWithError:error];
+    return;
+  }
+
+  [self addRewardedAdAdapterDelegate:adapterDelegate];
+
   if ([Chartboost hasRewardedVideo:adLocation]) {
     [adapterDelegate didCacheRewardedVideo:adLocation];
   } else {
-    [self addRewardBasedVideoAdapterDelegate:adapterDelegate];
     [Chartboost cacheRewardedVideo:adLocation];
   }
 }
 
-- (void)presentRewardBasedVideoAdForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  _currentShowingDelegate = adapterDelegate;
+- (void)presentRewardedAdForDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   [Chartboost showRewardedVideo:[adapterDelegate getAdLocation]];
 }
 
 #pragma mark - Interstitial methods
 
 - (void)configureInterstitialAdWithAppID:(NSString *)appID
-                          adAppSignature:(NSString *)appSignature
+                            appSignature:(NSString *)appSignature
                                 delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
                                              adapterDelegate {
-  NSString *adLocation = [adapterDelegate getAdLocation];
   GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
   if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
     [Chartboost setFramework:chartboostExtras.framework
                  withVersion:chartboostExtras.frameworkVersion];
   }
 
-  if (_isChartboostInitialized && [Chartboost hasInterstitial:adLocation]) {
+  NSString *adLocation = [adapterDelegate getAdLocation];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> existingDelegate =
+      [self getInterstitialAdapterDelegateForAdLocation:adLocation];
+
+  if (existingDelegate) {
+    NSError *error = GADChartboostErrorWithDescription(
+        @"Already requested an ad for this ad location. Can't make another request.");
+    [adapterDelegate didFailToLoadAdWithError:error];
+    return;
+  }
+
+  [self addInterstitialAdapterDelegate:adapterDelegate];
+
+  if ([Chartboost hasInterstitial:adLocation]) {
     [adapterDelegate didCacheInterstitial:adLocation];
   } else {
-    [self addInterstitialAdapterDelegate:adapterDelegate];
-    if (!_isChartboostInitialized) {
-      [self startWithAppId:appID appSignature:appSignature];
-    }
     [Chartboost cacheInterstitial:adLocation];
   }
 }
 
 - (void)presentInterstitialAdForDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  _currentShowingDelegate = adapterDelegate;
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   [Chartboost showInterstitial:[adapterDelegate getAdLocation]];
 }
 
 #pragma mark - Chartboost Delegate mathods -
 
 - (void)didInitialize:(BOOL)status {
-  _isChartboostInitialized = status;
-  // We only need to send the Chartboost initialize callback to reward-based video adapter.
-  [_rewardbasedVideoDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterChartboostWeakReference *weakReference = obj;
-        id<ChartboostDelegate> strongDelegate = (id<ChartboostDelegate>)weakReference.weakObject;
-        [strongDelegate didInitialize:status];
-      }];
+  if (status) {
+    _initState = INITIALIZED;
+    for (ChartbbostInitCompletionHandler completionHandler in _completionHandlers) {
+      completionHandler(nil);
+    }
+  } else {
+    _initState = UNINITIALIZED;
+    NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+    for (ChartbbostInitCompletionHandler completionHandler in _completionHandlers) {
+      completionHandler(error);
+    }
+  }
+  [_completionHandlers removeAllObjects];
 }
 
 #pragma mark - Chartboost Interstitial Delegate Methods
 
 - (void)didDisplayInterstitial:(CBLocation)location {
-  [_currentShowingDelegate didDisplayInterstitial:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getInterstitialAdapterDelegateForAdLocation:location];
+  [delegate didDisplayInterstitial:location];
 }
 
 - (void)didCacheInterstitial:(CBLocation)location {
-  dispatch_barrier_async(_queue, ^{
-    [_interstitialDelegates
-        enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          GADMAdapterChartboostWeakReference *weakReference = obj;
-          id<GADMAdapterChartboostDataProvider, ChartboostDelegate> strongDelegate =
-              (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)weakReference.weakObject;
-          if ([location isEqual:[strongDelegate getAdLocation]]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-              [strongDelegate didCacheInterstitial:location];
-            });
-            [_interstitialDelegates removeObject:obj];
-          }
-        }];
-  });
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getInterstitialAdapterDelegateForAdLocation:location];
+  [delegate didCacheInterstitial:location];
 }
 
 - (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  if (error == CBLoadErrorInternetUnavailableAtShow) {
-    // Chartboost SDK failed to present an ad. Notify the current showing adapter delegate.
-    [_currentShowingDelegate didFailToLoadInterstitial:location withError:error];
-    return;
-  }
-  dispatch_barrier_async(_queue, ^{
-    [_interstitialDelegates
-        enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          GADMAdapterChartboostWeakReference *weakReference = obj;
-          id<GADMAdapterChartboostDataProvider, ChartboostDelegate> strongDelegate =
-              (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)weakReference.weakObject;
-          if ([location isEqual:[strongDelegate getAdLocation]]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-              [strongDelegate didFailToLoadInterstitial:location withError:error];
-            });
-            [_interstitialDelegates removeObject:obj];
-          }
-        }];
-  });
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getInterstitialAdapterDelegateForAdLocation:location];
+  [delegate didFailToLoadInterstitial:location withError:error];
 }
 
 - (void)didDismissInterstitial:(CBLocation)location {
-  [_currentShowingDelegate didDismissInterstitial:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getInterstitialAdapterDelegateForAdLocation:location];
+  [delegate didDismissInterstitial:location];
 }
 
 - (void)didClickInterstitial:(CBLocation)location {
-  [_currentShowingDelegate didClickInterstitial:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getInterstitialAdapterDelegateForAdLocation:location];
+  [delegate didClickInterstitial:location];
 }
 
 #pragma mark - Chartboost Reward Based Video Ad Delegate Methods
 
 - (void)didDisplayRewardedVideo:(CBLocation)location {
-  [_currentShowingDelegate didDisplayRewardedVideo:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didDisplayRewardedVideo:location];
 }
 
 - (void)didCacheRewardedVideo:(CBLocation)location {
-  dispatch_barrier_async(_queue, ^{
-    [_rewardbasedVideoDelegates
-        enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          GADMAdapterChartboostWeakReference *weakReference = obj;
-          id<GADMAdapterChartboostDataProvider, ChartboostDelegate> strongDelegate =
-              (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)weakReference.weakObject;
-          if ([location isEqual:[strongDelegate getAdLocation]]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-              [strongDelegate didCacheRewardedVideo:location];
-            });
-            [_rewardbasedVideoDelegates removeObject:obj];
-          }
-        }];
-  });
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didCacheRewardedVideo:location];
 }
 
 - (void)didFailToLoadRewardedVideo:(CBLocation)location withError:(CBLoadError)error {
-  if (error == CBLoadErrorInternetUnavailableAtShow) {
-    // Chartboost SDK failed to present an ad. Notify the current showing adapter delegate.
-    [_currentShowingDelegate didFailToLoadRewardedVideo:location withError:error];
-    return;
-  }
-  dispatch_barrier_async(_queue, ^{
-    [_rewardbasedVideoDelegates
-        enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          GADMAdapterChartboostWeakReference *weakReference = obj;
-          id<GADMAdapterChartboostDataProvider, ChartboostDelegate> strongDelegate =
-              (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)weakReference.weakObject;
-          if ([location isEqual:[strongDelegate getAdLocation]]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-              [strongDelegate didFailToLoadRewardedVideo:location withError:error];
-            });
-            [_rewardbasedVideoDelegates removeObject:obj];
-          }
-        }];
-  });
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didFailToLoadRewardedVideo:location withError:error];
 }
 
 - (void)didDismissRewardedVideo:(CBLocation)location {
-  [_currentShowingDelegate didDismissRewardedVideo:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didDismissRewardedVideo:location];
 }
 
 - (void)didClickRewardedVideo:(CBLocation)location {
-  [_currentShowingDelegate didClickRewardedVideo:location];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didClickRewardedVideo:location];
 }
 
 - (void)didCompleteRewardedVideo:(CBLocation)location withReward:(int)reward {
-  [_currentShowingDelegate didCompleteRewardedVideo:location withReward:reward];
+  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
+      [self getRewardedAdapterDelegateForAdLocation:location];
+  [delegate didCompleteRewardedVideo:location withReward:reward];
 }
 
-- (void)stopTrackingDelegate:
-        (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  GADMAdapterChartboostWeakReference *delegateReference =
-      [[GADMAdapterChartboostWeakReference alloc] initWithObject:adapterDelegate];
-  dispatch_barrier_async(_queue, ^{
-    if ([_interstitialDelegates containsObject:delegateReference]) {
-      [_interstitialDelegates removeObject:delegateReference];
-    } else {
-      [_rewardbasedVideoDelegates removeObject:delegateReference];
-    }
-  });
+- (void)stopTrackingInterstitialDelegate:
+    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+  [self removeInterstitialAdapterDelegate:adapterDelegate];
 }
 
 @end

@@ -21,6 +21,7 @@
 #import "GADFBError.h"
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
+#import "GADMAdapterFacebookConstants.h"
 
 static NSString *const GADNativeAdIconView = @"2003";
 
@@ -124,8 +125,8 @@ static NSString *const GADNativeAdIconView = @"2003";
     return;
   }
   _nativeAd.delegate = self;
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+  [FBAdSettings setMediationService:[NSString
+      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
   [_nativeAd loadAd];
 }
 
@@ -159,6 +160,7 @@ static NSString *const GADNativeAdIconView = @"2003";
     [_adOptionsView addConstraint:width];
     [_adOptionsView updateConstraints];
   }
+  _adOptionsView.nativeAd = _nativeAd;
 }
 
 #pragma mark - GADMediatedNativeAd

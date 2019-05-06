@@ -12,12 +12,9 @@
 
 + (NSError *)errorWithDescription:(NSString *)description {
   description = [description copy];
-  NSDictionary *userInfo = @{
-    NSLocalizedDescriptionKey : description,
-    NSLocalizedFailureReasonErrorKey : description
-  };
-  NSError *error =
-      [NSError errorWithDomain:GADMMaioErrorDomain code:0 userInfo:userInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMMaioErrorDomain code:0 userInfo:userInfo];
   return error;
 }
 
@@ -26,26 +23,26 @@
  */
 + (NSString *)stringFromFailReason:(MaioFailReason)failReason {
   switch (failReason) {
-  case MaioFailReasonUnknown:
-    return @"Unknown";
-  case MaioFailReasonNetworkConnection:
-    return @"NetworkConnection";
-  case MaioFailReasonNetworkServer:
-    return @"NetworkServer";
-  case MaioFailReasonNetworkClient:
-    return @"NetworkClient";
-  case MaioFailReasonSdk:
-    return @"Sdk";
-  case MaioFailReasonDownloadCancelled:
-    return @"DownloadCancelled";
-  case MaioFailReasonAdStockOut:
-    return @"AdStockOut";
-  case MaioFailReasonVideoPlayback:
-    return @"VideoPlayback";
-  case MaioFailReasonIncorrectMediaId:
-    return @"InCorrectMediaId";
-  case MaioFailReasonIncorrectZoneId:
-    return @"InCorrectZoneId";
+    case MaioFailReasonUnknown:
+      return @"Unknown";
+    case MaioFailReasonNetworkConnection:
+      return @"NetworkConnection";
+    case MaioFailReasonNetworkServer:
+      return @"NetworkServer";
+    case MaioFailReasonNetworkClient:
+      return @"NetworkClient";
+    case MaioFailReasonSdk:
+      return @"Sdk";
+    case MaioFailReasonDownloadCancelled:
+      return @"DownloadCancelled";
+    case MaioFailReasonAdStockOut:
+      return @"AdStockOut";
+    case MaioFailReasonVideoPlayback:
+      return @"VideoPlayback";
+    case MaioFailReasonIncorrectMediaId:
+      return @"InCorrectMediaId";
+    case MaioFailReasonIncorrectZoneId:
+      return @"InCorrectZoneId";
   }
 }
 

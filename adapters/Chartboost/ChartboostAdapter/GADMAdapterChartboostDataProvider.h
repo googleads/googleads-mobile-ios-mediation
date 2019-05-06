@@ -14,20 +14,18 @@
 
 @import Foundation;
 
-/// A weak reference to an object, with stable equality so that it can be stored in collections such
-/// as NSSet.
-@interface GADMAdapterChartboostWeakReference : NSObject
+#import "GADMChartboostExtras.h"
 
-/// The referenced object.
-@property(nonatomic, readonly, weak) id weakObject;
+/// The purpose of the GADMAdapterChartboostDataProvider protocol is to allow the singleton to
+/// interact with the adapter.
+@protocol GADMAdapterChartboostDataProvider <NSObject>
 
-/// Returns whether a GADMAdapterChartboostWeakReference to |anObject| exists in |set|.
-+ (BOOL)set:(NSSet *)set containsObject:(id)anObject;
+/// Returns the Chartboost extras object.
+- (GADMChartboostExtras *)extras;
 
-/// Designated initializer. Returns a weak reference to the given object.
-- (instancetype)initWithObject:(id)anObject NS_DESIGNATED_INITIALIZER;
+/// Returns the Chartboost ad location.
+- (NSString *)getAdLocation;
 
-/// Unavailable. Use initWithObject:.
-- (instancetype)init NS_UNAVAILABLE;
+- (void)didFailToLoadAdWithError:(NSError *)error;
 
 @end
