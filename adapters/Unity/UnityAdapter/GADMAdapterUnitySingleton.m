@@ -52,6 +52,11 @@ bool _bannerRequested = false;
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
+  
+  if([UnityAds isInitialized]){
+    return;
+  }
+  
   // Metadata needed by Unity Ads SDK before initialization.
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
@@ -69,14 +74,6 @@ bool _bannerRequested = false;
 }
 
 #pragma mark - Rewardbased video ad methods
-
-- (void)configureRewardedAdWithGameID:(NSString *)gameID {
-  if ([UnityAds isSupported]) {
-    if (![UnityAds isInitialized]) {
-      [self initializeWithGameID:gameID];
-    }
-  }
-}
 
 - (void)requestRewardedAdWithDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {

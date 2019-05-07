@@ -74,7 +74,8 @@
     return;
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] configureRewardedAdWithGameID:gameID];
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
+  
   _isLoading = YES;
   [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }

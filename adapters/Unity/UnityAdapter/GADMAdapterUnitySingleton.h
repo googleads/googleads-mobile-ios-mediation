@@ -25,7 +25,8 @@
 
 /// Configures a reward-based video ad with provided |gameID| and |adapterDelegate| and returns
 /// YES if successful; otherwise returns NO.
-- (void)configureRewardedAdWithGameID:(NSString *)gameID;
+
+- (void)initializeWithGameID:(NSString *)gameID;
 
 /// Requests a reward-based video ad with |adapterDelegate|.
 - (void)requestRewardedAdWithDelegate:
