@@ -32,6 +32,7 @@
 
 NSString *_bannerPlacementID = nil;
 bool _bannerRequested = false;
+bool listenForNoFill = false;
 
 + (instancetype)sharedInstance {
   static GADMAdapterUnitySingleton *sharedManager = nil;
@@ -104,10 +105,6 @@ bool _bannerRequested = false;
   
   if ([UnityAds isReady:placementID]) {
     [adapterDelegate unityAdsReady:placementID];
-  } else if ([UnityAds getPlacementState:placementID] == kUnityAdsPlacementStateNoFill ){
-      NSString *description = [[NSString alloc]
-          initWithFormat:@"%@ failed to receive rewarded ad - NO FILL.", NSStringFromClass([UnityAds class])];
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
   }
 }
 
@@ -149,11 +146,6 @@ bool _bannerRequested = false;
     
   if ([UnityAds isReady:placementID]) {
       [adapterDelegate unityAdsReady:placementID];
-  } else if ([UnityAds getPlacementState:placementID] == kUnityAdsPlacementStateNoFill){
-      NSString *description = [[NSString alloc] initWithFormat:
-                               @"%@ failed to receive interstitial ad - NO FILL.",
-                               NSStringFromClass([UnityAds class])];
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
   }
 }
 
@@ -228,8 +220,10 @@ bool _bannerRequested = false;
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // The unityAdsReady: and unityAdsDidError: callback methods are used to forward Unity Ads SDK
-  // states to the adapters. No need to forward this callback to the adapters.
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
+  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
+  // Google Mobile Ads SDK.
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
@@ -251,6 +245,8 @@ bool _bannerRequested = false;
   }
 
   if (adapterDelegate) {
+    listenForNoFill = true;
+    
     [adapterDelegate unityAdsReady:placementID];
   }
 }

@@ -73,10 +73,9 @@
     _adLoadCompletionHandler = nil;
     return;
   }
-
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
   
   _isLoading = YES;
+  
   [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }
 
