@@ -74,8 +74,7 @@
     return;
   }
   _isLoading = YES;
-  [[GADMAdapterUnitySingleton sharedInstance] configureInterstitialAdWithGameID:gameID
-                                                                       delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {

@@ -39,8 +39,7 @@
                                           adapterDelegate;
 
 /// Configures an interstitial ad with provided |gameID| and |adapterDelegate|.
-- (void)configureInterstitialAdWithGameID:(NSString *)gameID
-                                 delegate:
+- (void)requestInterstitialAdWithDelegate:
                                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
                                          adapterDelegate;
 

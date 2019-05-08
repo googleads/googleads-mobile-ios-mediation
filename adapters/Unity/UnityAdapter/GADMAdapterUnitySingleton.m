@@ -52,17 +52,18 @@ bool _bannerRequested = false;
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
-  
+
   if([UnityAds isInitialized]){
     return;
   }
-  
+
   // Metadata needed by Unity Ads SDK before initialization.
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData commit];
   // Initializing Unity Ads with |gameID|.
+
   [UnityAds initialize:gameID delegate:self];
 }
 
@@ -77,8 +78,9 @@ bool _bannerRequested = false;
 
 - (void)requestRewardedAdWithDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  
   NSString *placementID = [adapterDelegate getPlacementID];
-
+  
   @synchronized (_adapterDelegates) {
     if ([_adapterDelegates objectForKey:placementID]) {
       NSString *message = @"An ad is already loading for placement ID %@";
@@ -90,15 +92,19 @@ bool _bannerRequested = false;
   }
 
   [self addAdapterDelegate:adapterDelegate];
-
-  if ([UnityAds isInitialized]) {
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    } else {
+  
+  //Call metadata load API
+  NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+  UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+  [loadMetaData setRaw:uniqueEventId value:placementID];
+  [loadMetaData commit];
+  
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
+  } else if ([UnityAds getPlacementState:placementID] == kUnityAdsPlacementStateNoFill ){
       NSString *description = [[NSString alloc]
-          initWithFormat:@"%@ failed to receive rewarded ad.", NSStringFromClass([UnityAds class])];
+          initWithFormat:@"%@ failed to receive rewarded ad - NO FILL.", NSStringFromClass([UnityAds class])];
       [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
-    }
   }
 }
 
@@ -114,31 +120,37 @@ bool _bannerRequested = false;
 
 #pragma mark - Interstitial ad methods
 
-- (void)configureInterstitialAdWithGameID:(NSString *)gameID
-                                 delegate:
+- (void)requestInterstitialAdWithDelegate:
                                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
                                          adapterDelegate {
-  if ([UnityAds isSupported]) {
-    if ([UnityAds isInitialized]) {
-      NSString *placementID = [adapterDelegate getPlacementID];
-      if ([UnityAds isReady:placementID]) {
-        [adapterDelegate unityAdsReady:placementID];
-      } else {
-        NSString *description =
-            [[NSString alloc] initWithFormat:@"%@ failed to receive interstitial ad.",
-                                             NSStringFromClass([UnityAds class])];
-        [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
-      }
-    } else {
-      // Add delegate reference in adapterDelegate list only if Unity Ads is not initialized.
-      [self addAdapterDelegate:adapterDelegate];
-      [self initializeWithGameID:gameID];
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  
+  @synchronized (_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate
+       unityAdsDidError:kUnityAdsErrorInternalError
+       withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
     }
-  } else {
-    NSString *description =
-        [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-                                         NSStringFromClass([UnityAds class])];
-    [adapterDelegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:description];
+  }
+  
+  [self addAdapterDelegate:adapterDelegate];
+  
+  //Call metadata load API
+  NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+  UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+  [loadMetaData setRaw:uniqueEventId value:placementID];
+  [loadMetaData commit];
+    
+  if ([UnityAds isReady:placementID]) {
+      [adapterDelegate unityAdsReady:placementID];
+  } else if ([UnityAds getPlacementState:placementID] == kUnityAdsPlacementStateNoFill){
+      NSString *description = [[NSString alloc] initWithFormat:
+                               @"%@ failed to receive interstitial ad - NO FILL.",
+                               NSStringFromClass([UnityAds class])];
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
   }
 }
 
