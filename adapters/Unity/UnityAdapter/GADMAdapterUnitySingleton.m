@@ -61,7 +61,9 @@ bool _bannerRequested = false;
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"enable_metadata_load" value:@"true"];
   [mediationMetaData commit];
+  
   // Initializing Unity Ads with |gameID|.
 
   [UnityAds initialize:gameID delegate:self];
@@ -95,8 +97,9 @@ bool _bannerRequested = false;
   
   //Call metadata load API
   NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+  
   UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-  [loadMetaData setRaw:uniqueEventId value:placementID];
+  [loadMetaData set:uniqueEventId value:placementID];
   [loadMetaData commit];
   
   if ([UnityAds isReady:placementID]) {
@@ -141,7 +144,7 @@ bool _bannerRequested = false;
   //Call metadata load API
   NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
   UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-  [loadMetaData setRaw:uniqueEventId value:placementID];
+  [loadMetaData set:uniqueEventId value:placementID];
   [loadMetaData commit];
     
   if ([UnityAds isReady:placementID]) {
