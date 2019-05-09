@@ -34,6 +34,9 @@ NSString *_bannerPlacementID = nil;
 bool _bannerRequested = false;
 bool listenForNoFill = false;
 
+int impressionOrdinal = 0;
+int missedImpressionOrdinal = 0;
+
 + (instancetype)sharedInstance {
   static GADMAdapterUnitySingleton *sharedManager = nil;
   static dispatch_once_t onceToken;
@@ -98,7 +101,6 @@ bool listenForNoFill = false;
   
   //Call metadata load API
   NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-  
   UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
   [loadMetaData set:uniqueEventId value:placementID];
   [loadMetaData commit];
@@ -109,13 +111,21 @@ bool listenForNoFill = false;
 }
 
 - (void)presentRewardedAdForViewController:(UIViewController *)viewController
-                                  delegate:
-                                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                          adapterDelegate {
+                                  delegate:(id<GADMAdapterUnityDataProvider,
+                                               UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
+
   NSString *placementID = [adapterDelegate getPlacementID];
-  [UnityAds show:viewController placementId:placementID];
+  if([UnityAds isReady:placementID]) {
+    UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setOrdinal:impressionOrdinal++];
+    [mediationMetaData commit];
+    [UnityAds show:viewController placementId:placementID];
+  } else {
+    UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
+    [mediationMetaData commit];
+  }
 }
 
 #pragma mark - Interstitial ad methods
@@ -145,7 +155,7 @@ bool listenForNoFill = false;
   [loadMetaData commit];
     
   if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
+    [adapterDelegate unityAdsReady:placementID];
   }
 }
 
@@ -153,8 +163,18 @@ bool listenForNoFill = false;
                                       delegate:(id<GADMAdapterUnityDataProvider,
                                                    UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
-  [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
+  
+  NSString *placementID = [adapterDelegate getPlacementID];
+  if([UnityAds isReady:placementID]) {
+    UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setOrdinal:impressionOrdinal++];
+    [mediationMetaData commit];
+    [UnityAds show:viewController placementId:placementID];
+  } else {
+    UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
+    [mediationMetaData commit];
+  }
 }
 
 #pragma mark - Banner ad methods
@@ -220,7 +240,6 @@ bool listenForNoFill = false;
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
   // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
   // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
   // Google Mobile Ads SDK.

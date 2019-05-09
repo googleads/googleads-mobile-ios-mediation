@@ -74,7 +74,13 @@
     return;
   }
   
-  _isLoading = YES;
+  if ([UnityAds isReady:_placementID]){
+    _adEventDelegate = _adLoadCompletionHandler(self, nil);
+    _adLoadCompletionHandler = nil;
+    _isLoading = NO;
+  }else{
+    _isLoading = YES;
+  }
   
   [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }
