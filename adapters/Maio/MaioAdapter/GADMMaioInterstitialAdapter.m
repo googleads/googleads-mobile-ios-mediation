@@ -6,7 +6,7 @@
 //
 
 #import "GADMMaioInterstitialAdapter.h"
-#import "GADMAdapterMaioAdsManager.m"
+#import "GADMAdapterMaioAdsManager.h"
 #import "GADMMaioConstants.h"
 #import "GADMMaioError.h"
 
@@ -94,7 +94,7 @@
       [weakSelf.interstitialAdConnector adapter:weakSelf didFailAd:error];
     } else {
       // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
-      [adManager.maioInstance setAdTestMode:weakSelf.interstitialAdConnector.testMode];
+      [adManager setAdTestMode:weakSelf.interstitialAdConnector.testMode];
       NSError *error = [adManager loadAdForZoneId:weakSelf.zoneId delegate:weakSelf];
       if (error) {
         [self.interstitialAdConnector adapter:self didFailAd:error];

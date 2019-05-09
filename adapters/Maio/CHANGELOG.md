@@ -1,6 +1,7 @@
 # maio Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Version 1.4.6.0
+- Verified compatibility with maio SDK version 1.4.6.
 - Updated the adapter to use the new rewarded API.
 - Now requires Google Mobile Ads SDK version 7.42.2 or higher.
 
