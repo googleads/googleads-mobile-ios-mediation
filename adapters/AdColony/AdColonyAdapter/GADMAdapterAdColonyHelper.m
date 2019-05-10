@@ -5,6 +5,7 @@
 #import "GADMAdapterAdColonyHelper.h"
 #import <AdColony/AdColony.h>
 #import "GADMAdapterAdColony.h"
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"

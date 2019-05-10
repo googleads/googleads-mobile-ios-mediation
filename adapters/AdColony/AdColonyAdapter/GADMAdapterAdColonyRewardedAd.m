@@ -4,6 +4,7 @@
 
 #import "GADMAdapterAdColonyRewardedAd.h"
 #import <AdColony/AdColony.h>
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
 
@@ -62,7 +63,7 @@
       }
       failure:^(AdColonyAdRequestError *_Nonnull err) {
         NSError *error =
-            [NSError errorWithDomain:kGADErrorDomain
+            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
                                 code:kGADErrorInvalidRequest
                             userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -83,7 +84,7 @@
     NSString *errorMessage =
         @"Zone used for rewarded video is not a rewarded video zone on AdColony portal.";
     NSLog(@"AdColonyAdapter [**Error**] : %@", errorMessage);
-    NSError *error = [NSError errorWithDomain:kGADErrorDomain
+    NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
                                          code:kGADErrorInvalidRequest
                                      userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     self.loadCompletionHandler(nil, error);
@@ -95,15 +96,12 @@
   // B, then ADC ad request from zone B. Both succeed.
   // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
   // with id: xyz has been registered. Cannot show interstitial`.
-  __weak AdColonyInterstitial *weakAd = ad;
-  __weak typeof(self) weakSelf = self;
   [ad setExpire:^{
-    NSLog(@"AdColonyAdapter [Info]: Ad expired from zone: %@", weakAd.zoneID);
-    [GADMAdapterAdColonyHelper setupZoneFromAdConfig:adConfiguration
-                                            callback:^(NSString *ignoredZone, NSError *error) {
-                                              [weakSelf getRewardedAdFromZoneId:zone
-                                                                   withAdConfig:adConfiguration];
-                                            }];
+    NSLog(@"AdColonyAdapter [Info]: Rewarded Ad expired from zone: %@ because of configuring "
+          @"another Ad. To avoid this situation use startWithCompletionHandler: to initialize "
+          @"Google Mobile Ads SDK and wait for the completion handler to be called before "
+          @"requesting an Ad.",
+          zone);
   }];
 }
 
@@ -141,7 +139,7 @@
   if (![self.rewardedAd showWithPresentingViewController:viewController]) {
     NSString *errorMessage = @"Failed to show ad for zone";
     NSLog(@"AdColonyAdapter [Info] : %@, %@.", errorMessage, self.zoneID);
-    NSError *error = [NSError errorWithDomain:@"GADMAdapterAdColonyRewardedAd"
+    NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
                                          code:0
                                      userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
     [self.adEventDelegate didFailToPresentWithError:error];

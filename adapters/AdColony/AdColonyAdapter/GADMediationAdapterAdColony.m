@@ -4,13 +4,10 @@
 
 #import "GADMediationAdapterAdColony.h"
 #import <AdColony/AdColony.h>
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMAdapterAdColonyRewardedAd.h"
-
-NSString *const kGADMAdapterAdColonyVersionString = @"3.3.6.1";
-NSString *const kGADMAdapterAdColonyAppIDkey = @"app_id";
-NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 
 @interface GADMediationAdapterAdColony ()
 
