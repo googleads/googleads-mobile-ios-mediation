@@ -1,5 +1,9 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Next Version
+- Added support for flexible banner ad sizes.
+- Fixed an issue where Unity Banner ads would only successfully load once per session.
+
 ## Version 3.0.1.0
 - Verified compatibility with Unity Ads SDK 3.0.1.
 - Fixed a crash that occurred when deallocating rewarded ads.
