@@ -78,7 +78,7 @@
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
     _adLoadCompletionHandler = nil;
     _isLoading = NO;
-  }else{
+  } else {
     _isLoading = YES;
   }
   

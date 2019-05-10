@@ -19,6 +19,12 @@
   /// Array to hold all adapter delegates.
   NSMapTable *_adapterDelegates;
 
+  NSString *_bannerPlacementID;
+  bool _bannerRequested;
+
+  int impressionOrdinal;
+  int missedImpressionOrdinal;
+
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
 
@@ -29,13 +35,6 @@
 @end
 
 @implementation GADMAdapterUnitySingleton
-
-NSString *_bannerPlacementID = nil;
-bool _bannerRequested = false;
-bool listenForNoFill = false;
-
-int impressionOrdinal = 0;
-int missedImpressionOrdinal = 0;
 
 + (instancetype)sharedInstance {
   static GADMAdapterUnitySingleton *sharedManager = nil;
@@ -51,13 +50,14 @@ int missedImpressionOrdinal = 0;
   if (self) {
     _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                               valueOptions:NSMapTableWeakMemory];
+    _bannerRequested = NO;
   }
   return self;
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
 
-  if([UnityAds isInitialized]){
+  if ([UnityAds isInitialized]){
     return;
   }
 
@@ -116,7 +116,7 @@ int missedImpressionOrdinal = 0;
   _currentShowingUnityDelegate = adapterDelegate;
 
   NSString *placementID = [adapterDelegate getPlacementID];
-  if([UnityAds isReady:placementID]) {
+  if ([UnityAds isReady:placementID]) {
     UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
     [mediationMetaData setOrdinal:impressionOrdinal++];
     [mediationMetaData commit];
@@ -145,15 +145,15 @@ int missedImpressionOrdinal = 0;
       return;
     }
   }
-  
+
   [self addAdapterDelegate:adapterDelegate];
-  
+
   //Call metadata load API
   NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
   UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
   [loadMetaData set:uniqueEventId value:placementID];
   [loadMetaData commit];
-    
+
   if ([UnityAds isReady:placementID]) {
     [adapterDelegate unityAdsReady:placementID];
   }
@@ -163,9 +163,9 @@ int missedImpressionOrdinal = 0;
                                       delegate:(id<GADMAdapterUnityDataProvider,
                                                    UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  
+
   NSString *placementID = [adapterDelegate getPlacementID];
-  if([UnityAds isReady:placementID]) {
+  if ([UnityAds isReady:placementID]) {
     UADSMediationMetaData* mediationMetaData = [[UADSMediationMetaData alloc] init];
     [mediationMetaData setOrdinal:impressionOrdinal++];
     [mediationMetaData commit];
@@ -264,8 +264,6 @@ int missedImpressionOrdinal = 0;
   }
 
   if (adapterDelegate) {
-    listenForNoFill = true;
-    
     [adapterDelegate unityAdsReady:placementID];
   }
 }
