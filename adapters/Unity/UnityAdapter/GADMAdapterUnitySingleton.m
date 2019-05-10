@@ -65,7 +65,7 @@ int missedImpressionOrdinal = 0;
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
-  [mediationMetaData set:@"enable_metadata_load" value:@"true"];
+  [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
   [mediationMetaData commit];
   
   // Initializing Unity Ads with |gameID|.
