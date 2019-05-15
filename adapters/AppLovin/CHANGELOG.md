@@ -1,6 +1,7 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
 ## Next version
+- Fixed a crash caused by calling a completionHandler on a nil object.
 - Updated the adapter to handle multiple interstitial requests.
 
 ## 6.3.0.0
