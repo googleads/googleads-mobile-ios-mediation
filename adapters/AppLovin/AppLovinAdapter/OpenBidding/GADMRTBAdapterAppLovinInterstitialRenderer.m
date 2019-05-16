@@ -76,6 +76,11 @@
   [self.interstitialAd showOver:[UIApplication sharedApplication].keyWindow andRender:self.ad];
 }
 
+- (void)dealloc {
+  self.interstitialAd.adDisplayDelegate = nil;
+  self.interstitialAd.adVideoPlaybackDelegate = nil;
+}
+
 @end
 
 @implementation GADMAppLovinRtbInterstitialDelegate
@@ -99,7 +104,9 @@
   GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
   parentRenderer.ad = ad;
   dispatch_async(dispatch_get_main_queue(), ^{
-    parentRenderer.delegate = parentRenderer.adLoadCompletionHandler(parentRenderer, nil);
+    if (parentRenderer.adLoadCompletionHandler) {
+      parentRenderer.delegate = parentRenderer.adLoadCompletionHandler(parentRenderer, nil);
+    }
   });
 }
 
@@ -109,7 +116,9 @@
   NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.rtbErrorDomain
                                        code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
                                    userInfo:nil];
-  self.parentRenderer.adLoadCompletionHandler(nil, error);
+  if (_parentRenderer.adLoadCompletionHandler) {
+    self.parentRenderer.adLoadCompletionHandler(nil, error);
+  }
 }
 
 #pragma mark - Ad Display Delegate

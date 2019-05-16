@@ -6,10 +6,9 @@
 //
 
 #import "GADMMaioInterstitialAdapter.h"
+#import "GADMAdapterMaioAdsManager.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioDelegateAggregate.h"
 #import "GADMMaioError.h"
-#import "GADMMaioMaioInstanceRepository.h"
 
 @import Maio;
 
@@ -30,7 +29,7 @@
 /// identifies the version of your adapter. For example, "1.0", or simply a date
 /// such as "20110915".
 + (NSString *)adapterVersion {
-  return GADMMaioAdapterVersion;
+  return kGADMMaioAdapterVersion;
 }
 
 /// The extras class that is used to specify additional parameters for a request
@@ -44,8 +43,7 @@
 /// connector in an instance variable. However you must never retain the
 /// connector, as doing so will create a circular reference and cause memory
 /// leaks.
-- (instancetype)initWithGADMAdNetworkConnector:
-    (id<GADMAdNetworkConnector>)connector {
+- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }
@@ -65,11 +63,9 @@
 /// method of the connector.
 - (void)getBannerWithSize:(GADAdSize)adSize {
   // not supported bunner
-  NSString *description =
-      [NSString stringWithFormat:@"%@ is not supported banner.", self.class];
-  [self.interstitialAdConnector
-        adapter:self
-      didFailAd:[GADMMaioError errorWithDescription:description]];
+  NSString *description = [NSString stringWithFormat:@"%@ is not supported banner.", self.class];
+  [self.interstitialAdConnector adapter:self
+                              didFailAd:[GADMMaioError errorWithDescription:description]];
 }
 
 /// Asks the adapter to initiate an interstitial ad request. The adapter does
@@ -79,29 +75,32 @@
 /// interstitials, call back to the adapter:didFailInterstitial: method of the
 /// connector.
 - (void)getInterstitial {
-  NSDictionary *param = [self.interstitialAdConnector credentials];
+  id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
+  NSDictionary *param = [strongConnector credentials];
   if (!param) {
     return;
   }
-  self.mediaId = param[GADMMaioAdapterMediaId];
-  self.zoneId = param[GADMMaioAdapterZoneId];
-
-  [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
+  self.mediaId = param[kGADMMaioAdapterMediaId];
+  self.zoneId = param[kGADMMaioAdapterZoneId];
+  GADMAdapterMaioAdsManager *adManager =
+      [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 
   // MaioInstance生成時にテストモードかどうかを指定する
-  [Maio setAdTestMode:self.interstitialAdConnector.testMode];
+  [adManager setAdTestMode:strongConnector.testMode];
 
-  GADMMaioMaioInstanceRepository *repository =
-      [GADMMaioMaioInstanceRepository new];
-  MaioInstance *instance = [repository maioInstanceByMediaId:self.mediaId];
-
-  // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
-  [instance setAdTestMode:_interstitialAdConnector.testMode];
-
-  if ([instance canShowAtZoneId:self.zoneId]) {
-    [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
-    return;
-  }
+  GADMMaioInterstitialAdapter *__weak weakSelf = self;
+  [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
+    if (error) {
+      [weakSelf.interstitialAdConnector adapter:weakSelf didFailAd:error];
+    } else {
+      // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
+      [adManager setAdTestMode:weakSelf.interstitialAdConnector.testMode];
+      NSError *error = [adManager loadAdForZoneId:weakSelf.zoneId delegate:weakSelf];
+      if (error) {
+        [self.interstitialAdConnector adapter:self didFailAd:error];
+      }
+    }
+  }];
 }
 
 /// When called, the adapter must remove itself as a delegate or notification
@@ -110,7 +109,6 @@
 /// will not call a freed object. This function should be idempotent and should
 /// not crash regardless of when or how many times the method is called.
 - (void)stopBeingDelegate {
-  [[GADMMaioDelegateAggregate sharedInstance].delegates removeObject:self];
 }
 
 /// Some ad transition types may cause issues with particular Ad SDKs. The
@@ -130,15 +128,11 @@
 /// Make sure to call adapterWillPresentInterstitial: on the connector when the
 /// interstitial is about to be presented, and adapterWillDismissInterstitial:
 /// and adapterDidDismissInterstitial: when the interstitial is being dismissed.
-- (void)presentInterstitialFromRootViewController:
-    (UIViewController *)rootViewController {
-  GADMMaioMaioInstanceRepository *repository =
-      [GADMMaioMaioInstanceRepository new];
-  MaioInstance *maioInstance = [repository maioInstanceByMediaId:self.mediaId];
-
+- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [self.interstitialAdConnector adapterWillPresentInterstitial:self];
-
-  [maioInstance showAtZoneId:self.zoneId vc:rootViewController];
+  GADMAdapterMaioAdsManager *adManager =
+      [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
+  [adManager showAdForZoneId:self.zoneId rootViewController:rootViewController];
 }
 
 #pragma mark - MaioDelegate
@@ -157,10 +151,7 @@
  *  @param newValue 変更後のゾーンの状態。YES なら配信可能
  */
 - (void)maioDidChangeCanShow:(NSString *)zoneId newValue:(BOOL)newValue {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-  if (!newValue)
-    return;
+  if (!newValue) return;
 
   [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
 }
@@ -172,9 +163,6 @@
  *  @param zoneId  広告が表示されるゾーンの識別子
  */
 - (void)maioWillStartAd:(NSString *)zoneId {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-
   // NOOP
 }
 
@@ -193,9 +181,6 @@
                playtime:(NSInteger)playtime
                 skipped:(BOOL)skipped
             rewardParam:(NSString *)rewardParam {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-
   // NOOP
 }
 
@@ -205,9 +190,6 @@
  *  @param zoneId  広告がクリックされたゾーンの識別子
  */
 - (void)maioDidClickAd:(NSString *)zoneId {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-
   [self.interstitialAdConnector adapterDidGetAdClick:self];
   [self.interstitialAdConnector adapterWillLeaveApplication:self];
 }
@@ -218,9 +200,6 @@
  *  @param zoneId  広告が閉じられたゾーンの識別子
  */
 - (void)maioDidCloseAd:(NSString *)zoneId {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-
   [self.interstitialAdConnector adapterWillDismissInterstitial:self];
   [self.interstitialAdConnector adapterDidDismissInterstitial:self];
 }
@@ -232,13 +211,8 @@
  *  @param reason   エラーの理由を示す列挙値
  */
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-  if (self.zoneId && ![self.zoneId isEqualToString:zoneId])
-    return;
-
   NSString *error = [GADMMaioError stringFromFailReason:reason];
-  [self.interstitialAdConnector
-        adapter:self
-      didFailAd:[GADMMaioError errorWithDescription:error]];
+  [self.interstitialAdConnector adapter:self didFailAd:[GADMMaioError errorWithDescription:error]];
 }
 
 #pragma mark - private methods

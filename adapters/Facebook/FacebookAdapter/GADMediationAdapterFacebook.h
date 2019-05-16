@@ -17,4 +17,6 @@
 
 @interface GADMediationAdapterFacebook : NSObject <GADRTBAdapter>
 
++ (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials;
+
 @end

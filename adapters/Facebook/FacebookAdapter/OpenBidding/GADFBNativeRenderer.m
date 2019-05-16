@@ -19,7 +19,7 @@
 #import "GADFBError.h"
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 static NSString *const GADUnifiedNativeAdIconView = @"3003";
@@ -108,6 +108,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     [_adOptionsView addConstraint:width];
     [_adOptionsView updateConstraints];
   }
+  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (NSString *)advertiser {

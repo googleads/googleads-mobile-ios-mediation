@@ -162,7 +162,8 @@
 
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self.interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
       initWithAdConfiguration:adConfiguration
             completionHandler:completionHandler];
@@ -170,7 +171,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];

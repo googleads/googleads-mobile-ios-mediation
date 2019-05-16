@@ -32,6 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4593F41C227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */; };
 		45BFFBB422286EA400C96A67 /* GADMediationAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBB222286EA400C96A67 /* GADMediationAdapterAdColony.h */; };
 		45BFFBB522286EA400C96A67 /* GADMediationAdapterAdColony.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */; };
 		45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */; };
@@ -60,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyConstants.h; sourceTree = "<group>"; };
 		45BFFBB222286EA400C96A67 /* GADMediationAdapterAdColony.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterAdColony.h; sourceTree = "<group>"; };
 		45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterAdColony.m; sourceTree = "<group>"; };
 		45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyInitializer.h; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				45BFFBBB22286F1200C96A67 /* GADMAdapterAdColonyRewardedAd.m */,
 				45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */,
 				45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */,
+				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
 			);
 			path = AdColonyAdapter;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				7DDEA9411DFB30E600FCF905 /* GADMAdapterAdColony.h in Headers */,
 				45BFFBBC22286F1200C96A67 /* GADMAdapterAdColonyRewardedAd.h in Headers */,
 				7DC8682E1DDA8D4400F0F1C4 /* AdColonyAdapter.h in Headers */,
+				4593F41C227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h in Headers */,
 				7DDEA93C1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h in Headers */,
 				45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */,
 				45BFFBB422286EA400C96A67 /* GADMediationAdapterAdColony.h in Headers */,
@@ -394,6 +398,10 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};
@@ -402,6 +410,10 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SKIP_INSTALL = YES;
 			};

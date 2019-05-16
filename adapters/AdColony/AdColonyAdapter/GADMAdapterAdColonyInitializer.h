@@ -22,10 +22,6 @@ typedef enum {
 
 @interface GADMAdapterAdColonyInitializer : NSObject
 
-@property NSSet *zones;
-@property AdColonyAdapterInitState adColonyAdapterInitState;
-@property NSArray *callbacks;
-
 + (instancetype)sharedInstance;
 
 - (void)initializeAdColonyWithAppId:(NSString *)appId

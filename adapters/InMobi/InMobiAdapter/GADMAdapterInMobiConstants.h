@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+// Adapter version string
+static NSString *const kGADMAdapterInMobiVersion = @"7.2.7.0";
 
-#import "GADMChartboostExtras.h"
+// Tapjoy SDK key
+static NSString *const kGADMAdapterInMobiAccountID = @"accountid";
 
-/// The purpose of the GADMAdapterChartboostDataProvider protocol is to allow the singleton to
-/// interact with the adapter.
-@protocol GADMAdapterChartboostDataProvider<NSObject>
+// Tapjoy placemnt name
+static NSString *const kGADMAdapterInMobiPlacementID = @"placementid";
 
-/// Returns the Chartboost extras object.
-- (GADMChartboostExtras *)extras;
-
-/// Returns the Chartboost ad location.
-- (NSString *)getAdLocation;
-
-@end
+static NSString *const kGADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";

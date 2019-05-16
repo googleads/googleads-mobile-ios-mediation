@@ -27,6 +27,9 @@
         *interstitialAdapterDelegates;
 @property(nonatomic) NSMutableDictionary<NSString *, NSSet<NSString *> *> *initializedAppKeys;
 
+// Holds the instance ID of the rewarded ad that is being presented.
+@property(nonatomic) NSString *currentShowingRewardedInstanceID;
+
 @end
 
 @implementation ISMediationManager
@@ -116,15 +119,15 @@
 - (void)requestRewardedAdWithDelegate:
     (id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>)delegate {
   NSString *instanceID = [delegate getInstanceID];
-  NSError *availableAdsError = [GADMAdapterIronSourceUtils
-      createErrorWith:@"A request is already in processing for same instance ID"
-            andReason:@"Can't make a new request for the same instance ID"
-        andSuggestion:nil];
   [IronSource setISDemandOnlyRewardedVideoDelegate:self];
   id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> adapterDelegate =
       [self getRewardedDelegateForInstanceID:instanceID];
 
   if (adapterDelegate) {
+    NSError *availableAdsError = [GADMAdapterIronSourceUtils
+        createErrorWith:@"A request is already in processing for same instance ID"
+              andReason:@"Can't make a new request for the same instance ID"
+          andSuggestion:nil];
     [delegate didFailToLoadAdWithError:availableAdsError];
   } else {
     [self addRewardedDelegate:delegate forInstanceID:instanceID];
@@ -144,6 +147,7 @@
   if ([IronSource hasISDemandOnlyRewardedVideo:instanceId]) {
     // The reward based video ad is available, present the ad.
     [IronSource showISDemandOnlyRewardedVideo:viewController instanceId:instanceId];
+    _currentShowingRewardedInstanceID = instanceId;
   } else {
     // Because publishers are expected to check that an ad is available before trying to show one,
     // the above conditional should always hold true. If for any reason the adapter is not ready to
@@ -160,14 +164,14 @@
 - (void)requestInterstitialAdWithDelegate:
     (id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>)delegate {
   NSString *instanceId = [delegate getInstanceID];
-  NSError *availableAdsError = [GADMAdapterIronSourceUtils
-      createErrorWith:@"A request is already in processing for same instance ID"
-            andReason:@"Can't make a new request for the same instance ID"
-        andSuggestion:nil];
   [IronSource setISDemandOnlyInterstitialDelegate:self];
   id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> adapterDelegate =
       [self getInterstitialDelegateForInstanceID:instanceId];
   if (adapterDelegate) {
+    NSError *availableAdsError = [GADMAdapterIronSourceUtils
+        createErrorWith:@"A request is already in processing for same instance ID"
+              andReason:@"Can't make a new request for the same instance ID"
+          andSuggestion:nil];
     [delegate didFailToLoadAdWithError:availableAdsError];
     return;
   } else {
@@ -207,11 +211,16 @@
 #pragma mark ISDemandOnlyRewardedDelegate
 
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
+  if ([_currentShowingRewardedInstanceID isEqualToString:instanceId]) {
+    return;
+  }
+
   id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
       [self getRewardedDelegateForInstanceID:instanceId];
   if (!available) {
     [self removeRewardedDelegateForInstanceID:instanceId];
   }
+
   if (delegate) {
     [delegate rewardedVideoHasChangedAvailability:available instanceId:instanceId];
   }
@@ -232,6 +241,7 @@
   if (delegate) {
     [delegate rewardedVideoDidFailToShowWithError:error instanceId:instanceId];
     [self removeRewardedDelegateForInstanceID:instanceId];
+    _currentShowingRewardedInstanceID = @"";
   }
 }
 
@@ -249,6 +259,7 @@
   if (delegate) {
     [self removeRewardedDelegateForInstanceID:instanceId];
     [delegate rewardedVideoDidClose:instanceId];
+    _currentShowingRewardedInstanceID = @"";
   }
 }
 

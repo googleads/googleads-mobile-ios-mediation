@@ -42,12 +42,8 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
   BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
 
   // This custom event assumes you have implemented unified native advanced in your app as is done
-  // in this sample. If you have implemented app install and content ad formats in your app,
-  // then instead of the `SampleMediatedNativeAd` implementing the `GADMediatedUnifiedNativeAd`
-  // protocol, you should implement the `GADMediatedNativeAppInstallAd` and
-  // `GADMediatedNativeContentAd` protocols in separate ad classes, then in the ad loader delegate
-  // callback, instantiate and return the relevant ad type to the custom event delegate.
-  // For an example of this, see the `SampleAdapter` and `SampleAdapterDelegate` in this project.
+  // in this sample.
+
   if (!requestedUnified) {
     NSString *description = @"You must request the unified native ad format.";
     NSDictionary *userInfo =

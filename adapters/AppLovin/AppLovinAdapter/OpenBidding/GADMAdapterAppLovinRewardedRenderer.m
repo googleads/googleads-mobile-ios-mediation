@@ -288,4 +288,9 @@ static NSObject *ALGlobalIncentivizedInterstitialAdsLock;
   }
 }
 
+- (void)dealloc {
+  self.incent.adVideoPlaybackDelegate = nil;
+  self.incent.adDisplayDelegate = nil;
+}
+
 @end

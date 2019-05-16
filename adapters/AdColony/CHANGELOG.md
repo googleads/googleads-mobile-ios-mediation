@@ -1,5 +1,9 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 3.3.7.0
+- Verified compatibility with AdColony SDK 3.3.7.
+- Fixed a crash in case of failed to fetch rewarded ad.
+
 ## Version 3.3.6.1
 - Updated the adapter to use the new rewarded API.
 - Now requires Google Mobile Ads SDK version 7.41.0 or higher.

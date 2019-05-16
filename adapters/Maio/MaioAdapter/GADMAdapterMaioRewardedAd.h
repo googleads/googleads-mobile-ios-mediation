@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Facebook mediation network adapter version.
-static NSString *const kGADMAdapterFacebookVersion = @"5.2.0.2";
+#import <Foundation/Foundation.h>
+@import GoogleMobileAds;
+@import Maio;
 
-static NSString *const kGADMAdapterFacebookOpenBiddingPubID = @"placement_id";
+@interface GADMAdapterMaioRewardedAd : NSObject <GADMediationRewardedAd>
 
-static NSString *const kGADMAdapterFacebookPubID = @"pubid";
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+
+@end

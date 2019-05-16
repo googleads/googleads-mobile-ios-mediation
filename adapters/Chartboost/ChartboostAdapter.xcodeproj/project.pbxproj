@@ -32,14 +32,16 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		45E6364322399E99006EB5A1 /* GADMediationAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E6364122399E99006EB5A1 /* GADMediationAdapterChartboost.h */; };
+		45E6364422399E99006EB5A1 /* GADMediationAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6364222399E99006EB5A1 /* GADMediationAdapterChartboost.m */; };
+		45E636472239A1C0006EB5A1 /* GADMRewardedAdChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E636452239A1C0006EB5A1 /* GADMRewardedAdChartboost.h */; };
+		45E636482239A1C0006EB5A1 /* GADMRewardedAdChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E636462239A1C0006EB5A1 /* GADMRewardedAdChartboost.m */; };
 		7D386A681DDA4BD500744A5F /* GADMAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A561DDA4BD500744A5F /* GADMAdapterChartboost.h */; };
 		7D386A691DDA4BD500744A5F /* GADMAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386A571DDA4BD500744A5F /* GADMAdapterChartboost.m */; };
 		7D386A6A1DDA4BD500744A5F /* GADMAdapterChartboostConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A581DDA4BD500744A5F /* GADMAdapterChartboostConstants.h */; };
-		7D386A6B1DDA4BD500744A5F /* GADMAdapterChartboostProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A591DDA4BD500744A5F /* GADMAdapterChartboostProtocol.h */; };
+		7D386A6B1DDA4BD500744A5F /* GADMAdapterChartboostDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A591DDA4BD500744A5F /* GADMAdapterChartboostDataProvider.h */; };
 		7D386A6C1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A5A1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.h */; };
 		7D386A6D1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386A5B1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.m */; };
-		7D386A6E1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A5C1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.h */; };
-		7D386A6F1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386A5D1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.m */; };
 		7D386A701DDA4BD500744A5F /* GADMChartboostError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D386A5E1DDA4BD500744A5F /* GADMChartboostError.h */; };
 		7D386A711DDA4BD500744A5F /* GADMChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386A5F1DDA4BD500744A5F /* GADMChartboostError.m */; };
 		7D386A721DDA4BD500744A5F /* GADMChartboostExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386A601DDA4BD500744A5F /* GADMChartboostExtras.m */; };
@@ -60,16 +62,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		45E6364122399E99006EB5A1 /* GADMediationAdapterChartboost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterChartboost.h; sourceTree = "<group>"; };
+		45E6364222399E99006EB5A1 /* GADMediationAdapterChartboost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterChartboost.m; sourceTree = "<group>"; };
+		45E636452239A1C0006EB5A1 /* GADMRewardedAdChartboost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRewardedAdChartboost.h; sourceTree = "<group>"; };
+		45E636462239A1C0006EB5A1 /* GADMRewardedAdChartboost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMRewardedAdChartboost.m; sourceTree = "<group>"; };
 		7D264FEC1DDCFF7C00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FEE1DDCFF9100027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D386A561DDA4BD500744A5F /* GADMAdapterChartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboost.h; sourceTree = "<group>"; };
 		7D386A571DDA4BD500744A5F /* GADMAdapterChartboost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboost.m; sourceTree = "<group>"; };
 		7D386A581DDA4BD500744A5F /* GADMAdapterChartboostConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostConstants.h; sourceTree = "<group>"; };
-		7D386A591DDA4BD500744A5F /* GADMAdapterChartboostProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostProtocol.h; sourceTree = "<group>"; };
+		7D386A591DDA4BD500744A5F /* GADMAdapterChartboostDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostDataProvider.h; sourceTree = "<group>"; };
 		7D386A5A1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostSingleton.h; sourceTree = "<group>"; };
 		7D386A5B1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboostSingleton.m; sourceTree = "<group>"; };
-		7D386A5C1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostWeakReference.h; sourceTree = "<group>"; };
-		7D386A5D1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboostWeakReference.m; sourceTree = "<group>"; };
 		7D386A5E1DDA4BD500744A5F /* GADMChartboostError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMChartboostError.h; sourceTree = "<group>"; };
 		7D386A5F1DDA4BD500744A5F /* GADMChartboostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostError.m; sourceTree = "<group>"; };
 		7D386A601DDA4BD500744A5F /* GADMChartboostExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostExtras.m; sourceTree = "<group>"; };
@@ -102,14 +106,16 @@
 				7D386A561DDA4BD500744A5F /* GADMAdapterChartboost.h */,
 				7D386A571DDA4BD500744A5F /* GADMAdapterChartboost.m */,
 				7D386A581DDA4BD500744A5F /* GADMAdapterChartboostConstants.h */,
-				7D386A591DDA4BD500744A5F /* GADMAdapterChartboostProtocol.h */,
+				7D386A591DDA4BD500744A5F /* GADMAdapterChartboostDataProvider.h */,
 				7D386A5A1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.h */,
 				7D386A5B1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.m */,
-				7D386A5C1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.h */,
-				7D386A5D1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.m */,
 				7D386A5E1DDA4BD500744A5F /* GADMChartboostError.h */,
 				7D386A5F1DDA4BD500744A5F /* GADMChartboostError.m */,
 				7D386A601DDA4BD500744A5F /* GADMChartboostExtras.m */,
+				45E6364122399E99006EB5A1 /* GADMediationAdapterChartboost.h */,
+				45E6364222399E99006EB5A1 /* GADMediationAdapterChartboost.m */,
+				45E636452239A1C0006EB5A1 /* GADMRewardedAdChartboost.h */,
+				45E636462239A1C0006EB5A1 /* GADMRewardedAdChartboost.m */,
 			);
 			path = ChartboostAdapter;
 			sourceTree = "<group>";
@@ -183,11 +189,12 @@
 				7D386A6C1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.h in Headers */,
 				7D386A731DDA4BD500744A5F /* ChartboostAdapter.h in Headers */,
 				7D386A701DDA4BD500744A5F /* GADMChartboostError.h in Headers */,
-				7D386A6E1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.h in Headers */,
-				7D386A6B1DDA4BD500744A5F /* GADMAdapterChartboostProtocol.h in Headers */,
+				7D386A6B1DDA4BD500744A5F /* GADMAdapterChartboostDataProvider.h in Headers */,
 				7D386A741DDA4BD500744A5F /* GADMChartboostExtras.h in Headers */,
 				7D386A6A1DDA4BD500744A5F /* GADMAdapterChartboostConstants.h in Headers */,
+				45E6364322399E99006EB5A1 /* GADMediationAdapterChartboost.h in Headers */,
 				7D386A681DDA4BD500744A5F /* GADMAdapterChartboost.h in Headers */,
+				45E636472239A1C0006EB5A1 /* GADMRewardedAdChartboost.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,8 +296,9 @@
 			files = (
 				7D386A711DDA4BD500744A5F /* GADMChartboostError.m in Sources */,
 				7D386A6D1DDA4BD500744A5F /* GADMAdapterChartboostSingleton.m in Sources */,
-				7D386A6F1DDA4BD500744A5F /* GADMAdapterChartboostWeakReference.m in Sources */,
 				7D386A721DDA4BD500744A5F /* GADMChartboostExtras.m in Sources */,
+				45E636482239A1C0006EB5A1 /* GADMRewardedAdChartboost.m in Sources */,
+				45E6364422399E99006EB5A1 /* GADMediationAdapterChartboost.m in Sources */,
 				7D386A691DDA4BD500744A5F /* GADMAdapterChartboost.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
