@@ -56,7 +56,6 @@
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
-
   if ([UnityAds isInitialized]){
     return;
   }
@@ -69,7 +68,6 @@
   [mediationMetaData commit];
   
   // Initializing Unity Ads with |gameID|.
-
   [UnityAds initialize:gameID delegate:self];
 }
 
