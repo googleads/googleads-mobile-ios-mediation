@@ -14,8 +14,8 @@
 
 #import "GADFBRewardedRenderer.h"
 
-@import FBAudienceNetwork;
-@import AdSupport;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <AdSupport/AdSupport.h>
 
 #import "GADFBError.h"
 #import "GADMAdapterFacebookConstants.h"

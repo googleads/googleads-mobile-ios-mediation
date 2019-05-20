@@ -14,7 +14,7 @@
 
 #import "GADMAdapterFacebook.h"
 
-@import FBAudienceNetwork;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 #import "GADFBAdapterDelegate.h"
 #import "GADFBBannerAd.h"

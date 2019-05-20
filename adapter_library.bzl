@@ -48,9 +48,7 @@ def adapter_library(deps):
         hdrs = [":flat_headers"],
         copts = [
             "-Wno-error=incompatible-pointer-types",
-            "-fautolink",
         ],
-        enable_modules = 1,
         deps = [
             "//googlemac/iPhone/GoogleAds/SDK:google_mobile_ads_framework_current",
         ] + deps,

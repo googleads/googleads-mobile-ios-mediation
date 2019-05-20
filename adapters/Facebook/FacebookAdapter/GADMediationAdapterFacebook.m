@@ -21,7 +21,7 @@
 #import "GADFBRewardedRenderer.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMAdapterFacebook.h"
-@import FBAudienceNetwork;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface GADMediationAdapterFacebook () {
   /// Facebook Audience Network rewarded ad wrapper.
