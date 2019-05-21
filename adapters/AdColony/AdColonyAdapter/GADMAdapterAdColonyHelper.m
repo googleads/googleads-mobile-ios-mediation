@@ -12,36 +12,9 @@
 
 @implementation GADMAdapterAdColonyHelper
 
-+ (AdColonyAppOptions *)getAppOptionsFromExtras:(GADMAdapterAdColonyExtras *)extras {
-  AdColonyAppOptions *options = [AdColonyAppOptions new];
-  options.userMetadata = [AdColonyUserMetadata new];
-
-  if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
-    options.userID = extras.userId;
-    options.testMode = extras.testMode;
-    if (extras.gdprRequired) {
-      options.gdprRequired = extras.gdprRequired;
-      options.gdprConsentString = extras.gdprConsentString;
-    }
-  }
-
-  [options setMediationNetwork:ADCAdMob];
-  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
-  return options;
-}
-
 + (AdColonyAppOptions *)getAppOptionsFromConnector:(id<GADMAdNetworkConnector>)connector {
-  GADMAdapterAdColonyExtras *extras = connector.networkExtras;
-  AdColonyAppOptions *options;
-
-  if (extras) {
-    options = [self getAppOptionsFromExtras:extras];
-  }
-
-  if (!options) {
-    options = [AdColonyAppOptions new];
-    options.userMetadata = [AdColonyUserMetadata new];
-  }
+  AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
+  options.userMetadata = [AdColonyUserMetadata new];
 
   if ([connector userHasLocation]) {
     options.userMetadata.userLatitude = @([connector userLatitude]);
@@ -60,26 +33,29 @@
     options.userMetadata.userAge = [self getNumberOfYearsSinceDate:birthday];
   }
 
+  [options setMediationNetwork:ADCAdMob];
+  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
+
   return options;
 }
 
 + (AdColonyAppOptions *)getAppOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig {
-  GADMAdapterAdColonyExtras *extras = adConfig.extras;
-  AdColonyAppOptions *options;
-
-  if (extras) {
-    options = [self getAppOptionsFromExtras:extras];
-  }
-
-  if (!options) {
-    options = [AdColonyAppOptions new];
-    options.userMetadata = [AdColonyUserMetadata new];
-  }
+  AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
+  options.userMetadata = [AdColonyUserMetadata new];
 
   if ([adConfig hasUserLocation]) {
     options.userMetadata.userLatitude = @([adConfig userLatitude]);
     options.userMetadata.userLongitude = @([adConfig userLongitude]);
   }
+
+  // Set mediation network depending upon type of adapter (Legacy/RTB)
+  if (adConfig.bidResponse) {
+    [options setMediationNetwork:@"AdMob_OpenBidding"];
+  } else {
+    [options setMediationNetwork:ADCAdMob];
+  }
+
+  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
 
   return options;
 }
@@ -153,7 +129,13 @@
                          options:(AdColonyAppOptions *)options
                         callback:(void (^)(NSString *, NSError *))callback {
   NSString *appId = credentials[kGADMAdapterAdColonyAppIDkey];
-  NSString *zoneList = credentials[kGADMAdapterAdColonyZoneIDkey];
+  NSString *zoneList;
+
+  if (credentials[kGADMAdapterAdColonyZoneIDOpenBiddingKey]) {
+    zoneList = credentials[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  } else {
+    zoneList = credentials[kGADMAdapterAdColonyZoneIDkey];
+  }
 
   // Support arrays for older implementations, they won't have to change their zones on the
   // dashboard.
@@ -175,14 +157,14 @@
 + (void)setupZoneFromConnector:(id<GADMAdNetworkConnector>)connector
                       callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = connector.credentials;
-  AdColonyAppOptions *options = [self getAppOptionsFromExtras:connector.networkExtras];
+  AdColonyAppOptions *options = [self getAppOptionsFromConnector:connector];
   [self setupZoneFromCredentials:credentials options:options callback:callback];
 }
 
 + (void)setupZoneFromAdConfig:(GADMediationAdConfiguration *)adConfig
                      callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = adConfig.credentials.settings;
-  AdColonyAppOptions *options = [self getAppOptionsFromExtras:adConfig.extras];
+  AdColonyAppOptions *options = [self getAppOptionsFromAdConfig:adConfig];
   [self setupZoneFromCredentials:credentials options:options callback:callback];
 }
 

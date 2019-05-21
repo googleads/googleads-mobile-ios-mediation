@@ -78,9 +78,7 @@ typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable erro
       } else {
         _adColonyAdapterInitState = INIT_STATE_INITIALIZING;
         [self.callbacks addObject:callback];
-        [self configureWithAppID:appId
-                         zoneIDs:[_zonesToBeConfigured allObjects]
-                         options:options];
+        [self configureWithAppID:appId zoneIDs:[_zonesToBeConfigured allObjects] options:options];
         _zonesToBeConfigured = [NSSet set];
       }
 

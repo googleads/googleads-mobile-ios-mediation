@@ -98,9 +98,9 @@
         // with id: xyz has been registered. Cannot show interstitial`.
         [ad setExpire:^{
           NSLog(@"AdColonyAdapter [Info]: Interstitial Ad expired from zone: %@ because of "
-                @"configuring another Ad. To avoid this situation use startWithCompletionHandler: "
+                @"configuring another Ad. To avoid this situation, use startWithCompletionHandler: "
                 @"to initialize Google Mobile Ads SDK and wait for the completion handler to be "
-                @"called before requesting an Ad.",
+                @"called before requesting an ad.",
                 zone);
         }];
       }
