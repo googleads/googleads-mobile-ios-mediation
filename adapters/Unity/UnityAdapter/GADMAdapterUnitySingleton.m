@@ -65,7 +65,7 @@
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
-  [mediationMetaData set:@"adaptor_version" value:@"3.1.0"];
+  [mediationMetaData set:@"adapter_version" value:@"3.1.0"];
   [mediationMetaData commit];
   
   // Initializing Unity Ads with |gameID|.
