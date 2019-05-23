@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADDuAdError.h"
-#import "GADMAdapterDuAdConstants.h"
+#import <Foundation/Foundation.h>
+@import GoogleMobileAds;
 
-NSError *GADDUErrorWithDescription(NSString *description) {
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterDuAdErrorDomain code:0 userInfo:userInfo];
-  return error;
-}
+@interface GADMediationAdapterDuAd : NSObject <GADMediationAdapter>
+
+@end
