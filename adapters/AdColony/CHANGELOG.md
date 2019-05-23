@@ -1,6 +1,6 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Verison 3.3.7.1
 - Added open bidding capability to the adapter for interstitial and rewarded ads.
 
 ## Version 3.3.7.0

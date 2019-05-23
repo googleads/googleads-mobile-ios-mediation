@@ -151,7 +151,10 @@ static AdColonyAppOptions *options;
   NSString *signals = nil;
 
   // Get Zone Id for which signals are requested
-  NSString *zoneId = params.credentials.settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  NSString *zoneId;
+  if (params.configuration.credentials.count > 0) {
+    zoneId = params.configuration.credentials[0].settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  }
   if (zoneId.length) {
     // Take out saved signals for above zone Id
     signals = [self getSignalsForZone:zoneId];
