@@ -32,14 +32,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1D4C081D20192BAF00B1876F /* GADMAdapterAppLovinQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081220192BAF00B1876F /* GADMAdapterAppLovinQueue.m */; };
 		1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */; };
 		1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
 		1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */; };
 		1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */; };
 		1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */; };
 		1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */; };
-		1D4C082420192BAF00B1876F /* GADMAdapterAppLovinQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081920192BAF00B1876F /* GADMAdapterAppLovinQueue.h */; };
 		1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */; };
 		1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */; };
 		1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */; };
@@ -76,14 +74,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D4C081220192BAF00B1876F /* GADMAdapterAppLovinQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinQueue.m; sourceTree = "<group>"; };
 		1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovin.m; sourceTree = "<group>"; };
 		1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinExtras.m; sourceTree = "<group>"; };
 		1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinUtils.m; sourceTree = "<group>"; };
 		1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinRewardBasedVideoAd.h; sourceTree = "<group>"; };
 		1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinConstant.h; sourceTree = "<group>"; };
 		1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinConstant.m; sourceTree = "<group>"; };
-		1D4C081920192BAF00B1876F /* GADMAdapterAppLovinQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinQueue.h; sourceTree = "<group>"; };
 		1D4C081A20192BAF00B1876F /* GADMAdapterAppLovin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovin.h; sourceTree = "<group>"; };
 		1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinRewardBasedVideoAd.m; sourceTree = "<group>"; };
 		1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinUtils.h; sourceTree = "<group>"; };
@@ -187,8 +183,6 @@
 				455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */,
 				1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */,
 				1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */,
-				1D4C081920192BAF00B1876F /* GADMAdapterAppLovinQueue.h */,
-				1D4C081220192BAF00B1876F /* GADMAdapterAppLovinQueue.m */,
 				455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */,
 				455AD22020CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h */,
 				455AD21E20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m */,
@@ -247,7 +241,6 @@
 				45BFFBDA2228AE8900C96A67 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				45BFFBD22228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.h in Headers */,
-				1D4C082420192BAF00B1876F /* GADMAdapterAppLovinQueue.h in Headers */,
 				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
 				455AD22720CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.h in Headers */,
 				45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */,
@@ -360,7 +353,6 @@
 				45BFFBD72228AE6A00C96A67 /* GADMRTBAdapterAppLovinBannerRenderer.m in Sources */,
 				45BFFBCE2228ADE100C96A67 /* GADMediationAdapterAppLovin.m in Sources */,
 				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
-				1D4C081D20192BAF00B1876F /* GADMAdapterAppLovinQueue.m in Sources */,
 				455AD22520CA0EFF009FDF47 /* GADMAppLovinMediatedNativeAppInstallAd.m in Sources */,
 				1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */,
 				45BFFBDB2228AE8900C96A67 /* GADMRTBAdapterAppLovinInterstitialRenderer.m in Sources */,

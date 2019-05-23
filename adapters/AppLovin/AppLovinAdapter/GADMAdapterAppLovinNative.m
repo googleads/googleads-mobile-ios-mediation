@@ -12,7 +12,6 @@
 #import "GADMAdapterAppLovin.h"
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinQueue.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinMediatedNativeAppInstallAd.h"
 #import "GADMAppLovinMediatedNativeUnifiedAd.h"
