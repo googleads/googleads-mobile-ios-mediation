@@ -32,7 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4534E82122862B98000381F8 /* GADMediationAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */; };
+		4534E82122862B98000381F8 /* GADMediationAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45476076228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */; };
 		45476077228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */; };
 		4547607A228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */; };
@@ -255,6 +255,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
