@@ -1,7 +1,7 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
 ## Version 5.3.2.0
-- Removed dependency on CoreLocation.framework
+- Verified compatibility with FAN SDK 5.3.2.
 
 ## Version 5.3.0.0
 - Changed the mediation service string include adapter version.
