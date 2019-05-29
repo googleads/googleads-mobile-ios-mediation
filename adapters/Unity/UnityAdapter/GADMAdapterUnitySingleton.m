@@ -98,6 +98,7 @@
   [self addAdapterDelegate:adapterDelegate];
   
     if ([UnityAds isInitialized]) {
+        
       //Call metadata load API
       NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
       UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
@@ -149,6 +150,7 @@
   [self addAdapterDelegate:adapterDelegate];
 
   if ([UnityAds isInitialized]) {
+      
       //Call metadata load API
       NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
       UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
