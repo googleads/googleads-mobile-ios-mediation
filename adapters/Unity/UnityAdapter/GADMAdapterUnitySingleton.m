@@ -65,7 +65,7 @@
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
-  [mediationMetaData set:@"adapter_version" value:@"3.1.0"];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
   
   // Initializing Unity Ads with |gameID|.
@@ -97,15 +97,17 @@
 
   [self addAdapterDelegate:adapterDelegate];
   
-  //Call metadata load API
-  NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-  UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-  [loadMetaData set:uniqueEventId value:placementID];
-  [loadMetaData commit];
-  
-  if ([UnityAds isReady:placementID]) {
-    [adapterDelegate unityAdsReady:placementID];
-  }
+    if ([UnityAds isInitialized]) {
+      //Call metadata load API
+      NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+      UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+      [loadMetaData set:uniqueEventId value:placementID];
+      [loadMetaData commit];
+      
+      if ([UnityAds isReady:placementID]) {
+        [adapterDelegate unityAdsReady:placementID];
+      }
+    }
 }
 
 - (void)presentRewardedAdForViewController:(UIViewController *)viewController
@@ -146,14 +148,16 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  //Call metadata load API
-  NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-  UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-  [loadMetaData set:uniqueEventId value:placementID];
-  [loadMetaData commit];
-
-  if ([UnityAds isReady:placementID]) {
-    [adapterDelegate unityAdsReady:placementID];
+  if ([UnityAds isInitialized]) {
+      //Call metadata load API
+      NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+      UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+      [loadMetaData set:uniqueEventId value:placementID];
+      [loadMetaData commit];
+      
+      if ([UnityAds isReady:placementID]) {
+        [adapterDelegate unityAdsReady:placementID];
+      }
   }
 }
 
