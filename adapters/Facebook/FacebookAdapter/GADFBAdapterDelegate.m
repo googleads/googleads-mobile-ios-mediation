@@ -14,7 +14,7 @@
 
 #import "GADFBAdapterDelegate.h"
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADFBAdapterDelegate () {
   /// Connector from Google AdMob SDK which will receive ad configurations.

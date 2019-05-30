@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADDuAdNativeAd.h"
+#import "GADMAdapterDuAdConstants.h"
 
 @import GoogleMobileAds;
 @import DUModuleSDK;
@@ -82,9 +83,9 @@ static NSString *const GADNativeAdIcon = @"2";
   // DuAd only supports app install ads.
   if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall] ||
       ![adTypes containsObject:kGADAdLoaderAdTypeNativeContent]) {
-    NSError *error = GADDUErrorWithDescription(
-        @"Ad types must include kGADAdLoaderAdTypeNativeAppInstall and "
-        @"kGADAdLoaderAdTypeNativeContent.");
+    NSError *error =
+        GADDUErrorWithDescription(@"Ad types must include kGADAdLoaderAdTypeNativeAppInstall and "
+                                  @"kGADAdLoaderAdTypeNativeContent.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -100,7 +101,7 @@ static NSString *const GADNativeAdIcon = @"2";
   }
   // -[DUNativeAd initWithPlacementID:] throws an NSInvalidArgumentException if the placement ID is
   // nil.
-  NSString *placementID = [strongConnector credentials][@"placementId"];
+  NSString *placementID = strongConnector.credentials[kGADMAdapterDuAdPlacementID];
   if (!placementID) {
     NSError *error = GADDUErrorWithDescription(@"Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
@@ -280,11 +281,10 @@ static NSString *const GADNativeAdIcon = @"2";
 #pragma mark - GADMediatedNativeAdDelegate
 
 - (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-         didRenderInView:(UIView *)view
-     clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
-  nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
-          viewController:(UIViewController *)viewController {
-
+           didRenderInView:(UIView *)view
+       clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
   [_nativeAd registerViewForInteraction:view
                      withViewController:viewController
                      withClickableViews:[clickableAssetViews allValues]];
@@ -302,9 +302,8 @@ static NSString *const GADNativeAdIcon = @"2";
 
 - (void)nativeAdWillLogImpression:(DUNativeAd *)nativeAd {
   if (_impressionLogged) {
-    GADDU_LOG(
-        @"DUNativeAd is trying to log an impression again. Adapter will ignore duplicate "
-         "impression pings.");
+    GADDU_LOG(@"DUNativeAd is trying to log an impression again. Adapter will ignore duplicate "
+               "impression pings.");
     return;
   }
   _impressionLogged = YES;

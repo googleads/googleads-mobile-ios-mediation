@@ -17,12 +17,10 @@
 
 #import <Chartboost/Chartboost.h>
 
-#import "GADMAdapterChartboostProtocol.h"
+#import "GADMAdapterChartboostDataProvider.h"
 
-/// Adapter for communicating with the Chartboost Network to fetch reward-based video ads and
-/// interstitial ads.
+/// Adapter for communicating with the Chartboost Network to fetch interstitial ads.
 @interface GADMAdapterChartboost
-    : NSObject<GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter,
-               GADMAdapterChartboostDataProvider, ChartboostDelegate>
+    : NSObject <GADMAdNetworkAdapter, GADMAdapterChartboostDataProvider, ChartboostDelegate>
 
 @end

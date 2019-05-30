@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Creates and manages Facebook Audience Network banner ads.
 @interface GADFBBannerAd : NSObject

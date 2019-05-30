@@ -63,7 +63,7 @@ bool _bannerRequested = false;
 
 - (void)addAdapterDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     [_adapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getPlacementID]];
   }
 }
@@ -82,12 +82,11 @@ bool _bannerRequested = false;
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
   NSString *placementID = [adapterDelegate getPlacementID];
 
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     if ([_adapterDelegates objectForKey:placementID]) {
       NSString *message = @"An ad is already loading for placement ID %@";
-      [adapterDelegate
-       unityAdsDidError:kUnityAdsErrorInternalError
-       withMessage:[NSString stringWithFormat:message, placementID]];
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
       return;
     }
   }
@@ -221,8 +220,7 @@ bool _bannerRequested = false;
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
-
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     [_adapterDelegates removeObjectForKey:placementID];
   }
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
@@ -234,12 +232,18 @@ bool _bannerRequested = false;
 
 - (void)unityAdsReady:(NSString *)placementID {
   id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     adapterDelegate = [_adapterDelegates objectForKey:placementID];
   }
 
   if (adapterDelegate) {
     [adapterDelegate unityAdsReady:placementID];
+  }
+
+  if (_bannerRequested && [placementID isEqualToString:_bannerPlacementID]) {
+    [UnityAdsBanner setDelegate:self];
+    [UnityAdsBanner loadBanner:_bannerPlacementID];
+    _bannerRequested = false;
   }
 }
 
@@ -254,7 +258,7 @@ bool _bannerRequested = false;
   }
 
   NSArray *delegates;
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     delegates = _adapterDelegates.objectEnumerator.allObjects;
   }
 
@@ -262,7 +266,7 @@ bool _bannerRequested = false;
     [delegate unityAdsDidError:error withMessage:message];
   }
 
-  @synchronized (_adapterDelegates) {
+  @synchronized(_adapterDelegates) {
     [_adapterDelegates removeAllObjects];
   }
 }

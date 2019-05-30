@@ -1,4 +1,5 @@
 #import "GADMediationAdapterVungle.h"
+#import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
 #import "VungleRouter.h"
@@ -11,16 +12,16 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-
   NSMutableSet *applicationIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [applicationIDs addObject:[cred.settings valueForKey:kApplicationID]];
+    [applicationIDs addObject:[cred.settings valueForKey:kGADMAdapterVungleApplicationID]];
   }
 
   NSString *applicationID = [applicationIDs anyObject];
 
   if (applicationIDs.count != 1) {
-    NSLog(@"Found the following application IDs: %@. Please remove any application IDs you are not using from the AdMob UI.",
+    NSLog(@"Found the following application IDs: %@. Please remove any application IDs you are not "
+          @"using from the AdMob UI.",
           applicationIDs);
     NSLog(@"Configuring AdColony SDK with the application ID %@.", applicationID);
   }
@@ -48,7 +49,7 @@
 }
 
 + (GADVersionNumber)version {
-  NSString *versionString = [VungleRouter adapterVersion];
+  NSString *versionString = kGADMAdapterVungleVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
@@ -67,7 +68,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];

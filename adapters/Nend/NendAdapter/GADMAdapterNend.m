@@ -41,7 +41,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 @property(nonatomic, strong) NADView *nadView;
 @property(nonatomic, strong) NADInterstitial *interstitial;
 @property(nonatomic, strong) NADInterstitialVideo *interstitialVideo;
-@property(nonatomic) CGSize selectedAdSize;
 @property(nonatomic, strong) NSNotificationCenter *notificationCenter;
 @property(nonatomic) GADMNendInterstitialType interstitialType;
 @property(nonatomic) InterstitialVideoStatus interstitialVideoStatus;
@@ -109,21 +108,17 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   adSize = GADSupportedAdSizeFromRequestedSize(adSize);
 
-  if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&           // 320x50
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {      // 728x90
-    NSString *errorMsg =
-        [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
-                                   NSStringFromGADAdSize(adSize)];
-    NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
-                                         code:kGADErrorInternalError
-                                     userInfo:@{NSLocalizedDescriptionKey : errorMsg}];
-    [strongConnector adapter:self didFailAd:error];
+  if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+      NSString *errorMsg =
+      [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
+       NSStringFromGADAdSize(adSize)];
+      NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                                           code:kGADErrorInternalError
+                                       userInfo:@{NSLocalizedDescriptionKey : errorMsg}];
+      [strongConnector adapter:self didFailAd:error];
     return;
   }
 
-  self.selectedAdSize = (CGSize)adSize.size;
   self.nadView = [[NADView alloc] initWithFrame:CGRectZero];
 
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
@@ -214,18 +209,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [self.nadView pause];
 
-  if ((self.selectedAdSize.height != adView.frame.size.height) ||
-      (self.selectedAdSize.width != adView.frame.size.width)) {
-    // Size of NADView is different from placement size
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterNendErrorDomain
-                   code:kGADErrorInternalError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Size of NADView is different from placement size."
-               }];
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
   [strongConnector adapter:self didReceiveAdView:adView];
 }
 

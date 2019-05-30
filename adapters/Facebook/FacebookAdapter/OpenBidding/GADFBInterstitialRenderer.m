@@ -14,11 +14,11 @@
 
 #import "GADFBInterstitialRenderer.h"
 
-@import FBAudienceNetwork;
-@import AdSupport;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <AdSupport/AdSupport.h>
 
 #import "GADFBError.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 @interface GADFBInterstitialRenderer () <GADMediationInterstitialAd, FBInterstitialAdDelegate> {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -37,18 +37,12 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hda-Ug-PYB" customClass="GADMediaView">
-                    <rect key="frame" x="139" y="113" width="125" height="190"/>
+                    <rect key="frame" x="139.5" y="113" width="125" height="190"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="125" id="rit-OI-xCL"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="5Jr-ya-pzP">
-                    <rect key="frame" x="77" y="113" width="250" height="191.5"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="250" id="zc9-V6-SAP"/>
-                    </constraints>
-                </imageView>
                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCo-Xo-px8">
                     <rect key="frame" x="351" y="309.5" width="43" height="32"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -57,7 +51,7 @@
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Store" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="535-ao-Wpn">
-                    <rect key="frame" x="305.5" y="317" width="35" height="17"/>
+                    <rect key="frame" x="306" y="317" width="35" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -69,7 +63,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvW-AW-TS7">
-                    <rect key="frame" x="262.5" y="317" width="33" height="17"/>
+                    <rect key="frame" x="263" y="317" width="33" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -92,13 +86,11 @@
                 <constraint firstItem="535-ao-Wpn" firstAttribute="top" secondItem="Hda-Ug-PYB" secondAttribute="bottom" constant="14" id="3gm-NU-3I4"/>
                 <constraint firstItem="YvW-AW-TS7" firstAttribute="centerY" secondItem="535-ao-Wpn" secondAttribute="centerY" id="5xC-dh-i9m"/>
                 <constraint firstItem="535-ao-Wpn" firstAttribute="leading" secondItem="YvW-AW-TS7" secondAttribute="trailing" constant="10" id="5xT-tW-Osy"/>
-                <constraint firstItem="5Jr-ya-pzP" firstAttribute="top" secondItem="u7E-wE-IMf" secondAttribute="bottom" constant="5" id="65W-xU-AH1"/>
                 <constraint firstItem="xyD-2P-hRw" firstAttribute="leading" secondItem="ugI-Xx-RYZ" secondAttribute="trailing" id="8AZ-wo-Hzt"/>
                 <constraint firstItem="LNP-UZ-QTS" firstAttribute="leading" secondItem="u7E-wE-IMf" secondAttribute="leading" id="8ZB-fn-ueW"/>
                 <constraint firstItem="Hda-Ug-PYB" firstAttribute="centerX" secondItem="Bh8-Dc-RmY" secondAttribute="centerX" id="Bx2-XQ-Ssr"/>
                 <constraint firstItem="u7E-wE-IMf" firstAttribute="top" secondItem="LNP-UZ-QTS" secondAttribute="bottom" constant="8" symbolic="YES" id="E1U-ka-9x2"/>
                 <constraint firstAttribute="centerX" secondItem="w2N-Br-VLs" secondAttribute="centerX" id="Fat-Ub-qsX"/>
-                <constraint firstItem="YvW-AW-TS7" firstAttribute="top" secondItem="5Jr-ya-pzP" secondAttribute="bottom" constant="12.5" id="JTf-JU-kmF"/>
                 <constraint firstItem="w2N-Br-VLs" firstAttribute="top" secondItem="oCo-Xo-px8" secondAttribute="bottom" constant="-2" id="Je7-ZP-ZkL"/>
                 <constraint firstItem="Hda-Ug-PYB" firstAttribute="top" secondItem="u7E-wE-IMf" secondAttribute="bottom" constant="4.5" id="NEV-d3-CUC"/>
                 <constraint firstAttribute="bottom" secondItem="w2N-Br-VLs" secondAttribute="bottom" constant="20" symbolic="YES" id="NWy-ru-SNd"/>
@@ -111,7 +103,6 @@
                 <constraint firstAttribute="trailing" secondItem="D79-55-6Yx" secondAttribute="trailing" id="dvt-xq-tbG"/>
                 <constraint firstAttribute="trailing" secondItem="u7E-wE-IMf" secondAttribute="trailing" constant="10" id="m8E-uv-3jI"/>
                 <constraint firstItem="YvW-AW-TS7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bh8-Dc-RmY" secondAttribute="leading" id="mYX-0x-G7s"/>
-                <constraint firstAttribute="centerX" secondItem="5Jr-ya-pzP" secondAttribute="centerX" id="oeT-Ui-Lcg"/>
                 <constraint firstItem="ugI-Xx-RYZ" firstAttribute="top" secondItem="D79-55-6Yx" secondAttribute="bottom" constant="8" symbolic="YES" id="ota-Zw-miS"/>
                 <constraint firstItem="ugI-Xx-RYZ" firstAttribute="leading" secondItem="D79-55-6Yx" secondAttribute="leading" id="xpk-0T-Brd"/>
                 <constraint firstItem="xyD-2P-hRw" firstAttribute="centerY" secondItem="ugI-Xx-RYZ" secondAttribute="centerY" id="ynD-27-Sa5"/>
@@ -125,7 +116,6 @@
                 <outlet property="degreeOfAwesomenessView" destination="w2N-Br-VLs" id="Dy6-rL-Elu"/>
                 <outlet property="headlineView" destination="D79-55-6Yx" id="XNd-ZR-1Ra"/>
                 <outlet property="iconView" destination="LNP-UZ-QTS" id="6de-cc-ROY"/>
-                <outlet property="imageView" destination="5Jr-ya-pzP" id="NZh-vs-Sqf"/>
                 <outlet property="mediaView" destination="Hda-Ug-PYB" id="YFn-6z-8wQ"/>
                 <outlet property="priceView" destination="YvW-AW-TS7" id="Fr8-QF-yeG"/>
                 <outlet property="starRatingView" destination="xyD-2P-hRw" id="JzO-tB-4a6"/>

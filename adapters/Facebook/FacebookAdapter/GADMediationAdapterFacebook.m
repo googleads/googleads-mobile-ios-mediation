@@ -19,9 +19,9 @@
 #import "GADFBNativeRenderer.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBRewardedRenderer.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMAdapterFacebook.h"
-@import FBAudienceNetwork;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface GADMediationAdapterFacebook () {
   /// Facebook Audience Network rewarded ad wrapper.
@@ -42,14 +42,14 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *placementIds = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *placementId = [cred.settings objectForKey:kGADMAdapterFacebookPubID];
+    NSString *placementId = [self getPlacementIDFromCredentials:cred];
     if (placementId) {
       [placementIds addObject:placementId];
     }
   }
   FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
       initWithPlacementIDs:[placementIds allObjects]
-                 mediation:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+                 mediationService:[NSString stringWithFormat:@"GOOGLE_%@", [GADRequest sdkVersion]]];
 
   [FBAudienceNetworkAds
       initializeWithSettings:fbSettings
@@ -64,6 +64,14 @@
                completionHandler(error);
              }
            }];
+}
+
++ (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials {
+  NSString *placementID = credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
+  if (!placementID) {
+    placementID = credentials.settings[kGADMAdapterFacebookPubID];
+  }
+  return placementID;
 }
 
 + (GADVersionNumber)version {

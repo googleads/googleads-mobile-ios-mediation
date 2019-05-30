@@ -13,13 +13,13 @@
 // limitations under the License.
 
 #import "GADFBNativeRenderer.h"
-@import FBAudienceNetwork;
-@import AdSupport;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <AdSupport/AdSupport.h>
 
 #import "GADFBError.h"
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
-#import "GADMAdapetrFacebookConstants.h"
+#import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
 static NSString *const GADUnifiedNativeAdIconView = @"3003";
@@ -108,6 +108,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     [_adOptionsView addConstraint:width];
     [_adOptionsView updateConstraints];
   }
+  _adOptionsView.nativeAd = _nativeAd;
 }
 
 - (NSString *)advertiser {

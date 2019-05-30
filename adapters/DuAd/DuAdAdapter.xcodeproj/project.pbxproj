@@ -32,6 +32,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		458F45BC2295FBAF0057E58B /* GADMediationAdapterDuAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 458F45BA2295FBAF0057E58B /* GADMediationAdapterDuAd.h */; };
+		458F45BD2295FBAF0057E58B /* GADMediationAdapterDuAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 458F45BB2295FBAF0057E58B /* GADMediationAdapterDuAd.m */; };
+		458F45BF2295FED00057E58B /* GADMAdapterDuAdConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 458F45BE2295FED00057E58B /* GADMAdapterDuAdConstants.h */; };
 		56148C5B1F26626D0041F201 /* GADDuAdNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4B1F26626D0041F201 /* GADDuAdNetworkExtras.m */; };
 		7DC8682E1DDA8D4400F0F1C4 /* DuAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* DuAdAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC868301DDA8D4400F0F1C4 /* GADDuAdNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADDuAdNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,6 +67,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		458F45BA2295FBAF0057E58B /* GADMediationAdapterDuAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterDuAd.h; sourceTree = "<group>"; };
+		458F45BB2295FBAF0057E58B /* GADMediationAdapterDuAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterDuAd.m; sourceTree = "<group>"; };
+		458F45BE2295FED00057E58B /* GADMAdapterDuAdConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterDuAdConstants.h; sourceTree = "<group>"; };
 		56148C4B1F26626D0041F201 /* GADDuAdNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADDuAdNetworkExtras.m; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -139,6 +145,9 @@
 				A408FBE7200DF4180082ACFA /* GADMAdapterDuAd.m */,
 				A494D9B1202D7210006758A8 /* GADDuAdInitializer.h */,
 				A494D9B2202D7210006758A8 /* GADDuAdInitializer.m */,
+				458F45BA2295FBAF0057E58B /* GADMediationAdapterDuAd.h */,
+				458F45BB2295FBAF0057E58B /* GADMediationAdapterDuAd.m */,
+				458F45BE2295FED00057E58B /* GADMAdapterDuAdConstants.h */,
 			);
 			path = DuAdAdapter;
 			sourceTree = "<group>";
@@ -202,9 +211,11 @@
 			files = (
 				A408FBDC200DED810082ACFA /* GADDuAdError.h in Headers */,
 				A494D9B3202D7210006758A8 /* GADDuAdInitializer.h in Headers */,
+				458F45BC2295FBAF0057E58B /* GADMediationAdapterDuAd.h in Headers */,
 				A408FBD8200DEBE90082ACFA /* GADDuAdInterstitialAd.h in Headers */,
 				A408FBD4200DEBA20082ACFA /* GADDuAdNativeAd.h in Headers */,
 				A408FBE0200DEE1B0082ACFA /* GADDuAdAdapterDelegate.h in Headers */,
+				458F45BF2295FED00057E58B /* GADMAdapterDuAdConstants.h in Headers */,
 				A408FBE4200DEE8C0082ACFA /* GADMAdapterDuAdNative.h in Headers */,
 				7DC868301DDA8D4400F0F1C4 /* GADDuAdNetworkExtras.h in Headers */,
 				7DC8682E1DDA8D4400F0F1C4 /* DuAdAdapter.h in Headers */,
@@ -311,6 +322,7 @@
 				A408FBDD200DED810082ACFA /* GADDuAdError.m in Sources */,
 				A408FBE5200DEE8C0082ACFA /* GADMAdapterDuAdNative.m in Sources */,
 				A408FBD9200DEBE90082ACFA /* GADDuAdInterstitialAd.m in Sources */,
+				458F45BD2295FBAF0057E58B /* GADMediationAdapterDuAd.m in Sources */,
 				A408FBE1200DEE1B0082ACFA /* GADDuAdAdapterDelegate.m in Sources */,
 				A408FBD5200DEBA20082ACFA /* GADDuAdNativeAd.m in Sources */,
 				A494D9B4202D7210006758A8 /* GADDuAdInitializer.m in Sources */,

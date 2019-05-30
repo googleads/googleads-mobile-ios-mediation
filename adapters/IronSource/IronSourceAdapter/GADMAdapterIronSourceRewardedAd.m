@@ -34,7 +34,7 @@
 @property(nonatomic, assign) BOOL isLogEnabled;
 
 /// Holds the ID of the ad instance to be presented.
-@property(nonatomic, strong) NSString *instanceId;
+@property(nonatomic, strong) NSString *instanceID;
 
 @end
 
@@ -51,6 +51,8 @@
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
+    // Default instance ID
+    _instanceID = @"0";
   }
   return self;
 }
@@ -95,7 +97,7 @@
 - (void)parseCredentials {
   NSDictionary *credentials = [_adConfiguration.credentials settings];
   if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
-    self.instanceId = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
+    _instanceID = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
   }
 }
 
@@ -165,7 +167,7 @@
 }
 
 - (NSString *)getInstanceID {
-  return self.instanceId;
+  return _instanceID;
 }
 
 - (void)didFailToLoadAdWithError:(NSError *)error {
@@ -175,7 +177,7 @@
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
   if (available) {
     [self onLog:[NSString stringWithFormat:@"Rewarded ad is available for Instance ID: %@",
-                                           self.instanceId]];
+                                           _instanceID]];
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
   } else {
     NSError *error = [GADMAdapterIronSourceUtils

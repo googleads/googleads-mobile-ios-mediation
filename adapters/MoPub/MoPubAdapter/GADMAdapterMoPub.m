@@ -1,5 +1,6 @@
 #import "GADMAdapterMoPub.h"
 
+#import "GADMAdapterMoPubSingleton.h"
 #import "GADMoPubNetworkExtras.h"
 #import "MPAdView.h"
 #import "MPImageDownloadQueue.h"
@@ -51,40 +52,6 @@ static NSMapTable *interstitialAdapterDelegates;
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMoPubNetworkExtras class];
-}
-
-- (void)initializeMoPub:(NSString *)adUnitId
-           withBannerAd:(MPAdView *)bannerAd
-     withInterstitialAd:(MPInterstitialAdController *)interstitialAd
-           withNativeAd:(MPNativeAdRequest *)nativeAd {
-  MPMoPubConfiguration *sdkConfig =
-      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitId];
-
-  if (!MoPub.sharedInstance.isSdkInitialized) {
-    [[MoPub sharedInstance]
-        initializeSdkWithConfiguration:sdkConfig
-                            completion:^{
-                              NSLog(@"MoPub SDK initialized.");
-
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                // Start loading ads now that the MoPub SDK has initialized
-                                if (bannerAd != nil) {
-                                  [bannerAd loadAd];
-                                } else if (interstitialAd != nil) {
-                                  [interstitialAd loadAd];
-                                } else if (nativeAd != nil) {
-                                  [nativeAd startWithCompletionHandler:^(MPNativeAdRequest *request,
-                                                                         MPNativeAd *response,
-                                                                         NSError *error) {
-                                    [self handleNativeAdOptions:request
-                                                   withResponse:response
-                                                      withError:error
-                                                    withOptions:self->_nativeAdOptions];
-                                  }];
-                                }
-                              });
-                            }];
-  }
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -180,16 +147,11 @@ static NSMapTable *interstitialAdapterDelegates;
   _interstitialAd.userDataKeywords = [self getKeywords:true];
   _interstitialAd.location = currentlocation;
 
-  if ([[MoPub sharedInstance] isSdkInitialized]) {
-    [_interstitialAd loadAd];
-  } else {
-    [self initializeMoPub:publisherID
-              withBannerAd:nil
-        withInterstitialAd:_interstitialAd
-              withNativeAd:nil];
-  }
-
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
+  [[GADMAdapterMoPubSingleton sharedInstance] initializeMoPubSDKWithAdUnitID:publisherID
+                                                           completionHandler:^{
+                                                             [self.interstitialAd loadAd];
+                                                           }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -269,16 +231,11 @@ static NSMapTable *interstitialAdapterDelegates;
   _bannerAd.userDataKeywords = [self getKeywords:true];
   _bannerAd.location = currentlocation;
 
-  if ([[MoPub sharedInstance] isSdkInitialized]) {
-    [_bannerAd loadAd];
-  } else {
-    [self initializeMoPub:publisherID
-              withBannerAd:_bannerAd
-        withInterstitialAd:nil
-              withNativeAd:nil];
-  }
-
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
+  [[GADMAdapterMoPubSingleton sharedInstance] initializeMoPubSDKWithAdUnitID:publisherID
+                                                           completionHandler:^{
+                                                             [self.bannerAd loadAd];
+                                                           }];
 }
 
 #pragma mark MoPub Ads View delegate methods
@@ -343,20 +300,21 @@ static NSMapTable *interstitialAdapterDelegates;
   adRequest.targeting = targeting;
   _nativeAdOptions = options;
 
-  if ([[MoPub sharedInstance] isSdkInitialized]) {
-    [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
-                                            NSError *error) {
-      [self handleNativeAdOptions:request
-                     withResponse:response
-                        withError:error
-                      withOptions:self->_nativeAdOptions];
-    }];
-  } else {
-    [self initializeMoPub:publisherID
-              withBannerAd:nil
-        withInterstitialAd:nil
-              withNativeAd:adRequest];
-  }
+  [[GADMAdapterMoPubSingleton sharedInstance] initializeMoPubSDKWithAdUnitID:publisherID
+                                                           completionHandler:^{
+                                                             [self requestNative:adRequest];
+                                                           }];
+}
+
+- (void)requestNative:(MPNativeAdRequest *)adRequest {
+  MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
+  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                          NSError *error) {
+    [self handleNativeAdOptions:request
+                   withResponse:response
+                      withError:error
+                    withOptions:self->_nativeAdOptions];
+  }];
 }
 
 - (void)handleNativeAdOptions:(MPNativeAdRequest *)request
@@ -382,7 +340,6 @@ static NSMapTable *interstitialAdapterDelegates;
       }
     }
     [self loadNativeAdImages];
-    MPLogDebug(@"Requesting Native Ad from MoPub Ad Network.");
   }
 }
 
