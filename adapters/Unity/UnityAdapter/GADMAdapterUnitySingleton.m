@@ -81,8 +81,8 @@
 
 #pragma mark - Rewardbased video ad methods
 
-- (void)requestRewardedAdWithDelegate:
-    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+- (void)requestRewardedAdWithDelegate:(NSString *)gameID
+                             delegate:(id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
   
   NSString *placementID = [adapterDelegate getPlacementID];
 
@@ -97,18 +97,19 @@
 
   [self addAdapterDelegate:adapterDelegate];
   
-    if ([UnityAds isInitialized]) {
-        
-      //Call metadata load API
-      NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-      UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-      [loadMetaData set:uniqueEventId value:placementID];
-      [loadMetaData commit];
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  } else {
+    //Call metadata load API
+    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+    [loadMetaData set:uniqueEventId value:placementID];
+    [loadMetaData commit];
       
-      if ([UnityAds isReady:placementID]) {
-        [adapterDelegate unityAdsReady:placementID];
-      }
+    if ([UnityAds isReady:placementID]) {
+      [adapterDelegate unityAdsReady:placementID];
     }
+  }
 }
 
 - (void)presentRewardedAdForViewController:(UIViewController *)viewController
@@ -131,9 +132,8 @@
 
 #pragma mark - Interstitial ad methods
 
-- (void)requestInterstitialAdWithDelegate:
-                                     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                         adapterDelegate {
+- (void)requestInterstitialAdWithDelegate:(NSString *)gameID
+                                 delegate:(id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
 
   NSString *placementID = [adapterDelegate getPlacementID];
   
@@ -149,17 +149,18 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  } else {
+    //Call metadata load API
+    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+    [loadMetaData set:uniqueEventId value:placementID];
+    [loadMetaData commit];
       
-      //Call metadata load API
-      NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-      UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-      [loadMetaData set:uniqueEventId value:placementID];
-      [loadMetaData commit];
-      
-      if ([UnityAds isReady:placementID]) {
-        [adapterDelegate unityAdsReady:placementID];
-      }
+    if ([UnityAds isReady:placementID]) {
+      [adapterDelegate unityAdsReady:placementID];
+    }
   }
 }
 

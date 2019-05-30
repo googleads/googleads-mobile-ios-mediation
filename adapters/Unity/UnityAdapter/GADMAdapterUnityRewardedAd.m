@@ -82,7 +82,7 @@
     _isLoading = YES;
   }
   
-  [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
+    [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:gameID delegate:weakSelf];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

@@ -83,7 +83,7 @@
     return;
   }
   _isLoading = YES;
-  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
+    [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:gameID delegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
