@@ -26,6 +26,9 @@
   /// The Requested Banner Ad size.
   GADAdSize _requestedAdSize;
 
+  /// Game ID of Unity Ads network.
+  NSString *_gameID;
+
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
 
@@ -75,16 +78,15 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  NSString *gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
-  if (!gameID || !_placementID) {
+  if (!_gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
   _isLoading = YES;
-  [[GADMAdapterUnitySingleton sharedInstance] configureInterstitialAdWithGameID:gameID
-                                                                       delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -109,18 +111,17 @@
     return;
   }
 
-  NSString *gameID =
-      [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+  _gameID = [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID =
       [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
-  if (!gameID || !_placementID) {
+  if (!_gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
     [strongNetworkConnector adapter:self didFailAd:error];
     return;
   }
 
   _bannerDidLoad = NO;
-  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:gameID delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:_gameID delegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -128,6 +129,10 @@
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
+
+- (NSString *)getGameID {
+  return _gameID;
+}
 
 - (NSString *)getPlacementID {
   return _placementID;
