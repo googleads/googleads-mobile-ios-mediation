@@ -14,7 +14,7 @@
 @implementation GADMAdapterVungleRewardedAd
 
 // To check if the ad is presenting so that we don't call 'adLoadCompletionHandler' twice.
-BOOL _isAdPresenting;
+BOOL _isRewardedAdPresenting;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
@@ -64,7 +64,7 @@ BOOL _isAdPresenting;
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  _isAdPresenting = YES;
+  _isRewardedAdPresenting = YES;
   if (![[VungleRouter sharedInstance] playAd:viewController
                                     delegate:self
                                       extras:[self.adConfiguration extras]]) {
@@ -90,7 +90,7 @@ BOOL _isAdPresenting;
 }
 
 - (void)adAvailable {
-  if (!_isAdPresenting) {
+  if (!_isRewardedAdPresenting) {
     self.delegate = self.adLoadCompletionHandler(self, nil);
   }
 }
@@ -112,7 +112,7 @@ BOOL _isAdPresenting;
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  _isAdPresenting = NO;
+  _isRewardedAdPresenting = NO;
   [self.delegate willDismissFullScreenView];
 }
 
