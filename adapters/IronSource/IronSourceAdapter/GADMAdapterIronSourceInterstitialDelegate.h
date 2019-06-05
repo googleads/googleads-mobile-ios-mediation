@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@protocol GADMAdapterIronSourceDelegate
+@protocol GADMAdapterIronSourceInterstitialDelegate
 
 typedef NS_ENUM(NSInteger, ISInstanceState);
- 
-- (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId;
-- (void)rewardedVideoDidLoad:(NSString *)instanceId;
-- (void)rewardedVideoDidClose:(NSString *)instanceId;
-- (void)rewardedVideoDidClick:(NSString *)instanceId;
-- (void)rewardedVideoDidOpen:(NSString *)instanceId;
-- (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId;
-- (void)rewardedVideoAdRewarded:(NSString *)instanceId;
+
+- (void)interstitialDidLoad:(NSString *)instanceId;
+- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId;
+- (void)interstitialDidOpen:(NSString *)instanceId;
+- (void)interstitialDidClose:(NSString *)instanceId;
+- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId;
+- (void)didClickInterstitial:(NSString *)instanceId;
 - (void)setState:(NSString *)state;
 - (NSString *)getState;
 

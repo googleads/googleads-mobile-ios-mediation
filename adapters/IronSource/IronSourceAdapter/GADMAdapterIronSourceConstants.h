@@ -14,9 +14,15 @@
 
 // IronSource internal reporting const.
 static NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
-static NSString *const kGADMAdapterIronSourceAdapterVersion = @"6.8.3.0";
+static NSString *const kGADMAdapterIronSourceAdapterVersion = @"310";
+static NSString *const kGADMIronSourceDefaultInstanceId = @"0";
 
 // IronSource parameters keys.
 static NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
 static NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 static NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
+
+//IronSource instance states
+static NSString *const kInstanceLockedState = @"LOCKED";
+static NSString *const kInstanceStartState = @"START";
+static NSString *const kInstanceCanLoadState = @"CANLOAD";
