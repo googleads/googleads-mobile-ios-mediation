@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #import "GADFBNativeRenderer.h"
-@import FBAudienceNetwork;
-@import AdSupport;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <AdSupport/AdSupport.h>
 
 #import "GADFBError.h"
 #import "GADFBExtraAssets.h"

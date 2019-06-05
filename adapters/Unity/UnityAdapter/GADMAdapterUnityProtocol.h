@@ -18,6 +18,9 @@
 /// with the adapter.
 @protocol GADMAdapterUnityDataProvider <NSObject>
 
+/// Returns the game ID to use for initializing the Unity Ads SDK.
+- (NSString *)getGameID;
+
 /// Returns placement ID for either reward-based video ad or interstitial ad of Unity Ads network.
 - (NSString *)getPlacementID;
 

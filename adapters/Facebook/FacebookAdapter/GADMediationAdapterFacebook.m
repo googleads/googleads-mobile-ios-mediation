@@ -21,7 +21,7 @@
 #import "GADFBRewardedRenderer.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMAdapterFacebook.h"
-@import FBAudienceNetwork;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface GADMediationAdapterFacebook () {
   /// Facebook Audience Network rewarded ad wrapper.
@@ -49,7 +49,7 @@
   }
   FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
       initWithPlacementIDs:[placementIds allObjects]
-                 mediationService:[NSString stringWithFormat:@"GOOGLE_%@", [GADRequest sdkVersion]]];
+          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
 
   [FBAudienceNetworkAds
       initializeWithSettings:fbSettings

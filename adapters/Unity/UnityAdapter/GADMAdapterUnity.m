@@ -23,11 +23,20 @@
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _networkConnector;
 
+  /// The Requested Banner Ad size.
+  GADAdSize _requestedAdSize;
+
+  /// Game ID of Unity Ads network.
+  NSString *_gameID;
+
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
+
+  /// YES if a UnityAds Banner has loaded.
+  BOOL _bannerDidLoad;
 }
 
 @end
@@ -47,6 +56,9 @@
 }
 
 - (void)stopBeingDelegate {
+  if (_bannerDidLoad) {
+    [UnityAdsBanner destroy];
+  }
   [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
 }
 
@@ -66,16 +78,15 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  NSString *gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
-  if (!gameID || !_placementID) {
+  if (!_gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
   _isLoading = YES;
-  [[GADMAdapterUnitySingleton sharedInstance] configureInterstitialAdWithGameID:gameID
-                                                                       delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -91,23 +102,26 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-  GADAdSize supportedSize = [self supportedAdSizeFromRequestedSize:adSize];
-  if (!IsGADAdSizeValid(supportedSize)) {
+  _requestedAdSize = [self supportedAdSizeFromRequestedSize:adSize];
+
+  if (!IsGADAdSizeValid(_requestedAdSize)) {
     NSLog(@"Requested unsupported banner size: %@", NSStringFromGADAdSize(adSize));
     NSError *error = GADUnityErrorWithDescription(@"Requested unsupported banner size.");
     [strongNetworkConnector adapter:self didFailAd:error];
     return;
   }
-  NSString *gameID =
-      [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+
+  _gameID = [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID =
       [[[strongNetworkConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
-  if (!gameID || !_placementID) {
+  if (!_gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
     [strongNetworkConnector adapter:self didFailAd:error];
     return;
   }
-  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:gameID delegate:self];
+
+  _bannerDidLoad = NO;
+  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:_gameID delegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -115,6 +129,10 @@
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
+
+- (NSString *)getGameID {
+  return _gameID;
+}
 
 - (NSString *)getPlacementID {
   return _placementID;
@@ -218,8 +236,27 @@
 
 - (void)unityAdsBannerDidLoad:(nonnull NSString *)placementId view:(nonnull UIView *)view {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+
   if (strongNetworkConnector) {
-    [strongNetworkConnector adapter:self didReceiveAdView:view];
+    // To support flexible ad sizes, we need to verify if the returned Banner ad fits in the
+    // ad size we requested, and fail the ad request if it doesn't.
+    GADAdSize unityBannerSize =
+        GADAdSizeFromCGSize(CGSizeMake(view.frame.size.width, view.frame.size.height));
+    GADAdSize closestSize =
+        GADClosestValidSizeForAdSizes(unityBannerSize, @[ NSValueFromGADAdSize(_requestedAdSize) ]);
+
+    if (IsGADAdSizeValid(closestSize)) {
+      _bannerDidLoad = YES;
+      [strongNetworkConnector adapter:self didReceiveAdView:view];
+    } else {
+      NSString *errorDescription = [NSString
+          stringWithFormat:@"The banner size loaded (%@) is not valid for the requested size (%@).",
+                           NSStringFromGADAdSize(unityBannerSize),
+                           NSStringFromGADAdSize(_requestedAdSize)];
+      NSLog(@"%@", errorDescription);
+      NSError *error = GADUnityErrorWithDescription(errorDescription);
+      [strongNetworkConnector adapter:self didFailAd:error];
+    }
   } else {
     NSLog(@"ERROR: Network connector for UnityAds banner adapter not found.");
   }

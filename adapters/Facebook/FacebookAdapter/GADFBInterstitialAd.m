@@ -14,8 +14,8 @@
 
 #import "GADFBInterstitialAd.h"
 
-@import FBAudienceNetwork;
-@import GoogleMobileAds;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADFBAdapterDelegate.h"
 #import "GADFBError.h"

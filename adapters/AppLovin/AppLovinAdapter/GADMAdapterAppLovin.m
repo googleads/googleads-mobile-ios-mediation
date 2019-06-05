@@ -10,16 +10,26 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
-#import "GADMAdapterAppLovinQueue.h"
 #import "GADMAdapterAppLovinUtils.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
-@interface GADMAdapterAppLovin () <ALAdLoadDelegate,
-                                   ALAdDisplayDelegate,
-                                   ALAdVideoPlaybackDelegate,
-                                   ALAdViewEventDelegate>
+/// Banner Delegate.
+@interface GADMAdapterAppLovinBannerDelegate
+    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+- (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
+@property(nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
+@end
+
+/// AppLovin Interstitial Delegate.
+@interface GADMAdapterAppLovinInterstitialDelegate
+    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
+- (instancetype)initWithParentRenderer:(GADMAdapterAppLovin *)parentRenderer;
+@property(nonatomic, weak) GADMAdapterAppLovin *parentRenderer;
+@end
+
+@interface GADMAdapterAppLovin ()
 
 /// Controlled Properties.
 @property(nonatomic, strong) ALSdk *sdk;
@@ -28,8 +38,10 @@
 /// Interstitial Properties.
 @property(nonatomic, strong, nullable) ALInterstitialAd *interstitial;
 @property(nonatomic, strong, nullable) ALAd *alInterstitialAd;
+@property(nonatomic, strong) GADMAdapterAppLovinInterstitialDelegate *interstitialDelegate;
 /// Banner Properties.
 @property(nonatomic, strong, nullable) ALAdView *adView;
+@property(nonatomic, strong) GADMAdapterAppLovinBannerDelegate *bannerDelegate;
 
 /// Controller properties - The connector/credentials referencing these properties may get
 /// deallocated.
@@ -38,18 +50,15 @@
 @property(nonatomic, copy) NSString *zoneIdentifier;
 
 @property(nonatomic) GADAdSize adSize;
-@end
-
-/// Banner Delegate.
-@interface GADMAdapterAppLovinBannerDelegate
-    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
-@property(nonatomic, weak) GADMAdapterAppLovin *parentAdapter;
-- (instancetype)initWithParentAdapter:(GADMAdapterAppLovin *)parentAdapter;
+@property(nonatomic, strong) ALAd *ad;
 @end
 
 @implementation GADMAdapterAppLovin
+static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
-__weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
++ (void)load {
+  gRequestedInterstitialZoneIdentifiers = [[NSMutableArray alloc] init];
+}
 
 #pragma mark - GAD Ad Network Protocol Methods
 
@@ -75,7 +84,15 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
 }
 
 - (void)stopBeingDelegate {
+  @synchronized(gRequestedInterstitialZoneIdentifiers) {
+    if (_interstitial) {
+      [gRequestedInterstitialZoneIdentifiers removeObject:self.zoneIdentifier];
+    }
+  }
+  _interstitial = nil;
   self.connector = nil;
+  self.interstitialDelegate = nil;
+  self.bannerDelegate = nil;
 
   self.interstitial.adDisplayDelegate = nil;
   self.interstitial.adVideoPlaybackDelegate = nil;
@@ -96,25 +113,36 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
   [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
                                 self.zoneIdentifier, self.placement];
 
-  if (adapterWithDefaultZone && self.zoneIdentifier.length < 1) {
-    [GADMAdapterAppLovinUtils log:@"Can't request a second ad using the default zone identifier "
+  NSArray *requestedZones;
+  @synchronized(gRequestedInterstitialZoneIdentifiers) {
+    requestedZones = [NSArray arrayWithArray:gRequestedInterstitialZoneIdentifiers];
+  }
+
+  if ([requestedZones containsObject:self.zoneIdentifier]) {
+    [GADMAdapterAppLovinUtils log:@"Can't request a second ad for the same zone Identifier "
                                   @"without showing the first ad."];
     NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                          code:0
                                      userInfo:nil];
     [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-
-  _interstitial = [[ALInterstitialAd alloc] initWithSdk:self.sdk];
-  _interstitial.adDisplayDelegate = self;
-  _interstitial.adVideoPlaybackDelegate = self;
-
-  if (self.zoneIdentifier.length > 0) {
-    [self.sdk.adService loadNextAdForZoneIdentifier:self.zoneIdentifier andNotify:self];
   } else {
-    adapterWithDefaultZone = self;
-    [self.sdk.adService loadNextAd:[ALAdSize sizeInterstitial] andNotify:self];
+    self.interstitialDelegate =
+        [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:self];
+    _interstitial = [[ALInterstitialAd alloc] initWithSdk:self.sdk];
+    _interstitial.adDisplayDelegate = self.interstitialDelegate;
+    _interstitial.adVideoPlaybackDelegate = self.interstitialDelegate;
+
+    @synchronized(gRequestedInterstitialZoneIdentifiers) {
+      [gRequestedInterstitialZoneIdentifiers addObject:self.zoneIdentifier];
+    }
+
+    if (self.zoneIdentifier.length > 0) {
+      [self.sdk.adService loadNextAdForZoneIdentifier:self.zoneIdentifier
+                                            andNotify:self.interstitialDelegate];
+    } else {
+      [self.sdk.adService loadNextAd:[ALAdSize sizeInterstitial]
+                           andNotify:self.interstitialDelegate];
+    }
   }
 }
 
@@ -149,16 +177,16 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
     CGSize size = CGSizeFromGADAdSize(adSize);
     self.adView.frame = CGRectMake(0, 0, size.width, size.height);
 
-    GADMAdapterAppLovinBannerDelegate *delegate =
-        [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter:self];
-    self.adView.adLoadDelegate = delegate;
-    self.adView.adDisplayDelegate = delegate;
-    self.adView.adEventDelegate = delegate;
+    self.bannerDelegate = [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter:self];
+    self.adView.adLoadDelegate = self.bannerDelegate;
+    self.adView.adDisplayDelegate = self.bannerDelegate;
+    self.adView.adEventDelegate = self.bannerDelegate;
 
     if (self.zoneIdentifier.length > 0) {
-      [self.sdk.adService loadNextAdForZoneIdentifier:self.zoneIdentifier andNotify:delegate];
+      [self.sdk.adService loadNextAdForZoneIdentifier:self.zoneIdentifier
+                                            andNotify:self.bannerDelegate];
     } else {
-      [self.sdk.adService loadNextAd:appLovinAdSize andNotify:delegate];
+      [self.sdk.adService loadNextAd:appLovinAdSize andNotify:self.bannerDelegate];
     }
   } else {
     [GADMAdapterAppLovinUtils log:@"Failed to request banner with unsupported size"];
@@ -197,52 +225,74 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
 
   [GADMAdapterAppLovinUtils
       log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
-
   return nil;
 }
 
-#pragma mark - Load Delegate
+@end
+
+@implementation GADMAdapterAppLovinInterstitialDelegate
+
+#pragma mark - Initialization
+
+- (instancetype)initWithParentRenderer:(GADMAdapterAppLovin *)parentRenderer {
+  self = [super init];
+  if (self) {
+    self.parentRenderer = parentRenderer;
+  }
+  return self;
+}
+
+#pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils
-      log:@"Interstitial did load ad: %@ for zone: %@", ad.adIdNumber, self.zoneIdentifier];
-  self.alInterstitialAd = ad;
-  [self.connector adapterDidReceiveInterstitial:self];
+  GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
+  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@ for zone: %@", ad.adIdNumber,
+                                parentRenderer.zoneIdentifier];
+  parentRenderer.alInterstitialAd = ad;
+  [parentRenderer.connector adapterDidReceiveInterstitial:parentRenderer];
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
+  GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
   [GADMAdapterAppLovinUtils log:@"Interstitial failed to load with error: %d", code];
 
-  NSError *error =
-      [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
-                          code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
-                      userInfo:@{
-                        NSLocalizedFailureReasonErrorKey :
-                            @"Adapter requested to display an interstitial before one was loaded"
-                      }];
+  @synchronized(gRequestedInterstitialZoneIdentifiers) {
+    [gRequestedInterstitialZoneIdentifiers removeObject:parentRenderer.zoneIdentifier];
+  }
 
-  [self.connector adapter:self didFailAd:error];
+  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                       code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
+                                   userInfo:nil];
+
+  [parentRenderer.connector adapter:parentRenderer didFailAd:error];
 }
 
 #pragma mark - Ad Display Delegate
 
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Interstitial displayed"];
-  [self.connector adapterWillPresentInterstitial:self];
+  GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
+  [parentRenderer.connector adapterWillPresentInterstitial:parentRenderer];
 }
 
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
-  [GADMAdapterAppLovinUtils log:@"Interstitial dismissed"];
-  [strongConnector adapterWillDismissInterstitial:self];
-  [strongConnector adapterDidDismissInterstitial:self];
+  [GADMAdapterAppLovinUtils log:@"Interstitial hidden"];
+  GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
+  @synchronized(gRequestedInterstitialZoneIdentifiers) {
+    [gRequestedInterstitialZoneIdentifiers removeObject:parentRenderer.zoneIdentifier];
+  }
+  id<GADMAdNetworkConnector> strongConnector = parentRenderer.connector;
+  [strongConnector adapterWillDismissInterstitial:parentRenderer];
+  [strongConnector adapterDidDismissInterstitial:parentRenderer];
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
   [GADMAdapterAppLovinUtils log:@"Interstitial clicked"];
-  [strongConnector adapterDidGetAdClick:self];
-  [strongConnector adapterWillLeaveApplication:self];
+  GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
+  id<GADMAdNetworkConnector> strongConnector = parentRenderer.connector;
+  [GADMAdapterAppLovinUtils log:@"Interstitial clicked"];
+  [strongConnector adapterDidGetAdClick:parentRenderer];
+  [strongConnector adapterWillLeaveApplication:parentRenderer];
 }
 
 #pragma mark - Video Playback Delegate
@@ -275,22 +325,21 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
   [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@ and placement: %@",
-                                ad.adIdNumber, self.parentAdapter.zoneIdentifier,
-                                self.parentAdapter.placement];
-
-  [self.parentAdapter.adView render:ad];
-  [self.parentAdapter.connector adapter:self.parentAdapter
-                       didReceiveAdView:self.parentAdapter.adView];
+                                ad.adIdNumber, parentAdapter.zoneIdentifier,
+                                parentAdapter.placement];
+  [parentAdapter.adView render:ad];
+  [parentAdapter.connector adapter:parentAdapter didReceiveAdView:parentAdapter.adView];
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
   [GADMAdapterAppLovinUtils log:@"Banner failed to load with error: %d", code];
-
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
   NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                        code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
                                    userInfo:nil];
-  [self.parentAdapter.connector adapter:self.parentAdapter didFailAd:error];
+  [parentAdapter.connector adapter:parentAdapter didFailAd:error];
 }
 
 #pragma mark - Ad Display Delegate
@@ -305,29 +354,34 @@ __weak static GADMAdapterAppLovin *adapterWithDefaultZone = nil;
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Banner clicked"];
-  [self.parentAdapter.connector adapterDidGetAdClick:self.parentAdapter];
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
+  [parentAdapter.connector adapterDidGetAdClick:parentAdapter];
 }
 
 #pragma mark - Ad View Event Delegate
 
 - (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView {
   [GADMAdapterAppLovinUtils log:@"Banner presented fullscreen"];
-  [self.parentAdapter.connector adapterWillPresentFullScreenModal:self.parentAdapter];
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
+  [parentAdapter.connector adapterWillPresentFullScreenModal:parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView {
   [GADMAdapterAppLovinUtils log:@"Banner will dismiss fullscreen"];
-  [self.parentAdapter.connector adapterWillDismissFullScreenModal:self.parentAdapter];
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
+  [parentAdapter.connector adapterWillDismissFullScreenModal:parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView {
   [GADMAdapterAppLovinUtils log:@"Banner did dismiss fullscreen"];
-  [self.parentAdapter.connector adapterDidDismissFullScreenModal:self.parentAdapter];
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
+  [parentAdapter.connector adapterDidDismissFullScreenModal:parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView {
   [GADMAdapterAppLovinUtils log:@"Banner left application"];
-  [self.parentAdapter.connector adapterWillLeaveApplication:self.parentAdapter];
+  GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
+  [parentAdapter.connector adapterWillLeaveApplication:parentAdapter];
 }
 
 - (void)ad:(ALAd *)ad

@@ -3,6 +3,7 @@
 //
 
 #import "GADMAdapterAdColonyInitializer.h"
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyHelper.h"
 
 typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable error);
@@ -10,8 +11,8 @@ typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable erro
 @interface GADMAdapterAdColonyInitializer ()
 
 @property(nonatomic, copy) NSSet *configuredZones;
-@property(nonatomic, copy) NSSet *zonesToBeConfigured;
 @property(nonatomic, assign) AdColonyAdapterInitState adColonyAdapterInitState;
+@property(nonatomic, copy) NSSet *zonesToBeConfigured;
 @property(nonatomic, copy) NSMutableArray<GADMAdapterAdColonyInitCompletionHandler> *callbacks;
 @property(nonatomic, assign) BOOL hasNewZones;
 @property(nonatomic, assign) BOOL calledConfigureInLastFiveSeconds;
@@ -63,7 +64,7 @@ typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable erro
       ;
       if (_calledConfigureInLastFiveSeconds) {
         NSError *error = [NSError
-            errorWithDomain:@"GADMAdapterAdColonyInitializer"
+            errorWithDomain:kGADMAdapterAdColonyErrorDomain
                        code:0
                    userInfo:@{
                      NSLocalizedDescriptionKey :
@@ -117,7 +118,7 @@ typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable erro
                         if (zones.count < 1) {
                           strongSelf.adColonyAdapterInitState = INIT_STATE_UNINITIALIZED;
                           NSError *error = [NSError
-                              errorWithDomain:@"GADMAdapterAdColonyInitializer"
+                              errorWithDomain:kGADMAdapterAdColonyErrorDomain
                                          code:0
                                      userInfo:@{
                                        NSLocalizedDescriptionKey : @"Failed to configure any zones."
@@ -130,17 +131,21 @@ typedef void (^GADMAdapterAdColonyInitCompletionHandler)(NSError *_Nullable erro
                           for (GADMAdapterAdColonyInitCompletionHandler callback in callbacks) {
                             callback(nil);
                           }
+                          strongSelf.configuredZones =
+                              [strongSelf.configuredZones setByAddingObjectsFromArray:zoneIDs];
                         }
                       }
                       [strongSelf.callbacks removeObjectsInArray:callbacks];
                       [callbacks removeAllObjects];
                     }];
 
-  [NSTimer scheduledTimerWithTimeInterval:5.0
-                                   target:self
-                                 selector:@selector(clearCalledConfigureInLastFiveSeconds)
-                                 userInfo:nil
-                                  repeats:NO];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [NSTimer scheduledTimerWithTimeInterval:5.0
+                                     target:self
+                                   selector:@selector(clearCalledConfigureInLastFiveSeconds)
+                                   userInfo:nil
+                                    repeats:NO];
+  });
 }
 
 - (void)clearCalledConfigureInLastFiveSeconds {

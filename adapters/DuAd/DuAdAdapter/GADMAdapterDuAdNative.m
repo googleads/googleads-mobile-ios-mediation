@@ -20,6 +20,7 @@
 #import "GADDuAdInitializer.h"
 #import "GADDuAdNativeAd.h"
 #import "GADDuAdNetworkExtras.h"
+#import "GADMAdapterDuAdConstants.h"
 
 @interface GADMAdapterDuAdNative () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -33,7 +34,7 @@
 @implementation GADMAdapterDuAdNative
 
 + (NSString *)adapterVersion {
-  return @"1.1.2.0";
+  return kGADMAdapterDuAdVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -50,7 +51,7 @@
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  [[GADDuAdInitializer sharedInstance] initWithConnector:_connector];
+  [[GADDuAdInitializer sharedInstance] initializeWithConnector:_connector];
   [_nativeAd getNativeAdWithAdTypes:adTypes options:options];
 }
 

@@ -3,6 +3,7 @@
 //
 
 #import "GADMAdapterAdColony.h"
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
@@ -95,19 +96,17 @@
         // B, then ADC ad request from zone B. Both succeed.
         // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
         // with id: xyz has been registered. Cannot show interstitial`.
-        __weak AdColonyInterstitial *weakAd = ad;
         [ad setExpire:^{
-          NSLog(@"AdColonyAdapter [Info]: Ad expired from zone: %@", weakAd.zoneID);
-          [GADMAdapterAdColonyHelper
-              setupZoneFromConnector:connector
-                            callback:^(NSString *ignoredZone, NSError *error) {
-                              [weakSelf getInterstitialFromZoneId:zone withConnector:connector];
-                            }];
+          NSLog(@"AdColonyAdapter [Info]: Interstitial Ad expired from zone: %@ because of "
+                @"configuring another Ad. To avoid this situation, use startWithCompletionHandler: "
+                @"to initialize Google Mobile Ads SDK and wait for the completion handler to be "
+                @"called before requesting an ad.",
+                zone);
         }];
       }
       failure:^(AdColonyAdRequestError *_Nonnull err) {
         NSError *error =
-            [NSError errorWithDomain:kGADErrorDomain
+            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
                                 code:kGADErrorInvalidRequest
                             userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
         if (weakSelf.connector) {
@@ -154,7 +153,7 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSError *error =
-      [NSError errorWithDomain:kGADErrorDomain
+      [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
                           code:kGADErrorInvalidRequest
                       userInfo:@{
                         NSLocalizedDescriptionKey : @"AdColony adapter doesn't currently support"

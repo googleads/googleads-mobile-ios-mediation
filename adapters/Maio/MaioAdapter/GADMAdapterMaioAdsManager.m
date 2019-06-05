@@ -28,18 +28,18 @@
 
 @implementation GADMAdapterMaioAdsManager
 
-static NSMapTable<NSString *, GADMAdapterMaioAdsManager *> *instances;
+static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
 
 + (void)load {
-  instances = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                    valueOptions:NSPointerFunctionsWeakMemory];
+  instances = [[NSMutableDictionary alloc] init];
 }
 
 + (GADMAdapterMaioAdsManager *)getMaioAdsManagerByMediaId:(NSString *)mediaId {
   @synchronized(instances) {
-    GADMAdapterMaioAdsManager *instance = [instances objectForKey:mediaId];
+    GADMAdapterMaioAdsManager *instance = instances[mediaId];
     if (!instance) {
       instance = [[GADMAdapterMaioAdsManager alloc] initWithMediaId:mediaId];
+      instances[mediaId] = instance;
     }
     return instance;
   }
@@ -172,20 +172,10 @@ static NSMapTable<NSString *, GADMAdapterMaioAdsManager *> *instances;
 }
 
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-  if (self.initState != INITIALIZED) {
-    NSError *errorWithDescription =
-        [GADMMaioError errorWithDescription:[GADMMaioError stringFromFailReason:reason]];
-    NSArray<MaioInitCompletionHandler> *completionHandlersToCall = [self.completionHandlers copy];
-    for (MaioInitCompletionHandler completionhandler in completionHandlersToCall) {
-      completionhandler(errorWithDescription);
-    }
-    [self.completionHandlers removeObjectsInArray:completionHandlersToCall];
-  } else {
-    id<MaioDelegate> delegate = [self getAdapterForZoneID:zoneId];
-    [self removeAdapterForZoneID:zoneId];
-    if (delegate && [delegate respondsToSelector:@selector(maioDidFail:reason:)]) {
-      [delegate maioDidFail:zoneId reason:reason];
-    }
+  id<MaioDelegate> delegate = [self getAdapterForZoneID:zoneId];
+  [self removeAdapterForZoneID:zoneId];
+  if (delegate && [delegate respondsToSelector:@selector(maioDidFail:reason:)]) {
+    [delegate maioDidFail:zoneId reason:reason];
   }
 }
 
