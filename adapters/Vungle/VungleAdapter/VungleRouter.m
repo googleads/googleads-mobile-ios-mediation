@@ -195,4 +195,8 @@
   [self initialized:true error:nil];
 }
 
+- (void)vungleSDKFailedToInitializeWithError:(NSError *)error {
+  [self initialized:false error:error];
+}
+
 @end

@@ -26,6 +26,7 @@
 
 @implementation GADMediationAdapterUnity
 
+// Called on Admob->init
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
@@ -42,7 +43,7 @@
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] configureRewardedAdWithGameID:gameID];
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
 
   completionHandler(nil);
 }

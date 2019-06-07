@@ -19,6 +19,12 @@
   /// Array to hold all adapter delegates.
   NSMapTable *_adapterDelegates;
 
+  NSString *_bannerPlacementID;
+  bool _bannerRequested;
+
+  int impressionOrdinal;
+  int missedImpressionOrdinal;
+
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
 
@@ -29,9 +35,6 @@
 @end
 
 @implementation GADMAdapterUnitySingleton
-
-NSString *_bannerPlacementID = nil;
-bool _bannerRequested = false;
 
 + (instancetype)sharedInstance {
   static GADMAdapterUnitySingleton *sharedManager = nil;
@@ -47,16 +50,24 @@ bool _bannerRequested = false;
   if (self) {
     _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                               valueOptions:NSMapTableWeakMemory];
+    _bannerRequested = NO;
   }
   return self;
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
+  if ([UnityAds isInitialized]) {
+    return;
+  }
+
   // Metadata needed by Unity Ads SDK before initialization.
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
+
   // Initializing Unity Ads with |gameID|.
   [UnityAds initialize:gameID delegate:self];
 }
@@ -70,16 +81,9 @@ bool _bannerRequested = false;
 
 #pragma mark - Rewardbased video ad methods
 
-- (void)configureRewardedAdWithGameID:(NSString *)gameID {
-  if ([UnityAds isSupported]) {
-    if (![UnityAds isInitialized]) {
-      [self initializeWithGameID:gameID];
-    }
-  }
-}
-
 - (void)requestRewardedAdWithDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
   NSString *placementID = [adapterDelegate getPlacementID];
 
   @synchronized(_adapterDelegates) {
@@ -94,13 +98,17 @@ bool _bannerRequested = false;
   [self addAdapterDelegate:adapterDelegate];
 
   if ([UnityAds isInitialized]) {
+    // Call metadata load API
+    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+    [loadMetaData set:uniqueEventId value:placementID];
+    [loadMetaData commit];
+
     if ([UnityAds isReady:placementID]) {
       [adapterDelegate unityAdsReady:placementID];
-    } else {
-      NSString *description = [[NSString alloc]
-          initWithFormat:@"%@ failed to receive rewarded ad.", NSStringFromClass([UnityAds class])];
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
     }
+  } else {
+    [self initializeWithGameID:gameID];
   }
 }
 
@@ -109,38 +117,50 @@ bool _bannerRequested = false;
                                       (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
                                           adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
+
   NSString *placementID = [adapterDelegate getPlacementID];
-  [UnityAds show:viewController placementId:placementID];
+  if ([UnityAds isReady:placementID]) {
+    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setOrdinal:impressionOrdinal++];
+    [mediationMetaData commit];
+    [UnityAds show:viewController placementId:placementID];
+  } else {
+    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
+    [mediationMetaData commit];
+  }
 }
 
 #pragma mark - Interstitial ad methods
 
-- (void)configureInterstitialAdWithGameID:(NSString *)gameID
-                                 delegate:
-                                     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                         adapterDelegate {
-  if ([UnityAds isSupported]) {
-    if ([UnityAds isInitialized]) {
-      NSString *placementID = [adapterDelegate getPlacementID];
-      if ([UnityAds isReady:placementID]) {
-        [adapterDelegate unityAdsReady:placementID];
-      } else {
-        NSString *description =
-            [[NSString alloc] initWithFormat:@"%@ failed to receive interstitial ad.",
-                                             NSStringFromClass([UnityAds class])];
-        [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
-      }
-    } else {
-      // Add delegate reference in adapterDelegate list only if Unity Ads is not initialized.
-      [self addAdapterDelegate:adapterDelegate];
-      [self initializeWithGameID:gameID];
+- (void)requestInterstitialAdWithDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
+  NSString *placementID = [adapterDelegate getPlacementID];
+
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
+    }
+  }
+
+  [self addAdapterDelegate:adapterDelegate];
+
+  if ([UnityAds isInitialized]) {
+    // Call metadata load API
+    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
+    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
+    [loadMetaData set:uniqueEventId value:placementID];
+    [loadMetaData commit];
+
+    if ([UnityAds isReady:placementID]) {
+      [adapterDelegate unityAdsReady:placementID];
     }
   } else {
-    NSString *description =
-        [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-                                         NSStringFromClass([UnityAds class])];
-    [adapterDelegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:description];
+    [self initializeWithGameID:gameID];
   }
 }
 
@@ -148,8 +168,18 @@ bool _bannerRequested = false;
                                       delegate:(id<GADMAdapterUnityDataProvider,
                                                    UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
-  [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  if ([UnityAds isReady:placementID]) {
+    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setOrdinal:impressionOrdinal++];
+    [mediationMetaData commit];
+    [UnityAds show:viewController placementId:placementID];
+  } else {
+    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
+    [mediationMetaData commit];
+  }
 }
 
 #pragma mark - Banner ad methods
@@ -215,8 +245,9 @@ bool _bannerRequested = false;
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // The unityAdsReady: and unityAdsDidError: callback methods are used to forward Unity Ads SDK
-  // states to the adapters. No need to forward this callback to the adapters.
+  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
+  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
+  // Google Mobile Ads SDK.
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
