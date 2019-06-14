@@ -12,7 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@protocol GADMAdapterIronSourceDelegate
-- (NSString *)getInstanceID;
-- (void)didFailToLoadAdWithError:(NSError *)error;
+@protocol GADMAdapterIronSourceInterstitialDelegate
+
+typedef NS_ENUM(NSInteger, ISInstanceState);
+
+- (void)interstitialDidLoad:(NSString *)instanceId;
+- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId;
+- (void)interstitialDidOpen:(NSString *)instanceId;
+- (void)interstitialDidClose:(NSString *)instanceId;
+- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId;
+- (void)didClickInterstitial:(NSString *)instanceId;
+- (void)setState:(NSString *)state;
+- (NSString *)getState;
+
 @end

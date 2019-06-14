@@ -37,4 +37,23 @@
   return [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:userInfo];
 }
 
++ (void)onLog:(NSString *)log {
+  NSLog(@"IronSourceAdapter: %@", log);
+}
+
++ (NSString *)getAdMobSDKVersion {
+  NSString *version = @"";
+  NSString *sdkVersion = [GADRequest sdkVersion];
+  @try {
+    NSUInteger versionIndex = [sdkVersion rangeOfString:@"-v"].location + 1;
+    version = [sdkVersion substringFromIndex:versionIndex];
+    version = [version stringByReplacingOccurrencesOfString:@"." withString:@""];
+
+  } @catch (NSException *exception) {
+    NSLog(@"Unable to parse AdMob SDK version");
+    version = @"";
+  }
+  return version;
+}
+
 @end

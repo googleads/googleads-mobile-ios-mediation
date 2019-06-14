@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+@import GoogleMobileAds;
 #import <IronSource/IronSource.h>
 
 /// Holds Shared code for IronSource adapters.
@@ -24,5 +24,8 @@
 + (NSError *)createErrorWith:(NSString *)description
                    andReason:(NSString *)reason
                andSuggestion:(NSString *)suggestion;
+
++ (void)onLog:(NSString *)log;
++ (NSString *)getAdMobSDKVersion;
 
 @end

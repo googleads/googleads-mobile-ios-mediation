@@ -20,7 +20,7 @@
 
 /// Initializes a new instance with |adConfiguration| and |completionHandler|.
 - (instancetype)initWithGADMediationRewardedAdConfiguration:
-                    (GADMediationRewardedAdConfiguration*)adConfiguration
+                    (GADMediationRewardedAdConfiguration *)adConfiguration
                                           completionHandler:
                                               (GADMediationRewardedLoadCompletionHandler)
                                                   completionHandler NS_DESIGNATED_INITIALIZER;

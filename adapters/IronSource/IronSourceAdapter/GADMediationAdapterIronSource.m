@@ -15,10 +15,10 @@
 #import "GADMediationAdapterIronSource.h"
 #import "GADMAdapterIronSourceConstants.h"
 #import "GADMAdapterIronSourceRewardedAd.h"
+#import "GADMAdapterIronSourceUtils.h"
 #import "ISMediationManager.h"
 
 @interface GADMediationAdapterIronSource () {
-  /// Ironsource rewarded ad wrapper.
   GADMAdapterIronSourceRewardedAd *_rewardedAd;
 }
 
@@ -42,12 +42,15 @@
   NSString *appKey = [appKeys anyObject];
 
   if (appKeys.count != 1) {
-    NSLog(
-        @"Found the following app keys: %@. Please remove any app keys you are not using from the "
-        @"AdMob UI.",
-        appKeys);
-    NSLog(@"Initializing IronSource SDK with the app key %@, for ad formats %@", appKey,
-          ironSourceAdUnits);
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"Found the following app keys: %@. Please remove any app "
+                                         @"keys you are not using from the "
+                                         @"AdMob UI.",
+                                         appKeys]];
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"Initializing IronSource SDK with the app key %@, for ad formats %@",
+                            appKey, ironSourceAdUnits]];
   }
 
   [[ISMediationManager sharedManager] initIronSourceSDKWithAppKey:appKey
@@ -60,12 +63,15 @@
   GADVersionNumber version = {0};
   NSString *sdkVersion = [IronSource sdkVersion];
   NSArray<NSString *> *components = [sdkVersion componentsSeparatedByString:@"."];
-  if (components.count == 3) {
+  if (components.count > 2) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue;
-  } else {
-    NSLog(@"Unexpected IronSource version string: %@. Returning 0 for adSDKVersion.", sdkVersion);
+  } else if (components.count == 2) {
+    version.majorVersion = components[0].integerValue;
+    version.minorVersion = components[1].integerValue;
+  } else if (components.count == 1) {
+    version.majorVersion = components[0].integerValue;
   }
   return version;
 }
