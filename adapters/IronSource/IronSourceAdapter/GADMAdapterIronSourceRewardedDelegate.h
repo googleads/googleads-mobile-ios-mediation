@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@protocol GADMAdapterIronSourceDelegate
+@protocol GADMAdapterIronSourceRewardedDelegate
 
 typedef NS_ENUM(NSInteger, ISInstanceState);
- 
+
 - (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId;
 - (void)rewardedVideoDidLoad:(NSString *)instanceId;
 - (void)rewardedVideoDidClose:(NSString *)instanceId;

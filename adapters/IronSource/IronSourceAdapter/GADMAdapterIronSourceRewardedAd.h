@@ -14,28 +14,20 @@
 
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
-#import "GADMAdapterIronSourceDelegate.h"
-
 
 /// Adapter for communicating with the IronSource Network to fetch reward-based video ads.
-@interface GADMAdapterIronSourceRewardedAd : NSObject <GADMediationRewardedAd>{
-}
+@interface GADMAdapterIronSourceRewardedAd : NSObject <GADMediationRewardedAd>
 
 /// Initializes a new instance with |adConfiguration| and |completionHandler|.
 - (instancetype)initWithGADMediationRewardedAdConfiguration:
-(GADMediationRewardedAdConfiguration*)adConfiguration
+                    (GADMediationRewardedAdConfiguration *)adConfiguration
                                           completionHandler:
-(GADMediationRewardedLoadCompletionHandler)
-completionHandler NS_DESIGNATED_INITIALIZER;
+                                              (GADMediationRewardedLoadCompletionHandler)
+                                                  completionHandler NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init __unavailable;
 
 - (void)requestRewardedAd;
-
-- (NSString *)getState;
-
-- (void)setState:(NSString *)state;
-
 
 @end

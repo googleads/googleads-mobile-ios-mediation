@@ -15,26 +15,22 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 #import <IronSource/IronSource.h>
-#import "GADMAdapterIronSourceDelegate.h"
-#import "GADMediationAdapterIronSource.h"
-#import "GADMAdapterIronSource.h"
 #import "GADMAdapterIronSourceInterstitialDelegate.h"
+#import "GADMAdapterIronSourceRewardedDelegate.h"
 
 @interface ISMediationManager
-: NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate>
+    : NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate>
 
 + (instancetype)sharedManager;
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey forAdUnits:(NSSet *)adUnits;
-- (void)loadRewardedAdWithDelegate:
-(id<GADMAdapterIronSourceDelegate>)delegate
+- (void)loadRewardedAdWithDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)delegate
                         instanceID:(NSString *)instanceID;
 
 - (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
                                  instanceID:(NSString *)instanceID;
 
-- (void)requestInterstitialAdWithDelegate:
-(id<GADMAdapterIronSourceInterstitialDelegate>)delegate
-                               instanceID:(NSString *)instanceID;
+- (void)loadInterstitialAdWithDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)delegate
+                            instanceID:(NSString *)instanceID;
 
 - (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
                                      instanceID:(NSString *)instanceID;
