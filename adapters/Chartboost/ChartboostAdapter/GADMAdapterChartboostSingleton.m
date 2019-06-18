@@ -61,6 +61,7 @@
     _queue = dispatch_queue_create("com.google.admob.chartboost_adapter_singleton",
                                    DISPATCH_QUEUE_CONCURRENT);
     _completionHandlers = [[NSMutableArray alloc] init];
+    _initState = UNINITIALIZED;
   }
   return self;
 }
