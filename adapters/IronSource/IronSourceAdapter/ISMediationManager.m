@@ -49,7 +49,7 @@
     [IronSource
         setMediationType:[NSString
                              stringWithFormat:@"%@%@SDK%@", kGADMAdapterIronSourceMediationName,
-                                              kGADMAdapterIronSourceAdapterVersion,
+                                              kGADMAdapterIronSourceInternalVersion,
                                               [GADMAdapterIronSourceUtils getAdMobSDKVersion]]];
   }
   return self;
