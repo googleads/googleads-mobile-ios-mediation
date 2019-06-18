@@ -1,4 +1,5 @@
 #import "GADMAdapterVungleRewardedAd.h"
+#include <stdatomic.h>
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouter.h"
@@ -21,7 +22,25 @@ BOOL _isRewardedAdPresenting;
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;
-    self.adLoadCompletionHandler = handler;
+
+    __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler origAdLoadHandler = [handler copy];
+
+    // Ensure the original completion handler is only called once, and is deallocated once called.
+    self.adLoadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+        id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+      if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
+        return nil;
+      }
+
+      id<GADMediationRewardedAdEventDelegate> delegate = nil;
+      if (origAdLoadHandler) {
+        delegate = origAdLoadHandler(rewardedAd, error);
+      }
+
+      origAdLoadHandler = nil;
+      return delegate;
+    };
   }
   return self;
 }
