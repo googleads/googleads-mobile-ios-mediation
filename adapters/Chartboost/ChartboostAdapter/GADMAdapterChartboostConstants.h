@@ -15,7 +15,7 @@
 @import Foundation;
 
 /// Chartboost mediation network adapter version.
-static NSString *const kGADMAdapterChartboostVersion = @"7.5.0.0";
+static NSString *const kGADMAdapterChartboostVersion = @"7.5.0.1";
 
 /// Chartboost App ID.
 static NSString *const kGADMAdapterChartboostAppID = @"appId";
