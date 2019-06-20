@@ -1,6 +1,6 @@
 # Vungle Adapter for Google Mobile Ads SDK for iOS Changelog
 
-## Next Version
+## VERSION 6.3.2.3
 - Fixed a crash in [GADMAdapterVungleRewardedAd adAvailable:].
 
 ## VERSION 6.3.2.2
