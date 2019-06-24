@@ -50,6 +50,6 @@ def adapter_library(deps):
             "-Wno-error=incompatible-pointer-types",
         ],
         deps = [
-            "//googlemac/iPhone/GoogleAds/SDK:google_mobile_ads_framework_current",
+            "//third_party/GoogleMobileAdsIOS:google_mobile_ads_framework_current",
         ] + deps,
     )
