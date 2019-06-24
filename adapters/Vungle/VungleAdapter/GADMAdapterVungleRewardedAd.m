@@ -4,18 +4,16 @@
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouter.h"
 
-@interface GADMAdapterVungleRewardedAd () <VungleDelegate, VungleSDKDelegate>
-
+@interface GADMAdapterVungleRewardedAd ()<VungleDelegate>
 @property(nonatomic, strong) GADMediationRewardedAdConfiguration *adConfiguration;
 @property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
 @property(nonatomic, weak, nullable) id<GADMediationRewardedAdEventDelegate> delegate;
-
 @end
 
 @implementation GADMAdapterVungleRewardedAd
 
 // To check if the ad is presenting so that we don't call 'adLoadCompletionHandler' twice.
-BOOL _isRewardedAdPresenting;
+static BOOL _isRewardedAdPresenting;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
@@ -46,14 +44,32 @@ BOOL _isRewardedAdPresenting;
 }
 
 - (void)requestRewardedAd {
-  desiredPlacement = [GADMAdapterVungleUtils findPlacement:self.adConfiguration.credentials.settings
-                                             networkExtras:self.adConfiguration.extras];
-  if (!desiredPlacement) {
+  self.adapterAdType = Rewarded;
+  self.desiredPlacement =
+      [GADMAdapterVungleUtils findPlacement:self.adConfiguration.credentials.settings
+                              networkExtras:self.adConfiguration.extras];
+  if (!self.desiredPlacement) {
     NSError *error =
         [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
                             code:0
                         userInfo:@{NSLocalizedDescriptionKey : @"'placementID' not specified"}];
     self.adLoadCompletionHandler(nil, error);
+    self.adLoadCompletionHandler = nil;
+    return;
+  }
+
+  if ([[VungleRouter sharedInstance]
+          hasDelegateForPlacementID:self.desiredPlacement
+                        adapterType:Rewarded]) {
+    NSError *error = [NSError
+        errorWithDomain:@"GADMAdapterVungleRewardedAd"
+                   code:0
+               userInfo:@{
+                 NSLocalizedDescriptionKey : @"Vungle SDK does not support multiple concurrent ads "
+                                             @"load for RewardedAd ad type."
+               }];
+    self.adLoadCompletionHandler(nil, error);
+    self.adLoadCompletionHandler = nil;
     return;
   }
 
@@ -76,7 +92,7 @@ BOOL _isRewardedAdPresenting;
 }
 
 - (void)loadRewardedAd {
-  NSError *error = [[VungleRouter sharedInstance] loadAd:desiredPlacement withDelegate:self];
+  NSError *error = [[VungleRouter sharedInstance] loadAd:self.desiredPlacement withDelegate:self];
   if (error) {
     self.adLoadCompletionHandler(nil, error);
   }
@@ -96,21 +112,36 @@ BOOL _isRewardedAdPresenting;
   }
 }
 
+- (void)dealloc {
+  self.adLoadCompletionHandler = nil;
+  self.adConfiguration = nil;
+}
+
 #pragma mark - VungleRouter delegates
 
 @synthesize desiredPlacement;
+@synthesize adapterAdType;
 
 - (void)initialized:(BOOL)isSuccess error:(NSError *)error {
   if (isSuccess) {
     [self loadRewardedAd];
   } else {
     self.adLoadCompletionHandler(nil, error);
+    self.adLoadCompletionHandler = nil;
   }
 }
 
 - (void)adAvailable {
   if (!_isRewardedAdPresenting) {
-    self.delegate = self.adLoadCompletionHandler(self, nil);
+    if (self.adLoadCompletionHandler) {
+      self.delegate = self.adLoadCompletionHandler(self, nil);
+      self.adLoadCompletionHandler = nil;
+    }
+
+    if (!self.delegate) {
+      // In this case, the request for Vungle has been timed out. Clean up self.
+      [[VungleRouter sharedInstance] removeDelegate:self];
+    }
   }
 }
 
@@ -126,8 +157,11 @@ BOOL _isRewardedAdPresenting;
   if (didDownload) {
     [strongDelegate reportClick];
   }
-  desiredPlacement = nil;
+  self.desiredPlacement = nil;
   [strongDelegate didDismissFullScreenView];
+
+  GADMAdapterVungleRewardedAd __weak *weakSelf = self;
+  [[VungleRouter sharedInstance] removeDelegate:weakSelf];
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
@@ -144,6 +178,8 @@ BOOL _isRewardedAdPresenting;
 
 - (void)adNotAvailable:(NSError *)error {
   self.adLoadCompletionHandler(nil, error);
+  self.adLoadCompletionHandler = nil;
+  [[VungleRouter sharedInstance] removeDelegate:self];
 }
 
 @end

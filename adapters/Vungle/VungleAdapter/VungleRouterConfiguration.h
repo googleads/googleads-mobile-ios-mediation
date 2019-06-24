@@ -13,7 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <VungleAdapter/VungleAdNetworkExtras.h>
-#import <VungleAdapter/VungleRouterConsent.h>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface VungleRouterConfiguration : NSObject
++ (void)setPublishIDFV:(BOOL)publish;
++ (void)setMinSpaceForInit:(int)size;
++ (void)setMinSpaceForAdLoad:(int)size;
+@end
+
+NS_ASSUME_NONNULL_END
