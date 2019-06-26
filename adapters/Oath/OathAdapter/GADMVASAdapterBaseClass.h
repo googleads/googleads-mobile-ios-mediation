@@ -18,6 +18,8 @@
 @property (nonatomic, strong) VASInterstitialAd *interstitialAd;
 @property (nonatomic, strong) VASAds *vasAds;
 @property (nonatomic, strong) NSString *placementID;
-@property (nonatomic, weak) id connector;
+@property (nonatomic, readonly) id<GADMAdNetworkConnector> gadConnector;
+@property (nonatomic, weak, readonly) id<GADMediationAdRequest> connector;
+
 
 @end

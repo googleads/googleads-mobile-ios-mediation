@@ -8,14 +8,8 @@
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
-@protocol GADMRewardBasedVideoAdNetworkAdapter;
 
-#define MM_SMARTBANNER_PHONE CGSizeMake(320, 50)
-#define MM_SMARTBANNER_TABLET CGSizeMake(728, 90)
-#define MM_SMARTBANNER_MED_CUTOFF 450
-#define MM_SMARTBANNER_MAX_CUTOFF 740
-
-static NSString * const kVASAdapterVersion = @"1.0.3.0";
+static NSString * const kVASAdapterVersion = @"1.1.2.0";
 
 @interface GADMVASAdapterBaseClass ()
 
@@ -24,6 +18,18 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 @end
 
 @implementation GADMVASAdapterBaseClass
+
+#pragma mark - Logger
+
++ (VASLogger *)logger
+{
+    static VASLogger *_logger = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _logger = [VASLogger loggerForClass:[GADMVASAdapterBaseClass class]];
+    });
+    return _logger;
+}
 
 #pragma mark - GADMAdNetworkAdapter
 
@@ -42,7 +48,7 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
     if (self = [super init]) {
         _connector = gadConnector;
     }
-    
+
     return self;
 }
 
@@ -53,51 +59,37 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 
 - (void)getInterstitial
 {
-    __strong typeof(self.connector) connector = self.connector;
-    
-    if (!self.placementID || ![self.vasAds isInitialized]) {
-        [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                                              code:kGADErrorMediationAdapterError
-                                                          userInfo:@{NSLocalizedDescriptionKey : @"Verizon Ads SDK not properly initialized"}]];
+    if (![self prepareAdapterForAdRequest]) {
         return;
     }
-    
-    [self setRequestInfoFromConnector:connector];
+
     self.interstitialAd = nil;
     self.interstitialAdFactory = [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID vasAds:self.vasAds delegate:self];
     [self.interstitialAdFactory load:self];
 }
-
-- (void)getBannerWithSize:(GADAdSize)adSize
+- (void)getBannerWithSize:(GADAdSize)gadSize
 {
-    __strong typeof(self.connector) connector = self.connector;
-    
-    if (!self.placementID || ! self.vasAds.isInitialized) {
-        [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                                              code:kGADErrorMediationAdapterError
-                                                          userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}]];
+    if (![self prepareAdapterForAdRequest]) {
         return;
     }
-    
-    [self setRequestInfoFromConnector:connector];
-    
-    // Create the InlineAd object
-    CGRect adFrame = [self makeBannerRect:adSize];
-    
-    // Check for banner smartness failure--
-    if ( adFrame.size.width < 0 ) {
+
+    __strong typeof(self.gadConnector) connector = self.gadConnector;
+
+    CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
+    if (CGSizeEqualToSize(adSize, CGSizeZero)) {
         [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidRequest userInfo:nil]];
         return;
     }
-    
-    self.inlineAdFrame = adFrame;
-    
-    VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:self.inlineAdFrame.size.width height:self.inlineAdFrame.size.height];
-    self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID adSizes:@[size] vasAds:[VASAds sharedInstance] delegate:self];
-    
+
+    VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.width height:adSize.height];
+    self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID
+                                                                   adSizes:@[size]
+                                                                    vasAds:[VASAds sharedInstance]
+                                                                  delegate:self];
+
     [self.inlineAd removeFromSuperview];
     self.inlineAd = nil;
-    
+
     [self.inlineAdFactory load:self];
 }
 
@@ -115,34 +107,34 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 
 #pragma mark - VASInterstitialAdFactoryDelegate
 
--(void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory didLoadInterstitialAd:(VASInterstitialAd *)interstitialAd
+- (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory didLoadInterstitialAd:(VASInterstitialAd *)interstitialAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.interstitialAd = interstitialAd;
-        [self.connector adapterDidReceiveInterstitial:self];
+        [self.gadConnector adapterDidReceiveInterstitial:self];
     });
 }
 
 - (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory didFailWithError:(VASErrorInfo *)errorInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapter:self didFailAd:errorInfo];
+        [self.gadConnector adapter:self didFailAd:errorInfo];
     });
 }
 
 - (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory cacheLoadedNumRequested:(NSInteger)numRequested numReceived:(NSInteger)numReceived
 {
-    // Unused
+    // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 - (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory cacheUpdatedWithCacheSize:(NSInteger)cacheSize
 {
-    // Unused
+    // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 - (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory cacheLoadedNumRequested:(NSInteger)numRequested
 {
-    // unused
+    // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 #pragma mark - VASInterstitialAdDelegate
@@ -150,41 +142,41 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 - (void)interstitialAdDidShow:(VASInterstitialAd *)interstitialAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterWillPresentInterstitial:self];
+        [self.gadConnector adapterWillPresentInterstitial:self];
     });
 }
 
 - (void)interstitialAdDidFail:(VASInterstitialAd *)interstitialAd withError:(VASErrorInfo *)errorInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapter:self didFailAd:errorInfo];
+        [self.gadConnector adapter:self didFailAd:errorInfo];
     });
 }
 
 - (void)interstitialAdDidClose:(VASInterstitialAd *)interstitialAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterDidDismissInterstitial:self];
+        [self.gadConnector adapterDidDismissInterstitial:self];
     });
 }
 
 - (void)interstitialAdDidLeaveApplication:(VASInterstitialAd *)interstitialAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterWillLeaveApplication:self];
+        [self.gadConnector adapterWillLeaveApplication:self];
     });
 }
 
 - (void)interstitialAdClicked:(VASInterstitialAd *)interstitialAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterDidGetAdClick:self];
+        [self.gadConnector adapterDidGetAdClick:self];
     });
 }
 
 - (void)interstitialAdEvent:(VASInterstitialAd *)interstitialAd source:(NSString *)source eventId:(NSString *)eventId arguments:(NSDictionary<NSString *, id> *)arguments
 {
-    // unused
+    // A generic callback that does currently need an implementation for interstitial placements.
 }
 
 #pragma mark - VASInlineAdFactoryDelegate
@@ -192,7 +184,7 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory didFailWithError:(nonnull VASErrorInfo *)errorInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapter:self didFailAd:errorInfo];
+        [self.gadConnector adapter:self didFailAd:errorInfo];
     });
 }
 
@@ -200,19 +192,19 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.inlineAd = inlineAd;
-        self.inlineAd.frame = self.inlineAdFrame;
-        [self.connector adapter:self didReceiveAdView:self.inlineAd];
+        self.inlineAd.frame = CGRectMake(0, 0, inlineAd.adSize.width, inlineAd.adSize.height);
+        [self.gadConnector adapter:self didReceiveAdView:self.inlineAd];
     });
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory cacheLoadedNumRequested:(NSInteger)numRequested numReceived:(NSInteger)numReceived
 {
-    // Unused
+    // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory cacheUpdatedWithCacheSize:(NSInteger)cacheSize
 {
-    // Unused
+    // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 #pragma mark - VASInlineAdViewDelegate
@@ -220,59 +212,73 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 - (void)inlineAdDidFail:(VASInlineAdView *)inlineAd withError:(VASErrorInfo *)errorInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapter:self didFailAd:errorInfo];
+        [self.gadConnector adapter:self didFailAd:errorInfo];
     });
 }
 
 - (void)inlineAdDidExpand:(VASInlineAdView *)inlineAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterWillPresentFullScreenModal:self];
+        [self.gadConnector adapterWillPresentFullScreenModal:self];
     });
 }
 
 - (void)inlineAdDidCollapse:(VASInlineAdView *)inlineAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterDidDismissFullScreenModal:self];
+        [self.gadConnector adapterDidDismissFullScreenModal:self];
     });
 }
 
 - (void)inlineAdClicked:(VASInlineAdView *)inlineAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterDidGetAdClick:self];
+        [self.gadConnector adapterDidGetAdClick:self];
     });
 }
 
 - (void)inlineAdDidLeaveApplication:(VASInlineAdView *)inlineAd
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.connector adapterWillLeaveApplication:self];
+        [self.gadConnector adapterWillLeaveApplication:self];
     });
 }
 
 - (nullable UIViewController *)adPresentingViewController
 {
-    return [self.connector viewControllerForPresentingModalView];
+    return [self.gadConnector viewControllerForPresentingModalView];
 }
 
 - (void)inlineAdDidRefresh:(nonnull VASInlineAdView *)inlineAd
 {
-    // Unused
+    // AdMob publishers use the AdMob inline refresh mechanism, so an implementation here is not needed.
 }
 
 - (void)inlineAdDidResize:(nonnull VASInlineAdView *)inlineAd
 {
-    // Unused
+    // AdMob does not expose a resize callback to map to this.
 }
 
 - (void)inlineAdEvent:(nonnull VASInlineAdView *)inlineAd source:(nonnull NSString *)source eventId:(nonnull NSString *)eventId arguments:(nonnull NSDictionary<NSString *,id> *)arguments
 {
-    // Unused
+    // A generic callback that does currently need an implementation for inline placements.
 }
 
 #pragma mark - common
+
+- (BOOL)prepareAdapterForAdRequest {
+    if (!self.placementID || ! self.vasAds.isInitialized) {
+        NSError *error = [NSError errorWithDomain:kGADErrorDomain
+                                             code:kGADErrorMediationAdapterError
+                                         userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
+        [self.gadConnector adapter:self didFailAd:error];
+        return NO;
+    }
+
+    [self setRequestInfoFromConnector:self.connector];
+
+    return YES;
+}
 
 - (void)stopBeingDelegate
 {
@@ -280,7 +286,7 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
         if ([self.inlineAd respondsToSelector:@selector(destroy)]) {
             [self.inlineAd performSelector:@selector(destroy)];
         } else {
-            NSLog(@"GADMAdapterVerizon: The adapter is intended to work with Verizon Ads SDK version 1.0.1 or higher.  Please update the Verizon Ads SDK.");
+            NSLog(@"GADMAdapterVerizon: The adapter is intended to work with Verizon Ads SDK version 1.0.4 or higher.  Please update the Verizon Ads SDK.");
         }
     }
     
@@ -288,10 +294,10 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
         if ([self.interstitialAd respondsToSelector:@selector(destroy)]) {
             [self.interstitialAd performSelector:@selector(destroy)];
         } else {
-            NSLog(@"GADMAdapterVerizon: The adapter is intended to work with Verizon Ads SDK version 1.0.1 or higher.  Please update the Verizon Ads SDK.");
+            NSLog(@"GADMAdapterVerizon: The adapter is intended to work with Verizon Ads SDK version 1.0.4 or higher.  Please update the Verizon Ads SDK.");
         }
     }
-    
+
     self.inlineAdFactory.delegate = nil;
     self.inlineAd.delegate = nil;
     self.interstitialAdFactory.delegate = nil;
@@ -307,10 +313,10 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 {
     //User Settings
     [self setUserSettingsFromConnector:connector];
-    
+
     //COPPA
     [self setCoppaFromConnector:connector];
-    
+
     // Location
     if (connector.userHasLocation) {
         self.vasAds.locationEnabled = YES;
@@ -320,15 +326,15 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
 - (void)setUserSettingsFromConnector:(id<GADMediationAdRequest>)connector
 {
     VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
-    
+
     // Mediator
     builder.appMediator = [NSString stringWithFormat:@"AdMobVAS-%@",  [GADMVASAdapterBaseClass adapterVersion]];
-    
+
     // Keywords
     if ([connector userKeywords] != nil && [[connector userKeywords] count] > 0) {
         builder.userKeywords = [connector userKeywords];;
     }
-    
+
     self.vasAds.requestMetadata = [builder build];
 }
 
@@ -337,29 +343,25 @@ static NSString * const kVASAdapterVersion = @"1.0.3.0";
     self.vasAds.COPPA = [connector childDirectedTreatment];
 }
 
-- (CGRect)makeBannerRect:(GADAdSize)adSize
+- (id<GADMAdNetworkConnector>)gadConnector
 {
-    // Consideration for smart banners ( http://bit.ly/1wAWn0r )
-    CGSize windowSize = [[UIApplication sharedApplication] keyWindow].bounds.size;
-    
-    if ( GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait, adSize) ||
-        GADAdSizeEqualToSize(kGADAdSizeSmartBannerLandscape, adSize) ) {
-        int offsetX = (int)(windowSize.width / 2);
-        
-        if ( windowSize.height < MM_SMARTBANNER_MED_CUTOFF ) {
-            // MYDAS will attempt to return a 320x50, even when hsht < 320 / hswd < 50
-            return CGRectMake(0,0,-1,-1);
-        } else if ( windowSize.height >= MM_SMARTBANNER_MED_CUTOFF &&
-                   windowSize.height <= MM_SMARTBANNER_MAX_CUTOFF) {
-            return CGRectMake(offsetX - (MM_SMARTBANNER_PHONE.width / 2), 0,
-                              MM_SMARTBANNER_PHONE.width, MM_SMARTBANNER_PHONE.height);
-        } else if ( windowSize.height > MM_SMARTBANNER_MAX_CUTOFF ) {
-            return CGRectMake(offsetX - (MM_SMARTBANNER_TABLET.width / 2), 0,
-                              MM_SMARTBANNER_TABLET.width, MM_SMARTBANNER_TABLET.height);
-        }
+    return [self.connector conformsToProtocol:@protocol(GADMAdNetworkConnector)]
+    ? (id<GADMAdNetworkConnector>)self.connector
+    : nil;
+}
+
+- (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+    NSArray *potentials = @[
+                            NSValueFromGADAdSize(kGADAdSizeBanner),
+                            NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+                            NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+                            ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+    if (IsGADAdSizeValid(closestSize)) {
+        return CGSizeFromGADAdSize(closestSize);
     }
-    
-    return CGRectMake(0, 0, adSize.size.width, adSize.size.height);
+
+    return CGSizeZero;
 }
 
 @end
