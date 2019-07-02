@@ -96,6 +96,7 @@
 }
 
 - (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
+                               bidResponse:(NSString *)bidResponse
                                   delegate:
                                       (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
   if ([self getDelegateForPlacementName:placementName]) {
@@ -118,8 +119,26 @@
                                                    delegate:self];
   tjPlacement.adapterVersion = kGADMAdapterTapjoyVersion;
   tjPlacement.videoDelegate = self;
+  if (bidResponse) {
+    NSData *data = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:NSJSONReadingAllowFragments
+                                                                   error:nil];
+
+    NSDictionary *auctionData = @{
+      TJ_AUCTION_DATA : responseData[TJ_AUCTION_DATA],
+      TJ_AUCTION_ID : responseData[TJ_AUCTION_ID]
+    };
+    [tjPlacement setAuctionData:auctionData];
+  }
   [tjPlacement requestContent];
   return tjPlacement;
+}
+
+- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
+                                  delegate:
+                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
+  return [self requestAdForPlacementName:placementName bidResponse:nil delegate:delegate];
 }
 
 - (void)addDelegate:(id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate

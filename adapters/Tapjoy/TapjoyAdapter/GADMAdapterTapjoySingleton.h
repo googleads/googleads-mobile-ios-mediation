@@ -30,6 +30,10 @@ typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 - (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
                                   delegate:
                                       (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
+- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
+                               bidResponse:(NSString *_Nullable)bidResponse
+                                  delegate:
+                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
 
 @end
 
