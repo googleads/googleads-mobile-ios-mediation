@@ -148,6 +148,12 @@
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
+- (void)didClick:(TJPlacement*)placement {
+  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
+}
+
 #pragma mark Tapjoy Video
 
 - (void)videoDidStart:(TJPlacement *)placement {

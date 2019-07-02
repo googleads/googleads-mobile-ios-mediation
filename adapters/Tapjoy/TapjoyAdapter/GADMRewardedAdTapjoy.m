@@ -122,6 +122,12 @@
   [_adEventDelegate didDismissFullScreenView];
 }
 
+- (void)didClick:(TJPlacement*)placement {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  [strongDelegate reportClick];
+  [strongDelegate willDismissFullScreenView];
+}
+
 #pragma mark Tapjoy Video
 - (void)videoDidStart:(TJPlacement *)placement {
   [_adEventDelegate didStartVideo];
