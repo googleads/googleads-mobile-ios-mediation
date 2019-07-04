@@ -7,7 +7,7 @@ your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
 - Xcode 7.0 or higher
-- Deployment target of 7.0 or higher
+- Deployment target of 8.0 or higher
 - Google Mobile Ads SDK
 - Oath SDK
 - Oath Adapter Source Code
@@ -15,7 +15,7 @@ your Podfile and run `pod install --repo-update`.
 ## Setup Instructions
 - Drop GoogleMobileAds framework to
   Project Directory->Drop_Framework_And_Headers.
-- Drop MMAdSDK framework to
+- Drop all frameworks found inside [Verizon Ads Standard Edition](https://sdk.verizonmedia.com/) in to
   Project Directory->Drop_Framework_And_Headers.
 
 ## Build Instructions
