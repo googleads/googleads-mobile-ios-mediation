@@ -69,7 +69,7 @@
   [mediationMetaData commit];
 
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID delegate:self];
+  [UnityAds initialize:gameID delegate:self testMode:NO enablePerPlacementLoad:YES];
 }
 
 - (void)addAdapterDelegate:
@@ -97,17 +97,16 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
 
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  // Load can be called before initialize has completed, and will send a request when webview is available
+  // If placement is ready, load calls are recorded by Unity Ads, but do not trigger a request
+  [UnityAds load:placementID];
+
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
+  }
+
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
   }
 }
@@ -149,17 +148,15 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
+  // Load can be called before initialize has completed, and will send a request when webview is available
+  // If placement is ready, load calls are recorded by Unity Ads, but do not trigger a request
+  [UnityAds load:placementID];
 
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
+  }
+
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
   }
 }
