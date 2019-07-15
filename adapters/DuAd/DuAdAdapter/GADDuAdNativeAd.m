@@ -24,8 +24,7 @@
 static NSString *const GADNativeAdCoverImage = @"1";
 static NSString *const GADNativeAdIcon = @"2";
 
-@interface GADDuAdNativeAd () <GADMediatedNativeAppInstallAd,
-                               GADMediatedNativeAdDelegate,
+@interface GADDuAdNativeAd () <GADMediatedUnifiedNativeAd,
                                DUNativeAdDelegate,
                                DUMediaViewDelegate> {
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
@@ -80,15 +79,7 @@ static NSString *const GADNativeAdIcon = @"2";
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  // DuAd only supports app install ads.
-  if (![adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall] ||
-      ![adTypes containsObject:kGADAdLoaderAdTypeNativeContent]) {
-    NSError *error =
-        GADDUErrorWithDescription(@"Ad types must include kGADAdLoaderAdTypeNativeAppInstall and "
-                                  @"kGADAdLoaderAdTypeNativeContent.");
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
+
   for (GADAdLoaderOptions *option in options) {
     if ([option isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       _nativeAdImageAdLoaderOptions = (GADNativeAdImageAdLoaderOptions *)option;
@@ -205,7 +196,7 @@ static NSString *const GADNativeAdIcon = @"2";
   return self;
 }
 
-#pragma mark - GADMediatedNativeAppInstallAd
+#pragma mark - GADMediatedUnifiedNativeAd
 
 - (NSString *)headline {
   NSString *__block headline = nil;
@@ -259,6 +250,10 @@ static NSString *const GADNativeAdIcon = @"2";
   return nil;
 }
 
+- (NSString *)advertiser {
+  return nil;
+}
+
 /// Media view.
 - (UIView *GAD_NULLABLE_TYPE)mediaView {
   NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self->_nativeAd.imgeUrl]];
@@ -278,19 +273,16 @@ static NSString *const GADNativeAdIcon = @"2";
   return YES;
 }
 
-#pragma mark - GADMediatedNativeAdDelegate
-
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-           didRenderInView:(UIView *)view
-       clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
-    nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+- (void)didRenderInView:(UIView *)view
+    clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews
+ nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews
+         viewController:(UIViewController *)viewController {
   [_nativeAd registerViewForInteraction:view
                      withViewController:viewController
                      withClickableViews:[clickableAssetViews allValues]];
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+- (void)didUntrackView:(UIView *)view {
   [_nativeAd unregisterView];
 }
 

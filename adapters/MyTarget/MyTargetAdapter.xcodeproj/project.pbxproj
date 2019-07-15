@@ -52,8 +52,6 @@
 		89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */; };
 		89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */; };
 		89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */; };
-		89DF94481F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */; };
-		89DF94491F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -99,8 +97,6 @@
 		89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetRewarded.m; sourceTree = "<group>"; };
 		89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetNative.h; sourceTree = "<group>"; };
 		89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetNative.m; sourceTree = "<group>"; };
-		89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetMediatedNativeAd.h; sourceTree = "<group>"; };
-		89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetMediatedNativeAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,8 +134,6 @@
 				892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */,
 				89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */,
 				89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */,
-				89DF94461F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h */,
-				89DF94471F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m */,
 				89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */,
 				89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */,
 				45D672F9223AEE8400323EC6 /* GADMediationAdapterMyTarget.h */,
@@ -212,7 +206,6 @@
 				89DF93EE1F7D17A00027A171 /* GADMAdapterMyTarget.h in Headers */,
 				89DF94401F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h in Headers */,
 				89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */,
-				89DF94481F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.h in Headers */,
 				89BE9EBB20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h in Headers */,
 				45D672FF223AEF5B00323EC6 /* GADMRewardedAdMyTarget.h in Headers */,
 				45D672FB223AEE8400323EC6 /* GADMediationAdapterMyTarget.h in Headers */,
@@ -268,6 +261,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -322,7 +316,6 @@
 				89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */,
 				45D67300223AEF5B00323EC6 /* GADMRewardedAdMyTarget.m in Sources */,
 				45D672FC223AEE8400323EC6 /* GADMediationAdapterMyTarget.m in Sources */,
-				89DF94491F7E53E30027A171 /* GADMAdapterMyTargetMediatedNativeAd.m in Sources */,
 				89BE9EBC20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m in Sources */,
 				89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */,
 				89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */,

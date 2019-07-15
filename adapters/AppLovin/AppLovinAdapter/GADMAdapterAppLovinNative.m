@@ -13,14 +13,12 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
-#import "GADMAppLovinMediatedNativeAppInstallAd.h"
 #import "GADMAppLovinMediatedNativeUnifiedAd.h"
 
 @interface GADMAdapterAppLovinNative () <ALNativeAdLoadDelegate, ALNativeAdPrecacheDelegate>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @property(nonatomic, strong) ALSdk *sdk;
-@property(nonatomic, strong) NSArray *adTypes;
 
 @end
 
@@ -51,17 +49,6 @@
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  if (!([adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative] ||
-        [adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall])) {
-    NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
-                                         code:kGADErrorInvalidRequest
-                                     userInfo:nil];
-    [self.connector adapter:self didFailAd:error];
-    return;
-  }
-
-  self.adTypes = adTypes;
-
   [[ALSdk shared].nativeAdService loadNextAdAndNotify:self];
 }
 
@@ -79,12 +66,11 @@
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service didLoadAds:(nonnull NSArray *)ads {
   if (ads.count > 0 &&
-      ([GADMAdapterAppLovinNative containsRequiredUnifiesNativeAssets:[ads firstObject]] ||
-       [GADMAdapterAppLovinNative containsRequiredAppInstallNativeAssets:[ads firstObject]])) {
+      [GADMAdapterAppLovinNative containsRequiredUnifiedNativeAssets:[ads firstObject]]) {
     [service precacheResourcesForNativeAd:[ads firstObject] andNotify:self];
   } else {
     [GADMAdapterAppLovinUtils log:@"Ad from AppLovin doesn't have all assets required for "
-                                  @"app install ad or unified native ad formats"];
+                                  @"unified native ad formats."];
     [self notifyFailureWithErrorCode:kGADErrorMediationNoFill];
   }
 }
@@ -107,22 +93,12 @@
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
     didPrecacheImagesForAd:(nonnull ALNativeAd *)ad {
   dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative]) {
-      GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
-          [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad];
-      if (unifiedNativeAd) {
-        [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
-        [self.connector adapter:self didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
-        return;
-      }
-    } else if ([self.adTypes containsObject:kGADAdLoaderAdTypeNativeAppInstall]) {
-      GADMAppLovinMediatedNativeAppInstallAd *appInstallNativeAd =
-          [[GADMAppLovinMediatedNativeAppInstallAd alloc] initWithNativeAd:ad];
-      if (appInstallNativeAd) {
-        [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
-        [self.connector adapter:self didReceiveMediatedNativeAd:appInstallNativeAd];
-        return;
-      }
+    GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
+        [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad];
+    if (unifiedNativeAd) {
+      [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
+      [self.connector adapter:self didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
+      return;
     }
 
     [GADMAdapterAppLovinUtils log:@"Failed to create a native ad."];
@@ -147,15 +123,8 @@
 
 /// Check whether or not the AppLovin native ad has all the required assets to map to a
 /// Unified native ad.
-+ (BOOL)containsRequiredUnifiesNativeAssets:(ALNativeAd *)nativeAd {
++ (BOOL)containsRequiredUnifiedNativeAssets:(ALNativeAd *)nativeAd {
   return nativeAd.title && nativeAd.descriptionText && nativeAd.ctaText && nativeAd.imageURL;
-}
-
-/// Check whether or not the AppLovin native ad has all the required assets to map to a
-/// App Install native ad.
-+ (BOOL)containsRequiredAppInstallNativeAssets:(ALNativeAd *)nativeAd {
-  return nativeAd.title && nativeAd.descriptionText && nativeAd.ctaText && nativeAd.iconURL &&
-         nativeAd.imageURL;
 }
 
 #pragma mark - Unused Methods
