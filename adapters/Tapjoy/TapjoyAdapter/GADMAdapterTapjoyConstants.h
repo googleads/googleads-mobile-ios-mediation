@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Adapter version string
-static NSString *const kGADMAdapterTapjoyVersion = @"12.2.1.0";
+static NSString *const kGADMAdapterTapjoyVersion = @"12.3.1.0";
 
 // Adapter mediation agent
 static NSString *const kGADMAdapterTapjoyMediationAgent = @"admob";

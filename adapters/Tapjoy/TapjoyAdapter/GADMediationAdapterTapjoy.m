@@ -17,11 +17,13 @@
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMRTBInterstitialRendererTapjoy.h"
 #import "GADMRewardedAdTapjoy.h"
 #import "GADMTapjoyExtras.h"
 
 @interface GADMediationAdapterTapjoy ()
 
+@property(nonatomic, strong) GADMRTBInterstitialRendererTapjoy *interstitialRenderer;
 @property(nonatomic, strong) GADMRewardedAdTapjoy *rewardedAd;
 
 @end
@@ -84,11 +86,28 @@
   return version;
 }
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  NSString *signals = [Tapjoy getUserToken];
+  completionHandler(signals, nil);
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialRenderer = [[GADMRTBInterstitialRendererTapjoy alloc] init];
+  [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
+                                     completionHandler:completionHandler];
+}
+
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdTapjoy alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMRewardedAdTapjoy alloc] init];
+
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
+
 @end

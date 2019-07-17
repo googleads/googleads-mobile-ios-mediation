@@ -1,19 +1,18 @@
 //
-//  InMobiMediatedNativeAppInstallAd.m
+//  InMobiMediatedUnifiedNativeAd.m
 //  InMobiAdapter
 //
 //  Created by Niranjan Agrawal on 1/22/16.
 //
 //
 
-#import "InMobiMediatedNativeAppInstallAd.h"
+#import "InMobiMediatedUnifiedNativeAd.h"
 #import <Foundation/Foundation.h>
 #import "NativeAdKeys.h"
 
 static CGFloat const DefaultIconScale = 1.0;
 
-@interface InMobiMediatedNativeAppInstallAd () <GADMediatedNativeAdDelegate,
-                                                InMobiMediatedNativeAppInstallAdDelegate>
+@interface InMobiMediatedUnifiedNativeAd () <InMobiMediatedUnifiedNativeAdDelegate>
 
 @property(nonatomic, strong) IMNative *native;
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
@@ -23,14 +22,14 @@ static CGFloat const DefaultIconScale = 1.0;
 
 @end
 
-@implementation InMobiMediatedNativeAppInstallAd
+@implementation InMobiMediatedUnifiedNativeAd
 
 @synthesize adapter = adapter_;
 
-- (instancetype)initWithInMobiNativeAppInstallAd:(IMNative *)nativeAd
-                                     withAdapter:(GADMAdapterInMobi *)adapter
-                             shouldDownloadImage:(BOOL)shouldDownloadImage
-                                       withCache:(NSCache *)imageCache {
+- (instancetype)initWithInMobiUnifiedNativeAd:(IMNative *)nativeAd
+                                  withAdapter:(GADMAdapterInMobi *)adapter
+                          shouldDownloadImage:(BOOL)shouldDownloadImage
+                                    withCache:(NSCache *)imageCache {
   if (!nativeAd) {
     return nil;
   }
@@ -39,7 +38,7 @@ static CGFloat const DefaultIconScale = 1.0;
   self.native = nativeAd;
 
   NSData *data = [self.native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
-  __weak InMobiMediatedNativeAppInstallAd *weakSelf = self;
+  __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
   [self setupWithData:data
       shouldDownloadImage:shouldDownloadImage
                imageCache:imageCache
@@ -89,7 +88,7 @@ static CGFloat const DefaultIconScale = 1.0;
       completed();
     } else {
       NSURL *imageURL = [NSURL URLWithString:iconStringURL];
-      __weak InMobiMediatedNativeAppInstallAd *weakSelf = self;
+      __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
       [self loadImageWithURL:imageURL
                   imageCache:imageCache
                     callback:^(UIImage *image) {
@@ -129,21 +128,21 @@ static CGFloat const DefaultIconScale = 1.0;
 
 - (void)notifyCompletion {
   if (self.mappedIcon && self.mappedImages) {
-    [self notifyMediatedNativeAppInstallAdSuccessful];
+    [self notifyMediatedUnifiedNativeAdSuccessful];
   } else {
-    [self notifyMediatedNativeAppInstallAdFailed];
+    [self notifyMediatedUnifiedNativeAdFailed];
   }
 }
 
-- (void)notifyMediatedNativeAppInstallAdSuccessful {
-  if ([self respondsToSelector:@selector(inmobiMediatedNativeAppInstallAdSuccessful:)]) {
-    [self inmobiMediatedNativeAppInstallAdSuccessful:self];
+- (void)notifyMediatedUnifiedNativeAdSuccessful {
+  if ([self respondsToSelector:@selector(inmobiMediatedUnifiedNativeAdSuccessful:)]) {
+    [self inmobiMediatedUnifiedNativeAdSuccessful:self];
   }
 }
 
-- (void)notifyMediatedNativeAppInstallAdFailed {
-  if ([self respondsToSelector:@selector(inmobiMediatedNativeAppInstallAdFailed)]) {
-    [self inmobiMediatedNativeAppInstallAdFailed];
+- (void)notifyMediatedUnifiedNativeAdFailed {
+  if ([self respondsToSelector:@selector(inmobiMediatedUnifiedNativeAdFailed)]) {
+    [self inmobiMediatedUnifiedNativeAdFailed];
   }
 }
 
@@ -229,37 +228,37 @@ static CGFloat const DefaultIconScale = 1.0;
   return self;
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-    didRecordClickOnAssetWithName:(NSString *)assetName
-                             view:(UIView *)view
-                   viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(UIView *)view
+                       viewController:(UIViewController *)viewController {
   if (self.native) {
     [self.native reportAdClickAndOpenLandingPage];
   }
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-         didRenderInView:(UIView *)view
-          viewController:(UIViewController *)viewController {
-  GADNativeAppInstallAdView *adView = (GADNativeAppInstallAdView *)view;
+- (void)didRenderInView:(UIView *)view
+    clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews
+ nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews
+         viewController:(UIViewController *)viewController {
+  GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [self.native primaryViewOfWidth:mediaView.frame.size.width];
   [mediaView addSubview:primaryView];
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+- (void)didUntrackView:(UIView *)view {
   [self.native recyclePrimaryView];
   self.native = nil;
 }
 
-- (void)inmobiMediatedNativeAppInstallAdFailed {
+- (void)inmobiMediatedUnifiedNativeAdFailed {
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
                                                           code:kGADErrorMediationNoFill
                                                       userInfo:nil];
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }
 
-- (void)inmobiMediatedNativeAppInstallAdSuccessful:(InMobiMediatedNativeAppInstallAd *)ad {
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(InMobiMediatedUnifiedNativeAd *)ad {
   if (self.adapter != nil && self.adapter.connector != nil) {
     [self.adapter.connector adapter:self.adapter didReceiveMediatedNativeAd:ad];
   }

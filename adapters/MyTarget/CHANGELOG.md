@@ -1,5 +1,10 @@
 # myTarget Adapter for Google Mobile Ads SDK for iOS
 
+## Version 5.3.3.0
+- Verified compatibility with myTarget SDK version 5.3.3
+- Removed support for Native Content and App Install ad requests. Apps must use the Unified Native Ads API to request native ads.
+- Now requires Google Mobile Ads SDK version 7.46.0 or higher.
+
 ## Version 5.0.4.0
 - Verified compatibility with myTarget SDK version 5.0.4.
 - Updated the adapter to use the new rewarded API.

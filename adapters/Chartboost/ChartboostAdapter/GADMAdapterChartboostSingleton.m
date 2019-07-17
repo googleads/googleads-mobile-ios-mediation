@@ -32,7 +32,7 @@
 
   ChartboostInitState _initState;
 
-  NSMutableArray<ChartbbostInitCompletionHandler> *_completionHandlers;
+  NSMutableArray<ChartboostInitCompletionHandler> *_completionHandlers;
 }
 
 @end
@@ -61,13 +61,14 @@
     _queue = dispatch_queue_create("com.google.admob.chartboost_adapter_singleton",
                                    DISPATCH_QUEUE_CONCURRENT);
     _completionHandlers = [[NSMutableArray alloc] init];
+    _initState = UNINITIALIZED;
   }
   return self;
 }
 
 - (void)startWithAppId:(NSString *)appId
           appSignature:(NSString *)appSignature
-     completionHandler:(ChartbbostInitCompletionHandler)completionHandler {
+     completionHandler:(ChartboostInitCompletionHandler)completionHandler {
   if (_initState == INITIALIZED) {
     completionHandler(nil);
     return;
@@ -207,13 +208,13 @@
 - (void)didInitialize:(BOOL)status {
   if (status) {
     _initState = INITIALIZED;
-    for (ChartbbostInitCompletionHandler completionHandler in _completionHandlers) {
+    for (ChartboostInitCompletionHandler completionHandler in _completionHandlers) {
       completionHandler(nil);
     }
   } else {
     _initState = UNINITIALIZED;
     NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-    for (ChartbbostInitCompletionHandler completionHandler in _completionHandlers) {
+    for (ChartboostInitCompletionHandler completionHandler in _completionHandlers) {
       completionHandler(error);
     }
   }

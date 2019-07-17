@@ -3,7 +3,7 @@
 #import "GADMoPubNetworkExtras.h"
 #import "MPNativeAd.h"
 
-@interface MoPubAdapterMediatedNativeAd : NSObject <GADMediatedNativeAppInstallAd>
+@interface MoPubAdapterMediatedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
 - (instancetype)initWithMoPubNativeAd:(nonnull MPNativeAd *)mopubNativeAd
                          mappedImages:(nullable NSMutableDictionary *)downloadedImages

@@ -9,8 +9,7 @@
 #import "MPNativeAdConstants.h"
 #import "MoPubAdapterConstants.h"
 
-@interface MoPubAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate,
-                                            MPAdDestinationDisplayAgentDelegate>
+@interface MoPubAdapterMediatedNativeAd () <MPAdDestinationDisplayAgentDelegate>
 
 @property(nonatomic, copy) NSArray *mappedImages;
 @property(nonatomic, copy) GADNativeAdImage *mappedLogo;
@@ -59,6 +58,8 @@
   }
   return self;
 }
+
+#pragma mark - GADMediatedUnifiedNativeAd implementation
 
 - (NSString *)headline {
   return [_nativeAdProperties objectForKey:kAdTitleKey];
@@ -110,12 +111,12 @@
       displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
 }
 
-#pragma mark - GADMediatedNativeAdDelegate implementation
 #pragma GCC diagnostic ignored "-Wundeclared-selector"
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-         didRenderInView:(UIView *)view
-          viewController:(UIViewController *)viewController {
+- (void)didRenderInView:(UIView *)view
+    clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews
+ nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews
+         viewController:(UIViewController *)viewController {
   _baseViewController = viewController;
   if ([_nativeAd respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
     [_nativeAd performSelector:@selector(willAttachToView:withAdContentViews:)
@@ -184,10 +185,9 @@
   [view addSubview:_privacyIconImageView];
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-    didRecordClickOnAssetWithName:(NSString *)assetName
-                             view:(UIView *)view
-                   viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(UIView *)view
+                       viewController:(UIViewController *)viewController {
   if (_nativeAd) {
     [_nativeAd performSelector:@selector(adViewTapped)];
   }
@@ -200,7 +200,7 @@
   return mainImageView;
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+- (void)didUntrackView:(UIView *)view {
   if (_privacyIconImageView) {
     [_privacyIconImageView removeFromSuperview];
   }

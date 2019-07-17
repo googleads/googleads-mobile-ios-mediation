@@ -182,13 +182,6 @@
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
-/// Called each time the Interstitial window has opened successfully.
-- (void)interstitialDidShow:(NSString *)instanceId {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString stringWithFormat:@"IronSource interstitial ad did show for instance %@",
-                                       instanceId]];
-}
-
 /// Called if showing the Interstitial for the user has failed. You can learn about the reason by
 /// examining the |error| value.
 - (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
@@ -218,10 +211,6 @@
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];
-}
-
-- (void)didFailToLoadAdWithError:(NSError *)error {
-  [_interstitialConnector adapter:self didFailAd:error];
 }
 
 - (NSString *)getState {

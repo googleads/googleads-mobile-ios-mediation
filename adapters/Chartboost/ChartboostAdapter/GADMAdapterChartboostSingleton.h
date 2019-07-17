@@ -19,7 +19,7 @@
 
 typedef enum { INITIALIZED, INITIALIZING, UNINITIALIZED } ChartboostInitState;
 
-typedef void (^ChartbbostInitCompletionHandler)(NSError *_Nullable error);
+typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
 @protocol GADMAdapterChartboostDataProvider;
 
@@ -30,7 +30,7 @@ typedef void (^ChartbbostInitCompletionHandler)(NSError *_Nullable error);
 
 - (void)startWithAppId:(NSString *)appId
           appSignature:(NSString *)appSignature
-     completionHandler:(ChartbbostInitCompletionHandler)completionHandler;
+     completionHandler:(ChartboostInitCompletionHandler)completionHandler;
 
 /// Initializes a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
 - (void)configureRewardedAdWithAppID:(NSString *)appID
