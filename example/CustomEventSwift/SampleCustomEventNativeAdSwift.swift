@@ -93,7 +93,7 @@ class SampleCustomEventNativeAdSwift : NSObject, GADCustomEventNativeAd {
   // Indicates if the custom event handles user clicks. Return YES if the custom event should handle
   // user clicks.
   func handlesUserClicks() -> Bool{
-    return true
+    return false
   }
   func handlesUserImpressions() -> Bool {
     return false
