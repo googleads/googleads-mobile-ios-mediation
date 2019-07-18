@@ -125,24 +125,11 @@
   return result;
 }
 
-+ (void)setupZoneFromCredentials:(NSDictionary *)credentials
-                         options:(AdColonyAppOptions *)options
-                        callback:(void (^)(NSString *, NSError *))callback {
-  NSString *appId = credentials[kGADMAdapterAdColonyAppIDkey];
-  NSString *zoneList;
-
-  if (credentials[kGADMAdapterAdColonyZoneIDOpenBiddingKey]) {
-    zoneList = credentials[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
-  } else {
-    zoneList = credentials[kGADMAdapterAdColonyZoneIDkey];
-  }
-
-  // Support arrays for older implementations, they won't have to change their zones on the
-  // dashboard.
-  NSArray *zones = [self parseZoneIDs:zoneList];
-
-  // Default zone is the first one in the semicolon delimited list from the AdMob Ad Unit ID.
-  NSString *zone = [zones firstObject];
++ (void)setupZoneFromSettings:(NSDictionary *)settings
+                      options:(AdColonyAppOptions *)options
+                     callback:(void (^)(NSString *, NSError *))callback {
+  NSString *appId = settings[kGADMAdapterAdColonyAppIDkey];
+  NSString *zone = GADMAdapterAdColonyZoneIDForSettings(settings);
 
   [[GADMAdapterAdColonyInitializer sharedInstance] initializeAdColonyWithAppId:appId
                                                                          zones:@[ zone ]
@@ -158,14 +145,14 @@
                       callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = connector.credentials;
   AdColonyAppOptions *options = [self getAppOptionsFromConnector:connector];
-  [self setupZoneFromCredentials:credentials options:options callback:callback];
+  [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
 + (void)setupZoneFromAdConfig:(GADMediationAdConfiguration *)adConfig
                      callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = adConfig.credentials.settings;
   AdColonyAppOptions *options = [self getAppOptionsFromAdConfig:adConfig];
-  [self setupZoneFromCredentials:credentials options:options callback:callback];
+  [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
 + (NSDictionary *)getDictionaryFromJsonString:(NSString *)jsonString {
@@ -191,3 +178,39 @@
 }
 
 @end
+
+void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];
+  }
+}
+
+NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(NSDictionary *_Nonnull settings) {
+  NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  if (!encodedZoneID) {
+    encodedZoneID = settings[kGADMAdapterAdColonyZoneIDkey];
+  }
+
+  NSArray<NSString *> *zoneIDs = [GADMAdapterAdColonyHelper parseZoneIDs:encodedZoneID];
+  NSString *zoneID = zoneIDs.firstObject;
+
+  return zoneID;
+}
+
+NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *reply) {
+  if (!reply) {
+    return nil;
+  }
+  NSDictionary *bidData = [GADMAdapterAdColonyHelper getDictionaryFromJsonString:reply];
+  NSString *zoneId = bidData[@"zone"];
+  return zoneId;
+}
+
+void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;
+  }
+}

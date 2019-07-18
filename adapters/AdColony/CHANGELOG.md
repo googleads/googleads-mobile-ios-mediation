@@ -1,5 +1,8 @@
 # AdColony Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Next version
+- Added checks to the credentials before initializing the AdColony SDK.
+
 ## Version 3.3.7.2
 - Fixed an issue where the `GADMediationAdapterAdColony` header was not made public.
 

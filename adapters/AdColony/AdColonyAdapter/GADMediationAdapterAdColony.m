@@ -48,15 +48,25 @@ static AdColonyAppOptions *options;
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *zoneIDs = [[NSMutableSet alloc] init];
   NSMutableSet *appIDs = [[NSMutableSet alloc] init];
+
   for (GADMediationCredentials *cred in configuration.credentials) {
-    if (cred.settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey]) {
-      [zoneIDs addObject:cred.settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey]];
-    } else {
-      NSArray *zonelist =
-        [GADMAdapterAdColonyHelper parseZoneIDs:cred.settings[kGADMAdapterAdColonyZoneIDkey]];
-      [zoneIDs addObject:zonelist.firstObject];
-      [appIDs addObject:cred.settings[kGADMAdapterAdColonyAppIDkey]];
-    }
+    NSString *zoneID = GADMAdapterAdColonyZoneIDForSettings(cred.settings);
+    GADMAdapterAdColonyMutableSetAddObject(zoneIDs, zoneID);
+
+    NSString *appID = cred.settings[kGADMAdapterAdColonyAppIDkey];
+    GADMAdapterAdColonyMutableSetAddObject(appIDs, appID);
+  }
+
+  if (appIDs.count < 1 || zoneIDs.count < 1) {
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterAdColonyErrorDomain
+                   code:kGADErrorInvalidRequest
+               userInfo:@{
+                 NSLocalizedDescriptionKey :
+                     @"AdColony mediation configurations did not contain a valid app ID or zone ID."
+               }];
+    completionHandler(error);
+    return;
   }
 
   NSString *appID = [appIDs anyObject];
@@ -68,41 +78,31 @@ static AdColonyAppOptions *options;
     NSLog(@"Configuring AdColony SDK with the app ID %@", appID);
   }
 
-  [self initializeAdColonySDKWithAppID:appID
-                               zoneIds:[zoneIDs allObjects]
-                              callback:^(NSError *error) {
-                                // After configuration completion, register custom message listener
-                                // to get bid values
-                                [AdColony
-                                    sendCustomMessageOfType:@"register_handler"
-                                                withContent:@"bid"
-                                                      reply:^(id _Nullable reply) {
-                                                        NSDictionary *bidData =
-                                                            [GADMAdapterAdColonyHelper
-                                                                getDictionaryFromJsonString:reply];
-                                                        NSString *zoneId = bidData[@"zone"];
-                                                        GADMediationAdapterAdColony
-                                                            .bidValues[zoneId] = reply;
-                                                      }];
+  [[GADMAdapterAdColonyInitializer sharedInstance]
+      initializeAdColonyWithAppId:appID
+                            zones:[zoneIDs allObjects]
+                          options:options
+                         callback:^(NSError *error) {
+                           // After configuration completion, register custom message listener
+                           // to get bid values
+                           [AdColony
+                               sendCustomMessageOfType:@"register_handler"
+                                           withContent:@"bid"
+                                                 reply:^(id _Nullable reply) {
+                                                   if (![reply isKindOfClass:[NSString class]]) {
+                                                     return;
+                                                   }
 
-                                // Tell the Google Mobile Ads SDK that AdColony is initialized and
-                                // is ready to service requests.
-                                completionHandler(error);
-                              }];
-}
-
-// Method to initailize AdColony SDK
-+ (void)initializeAdColonySDKWithAppID:(NSString *)appID
-                               zoneIds:(NSArray *)zoneIDs
-                              callback:(void (^)(NSError *))callback {
-  [[GADMAdapterAdColonyInitializer sharedInstance] initializeAdColonyWithAppId:appID
-                                                                         zones:zoneIDs
-                                                                       options:options
-                                                                      callback:^(NSError *error) {
-                                                                        if (callback) {
-                                                                          callback(error);
-                                                                        }
-                                                                      }];
+                                                   NSString *zoneID =
+                                                       GADMAdapterAdColonyZoneIDForReply(reply);
+                                                   GADMAdapterAdColonyMutableDictionarySetObjectForKey(
+                                                       GADMediationAdapterAdColony.bidValues,
+                                                       zoneID, reply);
+                                                 }];
+                           // Tell the Google Mobile Ads SDK that AdColony is initialized and
+                           // is ready to service requests.
+                           completionHandler(error);
+                         }];
 }
 
 + (GADVersionNumber)adSDKVersion {
