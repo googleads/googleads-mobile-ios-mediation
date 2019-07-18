@@ -64,12 +64,11 @@
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
-  [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
 
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID delegate:self];
+  [UnityAds initialize:gameID delegate:self testMode:false enablePerPlacementLoad:true];
 }
 
 - (void)addAdapterDelegate:
@@ -97,18 +96,14 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
+  [UnityAds load:placementID];
 
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  if (![UnityAds isInitialized]){
     [self initializeWithGameID:gameID];
+  }
+
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
   }
 }
 
@@ -149,18 +144,14 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
+  [UnityAds load:placementID];
 
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
+  }
+
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
   }
 }
 
