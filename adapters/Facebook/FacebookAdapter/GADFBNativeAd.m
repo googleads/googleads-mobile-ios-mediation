@@ -25,7 +25,7 @@
 
 static NSString *const GADNativeAdIconView = @"2003";
 
-@interface GADFBNativeAd () <GADMediatedNativeAppInstallAd,
+@interface GADFBNativeAd () <GADMediatedNativeAd,
                              GADMediatedNativeAdDelegate,
                              FBNativeAdDelegate,
                              FBMediaViewDelegate> {
@@ -267,7 +267,7 @@ static NSString *const GADNativeAdIconView = @"2003";
   NSArray *assets = clickableAssetViews.allValues;
   UIView *iconView;
 
-  if ([view isKindOfClass:[GADNativeAppInstallAdView class]]) {
+  if ([view isKindOfClass:[GADUnifiedNativeAdView class]]) {
     iconView = [clickableAssetViews valueForKey:GADNativeAdIconView];
   }
 
