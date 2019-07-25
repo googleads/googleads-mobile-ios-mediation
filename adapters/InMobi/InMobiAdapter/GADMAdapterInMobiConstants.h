@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Adapter version string
-static NSString *const kGADMAdapterInMobiVersion = @"7.2.7.0";
+static NSString *const kGADMAdapterInMobiVersion = @"7.3.0.0";
 
 // Tapjoy SDK key
 static NSString *const kGADMAdapterInMobiAccountID = @"accountid";

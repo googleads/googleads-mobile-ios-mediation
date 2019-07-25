@@ -156,6 +156,10 @@ static CGFloat const DefaultIconScale = 1.0;
   return YES;
 }
 
+- (NSString *)advertiser {
+  return nil;
+}
+
 - (NSString *)headline {
   return self.native.adTitle;
 }
