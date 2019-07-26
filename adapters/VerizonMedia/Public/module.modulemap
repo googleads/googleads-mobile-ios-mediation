@@ -1,5 +1,5 @@
-framework module OathAdapter {
-  umbrella header "OathAdapter.h"
+framework module VerizonMediaAdapter {
+  umbrella header "VerizonMediaAdapter.h"
 
   export *
   module * { export * }
