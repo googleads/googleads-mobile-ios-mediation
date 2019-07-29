@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		5AD983D022EFAE79000FCD2F /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5AD983D322EFAE79000FCD2F /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				5AD983D622EFAE90000FCD2F /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Validate;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -64,6 +75,16 @@
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
+			remoteInfo = Validate;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -104,6 +125,7 @@
 		56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNetworkExtras.m; sourceTree = "<group>"; };
 		56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFacebook.h; sourceTree = "<group>"; };
 		56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFacebook.m; sourceTree = "<group>"; };
+		5AD983D722EFAEB6000FCD2F /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -214,6 +236,7 @@
 				7D264FF21DDD1B9400027720 /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				5AD983D722EFAEB6000FCD2F /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -281,6 +304,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5AD983D522EFAE84000FCD2F /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -296,6 +320,10 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
+					5AD983D022EFAE79000FCD2F = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					7D1B6CA21DC2ACF900D8CABF = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -323,11 +351,30 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5AD983D622EFAE90000FCD2F /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -382,7 +429,31 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5AD983D522EFAE84000FCD2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
+			targetProxy = 5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		5AD983D122EFAE79000FCD2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5AD983D222EFAE79000FCD2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -524,6 +595,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5AD983D322EFAE79000FCD2F /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AD983D122EFAE79000FCD2F /* Debug */,
+				5AD983D222EFAE79000FCD2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
