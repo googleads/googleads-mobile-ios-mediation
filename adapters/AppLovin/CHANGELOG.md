@@ -1,7 +1,7 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
-- Verified compatibility with AppLovin SDK 6.7.1.
+## 6.8.0.0
+- Verified compatibility with AppLovin SDK 6.8.0.
 - Removed support for Native App Install ad requests. Apps must use the Unified Native Ads API to request native ads.
 - Now requires Google Mobile Ads SDK version 7.46.0 or higher.
 
