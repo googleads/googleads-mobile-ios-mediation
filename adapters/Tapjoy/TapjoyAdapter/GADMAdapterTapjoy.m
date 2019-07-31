@@ -58,8 +58,8 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSString *sdkKey = [[strongConnector credentials] objectForKey:kGADMAdapterTapjoySdkKey];
-  _placementName = [[strongConnector credentials] objectForKey:kGADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = strongConnector.credentials[kGADMAdapterTapjoySdkKey];
+  _placementName = strongConnector.credentials[kGADMAdapterTapjoyPlacementKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = [NSError
@@ -148,7 +148,7 @@
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
-- (void)didClick:(TJPlacement*)placement {
+- (void)didClick:(TJPlacement *)placement {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];

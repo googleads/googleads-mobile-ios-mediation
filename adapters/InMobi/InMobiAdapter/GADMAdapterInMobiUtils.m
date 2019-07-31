@@ -7,6 +7,11 @@
 #import "GADMAdapterInMobiUtils.h"
 @import InMobiSDK;
 
+void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];
+  }
+}
 
 @implementation GADMAdapterInMobiUtils
 

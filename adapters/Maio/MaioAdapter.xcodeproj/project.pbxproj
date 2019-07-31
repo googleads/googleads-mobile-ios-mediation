@@ -32,6 +32,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00AC999222E923F300262599 /* GADMAdapterMaioUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */; };
+		00AC999322E923F300262599 /* GADMAdapterMaioUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */; };
 		3582A58D1FB2355D00490786 /* MaioAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3582A58B1FB2355D00490786 /* MaioAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45021519225E907500FD53A1 /* GADMAdapterMaioAdsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 45021517225E907500FD53A1 /* GADMAdapterMaioAdsManager.h */; };
 		4502151A225E907500FD53A1 /* GADMAdapterMaioAdsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45021518225E907500FD53A1 /* GADMAdapterMaioAdsManager.m */; };
@@ -61,6 +63,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMaioUtils.h; sourceTree = "<group>"; };
+		00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMaioUtils.m; sourceTree = "<group>"; };
 		3582A58B1FB2355D00490786 /* MaioAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaioAdapter.h; sourceTree = "<group>"; };
 		3582A58C1FB2355D00490786 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		3582A58E1FB2361000490786 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 				C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */,
 				45E6353622309EAE006EB5A1 /* GADMediationAdapterMaio.h */,
 				45E6353722309EAE006EB5A1 /* GADMediationAdapterMaio.m */,
+				00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */,
+				00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */,
 				45E6353A22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h */,
 				45E6353B22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m */,
 				45021517225E907500FD53A1 /* GADMAdapterMaioAdsManager.h */,
@@ -190,6 +196,7 @@
 				C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */,
 				45021519225E907500FD53A1 /* GADMAdapterMaioAdsManager.h in Headers */,
 				45E6353C22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h in Headers */,
+				00AC999222E923F300262599 /* GADMAdapterMaioUtils.h in Headers */,
 				C29F39301FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,6 +247,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -293,6 +301,7 @@
 				4502151A225E907500FD53A1 /* GADMAdapterMaioAdsManager.m in Sources */,
 				45E6353D22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m in Sources */,
 				45E6353922309EAE006EB5A1 /* GADMediationAdapterMaio.m in Sources */,
+				00AC999322E923F300262599 /* GADMAdapterMaioUtils.m in Sources */,
 				C29F39241FB996B400A32028 /* GADMMaioError.m in Sources */,
 				C29F39311FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m in Sources */,
 				C29F39271FB996B400A32028 /* GADMMaioRewardedAdapter.m in Sources */,

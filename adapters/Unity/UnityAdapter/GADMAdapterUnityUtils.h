@@ -13,22 +13,5 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
-#import <IronSource/IronSource.h>
 
-void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
-                                              NSObject *_Nonnull object);
-
-/// Holds Shared code for IronSource adapters.
-@interface GADMAdapterIronSourceUtils : NSObject
-
-// IronSource Util methods.
-+ (BOOL)isEmpty:(id)value;
-+ (NSError *)createErrorWith:(NSString *)description
-                   andReason:(NSString *)reason
-               andSuggestion:(NSString *)suggestion;
-
-+ (void)onLog:(NSString *)log;
-+ (NSString *)getAdMobSDKVersion;
-
-@end
+void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);

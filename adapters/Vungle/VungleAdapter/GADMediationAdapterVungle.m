@@ -1,6 +1,7 @@
 #import "GADMediationAdapterVungle.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRewardedAd.h"
+#import "GADMAdapterVungleUtils.h"
 #import "VungleAdNetworkExtras.h"
 #import "VungleRouter.h"
 
@@ -13,21 +14,33 @@
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *applicationIDs = [[NSMutableSet alloc] init];
+
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [applicationIDs addObject:[cred.settings valueForKey:kGADMAdapterVungleApplicationID]];
+    NSString *appID = cred.settings[kGADMAdapterVungleApplicationID];
+    GADMAdapterVungleMutableSetAddObject(applicationIDs, appID);
+  }
+
+  if (!applicationIDs.count) {
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterVungleErrorDomain
+                   code:kGADErrorMediationDataError
+               userInfo:@{
+                 NSLocalizedDescriptionKey :
+                     @"Vungle mediation configurations did not contain a valid application ID."
+               }];
+    completionHandler(error);
+    return;
   }
 
   NSString *applicationID = [applicationIDs anyObject];
-
-  if (applicationIDs.count != 1) {
-    NSLog(@"Found the following application IDs: %@. Please remove any application IDs you are not "
-          @"using from the AdMob UI.",
+  if (applicationIDs.count > 1) {
+    NSLog(@"Found the following application IDs: %@. "
+          @"Please remove any application IDs you are not using from the AdMob UI.",
           applicationIDs);
-    NSLog(@"Configuring AdColony SDK with the application ID %@.", applicationID);
+    NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
   }
 
   [[VungleRouter sharedInstance] initWithAppId:applicationID delegate:nil];
-
   completionHandler(nil);
 }
 
@@ -53,7 +66,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 4) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     // Adapter versions have 2 patch versions. Multiply the first patch by 100.

@@ -14,6 +14,13 @@
 
 #import "GADMAdapterIronSourceUtils.h"
 
+void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
+                                              NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];
+  }
+}
+
 @implementation GADMAdapterIronSourceUtils
 
 #pragma mark Utils Methods

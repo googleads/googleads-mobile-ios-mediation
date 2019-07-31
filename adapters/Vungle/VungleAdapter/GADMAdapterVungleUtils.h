@@ -7,6 +7,8 @@
 #import <VungleSDK/VungleSDK.h>
 #import "VungleAdNetworkExtras.h"
 
+void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterVungleUtils : NSObject

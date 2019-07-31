@@ -7,6 +7,8 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
+void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterInMobiUtils : NSObject

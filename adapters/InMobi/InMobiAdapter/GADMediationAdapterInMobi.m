@@ -17,6 +17,7 @@
 #import "GADMAdapterInMobi.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 
 @interface GADMediationAdapterInMobi ()
@@ -32,17 +33,30 @@ BOOL isAppInitialised;
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *accountIDs = [[NSMutableSet alloc] init];
+
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [accountIDs addObject:cred.settings[kGADMAdapterInMobiAccountID]];
+    NSString *accountIDFromSettings = cred.settings[kGADMAdapterInMobiAccountID];
+    GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
+  }
+
+  if (!accountIDs.count) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                            code:kGADErrorMediationDataError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey :
+                              @"InMobi mediation configurations did not contain a valid account ID."
+                        }];
+    completionHandler(error);
+    return;
   }
 
   NSString *accountID = [accountIDs anyObject];
-
   if (accountIDs.count > 1) {
-    NSLog(@"Found the following account ID's: %@. Please remove any account IDs you are not using "
-          @"from the AdMob UI.",
+    NSLog(@"Found the following account IDs: %@. "
+          @"Please remove any account IDs you are not using from the AdMob UI.",
           accountIDs);
-    NSLog(@"Initializing InMobi SDK with the account ID %@", accountID);
+    NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
   [IMSdk initWithAccountID:accountID consentDictionary:[GADMInMobiConsent getConsent]];
@@ -70,7 +84,7 @@ BOOL isAppInitialised;
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =

@@ -30,23 +30,36 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *appKeys = [[NSMutableSet alloc] init];
   NSMutableSet *ironSourceAdUnits = [[NSMutableSet alloc] init];
+
   for (GADMediationCredentials *cred in configuration.credentials) {
     if (cred.format == GADAdFormatInterstitial) {
-      [ironSourceAdUnits addObject:IS_INTERSTITIAL];
+      GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_INTERSTITIAL);
     } else if (cred.format == GADAdFormatRewarded) {
-      [ironSourceAdUnits addObject:IS_REWARDED_VIDEO];
+      GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_REWARDED_VIDEO);
     }
-    [appKeys addObject:[cred.settings valueForKey:kGADMAdapterIronSourceAppKey]];
+
+    NSString *appKeyFromSetting = cred.settings[kGADMAdapterIronSourceAppKey];
+    GADMAdapterIronSourceMutableSetAddObject(appKeys, appKeyFromSetting);
+  }
+
+  if (!appKeys.count) {
+    [GADMAdapterIronSourceUtils
+        onLog:@"IronSource mediation configurations did not contain a valid app key."];
+    NSError *error = [GADMAdapterIronSourceUtils
+        createErrorWith:@"IronSource Adapter failed to initialize"
+              andReason:@"'appKey' parameter is missing"
+          andSuggestion:@"Make sure that 'appKey' server parameter is added"];
+    completionHandler(error);
+    return;
   }
 
   NSString *appKey = [appKeys anyObject];
-
-  if (appKeys.count != 1) {
+  if (appKeys.count > 1) {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Found the following app keys: %@. Please remove any app "
-                                         @"keys you are not using from the "
-                                         @"AdMob UI.",
-                                         appKeys]];
+        onLog:[NSString stringWithFormat:
+                            @"Found the following app keys: %@. "
+                            @"Please remove any app keys you are not using from the AdMob UI.",
+                            appKeys]];
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
                             @"Initializing IronSource SDK with the app key %@, for ad formats %@",
@@ -55,7 +68,6 @@
 
   [[ISMediationManager sharedManager] initIronSourceSDKWithAppKey:appKey
                                                        forAdUnits:ironSourceAdUnits];
-
   completionHandler(nil);
 }
 
@@ -84,7 +96,7 @@
   GADVersionNumber version = {0};
   NSString *adapterVersion = kGADMAdapterIronSourceAdapterVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
-  if (components.count == 4) {
+  if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;

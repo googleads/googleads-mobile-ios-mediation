@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
-/// Chartboost mediation network adapter version.
-static NSString *const kGADMAdapterChartboostVersion = @"7.5.0.1";
-
-/// Chartboost App ID.
-static NSString *const kGADMAdapterChartboostAppID = @"appId";
-
-/// Chartboost App Signature.
-static NSString *const kGADMAdapterChartboostAppSignature = @"appSignature";
-
-/// Chartboost Ad Location.
-static NSString *const kGADMAdapterChartboostAdLocation = @"adLocation";
-
-static NSString *const kGADMAdapterChartboostErrorDomain = @"com.google.mediation.chartboost";
+void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
