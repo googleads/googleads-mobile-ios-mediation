@@ -16,9 +16,7 @@
 @synthesize educationType;
 @synthesize language;
 
-- (void)setLocationWithCity:(NSString *)city
-                      state:(NSString *)state
-                    country:(NSString *)country {
+- (void)setLocationWithCity:(NSString *)city state:(NSString *)state country:(NSString *)country {
   _city = city;
   _state = state;
   _country = country;

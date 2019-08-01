@@ -8,12 +8,11 @@
 #import <InMobiSDK/IMSdk.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
 #import "InMobiMediatedUnifiedNativeAd.h"
 #import "NativeAdKeys.h"
-#import "GADMAdapterInMobiUtils.h"
-#import "GADMediationAdapterInMobi.h"
 
 @interface GADMAdapterInMobi ()
 @property(nonatomic, assign) CGFloat width, height;
@@ -339,7 +338,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error {
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -395,7 +394,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     didFailToLoadWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -418,7 +417,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     didFailToPresentWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -464,11 +463,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
     return;
   }
 
-  self.nativeAd = [[InMobiMediatedUnifiedNativeAd alloc]
-      initWithInMobiUnifiedNativeAd:native
-                           withAdapter:self
-                   shouldDownloadImage:self.shouldDownloadImages
-                             withCache:imageCache];
+  self.nativeAd =
+      [[InMobiMediatedUnifiedNativeAd alloc] initWithInMobiUnifiedNativeAd:native
+                                                               withAdapter:self
+                                                       shouldDownloadImage:self.shouldDownloadImages
+                                                                 withCache:imageCache];
 }
 
 /**
@@ -476,7 +475,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)native:(IMNative *)native didFailToLoadWithError:(IMRequestStatus *)error {
   NSLog(@"Native Ad failed to load");
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];

@@ -13,11 +13,17 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK.h>
+#import "GADMediationAdapterInMobi.h"
 
-@interface GADMediationAdapterInMobi : NSObject <GADRTBAdapter>
-+ (BOOL)isAppInitialised;
-+ (void)setIsAppInitialised:(BOOL)status;
+@interface InMobiBannerAd : NSObject
+
+- (nullable instancetype)initWithPlacementId:(long long)placementId adSize:(GADAdSize)adSize;
+
+- (void)collectIMSignalsWithGMACompletionHandler:
+    (nonnull GADRTBSignalCompletionHandler)completionHandler;
+
+- (void)loadIMBannerResponseWithGMAAdConfig:(nonnull GADMediationBannerAdConfiguration *)adConfig
+                          completionHandler:
+                              (nonnull GADMediationBannerLoadCompletionHandler)handler;
 
 @end

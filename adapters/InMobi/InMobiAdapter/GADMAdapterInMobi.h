@@ -4,7 +4,7 @@
 //  Copyright (c) 2015 InMobi. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/IMBanner.h>
 #import <InMobiSDK/IMBannerDelegate.h>
 #import <InMobiSDK/IMInterstitial.h>

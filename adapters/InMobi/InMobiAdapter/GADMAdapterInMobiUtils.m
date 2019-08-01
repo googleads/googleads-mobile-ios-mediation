@@ -5,21 +5,13 @@
 //
 
 #import "GADMAdapterInMobiUtils.h"
-@import InMobiSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/InMobiSDK.h>
+#include <stdatomic.h>
 
-void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
-  if (object) {
-    [set addObject:object];
-  }
-}
-
-@implementation GADMAdapterInMobiUtils
-
-// Convert InMobi Error codes to Google's
-
-+ (NSInteger)getAdMobErrorCode:(NSInteger)inmobiErrorCode {
+NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
   NSInteger errorCode;
-  switch (inmobiErrorCode) {
+  switch (inMobiErrorCode) {
     case kIMStatusCodeNoFill:
       errorCode = kGADErrorMediationNoFill;
       break;
@@ -39,4 +31,24 @@ void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject 
   return errorCode;
 }
 
-@end
+void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];
+  }
+}
+
+void GADMAdapterInMobiMutableSetSafeGADRTBSignalCompletionHandler(
+    GADRTBSignalCompletionHandler handler, GADRTBSignalCompletionHandler setHandler) {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADRTBSignalCompletionHandler originalCompletionHandler = [setHandler copy];
+  handler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return;
+    }
+
+    if (originalCompletionHandler) {
+      originalCompletionHandler(signals, error);
+    }
+    originalCompletionHandler = nil;
+  };
+}

@@ -241,9 +241,11 @@ static CGFloat const DefaultIconScale = 1.0;
 }
 
 - (void)didRenderInView:(UIView *)view
-    clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews
- nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews
-         viewController:(UIViewController *)viewController {
+       clickableAssetViews:
+           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
   GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [self.native primaryViewOfWidth:mediaView.frame.size.width];
