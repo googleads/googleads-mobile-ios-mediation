@@ -48,6 +48,13 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
                                 delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
                                              adapterDelegate;
 
+/// Initializes a new banner ad instance.
+- (void)configureBannerWithSize:(GADAdSize)adSize
+                       location:(nonnull NSString *)location
+                       delegate:(nullable id<CHBBannerDelegate>)delegate
+                 viewController:(nullable UIViewController *)viewController
+                         extras:(nullable GADMChartboostExtras *)extras;
+
 /// Presents the current interstitial ad for |adapterDelegate|.
 - (void)presentInterstitialAdForDelegate:
     (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
