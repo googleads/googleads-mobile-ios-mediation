@@ -69,7 +69,7 @@
     __weak typeof(self) weakSelf = self;
     [self initializeChartboost:^(BOOL success) {
         if (success) {
-            [[GADMAdapterChartboostSingleton sharedManager] configureInterstitialAdWithAppID:nil appSignature:nil delegate:weakSelf];
+            [[GADMAdapterChartboostSingleton sharedManager] configureInterstitialAdWithDelegate:weakSelf];
         }
     }];
 }

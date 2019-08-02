@@ -175,10 +175,8 @@
 
 #pragma mark - Interstitial methods
 
-- (void)configureInterstitialAdWithAppID:(NSString *)appID
-                            appSignature:(NSString *)appSignature
-                                delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                             adapterDelegate {
+- (void)configureInterstitialAdWithDelegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate
+{
   GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
   if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
     [Chartboost setFramework:chartboostExtras.framework

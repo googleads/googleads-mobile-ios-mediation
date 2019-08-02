@@ -42,11 +42,8 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 - (void)presentRewardedAdForDelegate:
     (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
-/// Initializes a new interstitial ad instance with |appID|, |appSignature| and |adapterDelegate|.
-- (void)configureInterstitialAdWithAppID:(NSString *)appID
-                            appSignature:(NSString *)appSignature
-                                delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                             adapterDelegate;
+/// Initializes a new interstitial ad instance.
+- (void)configureInterstitialAdWithDelegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 /// Initializes a new banner ad instance.
 - (void)configureBannerWithSize:(GADAdSize)adSize
