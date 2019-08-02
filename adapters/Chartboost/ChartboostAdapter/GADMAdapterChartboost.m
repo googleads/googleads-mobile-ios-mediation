@@ -19,17 +19,19 @@
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
-#import "GADMAdapterChartboostBanner.h"
 
 @interface GADMAdapterChartboost () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _interstitialConnector;
+  __weak id<GADMAdNetworkConnector> _connector;
 
   /// YES if the adapter is loading.
   BOOL _loading;
 
   /// Chartboost ad location.
   NSString *_chartboostAdLocation;
+    
+  /// Strong reference to loading banner to keep it in memory.
+  CHBBanner *_loadingBanner;
 }
 
 @end
@@ -60,7 +62,8 @@
   }
   self = [super init];
   if (self) {
-    _interstitialConnector = connector;
+    _connector = connector;
+    _loadingBanner = nil;
   }
   return self;
 }
@@ -77,7 +80,7 @@
 
 - (void)initializeChartboost:(void(^)(BOOL))completion
 {
-    id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+    id<GADMAdNetworkConnector> strongConnector = _connector;
     NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
@@ -104,7 +107,7 @@
     [shared startWithAppId:appID appSignature:appSignature completionHandler:^(NSError *error) {
         if (error) {
             GADMAdapterChartboost *strongSelf = weakSelf;
-            [strongSelf->_interstitialConnector adapter:strongSelf didFailAd:error];
+            [strongSelf->_connector adapter:strongSelf didFailAd:error];
         }
         if (completion) completion(error == nil);
     }];
@@ -122,12 +125,16 @@
     [self initializeChartboost:^(BOOL success) {
         if (success) {
             GADMAdapterChartboost *strongSelf = weakSelf;
-            UIViewController *viewController = [strongSelf->_interstitialConnector viewControllerForPresentingModalView];
-            [[GADMAdapterChartboostBanner sharedInstance] loadBannerWithSize:adSize
-                                                                    location:[strongSelf getAdLocation]
-                                                                    delegate:strongSelf
-                                                              viewController:viewController
-                                                                      extras:[strongSelf extras]];
+            UIViewController *viewController = [strongSelf->_connector viewControllerForPresentingModalView];
+            GADMChartboostExtras *extras = [strongSelf extras];
+            
+            if (extras.frameworkVersion && extras.framework) {
+                [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+            }
+            CHBBanner *banner = [[CHBBanner alloc] initWithSize:adSize.size location:[strongSelf getAdLocation] delegate:self];
+            banner.automaticallyRefreshesContent = NO;
+            strongSelf->_loadingBanner = banner;
+            [banner showFromViewController:viewController];
         }
     }];
 }
@@ -144,29 +151,29 @@
 
 - (GADMChartboostExtras *)extras {
   GADMChartboostExtras *chartboostExtras;
-  chartboostExtras = [_interstitialConnector networkExtras];
+  chartboostExtras = [_connector networkExtras];
   return chartboostExtras;
 }
 
 - (void)didFailToLoadAdWithError:(NSError *)error {
-  [_interstitialConnector adapter:self didFailAd:error];
+  [_connector adapter:self didFailAd:error];
 }
 
 #pragma mark - Chartboost Interstitial Ad Delegate Methods
 
 - (void)didDisplayInterstitial:(CBLocation)location {
-  [_interstitialConnector adapterWillPresentInterstitial:self];
+  [_connector adapterWillPresentInterstitial:self];
 }
 
 - (void)didCacheInterstitial:(CBLocation)location {
   if (_loading) {
-    [_interstitialConnector adapterDidReceiveInterstitial:self];
+    [_connector adapterDidReceiveInterstitial:self];
     _loading = NO;
   }
 }
 
 - (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
 
   if (_loading) {
     [strongConnector adapter:self didFailAd:adRequestErrorTypeForCBLoadError(error)];
@@ -181,13 +188,13 @@
 }
 
 - (void)didDismissInterstitial:(CBLocation)location {
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
 - (void)didClickInterstitial:(CBLocation)location {
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];
 }
@@ -196,27 +203,35 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error
 {
-    id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+    id<GADMAdNetworkConnector> strongConnector = _connector;
     if (error) {
         [strongConnector adapter:self didFailAd:NSErrorWithCHBCacheError(error)];
     } else {
         [strongConnector adapter:self didReceiveAdView:(UIView *)event.ad];
     }
+    // We keep a strong reference to the banner only until it is loaded, since at that point the view is sent to GMA and it is its responsibility to retain it.
+    _loadingBanner = nil;
 }
 
 - (void)willShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error
 {
-    
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    if (error) {
+        [strongConnector adapter:self didFailAd:NSErrorWithCHBShowError(error)];
+    }
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error
 {
-
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    if (error) {
+        [strongConnector adapter:self didFailAd:NSErrorWithCHBShowError(error)];
+    }
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error
 {
-    id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+    id<GADMAdNetworkConnector> strongConnector = _connector;
     if (error == nil) {
         [strongConnector adapterDidGetAdClick:self];
         [strongConnector adapterWillPresentFullScreenModal:self];
@@ -225,7 +240,7 @@
 
 - (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error
 {
-    id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+    id<GADMAdNetworkConnector> strongConnector = _connector;
     [strongConnector adapterWillDismissFullScreenModal:self];
     [strongConnector adapterDidDismissFullScreenModal:self];
 }
