@@ -74,21 +74,23 @@
 - (void)startWithAppId:(NSString *)appId
           appSignature:(NSString *)appSignature
      completionHandler:(ChartboostInitCompletionHandler)completionHandler {
-  if (_initState == INITIALIZED) {
-    completionHandler(nil);
-    return;
-  }
-
-  static dispatch_once_t once;
-  dispatch_once(&once, ^{
-    [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
-    [Chartboost setMediation:CBMediationAdMob
-          withLibraryVersion:[GADRequest sdkVersion]
-              adapterVersion:kGADMAdapterChartboostVersion];
-    [Chartboost setAutoCacheAds:YES];
-  });
-  _initState = INITIALIZING;
-  [_completionHandlers addObject:completionHandler];
+    @synchronized (self) {
+        if (_initState == INITIALIZED) {
+            completionHandler(nil);
+            return;
+        }
+        
+        [_completionHandlers addObject:completionHandler];
+        
+        if (_initState != INITIALIZING) {
+            _initState = INITIALIZING;
+            [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
+            [Chartboost setMediation:CBMediationAdMob
+                  withLibraryVersion:[GADRequest sdkVersion]
+                      adapterVersion:kGADMAdapterChartboostVersion];
+            [Chartboost setAutoCacheAds:YES];
+        }
+    }
 }
 
 - (void)addRewardedAdAdapterDelegate:
