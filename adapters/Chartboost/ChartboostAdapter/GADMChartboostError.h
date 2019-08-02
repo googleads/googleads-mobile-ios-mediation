@@ -14,9 +14,14 @@
 
 @import Foundation;
 #import <Chartboost/Chartboost.h>
+#import <Chartboost/CHBAdDelegate.h>
 
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
 /// set to |description|.
 NSError *GADChartboostErrorWithDescription(NSString *description);
 
 NSError *adRequestErrorTypeForCBLoadError(CBLoadError error);
+
+NSError *NSErrorWithCHBCacheError(CHBCacheError *error);
+NSError *NSErrorWithCHBShowError(CHBShowError *error);
+NSError *NSErrorWithCHBClickError(CHBClickError *error);

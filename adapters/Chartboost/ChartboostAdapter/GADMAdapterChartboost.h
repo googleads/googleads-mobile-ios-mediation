@@ -16,11 +16,12 @@
 @import GoogleMobileAds;
 
 #import <Chartboost/Chartboost.h>
+#import <Chartboost/CHBBanner.h>
 
 #import "GADMAdapterChartboostDataProvider.h"
 
 /// Adapter for communicating with the Chartboost Network to fetch interstitial ads.
 @interface GADMAdapterChartboost
-    : NSObject <GADMAdNetworkAdapter, GADMAdapterChartboostDataProvider, ChartboostDelegate>
+    : NSObject <GADMAdNetworkAdapter, GADMAdapterChartboostDataProvider, ChartboostDelegate, CHBBannerDelegate>
 
 @end
