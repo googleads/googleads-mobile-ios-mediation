@@ -19,6 +19,7 @@
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
+#import "GADMAdapterChartboostBanner.h"
 
 @interface GADMAdapterChartboost () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -122,11 +123,11 @@
         if (success) {
             GADMAdapterChartboost *strongSelf = weakSelf;
             UIViewController *viewController = [strongSelf->_interstitialConnector viewControllerForPresentingModalView];
-            [[GADMAdapterChartboostSingleton sharedManager] configureBannerWithSize:adSize
-                                                                           location:[strongSelf getAdLocation]
-                                                                           delegate:strongSelf
-                                                                     viewController:viewController
-                                                                             extras:[strongSelf extras]];
+            [[GADMAdapterChartboostBanner sharedInstance] loadBannerWithSize:adSize
+                                                                    location:[strongSelf getAdLocation]
+                                                                    delegate:strongSelf
+                                                              viewController:viewController
+                                                                      extras:[strongSelf extras]];
         }
     }];
 }
