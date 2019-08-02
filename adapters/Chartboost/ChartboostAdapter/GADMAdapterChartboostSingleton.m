@@ -62,8 +62,6 @@
                                    DISPATCH_QUEUE_CONCURRENT);
     _completionHandlers = [[NSMutableArray alloc] init];
     _initState = UNINITIALIZED;
-    _bannersToDelegates = [NSMapTable weakToWeakObjectsMapTable];
-    _loadingBanners = [[NSMutableArray alloc] init];
   }
   return self;
 }
