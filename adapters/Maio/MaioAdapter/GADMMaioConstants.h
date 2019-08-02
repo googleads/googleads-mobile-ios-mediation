@@ -8,14 +8,14 @@
 #ifndef GADMMaioConstants_h
 #define GADMMaioConstants_h
 
-static NSString *const GADMMaioErrorDomain = @"com.google.mediation.maio";
+static NSString *const kGADMMaioErrorDomain = @"com.google.mediation.maio";
 
-static NSString *const GADMMaioAdapterVersion = @"1.4.2.0";
+static NSString *const kGADMMaioAdapterVersion = @"1.4.6.0";
 
 /// Maio media ID.
-static NSString *const GADMMaioAdapterMediaId = @"mediaId";
+static NSString *const kGADMMaioAdapterMediaId = @"mediaId";
 
 /// Maio zone ID.
-static NSString *const GADMMaioAdapterZoneId = @"zoneId";
+static NSString *const kGADMMaioAdapterZoneId = @"zoneId";
 
 #endif /* GADMMaioConstants_h */

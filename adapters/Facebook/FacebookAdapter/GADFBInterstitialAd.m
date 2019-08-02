@@ -14,11 +14,12 @@
 
 #import "GADFBInterstitialAd.h"
 
-@import FBAudienceNetwork;
-@import GoogleMobileAds;
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADFBAdapterDelegate.h"
 #import "GADFBError.h"
+#import "GADMAdapterFacebookConstants.h"
 
 @interface GADFBInterstitialAd () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -79,7 +80,8 @@
   }
 
   _interstitialAd.delegate = _adapterDelegate;
-  [FBAdSettings setMediationService:[NSString stringWithFormat:@"ADMOB_%@", [GADRequest sdkVersion]]];
+  [FBAdSettings setMediationService:[NSString
+      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
   [_interstitialAd loadAd];
 }
 

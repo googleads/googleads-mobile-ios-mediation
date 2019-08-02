@@ -12,17 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Network extras for the Facebook adapter.
 @interface GADFBNetworkExtras : NSObject<GADAdNetworkExtras>
-
-/// Indicates whether the AdChoices icon should be expandable. Defaults to YES.
-@property(nonatomic, assign) BOOL adChoicesExpandable;
-
-/// Indicates whether the AdChoices icon background mask should be shown or a transparent mask
-/// should be used instead. Defaults to YES.
-@property(nonatomic, assign) BOOL adChoicesBackgroundShown;
 
 @end

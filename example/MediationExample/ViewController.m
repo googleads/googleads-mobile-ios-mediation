@@ -171,19 +171,9 @@
 
   [self replaceNativeAdView:nativeAdView inPlaceholder:placeholder];
 
-  if (nativeAd.videoController.hasVideoContent) {
-    nativeAdView.imageView.hidden = YES;
-    nativeAdView.mediaView.contentMode = UIViewContentModeScaleAspectFit;
-    nativeAdView.mediaView.hidden = NO;
-  } else {
-    nativeAdView.imageView.hidden = NO;
-    nativeAdView.mediaView.hidden = YES;
-    GADNativeAdImage *image = nativeAd.images.firstObject;
-    if (image != nil) {
-      ((UIImageView *)nativeAdView.imageView).image = image.image;
-    }
-  }
-
+  nativeAdView.mediaView.contentMode = UIViewContentModeScaleAspectFit;
+  nativeAdView.mediaView.hidden = NO;
+  [nativeAdView.mediaView setMediaContent:nativeAd.mediaContent];
   // Populate the native ad view with the native ad assets.
   // Some assets are guaranteed to be present in every native ad.
   ((UILabel *)nativeAdView.headlineView).text = nativeAd.headline;
@@ -191,10 +181,6 @@
   [((UIButton *)nativeAdView.callToActionView) setTitle:nativeAd.callToAction
                                                forState:UIControlStateNormal];
 
-  GADNativeAdImage *image = nativeAd.images.firstObject;
-  if (image != nil) {
-    ((UIImageView *)nativeAdView.imageView).image = image.image;
-  }
 
   // These assets are not guaranteed to be present, and should be checked first.
   ((UIImageView *)nativeAdView.iconView).image = nativeAd.icon.image;

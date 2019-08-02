@@ -1,5 +1,14 @@
 # Tapjoy Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 12.3.1.0
+- Verified compatibility with Tapjoy SDK 12.2.1.
+- Added open bidding capability to the adapter for interstitial and rewarded ads.
+
+## Version 12.2.1.0
+- Verified compatibility with Tapjoy SDK 12.2.1.
+- Updated the adapter to use the new rewarded API.
+- Now requires Google Mobile Ads SDK version 7.42.2 or higher.
+
 ## Version 12.2.0.0
 - Verified compatibility with Tapjoy SDK 12.2.0.
 

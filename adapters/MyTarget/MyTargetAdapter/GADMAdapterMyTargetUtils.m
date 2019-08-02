@@ -27,8 +27,9 @@ static BOOL _isLogEnabled = YES;
 
 + (NSError *)errorWithDescription:(NSString *)description {
   NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
-  NSError *error =
-      [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain code:1000 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain
+                                       code:1000
+                                   userInfo:userInfo];
   return error;
 }
 
@@ -86,8 +87,10 @@ static BOOL _isLogEnabled = YES;
   guard(birthday) else return nil;
   NSCalendar *calendar =
       [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *components =
-      [calendar components:NSCalendarUnitYear fromDate:birthday toDate:[NSDate date] options:0];
+  NSDateComponents *components = [calendar components:NSCalendarUnitYear
+                                             fromDate:birthday
+                                               toDate:[NSDate date]
+                                              options:0];
   return [NSNumber numberWithInteger:components.year];
 }
 

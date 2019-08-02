@@ -32,6 +32,17 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4534E82122862B98000381F8 /* GADMediationAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45476076228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */; };
+		45476077228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */; };
+		4547607A228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */; };
+		4547607B228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */; };
+		4593F41C227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */; };
+		45BFFBB522286EA400C96A67 /* GADMediationAdapterAdColony.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */; };
+		45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */; };
+		45BFFBB922286EE100C96A67 /* GADMAdapterAdColonyInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */; };
+		45BFFBC022286F4E00C96A67 /* GADMAdapterAdColonyHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */; };
+		45BFFBC122286F4E00C96A67 /* GADMAdapterAdColonyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */; };
 		7DC8682E1DDA8D4400F0F1C4 /* AdColonyAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* AdColonyAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DDEA93C1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEA93B1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DDEA9411DFB30E600FCF905 /* GADMAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */; };
@@ -52,6 +63,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterAdColony.h; sourceTree = "<group>"; };
+		45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyRtbInterstitialRenderer.h; sourceTree = "<group>"; };
+		45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyRtbInterstitialRenderer.m; sourceTree = "<group>"; };
+		45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyRewardedRenderer.h; sourceTree = "<group>"; };
+		45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyRewardedRenderer.m; sourceTree = "<group>"; };
+		4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyConstants.h; sourceTree = "<group>"; };
+		45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterAdColony.m; sourceTree = "<group>"; };
+		45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyInitializer.h; sourceTree = "<group>"; };
+		45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyInitializer.m; sourceTree = "<group>"; };
+		45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyHelper.h; sourceTree = "<group>"; };
+		45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyHelper.m; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -80,6 +102,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		454760732286125C0041D40B /* OpenBidding */ = {
+			isa = PBXGroup;
+			children = (
+				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
+				45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */,
+				45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */,
+				45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */,
+			);
+			path = OpenBidding;
+			sourceTree = "<group>";
+		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +135,7 @@
 		7DC8681B1DDA8D4400F0F1C4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */,
 				7DC8681C1DDA8D4400F0F1C4 /* AdColonyAdapter.h */,
 				7DDEA93B1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h */,
 			);
@@ -111,9 +145,16 @@
 		7DDEA93D1DFB30E600FCF905 /* AdColonyAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				454760732286125C0041D40B /* OpenBidding */,
 				7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */,
 				7DDEA93F1DFB30E600FCF905 /* GADMAdapterAdColony.m */,
 				7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */,
+				45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */,
+				45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */,
+				45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */,
+				45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */,
+				45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */,
+				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
 			);
 			path = AdColonyAdapter;
 			sourceTree = "<group>";
@@ -156,9 +197,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45BFFBC022286F4E00C96A67 /* GADMAdapterAdColonyHelper.h in Headers */,
+				4534E82122862B98000381F8 /* GADMediationAdapterAdColony.h in Headers */,
 				7DDEA9411DFB30E600FCF905 /* GADMAdapterAdColony.h in Headers */,
 				7DC8682E1DDA8D4400F0F1C4 /* AdColonyAdapter.h in Headers */,
+				45476076228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h in Headers */,
+				4593F41C227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h in Headers */,
+				4547607A228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h in Headers */,
 				7DDEA93C1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h in Headers */,
+				45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,7 +236,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -208,6 +255,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -258,8 +306,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45BFFBB922286EE100C96A67 /* GADMAdapterAdColonyInitializer.m in Sources */,
+				45BFFBC122286F4E00C96A67 /* GADMAdapterAdColonyHelper.m in Sources */,
 				7DDEA9431DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m in Sources */,
+				4547607B228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m in Sources */,
+				45BFFBB522286EA400C96A67 /* GADMediationAdapterAdColony.m in Sources */,
 				7DDEA9421DFB30E600FCF905 /* GADMAdapterAdColony.m in Sources */,
+				45476077228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,14 +322,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -318,7 +371,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -354,6 +409,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -362,7 +418,11 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -370,7 +430,11 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -378,14 +442,14 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};

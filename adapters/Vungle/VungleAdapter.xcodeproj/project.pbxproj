@@ -38,6 +38,13 @@
 		4552392920B6381E0081388F /* VungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392620B6381D0081388F /* VungleRouter.h */; };
 		4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552392720B6381D0081388F /* VungleRouterConsent.m */; };
 		4552392C20B638270081388F /* VungleRouterConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392B20B638270081388F /* VungleRouterConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */; };
+		4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */; };
+		4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */; };
+		45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */; };
+		45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */; };
+		45BFFB5D22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */; };
+		45BFFB5E22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */; };
 		56C4F0F21F29531200BABF7E /* VungleAdNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* VungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */; };
@@ -81,6 +88,13 @@
 		4552392620B6381D0081388F /* VungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouter.h; sourceTree = "<group>"; };
 		4552392720B6381D0081388F /* VungleRouterConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConsent.m; sourceTree = "<group>"; };
 		4552392B20B638270081388F /* VungleRouterConsent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouterConsent.h; sourceTree = "<group>"; };
+		4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleConstants.h; sourceTree = "<group>"; };
+		4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleUtils.h; sourceTree = "<group>"; };
+		4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleUtils.m; sourceTree = "<group>"; };
+		45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterVungle.h; sourceTree = "<group>"; };
+		45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterVungle.m; sourceTree = "<group>"; };
+		45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRewardedAd.h; sourceTree = "<group>"; };
+		45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleRewardedAd.m; sourceTree = "<group>"; };
 		56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdNetworkExtras.h; sourceTree = "<group>"; };
 		7D1575711EB7FBB200059469 /* VungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdapter.h; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -122,6 +136,13 @@
 				A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */,
 				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
+				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
+				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
+				45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */,
+				45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */,
+				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
+				4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */,
+				4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */,
 			);
 			path = VungleAdapter;
 			sourceTree = "<group>";
@@ -193,10 +214,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */,
 				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
+				45BFFB5D22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h in Headers */,
 				7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */,
 				56C4F0F21F29531200BABF7E /* VungleAdNetworkExtras.h in Headers */,
 				A85428E21F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
+				45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */,
+				4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */,
 				4552392920B6381E0081388F /* VungleRouter.h in Headers */,
 				4552392C20B638270081388F /* VungleRouterConsent.h in Headers */,
 			);
@@ -298,11 +323,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,
 				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
+				45BFFB5E22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m in Sources */,
 				4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */,
 				A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */,
 				A85428E31F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
 				4552392820B6381D0081388F /* VungleRouter.m in Sources */,
+				4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +450,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -434,7 +462,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
