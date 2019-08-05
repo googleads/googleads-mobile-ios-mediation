@@ -5,7 +5,7 @@
 //
 
 #import "GADMAdapterNexage.h"
-#import <GoogleMobileAds/GADRequest.h>
+#import "GADMVerizonConsent_Internal.h"
 
 static NSString *const kGADNexagePosition = @"position";
 static NSString *const kGADNexageDCN = @"dcn";
@@ -17,7 +17,6 @@ static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
   if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
     [self initializeVASAds];
   }
-
   return self;
 }
 
@@ -41,6 +40,7 @@ static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
       [VASStandardEdition initializeWithSiteId:siteId];
     }
     self.vasAds = [VASAds sharedInstance];
+    [GADMVerizonConsent.sharedInstance updateConsentInfo];
   }
 }
 

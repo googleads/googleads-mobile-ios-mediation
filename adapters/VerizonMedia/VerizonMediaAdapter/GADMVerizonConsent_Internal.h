@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "GADMVerizonConsent.h"
 
-// Import any public headers below.
-#import <VerizonMediaAdapter/GADMVerizonConsent.h>
+@interface GADMVerizonConsent (Internal)
+
+/**
+ * Updates the consent info to be forwarded to the Verizon Ads SDK.
+ */
+- (void)updateConsentInfo;
+
+@end
