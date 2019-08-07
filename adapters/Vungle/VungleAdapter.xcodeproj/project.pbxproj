@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD26B022F10DDC0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD26AF22F10DDC0039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -55,6 +66,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD26AC22F10DDC0039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
 		A8435CF31F152C8E00AA595E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
@@ -84,6 +102,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		4552392520B6381D0081388F /* VungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouter.m; sourceTree = "<group>"; };
 		4552392620B6381D0081388F /* VungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouter.h; sourceTree = "<group>"; };
 		4552392720B6381D0081388F /* VungleRouterConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConsent.m; sourceTree = "<group>"; };
@@ -182,6 +201,7 @@
 				7D264FF21DDD1B9400027720 /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -242,6 +262,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD26B422F10DF80039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -273,6 +294,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -283,11 +305,26 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD26AF22F10DDC0039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,6 +374,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00DD26B422F10DF80039C1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */;
+		};
 		A8435CF41F152C8E00AA595E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7DFABB1C1DA8682C00322E02 /* Adapter */;
@@ -350,6 +392,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		00DD26B122F10DDC0039C1D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00DD26B222F10DDC0039C1D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -402,6 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -438,6 +497,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -484,6 +544,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD26B022F10DDC0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00DD26B122F10DDC0039C1D4 /* Debug */,
+				00DD26B222F10DDC0039C1D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
