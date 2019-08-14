@@ -16,6 +16,12 @@
 
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object]; // Allow pattern.
+  }
+}
+
+void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key]; // Allow pattern.
   }
 }

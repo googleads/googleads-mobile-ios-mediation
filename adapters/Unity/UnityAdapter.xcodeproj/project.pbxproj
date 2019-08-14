@@ -311,7 +311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
 		7DFABB571DA86A4100322E02 /* Static Library Script */ = {
 			isa = PBXShellScriptBuildPhase;

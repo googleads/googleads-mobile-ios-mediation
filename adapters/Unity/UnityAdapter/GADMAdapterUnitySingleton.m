@@ -14,6 +14,7 @@
 
 #import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
 
 @interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate, UnityAdsBannerDelegate> {
   /// Array to hold all adapter delegates.
@@ -96,12 +97,11 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  [UnityAds load:placementID];
-
-  if (![UnityAds isInitialized]){
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
   }
 
+  [UnityAds load:placementID];
   if ([UnityAds isReady:placementID]) {
     [adapterDelegate unityAdsReady:placementID];
   }
@@ -144,12 +144,11 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  [UnityAds load:placementID];
-
   if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
   }
 
+  [UnityAds load:placementID];
   if ([UnityAds isReady:placementID]) {
     [adapterDelegate unityAdsReady:placementID];
   }
@@ -243,7 +242,7 @@
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
   @synchronized(_adapterDelegates) {
-    [_adapterDelegates removeObjectForKey:placementID];
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
   }
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }
@@ -255,7 +254,7 @@
 - (void)unityAdsReady:(NSString *)placementID {
   id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
   @synchronized(_adapterDelegates) {
-    adapterDelegate = [_adapterDelegates objectForKey:placementID];
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
   }
 
   if (adapterDelegate) {
@@ -295,7 +294,7 @@
 
 - (void)stopTrackingDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  [_adapterDelegates removeObjectForKey:[adapterDelegate getPlacementID]];
+  GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID]);
 }
 
 @end
