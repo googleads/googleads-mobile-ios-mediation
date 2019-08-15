@@ -43,6 +43,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */; };
+		4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */; };
 		451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4512777E207D92C100D85E57 /* FyberAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -70,6 +72,8 @@
 
 /* Begin PBXFileReference section */
 		00DD265022F109970039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFyber.h; sourceTree = "<group>"; };
+		4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFyber.m; sourceTree = "<group>"; };
 		4512777B207D92C100D85E57 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4512777E207D92C100D85E57 /* FyberAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FyberAdapter.h; sourceTree = "<group>"; };
 		4512779E207D973000D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				451277AB207DA59400D85E57 /* README.md */,
+				4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */,
+				4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */,
 			);
 			path = FyberAdapter;
 			sourceTree = "<group>";
@@ -170,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */,
+				4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +313,25 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4502AFE922FE147500CBA9B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Framework;
+			};
+			name = Debug;
+		};
+		4502AFEA22FE147500CBA9B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Framework;
+			};
+			name = Release;
+		};
 		45127782207D92C100D85E57 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -735,8 +762,8 @@
 		00DD264D22F1097C0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				00DD264E22F1097C0039C1D4 /* Debug */,
-				00DD264F22F1097C0039C1D4 /* Release */,
+				4502AFE922FE147500CBA9B3 /* Debug */,
+				4502AFEA22FE147500CBA9B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
