@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADFBError.h"
+#import <Foundation/Foundation.h>
+#import "GADFBNativeAdBase.h"
 
-NSError *GADFBErrorWithDescription(NSString *description) {
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.facebook"
-                                       code:0
-                                   userInfo:userInfo];
-  return error;
-}
+/// Wrapper for Facebook Audience Network native banner ads.
+@interface GADFBNativeBannerAd : GADFBNativeAdBase
+
+/// Requests a native banner ad from the Facebook Audience Network SDK.
+- (void)requestNativeBannerAd;
+
+/// Stops being Facebook Audience Network's native banner ad delegate.
+- (void)stopBeingDelegate;
+
+@end

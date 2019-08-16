@@ -13,25 +13,18 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import "GADFBNativeAdBase.h"
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
 
-/// Creates and manages Facebook Audience Network native ads.
-@interface GADFBUnifiedNativeAd : NSObject
+/// Wrapper for Facebook Audience Network native ads.
+@interface GADFBUnifiedNativeAd : GADFBNativeAdBase
 
-/// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+/// Starts fetching a native ad from the Facebook Audience Network SDK.
+- (void)requestNativeAd;
 
-/// Unavailable.
-- (instancetype)init NS_UNAVAILABLE;
-
-/// Starts fetching a native ad for the provided ad types and options.
-- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options;
-
-/// Stops the receiver from delegating any notifications from Facebook's Audience Network.
+/// Stops being Facebook Audience Network's native ad delegate.
 - (void)stopBeingDelegate;
 
 @end

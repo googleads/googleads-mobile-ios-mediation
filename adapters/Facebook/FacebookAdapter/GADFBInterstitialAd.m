@@ -16,12 +16,12 @@
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "GADFBAdapterDelegate.h"
-#import "GADFBError.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
+#import "GADMediationAdapterFacebook.h"
 
-@interface GADFBInterstitialAd () {
+@implementation GADFBInterstitialAd {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 
@@ -34,12 +34,9 @@
   /// Handles delegate notifications from interstitialAd.
   GADFBAdapterDelegate *_adapterDelegate;
 }
-@end
 
-@implementation GADFBInterstitialAd
-
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
     _adapter = adapter;
@@ -47,10 +44,6 @@
     _adapterDelegate = [[GADFBAdapterDelegate alloc] initWithAdapter:adapter connector:connector];
   }
   return self;
-}
-
-- (instancetype)init {
-  return nil;
 }
 
 - (void)getInterstitial {
@@ -80,8 +73,7 @@
   }
 
   _interstitialAd.delegate = _adapterDelegate;
-  [FBAdSettings setMediationService:[NSString
-      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
+  GADFBConfigureMediationService();
   [_interstitialAd loadAd];
 }
 
@@ -89,7 +81,7 @@
   _adapterDelegate = nil;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   [_interstitialAd showAdFromRootViewController:rootViewController];
 }
 

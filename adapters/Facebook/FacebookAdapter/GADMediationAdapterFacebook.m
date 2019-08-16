@@ -13,17 +13,17 @@
 // limitations under the License.
 
 #import "GADMediationAdapterFacebook.h"
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import "GADFBBannerRenderer.h"
-#import "GADFBError.h"
 #import "GADFBInterstitialRenderer.h"
 #import "GADFBNativeRenderer.h"
 #import "GADFBNetworkExtras.h"
 #import "GADFBRewardedRenderer.h"
-#import "GADMAdapterFacebookConstants.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebook.h"
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import "GADMAdapterFacebookConstants.h"
 
-@interface GADMediationAdapterFacebook () {
+@implementation GADMediationAdapterFacebook {
   /// Facebook Audience Network rewarded ad wrapper.
   GADFBRewardedRenderer *_rewardedAd;
   /// Facebook Audience Network native ad wrapper.
@@ -34,36 +34,30 @@
   GADFBBannerRenderer *_banner;
 }
 
-@end
-
-@implementation GADMediationAdapterFacebook
-
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet *placementIds = [[NSMutableSet alloc] init];
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSCAssert(completionHandler, @"Completion handler must not be nil.");
+  NSMutableSet<NSString *> *placementIds = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *placementId = [self getPlacementIDFromCredentials:cred];
     if (placementId) {
-      [placementIds addObject:placementId];
+      GADMAdapterFacebookMutableSetAddObject(placementIds, placementId);
     }
   }
+
   FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
       initWithPlacementIDs:[placementIds allObjects]
-          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
+          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion],
+                                                      kGADMAdapterFacebookVersion]];
 
-  [FBAudienceNetworkAds
-      initializeWithSettings:fbSettings
-           completionHandler:^(FBAdInitResults *results) {
-             if (results.success) {
-               completionHandler(nil);
-             } else {
-               NSError *error =
-                   [NSError errorWithDomain:@"GADMediationAdapterFacebook"
-                                       code:0
-                                   userInfo:@{NSLocalizedDescriptionKey : results.message}];
-               completionHandler(error);
-             }
-           }];
+  [FBAudienceNetworkAds initializeWithSettings:fbSettings
+                             completionHandler:^(FBAdInitResults *_Nonnull results) {
+                               NSError *error = nil;
+                               if (!results.success) {
+                                 error = GADFBErrorWithDescription(results.message);
+                               }
+                               completionHandler(error);
+                             }];
 }
 
 + (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials {

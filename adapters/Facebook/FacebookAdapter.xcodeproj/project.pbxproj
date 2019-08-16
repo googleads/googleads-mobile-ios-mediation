@@ -56,17 +56,19 @@
 		45BFFA9C2215FDC200C96A67 /* GADFBUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */; };
 		45BFFB372225CA3A00C96A67 /* GADMediationAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */; };
 		45BFFB382225CA3A00C96A67 /* GADMediationAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */; };
+		45D8C6F522CBEEC100876E47 /* GADFBNativeBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D8C6F322CBEEC100876E47 /* GADFBNativeBannerAd.h */; };
+		45D8C6F622CBEEC100876E47 /* GADFBNativeBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D8C6F422CBEEC100876E47 /* GADFBNativeBannerAd.m */; };
+		45D8C6F922CBF82900876E47 /* GADFBNativeAdBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D8C6F722CBF82900876E47 /* GADFBNativeAdBase.h */; };
+		45D8C6FA22CBF82900876E47 /* GADFBNativeAdBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D8C6F822CBF82900876E47 /* GADFBNativeAdBase.m */; };
 		56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */; };
 		56148C511F26626D0041F201 /* GADFBAdapterDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */; };
 		56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C421F26626D0041F201 /* GADFBBannerAd.h */; };
 		56148C531F26626D0041F201 /* GADFBBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C431F26626D0041F201 /* GADFBBannerAd.m */; };
-		56148C541F26626D0041F201 /* GADFBError.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C441F26626D0041F201 /* GADFBError.h */; };
-		56148C551F26626D0041F201 /* GADFBError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C451F26626D0041F201 /* GADFBError.m */; };
+		56148C541F26626D0041F201 /* GADFBUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C441F26626D0041F201 /* GADFBUtils.h */; };
+		56148C551F26626D0041F201 /* GADFBUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C451F26626D0041F201 /* GADFBUtils.m */; };
 		56148C561F26626D0041F201 /* GADFBExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C461F26626D0041F201 /* GADFBExtraAssets.m */; };
 		56148C571F26626D0041F201 /* GADFBInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C471F26626D0041F201 /* GADFBInterstitialAd.h */; };
 		56148C581F26626D0041F201 /* GADFBInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C481F26626D0041F201 /* GADFBInterstitialAd.m */; };
-		56148C591F26626D0041F201 /* GADFBNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C491F26626D0041F201 /* GADFBNativeAd.h */; };
-		56148C5A1F26626D0041F201 /* GADFBNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4A1F26626D0041F201 /* GADFBNativeAd.m */; };
 		56148C5B1F26626D0041F201 /* GADFBNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */; };
 		56148C5E1F26626D0041F201 /* GADMAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */; };
 		56148C5F1F26626D0041F201 /* GADMAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */; };
@@ -111,17 +113,19 @@
 		45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBUnifiedNativeAd.m; sourceTree = "<group>"; };
 		45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFacebook.h; sourceTree = "<group>"; };
 		45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFacebook.m; sourceTree = "<group>"; };
+		45D8C6F322CBEEC100876E47 /* GADFBNativeBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBNativeBannerAd.h; sourceTree = "<group>"; };
+		45D8C6F422CBEEC100876E47 /* GADFBNativeBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBNativeBannerAd.m; sourceTree = "<group>"; };
+		45D8C6F722CBF82900876E47 /* GADFBNativeAdBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBNativeAdBase.h; sourceTree = "<group>"; };
+		45D8C6F822CBF82900876E47 /* GADFBNativeAdBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBNativeAdBase.m; sourceTree = "<group>"; };
 		56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBAdapterDelegate.h; sourceTree = "<group>"; };
 		56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBAdapterDelegate.m; sourceTree = "<group>"; };
 		56148C421F26626D0041F201 /* GADFBBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBBannerAd.h; sourceTree = "<group>"; };
 		56148C431F26626D0041F201 /* GADFBBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBBannerAd.m; sourceTree = "<group>"; };
-		56148C441F26626D0041F201 /* GADFBError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBError.h; sourceTree = "<group>"; };
-		56148C451F26626D0041F201 /* GADFBError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBError.m; sourceTree = "<group>"; };
+		56148C441F26626D0041F201 /* GADFBUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBUtils.h; sourceTree = "<group>"; };
+		56148C451F26626D0041F201 /* GADFBUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBUtils.m; sourceTree = "<group>"; };
 		56148C461F26626D0041F201 /* GADFBExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBExtraAssets.m; sourceTree = "<group>"; };
 		56148C471F26626D0041F201 /* GADFBInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBInterstitialAd.h; sourceTree = "<group>"; };
 		56148C481F26626D0041F201 /* GADFBInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBInterstitialAd.m; sourceTree = "<group>"; };
-		56148C491F26626D0041F201 /* GADFBNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADFBNativeAd.h; sourceTree = "<group>"; };
-		56148C4A1F26626D0041F201 /* GADFBNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNativeAd.m; sourceTree = "<group>"; };
 		56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADFBNetworkExtras.m; sourceTree = "<group>"; };
 		56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFacebook.h; sourceTree = "<group>"; };
 		56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFacebook.m; sourceTree = "<group>"; };
@@ -187,26 +191,28 @@
 		7DC8680A1DDA8D4300F0F1C4 /* FacebookAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				457AC870225803FD00F8E09D /* OpenBidding */,
-				56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */,
-				56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */,
 				56148C401F26626D0041F201 /* GADFBAdapterDelegate.h */,
 				56148C411F26626D0041F201 /* GADFBAdapterDelegate.m */,
 				56148C421F26626D0041F201 /* GADFBBannerAd.h */,
 				56148C431F26626D0041F201 /* GADFBBannerAd.m */,
-				56148C441F26626D0041F201 /* GADFBError.h */,
-				56148C451F26626D0041F201 /* GADFBError.m */,
 				56148C461F26626D0041F201 /* GADFBExtraAssets.m */,
 				56148C471F26626D0041F201 /* GADFBInterstitialAd.h */,
 				56148C481F26626D0041F201 /* GADFBInterstitialAd.m */,
-				56148C491F26626D0041F201 /* GADFBNativeAd.h */,
-				56148C4A1F26626D0041F201 /* GADFBNativeAd.m */,
+				45D8C6F722CBF82900876E47 /* GADFBNativeAdBase.h */,
+				45D8C6F822CBF82900876E47 /* GADFBNativeAdBase.m */,
+				45D8C6F322CBEEC100876E47 /* GADFBNativeBannerAd.h */,
+				45D8C6F422CBEEC100876E47 /* GADFBNativeBannerAd.m */,
 				56148C4B1F26626D0041F201 /* GADFBNetworkExtras.m */,
 				45BFFA992215FDC200C96A67 /* GADFBUnifiedNativeAd.h */,
 				45BFFA9A2215FDC200C96A67 /* GADFBUnifiedNativeAd.m */,
+				56148C441F26626D0041F201 /* GADFBUtils.h */,
+				56148C451F26626D0041F201 /* GADFBUtils.m */,
+				56148C4E1F26626D0041F201 /* GADMAdapterFacebook.h */,
+				56148C4F1F26626D0041F201 /* GADMAdapterFacebook.m */,
+				457AC86E2258017700F8E09D /* GADMAdapterFacebookConstants.h */,
 				45BFFB352225CA3A00C96A67 /* GADMediationAdapterFacebook.h */,
 				45BFFB362225CA3A00C96A67 /* GADMediationAdapterFacebook.m */,
-				457AC86E2258017700F8E09D /* GADMAdapterFacebookConstants.h */,
+				457AC870225803FD00F8E09D /* OpenBidding */,
 			);
 			path = FacebookAdapter;
 			sourceTree = "<group>";
@@ -271,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45BFFB372225CA3A00C96A67 /* GADMediationAdapterFacebook.h in Headers */,
+				45D8C6F522CBEEC100876E47 /* GADFBNativeBannerAd.h in Headers */,
 				457AC86F2258017700F8E09D /* GADMAdapterFacebookConstants.h in Headers */,
 				56148C501F26626D0041F201 /* GADFBAdapterDelegate.h in Headers */,
 				56148C521F26626D0041F201 /* GADFBBannerAd.h in Headers */,
@@ -278,8 +285,8 @@
 				457AC8732258041D00F8E09D /* GADFBBannerRenderer.h in Headers */,
 				7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */,
 				457AC877225804F100F8E09D /* GADFBInterstitialRenderer.h in Headers */,
-				56148C541F26626D0041F201 /* GADFBError.h in Headers */,
-				56148C591F26626D0041F201 /* GADFBNativeAd.h in Headers */,
+				45D8C6F922CBF82900876E47 /* GADFBNativeAdBase.h in Headers */,
+				56148C541F26626D0041F201 /* GADFBUtils.h in Headers */,
 				457AC87F225824FD00F8E09D /* GADFBRewardedRenderer.h in Headers */,
 				56148C5E1F26626D0041F201 /* GADMAdapterFacebook.h in Headers */,
 				56148C571F26626D0041F201 /* GADFBInterstitialAd.h in Headers */,
@@ -410,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45D8C6F622CBEEC100876E47 /* GADFBNativeBannerAd.m in Sources */,
 				56148C581F26626D0041F201 /* GADFBInterstitialAd.m in Sources */,
 				45BFFA9C2215FDC200C96A67 /* GADFBUnifiedNativeAd.m in Sources */,
 				457AC87C2258058700F8E09D /* GADFBNativeRenderer.m in Sources */,
@@ -419,10 +427,10 @@
 				56148C531F26626D0041F201 /* GADFBBannerAd.m in Sources */,
 				457AC8742258041D00F8E09D /* GADFBBannerRenderer.m in Sources */,
 				45BFFB382225CA3A00C96A67 /* GADMediationAdapterFacebook.m in Sources */,
-				56148C5A1F26626D0041F201 /* GADFBNativeAd.m in Sources */,
 				56148C5F1F26626D0041F201 /* GADMAdapterFacebook.m in Sources */,
 				56148C5B1F26626D0041F201 /* GADFBNetworkExtras.m in Sources */,
-				56148C551F26626D0041F201 /* GADFBError.m in Sources */,
+				56148C551F26626D0041F201 /* GADFBUtils.m in Sources */,
+				45D8C6FA22CBF82900876E47 /* GADFBNativeAdBase.m in Sources */,
 				457AC878225804F100F8E09D /* GADFBInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,6 +523,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 			};
 			name = Debug;
 		};
@@ -558,6 +567,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
