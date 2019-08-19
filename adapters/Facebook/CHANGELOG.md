@@ -1,6 +1,8 @@
 # Facebook Audience Network Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Version 5.5.0.0
+- Verified compatibility with FAN SDK 5.5.0.
+- Now requires Google Mobile Ads SDK version 7.46.0 or higher.
 - Added support for Facebook's native banner ads.
 - Added code to properly handle the completion handlers after called.
 - Modified the code to follow Google's Objective-C code-style.
