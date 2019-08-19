@@ -5,11 +5,8 @@
 //
 
 #import "GADMAdapterNexage.h"
+#import "GADMAdapterVerizonMediaConstants.h"
 #import "GADMVerizonConsent_Internal.h"
-
-static NSString *const kGADNexagePosition = @"position";
-static NSString *const kGADNexageDCN = @"dcn";
-static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
 
 @implementation GADMAdapterNexage
 

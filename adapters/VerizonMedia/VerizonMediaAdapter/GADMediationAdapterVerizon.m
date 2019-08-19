@@ -5,11 +5,8 @@
 //
 
 #import "GADMediationAdapterVerizon.h"
+#import "GADMAdapterVerizonMediaConstants.h"
 #import "GADMVerizonConsent_Internal.h"
-
-static NSString *const kGADVerizonPosition = @"placement_id";
-static NSString *const kGADVerizonDCN = @"site_id";
-static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
 
 @implementation GADMediationAdapterVerizon
 
