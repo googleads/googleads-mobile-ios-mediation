@@ -65,7 +65,7 @@ static NSMapTable<NSNumber *, id<IMInterstitialDelegate>> *rewardedAdapterDelega
     if ([rewardedAdapterDelegates objectForKey:_placementId]) {
       return NO;
     } else {
-      [rewardedAdapterDelegates setObject:self forKey:_placementId];
+      GADMAdapterInMobiMapTableSetObjectForKey(rewardedAdapterDelegates, _placementId, self);
       return YES;
     }
   }
@@ -190,7 +190,7 @@ static NSMapTable<NSNumber *, id<IMInterstitialDelegate>> *rewardedAdapterDelega
                                                           code:errorCode
                                                       userInfo:errorInfo];
   @synchronized(rewardedAdapterDelegates) {
-    [rewardedAdapterDelegates removeObjectForKey:_placementId];
+    GADMAdapterInMobiMapTableRemoveObjectForKey(rewardedAdapterDelegates, _placementId);
   }
   _renderCompletionHandler(nil, reqError);
 }
@@ -216,7 +216,7 @@ static NSMapTable<NSNumber *, id<IMInterstitialDelegate>> *rewardedAdapterDelega
                                   code:errorCode
                               userInfo:@{NSLocalizedDescriptionKey : errorDesc ?: @""}];
   @synchronized(rewardedAdapterDelegates) {
-    [rewardedAdapterDelegates removeObjectForKey:_placementId];
+    GADMAdapterInMobiMapTableRemoveObjectForKey(rewardedAdapterDelegates, _placementId);
   }
   [_adEventDelegate didFailToPresentWithError:reqError];
 }
@@ -227,7 +227,7 @@ static NSMapTable<NSNumber *, id<IMInterstitialDelegate>> *rewardedAdapterDelega
 
 - (void)interstitialDidDismiss:(IMInterstitial *)interstitial {
   @synchronized(rewardedAdapterDelegates) {
-    [rewardedAdapterDelegates removeObjectForKey:_placementId];
+    GADMAdapterInMobiMapTableRemoveObjectForKey(rewardedAdapterDelegates, _placementId);
   }
   [_adEventDelegate didDismissFullScreenView];
 }

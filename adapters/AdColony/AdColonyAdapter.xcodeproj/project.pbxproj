@@ -127,10 +127,10 @@
 		454760732286125C0041D40B /* OpenBidding */ = {
 			isa = PBXGroup;
 			children = (
-				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
-				45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */,
 				45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */,
 				45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */,
+				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
+				45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */,
 			);
 			path = OpenBidding;
 			sourceTree = "<group>";
@@ -167,16 +167,16 @@
 		7DDEA93D1DFB30E600FCF905 /* AdColonyAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				454760732286125C0041D40B /* OpenBidding */,
 				7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */,
 				7DDEA93F1DFB30E600FCF905 /* GADMAdapterAdColony.m */,
+				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
 				7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */,
-				45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */,
-				45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */,
-				45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */,
 				45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */,
 				45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */,
-				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
+				45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */,
+				45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */,
+				45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */,
+				454760732286125C0041D40B /* OpenBidding */,
 			);
 			path = AdColonyAdapter;
 			sourceTree = "<group>";

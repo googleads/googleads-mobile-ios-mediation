@@ -36,7 +36,7 @@
   NSString *versionString = [MTRGVersion currentVersion];
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
-  if (components.count == 3) {
+  if (components.count >= 3) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue;
@@ -54,7 +54,7 @@
   NSString *versionString = kGADMAdapterMyTargetVersion;
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (components.count == 3) {
+  if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;

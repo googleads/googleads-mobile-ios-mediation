@@ -33,7 +33,20 @@ NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode
 
 void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterInMobiMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterInMobiMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
+                                              id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
   }
 }
 

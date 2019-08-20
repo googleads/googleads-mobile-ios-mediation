@@ -154,7 +154,6 @@
 		7D72B8C11DB97C10006EAE11 /* IronSourceAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				455A7B7222B81F8800153F5D /* GADMAdapterIronSourceRewardedDelegate.h */,
 				4584560A22AEE59A0061764B /* GADMAdapterIronSource.h */,
 				4584561222AEE59B0061764B /* GADMAdapterIronSource.m */,
 				4584560D22AEE59A0061764B /* GADMAdapterIronSourceConstants.h */,
@@ -163,6 +162,7 @@
 				4584561122AEE59A0061764B /* GADMAdapterIronSourceRewarded.m */,
 				4584560E22AEE59A0061764B /* GADMAdapterIronSourceRewardedAd.h */,
 				4584560C22AEE59A0061764B /* GADMAdapterIronSourceRewardedAd.m */,
+				455A7B7222B81F8800153F5D /* GADMAdapterIronSourceRewardedDelegate.h */,
 				4584561322AEE59B0061764B /* GADMAdapterIronSourceUtils.h */,
 				4584561422AEE59B0061764B /* GADMAdapterIronSourceUtils.m */,
 				4584560922AEE59A0061764B /* GADMediationAdapterIronSource.h */,

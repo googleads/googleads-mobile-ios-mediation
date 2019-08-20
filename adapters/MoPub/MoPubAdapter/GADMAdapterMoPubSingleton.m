@@ -1,5 +1,6 @@
 
 #import "GADMAdapterMoPubSingleton.h"
+#import "GADMAdapterMoPubUtils.h"
 
 @interface GADMAdapterMoPubSingleton () <MPRewardedVideoDelegate>
 
@@ -47,13 +48,13 @@
 
 - (void)addDelegate:(id<MPRewardedVideoDelegate>)adapterDelegate forAdUnitID:(NSString *)adUnitID {
   @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:adapterDelegate forKey:adUnitID];
+    GADMAdapterMoPubMapTableSetObjectForKey(self.adapterDelegates, adUnitID, adapterDelegate);
   }
 }
 
 - (void)removeDelegateForAdUnitID:(NSString *)adUnitID {
   @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates removeObjectForKey:adUnitID];
+    GADMAdapterMoPubMapTableRemoveObjectForKey(self.adapterDelegates, adUnitID);
   }
 }
 

@@ -1,6 +1,7 @@
 #import "GADMAdapterMoPub.h"
 
 #import "GADMAdapterMoPubSingleton.h"
+#import "GADMAdapterMoPubUtils.h"
 #import "GADMoPubNetworkExtras.h"
 #import "MPAdView.h"
 #import "MPImageDownloadQueue.h"
@@ -18,6 +19,8 @@
 #import "MoPub.h"
 #import "MoPubAdapterConstants.h"
 #import "MoPubAdapterMediatedNativeAd.h"
+
+static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMInterstitialAdapterDelegates;
 
 @interface GADMAdapterMoPub () <MPNativeAdDelegate,
                                 MPAdViewDelegate,
@@ -39,10 +42,8 @@
 
 @implementation GADMAdapterMoPub
 
-static NSMapTable *interstitialAdapterDelegates;
-
 + (void)load {
-  interstitialAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+  GADMInterstitialAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                        valueOptions:NSPointerFunctionsWeakMemory];
 }
 
@@ -122,8 +123,8 @@ static NSMapTable *interstitialAdapterDelegates;
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
 
-  @synchronized(interstitialAdapterDelegates) {
-    if ([interstitialAdapterDelegates objectForKey:publisherID]) {
+  @synchronized(GADMInterstitialAdapterDelegates) {
+    if ([GADMInterstitialAdapterDelegates objectForKey:publisherID]) {
       NSError *adapterError = [NSError
           errorWithDomain:kGADMAdapterMoPubErrorDomain
                      code:kGADErrorInvalidRequest
@@ -134,7 +135,7 @@ static NSMapTable *interstitialAdapterDelegates;
       [strongConnector adapter:self didFailAd:adapterError];
       return;
     } else {
-      [interstitialAdapterDelegates setObject:self forKey:publisherID];
+      GADMAdapterMoPubMapTableSetObjectForKey(GADMInterstitialAdapterDelegates, publisherID, self);
     }
   }
 
@@ -170,8 +171,8 @@ static NSMapTable *interstitialAdapterDelegates;
   NSError *adapterError = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
                                               code:kGADErrorMediationNoFill
                                           userInfo:nil];
-  @synchronized(interstitialAdapterDelegates) {
-    [interstitialAdapterDelegates removeObjectForKey:interstitial.adUnitId];
+  @synchronized(GADMInterstitialAdapterDelegates) {
+    GADMAdapterMoPubMapTableRemoveObjectForKey(GADMInterstitialAdapterDelegates, interstitial.adUnitId);
   }
   [_connector adapter:self didFailAd:adapterError];
 }
@@ -185,8 +186,8 @@ static NSMapTable *interstitialAdapterDelegates;
 }
 
 - (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
-  @synchronized(interstitialAdapterDelegates) {
-    [interstitialAdapterDelegates removeObjectForKey:interstitial.adUnitId];
+  @synchronized(GADMInterstitialAdapterDelegates) {
+    GADMAdapterMoPubMapTableRemoveObjectForKey(GADMInterstitialAdapterDelegates, interstitial.adUnitId);
   }
   [_connector adapterDidDismissInterstitial:self];
 }
@@ -358,7 +359,7 @@ static NSMapTable *interstitialAdapterDelegates;
       if ([_nativeAd.properties objectForKey:key]) {
         NSURL *URL = [NSURL URLWithString:_nativeAd.properties[key]];
         if (URL != nil) {
-          [imageURLs addObject:URL];
+          GADMAdapterMoPubMutableArrayAddObject(imageURLs, URL);
         } else {
           [strongConnector adapter:self didFailAd:adapterError];
           return;
@@ -402,8 +403,8 @@ static NSMapTable *interstitialAdapterDelegates;
       UIGraphicsEndImageContext();
 
       GADNativeAdImage *nativeAdImage = [[GADNativeAdImage alloc] initWithImage:image];
-      [_imagesDictionary setObject:nativeAdImage
-                            forKey:[self returnImageKey:imageURL.absoluteString]];
+      NSString *imagekey = [self returnImageKey:imageURL.absoluteString];
+      GADMAdapterMoPubMutableDictionarySetObjectForKey(_imagesDictionary, imagekey, nativeAdImage);
     }
   }
 
@@ -425,9 +426,9 @@ static NSMapTable *interstitialAdapterDelegates;
 
                      GADNativeAdImage *nativeAdImage =
                          [[GADNativeAdImage alloc] initWithImage:image];
-                     [strongSelf.imagesDictionary
-                         setObject:nativeAdImage
-                            forKey:[strongSelf returnImageKey:imageURL.absoluteString]];
+                     NSString *imagekey = [strongSelf returnImageKey:imageURL.absoluteString];
+                     GADMAdapterMoPubMutableDictionarySetObjectForKey(strongSelf.imagesDictionary,
+                                                                      imagekey, nativeAdImage);
                    }
                    if ([strongSelf.imagesDictionary objectForKey:kAdIconImageKey] &&
                        [strongSelf.imagesDictionary objectForKey:kAdMainImageKey]) {

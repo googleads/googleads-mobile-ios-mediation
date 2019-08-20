@@ -17,7 +17,14 @@
 void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
                                               NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
+                                            id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
   }
 }
 

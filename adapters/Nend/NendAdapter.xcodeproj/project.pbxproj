@@ -148,15 +148,15 @@
 		7D72B8C11DB97C10006EAE11 /* NendAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */,
 				4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */,
+				4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */,
 				4F192F611FB93CCE0052B8DE /* GADMAdapterNendRewarded.h */,
 				4F192F631FB93CCE0052B8DE /* GADMAdapterNendRewarded.m */,
-				4F192F621FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m */,
-				4588B339224C0E9600868387 /* GADMediationAdapterNend.h */,
-				4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */,
 				4588B33D224C0EAB00868387 /* GADMAdapterNendRewardedAd.h */,
 				4588B33E224C0EAB00868387 /* GADMAdapterNendRewardedAd.m */,
+				4588B339224C0E9600868387 /* GADMediationAdapterNend.h */,
+				4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */,
+				4F192F621FB93CCE0052B8DE /* GADNendRewardedNetworkExtras.m */,
 			);
 			path = NendAdapter;
 			sourceTree = "<group>";

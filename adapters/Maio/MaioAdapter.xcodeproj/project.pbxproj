@@ -154,21 +154,21 @@
 		7D72B8C11DB97C10006EAE11 /* MaioAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				45021517225E907500FD53A1 /* GADMAdapterMaioAdsManager.h */,
+				45021518225E907500FD53A1 /* GADMAdapterMaioAdsManager.m */,
+				45E6353A22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h */,
+				45E6353B22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m */,
+				00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */,
+				00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */,
+				45E6353622309EAE006EB5A1 /* GADMediationAdapterMaio.h */,
+				45E6353722309EAE006EB5A1 /* GADMediationAdapterMaio.m */,
 				C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */,
 				C29F391D1FB98B2E00A32028 /* GADMMaioError.h */,
 				C29F391B1FB98B2E00A32028 /* GADMMaioError.m */,
-				C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */,
-				C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */,
 				C29F392E1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h */,
 				C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */,
-				45E6353622309EAE006EB5A1 /* GADMediationAdapterMaio.h */,
-				45E6353722309EAE006EB5A1 /* GADMediationAdapterMaio.m */,
-				00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */,
-				00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */,
-				45E6353A22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h */,
-				45E6353B22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m */,
-				45021517225E907500FD53A1 /* GADMAdapterMaioAdsManager.h */,
-				45021518225E907500FD53A1 /* GADMAdapterMaioAdsManager.m */,
+				C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */,
+				C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */,
 			);
 			path = MaioAdapter;
 			sourceTree = "<group>";

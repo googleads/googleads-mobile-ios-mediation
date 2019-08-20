@@ -14,4 +14,16 @@
 
 #import <Foundation/Foundation.h>
 
+/// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Adds |object| to |array| if |object| is not nil.
+void GADMAdapterMaioMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                          NSObject *_Nonnull object);
+
+/// Removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterMaioMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
+
+/// Sets |value| for |key| in |mapTable| if |value| is not nil.
+void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                            id<NSCopying> _Nullable key, id _Nullable value);
