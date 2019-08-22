@@ -2,6 +2,7 @@
 
 ## Next Version
 - Verified compatibility with Unity Ads SDK 3.2.0.
+- Fixed an issue where Unity Banner ads would fail to show when loaded.
 
 ## Version 3.1.0.0
 - Verified compatibility with Unity Ads SDK 3.1.0.

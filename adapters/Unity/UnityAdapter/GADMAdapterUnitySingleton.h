@@ -47,9 +47,10 @@
                                       delegate:(id<GADMAdapterUnityDataProvider,
                                                    UnityAdsExtendedDelegate>)adapterDelegate;
 
-/// Presents a banner ad for |gameID| with |adapterDelegate|
-- (void)presentBannerAd:(NSString *)gameID
-               delegate:(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>)adapterDelegate;
+/// Requests a banner ad for |gameID| with |adapterDelegate|
+- (void)requestBannerAdWithGameID:(NSString *)gameID
+                         delegate:(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>)
+                                      adapterDelegate;
 
 /// Tells the adapter to remove itself as a |adapterDelegate|.
 - (void)stopTrackingDelegate:
