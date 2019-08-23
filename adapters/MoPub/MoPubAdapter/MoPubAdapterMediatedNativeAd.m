@@ -1,7 +1,5 @@
 #import "MoPubAdapterMediatedNativeAd.h"
 
-@import GoogleMobileAds;
-
 #import "MPAdDestinationDisplayAgent.h"
 #import "MPCoreInstanceProvider.h"
 #import "MPLogging.h"
@@ -10,24 +8,23 @@
 #import "MoPubAdapterConstants.h"
 
 @interface MoPubAdapterMediatedNativeAd () <MPAdDestinationDisplayAgentDelegate>
-
-@property(nonatomic, copy) NSArray *mappedImages;
-@property(nonatomic, copy) GADNativeAdImage *mappedLogo;
-@property(nonatomic, copy) NSDictionary *extras;
-@property(nonatomic, copy) MPNativeAd *nativeAd;
-@property(nonatomic, copy) NSDictionary *nativeAdProperties;
-@property(nonatomic) MPAdDestinationDisplayAgent *displayDestinationAgent;
-@property(nonatomic) UIViewController *baseViewController;
-@property(nonatomic) GADNativeAdViewAdOptions *nativeAdViewOptions;
-@property(nonatomic) GADMoPubNetworkExtras *networkExtras;
-@property(nonatomic) UIImageView *privacyIconImageView;
-
 @end
 
-@implementation MoPubAdapterMediatedNativeAd
+@implementation MoPubAdapterMediatedNativeAd {
+  NSArray<GADNativeAdImage *> *_mappedImages;
+  GADNativeAdImage *_mappedLogo;
+  NSDictionary<NSString *, id> *_extras;
+  MPNativeAd *_nativeAd;
+  NSDictionary<NSString *, id> *_nativeAdProperties;
+  MPAdDestinationDisplayAgent *_displayDestinationAgent;
+  UIViewController *_baseViewController;
+  GADNativeAdViewAdOptions *_nativeAdViewOptions;
+  GADMoPubNetworkExtras *_networkExtras;
+  UIImageView *_privacyIconImageView;
+}
 
 - (instancetype)initWithMoPubNativeAd:(nonnull MPNativeAd *)moPubNativeAd
-                         mappedImages:(nullable NSMutableDictionary *)downloadedImages
+                         mappedImages:(nullable NSMutableDictionary<NSString *, GADNativeAdImage *> *)downloadedImages
                   nativeAdViewOptions:(nonnull GADNativeAdViewAdOptions *)nativeAdViewOptions
                         networkExtras:(nullable GADMoPubNetworkExtras *)networkExtras {
   if (!moPubNativeAd) {
@@ -101,10 +98,6 @@
   return nil;
 }
 
-- (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
-}
-
 - (void)privacyIconTapped {
   _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
@@ -114,9 +107,11 @@
 #pragma GCC diagnostic ignored "-Wundeclared-selector"
 
 - (void)didRenderInView:(UIView *)view
-    clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews
- nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews
-         viewController:(UIViewController *)viewController {
+       clickableAssetViews:
+           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
   _baseViewController = viewController;
   if ([_nativeAd respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
     [_nativeAd performSelector:@selector(willAttachToView:withAdContentViews:)
@@ -213,16 +208,16 @@
 }
 
 - (void)displayAgentDidDismissModal {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self];
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self];
 }
 
 - (void)displayAgentWillPresentModal {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self];
 }
 
 - (void)displayAgentWillLeaveApplication {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
 }
 
 @end

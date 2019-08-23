@@ -6,7 +6,7 @@
 static NSString *const kGADMAdapterMoPubVersion = @"5.7.1.0";
 
 /// Constant for adapter error domain.
-static NSString *const kGADMAdapterMoPubErrorDomain = @"com.mopub.mobileads.mopubadapter";
+static NSString *const kGADMAdapterMoPubErrorDomain = @"com.google.mediation.mopub";
 
 /// Internal to MoPub
 static NSString *const kGADMAdapterMoPubTpValue = @"gmext";

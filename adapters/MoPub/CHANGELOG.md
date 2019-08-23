@@ -1,6 +1,8 @@
 # MoPub Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Next Version
+## Next version
+- Verified compatibility with MoPub SDK 5.8.0.
+- Now requires minimum iOS version of 9.0.
 - Removed support for Native App Install ad requests. Apps must use the Unified Native Ads API to request native ads.
 - Now requires Google Mobile Ads SDK version 7.46.0 or higher.
 
