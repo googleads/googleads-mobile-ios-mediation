@@ -257,12 +257,14 @@
 
 - (void)unityAdsReady:(NSString *)placementID {
   id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
-  @synchronized(_adapterDelegates) {
-    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
-  }
+  adapterDelegate = [_adapterDelegates objectForKey:placementID];
 
   if (adapterDelegate) {
     [adapterDelegate unityAdsReady:placementID];
+  }
+
+  @synchronized(_adapterDelegates) {
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
   }
 
   if (_isBannerLoading && [placementID isEqualToString:_bannerPlacementID]) {
