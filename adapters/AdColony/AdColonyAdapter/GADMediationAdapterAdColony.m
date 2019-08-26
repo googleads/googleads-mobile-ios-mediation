@@ -21,16 +21,16 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 #import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
+#import "GADMAdapterAdColonyBannerRenderer.h"
 
 @interface GADMediationAdapterAdColony ()
 
 @property(nonatomic, copy) GADRTBSignalCompletionHandler signalCompletionHandler;
-
 @property(nonatomic, strong) GADMAdapterAdColonyRtbInterstitialRenderer *interstitialRenderer;
-
 @property(nonatomic, strong) GADMAdapterAdColonyRewardedRenderer *rewardedRenderer;
-
+@property(nonatomic, strong) GADMAdapterAdColonyBannerRenderer *bannerRenderer;
 @property(nonatomic, strong) NSMutableDictionary *bidValues;
+
 @end
 
 @implementation GADMediationAdapterAdColony
@@ -177,6 +177,13 @@ static AdColonyAppOptions *options;
   self.interstitialRenderer = [[GADMAdapterAdColonyRtbInterstitialRenderer alloc] init];
   [self.interstitialRenderer renderInterstitialForAdConfig:adConfiguration
                                          completionHandler:completionHandler];
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    
+    self.bannerRenderer = [[GADMAdapterAdColonyBannerRenderer alloc] init];
+    [self.bannerRenderer loadBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 // Build JSON with signals values
