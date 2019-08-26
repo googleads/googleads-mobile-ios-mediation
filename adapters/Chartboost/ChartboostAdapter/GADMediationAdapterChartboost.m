@@ -20,13 +20,10 @@
 #import "GADMChartboostExtras.h"
 #import "GADMRewardedAdChartboost.h"
 
-@interface GADMediationAdapterChartboost ()
-
-@property(nonatomic, strong) GADMRewardedAdChartboost *rewardedAd;
-
-@end
-
-@implementation GADMediationAdapterChartboost
+@implementation GADMediationAdapterChartboost {
+  /// Chartboost rewarded ad wrapper.
+  GADMRewardedAdChartboost *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -59,12 +56,12 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-
-  [[GADMAdapterChartboostSingleton sharedManager] startWithAppId:appID
-                                                    appSignature:appSignature
-                                               completionHandler:^(NSError *error) {
-                                                 completionHandler(error);
-                                               }];
+  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
+  [sharedInstance startWithAppId:appID
+                    appSignature:appSignature
+               completionHandler:^(NSError *error) {
+                 completionHandler(error);
+               }];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -101,9 +98,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdChartboost alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMRewardedAdChartboost alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end
