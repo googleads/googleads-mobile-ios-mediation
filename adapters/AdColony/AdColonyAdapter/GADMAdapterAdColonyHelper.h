@@ -70,4 +70,9 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply);
 /// Retrieves a JSON string from the provided dictionary.
 + (nullable NSString *)getJsonStringFromDictionary:(nonnull NSDictionary *)dictionary;
 
+/// Get adcolony banner ad size from admob banner size.
++ (AdColonyAdSize)getAdColonyAdSizeFrom:(GADAdSize)adSize;
+
+/// Retrieves an error object by using provided error code and description.
++ (NSError *)getErrorWithCode:(GADErrorCode)code andDescription:(NSString *)description;
 @end

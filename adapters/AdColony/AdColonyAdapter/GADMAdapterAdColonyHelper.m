@@ -3,9 +3,6 @@
 //
 
 #import "GADMAdapterAdColonyHelper.h"
-
-#import <AdColony/AdColony.h>
-
 #import "GADMAdapterAdColony.h"
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
@@ -183,6 +180,34 @@
   return json;
 }
 
+// Method to convert admob ad size to adcolony supported ad size
++ (AdColonyAdSize)getAdColonyAdSizeFrom:(GADAdSize)adSize{
+    NSArray *potentials = @[
+                            NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+                            NSValueFromGADAdSize(kGADAdSizeFullBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+                            NSValueFromGADAdSize(kGADAdSizeSkyscraper)
+                            ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
+    if (GADAdSizeEqualToSize(closestSize, kGADAdSizeBanner)) {
+        return kAdColonyAdSizeBanner;
+    }else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeMediumRectangle)) {
+        return kAdColonyAdSizeMediumRectangle;
+    }else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
+        return kAdColonyAdSizeLeaderboard;
+    }else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeSkyscraper)) {
+        return kAdColonyAdSizeSkyscraper;
+    }else{
+        CGSize size = CGSizeFromGADAdSize(adSize);
+        AdColonyAdSize adColonyCustomSize = AdColonyAdSizeMake(size.width, size.height);
+        return adColonyCustomSize;
+    }
+}
+
++ (NSError *)getErrorWithCode:(GADErrorCode)code andDescription:(NSString *)description{
+    NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain code:code
+                        userInfo:@{ NSLocalizedDescriptionKey :description }];
+    return error;
+}
 @end
 
 NSError *GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,

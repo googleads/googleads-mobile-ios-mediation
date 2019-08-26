@@ -157,9 +157,25 @@
 #pragma mark - Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-      kGADErrorInvalidRequest, @"AdColony adapter doesn't currently support Instant-Feed videos.");
-  [_connector adapter:self didFailAd:error];
+    GADMAdapterAdColony *__weak weakSelf = self;
+    [GADMAdapterAdColonyHelper setupZoneFromConnector:self.connector callback:^(NSString *zone, NSError *error) {
+         GADMAdapterAdColony *strongSelf = weakSelf;
+         if (error && strongSelf) {
+             [strongSelf.connector adapter:strongSelf didFailAd:error];
+             return;
+         }
+         
+         NSLogDebug(@"Zone for banner : %@", zone);
+        
+        AdColonyAdSize adColonyAdSize = [GADMAdapterAdColonyHelper getAdColonyAdSizeFrom:adSize];
+        UIViewController *viewController = [self.connector viewControllerForPresentingModalView];
+        if (!viewController) {
+            NSError *error = [GADMAdapterAdColonyHelper getErrorWithCode:kGADErrorInvalidRequest andDescription:@"View controller cannot be nil"];
+            [self.connector adapter:self didFailAd:error];
+            return;
+        }
+        [AdColony requestAdViewInZone:zone withSize:adColonyAdSize viewController:viewController andDelegate:self];
+     }];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -172,6 +188,34 @@
   // AdColony retains the AdColonyAdDelegate during ad playback and does not issue any callbacks
   // outside of ad playback or async calls already in flight.
   // We could cancel the callbacks for async calls already made, but is overkill IMO.
+}
+
+
+#pragma mark - Banner Delegate
+- (void)adColonyAdViewDidLoad:(AdColonyAdView *)adView{
+    NSLog(@"AdColonyAdapter [Info] : Banner ad loaded");
+    [self.connector adapter:self didReceiveAdView:adView];
+}
+
+- (void)adColonyAdViewDidFailToLoad:(AdColonyAdRequestError *)error{
+    NSLog(@"AdColonyAdapter [Info] : Failed to load banner ad: %@", error.localizedDescription);
+    [self.connector adapter:self didFailAd:error];
+}
+
+- (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView *)adView{
+    [self.connector adapterWillLeaveApplication:self];
+}
+
+- (void)adColonyAdViewWillOpen:(AdColonyAdView *)adView{
+    [self.connector adapterWillPresentFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidClose:(AdColonyAdView *)adView{
+    [self.connector adapterDidDismissFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidReceiveClick:(AdColonyAdView *)adView{
+    [self.connector adapterDidGetAdClick:self];
 }
 
 @end
