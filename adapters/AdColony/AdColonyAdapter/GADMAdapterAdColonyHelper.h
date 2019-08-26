@@ -4,9 +4,8 @@
 
 #import <Foundation/Foundation.h>
 @protocol GADMediationAdRequest;
-@class AdColonyAppOptions;
-@class AdColonyAdOptions;
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <AdColony/AdColony.h>
 
 #define DEBUG_LOGGING 0
 
@@ -41,5 +40,6 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *reply);
 
 + (NSDictionary *)getDictionaryFromJsonString:(NSString *)jsonString;
 + (NSString *)getJsonStringFromDictionary:(NSDictionary *)dictionary;
-
++ (AdColonyAdSize)getAdColonyAdSizeFrom:(GADAdSize)adSize;
++ (NSError *)getErrorWithCode:(GADErrorCode)code andDescription:(NSString *)description;
 @end
