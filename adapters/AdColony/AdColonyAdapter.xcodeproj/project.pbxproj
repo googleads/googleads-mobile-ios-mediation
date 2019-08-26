@@ -59,6 +59,8 @@
 		7DDEA9411DFB30E600FCF905 /* GADMAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */; };
 		7DDEA9421DFB30E600FCF905 /* GADMAdapterAdColony.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEA93F1DFB30E600FCF905 /* GADMAdapterAdColony.m */; };
 		7DDEA9431DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */; };
+		BF0864722311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF0864702311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.h */; };
+		BF0864732311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0864712311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +113,8 @@
 		7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyExtras.m; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF0864702311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyBannerRenderer.h; sourceTree = "<group>"; };
+		BF0864712311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyBannerRenderer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,8 @@
 		454760732286125C0041D40B /* OpenBidding */ = {
 			isa = PBXGroup;
 			children = (
+				BF0864702311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.h */,
+				BF0864712311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.m */,
 				45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */,
 				45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */,
 				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
@@ -229,6 +235,7 @@
 				4547607A228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h in Headers */,
 				7DDEA93C1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h in Headers */,
 				45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */,
+				BF0864722311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +358,7 @@
 				4547607B228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m in Sources */,
 				45BFFBB522286EA400C96A67 /* GADMediationAdapterAdColony.m in Sources */,
 				7DDEA9421DFB30E600FCF905 /* GADMAdapterAdColony.m in Sources */,
+				BF0864732311A6C300DAB0A7 /* GADMAdapterAdColonyBannerRenderer.m in Sources */,
 				45476077228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -24,6 +24,7 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 #import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
+#import "GADMAdapterAdColonyBannerRenderer.h"
 
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
@@ -36,6 +37,9 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
   /// AdColony rewarded ad wrapper.
   GADMAdapterAdColonyRewardedRenderer *_rewardedRenderer;
+    
+  /// AdColony banner ad wrapper.
+  GADMAdapterAdColonyBannerRenderer *_bannerRenderer;
 }
 
 + (void)load {
@@ -187,6 +191,13 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
   _interstitialRenderer = [[GADMAdapterAdColonyRtbInterstitialRenderer alloc] init];
   [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
                                      completionHandler:completionHandler];
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    
+    _bannerRenderer = [[GADMAdapterAdColonyBannerRenderer alloc] init];
+    [_bannerRenderer loadBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 // Build JSON with signals values
