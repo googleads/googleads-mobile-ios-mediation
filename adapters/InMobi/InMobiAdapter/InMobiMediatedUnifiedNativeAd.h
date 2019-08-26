@@ -19,10 +19,10 @@
 
 @interface InMobiMediatedUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
-- (nullable instancetype)initWithInMobiUnifiedNativeAd:(nullable IMNative *)unifiedNativeAd
-                                           withAdapter:(nullable GADMAdapterInMobi *)adapter
-                                   shouldDownloadImage:(BOOL)shouldDownloadImage
-                                             withCache:(nullable NSCache *)imageCache;
+- (nonnull instancetype)initWithInMobiUnifiedNativeAd:(nonnull IMNative *)unifiedNativeAd
+                                              adapter:(nonnull GADMAdapterInMobi *)adapter
+                                  shouldDownloadImage:(BOOL)shouldDownloadImage
+                                                cache:(nonnull NSCache *)imageCache;
 
 @property(nonatomic, strong, nullable) GADMAdapterInMobi *adapter;
 @end

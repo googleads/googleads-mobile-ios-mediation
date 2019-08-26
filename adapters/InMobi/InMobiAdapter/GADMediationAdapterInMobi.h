@@ -19,5 +19,4 @@
 @interface GADMediationAdapterInMobi : NSObject <GADRTBAdapter>
 + (BOOL)isAppInitialised;
 + (void)setIsAppInitialised:(BOOL)status;
-
 @end

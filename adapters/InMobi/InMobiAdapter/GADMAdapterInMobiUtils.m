@@ -8,6 +8,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
 #include <stdatomic.h>
+#import "GADMAdapterInMobiConstants.h"
 
 NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
   NSInteger errorCode;
@@ -37,31 +38,39 @@ void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject 
   }
 }
 
-void GADMAdapterInMobiMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
-  if (key) {
-    [mapTable removeObjectForKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterInMobiMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
+void GADMAdapterInMobiMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                               id<NSCopying> _Nullable key, id _Nullable value) {
   if (value && key) {
     [mapTable setObject:value forKey:key];  // Allow pattern.
   }
 }
 
-void GADMAdapterInMobiMutableSetSafeGADRTBSignalCompletionHandler(
-    GADRTBSignalCompletionHandler handler, GADRTBSignalCompletionHandler setHandler) {
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADRTBSignalCompletionHandler originalCompletionHandler = [setHandler copy];
-  handler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return;
-    }
+void GADMAdapterInMobiMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
 
-    if (originalCompletionHandler) {
-      originalCompletionHandler(signals, error);
-    }
-    originalCompletionHandler = nil;
-  };
+void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
+NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
+    NSNumber *_Nonnull placementIdentifier) {
+  if (placementIdentifier.longLongValue) {
+    return nil;
+  }
+
+  NSError *error = [NSError
+      errorWithDomain:kGADMAdapterInMobiErrorDomain
+                 code:kGADErrorInvalidRequest
+             userInfo:@{
+               NSLocalizedDescriptionKey : @"[InMobi] Exception - Placement ID not specified."
+
+             }];
+  return error;
 }

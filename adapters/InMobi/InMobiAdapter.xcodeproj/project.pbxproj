@@ -43,6 +43,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		450B839122FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */; };
+		450B839222FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */; };
 		4531304422DE556400BD90AB /* InMobiBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 4531304222DE556400BD90AB /* InMobiBannerAd.h */; };
 		4531304522DE556400BD90AB /* InMobiBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 4531304322DE556400BD90AB /* InMobiBannerAd.m */; };
 		4531304822DE557800BD90AB /* InMobiInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 4531304622DE557800BD90AB /* InMobiInterstitialAd.h */; };
@@ -90,6 +92,8 @@
 
 /* Begin PBXFileReference section */
 		00DD265B22F10A620039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobiDelegateManager.h; sourceTree = "<group>"; };
+		450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterInMobiDelegateManager.m; sourceTree = "<group>"; };
 		4531304222DE556400BD90AB /* InMobiBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InMobiBannerAd.h; sourceTree = "<group>"; };
 		4531304322DE556400BD90AB /* InMobiBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InMobiBannerAd.m; sourceTree = "<group>"; };
 		4531304622DE557800BD90AB /* InMobiInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InMobiInterstitialAd.h; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 				F87CEFA91EEEBE5C0052D774 /* GADMAdapterInMobi.h */,
 				F8A580851ECEE8690068E9FA /* GADMAdapterInMobi.m */,
 				4588B2F0224AC20600868387 /* GADMAdapterInMobiConstants.h */,
+				450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */,
+				450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */,
 				4588B2EC224AC1D300868387 /* GADMAdapterInMobiRewardedAd.h */,
 				4588B2ED224AC1D300868387 /* GADMAdapterInMobiRewardedAd.m */,
 				457AC83F2256B43000F8E09D /* GADMAdapterInMobiUtils.h */,
@@ -245,6 +251,7 @@
 				F8A5808B1ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h in Headers */,
 				4531304422DE556400BD90AB /* InMobiBannerAd.h in Headers */,
 				4588B2EE224AC1D300868387 /* GADMAdapterInMobiRewardedAd.h in Headers */,
+				450B839122FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h in Headers */,
 				4588B2EA224AC0E900868387 /* GADMediationAdapterInMobi.h in Headers */,
 				4531304822DE557800BD90AB /* InMobiInterstitialAd.h in Headers */,
 			);
@@ -367,6 +374,7 @@
 				F8A580891ECEE8690068E9FA /* GADInMobiExtras.m in Sources */,
 				F8A580881ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m in Sources */,
 				4588B2EB224AC0E900868387 /* GADMediationAdapterInMobi.m in Sources */,
+				450B839222FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m in Sources */,
 				457AC8422256B43000F8E09D /* GADMAdapterInMobiUtils.m in Sources */,
 				4531304522DE556400BD90AB /* InMobiBannerAd.m in Sources */,
 				F8A5808A1ECEE8690068E9FA /* GADMAdapterInMobi.m in Sources */,
@@ -391,6 +399,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -399,6 +408,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -406,6 +416,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -413,6 +424,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -457,7 +469,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -496,7 +508,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 armv7 i386 x86_64";
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -505,6 +517,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -513,6 +526,7 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -520,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -527,6 +542,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};

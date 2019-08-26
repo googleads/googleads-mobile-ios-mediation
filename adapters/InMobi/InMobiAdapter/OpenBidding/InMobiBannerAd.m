@@ -17,33 +17,55 @@
 #import "GADMAdapterInMobiUtils.h"
 
 @interface InMobiBannerAd () <GADMediationBannerAd, IMBannerDelegate>
-
-@property(nonatomic, strong) IMBanner *banner;
-@property(nonatomic, copy) GADRTBSignalCompletionHandler signalCompletionHandler;
-@property(nonatomic, copy) GADMediationBannerLoadCompletionHandler renderCompletionHandler;
-@property(nonatomic, weak) id<GADMediationBannerAdEventDelegate> adEventDelegate;
-
 @end
 
-@implementation InMobiBannerAd
+@implementation InMobiBannerAd {
+  /// Inmobi banner ad.
+  IMBanner *_banner;
 
-- (instancetype)initWithPlacementId:(long long)placementId adSize:(GADAdSize)adSize {
-  _banner = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)
-                                placementId:placementId];
-  [_banner setExtras:@{@"tp" : @"c_admob"}];
-  _banner.delegate = self;
+  /// Completion handler for signal generation. Returns either signals or an error object.
+  GADRTBSignalCompletionHandler _signalCompletionHandler;
+
+  /// Completion handler to call when the ad loading succeeds or fails.
+  GADMediationBannerLoadCompletionHandler _renderCompletionHandler;
+
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationBannerAdEventDelegate> __weak _adEventDelegate;
+}
+
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier
+                                             adSize:(GADAdSize)adSize {
+  self = [super init];
+  if (self) {
+    _banner =
+        [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)
+                            placementId:placementIdentifier.longLongValue];
+    [_banner setExtras:@{@"tp" : @"c_admob"}];
+    _banner.delegate = self;
+  }
   return self;
 }
 
 - (void)collectIMSignalsWithGMACompletionHandler:
     (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  GADMAdapterInMobiMutableSetSafeGADRTBSignalCompletionHandler(_signalCompletionHandler,
-                                                               completionHandler);
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
+  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return;
+    }
+
+    if (originalCompletionHandler) {
+      originalCompletionHandler(signals, error);
+    }
+    originalCompletionHandler = nil;
+  };
   [_banner getSignals];
 }
 
-- (void)loadIMBannerResponseWithGMAAdConfig:(GADMediationBannerAdConfiguration *)adConfig
-                          completionHandler:(GADMediationBannerLoadCompletionHandler)handler {
+- (void)loadIMBannerResponseWithGMAAdConfig:(nonnull GADMediationBannerAdConfiguration *)adConfig
+                          completionHandler:
+                              (nonnull GADMediationBannerLoadCompletionHandler)handler {
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationBannerLoadCompletionHandler originalCompletionHandler = [handler copy];
   _renderCompletionHandler =
@@ -104,7 +126,7 @@
 
 #pragma mark InmobiBannerAdView
 
-- (UIView *)view {
+- (nonnull UIView *)view {
   return _banner;
 }
 

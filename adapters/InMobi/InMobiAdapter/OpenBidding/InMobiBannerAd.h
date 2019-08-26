@@ -17,7 +17,8 @@
 
 @interface InMobiBannerAd : NSObject
 
-- (nullable instancetype)initWithPlacementId:(long long)placementId adSize:(GADAdSize)adSize;
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier
+                                             adSize:(GADAdSize)adSize;
 
 - (void)collectIMSignalsWithGMACompletionHandler:
     (nonnull GADRTBSignalCompletionHandler)completionHandler;
