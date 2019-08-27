@@ -188,13 +188,13 @@
 		7DFABB141DA8682C00322E02 = {
 			isa = PBXGroup;
 			children = (
-				7DE821BF1DB04B5000AA08CF /* README.md */,
 				7D264FEC1DDCFF7C00027720 /* CHANGELOG.md */,
-				7D386A551DDA4BD500744A5F /* ChartboostAdapter */,
-				7D386A611DDA4BD500744A5F /* Public */,
+				7DE821BF1DB04B5000AA08CF /* README.md */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
+				7D386A551DDA4BD500744A5F /* ChartboostAdapter */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
+				7D386A611DDA4BD500744A5F /* Public */,
 			);
 			sourceTree = "<group>";
 		};
