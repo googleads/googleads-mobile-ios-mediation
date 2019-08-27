@@ -73,9 +73,12 @@
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
   dispatch_async(_queue, ^{
     switch (self->_initState) {
-      case GADMAdapterChartboostInitialized:
-        completionHandler(nil);
+      case GADMAdapterChartboostInitialized: {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          completionHandler(nil);
+        });
         break;
+      }
       case GADMAdapterChartboostInitializing:
         GADMAdapterChartboostMutableArrayAddObject(self->_completionHandlers, completionHandler);
         break;
