@@ -1,15 +1,12 @@
 //
 //  GADMediationAdapterVerizon.m
-//  GoogleAdVASAdapter
 //
 // @copyright Copyright (c) 2018 Verizon. All rights reserved.
 //
 
 #import "GADMediationAdapterVerizon.h"
-
-static NSString *const kGADVerizonPosition = @"placement_id";
-static NSString *const kGADVerizonDCN = @"site_id";
-static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
+#import "GADMAdapterVerizonMediaConstants.h"
+#import "GADMVerizonConsent_Internal.h"
 
 @implementation GADMediationAdapterVerizon
 
@@ -40,6 +37,7 @@ static NSString *const kGADVerizonSiteId = @"VerizonSiteID";
       [VASStandardEdition initializeWithSiteId:siteId];
     }
     self.vasAds = [VASAds sharedInstance];
+    [GADMVerizonConsent.sharedInstance updateConsentInfo];
   }
 }
 

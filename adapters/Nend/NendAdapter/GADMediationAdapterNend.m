@@ -37,7 +37,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -56,7 +56,7 @@
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =

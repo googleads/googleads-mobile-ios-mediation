@@ -17,34 +17,54 @@
 #import "GADMAdapterInMobiUtils.h"
 
 @interface InMobiInterstitialAd () <GADMediationInterstitialAd, IMInterstitialDelegate>
-
-@property(nonatomic, strong) IMInterstitial *interstitial;
-@property(nonatomic, copy) GADRTBSignalCompletionHandler signalCompletionHandler;
-@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler renderCompletionHandler;
-@property(nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> adEventDelegate;
-
 @end
 
-@implementation InMobiInterstitialAd
+@implementation InMobiInterstitialAd {
+  /// InMobi interstitial ad.
+  IMInterstitial *_interstitial;
 
-- (instancetype)initWithPlacementId:(long long)placementId {
-  _interstitial = [[IMInterstitial alloc] initWithPlacementId:placementId];
-  [_interstitial setExtras:@{@"tp" : @"c_admob"}];
-  _interstitial.delegate = self;
+  /// Completion handler for signal generation. Returns either signals or an error object.
+  GADRTBSignalCompletionHandler _signalCompletionHandler;
+
+  /// Completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
+
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationInterstitialAdEventDelegate> __weak _adEventDelegate;
+}
+
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier {
+  self = [super init];
+  if (self) {
+    _interstitial = [[IMInterstitial alloc] initWithPlacementId:placementIdentifier.longLongValue];
+    [_interstitial setExtras:@{@"tp" : @"c_admob"}];
+    _interstitial.delegate = self;
+  }
+
   return self;
 }
 
 - (void)collectIMSignalsWithGACompletionHandler:
     (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  _signalCompletionHandler = completionHandler;
-  GADMAdapterInMobiMutableSetSafeGADRTBSignalCompletionHandler(_signalCompletionHandler,
-                                                               completionHandler);
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
+  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return;
+    }
+
+    if (originalCompletionHandler) {
+      originalCompletionHandler(signals, error);
+    }
+    originalCompletionHandler = nil;
+  };
   [_interstitial getSignals];
 }
 
-- (void)loadIMInterstitialResponseWithGMAdConfig:(GADMediationInterstitialAdConfiguration *)adConfig
+- (void)loadIMInterstitialResponseWithGMAdConfig:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfig
                                completionHandler:
-                                   (GADMediationInterstitialLoadCompletionHandler)handler {
+                                   (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [handler copy];
   _renderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(

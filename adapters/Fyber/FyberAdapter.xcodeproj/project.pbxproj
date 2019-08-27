@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD264922F1097C0039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD264D22F1097C0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD264C22F1097C0039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		451277BB207DA8C400D85E57 /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 451277BC207DA8C400D85E57 /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -14,7 +25,6 @@
 				451277C1207DA8E700D85E57 /* Framework Script */,
 			);
 			dependencies = (
-				451277CF207EA0B500D85E57 /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -23,10 +33,9 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 451277C6207DADA100D85E57 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
 			buildPhases = (
-				451277C9207DADD200D85E57 /* Static Library Script */,
+				451277C9207DADD200D85E57 /* Framework Script */,
 			);
 			dependencies = (
-				451277D1207EA0BA00D85E57 /* PBXTargetDependency */,
 			);
 			name = FatAdapter;
 			productName = FatAdapter;
@@ -34,23 +43,18 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */; };
+		4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */; };
 		451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4512777E207D92C100D85E57 /* FyberAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		451277CE207EA0B500D85E57 /* PBXContainerItemProxy */ = {
+		00DD265122F109A80039C1D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45127773207D92C100D85E57 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4512777A207D92C100D85E57;
-			remoteInfo = Adapter;
-		};
-		451277D0207EA0BA00D85E57 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 45127773207D92C100D85E57 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4512777A207D92C100D85E57;
-			remoteInfo = Adapter;
+			remoteGlobalIDString = 00DD264922F1097C0039C1D4;
+			remoteInfo = ValidateSourceCode;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -67,6 +71,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00DD265022F109970039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFyber.h; sourceTree = "<group>"; };
+		4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFyber.m; sourceTree = "<group>"; };
+		4512777B207D92C100D85E57 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4512777E207D92C100D85E57 /* FyberAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FyberAdapter.h; sourceTree = "<group>"; };
 		4512779E207D973000D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4512779F207D976300D85E57 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -75,7 +83,6 @@
 		451277A3207D9C9A00D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		451277A5207D9F6400D85E57 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		451277A6207DA0D400D85E57 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-        4512777B207D92C100D85E57 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		451277A7207DA0F700D85E57 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		451277A9207DA3D100D85E57 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		451277AB207DA59400D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -117,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				451277AB207DA59400D85E57 /* README.md */,
+				4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */,
+				4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */,
 			);
 			path = FyberAdapter;
 			sourceTree = "<group>";
@@ -127,6 +136,7 @@
 				451277A3207D9C9A00D85E57 /* README.md */,
 				451277A1207D984F00D85E57 /* Script_Library.sh */,
 				451277A2207D9C2000D85E57 /* Script_Framework.sh */,
+				00DD265022F109970039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -166,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */,
+				4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +195,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD265222F109A80039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = FyberAdapter;
@@ -199,6 +211,9 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
+					00DD264922F1097C0039C1D4 = {
+						ProvisioningStyle = Automatic;
+					};
 					4512777A207D92C100D85E57 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -226,13 +241,28 @@
 			projectRoot = "";
 			targets = (
 				4512777A207D92C100D85E57 /* Adapter */,
-				451277BB207DA8C400D85E57 /* Framework */,
 				451277C5207DADA100D85E57 /* FatAdapter */,
+				451277BB207DA8C400D85E57 /* Framework */,
+				00DD264922F1097C0039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD264C22F1097C0039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		451277C1207DA8E700D85E57 /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -240,21 +270,21 @@
 			);
 			inputPaths = (
 			);
-            name = "Framework Script";
+			name = "Framework Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
 		};
-		451277C9207DADD200D85E57 /* Static Library Script */ = {
+		451277C9207DADD200D85E57 /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-            name = "Framework Script";
+			name = "Framework Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,25 +298,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		451277CF207EA0B500D85E57 /* PBXTargetDependency */ = {
+		00DD265222F109A80039C1D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4512777A207D92C100D85E57 /* Adapter */;
-			targetProxy = 451277CE207EA0B500D85E57 /* PBXContainerItemProxy */;
-		};
-		451277D1207EA0BA00D85E57 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4512777A207D92C100D85E57 /* Adapter */;
-			targetProxy = 451277D0207EA0BA00D85E57 /* PBXContainerItemProxy */;
+			target = 00DD264922F1097C0039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD265122F109A80039C1D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4502AFE922FE147500CBA9B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Framework;
+			};
+			name = Debug;
+		};
+		4502AFEA22FE147500CBA9B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Framework;
+			};
+			name = Release;
+		};
 		45127782207D92C100D85E57 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -335,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -384,7 +429,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -714,6 +759,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD264D22F1097C0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4502AFE922FE147500CBA9B3 /* Debug */,
+				4502AFEA22FE147500CBA9B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		45127776207D92C100D85E57 /* Build configuration list for PBXProject "FyberAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

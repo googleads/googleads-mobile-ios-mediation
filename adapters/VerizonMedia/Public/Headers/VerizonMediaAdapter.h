@@ -16,3 +16,4 @@
 #import <UIKit/UIKit.h>
 
 // Import any public headers below.
+#import <VerizonMediaAdapter/GADMVerizonConsent.h>

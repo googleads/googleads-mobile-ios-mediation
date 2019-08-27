@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterMaioAdsManager.h"
+#import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 #import "GADMMaioError.h"
 
@@ -68,13 +69,13 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
     self.initState = INITIALIZING;
   }
   @synchronized(self.completionHandlers) {
-    [self.completionHandlers addObject:completionHandler];
+    GADMAdapterMaioMutableArrayAddObject(self.completionHandlers, completionHandler);
   }
 }
 
 - (void)removeAdapterForZoneID:(NSString *)zoneId {
   @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates removeObjectForKey:zoneId];
+    GADMAdapterMaioMapTableRemoveObjectForKey(self.adapterDelegates, zoneId);
   }
 }
 
@@ -84,7 +85,7 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
 
 - (void)addAdapter:(id<MaioDelegate>)delegate forZoneID:(NSString *)zoneId {
   @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:delegate forKey:zoneId];
+    GADMAdapterMaioMapTableSetObjectForKey(self.adapterDelegates, zoneId, delegate);
   }
 }
 

@@ -16,6 +16,28 @@
 
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterMaioMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                          NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  } else {
+    NSLog(@"Cannot add nil object to array. Array: %@", array);
+  }
+}
+
+void GADMAdapterMaioMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                            id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
   }
 }

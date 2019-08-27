@@ -18,7 +18,8 @@
 @interface GADFBRewardedRenderer : NSObject
 
 /// Asks the receiver to load the ad configuration.
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 @end

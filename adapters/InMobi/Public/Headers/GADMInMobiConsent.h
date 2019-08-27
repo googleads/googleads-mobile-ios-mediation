@@ -9,13 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface GADMInMobiConsent : NSObject
-/**
- * Updates GDPR consent for InMobi AdRequest
- */
-+(void)updateGDPRConsent:(NSDictionary*) consent;
-/**
- * fetches GDPR consent for InMobi AdRequest
- */
-+(NSMutableDictionary*) getConsent;
+
+/// Updates GDPR consent for InMobi AdRequest.
++ (void)updateGDPRConsent:(nonnull NSDictionary<NSString *, NSString *> *)consent;
+
+/// Fetches GDPR consent for InMobi AdRequest.
+@property(class, nonatomic, nullable, readonly) NSDictionary<NSString *, NSString *> *consent;
 
 @end

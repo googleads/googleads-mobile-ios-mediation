@@ -14,4 +14,8 @@
 
 #import <Foundation/Foundation.h>
 
+/// Safely adds |object| to |set| if the |object| is not nil.
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Safely removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);

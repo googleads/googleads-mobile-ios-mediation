@@ -74,7 +74,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     self.connector = connector;
   }
   [IMSdk initWithAccountID:self.connector.credentials[kGADMAdapterInMobiAccountID]
-         consentDictionary:[GADMInMobiConsent getConsent]];
+         consentDictionary:GADMInMobiConsent.consent];
   isAccountInitialised = true;
   NSLog(@"Initialized successfully");
   return self;
@@ -465,9 +465,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
   self.nativeAd =
       [[InMobiMediatedUnifiedNativeAd alloc] initWithInMobiUnifiedNativeAd:native
-                                                               withAdapter:self
+                                                                   adapter:self
                                                        shouldDownloadImage:self.shouldDownloadImages
-                                                                 withCache:imageCache];
+                                                                     cache:imageCache];
 }
 
 /**
@@ -491,7 +491,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillPresentScreen:(IMNative *)native {
   NSLog(@"Native Will Present screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
 }
 
 /**
@@ -506,7 +506,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillDismissScreen:(IMNative *)native {
   NSLog(@"Native Will dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
 }
 
 /**
@@ -514,7 +514,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeDidDismissScreen:(IMNative *)native {
   NSLog(@"Native Did dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
 }
 
 /**
@@ -527,7 +527,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)nativeAdImpressed:(IMNative *)native {
   NSLog(@"InMobi recorded impression successfully");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
 }
 
 - (void)native:(IMNative *)native didInteractWithParams:(NSDictionary *)params {

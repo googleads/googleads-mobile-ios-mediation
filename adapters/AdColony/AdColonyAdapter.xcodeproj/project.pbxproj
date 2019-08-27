@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		0028CED522F0FB8100151C65 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0028CED722F0FB8100151C65 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				0028CED622F0FB8100151C65 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -50,6 +61,16 @@
 		7DDEA9431DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0028CEDB22F0FF3000151C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0028CED522F0FB8100151C65;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -63,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0028CEDA22F0FC1D00151C65 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		4534E82022862B98000381F8 /* GADMediationAdapterAdColony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterAdColony.h; sourceTree = "<group>"; };
 		45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyRtbInterstitialRenderer.h; sourceTree = "<group>"; };
 		45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyRtbInterstitialRenderer.m; sourceTree = "<group>"; };
@@ -105,10 +127,10 @@
 		454760732286125C0041D40B /* OpenBidding */ = {
 			isa = PBXGroup;
 			children = (
-				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
-				45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */,
 				45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */,
 				45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */,
+				45476074228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.h */,
+				45476075228612AA0041D40B /* GADMAdapterAdColonyRtbInterstitialRenderer.m */,
 			);
 			path = OpenBidding;
 			sourceTree = "<group>";
@@ -145,16 +167,16 @@
 		7DDEA93D1DFB30E600FCF905 /* AdColonyAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				454760732286125C0041D40B /* OpenBidding */,
 				7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */,
 				7DDEA93F1DFB30E600FCF905 /* GADMAdapterAdColony.m */,
+				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
 				7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */,
-				45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */,
-				45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */,
-				45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */,
 				45BFFBBE22286F4E00C96A67 /* GADMAdapterAdColonyHelper.h */,
 				45BFFBBF22286F4E00C96A67 /* GADMAdapterAdColonyHelper.m */,
-				4593F41B227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h */,
+				45BFFBB622286EE100C96A67 /* GADMAdapterAdColonyInitializer.h */,
+				45BFFBB722286EE100C96A67 /* GADMAdapterAdColonyInitializer.m */,
+				45BFFBB322286EA400C96A67 /* GADMediationAdapterAdColony.m */,
+				454760732286125C0041D40B /* OpenBidding */,
 			);
 			path = AdColonyAdapter;
 			sourceTree = "<group>";
@@ -165,6 +187,7 @@
 				7D264FF21DDD1B9400027720 /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				0028CEDA22F0FC1D00151C65 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -224,6 +247,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0028CEDC22F0FF3000151C65 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -266,11 +290,26 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				0028CED522F0FB8100151C65 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0028CED622F0FB8100151C65 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,7 +322,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
 		7DD2DCBD1DD12E3E00888FDB /* Static Library Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -297,7 +336,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -318,7 +357,31 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0028CEDC22F0FF3000151C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0028CED522F0FB8100151C65 /* ValidateSourceCode */;
+			targetProxy = 0028CEDB22F0FF3000151C65 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0028CED822F0FB8100151C65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0028CED922F0FB8100151C65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -456,6 +519,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0028CED722F0FB8100151C65 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0028CED822F0FB8100151C65 /* Debug */,
+				0028CED922F0FB8100151C65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

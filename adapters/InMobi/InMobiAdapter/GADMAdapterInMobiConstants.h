@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Adapter version string
+/// Adapter version string.
 static NSString *const kGADMAdapterInMobiVersion = @"7.3.0.0";
 
-// Tapjoy SDK key
+/// InMobi SDK key.
 static NSString *const kGADMAdapterInMobiAccountID = @"accountid";
 
-// Tapjoy placemnt name
+/// InMobi placement identifier.
 static NSString *const kGADMAdapterInMobiPlacementID = @"placementid";
 
+/// InMobi adapter error domain.
 static NSString *const kGADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";

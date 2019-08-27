@@ -17,7 +17,7 @@
 
 @interface InMobiInterstitialAd : NSObject
 
-- (nullable instancetype)initWithPlacementId:(long long)placementId;
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier;
 
 - (void)collectIMSignalsWithGACompletionHandler:
     (nonnull GADRTBSignalCompletionHandler)completionHandler;

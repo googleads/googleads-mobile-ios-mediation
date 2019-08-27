@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD267C22F10B950039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD267E22F10B950039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD267D22F10B950039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -34,6 +45,8 @@
 /* Begin PBXBuildFile section */
 		45119B4321EFDA3000903F43 /* GADMediationAdapterMoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 45119B4121EFDA3000903F43 /* GADMediationAdapterMoPub.m */; };
 		45119B4421EFDA3000903F43 /* GADMediationAdapterMoPub.h in Headers */ = {isa = PBXBuildFile; fileRef = 45119B4221EFDA3000903F43 /* GADMediationAdapterMoPub.h */; };
+		45C7D3412305F26700409AD6 /* GADMAdapterMoPubUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 45C7D33F2305F26700409AD6 /* GADMAdapterMoPubUtils.h */; };
+		45C7D3422305F26700409AD6 /* GADMAdapterMoPubUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C7D3402305F26700409AD6 /* GADMAdapterMoPubUtils.m */; };
 		45E635402230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E6353E2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h */; };
 		45E635412230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6353F2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m */; };
 		45E635442230B5D1006EB5A1 /* GADMMoPubRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E635422230B5D1006EB5A1 /* GADMMoPubRewardedAd.h */; };
@@ -48,6 +61,16 @@
 		7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		00DD268122F10BAF0039C1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD267C22F10B950039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -61,8 +84,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00DD267B22F10B8C0039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		45119B4121EFDA3000903F43 /* GADMediationAdapterMoPub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMoPub.m; sourceTree = "<group>"; };
 		45119B4221EFDA3000903F43 /* GADMediationAdapterMoPub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMoPub.h; sourceTree = "<group>"; };
+		45C7D33F2305F26700409AD6 /* GADMAdapterMoPubUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMoPubUtils.h; sourceTree = "<group>"; };
+		45C7D3402305F26700409AD6 /* GADMAdapterMoPubUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMoPubUtils.m; sourceTree = "<group>"; };
 		45E6353E2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMoPubSingleton.h; sourceTree = "<group>"; };
 		45E6353F2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMoPubSingleton.m; sourceTree = "<group>"; };
 		45E635422230B5D1006EB5A1 /* GADMMoPubRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMoPubRewardedAd.h; sourceTree = "<group>"; };
@@ -111,18 +137,20 @@
 		7D5F6F771E7742BC00B9B9F5 /* MoPubAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				45119B4221EFDA3000903F43 /* GADMediationAdapterMoPub.h */,
-				45119B4121EFDA3000903F43 /* GADMediationAdapterMoPub.m */,
 				7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */,
 				7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */,
+				45E6353E2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h */,
+				45E6353F2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m */,
+				45119B4221EFDA3000903F43 /* GADMediationAdapterMoPub.h */,
+				45119B4121EFDA3000903F43 /* GADMediationAdapterMoPub.m */,
+				45E635422230B5D1006EB5A1 /* GADMMoPubRewardedAd.h */,
+				45E635432230B5D1006EB5A1 /* GADMMoPubRewardedAd.m */,
 				7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */,
 				7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */,
 				7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */,
 				7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */,
-				45E6353E2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h */,
-				45E6353F2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m */,
-				45E635422230B5D1006EB5A1 /* GADMMoPubRewardedAd.h */,
-				45E635432230B5D1006EB5A1 /* GADMMoPubRewardedAd.m */,
+				45C7D33F2305F26700409AD6 /* GADMAdapterMoPubUtils.h */,
+				45C7D3402305F26700409AD6 /* GADMAdapterMoPubUtils.m */,
 			);
 			path = MoPubAdapter;
 			sourceTree = "<group>";
@@ -151,6 +179,7 @@
 				7D37C14F1DDCEFED00207DCB /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				00DD267B22F10B8C0039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -184,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D5F6F821E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h in Headers */,
+				45C7D3412305F26700409AD6 /* GADMAdapterMoPubUtils.h in Headers */,
 				7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */,
 				45E635442230B5D1006EB5A1 /* GADMMoPubRewardedAd.h in Headers */,
 				7D5F6F891E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h in Headers */,
@@ -209,6 +239,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD268222F10BAF0039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -240,6 +271,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -250,11 +282,26 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				00DD267C22F10B950039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD267D22F10B950039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,6 +341,7 @@
 				45E635412230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m in Sources */,
 				7D5F6F7F1E7742BC00B9B9F5 /* GADMAdapterMoPub.m in Sources */,
 				45E635452230B5D1006EB5A1 /* GADMMoPubRewardedAd.m in Sources */,
+				45C7D3422305F26700409AD6 /* GADMAdapterMoPubUtils.m in Sources */,
 				7D5F6F831E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m in Sources */,
 				45119B4321EFDA3000903F43 /* GADMediationAdapterMoPub.m in Sources */,
 			);
@@ -301,7 +349,29 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		00DD268222F10BAF0039C1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD267C22F10B950039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD268122F10BAF0039C1D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		00DD267F22F10B950039C1D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00DD268022F10B950039C1D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -422,6 +492,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD267E22F10B950039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00DD267F22F10B950039C1D4 /* Debug */,
+				00DD268022F10B950039C1D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

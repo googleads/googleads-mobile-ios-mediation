@@ -1,15 +1,16 @@
 
 #import "GADMAdapterMoPubSingleton.h"
+#import "GADMAdapterMoPubUtils.h"
+#import "MPRewardedVideo.h"
 
 @interface GADMAdapterMoPubSingleton () <MPRewardedVideoDelegate>
-
-@property(nonatomic) NSMapTable *adapterDelegates;
-
 @end
 
-@implementation GADMAdapterMoPubSingleton
+@implementation GADMAdapterMoPubSingleton {
+  NSMapTable<NSString *, id<MPRewardedVideoDelegate>> *_adapterDelegates;
+}
 
-+ (instancetype)sharedInstance {
++ (nonnull instancetype)sharedInstance {
   static GADMAdapterMoPubSingleton *sharedMyManager = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -18,15 +19,15 @@
   return sharedMyManager;
 }
 
-- (instancetype)init {
+- (nonnull instancetype)init {
   if (self = [super init]) {
-    self.adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                   valueOptions:NSPointerFunctionsWeakMemory];
   }
   return self;
 }
 
-- (void)initializeMoPubSDKWithAdUnitID:(NSString *)adUnitID
+- (void)initializeMoPubSDKWithAdUnitID:(nonnull NSString *)adUnitID
                      completionHandler:(void (^_Nullable)(void))completionHandler {
   if (MoPub.sharedInstance.isSdkInitialized) {
     completionHandler();
@@ -46,26 +47,26 @@
 }
 
 - (void)addDelegate:(id<MPRewardedVideoDelegate>)adapterDelegate forAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:adapterDelegate forKey:adUnitID];
+  @synchronized(_adapterDelegates) {
+    GADMAdapterMoPubMapTableSetObjectForKey(_adapterDelegates, adUnitID, adapterDelegate);
   }
 }
 
 - (void)removeDelegateForAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates removeObjectForKey:adUnitID];
+  @synchronized(_adapterDelegates) {
+    GADMAdapterMoPubMapTableRemoveObjectForKey(_adapterDelegates, adUnitID);
   }
 }
 
 - (id<MPRewardedVideoDelegate>)getDelegateForAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    return [self.adapterDelegates objectForKey:adUnitID];
+  @synchronized(_adapterDelegates) {
+    return [_adapterDelegates objectForKey:adUnitID];
   }
 }
 
-- (NSError *)requestRewardedAdForAdUnitID:(NSString *)adUnitID
-                                 adConfig:(GADMediationRewardedAdConfiguration *)adConfig
-                                 delegate:(id<MPRewardedVideoDelegate>)delegate {
+- (nullable NSError *)requestRewardedAdForAdUnitID:(nonnull NSString *)adUnitID
+                                 adConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig
+                                 delegate:(nonnull id<MPRewardedVideoDelegate>)delegate {
   [MPRewardedVideo setDelegate:self forAdUnitId:adUnitID];
 
   if ([self getDelegateForAdUnitID:adUnitID]) {
@@ -93,12 +94,10 @@
   return nil;
 }
 
-/*
- Keywords passed from AdMob are separated into 1) personally identifiable,
- and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
- */
+/// Keywords passed from AdMob are separated into 1) personally identifiable,
+/// and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
 - (NSString *)getKeywords:(BOOL)intendedForPII
-              forAdConfig:(GADMediationRewardedAdConfiguration *)adConfig {
+              forAdConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig {
   NSString *keywordsBuilder = [NSString stringWithFormat:@"%@", kGADMAdapterMoPubTpValue];
 
   if (intendedForPII) {
@@ -112,7 +111,7 @@
   }
 }
 
-- (BOOL)keywordsContainUserData:(GADMediationRewardedAdConfiguration *)adConfig {
+- (BOOL)keywordsContainUserData:(nonnull GADMediationRewardedAdConfiguration *)adConfig {
   return [adConfig hasUserLocation];
 }
 

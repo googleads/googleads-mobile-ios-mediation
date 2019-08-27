@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,15 +13,12 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Macro wrapper for NSLog only if debug mode is enabled.
-#if DEBUG
-#define GADFB_LOG(fmt, ...) NSLog(fmt, ##__VA_ARGS__);
-#else
-/// If debug mode is not enabled, macro doesn't do anything when called.
-#define GADFB_LOG(...)
-#endif
+NS_ASSUME_NONNULL_BEGIN
 
-/// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
-/// set to |description|.
-NSError *GADFBErrorWithDescription(NSString *description);
+@interface GADMediationAdapterFyber : NSObject <GADMediationAdapter>
+
+@end
+
+NS_ASSUME_NONNULL_END

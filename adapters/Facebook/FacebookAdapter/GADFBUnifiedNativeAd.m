@@ -14,22 +14,23 @@
 
 #import "GADFBUnifiedNativeAd.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#include <stdatomic.h>
 #import "GADFBAdapterDelegate.h"
-#import "GADFBError.h"
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
-
-static NSString *const GADUnifiedNativeAdIconView = @"3003";
+#import "GADMediationAdapterFacebook.h"
 
 @interface GADFBUnifiedNativeAd () <GADMediatedUnifiedNativeAd,
-                                    GADMediatedNativeAdDelegate,
-                                    GADMediatedNativeAd,
                                     FBNativeAdDelegate,
-                                    FBMediaViewDelegate> {
+                                    FBMediaViewDelegate>
+
+@end
+
+@implementation GADFBUnifiedNativeAd {
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 
@@ -39,61 +40,36 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
   /// Native ad obtained from Facebook's Audience Network.
   FBNativeAd *_nativeAd;
 
-  /// Native ad image loading options.
-  GADNativeAdImageAdLoaderOptions *_nativeAdImageAdLoaderOptions;
-
-  /// Native ad view options.
-  GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
-
   ///  A dictionary of asset names and object pairs for assets that are not handled by properties of
-  ///  the GADMediatedNativeAd subclass
-  NSDictionary *_extraAssets;
+  ///  the GADMediatedUnifiedNativeAd subclass
+  NSDictionary<NSString *, id> *_extraAssets;
 
-  /// Serializes ivar usage.
-  dispatch_queue_t _lockQueue;
-
-  /// Facebook AdChoices view.
-  FBAdOptionsView *_adOptionsView;
-
-  /// YES if an impression has been logged.
-  BOOL _impressionLogged;
+  /// Holds the state for impression being logged.
+  atomic_flag _impressionLogged;
 
   /// Facebook media view.
   FBMediaView *_mediaView;
 }
 
-@end
-
-@implementation GADFBUnifiedNativeAd
-
 /// Empty method to bypass Apple's private method checking since
-/// GADMediatedNativeAdNotificationSource's mediatedNativeAdDidRecordImpression method is
+/// GADMediatedUnifiedNativeAdNotificationSource's mediatedNativeAdDidRecordImpression method is
 /// dynamically called by this class's instances.
 + (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter {
-  self = [super init];
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+  self = [super initWithGADMAdNetworkConnector:connector adapter:adapter];
   if (self) {
     _adapter = adapter;
     _connector = connector;
-    _lockQueue = dispatch_queue_create("fb-native-ad", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
 
-- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
+- (void)requestNativeAd {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-
-  for (GADAdLoaderOptions *option in options) {
-    if ([option isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-      _nativeAdImageAdLoaderOptions = (GADNativeAdImageAdLoaderOptions *)option;
-    } else if ([option isKindOfClass:[GADNativeAdViewAdOptions class]]) {
-      _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)option;
-    }
-  }
 
   if (!strongConnector || !strongAdapter) {
     return;
@@ -107,6 +83,9 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
+
+  GADFBConfigureMediationService();
+
   _nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementID];
 
   if (!_nativeAd) {
@@ -117,8 +96,6 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
     return;
   }
   _nativeAd.delegate = self;
-  [FBAdSettings setMediationService:[NSString
-      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
   [_nativeAd loadAd];
 }
 
@@ -127,132 +104,39 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
   _mediaView.delegate = nil;
 }
 
-- (void)loadAdOptionsView {
-  if (!_adOptionsView) {
-    _adOptionsView = [[FBAdOptionsView alloc] init];
-    _adOptionsView.backgroundColor = [UIColor clearColor];
-
-    NSLayoutConstraint *height =
-        [NSLayoutConstraint constraintWithItem:_adOptionsView
-                                     attribute:NSLayoutAttributeHeight
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:nil
-                                     attribute:NSLayoutAttributeNotAnAttribute
-                                    multiplier:0
-                                      constant:FBAdOptionsViewHeight];
-    NSLayoutConstraint *width =
-        [NSLayoutConstraint constraintWithItem:_adOptionsView
-                                     attribute:NSLayoutAttributeWidth
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:nil
-                                     attribute:NSLayoutAttributeNotAnAttribute
-                                    multiplier:0
-                                      constant:FBAdOptionsViewWidth];
-    [_adOptionsView addConstraint:height];
-    [_adOptionsView addConstraint:width];
-    [_adOptionsView updateConstraints];
+- (nullable NSDictionary *)extraAssets {
+  NSString *socialContext = [_nativeAd.socialContext copy];
+  if (socialContext) {
+    return @{GADFBSocialContext : socialContext};
   }
-    _adOptionsView.nativeAd = _nativeAd;
-}
-
-#pragma mark - GADMediatedNativeAd
-
-- (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
-}
-
-- (NSDictionary *)extraAssets {
-  NSDictionary *__block extraAssets = nil;
-  dispatch_sync(_lockQueue, ^{
-    if (self->_extraAssets) {
-      extraAssets = [self->_extraAssets copy];
-    } else {
-      NSMutableDictionary *mutableExtraAssets = [[NSMutableDictionary alloc] init];
-      NSString *socialContext = [self->_nativeAd.socialContext copy];
-      if (socialContext) {
-        mutableExtraAssets[GADFBSocialContext] = socialContext;
-      }
-
-      extraAssets = mutableExtraAssets;
-      self->_extraAssets = mutableExtraAssets;
-    }
-  });
-  return extraAssets;
-}
-
-#pragma mark - GADMediatedNativeAppInstallAd
-
-- (NSString *)headline {
-  NSString *__block headline = nil;
-  dispatch_sync(_lockQueue, ^{
-    headline = [self->_nativeAd.headline copy];
-  });
-  return headline;
-}
-
-- (NSString *)advertiser {
-  NSString *__block advertiser = nil;
-  dispatch_sync(_lockQueue, ^{
-    advertiser = [self->_nativeAd.advertiserName copy];
-  });
-  return advertiser;
-}
-
-- (NSArray *)images {
   return nil;
 }
 
-- (NSString *)body {
-  NSString *__block body = nil;
-  dispatch_sync(_lockQueue, ^{
-    body = [self->_nativeAd.bodyText copy];
-  });
-  return body;
+- (nullable NSString *)headline {
+  return _nativeAd.headline;
 }
 
-- (GADNativeAdImage *)icon {
-  GADNativeAdImage *__block icon = nil;
-  UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0.0);
-  UIImage *blank = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  dispatch_sync(_lockQueue, ^{
-    icon = [[GADNativeAdImage alloc] initWithImage:blank];
-  });
-  return icon;
+- (nullable NSString *)advertiser {
+  return _nativeAd.advertiserName;
 }
 
-- (NSString *)callToAction {
-  NSString *__block callToAction = nil;
-  dispatch_sync(_lockQueue, ^{
-    callToAction = [self->_nativeAd.callToAction copy];
-  });
-  return callToAction;
+- (nullable NSString *)body {
+  return _nativeAd.bodyText;
 }
 
-- (NSDecimalNumber *)starRating {
-  return nil;
-}
-
-- (NSString *)store {
-  return nil;
-}
-
-- (NSString *)price {
-  return nil;
+- (nullable NSString *)callToAction {
+  return _nativeAd.callToAction;
 }
 
 /// Media view.
-- (UIView *GAD_NULLABLE_TYPE)mediaView {
+- (nullable UIView *)mediaView {
   return _mediaView;
 }
 
-- (UIView *GAD_NULLABLE_TYPE)adChoicesView {
-  return _adOptionsView;
-}
-
 /// Returns YES if the ad has video content.
-/// Because the FAN SDK doesn't offer a way to determine whether a native ad contains a
-/// video asset or not, the adapter always returns a MediaView and claims to have video content.
+/// Because the Facebook Audience Network SDK doesn't offer a way to determine whether a native ad
+/// contains a video asset or not, the adapter always returns a MediaView and claims to have video
+/// content.
 - (BOOL)hasVideoContent {
   return YES;
 }
@@ -266,21 +150,16 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
         (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(UIViewController *)viewController {
   NSArray *assets = clickableAssetViews.allValues;
-  UIView *iconView = [clickableAssetViews valueForKey:GADUnifiedNativeAdIconView];
-
-  if (assets.count > 0 && iconView) {
-    [_nativeAd registerViewForInteraction:view
-                                mediaView:_mediaView
-                            iconImageView:iconView
-                           viewController:viewController
-                           clickableViews:assets];
-  } else {
-    [_nativeAd registerViewForInteraction:view
-                                mediaView:_mediaView
-                            iconImageView:iconView
-                           viewController:viewController];
+  UIImageView *iconView = nil;
+  if ([clickableAssetViews[GADUnifiedNativeIconAsset] isKindOfClass:[UIImageView class]]) {
+    iconView = (UIImageView *)clickableAssetViews[GADUnifiedNativeIconAsset];
   }
-  _adOptionsView.nativeAd = _nativeAd;
+
+  [_nativeAd registerViewForInteraction:view
+                              mediaView:_mediaView
+                          iconImageView:iconView
+                         viewController:viewController
+                         clickableViews:assets];
 }
 
 - (void)didUntrackView:(UIView *)view {
@@ -289,7 +168,7 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
 
 #pragma mark - FBNativeAdDelegate
 
-- (void)nativeAdDidLoad:(FBNativeAd *)nativeAd {
+- (void)nativeAdDidLoad:(nonnull FBNativeAd *)nativeAd {
   if (_nativeAd) {
     [_nativeAd unregisterView];
   }
@@ -297,51 +176,51 @@ static NSString *const GADUnifiedNativeAdIconView = @"3003";
   _mediaView = [[FBMediaView alloc] init];
   _mediaView.delegate = self;
   [self loadAdOptionsView];
+  self.adOptionsView.nativeAd = _nativeAd;
   id<GADMAdNetworkAdapter> strongAdapter = self->_adapter;
   id<GADMAdNetworkConnector> strongConnector = self->_connector;
-  [strongConnector adapter:strongAdapter didReceiveMediatedNativeAd:self];
+  [strongConnector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:self];
 }
 
-- (void)nativeAdWillLogImpression:(FBNativeAd *)nativeAd {
-  if (_impressionLogged) {
-    GADFB_LOG(@"FBNativeAd is trying to log an impression again. Adapter will ignore duplicate "
-               "impression pings.");
+- (void)nativeAdWillLogImpression:(nonnull FBNativeAd *)nativeAd {
+  if (atomic_flag_test_and_set(&_impressionLogged)) {
+    GADFB_LOG(@"FBNativeAd is trying to log an impression again. Adapter will ignore "
+              @"duplicate impression pings.");
     return;
   }
-
-  _impressionLogged = YES;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
 }
 
-- (void)nativeAd:(FBNativeAd *)nativeAd didFailWithError:(NSError *)error {
+- (void)nativeAd:(nonnull FBNativeAd *)nativeAd didFailWithError:(nonnull NSError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   [strongConnector adapter:strongAdapter didFailAd:error];
 }
 
-- (void)nativeAdDidClick:(FBNativeAd *)nativeAd {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
+- (void)nativeAdDidClick:(nonnull FBNativeAd *)nativeAd {
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
 }
 
-- (void)nativeAdDidFinishHandlingClick:(FBNativeAd *)nativeAd {
+- (void)nativeAdDidFinishHandlingClick:(nonnull FBNativeAd *)nativeAd {
   // Do nothing.
 }
 
 #pragma mark - FBMediaViewDelegate
 
-- (void)mediaViewVideoDidComplete:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
+- (void)mediaViewVideoDidComplete:(nonnull FBMediaView *)mediaView {
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
 }
 
-- (void)mediaViewVideoDidPlay:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
+- (void)mediaViewVideoDidPlay:(nonnull FBMediaView *)mediaView {
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
 }
 
-- (void)mediaViewVideoDidPause:(FBMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
+- (void)mediaViewVideoDidPause:(nonnull FBMediaView *)mediaView {
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
 }
 
-- (void)mediaViewDidLoad:(FBMediaView *)mediaView {
+- (void)mediaViewDidLoad:(nonnull FBMediaView *)mediaView {
   // Do nothing.
 }
 

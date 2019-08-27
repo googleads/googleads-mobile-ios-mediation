@@ -17,11 +17,12 @@
 
 @interface GADMAdapterInMobiRewardedAd : NSObject <GADMediationRewardedAd>
 
-- (nullable instancetype)initWithPlacementId:(long long)placementID;
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier;
 - (void)collectIMSignalsWithGACompletionHandler:
     (nonnull GADRTBSignalCompletionHandler)completionHandler;
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

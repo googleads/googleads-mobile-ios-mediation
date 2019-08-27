@@ -13,13 +13,18 @@
 // limitations under the License.
 
 #import "GADFBBannerRenderer.h"
-#import "GADFBError.h"
+#import <AdSupport/AdSupport.h>
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#include <stdatomic.h>
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
-#import <AdSupport/AdSupport.h>
 
-@interface GADFBBannerRenderer () <GADMediationBannerAd, FBAdViewDelegate> {
+@interface GADFBBannerRenderer () <GADMediationBannerAd, FBAdViewDelegate>
+
+@end
+
+@implementation GADFBBannerRenderer {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -32,21 +37,33 @@
   // An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
 
-  // FAN banner views can have flexible width. Set this property to the desired banner view's size.
-  // Set to CGSizeZero if resizing is not desired.
+  // Facebook Audience Network banner views can have flexible width. Set this property to the
+  // desired banner view's size. Set to CGSizeZero if resizing is not desired.
   CGSize _finalBannerSize;
 
   BOOL _isRTBRequest;
 }
 
-@end
-
-@implementation GADFBBannerRenderer
-
-- (void)renderBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+- (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   _adConfig = adConfiguration;
-  _adLoadCompletionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _adLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
+      _Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationBannerAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   _finalBannerSize = adConfiguration.adSize.size;
   if (adConfiguration.bidResponse) {
     _isRTBRequest = YES;
@@ -58,7 +75,7 @@
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
     NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
-    completionHandler(nil, error);
+    _adLoadCompletionHandler(nil, error);
     return;
   }
 
@@ -67,24 +84,25 @@
   UIViewController *rootViewController = adConfiguration.topViewController;
   if (!rootViewController) {
     NSError *error = GADFBErrorWithDescription(@"Root view controller cannot be nil.");
-    completionHandler(nil, error);
+    _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  NSError *__autoreleasing error = nil;
   // Create the Facebook banner view.
+  NSError *error = nil;
   _adView = [[FBAdView alloc] initWithPlacementID:placementID
                                        bidPayload:adConfiguration.bidResponse
                                rootViewController:adConfiguration.topViewController
                                             error:&error];
-  _adView.delegate = self;
 
   if (error) {
-    completionHandler(nil, error);
-  } else {
-    // Load ad.
-    [_adView loadAdWithBidPayload:adConfiguration.bidResponse];
+    _adLoadCompletionHandler(nil, error);
+    return;
   }
+
+  // Load ad.
+  _adView.delegate = self;
+  [_adView loadAdWithBidPayload:adConfiguration.bidResponse];
 }
 
 #pragma mark FBAdViewDelegate

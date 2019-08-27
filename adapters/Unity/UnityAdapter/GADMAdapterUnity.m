@@ -56,9 +56,6 @@
 }
 
 - (void)stopBeingDelegate {
-  if (_bannerDidLoad) {
-    [UnityAdsBanner destroy];
-  }
   [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
 }
 
@@ -121,7 +118,7 @@
   }
 
   _bannerDidLoad = NO;
-  [[GADMAdapterUnitySingleton sharedInstance] presentBannerAd:_gameID delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] requestBannerAdWithGameID:_gameID delegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {

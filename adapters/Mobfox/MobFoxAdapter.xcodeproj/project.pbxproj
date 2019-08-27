@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD267422F10B430039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD267622F10B430039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD267522F10B430039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		45E634DC222F0528006EB5A1 /* FatAdapter */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 45E634DD222F0528006EB5A1 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
@@ -37,6 +48,16 @@
 		45E6351A222F1B9B006EB5A1 /* GADMediationAdapterMobFox.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E634D5222F046F006EB5A1 /* GADMediationAdapterMobFox.h */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		00DD267922F10B6A0039C1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45E634B6222EFF72006EB5A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD267422F10B430039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		45E634BC222EFF72006EB5A1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -50,6 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00DD267322F10B400039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		45E634BE222EFF72006EB5A1 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		45E634C1222EFF72006EB5A1 /* MobFoxAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobFoxAdapter.h; sourceTree = "<group>"; };
 		45E634CE222F0081006EB5A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -131,6 +153,7 @@
 				45E634D0222F00FE006EB5A1 /* README.md */,
 				45E634D1222F0365006EB5A1 /* Script_Library.sh */,
 				45E634D2222F0371006EB5A1 /* Script_Framework.sh */,
+				00DD267322F10B400039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -172,6 +195,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD267A22F10B6A0039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = MobFoxAdapter;
@@ -187,6 +211,10 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
+					00DD267422F10B430039C1D4 = {
+						DevelopmentTeam = CSTR6SUWN9;
+						ProvisioningStyle = Automatic;
+					};
 					45E634BD222EFF72006EB5A1 = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = CSTR6SUWN9;
@@ -219,11 +247,30 @@
 				45E634BD222EFF72006EB5A1 /* Adapter */,
 				45E634DC222F0528006EB5A1 /* FatAdapter */,
 				45E634E0222F0536006EB5A1 /* Framework */,
+				00DD267422F10B430039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD267522F10B430039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		45E6351B222F1BA5006EB5A1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -271,7 +318,33 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		00DD267A22F10B6A0039C1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD267422F10B430039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD267922F10B6A0039C1D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		00DD267722F10B430039C1D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00DD267822F10B430039C1D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		45E634C5222EFF72006EB5A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45E634D9222F04BD006EB5A1 /* Adapter.xcconfig */;
@@ -449,6 +522,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD267622F10B430039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00DD267722F10B430039C1D4 /* Debug */,
+				00DD267822F10B430039C1D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		45E634B9222EFF72006EB5A1 /* Build configuration list for PBXProject "MobFoxAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

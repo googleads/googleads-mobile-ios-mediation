@@ -5,11 +5,10 @@
 //
 
 #import "GADMVASAdapterBaseClass.h"
+#import "GADMAdapterVerizonMediaConstants.h"
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
-
-static NSString *const kVASAdapterVersion = @"1.1.2.0";
 
 @interface GADMVASAdapterBaseClass ()
 
@@ -33,7 +32,7 @@ static NSString *const kVASAdapterVersion = @"1.1.2.0";
 #pragma mark - GADMAdNetworkAdapter
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  return nil;
+  return Nil;
 }
 
 + (NSString *)adapterVersion {
@@ -69,18 +68,21 @@ static NSString *const kVASAdapterVersion = @"1.1.2.0";
     return;
   }
 
-  __strong typeof(self.gadConnector) connector = self.gadConnector;
+  id<GADMAdNetworkConnector> connector = self.gadConnector;
 
-  CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
-  if (CGSizeEqualToSize(adSize, CGSizeZero)) {
+  GADAdSize adSize = [self supportedAdSizeFromRequestedSize:gadSize];
+  if (!IsGADAdSizeValid(adSize)) {
+    NSLog(@"Requested ad size (%@) is currently not supported by the Verizon Media adapter",
+          NSStringFromGADAdSize(gadSize));
     [connector adapter:self
-             didFailAd:[NSError errorWithDomain:kGADErrorDomain
+             didFailAd:[NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                                            code:kGADErrorInvalidRequest
                                        userInfo:nil]];
     return;
   }
 
-  VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.width height:adSize.height];
+  VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.size.width
+                                                          height:adSize.size.height];
   self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID
                                                                  adSizes:@[ size ]
                                                                   vasAds:[VASAds sharedInstance]
@@ -261,7 +263,7 @@ static NSString *const kVASAdapterVersion = @"1.1.2.0";
 - (BOOL)prepareAdapterForAdRequest {
   if (!self.placementID || !self.vasAds.isInitialized) {
     NSError *error = [NSError
-        errorWithDomain:kGADErrorDomain
+        errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                    code:kGADErrorMediationAdapterError
                userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
     [self.gadConnector adapter:self didFailAd:error];
@@ -341,17 +343,14 @@ static NSString *const kVASAdapterVersion = @"1.1.2.0";
              : nil;
 }
 
-- (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
   NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeBanner),
+    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard)
   ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  if (IsGADAdSizeValid(closestSize)) {
-    return CGSizeFromGADAdSize(closestSize);
-  }
 
-  return CGSizeZero;
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 @end
