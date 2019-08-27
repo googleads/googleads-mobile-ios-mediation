@@ -1,7 +1,11 @@
 # InMobi Adapter for Google Mobile Ads SDK for iOS
 
+## Version 7.3.2.0
+- Verified compatibility with InMobi SDK 7.3.2.
+- Added open bidding capability to the adapter for banner, interstitial and rewarded ad formats.
+
 ## Version 7.3.0.0
-- Verified compatibility with InMobi SDK 7.3.0
+- Verified compatibility with InMobi SDK 7.3.0.
 - Removed support for Native Content and App Install ad requests. Apps must use the Unified Native Ads API to request native ads.
 - Now requires Google Mobile Ads SDK version 7.46.0 or higher.
 
