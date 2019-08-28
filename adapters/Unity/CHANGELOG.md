@@ -1,9 +1,12 @@
 # Unity Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Version 3.2.0.0
+## Next version
 - Verified compatibility with Unity Ads SDK 3.2.0.
 - Now requires Google Mobile Ads SDK version 7.46.0 or higher.
 - Fixed an issue where Unity Banner ads would fail to show when loaded.
+
+## Version 3.2.0.0
+- Release was removed due to a regression on no-fill reporting.
 
 ## Version 3.1.0.0
 - Verified compatibility with Unity Ads SDK 3.1.0.
