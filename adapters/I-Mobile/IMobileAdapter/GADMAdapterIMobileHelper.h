@@ -13,9 +13,16 @@
 // limitations under the License.
 
 @import GoogleMobileAds;
-#import <ImobileSdkAds/ImobileSdkAds.h>
+#import "ImobileSdkAds/ImobileSdkAds.h"
 
-/// Adapter for native ads.
-@interface GADMediationAdapterIMobile : NSObject<GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
+/// Helper of mediation adapter.
+@interface GADMAdapterIMobileHelper : NSObject
+
+/// Create NSError from descritption.
++ (NSError *)errorWithDescritption:(NSString *)descritption
+                              code:(NSInteger)code;
+
+/// Convert i-mobile fail result to AdMob error code.
++ (NSInteger)getAdMobErrorWithIMobileResult:(ImobileSdkAdsFailResult)iMobileResult;
 
 @end
