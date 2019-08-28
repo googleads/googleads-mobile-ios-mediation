@@ -1,5 +1,9 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+## Version 4.0.0.0
+- Verified compatibility with AdColony SDK 4.0.
+- Added banner ad support.
+
 #### Version 3.3.8.1.0
 - Updating AdColony adapter to version 3.3.8.1.
 - Linting the code to follow Google's Objective-C code-style and guard against potential crashes.
