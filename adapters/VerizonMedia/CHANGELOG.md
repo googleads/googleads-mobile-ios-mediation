@@ -1,7 +1,7 @@
 # Verizon Media Mediation Adapter for Google Mobile Ads SDK for iOS
 
-## Earlier versions
-
+## Version 1.1.2.0
+- Initial release.
+- Verified compatibility with Verizon Ads Standard Edition version 1.1.2.
 - Supports banner and interstitial ads.
-- Supports rewarded video ads as custom event.
 - 'One by AOL' has been rebranded to 'Verizon Media'.
