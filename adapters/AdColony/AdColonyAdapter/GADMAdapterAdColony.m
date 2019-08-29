@@ -166,7 +166,9 @@
         UIViewController *viewController = [self.connector viewControllerForPresentingModalView];
         if (!viewController) {
             NSError *error = [GADMAdapterAdColonyHelper getErrorWithCode:kGADErrorInvalidRequest andDescription:@"View controller cannot be nil"];
-            [self.connector adapter:self didFailAd:error];
+             if (self.connector) {
+                 [self.connector adapter:self didFailAd:error];
+             }
             return;
         }
         [AdColony requestAdViewInZone:zone withSize:adColonyAdSize viewController:viewController andDelegate:self];
@@ -189,28 +191,40 @@
 #pragma mark - Banner Delegate
 - (void)adColonyAdViewDidLoad:(AdColonyAdView *)adView{
     NSLog(@"AdColonyAdapter [Info] : Banner ad loaded");
-    [self.connector adapter:self didReceiveAdView:adView];
+    if (self.connector) {
+        [self.connector adapter:self didReceiveAdView:adView];
+    }
 }
 
 - (void)adColonyAdViewDidFailToLoad:(AdColonyAdRequestError *)error{
     NSLog(@"AdColonyAdapter [Info] : Failed to load banner ad: %@", error.localizedDescription);
-    [self.connector adapter:self didFailAd:error];
+    if (self.connector){
+        [self.connector adapter:self didFailAd:error];
+    }
 }
 
 - (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView *)adView{
-    [self.connector adapterWillLeaveApplication:self];
+    if (self.connector){
+        [self.connector adapterWillLeaveApplication:self];
+    }
 }
 
 - (void)adColonyAdViewWillOpen:(AdColonyAdView *)adView{
-    [self.connector adapterWillPresentFullScreenModal:self];
+    if (self.connector){
+         [self.connector adapterWillPresentFullScreenModal:self];
+    }
 }
 
 - (void)adColonyAdViewDidClose:(AdColonyAdView *)adView{
-    [self.connector adapterDidDismissFullScreenModal:self];
+    if (self.connector){
+         [self.connector adapterDidDismissFullScreenModal:self];
+    }
 }
 
 - (void)adColonyAdViewDidReceiveClick:(AdColonyAdView *)adView{
-    [self.connector adapterDidGetAdClick:self];
+    if (self.connector){
+         [self.connector adapterDidGetAdClick:self];
+    }
 }
 
 @end
