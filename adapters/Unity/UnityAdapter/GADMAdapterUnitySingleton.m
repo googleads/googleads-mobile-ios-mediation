@@ -258,7 +258,7 @@
 - (void)unityAdsReady:(NSString *)placementID {
   id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
   @synchronized(_adapterDelegates) {
-    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
+    adapterDelegate = [_adapterDelegates objectForKey:placementID];
   }
 
   if (adapterDelegate) {
