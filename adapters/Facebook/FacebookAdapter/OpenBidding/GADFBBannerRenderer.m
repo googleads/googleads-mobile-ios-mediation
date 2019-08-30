@@ -100,6 +100,11 @@
     return;
   }
 
+  // Adds a watermark to the ad.
+  FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+  watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+  _adView.extraHint = watermarkHint;
+
   // Load ad.
   _adView.delegate = self;
   [_adView loadAdWithBidPayload:adConfiguration.bidResponse];

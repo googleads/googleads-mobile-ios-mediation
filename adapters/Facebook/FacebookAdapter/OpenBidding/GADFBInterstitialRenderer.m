@@ -77,6 +77,11 @@
   _interstitialAd = [[FBInterstitialAd alloc] initWithPlacementID:placementID];
   _interstitialAd.delegate = self;
 
+  // Adds a watermark to the ad.
+  FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+  watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+  _interstitialAd.extraHint = watermarkHint;
+
   // Load ad.
   [_interstitialAd loadAdWithBidPayload:adConfiguration.bidResponse];
 }

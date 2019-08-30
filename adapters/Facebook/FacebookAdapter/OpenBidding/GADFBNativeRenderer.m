@@ -90,6 +90,11 @@
   _nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementID];
   _nativeAd.delegate = self;
 
+  // Adds a watermark to the ad.
+  FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+  watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+  _nativeAd.extraHint = watermarkHint;
+
   // Load ad.
   [_nativeAd loadAdWithBidPayload:adConfiguration.bidResponse];
 }

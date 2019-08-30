@@ -87,6 +87,11 @@
   GADFBConfigureMediationService();
 
   if (_isRTBRequest) {
+    // Adds a watermark to the ad.
+    FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+    watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+    _rewardedAd.extraHint = watermarkHint;
+    // Load ad.
     [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
   } else {
     [_rewardedAd loadAd];
