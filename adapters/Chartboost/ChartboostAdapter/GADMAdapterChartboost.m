@@ -127,29 +127,29 @@
 - (void)getBannerWithSize:(GADAdSize)adSize {
   GADMAdapterChartboost *__weak weakSelf = self;
   [self initializeChartboost:^(NSError *_Nullable error) {
-    GADMAdapterChartboost *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
-
-    if (error) {
-      [strongSelf->_connector adapter:strongSelf didFailAd:error];
-      return;
-    }
-
-    UIViewController *viewController =
-        [strongSelf->_connector viewControllerForPresentingModalView];
-    GADMChartboostExtras *extras = [strongSelf extras];
-
-    if (extras.frameworkVersion && extras.framework) {
-      [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-    }
-    CHBBanner *banner = [[CHBBanner alloc] initWithSize:adSize.size
-                                               location:[strongSelf getAdLocation]
-                                               delegate:self];
-    banner.automaticallyRefreshesContent = NO;
-    strongSelf->_loadingBanner = banner;
-    [banner showFromViewController:viewController];
+      // CHBBanner is a UIView subclass so it needs to be used on the main thread
+      dispatch_async(dispatch_get_main_queue(), ^{
+          GADMAdapterChartboost *strongSelf = weakSelf;
+          if (!strongSelf) {
+              return;
+          }
+          if (error) {
+              [strongSelf->_connector adapter:strongSelf didFailAd:error];
+              return;
+          }
+          UIViewController *viewController =
+          [strongSelf->_connector viewControllerForPresentingModalView];
+          GADMChartboostExtras *extras = [strongSelf extras];
+          if (extras.frameworkVersion && extras.framework) {
+              [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+          }
+          CHBBanner *banner = [[CHBBanner alloc] initWithSize:adSize.size
+                                                     location:[strongSelf getAdLocation]
+                                                     delegate:self];
+          banner.automaticallyRefreshesContent = NO;
+          strongSelf->_loadingBanner = banner;
+          [banner showFromViewController:viewController];
+      });
   }];
 }
 
