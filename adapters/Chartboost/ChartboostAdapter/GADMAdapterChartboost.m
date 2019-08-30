@@ -133,16 +133,13 @@
           if (!strongSelf) {
               return;
           }
-          
           if (error) {
               [strongSelf->_connector adapter:strongSelf didFailAd:error];
               return;
           }
-          
           UIViewController *viewController =
           [strongSelf->_connector viewControllerForPresentingModalView];
           GADMChartboostExtras *extras = [strongSelf extras];
-          
           if (extras.frameworkVersion && extras.framework) {
               [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
           }
