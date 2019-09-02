@@ -13,9 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <IronSource/IronSource.h>
 @import GoogleMobileAds;
 
 @interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
-
 @end

@@ -1,0 +1,11 @@
+framework module VponAdapter {
+  umbrella header "VponAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Add any public headers here.
+}

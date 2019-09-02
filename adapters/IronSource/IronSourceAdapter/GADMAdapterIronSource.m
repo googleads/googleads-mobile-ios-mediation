@@ -14,10 +14,11 @@
 
 #import "GADMAdapterIronSource.h"
 #import "GADMAdapterIronSourceConstants.h"
+#import "GADMAdapterIronSourceInterstitialDelegate.h"
 #import "GADMAdapterIronSourceUtils.h"
 #import "ISMediationManager.h"
 
-@interface GADMAdapterIronSource () <GADMAdapterIronSourceDelegate> {
+@interface GADMAdapterIronSource () <GADMAdapterIronSourceInterstitialDelegate> {
   // Connector from Google Mobile Ads SDK to receive interstitial ad configurations.
   __weak id<GADMAdNetworkConnector> _interstitialConnector;
 }
@@ -26,7 +27,10 @@
 @property(nonatomic, assign) BOOL isLogEnabled;
 
 /// Holds the ID of the ad instance to be presented.
-@property(nonatomic, strong) NSString *instanceID;
+@property(nonatomic, copy) NSString *instanceID;
+
+/// Holds the state of the ad instance to be presented.
+@property(nonatomic, copy) NSString *instanceState;
 
 @end
 
@@ -42,7 +46,9 @@
   if (self) {
     _interstitialConnector = connector;
     // Default instance ID
-    _instanceID = @"0";
+    _instanceID = kGADMIronSourceDefaultInstanceId;
+    // Default instance state
+    _instanceState = kInstanceStateStart;
   }
   return self;
 }
@@ -61,19 +67,17 @@
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   NSDictionary *credentials = [strongConnector credentials];
-
   /* Parse enabling testing mode key for log */
   self.isLogEnabled = strongConnector.testMode;
-
   /* Parse application key */
   NSString *applicationKey = @"";
-  if ([credentials objectForKey:kGADMAdapterIronSourceAppKey]) {
-    applicationKey = [credentials objectForKey:kGADMAdapterIronSourceAppKey];
+  if (credentials[kGADMAdapterIronSourceAppKey]) {
+    applicationKey = credentials[kGADMAdapterIronSourceAppKey];
   }
 
   /* Parse instance id key */
-  if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
-    _instanceID = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
+  if (credentials[kGADMAdapterIronSourceInstanceId]) {
+    self.instanceID = credentials[kGADMAdapterIronSourceInstanceId];
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
@@ -85,18 +89,19 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-  ISMediationManager *sharedManager = [ISMediationManager sharedManager];
 
+  ISMediationManager *sharedManager = [ISMediationManager sharedManager];
   [sharedManager initIronSourceSDKWithAppKey:applicationKey
                                   forAdUnits:[NSSet setWithObject:IS_INTERSTITIAL]];
-  [sharedManager requestInterstitialAdWithDelegate:self];
+  [sharedManager loadInterstitialAdWithDelegate:self instanceID:self.instanceID];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [self onLog:[NSString stringWithFormat:@"Present IronSource interstitial ad for instance %@",
-                                         _instanceID]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"Present IronSource interstitial ad for instance %@",
+                                       self.instanceID]];
   [[ISMediationManager sharedManager] presentInterstitialAdFromViewController:rootViewController
-                                                                     delegate:self];
+                                                                   instanceID:self.instanceID];
 }
 
 #pragma mark Admob Banner
@@ -123,14 +128,14 @@
 
 /// Called after an interstitial has been loaded.
 - (void)interstitialDidLoad:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did load for instance %@",
-                                         instanceId]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad did load for instance %@",
+                                       instanceId]];
 
   // We will notify only changes regarding to the registered instance.
-  if (![_instanceID isEqualToString:instanceId]) {
+  if (![self.instanceID isEqualToString:instanceId]) {
     return;
   }
-
   [_interstitialConnector adapterDidReceiveInterstitial:self];
 }
 
@@ -141,10 +146,10 @@
       [NSString stringWithFormat:
                     @"IronSource interstitial ad did fail to load with error: %@, for instance: %@",
                     error.localizedDescription, instanceId];
-  [self onLog:log];
+  [GADMAdapterIronSourceUtils onLog:log];
 
   // We will notify only changes regarding to the registered instance.
-  if (![_instanceID isEqualToString:instanceId]) {
+  if (![self.instanceID isEqualToString:instanceId]) {
     return;
   }
 
@@ -155,39 +160,35 @@
           andSuggestion:
               @"Check that your network configuration are according to the documentation."];
   }
-
   [_interstitialConnector adapter:self didFailAd:error];
 }
 
 /// Called each time the Interstitial window is about to open.
 - (void)interstitialDidOpen:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did open for instance %@",
-                                         instanceId]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad did open for instance %@",
+                                       instanceId]];
   [_interstitialConnector adapterWillPresentInterstitial:self];
 }
 
 /// Called each time the Interstitial window is about to close.
 - (void)interstitialDidClose:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did close for instance %@",
-                                         instanceId]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad did close for instance %@",
+                                       instanceId]];
 
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
-/// Called each time the Interstitial window has opened successfully.
-- (void)interstitialDidShow:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did show for instance %@",
-                                         instanceId]];
-}
-
 /// Called if showing the Interstitial for the user has failed. You can learn about the reason by
 /// examining the |error| value.
 - (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"IronSource interstitial ad did fail to show with error "
-                                         @"%@, for instance: %@",
-                                         error.localizedDescription, instanceId]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad did fail to show with error "
+                                       @"%@, for instance: %@",
+                                       error.localizedDescription, instanceId]];
 
   if (!error) {
     error = [GADMAdapterIronSourceUtils
@@ -196,32 +197,32 @@
           andSuggestion:
               @"Please check that your configurations are according to the documentation."];
   }
-
-  [_interstitialConnector adapter:self didFailAd:error];
+  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
 }
 
 /// Called each time the end user has clicked on the Interstitial ad.
 - (void)didClickInterstitial:(NSString *)instanceId {
-  [self onLog:[NSString stringWithFormat:@"Did click IronSource interstitial ad for instance %@",
-                                         instanceId]];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"Did click IronSource interstitial ad for instance %@",
+                                       instanceId]];
 
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];
 }
 
-- (void)onLog:(NSString *)log {
-  if (_isLogEnabled) {
-    NSLog(@"IronSourceAdapter: %@", log);
-  }
+- (NSString *)getState {
+  return self.instanceState;
 }
 
-- (void)didFailToLoadAdWithError:(NSError *)error {
-  [_interstitialConnector adapter:self didFailAd:error];
-}
-
-- (NSString *)getInstanceID {
-  return _instanceID;
+- (void)setState:(NSString *)state {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"IS Instance setState: changing from oldState=%@ to newState=%@",
+                                 self.instanceState, state]];
+  self.instanceState = state;
 }
 
 @end

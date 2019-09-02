@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD263322F108B40039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD263522F108B40039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD263422F108B40039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -32,18 +43,32 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00AC999622E9265A00262599 /* GADMAdapterTapjoyUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */; };
+		00AC999722E9265A00262599 /* GADMAdapterTapjoyUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */; };
+		452D97DA22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */; };
+		452D97DB22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */; };
+		453B0B3C229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 453B0B3A229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h */; };
+		453B0B3D229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 453B0B3B229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.m */; };
 		4588B2E622498B4800868387 /* GADMAdapterTapjoySingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 4588B2E422498B4800868387 /* GADMAdapterTapjoySingleton.h */; };
 		4588B2E722498B4800868387 /* GADMAdapterTapjoySingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4588B2E522498B4800868387 /* GADMAdapterTapjoySingleton.m */; };
 		45E6363622386F39006EB5A1 /* GADMediationAdapterTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */; };
 		45E6363722386F39006EB5A1 /* GADMediationAdapterTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6363522386F39006EB5A1 /* GADMediationAdapterTapjoy.m */; };
-		45E6363A22386FB0006EB5A1 /* GADMRewardedAdTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E6363822386FB0006EB5A1 /* GADMRewardedAdTapjoy.h */; };
-		45E6363B22386FB0006EB5A1 /* GADMRewardedAdTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6363922386FB0006EB5A1 /* GADMRewardedAdTapjoy.m */; };
 		88898C1E1DDFD11700B0E673 /* GADMAdapterTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 88898C1C1DDFD11700B0E673 /* GADMAdapterTapjoy.h */; };
 		88898C1F1DDFD11700B0E673 /* GADMAdapterTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 88898C1D1DDFD11700B0E673 /* GADMAdapterTapjoy.m */; };
 		8895D57F1E01D620008BE231 /* GADMTapjoyExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 8895D57C1E01D620008BE231 /* GADMTapjoyExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8895D5801E01D620008BE231 /* TapjoyAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8895D57D1E01D620008BE231 /* TapjoyAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8895D5821E01D676008BE231 /* GADMTapjoyExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 8895D5811E01D676008BE231 /* GADMTapjoyExtras.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00DD263822F108D20039C1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD263322F108B40039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
@@ -58,12 +83,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoyUtils.h; sourceTree = "<group>"; };
+		00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterTapjoyUtils.m; sourceTree = "<group>"; };
+		00DD263222F108AE0039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRewardedAdTapjoy.h; sourceTree = "<group>"; };
+		452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMRewardedAdTapjoy.m; sourceTree = "<group>"; };
+		453B0B3A229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRTBInterstitialRendererTapjoy.h; sourceTree = "<group>"; };
+		453B0B3B229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMRTBInterstitialRendererTapjoy.m; sourceTree = "<group>"; };
 		4588B2E422498B4800868387 /* GADMAdapterTapjoySingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoySingleton.h; sourceTree = "<group>"; };
 		4588B2E522498B4800868387 /* GADMAdapterTapjoySingleton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterTapjoySingleton.m; sourceTree = "<group>"; };
 		45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterTapjoy.h; sourceTree = "<group>"; };
 		45E6363522386F39006EB5A1 /* GADMediationAdapterTapjoy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterTapjoy.m; sourceTree = "<group>"; };
-		45E6363822386FB0006EB5A1 /* GADMRewardedAdTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRewardedAdTapjoy.h; sourceTree = "<group>"; };
-		45E6363922386FB0006EB5A1 /* GADMRewardedAdTapjoy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMRewardedAdTapjoy.m; sourceTree = "<group>"; };
 		45E6363C2238809E006EB5A1 /* GADMAdapterTapjoyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoyConstants.h; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -93,19 +123,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		453B0B39229F5FF600D60AB3 /* OpenBidding */ = {
+			isa = PBXGroup;
+			children = (
+				453B0B3A229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h */,
+				453B0B3B229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.m */,
+			);
+			path = OpenBidding;
+			sourceTree = "<group>";
+		};
 		7D1BDEB21DD283920081D7AD /* TapjoyAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				453B0B39229F5FF600D60AB3 /* OpenBidding */,
 				88898C1C1DDFD11700B0E673 /* GADMAdapterTapjoy.h */,
+				00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */,
+				00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */,
 				88898C1D1DDFD11700B0E673 /* GADMAdapterTapjoy.m */,
 				8895D5811E01D676008BE231 /* GADMTapjoyExtras.m */,
 				45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */,
 				45E6363522386F39006EB5A1 /* GADMediationAdapterTapjoy.m */,
-				45E6363822386FB0006EB5A1 /* GADMRewardedAdTapjoy.h */,
-				45E6363922386FB0006EB5A1 /* GADMRewardedAdTapjoy.m */,
 				45E6363C2238809E006EB5A1 /* GADMAdapterTapjoyConstants.h */,
 				4588B2E422498B4800868387 /* GADMAdapterTapjoySingleton.h */,
 				4588B2E522498B4800868387 /* GADMAdapterTapjoySingleton.m */,
+				452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */,
+				452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */,
 			);
 			path = TapjoyAdapter;
 			sourceTree = "<group>";
@@ -126,6 +168,7 @@
 				7D9083781E4BCF4C0071C8AD /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				00DD263222F108AE0039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -176,12 +219,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00AC999622E9265A00262599 /* GADMAdapterTapjoyUtils.h in Headers */,
 				4588B2E622498B4800868387 /* GADMAdapterTapjoySingleton.h in Headers */,
+				453B0B3C229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h in Headers */,
 				8895D57F1E01D620008BE231 /* GADMTapjoyExtras.h in Headers */,
 				8895D5801E01D620008BE231 /* TapjoyAdapter.h in Headers */,
-				45E6363A22386FB0006EB5A1 /* GADMRewardedAdTapjoy.h in Headers */,
 				88898C1E1DDFD11700B0E673 /* GADMAdapterTapjoy.h in Headers */,
 				45E6363622386F39006EB5A1 /* GADMediationAdapterTapjoy.h in Headers */,
+				452D97DA22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +245,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD263922F108D20039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -231,6 +277,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -241,11 +288,26 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				00DD263322F108B40039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD263422F108B40039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -281,17 +343,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45E6363B22386FB0006EB5A1 /* GADMRewardedAdTapjoy.m in Sources */,
 				45E6363722386F39006EB5A1 /* GADMediationAdapterTapjoy.m in Sources */,
 				8895D5821E01D676008BE231 /* GADMTapjoyExtras.m in Sources */,
+				452D97DB22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m in Sources */,
 				88898C1F1DDFD11700B0E673 /* GADMAdapterTapjoy.m in Sources */,
 				4588B2E722498B4800868387 /* GADMAdapterTapjoySingleton.m in Sources */,
+				00AC999722E9265A00262599 /* GADMAdapterTapjoyUtils.m in Sources */,
+				453B0B3D229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		00DD263922F108D20039C1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD263322F108B40039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD263822F108D20039C1D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		00DD263622F108B40039C1D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00DD263722F108B40039C1D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -418,6 +506,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD263522F108B40039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00DD263622F108B40039C1D4 /* Debug */,
+				00DD263722F108B40039C1D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 00DD26B022F10DDC0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				00DD26AF22F10DDC0039C1D4 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = Framework;
+		};
 		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -38,6 +49,9 @@
 		4552392920B6381E0081388F /* VungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392620B6381D0081388F /* VungleRouter.h */; };
 		4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552392720B6381D0081388F /* VungleRouterConsent.m */; };
 		4552392C20B638270081388F /* VungleRouterConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392B20B638270081388F /* VungleRouterConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */; };
+		4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */; };
+		4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */; };
 		45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */; };
 		45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */; };
 		45BFFB5D22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */; };
@@ -52,6 +66,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD26AC22F10DDC0039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
 		A8435CF31F152C8E00AA595E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
@@ -81,10 +102,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		4552392520B6381D0081388F /* VungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouter.m; sourceTree = "<group>"; };
 		4552392620B6381D0081388F /* VungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouter.h; sourceTree = "<group>"; };
 		4552392720B6381D0081388F /* VungleRouterConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConsent.m; sourceTree = "<group>"; };
 		4552392B20B638270081388F /* VungleRouterConsent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouterConsent.h; sourceTree = "<group>"; };
+		4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleConstants.h; sourceTree = "<group>"; };
+		4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleUtils.h; sourceTree = "<group>"; };
+		4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleUtils.m; sourceTree = "<group>"; };
 		45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterVungle.h; sourceTree = "<group>"; };
 		45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterVungle.m; sourceTree = "<group>"; };
 		45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRewardedAd.h; sourceTree = "<group>"; };
@@ -134,6 +159,9 @@
 				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
 				45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */,
 				45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */,
+				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
+				4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */,
+				4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */,
 			);
 			path = VungleAdapter;
 			sourceTree = "<group>";
@@ -173,6 +201,7 @@
 				7D264FF21DDD1B9400027720 /* README.md */,
 				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */,
 			);
 			path = BuildScript;
 			sourceTree = "<group>";
@@ -205,12 +234,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */,
 				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
 				45BFFB5D22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h in Headers */,
 				7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */,
 				56C4F0F21F29531200BABF7E /* VungleAdNetworkExtras.h in Headers */,
 				A85428E21F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
 				45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */,
+				4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */,
 				4552392920B6381E0081388F /* VungleRouter.h in Headers */,
 				4552392C20B638270081388F /* VungleRouterConsent.h in Headers */,
 			);
@@ -231,6 +262,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				00DD26B422F10DF80039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -262,6 +294,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -272,11 +305,26 @@
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
 				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00DD26AF22F10DDC0039C1D4 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,12 +367,18 @@
 				A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */,
 				A85428E31F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
 				4552392820B6381D0081388F /* VungleRouter.m in Sources */,
+				4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00DD26B422F10DF80039C1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
+			targetProxy = 00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */;
+		};
 		A8435CF41F152C8E00AA595E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7DFABB1C1DA8682C00322E02 /* Adapter */;
@@ -338,6 +392,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		00DD26B122F10DDC0039C1D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		00DD26B222F10DDC0039C1D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -390,6 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -426,6 +497,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -438,7 +510,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -450,7 +522,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -472,6 +544,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00DD26B022F10DDC0039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00DD26B122F10DDC0039C1D4 /* Debug */,
+				00DD26B222F10DDC0039C1D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

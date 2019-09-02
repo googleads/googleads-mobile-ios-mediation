@@ -19,7 +19,7 @@
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
-@interface GADMAdapterTapjoy () <TJPlacementVideoDelegate, TJPlacementDelegate> {
+@interface GADMAdapterTapjoy () <TJPlacementDelegate, TJPlacementVideoDelegate> {
   // Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _interstitialConnector;
 
@@ -58,8 +58,8 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSString *sdkKey = [[strongConnector credentials] objectForKey:kGADMAdapterTapjoySdkKey];
-  _placementName = [[strongConnector credentials] objectForKey:kGADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = strongConnector.credentials[kGADMAdapterTapjoySdkKey];
+  _placementName = strongConnector.credentials[kGADMAdapterTapjoyPlacementKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = [NSError
@@ -146,6 +146,26 @@
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
+}
+
+- (void)didClick:(TJPlacement *)placement {
+  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
+}
+
+#pragma mark Tapjoy Video
+
+- (void)videoDidStart:(TJPlacement *)placement {
+  // Do nothing
+}
+
+- (void)videoDidComplete:(TJPlacement *)placement {
+  // Do nothing
+}
+
+- (void)videoDidFail:(TJPlacement *)placement error:(NSString *)errorMsg {
+  // Do nothing
 }
 
 @end

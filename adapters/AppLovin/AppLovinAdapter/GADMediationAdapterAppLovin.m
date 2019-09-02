@@ -114,14 +114,15 @@
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
   // Check if supported ad format
-  if (params.credentials.format == GADAdFormatNative) {
+  if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
     [self handleCollectSignalsFailureForMessage:
               @"Requested to collect signal for unsupported native ad format. Ignoring..."
                               completionHandler:completionHandler];
     return;
   }
 
-  ALSdk *sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:params.credentials.settings];
+  ALSdk *sdk = [GADMAdapterAppLovinUtils
+                retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
 
   NSString *signal = sdk.adService.bidToken;
 
@@ -162,7 +163,8 @@
 
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self.interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
       initWithAdConfiguration:adConfiguration
             completionHandler:completionHandler];
@@ -170,7 +172,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];

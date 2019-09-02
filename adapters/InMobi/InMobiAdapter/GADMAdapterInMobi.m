@@ -8,19 +8,16 @@
 #import <InMobiSDK/IMSdk.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
-#import "InMobiMediatedNativeAppInstallAd.h"
+#import "InMobiMediatedUnifiedNativeAd.h"
 #import "NativeAdKeys.h"
-#import "GADMAdapterInMobiUtils.h"
-#import "GADMediationAdapterInMobi.h"
 
 @interface GADMAdapterInMobi ()
 @property(nonatomic, assign) CGFloat width, height;
-@property(nonatomic, strong) InMobiMediatedNativeAppInstallAd *installAd;
+@property(nonatomic, strong) InMobiMediatedUnifiedNativeAd *nativeAd;
 @property(nonatomic, strong) GADInMobiExtras *extraInfo;
-@property(nonatomic, assign) BOOL isAppInstallRequest;
-@property(nonatomic, assign) BOOL isNativeContentRequest;
 @property(nonatomic, assign) BOOL shouldDownloadImages;
 @property(nonatomic, assign) BOOL serveAnyAd;
 @end
@@ -71,15 +68,13 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (instancetype)initWithGADMAdNetworkConnector:(id)connector {
   self.connector = connector;
-  self.isAppInstallRequest = NO;
-  self.isNativeContentRequest = NO;
   self.shouldDownloadImages = YES;
   self.serveAnyAd = NO;
   if ((self = [super init])) {
     self.connector = connector;
   }
   [IMSdk initWithAccountID:self.connector.credentials[kGADMAdapterInMobiAccountID]
-         consentDictionary:[GADMInMobiConsent getConsent]];
+         consentDictionary:GADMInMobiConsent.consent];
   isAccountInitialised = true;
   NSLog(@"Initialized successfully");
   return self;
@@ -176,22 +171,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
           @"Inmobi");
   }
 
-  for (NSString *adType in adTypes) {
-    if ([adType isEqual:kGADAdLoaderAdTypeNativeContent]) {
-      self.isNativeContentRequest = YES;
-    } else if ([adType isEqual:kGADAdLoaderAdTypeNativeAppInstall]) {
-      self.isAppInstallRequest = YES;
-    }
-  }
-  self.serveAnyAd = (self.isAppInstallRequest && self.isNativeContentRequest);
-
-  if (!self.serveAnyAd) {
-    GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                            code:kGADErrorInvalidRequest
-                                                        userInfo:nil];
-    [self.connector adapter:self didFailAd:reqError];
-    return;
-  }
   for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
     if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       continue;
@@ -359,7 +338,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error {
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -415,7 +394,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     didFailToLoadWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -438,7 +417,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     didFailToPresentWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -481,19 +460,14 @@ __attribute__((constructor)) static void initialize_imageCache() {
                                                             code:kGADErrorMediationNoFill
                                                         userInfo:nil];
     [self.connector adapter:self didFailAd:reqError];
-    self.isNativeContentRequest = NO;
-    self.isAppInstallRequest = NO;
     return;
   }
 
-  self.installAd = [[InMobiMediatedNativeAppInstallAd alloc]
-      initWithInMobiNativeAppInstallAd:native
-                           withAdapter:self
-                   shouldDownloadImage:self.shouldDownloadImages
-                             withCache:imageCache];
-
-  self.isNativeContentRequest = NO;
-  self.isAppInstallRequest = NO;
+  self.nativeAd =
+      [[InMobiMediatedUnifiedNativeAd alloc] initWithInMobiUnifiedNativeAd:native
+                                                                   adapter:self
+                                                       shouldDownloadImage:self.shouldDownloadImages
+                                                                     cache:imageCache];
 }
 
 /**
@@ -501,7 +475,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)native:(IMNative *)native didFailToLoadWithError:(IMRequestStatus *)error {
   NSLog(@"Native Ad failed to load");
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
       [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
@@ -510,8 +484,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
                                                       userInfo:errorInfo];
 
   [self.connector adapter:self didFailAd:reqError];
-  self.isNativeContentRequest = NO;
-  self.isAppInstallRequest = NO;
 }
 
 /**
@@ -519,7 +491,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillPresentScreen:(IMNative *)native {
   NSLog(@"Native Will Present screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.installAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
 }
 
 /**
@@ -534,7 +506,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillDismissScreen:(IMNative *)native {
   NSLog(@"Native Will dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.installAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
 }
 
 /**
@@ -542,7 +514,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeDidDismissScreen:(IMNative *)native {
   NSLog(@"Native Did dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.installAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
 }
 
 /**
@@ -555,7 +527,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)nativeAdImpressed:(IMNative *)native {
   NSLog(@"InMobi recorded impression successfully");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.installAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
 }
 
 - (void)native:(IMNative *)native didInteractWithParams:(NSDictionary *)params {

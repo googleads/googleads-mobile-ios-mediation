@@ -15,10 +15,6 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface GADMediationAdapterTapjoy : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterTapjoy : NSObject <GADRTBAdapter>
 
 @end
-
-NS_ASSUME_NONNULL_END

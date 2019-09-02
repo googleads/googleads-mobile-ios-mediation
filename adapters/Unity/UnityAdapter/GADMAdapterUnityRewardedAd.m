@@ -27,6 +27,9 @@
   // An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
+  /// Game ID of Unity Ads network.
+  NSString *_gameID;
+
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
 
@@ -50,16 +53,18 @@
 }
 
 - (void)requestRewardedAd {
-  NSString *gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
-
+  _gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
   _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
+  NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
 
   GADMAdapterUnityRewardedAd __weak *weakSelf = self;
 
-  if (!gameID || !_placementID) {
-    NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
-    _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
+  if (!_gameID || !_placementID) {
+    if (_adLoadCompletionHandler) {
+      NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+      _adLoadCompletionHandler(nil, error);
+      _adLoadCompletionHandler = nil;
+    }
     return;
   }
 
@@ -68,14 +73,24 @@
         [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
                                          NSStringFromClass([UnityAds class])];
 
-    NSError *error = GADUnityErrorWithDescription(description);
-    _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
+    if (_adLoadCompletionHandler) {
+      NSError *error = GADUnityErrorWithDescription(description);
+      _adLoadCompletionHandler(nil, error);
+      _adLoadCompletionHandler = nil;
+    }
     return;
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] configureRewardedAdWithGameID:gameID];
-  _isLoading = YES;
+  if ([UnityAds isReady:_placementID]) {
+    if (_adLoadCompletionHandler) {
+      _adEventDelegate = _adLoadCompletionHandler(self, nil);
+      _adLoadCompletionHandler = nil;
+    }
+    _isLoading = NO;
+  } else {
+    _isLoading = YES;
+  }
+
   [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }
 
@@ -90,6 +105,10 @@
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
+
+- (NSString *)getGameID {
+  return _gameID;
+}
 
 - (NSString *)getPlacementID {
   return _placementID;
@@ -106,9 +125,11 @@
     return;
   }
 
-  NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-  _adLoadCompletionHandler(nil, errorWithDescription);
-  _adLoadCompletionHandler = nil;
+  if (_adLoadCompletionHandler) {
+    NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+    _adLoadCompletionHandler(nil, errorWithDescription);
+    _adLoadCompletionHandler = nil;
+  }
   _isLoading = NO;
 }
 
@@ -138,8 +159,11 @@
   if (!_isLoading) {
     return;
   }
-  _adEventDelegate = _adLoadCompletionHandler(self, nil);
-  _adLoadCompletionHandler = nil;
+
+  if (_adLoadCompletionHandler) {
+    _adEventDelegate = _adLoadCompletionHandler(self, nil);
+    _adLoadCompletionHandler = nil;
+  }
   _isLoading = NO;
 }
 

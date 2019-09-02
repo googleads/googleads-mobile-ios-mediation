@@ -18,7 +18,8 @@
 @interface GADFBBannerRenderer : NSObject
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
+- (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 
 @end

@@ -17,11 +17,14 @@
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMAdapterTapjoyUtils.h"
+#import "GADMRTBInterstitialRendererTapjoy.h"
 #import "GADMRewardedAdTapjoy.h"
 #import "GADMTapjoyExtras.h"
 
 @interface GADMediationAdapterTapjoy ()
 
+@property(nonatomic, strong) GADMRTBInterstitialRendererTapjoy *interstitialRenderer;
 @property(nonatomic, strong) GADMRewardedAdTapjoy *rewardedAd;
 
 @end
@@ -34,18 +37,30 @@
   NSMutableSet *sdkKeys = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [sdkKeys addObject:[cred.settings valueForKey:kGADMAdapterTapjoySdkKey]];
+    NSString *sdkKeyFromSettings = cred.settings[kGADMAdapterTapjoySdkKey];
+    GADMAdapterTapjoyMutableSetAddObject(sdkKeys, sdkKeyFromSettings);
+  }
+
+  if (!sdkKeys.count) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
+                            code:kGADErrorMediationDataError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey :
+                              @"Tapjoy mediation configurations did not contain a valid SDK Key."
+                        }];
+    completionHandler(error);
+    return;
   }
 
   NSString *sdkKey = [sdkKeys anyObject];
-
   if (sdkKeys.count > 1) {
-    NSLog(
-        @"Found the following sdk keys: %@. Please remove any sdk keys you are not using from the "
-        @"AdMob UI.",
-        sdkKeys);
-    NSLog(@"Initializing Tapjoy SDK with the sdk key %@", sdkKey);
+    NSLog(@"Found the following sdk keys: %@. "
+          @"Please remove any sdk keys you are not using from the AdMob UI.",
+          sdkKeys);
+    NSLog(@"Initializing Tapjoy SDK with the sdk key: %@", sdkKey);
   }
+
   NSMutableDictionary *connectOptions = [[NSMutableDictionary alloc] init];
   [[GADMAdapterTapjoySingleton sharedInstance] initializeTapjoySDKWithSDKKey:sdkKey
                                                                      options:connectOptions
@@ -75,7 +90,7 @@
   NSArray *versionComponents = [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 4) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
@@ -84,11 +99,28 @@
   return version;
 }
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  NSString *signals = [Tapjoy getUserToken];
+  completionHandler(signals, nil);
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialRenderer = [[GADMRTBInterstitialRendererTapjoy alloc] init];
+  [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
+                                     completionHandler:completionHandler];
+}
+
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdTapjoy alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMRewardedAdTapjoy alloc] init];
+
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
+
 @end

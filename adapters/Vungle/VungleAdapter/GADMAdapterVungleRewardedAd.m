@@ -1,7 +1,10 @@
 #import "GADMAdapterVungleRewardedAd.h"
+#include <stdatomic.h>
+#import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleUtils.h"
 #import "VungleRouter.h"
 
-@interface GADMAdapterVungleRewardedAd () <VungleDelegate>
+@interface GADMAdapterVungleRewardedAd () <VungleDelegate, VungleSDKDelegate>
 
 @property(nonatomic, strong) GADMediationRewardedAdConfiguration *adConfiguration;
 @property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
@@ -12,102 +15,85 @@
 @implementation GADMAdapterVungleRewardedAd
 
 // To check if the ad is presenting so that we don't call 'adLoadCompletionHandler' twice.
-BOOL _isAdInUse;
+BOOL _isRewardedAdPresenting;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;
-    self.adLoadCompletionHandler = handler;
+
+    __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler origAdLoadHandler = [handler copy];
+
+    // Ensure the original completion handler is only called once, and is deallocated once called.
+    self.adLoadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+        id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+      if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
+        return nil;
+      }
+
+      id<GADMediationRewardedAdEventDelegate> delegate = nil;
+      if (origAdLoadHandler) {
+        delegate = origAdLoadHandler(rewardedAd, error);
+      }
+
+      origAdLoadHandler = nil;
+      return delegate;
+    };
   }
   return self;
 }
 
 - (void)requestRewardedAd {
-
-  desiredPlacement = [VungleRouter findPlacement:[[self.adConfiguration credentials] settings]
-                                   networkExtras:[self.adConfiguration extras]];
+  desiredPlacement = [GADMAdapterVungleUtils findPlacement:self.adConfiguration.credentials.settings
+                                             networkExtras:self.adConfiguration.extras];
   if (!desiredPlacement) {
     NSError *error =
-        [NSError errorWithDomain:@"GADMAdapterVungleRewardedAd"
+        [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
                             code:0
                         userInfo:@{NSLocalizedDescriptionKey : @"'placementID' not specified"}];
     self.adLoadCompletionHandler(nil, error);
-    self.adLoadCompletionHandler = nil;
     return;
   }
-
-  NSArray *delegates = [[VungleRouter sharedInstance] getDelegates];
-
-  for (id<VungleDelegate> value in delegates) {
-    if ([[value desiredPlacement] isEqualToString:desiredPlacement]) {
-      NSError *error = [NSError
-        errorWithDomain:@"GADMAdapterVungleRewardedAd"
-                  code:0
-              userInfo:@{
-                NSLocalizedDescriptionKey : @"Can't request ad if another request is in processing."
-              }];
-      self.adLoadCompletionHandler(nil, error);
-      self.adLoadCompletionHandler = nil;
-      return;
-    }
-  }
-  GADMAdapterVungleRewardedAd __weak *weakSelf = self;
-  [[VungleRouter sharedInstance] addDelegate:weakSelf];
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  __block NSDictionary *userInfo;
 
   if (![sdk isInitialized]) {
-    [VungleRouter parseServerParameters:[[self.adConfiguration credentials] settings]
-                          networkExtras:[self.adConfiguration extras]
-                                 result:^void(NSDictionary *error, NSString *appId) {
-                                   if (error) {
-                                     userInfo = [[NSDictionary alloc] initWithDictionary:error];
-                                     return;
-                                   }
-                                   [[VungleRouter sharedInstance] initWithAppId:appId delegate:self];
-                                 }];
-  }
-
-  if (userInfo) {
-    NSError *adapterError = [NSError errorWithDomain:@"GADMAdapterVungleRewardedAd"
-                                                code:0
-                                            userInfo:userInfo];
-    self.adLoadCompletionHandler(nil, adapterError);
-    self.adLoadCompletionHandler = nil;
-    return;
-  }
-
-  if ([sdk isAdCachedForPlacementID:desiredPlacement]) {
-    self.delegate = self.adLoadCompletionHandler(self, nil);
-    self.adLoadCompletionHandler = nil;
+    NSString *appID = [GADMAdapterVungleUtils findAppID:self.adConfiguration.credentials.settings];
+    if (appID) {
+      [[VungleRouter sharedInstance] initWithAppId:appID delegate:self];
+    } else {
+      NSError *error = [NSError
+          errorWithDomain:kGADMAdapterVungleErrorDomain
+                     code:0
+                 userInfo:@{NSLocalizedDescriptionKey : @"Vungle app ID should be specified!"}];
+      self.adLoadCompletionHandler(nil, error);
+    }
   } else {
-    [[VungleRouter sharedInstance] loadAd:desiredPlacement];
+    [self loadRewardedAd];
+  }
+}
+
+- (void)loadRewardedAd {
+  NSError *error = [[VungleRouter sharedInstance] loadAd:desiredPlacement withDelegate:self];
+  if (error) {
+    self.adLoadCompletionHandler(nil, error);
   }
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  _isAdInUse = YES;
+  _isRewardedAdPresenting = YES;
   if (![[VungleRouter sharedInstance] playAd:viewController
                                     delegate:self
                                       extras:[self.adConfiguration extras]]) {
     NSError *error = [NSError
-        errorWithDomain:@"GADMAdapterVungleRewardedAd"
+        errorWithDomain:kGADMAdapterVungleErrorDomain
                    code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Adapter failed to present rewarded ad"
-               }];
+               userInfo:@{NSLocalizedDescriptionKey : @"Adapter failed to present rewarded ad"}];
     self.adLoadCompletionHandler(nil, error);
     self.adLoadCompletionHandler = nil;
   }
-}
-
-- (void)dealloc {
-  self.adLoadCompletionHandler = nil;
-  self.adConfiguration = nil;
-  [[VungleRouter sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - VungleRouter delegates
@@ -115,16 +101,16 @@ BOOL _isAdInUse;
 @synthesize desiredPlacement;
 
 - (void)initialized:(BOOL)isSuccess error:(NSError *)error {
-  if (!isSuccess) {
+  if (isSuccess) {
+    [self loadRewardedAd];
+  } else {
     self.adLoadCompletionHandler(nil, error);
-    self.adLoadCompletionHandler = nil;
   }
 }
 
 - (void)adAvailable {
-  if (!_isAdInUse) {
+  if (!_isRewardedAdPresenting) {
     self.delegate = self.adLoadCompletionHandler(self, nil);
-    self.adLoadCompletionHandler = nil;
   }
 }
 
@@ -145,9 +131,7 @@ BOOL _isAdInUse;
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  _isAdInUse = NO;
-  GADMAdapterVungleRewardedAd __weak *weakSelf = self;
-  [[VungleRouter sharedInstance] removeDelegate:weakSelf];
+  _isRewardedAdPresenting = NO;
   [self.delegate willDismissFullScreenView];
 }
 
@@ -156,6 +140,10 @@ BOOL _isAdInUse;
   [strongDelegate willPresentFullScreenView];
   [strongDelegate reportImpression];
   [strongDelegate didStartVideo];
+}
+
+- (void)adNotAvailable:(NSError *)error {
+  self.adLoadCompletionHandler(nil, error);
 }
 
 @end

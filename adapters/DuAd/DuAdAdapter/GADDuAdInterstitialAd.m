@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADDuAdInterstitialAd.h"
+#import "GADMAdapterDuAdConstants.h"
 
 @import DUModuleSDK;
 @import GoogleMobileAds;
@@ -62,7 +63,7 @@
 
   // -[DUInterstitialAd initWithPlacementID:adSize:rootViewController:] throws an
   // NSInvalidArgumentException if the placement ID is nil.
-  NSString *placementID = [strongConnector credentials][@"placementId"];
+  NSString *placementID = strongConnector.credentials[kGADMAdapterDuAdPlacementID];
   if (!placementID) {
     NSError *error = GADDUErrorWithDescription(@"Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];

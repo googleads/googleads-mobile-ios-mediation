@@ -5,42 +5,16 @@
 #import "GADMAdapterAdColonyHelper.h"
 #import <AdColony/AdColony.h>
 #import "GADMAdapterAdColony.h"
+#import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
 @implementation GADMAdapterAdColonyHelper
 
-+ (AdColonyAppOptions *)getAppOptionsFromExtras:(GADMAdapterAdColonyExtras *)extras {
-  AdColonyAppOptions *options = [AdColonyAppOptions new];
-  options.userMetadata = [AdColonyUserMetadata new];
-
-  if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
-    options.userID = extras.userId;
-    options.testMode = extras.testMode;
-    if (extras.gdprRequired) {
-      options.gdprRequired = extras.gdprRequired;
-      options.gdprConsentString = extras.gdprConsentString;
-    }
-  }
-
-  [options setMediationNetwork:ADCAdMob];
-  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
-  return options;
-}
-
 + (AdColonyAppOptions *)getAppOptionsFromConnector:(id<GADMAdNetworkConnector>)connector {
-  GADMAdapterAdColonyExtras *extras = connector.networkExtras;
-  AdColonyAppOptions *options;
-
-  if (extras) {
-    options = [self getAppOptionsFromExtras:extras];
-  }
-
-  if (!options) {
-    options = [AdColonyAppOptions new];
-    options.userMetadata = [AdColonyUserMetadata new];
-  }
+  AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
+  options.userMetadata = [AdColonyUserMetadata new];
 
   if ([connector userHasLocation]) {
     options.userMetadata.userLatitude = @([connector userLatitude]);
@@ -59,26 +33,29 @@
     options.userMetadata.userAge = [self getNumberOfYearsSinceDate:birthday];
   }
 
+  [options setMediationNetwork:ADCAdMob];
+  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
+
   return options;
 }
 
 + (AdColonyAppOptions *)getAppOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig {
-  GADMAdapterAdColonyExtras *extras = adConfig.extras;
-  AdColonyAppOptions *options;
-
-  if (extras) {
-    options = [self getAppOptionsFromExtras:extras];
-  }
-
-  if (!options) {
-    options = [AdColonyAppOptions new];
-    options.userMetadata = [AdColonyUserMetadata new];
-  }
+  AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
+  options.userMetadata = [AdColonyUserMetadata new];
 
   if ([adConfig hasUserLocation]) {
     options.userMetadata.userLatitude = @([adConfig userLatitude]);
     options.userMetadata.userLongitude = @([adConfig userLongitude]);
   }
+
+  // Set mediation network depending upon type of adapter (Legacy/RTB)
+  if (adConfig.bidResponse) {
+    [options setMediationNetwork:@"AdMob_OpenBidding"];
+  } else {
+    [options setMediationNetwork:ADCAdMob];
+  }
+
+  [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
 
   return options;
 }
@@ -148,18 +125,11 @@
   return result;
 }
 
-+ (void)setupZoneFromCredentials:(NSDictionary *)credentials
-                         options:(AdColonyAppOptions *)options
-                        callback:(void (^)(NSString *, NSError *))callback {
-  NSString *appId = credentials[kGADMAdapterAdColonyAppIDkey];
-  NSString *zoneList = credentials[kGADMAdapterAdColonyZoneIDkey];
-
-  // Support arrays for older implementations, they won't have to change their zones on the
-  // dashboard.
-  NSArray *zones = [self parseZoneIDs:zoneList];
-
-  // Default zone is the first one in the semicolon delimited list from the AdMob Ad Unit ID.
-  NSString *zone = [zones firstObject];
++ (void)setupZoneFromSettings:(NSDictionary *)settings
+                      options:(AdColonyAppOptions *)options
+                     callback:(void (^)(NSString *, NSError *))callback {
+  NSString *appId = settings[kGADMAdapterAdColonyAppIDkey];
+  NSString *zone = GADMAdapterAdColonyZoneIDForSettings(settings);
 
   [[GADMAdapterAdColonyInitializer sharedInstance] initializeAdColonyWithAppId:appId
                                                                          zones:@[ zone ]
@@ -174,15 +144,15 @@
 + (void)setupZoneFromConnector:(id<GADMAdNetworkConnector>)connector
                       callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = connector.credentials;
-  AdColonyAppOptions *options = [self getAppOptionsFromExtras:connector.networkExtras];
-  [self setupZoneFromCredentials:credentials options:options callback:callback];
+  AdColonyAppOptions *options = [self getAppOptionsFromConnector:connector];
+  [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
 + (void)setupZoneFromAdConfig:(GADMediationAdConfiguration *)adConfig
                      callback:(void (^)(NSString *, NSError *))callback {
   NSDictionary *credentials = adConfig.credentials.settings;
-  AdColonyAppOptions *options = [self getAppOptionsFromExtras:adConfig.extras];
-  [self setupZoneFromCredentials:credentials options:options callback:callback];
+  AdColonyAppOptions *options = [self getAppOptionsFromAdConfig:adConfig];
+  [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
 + (NSDictionary *)getDictionaryFromJsonString:(NSString *)jsonString {
@@ -208,3 +178,39 @@
 }
 
 @end
+
+void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];
+  }
+}
+
+NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(NSDictionary *_Nonnull settings) {
+  NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  if (!encodedZoneID) {
+    encodedZoneID = settings[kGADMAdapterAdColonyZoneIDkey];
+  }
+
+  NSArray<NSString *> *zoneIDs = [GADMAdapterAdColonyHelper parseZoneIDs:encodedZoneID];
+  NSString *zoneID = zoneIDs.firstObject;
+
+  return zoneID;
+}
+
+NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *reply) {
+  if (!reply) {
+    return nil;
+  }
+  NSDictionary *bidData = [GADMAdapterAdColonyHelper getDictionaryFromJsonString:reply];
+  NSString *zoneId = bidData[@"zone"];
+  return zoneId;
+}
+
+void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;
+  }
+}

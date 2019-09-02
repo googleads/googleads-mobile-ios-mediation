@@ -10,17 +10,17 @@
 #import <InMobiSDK/IMSdk.h>
 #import "GADMAdapterInMobi.h"
 
-static NSMutableDictionary* consentObj;
+static NSMutableDictionary<NSString *, NSString *> *consentObj;
 
 @implementation GADMInMobiConsent
-+ (void)updateGDPRConsent:(NSDictionary*)consent {
++ (void)updateGDPRConsent:(nonnull NSDictionary<NSString *, NSString *> *)consent {
   if ([GADMAdapterInMobi isAppInitialised]) {
     [IMSdk updateGDPRConsent:consent];
   }
   consentObj = [consent mutableCopy];
 }
 
-+ (NSMutableDictionary*)getConsent {
++ (nullable NSDictionary<NSString *, NSString *> *)consent {
   return consentObj;
 }
 @end

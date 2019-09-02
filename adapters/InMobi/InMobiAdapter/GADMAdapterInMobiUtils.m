@@ -5,16 +5,14 @@
 //
 
 #import "GADMAdapterInMobiUtils.h"
-@import InMobiSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/InMobiSDK.h>
+#include <stdatomic.h>
+#import "GADMAdapterInMobiConstants.h"
 
-
-@implementation GADMAdapterInMobiUtils
-
-// Convert InMobi Error codes to Google's
-
-+ (NSInteger)getAdMobErrorCode:(NSInteger)inmobiErrorCode {
+NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
   NSInteger errorCode;
-  switch (inmobiErrorCode) {
+  switch (inMobiErrorCode) {
     case kIMStatusCodeNoFill:
       errorCode = kGADErrorMediationNoFill;
       break;
@@ -34,4 +32,45 @@
   return errorCode;
 }
 
-@end
+void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterInMobiMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                              id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterInMobiMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
+NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
+    NSNumber *_Nonnull placementIdentifier) {
+  if (placementIdentifier.longLongValue) {
+    return nil;
+  }
+
+  NSError *error = [NSError
+      errorWithDomain:kGADMAdapterInMobiErrorDomain
+                 code:kGADErrorInvalidRequest
+             userInfo:@{
+               NSLocalizedDescriptionKey : @"[InMobi] Exception - Placement ID not specified."
+
+             }];
+  return error;
+}

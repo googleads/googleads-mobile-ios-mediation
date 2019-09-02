@@ -43,10 +43,6 @@
 		AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB031F606689003BB4D2 /* SampleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */; };
 		AEC0D11D1F3BC63F005B3813 /* SampleAdSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEF73705202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEF73706202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */; };
-		AEF737092021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEF7370A2021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,10 +97,6 @@
 		AEABBB031F606689003BB4D2 /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapter.h; sourceTree = "<group>"; };
 		AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
 		AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeContentAd.h; sourceTree = "<group>"; };
-		AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeContentAd.m; sourceTree = "<group>"; };
-		AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterMediatedNativeAppInstallAd.h; sourceTree = "<group>"; };
-		AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAppInstallAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,10 +200,6 @@
 				AEABBAFE1F606688003BB4D2 /* SampleAdapterDelegate.m */,
 				AEABBB021F606688003BB4D2 /* SampleAdapterMediatedNativeAd.h */,
 				AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */,
-				AEF737072021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h */,
-				AEF737082021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m */,
-				AEF73703202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h */,
-				AEF73704202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m */,
 				AEABBB001F606688003BB4D2 /* SampleAdapterProtocol.h */,
 			);
 			name = Adapter;
@@ -259,9 +247,7 @@
 				AEABBB061F606689003BB4D2 /* SampleAdapterConstants.h in Headers */,
 				AEABBB0C1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.h in Headers */,
 				AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */,
-				AEF737092021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.h in Headers */,
 				AEABBB0A1F606689003BB4D2 /* SampleAdapterProtocol.h in Headers */,
-				AEF73705202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.h in Headers */,
 				AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */,
 				AEABBB0B1F606689003BB4D2 /* SampleAdapterDelegate.h in Headers */,
 			);
@@ -384,8 +370,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEF73706202128130062E0B8 /* SampleAdapterMediatedNativeContentAd.m in Sources */,
-				AEF7370A2021858D0062E0B8 /* SampleAdapterMediatedNativeAppInstallAd.m in Sources */,
 				AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */,
 				AEABBB081F606689003BB4D2 /* SampleAdapterDelegate.m in Sources */,
 				AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */,

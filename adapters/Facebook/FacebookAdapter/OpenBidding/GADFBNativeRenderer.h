@@ -18,7 +18,9 @@
 @interface GADFBNativeRenderer : NSObject
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler;
+- (void)renderNativeAdForAdConfiguration:
+            (nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 
 @end

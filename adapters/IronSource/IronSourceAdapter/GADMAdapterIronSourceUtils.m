@@ -14,6 +14,20 @@
 
 #import "GADMAdapterIronSourceUtils.h"
 
+void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
+                                              NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
+                                            id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
 @implementation GADMAdapterIronSourceUtils
 
 #pragma mark Utils Methods
@@ -35,6 +49,25 @@
   };
 
   return [NSError errorWithDomain:NSStringFromClass([self class]) code:0 userInfo:userInfo];
+}
+
++ (void)onLog:(NSString *)log {
+  NSLog(@"IronSourceAdapter: %@", log);
+}
+
++ (NSString *)getAdMobSDKVersion {
+  NSString *version = @"";
+  NSString *sdkVersion = [GADRequest sdkVersion];
+  @try {
+    NSUInteger versionIndex = [sdkVersion rangeOfString:@"-v"].location + 1;
+    version = [sdkVersion substringFromIndex:versionIndex];
+    version = [version stringByReplacingOccurrencesOfString:@"." withString:@""];
+
+  } @catch (NSException *exception) {
+    NSLog(@"Unable to parse AdMob SDK version");
+    version = @"";
+  }
+  return version;
 }
 
 @end

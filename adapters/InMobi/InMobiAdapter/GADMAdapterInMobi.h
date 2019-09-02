@@ -4,7 +4,7 @@
 //  Copyright (c) 2015 InMobi. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/IMBanner.h>
 #import <InMobiSDK/IMBannerDelegate.h>
 #import <InMobiSDK/IMInterstitial.h>
@@ -14,8 +14,7 @@
 #import <InMobiSDK/IMRequestStatus.h>
 
 @interface GADMAdapterInMobi
-    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate> {
-}
+    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate>
 + (BOOL)isAppInitialised;
 @property(nonatomic, retain) IMBanner *adView;
 @property(nonatomic, retain) IMInterstitial *interstitial;

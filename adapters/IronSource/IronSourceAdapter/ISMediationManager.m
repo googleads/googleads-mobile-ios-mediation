@@ -13,22 +13,17 @@
 // limitations under the License.
 
 #import "ISMediationManager.h"
+#import "GADMAdapterIronSource.h"
 #import "GADMAdapterIronSourceConstants.h"
-#import "GADMAdapterIronSourceRewardedAd.h"
 #import "GADMAdapterIronSourceUtils.h"
+#import "GADMediationAdapterIronSource.h"
 
 @interface ISMediationManager ()
 
 @property(nonatomic)
-    NSMapTable<NSString *, id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>>
-        *rewardedAdapterDelegates;
-@property(nonatomic)
-    NSMapTable<NSString *, id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>>
-        *interstitialAdapterDelegates;
-@property(nonatomic) NSMutableDictionary<NSString *, NSSet<NSString *> *> *initializedAppKeys;
-
-// Holds the instance ID of the rewarded ad that is being presented.
-@property(nonatomic) NSString *currentShowingRewardedInstanceID;
+    NSMapTable<NSString *, id<GADMAdapterIronSourceRewardedDelegate>> *rewardedAdapterDelegates;
+@property(nonatomic) NSMapTable<NSString *, id<GADMAdapterIronSourceInterstitialDelegate>>
+    *interstitialAdapterDelegates;
 
 @end
 
@@ -51,285 +46,409 @@
     self.interstitialAdapterDelegates =
         [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                               valueOptions:NSPointerFunctionsWeakMemory];
-    self.initializedAppKeys = [[NSMutableDictionary alloc] init];
+    [IronSource
+        setMediationType:[NSString
+                             stringWithFormat:@"%@%@SDK%@", kGADMAdapterIronSourceMediationName,
+                                              kGADMAdapterIronSourceInternalVersion,
+                                              [GADMAdapterIronSourceUtils getAdMobSDKVersion]]];
   }
   return self;
 }
 
 - (void)initIronSourceSDKWithAppKey:(NSString *)appKey forAdUnits:(NSSet *)adUnits {
-  NSSet *initializedAdUnits = self.initializedAppKeys[appKey];
-  if (!initializedAdUnits) {
-    initializedAdUnits = [[NSSet alloc] init];
+  if ([adUnits member:IS_INTERSTITIAL] != nil) {
+    static dispatch_once_t onceTokenIS;
+    dispatch_once(&onceTokenIS, ^{
+      [IronSource setISDemandOnlyInterstitialDelegate:self];
+      [IronSource initISDemandOnly:appKey adUnits:@[ IS_INTERSTITIAL ]];
+    });
   }
-
-  if (![adUnits isSubsetOfSet:initializedAdUnits]) {
-    NSSet *newAdUnits = [initializedAdUnits setByAddingObjectsFromSet:adUnits];
-    [IronSource setMediationType:kGADMAdapterIronSourceMediationName];
-    [IronSource initISDemandOnly:appKey adUnits:[newAdUnits allObjects]];
-    self.initializedAppKeys[appKey] = adUnits;
+  if ([adUnits member:IS_REWARDED_VIDEO] != nil) {
+    static dispatch_once_t onceTokenRV;
+    dispatch_once(&onceTokenRV, ^{
+      [IronSource setISDemandOnlyRewardedVideoDelegate:self];
+      [IronSource initISDemandOnly:appKey adUnits:@[ IS_REWARDED_VIDEO ]];
+    });
   }
 }
 
-- (void)addRewardedDelegate:
-            (id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>)adapterDelegate
+- (void)loadRewardedAdWithDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)delegate
+                        instanceID:(NSString *)instanceID {
+  id<GADMAdapterIronSourceRewardedDelegate> adapterDelegate = delegate;
+
+  if (adapterDelegate == nil) {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"loadRewardedAdWithDelegate adapterDelegate is null"]];
+    return;
+  }
+
+  if ([self canLoadRewardedVideoInstance:instanceID]) {
+    [self setRewardedDelegate:adapterDelegate toInstanceState:kInstanceStateLocked];
+    [self addRewardedDelegate:adapterDelegate forInstanceID:instanceID];
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"ISMediationManager - loadRewardedVideo for instance Id %@",
+                                   instanceID]];
+    [IronSource loadISDemandOnlyRewardedVideo:instanceID];
+  } else {
+    NSError *Error =
+        [GADMAdapterIronSourceUtils createErrorWith:@"instance already exists"
+                                          andReason:@"couldn't load another one in the same time!"
+                                      andSuggestion:nil];
+    [adapterDelegate rewardedVideoDidFailToLoadWithError:Error instanceId:instanceID];
+  }
+}
+
+- (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
+                                 instanceID:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"ISMediationManager - showRewardedVideo for instance Id %@",
+                                       instanceID]];
+  [IronSource showISDemandOnlyRewardedVideo:viewController instanceId:instanceID];
+}
+
+- (void)loadInterstitialAdWithDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)delegate
+                            instanceID:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> adapterDelegate = delegate;
+  if (adapterDelegate == nil) {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"requestInterstitialAdWithDelegate adapterDelegate is null"]];
+    return;
+  }
+  if ([self canLoadInterstitialInstance:instanceID]) {
+    [self setInterstitialDelegate:adapterDelegate toInstanceState:kInstanceStateLocked];
+    [self addInterstitialDelegate:adapterDelegate forInstanceID:instanceID];
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"ISMediationManager - loadInterstitial  for instance Id %@",
+                                   instanceID]];
+    [IronSource loadISDemandOnlyInterstitial:instanceID];
+  } else {
+    NSError *Error =
+        [GADMAdapterIronSourceUtils createErrorWith:@"instance already exists"
+                                          andReason:@"couldn't load another one in the same time!"
+                                      andSuggestion:nil];
+    [adapterDelegate interstitialDidFailToLoadWithError:Error instanceId:instanceID];
+  }
+}
+
+- (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
+                                     instanceID:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"ISMediationManager - showInterstitial for instance Id %@",
+                                       instanceID]];
+  [IronSource showISDemandOnlyInterstitial:viewController instanceId:instanceID];
+}
+
+#pragma mark ISDemandOnlyRewardedDelegate
+
+- (void)rewardedVideoAdRewarded:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoAdRewarded for instance %@",
+                                 instanceID]];
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate rewardedVideoAdRewarded:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:
+                      @"ISMediationManager - rewardedVideoAdRewarded adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidFailToShowWithError for "
+                                 @"instance %@ with error %@",
+                                 instanceID, error]];
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setRewardedDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate rewardedVideoDidFailToShowWithError:error instanceId:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"ISMediationManager - rewardedVideoDidFailToShowWithError "
+                                   @"adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidOpen:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidOpen for instance %@",
+                                 instanceID]];
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate rewardedVideoDidOpen:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - rewardedVideoDidOpen adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidClose:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidClose for instance %@",
+                                 instanceID]];
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setRewardedDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate rewardedVideoDidClose:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - rewardedVideoDidClose adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidClick:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidClick for instance %@",
+                                 instanceID]];
+
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate rewardedVideoDidClick:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - rewardedVideoDidClick adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidLoad:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidLoad for instance %@",
+                                 instanceID]];
+
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate rewardedVideoDidLoad:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - rewardedVideoDidLoad adapterDelegate is null"]];
+  }
+}
+
+- (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceID {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"ISMediationManager got rewardedVideoDidFailToLoadWithError for "
+                                 @"instance %@ with error %@",
+                                 instanceID, error]];
+  id<GADMAdapterIronSourceRewardedDelegate> delegate =
+      [self getRewardedDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setRewardedDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate rewardedVideoDidFailToLoadWithError:error instanceId:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"ISMediationManager - rewardedVideoDidFailToLoadWithError "
+                                   @"adapterDelegate is null"]];
+  }
+}
+
+#pragma mark ISDemandOnlyInterstitialDelegate
+
+- (void)interstitialDidLoad:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate interstitialDidLoad:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - interstitialDidLoad adapterDelegate is null"]];
+  }
+}
+
+- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setInterstitialDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate interstitialDidFailToLoadWithError:error instanceId:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"ISMediationManager - interstitialDidFailToLoadWithError "
+                                         @"adapterDelegate is null"]];
+  }
+}
+
+- (void)interstitialDidOpen:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate interstitialDidOpen:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - interstitialDidOpen adapterDelegate is null"]];
+  }
+}
+
+- (void)interstitialDidClose:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setInterstitialDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate interstitialDidClose:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - interstitialDidClose adapterDelegate is null"]];
+  }
+}
+
+- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [self setInterstitialDelegate:delegate toInstanceState:kInstanceStateCanLoad];
+    [delegate interstitialDidFailToShowWithError:error instanceId:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"ISMediationManager - interstitialDidFailToShowWithError "
+                                         @"adapterDelegate is null"]];
+  }
+}
+
+- (void)didClickInterstitial:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  if (delegate) {
+    [delegate didClickInterstitial:instanceID];
+  } else {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:
+                            @"ISMediationManager - didClickInterstitial adapterDelegate is null"]];
+  }
+}
+
+#pragma Utils methods
+
+- (void)addRewardedDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)adapterDelegate
               forInstanceID:(NSString *)instanceID {
   @synchronized(self.rewardedAdapterDelegates) {
-    [self.rewardedAdapterDelegates setObject:adapterDelegate forKey:instanceID];
+    GADMAdapterMaioMapTableSetObjectForKey(self.rewardedAdapterDelegates, instanceID,
+                                           adapterDelegate);
   }
 }
 
-- (void)removeRewardedDelegateForInstanceID:(NSString *)InstanceID {
-  @synchronized(self.rewardedAdapterDelegates) {
-    [self.rewardedAdapterDelegates removeObjectForKey:InstanceID];
-  }
-}
-
-- (id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>)
-    getRewardedDelegateForInstanceID:(NSString *)instanceID {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate;
+- (id<GADMAdapterIronSourceRewardedDelegate>)getRewardedDelegateForInstanceID:
+    (NSString *)instanceID {
+  id<GADMAdapterIronSourceRewardedDelegate> delegate;
   @synchronized(self.rewardedAdapterDelegates) {
     delegate = [self.rewardedAdapterDelegates objectForKey:instanceID];
   }
   return delegate;
 }
 
-- (void)addInterstitialDelegate:
-            (id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>)adapterDelegate
+- (void)addInterstitialDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)adapterDelegate
                   forInstanceID:(NSString *)instanceID {
   @synchronized(self.interstitialAdapterDelegates) {
-    [self.interstitialAdapterDelegates setObject:adapterDelegate forKey:instanceID];
+    GADMAdapterMaioMapTableSetObjectForKey(self.rewardedAdapterDelegates, instanceID,
+                                           adapterDelegate);
   }
 }
 
-- (void)removeInterstitialDelegateForInstanceID:(NSString *)InstanceID {
-  @synchronized(self.interstitialAdapterDelegates) {
-    [self.interstitialAdapterDelegates removeObjectForKey:InstanceID];
-  }
-}
-
-- (id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>)
-    getInterstitialDelegateForInstanceID:(NSString *)instanceID {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate;
+- (id<GADMAdapterIronSourceInterstitialDelegate>)getInterstitialDelegateForInstanceID:
+    (NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate;
   @synchronized(self.interstitialAdapterDelegates) {
     delegate = [self.interstitialAdapterDelegates objectForKey:instanceID];
   }
   return delegate;
 }
 
-- (void)requestRewardedAdWithDelegate:
-    (id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate>)delegate {
-  NSString *instanceID = [delegate getInstanceID];
-  [IronSource setISDemandOnlyRewardedVideoDelegate:self];
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> adapterDelegate =
+- (BOOL)canLoadRewardedVideoInstance:(NSString *)instanceID {
+  if (![self isISRewardedVideoAdapterRegistered:instanceID]) {
+    return true;
+  }
+
+  if ([self isRegisteredRewardedVideoAdapterCanLoad:instanceID]) {
+    return true;
+  }
+
+  return false;
+}
+
+- (BOOL)isRegisteredRewardedVideoAdapterCanLoad:(NSString *)instanceID {
+  id<GADMAdapterIronSourceRewardedDelegate> adapterDelegate =
       [self getRewardedDelegateForInstanceID:instanceID];
-
-  if (adapterDelegate) {
-    NSError *availableAdsError = [GADMAdapterIronSourceUtils
-        createErrorWith:@"A request is already in processing for same instance ID"
-              andReason:@"Can't make a new request for the same instance ID"
-          andSuggestion:nil];
-    [delegate didFailToLoadAdWithError:availableAdsError];
-  } else {
-    [self addRewardedDelegate:delegate forInstanceID:instanceID];
-  }
-
-  if ([IronSource hasISDemandOnlyRewardedVideo:instanceID]) {
-    [delegate rewardedVideoHasChangedAvailability:YES instanceId:instanceID];
-  }
+  return adapterDelegate == nil ||
+         [[adapterDelegate getState] isEqualToString:kInstanceStateCanLoad];
 }
 
-- (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
-                                   delegate:(id<ISDemandOnlyRewardedVideoDelegate,
-                                                GADMAdapterIronSourceDelegate>)delegate {
-  NSString *instanceId = [delegate getInstanceID];
-  [IronSource setISDemandOnlyRewardedVideoDelegate:self];
-
-  if ([IronSource hasISDemandOnlyRewardedVideo:instanceId]) {
-    // The reward based video ad is available, present the ad.
-    [IronSource showISDemandOnlyRewardedVideo:viewController instanceId:instanceId];
-    _currentShowingRewardedInstanceID = instanceId;
-  } else {
-    // Because publishers are expected to check that an ad is available before trying to show one,
-    // the above conditional should always hold true. If for any reason the adapter is not ready to
-    // present an ad, however, it should log an error with reason for failure.
-    NSError *error =
-        [GADMAdapterIronSourceUtils createErrorWith:@"No Ad to show for this instance ID"
-                                          andReason:nil
-                                      andSuggestion:nil];
-    [self removeRewardedDelegateForInstanceID:instanceId];
-    [delegate rewardedVideoDidFailToShowWithError:error instanceId:instanceId];
-  }
+- (BOOL)isISRewardedVideoAdapterRegistered:(NSString *)instanceID {
+  return [self getRewardedDelegateForInstanceID:instanceID] != nil;
 }
 
-- (void)requestInterstitialAdWithDelegate:
-    (id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate>)delegate {
-  NSString *instanceId = [delegate getInstanceID];
-  [IronSource setISDemandOnlyInterstitialDelegate:self];
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> adapterDelegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (adapterDelegate) {
-    NSError *availableAdsError = [GADMAdapterIronSourceUtils
-        createErrorWith:@"A request is already in processing for same instance ID"
-              andReason:@"Can't make a new request for the same instance ID"
-          andSuggestion:nil];
-    [delegate didFailToLoadAdWithError:availableAdsError];
-    return;
-  } else {
-    [self addInterstitialDelegate:delegate forInstanceID:instanceId];
-  }
-
-  if ([IronSource hasISDemandOnlyInterstitial:instanceId]) {
-    [delegate interstitialDidLoad:instanceId];
+- (void)setRewardedDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)adapterDelegate
+            toInstanceState:(NSString *)state {
+  id<GADMAdapterIronSourceRewardedDelegate> delegate = adapterDelegate;
+  if (delegate == nil) {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"changeInstanceState- adapterDelegate is nil"]];
     return;
   }
-
-  [IronSource loadISDemandOnlyInterstitial:instanceId];
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"ISMediationManager change state to %@", state]];
+  [delegate setState:state];
 }
 
-- (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
-                                       delegate:(id<ISDemandOnlyInterstitialDelegate,
-                                                    GADMAdapterIronSourceDelegate>)delegate {
-  NSString *instanceId = [delegate getInstanceID];
-  [IronSource setISDemandOnlyInterstitialDelegate:self];
-
-  if ([IronSource hasISDemandOnlyInterstitial:instanceId]) {
-    // The reward based video ad is available, present the ad.
-    [IronSource showISDemandOnlyInterstitial:viewController instanceId:instanceId];
-  } else {
-    // Because publishers are expected to check that an ad is available before trying to show one,
-    // the above conditional should always hold true. If for any reason the adapter is not ready to
-    // present an ad, however, it should log an error with reason for failure.
-    NSError *error =
-        [GADMAdapterIronSourceUtils createErrorWith:@"No Ad to show for this instance ID"
-                                          andReason:nil
-                                      andSuggestion:nil];
-    [self removeInterstitialDelegateForInstanceID:instanceId];
-    [delegate interstitialDidFailToShowWithError:error instanceId:instanceId];
+- (BOOL)canLoadInterstitialInstance:(NSString *)instanceID {
+  if (![self isISInterstitialAdapterRegistered:instanceID]) {
+    return true;
   }
+
+  if ([self isRegisteredInterstitialAdapterCanLoad:instanceID]) {
+    return true;
+  }
+
+  return false;
 }
 
-#pragma mark ISDemandOnlyRewardedDelegate
+- (BOOL)isRegisteredInterstitialAdapterCanLoad:(NSString *)instanceID {
+  id<GADMAdapterIronSourceInterstitialDelegate> adapterDelegate =
+      [self getInterstitialDelegateForInstanceID:instanceID];
+  return adapterDelegate == nil ||
+         [[adapterDelegate getState] isEqualToString:kInstanceStateCanLoad];
+}
 
-- (void)rewardedVideoHasChangedAvailability:(BOOL)available instanceId:(NSString *)instanceId {
-  if ([_currentShowingRewardedInstanceID isEqualToString:instanceId]) {
+- (BOOL)isISInterstitialAdapterRegistered:(NSString *)instanceID {
+  return [self getInterstitialDelegateForInstanceID:instanceID] != nil;
+}
+
+- (void)setInterstitialDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)adapterDelegate
+                toInstanceState:(NSString *)state {
+  id<GADMAdapterIronSourceInterstitialDelegate> delegate = adapterDelegate;
+
+  if (delegate == nil) {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"changeInstanceState- adapterDelegate is nil"]];
     return;
   }
-
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (!available) {
-    [self removeRewardedDelegateForInstanceID:instanceId];
-  }
-
-  if (delegate) {
-    [delegate rewardedVideoHasChangedAvailability:available instanceId:instanceId];
-  }
-}
-
-- (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo
-                          instanceId:(NSString *)instanceId {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate didReceiveRewardForPlacement:placementInfo instanceId:instanceId];
-  }
-}
-
-- (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate rewardedVideoDidFailToShowWithError:error instanceId:instanceId];
-    [self removeRewardedDelegateForInstanceID:instanceId];
-    _currentShowingRewardedInstanceID = @"";
-  }
-}
-
-- (void)rewardedVideoDidOpen:(NSString *)instanceId {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate rewardedVideoDidOpen:instanceId];
-  }
-}
-
-- (void)rewardedVideoDidClose:(NSString *)instanceId {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [self removeRewardedDelegateForInstanceID:instanceId];
-    [delegate rewardedVideoDidClose:instanceId];
-    _currentShowingRewardedInstanceID = @"";
-  }
-}
-
-- (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo instanceId:(NSString *)instanceId {
-  id<ISDemandOnlyRewardedVideoDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getRewardedDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate didClickRewardedVideo:placementInfo instanceId:instanceId];
-  }
-}
-
-#pragma mark ISDemandOnlyInterstitialDelegate
-
-- (void)interstitialDidLoad:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate interstitialDidLoad:instanceId];
-  }
-}
-
-- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [self removeInterstitialDelegateForInstanceID:instanceId];
-    [delegate interstitialDidFailToLoadWithError:error instanceId:instanceId];
-  }
-}
-
-- (void)interstitialDidOpen:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate interstitialDidOpen:instanceId];
-  }
-}
-
-- (void)interstitialDidClose:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [self removeInterstitialDelegateForInstanceID:instanceId];
-    [delegate interstitialDidClose:instanceId];
-  }
-}
-
-- (void)interstitialDidShow:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate interstitialDidShow:instanceId];
-  }
-}
-
-- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [self removeInterstitialDelegateForInstanceID:instanceId];
-    [delegate interstitialDidFailToShowWithError:error instanceId:instanceId];
-  }
-}
-
-- (void)didClickInterstitial:(NSString *)instanceId {
-  id<ISDemandOnlyInterstitialDelegate, GADMAdapterIronSourceDelegate> delegate =
-      [self getInterstitialDelegateForInstanceID:instanceId];
-  if (delegate) {
-    [delegate didClickInterstitial:instanceId];
-  }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"ISMediationManager change state to %@", state]];
+  [delegate setState:state];
 }
 
 @end

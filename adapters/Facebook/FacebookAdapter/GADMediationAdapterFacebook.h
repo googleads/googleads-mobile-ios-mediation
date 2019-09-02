@@ -13,8 +13,10 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMediationAdapterFacebook : NSObject <GADRTBAdapter>
+
++ (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials;
 
 @end
