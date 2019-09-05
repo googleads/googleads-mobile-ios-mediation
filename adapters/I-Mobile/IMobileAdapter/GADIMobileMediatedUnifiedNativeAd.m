@@ -88,16 +88,7 @@
     return nil;
 }
 
-#pragma mark - GADMediatedNativeAd
-
-- (nullable id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-    return self;
-}
-
-#pragma mark - GADMediatedNativeAdDelegate
-
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-        didRecordClickOnAssetWithName:(NSString *)assetName
+- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
 

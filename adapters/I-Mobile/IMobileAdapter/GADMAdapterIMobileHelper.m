@@ -14,11 +14,6 @@
 
 #import "GADMAdapterIMobileHelper.h"
 
-/// Helper of mediation adapter.
-@interface GADMAdapterIMobileHelper ()
-
-@end
-
 @implementation GADMAdapterIMobileHelper
 
 /// Create NSError from descritption.

@@ -16,7 +16,7 @@
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
 /// Mapper for GADMediatedUnifiedNativeAd.
-@interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd, GADMediatedNativeAd, GADMediatedNativeAdDelegate>
+@interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
 
 /// Initialize.
 - (instancetype)initWithIMobileNativeAd:(ImobileSdkAdsNativeObject *)iMobileNativeAd

@@ -45,12 +45,12 @@ typedef NS_ENUM(NSUInteger, kImobileAdType) {
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return nil;
+    return Nil;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
     self = [super init];
-    if (self != nil) {
+    if (self) {
         // Initialize.
         self.connector = connector;
 
