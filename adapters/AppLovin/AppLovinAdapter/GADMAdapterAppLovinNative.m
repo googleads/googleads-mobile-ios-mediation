@@ -49,7 +49,7 @@
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  [[ALSdk shared].nativeAdService loadNextAdAndNotify:self];
+  [self.sdk.nativeAdService loadNextAdAndNotify:self];
 }
 
 - (void)stopBeingDelegate {

@@ -26,10 +26,6 @@
   return @"sdkKey";
 }
 
-+ (NSString *)placementKey {
-  return @"placement";
-}
-
 + (NSString *)zoneIdentifierKey {
   return @"zone_id";
 }

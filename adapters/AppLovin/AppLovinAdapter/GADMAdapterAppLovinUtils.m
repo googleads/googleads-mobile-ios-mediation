@@ -13,20 +13,27 @@
 
 #define DEFAULT_ZONE @""
 
-static NSString *kGADAdapterAppLovinSDKKey = @"AppLovinSdkKey";
+@implementation GADMAdapterAppLovinUtils
+static NSString *const kALAppLovinSDKKey = @"AppLovinSdkKey";
 static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
 static const CGFloat kALBannerStandardHeight = 50.0f;
-
-@implementation GADMAdapterAppLovinUtils
+static const NSUInteger kALSDKKeyLength = 86;
+static const NSUInteger kALZoneIdentifierLength = 16;
 
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
-  NSString *sdkKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
-
-  if (sdkKey.length == 0) {
-    sdkKey = [[NSBundle mainBundle] infoDictionary][kGADAdapterAppLovinSDKKey];
+  // Attempt to use SDK key from server first
+  NSString *serverSDKKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
+  if (serverSDKKey.length == kALSDKKeyLength) {
+    return [self retrieveSDKFromSDKKey:serverSDKKey];
   }
-
-  return [self retrieveSDKFromSDKKey:sdkKey];
+  
+  // If server SDK key is invalid, then attempt to use SDK key from Info.plist
+  NSString *infoDictSDKKey = [self infoDictionarySDKKey];
+  if (infoDictSDKKey.length == kALSDKKeyLength) {
+    return [self retrieveSDKFromSDKKey:infoDictSDKKey];
+  }
+  
+  return nil;
 }
 
 + (nullable ALSdk *)retrieveSDKFromSDKKey:(NSString *)sdkKey {
@@ -38,37 +45,39 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 }
 
 + (nullable NSString *)infoDictionarySDKKey {
-  return [[NSBundle mainBundle] infoDictionary][kGADAdapterAppLovinSDKKey];
+  return [[NSBundle mainBundle] infoDictionary][kALAppLovinSDKKey];
 }
 
 + (BOOL)infoDictionaryHasValidSDKKey {
-  NSDictionary<NSString *, id> *infoDict = [[NSBundle mainBundle] infoDictionary];
-  id maybeSdkKey = infoDict[kGADAdapterAppLovinSDKKey];
-
-  return [maybeSdkKey isKindOfClass:[NSString class]] && ((NSString *)maybeSdkKey).length > 0;
+  id maybeSdkKey = [self infoDictionarySDKKey];
+  return [maybeSdkKey isKindOfClass:[NSString class]] && ((NSString *)maybeSdkKey).length == kALSDKKeyLength;
 }
 
-+ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector {
-  return connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
++ (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
+    NSString *customZoneIdentifier = connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey];
+    
+    // If attempting to pass custom zone, but it is invalid
+    if (customZoneIdentifier != nil && customZoneIdentifier.length != kALZoneIdentifierLength) {
+        return nil;
+    }
+    
+    // Use default zone if no custom zone attempted
+    return DEFAULT_ZONE;
 }
 
-+ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
-  return connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
-}
-
-+ (NSString *)retrievePlacementFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-  return adConfig.credentials.settings[GADMAdapterAppLovinConstant.placementKey] ?: @"";
-}
-
-+ (NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-  return adConfig.credentials.settings[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: @"";
++ (nullable NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
+  NSString *customZoneIdentifier = adConfig.credentials.settings[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
+    
+  // If attempting to pass custom zone, but it is invalid
+  if (customZoneIdentifier != nil && customZoneIdentifier.length != kALZoneIdentifierLength) {
+    return nil;
+  }
+    
+  // Use default zone if no custom zone attempted
+  return DEFAULT_ZONE;
 }
 
 + (GADErrorCode)toAdMobErrorCode:(int)code {
-  //
-  // TODO: Be more exhaustive.
-  //
-
   if (code == kALErrorCodeNoFill) {
     return kGADErrorMediationNoFill;
   } else if (code == kALErrorCodeAdRequestNetworkTimeout) {

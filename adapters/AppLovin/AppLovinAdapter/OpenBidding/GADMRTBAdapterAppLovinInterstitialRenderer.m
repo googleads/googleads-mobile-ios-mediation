@@ -73,7 +73,7 @@
   GADMAdapterAppLovinExtras *extras = self.adConfiguration.extras;
   self.sdk.settings.muted = extras.muteAudio;
 
-  [self.interstitialAd showOver:[UIApplication sharedApplication].keyWindow andRender:self.ad];
+  [self.interstitialAd showAd: self.ad];
 }
 
 - (void)dealloc {
