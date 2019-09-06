@@ -1,5 +1,8 @@
 # Chartboost Ads Mediation Adapter for Google Mobile Ads SDK for iOS
 
+## Version 8.0.1.1
+- Fixed an issue where requesting banner ads returns no fills.
+
 ## Version 8.0.1.0
 - Verified compatibility with Chartboost SDK 8.0.1.
 - Added support to request banner ads.
