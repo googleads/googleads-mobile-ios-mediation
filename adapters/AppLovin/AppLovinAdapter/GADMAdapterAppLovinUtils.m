@@ -57,25 +57,27 @@ static const NSUInteger kALZoneIdentifierLength = 16;
 }
 
 + (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
-    NSString *customZoneIdentifier = connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey];
-    
-    // If attempting to pass custom zone, but it is invalid
-    if (customZoneIdentifier != nil && customZoneIdentifier.length != kALZoneIdentifierLength) {
-        return nil;
-    }
-    
-    // Use default zone if no custom zone attempted
-    return DEFAULT_ZONE;
+  return [self retrieveZoneIdentifierFromDict:connector.credentials];
 }
 
 + (nullable NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-  NSString *customZoneIdentifier = adConfig.credentials.settings[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
-    
-  // If attempting to pass custom zone, but it is invalid
-  if (customZoneIdentifier != nil && customZoneIdentifier.length != kALZoneIdentifierLength) {
-    return nil;
+    return [self retrieveZoneIdentifierFromDict:adConfig.credentials.settings];
+}
+
++ (nullable NSString *)retrieveZoneIdentifierFromDict:(NSDictionary <NSString *, id> *)dict {
+  NSString *customZoneIdentifier = dict[GADMAdapterAppLovinConstant.zoneIdentifierKey];
+  
+  // Custom zone found
+  if (customZoneIdentifier) {
+    // Custom zone is valid
+    if (customZoneIdentifier.length == kALZoneIdentifierLength) {
+      return customZoneIdentifier;
+    // Custom zone is invalid - return nil (adapter will fail the ad load)
+    } else {
+      return nil;
+    }
   }
-    
+  
   // Use default zone if no custom zone attempted
   return DEFAULT_ZONE;
 }
