@@ -23,13 +23,13 @@ static const NSUInteger kALZoneIdentifierLength = 16;
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
   // Attempt to use SDK key from server first
   NSString *serverSDKKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
-  if (serverSDKKey.length == kALSDKKeyLength) {
+  if ([self isValidSDKKey:serverSDKKey]) {
     return [self retrieveSDKFromSDKKey:serverSDKKey];
   }
   
   // If server SDK key is invalid, then attempt to use SDK key from Info.plist
   NSString *infoDictSDKKey = [self infoDictionarySDKKey];
-  if (infoDictSDKKey.length == kALSDKKeyLength) {
+  if ([self isValidSDKKey:infoDictSDKKey]) {
     return [self retrieveSDKFromSDKKey:infoDictSDKKey];
   }
   
@@ -49,8 +49,11 @@ static const NSUInteger kALZoneIdentifierLength = 16;
 }
 
 + (BOOL)infoDictionaryHasValidSDKKey {
-  id maybeSdkKey = [self infoDictionarySDKKey];
-  return [maybeSdkKey isKindOfClass:[NSString class]] && ((NSString *)maybeSdkKey).length == kALSDKKeyLength;
+  return [self isValidSDKKey: [self infoDictionarySDKKey]];
+}
+
++ (BOOL)isValidSDKKey:(NSString *)key {
+  return [key isKindOfClass:[NSString class]] && ((NSString *) key).length == kALSDKKeyLength;
 }
 
 + (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
