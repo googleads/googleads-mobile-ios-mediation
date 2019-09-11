@@ -35,7 +35,14 @@
     self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:connector.credentials];
 
     if (!self.sdk) {
-      [GADMAdapterAppLovinUtils log:@"Failed to initialize SDK"];
+      [GADMAdapterAppLovinUtils log:@"Failed to retrieve SDK instance"];
+      NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                           code:kGADErrorMediationAdapterError
+                                       userInfo:@{
+                                           NSLocalizedFailureReasonErrorKey :
+                                               @"Failed to retrieve AppLovin SDK for native adapter"
+                                       }];
+      [self.connector adapter: self didFailAd: error];
     }
   }
   return self;
