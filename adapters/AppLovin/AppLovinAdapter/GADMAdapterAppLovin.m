@@ -263,8 +263,7 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
   GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
-  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@ for zone: %@", ad.adIdNumber,
-                                parentRenderer.zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
   parentRenderer.alInterstitialAd = ad;
   [parentRenderer.connector adapterDidReceiveInterstitial:parentRenderer];
 }
@@ -343,8 +342,7 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
   GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@",
-                                ad.adIdNumber, parentAdapter.zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
   [parentAdapter.adView render:ad];
   [parentAdapter.connector adapter:parentAdapter didReceiveAdView:parentAdapter.adView];
 }

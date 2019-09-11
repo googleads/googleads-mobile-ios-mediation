@@ -99,7 +99,7 @@
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad.adIdNumber];
+  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
 
   GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
   parentRenderer.ad = ad;

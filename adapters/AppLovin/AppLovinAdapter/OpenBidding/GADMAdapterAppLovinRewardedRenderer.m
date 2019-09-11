@@ -119,6 +119,7 @@
   self.sdk.settings.muted = networkExtras.muteAudio;
   
   if (self.ad) {
+    [GADMAdapterAppLovinUtils log:@"Showing rewarded video for ad: %@", self.ad];
     [self.incent showAd:self.ad andNotify:self.appLovinDelegate];
   } else {
     [GADMAdapterAppLovinUtils log:@"Attempting to show rewarded video before one was loaded"];
