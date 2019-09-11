@@ -153,7 +153,7 @@
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Rewarded ad did load ad: %@", ad.adIdNumber];
+  [GADMAdapterAppLovinUtils log:@"Rewarded ad did load ad: %@", ad];
 
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = self.parentRenderer;
   parentRenderer.ad = ad;
