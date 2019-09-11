@@ -75,16 +75,17 @@
                                        }];
       self.adLoadCompletionHandler(nil, error);
     }
+      
+      self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
+      self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
+      self.incent.adDisplayDelegate = self.appLovinDelegate;
+      self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
   }
   return self;
 }
 
 - (void)requestRTBRewardedAd {
   self.isRTBAdRequested = YES;
-  self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
-  self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
-  self.incent.adDisplayDelegate = self.appLovinDelegate;
-  self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
   
   [self.sdk.adService loadNextAdForAdToken:self.adConfiguration.bidResponse
                                  andNotify:self.appLovinDelegate];
@@ -105,12 +106,14 @@
     return;
   }
   
-  self.incent = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier:self.zoneIdentifier
-                                                                         sdk:self.sdk];
-  self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
-  self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
-  self.incent.adDisplayDelegate = self.appLovinDelegate;
-  [self.incent preloadAndNotify:self.appLovinDelegate];
+  // If default zone
+  if ([DEFAULT_ZONE isEqualToString:self.zoneIdentifier]) {
+    [self.incent preloadAndNotify:self.appLovinDelegate];
+  }
+  // If custom zone id
+  else {
+    [self.sdk.adService loadNextAdForZoneIdentifier: self.zoneIdentifier andNotify:self.appLovinDelegate];
+  }
 }
 
 - (void)presentFromViewController:(UIViewController *)viewController {
