@@ -78,6 +78,8 @@ static const NSUInteger kALZoneIdentifierLength = 16;
     }
   }
   
+  [self log: @"WARNING: Please provide a custom zone in your AdMob configuration. Using default zone..."];
+    
   // Use default zone if no custom zone attempted
   return DEFAULT_ZONE;
 }
