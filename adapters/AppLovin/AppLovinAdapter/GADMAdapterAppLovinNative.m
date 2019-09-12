@@ -18,7 +18,7 @@
 @interface GADMAdapterAppLovinNative () <ALNativeAdLoadDelegate, ALNativeAdPrecacheDelegate>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
-@property(nonatomic, strong) ALSdk *sdk;
+@property(nonatomic, strong, nullable) ALSdk *sdk;
 
 @end
 
@@ -33,17 +33,6 @@
   if (self) {
     self.connector = connector;
     self.sdk = [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:connector.credentials];
-
-    if (!self.sdk) {
-      [GADMAdapterAppLovinUtils log:@"Failed to retrieve SDK instance"];
-      NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
-                                           code:kGADErrorMediationAdapterError
-                                       userInfo:@{
-                                           NSLocalizedFailureReasonErrorKey :
-                                               @"Failed to retrieve AppLovin SDK for native adapter"
-                                       }];
-      [self.connector adapter: self didFailAd: error];
-    }
   }
   return self;
 }
@@ -56,6 +45,19 @@
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
+  if (!self.sdk) {
+    [GADMAdapterAppLovinUtils log:@"Failed to retrieve SDK instance"];
+    NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                         code:kGADErrorMediationAdapterError
+                                     userInfo:@{
+                                         NSLocalizedFailureReasonErrorKey :
+                                             @"Failed to retrieve AppLovin SDK for native adapter"
+                                     }];
+    [self.connector adapter: self didFailAd: error];
+        
+    return;
+  }
+  
   [self.sdk.nativeAdService loadNextAdAndNotify:self];
 }
 
