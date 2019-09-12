@@ -108,6 +108,7 @@
   
   // If default zone
   if ([DEFAULT_ZONE isEqualToString:self.zoneIdentifier]) {
+    // Loading an ad for default zone must be done through zone-agnostic `ALIncentivizedInterstitialAd` instance
     [self.incent preloadAndNotify:self.appLovinDelegate];
   }
   // If custom zone id
