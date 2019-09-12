@@ -93,7 +93,7 @@
 
   // Check if a banner or MREC ad has been initiated with the samne PlacementID
   // or not. (Vungle supports only one banner currently.)
-  if (![[GADMAdapterVungleRouter sharedInstance] canRequestBannerAdForPlacementID:self.desiredPlacement withBannerType:self.adapterAdType]) {
+  if (![[GADMAdapterVungleRouter sharedInstance] canRequestBannerAdForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"A banner ad type has already been "
                                         @"instantiated. Multiple banner ads are not "
