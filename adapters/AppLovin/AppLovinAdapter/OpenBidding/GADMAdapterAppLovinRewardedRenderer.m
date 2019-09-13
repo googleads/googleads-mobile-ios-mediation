@@ -44,26 +44,18 @@
 @property(nonatomic, strong) ALSdk *sdk;
 @property(nonatomic, strong) ALIncentivizedInterstitialAd *incent;
 @property(nonatomic, strong) ALAd *ad;
-@property(nonatomic) BOOL isRTBAdRequested;
+@property(nonatomic, assign) BOOL isRTBAdRequested;
 
 @property(nonatomic, assign) BOOL fullyWatched;
 @property(nonatomic, strong, nullable) GADAdReward *reward;
 
 /// Controller properties - The connector/credentials referencing these properties may get
 /// deallocated.
-@property(nonatomic, copy) NSString *placement;
-// Placements are left in this adapter for backwards-compatibility purposes.
-@property(nonatomic, copy) NSString *zoneIdentifier;
+@property(nonatomic, copy, nullable) NSString *zoneIdentifier;
 
 @end
 
 @implementation GADMAdapterAppLovinRewardedRenderer
-
-static NSMutableArray *gRequestedRewardedZoneIdentifiers;
-
-+ (void)load {
-  gRequestedRewardedZoneIdentifiers = [[NSMutableArray alloc] init];
-}
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
@@ -83,63 +75,45 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
                                        }];
       self.adLoadCompletionHandler(nil, error);
     }
+      
+      self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
+      self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
+      self.incent.adDisplayDelegate = self.appLovinDelegate;
+      self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
   }
   return self;
 }
 
 - (void)requestRTBRewardedAd {
-  // Create rewarded video object
-  self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
   self.isRTBAdRequested = YES;
-
-  self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
-  self.incent.adDisplayDelegate = self.appLovinDelegate;
-  self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
-
-  // Load ad
+  
   [self.sdk.adService loadNextAdForAdToken:self.adConfiguration.bidResponse
                                  andNotify:self.appLovinDelegate];
 }
 
 - (void)requestRewardedAd {
-  self.isRTBAdRequested = NO;
-  self.placement =
-      [GADMAdapterAppLovinUtils retrievePlacementFromAdConfiguration:self.adConfiguration];
   self.zoneIdentifier =
       [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromAdConfiguration:self.adConfiguration];
 
-  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
-                                self.zoneIdentifier, self.placement];
-
-  // Check if incentivized ad for zone already exists.
-  NSArray *requestedZones;
-  @synchronized(gRequestedRewardedZoneIdentifiers) {
-    requestedZones = [NSArray arrayWithArray:gRequestedRewardedZoneIdentifiers];
-  }
-
-  if ([requestedZones containsObject:self.zoneIdentifier]) {
-    NSString *failureReason = @"Can't load an ad with same Zone ID without showing the first";
+  // Unable to resolve a valid zone - error out
+  if (!self.zoneIdentifier) {
+    [GADMAdapterAppLovinUtils log: @"Invalid custom zone entered. Please double-check your credentials."];
     NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
                                          code:0
-                                     userInfo:@{NSLocalizedFailureReasonErrorKey : failureReason}];
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey : @"Unable to resolve zone"}];
     self.adLoadCompletionHandler(nil, error);
-  } else {
-    // If this is a default Zone, create the incentivized ad normally.
-    if ([DEFAULT_ZONE isEqualToString:self.zoneIdentifier]) {
-      self.incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:self.sdk];
-    }
-    // Otherwise, use the Zones API.
-    else {
-      self.incent = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier:self.zoneIdentifier
-                                                                             sdk:self.sdk];
-    }
-    self.appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
-    self.incent.adVideoPlaybackDelegate = self.appLovinDelegate;
-    self.incent.adDisplayDelegate = self.appLovinDelegate;
+        
+    return;
+  }
+  
+  // If default zone
+  if ([DEFAULT_ZONE isEqualToString:self.zoneIdentifier]) {
+    // Loading an ad for default zone must be done through zone-agnostic `ALIncentivizedInterstitialAd` instance
     [self.incent preloadAndNotify:self.appLovinDelegate];
-    @synchronized(gRequestedRewardedZoneIdentifiers) {
-      [gRequestedRewardedZoneIdentifiers addObject:self.zoneIdentifier];
-    }
+  }
+  // If custom zone id
+  else {
+    [self.sdk.adService loadNextAdForZoneIdentifier: self.zoneIdentifier andNotify:self.appLovinDelegate];
   }
 }
 
@@ -147,14 +121,9 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
   // Update mute state.
   GADMAdapterAppLovinExtras *networkExtras = self.adConfiguration.extras;
   self.sdk.settings.muted = networkExtras.muteAudio;
-
-  // Reset reward states.
-  self.reward = nil;
-  self.fullyWatched = NO;
-
-  if ([self.incent isReadyForDisplay]) {
-    [GADMAdapterAppLovinUtils log:@"Showing rewarded video for zone: %@ placement: %@",
-                                  self.zoneIdentifier, self.placement];
+  
+  if (self.ad) {
+    [GADMAdapterAppLovinUtils log:@"Showing rewarded video for ad: %@", self.ad];
     [self.incent showAd:self.ad andNotify:self.appLovinDelegate];
   } else {
     [GADMAdapterAppLovinUtils log:@"Attempting to show rewarded video before one was loaded"];
@@ -189,7 +158,7 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Rewarded ad did load ad: %@", ad.adIdNumber];
+  [GADMAdapterAppLovinUtils log:@"Rewarded ad did load ad: %@", ad];
 
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = self.parentRenderer;
   parentRenderer.ad = ad;
@@ -208,9 +177,6 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
     errorDomain = GADMAdapterAppLovinConstant.rtbErrorDomain;
   } else {
     errorDomain = GADMAdapterAppLovinConstant.errorDomain;
-    @synchronized(gRequestedRewardedZoneIdentifiers) {
-      [gRequestedRewardedZoneIdentifiers removeObject:parentRenderer.zoneIdentifier];
-    }
   }
 
   NSError *error = [NSError errorWithDomain:errorDomain
@@ -240,11 +206,7 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
 - (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Rewarded ad dismissed"];
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = self.parentRenderer;
-  if (!parentRenderer.isRTBAdRequested) {
-    @synchronized(gRequestedRewardedZoneIdentifiers) {
-      [gRequestedRewardedZoneIdentifiers removeObject:_parentRenderer.zoneIdentifier];
-    }
-  }
+
   id<GADMediationRewardedAdEventDelegate> delegate = parentRenderer.delegate;
   if (parentRenderer.fullyWatched && parentRenderer.reward) {
     [delegate didRewardUserWithReward:parentRenderer.reward];
@@ -291,10 +253,6 @@ static NSMutableArray *gRequestedRewardedZoneIdentifiers;
 - (void)rewardValidationRequestForAd:(ALAd *)ad wasRejectedWithResponse:(NSDictionary *)response {
   [GADMAdapterAppLovinUtils
       log:@"Rewarded ad validation request was rejected with response: %@", response];
-}
-
-- (void)userDeclinedToViewAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"User declined to view rewarded video"];
 }
 
 - (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(NSDictionary *)response {

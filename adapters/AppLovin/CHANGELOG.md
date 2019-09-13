@@ -1,5 +1,13 @@
 # AppLovin Adapter for Google Mobile Ads SDK for iOS
 
+## Next Version
+* Fix RTB rewarded videos not being able to show even if loaded.
+* Fix adapter disallowing future ad loads of a previously-loaded zone that has been timed out by AdMob or not shown by the publisher.
+* Fix native ads not working when passing SDK key from server.
+* Validate SDK key from server, then fallback to Info.plist if server’s SDK key is invalid (e.g. in case of placeholder values being sent down).
+* Validate custom zone IDs from server (e.g. in case of placeholder values being sent down).
+* Remove placements API.
+
 ## 6.8.0.0
 - Verified compatibility with AppLovin SDK 6.8.0.
 - Removed support for Native App Install ad requests. Apps must use the Unified Native Ads API to request native ads.

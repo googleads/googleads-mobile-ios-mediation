@@ -13,20 +13,27 @@
 
 #define DEFAULT_ZONE @""
 
-static NSString *kGADAdapterAppLovinSDKKey = @"AppLovinSdkKey";
+@implementation GADMAdapterAppLovinUtils
+static NSString *const kALAppLovinSDKKey = @"AppLovinSdkKey";
 static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
 static const CGFloat kALBannerStandardHeight = 50.0f;
-
-@implementation GADMAdapterAppLovinUtils
+static const NSUInteger kALSDKKeyLength = 86;
+static const NSUInteger kALZoneIdentifierLength = 16;
 
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
-  NSString *sdkKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
-
-  if (sdkKey.length == 0) {
-    sdkKey = [[NSBundle mainBundle] infoDictionary][kGADAdapterAppLovinSDKKey];
+  // Attempt to use SDK key from server first
+  NSString *serverSDKKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
+  if ([self isValidSDKKey:serverSDKKey]) {
+    return [self retrieveSDKFromSDKKey:serverSDKKey];
   }
-
-  return [self retrieveSDKFromSDKKey:sdkKey];
+  
+  // If server SDK key is invalid, then attempt to use SDK key from Info.plist
+  NSString *infoDictSDKKey = [self infoDictionarySDKKey];
+  if ([self isValidSDKKey:infoDictSDKKey]) {
+    return [self retrieveSDKFromSDKKey:infoDictSDKKey];
+  }
+  
+  return nil;
 }
 
 + (nullable ALSdk *)retrieveSDKFromSDKKey:(NSString *)sdkKey {
@@ -38,37 +45,46 @@ static const CGFloat kALBannerStandardHeight = 50.0f;
 }
 
 + (nullable NSString *)infoDictionarySDKKey {
-  return [[NSBundle mainBundle] infoDictionary][kGADAdapterAppLovinSDKKey];
+  return [[NSBundle mainBundle] infoDictionary][kALAppLovinSDKKey];
 }
 
 + (BOOL)infoDictionaryHasValidSDKKey {
-  NSDictionary<NSString *, id> *infoDict = [[NSBundle mainBundle] infoDictionary];
-  id maybeSdkKey = infoDict[kGADAdapterAppLovinSDKKey];
-
-  return [maybeSdkKey isKindOfClass:[NSString class]] && ((NSString *)maybeSdkKey).length > 0;
+  return [self isValidSDKKey: [self infoDictionarySDKKey]];
 }
 
-+ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector {
-  return connector.credentials[GADMAdapterAppLovinConstant.placementKey] ?: @"";
++ (BOOL)isValidSDKKey:(NSString *)key {
+  return [key isKindOfClass:[NSString class]] && ((NSString *) key).length == kALSDKKeyLength;
 }
 
-+ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
-  return connector.credentials[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: DEFAULT_ZONE;
++ (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
+  return [self retrieveZoneIdentifierFromDict:connector.credentials];
 }
 
-+ (NSString *)retrievePlacementFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-  return adConfig.credentials.settings[GADMAdapterAppLovinConstant.placementKey] ?: @"";
++ (nullable NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
+    return [self retrieveZoneIdentifierFromDict:adConfig.credentials.settings];
 }
 
-+ (NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-  return adConfig.credentials.settings[GADMAdapterAppLovinConstant.zoneIdentifierKey] ?: @"";
++ (nullable NSString *)retrieveZoneIdentifierFromDict:(NSDictionary <NSString *, id> *)dict {
+  NSString *customZoneIdentifier = dict[GADMAdapterAppLovinConstant.zoneIdentifierKey];
+  
+  // Custom zone found
+  if (customZoneIdentifier) {
+    // Custom zone is valid
+    if (customZoneIdentifier.length == kALZoneIdentifierLength) {
+      return customZoneIdentifier;
+    // Custom zone is invalid - return nil (adapter will fail the ad load)
+    } else {
+      return nil;
+    }
+  }
+  
+  [self log: @"WARNING: Please provide a custom zone in your AdMob configuration. Using default zone..."];
+    
+  // Use default zone if no custom zone attempted
+  return DEFAULT_ZONE;
 }
 
 + (GADErrorCode)toAdMobErrorCode:(int)code {
-  //
-  // TODO: Be more exhaustive.
-  //
-
   if (code == kALErrorCodeNoFill) {
     return kGADErrorMediationNoFill;
   } else if (code == kALErrorCodeAdRequestNetworkTimeout) {
