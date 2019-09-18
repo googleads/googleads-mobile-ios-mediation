@@ -6,6 +6,8 @@
 
 @interface GADMAdapterVungleInterstitial ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+// To avoid multiple clean up BannerAd View
+@property(nonatomic, assign) BOOL isBannerAdViewCompleted;
 @end
 
 @implementation GADMAdapterVungleInterstitial
@@ -31,7 +33,7 @@ static BOOL _isAdPresenting;
 }
 
 - (void)dealloc {
-  [self stopBeingDelegate];
+  //[self stopBeingDelegate];
 }
 
 #pragma mark - GAD Ad Network Protocol Banner Methods (MREC)
@@ -152,6 +154,9 @@ static BOOL _isAdPresenting;
 
 - (void)stopBeingDelegate {
   if (self.adapterAdType == MREC) {
+    if (self.isBannerAdViewCompleted) return;
+    self.isBannerAdViewCompleted = YES;
+
     [[VungleRouter sharedInstance] completeBannerAdViewForPlacementID:self.desiredPlacement];
     self.connector = nil;
     [[VungleRouter sharedInstance] removeDelegate:self];

@@ -243,13 +243,9 @@
                                             placementID:placementID
                                                   error:&bannerError];
   if (success) {
-    self.isMrecPlaying = YES;
-
     return bannerView;
   } else {
     NSLog(@"Banner loading error: %@", bannerError.localizedDescription);
-    self.isMrecPlaying = NO;
-
     return nil;
   }
 
@@ -283,6 +279,12 @@
   if (delegate) {
     [delegate willShowAd];
   }
+}
+
+- (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
+    if ([placementID isEqualToString:self.mrecPlacementID]) {
+        self.isMrecPlaying = YES;
+    }
 }
 
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
