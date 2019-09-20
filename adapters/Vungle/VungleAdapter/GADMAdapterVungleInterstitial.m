@@ -60,7 +60,7 @@ static BOOL _isAdPresenting;
   if (!self.desiredPlacement) {
     [strongConnector
           adapter:self
-        didFailAd:[NSError errorWithDomain:@"GADMAdapterVungleBanner"
+        didFailAd:[NSError errorWithDomain:kGADMAdapterVungleErrorDomain
                                       code:0
                                   userInfo:@{
                                     NSLocalizedDescriptionKey : @"'placementID' not specified"
@@ -204,7 +204,7 @@ static BOOL _isAdPresenting;
     [self.connector
           adapter:self
         didFailAd:[NSError
-                      errorWithDomain:@"GADMAdapterVungleBanner"
+                      errorWithDomain:kGADMAdapterVungleErrorDomain
                                  code:0
                              userInfo:@{NSLocalizedDescriptionKey : @"Error in creating adView"}]];
   }

@@ -62,7 +62,7 @@
     return;
   }
 
-  _isInitialising = true;
+  _isInitialising = NO;
   _isMrecPlaying = NO;
 
   NSError *err = nil;
