@@ -158,7 +158,11 @@
 }
 
 - (BOOL)canRequestBannerAdForPlacementID:(NSString *)placmentID {
-  return self.mrecPlacementID == nil || [self.mrecPlacementID isEqualToString:placmentID];
+    if (self.bannerDelegates.count > 0) {
+        return self.mrecPlacementID == nil || [self.mrecPlacementID isEqualToString:placmentID];
+    }
+    
+    return YES;
 }
 
 - (NSError *)loadAd:(NSString *)placement withDelegate:(id<VungleDelegate>)delegate {
