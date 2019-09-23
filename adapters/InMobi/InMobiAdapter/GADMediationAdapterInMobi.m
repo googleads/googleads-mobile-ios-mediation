@@ -41,7 +41,9 @@ static BOOL isAppInitialized;
 
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *accountIDFromSettings = cred.settings[kGADMAdapterInMobiAccountID];
-    GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
+    if (accountIDFromSettings.length) {
+      GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
+    }
   }
 
   if (!accountIDs.count) {
