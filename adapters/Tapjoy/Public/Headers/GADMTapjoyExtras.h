@@ -1,5 +1,5 @@
-@import GoogleMobileAds;
-@import Foundation;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMTapjoyExtras : NSObject <GADAdNetworkExtras>
 
