@@ -135,19 +135,19 @@
 		7D1BDEB21DD283920081D7AD /* TapjoyAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				453B0B39229F5FF600D60AB3 /* OpenBidding */,
 				88898C1C1DDFD11700B0E673 /* GADMAdapterTapjoy.h */,
-				00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */,
-				00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */,
 				88898C1D1DDFD11700B0E673 /* GADMAdapterTapjoy.m */,
-				8895D5811E01D676008BE231 /* GADMTapjoyExtras.m */,
-				45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */,
-				45E6363522386F39006EB5A1 /* GADMediationAdapterTapjoy.m */,
 				45E6363C2238809E006EB5A1 /* GADMAdapterTapjoyConstants.h */,
 				4588B2E422498B4800868387 /* GADMAdapterTapjoySingleton.h */,
 				4588B2E522498B4800868387 /* GADMAdapterTapjoySingleton.m */,
+				00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */,
+				00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */,
+				45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */,
+				45E6363522386F39006EB5A1 /* GADMediationAdapterTapjoy.m */,
 				452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */,
 				452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */,
+				8895D5811E01D676008BE231 /* GADMTapjoyExtras.m */,
+				453B0B39229F5FF600D60AB3 /* OpenBidding */,
 			);
 			path = TapjoyAdapter;
 			sourceTree = "<group>";

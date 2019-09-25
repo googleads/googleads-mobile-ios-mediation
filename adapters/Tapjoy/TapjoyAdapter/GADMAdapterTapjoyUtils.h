@@ -14,4 +14,16 @@
 
 #import <Foundation/Foundation.h>
 
+/// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Adds |object| to |array| if |object| is not nil.
+void GADMAdapterTapjoyMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object);
+
+/// Removes |object| from |array| if |object| is not nil.
+void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
+                                               NSObject *_Nonnull object);
+
+/// Removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);

@@ -16,6 +16,26 @@
 
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterTapjoyMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
+                                               NSObject *_Nonnull object) {
+  if (object) {
+    [array removeObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
   }
 }
