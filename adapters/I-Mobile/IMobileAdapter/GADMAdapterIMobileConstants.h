@@ -12,10 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-#import <ImobileSdkAds/ImobileSdkAds.h>
+/// Adapter version.
+static NSString *const kGADMAdapterIMobileVersion = @"2.0.29.0";
 
-/// Adapter for native ads.
-@interface GADMediationAdapterIMobile : NSObject<GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
+/// Key of i-mobile publisher ID.
+static NSString *const kGADMAdapterIMobilePublisherIdKey = @"publisherId";
 
-@end
+/// Key of i-mobile media ID.
+static NSString *const kGADMAdapterIMobileMediaIdKey = @"mid";
+
+/// Key of i-mobile spot ID.
+static NSString *const kGADMAdapterIMobileSpotIdKey = @"asid";
+
+/// String of call to action.
+static NSString *const kGADMAdapterIMobileCallToAction = @"詳細はこちら";
