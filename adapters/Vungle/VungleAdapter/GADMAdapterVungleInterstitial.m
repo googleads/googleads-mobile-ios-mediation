@@ -41,8 +41,11 @@ static BOOL _isAdPresenting;
 - (void)getBannerWithSize:(GADAdSize)adSize {
   self.adapterAdType = MREC;
 
+  // An array of supported ad sizes.
+  NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle)];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   // Check if given banner size is in MREC.
-  if (!CGSizeEqualToSize(adSize.size, kGADAdSizeMediumRectangle.size)) {
+  if (!IsGADAdSizeValid(closestSize)) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterVungleErrorDomain
                    code:0
@@ -76,7 +79,7 @@ static BOOL _isAdPresenting;
                             code:0
                         userInfo:@{
                           NSLocalizedDescriptionKey : @"A banner ad type has been already "
-                                                      @"instanciated. Multiple banner ads are not "
+                                                      @"instantiated. Multiple banner ads are not "
                                                       @"supported with Vungle iOS SDK."
                         }];
     [self.connector adapter:self didFailAd:error];
