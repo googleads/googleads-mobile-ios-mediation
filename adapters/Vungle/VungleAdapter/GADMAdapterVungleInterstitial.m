@@ -75,7 +75,7 @@
         self.adapterAdType = MREC;
     } else if (CGSizeEqualToSize(adSize.size, kGADAdSizeBanner.size)) {
         self.adapterAdType = Banner;
-    } else if (CGSizeEqualToSize(adSize.size, kVGNBannerShortSize)) {
+    } else if (CGSizeEqualToSize(adSize.size, kVNGBannerShortSize)) {
         self.adapterAdType = ShortBanner;
     } else if (CGSizeEqualToSize(adSize.size, kGADAdSizeLeaderboard.size)) {
         self.adapterAdType = LeaderboardBanner;
