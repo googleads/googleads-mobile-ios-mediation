@@ -23,7 +23,7 @@ static NSString *const kAdapterMinimumFileSystemSizeForAssetDownload =
 }
 
 + (void)setMinSpaceForInit:(int)size {
-  if (size && size >= 0) {
+  if (size >= 0) {
     [[NSUserDefaults standardUserDefaults] setInteger:size
                                                forKey:kAdapterMinimumFileSystemSizeForInit];
   } else {
@@ -33,7 +33,7 @@ static NSString *const kAdapterMinimumFileSystemSizeForAssetDownload =
 }
 
 + (void)setMinSpaceForAdLoad:(int)size {
-  if (size && size >= 0) {
+  if (size >= 0) {
     [[NSUserDefaults standardUserDefaults] setInteger:size
                                                forKey:kAdapterMinimumFileSystemSizeForAdRequest];
     [[NSUserDefaults standardUserDefaults]

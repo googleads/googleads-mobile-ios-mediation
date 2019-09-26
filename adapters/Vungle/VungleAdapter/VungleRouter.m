@@ -62,7 +62,7 @@
     return;
   }
 
-  _isInitialising = NO;
+  _isInitialising = YES;
   _isMrecPlaying = NO;
 
   NSError *err = nil;
@@ -137,7 +137,6 @@
 
 - (BOOL)hasDelegateForPlacementID:(NSString *)placementID
                       adapterType:(VungleNetworkAdapterAdType)adapterType {
-  BOOL result = NO;
   NSMapTable<NSString *, id<VungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
     delegates = [self.delegates copy];
@@ -149,12 +148,11 @@
     id<VungleDelegate> delegate = [delegates objectForKey:key];
     if (delegate.adapterAdType == adapterType &&
         [delegate.desiredPlacement isEqualToString:placementID]) {
-      result = YES;
-      break;
+      return YES;
     }
   }
 
-  return result;
+  return NO;
 }
 
 - (BOOL)canRequestBannerAdForPlacementID:(NSString *)placmentID {
@@ -302,8 +300,8 @@
 - (void)vungleDidCloseAdWithViewInfo:(VungleViewInfo *)info placementID:(NSString *)placementID {
   id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
-    [self removeDelegate:delegate];
     [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
+    [self removeDelegate:delegate];
   }
 }
 
@@ -318,8 +316,8 @@
     [delegate adAvailable];
   } else if (error) {
     NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
-    [self removeDelegate:delegate];
     [delegate adNotAvailable:error];
+    [self removeDelegate:delegate];
   }
 }
 
