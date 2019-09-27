@@ -35,6 +35,10 @@
   BOOL _isRewardedAdPresenting;
 }
 
++ (NSString *)adapterVersion {
+    return kGADMAdapterVungleVersion;
+}
+
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
           completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler {
