@@ -93,6 +93,13 @@
   return NO;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+  if (self.mainImageView) {
+    return self.mainImageView.frame.size.width / self.mainImageView.frame.size.height;
+  }
+  return 0.0f;
+}
+
 - (UIView *)mediaView {
   return self.mainImageView;
 }

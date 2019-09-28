@@ -1,5 +1,8 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Next Version
+- Adapter now returns a non-zero `mediaContent` aspect ratio.
+
 #### Version 5.3.3.0
 - Verified compatibility with myTarget SDK version 5.3.3
 - Removed support for Native Content and App Install ad requests. Apps must use the Unified Native Ads API to request native ads.
