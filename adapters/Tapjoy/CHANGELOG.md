@@ -1,5 +1,8 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Version 12.3.3.0
+- Verified compatibility with Tapjoy SDK 12.3.3.
+
 #### Version 12.3.2.0
 - Verified compatibility with Tapjoy SDK 12.3.2.
 
