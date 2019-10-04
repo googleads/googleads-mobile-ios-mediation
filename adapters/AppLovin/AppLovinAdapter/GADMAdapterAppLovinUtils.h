@@ -30,21 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 // Retrieve the SDK key from the Info.plist, if any
 + (nullable NSString *)infoDictionarySDKKey;
 
-/// Retrieves the placement from an appropriate connector object. Will use empty string if none
-/// exists.
-+ (NSString *)retrievePlacementFromConnector:(id<GADMediationAdRequest>)connector;
-
 /// Retrieves the zone identifier from an appropriate connector object. Will use empty string if
-/// none exists.
-+ (NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector;
-
-/// Retrieves the placement from an appropriate adConfiguration object. Will use empty string if
-/// none exists.
-+ (NSString *)retrievePlacementFromAdConfiguration:(GADMediationAdConfiguration *)adConfig;
+/// none exists. If it is an invalid custom zone, return nil.
++ (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector;
 
 /// Retrieves the zone identifier from an appropriate adConfiguration object. Will use empty string
-/// if none exists.
-+ (NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig;
+/// if none exists. If it is an invalid custom zone, return nil.
++ (nullable NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig;
 
 /// Convert the given AppLovin SDK error code into the appropriate AdMob error code.
 + (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;

@@ -19,6 +19,9 @@ static CGFloat const DefaultIconScale = 1.0;
   /// Native ad obtained from InMobi.
   IMNative *_native;
 
+  /// Aspect ratio of the Native ad obtained from InMobi.
+  CGFloat _aspectRatio;
+
   /// Icon image sent to Google Mobile Ads SDK.
   GADNativeAdImage *_mappedIcon;
 
@@ -79,7 +82,11 @@ static CGFloat const DefaultIconScale = 1.0;
     completed();
     return;
   }
-  _extras = @{LANDING_URL : [_nativeAdContentDictionary objectForKey:LANDING_URL]};
+
+  NSString *landingURL = _nativeAdContentDictionary[LANDING_URL];
+  if (landingURL) {
+    _extras = @{LANDING_URL : landingURL};
+  }
   NSURL *iconURL = [NSURL URLWithString:iconStringURL];
 
   // Pass a blank image since we are using only mediaview.
@@ -229,6 +236,10 @@ static CGFloat const DefaultIconScale = 1.0;
   return true;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+  return _aspectRatio;
+}
+
 - (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
@@ -247,6 +258,8 @@ static CGFloat const DefaultIconScale = 1.0;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
   [mediaView addSubview:primaryView];
+
+  _aspectRatio = primaryView.frame.size.width / primaryView.frame.size.height;
 }
 
 - (void)didUntrackView:(UIView *)view {

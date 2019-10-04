@@ -15,7 +15,14 @@
 @import GoogleMobileAds;
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
-/// Adapter for native ads.
-@interface GADMediationAdapterIMobile : NSObject<GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
+/// Mapper for GADMediatedUnifiedNativeAd.
+@interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
+
+/// Initialize.
+- (instancetype)initWithIMobileNativeAd:(ImobileSdkAdsNativeObject *)iMobileNativeAd
+                                  image:(UIImage*)image NS_DESIGNATED_INITIALIZER;
+
+/// Unavailable.
+- (instancetype)init NS_UNAVAILABLE;
 
 @end

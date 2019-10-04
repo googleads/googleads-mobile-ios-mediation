@@ -24,6 +24,6 @@ void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
                                                        id<NSCopying> _Nullable key,
                                                        id _Nullable value);
 
-/// Validates the placement identifier obtained from the Google Mobile ads SDK.
+/// Validates the placement identifier obtained from the Google Mobile Ads SDK.
 NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
     NSNumber *_Nonnull placementIdentifier);

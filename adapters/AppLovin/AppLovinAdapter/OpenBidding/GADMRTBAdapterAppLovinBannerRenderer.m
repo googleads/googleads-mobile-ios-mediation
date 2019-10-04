@@ -105,7 +105,7 @@
 #pragma mark - Ad Load Delegate
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad.adIdNumber];
+  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
 
   GADMRTBAdapterAppLovinBannerRenderer *parentRenderer = self.parentRenderer;
   dispatch_async(dispatch_get_main_queue(), ^{

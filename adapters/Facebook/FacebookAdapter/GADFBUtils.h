@@ -31,7 +31,3 @@ void GADFBConfigureMediationService(void);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
-
-/// Sets |value| for |key| in |dictionary| if |value| is not nil.
-void GADMAdapterFacebookMutableDictionarySet(NSMutableDictionary *_Nonnull dictionary,
-                                             id<NSCopying> _Nullable key, id _Nullable value);

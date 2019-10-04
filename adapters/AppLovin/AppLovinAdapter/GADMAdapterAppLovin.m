@@ -45,8 +45,6 @@
 
 /// Controller properties - The connector/credentials referencing these properties may get
 /// deallocated.
-@property(nonatomic, copy) NSString *placement;
-// Placements are left in this adapter for backwards-compatibility purposes.
 @property(nonatomic, copy) NSString *zoneIdentifier;
 
 @property(nonatomic) GADAdSize adSize;
@@ -106,12 +104,21 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:strongConnector];
   self.zoneIdentifier =
       [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:strongConnector];
 
-  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@ and placement: %@",
-                                self.zoneIdentifier, self.placement];
+  // Unable to resolve a valid zone - error out
+  if (!self.zoneIdentifier) {
+    [GADMAdapterAppLovinUtils log: @"Invalid custom zone entered. Please double-check your credentials."];
+    NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                         code:0
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey : @"Unable to resolve zone"}];
+    [strongConnector adapter:self didFailAd:error];
+          
+    return;
+  }
+    
+  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@", self.zoneIdentifier];
 
   NSArray *requestedZones;
   @synchronized(gRequestedInterstitialZoneIdentifiers) {
@@ -151,8 +158,8 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
   GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
   self.sdk.settings.muted = networkExtras.muteAudio;
 
-  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@ placement: %@",
-                                _alInterstitialAd.adIdNumber, self.zoneIdentifier, self.placement];
+  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@",
+                                _alInterstitialAd.adIdNumber, self.zoneIdentifier];
   [self.interstitial showAd:_alInterstitialAd];
 }
 
@@ -161,12 +168,22 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   self.adSize = adSize;
-  self.placement = [GADMAdapterAppLovinUtils retrievePlacementFromConnector:strongConnector];
   self.zoneIdentifier =
       [GADMAdapterAppLovinUtils retrieveZoneIdentifierFromConnector:strongConnector];
 
-  [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@ and placement: %@",
-                                NSStringFromGADAdSize(adSize), self.zoneIdentifier, self.placement];
+  // Unable to resolve a valid zone - error out
+  if (!self.zoneIdentifier) {
+    [GADMAdapterAppLovinUtils log: @"Invalid custom zone entered. Please double-check your credentials."];
+    NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.errorDomain
+                                         code:0
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey : @"Unable to resolve zone"}];
+    [strongConnector adapter:self didFailAd:error];
+            
+    return;
+  }
+    
+  [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@",
+                                NSStringFromGADAdSize(adSize), self.zoneIdentifier];
 
   // Convert requested size to AppLovin Ad Size.
   ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils adSizeFromRequestedSize:adSize];
@@ -246,8 +263,7 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
   GADMAdapterAppLovin *parentRenderer = self.parentRenderer;
-  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@ for zone: %@", ad.adIdNumber,
-                                parentRenderer.zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
   parentRenderer.alInterstitialAd = ad;
   [parentRenderer.connector adapterDidReceiveInterstitial:parentRenderer];
 }
@@ -326,9 +342,7 @@ static NSMutableArray *gRequestedInterstitialZoneIdentifiers;
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
   GADMAdapterAppLovin *parentAdapter = self.parentAdapter;
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@ for zone: %@ and placement: %@",
-                                ad.adIdNumber, parentAdapter.zoneIdentifier,
-                                parentAdapter.placement];
+  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
   [parentAdapter.adView render:ad];
   [parentAdapter.connector adapter:parentAdapter didReceiveAdView:parentAdapter.adView];
 }

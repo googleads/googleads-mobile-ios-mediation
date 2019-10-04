@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class, nonatomic, copy, readonly) NSString *adapterVersion;
 
 @property(class, nonatomic, copy, readonly) NSString *sdkKey;
-@property(class, nonatomic, copy, readonly) NSString *placementKey;
 @property(class, nonatomic, copy, readonly) NSString *zoneIdentifierKey;
 @property(class, nonatomic, copy, readonly) NSString *bundleIdentifierKey;
 

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterMyTargetExtras : NSObject<GADAdNetworkExtras>
 

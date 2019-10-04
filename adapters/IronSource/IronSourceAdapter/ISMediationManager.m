@@ -347,8 +347,8 @@
 - (void)addRewardedDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)adapterDelegate
               forInstanceID:(NSString *)instanceID {
   @synchronized(self.rewardedAdapterDelegates) {
-    GADMAdapterMaioMapTableSetObjectForKey(self.rewardedAdapterDelegates, instanceID,
-                                           adapterDelegate);
+    GADMAdapterIronSourceMapTableSetObjectForKey(self.rewardedAdapterDelegates, instanceID,
+                                                 adapterDelegate);
   }
 }
 
@@ -364,8 +364,8 @@
 - (void)addInterstitialDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)adapterDelegate
                   forInstanceID:(NSString *)instanceID {
   @synchronized(self.interstitialAdapterDelegates) {
-    GADMAdapterMaioMapTableSetObjectForKey(self.rewardedAdapterDelegates, instanceID,
-                                           adapterDelegate);
+    GADMAdapterIronSourceMapTableSetObjectForKey(self.interstitialAdapterDelegates, instanceID,
+                                                 adapterDelegate);
   }
 }
 
