@@ -140,10 +140,7 @@
 }
 
 - (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && !_isRTBRequest) {
-    [strongDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 #pragma mark GADMediationRewardedAd

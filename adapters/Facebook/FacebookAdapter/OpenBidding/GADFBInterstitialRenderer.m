@@ -97,9 +97,7 @@
 }
 
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
-  if (!_isRTBRequest) {
-    [_adEventDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {

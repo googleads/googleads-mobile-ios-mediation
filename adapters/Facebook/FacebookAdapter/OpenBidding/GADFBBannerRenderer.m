@@ -136,6 +136,10 @@
   }
 }
 
+- (void)adViewWillLogImpression:(FBAdView *)adView {
+  [_adEventDelegate reportImpression];
+}
+
 - (void)adViewDidFinishHandlingClick:(FBAdView *)adView {
   // Do nothing
 }
