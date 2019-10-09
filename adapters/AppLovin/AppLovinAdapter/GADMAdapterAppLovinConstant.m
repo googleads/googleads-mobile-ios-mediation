@@ -8,34 +8,18 @@
 
 #import "GADMAdapterAppLovinConstant.h"
 
-@implementation GADMAdapterAppLovinConstant
+NSString *const GADMAdapterAppLovinErrorDomain = @"com.google.mediation.applovin";
 
-+ (NSString *)errorDomain {
-  return @"com.applovin.sdk.mediation.admob.errorDomain";
-}
+NSString *const GADMAdapterAppLovinRTBErrorDomain = @"com.google.mediation.rtb.applovin";
 
-+ (NSString *)rtbErrorDomain {
-  return @"com.applovin.sdk.mediation.admob.rtb.errorDomain";
-}
+NSString *const GADMAdapterAppLovinInfoPListSDKKey = @"AppLovinSdkKey";
 
-+ (NSString *)adapterVersion {
-  return @"6.8.0.0";
-}
+NSString *const GADMAdapterAppLovinAdapterVersion = @"6.8.0.0";
 
-+ (NSString *)sdkKey {
-  return @"sdkKey";
-}
+NSString *const GADMAdapterAppLovinSDKKey = @"sdkKey";
 
-+ (NSString *)zoneIdentifierKey {
-  return @"zone_id";
-}
+NSString *const GADMAdapterAppLovinZoneIdentifierKey = @"zone_id";
 
-+ (NSString *)bundleIdentifierKey {
-  return @"bundleId";
-}
+NSString *const GADMAdapterAppLovinBundleIdentifierKey = @"bundleId";
 
-+ (BOOL)loggingEnabled {
-  return YES;
-}
-
-@end
+NSString *const GADMAdapterAppLovinDefaultZoneIdentifier = @"";

@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,15 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
+#import "GADMAdapterAppLovin.h"
+
+/// AppLovin banner delegate wrapper. AppLovin banner protocols are implemented in a separate class
+/// to avoid a retain cycle, as the AppLovin SDK keeps a strong reference to its delegate.
+@interface GADMAdapterAppLovinBannerDelegate
+    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+
+/// Initializes a banner ad delegate with parent adapter. Here parent adapter is a wrapper to the
+/// AppLovin's banner ad and is used to request and present banner ads from AppLovin SDK.
+- (nonnull instancetype)initWithParentAdapter:(nonnull GADMAdapterAppLovin *)parentAdapter;
 
 @end

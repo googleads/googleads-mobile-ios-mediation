@@ -8,20 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+/// AppLovin adapter error domain.
+extern NSString *_Nonnull const GADMAdapterAppLovinErrorDomain;
 
-@interface GADMAdapterAppLovinConstant : NSObject
+/// AppLovin adapter rtb error domain.
+extern NSString *_Nonnull const GADMAdapterAppLovinRTBErrorDomain;
 
-@property(class, nonatomic, copy, readonly) NSString *errorDomain;
-@property(class, nonatomic, copy, readonly) NSString *rtbErrorDomain;
-@property(class, nonatomic, copy, readonly) NSString *adapterVersion;
+/// AppLovin SDK parameter key in Info.plist file.
+extern NSString *_Nonnull const GADMAdapterAppLovinInfoPListSDKKey;
 
-@property(class, nonatomic, copy, readonly) NSString *sdkKey;
-@property(class, nonatomic, copy, readonly) NSString *zoneIdentifierKey;
-@property(class, nonatomic, copy, readonly) NSString *bundleIdentifierKey;
+/// AppLovin adapter version number.
+extern NSString *_Nonnull const GADMAdapterAppLovinAdapterVersion;
 
-@property(class, nonatomic, assign, readonly) BOOL loggingEnabled;
+/// AppLovin SDK parameter key.
+extern NSString *_Nonnull const GADMAdapterAppLovinSDKKey;
 
-@end
+/// AppLovin zone identifier parameter key.
+extern NSString *_Nonnull const GADMAdapterAppLovinZoneIdentifierKey;
 
-NS_ASSUME_NONNULL_END
+/// AppLovin bundle identifier parameter key.
+extern NSString *_Nonnull const GADMAdapterAppLovinBundleIdentifierKey;
+
+/// AppLovin default zone identifier.
+extern NSString *_Nonnull const GADMAdapterAppLovinDefaultZoneIdentifier;

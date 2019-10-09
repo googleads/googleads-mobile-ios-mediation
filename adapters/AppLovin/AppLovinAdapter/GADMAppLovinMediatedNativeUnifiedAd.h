@@ -11,7 +11,7 @@
 
 @interface GADMAppLovinMediatedNativeUnifiedAd : NSObject <GADMediatedUnifiedNativeAd>
 
-- (instancetype)initWithNativeAd:(ALNativeAd *)nativeAd NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (nonnull instancetype)initWithNativeAd:(nonnull ALNativeAd *)nativeAd NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 @end

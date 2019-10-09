@@ -9,16 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMRTBAdapterAppLovinBannerRenderer : NSObject
 
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
+
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads an AppLovin banner ad.
 - (void)loadAd;
 
-- (instancetype)initWithAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationBannerLoadCompletionHandler)handler;
-- (instancetype)init NS_UNAVAILABLE;
-
 @end
-
-NS_ASSUME_NONNULL_END

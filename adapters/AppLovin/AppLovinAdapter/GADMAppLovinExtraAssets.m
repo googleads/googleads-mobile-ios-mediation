@@ -8,5 +8,8 @@
 
 #import "GADMAppLovinExtraAssets.h"
 
+/// AppLovin native ad ad ID key.
 NSString *const GADMAppLovinAdID = @"ad_id";
+
+/// AppLovin native ad caption key.
 NSString *const GADMAppLovinCaption = @"caption";
