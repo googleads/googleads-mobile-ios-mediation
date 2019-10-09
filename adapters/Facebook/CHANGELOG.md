@@ -1,6 +1,6 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.5.1.1
 - Adapter now returns a non-zero `mediaContent` aspect ratio once the media view is rendered in a view.
 - Added additional logging for open bidding.
 
