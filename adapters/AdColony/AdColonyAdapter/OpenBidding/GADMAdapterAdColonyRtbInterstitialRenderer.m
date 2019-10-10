@@ -38,13 +38,27 @@
                         (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   self.renderCompletionHandler = handler;
 
-  // Take out zone Id for which request received
-  NSString *zone = adConfig.credentials.settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
-  [self getInterstitialFromZoneId:zone withAdConfig:adConfig];
+  GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
+  [GADMAdapterAdColonyHelper
+      setupZoneFromAdConfig:adConfig
+                   callback:^(NSString *zone, NSError *error) {
+                     GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+
+                     if (!strongSelf) {
+                       return;
+                     }
+
+                     if (error) {
+                       strongSelf.renderCompletionHandler(nil, error);
+                       return;
+                     }
+
+                     [strongSelf getInterstitialFromZoneID:zone adConfig:adConfig];
+                   }];
 }
 
-- (void)getInterstitialFromZoneId:(NSString *)zone
-                     withAdConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration {
+- (void)getInterstitialFromZoneID:(NSString *)zone
+                         adConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration {
   self.interstitialAd = nil;
 
   __weak typeof(self) weakSelf = self;

@@ -39,7 +39,12 @@
   [GADMAdapterAdColonyHelper setupZoneFromAdConfig:adConfig
                                           callback:^(NSString *zone, NSError *error) {
                                             __strong typeof(weakSelf) strongSelf = weakSelf;
-                                            if (error && strongSelf) {
+
+                                            if (!strongSelf) {
+                                              return;
+                                            }
+
+                                            if (error) {
                                               strongSelf.loadCompletionHandler(nil, error);
                                               return;
                                             }
