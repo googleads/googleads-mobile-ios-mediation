@@ -457,7 +457,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (void)nativeDidFinishLoading:(IMNative *)native {
   if (self.native != native) {
     GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                            code:kGADErrorMediationNoFill
+                                                            code:kGADErrorNoFill
                                                         userInfo:nil];
     [self.connector adapter:self didFailAd:reqError];
     return;

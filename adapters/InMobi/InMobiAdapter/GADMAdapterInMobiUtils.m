@@ -14,7 +14,7 @@ NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode
   NSInteger errorCode;
   switch (inMobiErrorCode) {
     case kIMStatusCodeNoFill:
-      errorCode = kGADErrorMediationNoFill;
+      errorCode = kGADErrorNoFill;
       break;
     case kIMStatusCodeRequestTimedOut:
       errorCode = kGADErrorTimeout;

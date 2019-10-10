@@ -269,7 +269,7 @@ static CGFloat const DefaultIconScale = 1.0;
 
 - (void)inmobiMediatedUnifiedNativeAdFailed {
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                          code:kGADErrorMediationNoFill
+                                                          code:kGADErrorNoFill
                                                       userInfo:nil];
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }

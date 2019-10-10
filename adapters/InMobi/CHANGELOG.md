@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 7.4.0.0
+- Verified compatibility with InMobi SDK 7.4.0.
+
 #### Version 7.3.2.1
 - Fixed an issue where the adapter fails to initialize due to invalid mediation configurations.
 
