@@ -16,8 +16,11 @@
 #import "GADMAdapterAppLovinUtils.h"
 
 @implementation GADMAdapterAppLovinMediationManager {
-  /// An array of zone identifiers used to request interstitial ads from AppLovin.
+  /// A set of zone identifiers used to request interstitial ads from AppLovin.
   NSMutableSet<NSString *> *_requestedInterstitialZoneIdentifiers;
+
+  /// A set of zone identifiers used to request rewarded ads from AppLovin.
+  NSMutableSet<NSString *> *_requestedRewardedZoneIdentifiers;
 
   /// Serializes ivar usage.
   dispatch_queue_t _lockQueue;
@@ -35,6 +38,7 @@
 - (nonnull instancetype)init {
   self = [super init];
   if (self) {
+    _requestedRewardedZoneIdentifiers = [[NSMutableSet alloc] init];
     _requestedInterstitialZoneIdentifiers = [[NSMutableSet alloc] init];
     _lockQueue = dispatch_queue_create("applovin-mediationManager", DISPATCH_QUEUE_SERIAL);
   }
@@ -43,6 +47,7 @@
 
 - (BOOL)containsAndAddInterstitialZoneIdentifier:(nonnull NSString *)zoneIdentifier {
   __block BOOL containsZone = NO;
+  zoneIdentifier = [zoneIdentifier copy];
   dispatch_sync(_lockQueue, ^{
     containsZone = [self->_requestedInterstitialZoneIdentifiers containsObject:zoneIdentifier];
     GADMAdapterAppLovinMutableSetAddObject(self->_requestedInterstitialZoneIdentifiers,
@@ -56,6 +61,23 @@
     GADMAdapterAppLovinMutableSetRemoveObject(self->_requestedInterstitialZoneIdentifiers,
                                               zoneIdentifier);
   });
+}
+
+- (void)removeRewardedZoneIdentifier:(nonnull NSString *)zoneIdentifier {
+  dispatch_async(_lockQueue, ^{
+    GADMAdapterAppLovinMutableSetRemoveObject(self->_requestedRewardedZoneIdentifiers,
+                                              zoneIdentifier);
+  });
+}
+
+- (BOOL)containsAndAddRewardedZoneIdentifier:(nonnull NSString *)zoneIdentifier {
+  __block BOOL containsZone = NO;
+  zoneIdentifier = [zoneIdentifier copy];
+  dispatch_sync(_lockQueue, ^{
+    containsZone = [self->_requestedRewardedZoneIdentifiers containsObject:zoneIdentifier];
+    GADMAdapterAppLovinMutableSetAddObject(self->_requestedRewardedZoneIdentifiers, zoneIdentifier);
+  });
+  return containsZone;
 }
 
 @end

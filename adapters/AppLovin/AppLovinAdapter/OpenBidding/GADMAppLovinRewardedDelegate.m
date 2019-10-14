@@ -14,6 +14,7 @@
 
 #import "GADMAppLovinRewardedDelegate.h"
 #import "GADMAdapterAppLovinConstant.h"
+#import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMAdapterAppLovinUtils.h"
 
 @implementation GADMAppLovinRewardedDelegate {
@@ -54,13 +55,8 @@
 
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
-  NSString *errorDomain;
-  if (parentRenderer.isRTBAdRequested) {
-    errorDomain = GADMAdapterAppLovinRTBErrorDomain;
-  } else {
-    errorDomain = GADMAdapterAppLovinErrorDomain;
-  }
-
+  [GADMAdapterAppLovinMediationManager.sharedInstance
+      removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
   if (parentRenderer.adLoadCompletionHandler) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Rewarded ad failed to load.");
@@ -90,6 +86,8 @@
   if (_fullyWatched && _reward) {
     [delegate didRewardUserWithReward:_reward];
   }
+  [GADMAdapterAppLovinMediationManager.sharedInstance
+      removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
 
   [delegate willDismissFullScreenView];
   [delegate didDismissFullScreenView];

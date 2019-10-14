@@ -10,6 +10,7 @@
 #include <stdatomic.h>
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
+#import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
 
@@ -17,7 +18,7 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @implementation GADMAdapterAppLovinRewardedRenderer {
-  /// Data used to render an rewarded ad.
+  /// Data used to render a rewarded ad.
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
   /// Delegate to get notified by the AppLovin SDK of rewarded presentation events.
@@ -67,20 +68,6 @@
   return self;
 }
 
-- (void)requestRTBRewardedAd {
-  if (!_sdk) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  _isRTBAdRequested = YES;
-
-  // Load ad.
-  [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
-}
-
 - (void)requestRewardedAd {
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
@@ -89,7 +76,6 @@
     return;
   }
 
-  _isRTBAdRequested = NO;
   _zoneIdentifier = [GADMAdapterAppLovinUtils zoneIdentifierForAdConfiguration:_adConfiguration];
 
   // Unable to resolve a valid zone - error out
@@ -102,7 +88,23 @@
     return;
   }
 
+  GADMAdapterAppLovinMediationManager *sharedInstance =
+      GADMAdapterAppLovinMediationManager.sharedInstance;
+  if ([sharedInstance containsAndAddRewardedZoneIdentifier:_zoneIdentifier]) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        kGADErrorInvalidRequest,
+        @"Can't request a second ad for the same zone identifier without showing the first ad.");
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
   [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", _zoneIdentifier];
+
+  if (_adConfiguration.bidResponse) {
+    // Load ad.
+    [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
+    return;
+  }
 
   // If this is a default Zone, create the incentivized ad normally.
   if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:_zoneIdentifier]) {
@@ -112,7 +114,7 @@
   }
   // If custom zone id
   else {
-    [_sdk.adService loadNextAdForZoneIdentifier:self.zoneIdentifier andNotify:_appLovinDelegate];
+    [_sdk.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:_appLovinDelegate];
   }
 }
 
@@ -135,6 +137,7 @@
   _appLovinDelegate = nil;
   _incent.adVideoPlaybackDelegate = nil;
   _incent.adDisplayDelegate = nil;
+  [GADMAdapterAppLovinMediationManager.sharedInstance removeRewardedZoneIdentifier:_zoneIdentifier];
 }
 
 @end

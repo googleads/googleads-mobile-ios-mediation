@@ -22,11 +22,18 @@
 /// The shared GADMAdapterAppLovinMediationManager instance.
 @property(class, atomic, readonly, nonnull) GADMAdapterAppLovinMediationManager *sharedInstance;
 
-/// Adds the zone identifier to the managed set. Returns YES if the managed set already contained
-/// the zone identifier.
+/// Adds the interstitial zoneIdentifier to the mediation manager. Returns YES if the manager
+/// already contained the zoneIdentifier.
 - (BOOL)containsAndAddInterstitialZoneIdentifier:(nonnull NSString *)zoneIdentifier;
 
-/// Removes the zoneIdentifier from the managed set.
+/// Removes the interstitial zoneIdentifier from the mediation manager.
 - (void)removeInterstitialZoneIdentifier:(nonnull NSString *)zoneIdentifier;
+
+/// Removes the rewarded zoneIdentifier from the mediation manager.
+- (void)removeRewardedZoneIdentifier:(nonnull NSString *)zoneIdentifier;
+
+/// Adds the rewarded zoneIdentifier to the mediation manager. Returns YES if the manager already
+/// contained the zoneIdentifier.
+- (BOOL)containsAndAddRewardedZoneIdentifier:(nonnull NSString *)zoneIdentifier;
 
 @end

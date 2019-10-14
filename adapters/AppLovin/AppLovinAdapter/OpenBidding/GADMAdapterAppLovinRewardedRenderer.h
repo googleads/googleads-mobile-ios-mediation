@@ -23,9 +23,6 @@
 /// An AppLovin rewarded ad.
 @property(nonatomic, nullable) ALAd *ad;
 
-/// Indicates whether the request is an open bidding request or not.
-@property(nonatomic, assign, readonly) BOOL isRTBAdRequested;
-
 /// The AppLovin zone identifier used to load an ad.
 @property(nonatomic, copy, nullable, readonly) NSString *zoneIdentifier;
 
@@ -34,10 +31,7 @@
           completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Request a rewarded ad through open bidding mediation.
-- (void)requestRTBRewardedAd;
-
-/// Request a rewarded ad through waterfall mediation.
+/// Request a rewarded ad from AppLovin SDK.
 - (void)requestRewardedAd;
 
 @end

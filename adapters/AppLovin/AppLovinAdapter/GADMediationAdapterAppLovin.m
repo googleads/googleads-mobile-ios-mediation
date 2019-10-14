@@ -72,6 +72,7 @@
 
     ALSdk *sdk = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:sdkKey];
     [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
+      [GADMAdapterAppLovinUtils log:@"Initialization completed for SDK key %@", sdkKey];
       GADMAdapterAppLovinMutableSetRemoveObject(sdkKeys, sdkKey);
 
       // Once all instances of SDK keys have been initialized, callback the initialization
@@ -179,12 +180,7 @@
   _rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];
-  // If adConfiguration has a bid response, this load call is for open bidding.
-  if (adConfiguration.bidResponse) {
-    [_rewardedRenderer requestRTBRewardedAd];
-  } else {
-    [_rewardedRenderer requestRewardedAd];
-  }
+  [_rewardedRenderer requestRewardedAd];
 }
 
 @end

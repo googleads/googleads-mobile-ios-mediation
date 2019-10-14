@@ -11,9 +11,6 @@
 /// AppLovin adapter error domain.
 extern NSString *_Nonnull const GADMAdapterAppLovinErrorDomain;
 
-/// AppLovin adapter rtb error domain.
-extern NSString *_Nonnull const GADMAdapterAppLovinRTBErrorDomain;
-
 /// AppLovin SDK parameter key in Info.plist file.
 extern NSString *_Nonnull const GADMAdapterAppLovinInfoPListSDKKey;
 
