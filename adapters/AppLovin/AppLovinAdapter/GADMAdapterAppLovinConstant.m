@@ -12,7 +12,7 @@ NSString *const GADMAdapterAppLovinErrorDomain = @"com.google.mediation.applovin
 
 NSString *const GADMAdapterAppLovinInfoPListSDKKey = @"AppLovinSdkKey";
 
-NSString *const GADMAdapterAppLovinAdapterVersion = @"6.8.0.0";
+NSString *const GADMAdapterAppLovinAdapterVersion = @"6.9.4.0";
 
 NSString *const GADMAdapterAppLovinSDKKey = @"sdkKey";
 
