@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 1.5.0.0
+- Verified compatibility with maio SDK version 1.5.0.
+
 #### Version 1.4.8.0
 - Verified compatibility with maio SDK version 1.4.8.
 
