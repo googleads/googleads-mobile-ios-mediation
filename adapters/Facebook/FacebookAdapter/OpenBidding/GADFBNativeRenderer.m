@@ -228,9 +228,7 @@
               @"duplicate impression pings.");
     return;
   }
-  if (!_isRTBRequest) {
-    [_adEventDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 - (void)nativeAdDidFinishHandlingClick:(FBNativeAd *)nativeAd {

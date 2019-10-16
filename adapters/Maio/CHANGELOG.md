@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 1.4.8.0
+- Verified compatibility with maio SDK version 1.4.8.
+
 #### Version 1.4.6.0
 - Verified compatibility with maio SDK version 1.4.6.
 - Updated the adapter to use the new rewarded API.

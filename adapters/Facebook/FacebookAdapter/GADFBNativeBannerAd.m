@@ -130,6 +130,10 @@
   return NO;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+  return 0.0f;
+}
+
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (void)didRenderInView:(UIView *)view

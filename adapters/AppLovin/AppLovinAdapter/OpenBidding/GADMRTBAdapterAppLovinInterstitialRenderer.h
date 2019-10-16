@@ -9,16 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMRTBAdapterAppLovinInterstitialRenderer : NSObject
 
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)handler;
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads an AppLovin interstitial ad.
 - (void)loadAd;
 
-- (instancetype)initWithAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationInterstitialLoadCompletionHandler)handler;
-- (instancetype)init NS_UNAVAILABLE;
-
 @end
-
-NS_ASSUME_NONNULL_END

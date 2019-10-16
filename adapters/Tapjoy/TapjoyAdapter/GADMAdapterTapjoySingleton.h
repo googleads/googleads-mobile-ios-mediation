@@ -15,26 +15,22 @@
 #import <Foundation/Foundation.h>
 #import <Tapjoy/Tapjoy.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef enum { UNINITIALIZED, INITIALIZING, INITIALIZED } TapjoyInitState;
 
 typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
 @interface GADMAdapterTapjoySingleton : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 
-+ (instancetype)sharedInstance;
-- (void)initializeTapjoySDKWithSDKKey:(NSString *)sdkKey
-                              options:(NSDictionary<NSString *, NSNumber *> *)options
-                    completionHandler:(TapjoyInitCompletionHandler)completionHandler;
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                               bidResponse:(NSString *_Nullable)bidResponse
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
++ (nonnull instancetype)sharedInstance;
+- (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
+                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                    completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler;
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                  bidResponse:(nullable NSString *)bidResponse
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+@import GoogleMobileAds;
+#import <ImobileSdkAds/ImobileSdkAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface GADMediationAdapterIMobile : NSObject
+/// Adapter for native ads.
+@interface GADMediationAdapterIMobile : NSObject<GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
 
 @end
-
-NS_ASSUME_NONNULL_END

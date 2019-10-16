@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AdColony/AdColony.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMediationAdapterAdColony : NSObject <GADRTBAdapter>
 

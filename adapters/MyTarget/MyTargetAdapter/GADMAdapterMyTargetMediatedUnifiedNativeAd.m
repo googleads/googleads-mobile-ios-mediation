@@ -148,6 +148,10 @@
   return YES;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+  return _mediaAdView.aspectRatio;
+}
+
 - (void)didRenderInView:(UIView *)view
        clickableAssetViews:
            (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews

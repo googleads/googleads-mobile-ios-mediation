@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Adapter for communicating with the IronSource Network to fetch reward-based video ads.
 @interface GADMAdapterIronSourceRewardedAd : NSObject <GADMediationRewardedAd>

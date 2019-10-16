@@ -98,6 +98,20 @@
   return nil;
 }
 
+-(BOOL)hasVideoContent {
+  return NO;
+}
+
+-(CGFloat)mediaContentAspectRatio {
+  if (_mappedImages) {
+    GADNativeAdImage *nativeAdImage = (GADNativeAdImage *)_mappedImages[0];
+    if (nativeAdImage.image.size.height > 0) {
+      return (nativeAdImage.image.size.width / nativeAdImage.image.size.height);
+    }
+  }
+  return 0.0f;
+}
+
 - (void)privacyIconTapped {
   _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent

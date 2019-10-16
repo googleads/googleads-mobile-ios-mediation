@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
-@interface GADMAdapterVungleRewardedAd : NSObject <GADMediationRewardedAd>
+@interface GADMAdapterVungleRewardedAd : NSObject<GADMediationRewardedAd>
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler;

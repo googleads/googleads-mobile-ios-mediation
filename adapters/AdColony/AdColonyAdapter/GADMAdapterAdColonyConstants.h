@@ -17,5 +17,8 @@ static NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 /// AdColony mediation adapter app ID key
 static NSString *const kGADMAdapterAdColonyAppIDkey = @"app_id";
 
+/// AdColony SDK's alternative ad ID key.
 static NSString *const kGADMAdapterAdColonyAltAdIdKey = @"adc_alt_id";
+
+/// AdColony SDK's bid reply key.
 static NSString *const kGADMAdapterAdColonyBidReplyKey = @"bid_value";

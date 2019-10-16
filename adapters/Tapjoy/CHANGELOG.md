@@ -1,7 +1,13 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Version 12.3.3.0
+- Verified compatibility with Tapjoy SDK 12.3.3.
+
+#### Version 12.3.2.0
+- Verified compatibility with Tapjoy SDK 12.3.2.
+
 #### Version 12.3.1.0
-- Verified compatibility with Tapjoy SDK 12.2.1.
+- Verified compatibility with Tapjoy SDK 12.3.1.
 - Added open bidding capability to the adapter for interstitial and rewarded ads.
 
 #### Version 12.2.1.0

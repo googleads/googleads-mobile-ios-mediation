@@ -12,73 +12,109 @@
 #import "GADMAdapterAppLovinUtils.h"
 
 #import <AppLovinSDK/AppLovinSDK.h>
+#include <stdatomic.h>
 
-/// AppLovin Interstitial Delegate.
+/// AppLovin Interstitial Delegate wrapoer. AppLovin interstitial protocols are implemented in a
+/// separate class to avoid a retain cycle, as the AppLovin SDK keep a strong reference to its
+/// delegate.
 @interface GADMAppLovinRtbInterstitialDelegate
     : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
+
+/// AppLovin interstitial ad renderer to which the events are delegated.
 @property(nonatomic, weak) GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer;
-- (instancetype)initWithParentRenderer:(GADMRTBAdapterAppLovinInterstitialRenderer *)parentRenderer;
+
+- (nonnull instancetype)initWithParentRenderer:
+    (nonnull GADMRTBAdapterAppLovinInterstitialRenderer *)parentRenderer;
+
 @end
 
 @interface GADMRTBAdapterAppLovinInterstitialRenderer () <GADMediationInterstitialAd>
 
-/// Data used to render an RTB interstitial ad.
-@property(nonatomic, strong) GADMediationInterstitialAdConfiguration *adConfiguration;
-
 /// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
-@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler adLoadCompletionHandler;
+@property(nonatomic, readonly)
+    GADMediationInterstitialLoadCompletionHandler adLoadCompletionHandler;
 
 /// Delegate to notify the Google Mobile Ads SDK of interstitial presentation events.
-@property(nonatomic, strong, nullable) id<GADMediationInterstitialAdEventDelegate> delegate;
+@property(nonatomic, weak, nullable) id<GADMediationInterstitialAdEventDelegate> delegate;
 
-/// Controlled Properties
-@property(nonatomic, strong) ALSdk *sdk;
-@property(nonatomic, strong) ALInterstitialAd *interstitialAd;
+/// An AppLovin interstitial ad.
 @property(nonatomic, strong) ALAd *ad;
 
 @end
 
-@implementation GADMRTBAdapterAppLovinInterstitialRenderer
+@implementation GADMRTBAdapterAppLovinInterstitialRenderer {
+  /// Data used to render an interstitial ad.
+  GADMediationInterstitialAdConfiguration *_adConfiguration;
 
-- (instancetype)initWithAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationInterstitialLoadCompletionHandler)handler {
+  /// Instance of the AppLovin SDK.
+  ALSdk *_sdk;
+
+  /// AppLovin interstitial object used to load an ad.
+  ALInterstitialAd *_interstitialAd;
+}
+
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
-    self.adConfiguration = adConfiguration;
-    self.adLoadCompletionHandler = handler;
+    _adConfiguration = adConfiguration;
+    // Store the completion handler for later use.
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+        [handler copy];
+    _adLoadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+        _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+      if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+        return nil;
+      }
+      id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+      if (originalCompletionHandler) {
+        delegate = originalCompletionHandler(ad, error);
+      }
+      originalCompletionHandler = nil;
+      return delegate;
+    };
 
-    self.sdk =
+    _sdk =
         [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:adConfiguration.credentials.settings];
   }
   return self;
 }
 
 - (void)loadAd {
-  // Create interstitial object
-  self.interstitialAd = [[ALInterstitialAd alloc] initWithSdk:self.sdk];
+  if (!_sdk) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
+  // Create interstitial object.
+  _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:_sdk];
 
   GADMAppLovinRtbInterstitialDelegate *delegate =
       [[GADMAppLovinRtbInterstitialDelegate alloc] initWithParentRenderer:self];
-  self.interstitialAd.adDisplayDelegate = delegate;
-  self.interstitialAd.adVideoPlaybackDelegate = delegate;
+  _interstitialAd.adDisplayDelegate = delegate;
+  _interstitialAd.adVideoPlaybackDelegate = delegate;
 
-  // Load ad
-  [self.sdk.adService loadNextAdForAdToken:self.adConfiguration.bidResponse andNotify:delegate];
+  // Load ad.
+  [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
 }
 
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(UIViewController *)viewController {
   // Update mute state
-  GADMAdapterAppLovinExtras *extras = self.adConfiguration.extras;
-  self.sdk.settings.muted = extras.muteAudio;
+  GADMAdapterAppLovinExtras *extras = _adConfiguration.extras;
+  _sdk.settings.muted = extras.muteAudio;
 
-  [self.interstitialAd showAd: self.ad];
+  [_interstitialAd showAd:_ad];
 }
 
 - (void)dealloc {
-  self.interstitialAd.adDisplayDelegate = nil;
-  self.interstitialAd.adVideoPlaybackDelegate = nil;
+  _interstitialAd.adDisplayDelegate = nil;
+  _interstitialAd.adVideoPlaybackDelegate = nil;
 }
 
 @end
@@ -87,21 +123,21 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithParentRenderer:
-    (GADMRTBAdapterAppLovinInterstitialRenderer *)parentRenderer {
+- (nonnull instancetype)initWithParentRenderer:
+    (nonnull GADMRTBAdapterAppLovinInterstitialRenderer *)parentRenderer {
   self = [super init];
   if (self) {
-    self.parentRenderer = parentRenderer;
+    _parentRenderer = parentRenderer;
   }
   return self;
 }
 
 #pragma mark - Ad Load Delegate
 
-- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad {
+- (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
   [GADMAdapterAppLovinUtils log:@"Interstitial did load ad: %@", ad];
 
-  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
+  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = _parentRenderer;
   parentRenderer.ad = ad;
   dispatch_async(dispatch_get_main_queue(), ^{
     if (parentRenderer.adLoadCompletionHandler) {
@@ -110,54 +146,49 @@
   });
 }
 
-- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-  [GADMAdapterAppLovinUtils log:@"Failed to load interstitial ad with error: %d", code];
-
-  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.rtbErrorDomain
-                                       code:[GADMAdapterAppLovinUtils toAdMobErrorCode:code]
-                                   userInfo:nil];
-  if (_parentRenderer.adLoadCompletionHandler) {
-    self.parentRenderer.adLoadCompletionHandler(nil, error);
+- (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
+  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = _parentRenderer;
+  if (parentRenderer.adLoadCompletionHandler) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Failed to load interstitial ad");
+    parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }
 
 #pragma mark - Ad Display Delegate
 
-- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
+- (void)ad:(nonnull ALAd *)ad wasDisplayedIn:(nonnull UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Interstitial displayed"];
-
-  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
-  [parentRenderer.delegate willPresentFullScreenView];
-  [parentRenderer.delegate reportImpression];
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _parentRenderer.delegate;
+  [strongDelegate willPresentFullScreenView];
+  [strongDelegate reportImpression];
 }
 
-- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+- (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Interstitial hidden"];
-
-  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
-  [parentRenderer.delegate willDismissFullScreenView];
-  [parentRenderer.delegate didDismissFullScreenView];
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _parentRenderer.delegate;
+  [strongDelegate willDismissFullScreenView];
+  [strongDelegate didDismissFullScreenView];
 }
 
-- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
+- (void)ad:(nonnull ALAd *)ad wasClickedIn:(nonnull UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Interstitial clicked"];
-
-  GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = self.parentRenderer;
-  [parentRenderer.delegate reportClick];
-  [parentRenderer.delegate willBackgroundApplication];
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _parentRenderer.delegate;
+  [strongDelegate reportClick];
+  [strongDelegate willBackgroundApplication];
 }
 
 #pragma mark - Video Playback Delegate
 
-- (void)videoPlaybackBeganInAd:(ALAd *)ad {
+- (void)videoPlaybackBeganInAd:(nonnull ALAd *)ad {
   [GADMAdapterAppLovinUtils log:@"Interstitial video playback began"];
 }
 
-- (void)videoPlaybackEndedInAd:(ALAd *)ad
-             atPlaybackPercent:(NSNumber *)percentPlayed
+- (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad
+             atPlaybackPercent:(nonnull NSNumber *)percentPlayed
                   fullyWatched:(BOOL)wasFullyWatched {
   [GADMAdapterAppLovinUtils log:@"Interstitial video playback ended at playback percent: %lu%%",
-                                percentPlayed.unsignedIntegerValue];
+                                (unsigned long)percentPlayed.unsignedIntegerValue];
 }
 
 @end

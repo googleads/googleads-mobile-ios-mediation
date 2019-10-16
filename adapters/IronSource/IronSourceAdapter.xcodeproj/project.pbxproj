@@ -422,6 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -458,6 +459,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -468,6 +470,7 @@
 			baseConfigurationReference = 7D6A68A31DB7ED230001E48B /* Debug.xcconfig */;
 			buildSettings = {
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -476,6 +479,7 @@
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};

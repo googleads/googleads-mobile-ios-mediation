@@ -14,6 +14,7 @@
 
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyUtils.h"
 
 @interface GADMAdapterTapjoySingleton ()
 
@@ -25,7 +26,7 @@
 @end
 @implementation GADMAdapterTapjoySingleton
 
-+ (instancetype)sharedInstance {
++ (nonnull instancetype)sharedInstance {
   static GADMAdapterTapjoySingleton *sharedMyManager = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -34,7 +35,7 @@
   return sharedMyManager;
 }
 
-- (instancetype)init {
+- (nonnull instancetype)init {
   if (self = [super init]) {
     self.adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                   valueOptions:NSPointerFunctionsWeakMemory];
@@ -44,18 +45,18 @@
   return self;
 }
 
-- (void)initializeTapjoySDKWithSDKKey:(NSString *)sdkKey
-                              options:(NSDictionary<NSString *, NSNumber *> *)options
-                    completionHandler:(TapjoyInitCompletionHandler)completionHandler {
+- (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
+                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                    completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler {
   if (_initState == INITIALIZED) {
     completionHandler(nil);
     return;
   } else if (_initState == INITIALIZING) {
-    [self.completionHandlers addObject:completionHandler];
+    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
     return;
   } else if (_initState == UNINITIALIZED) {
     [self setupListeners];
-    [self.completionHandlers addObject:completionHandler];
+    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
     [Tapjoy connect:sdkKey options:options];
     _initState = INITIALIZING;
   }
@@ -95,10 +96,10 @@
   [_completionHandlers removeAllObjects];
 }
 
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                               bidResponse:(NSString *)bidResponse
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                  bidResponse:(nullable NSString *)bidResponse
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
   if ([self getDelegateForPlacementName:placementName]) {
     NSError *adapterError =
         [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
@@ -135,9 +136,9 @@
   return tjPlacement;
 }
 
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
   return [self requestAdForPlacementName:placementName bidResponse:nil delegate:delegate];
 }
 
@@ -151,7 +152,7 @@
 
 - (void)removeDelegateForPlacementName:(NSString *)placementName {
   @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates removeObjectForKey:placementName];
+    GADMAdapterTapjoyMapTableRemoveObjectForKey(self.adapterDelegates, placementName);
   }
 }
 

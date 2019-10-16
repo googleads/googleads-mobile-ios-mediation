@@ -11,82 +11,140 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 
-#define DEFAULT_ZONE @""
-
-@implementation GADMAdapterAppLovinUtils
-static NSString *const kALAppLovinSDKKey = @"AppLovinSdkKey";
-static const CGFloat kALBannerHeightOffsetTolerance = 10.0f;
-static const CGFloat kALBannerStandardHeight = 50.0f;
 static const NSUInteger kALSDKKeyLength = 86;
 static const NSUInteger kALZoneIdentifierLength = 16;
 
+void GADMAdapterAppLovinMutableSetAddObject(NSMutableSet *_Nullable set,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                              NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
+                                                   id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                                id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMutableArrayRemoveObject(NSMutableArray *_Nullable array,
+                                                 NSObject *_Nonnull object) {
+  if (object) {
+    [array removeObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMutableSetRemoveObject(NSMutableSet *_Nullable set,
+                                               NSObject *_Nonnull object) {
+  if (object) {
+    [set removeObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAppLovinMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;
+  }
+}
+
+void GADMAdapterAppLovinMutableDictionaryRemoveObjectForKey(
+    NSMutableDictionary *_Nonnull dictionary, id<NSCopying> _Nullable key) {
+  if (key) {
+    [dictionary removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
+NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADErrorCode code,
+                                                                 NSString *_Nonnull description) {
+  [GADMAdapterAppLovinUtils log:description];
+  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinErrorDomain
+                                       code:code
+                                   userInfo:@{NSLocalizedFailureReasonErrorKey : description}];
+  return error;
+}
+
+@implementation GADMAdapterAppLovinUtils
+
 + (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
-  // Attempt to use SDK key from server first
-  NSString *serverSDKKey = credentials[GADMAdapterAppLovinConstant.sdkKey];
-  if ([self isValidSDKKey:serverSDKKey]) {
+  // Attempt to use SDK key from server first.
+  NSString *serverSDKKey = credentials[GADMAdapterAppLovinSDKKey];
+  if ([self isValidAppLovinSDKKey:serverSDKKey]) {
     return [self retrieveSDKFromSDKKey:serverSDKKey];
   }
-  
-  // If server SDK key is invalid, then attempt to use SDK key from Info.plist
+
+  // If server SDK key is invalid, then attempt to use SDK key from Info.plist.
   NSString *infoDictSDKKey = [self infoDictionarySDKKey];
-  if ([self isValidSDKKey:infoDictSDKKey]) {
+  if ([self isValidAppLovinSDKKey:infoDictSDKKey]) {
     return [self retrieveSDKFromSDKKey:infoDictSDKKey];
   }
-  
+
   return nil;
 }
 
-+ (nullable ALSdk *)retrieveSDKFromSDKKey:(NSString *)sdkKey {
++ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)sdkKey {
   ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
-  [sdk setPluginVersion:GADMAdapterAppLovinConstant.adapterVersion];
+  [sdk setPluginVersion:GADMAdapterAppLovinAdapterVersion];
   sdk.mediationProvider = ALMediationProviderAdMob;
 
   return sdk;
 }
 
++ (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)sdkKey {
+  return [sdkKey isKindOfClass:[NSString class]] && ((NSString *)sdkKey).length == kALSDKKeyLength;
+}
+
 + (nullable NSString *)infoDictionarySDKKey {
-  return [[NSBundle mainBundle] infoDictionary][kALAppLovinSDKKey];
+  return NSBundle.mainBundle.infoDictionary[GADMAdapterAppLovinInfoPListSDKKey];
 }
 
-+ (BOOL)infoDictionaryHasValidSDKKey {
-  return [self isValidSDKKey: [self infoDictionarySDKKey]];
-}
-
-+ (BOOL)isValidSDKKey:(NSString *)key {
-  return [key isKindOfClass:[NSString class]] && ((NSString *) key).length == kALSDKKeyLength;
-}
-
-+ (nullable NSString *)retrieveZoneIdentifierFromConnector:(id<GADMediationAdRequest>)connector {
++ (nullable NSString *)zoneIdentifierForConnector:(nonnull id<GADMediationAdRequest>)connector {
   return [self retrieveZoneIdentifierFromDict:connector.credentials];
 }
 
-+ (nullable NSString *)retrieveZoneIdentifierFromAdConfiguration:(GADMediationAdConfiguration *)adConfig {
-    return [self retrieveZoneIdentifierFromDict:adConfig.credentials.settings];
++ (nullable NSString *)zoneIdentifierForAdConfiguration:
+    (nonnull GADMediationAdConfiguration *)adConfig {
+  return [self retrieveZoneIdentifierFromDict:adConfig.credentials.settings];
 }
 
-+ (nullable NSString *)retrieveZoneIdentifierFromDict:(NSDictionary <NSString *, id> *)dict {
-  NSString *customZoneIdentifier = dict[GADMAdapterAppLovinConstant.zoneIdentifierKey];
-  
-  // Custom zone found
-  if (customZoneIdentifier) {
-    // Custom zone is valid
-    if (customZoneIdentifier.length == kALZoneIdentifierLength) {
-      return customZoneIdentifier;
-    // Custom zone is invalid - return nil (adapter will fail the ad load)
-    } else {
-      return nil;
-    }
++ (nullable NSString *)retrieveZoneIdentifierFromDict:(nonnull NSDictionary<NSString *, id> *)dict {
+  NSString *customZoneIdentifier = dict[GADMAdapterAppLovinZoneIdentifierKey];
+
+  // Custom zone found and is valid.
+  if (customZoneIdentifier.length == kALZoneIdentifierLength) {
+    return customZoneIdentifier;
   }
-  
-  [self log: @"WARNING: Please provide a custom zone in your AdMob configuration. Using default zone..."];
-    
-  // Use default zone if no custom zone attempted
-  return DEFAULT_ZONE;
+
+  // Use default zone if no custom zone attempted.
+  if (!customZoneIdentifier.length) {
+    [self log:@"WARNING: Please provide a custom zone in your AdMob configuration. Using default "
+              @"zone..."];
+    return GADMAdapterAppLovinDefaultZoneIdentifier;
+  }
+
+  // Custom zone is invalid - return nil (adapter will fail the ad load).
+  return nil;
 }
 
 + (GADErrorCode)toAdMobErrorCode:(int)code {
   if (code == kALErrorCodeNoFill) {
-    return kGADErrorMediationNoFill;
+    return kGADErrorNoFill;
   } else if (code == kALErrorCodeAdRequestNetworkTimeout) {
     return kGADErrorTimeout;
   } else if (code == kALErrorCodeInvalidResponse) {
@@ -98,59 +156,40 @@ static const NSUInteger kALZoneIdentifierLength = 16;
   }
 }
 
-+ (nullable ALAdSize *)adSizeFromRequestedSize:(GADAdSize)size {
-  if (GADAdSizeEqualToSize(kGADAdSizeBanner, size) ||
-      GADAdSizeEqualToSize(kGADAdSizeLargeBanner, size) ||
-      (IS_IPHONE && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
-                                         size)))  // Smart iPhone portrait banners 50px tall.
-  {
-    return [ALAdSize sizeBanner];
-  } else if (GADAdSizeEqualToSize(kGADAdSizeMediumRectangle, size)) {
-    return [ALAdSize sizeMRec];
-  } else if (GADAdSizeEqualToSize(kGADAdSizeLeaderboard, size) ||
-             (IS_IPAD && GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait,
-                                              size)))  // Smart iPad portrait "banners" 90px tall.
-  {
-    return [ALAdSize sizeLeader];
-  } else {
-    // This is not a one of AdMob's predefined size.
-    CGSize frameSize = size.size;
-    // Attempt to check for fluid size.
-    if (CGRectGetWidth([UIScreen mainScreen].bounds) == frameSize.width) {
-      CGFloat frameHeight = frameSize.height;
-      if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeBanner).height ||
-          frameHeight == CGSizeFromGADAdSize(kGADAdSizeLargeBanner).height) {
-        return [ALAdSize sizeBanner];
-      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeMediumRectangle).height) {
-        return [ALAdSize sizeMRec];
-      } else if (frameHeight == CGSizeFromGADAdSize(kGADAdSizeLeaderboard).height) {
-        return [ALAdSize sizeLeader];
-      }
-    }
-    // Assume fluid width, and check for height with offset tolerance.
-    CGFloat offset = ABS(kALBannerStandardHeight - frameSize.height);
-    if (offset <= kALBannerHeightOffsetTolerance) {
-      return [ALAdSize sizeBanner];
-    }
+#pragma mark - Banner Util Methods
+
++ (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size {
+  GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
+  GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
+  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect), NSValueFromGADAdSize(leaderboard)
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
+    return ALAdSize.banner;
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(leaderboard), closestCGSize)) {
+    return ALAdSize.leader;
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(mRect), closestCGSize)) {
+    return ALAdSize.mrec;
   }
 
   [GADMAdapterAppLovinUtils
       log:@"Unable to retrieve AppLovin size from GADAdSize: %@", NSStringFromGADAdSize(size)];
-
   return nil;
 }
 
 #pragma mark - Logging
 
-+ (void)log:(NSString *)format, ... {
-  if (GADMAdapterAppLovinConstant.loggingEnabled) {
-    va_list valist;
-    va_start(valist, format);
-    NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
-    va_end(valist);
-
-    NSLog(@"AppLovinAdapter: %@", message);
-  }
++ (void)log:(nonnull NSString *)format, ... {
+  va_list valist;
+  va_start(valist, format);
+  NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
+  va_end(valist);
+  NSLog(@"AppLovinAdapter: %@", message);
 }
 
 @end

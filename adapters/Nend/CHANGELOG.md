@@ -1,5 +1,12 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Version 5.3.0.0
+- Verified compatibility with nend SDK 5.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.50.0.
+- Nend SDK version 5.3.0.
+
 #### Version 5.1.1.0
 - Updated the adapter to use the new rewarded API.
 - Now requires Google Mobile Ads SDK version 7.42.2 or higher.
