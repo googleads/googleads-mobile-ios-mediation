@@ -3,33 +3,22 @@
 //
 
 #import "GADMAdapterAdColony.h"
+
+#import <AdColony/AdColony.h>
+
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
-#import <AdColony/AdColony.h>
+@implementation GADMAdapterAdColony {
+  /// AdColony interstitial ad.
+  AdColonyInterstitial *_ad;
 
-#define DEBUG_LOGGING 0
-
-#if DEBUG_LOGGING
-#define NSLogDebug(...) NSLog(__VA_ARGS__)
-#else
-#define NSLogDebug(...)
-#endif
-
-@interface GADMAdapterAdColony ()
-
-@property AdColonyInterstitial *ad;
-@property NSString *appId;
-@property NSString *currentZone;
-@property NSArray *zones;
-@property(weak) id<GADMAdNetworkConnector> connector;
-
-@end
-
-@implementation GADMAdapterAdColony
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+}
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterAdColony class];
@@ -44,10 +33,9 @@
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-  if (self = [super init]) {
-    self.connector = connector;
-    NSDictionary *credentials = [connector credentials];
-    self.appId = credentials[kGADMAdapterAdColonyAppIDkey];
+  self = [super init];
+  if (self) {
+    _connector = connector;
   }
   return self;
 }
@@ -57,37 +45,47 @@
 - (void)getInterstitial {
   GADMAdapterAdColony *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper
-      setupZoneFromConnector:self.connector
+      setupZoneFromConnector:_connector
                     callback:^(NSString *zone, NSError *error) {
                       GADMAdapterAdColony *strongSelf = weakSelf;
-                      if (error && strongSelf) {
-                        [strongSelf.connector adapter:strongSelf didFailAd:error];
+                      if (!strongSelf) {
                         return;
                       }
 
-                      NSLogDebug(@"Zone in interstitial class: %@", zone);
-                      [strongSelf getInterstitialFromZoneId:zone withConnector:self.connector];
+                      id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+                      if (!strongConnector) {
+                        return;
+                      }
+
+                      if (error) {
+                        [strongConnector adapter:strongSelf didFailAd:error];
+                        return;
+                      }
+
+                      GADMAdapterAdColonyLog(@"Requesting interstitial ad for AdColony Zone: %@",
+                                             zone);
+                      [strongSelf getInterstitialFromZoneId:zone withConnector:strongConnector];
                     }];
 }
 
-- (void)getInterstitialFromZoneId:(NSString *)zone
-                    withConnector:(id<GADMAdNetworkConnector>)connector {
-  self.ad = nil;
+- (void)getInterstitialFromZoneId:(nonnull NSString *)zone
+                    withConnector:(nonnull id<GADMAdNetworkConnector>)connector {
+  _ad = nil;
 
-  __weak GADMAdapterAdColony *weakSelf = self;
+  GADMAdapterAdColony *__weak weakSelf = self;
 
   AdColonyAdOptions *options = [GADMAdapterAdColonyHelper getAdOptionsFromConnector:connector];
-
-  NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
 
   [AdColony requestInterstitialInZone:zone
       options:options
       success:^(AdColonyInterstitial *_Nonnull ad) {
-        NSLogDebug(@"Retrieve ad: %@", zone);
-        weakSelf.ad = ad;
-        if (weakSelf.connector) {
-          [weakSelf.connector adapterDidReceiveInterstitial:weakSelf];
+        GADMAdapterAdColonyLog(@"Retrieved AdColony interstital ad for zone: %@", zone);
+        GADMAdapterAdColony *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
         }
+        strongSelf->_ad = ad;
+        [strongSelf->_connector adapterDidReceiveInterstitial:strongSelf];
 
         // Re-request intersitial when expires, this avoids the situation:
         // 1. Admob interstitial request from zone A. Causes ADC configure to occur with zone A,
@@ -97,69 +95,71 @@
         // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
         // with id: xyz has been registered. Cannot show interstitial`.
         [ad setExpire:^{
-          NSLog(@"AdColonyAdapter [Info]: Interstitial Ad expired from zone: %@ because of "
-                @"configuring another Ad. To avoid this situation, use startWithCompletionHandler: "
-                @"to initialize Google Mobile Ads SDK and wait for the completion handler to be "
-                @"called before requesting an ad.",
-                zone);
+          GADMAdapterAdColonyLog(
+              @"Interstitial Ad expired from zone: %@ because of configuring "
+              @"another Ad. To avoid this situation, use startWithCompletionHandler: "
+              @"to initialize Google Mobile Ads SDK and wait for the completion handler to be "
+              @"called before requesting an ad.",
+              zone);
         }];
       }
-      failure:^(AdColonyAdRequestError *_Nonnull err) {
-        NSError *error =
-            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                code:kGADErrorInvalidRequest
-                            userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
-        if (weakSelf.connector) {
-          [weakSelf.connector adapter:weakSelf didFailAd:error];
+      failure:^(AdColonyAdRequestError *_Nonnull error) {
+        NSError *requestError = GADMAdapterAdColonyErrorWithCodeAndDescription(
+            kGADErrorInvalidRequest, error.localizedDescription);
+        GADMAdapterAdColony *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
         }
-        NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
+        [strongSelf->_connector adapter:strongSelf didFailAd:requestError];
+        GADMAdapterAdColonyLog(@"Failed to retrieve AdColony ad for zone: %@ with error: %@", zone,
+                               requestError.localizedDescription);
       }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  __weak GADMAdapterAdColony *weakSelf = self;
+  GADMAdapterAdColony *__weak weakSelf = self;
 
-  [self.ad setOpen:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillPresentInterstitial:weakSelf];
+  [_ad setOpen:^{
+    GADMAdapterAdColony *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_connector adapterWillPresentInterstitial:strongSelf];
     }
   }];
 
-  [self.ad setClick:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterDidGetAdClick:weakSelf];
+  [_ad setClick:^{
+    GADMAdapterAdColony *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_connector adapterDidGetAdClick:strongSelf];
     }
   }];
 
-  [self.ad setClose:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillDismissInterstitial:weakSelf];
-      [weakSelf.connector adapterDidDismissInterstitial:weakSelf];
+  [_ad setClose:^{
+    GADMAdapterAdColony *strongSelf = weakSelf;
+    if (strongSelf) {
+      id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+      [strongConnector adapterWillDismissInterstitial:strongSelf];
+      [strongConnector adapterDidDismissInterstitial:strongSelf];
     }
   }];
 
-  [self.ad setLeftApplication:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillLeaveApplication:weakSelf];
+  [_ad setLeftApplication:^{
+    GADMAdapterAdColony *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_connector adapterWillLeaveApplication:strongSelf];
     }
   }];
 
-  if (![self.ad showWithPresentingViewController:rootViewController]) {
-    NSLog(@"AdColonyAdapter [Info] : Failed to show ad.");
+  if (![_ad showWithPresentingViewController:rootViewController]) {
+    GADMAdapterAdColonyLog(@"Failed to show ad.");
   }
 }
 
 #pragma mark - Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                          code:kGADErrorInvalidRequest
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : @"AdColony adapter doesn't currently support"
-                                                     "Instant-Feed videos."
-                      }];
-  [self.connector adapter:self didFailAd:error];
+  NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+      kGADErrorInvalidRequest, @"AdColony adapter doesn't currently support Instant-Feed videos.");
+  [_connector adapter:self didFailAd:error];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {

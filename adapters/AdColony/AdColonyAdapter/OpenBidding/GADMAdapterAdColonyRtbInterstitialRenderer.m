@@ -15,28 +15,45 @@
 #import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
 
 #import <AdColony/AdColony.h>
+#include <stdatomic.h>
+
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMediationAdapterAdColony.h"
 
 @interface GADMAdapterAdColonyRtbInterstitialRenderer () <GADMediationInterstitialAd>
-
-@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler renderCompletionHandler;
-
-@property(nonatomic, strong) AdColonyInterstitial *interstitialAd;
-
-@property(nonatomic, strong) id<GADMediationInterstitialAdEventDelegate> adEventDelegate;
-
 @end
 
-@implementation GADMAdapterAdColonyRtbInterstitialRenderer
+@implementation GADMAdapterAdColonyRtbInterstitialRenderer {
+  /// Completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
+
+  /// AdColony interstitial ad.
+  AdColonyInterstitial *_interstitialAd;
+
+  /// An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+}
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
                     completionHandler:
                         (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
-  self.renderCompletionHandler = handler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [handler copy];
+  _renderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(interstitialAd, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
 
   GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper
@@ -49,7 +66,7 @@
                      }
 
                      if (error) {
-                       strongSelf.renderCompletionHandler(nil, error);
+                       strongSelf->_renderCompletionHandler(nil, error);
                        return;
                      }
 
@@ -59,33 +76,35 @@
 
 - (void)getInterstitialFromZoneID:(NSString *)zone
                          adConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration {
-  self.interstitialAd = nil;
+  _interstitialAd = nil;
 
-  __weak typeof(self) weakSelf = self;
+  GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
 
-  NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
+  GADMAdapterAdColonyLog(@"Requesting interstatial ad for zone: %@", zone);
 
   [AdColony requestInterstitialInZone:zone
       options:nil
       success:^(AdColonyInterstitial *_Nonnull ad) {
-        NSLogDebug(@"Retrieve ad: %@", zone);
+        GADMAdapterAdColonyLog(@"Retrieved interstitial ad for zone: %@", zone);
         [weakSelf handleAdReceived:ad forAdConfig:adConfiguration zone:zone];
       }
       failure:^(AdColonyAdRequestError *_Nonnull err) {
-        NSError *error =
-            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                code:kGADErrorInvalidRequest
-                            userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
-        weakSelf.renderCompletionHandler(nil, error);
-        NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
+        NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorInvalidRequest,
+                                                                        err.localizedDescription);
+        GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
+        strongSelf->_renderCompletionHandler(nil, error);
+        GADMAdapterAdColonyLog(@"Failed to retrieve ad: %@", error.localizedDescription);
       }];
 }
 
 - (void)handleAdReceived:(AdColonyInterstitial *_Nonnull)ad
              forAdConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration
                     zone:(NSString *)zone {
-  self.interstitialAd = ad;
-  self.adEventDelegate = self.renderCompletionHandler(self, nil);
+  _interstitialAd = ad;
+  _adEventDelegate = _renderCompletionHandler(self, nil);
 
   // Re-request intersitial when expires, this avoids the situation:
   // 1. Admob interstitial request from zone A. Causes ADC configure to occur with zone A,
@@ -95,11 +114,12 @@
   // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
   // with id: xyz has been registered. Cannot show interstitial`.
   [ad setExpire:^{
-    NSLog(@"AdColonyAdapter [Info]: Interstitial Ad expired from zone: %@ because of configuring "
-          @"another Ad. To avoid this situation, use startWithCompletionHandler: to initialize "
-          @"Google Mobile Ads SDK and wait for the completion handler to be called before "
-          @"requesting an dd.",
-          zone);
+    GADMAdapterAdColonyLog(
+        @"Interstitial Ad expired from zone: %@ because of configuring "
+        @"another Ad. To avoid this situation, use startWithCompletionHandler: to initialize "
+        @"Google Mobile Ads SDK and wait for the completion handler to be called before "
+        @"requesting an dd.",
+        zone);
   }];
 }
 
@@ -108,32 +128,45 @@
 - (void)presentFromViewController:(UIViewController *)viewController {
   GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
 
-  [self.interstitialAd setOpen:^{
-    id<GADMediationInterstitialAdEventDelegate> adEventDelegate = weakSelf.adEventDelegate;
-    [adEventDelegate willPresentFullScreenView];
-    [adEventDelegate reportImpression];
+  [_interstitialAd setOpen:^{
+    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      id<GADMediationInterstitialAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
+      [adEventDelegate willPresentFullScreenView];
+      [adEventDelegate reportImpression];
+    }
   }];
 
-  [self.interstitialAd setClick:^{
-    [weakSelf.adEventDelegate reportClick];
+  [_interstitialAd setClick:^{
+    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_adEventDelegate reportClick];
+    }
   }];
 
-  [self.interstitialAd setClose:^{
-    id<GADMediationInterstitialAdEventDelegate> adEventDelegate = weakSelf.adEventDelegate;
-    [adEventDelegate willDismissFullScreenView];
-    [adEventDelegate didDismissFullScreenView];
+  [_interstitialAd setClose:^{
+    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      id<GADMediationInterstitialAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
+      [adEventDelegate willDismissFullScreenView];
+      [adEventDelegate didDismissFullScreenView];
+    }
   }];
 
-  [self.interstitialAd setLeftApplication:^{
-    [weakSelf.adEventDelegate willBackgroundApplication];
+  [_interstitialAd setLeftApplication:^{
+    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_adEventDelegate willBackgroundApplication];
+    }
   }];
 
-  if (![self.interstitialAd showWithPresentingViewController:viewController]) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                            code:0
-                        userInfo:@{NSLocalizedDescriptionKey : @"Failed to show ad for zone"}];
-    [weakSelf.adEventDelegate didFailToPresentWithError:error];
+  if (![_interstitialAd showWithPresentingViewController:viewController]) {
+    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+                                                                    @"Failed to show ad for zone.");
+    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_adEventDelegate didFailToPresentWithError:error];
+    }
   }
 }
 

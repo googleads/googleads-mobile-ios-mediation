@@ -3,7 +3,9 @@
 //
 
 #import "GADMAdapterAdColonyHelper.h"
+
 #import <AdColony/AdColony.h>
+
 #import "GADMAdapterAdColony.h"
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
@@ -12,7 +14,8 @@
 
 @implementation GADMAdapterAdColonyHelper
 
-+ (AdColonyAppOptions *)getAppOptionsFromConnector:(id<GADMAdNetworkConnector>)connector {
++ (nullable AdColonyAppOptions *)getAppOptionsFromConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
   options.userMetadata = [AdColonyUserMetadata new];
 
@@ -39,7 +42,8 @@
   return options;
 }
 
-+ (AdColonyAppOptions *)getAppOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig {
++ (nullable AdColonyAppOptions *)getAppOptionsFromAdConfig:
+    (nonnull GADMediationAdConfiguration *)adConfig {
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
   options.userMetadata = [AdColonyUserMetadata new];
 
@@ -72,7 +76,8 @@
   return options;
 }
 
-+ (AdColonyAdOptions *)getAdOptionsFromConnector:(id<GADMAdNetworkConnector>)connector {
++ (nullable AdColonyAdOptions *)getAdOptionsFromConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
   AdColonyAdOptions *options = nil;
 
   GADMAdapterAdColonyExtras *extras = connector.networkExtras;
@@ -85,7 +90,8 @@
   return options;
 }
 
-+ (AdColonyAdOptions *)getAdOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig {
++ (nullable AdColonyAdOptions *)getAdOptionsFromAdConfig:
+    (nonnull GADMediationAdConfiguration *)adConfig {
   // Don't return an empty options/metadata object if nothing was found.
   AdColonyAdOptions *options = nil;
 
@@ -109,17 +115,17 @@
   return [components year];
 }
 
-+ (NSArray *)parseZoneIDs:(NSString *)zoneList {
++ (nullable NSArray<NSString *> *)parseZoneIDs:(nonnull NSString *)zoneList {
   // Split on the character we care about.
   NSArray *zoneIDs = [zoneList componentsSeparatedByString:@";"];
-  NSMutableArray *result = [NSMutableArray arrayWithCapacity:[zoneIDs count]];
+  NSMutableArray<NSString *> *result = [[NSMutableArray alloc] init];
 
   // Trim all whitespace and add to result if not empty.
   for (NSString *zoneID in zoneIDs) {
     NSString *trimmed =
         [zoneID stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (![trimmed isEqualToString:@""]) {
-      [result addObject:trimmed];
+      GADMAdapterAdColonyMutableArrayAddObject(result, trimmed);
     }
   }
   return result;
@@ -141,21 +147,21 @@
                                                                       }];
 }
 
-+ (void)setupZoneFromConnector:(id<GADMAdNetworkConnector>)connector
-                      callback:(void (^)(NSString *, NSError *))callback {
++ (void)setupZoneFromConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                      callback:(nonnull void (^)(NSString *_Nullable, NSError *_Nullable))callback {
   NSDictionary *credentials = connector.credentials;
   AdColonyAppOptions *options = [self getAppOptionsFromConnector:connector];
   [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
-+ (void)setupZoneFromAdConfig:(GADMediationAdConfiguration *)adConfig
-                     callback:(void (^)(NSString *, NSError *))callback {
++ (void)setupZoneFromAdConfig:(nonnull GADMediationAdConfiguration *)adConfig
+                     callback:(nonnull void (^)(NSString *_Nullable, NSError *_Nullable))callback {
   NSDictionary *credentials = adConfig.credentials.settings;
   AdColonyAppOptions *options = [self getAppOptionsFromAdConfig:adConfig];
   [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
-+ (NSDictionary *)getDictionaryFromJsonString:(NSString *)jsonString {
++ (nullable NSDictionary *)getDictionaryFromJsonString:(nonnull NSString *)jsonString {
   NSData *objectData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:objectData
                                                              options:NSJSONReadingMutableContainers
@@ -164,7 +170,7 @@
 }
 
 // Method to build JSON from dictionary
-+ (NSString *)getJsonStringFromDictionary:(NSDictionary *)dictionary {
++ (nullable NSString *)getJsonStringFromDictionary:(nonnull NSDictionary *)dictionary {
   NSString *json = nil;
   NSError *error;
 
@@ -179,14 +185,22 @@
 
 @end
 
+NSError *GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,
+                                                        NSString *_Nonnull description) {
+  return [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
+                             code:code
+                         userInfo:@{NSLocalizedDescriptionKey : description}];
+}
+
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
                                             NSObject *_Nonnull object) {
   if (object) {
-    [set addObject:object];
+    [set addObject:object];  // Allow pattern.
   }
 }
 
-NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(NSDictionary *_Nonnull settings) {
+NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
+    NSDictionary<NSString *, id> *_Nonnull settings) {
   NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
   if (!encodedZoneID) {
     encodedZoneID = settings[kGADMAdapterAdColonyZoneIDkey];
@@ -198,7 +212,7 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(NSDictionary *_Nonnull 
   return zoneID;
 }
 
-NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *reply) {
+NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply) {
   if (!reply) {
     return nil;
   }
@@ -211,6 +225,20 @@ void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value;
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
+void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                              NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterAdColonyMutableSetAddObjectsFromArray(NSMutableSet *_Nullable set,
+                                                      NSArray *_Nonnull array) {
+  if (array) {
+    [set addObjectsFromArray:array];
   }
 }

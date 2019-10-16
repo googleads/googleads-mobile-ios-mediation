@@ -14,7 +14,10 @@
 //
 
 #import "GADMediationAdapterAdColony.h"
+
 #import <AdColony/AdColony.h>
+#include <stdatomic.h>
+
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
@@ -22,26 +25,25 @@
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 #import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
 
-@interface GADMediationAdapterAdColony ()
+static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
-@property(nonatomic, copy) GADRTBSignalCompletionHandler signalCompletionHandler;
+@implementation GADMediationAdapterAdColony {
+  /// Completion handler for signal generation. Returns either signals or an error object.
+  GADRTBSignalCompletionHandler _signalCompletionHandler;
 
-@property(nonatomic, strong) GADMAdapterAdColonyRtbInterstitialRenderer *interstitialRenderer;
+  /// AdColony interstitial ad wrapper.
+  GADMAdapterAdColonyRtbInterstitialRenderer *_interstitialRenderer;
 
-@property(nonatomic, strong) GADMAdapterAdColonyRewardedRenderer *rewardedRenderer;
-
-@property(nonatomic, strong) NSMutableDictionary *bidValues;
-@end
-
-@implementation GADMediationAdapterAdColony
-static AdColonyAppOptions *options;
+  /// AdColony rewarded ad wrapper.
+  GADMAdapterAdColonyRewardedRenderer *_rewardedRenderer;
+}
 
 + (void)load {
-  options = [[AdColonyAppOptions alloc] init];
+  GADMAdapterAdColonyAppOptions = [[AdColonyAppOptions alloc] init];
 }
 
 + (AdColonyAppOptions *)appOptions {
-  return options;
+  return GADMAdapterAdColonyAppOptions;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -58,13 +60,9 @@ static AdColonyAppOptions *options;
   }
 
   if (appIDs.count < 1 || zoneIDs.count < 1) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                   code:kGADErrorInvalidRequest
-               userInfo:@{
-                 NSLocalizedDescriptionKey :
-                     @"AdColony mediation configurations did not contain a valid app ID or zone ID."
-               }];
+    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+        kGADErrorInvalidRequest,
+        @"AdColony mediation configurations did not contain a valid app ID or zone ID.");
     completionHandler(error);
     return;
   }
@@ -72,16 +70,16 @@ static AdColonyAppOptions *options;
   NSString *appID = [appIDs anyObject];
 
   if (appIDs.count != 1) {
-    NSLog(@"Found the following app IDs: %@. Please remove any app IDs you are not using from the "
-          @"AdMob/Ad Manager UI.",
-          appIDs);
-    NSLog(@"Configuring AdColony SDK with the app ID %@", appID);
+    GADMAdapterAdColonyLog(@"Found the following app IDs: %@. Please remove any app IDs you are "
+                           @"not using from the AdMob/Ad Manager UI.",
+                           appIDs);
+    GADMAdapterAdColonyLog(@"Configuring AdColony SDK with the app ID %@", appID);
   }
 
   [[GADMAdapterAdColonyInitializer sharedInstance]
       initializeAdColonyWithAppId:appID
                             zones:[zoneIDs allObjects]
-                          options:options
+                          options:GADMAdapterAdColonyAppOptions
                          callback:^(NSError *error) {
                            // After configuration completion, register custom message listener
                            // to get bid values
@@ -147,7 +145,19 @@ static AdColonyAppOptions *options;
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
   // Keep handler, in practice this call may be asynchronous.
-  self.signalCompletionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
+  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return;
+    }
+
+    if (originalCompletionHandler) {
+      originalCompletionHandler(signals, error);
+    }
+    originalCompletionHandler = nil;
+  };
+
   NSString *signals = nil;
 
   // Get Zone Id for which signals are requested
@@ -159,30 +169,30 @@ static AdColonyAppOptions *options;
     // Take out saved signals for above zone Id
     signals = [self getSignalsForZone:zoneId];
   }
-  self.signalCompletionHandler(signals, nil);
+  _signalCompletionHandler(signals, nil);
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedRenderer = [[GADMAdapterAdColonyRewardedRenderer alloc] init];
-  [self.rewardedRenderer loadRewardedAdForAdConfiguration:adConfiguration
-                                        completionHandler:completionHandler];
+  _rewardedRenderer = [[GADMAdapterAdColonyRewardedRenderer alloc] init];
+  [_rewardedRenderer loadRewardedAdForAdConfiguration:adConfiguration
+                                    completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  self.interstitialRenderer = [[GADMAdapterAdColonyRtbInterstitialRenderer alloc] init];
-  [self.interstitialRenderer renderInterstitialForAdConfig:adConfiguration
-                                         completionHandler:completionHandler];
+  _interstitialRenderer = [[GADMAdapterAdColonyRtbInterstitialRenderer alloc] init];
+  [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
+                                     completionHandler:completionHandler];
 }
 
 // Build JSON with signals values
 - (NSString *)getSignalsForZone:(NSString *)zoneId {
   NSString *signals = nil;
-  NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary<NSString *, NSString *> *values = [[NSMutableDictionary alloc] init];
 
   // Add alternative ad Id if it's there
   NSString *adcID = [self getAlternateAdId];
