@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 6.9.5.0
+- Verified compatibility with AppLovin SDK 6.9.5.
+
 #### Version 6.9.4.0
 - Verified compatibility with AppLovin SDK 6.9.4.
 - Fix RTB rewarded videos not being able to show even if loaded.
