@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-#import "ImobileSdkAds/ImobileSdkAds.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <ImobileSdkAds/ImobileSdkAds.h>
 
-/// Helper of mediation adapter.
-@interface GADMAdapterIMobileHelper : NSObject
-
-/// Create NSError from descritption.
-+ (NSError *)errorWithDescritption:(NSString *)descritption
-                              code:(NSInteger)code;
+/// Returns an NSError with provided error code and description.
+NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(NSUInteger code,
+                                                                NSString *_Nonnull description);
 
 /// Convert i-mobile fail result to AdMob error code.
-+ (NSInteger)getAdMobErrorWithIMobileResult:(ImobileSdkAdsFailResult)iMobileResult;
-
-@end
+GADErrorCode GADMAdapterIMobileAdMobErrorFromIMobileResult(ImobileSdkAdsFailResult iMobileResult);

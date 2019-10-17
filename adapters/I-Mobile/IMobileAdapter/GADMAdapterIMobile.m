@@ -14,152 +14,135 @@
 
 #import "GADMAdapterIMobile.h"
 #import "GADMAdapterIMobileConstants.h"
-#import "GADMAdapterIMobileHelper.h"
+#import "GADMAdapterIMobileUtils.h"
 
 /// Ad type.
-typedef NS_ENUM(NSUInteger, kImobileAdType) {
-    kImobileAdTypeBanner,
-    kImobileAdTypeInterstitial
+typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
+  GADMAdapterImobileAdTypeUnKnown,     ///< Unknown adapter type.
+  GADMAdapterImobileAdTypeBanner,      ///< Banner adapter type.
+  GADMAdapterImobileAdTypeInterstitial ///< Interstitial adapter type.
 };
 
 /// Adapter for banner and interstitial ads.
 @interface IMobileAdapter ()
 
-/// Connector for AdMob.
-@property (nonatomic, weak) id<GADMAdNetworkConnector> connector;
-
-/// View to display ads.
-@property (nonatomic, strong) UIView *imobileAdView;
-
-/// Ad type.
-@property (atomic) kImobileAdType adType;
-
 @end
 
-@implementation IMobileAdapter
+@implementation IMobileAdapter {
+  /// Connector for AdMob.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  /// View to display ads.
+  UIView *_imobileAdView;
+
+  /// Ad type.
+  GADMAdapterImobileAdType _adType;
+
+  /// i-mobile spot id.
+  NSString *_spotID;
+}
 
 #pragma mark - GADMAdNetworkAdapter
 
 + (NSString *)adapterVersion {
-    return kGADMAdapterIMobileVersion;
+  return kGADMAdapterIMobileVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return Nil;
+  return Nil;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    self = [super init];
-    if (self) {
-        // Initialize.
-        self.connector = connector;
+  self = [super init];
+  if (self) {
+    // Initialize.
+    _connector = connector;
+    _adType = GADMAdapterImobileAdTypeUnKnown;
 
-        // Get parameters for i-mobile SDK.
-        NSDictionary *params = [connector credentials];
-        NSString *publisherId = params[kGADMAdapterIMobilePublisherIdKey];
-        NSString *mediaId = params[kGADMAdapterIMobileMediaIdKey];
-        NSString *spotId = params[kGADMAdapterIMobileSpotIdKey];
+    // Get parameters for i-mobile SDK.
+    NSDictionary<NSString *, NSString *> *params = connector.credentials;
+    NSString *publisherId = params[kGADMAdapterIMobilePublisherIdKey];
+    NSString *mediaId = params[kGADMAdapterIMobileMediaIdKey];
+    _spotID = params[kGADMAdapterIMobileSpotIdKey];
 
-        // Call i-mobile SDK.
-        [ImobileSdkAds registerWithPublisherID:publisherId MediaID:mediaId SpotID:spotId];
-        [ImobileSdkAds setSpotDelegate:spotId delegate:self];
-        [ImobileSdkAds startBySpotID:spotId];
-    }
-    return self;
+    // Call i-mobile SDK.
+    [ImobileSdkAds registerWithPublisherID:publisherId MediaID:mediaId SpotID:_spotID];
+    [ImobileSdkAds setSpotDelegate:_spotID delegate:self];
+    [ImobileSdkAds startBySpotID:_spotID];
+  }
+  return self;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    // Ad type is banner.
-    self.adType = kImobileAdTypeBanner;
+  // Ad type is banner.
+  _adType = GADMAdapterImobileAdTypeBanner;
 
-    // Validate adSize.
-    if (!(GADAdSizeEqualToSize(adSize, kGADAdSizeBanner)
-        || GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner)
-        || GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)
-        || GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerPortrait))) {
+  // Create view to display ads.
+  CGSize imobileAdSize = CGSizeMake(adSize.size.width, adSize.size.height);
+  _imobileAdView =
+      [[UIView alloc] initWithFrame:CGRectMake(0, 0, imobileAdSize.width, imobileAdSize.height)];
 
-        if (self.connector) {
-            NSError *error = [GADMAdapterIMobileHelper errorWithDescritption:[NSString stringWithFormat:@"%@ is not supported.", NSStringFromGADAdSize(adSize)] code:kGADErrorMediationInvalidAdSize];
-            [self.connector adapter:self didFailAd:error];
-        }
-        return;
-    }
-
-    // Create view to display ads.
-    if (GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerPortrait)) {
-        CGFloat adWidth = [[UIScreen mainScreen] bounds].size.width < [[UIScreen mainScreen] bounds].size.height ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height;
-        self.imobileAdView = [[UIView alloc] initWithFrame:CGRectMake((adWidth - 320) / 2, 0, adWidth, 50)];
-    } else {
-        self.imobileAdView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, adSize.size.width, adSize.size.height)];
-    }
-
-    // Call i-mobile SDK.
-    if (self.connector) {
-        [ImobileSdkAds showBySpotIDForAdMobMediation:[self.connector credentials][kGADMAdapterIMobileSpotIdKey] View:self.imobileAdView];
-    }
+  // Call i-mobile SDK.
+  [ImobileSdkAds showBySpotIDForAdMobMediation:_spotID View:_imobileAdView];
 }
 
 - (void)getInterstitial {
-    // Ad type is interstitial.
-    self.adType = kImobileAdTypeInterstitial;
+  // Ad type is interstitial.
+  _adType = GADMAdapterImobileAdTypeInterstitial;
 
-    // Call i-mobile SDK.
-    if (self.connector && [ImobileSdkAds getStatusBySpotID:[self.connector credentials][kGADMAdapterIMobileSpotIdKey]] == IMOBILESDKADS_STATUS_READY) {
-        [self.connector adapterDidReceiveInterstitial:self];
-    }
+  // Call i-mobile SDK.
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if ([ImobileSdkAds getStatusBySpotID:_spotID] == IMOBILESDKADS_STATUS_READY) {
+    [strongConnector adapterDidReceiveInterstitial:self];
+  }
 }
 
 - (void)stopBeingDelegate {
-    self.imobileAdView = nil;
+  _imobileAdView = nil;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    if (self.connector) {
-        [self.connector adapterWillPresentInterstitial:self];
-        [ImobileSdkAds showBySpotID:[self.connector credentials][kGADMAdapterIMobileSpotIdKey]];
-    }
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterWillPresentInterstitial:self];
+  [ImobileSdkAds showBySpotID:_spotID];
 }
 
 #pragma mark - IMobileSdkAdsDelegate
 
 - (void)imobileSdkAdsSpot:(NSString *)spotId
         didReadyWithValue:(ImobileSdkAdsReadyResult)value {
-
-    if (self.connector) {
-        switch (self.adType) {
-            case kImobileAdTypeBanner:
-                [self.connector adapter:self didReceiveAdView:self.imobileAdView];
-                break;
-            case kImobileAdTypeInterstitial:
-                [self.connector adapterDidReceiveInterstitial:self];
-                break;
-            default:
-                break;
-        }
-    }
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  switch (_adType) {
+    case GADMAdapterImobileAdTypeUnKnown:
+      NSLog(@"Unexpected error: Adapter type unknown.");
+      break;
+    case GADMAdapterImobileAdTypeBanner:
+      [strongConnector adapter:self didReceiveAdView:_imobileAdView];
+      break;
+    case GADMAdapterImobileAdTypeInterstitial:
+      [strongConnector adapterDidReceiveInterstitial:self];
+      break;
+  }
 }
 
 - (void)imobileSdkAdsSpot:(NSString *)spotId
          didFailWithValue:(ImobileSdkAdsFailResult)value {
+  [self stopBeingDelegate];
+  NSInteger errorCode = GADMAdapterIMobileAdMobErrorFromIMobileResult(value);
+  NSString *errorString = [NSString stringWithFormat:@"Failed to get an ad for spotID: %@", spotId];
+  NSError *error = GADMAdapterIMobileErrorWithCodeAndDescription(errorCode, errorString);
 
-    [self stopBeingDelegate];
-    if (self.connector) {
-        NSError *error = [GADMAdapterIMobileHelper errorWithDescritption:[NSString stringWithFormat:@"Error. Reason is %@", value] code:[GADMAdapterIMobileHelper getAdMobErrorWithIMobileResult:value]];
-        [self.connector adapter:self didFailAd:error];
-    }
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)imobileSdkAdsSpotDidClick:(NSString *)spotId {
-    if (self.connector) {
-        [self.connector adapterDidGetAdClick:self];
-        [self.connector adapterWillLeaveApplication:self];
-    }
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 - (void)imobileSdkAdsSpotDidClose:(NSString *)spotId {
-    if (self.connector) {
-        [self.connector adapterDidDismissInterstitial:self];
-    }
+  [_connector adapterDidDismissInterstitial:self];
 }
 
 @end

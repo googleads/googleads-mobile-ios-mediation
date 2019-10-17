@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
 /// Adapter for native ads.
-@interface GADMediationAdapterIMobile : NSObject<GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
+@interface GADMediationAdapterIMobile
+    : NSObject <GADMediationAdapter, GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
 
 @end

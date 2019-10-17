@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
 /// Mapper for GADMediatedUnifiedNativeAd.
 @interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
 
 /// Initialize.
-- (instancetype)initWithIMobileNativeAd:(ImobileSdkAdsNativeObject *)iMobileNativeAd
-                                  image:(UIImage*)image NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithIMobileNativeAd:(nonnull ImobileSdkAdsNativeObject *)iMobileNativeAd
+                                          image:(nonnull UIImage *)image NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
-- (instancetype)init NS_UNAVAILABLE;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 @end
