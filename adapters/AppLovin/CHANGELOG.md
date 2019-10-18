@@ -3,6 +3,10 @@
 #### Version 6.9.5.0
 - Verified compatibility with AppLovin SDK 6.9.5.
 
+Built and tested with:
+- Google Mobile Ads SDK version 7.50.0.
+- AppLovin SDK version 6.9.5.
+
 #### Version 6.9.4.0
 - Verified compatibility with AppLovin SDK 6.9.4.
 - Fix RTB rewarded videos not being able to show even if loaded.
