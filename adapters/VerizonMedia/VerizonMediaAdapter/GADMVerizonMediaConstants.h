@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Verizon Media mediation network adapter version.
-static NSString *const kVASAdapterVersion = @"1.1.2.0";
+static NSString *const kVASAdapterVersion = @"1.2.1.0";
 
 /// Verizon Media mediation adapter error domain.
 static NSString *const kGADMAdapterVerizonMediaErrorDomain = @"com.google.mediation.verizonmedia";
