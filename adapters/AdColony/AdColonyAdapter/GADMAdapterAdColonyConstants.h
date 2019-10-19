@@ -3,7 +3,7 @@
 //
 
 /// AdColony mediation network adapter version.
-static NSString *const kGADMAdapterAdColonyVersionString = @"3.3.7.3";
+static NSString *const kGADMAdapterAdColonyVersionString = @"3.3.8.1.0";
 
 /// AdColony mediation adapter error domain
 static NSString *const kGADMAdapterAdColonyErrorDomain = @"com.google.mediation.adcolony";

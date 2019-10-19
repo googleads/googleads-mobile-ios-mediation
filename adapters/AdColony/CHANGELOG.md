@@ -1,5 +1,13 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Version 3.3.8.1.0
+- Updating AdColony adapter to version 3.3.8.1.
+- Linting the code to follow Google's Objective-C code-style and guard against potential crashes.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.51.0
+- AdColony SDK version 3.3.8.1
+
 #### Version 3.3.7.3
 - Added checks to the credentials before initializing the AdColony SDK.
 
