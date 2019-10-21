@@ -43,8 +43,6 @@
 
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:_mediaId];
-  // MaioInstance生成時にテストモードかどうかを指定する
-  [Maio setAdTestMode:adConfiguration.isTestRequest];
 
   GADMAdapterMaioRewardedAd *__weak weakSelf = self;
   [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
