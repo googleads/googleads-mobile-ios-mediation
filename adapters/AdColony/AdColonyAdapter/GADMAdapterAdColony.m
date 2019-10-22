@@ -12,6 +12,9 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
+@interface GADMAdapterAdColony() <AdColonyAdViewDelegate>
+@end
+
 @implementation GADMAdapterAdColony {
   /// AdColony interstitial ad.
   AdColonyInterstitial *_ad;
@@ -158,25 +161,22 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
     GADMAdapterAdColony *__weak weakSelf = self;
-    [GADMAdapterAdColonyHelper setupZoneFromConnector:self.connector callback:^(NSString *zone, NSError *error) {
+    [GADMAdapterAdColonyHelper setupZoneFromConnector:_connector callback:^(NSString *zone, NSError *error) {
          GADMAdapterAdColony *strongSelf = weakSelf;
          if (error && strongSelf) {
-             [strongSelf.connector adapter:strongSelf didFailAd:error];
+             [strongSelf->_connector adapter:strongSelf didFailAd:error];
              return;
          }
-         
-         NSLogDebug(@"Zone for banner : %@", zone);
-        
         AdColonyAdSize adColonyAdSize = [GADMAdapterAdColonyHelper getAdColonyAdSizeFrom:adSize];
-        UIViewController *viewController = [self.connector viewControllerForPresentingModalView];
+        UIViewController *viewController = [strongSelf->_connector viewControllerForPresentingModalView];
         if (!viewController) {
             NSError *error = [GADMAdapterAdColonyHelper getErrorWithCode:kGADErrorInvalidRequest andDescription:@"View controller cannot be nil"];
-             if (self.connector) {
-                 [self.connector adapter:self didFailAd:error];
+             if (strongSelf->_connector) {
+                 [strongSelf->_connector adapter:self didFailAd:error];
              }
             return;
         }
-        [AdColony requestAdViewInZone:zone withSize:adColonyAdSize viewController:viewController andDelegate:self];
+        [AdColony requestAdViewInZone:zone withSize:adColonyAdSize viewController:viewController andDelegate:strongSelf];
      }];
 }
 
@@ -195,40 +195,40 @@
 
 #pragma mark - Banner Delegate
 - (void)adColonyAdViewDidLoad:(AdColonyAdView *)adView{
-    NSLog(@"AdColonyAdapter [Info] : Banner ad loaded");
-    if (self.connector) {
-        [self.connector adapter:self didReceiveAdView:adView];
+    GADMAdapterAdColonyLog(@"Banner ad loaded");
+    if (_connector) {
+        [_connector adapter:self didReceiveAdView:adView];
     }
 }
 
 - (void)adColonyAdViewDidFailToLoad:(AdColonyAdRequestError *)error{
-    NSLog(@"AdColonyAdapter [Info] : Failed to load banner ad: %@", error.localizedDescription);
-    if (self.connector){
-        [self.connector adapter:self didFailAd:error];
+    GADMAdapterAdColonyLog(@"Failed to load banner ad: %@", error.localizedDescription);
+    if (_connector){
+        [_connector adapter:self didFailAd:error];
     }
 }
 
 - (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView *)adView{
-    if (self.connector){
-        [self.connector adapterWillLeaveApplication:self];
+    if (_connector){
+        [_connector adapterWillLeaveApplication:self];
     }
 }
 
 - (void)adColonyAdViewWillOpen:(AdColonyAdView *)adView{
-    if (self.connector){
-         [self.connector adapterWillPresentFullScreenModal:self];
+    if (_connector){
+         [_connector adapterWillPresentFullScreenModal:self];
     }
 }
 
 - (void)adColonyAdViewDidClose:(AdColonyAdView *)adView{
-    if (self.connector){
-         [self.connector adapterDidDismissFullScreenModal:self];
+    if (_connector){
+         [_connector adapterDidDismissFullScreenModal:self];
     }
 }
 
 - (void)adColonyAdViewDidReceiveClick:(AdColonyAdView *)adView{
-    if (self.connector){
-         [self.connector adapterDidGetAdClick:self];
+    if (_connector){
+         [_connector adapterDidGetAdClick:self];
     }
 }
 

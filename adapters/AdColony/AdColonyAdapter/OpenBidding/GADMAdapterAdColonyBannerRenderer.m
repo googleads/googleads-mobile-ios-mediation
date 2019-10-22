@@ -3,7 +3,6 @@
 //
 
 
-#import <AdColony/AdColony.h>
 #import "GADMAdapterAdColonyBannerRenderer.h"
 #import "GADMAdapterAdColonyHelper.h"
 
@@ -38,20 +37,19 @@
     self.bannerAdView = nil;
     AdColonyAdSize adSize = [GADMAdapterAdColonyHelper getAdColonyAdSizeFrom:adConfiguration.adSize];
     UIViewController *viewController = adConfiguration.topViewController;
-    NSLogDebug(@"getBannerAdFromZoneId: %@", zone);
     [AdColony requestAdViewInZone:zone withSize:adSize viewController:viewController andDelegate:self];
 }
 
 #pragma mark - AdColony Banner Delegate
 
 - (void)adColonyAdViewDidLoad:(AdColonyAdView *)adView {
-    NSLog(@"AdColonyAdapter [Info] : Banner ad loaded");
+    GADMAdapterAdColonyLog(@"Banner ad loaded");
     self.bannerAdView = adView;
     self.adEventDelegate = self.loadCompletionHandler(self, nil);
 }
 
 - (void)adColonyAdViewDidFailToLoad:(AdColonyAdRequestError *)error {
-    NSLog(@"AdColonyAdapter [Info] : Failed to load banner ad: %@", error.localizedDescription);
+    GADMAdapterAdColonyLog(@"Failed to load banner ad: %@", error.localizedDescription);
     self.loadCompletionHandler(nil, error);
 }
 
