@@ -61,8 +61,7 @@ NSString* _placementID;
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
 
   if (!_placementID){
-    NSString *description = [NSString
-                             stringWithFormat:@"Tried to initialize %@ with nil placement.", @"Unity banner"];
+    NSString *description = @"Tried to initialize Unity banner with nil placement.";
     NSError *error = GADUnityErrorWithDescription(description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
@@ -71,8 +70,7 @@ NSString* _placementID;
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
 
   if (!_bannerAd) {
-    NSString *description = [NSString
-                             stringWithFormat:@"%@ failed to initialize.", @"Unity banner"];
+    NSString *description = @"Unity banne failed to initialize.";
     NSError *error = GADUnityErrorWithDescription(description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
