@@ -74,5 +74,5 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply);
 + (AdColonyAdSize)getAdColonyAdSizeFrom:(GADAdSize)adSize;
 
 /// Retrieves an error object by using provided error code and description.
-+ (NSError *)getErrorWithCode:(GADErrorCode)code andDescription:(NSString *)description;
++ (NSError *_Nonnull)getErrorWithCode:(GADErrorCode)code andDescription:(NSString *_Nonnull)description;
 @end
