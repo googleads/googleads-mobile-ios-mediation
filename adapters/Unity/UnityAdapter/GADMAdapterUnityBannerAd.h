@@ -14,15 +14,24 @@
 
 @import Foundation;
 @import GoogleMobileAds;
-@import UnityAds;
 
+#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityProtocol.h"
 
-/// Adapter for communicating with the Unity Ads Network to fetch ads through the
-/// Google Mobile Ads SDK.
+@interface GADMAdapterUnityBannerAd : NSObject <UADSBannerViewDelegate>
 
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter,
-                                        GADMAdapterUnityDataProvider,
-                                        UnityAdsExtendedDelegate>
+/// Initializes a new instance with |connector| and |adapter|.
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+NS_DESIGNATED_INITIALIZER;
+
+/// Init unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Starts fetching a banner ad for given |adSize|.
+- (void)getBannerWithSize:(GADAdSize)adSize;
+
+/// Stops the receiver from delegating any notifications from Unity Ads.
+- (void)stopBeingDelegate;
 
 @end

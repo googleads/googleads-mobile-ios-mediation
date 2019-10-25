@@ -16,21 +16,15 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate, UnityAdsBannerDelegate> {
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
   /// Array to hold all adapter delegates.
   NSMapTable *_adapterDelegates;
-
-  NSString *_bannerPlacementID;
-  BOOL _isBannerLoading;
 
   int impressionOrdinal;
   int missedImpressionOrdinal;
 
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
-
-  /// Connector from unity adapter to send Banner callbacks
-  __weak id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate> _currentBannerDelegate;
 }
 
 @end
@@ -171,69 +165,6 @@
   }
 }
 
-#pragma mark - Banner ad methods
-
-- (void)requestBannerAdWithGameID:(NSString *)gameID
-                         delegate:(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>)
-                                      adapterDelegate {
-  if (![UnityAds isSupported]) {
-    [adapterDelegate unityAdsBannerDidError:@"Unity Ads is not supported for this device."];
-    return;
-  }
-
-  if (_isBannerLoading) {
-    [adapterDelegate
-        unityAdsBannerDidError:@"Only a maximum of one banner ad can be loaded from Unity Ads."];
-    return;
-  }
-
-  _bannerPlacementID = [adapterDelegate getPlacementID];
-  if (!_bannerPlacementID) {
-    [adapterDelegate unityAdsBannerDidError:@"Tried to request a banner with a nil placement ID"];
-    return;
-  }
-
-  _currentBannerDelegate = adapterDelegate;
-  _isBannerLoading = YES;
-
-  [UnityAdsBanner destroy];
-  if ([UnityAds isInitialized]) {
-    [UnityAdsBanner setDelegate:self];
-    [UnityAdsBanner loadBanner:_bannerPlacementID];
-  } else {
-    [self initializeWithGameID:gameID];
-  }
-}
-
-#pragma mark - Unity Banner Delegate Methods
-
-- (void)unityAdsBannerDidLoad:(NSString *)placementId view:(UIView *)view {
-  [_currentBannerDelegate unityAdsBannerDidLoad:_bannerPlacementID view:view];
-  _isBannerLoading = NO;
-}
-
-- (void)unityAdsBannerDidUnload:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidUnload:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidShow:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidShow:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidHide:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidHide:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidClick:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidClick:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidError:(NSString *)message {
-  NSString *description = [[NSString alloc] initWithFormat:@"Internal Unity Ads banner error"];
-  [_currentBannerDelegate unityAdsBannerDidError:description];
-  _isBannerLoading = NO;
-}
-
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
@@ -263,11 +194,6 @@
 
   if (adapterDelegate) {
     [adapterDelegate unityAdsReady:placementID];
-  }
-
-  if (_isBannerLoading && [placementID isEqualToString:_bannerPlacementID]) {
-    [UnityAdsBanner setDelegate:self];
-    [UnityAdsBanner loadBanner:_bannerPlacementID];
   }
 }
 
