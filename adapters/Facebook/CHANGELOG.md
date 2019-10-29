@@ -3,6 +3,10 @@
 #### Version 5.6.0.0
 - Verified compatibility with FAN SDK 5.6.0.
 
+Built and tested with
+- Google Mobile Ads SDK version 7.51.0.
+- FAN SDK version 5.6.0.
+
 #### Version 5.5.1.1
 - Adapter now returns a non-zero `mediaContent` aspect ratio once the media view is rendered in a view.
 - Added additional logging for open bidding.
