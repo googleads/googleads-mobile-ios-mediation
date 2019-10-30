@@ -65,16 +65,6 @@
 		A494D9B4202D7210006758A8 /* GADDuAdInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A494D9B2202D7210006758A8 /* GADDuAdInitializer.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		00DD263022F1086D0039C1D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD262B22F108500039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -261,7 +251,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				00DD263122F1086D0039C1D4 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -372,14 +361,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		00DD263122F1086D0039C1D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD262B22F108500039C1D4 /* ValidateSourceCode */;
-			targetProxy = 00DD263022F1086D0039C1D4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		00DD262E22F108500039C1D4 /* Debug */ = {

@@ -13,19 +13,17 @@
 // limitations under the License.
 
 #import "GADDuAdNativeAd.h"
+
+#import <DUModuleSDK/DUModuleSDK.h>
+
 #import "GADMAdapterDuAdConstants.h"
-
-@import GoogleMobileAds;
-@import DUModuleSDK;
-
 #import "GADDuAdAdapterDelegate.h"
 #import "GADDuAdError.h"
 
 static NSString *const GADNativeAdCoverImage = @"1";
 static NSString *const GADNativeAdIcon = @"2";
 
-@interface GADDuAdNativeAd () <GADMediatedUnifiedNativeAd,
-                               DUNativeAdDelegate,
+@interface GADDuAdNativeAd () <DUNativeAdDelegate,
                                DUMediaViewDelegate> {
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
@@ -57,14 +55,8 @@ static NSString *const GADNativeAdIcon = @"2";
 
 @implementation GADDuAdNativeAd
 
-/// Empty method to bypass Apple's private method checking since
-/// GADMediatedNativeAdNotificationSource's mediatedNativeAdDidRecordImpression method is
-/// dynamically called by this class's instances.
-+ (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
-}
-
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
     _adapter = adapter;
@@ -106,13 +98,8 @@ static NSString *const GADNativeAdIcon = @"2";
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
-  _mediaView.delegate = self;
   _nativeAd.delegate = self;
   [_nativeAd loadAd];
-}
-
-- (NSDictionary *)extraAssets {
-  return nil;
 }
 
 - (void)stopBeingDelegate {
@@ -187,18 +174,12 @@ static NSString *const GADNativeAdIcon = @"2";
 - (void)nativeAdImagesReady {
   id<GADMAdNetworkAdapter> strongAdapter = self->_adapter;
   id<GADMAdNetworkConnector> strongConnector = self->_connector;
-  [strongConnector adapter:strongAdapter didReceiveMediatedNativeAd:self];
-}
-
-#pragma mark - GADMediatedNativeAd
-
-- (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
+  [strongConnector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:self];
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
 
-- (NSString *)headline {
+- (nullable NSString *)headline {
   NSString *__block headline = nil;
   dispatch_sync(_lockQueue, ^{
     headline = [self->_nativeAd.title copy];
@@ -206,7 +187,7 @@ static NSString *const GADNativeAdIcon = @"2";
   return headline;
 }
 
-- (NSArray *)images {
+- (nullable NSArray *)images {
   NSArray *__block images = nil;
   dispatch_sync(_lockQueue, ^{
     images = [self->_images copy];
@@ -214,7 +195,7 @@ static NSString *const GADNativeAdIcon = @"2";
   return images;
 }
 
-- (NSString *)body {
+- (nullable NSString *)body {
   NSString *__block body = nil;
   dispatch_sync(_lockQueue, ^{
     body = [self->_nativeAd.shortDesc copy];
@@ -222,7 +203,7 @@ static NSString *const GADNativeAdIcon = @"2";
   return body;
 }
 
-- (GADNativeAdImage *)icon {
+- (nullable GADNativeAdImage *)icon {
   GADNativeAdImage *__block icon = nil;
   dispatch_sync(_lockQueue, ^{
     icon = self->_icon;
@@ -230,7 +211,7 @@ static NSString *const GADNativeAdIcon = @"2";
   return icon;
 }
 
-- (NSString *)callToAction {
+- (nullable NSString *)callToAction {
   NSString *__block callToAction = nil;
   dispatch_sync(_lockQueue, ^{
     callToAction = [self->_nativeAd.callToAction copy];
@@ -238,24 +219,28 @@ static NSString *const GADNativeAdIcon = @"2";
   return callToAction;
 }
 
-- (NSDecimalNumber *)starRating {
+- (nullable NSDecimalNumber *)starRating {
   return nil;
 }
 
-- (NSString *)store {
+- (nullable NSString *)store {
   return nil;
 }
 
-- (NSString *)price {
+- (nullable NSString *)price {
   return nil;
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
+  return nil;
+}
+
+- (nullable NSDictionary<NSString *,id> *)extraAssets {
   return nil;
 }
 
 /// Media view.
-- (UIView *GAD_NULLABLE_TYPE)mediaView {
+- (nullable UIView *)mediaView {
   NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self->_nativeAd.imgeUrl]];
   UIImage *image = [UIImage imageWithData:imageData];
   if (image) {
@@ -268,9 +253,9 @@ static NSString *const GADNativeAdIcon = @"2";
 
 /// Returns YES if the ad has video content.
 /// Because the DuAd SDK doesn't offer a way to determine whether a native ad contains a
-/// video asset or not, the adapter always returns a MediaView and claims to have video content.
+/// video asset or not, the adapter always returns a imageView and claims to not have video content.
 - (BOOL)hasVideoContent {
-  return YES;
+  return NO;
 }
 
 - (void)didRenderInView:(UIView *)view
@@ -289,6 +274,8 @@ static NSString *const GADNativeAdIcon = @"2";
 #pragma mark - DUNativeAdDelegate
 
 - (void)nativeAdDidLoad:(DUNativeAd *)nativeAd {
+  _mediaView = [[DUMediaView alloc] initWithNativeAd:nativeAd];
+  _mediaView.delegate = self;
   [self loadNativeAdImages];
 }
 
@@ -299,7 +286,7 @@ static NSString *const GADNativeAdIcon = @"2";
     return;
   }
   _impressionLogged = YES;
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
 }
 
 - (void)nativeAd:(DUNativeAd *)nativeAd didFailWithError:(NSError *)error {
@@ -309,7 +296,7 @@ static NSString *const GADNativeAdIcon = @"2";
 }
 
 - (void)nativeAdDidClick:(DUNativeAd *)nativeAd {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
 }
 
 - (void)nativeAdDidFinishHandlingClick:(DUNativeAd *)nativeAd {
@@ -319,15 +306,15 @@ static NSString *const GADNativeAdIcon = @"2";
 #pragma mark - DUMediaViewDelegate
 
 - (void)mediaViewVideoDidPlay:(DUMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
 }
 
 - (void)mediaViewVideoDidPause:(DUMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
 }
 
 - (void)mediaViewVideoDidComplete:(DUMediaView *)mediaView {
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
 }
 
 @end
