@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
+#import <Foundation/Foundation.h>
 
-#import "GADMAdapterUnitySingleton.h"
-#import "GADMAdapterUnityProtocol.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 
-@interface GADMAdapterUnityBannerAd : NSObject <UADSBannerViewDelegate>
+@interface GADMAdapterUnityBannerAd : NSObject
 
 /// Initializes a new instance with |connector| and |adapter|.
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -28,8 +27,8 @@ NS_DESIGNATED_INITIALIZER;
 /// Init unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Starts fetching a banner ad for given |adSize|.
-- (void)getBannerWithSize:(GADAdSize)adSize;
+/// Loads a banner ad for a given adSize.
+- (void)loadBannerWithSize:(GADAdSize)adSize;
 
 /// Stops the receiver from delegating any notifications from Unity Ads.
 - (void)stopBeingDelegate;

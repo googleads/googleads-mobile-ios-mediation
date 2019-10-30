@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,25 +19,22 @@
 #import "GADMediationAdapterUnity.h"
 #import "GADUnityError.h"
 
-@interface GADMAdapterUnityBannerAd () {
-
-}
-
+@interface GADMAdapterUnityBannerAd () <UADSBannerViewDelegate>
 @end
 
-@implementation GADMAdapterUnityBannerAd
+@implementation GADMAdapterUnityBannerAd {
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-/// Connector from Google Mobile Ads SDK to receive ad configurations.
-__weak id<GADMAdNetworkConnector> _connector;
+  /// Adapter for receiving ad request notifications.
+  __weak id<GADMAdNetworkAdapter> _adapter;
 
-/// Adapter for receiving ad request notifications.
-__weak id<GADMAdNetworkAdapter> _adapter;
+  /// Unity Ads banner ad object.
+  UADSBannerView *_bannerAd;
 
-/// Banner ad object used by Unity Ads
-UADSBannerView* _bannerAd;
-
-///Placement ID
-NSString* _placementID;
+  /// Unity ads placement ID.
+  NSString *_placementID;
+}
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -49,39 +46,36 @@ NSString* _placementID;
   return self;
 }
 
-- (void)getBannerWithSize:(GADAdSize)adSize {
+- (void)loadBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
 
   if (!strongConnector || !strongAdapter) {
-    NSLog(@"Adaptor Error: No GADMAdNetworkConnector or GADMAdNetworkAdapter found for getBannerWithSize:");
+    NSLog(@"Adapter Error: No GADMAdNetworkConnector or GADMAdNetworkAdapter found.");
     return;
+  }
+
+  if (![UnityAds isInitialized]) {
+    NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
+    [GADMAdapterUnitySingleton.sharedInstance initializeWithGameID:gameID];
   }
 
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
-
-  if (!_placementID){
-    NSString *description = @"Tried to initialize Unity banner with nil placement.";
-    NSError *error = GADUnityErrorWithDescription(description);
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
 
   if (!_bannerAd) {
-    NSString *description = @"Unity banne failed to initialize.";
-    NSError *error = GADUnityErrorWithDescription(description);
+    NSError *error = GADUnityErrorWithDescription(@"Unity banner failed to initialize.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  [_bannerAd setDelegate:self];
+  _bannerAd.delegate = self;
   [_bannerAd load];
 }
 
 - (void)stopBeingDelegate {
   _bannerAd = nil;
+  _bannerAd.delegate = nil;
 }
 
 #pragma mark UADSBannerView Delegate methods
@@ -89,12 +83,10 @@ NSString* _placementID;
 - (void)bannerViewDidLoad:(UADSBannerView *)bannerView {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-
   if (strongConnector && strongAdapter) {
     [strongConnector adapter:strongAdapter didReceiveAdView:bannerView];
   }
 }
-
 
 - (void)bannerViewDidClick:(UADSBannerView *)bannerView {
   id<GADMAdNetworkConnector> strongConnector = _connector;
@@ -104,7 +96,6 @@ NSString* _placementID;
   }
 }
 
-
 - (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
@@ -113,17 +104,15 @@ NSString* _placementID;
   }
 }
 
-
 - (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-    NSString *errorMsg = @"Unity Ads banner failed to load - Error.";
-    if ( error.code == UADSBannerErrorCodeNoFillError) {
-      errorMsg = @"Unity Ads banner failed to load - No Fill.";
-    }
+    NSString *errorMsg =
+        [NSString stringWithFormat:@"Unity Ads banner failed to load with error: %@",
+                                   error.localizedDescription];
     [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(errorMsg)];
-    }
   }
+}
 
 @end
