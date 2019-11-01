@@ -5,56 +5,42 @@
 //
 
 #import "GADMAdapterNexage.h"
-#import "GADMVerizonMediaConstants.h"
+#import "GADMAdapterVerizonConstants.h"
 #import "GADMVerizonConsent_Internal.h"
-#import <GoogleMobileAds/GADRequest.h>
 #import <VerizonAdsCore/VASPEXRegistry.h>
 #import <VerizonAdsCore/VASAds+Private.h>
 #import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 
 @implementation GADMAdapterNexage
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector
-{
-    if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
-        [self initializeVASAds];
-    }
-    
-    return self;
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
+  if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
+    [self initializeVASAds];
+  }
+  return self;
 }
 
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)rewardConnector
-{
-    if (self = [super initWithRewardBasedVideoAdNetworkConnector:rewardConnector]) {
-        [self initializeVASAds];
-    }
-    return self;
-}
+- (void)initializeVASAds {
+  // Position.
+  NSDictionary *credentials = [self.connector credentials];
+  if (credentials[kGADMAdapterVerizonMediaPosition]) {
+    self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  }
 
-- (void)initializeVASAds
-{
-    //Position
-    NSDictionary *credentials = [self.connector credentials];
-    if(credentials[kGADNexagePosition] != nil)
-    {
-        self.placementID = credentials[kGADNexagePosition];
+  if (!VASAds.sharedInstance.initialized) {
+    // Site ID.
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    if (!siteID.length) {
+      siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
     }
-    
-    //Site ID
-    NSString *siteId = credentials[kGADNexageDCN];
-    if (siteId.length == 0) {
-        siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADVerizonSiteId];
-    }
-    
-    if([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
-        VASAds.logLevel = VASLogLevelError;
-        
-        if([VASAds sharedInstance].initialized == NO) {
-            [VASStandardEdition initializeWithSiteId:siteId];
-        }
-        self.vasAds = [VASAds sharedInstance];
-        [GADMVerizonConsent.sharedInstance updateConsentInfo];
-    }
+    [VASStandardEdition initializeWithSiteId:siteID];
+  }
+
+  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
+    VASAds.logLevel = VASLogLevelError;
+    self.vasAds = VASAds.sharedInstance;
+    [GADMVerizonConsent.sharedInstance updateConsentInfo];
+  }
 }
 
 @end

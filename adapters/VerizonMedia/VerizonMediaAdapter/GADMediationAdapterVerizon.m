@@ -5,73 +5,112 @@
 //
 
 #import "GADMediationAdapterVerizon.h"
-#import "GADMVerizonMediaConstants.h"
+#import "GADMAdapterVerizonConstants.h"
 #import "GADMVerizonConsent_Internal.h"
+#import "GADMAdapterVerizonRewardedAd.h"
 
-@implementation GADMediationAdapterVerizon
-
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector
-{
-    if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
-        [self initializeVASAds];
-    }
-    return self;
+@implementation GADMediationAdapterVerizon {
+  GADMAdapterVerizonRewardedAd *_rewardedAd;
 }
 
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:(id<GADMRewardBasedVideoAdNetworkConnector>)rewardConnector
-{
-    if (self = [super initWithRewardBasedVideoAdNetworkConnector:rewardConnector]) {
-        [self initializeVASAds];
-    }
-    return self;
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
+  if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
+    [self initializeVASAds];
+  }
+  return self;
 }
 
-- (void)initializeVASAds
-{
-    //Position
-    NSDictionary *credentials = [self.connector credentials];
-    if(credentials[kGADVerizonPosition] != nil)
-    {
-        self.placementID = credentials[kGADVerizonPosition];
+- (void)initializeVASAds {
+  // Position.
+  NSDictionary *credentials = [self.connector credentials];
+  if (credentials[kGADMAdapterVerizonMediaPosition]) {
+    self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  }
+
+  if (!VASAds.sharedInstance.initialized) {
+    // Site ID.
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    if (!siteID.length) {
+      siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
     }
-    
-    //Site ID
-    NSString *siteId = credentials[kGADVerizonDCN];
-    if (siteId.length == 0) {
-        siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADVerizonSiteId];
-    }
-    
-    if([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
-        VASAds.logLevel = VASLogLevelError;
-        
-        if([VASAds sharedInstance].initialized == NO) {
-            [VASStandardEdition initializeWithSiteId:siteId];
-        }
-        self.vasAds = [VASAds sharedInstance];
-    }
+    [VASStandardEdition initializeWithSiteId:siteID];
+  }
+
+  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
+    VASAds.logLevel = VASLogLevelError;
+    self.vasAds = VASAds.sharedInstance;
+    [GADMVerizonConsent.sharedInstance updateConsentInfo];
+  }
 }
 
-- (void)initializeVASSDKWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-{
-    NSDictionary *settings = adConfiguration.credentials.settings;
-    if(settings[kGADVerizonPosition] != nil) {
-        self.placementID = settings[kGADVerizonPosition];
-    }
+#pragma mark - GADMediationAdapter
 
-    NSString *siteId = settings[kGADVerizonDCN];
-    if (siteId.length == 0) {
-        siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADVerizonSiteId];
-    }
-    
-    if([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
-        VASAds.logLevel = VASLogLevelError;
-        
-        if([VASAds sharedInstance].initialized == NO) {
-            [VASStandardEdition initializeWithSiteId:siteId];
-        }
-        self.vasAds = [VASAds sharedInstance];
-        [GADMVerizonConsent.sharedInstance updateConsentInfo];
-    }
++ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
+             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSMutableSet *siteIDs = [[NSMutableSet alloc] init];
+
+  for (GADMediationCredentials *cred in configuration.credentials) {
+    NSString *siteID = cred.settings[kGADMAdapterVerizonMediaDCN];
+    [siteIDs addObject:siteID];
+  }
+
+  if (!siteIDs.count) {
+    NSString *errorString = @"Verizon media mediation configurations did not contain a valid site ID.";
+    NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                                         code:kGADErrorMediationAdapterError
+                                     userInfo:@{ NSLocalizedDescriptionKey : errorString }];
+    completionHandler(error);
+    return;
+  }
+
+  NSString *siteID = [siteIDs anyObject];
+
+  if (siteIDs.count != 1) {
+    NSLog(@"Found the following site IDs: %@. Please remove any site IDs you are not using from"
+          @"the AdMob/Ad Manager UI.", siteIDs);
+    NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
+  }
+  [VASStandardEdition initializeWithSiteId:siteID];
+  completionHandler(nil);
+}
+
++ (GADVersionNumber)version {
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
+
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 4) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    version.patchVersion =
+        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
+  }
+  return version;
+}
+
++ (GADVersionNumber)adSDKVersion {
+  NSString *versionString = [VASAds.sharedInstance.configuration stringForDomain:@"com.verizon.ads"
+                                                                             key:@"editionVersion"
+                                                                     withDefault:nil];
+  if (!versionString.length) {
+    versionString = VASAds.sdkInfo.version;
+  }
+
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
+
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 3) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    version.patchVersion = [versionComponents[2] integerValue];
+  }
+  return version;
+}
+
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedAd = [[GADMAdapterVerizonRewardedAd alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

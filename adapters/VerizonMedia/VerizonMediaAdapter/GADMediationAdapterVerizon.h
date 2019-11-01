@@ -4,8 +4,8 @@
 // @copyright Copyright (c) 2018 Verizon. All rights reserved.
 //
 
-#import "GADMVerizonAdapterBaseClass.h"
+#import "GADMAdapterVerizonBaseClass.h"
 
-@interface GADMediationAdapterVerizon : GADMVerizonAdapterBaseClass
+@interface GADMediationAdapterVerizon : GADMAdapterVerizonBaseClass <GADMediationAdapter>
 
 @end
