@@ -171,21 +171,14 @@
     _MRAIDContentController = [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder>  _Nonnull builder) {}];
     _videoContentController = [IAVideoContentController build:^(id<IAVideoContentControllerBuilder>  _Nonnull builder) {}];
 
-    _viewUnitController = [IAViewUnitController build:^(id<IAViewUnitControllerBuilder>  _Nonnull builder) {
-        builder.unitDelegate = self;
-        [builder addSupportedContentController:self.videoContentController];
-        [builder addSupportedContentController:self.MRAIDContentController];
-    }];
-
     _fullscreenUnitController = [IAFullscreenUnitController build:^(id<IAFullscreenUnitControllerBuilder>  _Nonnull builder) {
         builder.unitDelegate = self;
-        [builder addSupportedContentController:self.videoContentController];
         [builder addSupportedContentController:self.MRAIDContentController];
+        [builder addSupportedContentController:self.videoContentController];
     }];
 
     _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder>  _Nonnull builder) {
         builder.adRequest = request;
-        [builder addSupportedUnitController:self.viewUnitController];
         [builder addSupportedUnitController:self.fullscreenUnitController];
     }];
 }
