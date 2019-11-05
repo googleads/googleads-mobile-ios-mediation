@@ -131,9 +131,14 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  BOOL isOpenBiddingRequest = adConfiguration.bidResponse != nil;
+  // Facebook should not bid on open bidding requests that are tagged for child directed treatment.
+  // But if they do, the winning response should be rendered.
   if ([adConfiguration respondsToSelector:@selector(childDirectedTreatment)] &&
-      adConfiguration.childDirectedTreatment) {
-    [FBAdSettings setIsChildDirected:[adConfiguration.childDirectedTreatment boolValue]];
+      adConfiguration.childDirectedTreatment && !isOpenBiddingRequest) {
+    NSError *error = GADFBErrorWithDescription(kGADMAdapterFacebookChildDirectedErrorString);
+    completionHandler(nil, error);
+    return;
   }
   _rewardedAd = [[GADFBRewardedRenderer alloc] init];
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration

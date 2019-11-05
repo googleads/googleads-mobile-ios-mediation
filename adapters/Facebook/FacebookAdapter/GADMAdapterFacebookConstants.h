@@ -18,3 +18,6 @@ static NSString *const kGADMAdapterFacebookVersion = @"5.6.0.0";
 static NSString *const kGADMAdapterFacebookOpenBiddingPubID = @"placement_id";
 
 static NSString *const kGADMAdapterFacebookPubID = @"pubid";
+
+static NSString *const kGADMAdapterFacebookChildDirectedErrorString =
+    @"Facebook SDK doesn't provide ads for apps or services that are primarily child-directed.";

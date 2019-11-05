@@ -72,7 +72,9 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if ([strongConnector respondsToSelector:@selector(childDirectedTreatment)] &&
       [strongConnector childDirectedTreatment]) {
-    [FBAdSettings setIsChildDirected:[[strongConnector childDirectedTreatment] boolValue]];
+    NSError *error = GADFBErrorWithDescription(kGADMAdapterFacebookChildDirectedErrorString);
+    [strongConnector adapter:self didFailAd:error];
+    return;
   }
 
   _bannerAd = [[GADFBBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
@@ -83,7 +85,9 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if ([strongConnector respondsToSelector:@selector(childDirectedTreatment)] &&
       [strongConnector childDirectedTreatment]) {
-    [FBAdSettings setIsChildDirected:[[strongConnector childDirectedTreatment] boolValue]];
+    NSError *error = GADFBErrorWithDescription(kGADMAdapterFacebookChildDirectedErrorString);
+    [strongConnector adapter:self didFailAd:error];
+    return;
   }
 
   _interstitialAd = [[GADFBInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector
@@ -99,7 +103,9 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSNumber *childDirectedTreatmentValue = [strongConnector childDirectedTreatment];
   if (childDirectedTreatmentValue) {
-    [FBAdSettings setIsChildDirected:childDirectedTreatmentValue.boolValue];
+    NSError *error = GADFBErrorWithDescription(kGADMAdapterFacebookChildDirectedErrorString);
+    [strongConnector adapter:self didFailAd:error];
+    return;
   }
 
   GADFBNetworkExtras *extras = strongConnector.networkExtras;
