@@ -62,7 +62,7 @@
 
   if(UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
     VASAds.logLevel = VASLogLevelError;
-    if(!VASAds.sharedInstance.initialized) {
+    if(![VASAds.sharedInstance isInitialized]) {
       [VASStandardEdition initializeWithSiteId:siteID];
     }
     _vasAds = [VASAds sharedInstance];
@@ -84,7 +84,7 @@
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!_placementID || !_vasAds.isInitialized) {
+  if (!_placementID || ![_vasAds isInitialized]) {
     NSError *error = [NSError errorWithDomain:kGADErrorDomain
                                          code:kGADErrorMediationAdapterError
                                      userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."}];
@@ -275,6 +275,7 @@
 - (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
         didLoadNativeAd:(nonnull VASNativeAd *)nativeAd {
   dispatch_async(dispatch_get_main_queue(), ^{
+    self->_nativeAd = nativeAd;
     [self->_connector adapter:self->_adapter didReceiveMediatedUnifiedNativeAd:self];
   });
 }

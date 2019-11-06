@@ -47,9 +47,10 @@
   return kGADMAdapterVerizonMediaVersion;
 }
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
-  if (self = [super init]) {
-    _connector = gadConnector;
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  self = [super init];
+  if (self) {
+    _connector = connector;
   }
 
   return self;
@@ -275,7 +276,7 @@ cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!self.placementID || !self.vasAds.isInitialized) {
+  if (!self.placementID || ![self.vasAds isInitialized]) {
     NSError *error = [NSError
                       errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                       code:kGADErrorMediationAdapterError

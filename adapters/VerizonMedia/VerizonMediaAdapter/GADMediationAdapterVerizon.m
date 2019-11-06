@@ -13,8 +13,9 @@
   GADMAdapterVerizonRewardedAd *_rewardedAd;
 }
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
-  if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  self = [super initWithGADMAdNetworkConnector:connector];
+  if (self) {
     [self initializeVASAds];
   }
   return self;
@@ -27,7 +28,7 @@
     self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
   }
 
-  if (!VASAds.sharedInstance.initialized) {
+  if (![VASAds.sharedInstance isInitialized]) {
     // Site ID.
     NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
     if (!siteID.length) {
@@ -70,7 +71,9 @@
           @"the AdMob/Ad Manager UI.", siteIDs);
     NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
   }
-  [VASStandardEdition initializeWithSiteId:siteID];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [VASStandardEdition initializeWithSiteId:siteID];
+  });
   completionHandler(nil);
 }
 

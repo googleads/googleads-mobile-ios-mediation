@@ -34,7 +34,7 @@
 }
 
 - (void)updateConsentInfo {
-  if ([VASAds sharedInstance].isInitialized) {
+  if ([VASAds.sharedInstance isInitialized]) {
     [[VASAds sharedInstance] setConsentData:self.consentInfo fromRestrictedOrigin:self.restricted];
   }
 }

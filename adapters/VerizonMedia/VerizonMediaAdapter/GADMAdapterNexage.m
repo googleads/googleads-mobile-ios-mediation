@@ -13,8 +13,9 @@
 
 @implementation GADMAdapterNexage
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
-  if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  self = [super initWithGADMAdNetworkConnector:connector];
+  if (self) {
     [self initializeVASAds];
   }
   return self;
@@ -23,13 +24,13 @@
 - (void)initializeVASAds {
   // Position.
   NSDictionary *credentials = [self.connector credentials];
-  if (credentials[kGADMAdapterVerizonMediaPosition]) {
-    self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  if (credentials[kGADNexagePosition]) {
+    self.placementID = credentials[kGADNexagePosition];
   }
 
-  if (!VASAds.sharedInstance.initialized) {
+  if (![VASAds.sharedInstance isInitialized]) {
     // Site ID.
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    NSString *siteID = credentials[kGADNexageDCN];
     if (!siteID.length) {
       siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
     }

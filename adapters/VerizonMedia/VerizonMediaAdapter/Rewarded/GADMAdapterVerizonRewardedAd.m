@@ -56,7 +56,7 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
   if(UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
     VASAds.logLevel = VASLogLevelError;
-    if(!VASAds.sharedInstance.initialized) {
+    if(![VASAds.sharedInstance isInitialized]) {
       [VASStandardEdition initializeWithSiteId:siteId];
     }
     _vasAds = [VASAds sharedInstance];
@@ -70,7 +70,7 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
     [self initializeVASSDK];
   }
 
-  if (!_placementID || !_vasAds.isInitialized) {
+  if (!_placementID || ![_vasAds isInitialized]) {
     NSError *error = [NSError errorWithDomain:kGADErrorDomain
                                          code:kGADErrorMediationAdapterError
                                      userInfo:@{ NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."}];
