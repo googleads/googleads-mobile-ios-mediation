@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Foundation/Foundation.h>
+
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <ImobileSdkAds/ImobileSdkAds.h>
+#import <UnityAds/UnityAds.h>
 
-/// Mapper for GADMediatedUnifiedNativeAd.
-@interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
+@interface GADMAdapterUnityBannerAd : NSObject
 
-/// Initialize.
-- (nonnull instancetype)initWithIMobileNativeAd:(nonnull ImobileSdkAdsNativeObject *)iMobileNativeAd
-                                          image:(nonnull UIImage *)image NS_DESIGNATED_INITIALIZER;
+/// Initializes a new instance with |connector| and |adapter|.
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+NS_DESIGNATED_INITIALIZER;
 
-/// Unavailable.
+/// Init unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads a banner ad for a given adSize.
+- (void)loadBannerWithSize:(GADAdSize)adSize;
+
+/// Stops the receiver from delegating any notifications from Unity Ads.
+- (void)stopBeingDelegate;
 
 @end

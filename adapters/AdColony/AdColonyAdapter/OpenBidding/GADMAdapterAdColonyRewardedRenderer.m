@@ -15,73 +15,87 @@
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 
 #import <AdColony/AdColony.h>
+#include <stdatomic.h>
+
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMediationAdapterAdColony.h"
 
 @interface GADMAdapterAdColonyRewardedRenderer () <GADMediationRewardedAd>
-
-@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler loadCompletionHandler;
-
-@property(nonatomic, strong) AdColonyInterstitial *rewardedAd;
-
-@property(nonatomic, weak) id<GADMediationRewardedAdEventDelegate> adEventDelegate;
-
 @end
 
-@implementation GADMAdapterAdColonyRewardedRenderer
+@implementation GADMAdapterAdColonyRewardedRenderer {
+  /// An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfig
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
-  self.loadCompletionHandler = handler;
+  /// AdColony rewarded ad.
+  AdColonyInterstitial *_rewardedAd;
+
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
+}
+
+- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
+                       completionHandler:
+                           (nonnull GADMediationRewardedLoadCompletionHandler)handler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [handler copy];
+  _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(rewardedAd, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   GADMAdapterAdColonyRewardedRenderer *__weak weakSelf = self;
-  [GADMAdapterAdColonyHelper setupZoneFromAdConfig:adConfig
-                                          callback:^(NSString *zone, NSError *error) {
-                                            __strong typeof(weakSelf) strongSelf = weakSelf;
 
-                                            if (!strongSelf) {
-                                              return;
-                                            }
-
-                                            if (error) {
-                                              strongSelf.loadCompletionHandler(nil, error);
-                                              return;
-                                            }
-                                            [strongSelf getRewardedAdFromZoneId:zone
-                                                                   withAdConfig:adConfig];
-                                          }];
+  [GADMAdapterAdColonyHelper
+      setupZoneFromAdConfig:adConfig
+                   callback:^(NSString *zone, NSError *error) {
+                     GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
+                     if (error && strongSelf) {
+                       strongSelf->_loadCompletionHandler(nil, error);
+                       return;
+                     }
+                     [strongSelf getRewardedAdFromZoneId:zone withAdConfig:adConfig];
+                   }];
 }
 
 - (void)getRewardedAdFromZoneId:(NSString *)zone
                    withAdConfig:(GADMediationRewardedAdConfiguration *)adConfiguration {
-  self.rewardedAd = nil;
+  _rewardedAd = nil;
 
   GADMAdapterAdColonyRewardedRenderer *__weak weakSelf = self;
 
-  NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
+  GADMAdapterAdColonyLog(@"Requesting rewarded ad for zone: %@", zone);
 
   AdColonyAdOptions *options = [GADMAdapterAdColonyHelper getAdOptionsFromAdConfig:adConfiguration];
 
   [AdColony requestInterstitialInZone:zone
       options:options
       success:^(AdColonyInterstitial *_Nonnull ad) {
-        NSLogDebug(@"Retrieve ad: %@", zone);
+        GADMAdapterAdColonyLog(@"Retrieved rewarded ad for zone: %@", zone);
         GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
         if (strongSelf) {
           [strongSelf handleAdReceived:ad forAdConfig:adConfiguration zone:zone];
         }
       }
       failure:^(AdColonyAdRequestError *_Nonnull err) {
-        NSError *error =
-            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                code:kGADErrorInvalidRequest
-                            userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorInvalidRequest,
+                                                                        err.localizedDescription);
+        GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
         if (strongSelf) {
-          strongSelf.loadCompletionHandler(nil, error);
+          strongSelf->_loadCompletionHandler(nil, error);
         }
-        NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
+        GADMAdapterAdColonyLog(@"Failed to retrieve ad for zone: %@ with error: %@", zone,
+                               error.localizedDescription);
       }];
 }
 - (void)handleAdReceived:(AdColonyInterstitial *_Nonnull)ad
@@ -89,16 +103,15 @@
                     zone:(NSString *)zone {
   AdColonyZone *adZone = [AdColony zoneForID:ad.zoneID];
   if (adZone.rewarded) {
-    self.rewardedAd = ad;
-    self.adEventDelegate = self.loadCompletionHandler(self, nil);
+    _rewardedAd = ad;
+    _adEventDelegate = _loadCompletionHandler(self, nil);
   } else {
     NSString *errorMessage =
         @"Zone used for rewarded video is not a rewarded video zone on AdColony portal.";
-    NSLog(@"AdColonyAdapter [**Error**] : %@", errorMessage);
-    NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                         code:kGADErrorInvalidRequest
-                                     userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    self.loadCompletionHandler(nil, error);
+    GADMAdapterAdColonyLog(@"%@", errorMessage);
+    NSError *error =
+        GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorInvalidRequest, errorMessage);
+    _loadCompletionHandler(nil, error);
   }
   // Re-request intersitial when expires, this avoids the situation:
   // 1. Admob interstitial request from zone A. Causes ADC configure to occur with zone A,
@@ -108,52 +121,62 @@
   // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
   // with id: xyz has been registered. Cannot show interstitial`.
   [ad setExpire:^{
-    NSLog(@"AdColonyAdapter [Info]: Rewarded Ad expired from zone: %@ because of configuring "
-          @"another Ad. To avoid this situation, use startWithCompletionHandler: to initialize "
-          @"Google Mobile Ads SDK and wait for the completion handler to be called before "
-          @"requesting an ad.",
-          zone);
+    GADMAdapterAdColonyLog(
+        @"Rewarded Ad expired from zone: %@ because of configuring "
+        @"another Ad. To avoid this situation, use startWithCompletionHandler: to initialize "
+        @"Google Mobile Ads SDK and wait for the completion handler to be called before "
+        @"requesting an ad.",
+        zone);
   }];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  __weak typeof(self) weakSelf = self;
+  GADMAdapterAdColonyRewardedRenderer *__weak weakSelf = self;
 
-  [self.rewardedAd setOpen:^{
-    id<GADMediationRewardedAdEventDelegate> adEventDelegate = weakSelf.adEventDelegate;
-    [adEventDelegate willPresentFullScreenView];
-    [adEventDelegate reportImpression];
-    [adEventDelegate didStartVideo];
-  }];
-
-  [self.rewardedAd setClick:^{
-    [weakSelf.adEventDelegate reportClick];
-  }];
-
-  [self.rewardedAd setClose:^{
-    id<GADMediationRewardedAdEventDelegate> adEventDelegate = weakSelf.adEventDelegate;
-    [adEventDelegate didEndVideo];
-    [adEventDelegate willDismissFullScreenView];
-    [adEventDelegate didDismissFullScreenView];
-  }];
-
-  AdColonyZone *zone = [AdColony zoneForID:self.rewardedAd.zoneID];
-  [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
-    if (success) {
-      GADAdReward *reward = [[GADAdReward alloc]
-          initWithRewardType:name
-                rewardAmount:(NSDecimalNumber *)[NSDecimalNumber numberWithInt:amount]];
-      [weakSelf.adEventDelegate didRewardUserWithReward:reward];
+  [_rewardedAd setOpen:^{
+    GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      id<GADMediationRewardedAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
+      [adEventDelegate willPresentFullScreenView];
+      [adEventDelegate reportImpression];
+      [adEventDelegate didStartVideo];
     }
   }];
 
-  if (![self.rewardedAd showWithPresentingViewController:viewController]) {
+  [_rewardedAd setClick:^{
+    GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf->_adEventDelegate reportClick];
+    }
+  }];
+
+  [_rewardedAd setClose:^{
+    GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
+    id<GADMediationRewardedAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
+    if (strongSelf) {
+      [adEventDelegate didEndVideo];
+      [adEventDelegate willDismissFullScreenView];
+      [adEventDelegate didDismissFullScreenView];
+    }
+  }];
+
+  AdColonyZone *zone = [AdColony zoneForID:_rewardedAd.zoneID];
+  [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
+    GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
+    if (success && strongSelf) {
+      GADAdReward *reward = [[GADAdReward alloc]
+          initWithRewardType:name
+                rewardAmount:(NSDecimalNumber *)[NSDecimalNumber numberWithInt:amount]];
+      [strongSelf->_adEventDelegate didRewardUserWithReward:reward];
+    }
+  }];
+
+  if (![_rewardedAd showWithPresentingViewController:viewController]) {
     NSString *errorMessage = @"Failed to show ad for zone";
-    NSLog(@"AdColonyAdapter [Info] : %@, %@.", errorMessage, self.rewardedAd.zoneID);
-    NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                         code:0
-                                     userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
-    [self.adEventDelegate didFailToPresentWithError:error];
+    GADMAdapterAdColonyLog(@"%@: %@.", errorMessage, _rewardedAd.zoneID);
+    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+                                                                    errorMessage);
+    [_adEventDelegate didFailToPresentWithError:error];
   }
 }
 

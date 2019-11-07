@@ -43,6 +43,8 @@
       return @"InCorrectMediaId";
     case MaioFailReasonIncorrectZoneId:
       return @"InCorrectZoneId";
+    case MaioFailReasonNotFoundViewContext:
+      return @"NotFoundViewContext";
   }
 }
 

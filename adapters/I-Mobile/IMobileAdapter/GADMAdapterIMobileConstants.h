@@ -26,3 +26,6 @@ static NSString *const kGADMAdapterIMobileSpotIdKey = @"asid";
 
 /// String of call to action.
 static NSString *const kGADMAdapterIMobileCallToAction = @"詳細はこちら";
+
+/// i-mobile adapter error domain.
+static NSString *const kGADMAdapterIMobileErrorDomain = @"com.google.mediation.imobile";

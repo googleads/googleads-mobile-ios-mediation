@@ -2,44 +2,72 @@
 //  Copyright © 2018 Google. All rights reserved.
 //
 
+#import <AdColony/AdColony.h>
 #import <Foundation/Foundation.h>
-@protocol GADMediationAdRequest;
-@class AdColonyAppOptions;
-@class AdColonyAdOptions;
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define DEBUG_LOGGING 0
+#define GADMAdapterAdColonyLog(format, args...) NSLog(@"AdColonyAdapter: " format, ##args)
 
-#if DEBUG_LOGGING
-#define NSLogDebug(...) NSLog(__VA_ARGS__)
-#else
-#define NSLogDebug(...)
-#endif
+/// Returns an NSError with provided error code and description.
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,
+                                                                 NSString *_Nonnull description);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Adds objects from array to the set.
+void GADMAdapterAdColonyMutableSetAddObjectsFromArray(NSMutableSet *_Nullable set,
+                                                      NSArray *_Nonnull array);
+
+/// Sets |value| for |key| in |dictionary| if |value| is not nil.
 void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value);
-NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(NSDictionary *_Nonnull settings);
-NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *reply);
+
+/// Adds |object| to |array| if |object| is not nil.
+void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                              NSObject *_Nonnull object);
+
+/// Retrieve zone ID from the settings dictionary.
+NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
+    NSDictionary<NSString *, id> *_Nonnull settings);
+
+/// Retrieve zone ID from the reply string.
+NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply);
 
 @interface GADMAdapterAdColonyHelper : NSObject
 
-+ (AdColonyAdOptions *)getAdOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig;
-+ (AdColonyAdOptions *)getAdOptionsFromConnector:(id<GADMAdNetworkConnector>)connector;
+/// Return AdColonyAdOptions from a GADMediationAdConfiguration.
++ (nullable AdColonyAdOptions *)getAdOptionsFromAdConfig:
+    (nonnull GADMediationAdConfiguration *)adConfig;
 
-+ (AdColonyAppOptions *)getAppOptionsFromAdConfig:(GADMediationAdConfiguration *)adConfig;
-+ (AdColonyAppOptions *)getAppOptionsFromConnector:(id<GADMAdNetworkConnector>)connector;
+/// Return AdColonyAdOptions from a GADMAdNetworkConnector.
++ (nullable AdColonyAdOptions *)getAdOptionsFromConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector;
 
-+ (NSArray *)parseZoneIDs:(NSString *)zoneList;
+/// Return AdColonyAppOptions from a GADMediationAdConfiguration.
++ (nullable AdColonyAppOptions *)getAppOptionsFromAdConfig:
+    (nonnull GADMediationAdConfiguration *)adConfig;
 
-+ (void)setupZoneFromConnector:(id<GADMAdNetworkConnector>)connector
-                      callback:(void (^)(NSString *, NSError *))callback;
-+ (void)setupZoneFromAdConfig:(GADMediationAdConfiguration *)adConfig
-                     callback:(void (^)(NSString *, NSError *))callback;
+/// Return AdColonyAppOptions from a GADMAdNetworkConnector.
++ (nullable AdColonyAppOptions *)getAppOptionsFromConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector;
 
-+ (NSDictionary *)getDictionaryFromJsonString:(NSString *)jsonString;
-+ (NSString *)getJsonStringFromDictionary:(NSDictionary *)dictionary;
+/// Converts the provided zone IDs string to an array of zone IDs.
++ (nullable NSArray<NSString *> *)parseZoneIDs:(nonnull NSString *)zoneList;
+
+/// Configures the zone provided by the GADMAdNetworkConnector info with AdColony SDK.
++ (void)setupZoneFromConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                      callback:(nonnull void (^)(NSString *_Nullable, NSError *_Nullable))callback;
+
+/// Configures the zone provided by the GADMediationAdConfiguration with AdColony SDK.
++ (void)setupZoneFromAdConfig:(nonnull GADMediationAdConfiguration *)adConfig
+                     callback:(nonnull void (^)(NSString *_Nullable, NSError *_Nullable))callback;
+
+/// Retrieves a dictionary from the provided JSON string.
++ (nullable NSDictionary *)getDictionaryFromJsonString:(nonnull NSString *)jsonString;
+
+/// Retrieves a JSON string from the provided dictionary.
++ (nullable NSString *)getJsonStringFromDictionary:(nonnull NSDictionary *)dictionary;
 
 @end

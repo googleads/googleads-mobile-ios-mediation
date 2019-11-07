@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
-#import "ImobileSdkAds/ImobileSdkAds.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <ImobileSdkAds/ImobileSdkAds.h>
 
 /// Adapter for banner and interstitial ads.
 @interface IMobileAdapter : NSObject <GADMAdNetworkAdapter, IMobileSdkAdsDelegate>

@@ -12,24 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
 
-@protocol GADMAdNetworkAdapter;
-@protocol GADMAdNetworkConnector;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Creates and manages DuAd Audience Network native ads.
-@interface GADDuAdNativeAd : NSObject
+@interface GADDuAdNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
 /// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
     NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
-- (instancetype)init NS_UNAVAILABLE;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Starts fetching a native ad for the provided ad types and options.
-- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options;
+- (void)getNativeAdWithAdTypes:(nonnull NSArray *)adTypes options:(nullable NSArray *)options;
 
 /// Stops the receiver from delegating any notifications from DuAd Audience Network.
 - (void)stopBeingDelegate;

@@ -45,6 +45,8 @@
 /* Begin PBXBuildFile section */
 		00AC999A22E927AA00262599 /* GADMAdapterUnityUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00AC999822E927AA00262599 /* GADMAdapterUnityUtils.h */; };
 		00AC999B22E927AA00262599 /* GADMAdapterUnityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC999922E927AA00262599 /* GADMAdapterUnityUtils.m */; };
+		45762AA12363A2E2008B9EF6 /* GADMAdapterUnityBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45762A9F2363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.m */; };
+		45762AA22363A2E2008B9EF6 /* GADMAdapterUnityBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45762AA02363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.h */; };
 		45BFFB40222720B900C96A67 /* GADMediationAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB3E222720B900C96A67 /* GADMediationAdapterUnity.h */; };
 		45BFFB41222720B900C96A67 /* GADMediationAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB3F222720B900C96A67 /* GADMediationAdapterUnity.m */; };
 		45BFFB442227210800C96A67 /* GADMAdapterUnityRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB422227210800C96A67 /* GADMAdapterUnityRewardedAd.h */; };
@@ -86,6 +88,8 @@
 		00AC999822E927AA00262599 /* GADMAdapterUnityUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityUtils.h; sourceTree = "<group>"; };
 		00AC999922E927AA00262599 /* GADMAdapterUnityUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityUtils.m; sourceTree = "<group>"; };
 		00DD269322F10D040039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		45762A9F2363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityBannerAd.m; sourceTree = "<group>"; };
+		45762AA02363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityBannerAd.h; sourceTree = "<group>"; };
 		45BFFB3E222720B900C96A67 /* GADMediationAdapterUnity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterUnity.h; sourceTree = "<group>"; };
 		45BFFB3F222720B900C96A67 /* GADMediationAdapterUnity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterUnity.m; sourceTree = "<group>"; };
 		45BFFB422227210800C96A67 /* GADMAdapterUnityRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityRewardedAd.h; sourceTree = "<group>"; };
@@ -154,18 +158,20 @@
 			children = (
 				7DA7825E1DDA681E000C088E /* GADMAdapterUnity.h */,
 				7DA7825F1DDA681E000C088E /* GADMAdapterUnity.m */,
+				45762AA02363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.h */,
+				45762A9F2363A2E1008B9EF6 /* GADMAdapterUnityBannerAd.m */,
 				7DA782601DDA681E000C088E /* GADMAdapterUnityConstants.h */,
 				7DA782611DDA681E000C088E /* GADMAdapterUnityProtocol.h */,
-				7DA782621DDA681E000C088E /* GADMAdapterUnitySingleton.h */,
-				7DA782631DDA681E000C088E /* GADMAdapterUnitySingleton.m */,
-				7DA782661DDA681E000C088E /* GADUnityError.h */,
-				7DA782671DDA681E000C088E /* GADUnityError.m */,
-				45BFFB3E222720B900C96A67 /* GADMediationAdapterUnity.h */,
-				45BFFB3F222720B900C96A67 /* GADMediationAdapterUnity.m */,
 				45BFFB422227210800C96A67 /* GADMAdapterUnityRewardedAd.h */,
 				45BFFB432227210800C96A67 /* GADMAdapterUnityRewardedAd.m */,
+				7DA782621DDA681E000C088E /* GADMAdapterUnitySingleton.h */,
+				7DA782631DDA681E000C088E /* GADMAdapterUnitySingleton.m */,
 				00AC999822E927AA00262599 /* GADMAdapterUnityUtils.h */,
 				00AC999922E927AA00262599 /* GADMAdapterUnityUtils.m */,
+				45BFFB3E222720B900C96A67 /* GADMediationAdapterUnity.h */,
+				45BFFB3F222720B900C96A67 /* GADMediationAdapterUnity.m */,
+				7DA782661DDA681E000C088E /* GADUnityError.h */,
+				7DA782671DDA681E000C088E /* GADUnityError.m */,
 			);
 			path = UnityAdapter;
 			sourceTree = "<group>";
@@ -209,6 +215,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45762AA22363A2E2008B9EF6 /* GADMAdapterUnityBannerAd.h in Headers */,
 				45BFFB40222720B900C96A67 /* GADMediationAdapterUnity.h in Headers */,
 				7DA782681DDA681E000C088E /* UnityAdapter.h in Headers */,
 				7DA7826E1DDA681E000C088E /* GADMAdapterUnitySingleton.h in Headers */,
@@ -249,7 +256,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -339,6 +346,7 @@
 				45BFFB452227210800C96A67 /* GADMAdapterUnityRewardedAd.m in Sources */,
 				7DA7826B1DDA681E000C088E /* GADMAdapterUnity.m in Sources */,
 				00AC999B22E927AA00262599 /* GADMAdapterUnityUtils.m in Sources */,
+				45762AA12363A2E2008B9EF6 /* GADMAdapterUnityBannerAd.m in Sources */,
 				7DA7826F1DDA681E000C088E /* GADMAdapterUnitySingleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +365,7 @@
 		00DD269722F10D0C0039C1D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -364,6 +373,7 @@
 		00DD269822F10D0C0039C1D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -371,12 +381,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -418,6 +430,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -454,6 +467,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -462,7 +476,7 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -470,7 +484,7 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -478,12 +492,14 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};

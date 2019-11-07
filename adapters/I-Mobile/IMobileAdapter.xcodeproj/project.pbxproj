@@ -51,8 +51,8 @@
 		5D9C30E922672BC30011AFB8 /* GADMAdapterIMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9C30E722672BC30011AFB8 /* GADMAdapterIMobile.h */; };
 		5DF812AC225C8794008B68F3 /* GADIMobileMediatedUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF812AB225C8794008B68F3 /* GADIMobileMediatedUnifiedNativeAd.h */; };
 		5DF812AE225C87AE008B68F3 /* GADIMobileMediatedUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF812AD225C87AE008B68F3 /* GADIMobileMediatedUnifiedNativeAd.m */; };
-		E5708A2122DDC3A20027BAF8 /* GADMAdapterIMobileHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileHelper.h */; };
-		E5708A2322DDC3EC0027BAF8 /* GADMAdapterIMobileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileHelper.m */; };
+		E5708A2122DDC3A20027BAF8 /* GADMAdapterIMobileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileUtils.h */; };
+		E5708A2322DDC3EC0027BAF8 /* GADMAdapterIMobileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,8 +97,8 @@
 		5D9C30E722672BC30011AFB8 /* GADMAdapterIMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIMobile.h; sourceTree = "<group>"; };
 		5DF812AB225C8794008B68F3 /* GADIMobileMediatedUnifiedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADIMobileMediatedUnifiedNativeAd.h; sourceTree = "<group>"; };
 		5DF812AD225C87AE008B68F3 /* GADIMobileMediatedUnifiedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADIMobileMediatedUnifiedNativeAd.m; sourceTree = "<group>"; };
-		E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIMobileHelper.h; sourceTree = "<group>"; };
-		E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIMobileHelper.m; sourceTree = "<group>"; };
+		E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIMobileUtils.h; sourceTree = "<group>"; };
+		E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIMobileUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +141,8 @@
 				5D9C30E722672BC30011AFB8 /* GADMAdapterIMobile.h */,
 				5D9C30E622672BC30011AFB8 /* GADMAdapterIMobile.m */,
 				5D9C30E422670A740011AFB8 /* GADMAdapterIMobileConstants.h */,
-				E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileHelper.h */,
-				E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileHelper.m */,
+				E5708A2022DDC3A20027BAF8 /* GADMAdapterIMobileUtils.h */,
+				E5708A2222DDC3EC0027BAF8 /* GADMAdapterIMobileUtils.m */,
 				45E63507222F1851006EB5A1 /* GADMediationAdapterIMobile.h */,
 				45E63508222F1851006EB5A1 /* GADMediationAdapterIMobile.m */,
 			);
@@ -196,7 +196,7 @@
 			files = (
 				45E63517222F1A69006EB5A1 /* IMobileAdapter.h in Headers */,
 				45E63516222F1A62006EB5A1 /* GADMediationAdapterIMobile.h in Headers */,
-				E5708A2122DDC3A20027BAF8 /* GADMAdapterIMobileHelper.h in Headers */,
+				E5708A2122DDC3A20027BAF8 /* GADMAdapterIMobileUtils.h in Headers */,
 				5D9C30E922672BC30011AFB8 /* GADMAdapterIMobile.h in Headers */,
 				5DF812AC225C8794008B68F3 /* GADIMobileMediatedUnifiedNativeAd.h in Headers */,
 				5D9C30E522670A740011AFB8 /* GADMAdapterIMobileConstants.h in Headers */,
@@ -338,7 +338,7 @@
 				5DF812AE225C87AE008B68F3 /* GADIMobileMediatedUnifiedNativeAd.m in Sources */,
 				45E63509222F1852006EB5A1 /* GADMediationAdapterIMobile.m in Sources */,
 				5D9C30E822672BC30011AFB8 /* GADMAdapterIMobile.m in Sources */,
-				E5708A2322DDC3EC0027BAF8 /* GADMAdapterIMobileHelper.m in Sources */,
+				E5708A2322DDC3EC0027BAF8 /* GADMAdapterIMobileUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +428,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -482,6 +483,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
