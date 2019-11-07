@@ -1,40 +1,59 @@
-
 #import "GADMMoPubRewardedAd.h"
+
+#include <stdatomic.h>
+
+#import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
+#import "GADMAdapterMoPubUtils.h"
 #import "MPRewardedVideo.h"
 #import "MoPub.h"
-#import "MoPubAdapterConstants.h"
 
 @interface GADMMoPubRewardedAd () <MPRewardedVideoDelegate>
 @end
 
 @implementation GADMMoPubRewardedAd {
+  // An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
-   GADMediationRewardedLoadCompletionHandler _completionHandler;
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _completionHandler;
 
+  /// Ad Configuration for the ad to be rendered.
   GADMediationRewardedAdConfiguration *_adConfig;
 
+  /// MoPub's ad unit ID.
   NSString *_adUnitID;
 
+  /// Indicates whether the MoPub rewarded ad has expired or not.
   BOOL _adExpired;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _adConfig = adConfiguration;
-  _completionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(rewardedAd, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
 
-  _adUnitID = [[adConfiguration.credentials settings] objectForKey:kGADMAdapterMoPubPubIdKey];
+  _adUnitID = adConfiguration.credentials.settings[kGADMAdapterMoPubPubIdKey];
   if ([_adUnitID length] == 0) {
     NSString *description = @"Failed to request a MoPub rewarded ad. Ad unit ID is empty.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-
-    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
-                                         code:0
-                                     userInfo:userInfo];
+    NSError *error =
+        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
     completionHandler(nil, error);
     return;
   }
@@ -74,12 +93,8 @@
       description = @"Failed to show a MoPub rewarded ad. No ad available.";
     }
 
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-
-    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
-                                         code:0
-                                     userInfo:userInfo];
+    NSError *error =
+        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }
@@ -95,8 +110,7 @@
 }
 
 - (void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID {
-  id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
-  [strongAdEventDelegate willPresentFullScreenView];
+  [_adEventDelegate willPresentFullScreenView];
 }
 
 - (void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID {

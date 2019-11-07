@@ -54,9 +54,9 @@
 		7D5F6F7E1E7742BC00B9B9F5 /* GADMAdapterMoPub.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */; };
 		7D5F6F7F1E7742BC00B9B9F5 /* GADMAdapterMoPub.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */; };
 		7D5F6F801E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */; };
-		7D5F6F811E7742BC00B9B9F5 /* MoPubAdapterConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */; };
-		7D5F6F821E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */; };
-		7D5F6F831E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */; };
+		7D5F6F811E7742BC00B9B9F5 /* GADMAdapterMoPubConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7B1E7742BC00B9B9F5 /* GADMAdapterMoPubConstants.h */; };
+		7D5F6F821E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F7C1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.h */; };
+		7D5F6F831E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5F6F7D1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.m */; };
 		7D5F6F891E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F861E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -99,9 +99,9 @@
 		7D5F6F781E7742BC00B9B9F5 /* GADMAdapterMoPub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMoPub.h; sourceTree = "<group>"; };
 		7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMoPub.m; sourceTree = "<group>"; };
 		7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMoPubNetworkExtras.m; sourceTree = "<group>"; };
-		7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapterConstants.h; sourceTree = "<group>"; };
-		7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapterMediatedNativeAd.h; sourceTree = "<group>"; };
-		7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoPubAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
+		7D5F6F7B1E7742BC00B9B9F5 /* GADMAdapterMoPubConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMoPubConstants.h; sourceTree = "<group>"; };
+		7D5F6F7C1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMopubUnifiedNativeAd.h; sourceTree = "<group>"; };
+		7D5F6F7D1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMopubUnifiedNativeAd.m; sourceTree = "<group>"; };
 		7D5F6F861E7742EC00B9B9F5 /* GADMoPubNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMoPubNetworkExtras.h; sourceTree = "<group>"; };
 		7D5F6F871E7742EC00B9B9F5 /* MoPubAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoPubAdapter.h; sourceTree = "<group>"; };
 		7D5F6F881E7742EC00B9B9F5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -141,16 +141,16 @@
 				7D5F6F791E7742BC00B9B9F5 /* GADMAdapterMoPub.m */,
 				45E6353E2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h */,
 				45E6353F2230AD85006EB5A1 /* GADMAdapterMoPubSingleton.m */,
+				45C7D33F2305F26700409AD6 /* GADMAdapterMoPubUtils.h */,
+				45C7D3402305F26700409AD6 /* GADMAdapterMoPubUtils.m */,
 				45119B4221EFDA3000903F43 /* GADMediationAdapterMoPub.h */,
 				45119B4121EFDA3000903F43 /* GADMediationAdapterMoPub.m */,
 				45E635422230B5D1006EB5A1 /* GADMMoPubRewardedAd.h */,
 				45E635432230B5D1006EB5A1 /* GADMMoPubRewardedAd.m */,
 				7D5F6F7A1E7742BC00B9B9F5 /* GADMoPubNetworkExtras.m */,
-				7D5F6F7B1E7742BC00B9B9F5 /* MoPubAdapterConstants.h */,
-				7D5F6F7C1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h */,
-				7D5F6F7D1E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m */,
-				45C7D33F2305F26700409AD6 /* GADMAdapterMoPubUtils.h */,
-				45C7D3402305F26700409AD6 /* GADMAdapterMoPubUtils.m */,
+				7D5F6F7B1E7742BC00B9B9F5 /* GADMAdapterMoPubConstants.h */,
+				7D5F6F7C1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.h */,
+				7D5F6F7D1E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.m */,
 			);
 			path = MoPubAdapter;
 			sourceTree = "<group>";
@@ -212,7 +212,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D5F6F821E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.h in Headers */,
+				7D5F6F821E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.h in Headers */,
 				45C7D3412305F26700409AD6 /* GADMAdapterMoPubUtils.h in Headers */,
 				7D5F6F8A1E7742EC00B9B9F5 /* MoPubAdapter.h in Headers */,
 				45E635442230B5D1006EB5A1 /* GADMMoPubRewardedAd.h in Headers */,
@@ -220,7 +220,7 @@
 				45E635402230AD85006EB5A1 /* GADMAdapterMoPubSingleton.h in Headers */,
 				7D5F6F7E1E7742BC00B9B9F5 /* GADMAdapterMoPub.h in Headers */,
 				45119B4421EFDA3000903F43 /* GADMediationAdapterMoPub.h in Headers */,
-				7D5F6F811E7742BC00B9B9F5 /* MoPubAdapterConstants.h in Headers */,
+				7D5F6F811E7742BC00B9B9F5 /* GADMAdapterMoPubConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,7 +342,7 @@
 				7D5F6F7F1E7742BC00B9B9F5 /* GADMAdapterMoPub.m in Sources */,
 				45E635452230B5D1006EB5A1 /* GADMMoPubRewardedAd.m in Sources */,
 				45C7D3422305F26700409AD6 /* GADMAdapterMoPubUtils.m in Sources */,
-				7D5F6F831E7742BC00B9B9F5 /* MoPubAdapterMediatedNativeAd.m in Sources */,
+				7D5F6F831E7742BC00B9B9F5 /* GADMAdapterMopubUnifiedNativeAd.m in Sources */,
 				45119B4321EFDA3000903F43 /* GADMediationAdapterMoPub.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,12 +375,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -423,6 +425,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -460,6 +463,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};
@@ -467,6 +471,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -474,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
 			name = Release;
 		};

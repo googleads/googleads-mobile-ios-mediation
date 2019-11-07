@@ -1,4 +1,5 @@
 #import "GADMAdapterMoPubUtils.h"
+#import "GADMAdapterMoPubConstants.h"
 
 void GADMAdapterMoPubMutableArrayAddObject(NSMutableArray *_Nullable array,
                                            NSObject *_Nonnull object) {
@@ -16,7 +17,7 @@ void GADMAdapterMoPubMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, 
 void GADMAdapterMoPubMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                              id<NSCopying> _Nullable key, id _Nullable value) {
   if (value && key) {
-    [mapTable setObject:value forKey:key]; // Allow pattern.
+    [mapTable setObject:value forKey:key];  // Allow pattern.
   }
 }
 
@@ -24,6 +25,12 @@ void GADMAdapterMoPubMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonn
                                                       id<NSCopying> _Nullable key,
                                                       id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value; // Allow pattern.
+    dictionary[key] = value;  // Allow pattern.
   }
+}
+
+NSError *_Nonnull GADMAdapterMoPubErrorWithCodeAndDescription(NSUInteger code,
+                                                              NSString *_Nonnull description) {
+  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
+  return [NSError errorWithDomain:kGADMAdapterMoPubVersion code:code userInfo:userInfo];
 }
