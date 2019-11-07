@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,14 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
+#define GADMAdapterIMobileLog(format, args...) NSLog(@"IMobileAdapter: " format, ##args)
+
 /// Returns an NSError with provided error code and description.
 NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(NSUInteger code,
                                                                 NSString *_Nonnull description);
 
 /// Convert i-mobile fail result to AdMob error code.
 GADErrorCode GADMAdapterIMobileAdMobErrorFromIMobileResult(ImobileSdkAdsFailResult iMobileResult);
+
+/// Converts ad size from Google Mobile Ads SDK to ad size supported by i-mobile ad network.
+GADAdSize GADMAdapterIMobileAdSizeFromGADAdSize(GADAdSize gadAdSize);

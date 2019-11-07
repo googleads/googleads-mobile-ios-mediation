@@ -1,10 +1,10 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+// https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,9 +78,23 @@ typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
   _adType = GADMAdapterImobileAdTypeBanner;
 
   // Create view to display ads.
-  CGSize imobileAdSize = CGSizeMake(adSize.size.width, adSize.size.height);
-  _imobileAdView =
-      [[UIView alloc] initWithFrame:CGRectMake(0, 0, imobileAdSize.width, imobileAdSize.height)];
+  GADAdSize imobileAdSize = GADMAdapterIMobileAdSizeFromGADAdSize(adSize);
+  if (!IsGADAdSizeValid(imobileAdSize)) {
+    NSString *errorString =
+        [NSString stringWithFormat:@"Invalid size for i-mobile adapter. Size: %@",
+                                   NSStringFromGADAdSize(adSize)];
+    GADMAdapterIMobileLog(@"%@", errorString);
+    NSError *error =
+        GADMAdapterIMobileErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize, errorString);
+    [_connector adapter:self didFailAd:error];
+    return;
+  }
+
+  GADMAdapterIMobileLog(@"Requesting banner ad of size %@ for spotID %@",
+                        NSStringFromGADAdSize(adSize), _spotID);
+
+  _imobileAdView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, imobileAdSize.size.width, imobileAdSize.size.height)];
 
   // Call i-mobile SDK.
   [ImobileSdkAds showBySpotIDForAdMobMediation:_spotID View:_imobileAdView];
@@ -114,7 +128,7 @@ typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   switch (_adType) {
     case GADMAdapterImobileAdTypeUnKnown:
-      NSLog(@"Unexpected error: Adapter type unknown.");
+      GADMAdapterIMobileLog(@"Unknown adapter type.");
       break;
     case GADMAdapterImobileAdTypeBanner:
       [strongConnector adapter:self didReceiveAdView:_imobileAdView];
@@ -130,6 +144,7 @@ typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
   [self stopBeingDelegate];
   NSInteger errorCode = GADMAdapterIMobileAdMobErrorFromIMobileResult(value);
   NSString *errorString = [NSString stringWithFormat:@"Failed to get an ad for spotID: %@", spotId];
+  GADMAdapterIMobileLog(@"%@", errorString);
   NSError *error = GADMAdapterIMobileErrorWithCodeAndDescription(errorCode, errorString);
 
   [_connector adapter:self didFailAd:error];
@@ -141,6 +156,7 @@ typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
   [strongConnector adapterWillLeaveApplication:self];
 }
 
+// This only gets called for interstitial ads.
 - (void)imobileSdkAdsSpotDidClose:(NSString *)spotId {
   [_connector adapterDidDismissInterstitial:self];
 }

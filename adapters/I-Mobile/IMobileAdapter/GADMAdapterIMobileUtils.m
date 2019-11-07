@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,4 +42,13 @@ GADErrorCode GADMAdapterIMobileAdMobErrorFromIMobileResult(ImobileSdkAdsFailResu
   }
 
   return kGADErrorMediationAdapterError;
+}
+
+GADAdSize GADMAdapterIMobileAdSizeFromGADAdSize(GADAdSize gadAdSize) {
+  GADAdSize bannerSize = GADAdSizeFromCGSize(CGSizeMake(320, 50));
+  GADAdSize bigBannerSize = GADAdSizeFromCGSize(CGSizeMake(320, 100));
+  GADAdSize mediumRectSize = GADAdSizeFromCGSize(CGSizeMake(300, 250));
+  NSArray<NSValue *> *potentialSizes = @[ @(bannerSize), @(bigBannerSize), @(mediumRectSize) ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizes);
+  return closestSize;
 }
