@@ -37,4 +37,6 @@
 
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
+@property(nonatomic, copy) NSNumber *_Nullable orientations;
+
 @end
