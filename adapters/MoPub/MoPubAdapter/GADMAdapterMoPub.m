@@ -224,6 +224,9 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   _bannerAd.keywords = [self getKeywords:NO];
   _bannerAd.userDataKeywords = [self getKeywords:YES];
   _bannerAd.location = currentlocation;
+  // MoPub banner frame must be set. For reference:
+  // https://developers.mopub.com/publishers/ios/banner/#loading-banner-ads-in-your-app
+  _bannerAd.frame = CGRectMake(0, 0, adSize.size.width, adSize.size.height);
 
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
   [[GADMAdapterMoPubSingleton sharedInstance]
