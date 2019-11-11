@@ -242,9 +242,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   [_connector adapter:self didReceiveAdView:view];
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view {
-  NSError *error = GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorInvalidRequest,
-                                                               @"Mopub failed to fill the ad.");
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
   [_connector adapter:self didFailAd:error];
 }
 
@@ -366,22 +364,6 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   return imageURLDictionary;
 }
 
-- (nullable NSMutableDictionary<NSString *, GADNativeAdImage *> *)
-    imageDictionaryForImageURLDictionary:(NSDictionary<NSString *, NSURL *> *)imageURLDictionary {
-  NSMutableDictionary<NSString *, GADNativeAdImage *> *imagesDictionary =
-      [[NSMutableDictionary alloc] init];
-  for (NSString *imageKey in imageURLDictionary.allKeys) {
-    NSData *imageData = [[MPNativeCache sharedCache]
-        retrieveDataForKey:imageURLDictionary[imageKey].absoluteString];
-    if (imageData) {
-      UIImage *image = [UIImage imageWithData:imageData];
-      GADNativeAdImage *nativeAdImage = [[GADNativeAdImage alloc] initWithImage:image];
-      GADMAdapterMoPubMutableDictionarySetObjectForKey(imagesDictionary, imageKey, nativeAdImage);
-    }
-  }
-  return imagesDictionary;
-}
-
 - (void)preCacheNativeImagesWithCompletionHandler:
     (void (^)(NSDictionary<NSString *, GADNativeAdImage *> *_Nullable imagesDictionary))
         completionHandler {
@@ -407,23 +389,40 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
     }
   }
   /// A dictionary that contains the icon and image assets for the native ad.
-  NSMutableDictionary<NSString *, GADNativeAdImage *> *imagesDictionary;
+  NSMutableDictionary<NSString *, GADNativeAdImage *> *imagesDictionary =
+      [[NSMutableDictionary alloc] init];
   if (shouldDownloadImages) {
-    imagesDictionary = [self imageDictionaryForImageURLDictionary:imageURLDictionary];
+    for (NSString *imageKey in imageURLDictionary.allKeys) {
+      NSData *imageData = [[MPNativeCache sharedCache]
+          retrieveDataForKey:imageURLDictionary[imageKey].absoluteString];
+      if (imageData) {
+        UIImage *image = [UIImage imageWithData:imageData];
+        GADNativeAdImage *nativeAdImage = [[GADNativeAdImage alloc] initWithImage:image];
+        GADMAdapterMoPubMutableDictionarySetObjectForKey(imagesDictionary, imageKey, nativeAdImage);
+      }
+    }
 
     // Check if MoPub image assets are cached.
     if (!imagesDictionary[kAdIconImageKey] || !imagesDictionary[kAdMainImageKey]) {
       GADMAdapterMoPub __weak *weakSelf = self;
       [_imageDownloadQueue
           addDownloadImageURLs:imageURLDictionary.allValues
-               completionBlock:^(NSArray *errors) {
+               completionBlock:^(NSDictionary<NSURL *, UIImage *> *result, NSArray *errors) {
                  GADMAdapterMoPub *strongSelf = weakSelf;
                  if (!strongSelf) {
                    NSLog(@"MPNativeAd deallocated before MoPub native ad images were downloaded.");
                    return;
                  }
-                 NSDictionary<NSString *, GADNativeAdImage *> *imagesDictionary =
-                     [strongSelf imageDictionaryForImageURLDictionary:imageURLDictionary];
+                 for (NSString *imageKey in imageURLDictionary.allKeys) {
+                   NSURL *imageURL = imageURLDictionary[imageKey];
+                   UIImage *image = result[imageURL];
+                   if (image) {
+                     GADNativeAdImage *nativeAdImage =
+                         [[GADNativeAdImage alloc] initWithImage:image];
+                     GADMAdapterMoPubMutableDictionarySetObjectForKey(imagesDictionary, imageKey,
+                                                                      nativeAdImage);
+                   }
+                 }
                  completionHandler(imagesDictionary);
                }];
       return;
