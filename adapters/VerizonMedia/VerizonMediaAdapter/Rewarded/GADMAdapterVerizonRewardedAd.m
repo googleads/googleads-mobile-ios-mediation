@@ -66,6 +66,7 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
                        completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler {
+  _adConfiguration = adConfig;
   if (!_vasAds) {
     [self initializeVASSDK];
   }

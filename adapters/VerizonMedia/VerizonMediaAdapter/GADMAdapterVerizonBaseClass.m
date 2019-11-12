@@ -8,11 +8,6 @@
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonNativeAd.h"
 
-#define MM_SMARTBANNER_PHONE CGSizeMake(320, 50)
-#define MM_SMARTBANNER_TABLET CGSizeMake(728, 90)
-#define MM_SMARTBANNER_MED_CUTOFF 450
-#define MM_SMARTBANNER_MAX_CUTOFF 740
-
 @interface GADMAdapterVerizonBaseClass () <VASInlineAdFactoryDelegate,
                                            VASInterstitialAdFactoryDelegate,
                                            VASInterstitialAdDelegate,
@@ -21,7 +16,6 @@
 @end
 
 @implementation GADMAdapterVerizonBaseClass {
-  CGRect _inlineAdFrame;
   /// Verizon media native ad mapper.
   GADMAdapterVerizonNativeAd *_nativeAd;
 }
@@ -73,25 +67,20 @@
   [self.interstitialAdFactory load:self];
 }
 
-- (void)getBannerWithSize:(GADAdSize)adSize {
+- (void)getBannerWithSize:(GADAdSize)gadSize {
   if (![self prepareAdapterForAdRequest]) {
     return;
   }
 
   id<GADMAdNetworkConnector> connector = _connector;
     
-    // Create the InlineAd object
-    CGRect adFrame = [self makeBannerRect:adSize];
+  CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
+  if (CGSizeEqualToSize(adSize, CGSizeZero)) {
+    [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidRequest userInfo:nil]];
+    return;
+  }
     
-    // Check for banner smartness failure--
-    if ( adFrame.size.width < 0 ) {
-        [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidRequest userInfo:nil]];
-        return;
-    }
-    
-    _inlineAdFrame = adFrame;
-    
-    VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:_inlineAdFrame.size.width height:_inlineAdFrame.size.height];
+  VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.width height:adSize.height];
   self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID
                                                                  adSizes:@[ size ]
                                                                   vasAds:VASAds.sharedInstance
@@ -352,28 +341,18 @@ cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
   self.vasAds.COPPA = [_connector childDirectedTreatment];
 }
 
-- (CGRect)makeBannerRect:(GADAdSize)adSize {
-  // Consideration for smart banners ( http://bit.ly/1wAWn0r )
-  CGSize windowSize = [[UIApplication sharedApplication] keyWindow].bounds.size;
-
-  if ( GADAdSizeEqualToSize(kGADAdSizeSmartBannerPortrait, adSize) ||
-      GADAdSizeEqualToSize(kGADAdSizeSmartBannerLandscape, adSize) ) {
-      int offsetX = (int)(windowSize.width / 2);
-
-      if ( windowSize.height < MM_SMARTBANNER_MED_CUTOFF ) {
-          // MYDAS will attempt to return a 320x50, even when hsht < 320 / hswd < 50
-          return CGRectMake(0,0,-1,-1);
-      } else if ( windowSize.height >= MM_SMARTBANNER_MED_CUTOFF &&
-                 windowSize.height <= MM_SMARTBANNER_MAX_CUTOFF) {
-          return CGRectMake(offsetX - (MM_SMARTBANNER_PHONE.width / 2), 0,
-                            MM_SMARTBANNER_PHONE.width, MM_SMARTBANNER_PHONE.height);
-      } else if ( windowSize.height > MM_SMARTBANNER_MAX_CUTOFF ) {
-          return CGRectMake(offsetX - (MM_SMARTBANNER_TABLET.width / 2), 0,
-                            MM_SMARTBANNER_TABLET.width, MM_SMARTBANNER_TABLET.height);
-      }
+- (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+  NSArray *potentials = @[
+                          NSValueFromGADAdSize(kGADAdSizeBanner),
+                          NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+                          NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+                          ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (IsGADAdSizeValid(closestSize)) {
+    return CGSizeFromGADAdSize(closestSize);
   }
-
-  return CGRectMake(0, 0, adSize.size.width, adSize.size.height);
+    
+  return CGSizeZero;
 }
 
 @end
