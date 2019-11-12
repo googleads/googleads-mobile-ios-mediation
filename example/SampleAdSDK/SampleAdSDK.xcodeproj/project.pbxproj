@@ -12,9 +12,6 @@
 		AE50D67D1F3BC49C0007AF85 /* SampleAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */; };
 		AE50D67E1F3BC49C0007AF85 /* SampleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6511F3BC3D20007AF85 /* SampleBanner.m */; };
 		AE50D67F1F3BC49C0007AF85 /* SampleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */; };
-		AE50D6801F3BC49C0007AF85 /* SampleRewardBasedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6571F3BC3D20007AF85 /* SampleRewardBasedVideo.m */; };
-		AE50D6811F3BC49C0007AF85 /* SampleRewardBasedVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65A1F3BC3D20007AF85 /* SampleRewardBasedVideoController.m */; };
-		AE50D6821F3BC49C0007AF85 /* SampleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65C1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.m */; };
 		AE50D6831F3BC49C0007AF85 /* SampleNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */; };
 		AE50D6851F3BC49C0007AF85 /* SampleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6631F3BC3D20007AF85 /* SampleNativeAd.m */; };
 		AE50D6861F3BC49C0007AF85 /* SampleNativeAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6651F3BC3D20007AF85 /* SampleNativeAdRequest.m */; };
@@ -24,10 +21,6 @@
 		AE50D6901F3BC4B30007AF85 /* SampleBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6521F3BC3D20007AF85 /* SampleBannerAdDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6911F3BC4B30007AF85 /* SampleInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6531F3BC3D20007AF85 /* SampleInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6921F3BC4B30007AF85 /* SampleInterstitialAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6551F3BC3D20007AF85 /* SampleInterstitialAdDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D6931F3BC4B30007AF85 /* SampleRewardBasedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6561F3BC3D20007AF85 /* SampleRewardBasedVideo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D6941F3BC4B30007AF85 /* SampleRewardBasedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6581F3BC3D20007AF85 /* SampleRewardBasedVideoDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D6951F3BC4B30007AF85 /* SampleRewardBasedVideoController.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6591F3BC3D20007AF85 /* SampleRewardBasedVideoController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE50D6961F3BC4B30007AF85 /* SampleRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65B1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6971F3BC4B30007AF85 /* SampleNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D6981F3BC4B40007AF85 /* SampleNativeAdLoaderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D69A1F3BC4B40007AF85 /* SampleNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6621F3BC3D20007AF85 /* SampleNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -43,6 +36,11 @@
 		AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB031F606689003BB4D2 /* SampleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */; };
 		AEC0D11D1F3BC63F005B3813 /* SampleAdSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFA49FEB235A51B10006917F /* SampleRewardedAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFA49FED235A51EC0006917F /* SampleRewardedAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */; };
+		EFA49FEF235A522C0006917F /* SampleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEE235A522C0006917F /* SampleRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFA49FF1235A52620006917F /* SampleRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA49FF0235A52620006917F /* SampleRewardedAd.m */; };
+		EFA49FF3235A528A0006917F /* SampleRewardedAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FF2235A52890006917F /* SampleRewardedAdDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,13 +64,6 @@
 		AE50D6531F3BC3D20007AF85 /* SampleInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleInterstitial.h; sourceTree = "<group>"; };
 		AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleInterstitial.m; sourceTree = "<group>"; };
 		AE50D6551F3BC3D20007AF85 /* SampleInterstitialAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleInterstitialAdDelegate.h; sourceTree = "<group>"; };
-		AE50D6561F3BC3D20007AF85 /* SampleRewardBasedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleRewardBasedVideo.h; sourceTree = "<group>"; };
-		AE50D6571F3BC3D20007AF85 /* SampleRewardBasedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleRewardBasedVideo.m; sourceTree = "<group>"; };
-		AE50D6581F3BC3D20007AF85 /* SampleRewardBasedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleRewardBasedVideoDelegate.h; sourceTree = "<group>"; };
-		AE50D6591F3BC3D20007AF85 /* SampleRewardBasedVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleRewardBasedVideoController.h; sourceTree = "<group>"; };
-		AE50D65A1F3BC3D20007AF85 /* SampleRewardBasedVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleRewardBasedVideoController.m; sourceTree = "<group>"; };
-		AE50D65B1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleRewardBasedVideoAd.h; sourceTree = "<group>"; };
-		AE50D65C1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleRewardBasedVideoAd.m; sourceTree = "<group>"; };
 		AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleNativeAdLoader.h; sourceTree = "<group>"; };
 		AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleNativeAdLoader.m; sourceTree = "<group>"; };
 		AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleNativeAdLoaderDelegate.h; sourceTree = "<group>"; };
@@ -97,6 +88,11 @@
 		AEABBB031F606689003BB4D2 /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapter.h; sourceTree = "<group>"; };
 		AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
 		AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAdController.h; sourceTree = "<group>"; };
+		EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleRewardedAdController.m; sourceTree = "<group>"; };
+		EFA49FEE235A522C0006917F /* SampleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAd.h; sourceTree = "<group>"; };
+		EFA49FF0235A52620006917F /* SampleRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleRewardedAd.m; sourceTree = "<group>"; };
+		EFA49FF2235A52890006917F /* SampleRewardedAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAdDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +136,11 @@
 			isa = PBXGroup;
 			children = (
 				4569383D208EBC1C0030CCD1 /* SampleMediaView.h */,
+				EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */,
+				EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */,
+				EFA49FEE235A522C0006917F /* SampleRewardedAd.h */,
+				EFA49FF0235A52620006917F /* SampleRewardedAd.m */,
+				EFA49FF2235A52890006917F /* SampleRewardedAdDelegate.h */,
 				4569383E208EBC1C0030CCD1 /* SampleMediaView.m */,
 				AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */,
 				AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */,
@@ -147,15 +148,8 @@
 				AE50D6511F3BC3D20007AF85 /* SampleBanner.m */,
 				AE50D6521F3BC3D20007AF85 /* SampleBannerAdDelegate.h */,
 				AE50D6531F3BC3D20007AF85 /* SampleInterstitial.h */,
-				AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */,
 				AE50D6551F3BC3D20007AF85 /* SampleInterstitialAdDelegate.h */,
-				AE50D6561F3BC3D20007AF85 /* SampleRewardBasedVideo.h */,
-				AE50D6571F3BC3D20007AF85 /* SampleRewardBasedVideo.m */,
-				AE50D6581F3BC3D20007AF85 /* SampleRewardBasedVideoDelegate.h */,
-				AE50D6591F3BC3D20007AF85 /* SampleRewardBasedVideoController.h */,
-				AE50D65A1F3BC3D20007AF85 /* SampleRewardBasedVideoController.m */,
-				AE50D65B1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.h */,
-				AE50D65C1F3BC3D20007AF85 /* SampleRewardBasedVideoAd.m */,
+				AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */,
 				AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */,
 				AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */,
 				AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */,
@@ -228,15 +222,14 @@
 				4569383F208EBC1C0030CCD1 /* SampleMediaView.h in Headers */,
 				AE50D6911F3BC4B30007AF85 /* SampleInterstitial.h in Headers */,
 				AE50D6921F3BC4B30007AF85 /* SampleInterstitialAdDelegate.h in Headers */,
-				AE50D6931F3BC4B30007AF85 /* SampleRewardBasedVideo.h in Headers */,
-				AE50D6941F3BC4B30007AF85 /* SampleRewardBasedVideoDelegate.h in Headers */,
-				AE50D6951F3BC4B30007AF85 /* SampleRewardBasedVideoController.h in Headers */,
-				AE50D6961F3BC4B30007AF85 /* SampleRewardBasedVideoAd.h in Headers */,
 				AE50D6971F3BC4B30007AF85 /* SampleNativeAdLoader.h in Headers */,
 				AE50D6981F3BC4B40007AF85 /* SampleNativeAdLoaderDelegate.h in Headers */,
+				EFA49FEF235A522C0006917F /* SampleRewardedAd.h in Headers */,
 				AE50D69A1F3BC4B40007AF85 /* SampleNativeAd.h in Headers */,
+				EFA49FEB235A51B10006917F /* SampleRewardedAdController.h in Headers */,
 				AE50D69B1F3BC4B40007AF85 /* SampleNativeAdRequest.h in Headers */,
 				AE50D69C1F3BC4B40007AF85 /* SampleAdInfoView.h in Headers */,
+				EFA49FF3235A528A0006917F /* SampleRewardedAdDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +310,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = AE50D62D1F3BC3820007AF85;
@@ -354,12 +348,11 @@
 			files = (
 				AE50D6851F3BC49C0007AF85 /* SampleNativeAd.m in Sources */,
 				AE50D6861F3BC49C0007AF85 /* SampleNativeAdRequest.m in Sources */,
-				AE50D6801F3BC49C0007AF85 /* SampleRewardBasedVideo.m in Sources */,
+				EFA49FF1235A52620006917F /* SampleRewardedAd.m in Sources */,
+				EFA49FED235A51EC0006917F /* SampleRewardedAdController.m in Sources */,
 				AE50D67D1F3BC49C0007AF85 /* SampleAdRequest.m in Sources */,
-				AE50D6811F3BC49C0007AF85 /* SampleRewardBasedVideoController.m in Sources */,
 				AE50D67E1F3BC49C0007AF85 /* SampleBanner.m in Sources */,
 				AE50D67F1F3BC49C0007AF85 /* SampleInterstitial.m in Sources */,
-				AE50D6821F3BC49C0007AF85 /* SampleRewardBasedVideoAd.m in Sources */,
 				AE50D6831F3BC49C0007AF85 /* SampleNativeAdLoader.m in Sources */,
 				AE50D6871F3BC49C0007AF85 /* SampleAdInfoView.m in Sources */,
 				45693840208EBC1C0030CCD1 /* SampleMediaView.m in Sources */,
@@ -432,6 +425,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -477,6 +471,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

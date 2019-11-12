@@ -25,7 +25,9 @@
 #import "AdSourceConfig.h"
 #import "ExampleUnifiedNativeAdView.h"
 
-@interface ViewController () <GADInterstitialDelegate, GADUnifiedNativeAdLoaderDelegate>
+@interface ViewController () <GADInterstitialDelegate,
+                              GADUnifiedNativeAdLoaderDelegate,
+                              GADRewardedAdDelegate>
 
 @property(nonatomic, strong) AdSourceConfig *config;
 
@@ -33,15 +35,21 @@
 
 @property(nonatomic, weak) IBOutlet UIButton *interstitialButton;
 
+@property(nonatomic, weak) IBOutlet UIButton *rewardedButton;
+
 @property(nonatomic, weak) IBOutlet UIView *nativeAdPlaceholder;
 
 @property(nonatomic, strong) GADInterstitial *interstitial;
+
+@property(nonatomic, strong) GADRewardedAd *rewardedAd;
 
 /// You must keep a strong reference to the GADAdLoader during the ad loading process.
 @property(nonatomic, strong) GADAdLoader *adLoader;
 
 /// Shows the most recently loaded interstitial in response to a button tap.
 - (IBAction)showInterstitial:(UIButton *)sender;
+
+- (IBAction)showRewarded:(UIButton *)sender;
 
 @end
 
@@ -75,7 +83,7 @@
   [self.bannerAdView loadRequest:[GADRequest request]];
 
   [self requestInterstitial];
-
+  [self requestRewarded];
   [self refreshNativeAd:nil];
 }
 
@@ -90,6 +98,31 @@
     [self.interstitial presentFromRootViewController:self];
   } else {
     [self requestInterstitial];
+  }
+}
+
+- (void)requestRewarded {
+  self.rewardedAd = [[GADRewardedAd alloc] initWithAdUnitID:self.config.rewardedAdUnitID];
+  GADRequest *request = [GADRequest request];
+  [self.rewardedAd loadRequest:request
+             completionHandler:^(GADRequestError *_Nullable error) {
+               if (error) {
+                 // Handle ad failed to load case.
+                 NSLog(@"Rewarded ad failed to load with error: %@.", error);
+               } else {
+                 // Ad successfully loaded.
+                 NSLog(@"Rewarded ad successfully load.");
+               }
+             }];
+}
+
+- (IBAction)showRewarded:(UIButton *)sender {
+  if (self.rewardedAd.isReady) {
+    NSLog(@"show reward tapped");
+    [self.rewardedAd presentFromRootViewController:self delegate:self];
+  } else {
+    NSLog(@"Ad wasn't ready.");
+    [self requestRewarded];
   }
 }
 
@@ -119,11 +152,36 @@
                                                                       views:viewDictionary]];
 }
 
+#pragma mark GADRewardedAdDelegate implementation
+
+/// Tells the delegate that the user earned a reward.
+- (void)rewardedAd:(nonnull GADRewardedAd *)rewardedAd
+    userDidEarnReward:(nonnull GADAdReward *)reward {
+  NSString *rewardMessage =
+      [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf", reward.type,
+                                 [reward.amount doubleValue]];
+  NSLog(@"%@", rewardMessage);
+}
+
+- (void)rewardedAd:(nonnull GADRewardedAd *)rewardedAd
+    didFailToPresentWithError:(nonnull NSError *)error {
+  NSLog(@"Rewarded ad failed to present with error: %@.", error);
+}
+
+- (void)rewardedAdDidPresent:(nonnull GADRewardedAd *)rewardedAd {
+  NSLog(@"Rewarded ad has presented.");
+}
+
+- (void)rewardedAdDidDismiss:(nonnull GADRewardedAd *)rewardedAd {
+  NSLog(@"Rewarded ad is closed.");
+  [self requestRewarded];
+}
+
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitial:(GADInterstitial *)interstitial
     didFailToReceiveAdWithError:(GADRequestError *)error {
-  NSLog(@"Interstitial failed to load with error code %@.", error.localizedDescription);
+  NSLog(@"Interstitial failed to load with error: %@.", error.localizedDescription);
 }
 
 - (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
@@ -180,7 +238,6 @@
   ((UILabel *)nativeAdView.bodyView).text = nativeAd.body;
   [((UIButton *)nativeAdView.callToActionView) setTitle:nativeAd.callToAction
                                                forState:UIControlStateNormal];
-
 
   // These assets are not guaranteed to be present, and should be checked first.
   ((UIImageView *)nativeAdView.iconView).image = nativeAd.icon.image;

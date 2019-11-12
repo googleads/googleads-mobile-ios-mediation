@@ -1,8 +1,5 @@
 //
-// Copyright (C) 2016 Google, Inc.
-//
-// SampleRewardBasedVideoController.h
-// Sample Ad Network SDK
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,18 +16,14 @@
 
 @import UIKit;
 
-#import "SampleRewardBasedVideo.h"
-#import "SampleRewardBasedVideoAd.h"
-#import "SampleRewardBasedVideoDelegate.h"
+#import "SampleRewardedAd.h"
+#import "SampleRewardedAdDelegate.h"
 
-/// This is real reward-based video ad. This classs initializes with SampleRewardBasedVideo
-/// instance. It sends delegate call backs when a video ad starts/stops playing and when the user
-/// clicks on the video ad.
-@interface SampleRewardBasedVideoController : UIViewController
+/// This is a rewarded ad. This classs initializes with SampleRewardedAd instance.
+@interface SampleRewardedAdController : UIViewController
 
-/// Designated initializer. Returns reward-based video controller with given reward-based video.
-- (instancetype)initWithRewardBasedVideo:(SampleRewardBasedVideoAd *)rewardBasedVideo
-    NS_DESIGNATED_INITIALIZER;
+/// Designated initializer.
+- (instancetype)initWithRewardedAd:(SampleRewardedAd *)rewardedAd NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init NS_UNAVAILABLE;
@@ -42,7 +35,7 @@
 /// Unavailable.
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 
-/// Sample reward-based video ad delegate.
-@property(nonatomic, weak) id<SampleRewardBasedVideoDelegate> delegate;
+/// Sample rewarded ad delegate.
+@property(nonatomic, weak) id<SampleRewardedAdDelegate> delegate;
 
 @end

@@ -22,9 +22,9 @@
 
 #import "SampleAdapterProtocol.h"
 
-/// Adapter for communicating with the Sample SDK to fetch banner ads, native ads, reward-based
-/// video ads, and interstitial ads.
-@interface SampleAdapter : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter,
-                                    SampleAdapterDataProvider>
+/// Adapter for communicating with the Sample SDK to fetch banner ads, native ads, rewarded ads, and
+/// interstitial ads.
+@interface SampleAdapter
+    : NSObject <GADMAdNetworkAdapter, SampleAdapterDataProvider, GADMediationAdapter>
 
 @end

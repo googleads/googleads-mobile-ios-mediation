@@ -20,25 +20,15 @@
 @import SampleAdSDK;
 
 #import "SampleAdapterDelegate.h"
-
+#import "SampleAdapterConstants.h"
 #import "SampleAdapterMediatedNativeAd.h"
 
-/// Constant for adapter error domain.
-static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
-
-@interface SampleAdapterDelegate () <SampleBannerAdDelegate, SampleInterstitialAdDelegate,
-                                     SampleNativeAdLoaderDelegate, SampleRewardBasedVideoDelegate> {
+@interface SampleAdapterDelegate () {
   /// Connector from Google AdMob SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 
   /// Adapter for receiving notification of ad request.
   __weak id<GADMAdNetworkAdapter, SampleAdapterDataProvider> _adapter;
-
-  /// Connector from Google Mobile Ads SDK to receive reward-based video ad configurations.
-  __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
-
-  /// Adapter for receiving notification of reward-based video ad request.
-  __weak id<GADMRewardBasedVideoAdNetworkAdapter> _rewardBasedVideoAdAdapter;
 }
 @end
 
@@ -50,17 +40,6 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
   if (self) {
     _connector = connector;
     _adapter = adapter;
-  }
-  return self;
-}
-
-- (instancetype)initWithRewardBasedVideoAdAdapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)adapter
-                      rewardBasedVideoAdconnector:
-                          (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
-  self = [super init];
-  if (self) {
-    _rewardBasedVideoAdConnector = connector;
-    _rewardBasedVideoAdAdapter = adapter;
   }
   return self;
 }
@@ -114,8 +93,8 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd {
   SampleAdapterMediatedNativeAd *mediatedAd = [[SampleAdapterMediatedNativeAd alloc]
-                                               initWithSampleNativeAd:nativeAd
-                                               nativeAdViewAdOptions:[_adapter nativeAdViewAdOptions]];
+      initWithSampleNativeAd:nativeAd
+       nativeAdViewAdOptions:[_adapter nativeAdViewAdOptions]];
   [_connector adapter:_adapter didReceiveMediatedUnifiedNativeAd:mediatedAd];
 }
 
@@ -123,69 +102,6 @@ static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
     didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
   NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain code:errorCode userInfo:nil];
   [_connector adapter:_adapter didFailAd:adapterError];
-}
-
-#pragma mark SampleRewardBasedVideoDelegate methods
-
-- (void)rewardBasedVideoAdInitialized:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidSetUpRewardBasedVideoAd:strongAdapter];
-}
-- (void)rewardBasedVideoAdDidReceiveAd:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidReceiveRewardBasedVideoAd:strongAdapter];
-}
-
-- (void)rewardBasedVideoAdDidOpen:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidOpenRewardBasedVideoAd:strongAdapter];
-}
-
-- (void)rewardBasedVideoAdDidStartPlaying:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidStartPlayingRewardBasedVideoAd:strongAdapter];
-}
-
-- (void)rewardBasedVideoAdDidClose:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidCloseRewardBasedVideoAd:strongAdapter];
-}
-
-- (void)rewardBasedVideoAdWillLeaveApplication:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterWillLeaveApplication:strongAdapter];
-}
-
-- (void)rewardBasedVideoAdDidReceiveAdClick:(SampleRewardBasedVideo *)rewardBasedVideo {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  [strongConnector adapterDidGetAdClick:strongAdapter];
-}
-
-- (void)rewardBasedVideoAd:(SampleRewardBasedVideo *)rewardBasedVideo
-      rewardUserWithReward:(int)reward {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  // An empty string is passed to the reward type parameter because the Sample SDK doesn't use a
-  // reward type and the reward type parameter cannot be nil.
-  GADAdReward *rewardItem =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber numberWithInteger:reward]];
-  [strongConnector adapter:strongAdapter didRewardUserWithReward:rewardItem];
-}
-
-- (void)rewardBasedVideoAd:(SampleRewardBasedVideo *)rewardBasedVideo
-    didFailToLoadWithError:(SampleErrorCode)error {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  id<GADMRewardBasedVideoAdNetworkAdapter> strongAdapter = _rewardBasedVideoAdAdapter;
-  NSError *adapterError = [NSError errorWithDomain:kAdapterErrorDomain code:error userInfo:nil];
-  [strongConnector adapter:strongAdapter didFailToLoadRewardBasedVideoAdwithError:adapterError];
 }
 
 @end

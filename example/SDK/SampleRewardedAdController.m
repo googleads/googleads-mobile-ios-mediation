@@ -1,8 +1,5 @@
 //
-// Copyright (C) 2016 Google, Inc.
-//
-// SampleRewardBasedVideoController.m
-// Sample Ad Network SDK
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "SampleRewardBasedVideoController.h"
+#import "SampleRewardedAdController.h"
 
-@interface SampleRewardBasedVideoController () {
+@interface SampleRewardedAdController () {
   /// Clock label to show count.
   UILabel *_clockLabel;
 
@@ -29,25 +26,24 @@
   /// Count down counter for timer.
   int _counter;
 
-  /// Sample reward-based video.
-  SampleRewardBasedVideoAd *_rewardBasedVideo;
+  /// Sample rewarded ad.
+  SampleRewardedAd *_rewardedAd;
 }
 
 @end
 
-@implementation SampleRewardBasedVideoController
+@implementation SampleRewardedAdController
 
-- (instancetype)initWithRewardBasedVideo:(SampleRewardBasedVideoAd *)rewardBasedVideo {
+- (instancetype)initWithRewardedAd:(SampleRewardedAd *)rewardedAd {
   self = [super initWithNibName:nil bundle:nil];
   if (self) {
-    _rewardBasedVideo = rewardBasedVideo;
+    _rewardedAd = rewardedAd;
   }
 
   return self;
 }
 
 - (void)viewDidLoad {
-  self.title = _rewardBasedVideo.adName;
   _clockLabel = [[UILabel alloc] initWithFrame:CGRectMake(50.0f, 50.0f, 50.0f, 50.0f)];
   _clockLabel.backgroundColor = [UIColor whiteColor];
   _clockLabel.textColor = [UIColor blackColor];
@@ -63,8 +59,7 @@
                                                                     metrics:nil
                                                                       views:viewDictionary]];
 
-  _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  _closeButton.frame = CGRectMake(250.0f, 40.0f, 20.0f, 20.0f);
+  _closeButton = [[UIButton alloc] initWithFrame:CGRectMake(250, 250, 250, 250)];
   [_closeButton setTitle:@"X" forState:UIControlStateNormal];
   _closeButton.backgroundColor = [UIColor blackColor];
   _closeButton.titleLabel.textColor = [UIColor whiteColor];
@@ -74,17 +69,24 @@
   [self.view addSubview:_closeButton];
   NSDictionary *views = NSDictionaryOfVariableBindings(_closeButton);
   _closeButton.translatesAutoresizingMaskIntoConstraints = NO;
-  [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_closeButton(20)]|"
+  [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_closeButton(60)]|"
                                                                     options:0
                                                                     metrics:nil
                                                                       views:views]];
-  [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_closeButton(20)]"
+  [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_closeButton(60)]"
                                                                     options:0
                                                                     metrics:nil
                                                                       views:views]];
   _closeButton.hidden = YES;
 
   [self startCountdown];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(rewardedAdDidPresent:)]) {
+    [strongDelegate rewardedAdDidPresent:_rewardedAd];
+  }
 }
 
 /// Starts the count down timer with 10 seconds.
@@ -111,12 +113,11 @@
 
 /// On completion (video ad), tells the delegate that user gets reward amount/coins.
 - (void)handleCountdownFinished {
-  _clockLabel.text =
-      [NSString stringWithFormat:@"Rewarded with reward amount %d", _rewardBasedVideo.rewardAmount];
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAd:rewardUserWithReward:)]) {
-    [strongDelegate rewardBasedVideoAd:[SampleRewardBasedVideo sharedInstance]
-                  rewardUserWithReward:5];
+  _clockLabel.text = [NSString
+      stringWithFormat:@"Rewarded with reward amount %lu", (unsigned long)_rewardedAd.reward];
+  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(rewardedAd:userDidEarnReward:)]) {
+    [strongDelegate rewardedAd:_rewardedAd userDidEarnReward:_rewardedAd.reward];
   }
   UITapGestureRecognizer *tapGestureRecognizer =
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -125,9 +126,9 @@
 
 /// Closes the ad and tells the delegate that reward-based video ad closed.
 - (void)closeAd:(id)sender {
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdDidClose:)]) {
-    [strongDelegate rewardBasedVideoAdDidClose:[SampleRewardBasedVideo sharedInstance]];
+  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(rewardedAdDidDismiss:)]) {
+    [strongDelegate rewardedAdDidDismiss:_rewardedAd];
   }
 
   [self dismissViewControllerAnimated:YES completion:nil];
@@ -135,15 +136,7 @@
 
 /// Handles the tap on ad, and tells the delegate that ad gets clicked.
 - (void)handleTap:(UITapGestureRecognizer *)recognizer {
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.google.com"]];
-  id<SampleRewardBasedVideoDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdDidReceiveAdClick:)]) {
-    [strongDelegate rewardBasedVideoAdDidReceiveAdClick:[SampleRewardBasedVideo sharedInstance]];
-    if ([strongDelegate respondsToSelector:@selector(rewardBasedVideoAdWillLeaveApplication:)]) {
-      [strongDelegate
-          rewardBasedVideoAdWillLeaveApplication:[SampleRewardBasedVideo sharedInstance]];
-    }
-  }
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.google.com"]];
 }
 
 @end

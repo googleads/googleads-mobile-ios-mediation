@@ -16,18 +16,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 @import SampleAdSDK;
 
 #import "SampleAdapter.h"
+#import "SampleAdapterConstants.h"
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAd.h"
 
-@interface SampleAdapter () {
+@interface SampleAdapter () <SampleRewardedAdDelegate, GADMediationRewardedAd> {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
-
-  /// Connector from Google Mobile Ads SDK to receive reward-based video ad configurations.
-  __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardBasedVideoAdConnector;
 
   /// Handles delegate notifications.
   SampleAdapterDelegate *_adapterDelegate;
@@ -38,8 +37,8 @@
   /// Handle interstitial ads from Sample SDK.
   SampleInterstitial *_interstitialAd;
 
-  /// Handle reward-based video ads from Sample SDK.
-  SampleRewardBasedVideo *_rewardBasedVideoAd;
+  /// Handle rewarded ads from Sample SDK.
+  SampleRewardedAd *_rewardedAd;
 
   /// An ad loader to use in loading native ads from Sample SDK.
   SampleNativeAdLoader *_nativeAdLoader;
@@ -49,6 +48,15 @@
 
   /// Native ad types requested.
   NSArray<GADAdLoaderAdType> *_nativeAdTypes;
+
+  /// The configurations used to initialize sample rewarded ad.
+  GADMediationRewardedAdConfiguration *_adConfig;
+
+  /// Handles any callback when the sample rewarded ad finishes loading.
+  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
+
+  /// Delegate for receiving rewarded ad notifications.
+  __weak id<GADMediationRewardedAdEventDelegate> _rewardedAdDelegate;
 }
 
 @end
@@ -57,12 +65,6 @@
 
 + (NSString *)adapterVersion {
   return @"1.0";
-}
-
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
-  // OPTIONAL: Create your own class implementing GADAdNetworkExtras and return that class type
-  // here for your publishers to use. This class does not use extras.
-  return Nil;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -133,8 +135,9 @@
     NSString *description = @"You must request a unified native ad.";
     NSDictionary *userInfo =
         @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error =
-        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:@"com.google.mediation.sample"
+                                         code:0
+                                     userInfo:userInfo];
     [_connector adapter:self didFailAd:error];
     return;
   }
@@ -197,7 +200,6 @@
   _bannerAd.delegate = nil;
   _interstitialAd.delegate = nil;
   _nativeAdLoader.delegate = nil;
-  _rewardBasedVideoAd.delegate = nil;
 }
 
 #pragma mark SampleAdapterDataProvider Methods
@@ -210,68 +212,97 @@
   return _nativeAdTypes;
 }
 
-#pragma mark Reward-based Video Ad Methods
+#pragma mark GADMediationAdapter implementation
 
-/// Initializes and returns a sample adapter with a reward based video ad connector.
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
-  if (!connector) {
-    return nil;
-  }
-
-  self = [super init];
-  if (self) {
-    _rewardBasedVideoAdConnector = connector;
-    _adapterDelegate = [[SampleAdapterDelegate alloc] initWithRewardBasedVideoAdAdapter:self
-                                                            rewardBasedVideoAdconnector:connector];
-  }
-  return self;
++ (Class<GADAdNetworkExtras>)networkExtrasClass {
+  // OPTIONAL: Create your own class implementing GADAdNetworkExtras and return that class type
+  // here for your publishers to use. This class does not use extras.
+  return Nil;
 }
 
-/// Tells the adapter to set up reward based video ads. When set up fails, the Sample SDK may try to
-/// set up the adapter again.
-- (void)setUp {
-  _rewardBasedVideoAd = [SampleRewardBasedVideo sharedInstance];
-  _rewardBasedVideoAd.delegate = _adapterDelegate;
-  NSString *adUnit = [_rewardBasedVideoAdConnector credentials][@"ad_unit"];
-  _rewardBasedVideoAd.adUnitID = adUnit;
++ (GADVersionNumber)adSDKVersion {
+  NSString *versionString = SampleSDKVersion;
+  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
-  SampleAdRequest *request = [[SampleAdRequest alloc] init];
-  // Set up request parameters.
-  request.testMode = _connector.testMode;
-  request.keywords = _connector.userKeywords;
-
-  [_rewardBasedVideoAd initializeWithAdRequest:request adUnitID:adUnit];
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 3) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    version.patchVersion = [versionComponents[2] integerValue];
+  }
+  return version;
 }
 
-/// Tells the adapter to request a reward based video ad, if checkAdAvailability is true. Otherwise,
-/// the connector notifies the adapter that the reward based video ad failed to load.
-- (void)requestRewardBasedVideoAd {
-  id<GADMRewardBasedVideoAdNetworkConnector> strongConnector = _rewardBasedVideoAdConnector;
-  if ([_rewardBasedVideoAd checkAdAvailability]) {
-    [strongConnector adapterDidReceiveRewardBasedVideoAd:self];
-  } else {
-    NSString *description = @"Failed to load ad.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error =
-        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
-    [strongConnector adapter:self didFailToLoadRewardBasedVideoAdwithError:error];
++ (GADVersionNumber)version {
+  NSString *versionString = SampleAdapterVersion;
+  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 4) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    // Adapter versions have 2 patch versions. Multiply the first patch by 100.
+    version.patchVersion =
+        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
   }
+  return version;
 }
 
-/// Tells the adapter to present the reward based video ad with the provided view controller, if the
-/// ad is available. Otherwise, logs a message with the reason for failure.
-- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-  if ([_rewardBasedVideoAd checkAdAvailability]) {
-    // The reward based video ad is available, present the ad.
-    [_rewardBasedVideoAd presentFromRootViewController:viewController];
-  } else {
-    // Because publishers are expected to check that an ad is available before trying to show one,
-    // the above conditional should always hold true. If for any reason the adapter is not ready to
-    // present an ad, however, it should log an error with reason for failure.
-    NSLog(@"No ads to show.");
-  }
++ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
+             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  /// Since the Sample SDK doesn't need to initialize, the completion handler is called directly
+  /// here.
+  completionHandler(nil);
+}
+
+- (void)dealloc {
+  _rewardedAd = nil;
+}
+
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _adConfig = adConfiguration;
+  _loadCompletionHandler = completionHandler;
+
+  NSString *adUnit = _adConfig.credentials.settings[SampleSDKAdUnitID];
+  _rewardedAd = [[SampleRewardedAd alloc] initWithAdUnitID:adUnit];
+  _rewardedAd.delegate = self;
+  [_rewardedAd fetchAd:[[SampleAdRequest alloc] init]];
+}
+
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  [_rewardedAd presentFromRootViewController:viewController];
+}
+
+#pragma mark SampleRewardedAdDelegate methods
+
+- (void)rewardedAdDidReceiveAd:(nonnull SampleRewardedAd *)rewardedAd {
+  _rewardedAdDelegate = _loadCompletionHandler(self, nil);
+}
+
+- (void)rewardedAdDidDismiss:(nonnull SampleRewardedAd *)rewardedAd {
+  [_rewardedAdDelegate willDismissFullScreenView];
+  [_rewardedAdDelegate didEndVideo];
+  [_rewardedAdDelegate didDismissFullScreenView];
+}
+
+- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)error {
+  [_rewardedAdDelegate didFailToPresentWithError:[NSError errorWithDomain:kAdapterErrorDomain
+                                                                     code:error
+                                                                 userInfo:nil]];
+}
+
+- (void)rewardedAdDidpresent:(nonnull SampleRewardedAd *)rewardedAd {
+  [_rewardedAdDelegate willPresentFullScreenView];
+  [_rewardedAdDelegate didStartVideo];
+}
+
+- (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
+  GADAdReward *rewards =
+      [[GADAdReward alloc] initWithRewardType:@""
+                                 rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
+  [_rewardedAdDelegate didRewardUserWithReward:rewards];
 }
 
 @end
