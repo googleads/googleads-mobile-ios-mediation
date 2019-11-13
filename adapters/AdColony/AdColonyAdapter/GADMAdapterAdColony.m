@@ -12,6 +12,9 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
+@interface GADMAdapterAdColony () <AdColonyAdViewDelegate>
+@end
+
 @implementation GADMAdapterAdColony {
   /// AdColony interstitial ad.
   AdColonyInterstitial *_ad;
@@ -157,9 +160,47 @@
 #pragma mark - Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-      kGADErrorInvalidRequest, @"AdColony adapter doesn't currently support Instant-Feed videos.");
-  [_connector adapter:self didFailAd:error];
+  GADMAdapterAdColony *__weak weakSelf = self;
+  [GADMAdapterAdColonyHelper
+      setupZoneFromConnector:_connector
+                    callback:^(NSString *_Nullable zone, NSError *_Nullable error) {
+                      GADMAdapterAdColony *strongSelf = weakSelf;
+                      if (!strongSelf) {
+                        return;
+                      }
+
+                      id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+                      if (error) {
+                        [strongConnector adapter:strongSelf didFailAd:error];
+                        return;
+                      }
+
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                        UIViewController *viewController =
+                            [strongConnector viewControllerForPresentingModalView];
+                        if (!viewController) {
+                          NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+                              kGADErrorInvalidRequest, @"View controller cannot be nil.");
+                          [strongConnector adapter:strongSelf didFailAd:error];
+                          return;
+                        }
+
+                        GADMAdapterAdColonyLog(@"Requesting banner for zone: %@", zone);
+                        [strongSelf requestBannerInZoneId:zone
+                                                   adSize:adSize
+                                           viewController:viewController];
+                      });
+                    }];
+}
+
+- (void)requestBannerInZoneId:(nonnull NSString *)zone
+                       adSize:(GADAdSize)adSize
+               viewController:(nonnull UIViewController *)viewController {
+  AdColonyAdSize adColonyAdSize = AdColonyAdSizeMake(adSize.size.width, adSize.size.height);
+  [AdColony requestAdViewInZone:zone
+                       withSize:adColonyAdSize
+                 viewController:viewController
+                    andDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -172,6 +213,34 @@
   // AdColony retains the AdColonyAdDelegate during ad playback and does not issue any callbacks
   // outside of ad playback or async calls already in flight.
   // We could cancel the callbacks for async calls already made, but is overkill IMO.
+}
+
+#pragma mark - AdColonyAdViewDelegate Delegate
+
+- (void)adColonyAdViewDidLoad:(nonnull AdColonyAdView *)adView {
+  GADMAdapterAdColonyLog(@"Banner ad loaded.");
+  [_connector adapter:self didReceiveAdView:adView];
+}
+
+- (void)adColonyAdViewDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
+  GADMAdapterAdColonyLog(@"Failed to load banner ad: %@", error.localizedDescription);
+  [_connector adapter:self didFailAd:error];
+}
+
+- (void)adColonyAdViewWillLeaveApplication:(nonnull AdColonyAdView *)adView {
+  [_connector adapterWillLeaveApplication:self];
+}
+
+- (void)adColonyAdViewWillOpen:(nonnull AdColonyAdView *)adView {
+  [_connector adapterWillPresentFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidClose:(nonnull AdColonyAdView *)adView {
+  [_connector adapterDidDismissFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidReceiveClick:(nonnull AdColonyAdView *)adView {
+  [_connector adapterDidGetAdClick:self];
 }
 
 @end
