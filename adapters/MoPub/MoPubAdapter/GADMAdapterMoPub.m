@@ -340,23 +340,13 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 
 #pragma mark - Helper methods for downloading images
 
-- (nullable NSDictionary<NSString *, NSURL *> *)imageURLs {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (nullable NSDictionary<NSString *, NSURL *> *)imageURLsForKeys:(NSArray<NSString *> *)keys {
   NSMutableDictionary<NSString *, NSURL *> *imageURLDictionary = [[NSMutableDictionary alloc] init];
 
-  for (NSString *imageKey in [_nativeAd.properties allKeys]) {
-    if ([imageKey.lowercaseString hasSuffix:@"image"] &&
-        [_nativeAd.properties[imageKey] isKindOfClass:[NSString class]]) {
+  for (NSString *imageKey in keys) {
+    if ([_nativeAd.properties[imageKey] isKindOfClass:[NSString class]]) {
       NSString *nativeAdImageURLString = _nativeAd.properties[imageKey];
       NSURL *imageURL = [NSURL URLWithString:nativeAdImageURLString];
-      if (!imageURL) {
-        NSString *errorString =
-            [NSString stringWithFormat:@"Invalid URL: %@", nativeAdImageURLString];
-        NSError *error = GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                     errorString);
-        [strongConnector adapter:self didFailAd:error];
-        return nil;
-      }
       GADMAdapterMoPubMutableDictionarySetObjectForKey(imageURLDictionary, imageKey, imageURL);
     }
   }
@@ -367,7 +357,8 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 - (void)preCacheNativeImagesWithCompletionHandler:
     (void (^)(NSDictionary<NSString *, GADNativeAdImage *> *_Nullable imagesDictionary))
         completionHandler {
-  NSDictionary<NSString *, NSURL *> *imageURLDictionary = [self imageURLs];
+  NSArray<NSString *> *keyArray = @[kAdIconImageKey, kAdMainImageKey];
+  NSDictionary<NSString *, NSURL *> *imageURLDictionary = [self imageURLsForKeys:keyArray];
   if (!imageURLDictionary[kAdMainImageKey] || !imageURLDictionary[kAdIconImageKey]) {
     NSError *adapterError = GADMAdapterMoPubErrorWithCodeAndDescription(
         kGADErrorReceivedInvalidResponse, @"Can't find the required MoPub native ad image assets.");
