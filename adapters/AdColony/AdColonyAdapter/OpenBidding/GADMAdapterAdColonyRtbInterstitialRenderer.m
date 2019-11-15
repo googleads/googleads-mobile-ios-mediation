@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
+#import "GADMAdapterAdColonyRTBInterstitialRenderer.h"
 
 #import <AdColony/AdColony.h>
 #include <stdatomic.h>
@@ -22,7 +22,8 @@
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMediationAdapterAdColony.h"
 
-@interface GADMAdapterAdColonyRtbInterstitialRenderer () <GADMediationInterstitialAd>
+@interface GADMAdapterAdColonyRtbInterstitialRenderer () <GADMediationInterstitialAd,
+                                                          AdColonyInterstitialDelegate>
 @end
 
 @implementation GADMAdapterAdColonyRtbInterstitialRenderer {
@@ -43,7 +44,7 @@
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [handler copy];
   _renderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
-      id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
+      _Nullable id<GADMediationInterstitialAd> interstitialAd, NSError *_Nullable error) {
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
     }
@@ -66,108 +67,77 @@
                      }
 
                      if (error) {
-                       strongSelf->_renderCompletionHandler(nil, error);
+                       if (strongSelf->_renderCompletionHandler) {
+                         strongSelf->_renderCompletionHandler(nil, error);
+                       }
+
                        return;
                      }
 
-                     [strongSelf getInterstitialFromZoneID:zone adConfig:adConfig];
+                     GADMAdapterAdColonyLog(@"Requesting interstitial ad for zone: %@", zone);
+                     AdColonyAdOptions *options =
+                         [GADMAdapterAdColonyHelper getAdOptionsFromAdConfig:adConfig];
+                     [AdColony requestInterstitialInZone:zone
+                                                 options:options
+                                             andDelegate:strongSelf];
                    }];
-}
-
-- (void)getInterstitialFromZoneID:(NSString *)zone
-                         adConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration {
-  _interstitialAd = nil;
-
-  GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
-
-  GADMAdapterAdColonyLog(@"Requesting interstatial ad for zone: %@", zone);
-
-  [AdColony requestInterstitialInZone:zone
-      options:nil
-      success:^(AdColonyInterstitial *_Nonnull ad) {
-        GADMAdapterAdColonyLog(@"Retrieved interstitial ad for zone: %@", zone);
-        [weakSelf handleAdReceived:ad forAdConfig:adConfiguration zone:zone];
-      }
-      failure:^(AdColonyAdRequestError *_Nonnull err) {
-        NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorInvalidRequest,
-                                                                        err.localizedDescription);
-        GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-        if (!strongSelf) {
-          return;
-        }
-        strongSelf->_renderCompletionHandler(nil, error);
-        GADMAdapterAdColonyLog(@"Failed to retrieve ad: %@", error.localizedDescription);
-      }];
-}
-
-- (void)handleAdReceived:(AdColonyInterstitial *_Nonnull)ad
-             forAdConfig:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                    zone:(NSString *)zone {
-  _interstitialAd = ad;
-  _adEventDelegate = _renderCompletionHandler(self, nil);
-
-  // Re-request intersitial when expires, this avoids the situation:
-  // 1. Admob interstitial request from zone A. Causes ADC configure to occur with zone A,
-  // then ADC ad request from zone A. Both succeed.
-  // 2. Admob rewarded video request from zone B. Causes ADC configure to occur with zones A,
-  // B, then ADC ad request from zone B. Both succeed.
-  // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
-  // with id: xyz has been registered. Cannot show interstitial`.
-  [ad setExpire:^{
-    GADMAdapterAdColonyLog(
-        @"Interstitial Ad expired from zone: %@ because of configuring "
-        @"another Ad. To avoid this situation, use startWithCompletionHandler: to initialize "
-        @"Google Mobile Ads SDK and wait for the completion handler to be called before "
-        @"requesting an dd.",
-        zone);
-  }];
 }
 
 #pragma mark GADMediationInterstitialAd
 
-- (void)presentFromViewController:(UIViewController *)viewController {
-  GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
-
-  [_interstitialAd setOpen:^{
-    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-    if (strongSelf) {
-      id<GADMediationInterstitialAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
-      [adEventDelegate willPresentFullScreenView];
-      [adEventDelegate reportImpression];
-    }
-  }];
-
-  [_interstitialAd setClick:^{
-    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-    if (strongSelf) {
-      [strongSelf->_adEventDelegate reportClick];
-    }
-  }];
-
-  [_interstitialAd setClose:^{
-    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-    if (strongSelf) {
-      id<GADMediationInterstitialAdEventDelegate> adEventDelegate = strongSelf->_adEventDelegate;
-      [adEventDelegate willDismissFullScreenView];
-      [adEventDelegate didDismissFullScreenView];
-    }
-  }];
-
-  [_interstitialAd setLeftApplication:^{
-    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-    if (strongSelf) {
-      [strongSelf->_adEventDelegate willBackgroundApplication];
-    }
-  }];
-
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (![_interstitialAd showWithPresentingViewController:viewController]) {
     NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
                                                                     @"Failed to show ad for zone.");
-    GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
-    if (strongSelf) {
-      [strongSelf->_adEventDelegate didFailToPresentWithError:error];
-    }
+    [_adEventDelegate didFailToPresentWithError:error];
   }
+}
+
+#pragma mark - AdColonyInterstitialDelegate Delegate
+
+- (void)adColonyInterstitialDidLoad:(nonnull AdColonyInterstitial *)interstitial {
+  GADMAdapterAdColonyLog(@"Loaded interstitial ad for zone: %@", interstitial.zoneID);
+  _interstitialAd = interstitial;
+  _adEventDelegate = _renderCompletionHandler(self, nil);
+}
+
+- (void)adColonyInterstitialDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
+  GADMAdapterAdColonyLog(@"Failed to load interstitial ad with error: %@",
+                         error.localizedDescription);
+  NSError *requestError =
+      GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
+  _renderCompletionHandler(nil, requestError);
+}
+
+- (void)adColonyInterstitialWillOpen:(nonnull AdColonyInterstitial *)interstitial {
+  id<GADMediationInterstitialAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
+  [strongAdEventDelegate willPresentFullScreenView];
+  [strongAdEventDelegate reportImpression];
+}
+
+- (void)adColonyInterstitialDidClose:(nonnull AdColonyInterstitial *)interstitial {
+  id<GADMediationInterstitialAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
+  [strongAdEventDelegate willDismissFullScreenView];
+  [strongAdEventDelegate didDismissFullScreenView];
+}
+
+- (void)adColonyInterstitialExpired:(nonnull AdColonyInterstitial *)interstitial {
+  // Each time AdColony's SDK is configured, it discards previously loaded ads. Publishers should
+  // initialize the GMA SDK and wait for initialization to complete to ensure that AdColony's SDK
+  // gets initialized with all known zones.
+  GADMAdapterAdColonyLog(
+      @"Interstitial ad expired due to configuring another ad. Use -[GADMobileAds "
+      @"startWithCompletionHandler:] to initialize the Google Mobile Ads SDK and wait for the "
+      @"completion handler to be called before requesting an ad. Zone: %@",
+      interstitial.zoneID);
+}
+
+- (void)adColonyInterstitialWillLeaveApplication:(nonnull AdColonyInterstitial *)interstitial {
+  [_adEventDelegate willBackgroundApplication];
+}
+
+- (void)adColonyInterstitialDidReceiveClick:(nonnull AdColonyInterstitial *)interstitial {
+  [_adEventDelegate reportClick];
 }
 
 @end
