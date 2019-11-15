@@ -22,11 +22,11 @@
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMediationAdapterAdColony.h"
 
-@interface GADMAdapterAdColonyRtbInterstitialRenderer () <GADMediationInterstitialAd,
+@interface GADMAdapterAdColonyRTBInterstitialRenderer () <GADMediationInterstitialAd,
                                                           AdColonyInterstitialDelegate>
 @end
 
-@implementation GADMAdapterAdColonyRtbInterstitialRenderer {
+@implementation GADMAdapterAdColonyRTBInterstitialRenderer {
   /// Completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
 
@@ -56,11 +56,11 @@
     return delegate;
   };
 
-  GADMAdapterAdColonyRtbInterstitialRenderer *__weak weakSelf = self;
+  GADMAdapterAdColonyRTBInterstitialRenderer *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper
       setupZoneFromAdConfig:adConfig
                    callback:^(NSString *zone, NSError *error) {
-                     GADMAdapterAdColonyRtbInterstitialRenderer *strongSelf = weakSelf;
+                     GADMAdapterAdColonyRTBInterstitialRenderer *strongSelf = weakSelf;
 
                      if (!strongSelf) {
                        return;

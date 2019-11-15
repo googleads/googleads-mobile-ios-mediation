@@ -22,8 +22,8 @@
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
+#import "GADMAdapterAdColonyRTBInterstitialRenderer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
-#import "GADMAdapterAdColonyRtbInterstitialRenderer.h"
 
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
@@ -31,10 +31,10 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
   /// Completion handler for signal generation. Returns either signals or an error object.
   GADRTBSignalCompletionHandler _signalCompletionHandler;
 
-  /// AdColony interstitial ad wrapper.
-  GADMAdapterAdColonyRtbInterstitialRenderer *_interstitialRenderer;
+  /// AdColony interstitial ad renderer.
+  GADMAdapterAdColonyRTBInterstitialRenderer *_interstitialRenderer;
 
-  /// AdColony rewarded ad wrapper.
+  /// AdColony rewarded ad renderer.
   GADMAdapterAdColonyRewardedRenderer *_rewardedRenderer;
 }
 
@@ -184,7 +184,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  _interstitialRenderer = [[GADMAdapterAdColonyRtbInterstitialRenderer alloc] init];
+  _interstitialRenderer = [[GADMAdapterAdColonyRTBInterstitialRenderer alloc] init];
   [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
                                      completionHandler:completionHandler];
 }

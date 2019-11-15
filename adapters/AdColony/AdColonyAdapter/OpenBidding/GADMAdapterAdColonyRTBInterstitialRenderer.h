@@ -15,7 +15,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterAdColonyRtbInterstitialRenderer : NSObject
+/// AdColony RTB interstitial ad renderer.
+@interface GADMAdapterAdColonyRTBInterstitialRenderer : NSObject
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
