@@ -1,22 +1,24 @@
 //
-//  GADMAdapterBaseClass.m
+//  GADMVerizonAdapterBaseClass.m
 //
 // @copyright Copyright (c) 2018 Verizon. All rights reserved.
 //
 
-#import "GADMVASAdapterBaseClass.h"
-#import "GADMAdapterVerizonMediaConstants.h"
+#import "GADMAdapterVerizonBaseClass.h"
+#import "GADMAdapterVerizonConstants.h"
+#import "GADMAdapterVerizonNativeAd.h"
 
-@protocol GADMAdNetworkAdapter;
-@protocol GADMAdNetworkConnector;
-
-@interface GADMVASAdapterBaseClass ()
-
-@property CGRect inlineAdFrame;
+@interface GADMAdapterVerizonBaseClass () <VASInlineAdFactoryDelegate,
+                                           VASInterstitialAdFactoryDelegate,
+                                           VASInterstitialAdDelegate,
+                                           VASInlineAdViewDelegate>
 
 @end
 
-@implementation GADMVASAdapterBaseClass
+@implementation GADMAdapterVerizonBaseClass {
+  /// Verizon media native ad mapper.
+  GADMAdapterVerizonNativeAd *_nativeAd;
+}
 
 #pragma mark - Logger
 
@@ -24,7 +26,7 @@
   static VASLogger *_logger = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    _logger = [VASLogger loggerForClass:[GADMVASAdapterBaseClass class]];
+    _logger = [VASLogger loggerForClass:[GADMAdapterVerizonBaseClass class]];
   });
   return _logger;
 }
@@ -36,12 +38,13 @@
 }
 
 + (NSString *)adapterVersion {
-  return kVASAdapterVersion;
+  return kGADMAdapterVerizonMediaVersion;
 }
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
-  if (self = [super init]) {
-    _connector = gadConnector;
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  self = [super init];
+  if (self) {
+    _connector = connector;
   }
 
   return self;
@@ -58,39 +61,33 @@
 
   self.interstitialAd = nil;
   self.interstitialAdFactory =
-      [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID
-                                                     vasAds:self.vasAds
-                                                   delegate:self];
+  [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID
+                                                 vasAds:self.vasAds
+                                               delegate:self];
   [self.interstitialAdFactory load:self];
 }
+
 - (void)getBannerWithSize:(GADAdSize)gadSize {
   if (![self prepareAdapterForAdRequest]) {
     return;
   }
 
-  id<GADMAdNetworkConnector> connector = self.gadConnector;
-
-  GADAdSize adSize = [self supportedAdSizeFromRequestedSize:gadSize];
-  if (!IsGADAdSizeValid(adSize)) {
-    NSLog(@"Requested ad size (%@) is currently not supported by the Verizon Media adapter",
-          NSStringFromGADAdSize(gadSize));
-    [connector adapter:self
-             didFailAd:[NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                                           code:kGADErrorInvalidRequest
-                                       userInfo:nil]];
+  id<GADMAdNetworkConnector> connector = _connector;
+    
+  CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
+  if (CGSizeEqualToSize(adSize, CGSizeZero)) {
+    [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidRequest userInfo:nil]];
     return;
   }
-
-  VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.size.width
-                                                          height:adSize.size.height];
+    
+  VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.width height:adSize.height];
   self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID
                                                                  adSizes:@[ size ]
-                                                                  vasAds:[VASAds sharedInstance]
+                                                                  vasAds:VASAds.sharedInstance
                                                                 delegate:self];
 
   [self.inlineAd removeFromSuperview];
   self.inlineAd = nil;
-
   [self.inlineAdFactory load:self];
 }
 
@@ -104,20 +101,27 @@
   return YES;
 }
 
+- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(NSArray<GADAdLoaderOptions *> *)options {
+  _nativeAd = [[GADMAdapterVerizonNativeAd alloc] initWithGADMAdNetworkConnector:_connector
+                                                        withGADMAdNetworkAdapter:self];
+  [_nativeAd loadNativeAdWithAdTypes:adTypes options:options];
+}
+
 #pragma mark - VASInterstitialAdFactoryDelegate
 
 - (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory
         didLoadInterstitialAd:(VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.interstitialAd = interstitialAd;
-    [self.gadConnector adapterDidReceiveInterstitial:self];
+    [self.connector adapterDidReceiveInterstitial:self];
   });
 }
 
 - (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory
              didFailWithError:(VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapter:self didFailAd:errorInfo];
+    [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
@@ -141,32 +145,32 @@
 
 - (void)interstitialAdDidShow:(VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterWillPresentInterstitial:self];
+    [self.connector adapterWillPresentInterstitial:self];
   });
 }
 
 - (void)interstitialAdDidFail:(VASInterstitialAd *)interstitialAd
                     withError:(VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapter:self didFailAd:errorInfo];
+    [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
 - (void)interstitialAdDidClose:(VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterDidDismissInterstitial:self];
+    [self.connector adapterDidDismissInterstitial:self];
   });
 }
 
 - (void)interstitialAdDidLeaveApplication:(VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterWillLeaveApplication:self];
+    [self.connector adapterWillLeaveApplication:self];
   });
 }
 
 - (void)interstitialAdClicked:(VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterDidGetAdClick:self];
+    [self.connector adapterDidGetAdClick:self];
   });
 }
 
@@ -182,7 +186,7 @@
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
        didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapter:self didFailAd:errorInfo];
+    [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
@@ -191,18 +195,18 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     self.inlineAd = inlineAd;
     self.inlineAd.frame = CGRectMake(0, 0, inlineAd.adSize.width, inlineAd.adSize.height);
-    [self.gadConnector adapter:self didReceiveAdView:self.inlineAd];
+    [self.connector adapter:self didReceiveAdView:self.inlineAd];
   });
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheLoadedNumRequested:(NSInteger)numRequested
-                numReceived:(NSInteger)numReceived {
+cacheLoadedNumRequested:(NSInteger)numRequested
+            numReceived:(NSInteger)numReceived {
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
+cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
@@ -210,36 +214,36 @@
 
 - (void)inlineAdDidFail:(VASInlineAdView *)inlineAd withError:(VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapter:self didFailAd:errorInfo];
+    [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
 - (void)inlineAdDidExpand:(VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterWillPresentFullScreenModal:self];
+    [self.connector adapterWillPresentFullScreenModal:self];
   });
 }
 
 - (void)inlineAdDidCollapse:(VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterDidDismissFullScreenModal:self];
+    [self.connector adapterDidDismissFullScreenModal:self];
   });
 }
 
 - (void)inlineAdClicked:(VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterDidGetAdClick:self];
+    [self.connector adapterDidGetAdClick:self];
   });
 }
 
 - (void)inlineAdDidLeaveApplication:(VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.gadConnector adapterWillLeaveApplication:self];
+    [self.connector adapterWillLeaveApplication:self];
   });
 }
 
 - (nullable UIViewController *)adPresentingViewController {
-  return [self.gadConnector viewControllerForPresentingModalView];
+  return [self.connector viewControllerForPresentingModalView];
 }
 
 - (void)inlineAdDidRefresh:(nonnull VASInlineAdView *)inlineAd {
@@ -261,16 +265,16 @@
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!self.placementID || !self.vasAds.isInitialized) {
+  if (!self.placementID || ![self.vasAds isInitialized]) {
     NSError *error = [NSError
-        errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                   code:kGADErrorMediationAdapterError
-               userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
-    [self.gadConnector adapter:self didFailAd:error];
+                      errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                      code:kGADErrorMediationAdapterError
+                      userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
+    [_connector adapter:self didFailAd:error];
     return NO;
   }
 
-  [self setRequestInfoFromConnector:self.connector];
+  [self setRequestInfoFromConnector];
 
   return YES;
 }
@@ -304,53 +308,51 @@
 
 #pragma mark - private
 
-- (void)setRequestInfoFromConnector:(id<GADMediationAdRequest>)connector {
+- (void)setRequestInfoFromConnector {
   // User Settings
-  [self setUserSettingsFromConnector:connector];
+  [self setUserSettingsFromConnector];
 
   // COPPA
-  [self setCoppaFromConnector:connector];
+  [self setCoppaFromConnector];
 
   // Location
-  if (connector.userHasLocation) {
+  if (_connector.userHasLocation) {
     self.vasAds.locationEnabled = YES;
   }
 }
 
-- (void)setUserSettingsFromConnector:(id<GADMediationAdRequest>)connector {
+- (void)setUserSettingsFromConnector {
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator
   builder.appMediator =
-      [NSString stringWithFormat:@"AdMobVAS-%@", [GADMVASAdapterBaseClass adapterVersion]];
-
+  [NSString stringWithFormat:@"AdMobVAS-%@", [GADMAdapterVerizonBaseClass adapterVersion]];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   // Keywords
-  if ([connector userKeywords] != nil && [[connector userKeywords] count] > 0) {
-    builder.userKeywords = [connector userKeywords];
+  if ([strongConnector userKeywords] != nil && [[strongConnector userKeywords] count] > 0) {
+    builder.userKeywords = [strongConnector userKeywords];
     ;
   }
 
   self.vasAds.requestMetadata = [builder build];
 }
 
-- (void)setCoppaFromConnector:(id<GADMediationAdRequest>)connector {
-  self.vasAds.COPPA = [connector childDirectedTreatment];
+- (void)setCoppaFromConnector {
+  self.vasAds.COPPA = [_connector childDirectedTreatment];
 }
 
-- (id<GADMAdNetworkConnector>)gadConnector {
-  return [self.connector conformsToProtocol:@protocol(GADMAdNetworkConnector)]
-             ? (id<GADMAdNetworkConnector>)self.connector
-             : nil;
-}
-
-- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+- (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
   NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner),
-    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
-  ];
-
-  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+                          NSValueFromGADAdSize(kGADAdSizeBanner),
+                          NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+                          NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+                          ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (IsGADAdSizeValid(closestSize)) {
+    return CGSizeFromGADAdSize(closestSize);
+  }
+    
+  return CGSizeZero;
 }
 
 @end

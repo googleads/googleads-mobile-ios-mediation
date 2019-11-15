@@ -1,5 +1,5 @@
 //
-//  AdapterBaseClass.h
+//  GADMVerizonAdapterBaseClass.h
 //
 // @copyright Copyright (c) 2018 Verizon. All rights reserved.
 //
@@ -8,13 +8,10 @@
 #import <VerizonAdsCore/VerizonAdsCore.h>
 #import <VerizonAdsInlinePlacement/VerizonAdsInlinePlacement.h>
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
+#import <VerizonAdsNativePlacement/VerizonAdsNativePlacement.h>
 #import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
-@interface GADMVASAdapterBaseClass : NSObject <GADMAdNetworkAdapter,
-                                               VASInlineAdFactoryDelegate,
-                                               VASInterstitialAdFactoryDelegate,
-                                               VASInterstitialAdDelegate,
-                                               VASInlineAdViewDelegate>
+@interface GADMAdapterVerizonBaseClass : NSObject <GADMAdNetworkAdapter>
 
 @property(nonatomic, strong) VASInlineAdFactory *inlineAdFactory;
 @property(nonatomic, strong) VASInlineAdView *inlineAd;
@@ -22,7 +19,7 @@
 @property(nonatomic, strong) VASInterstitialAd *interstitialAd;
 @property(nonatomic, strong) VASAds *vasAds;
 @property(nonatomic, strong) NSString *placementID;
-@property(nonatomic, readonly) id<GADMAdNetworkConnector> gadConnector;
-@property(nonatomic, weak, readonly) id<GADMediationAdRequest> connector;
+@property(nonatomic, weak, readonly) id<GADMAdNetworkConnector> connector;
++ (VASLogger *)logger;
 
 @end
