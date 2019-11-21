@@ -1,8 +1,8 @@
-#import "VungleRouter.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleConstants.h"
 #import "VungleRouterConsent.h"
 
-@interface VungleRouter ()
+@interface GADMAdapterVungleRouter ()
 @property(strong) NSMapTable<NSString *, id<VungleDelegate>> *delegates;
 @property(strong) NSMapTable<NSString *, id<VungleDelegate>> *initializingDelegates;
 @property(strong) NSMapTable<NSString *, id<VungleDelegate>> *bannerDelegates;
@@ -10,13 +10,13 @@
 @property(nonatomic, copy) NSString *mrecPlacementID;
 @end
 
-@implementation VungleRouter
+@implementation GADMAdapterVungleRouter
 
-+ (VungleRouter *)sharedInstance {
-  static VungleRouter *instance = nil;
++ (GADMAdapterVungleRouter *)sharedInstance {
+  static GADMAdapterVungleRouter *instance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    instance = [[VungleRouter alloc] init];
+    instance = [[GADMAdapterVungleRouter alloc] init];
   });
   return instance;
 }

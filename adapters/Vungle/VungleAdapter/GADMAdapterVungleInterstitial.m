@@ -1,8 +1,8 @@
 #import "GADMAdapterVungleInterstitial.h"
 #import <GoogleMobileAds/Mediation/GADMAdNetworkConnectorProtocol.h>
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
-#import "VungleRouter.h"
 
 @interface GADMAdapterVungleInterstitial ()<VungleDelegate>
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
@@ -73,7 +73,8 @@ static BOOL _isAdPresenting;
 
   // Check if a banner (MREC) ad has been initiated with the samne PlacementID
   // or not. (Vungle supports only one banner currently.)
-  if (![[VungleRouter sharedInstance] canRequestBannerAdForPlacementID:self.desiredPlacement]) {
+  if (![[GADMAdapterVungleRouter sharedInstance]
+          canRequestBannerAdForPlacementID:self.desiredPlacement]) {
     NSError *error =
         [NSError errorWithDomain:@"google"
                             code:0
@@ -92,7 +93,7 @@ static BOOL _isAdPresenting;
     NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
     if (appID) {
       GADMAdapterVungleInterstitial *__weak weakSelf = self;
-      [[VungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
+      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
     } else {
       NSError *error =
           [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
@@ -124,8 +125,8 @@ static BOOL _isAdPresenting;
   }
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  if ([[VungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement
-                                                   adapterType:Interstitial]) {
+  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement
+                                                              adapterType:Interstitial]) {
     NSError *error = [NSError
         errorWithDomain:@"GADMAdapterVungleInterstitial"
                    code:0
@@ -142,7 +143,7 @@ static BOOL _isAdPresenting;
     NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
     if (appID) {
       GADMAdapterVungleInterstitial *__weak weakSelf = self;
-      [[VungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
+      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
     } else {
       NSError *error =
           [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
@@ -160,12 +161,13 @@ static BOOL _isAdPresenting;
     if (self.isBannerAdViewCompleted) return;
     self.isBannerAdViewCompleted = YES;
 
-    [[VungleRouter sharedInstance] completeBannerAdViewForPlacementID:self.desiredPlacement];
+    [[GADMAdapterVungleRouter sharedInstance]
+        completeBannerAdViewForPlacementID:self.desiredPlacement];
     self.connector = nil;
-    [[VungleRouter sharedInstance] removeDelegate:self];
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   } else if (self.adapterAdType == Interstitial) {
     self.connector = nil;
-    [[VungleRouter sharedInstance] removeDelegate:self];
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
 }
 
@@ -175,9 +177,9 @@ static BOOL _isAdPresenting;
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  if (![[VungleRouter sharedInstance] playAd:rootViewController
-                                    delegate:self
-                                      extras:[strongConnector networkExtras]]) {
+  if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
+                                               delegate:self
+                                                 extras:[strongConnector networkExtras]]) {
     [strongConnector adapterDidDismissInterstitial:self];
   }
   _isAdPresenting = YES;
@@ -186,7 +188,8 @@ static BOOL _isAdPresenting;
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [[VungleRouter sharedInstance] loadAd:self.desiredPlacement withDelegate:self];
+  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
+                                                       withDelegate:self];
   if (error) {
     [self.connector adapter:self didFailAd:error];
   }
@@ -196,10 +199,11 @@ static BOOL _isAdPresenting;
   UIView *mrecAdView =
       [[UIView alloc] initWithFrame:CGRectMake(0, 0, kGADAdSizeMediumRectangle.size.width,
                                                kGADAdSizeMediumRectangle.size.height)];
-  mrecAdView = [[VungleRouter sharedInstance] renderBannerAdInView:mrecAdView
-                                                          delegate:self
-                                                            extras:[self.connector networkExtras]
-                                                    forPlacementID:self.desiredPlacement];
+  mrecAdView =
+      [[GADMAdapterVungleRouter sharedInstance] renderBannerAdInView:mrecAdView
+                                                            delegate:self
+                                                              extras:[self.connector networkExtras]
+                                                      forPlacementID:self.desiredPlacement];
   if (mrecAdView) {
     self.bannerState = BannerRouterDelegateStatePlaying;
     [self.connector adapter:self didReceiveAdView:mrecAdView];

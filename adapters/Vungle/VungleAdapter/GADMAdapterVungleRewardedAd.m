@@ -1,8 +1,8 @@
 #import "GADMAdapterVungleRewardedAd.h"
 #include <stdatomic.h>
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
-#import "VungleRouter.h"
 
 @interface GADMAdapterVungleRewardedAd ()<VungleDelegate>
 @property(nonatomic, strong) GADMediationRewardedAdConfiguration *adConfiguration;
@@ -58,9 +58,8 @@ static BOOL _isRewardedAdPresenting;
     return;
   }
 
-  if ([[VungleRouter sharedInstance]
-          hasDelegateForPlacementID:self.desiredPlacement
-                        adapterType:Rewarded]) {
+  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement
+                                                              adapterType:Rewarded]) {
     NSError *error = [NSError
         errorWithDomain:@"GADMAdapterVungleRewardedAd"
                    code:0
@@ -78,7 +77,7 @@ static BOOL _isRewardedAdPresenting;
   if (![sdk isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:self.adConfiguration.credentials.settings];
     if (appID) {
-      [[VungleRouter sharedInstance] initWithAppId:appID delegate:self];
+      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
     } else {
       NSError *error = [NSError
           errorWithDomain:kGADMAdapterVungleErrorDomain
@@ -92,7 +91,8 @@ static BOOL _isRewardedAdPresenting;
 }
 
 - (void)loadRewardedAd {
-  NSError *error = [[VungleRouter sharedInstance] loadAd:self.desiredPlacement withDelegate:self];
+  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
+                                                       withDelegate:self];
   if (error) {
     self.adLoadCompletionHandler(nil, error);
   }
@@ -100,9 +100,9 @@ static BOOL _isRewardedAdPresenting;
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   _isRewardedAdPresenting = YES;
-  if (![[VungleRouter sharedInstance] playAd:viewController
-                                    delegate:self
-                                      extras:[self.adConfiguration extras]]) {
+  if (![[GADMAdapterVungleRouter sharedInstance] playAd:viewController
+                                               delegate:self
+                                                 extras:[self.adConfiguration extras]]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterVungleErrorDomain
                    code:0
@@ -140,7 +140,7 @@ static BOOL _isRewardedAdPresenting;
 
     if (!self.delegate) {
       // In this case, the request for Vungle has been timed out. Clean up self.
-      [[VungleRouter sharedInstance] removeDelegate:self];
+      [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
     }
   }
 }
@@ -161,7 +161,7 @@ static BOOL _isRewardedAdPresenting;
   [strongDelegate didDismissFullScreenView];
 
   GADMAdapterVungleRewardedAd __weak *weakSelf = self;
-  [[VungleRouter sharedInstance] removeDelegate:weakSelf];
+  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
@@ -179,7 +179,7 @@ static BOOL _isRewardedAdPresenting;
 - (void)adNotAvailable:(NSError *)error {
   self.adLoadCompletionHandler(nil, error);
   self.adLoadCompletionHandler = nil;
-  [[VungleRouter sharedInstance] removeDelegate:self];
+  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 @end

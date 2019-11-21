@@ -1,9 +1,9 @@
 #import "GADMediationAdapterVungle.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRewardedAd.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 #import "VungleAdNetworkExtras.h"
-#import "VungleRouter.h"
 
 @interface GADMediationAdapterVungle ()
 @property(nonatomic, strong) GADMAdapterVungleRewardedAd *rewardedAd;
@@ -40,7 +40,7 @@
     NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
   }
 
-  [[VungleRouter sharedInstance] initWithAppId:applicationID delegate:nil];
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:applicationID delegate:nil];
   completionHandler(nil);
 }
 

@@ -25,9 +25,9 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;
 @end
 
-@interface VungleRouter : NSObject<VungleSDKDelegate>
+@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
 @property(readonly) BOOL isInitialising;
-+ (VungleRouter *)sharedInstance;
++ (GADMAdapterVungleRouter *)sharedInstance;
 
 - (void)initWithAppId:(NSString *)appId delegate:(id<VungleDelegate>)delegate;
 - (BOOL)playAd:(UIViewController *)viewController
