@@ -1,5 +1,6 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleUtils.h"
 #import "VungleRouterConsent.h"
 
 @interface GADMAdapterVungleRouter ()
@@ -50,7 +51,8 @@
   VungleSDK *sdk = [VungleSDK sharedSDK];
 
   if (delegate) {
-    [self.initializingDelegates setObject:delegate forKey:delegate.desiredPlacement];
+    GADMAdapterVungleMapTableSetObjectForKey(self.initializingDelegates, delegate.desiredPlacement,
+                                             delegate);
   }
 
   if ([sdk isInitialized]) {
@@ -84,14 +86,16 @@
   if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
     @synchronized(self.delegates) {
       if (delegate && ![self.delegates objectForKey:delegate.desiredPlacement]) {
-        [self.delegates setObject:delegate forKey:delegate.desiredPlacement];
+        GADMAdapterVungleMapTableSetObjectForKey(self.delegates, delegate.desiredPlacement,
+                                                 delegate);
       }
     }
   } else if (delegate.adapterAdType == MREC) {
     @synchronized(self.bannerDelegates) {
       self.mrecPlacementID = [delegate.desiredPlacement copy];
       if (delegate && ![self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
-        [self.bannerDelegates setObject:delegate forKey:delegate.desiredPlacement];
+        GADMAdapterVungleMapTableSetObjectForKey(self.bannerDelegates, delegate.desiredPlacement,
+                                                 delegate);
       }
     }
   }
@@ -123,13 +127,14 @@
   if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
     @synchronized(self.delegates) {
       if (delegate && [self.delegates objectForKey:delegate.desiredPlacement]) {
-        [self.delegates removeObjectForKey:delegate.desiredPlacement];
+        GADMAdapterVungleMapTableRemoveObjectForKey(self.delegates, delegate.desiredPlacement);
       }
     }
   } else if (delegate.adapterAdType == MREC) {
     @synchronized(self.bannerDelegates) {
       if (delegate && [self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
-        [self.bannerDelegates removeObjectForKey:delegate.desiredPlacement];
+        GADMAdapterVungleMapTableRemoveObjectForKey(self.bannerDelegates,
+                                                    delegate.desiredPlacement);
       }
     }
   }
