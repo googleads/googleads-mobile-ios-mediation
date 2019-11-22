@@ -5,10 +5,8 @@
 //  Copyright © 2017 FAN Communications. All rights reserved.
 //
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMAdapterNend.h"
 
-@interface GADNendRewardedNetworkExtras : NSObject<GADAdNetworkExtras>
-
-@property(nonatomic, copy) NSString *userId;
+@interface GADNendRewardedNetworkExtras : GADMAdapterNendExtras
 
 @end
