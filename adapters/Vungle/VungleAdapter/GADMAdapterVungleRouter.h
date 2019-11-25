@@ -16,7 +16,13 @@
 #import <VungleSDK/VungleSDK.h>
 #import "VungleAdNetworkExtras.h"
 
-typedef NS_ENUM(NSUInteger, VungleNetworkAdapterAdType) { Unknown, Rewarded, Interstitial, MREC };
+/// Vungle adapter ad type.
+typedef NS_ENUM(NSUInteger, GADMAdapterVungleAdType) {
+  GADMAdapterVungleAdTypeUnknown,       ///< Unknown adapter type.
+  GADMAdapterVungleAdTypeRewarded,      ///< Rewarded adapter type.
+  GADMAdapterVungleAdTypeInterstitial,  ///< Interstitial adapter type.
+  GADMAdapterVungleAdTypeBanner         ///< Banner adapter type.
+};
 
 typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateRequesting,
@@ -34,7 +40,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 @property(nonatomic, strong, nullable) NSString *desiredPlacement;
-@property(nonatomic, assign) VungleNetworkAdapterAdType adapterAdType;
+@property(nonatomic, assign) GADMAdapterVungleAdType adapterAdType;
 @optional
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;
 @end
@@ -51,7 +57,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
                 withDelegate:(nonnull id<VungleDelegate>)delegate;
 - (void)removeDelegate:(nonnull id<VungleDelegate>)delegate;
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
-                      adapterType:(VungleNetworkAdapterAdType)adapterType;
+                      adapterType:(GADMAdapterVungleAdType)adapterType;
 - (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
                                  delegate:(nonnull id<VungleDelegate>)delegate
                                    extras:(nullable VungleAdNetworkExtras *)extras

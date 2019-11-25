@@ -59,7 +59,7 @@ static BOOL _isRewardedAdPresenting;
 }
 
 - (void)requestRewardedAd {
-  self.adapterAdType = Rewarded;
+  self.adapterAdType = GADMAdapterVungleAdTypeRewarded;
   self.desiredPlacement =
       [GADMAdapterVungleUtils findPlacement:self.adConfiguration.credentials.settings
                               networkExtras:self.adConfiguration.extras];
@@ -73,8 +73,9 @@ static BOOL _isRewardedAdPresenting;
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement
-                                                              adapterType:Rewarded]) {
+  if ([[GADMAdapterVungleRouter sharedInstance]
+          hasDelegateForPlacementID:self.desiredPlacement
+                        adapterType:GADMAdapterVungleAdTypeRewarded]) {
     NSError *error = [NSError
         errorWithDomain:@"GADMAdapterVungleRewardedAd"
                    code:0

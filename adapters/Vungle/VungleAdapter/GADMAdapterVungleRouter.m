@@ -97,14 +97,15 @@
 }
 
 - (void)addDelegate:(nonnull id<VungleDelegate>)delegate {
-  if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
+  if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
+      delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
     @synchronized(self.delegates) {
       if (delegate && ![self.delegates objectForKey:delegate.desiredPlacement]) {
         GADMAdapterVungleMapTableSetObjectForKey(self.delegates, delegate.desiredPlacement,
                                                  delegate);
       }
     }
-  } else if (delegate.adapterAdType == MREC) {
+  } else if (delegate.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     @synchronized(self.bannerDelegates) {
       self.mrecPlacementID = [delegate.desiredPlacement copy];
       if (delegate && ![self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
@@ -138,13 +139,14 @@
 }
 
 - (void)removeDelegate:(nonnull id<VungleDelegate>)delegate {
-  if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
+  if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
+      delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
     @synchronized(self.delegates) {
       if (delegate && [self.delegates objectForKey:delegate.desiredPlacement]) {
         GADMAdapterVungleMapTableRemoveObjectForKey(self.delegates, delegate.desiredPlacement);
       }
     }
-  } else if (delegate.adapterAdType == MREC) {
+  } else if (delegate.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     @synchronized(self.bannerDelegates) {
       if (delegate && [self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
         GADMAdapterVungleMapTableRemoveObjectForKey(self.bannerDelegates,
@@ -155,7 +157,7 @@
 }
 
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
-                      adapterType:(VungleNetworkAdapterAdType)adapterType {
+                      adapterType:(GADMAdapterVungleAdType)adapterType {
   NSMapTable<NSString *, id<VungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
     delegates = [self.delegates copy];

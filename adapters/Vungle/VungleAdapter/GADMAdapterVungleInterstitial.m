@@ -41,7 +41,7 @@ static BOOL _isAdPresenting;
   self = [super init];
   if (self) {
     self.connector = connector;
-    self.adapterAdType = Unknown;
+    self.adapterAdType = GADMAdapterVungleAdTypeUnknown;
   }
   return self;
 }
@@ -53,7 +53,7 @@ static BOOL _isAdPresenting;
 #pragma mark - GAD Ad Network Protocol Banner Methods (MREC)
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  self.adapterAdType = MREC;
+  self.adapterAdType = GADMAdapterVungleAdTypeBanner;
 
   // An array of supported ad sizes.
   NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle)];
@@ -123,7 +123,7 @@ static BOOL _isAdPresenting;
 #pragma mark - GAD Ad Network Protocol Interstitial Methods
 
 - (void)getInterstitial {
-  self.adapterAdType = Interstitial;
+  self.adapterAdType = GADMAdapterVungleAdTypeInterstitial;
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
@@ -139,8 +139,9 @@ static BOOL _isAdPresenting;
   }
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement
-                                                              adapterType:Interstitial]) {
+  if ([[GADMAdapterVungleRouter sharedInstance]
+          hasDelegateForPlacementID:self.desiredPlacement
+                        adapterType:GADMAdapterVungleAdTypeInterstitial]) {
     NSError *error = [NSError
         errorWithDomain:@"GADMAdapterVungleInterstitial"
                    code:0
@@ -171,7 +172,7 @@ static BOOL _isAdPresenting;
 }
 
 - (void)stopBeingDelegate {
-  if (self.adapterAdType == MREC) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     if (self.isBannerAdViewCompleted) return;
     self.isBannerAdViewCompleted = YES;
 
@@ -179,7 +180,7 @@ static BOOL _isAdPresenting;
         completeBannerAdViewForPlacementID:self.desiredPlacement];
     self.connector = nil;
     [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
-  } else if (self.adapterAdType == Interstitial) {
+  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     self.connector = nil;
     [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
@@ -246,10 +247,10 @@ static BOOL _isAdPresenting;
 }
 
 - (void)adAvailable {
-  if (self.adapterAdType == MREC) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateCached;
     [self connectAdViewToViewController];
-  } else if (self.adapterAdType == Interstitial) {
+  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [self.connector adapterDidReceiveInterstitial:self];
   }
 }
@@ -259,16 +260,16 @@ static BOOL _isAdPresenting;
 }
 
 - (void)willShowAd {
-  if (self.adapterAdType == MREC) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStatePlaying;
-  } else if (self.adapterAdType == Interstitial) {
+  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [self.connector adapterWillPresentInterstitial:self];
   }
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  if (self.adapterAdType == MREC) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosing;
     if (didDownload) {
       if (strongConnector) {
@@ -276,7 +277,7 @@ static BOOL _isAdPresenting;
         [strongConnector adapterWillLeaveApplication:self];
       }
     }
-  } else if (self.adapterAdType == Interstitial) {
+  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     if (didDownload) {
       [strongConnector adapterDidGetAdClick:self];
       [strongConnector adapterWillLeaveApplication:self];
@@ -287,9 +288,9 @@ static BOOL _isAdPresenting;
 }
 
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  if (self.adapterAdType == MREC) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosed;
-  } else if (self.adapterAdType == Interstitial) {
+  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [self.connector adapterDidDismissInterstitial:self];
   }
 }
