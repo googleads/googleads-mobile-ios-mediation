@@ -19,7 +19,7 @@ static BOOL _isAdPresenting;
   return kGADMAdapterVungleVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [VungleAdNetworkExtras class];
 }
 
@@ -223,7 +223,7 @@ static BOOL _isAdPresenting;
 @synthesize adapterAdType;
 @synthesize bannerState;
 
-- (void)initialized:(BOOL)isSuccess error:(NSError *)error {
+- (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (isSuccess && self.desiredPlacement) {
     [self loadAd];
   } else {
@@ -240,7 +240,7 @@ static BOOL _isAdPresenting;
   }
 }
 
-- (void)adNotAvailable:(NSError *)error {
+- (void)adNotAvailable:(nonnull NSError *)error {
   [self.connector adapter:self didFailAd:error];
 }
 
@@ -277,7 +277,6 @@ static BOOL _isAdPresenting;
     self.bannerState = BannerRouterDelegateStateClosed;
   } else if (self.adapterAdType == Interstitial) {
     [self.connector adapterDidDismissInterstitial:self];
-    self.desiredPlacement = nil;
   }
 }
 

@@ -11,8 +11,8 @@
 
 @implementation GADMediationAdapterVungle
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *applicationIDs = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
@@ -80,9 +80,10 @@
   self.rewardedAd = nil;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];

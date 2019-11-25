@@ -15,8 +15,9 @@
 // To check if the ad is presenting so that we don't call 'adLoadCompletionHandler' twice.
 static BOOL _isRewardedAdPresenting;
 
-- (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationRewardedLoadCompletionHandler)handler {
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler {
   self = [super init];
   if (self) {
     self.adConfiguration = adConfiguration;
@@ -122,7 +123,7 @@ static BOOL _isRewardedAdPresenting;
 @synthesize desiredPlacement;
 @synthesize adapterAdType;
 
-- (void)initialized:(BOOL)isSuccess error:(NSError *)error {
+- (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (isSuccess) {
     [self loadRewardedAd];
   } else {
@@ -157,7 +158,6 @@ static BOOL _isRewardedAdPresenting;
   if (didDownload) {
     [strongDelegate reportClick];
   }
-  self.desiredPlacement = nil;
   [strongDelegate didDismissFullScreenView];
 
   GADMAdapterVungleRewardedAd __weak *weakSelf = self;
@@ -176,7 +176,7 @@ static BOOL _isRewardedAdPresenting;
   [strongDelegate didStartVideo];
 }
 
-- (void)adNotAvailable:(NSError *)error {
+- (void)adNotAvailable:(nonnull NSError *)error {
   self.adLoadCompletionHandler(nil, error);
   self.adLoadCompletionHandler = nil;
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];

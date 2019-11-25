@@ -13,13 +13,13 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 };
 
 @protocol VungleDelegate<NSObject>
-- (void)initialized:(BOOL)isSuccess error:(NSError *)error;
+- (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
-- (void)adNotAvailable:(NSError *)error;
+- (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
-@property(nonatomic, strong) NSString *desiredPlacement;
+@property(nonatomic, strong, nullable) NSString *desiredPlacement;
 @property(nonatomic, assign) VungleNetworkAdapterAdType adapterAdType;
 @optional
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;
@@ -27,20 +27,21 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 
 @interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
 @property(readonly) BOOL isInitialising;
-+ (GADMAdapterVungleRouter *)sharedInstance;
++ (nonnull GADMAdapterVungleRouter *)sharedInstance;
 
-- (void)initWithAppId:(NSString *)appId delegate:(id<VungleDelegate>)delegate;
-- (BOOL)playAd:(UIViewController *)viewController
-      delegate:(id<VungleDelegate>)delegate
-        extras:(VungleAdNetworkExtras *)extras;
-- (NSError *)loadAd:(NSString *)placement withDelegate:(id<VungleDelegate>)delegate;
-- (void)removeDelegate:(id<VungleDelegate>)delegate;
-- (BOOL)hasDelegateForPlacementID:(NSString *)placementID
+- (void)initWithAppId:(nonnull NSString *)appId delegate:(nullable id<VungleDelegate>)delegate;
+- (BOOL)playAd:(nonnull UIViewController *)viewController
+      delegate:(nonnull id<VungleDelegate>)delegate
+        extras:(nullable VungleAdNetworkExtras *)extras;
+- (nullable NSError *)loadAd:(nonnull NSString *)placement
+                withDelegate:(nonnull id<VungleDelegate>)delegate;
+- (void)removeDelegate:(nonnull id<VungleDelegate>)delegate;
+- (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
                       adapterType:(VungleNetworkAdapterAdType)adapterType;
-- (UIView *)renderBannerAdInView:(UIView *)bannerView
-                        delegate:(id<VungleDelegate>)delegate
-                          extras:(VungleAdNetworkExtras *)extras
-                  forPlacementID:(NSString *)placementID;
-- (void)completeBannerAdViewForPlacementID:(NSString *)placementID;
-- (BOOL)canRequestBannerAdForPlacementID:(NSString *)placmentID;
+- (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
+                                 delegate:(nonnull id<VungleDelegate>)delegate
+                                   extras:(nullable VungleAdNetworkExtras *)extras
+                           forPlacementID:(nonnull NSString *)placementID;
+- (void)completeBannerAdViewForPlacementID:(nullable NSString *)placementID;
+- (BOOL)canRequestBannerAdForPlacementID:(nonnull NSString *)placmentID;
 @end

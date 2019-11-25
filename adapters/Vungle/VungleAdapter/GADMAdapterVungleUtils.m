@@ -27,7 +27,7 @@ void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
 
 @implementation GADMAdapterVungleUtils
 
-+ (NSString *)findAppID:(NSDictionary *)serverParameters {
++ (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {
   NSString *appId = serverParameters[kGADMAdapterVungleApplicationID];
   if (!appId) {
     NSString *const message = @"Vungle app ID should be specified!";
@@ -37,8 +37,8 @@ void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
   return appId;
 }
 
-+ (NSString *)findPlacement:(NSDictionary *)serverParameters
-              networkExtras:(VungleAdNetworkExtras *)networkExtras {
++ (nullable NSString *)findPlacement:(nullable NSDictionary *)serverParameters
+                       networkExtras:(nullable VungleAdNetworkExtras *)networkExtras {
   NSString *ret = serverParameters[kGADMAdapterVunglePlacementID];
   if (networkExtras && networkExtras.playingPlacement) {
     if (ret) {

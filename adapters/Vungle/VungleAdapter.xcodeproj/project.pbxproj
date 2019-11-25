@@ -147,21 +147,21 @@
 		7D15756E1EB7FB9200059469 /* VungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */,
-				458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */,
-				4552392720B6381D0081388F /* VungleRouterConsent.m */,
+				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
 				A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */,
 				A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */,
 				A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */,
-				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
-				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
-				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
 				45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */,
 				45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */,
-				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
+				458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */,
+				458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */,
 				4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */,
 				4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */,
+				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
+				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
+				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
+				4552392720B6381D0081388F /* VungleRouterConsent.m */,
 			);
 			path = VungleAdapter;
 			sourceTree = "<group>";

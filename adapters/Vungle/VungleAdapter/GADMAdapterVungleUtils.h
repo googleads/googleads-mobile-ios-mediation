@@ -17,14 +17,10 @@ void GADMAdapterVungleMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 /// Safely removes the |object| for |key| in mapTable if |key| is not nil.
 void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMAdapterVungleUtils : NSObject
 
-+ (NSString *)findAppID:(NSDictionary *)serverParameters;
-+ (NSString *)findPlacement:(NSDictionary *)serverParameters
-              networkExtras:(VungleAdNetworkExtras *)networkExtras;
++ (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters;
++ (nullable NSString *)findPlacement:(nullable NSDictionary *)serverParameters
+                       networkExtras:(nullable VungleAdNetworkExtras *)networkExtras;
 
 @end
-
-NS_ASSUME_NONNULL_END

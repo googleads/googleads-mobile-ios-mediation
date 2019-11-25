@@ -13,7 +13,7 @@
 
 @implementation GADMAdapterVungleRouter
 
-+ (GADMAdapterVungleRouter *)sharedInstance {
++ (nonnull GADMAdapterVungleRouter *)sharedInstance {
   static GADMAdapterVungleRouter *instance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -36,7 +36,7 @@
   return self;
 }
 
-- (void)initWithAppId:(NSString *)appId delegate:(id<VungleDelegate>)delegate {
+- (void)initWithAppId:(nonnull NSString *)appId delegate:(nullable id<VungleDelegate>)delegate {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSString *version =
@@ -78,11 +78,11 @@
   return [[VungleSDK sharedSDK] isInitialized];
 }
 
-- (BOOL)isAdCachedForPlacementID:(NSString *)placementID {
+- (BOOL)isAdCachedForPlacementID:(nonnull NSString *)placementID {
   return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
 }
 
-- (void)addDelegate:(id<VungleDelegate>)delegate {
+- (void)addDelegate:(nonnull id<VungleDelegate>)delegate {
   if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
     @synchronized(self.delegates) {
       if (delegate && ![self.delegates objectForKey:delegate.desiredPlacement]) {
@@ -101,7 +101,7 @@
   }
 }
 
-- (id<VungleDelegate>)getDelegateForPlacement:(NSString *)placement {
+- (nullable id<VungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement {
   id<VungleDelegate> delegate;
   if ([placement isEqualToString:self.mrecPlacementID]) {
     @synchronized(self.bannerDelegates) {
@@ -123,7 +123,7 @@
   return delegate;
 }
 
-- (void)removeDelegate:(id<VungleDelegate>)delegate {
+- (void)removeDelegate:(nonnull id<VungleDelegate>)delegate {
   if (delegate.adapterAdType == Interstitial || delegate.adapterAdType == Rewarded) {
     @synchronized(self.delegates) {
       if (delegate && [self.delegates objectForKey:delegate.desiredPlacement]) {
@@ -140,7 +140,7 @@
   }
 }
 
-- (BOOL)hasDelegateForPlacementID:(NSString *)placementID
+- (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
                       adapterType:(VungleNetworkAdapterAdType)adapterType {
   NSMapTable<NSString *, id<VungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
@@ -160,11 +160,12 @@
   return NO;
 }
 
-- (BOOL)canRequestBannerAdForPlacementID:(NSString *)placmentID {
+- (BOOL)canRequestBannerAdForPlacementID:(nonnull NSString *)placmentID {
   return self.mrecPlacementID == nil || [self.mrecPlacementID isEqualToString:placmentID];
 }
 
-- (NSError *)loadAd:(NSString *)placement withDelegate:(id<VungleDelegate>)delegate {
+- (nullable NSError *)loadAd:(nonnull NSString *)placement
+                withDelegate:(nonnull id<VungleDelegate>)delegate {
   id<VungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
     NSError *error =
@@ -194,9 +195,9 @@
   return nil;
 }
 
-- (BOOL)playAd:(UIViewController *)viewController
-      delegate:(id<VungleDelegate>)delegate
-        extras:(VungleAdNetworkExtras *)extras {
+- (BOOL)playAd:(nonnull UIViewController *)viewController
+      delegate:(nonnull id<VungleDelegate>)delegate
+        extras:(nullable VungleAdNetworkExtras *)extras {
   if (!delegate || !delegate.desiredPlacement ||
       ![[VungleSDK sharedSDK] isAdCachedForPlacementID:delegate.desiredPlacement]) {
     return false;
@@ -224,10 +225,10 @@
   return didAdStartPlaying;
 }
 
-- (UIView *)renderBannerAdInView:(UIView *)bannerView
-                        delegate:(id<VungleDelegate>)delegate
-                          extras:(VungleAdNetworkExtras *)extras
-                  forPlacementID:(NSString *)placementID {
+- (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
+                                 delegate:(nonnull id<VungleDelegate>)delegate
+                                   extras:(nullable VungleAdNetworkExtras *)extras
+                           forPlacementID:(nonnull NSString *)placementID {
   NSError *bannerError = nil;
   NSMutableDictionary *options = [[NSMutableDictionary alloc] init];  ///
   if (extras.muted) {
@@ -255,8 +256,8 @@
   return nil;
 }
 
-- (void)completeBannerAdViewForPlacementID:(NSString *)placementID {
-  if (placementID && self.isMrecPlaying) {
+- (void)completeBannerAdViewForPlacementID:(nullable NSString *)placementID {
+  if (placementID.length && self.isMrecPlaying) {
     NSLog(@"Vungle: Triggering an ad completion call for %@", placementID);
     self.isMrecPlaying = NO;
 
@@ -264,7 +265,7 @@
   }
 }
 
-- (void)initialized:(BOOL)isSuccess error:(NSError *)error {
+- (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   _isInitialising = false;
   NSMapTable<NSString *, id<VungleDelegate>> *delegates = [self.initializingDelegates copy];
   for (NSString *key in delegates) {
@@ -278,6 +279,9 @@
 #pragma mark - VungleSDKDelegate methods
 
 - (void)vungleWillShowAdForPlacementID:(nullable NSString *)placementID {
+  if (!placementID.length) {
+    return;
+  }
   id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
     [delegate willShowAd];
@@ -298,7 +302,8 @@
   }
 }
 
-- (void)vungleDidCloseAdWithViewInfo:(VungleViewInfo *)info placementID:(NSString *)placementID {
+- (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
+                         placementID:(nonnull NSString *)placementID {
   id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
     [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
@@ -307,8 +312,8 @@
 }
 
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
-                      placementID:(NSString *)placementID
-                            error:(NSError *)error {
+                      placementID:(nullable NSString *)placementID
+                            error:(nullable NSError *)error {
   id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (!delegate) {
     return;
@@ -331,7 +336,7 @@
   [self initialized:true error:nil];
 }
 
-- (void)vungleSDKFailedToInitializeWithError:(NSError *)error {
+- (void)vungleSDKFailedToInitializeWithError:(nonnull NSError *)error {
   [self initialized:false error:error];
 }
 
