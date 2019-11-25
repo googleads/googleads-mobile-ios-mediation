@@ -19,11 +19,10 @@
 #import "GADMAdapterVungleUtils.h"
 #import "VungleAdNetworkExtras.h"
 
-@interface GADMediationAdapterVungle ()
-@property(nonatomic, strong) GADMAdapterVungleRewardedAd *rewardedAd;
-@end
-
-@implementation GADMediationAdapterVungle
+@implementation GADMediationAdapterVungle {
+  /// Vungle rewarded ad wrapper.
+  GADMAdapterVungleRewardedAd *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -90,17 +89,13 @@
   return version;
 }
 
-- (void)dealloc {
-  self.rewardedAd = nil;
-}
-
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMAdapterVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
-                                                               completionHandler:completionHandler];
-  [self.rewardedAd requestRewardedAd];
+  _rewardedAd = [[GADMAdapterVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                           completionHandler:completionHandler];
+  [_rewardedAd requestRewardedAd];
 }
 
 @end

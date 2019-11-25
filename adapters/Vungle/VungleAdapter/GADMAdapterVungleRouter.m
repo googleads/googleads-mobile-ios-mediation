@@ -17,15 +17,25 @@
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouterConsent.h"
 
-@interface GADMAdapterVungleRouter ()
-@property(strong) NSMapTable<NSString *, id<VungleDelegate>> *delegates;
-@property(strong) NSMapTable<NSString *, id<VungleDelegate>> *initializingDelegates;
-@property(strong) NSMapTable<NSString *, id<VungleDelegate>> *bannerDelegates;
-@property(nonatomic, assign) BOOL isMrecPlaying;
-@property(nonatomic, copy) NSString *mrecPlacementID;
-@end
+@implementation GADMAdapterVungleRouter {
+  /// Map table to hold the interstitial or rewarded ad delegates with placement ID as a key.
+  NSMapTable<NSString *, id<VungleDelegate>> *_delegates;
 
-@implementation GADMAdapterVungleRouter
+  /// Map table to hold the Vungle SDK delegates with placement ID as a key.
+  NSMapTable<NSString *, id<VungleDelegate>> *_initializingDelegates;
+
+  /// Map table to hold the banner ad delegates with placement ID as a key.
+  NSMapTable<NSString *, id<VungleDelegate>> *_bannerDelegates;
+
+  /// Indicates whether a banner ad is presenting.
+  BOOL _isBannerPresenting;
+
+  /// Vungle's banner placement ID.
+  NSString *_bannerPlacementID;
+
+  /// Indicates whether the Vungle SDK is initializing.
+  BOOL _isInitializing;
+}
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance {
   static GADMAdapterVungleRouter *instance = nil;
@@ -40,12 +50,12 @@
   self = [super init];
   if (self) {
     [VungleSDK sharedSDK].delegate = self;
-    self.delegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                           valueOptions:NSPointerFunctionsWeakMemory];
-    self.initializingDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                       valueOptions:NSPointerFunctionsWeakMemory];
-    self.bannerDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                 valueOptions:NSPointerFunctionsWeakMemory];
+    _delegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                       valueOptions:NSPointerFunctionsWeakMemory];
+    _initializingDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                                   valueOptions:NSPointerFunctionsWeakMemory];
+    _bannerDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                             valueOptions:NSPointerFunctionsWeakMemory];
   }
   return self;
 }
@@ -53,8 +63,8 @@
 - (void)initWithAppId:(nonnull NSString *)appId delegate:(nullable id<VungleDelegate>)delegate {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    NSString *version =
-        [kGADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    NSString *version = [kGADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
+                                                                             withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
@@ -65,7 +75,7 @@
   VungleSDK *sdk = [VungleSDK sharedSDK];
 
   if (delegate) {
-    GADMAdapterVungleMapTableSetObjectForKey(self.initializingDelegates, delegate.desiredPlacement,
+    GADMAdapterVungleMapTableSetObjectForKey(_initializingDelegates, delegate.desiredPlacement,
                                              delegate);
   }
 
@@ -74,12 +84,12 @@
     return;
   }
 
-  if ([self isInitialising]) {
+  if (_isInitializing) {
     return;
   }
 
-  _isInitialising = YES;
-  _isMrecPlaying = NO;
+  _isInitializing = YES;
+  _isBannerPresenting = NO;
 
   NSError *err = nil;
   [sdk startWithAppId:appId error:&err];
@@ -99,17 +109,16 @@
 - (void)addDelegate:(nonnull id<VungleDelegate>)delegate {
   if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
       delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
-    @synchronized(self.delegates) {
-      if (delegate && ![self.delegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableSetObjectForKey(self.delegates, delegate.desiredPlacement,
-                                                 delegate);
+    @synchronized(_delegates) {
+      if (delegate && ![_delegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableSetObjectForKey(_delegates, delegate.desiredPlacement, delegate);
       }
     }
   } else if (delegate.adapterAdType == GADMAdapterVungleAdTypeBanner) {
-    @synchronized(self.bannerDelegates) {
-      self.mrecPlacementID = [delegate.desiredPlacement copy];
-      if (delegate && ![self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableSetObjectForKey(self.bannerDelegates, delegate.desiredPlacement,
+    @synchronized(_bannerDelegates) {
+      _bannerPlacementID = [delegate.desiredPlacement copy];
+      if (delegate && ![_bannerDelegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableSetObjectForKey(_bannerDelegates, delegate.desiredPlacement,
                                                  delegate);
       }
     }
@@ -118,19 +127,19 @@
 
 - (nullable id<VungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement {
   id<VungleDelegate> delegate;
-  if ([placement isEqualToString:self.mrecPlacementID]) {
-    @synchronized(self.bannerDelegates) {
-      if ([self.bannerDelegates objectForKey:placement]) {
-        delegate = [self.bannerDelegates objectForKey:placement];
+  if ([placement isEqualToString:_bannerPlacementID]) {
+    @synchronized(_bannerDelegates) {
+      if ([_bannerDelegates objectForKey:placement]) {
+        delegate = [_bannerDelegates objectForKey:placement];
         if (delegate.bannerState != BannerRouterDelegateStateRequesting) {
           delegate = nil;
         }
       }
     }
   } else {
-    @synchronized(self.delegates) {
-      if ([self.delegates objectForKey:placement]) {
-        delegate = [self.delegates objectForKey:placement];
+    @synchronized(_delegates) {
+      if ([_delegates objectForKey:placement]) {
+        delegate = [_delegates objectForKey:placement];
       }
     }
   }
@@ -141,16 +150,15 @@
 - (void)removeDelegate:(nonnull id<VungleDelegate>)delegate {
   if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
       delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
-    @synchronized(self.delegates) {
-      if (delegate && [self.delegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableRemoveObjectForKey(self.delegates, delegate.desiredPlacement);
+    @synchronized(_delegates) {
+      if (delegate && [_delegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
       }
     }
   } else if (delegate.adapterAdType == GADMAdapterVungleAdTypeBanner) {
-    @synchronized(self.bannerDelegates) {
-      if (delegate && [self.bannerDelegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableRemoveObjectForKey(self.bannerDelegates,
-                                                    delegate.desiredPlacement);
+    @synchronized(_bannerDelegates) {
+      if (delegate && [_bannerDelegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableRemoveObjectForKey(_bannerDelegates, delegate.desiredPlacement);
       }
     }
   }
@@ -160,9 +168,9 @@
                       adapterType:(GADMAdapterVungleAdType)adapterType {
   NSMapTable<NSString *, id<VungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
-    delegates = [self.delegates copy];
+    delegates = [_delegates copy];
   } else {
-    delegates = [self.initializingDelegates copy];
+    delegates = [_initializingDelegates copy];
   }
 
   for (NSString *key in delegates) {
@@ -177,20 +185,19 @@
 }
 
 - (BOOL)canRequestBannerAdForPlacementID:(nonnull NSString *)placmentID {
-  return self.mrecPlacementID == nil || [self.mrecPlacementID isEqualToString:placmentID];
+  return _bannerPlacementID == nil || [_bannerPlacementID isEqualToString:placmentID];
 }
 
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<VungleDelegate>)delegate {
   id<VungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                            code:0
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              @"Can't request ad if another request is in processing."
-                        }];
+    NSError *error = [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
+                                         code:0
+                                     userInfo:@{
+                                       NSLocalizedDescriptionKey :
+                                           @"Can't request ad if another request is in processing."
+                                     }];
     return error;
   } else {
     [self addDelegate:delegate];
@@ -273,23 +280,23 @@
 }
 
 - (void)completeBannerAdViewForPlacementID:(nullable NSString *)placementID {
-  if (placementID.length && self.isMrecPlaying) {
+  if (_isBannerPresenting) {
     NSLog(@"Vungle: Triggering an ad completion call for %@", placementID);
-    self.isMrecPlaying = NO;
+    _isBannerPresenting = NO;
 
     [[VungleSDK sharedSDK] finishedDisplayingAd];
   }
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
-  _isInitialising = false;
-  NSMapTable<NSString *, id<VungleDelegate>> *delegates = [self.initializingDelegates copy];
+  _isInitializing = NO;
+  NSMapTable<NSString *, id<VungleDelegate>> *delegates = [_initializingDelegates copy];
   for (NSString *key in delegates) {
     id<VungleDelegate> delegate = [delegates objectForKey:key];
     [delegate initialized:isSuccess error:error];
   }
 
-  [self.initializingDelegates removeAllObjects];
+  [_initializingDelegates removeAllObjects];
 }
 
 #pragma mark - VungleSDKDelegate methods
@@ -305,9 +312,9 @@
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
-    if ([placementID isEqualToString:self.mrecPlacementID]) {
-        self.isMrecPlaying = YES;
-    }
+  if ([placementID isEqualToString:_bannerPlacementID]) {
+    _isBannerPresenting = YES;
+  }
 }
 
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info

@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateClosed
 };
 
-@protocol VungleDelegate<NSObject>
+@protocol VungleDelegate <NSObject>
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
@@ -46,9 +46,8 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 @end
 
 @interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
-@property(readonly) BOOL isInitialising;
-+ (nonnull GADMAdapterVungleRouter *)sharedInstance;
 
++ (nonnull GADMAdapterVungleRouter *)sharedInstance;
 - (void)initWithAppId:(nonnull NSString *)appId delegate:(nullable id<VungleDelegate>)delegate;
 - (BOOL)playAd:(nonnull UIViewController *)viewController
       delegate:(nonnull id<VungleDelegate>)delegate

@@ -18,16 +18,19 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMAdapterVungleInterstitial ()<VungleDelegate>
-@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
-// To avoid multiple clean up BannerAd View
-@property(nonatomic, assign) BOOL isBannerAdViewCompleted;
+@interface GADMAdapterVungleInterstitial () <VungleDelegate>
 @end
 
-@implementation GADMAdapterVungleInterstitial
+@implementation GADMAdapterVungleInterstitial {
+  /// Connector from the Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-// To check if the ad is presenting so that we don't call 'adapterDidReceiveInterstitial:' twice.
-static BOOL _isAdPresenting;
+  /// Indicates whether the banner ad finished presenting or not.
+  BOOL _didBannerFinishPresenting;
+
+  /// Indicates whether the interstitial ad is presenting or not.
+  BOOL _isInterstitialAdPresenting;
+}
 
 + (NSString *)adapterVersion {
   return kGADMAdapterVungleVersion;
@@ -40,7 +43,7 @@ static BOOL _isAdPresenting;
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
-    self.connector = connector;
+    _connector = connector;
     self.adapterAdType = GADMAdapterVungleAdTypeUnknown;
   }
   return self;
@@ -56,7 +59,7 @@ static BOOL _isAdPresenting;
   self.adapterAdType = GADMAdapterVungleAdTypeBanner;
 
   // An array of supported ad sizes.
-  NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle)];
+  NSArray *potentials = @[ NSValueFromGADAdSize(kGADAdSizeMediumRectangle) ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   // Check if given banner size is in MREC.
   if (!IsGADAdSizeValid(closestSize)) {
@@ -66,11 +69,11 @@ static BOOL _isAdPresenting;
                userInfo:@{
                  NSLocalizedDescriptionKey : @"Vungle only supports banner ad size in 300 x 250."
                }];
-    [self.connector adapter:self didFailAd:error];
+    [_connector adapter:self didFailAd:error];
     return;
   }
 
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
 
@@ -97,7 +100,7 @@ static BOOL _isAdPresenting;
                                                       @"instantiated. Multiple banner ads are not "
                                                       @"supported with Vungle iOS SDK."
                         }];
-    [self.connector adapter:self didFailAd:error];
+    [_connector adapter:self didFailAd:error];
     return;
   }
 
@@ -124,7 +127,7 @@ static BOOL _isAdPresenting;
 
 - (void)getInterstitial {
   self.adapterAdType = GADMAdapterVungleAdTypeInterstitial;
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement) {
@@ -150,7 +153,7 @@ static BOOL _isAdPresenting;
                                              @"load for Interstitial ad type."
                }];
 
-    [self.connector adapter:self didFailAd:error];
+    [_connector adapter:self didFailAd:error];
     return;
   }
 
@@ -173,15 +176,17 @@ static BOOL _isAdPresenting;
 
 - (void)stopBeingDelegate {
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
-    if (self.isBannerAdViewCompleted) return;
-    self.isBannerAdViewCompleted = YES;
+    if (_didBannerFinishPresenting) {
+      return;
+    }
+    _didBannerFinishPresenting = YES;
 
     [[GADMAdapterVungleRouter sharedInstance]
         completeBannerAdViewForPlacementID:self.desiredPlacement];
-    self.connector = nil;
+    _connector = nil;
     [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    self.connector = nil;
+    _connector = nil;
     [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
 }
@@ -191,13 +196,13 @@ static BOOL _isAdPresenting;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
                                                delegate:self
                                                  extras:[strongConnector networkExtras]]) {
     [strongConnector adapterDidDismissInterstitial:self];
   }
-  _isAdPresenting = YES;
+  _isInterstitialAdPresenting = YES;
 }
 
 #pragma mark - Private methods
@@ -206,7 +211,7 @@ static BOOL _isAdPresenting;
   NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
                                                        withDelegate:self];
   if (error) {
-    [self.connector adapter:self didFailAd:error];
+    [_connector adapter:self didFailAd:error];
   }
 }
 
@@ -217,13 +222,13 @@ static BOOL _isAdPresenting;
   mrecAdView =
       [[GADMAdapterVungleRouter sharedInstance] renderBannerAdInView:mrecAdView
                                                             delegate:self
-                                                              extras:[self.connector networkExtras]
+                                                              extras:[_connector networkExtras]
                                                       forPlacementID:self.desiredPlacement];
   if (mrecAdView) {
     self.bannerState = BannerRouterDelegateStatePlaying;
-    [self.connector adapter:self didReceiveAdView:mrecAdView];
+    [_connector adapter:self didReceiveAdView:mrecAdView];
   } else {
-    [self.connector
+    [_connector
           adapter:self
         didFailAd:[NSError
                       errorWithDomain:kGADMAdapterVungleErrorDomain
@@ -242,7 +247,7 @@ static BOOL _isAdPresenting;
   if (isSuccess && self.desiredPlacement) {
     [self loadAd];
   } else {
-    [self.connector adapter:self didFailAd:error];
+    [_connector adapter:self didFailAd:error];
   }
 }
 
@@ -251,24 +256,24 @@ static BOOL _isAdPresenting;
     self.bannerState = BannerRouterDelegateStateCached;
     [self connectAdViewToViewController];
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    [self.connector adapterDidReceiveInterstitial:self];
+    [_connector adapterDidReceiveInterstitial:self];
   }
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  [self.connector adapter:self didFailAd:error];
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)willShowAd {
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStatePlaying;
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    [self.connector adapterWillPresentInterstitial:self];
+    [_connector adapterWillPresentInterstitial:self];
   }
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosing;
     if (didDownload) {
@@ -283,7 +288,7 @@ static BOOL _isAdPresenting;
       [strongConnector adapterWillLeaveApplication:self];
     }
     [strongConnector adapterWillDismissInterstitial:self];
-    _isAdPresenting = NO;
+    _isInterstitialAdPresenting = NO;
   }
 }
 
@@ -291,7 +296,7 @@ static BOOL _isAdPresenting;
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosed;
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    [self.connector adapterDidDismissInterstitial:self];
+    [_connector adapterDidDismissInterstitial:self];
   }
 }
 
