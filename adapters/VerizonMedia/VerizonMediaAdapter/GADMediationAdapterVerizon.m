@@ -6,8 +6,9 @@
 
 #import "GADMediationAdapterVerizon.h"
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonConsent_Internal.h"
 #import "GADMAdapterVerizonRewardedAd.h"
+#import "GADMAdapterVerizonUtils.h"
+#import "GADMVerizonConsent_Internal.h"
 
 @implementation GADMediationAdapterVerizon {
   GADMAdapterVerizonRewardedAd *_rewardedAd;
@@ -52,7 +53,7 @@
 
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *siteID = cred.settings[kGADMAdapterVerizonMediaDCN];
-    [siteIDs addObject:siteID];
+    GADMAdapterVerizonMutableSetAddObject(siteIDs, siteID);
   }
 
   if (!siteIDs.count) {
