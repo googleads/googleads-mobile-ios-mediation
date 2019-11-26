@@ -57,10 +57,11 @@
   }
 
   if (!siteIDs.count) {
-    NSString *errorString = @"Verizon media mediation configurations did not contain a valid site ID.";
+    NSString *errorString =
+        @"Verizon media mediation configurations did not contain a valid site ID.";
     NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                                          code:kGADErrorMediationAdapterError
-                                     userInfo:@{ NSLocalizedDescriptionKey : errorString }];
+                                     userInfo:@{NSLocalizedDescriptionKey : errorString}];
     completionHandler(error);
     return;
   }
@@ -69,7 +70,8 @@
 
   if (siteIDs.count != 1) {
     NSLog(@"Found the following site IDs: %@. Please remove any site IDs you are not using from"
-          @"the AdMob/Ad Manager UI.", siteIDs);
+          @"the AdMob/Ad Manager UI.",
+          siteIDs);
     NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
   }
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -112,9 +114,11 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   _rewardedAd = [[GADMAdapterVerizonRewardedAd alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

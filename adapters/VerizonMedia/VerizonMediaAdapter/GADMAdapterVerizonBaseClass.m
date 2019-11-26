@@ -61,9 +61,9 @@
 
   self.interstitialAd = nil;
   self.interstitialAdFactory =
-  [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID
-                                                 vasAds:self.vasAds
-                                               delegate:self];
+      [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID
+                                                     vasAds:self.vasAds
+                                                   delegate:self];
   [self.interstitialAdFactory load:self];
 }
 
@@ -73,13 +73,16 @@
   }
 
   id<GADMAdNetworkConnector> connector = _connector;
-    
+
   CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
   if (CGSizeEqualToSize(adSize, CGSizeZero)) {
-    [connector adapter:self didFailAd:[NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidRequest userInfo:nil]];
+    [connector adapter:self
+             didFailAd:[NSError errorWithDomain:kGADErrorDomain
+                                           code:kGADErrorInvalidRequest
+                                       userInfo:nil]];
     return;
   }
-    
+
   VASInlineAdSize *size = [[VASInlineAdSize alloc] initWithWidth:adSize.width height:adSize.height];
   self.inlineAdFactory = [[VASInlineAdFactory alloc] initWithPlacementId:self.placementID
                                                                  adSizes:@[ size ]
@@ -200,13 +203,13 @@
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-cacheLoadedNumRequested:(NSInteger)numRequested
-            numReceived:(NSInteger)numReceived {
+    cacheLoadedNumRequested:(NSInteger)numRequested
+                numReceived:(NSInteger)numReceived {
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
+    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
@@ -267,9 +270,9 @@ cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
 - (BOOL)prepareAdapterForAdRequest {
   if (!self.placementID || ![self.vasAds isInitialized]) {
     NSError *error = [NSError
-                      errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                      code:kGADErrorMediationAdapterError
-                      userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
+        errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                   code:kGADErrorMediationAdapterError
+               userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
     [_connector adapter:self didFailAd:error];
     return NO;
   }
@@ -326,7 +329,7 @@ cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
 
   // Mediator
   builder.appMediator =
-  [NSString stringWithFormat:@"AdMobVAS-%@", [GADMAdapterVerizonBaseClass adapterVersion]];
+      [NSString stringWithFormat:@"AdMobVAS-%@", [GADMAdapterVerizonBaseClass adapterVersion]];
   id<GADMAdNetworkConnector> strongConnector = _connector;
   // Keywords
   if ([strongConnector userKeywords] != nil && [[strongConnector userKeywords] count] > 0) {
@@ -343,15 +346,14 @@ cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
 
 - (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
   NSArray *potentials = @[
-                          NSValueFromGADAdSize(kGADAdSizeBanner),
-                          NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-                          NSValueFromGADAdSize(kGADAdSizeLeaderboard)
-                          ];
+    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+  ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   if (IsGADAdSizeValid(closestSize)) {
     return CGSizeFromGADAdSize(closestSize);
   }
-    
+
   return CGSizeZero;
 }
 

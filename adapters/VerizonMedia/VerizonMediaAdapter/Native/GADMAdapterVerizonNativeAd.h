@@ -15,7 +15,7 @@
 /// GADMAdNetworkAdapter.
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                               withGADMAdNetworkAdapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-  NS_DESIGNATED_INITIALIZER;
+    NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;

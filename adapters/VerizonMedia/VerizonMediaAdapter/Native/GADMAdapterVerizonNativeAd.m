@@ -9,8 +9,8 @@
 #import <VerizonAdsCore/VerizonAdsCore.h>
 #import <VerizonAdsVerizonNativeController/VerizonAdsVerizonNativeController.h>
 
-#import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonBaseClass.h"
+#import "GADMAdapterVerizonConstants.h"
 
 @interface GADMAdapterVerizonNativeAd () <VASNativeAdFactoryDelegate, VASNativeAdDelegate>
 @end
@@ -50,7 +50,7 @@
 - (void)initializeVASSDK {
   // Position.
   NSDictionary *credentials = [_connector credentials];
-  if(credentials[kGADMAdapterVerizonMediaPosition] != nil) {
+  if (credentials[kGADMAdapterVerizonMediaPosition] != nil) {
     _placementID = credentials[kGADMAdapterVerizonMediaPosition];
   }
 
@@ -60,9 +60,9 @@
     siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
   }
 
-  if(UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
+  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
     VASAds.logLevel = VASLogLevelError;
-    if(![VASAds.sharedInstance isInitialized]) {
+    if (![VASAds.sharedInstance isInitialized]) {
       [VASStandardEdition initializeWithSiteId:siteID];
     }
     _vasAds = [VASAds sharedInstance];
@@ -75,7 +75,7 @@
     return;
   }
   _nativeAdFactory = [[VASNativeAdFactory alloc] initWithPlacementId:_placementID
-                                                             adTypes:@[@"inline"]
+                                                             adTypes:@[ @"inline" ]
                                                               vasAds:_vasAds
                                                             delegate:self];
   [_nativeAdFactory load:self];
@@ -85,9 +85,12 @@
 
 - (BOOL)prepareAdapterForAdRequest {
   if (!_placementID || ![_vasAds isInitialized]) {
-    NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorMediationAdapterError
-                                     userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."}];
+    NSError *error = [NSError
+        errorWithDomain:kGADErrorDomain
+                   code:kGADErrorMediationAdapterError
+               userInfo:@{
+                 NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
+               }];
     [_connector adapter:_adapter didFailAd:error];
     return NO;
   }
@@ -98,10 +101,10 @@
 }
 
 - (void)setRequestInfoFromConnector {
-  //User Settings
+  // User Settings
   [self setUserSettingsFromConnector];
 
-  //COPPA
+  // COPPA
   [self setCoppaFromConnector];
 
   // Location
@@ -119,7 +122,7 @@
   // Keywords.
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if ([strongConnector userKeywords] && [strongConnector userKeywords].count) {
-    builder.userKeywords = [strongConnector userKeywords];;
+    builder.userKeywords = [strongConnector userKeywords];
   }
 
   _vasAds.requestMetadata = [builder build];
@@ -130,43 +133,43 @@
 }
 
 - (NSString *)stringForComponent:(NSString *)componentId {
-    id<VASComponent> component = [_nativeAd component:componentId];
-    if ([component conformsToProtocol:@protocol(VASNativeTextComponent)]) {
-        return ((id<VASNativeTextComponent>)component).text;
-    }
-    return nil;
+  id<VASComponent> component = [_nativeAd component:componentId];
+  if ([component conformsToProtocol:@protocol(VASNativeTextComponent)]) {
+    return ((id<VASNativeTextComponent>)component).text;
+  }
+  return nil;
 }
 
 - (GADNativeAdImage *)imageForComponent:(NSString *)componentId {
-    GADNativeAdImage *GADImage;
-    id<VASComponent> component = [_nativeAd.rootBundle component:componentId];
-    if ([component conformsToProtocol:@protocol(VASNativeImageComponent)]) {
-        UIImageView *imageView = (UIImageView *)((id<VASNativeImageComponent>)component).view;
-        if ([imageView isKindOfClass:[UIImageView class]]) {
-            UIImage *image = imageView.image;
-            if (image) {
-                GADImage = [[GADNativeAdImage alloc] initWithImage:image];
-            }
-        }
+  GADNativeAdImage *GADImage;
+  id<VASComponent> component = [_nativeAd.rootBundle component:componentId];
+  if ([component conformsToProtocol:@protocol(VASNativeImageComponent)]) {
+    UIImageView *imageView = (UIImageView *)((id<VASNativeImageComponent>)component).view;
+    if ([imageView isKindOfClass:[UIImageView class]]) {
+      UIImage *image = imageView.image;
+      if (image) {
+        GADImage = [[GADNativeAdImage alloc] initWithImage:image];
+      }
     }
-    
-    return GADImage;
+  }
+
+  return GADImage;
 }
 
 - (nullable NSString *)headline {
-    return [self stringForComponent:@"title"];
+  return [self stringForComponent:@"title"];
 }
 
 - (nullable NSString *)body {
-    return [self stringForComponent:@"body"];
+  return [self stringForComponent:@"body"];
 }
 
 - (nullable NSString *)callToAction {
-    return [self stringForComponent:@"callToAction"];
+  return [self stringForComponent:@"callToAction"];
 }
 
 - (nullable NSString *)advertiser {
-    return [self stringForComponent:@"disclaimer"];
+  return [self stringForComponent:@"disclaimer"];
 }
 
 - (nullable NSString *)price {
@@ -179,7 +182,7 @@
 
 - (nullable NSArray<GADNativeAdImage *> *)images {
   GADNativeAdImage *mainImage = [self imageForComponent:@"mainImage"];
-  return mainImage ? @[mainImage] :  nil;
+  return mainImage ? @[ mainImage ] : nil;
 }
 
 - (GADNativeAdImage *)icon {
@@ -187,15 +190,15 @@
 }
 
 - (nullable UIView *)mediaView {
-    id<VASViewComponent> videoComponent = (id<VASViewComponent>)[_nativeAd component:@"video"];
-    if ([videoComponent conformsToProtocol:@protocol(VASViewComponent)]) {
-        return videoComponent.view;
-    }
-    return nil;
+  id<VASViewComponent> videoComponent = (id<VASViewComponent>)[_nativeAd component:@"video"];
+  if ([videoComponent conformsToProtocol:@protocol(VASViewComponent)]) {
+    return videoComponent.view;
+  }
+  return nil;
 }
 
 - (BOOL)hasVideoContent {
-    return self.mediaView != nil;
+  return self.mediaView != nil;
 }
 
 - (NSDecimalNumber *)starRating {
@@ -211,28 +214,29 @@
     [scanner setCharactersToBeSkipped:set];
 
     if ([scanner scanInteger:&stars] && [scanner scanInteger:&total]) {
-        return [NSDecimalNumber decimalNumberWithString: [NSString stringWithFormat:@"%ld.%ld", (long)stars, (long)total]];
+      return [NSDecimalNumber
+          decimalNumberWithString:[NSString stringWithFormat:@"%ld.%ld", (long)stars, (long)total]];
     }
   }
   return nil;
 }
 
 - (nullable NSDictionary *)extraAssets {
-    return nil;
+  return nil;
 }
 
 - (void)didRecordImpression {
-    [_nativeAd fireImpression];
+  [_nativeAd fireImpression];
 }
 
 - (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
-    [_nativeAd invokeDefaultAction];
+  [_nativeAd invokeDefaultAction];
 }
 
 - (void)didUntrackView:(nullable UIView *)view {
-    [_nativeAd destroy];
+  [_nativeAd destroy];
 }
 
 - (void)dealloc {
@@ -254,7 +258,7 @@
 - (void)nativeAdDidFail:(nonnull VASNativeAd *)nativeAd
               withError:(nonnull VASErrorInfo *)errorInfo {
   [GADMAdapterVerizonBaseClass.logger
-       error:@"Native Ad did fail with error: %@", [errorInfo localizedDescription]];
+      error:@"Native Ad did fail with error: %@", [errorInfo localizedDescription]];
 }
 
 - (void)nativeAdDidLeaveApplication:(nonnull VASNativeAd *)nativeAd {
@@ -283,12 +287,12 @@
 - (void)nativeAdEvent:(nonnull VASNativeAd *)nativeAd
                source:(nonnull NSString *)source
               eventId:(nonnull NSString *)eventId
-            arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
+            arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
   // Do nothing.
 }
 
 - (nullable UIViewController *)nativeAdPresentingViewController {
-  return [_connector  viewControllerForPresentingModalView];
+  return [_connector viewControllerForPresentingModalView];
 }
 
 - (void)nativeAdClicked:(nonnull VASNativeAd *)nativeAd
@@ -298,15 +302,14 @@
   });
 }
 
-
 - (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
-cacheLoadedNumRequested:(NSUInteger)numRequested
-            numReceived:(NSUInteger)numReceived {
+    cacheLoadedNumRequested:(NSUInteger)numRequested
+                numReceived:(NSUInteger)numReceived {
   // Do nothing.
 }
 
 - (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
-cacheUpdatedWithCacheSize:(NSUInteger)cacheSize {
+    cacheUpdatedWithCacheSize:(NSUInteger)cacheSize {
   // Do nothing.
 }
 

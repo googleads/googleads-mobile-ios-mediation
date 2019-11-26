@@ -5,11 +5,11 @@
 //
 
 #import "GADMAdapterNexage.h"
+#import <VerizonAdsCore/VASAds+Private.h>
+#import <VerizonAdsCore/VASPEXRegistry.h>
+#import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMVerizonConsent_Internal.h"
-#import <VerizonAdsCore/VASPEXRegistry.h>
-#import <VerizonAdsCore/VASAds+Private.h>
-#import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 
 @implementation GADMAdapterNexage
 
