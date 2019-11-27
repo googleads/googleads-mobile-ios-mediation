@@ -228,7 +228,9 @@
     self.bannerState = BannerRouterDelegateStateCached;
     [self connectAdViewToViewController];
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    [_connector adapterDidReceiveInterstitial:self];
+    if (!_isInterstitialAdPresenting) {
+      [_connector adapterDidReceiveInterstitial:self];
+    }
   }
 }
 
