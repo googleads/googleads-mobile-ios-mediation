@@ -250,19 +250,12 @@
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
   id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (didDownload) {
+    [strongConnector adapterDidGetAdClick:self];
+  }
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosing;
-    if (didDownload) {
-      if (strongConnector) {
-        [strongConnector adapterDidGetAdClick:self];
-        [strongConnector adapterWillLeaveApplication:self];
-      }
-    }
   } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    if (didDownload) {
-      [strongConnector adapterDidGetAdClick:self];
-      [strongConnector adapterWillLeaveApplication:self];
-    }
     [strongConnector adapterWillDismissInterstitial:self];
     _isInterstitialAdPresenting = NO;
   }
