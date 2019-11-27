@@ -19,13 +19,13 @@
 
 @implementation GADMAdapterVungleRouter {
   /// Map table to hold the interstitial or rewarded ad delegates with placement ID as a key.
-  NSMapTable<NSString *, id<VungleDelegate>> *_delegates;
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_delegates;
 
   /// Map table to hold the Vungle SDK delegates with placement ID as a key.
-  NSMapTable<NSString *, id<VungleDelegate>> *_initializingDelegates;
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_initializingDelegates;
 
   /// Map table to hold the banner ad delegates with placement ID as a key.
-  NSMapTable<NSString *, id<VungleDelegate>> *_bannerDelegates;
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_bannerDelegates;
 
   /// Indicates whether a banner ad is presenting.
   BOOL _isBannerPresenting;
@@ -60,7 +60,8 @@
   return self;
 }
 
-- (void)initWithAppId:(nonnull NSString *)appId delegate:(nullable id<VungleDelegate>)delegate {
+- (void)initWithAppId:(nonnull NSString *)appId
+             delegate:(nullable id<GADMAdapterVungleDelegate>)delegate {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSString *version = [kGADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
@@ -106,7 +107,7 @@
   return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
 }
 
-- (void)addDelegate:(nonnull id<VungleDelegate>)delegate {
+- (void)addDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
       delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
     @synchronized(_delegates) {
@@ -125,8 +126,8 @@
   }
 }
 
-- (nullable id<VungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement {
-  id<VungleDelegate> delegate;
+- (nullable id<GADMAdapterVungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement {
+  id<GADMAdapterVungleDelegate> delegate;
   if ([placement isEqualToString:_bannerPlacementID]) {
     @synchronized(_bannerDelegates) {
       if ([_bannerDelegates objectForKey:placement]) {
@@ -147,7 +148,7 @@
   return delegate;
 }
 
-- (void)removeDelegate:(nonnull id<VungleDelegate>)delegate {
+- (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
       delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
     @synchronized(_delegates) {
@@ -166,7 +167,7 @@
 
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
                       adapterType:(GADMAdapterVungleAdType)adapterType {
-  NSMapTable<NSString *, id<VungleDelegate>> *delegates;
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
     delegates = [_delegates copy];
   } else {
@@ -174,7 +175,7 @@
   }
 
   for (NSString *key in delegates) {
-    id<VungleDelegate> delegate = [delegates objectForKey:key];
+    id<GADMAdapterVungleDelegate> delegate = [delegates objectForKey:key];
     if (delegate.adapterAdType == adapterType &&
         [delegate.desiredPlacement isEqualToString:placementID]) {
       return YES;
@@ -189,8 +190,8 @@
 }
 
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
-                withDelegate:(nonnull id<VungleDelegate>)delegate {
-  id<VungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
+                withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
+  id<GADMAdapterVungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
@@ -215,7 +216,7 @@
 }
 
 - (BOOL)playAd:(nonnull UIViewController *)viewController
-      delegate:(nonnull id<VungleDelegate>)delegate
+      delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
         extras:(nullable VungleAdNetworkExtras *)extras {
   if (!delegate || !delegate.desiredPlacement ||
       ![[VungleSDK sharedSDK] isAdCachedForPlacementID:delegate.desiredPlacement]) {
@@ -245,7 +246,7 @@
 }
 
 - (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
-                                 delegate:(nonnull id<VungleDelegate>)delegate
+                                 delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
                                    extras:(nullable VungleAdNetworkExtras *)extras
                            forPlacementID:(nonnull NSString *)placementID {
   NSError *bannerError = nil;
@@ -286,9 +287,9 @@
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   _isInitializing = NO;
-  NSMapTable<NSString *, id<VungleDelegate>> *delegates = [_initializingDelegates copy];
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *delegates = [_initializingDelegates copy];
   for (NSString *key in delegates) {
-    id<VungleDelegate> delegate = [delegates objectForKey:key];
+    id<GADMAdapterVungleDelegate> delegate = [delegates objectForKey:key];
     [delegate initialized:isSuccess error:error];
   }
 
@@ -301,7 +302,7 @@
   if (!placementID.length) {
     return;
   }
-  id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
     [delegate willShowAd];
   }
@@ -315,7 +316,7 @@
 
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                           placementID:(nonnull NSString *)placementID {
-  id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
     [delegate willCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
   }
@@ -323,7 +324,7 @@
 
 - (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                          placementID:(nonnull NSString *)placementID {
-  id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (delegate) {
     [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
     [self removeDelegate:delegate];
@@ -333,7 +334,7 @@
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
                       placementID:(nullable NSString *)placementID
                             error:(nullable NSError *)error {
-  id<VungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
   if (!delegate) {
     return;
   }

@@ -18,7 +18,7 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMAdapterVungleRewardedAd () <VungleDelegate>
+@interface GADMAdapterVungleRewardedAd () <GADMAdapterVungleDelegate>
 @end
 
 @implementation GADMAdapterVungleRewardedAd {
