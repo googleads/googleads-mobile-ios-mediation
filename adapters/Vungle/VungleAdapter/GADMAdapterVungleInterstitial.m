@@ -175,7 +175,9 @@
   if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
                                                delegate:self
                                                  extras:[strongConnector networkExtras]]) {
+    [strongConnector adapterWillPresentInterstitial:self];
     [strongConnector adapterDidDismissInterstitial:self];
+    return;
   }
   _isInterstitialAdPresenting = YES;
 }
