@@ -73,7 +73,6 @@
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
                                                                   @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
     return;
   }
 
@@ -84,7 +83,6 @@
         kGADErrorMediationAdapterError,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
     _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
     return;
   }
 
@@ -120,7 +118,6 @@
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"Adapter failed to present rewarded ad.");
     _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
   }
 }
 
@@ -139,7 +136,6 @@
     [self loadRewardedAd];
   } else {
     _adLoadCompletionHandler(nil, error);
-    _adLoadCompletionHandler = nil;
   }
 }
 
@@ -147,7 +143,6 @@
   if (!_isRewardedAdPresenting) {
     if (_adLoadCompletionHandler) {
       _delegate = _adLoadCompletionHandler(self, nil);
-      _adLoadCompletionHandler = nil;
     }
 
     if (!_delegate) {
@@ -189,7 +184,6 @@
 
 - (void)adNotAvailable:(nonnull NSError *)error {
   _adLoadCompletionHandler(nil, error);
-  _adLoadCompletionHandler = nil;
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
