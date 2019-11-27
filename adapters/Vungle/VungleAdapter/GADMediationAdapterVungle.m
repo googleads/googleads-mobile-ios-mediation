@@ -34,13 +34,9 @@
   }
 
   if (!applicationIDs.count) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterVungleErrorDomain
-                   code:kGADErrorMediationDataError
-               userInfo:@{
-                 NSLocalizedDescriptionKey :
-                     @"Vungle mediation configurations did not contain a valid application ID."
-               }];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        kGADErrorMediationDataError,
+        @"Vungle mediation configurations did not contain a valid application ID.");
     completionHandler(error);
     return;
   }

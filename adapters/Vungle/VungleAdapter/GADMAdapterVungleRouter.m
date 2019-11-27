@@ -192,12 +192,8 @@
                 withDelegate:(nonnull id<VungleDelegate>)delegate {
   id<VungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
-    NSError *error = [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                                         code:0
-                                     userInfo:@{
-                                       NSLocalizedDescriptionKey :
-                                           @"Can't request ad if another request is in processing."
-                                     }];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
     return error;
   } else {
     [self addDelegate:delegate];

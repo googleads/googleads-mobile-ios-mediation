@@ -34,6 +34,12 @@ void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
   }
 }
 
+NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
+                                                               NSString *_Nonnull description) {
+  NSDictionary<NSString *, NSString *> *userInfo = @{NSLocalizedDescriptionKey : description};
+  return [NSError errorWithDomain:kGADMAdapterVungleErrorDomain code:code userInfo:userInfo];
+}
+
 @implementation GADMAdapterVungleUtils
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {

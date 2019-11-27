@@ -62,29 +62,21 @@
   NSArray *potentials = @[ NSValueFromGADAdSize(kGADAdSizeMediumRectangle) ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   // Check if given banner size is in MREC.
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   if (!IsGADAdSizeValid(closestSize)) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterVungleErrorDomain
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Vungle only supports banner ad size in 300 x 250."
-               }];
-    [_connector adapter:self didFailAd:error];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        kGADErrorMediationInvalidAdSize, @"Vungle only supports banner ad size in 300 x 250.");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
-  id<GADMAdNetworkConnector> strongConnector = _connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
 
   if (!self.desiredPlacement) {
-    [strongConnector
-          adapter:self
-        didFailAd:[NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                                      code:0
-                                  userInfo:@{
-                                    NSLocalizedDescriptionKey : @"'placementID' not specified"
-                                  }]];
+    [strongConnector adapter:self
+                   didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
+                                 kGADErrorMediationDataError, @"Placement ID not specified.")];
     return;
   }
 
@@ -92,15 +84,11 @@
   // or not. (Vungle supports only one banner currently.)
   if (![[GADMAdapterVungleRouter sharedInstance]
           canRequestBannerAdForPlacementID:self.desiredPlacement]) {
-    NSError *error =
-        [NSError errorWithDomain:@"google"
-                            code:0
-                        userInfo:@{
-                          NSLocalizedDescriptionKey : @"A banner ad type has been already "
-                                                      @"instantiated. Multiple banner ads are not "
-                                                      @"supported with Vungle iOS SDK."
-                        }];
-    [_connector adapter:self didFailAd:error];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        kGADErrorMediationAdapterError, @"A banner ad type has already been "
+                                        @"instantiated. Multiple banner ads are not "
+                                        @"supported with Vungle iOS SDK.");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -112,10 +100,8 @@
       GADMAdapterVungleInterstitial *__weak weakSelf = self;
       [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
     } else {
-      NSError *error =
-          [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                              code:0
-                          userInfo:@{NSLocalizedDescriptionKey : @"Vungle app ID not specified!"}];
+      NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+          kGADErrorMediationDataError, @"Vungle app ID not specified.");
       [strongConnector adapter:self didFailAd:error];
     }
   } else {
@@ -131,13 +117,9 @@
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement) {
-    [strongConnector
-          adapter:self
-        didFailAd:[NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                                      code:0
-                                  userInfo:@{
-                                    NSLocalizedDescriptionKey : @"'placementID' not specified"
-                                  }]];
+    [strongConnector adapter:self
+                   didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
+                                 kGADErrorMediationDataError, @"Placement ID not specified.")];
     return;
   }
 
@@ -145,15 +127,10 @@
   if ([[GADMAdapterVungleRouter sharedInstance]
           hasDelegateForPlacementID:self.desiredPlacement
                         adapterType:GADMAdapterVungleAdTypeInterstitial]) {
-    NSError *error = [NSError
-        errorWithDomain:@"GADMAdapterVungleInterstitial"
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Vungle SDK does not support multiple concurrent ads "
-                                             @"load for Interstitial ad type."
-               }];
-
-    [_connector adapter:self didFailAd:error];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        kGADErrorInvalidRequest,
+        @"Only a maximum of one ad per placement can be requested from Vungle.");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -163,10 +140,8 @@
       GADMAdapterVungleInterstitial *__weak weakSelf = self;
       [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
     } else {
-      NSError *error =
-          [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
-                              code:0
-                          userInfo:@{NSLocalizedDescriptionKey : @"Vungle app ID not specified!"}];
+      NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+          kGADErrorMediationDataError, @"Vungle app ID not specified.");
       [strongConnector adapter:self didFailAd:error];
     }
   } else {
@@ -228,12 +203,9 @@
     self.bannerState = BannerRouterDelegateStatePlaying;
     [_connector adapter:self didReceiveAdView:mrecAdView];
   } else {
-    [_connector
-          adapter:self
-        didFailAd:[NSError
-                      errorWithDomain:kGADMAdapterVungleErrorDomain
-                                 code:0
-                             userInfo:@{NSLocalizedDescriptionKey : @"Error in creating adView"}]];
+    [_connector adapter:self
+              didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+                                                                     @"Error in creating adView")];
   }
 }
 
