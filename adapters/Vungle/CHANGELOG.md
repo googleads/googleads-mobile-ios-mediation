@@ -1,5 +1,15 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.4.6.0
+- Verified compatibility with Vungle SDK 6.4.6.
+- Added support for banner (MREC) ads.
+- Fixed a bug where didReceiveInterstitial: callback is called more than once.
+- Removed callbacks to adapterWillLeaveApplication, which were previously not invoked at the correct time.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.52.0
+- Vungle SDK version 6.4.6.
+
 #### Version 6.3.2.3
 - Fixed a crash in [GADMAdapterVungleRewardedAd adAvailable:].
 
