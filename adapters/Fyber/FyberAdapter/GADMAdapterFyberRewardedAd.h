@@ -13,8 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Mediation network adapter for Fyber.
-@interface GADMediationAdapterFyber : NSObject
+/// Rewarded mediation network adapter for Fyber.
+@interface GADMAdapterFyberRewardedAd : NSObject
+
+/// Dedicated initializer to create a new instance of a rewarded ad.
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads a rewarded ad from the Fyber SDK.
+- (void)loadRewardedAd;
 
 @end
