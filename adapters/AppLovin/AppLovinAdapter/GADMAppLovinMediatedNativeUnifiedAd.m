@@ -24,24 +24,17 @@
   UIImageView *_mainImageView;
 }
 
-- (nonnull instancetype)initWithNativeAd:(nonnull ALNativeAd *)nativeAd {
+- (nonnull instancetype)initWithNativeAd:(nonnull ALNativeAd *)nativeAd
+                               mainImage:(nonnull UIImage *)mainImage
+                               iconImage:(nonnull UIImage *)iconImage {
   self = [super init];
   if (self) {
     _nativeAd = nativeAd;
-    [self loadImages];
+    _mainImageView = [[UIImageView alloc] initWithImage:mainImage];
+    _nativeAdImages = @[ [[GADNativeAdImage alloc] initWithImage:mainImage] ];
+    _nativeAdIcon = [[GADNativeAdImage alloc] initWithImage:iconImage];
   }
   return self;
-}
-
-- (void)loadImages {
-  UIImage *downloadedImage =
-      [UIImage imageWithData:[NSData dataWithContentsOfURL:_nativeAd.imageURL]];
-  GADNativeAdImage *image = [[GADNativeAdImage alloc] initWithImage:downloadedImage];
-  _nativeAdImages = @[ image ];
-  UIImage *downloadedIcon =
-      [UIImage imageWithData:[NSData dataWithContentsOfURL:_nativeAd.iconURL]];
-  _nativeAdIcon = [[GADNativeAdImage alloc] initWithImage:downloadedIcon];
-  _mainImageView = [[UIImageView alloc] initWithImage:downloadedImage];
 }
 
 - (nullable NSString *)headline {
