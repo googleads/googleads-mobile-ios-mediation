@@ -16,3 +16,6 @@
 
 /// Safely adds |object| to |set| if |object| is not nil.
 void GADMAdapterVerizonMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Initializes Verizon Media SDK with the provided site ID.
+BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID);

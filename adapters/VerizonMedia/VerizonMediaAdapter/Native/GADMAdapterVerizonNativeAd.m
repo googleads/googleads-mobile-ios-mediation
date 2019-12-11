@@ -11,6 +11,7 @@
 
 #import "GADMAdapterVerizonBaseClass.h"
 #import "GADMAdapterVerizonConstants.h"
+#import "GADMAdapterVerizonUtils.h"
 
 @interface GADMAdapterVerizonNativeAd () <VASNativeAdFactoryDelegate, VASNativeAdDelegate>
 @end
@@ -41,32 +42,15 @@
   if (self) {
     _connector = connector;
     _adapter = adapter;
-    [self initializeVASSDK];
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[kGADMAdapterVerizonMediaPosition]) {
+      _placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
   return self;
-}
-
-- (void)initializeVASSDK {
-  // Position.
-  NSDictionary *credentials = [_connector credentials];
-  if (credentials[kGADMAdapterVerizonMediaPosition] != nil) {
-    _placementID = credentials[kGADMAdapterVerizonMediaPosition];
-  }
-
-  // Site ID.
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-  if (!siteID.length) {
-    siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
-  }
-
-  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-    if (![VASAds.sharedInstance isInitialized]) {
-      [VASStandardEdition initializeWithSiteId:siteID];
-    }
-    _vasAds = [VASAds sharedInstance];
-  }
 }
 
 - (void)loadNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes

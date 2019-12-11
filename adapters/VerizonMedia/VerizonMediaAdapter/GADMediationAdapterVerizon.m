@@ -17,32 +17,14 @@
 - (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   self = [super initWithGADMAdNetworkConnector:connector];
   if (self) {
-    [self initializeVASAds];
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[kGADMAdapterVerizonMediaPosition]) {
+      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
   return self;
-}
-
-- (void)initializeVASAds {
-  // Position.
-  NSDictionary *credentials = [self.connector credentials];
-  if (credentials[kGADMAdapterVerizonMediaPosition]) {
-    self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
-  }
-
-  if (![VASAds.sharedInstance isInitialized]) {
-    // Site ID.
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-    if (!siteID.length) {
-      siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
-    }
-    [VASStandardEdition initializeWithSiteId:siteID];
-  }
-
-  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-    self.vasAds = VASAds.sharedInstance;
-    [GADMVerizonConsent.sharedInstance updateConsentInfo];
-  }
 }
 
 #pragma mark - GADMediationAdapter

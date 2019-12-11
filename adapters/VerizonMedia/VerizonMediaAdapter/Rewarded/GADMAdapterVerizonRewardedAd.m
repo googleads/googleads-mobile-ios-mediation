@@ -11,6 +11,7 @@
 
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMVerizonConsent_Internal.h"
+#import "GADMAdapterVerizonUtils.h"
 
 NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
@@ -43,33 +44,17 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   BOOL _isVideoCompletionEventCalled;
 }
 
-- (void)initializeVASSDK {
-  NSDictionary *settings = _adConfiguration.credentials.settings;
-  if (settings[kGADMAdapterVerizonMediaPosition]) {
-    _placementID = settings[kGADMAdapterVerizonMediaPosition];
-  }
-
-  NSString *siteId = settings[kGADMAdapterVerizonMediaDCN];
-  if (!siteId.length) {
-    siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
-  }
-
-  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-    if (![VASAds.sharedInstance isInitialized]) {
-      [VASStandardEdition initializeWithSiteId:siteId];
-    }
-    _vasAds = [VASAds sharedInstance];
-    [GADMVerizonConsent.sharedInstance updateConsentInfo];
-  }
-}
-
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)handler {
   _adConfiguration = adConfig;
   if (!_vasAds) {
-    [self initializeVASSDK];
+    NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
+    if (credentials[kGADMAdapterVerizonMediaPosition]) {
+      _placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
   if (!_placementID || ![_vasAds isInitialized]) {
