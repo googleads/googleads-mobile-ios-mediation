@@ -15,22 +15,23 @@
 #import <Foundation/Foundation.h>
 
 /// Verizon Media mediation network adapter version.
-static NSString *const kGADMAdapterVerizonMediaVersion = @"1.2.1.0";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaVersion = @"1.2.1.0";
 
 /// Verizon Media mediation adapter error domain.
-static NSString *const kGADMAdapterVerizonMediaErrorDomain = @"com.google.mediation.verizonmedia";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaErrorDomain =
+    @"com.google.mediation.verizonmedia";
 
 /// Verizon Media mediation adapter legacy position server parameter key.
-static NSString *const kGADNexagePosition = @"position";
+static NSString *const _Nonnull kGADNexagePosition = @"position";
 
 /// Verizon Media mediation adapter legacy dcn server parameter key.
-static NSString *const kGADNexageDCN = @"dcn";
+static NSString *const _Nonnull kGADNexageDCN = @"dcn";
 
 /// Verizon Media mediation adapter position server parameter key.
-static NSString *const kGADMAdapterVerizonMediaPosition = @"placement_id";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaPosition = @"placement_id";
 
 /// Verizon Media mediation adapter dcn server parameter key.
-static NSString *const kGADMAdapterVerizonMediaDCN = @"site_id";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaDCN = @"site_id";
 
 /// Verizon Media mediation adapter site ID key.
-static NSString *const kGADMAdapterVerizonMediaSiteID = @"VerizonSiteID";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaSiteID = @"VerizonSiteID";

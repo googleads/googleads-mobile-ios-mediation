@@ -22,7 +22,7 @@
 
 #pragma mark - Logger
 
-+ (VASLogger *)logger {
++ (nonnull VASLogger *)logger {
   static VASLogger *_logger = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -33,7 +33,7 @@
 
 #pragma mark - GADMAdNetworkAdapter
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return Nil;
 }
 
@@ -113,16 +113,16 @@
 
 #pragma mark - VASInterstitialAdFactoryDelegate
 
-- (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory
-        didLoadInterstitialAd:(VASInterstitialAd *)interstitialAd {
+- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
+        didLoadInterstitialAd:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.interstitialAd = interstitialAd;
     [self.connector adapterDidReceiveInterstitial:self];
   });
 }
 
-- (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory
-             didFailWithError:(VASErrorInfo *)errorInfo {
+- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
+             didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapter:self didFailAd:errorInfo];
   });
@@ -139,48 +139,48 @@
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
-- (void)interstitialAdFactory:(VASInterstitialAdFactory *)adFactory
+- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
       cacheLoadedNumRequested:(NSInteger)numRequested {
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 #pragma mark - VASInterstitialAdDelegate
 
-- (void)interstitialAdDidShow:(VASInterstitialAd *)interstitialAd {
+- (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterWillPresentInterstitial:self];
   });
 }
 
-- (void)interstitialAdDidFail:(VASInterstitialAd *)interstitialAd
-                    withError:(VASErrorInfo *)errorInfo {
+- (void)interstitialAdDidFail:(nonnull VASInterstitialAd *)interstitialAd
+                    withError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
-- (void)interstitialAdDidClose:(VASInterstitialAd *)interstitialAd {
+- (void)interstitialAdDidClose:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterDidDismissInterstitial:self];
   });
 }
 
-- (void)interstitialAdDidLeaveApplication:(VASInterstitialAd *)interstitialAd {
+- (void)interstitialAdDidLeaveApplication:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterWillLeaveApplication:self];
   });
 }
 
-- (void)interstitialAdClicked:(VASInterstitialAd *)interstitialAd {
+- (void)interstitialAdClicked:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterDidGetAdClick:self];
   });
 }
 
-- (void)interstitialAdEvent:(VASInterstitialAd *)interstitialAd
-                     source:(NSString *)source
-                    eventId:(NSString *)eventId
-                  arguments:(NSDictionary<NSString *, id> *)arguments {
+- (void)interstitialAdEvent:(nonnull VASInterstitialAd *)interstitialAd
+                     source:(nonnull NSString *)source
+                    eventId:(nonnull NSString *)eventId
+                  arguments:(nullable NSDictionary<NSString *, id> *)arguments {
   // A generic callback that does currently need an implementation for interstitial placements.
 }
 
@@ -215,31 +215,32 @@
 
 #pragma mark - VASInlineAdViewDelegate
 
-- (void)inlineAdDidFail:(VASInlineAdView *)inlineAd withError:(VASErrorInfo *)errorInfo {
+- (void)inlineAdDidFail:(nonnull VASInlineAdView *)inlineAd
+              withError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapter:self didFailAd:errorInfo];
   });
 }
 
-- (void)inlineAdDidExpand:(VASInlineAdView *)inlineAd {
+- (void)inlineAdDidExpand:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterWillPresentFullScreenModal:self];
   });
 }
 
-- (void)inlineAdDidCollapse:(VASInlineAdView *)inlineAd {
+- (void)inlineAdDidCollapse:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterDidDismissFullScreenModal:self];
   });
 }
 
-- (void)inlineAdClicked:(VASInlineAdView *)inlineAd {
+- (void)inlineAdClicked:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterDidGetAdClick:self];
   });
 }
 
-- (void)inlineAdDidLeaveApplication:(VASInlineAdView *)inlineAd {
+- (void)inlineAdDidLeaveApplication:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.connector adapterWillLeaveApplication:self];
   });
