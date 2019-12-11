@@ -17,9 +17,7 @@
 @property(nonatomic, strong, nullable) VASInlineAdView *inlineAd;
 @property(nonatomic, strong, nullable) VASInterstitialAdFactory *interstitialAdFactory;
 @property(nonatomic, strong, nullable) VASInterstitialAd *interstitialAd;
-@property(nonatomic, strong, nullable) VASAds *vasAds;
 @property(nonatomic, strong, nullable) NSString *placementID;
-@property(nonatomic, weak, readonly, nullable) id<GADMAdNetworkConnector> connector;
 + (nonnull VASLogger *)logger;
 
 @end

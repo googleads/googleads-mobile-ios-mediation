@@ -18,6 +18,9 @@
 @implementation GADMAdapterVerizonBaseClass {
   /// Verizon media native ad mapper.
   GADMAdapterVerizonNativeAd *_nativeAd;
+
+  /// Connector from the Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 }
 
 #pragma mark - Logger
@@ -62,7 +65,7 @@
   self.interstitialAd = nil;
   self.interstitialAdFactory =
       [[VASInterstitialAdFactory alloc] initWithPlacementId:self.placementID
-                                                     vasAds:self.vasAds
+                                                     vasAds:VASAds.sharedInstance
                                                    delegate:self];
   [self.interstitialAdFactory load:self];
 }
@@ -117,14 +120,14 @@
         didLoadInterstitialAd:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.interstitialAd = interstitialAd;
-    [self.connector adapterDidReceiveInterstitial:self];
+    [self->_connector adapterDidReceiveInterstitial:self];
   });
 }
 
 - (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
              didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapter:self didFailAd:errorInfo];
+    [self->_connector adapter:self didFailAd:errorInfo];
   });
 }
 
@@ -148,32 +151,32 @@
 
 - (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterWillPresentInterstitial:self];
+    [self->_connector adapterWillPresentInterstitial:self];
   });
 }
 
 - (void)interstitialAdDidFail:(nonnull VASInterstitialAd *)interstitialAd
                     withError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapter:self didFailAd:errorInfo];
+    [self->_connector adapter:self didFailAd:errorInfo];
   });
 }
 
 - (void)interstitialAdDidClose:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterDidDismissInterstitial:self];
+    [self->_connector adapterDidDismissInterstitial:self];
   });
 }
 
 - (void)interstitialAdDidLeaveApplication:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterWillLeaveApplication:self];
+    [self->_connector adapterWillLeaveApplication:self];
   });
 }
 
 - (void)interstitialAdClicked:(nonnull VASInterstitialAd *)interstitialAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterDidGetAdClick:self];
+    [self->_connector adapterDidGetAdClick:self];
   });
 }
 
@@ -189,7 +192,7 @@
 - (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
        didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapter:self didFailAd:errorInfo];
+    [self->_connector adapter:self didFailAd:errorInfo];
   });
 }
 
@@ -198,7 +201,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     self.inlineAd = inlineAd;
     self.inlineAd.frame = CGRectMake(0, 0, inlineAd.adSize.width, inlineAd.adSize.height);
-    [self.connector adapter:self didReceiveAdView:self.inlineAd];
+    [self->_connector adapter:self didReceiveAdView:self.inlineAd];
   });
 }
 
@@ -218,36 +221,36 @@
 - (void)inlineAdDidFail:(nonnull VASInlineAdView *)inlineAd
               withError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapter:self didFailAd:errorInfo];
+    [self->_connector adapter:self didFailAd:errorInfo];
   });
 }
 
 - (void)inlineAdDidExpand:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterWillPresentFullScreenModal:self];
+    [self->_connector adapterWillPresentFullScreenModal:self];
   });
 }
 
 - (void)inlineAdDidCollapse:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterDidDismissFullScreenModal:self];
+    [self->_connector adapterDidDismissFullScreenModal:self];
   });
 }
 
 - (void)inlineAdClicked:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterDidGetAdClick:self];
+    [self->_connector adapterDidGetAdClick:self];
   });
 }
 
 - (void)inlineAdDidLeaveApplication:(nonnull VASInlineAdView *)inlineAd {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.connector adapterWillLeaveApplication:self];
+    [self->_connector adapterWillLeaveApplication:self];
   });
 }
 
 - (nullable UIViewController *)adPresentingViewController {
-  return [self.connector viewControllerForPresentingModalView];
+  return [_connector viewControllerForPresentingModalView];
 }
 
 - (void)inlineAdDidRefresh:(nonnull VASInlineAdView *)inlineAd {
@@ -269,7 +272,7 @@
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!self.placementID || ![self.vasAds isInitialized]) {
+  if (!self.placementID || ![VASAds.sharedInstance isInitialized]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                    code:kGADErrorMediationAdapterError
@@ -321,7 +324,7 @@
 
   // Location
   if (_connector.userHasLocation) {
-    self.vasAds.locationEnabled = YES;
+    VASAds.sharedInstance.locationEnabled = YES;
   }
 }
 
@@ -338,11 +341,11 @@
     ;
   }
 
-  self.vasAds.requestMetadata = [builder build];
+  VASAds.sharedInstance.requestMetadata = [builder build];
 }
 
 - (void)setCoppaFromConnector {
-  self.vasAds.COPPA = [_connector childDirectedTreatment];
+  VASAds.sharedInstance.COPPA = [_connector childDirectedTreatment];
 }
 
 - (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
