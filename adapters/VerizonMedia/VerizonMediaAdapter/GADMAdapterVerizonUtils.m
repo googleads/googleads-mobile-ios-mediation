@@ -20,7 +20,7 @@
 #import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonConsent_Internal.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 void GADMAdapterVerizonMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
@@ -37,7 +37,7 @@ BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID) {
   }
 
   VASAds.logLevel = VASLogLevelError;
-  [GADMVerizonConsent.sharedInstance updateConsentInfo];
+  [GADMVerizonPrivacy.sharedInstance updatePrivacyData];
 
   return YES;
 }

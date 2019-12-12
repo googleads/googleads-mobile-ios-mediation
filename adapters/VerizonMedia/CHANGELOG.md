@@ -1,5 +1,9 @@
 ## Verizon Media iOS Mediation Adapter Changelog
 
+#### Version 1.3.0.0
+- Added support for Verizon Ads Standard Edition 1.3.0
+- Moved customTargeting and keywords to extras in RequestMetadata
+
 #### Version 1.2.1.0
 - Added support for Verizon Ads Standard Edition 1.2.1
 - Added support for native ads

@@ -31,9 +31,6 @@
 
   /// Placement ID string used to request ads from Verizon Ads SDK.
   NSString *_placementID;
-
-  /// A shared instance of the Verizon media core SDK.
-  VASAds *_vasAds;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -60,7 +57,7 @@
   }
   _nativeAdFactory = [[VASNativeAdFactory alloc] initWithPlacementId:_placementID
                                                              adTypes:@[ @"inline" ]
-                                                              vasAds:_vasAds
+                                                              vasAds:[VASAds sharedInstance]
                                                             delegate:self];
   [_nativeAdFactory load:self];
 }
@@ -68,7 +65,7 @@
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!_placementID || ![_vasAds isInitialized]) {
+  if (!_placementID || ![[VASAds sharedInstance] isInitialized]) {
     NSError *error = [NSError
         errorWithDomain:kGADErrorDomain
                    code:kGADErrorMediationAdapterError
@@ -93,7 +90,7 @@
 
   // Location
   if (_connector.userHasLocation) {
-    _vasAds.locationEnabled = YES;
+    [VASAds sharedInstance].locationEnabled = YES;
   }
 }
 
@@ -101,7 +98,7 @@
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator
-  builder.appMediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
 
   // Keywords.
   id<GADMAdNetworkConnector> strongConnector = _connector;
@@ -109,11 +106,11 @@
     builder.userKeywords = [strongConnector userKeywords];
   }
 
-  _vasAds.requestMetadata = [builder build];
+  [VASAds sharedInstance].requestMetadata = [builder build];
 }
 
 - (void)setCoppaFromConnector {
-  _vasAds.COPPA = [_connector childDirectedTreatment];
+  [VASAds sharedInstance].COPPA = [_connector childDirectedTreatment];
 }
 
 - (NSString *)stringForComponent:(NSString *)componentId {

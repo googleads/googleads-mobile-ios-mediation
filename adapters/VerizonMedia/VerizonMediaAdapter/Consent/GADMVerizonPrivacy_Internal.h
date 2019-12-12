@@ -13,13 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "GADMVerizonConsent.h"
+#import "GADMVerizonPrivacy.h"
 
-@interface GADMVerizonConsent (Internal)
+@interface GADMVerizonPrivacy (Internal)
 
 /**
- * Updates the consent info to be forwarded to the Verizon Ads SDK.
+ * Updates the privacy data to be forwarded to the Verizon Ads SDK.
  */
-- (void)updateConsentInfo;
+- (void)updatePrivacyData;
 
 @end
