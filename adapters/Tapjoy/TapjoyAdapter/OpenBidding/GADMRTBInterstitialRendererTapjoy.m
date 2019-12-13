@@ -26,8 +26,9 @@
 @implementation GADMRTBInterstitialRendererTapjoy
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderInterstitialForAdConfig:(GADMediationInterstitialAdConfiguration *)adConfig
-                    completionHandler:(GADMediationInterstitialLoadCompletionHandler)handler {
+- (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
+                    completionHandler:
+                        (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   _renderCompletionHandler = handler;
   _adConfig = adConfig;
   _placementName = adConfig.credentials.settings[kGADMAdapterTapjoyPlacementKey];
@@ -77,13 +78,13 @@
 
 #pragma mark GADMediationInterstitialAd
 
-- (void)presentFromViewController:(UIViewController *)viewController {
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_interstitialAd isContentAvailable])
     [_interstitialAd showContentWithViewController:viewController];
 }
 
 #pragma mark TajoyPlacementDelegate methods
-- (void)requestDidSucceed:(TJPlacement *)placement {
+- (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   if (!placement.isContentAvailable) {
     NSError *adapterError = [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
                                                 code:0
@@ -92,21 +93,21 @@
   }
 }
 
-- (void)requestDidFail:(TJPlacement *)placement error:(NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
   self.renderCompletionHandler(nil, error);
 }
 
-- (void)contentIsReady:(TJPlacement *)placement {
+- (void)contentIsReady:(nonnull TJPlacement *)placement {
   self.delegate = self.renderCompletionHandler(self, nil);
 }
 
-- (void)contentDidAppear:(TJPlacement *)placement {
+- (void)contentDidAppear:(nonnull TJPlacement *)placement {
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
   [strongDelegate willPresentFullScreenView];
   [strongDelegate reportImpression];
 }
 
-- (void)contentDidDisappear:(TJPlacement *)placement {
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
   [strongDelegate willDismissFullScreenView];
   [strongDelegate didDismissFullScreenView];

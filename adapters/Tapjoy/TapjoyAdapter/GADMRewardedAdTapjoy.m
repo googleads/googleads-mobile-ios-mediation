@@ -34,9 +34,10 @@
 
 @implementation GADMRewardedAdTapjoy
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _adConfig = adConfiguration;
   _completionHandler = completionHandler;
   _sdkKey = adConfiguration.credentials.settings[kGADMAdapterTapjoySdkKey];
@@ -98,11 +99,11 @@
 }
 
 #pragma mark - TJPlacementDelegate methods
-- (void)requestDidSucceed:(TJPlacement *)placement {
+- (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   // Do nothing. contentIsReady: indicates that an ad has loaded.
 }
 
-- (void)requestDidFail:(TJPlacement *)placement error:(NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
   NSError *adapterError =
       [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
                           code:0
@@ -110,30 +111,30 @@
   _completionHandler(nil, adapterError);
 }
 
-- (void)contentIsReady:(TJPlacement *)placement {
+- (void)contentIsReady:(nonnull TJPlacement *)placement {
   _adEventDelegate = _completionHandler(self, nil);
 }
 
-- (void)contentDidAppear:(TJPlacement *)placement {
+- (void)contentDidAppear:(nonnull TJPlacement *)placement {
   [_adEventDelegate willPresentFullScreenView];
 }
 
-- (void)contentDidDisappear:(TJPlacement *)placement {
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)didClick:(TJPlacement*)placement {
+- (void)didClick:(nonnull TJPlacement *)placement {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate reportClick];
   [strongDelegate willDismissFullScreenView];
 }
 
 #pragma mark Tapjoy Video
-- (void)videoDidStart:(TJPlacement *)placement {
+- (void)videoDidStart:(nonnull TJPlacement *)placement {
   [_adEventDelegate didStartVideo];
 }
 
-- (void)videoDidComplete:(TJPlacement *)placement {
+- (void)videoDidComplete:(nonnull TJPlacement *)placement {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate didEndVideo];
   // Tapjoy only supports fixed rewards and doesn't provide a reward type or amount.
@@ -142,7 +143,7 @@
   [strongDelegate didRewardUserWithReward:reward];
 }
 
-- (void)videoDidFail:(TJPlacement *)placement error:(NSString *)errorMsg {
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   NSError *adapterError =
       [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
                           code:0
