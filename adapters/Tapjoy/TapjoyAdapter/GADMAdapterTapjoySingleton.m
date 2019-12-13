@@ -17,15 +17,16 @@
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoyUtils.h"
 
-@interface GADMAdapterTapjoySingleton ()
+@implementation GADMAdapterTapjoySingleton {
+  /// Map table to hold the interstitial and rewarded ad delegates with placement name as key.
+  NSMapTable<NSString *, id<TJPlacementDelegate, TJPlacementVideoDelegate>> *_adapterDelegates;
 
-@property(nonatomic)
-    NSMapTable<NSString *, id<TJPlacementDelegate, TJPlacementVideoDelegate>> *adapterDelegates;
-@property(nonatomic) NSMutableArray<TapjoyInitCompletionHandler> *completionHandlers;
-@property(nonatomic) TapjoyInitState initState;
+  /// Array to hold the Tapjoy SDK initialization delegates.
+  NSMutableArray<TapjoyInitCompletionHandler> *_completionHandlers;
 
-@end
-@implementation GADMAdapterTapjoySingleton
+  /// Tapjoy SDK initialization state.
+  TapjoyInitState _initState;
+}
 
 + (nonnull instancetype)sharedInstance {
   static GADMAdapterTapjoySingleton *sharedMyManager = nil;
@@ -38,10 +39,10 @@
 
 - (nonnull instancetype)init {
   if (self = [super init]) {
-    self.adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                  valueOptions:NSPointerFunctionsWeakMemory];
-    self.completionHandlers = [[NSMutableArray alloc] init];
-    self.initState = UNINITIALIZED;
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                              valueOptions:NSPointerFunctionsWeakMemory];
+    _completionHandlers = [[NSMutableArray alloc] init];
+    _initState = UNINITIALIZED;
   }
   return self;
 }
@@ -53,11 +54,11 @@
     completionHandler(nil);
     return;
   } else if (_initState == INITIALIZING) {
-    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
+    GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
     return;
   } else if (_initState == UNINITIALIZED) {
     [self setupListeners];
-    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
+    GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
     [Tapjoy connect:sdkKey options:options];
     _initState = INITIALIZING;
   }
@@ -144,22 +145,21 @@
 }
 
 - (void)addDelegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
-    forPlacementName:(nonnull NSString *)placementName;
-{
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:delegate forKey:placementName];
+    forPlacementName:(nonnull NSString *)placementName {
+  @synchronized(_adapterDelegates) {
+    [_adapterDelegates setObject:delegate forKey:placementName];
   }
 }
 
 - (void)removeDelegateForPlacementName:(nonnull NSString *)placementName {
-  @synchronized(self.adapterDelegates) {
-    GADMAdapterTapjoyMapTableRemoveObjectForKey(self.adapterDelegates, placementName);
+  @synchronized(_adapterDelegates) {
+    GADMAdapterTapjoyMapTableRemoveObjectForKey(_adapterDelegates, placementName);
   }
 }
 
 - (BOOL)containsDelegateForPlacementName:(nonnull NSString *)placementName {
-  @synchronized(self.adapterDelegates) {
-    if ([self.adapterDelegates objectForKey:placementName]) {
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementName]) {
       return YES;
     } else {
       return NO;

@@ -25,20 +25,24 @@
 @interface GADMRTBInterstitialRendererTapjoy () <GADMediationInterstitialAd,
                                                  TJPlacementDelegate,
                                                  TJPlacementVideoDelegate>
-
-@property(nonatomic, strong) GADMediationInterstitialAdConfiguration *adConfig;
-
-@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler renderCompletionHandler;
-
-@property(nonatomic, strong) TJPlacement *interstitialAd;
-
-@property(nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> delegate;
-
-@property(nonatomic, copy) NSString *placementName;
-
 @end
 
-@implementation GADMRTBInterstitialRendererTapjoy
+@implementation GADMRTBInterstitialRendererTapjoy {
+  /// Interstitial ad configuration for the ad to be loaded.
+  GADMediationInterstitialAdConfiguration *_adConfig;
+
+  /// Completion handler to call when an ad loads successfully or fails.
+  GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
+
+  /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
+  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
+
+  /// Tapjoy interstitial ad object.
+  TJPlacement *_interstitialAd;
+
+  /// Tapjoy placement name.
+  NSString *_placementName;
+}
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
@@ -104,26 +108,26 @@
     NSError *adapterError = [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
                                                 code:0
                                             userInfo:@{NSLocalizedDescriptionKey : @"NO_FILL"}];
-    self.renderCompletionHandler(nil, adapterError);
+    _renderCompletionHandler(nil, adapterError);
   }
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
-  self.renderCompletionHandler(nil, error);
+  _renderCompletionHandler(nil, error);
 }
 
 - (void)contentIsReady:(nonnull TJPlacement *)placement {
-  self.delegate = self.renderCompletionHandler(self, nil);
+  _delegate = _renderCompletionHandler(self, nil);
 }
 
 - (void)contentDidAppear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willPresentFullScreenView];
   [strongDelegate reportImpression];
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willDismissFullScreenView];
   [strongDelegate didDismissFullScreenView];
 }

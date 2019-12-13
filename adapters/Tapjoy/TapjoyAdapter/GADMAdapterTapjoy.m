@@ -21,17 +21,19 @@
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
-@interface GADMAdapterTapjoy () <TJPlacementDelegate, TJPlacementVideoDelegate> {
-  // Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _interstitialConnector;
-
-  TJPlacement *_intPlacement;
-  NSString *_placementName;
-}
-
+@interface GADMAdapterTapjoy () <TJPlacementDelegate, TJPlacementVideoDelegate>
 @end
 
-@implementation GADMAdapterTapjoy
+@implementation GADMAdapterTapjoy {
+  /// Google Mobile Ads SDK ad network connector.
+  __weak id<GADMAdNetworkConnector> _interstitialConnector;
+
+  /// Tapjoy placement.
+  TJPlacement *_intPlacement;
+
+  /// Tapjoy placement name.
+  NSString *_placementName;
+}
 
 + (nonnull NSString *)adapterVersion {
   return kGADMAdapterTapjoyVersion;

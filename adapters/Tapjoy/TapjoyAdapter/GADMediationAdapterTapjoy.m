@@ -24,14 +24,13 @@
 #import "GADMRewardedAdTapjoy.h"
 #import "GADMTapjoyExtras.h"
 
-@interface GADMediationAdapterTapjoy ()
+@implementation GADMediationAdapterTapjoy {
+  /// Tapjoy interstitial ad wrapper.
+  GADMRTBInterstitialRendererTapjoy *_interstitialRenderer;
 
-@property(nonatomic, strong) GADMRTBInterstitialRendererTapjoy *interstitialRenderer;
-@property(nonatomic, strong) GADMRewardedAdTapjoy *rewardedAd;
-
-@end
-
-@implementation GADMediationAdapterTapjoy
+  /// Tapjoy rewarded ad wrapper.
+  GADMRewardedAdTapjoy *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
