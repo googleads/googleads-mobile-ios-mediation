@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #import "GADMAdapterTapjoy.h"
+
 #import <Tapjoy/Tapjoy.h>
+
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMTapjoyExtras.h"

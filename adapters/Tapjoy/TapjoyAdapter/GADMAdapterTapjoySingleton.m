@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterTapjoySingleton.h"
+
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoyUtils.h"
 
