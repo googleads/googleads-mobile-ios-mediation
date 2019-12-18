@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import SampleAdSDK;
+#import <SampleAdSDK/SampleAdSDK.h>
 
 #import "SampleAdapter.h"
 #import "SampleAdapterConstants.h"
@@ -81,9 +81,9 @@
 }
 
 - (void)getInterstitial {
-  _interstitialAd = [[SampleInterstitial alloc] init];
+  _interstitialAd =
+      [[SampleInterstitial alloc] initWithAdUnitID:[_connector credentials][@"ad_unit"]];
   _interstitialAd.delegate = _adapterDelegate;
-  _interstitialAd.adUnit = [_connector credentials][@"ad_unit"];
 
   SampleAdRequest *request = [[SampleAdRequest alloc] init];
   // Set up request parameters.
@@ -299,10 +299,10 @@
 }
 
 - (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
-  GADAdReward *rewards =
+  GADAdReward *aReward =
       [[GADAdReward alloc] initWithRewardType:@""
                                  rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
-  [_rewardedAdDelegate didRewardUserWithReward:rewards];
+  [_rewardedAdDelegate didRewardUserWithReward:aReward];
 }
 
 @end

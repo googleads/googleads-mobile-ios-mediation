@@ -30,6 +30,7 @@
 		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
 		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
+		EFB9E9B1238F2F9500AF1732 /* SampleCustomEventRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,8 @@
 		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
 		AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdSourceConfig.h; path = MediationExample/AdSourceConfig.h; sourceTree = SOURCE_ROOT; };
+		EFB9E9AE238E0DD300AF1732 /* SampleCustomEventRewarded.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventRewarded.h; path = CustomEvent/SampleCustomEventRewarded.h; sourceTree = "<group>"; };
+		EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventRewarded.m; path = CustomEvent/SampleCustomEventRewarded.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +185,8 @@
 				26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */,
 				267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAd.h */,
 				267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */,
+				EFB9E9AE238E0DD300AF1732 /* SampleCustomEventRewarded.h */,
+				EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */,
 			);
 			name = CustomEvent;
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAd.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
 				AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */,
+				EFB9E9B1238F2F9500AF1732 /* SampleCustomEventRewarded.m in Sources */,
 				AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift in Sources */,
 				26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */,
 				AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */,

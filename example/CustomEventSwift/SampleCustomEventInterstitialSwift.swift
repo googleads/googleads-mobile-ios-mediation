@@ -31,9 +31,8 @@ class SampleCustomEventInterstitialSwift: NSObject, GADCustomEventInterstitial {
   func requestAd(withParameter serverParameter: String?,
                  label serverLabel: String?,
                  request: GADCustomEventRequest) {
-    interstitial = SampleInterstitial()
+    interstitial = SampleInterstitial.init(adUnitID: serverParameter)
     interstitial?.delegate = self
-    interstitial?.adUnit = serverParameter
     let adRequest = SampleAdRequest()
     adRequest.testMode = request.isTesting
     adRequest.keywords = request.userKeywords as? [String]
