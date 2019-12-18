@@ -23,13 +23,16 @@
 @interface SampleInterstitial : NSObject
 
 /// Identifier for interstitial ad placement.
-@property(nonatomic, copy) NSString *adUnit;
+@property(nonatomic, readonly) NSString *adUnit;
 
 /// Sample interstitial ad delegate.
 @property(nonatomic, weak) id<SampleInterstitialAdDelegate> delegate;
 
 /// YES if the interstitial has loaded.
 @property(nonatomic, assign, getter=isInterstitialLoaded) BOOL interstitialLoaded;
+
+/// Interstitial ad initializer.
+- (instancetype)initWithAdUnitID:(NSString *)adUnitID;
 
 /// Fetch an interstitial ad.
 - (void)fetchAd:(SampleAdRequest *)request;

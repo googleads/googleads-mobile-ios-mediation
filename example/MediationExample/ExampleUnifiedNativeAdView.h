@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface ExampleUnifiedNativeAdView : GADUnifiedNativeAdView
 
