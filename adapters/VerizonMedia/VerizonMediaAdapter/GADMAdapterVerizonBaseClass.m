@@ -332,7 +332,7 @@
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator
-  builder.appMediator =
+  builder.mediator =
       [NSString stringWithFormat:@"AdMobVAS-%@", [GADMAdapterVerizonBaseClass adapterVersion]];
   id<GADMAdNetworkConnector> strongConnector = _connector;
   // Keywords

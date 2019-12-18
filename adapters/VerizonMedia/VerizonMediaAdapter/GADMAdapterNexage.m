@@ -10,7 +10,7 @@
 #import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonUtils.h"
-#import "GADMVerizonConsent_Internal.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 @implementation GADMAdapterNexage
 

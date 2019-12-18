@@ -12,30 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMVerizonConsent.h"
+#import "GADMVerizonPrivacy.h"
 #import <VerizonAdsCore/VerizonAdsCore.h>
 
-@implementation GADMVerizonConsent
+@implementation GADMVerizonPrivacy
 
-+ (nonnull GADMVerizonConsent *)sharedInstance {
-  static GADMVerizonConsent *sharedInstance;
++ (nonnull GADMVerizonPrivacy *)sharedInstance {
+  static GADMVerizonPrivacy *sharedInstance;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[GADMVerizonConsent alloc] init];
+    sharedInstance = [[GADMVerizonPrivacy alloc] init];
   });
   return sharedInstance;
 }
 
-- (void)setConsentInfo:(nonnull NSDictionary<NSString *, NSString *> *)consentInfo
-            restricted:(BOOL)restricted {
-  _consentInfo = [consentInfo copy];
-  _restricted = restricted;
-  [self updateConsentInfo];
+- (void)setPrivacyData:(nonnull NSDictionary<NSString *, id> *)privacyData {
+  _privacyData = [privacyData copy];
+  [self updatePrivacyData];
 }
 
-- (void)updateConsentInfo {
+- (void)updatePrivacyData {
   if ([VASAds.sharedInstance isInitialized]) {
-    [[VASAds sharedInstance] setConsentData:self.consentInfo fromRestrictedOrigin:self.restricted];
+    [[VASAds sharedInstance] setPrivacyData:self.privacyData];
   }
 }
 
