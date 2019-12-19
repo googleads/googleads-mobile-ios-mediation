@@ -88,12 +88,20 @@
 #pragma mark - API
 
 - (void)loadRewardedAd {
+  NSError *initError = nil;
+  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
+      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID], &initError);
+  if (!didInitialize) {
+    GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", initError.localizedDescription);
+    _loadCompletionHandler(nil, initError);
+    return;
+  }
+
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
 
   GADMAdapterFyberRewardedAd *__weak weakSelf = self;
-
   _videoContentController =
       [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;

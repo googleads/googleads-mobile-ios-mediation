@@ -90,11 +90,9 @@
                         applicationID);
   }
 
-  [IALogger setLogLevel:IALogLevelInfo];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [IASDKCore.sharedInstance initWithAppID:applicationID];
-    completionHandler(nil);
-  });
+  NSError *initError = nil;
+  GADMAdapterFyberInitializeWithAppID(applicationID, &initError);
+  completionHandler(initError);
 }
 
 #pragma mark - GADMAdNetworkAdapter
@@ -117,6 +115,15 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  NSError *initError = nil;
+  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
+      strongConnector.credentials[kGADMAdapterFyberApplicationID], &initError);
+  if (!didInitialize) {
+    GADMAdapterFyberLog(@"Failed to load banner ad: %@", initError.localizedDescription);
+    [strongConnector adapter:self didFailAd:initError];
+    return;
+  }
 
   NSString *spotID = strongConnector.credentials[kGADMAdapterFyberSpotID];
   IAAdRequest *request =
@@ -142,6 +149,15 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  NSError *initError = nil;
+  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
+      strongConnector.credentials[kGADMAdapterFyberApplicationID], &initError);
+  if (!didInitialize) {
+    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", initError.localizedDescription);
+    [strongConnector adapter:self didFailAd:initError];
+    return;
+  }
 
   NSString *spotID = strongConnector.credentials[kGADMAdapterFyberSpotID];
   IAAdRequest *request =

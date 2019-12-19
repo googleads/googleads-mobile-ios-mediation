@@ -89,3 +89,25 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull 
 
   return request;
 }
+
+BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nonnull appID,
+                                         NSError *__autoreleasing _Nullable *_Nullable error) {
+  // If the appID is set, then the Fyber SDK has already been initialized.
+  if (IASDKCore.sharedInstance.appID) {
+    return YES;
+  }
+
+  if (!appID.length) {
+    *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        kGADErrorInternalError,
+        @"Fyber Marketplace SDK could not be initialized; missing or invalid application ID.");
+    return NO;
+  }
+
+  [IALogger setLogLevel:IALogLevelInfo];
+  GADMAdapterFyberLog(@"Configuring Fyber Marketplace SDK with application ID: %@.", appID);
+  dispatch_sync(dispatch_get_main_queue(), ^{
+    [IASDKCore.sharedInstance initWithAppID:appID];
+  });
+  return (IASDKCore.sharedInstance.appID != nil);
+}
