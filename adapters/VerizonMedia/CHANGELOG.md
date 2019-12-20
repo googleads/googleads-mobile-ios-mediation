@@ -1,5 +1,8 @@
 ## Verizon Media iOS Mediation Adapter Changelog
 
+#### Version 1.3.0.0
+- Added support for Verizon Ads Standard Edition 1.3.0
+
 #### Version 1.2.2.0
 - Verified compatibility with Verizon Ads Standard Edition version 1.2.2.
 

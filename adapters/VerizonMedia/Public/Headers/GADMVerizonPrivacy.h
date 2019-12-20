@@ -14,25 +14,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GADMVerizonConsent : NSObject
+@interface GADMVerizonPrivacy : NSObject
 
-@property(class, atomic, readonly, nonnull) GADMVerizonConsent *sharedInstance;
+@property(class, atomic, readonly, nonnull) GADMVerizonPrivacy *sharedInstance;
 
 /**
- * Consent info forwarded to the Verizon Ads SDK.
+ * Privacy data forwarded to the Verizon Ads SDK.
  */
-@property(nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *consentInfo;
+@property(nonatomic, readonly, nullable) NSDictionary<NSString *, id> *privacyData;
 
 /**
- * Restricted origin flag forwarded to the Verizon Ads SDK.
- */
-@property(nonatomic, readonly) BOOL restricted;
-
-/**
- * Sets consent info on the Verizon Ads SDK once it's initialized.
+ * Sets privacy data on the Verizon Ads SDK once it's initialized.
  * Can be called before the Verizon SDK is initialized.
  */
-- (void)setConsentInfo:(nonnull NSDictionary<NSString *, NSString *> *)consentInfo
-            restricted:(BOOL)restricted;
+- (void)setPrivacyData:(nonnull NSDictionary<NSString *, id> *)privacyData;
 
 @end

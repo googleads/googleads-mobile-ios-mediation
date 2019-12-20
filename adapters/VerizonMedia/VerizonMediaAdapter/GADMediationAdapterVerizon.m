@@ -8,7 +8,7 @@
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonRewardedAd.h"
 #import "GADMAdapterVerizonUtils.h"
-#import "GADMVerizonConsent_Internal.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 @implementation GADMediationAdapterVerizon {
   GADMAdapterVerizonRewardedAd *_rewardedAd;

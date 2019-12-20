@@ -10,7 +10,7 @@
 #import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonConsent_Internal.h"
+#import "GADMVerizonPrivacy_Internal.h"
 #import "GADMAdapterVerizonUtils.h"
 
 NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
@@ -45,11 +45,11 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)handler {
   _adConfiguration = adConfig;
+    
   NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
-  if (![VASAds.sharedInstance isInitialized]) {
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
-  }
+  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+    
   _placementID = credentials[kGADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
@@ -93,7 +93,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator.
-  builder.appMediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
 
   VASAds.sharedInstance.requestMetadata = [builder build];
 }
