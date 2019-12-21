@@ -39,3 +39,7 @@ void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set,
     [set addObject:object];  // Allow pattern.
   }
 }
+
+void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment) {
+  [FBAdSettings setMixedAudience:!childDirectedTreatment.boolValue];
+}

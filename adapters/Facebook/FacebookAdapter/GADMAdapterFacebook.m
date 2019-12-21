@@ -70,9 +70,8 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if ([strongConnector respondsToSelector:@selector(childDirectedTreatment)] &&
-      [strongConnector childDirectedTreatment]) {
-    [FBAdSettings setIsChildDirected:[[strongConnector childDirectedTreatment] boolValue]];
+  if ([strongConnector childDirectedTreatment]) {
+    GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
   }
 
   _bannerAd = [[GADFBBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
@@ -81,9 +80,8 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if ([strongConnector respondsToSelector:@selector(childDirectedTreatment)] &&
-      [strongConnector childDirectedTreatment]) {
-    [FBAdSettings setIsChildDirected:[[strongConnector childDirectedTreatment] boolValue]];
+  if ([strongConnector childDirectedTreatment]) {
+    GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
   }
 
   _interstitialAd = [[GADFBInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector
@@ -97,9 +95,8 @@
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSNumber *childDirectedTreatmentValue = [strongConnector childDirectedTreatment];
-  if (childDirectedTreatmentValue) {
-    [FBAdSettings setIsChildDirected:childDirectedTreatmentValue.boolValue];
+  if ([strongConnector childDirectedTreatment]) {
+    GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
   }
 
   GADFBNetworkExtras *extras = strongConnector.networkExtras;
