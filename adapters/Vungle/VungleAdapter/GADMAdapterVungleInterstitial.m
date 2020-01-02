@@ -60,7 +60,8 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   // An array of supported ad sizes.
-  NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard)];
+  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
+  NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   // Check if given banner size is in MREC or Banner.
   id<GADMAdNetworkConnector> strongConnector = _connector;
