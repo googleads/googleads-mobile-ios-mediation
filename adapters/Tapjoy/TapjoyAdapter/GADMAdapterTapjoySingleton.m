@@ -25,7 +25,7 @@
   NSMutableArray<TapjoyInitCompletionHandler> *_completionHandlers;
 
   /// Tapjoy SDK initialization state.
-  TapjoyInitState _initState;
+  GADMAdapterTapjoyInitState _initState;
 }
 
 + (nonnull instancetype)sharedInstance {
@@ -42,7 +42,7 @@
     _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                               valueOptions:NSPointerFunctionsWeakMemory];
     _completionHandlers = [[NSMutableArray alloc] init];
-    _initState = UNINITIALIZED;
+    _initState = GADMAdapterTapjoyInitStateUninitialized;
   }
   return self;
 }
@@ -50,17 +50,17 @@
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
                               options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler {
-  if (_initState == INITIALIZED) {
+  if (_initState == GADMAdapterTapjoyInitStateInitialized) {
     completionHandler(nil);
     return;
-  } else if (_initState == INITIALIZING) {
+  } else if (_initState == GADMAdapterTapjoyInitStateInitializing) {
     GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
     return;
-  } else if (_initState == UNINITIALIZED) {
+  } else if (_initState == GADMAdapterTapjoyInitStateUninitialized) {
     [self setupListeners];
     GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
     [Tapjoy connect:sdkKey options:options];
-    _initState = INITIALIZING;
+    _initState = GADMAdapterTapjoyInitStateInitializing;
   }
 }
 
@@ -77,7 +77,7 @@
 }
 
 - (void)tjcConnectSuccess:(nonnull NSNotification *)notifyObj {
-  _initState = INITIALIZED;
+  _initState = GADMAdapterTapjoyInitStateInitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_SUCCESS object:nil];
   for (TapjoyInitCompletionHandler completionHandler in _completionHandlers) {
     completionHandler(nil);
@@ -86,7 +86,7 @@
 }
 
 - (void)tjcConnectFail:(nonnull NSNotification *)notifyObj {
-  _initState = UNINITIALIZED;
+  _initState = GADMAdapterTapjoyInitStateUninitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_FAILED object:nil];
   NSError *adapterError =
       [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain

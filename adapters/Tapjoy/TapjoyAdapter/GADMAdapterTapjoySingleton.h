@@ -15,7 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <Tapjoy/Tapjoy.h>
 
-typedef enum { UNINITIALIZED, INITIALIZING, INITIALIZED } TapjoyInitState;
+/// Initialization state of the Tapjoy SDK.
+typedef NS_ENUM(NSUInteger, GADMAdapterTapjoyInitState) {
+  GADMAdapterTapjoyInitStateUninitialized,  /// < Tapjoy SDK is not initialized yet.
+  GADMAdapterTapjoyInitStateInitializing,   /// < Tapjoy SDK is initializing.
+  GADMAdapterTapjoyInitStateInitialized     /// < Tapjoy SDK has been initialzed.
+};
 
 typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
