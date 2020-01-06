@@ -80,28 +80,33 @@
   GADMTapjoyExtras *extras = [strongConnector networkExtras];
   GADMAdapterTapjoySingleton *sharedInstance = [GADMAdapterTapjoySingleton sharedInstance];
 
-  // if not yet connected, wait for connect response before requesting placement.
   if ([Tapjoy isConnected]) {
     [Tapjoy setDebugEnabled:extras.debugEnabled];
     _intPlacement = [sharedInstance requestAdForPlacementName:_placementName delegate:self];
-  } else {
-    GADMAdapterTapjoy __weak *weakSelf = self;
-    NSDictionary *connectOptions =
-        @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
-    [sharedInstance
-        initializeTapjoySDKWithSDKKey:sdkKey
-                              options:connectOptions
-                    completionHandler:^(NSError *error) {
-                      GADMAdapterTapjoy __strong *strongSelf = weakSelf;
-                      if (error) {
-                        [strongSelf->_interstitialConnector adapter:self didFailAd:error];
-                      } else {
-                        strongSelf->_intPlacement = [[GADMAdapterTapjoySingleton sharedInstance]
-                            requestAdForPlacementName:strongSelf->_placementName
-                                             delegate:strongSelf];
-                      }
-                    }];
+    return;
   }
+
+  // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
+  NSDictionary *connectOptions =
+      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+  GADMAdapterTapjoy __weak *weakSelf = self;
+  [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
+                                        options:connectOptions
+                              completionHandler:^(NSError *error) {
+                                GADMAdapterTapjoy __strong *strongSelf = weakSelf;
+                                if (!strongSelf) {
+                                  return;
+                                }
+
+                                if (error) {
+                                  [strongSelf->_interstitialConnector adapter:self didFailAd:error];
+                                  return;
+                                }
+                                strongSelf->_intPlacement =
+                                    [[GADMAdapterTapjoySingleton sharedInstance]
+                                        requestAdForPlacementName:strongSelf->_placementName
+                                                         delegate:strongSelf];
+                              }];
 }
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {

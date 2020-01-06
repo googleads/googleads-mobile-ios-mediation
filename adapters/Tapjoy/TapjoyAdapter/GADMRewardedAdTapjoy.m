@@ -68,21 +68,27 @@
 
   if (Tapjoy.isConnected) {
     [self requestRewardedAd];
-  } else {
-    NSDictionary *connectOptions =
-        @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
-    GADMRewardedAdTapjoy *__weak weakSelf = self;
-    [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
-                                          options:connectOptions
-                                completionHandler:^(NSError *error) {
-                                  GADMRewardedAdTapjoy *__strong strongSelf = weakSelf;
-                                  if (error) {
-                                    completionHandler(nil, error);
-                                  } else if (strongSelf) {
-                                    [strongSelf requestRewardedAd];
-                                  }
-                                }];
+    return;
   }
+
+  // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
+  NSDictionary *connectOptions =
+      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+  GADMRewardedAdTapjoy *__weak weakSelf = self;
+  [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
+                                        options:connectOptions
+                              completionHandler:^(NSError *error) {
+                                GADMRewardedAdTapjoy *__strong strongSelf = weakSelf;
+                                if (!strongSelf) {
+                                  return;
+                                }
+
+                                if (error) {
+                                  completionHandler(nil, error);
+                                  return;
+                                }
+                                [strongSelf requestRewardedAd];
+                              }];
 }
 
 - (void)requestRewardedAd {

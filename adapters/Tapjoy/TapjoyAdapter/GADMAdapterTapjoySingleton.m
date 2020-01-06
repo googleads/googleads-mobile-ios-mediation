@@ -53,15 +53,16 @@
   if (_initState == GADMAdapterTapjoyInitStateInitialized) {
     completionHandler(nil);
     return;
-  } else if (_initState == GADMAdapterTapjoyInitStateInitializing) {
-    GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
-    return;
-  } else if (_initState == GADMAdapterTapjoyInitStateUninitialized) {
-    [self setupListeners];
-    GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
-    [Tapjoy connect:sdkKey options:options];
-    _initState = GADMAdapterTapjoyInitStateInitializing;
   }
+
+  GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
+  if (_initState == GADMAdapterTapjoyInitStateInitializing) {
+    return;
+  }
+
+  [self setupListeners];
+  _initState = GADMAdapterTapjoyInitStateInitializing;
+  [Tapjoy connect:sdkKey options:options];
 }
 
 - (void)setupListeners {

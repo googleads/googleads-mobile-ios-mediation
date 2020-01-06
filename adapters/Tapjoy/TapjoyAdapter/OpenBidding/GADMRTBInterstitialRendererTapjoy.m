@@ -69,21 +69,27 @@
 
   if (Tapjoy.isConnected) {
     [self requestInterstitialAd];
-  } else {
-    NSDictionary *connectOptions =
-        @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
-    GADMRTBInterstitialRendererTapjoy *__weak weakSelf = self;
-    [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
-                                          options:connectOptions
-                                completionHandler:^(NSError *error) {
-                                  GADMRTBInterstitialRendererTapjoy *__strong strongSelf = weakSelf;
-                                  if (error) {
-                                    handler(nil, error);
-                                  } else if (strongSelf) {
-                                    [strongSelf requestInterstitialAd];
-                                  }
-                                }];
+    return;
   }
+
+  // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
+  NSDictionary *connectOptions =
+      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+  GADMRTBInterstitialRendererTapjoy *__weak weakSelf = self;
+  [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
+                                        options:connectOptions
+                              completionHandler:^(NSError *error) {
+                                GADMRTBInterstitialRendererTapjoy *__strong strongSelf = weakSelf;
+                                if (!strongSelf) {
+                                  return;
+                                }
+
+                                if (error) {
+                                  handler(nil, error);
+                                  return;
+                                }
+                                [strongSelf requestInterstitialAd];
+                              }];
 }
 
 - (void)requestInterstitialAd {
@@ -98,8 +104,9 @@
 #pragma mark GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if ([_interstitialAd isContentAvailable])
+  if ([_interstitialAd isContentAvailable]) {
     [_interstitialAd showContentWithViewController:viewController];
+  }
 }
 
 #pragma mark TajoyPlacementDelegate methods
