@@ -91,22 +91,21 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-
   VungleSDK *sdk = [VungleSDK sharedSDK];
 
-  if (![sdk isInitialized]) {
-    NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
-    if (appID) {
-      GADMAdapterVungleInterstitial *__weak weakSelf = self;
-      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
-    } else {
-      NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-          kGADErrorMediationDataError, @"Vungle app ID not specified.");
-      [strongConnector adapter:self didFailAd:error];
-    }
-  } else {
+  if ([sdk isInitialized]) {
     [self loadAd];
+    return;
   }
+
+  NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
+  if (!appID) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
+                                                                  @"Vungle app ID not specified.");
+    [strongConnector adapter:self didFailAd:error];
+    return;
+  }
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
 }
 
 #pragma mark - GAD Ad Network Protocol Interstitial Methods
@@ -134,19 +133,19 @@
     return;
   }
 
-  if (![sdk isInitialized]) {
-    NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
-    if (appID) {
-      GADMAdapterVungleInterstitial *__weak weakSelf = self;
-      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
-    } else {
-      NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-          kGADErrorMediationDataError, @"Vungle app ID not specified.");
-      [strongConnector adapter:self didFailAd:error];
-    }
-  } else {
+  if ([sdk isInitialized]) {
     [self loadAd];
+    return;
   }
+
+  NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
+  if (!appID) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
+                                                                  @"Vungle app ID not specified.");
+    [strongConnector adapter:self didFailAd:error];
+    return;
+  }
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
 }
 
 - (void)stopBeingDelegate {
@@ -158,12 +157,9 @@
 
     [[GADMAdapterVungleRouter sharedInstance]
         completeBannerAdViewForPlacementID:self.desiredPlacement];
-    _connector = nil;
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
-  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    _connector = nil;
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
+  _connector = nil;
+  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -201,14 +197,15 @@
                                                             delegate:self
                                                               extras:[_connector networkExtras]
                                                       forPlacementID:self.desiredPlacement];
-  if (mrecAdView) {
-    self.bannerState = BannerRouterDelegateStatePlaying;
-    [_connector adapter:self didReceiveAdView:mrecAdView];
-  } else {
-    [_connector adapter:self
-              didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                     @"Error in creating adView")];
+  if (!mrecAdView) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+                                                                  @"Couldn't create ad view.");
+    [_connector adapter:self didFailAd:error];
+    return;
   }
+
+  self.bannerState = BannerRouterDelegateStatePlaying;
+  [_connector adapter:self didReceiveAdView:mrecAdView];
 }
 
 #pragma mark - VungleRouter delegates
@@ -218,21 +215,23 @@
 @synthesize bannerState;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
-  if (isSuccess && self.desiredPlacement) {
-    [self loadAd];
-  } else {
+  if (!isSuccess) {
     [_connector adapter:self didFailAd:error];
+    return;
   }
+  [self loadAd];
 }
 
 - (void)adAvailable {
-  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
-    self.bannerState = BannerRouterDelegateStateCached;
-    [self connectAdViewToViewController];
-  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
+  if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     if (!_isInterstitialAdPresenting) {
       [_connector adapterDidReceiveInterstitial:self];
     }
+  }
+
+  if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
+    self.bannerState = BannerRouterDelegateStateCached;
+    [self connectAdViewToViewController];
   }
 }
 
@@ -243,7 +242,9 @@
 - (void)willShowAd {
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStatePlaying;
-  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
+  }
+
+  if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [_connector adapterWillPresentInterstitial:self];
   }
 }
@@ -255,7 +256,9 @@
   }
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosing;
-  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
+  }
+
+  if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [strongConnector adapterWillDismissInterstitial:self];
     _isInterstitialAdPresenting = NO;
   }
@@ -264,7 +267,9 @@
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
   if (self.adapterAdType == GADMAdapterVungleAdTypeBanner) {
     self.bannerState = BannerRouterDelegateStateClosed;
-  } else if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
+  }
+
+  if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [_connector adapterDidDismissInterstitial:self];
   }
 }

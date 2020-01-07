@@ -26,6 +26,11 @@ void GADMAdapterVungleMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 /// Safely removes the |object| for |key| in mapTable if |key| is not nil.
 void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
 
+/// Sets |value| for |key| in |dictionary| if |value| is not nil.
+void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value);
+
 /// Returns an NSError with the specified code and description.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description);

@@ -88,18 +88,19 @@
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
 
-  if (![sdk isInitialized]) {
-    NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    if (appID) {
-      [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
-    } else {
-      NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-          kGADErrorMediationDataError, @"Vungle app ID should be specified.");
-      _adLoadCompletionHandler(nil, error);
-    }
-  } else {
+  if ([sdk isInitialized]) {
     [self loadRewardedAd];
+    return;
   }
+
+  NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
+  if (!appID) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
+                                                                  @"Vungle app ID not specified.");
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
 }
 
 - (void)loadRewardedAd {
@@ -132,11 +133,11 @@
 @synthesize adapterAdType;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
-  if (isSuccess) {
-    [self loadRewardedAd];
-  } else {
+  if (!isSuccess) {
     _adLoadCompletionHandler(nil, error);
+    return;
   }
+  [self loadRewardedAd];
 }
 
 - (void)adAvailable {

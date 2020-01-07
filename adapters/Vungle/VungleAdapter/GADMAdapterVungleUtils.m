@@ -34,6 +34,14 @@ void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
   }
 }
 
+void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value; // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo = @{NSLocalizedDescriptionKey : description};

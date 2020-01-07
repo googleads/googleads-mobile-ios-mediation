@@ -81,7 +81,7 @@
   }
 
   if ([sdk isInitialized]) {
-    [self initialized:true error:nil];
+    [self initialized:YES error:nil];
     return;
   }
 
@@ -95,7 +95,7 @@
   NSError *err = nil;
   [sdk startWithAppId:appId error:&err];
   if (err) {
-    [self initialized:false error:err];
+    [self initialized:NO error:err];
   }
 }
 
@@ -127,7 +127,7 @@
 }
 
 - (nullable id<GADMAdapterVungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement {
-  id<GADMAdapterVungleDelegate> delegate;
+  id<GADMAdapterVungleDelegate> delegate = nil;
   if ([placement isEqualToString:_bannerPlacementID]) {
     @synchronized(_bannerDelegates) {
       if ([_bannerDelegates objectForKey:placement]) {
@@ -196,9 +196,8 @@
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
     return error;
-  } else {
-    [self addDelegate:delegate];
   }
+  [self addDelegate:delegate];
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
   if ([sdk isAdCachedForPlacementID:placement]) {
@@ -224,22 +223,34 @@
   }
   NSMutableDictionary *options = [[NSMutableDictionary alloc] init];  //
   NSError *error = nil;
-  bool didAdStartPlaying = true;
+  BOOL didAdStartPlaying = YES;
   [VungleSDK sharedSDK].muted = extras.muted;
-  if (extras.userId) [options setObject:extras.userId forKey:VunglePlayAdOptionKeyUser];
-  if (extras.ordinal) [options setObject:@(extras.ordinal) forKey:VunglePlayAdOptionKeyOrdinal];
-  if (extras.flexViewAutoDismissSeconds)
-    [options setObject:@(extras.flexViewAutoDismissSeconds)
-                forKey:VunglePlayAdOptionKeyFlexViewAutoDismissSeconds];
+  if (extras.userId) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                      extras.userId);
+  }
+
+  if (extras.ordinal) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
+                                                      @(extras.ordinal));
+  }
+
+  if (extras.flexViewAutoDismissSeconds) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(
+        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+        @(extras.flexViewAutoDismissSeconds));
+  }
+
   if (![[VungleSDK sharedSDK] playAd:viewController
                              options:options
                          placementID:delegate.desiredPlacement
                                error:&error]) {
-    didAdStartPlaying = false;
+    didAdStartPlaying = NO;
   }
+
   if (error) {
     NSLog(@"Adapter failed to present ad, error %@", [error localizedDescription]);
-    didAdStartPlaying = false;
+    didAdStartPlaying = NO;
   }
 
   return didAdStartPlaying;
@@ -251,16 +262,19 @@
                            forPlacementID:(nonnull NSString *)placementID {
   NSError *bannerError = nil;
   NSMutableDictionary *options = [[NSMutableDictionary alloc] init];  ///
-  if (extras.muted) {
-    [VungleSDK sharedSDK].muted = extras.muted;
-  } else {
-    [VungleSDK sharedSDK].muted = YES;
+  if (extras.userId) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                      extras.userId);
   }
-  if (extras.userId) [options setObject:extras.userId forKey:VunglePlayAdOptionKeyUser];
-  if (extras.ordinal) [options setObject:@(extras.ordinal) forKey:VunglePlayAdOptionKeyOrdinal];
-  if (extras.flexViewAutoDismissSeconds)
-    [options setObject:@(extras.flexViewAutoDismissSeconds)
-                forKey:VunglePlayAdOptionKeyFlexViewAutoDismissSeconds];
+  if (extras.ordinal) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
+                                                      @(extras.ordinal));
+  }
+  if (extras.flexViewAutoDismissSeconds) {
+    GADMAdapterVungleMutableDictionarySetObjectForKey(
+        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+        @(extras.flexViewAutoDismissSeconds));
+  }
 
   BOOL success = [[VungleSDK sharedSDK] addAdViewToView:bannerView
                                             withOptions:options
@@ -268,11 +282,9 @@
                                                   error:&bannerError];
   if (success) {
     return bannerView;
-  } else {
-    NSLog(@"Banner loading error: %@", bannerError.localizedDescription);
-    return nil;
   }
 
+  NSLog(@"Banner loading error: %@", bannerError.localizedDescription);
   return nil;
 }
 
@@ -303,9 +315,7 @@
     return;
   }
   id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if (delegate) {
-    [delegate willShowAd];
-  }
+  [delegate willShowAd];
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
@@ -317,18 +327,17 @@
 - (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                           placementID:(nonnull NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if (delegate) {
-    [delegate willCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
-  }
+  [delegate willCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
 }
 
 - (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                          placementID:(nonnull NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if (delegate) {
-    [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
-    [self removeDelegate:delegate];
+  if (!delegate) {
+    return;
   }
+  [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
+  [self removeDelegate:delegate];
 }
 
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
@@ -338,12 +347,15 @@
   if (!delegate) {
     return;
   }
-  if (isAdPlayable) {
-    [delegate adAvailable];
-  } else if (error) {
+  if (error) {
     NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
     [delegate adNotAvailable:error];
     [self removeDelegate:delegate];
+    return;
+  }
+
+  if (isAdPlayable) {
+    [delegate adAvailable];
   }
 }
 
