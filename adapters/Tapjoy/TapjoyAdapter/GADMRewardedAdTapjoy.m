@@ -16,6 +16,8 @@
 
 #import <Tapjoy/Tapjoy.h>
 
+#include <stdatomic.h>
+
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
@@ -49,7 +51,27 @@
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _adConfig = adConfiguration;
-  _completionHandler = completionHandler;
+
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+
+  // Ensure the original completion handler is only called once, and is deallocated once called.
+  _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   _placementName = adConfiguration.credentials.settings[kGADMAdapterTapjoyPlacementKey];
   NSString *sdkKey = adConfiguration.credentials.settings[kGADMAdapterTapjoySdkKey];
 
