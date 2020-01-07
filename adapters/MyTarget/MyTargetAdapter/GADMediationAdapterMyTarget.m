@@ -26,8 +26,8 @@
 
 @implementation GADMediationAdapterMyTarget
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // INFO: MyTarget SDK doesn't have any initialization API.
   completionHandler(nil);
 }
@@ -62,9 +62,10 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
   [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];

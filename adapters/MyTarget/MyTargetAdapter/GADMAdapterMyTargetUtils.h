@@ -23,22 +23,18 @@
     NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); \
   }
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMAdapterMyTargetUtils : NSObject
 
 + (BOOL)isLogEnabled;
 + (void)setLogEnabled:(BOOL)isLogEnabled;
-+ (NSError *)errorWithDescription:(NSString *)description;
-+ (NSString *)noAdWithReason:(NSString *)reason;
-+ (NSUInteger)slotIdFromCredentials:(NSDictionary *)credentials;
-+ (void)fillCustomParams:(MTRGCustomParams *)customParams
-           withConnector:(nullable id<GADMediationAdRequest>)connector;
++ (nonnull NSError *)errorWithDescription:(nonnull NSString *)description;
++ (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason;
++ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary *)credentials;
++ (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
+           withConnector:(nonnull id<GADMediationAdRequest>)connector;
 + (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;
-+ (nullable NSNumber *)ageFromBirthday:(NSDate *)birthday;
++ (nonnull NSNumber *)ageFromBirthday:(nonnull NSDate *)birthday;
 + (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
++ (nonnull GADNativeAdImage *)nativeAdImageWithImageData:(nonnull MTRGImageData *)imageData;
 
 @end
-
-NS_ASSUME_NONNULL_END

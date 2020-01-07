@@ -34,9 +34,10 @@
 
 BOOL _isRewardedAdLoaded;
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   MTRGLogInfo();
   self.completionHandler = completionHandler;
 
@@ -83,13 +84,14 @@ BOOL _isRewardedAdLoaded;
 
 #pragma mark - MTRGInterstitialAdDelegate
 
-- (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onLoadWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
   _isRewardedAdLoaded = YES;
   self.adEventDelegate = self.completionHandler(self, nil);
 }
 
-- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onNoAdWithReason:(nonnull NSString *)reason
+          interstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
   NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
   MTRGLogError(description);
@@ -97,21 +99,21 @@ BOOL _isRewardedAdLoaded;
   self.completionHandler(nil, error);
 }
 
-- (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onClickWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
   guard(strongDelegate) else return;
   [strongDelegate reportClick];
 }
 
-- (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onCloseWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
   guard(strongDelegate) else return;
   [strongDelegate didDismissFullScreenView];
 }
 
-- (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
   guard(strongDelegate) else return;
@@ -123,7 +125,7 @@ BOOL _isRewardedAdLoaded;
   [strongDelegate didRewardUserWithReward:adReward];
 }
 
-- (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
   guard(strongDelegate) else return;
@@ -131,7 +133,7 @@ BOOL _isRewardedAdLoaded;
   [strongDelegate didStartVideo];
 }
 
-- (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onLeaveApplicationWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   // Do nothing. The Google Mobile Ads SDK does not have an equivalent callback.
 }
 

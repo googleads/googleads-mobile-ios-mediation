@@ -8,12 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-extern NSString *const kGADMAdapterMyTargetExtraAssetAdvertisingLabel;
-extern NSString *const kGADMAdapterMyTargetExtraAssetAgeRestrictions;
-extern NSString *const kGADMAdapterMyTargetExtraAssetCategory;
-extern NSString *const kGADMAdapterMyTargetExtraAssetSubcategory;
-extern NSString *const kGADMAdapterMyTargetExtraAssetVotes;
-
-NS_ASSUME_NONNULL_END
+extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetAdvertisingLabel;
+extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetAgeRestrictions;
+extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetCategory;
+extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetSubcategory;
+extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetVotes;
