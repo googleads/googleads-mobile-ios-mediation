@@ -14,6 +14,8 @@
 
 #import "GADMAdapterTapjoySingleton.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoyUtils.h"
 
@@ -89,10 +91,9 @@
 - (void)tjcConnectFail:(nonnull NSNotification *)notifyObj {
   _initState = GADMAdapterTapjoyInitStateUninitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_FAILED object:nil];
-  NSError *adapterError =
-      [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                          code:0
-                      userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy Connect failed."}];
+
+  NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorInternalError,
+                                                                       @"Tapjoy Connect failed.");
   for (TapjoyInitCompletionHandler completionHandler in _completionHandlers) {
     completionHandler(adapterError);
   }
@@ -104,14 +105,9 @@
                   bidResponse:(nullable NSString *)bidResponse
                      delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
   if ([self getDelegateForPlacementName:placementName]) {
-    NSError *adapterError =
-        [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                            code:0
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              @"A request is already in processing for same placement name. Can't "
-                              @"make a new request for the same placement name."
-                        }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorInvalidRequest, @"A request is already in processing for same placement name. "
+                                 @"Can't make a new request for the same placement name.");
     [delegate requestDidFail:nil error:adapterError];
     return nil;
   }

@@ -18,6 +18,7 @@
 
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
@@ -67,12 +68,8 @@
   _placementName = strongConnector.credentials[kGADMAdapterTapjoyPlacementKey];
 
   if (!sdkKey.length || !_placementName.length) {
-    NSError *adapterError = [NSError
-        errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Did not receive valid Tapjoy server parameters"
-               }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
     [strongConnector adapter:self didFailAd:adapterError];
     return;
   }
@@ -118,29 +115,23 @@
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *adapterError = [NSError
-      errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                 code:0
-             userInfo:@{NSLocalizedDescriptionKey : @"This adapter doesn't support banner ads."}];
+  NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+      kGADErrorInvalidRequest, @"This adapter doesn't support banner ads.");
   [_interstitialConnector adapter:self didFailAd:adapterError];
 }
 
 #pragma mark - TJPlacementDelegate methods
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   if (!placement.contentAvailable) {
-    NSError *adapterError = [NSError
-        errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                   code:0
-               userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy interstitial not available"}];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorNoFill, @"Tapjoy interstitial not available.");
     [_interstitialConnector adapter:self didFailAd:adapterError];
   }
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
-  NSError *adapterError = [NSError
-      errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                 code:0
-             userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy interstitial failed to load"}];
+  NSError *adapterError =
+      GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
   [_interstitialConnector adapter:self didFailAd:adapterError];
 }
 

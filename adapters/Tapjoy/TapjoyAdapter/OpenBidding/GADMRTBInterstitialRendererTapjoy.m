@@ -19,6 +19,7 @@
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
@@ -54,12 +55,8 @@
   NSString *sdkKey = adConfig.credentials.settings[kGADMAdapterTapjoySdkKey];
 
   if (!sdkKey.length || !_placementName.length) {
-    NSError *adapterError = [NSError
-        errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Did not receive valid Tapjoy server parameters"
-               }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
     handler(nil, adapterError);
     return;
   }
@@ -112,9 +109,8 @@
 #pragma mark TajoyPlacementDelegate methods
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   if (!placement.isContentAvailable) {
-    NSError *adapterError = [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                                                code:0
-                                            userInfo:@{NSLocalizedDescriptionKey : @"NO_FILL"}];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorNoFill, @"Tapjoy interstitial not available.");
     _renderCompletionHandler(nil, adapterError);
   }
 }

@@ -43,13 +43,9 @@
   }
 
   if (!sdkKeys.count) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                            code:kGADErrorMediationDataError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              @"Tapjoy mediation configurations did not contain a valid SDK Key."
-                        }];
+    NSError *error = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorMediationDataError,
+        @"Tapjoy mediation configurations did not contain a valid SDK Key.");
     completionHandler(error);
     return;
   }

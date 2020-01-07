@@ -19,6 +19,7 @@
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 
 @interface GADMRewardedAdTapjoy () <GADMediationRewardedAd,
@@ -53,12 +54,8 @@
   NSString *sdkKey = adConfiguration.credentials.settings[kGADMAdapterTapjoySdkKey];
 
   if (!sdkKey.length || !_placementName.length) {
-    NSError *adapterError = [NSError
-        errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Did not receive valid Tapjoy server parameters"
-               }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
     _completionHandler(nil, adapterError);
     return;
   }
@@ -120,9 +117,7 @@
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
   NSError *adapterError =
-      [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                          code:0
-                      userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy Video failed to load"}];
+      GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
   _completionHandler(nil, adapterError);
 }
 
@@ -160,9 +155,7 @@
 
 - (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   NSError *adapterError =
-      [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                          code:0
-                      userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy Video playback failed"}];
+      GADMAdapterTapjoyErrorWithCodeAndDescription(GADPresentationErrorCodeInternal, errorMsg);
   [_adEventDelegate didFailToPresentWithError:adapterError];
 }
 

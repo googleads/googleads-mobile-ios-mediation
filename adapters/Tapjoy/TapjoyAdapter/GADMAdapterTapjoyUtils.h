@@ -27,3 +27,7 @@ void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
 
 /// Removes the object for |key| in mapTable if |key| is not nil.
 void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
+
+/// Returns an NSError with the specified code and description.
+NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
+                                                               NSString *_Nonnull description);

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterTapjoyUtils.h"
+#import "GADMAdapterTapjoyConstants.h"
 
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
@@ -38,4 +39,10 @@ void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
   if (key) {
     [mapTable removeObjectForKey:key];  // Allow pattern.
   }
+}
+
+NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
+                                                               NSString *_Nonnull description) {
+  NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
+  return [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain code:code userInfo:errorInfo];
 }
