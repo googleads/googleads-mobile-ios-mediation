@@ -58,9 +58,8 @@
     NSLog(@"Initializing Tapjoy SDK with the sdk key: %@", sdkKey);
   }
 
-  NSMutableDictionary *connectOptions = [[NSMutableDictionary alloc] init];
   [[GADMAdapterTapjoySingleton sharedInstance] initializeTapjoySDKWithSDKKey:sdkKey
-                                                                     options:connectOptions
+                                                                     options:nil
                                                            completionHandler:^(NSError *error) {
                                                              completionHandler(error);
                                                            }];
@@ -68,7 +67,7 @@
 
 + (GADVersionNumber)adSDKVersion {
   NSString *versionString = [Tapjoy getVersion];
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count == 3) {
@@ -84,7 +83,8 @@
 }
 
 + (GADVersionNumber)version {
-  NSArray *versionComponents = [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

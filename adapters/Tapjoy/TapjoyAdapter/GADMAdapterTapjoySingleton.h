@@ -28,7 +28,7 @@ typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
 + (nonnull instancetype)sharedInstance;
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
-                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                              options:(nullable NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler;
 - (nullable TJPlacement *)
     requestAdForPlacementName:(nonnull NSString *)placementName

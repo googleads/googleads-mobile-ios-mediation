@@ -50,7 +50,7 @@
 }
 
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
-                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                              options:(nullable NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler {
   if (_initState == GADMAdapterTapjoyInitStateInitialized) {
     completionHandler(nil);
@@ -64,7 +64,11 @@
 
   [self setupListeners];
   _initState = GADMAdapterTapjoyInitStateInitializing;
-  [Tapjoy connect:sdkKey options:options];
+  if (options) {
+    [Tapjoy connect:sdkKey options:options];
+  } else {
+    [Tapjoy connect:sdkKey];
+  }
 }
 
 - (void)setupListeners {
@@ -121,11 +125,10 @@
   tjPlacement.videoDelegate = self;
   if (bidResponse) {
     NSData *data = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingAllowFragments
-                                                                   error:nil];
+    NSDictionary<id, id> *responseData =
+        [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-    NSDictionary *auctionData = @{
+    NSDictionary<NSString *, id> *auctionData = @{
       TJ_AUCTION_DATA : responseData[TJ_AUCTION_DATA],
       TJ_AUCTION_ID : responseData[TJ_AUCTION_ID]
     };
