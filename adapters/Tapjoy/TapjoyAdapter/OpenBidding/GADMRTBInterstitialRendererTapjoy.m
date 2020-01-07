@@ -108,11 +108,7 @@
 
 #pragma mark TajoyPlacementDelegate methods
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
-  if (!placement.isContentAvailable) {
-    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorNoFill, @"Tapjoy interstitial not available.");
-    _renderCompletionHandler(nil, adapterError);
-  }
+  // Do nothing. contentIsReady: indicates that an ad has loaded.
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
