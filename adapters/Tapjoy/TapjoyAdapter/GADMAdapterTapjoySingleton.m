@@ -130,7 +130,7 @@
 
     NSDictionary<NSString *, id> *auctionData =
         GADMAdapterTapjoyAuctionDataForResponseData(responseData);
-    [tjPlacement setAuctionData:auctionData];
+    tjPlacement.auctionData = auctionData;
   }
   [tjPlacement requestContent];
   return tjPlacement;
@@ -206,6 +206,7 @@
 }
 
 #pragma mark Tapjoy Video
+
 - (void)videoDidStart:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];

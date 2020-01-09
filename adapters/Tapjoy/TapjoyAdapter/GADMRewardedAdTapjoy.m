@@ -92,7 +92,7 @@
 
   // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
   NSDictionary<NSString *, NSNumber *> *connectOptions =
-      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+      @{TJC_OPTION_ENABLE_LOGGING : @(extras.debugEnabled)};
   GADMRewardedAdTapjoy *__weak weakSelf = self;
   [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
                                         options:connectOptions
@@ -171,7 +171,7 @@
   [strongDelegate didEndVideo];
   // Tapjoy only supports fixed rewards and doesn't provide a reward type or amount.
   GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                   rewardAmount:[NSDecimalNumber one]];
+                                                   rewardAmount:NSDecimalNumber.one];
   [strongDelegate didRewardUserWithReward:reward];
 }
 

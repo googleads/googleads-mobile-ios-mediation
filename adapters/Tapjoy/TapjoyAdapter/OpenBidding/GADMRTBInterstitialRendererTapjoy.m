@@ -71,7 +71,7 @@
 
   // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
   NSDictionary<NSString *, NSNumber *> *connectOptions =
-      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+      @{TJC_OPTION_ENABLE_LOGGING : @(extras.debugEnabled)};
   GADMRTBInterstitialRendererTapjoy *__weak weakSelf = self;
   [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
                                         options:connectOptions
@@ -101,7 +101,7 @@
 #pragma mark GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if ([_interstitialAd isContentAvailable]) {
+  if (_interstitialAd.isContentAvailable) {
     [_interstitialAd showContentWithViewController:viewController];
   }
 }

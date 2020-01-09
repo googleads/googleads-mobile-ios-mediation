@@ -85,7 +85,7 @@
 
   // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
   NSDictionary<NSString *, NSNumber *> *connectOptions =
-      @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
+      @{TJC_OPTION_ENABLE_LOGGING : @(extras.debugEnabled)};
   GADMAdapterTapjoy __weak *weakSelf = self;
   [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
                                         options:connectOptions
