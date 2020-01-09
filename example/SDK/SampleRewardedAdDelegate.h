@@ -33,8 +33,8 @@
 /// Tells the delegate that the rewarded ad was received.
 - (void)rewardedAdDidReceiveAd:(nonnull SampleRewardedAd *)rewardedAd;
 
-/// Tells the delegate that the rewarded ad failed to present.
-- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)error;
+/// Tells the delegate that the rewarded ad failed to load.
+- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode;
 
 /// Tells the delegate that the rewarded ad was presented.
 - (void)rewardedAdDidPresent:(nonnull SampleRewardedAd *)rewardedAd;

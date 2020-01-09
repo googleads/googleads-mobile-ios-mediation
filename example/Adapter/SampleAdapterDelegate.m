@@ -18,7 +18,6 @@
 //
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <SampleAdSDK/SampleAdSDK.h>
-
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterConstants.h"
 #import "SampleAdapterMediatedNativeAd.h"

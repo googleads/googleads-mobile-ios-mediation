@@ -23,5 +23,5 @@ static NSString *const SampleAdapterExtraKeyAwesomeness = @"DegreeOfAwesomeness"
 static NSString *const kAdapterErrorDomain = @"com.google.SampleAdapter";
 static NSString *const SampleSDKVersion = @"1.2.1";
 static NSString *const SampleAdapterVersion = @"1.2.1.0";
-static NSString *const SampleApplicationID = @"application_id";
-static NSString *const SampleSDKAdUnitID = @"ad_unit";
+static NSString *const SampleApplicationIDKey = @"application_id";
+static NSString *const SampleSDKAdUnitIDKey = @"ad_unit";
