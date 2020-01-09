@@ -1,7 +1,12 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.4.2.0
+- Verified compatibility with myTarget SDK version 5.4.2
 - Adapter now returns a non-zero `mediaContent` aspect ratio.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.53.1.
+- MyTarget SDK version 5.4.2.
 
 #### Version 5.3.3.0
 - Verified compatibility with myTarget SDK version 5.3.3
