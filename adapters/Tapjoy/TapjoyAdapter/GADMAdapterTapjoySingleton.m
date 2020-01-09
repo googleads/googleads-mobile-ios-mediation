@@ -128,10 +128,8 @@
     NSDictionary<id, id> *responseData =
         [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-    NSDictionary<NSString *, id> *auctionData = @{
-      TJ_AUCTION_DATA : responseData[TJ_AUCTION_DATA],
-      TJ_AUCTION_ID : responseData[TJ_AUCTION_ID]
-    };
+    NSDictionary<NSString *, id> *auctionData =
+        GADMAdapterTapjoyAuctionDataForResponseData(responseData);
     [tjPlacement setAuctionData:auctionData];
   }
   [tjPlacement requestContent];

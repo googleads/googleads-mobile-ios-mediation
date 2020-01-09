@@ -28,6 +28,15 @@ void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
 /// Removes the object for |key| in mapTable if |key| is not nil.
 void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
 
+/// Sets |value| for |key| in |dictionary| if |key| and |value| are not nil.
+void GADMAdapterTapjoyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value);
+
 /// Returns an NSError with the specified code and description.
 NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description);
+
+/// Returns a dictionary of the auction data from a specified ad response.
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterTapjoyAuctionDataForResponseData(
+    NSDictionary<id, id> *_Nullable responseData);

@@ -13,6 +13,9 @@
 // limitations under the License.
 
 #import "GADMAdapterTapjoyUtils.h"
+
+#import <Tapjoy/Tapjoy.h>
+
 #import "GADMAdapterTapjoyConstants.h"
 
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
@@ -41,8 +44,30 @@ void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
   }
 }
 
+void GADMAdapterTapjoyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
   return [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain code:code userInfo:errorInfo];
+}
+
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterTapjoyAuctionDataForResponseData(
+    NSDictionary<id, id> *_Nullable responseData) {
+  NSMutableDictionary<NSString *, id> *auctionData = [[NSMutableDictionary alloc] init];
+
+  if (responseData) {
+    GADMAdapterTapjoyMutableDictionarySetObjectForKey(auctionData, TJ_AUCTION_DATA,
+                                                      responseData[TJ_AUCTION_DATA]);
+    GADMAdapterTapjoyMutableDictionarySetObjectForKey(auctionData, TJ_AUCTION_ID,
+                                                      responseData[TJ_AUCTION_ID]);
+  }
+
+  return auctionData;
 }
