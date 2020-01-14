@@ -296,7 +296,7 @@
                                               userInfo:nil]);
 }
 
-- (void)rewardedAdDidpresent:(nonnull SampleRewardedAd *)rewardedAd {
+- (void)rewardedAdDidPresent:(nonnull SampleRewardedAd *)rewardedAd {
   [_rewardedAdDelegate willPresentFullScreenView];
   [_rewardedAdDelegate didStartVideo];
   [_rewardedAdDelegate reportImpression];
