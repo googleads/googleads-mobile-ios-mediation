@@ -1,5 +1,15 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.5.1.0
+- Verified compatibility with Vungle SDK 6.5.1.
+- Added support for banner (320x50, 300x50, 728x90) ads.
+- Added video orientation option when play ads.
+- Fix a bug where failed to call report_ad after the first refresh
+
+Build and tested with
+- Google Mobile Ads SDK version 7.53.1
+- Vungle SDK version 6.5.1.
+
 #### Version 6.4.6.0
 - Verified compatibility with Vungle SDK 6.4.6.
 - Added support for banner (MREC) ads.

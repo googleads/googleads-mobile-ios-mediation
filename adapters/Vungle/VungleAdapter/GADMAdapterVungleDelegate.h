@@ -14,10 +14,13 @@
 
 /// Vungle adapter ad type.
 typedef NS_ENUM(NSUInteger, GADMAdapterVungleAdType) {
-  GADMAdapterVungleAdTypeUnknown,       ///< Unknown adapter type.
-  GADMAdapterVungleAdTypeRewarded,      ///< Rewarded adapter type.
-  GADMAdapterVungleAdTypeInterstitial,  ///< Interstitial adapter type.
-  GADMAdapterVungleAdTypeBanner         ///< Banner adapter type.
+  GADMAdapterVungleAdTypeUnknown,            ///< Unknown adapter type.
+  GADMAdapterVungleAdTypeRewarded,           ///< Rewarded adapter type.
+  GADMAdapterVungleAdTypeInterstitial,       ///< Interstitial adapter type.
+  GADMAdapterVungleAdTypeMREC,               ///< MREC adapter type.
+  GADMAdapterVungleAdTypeBanner,             ///< Banner adapter type.
+  GADMAdapterVungleAdTypeShortBanner,        ///< ShortBanner adapter type.
+  GADMAdapterVungleAdTypeLeaderboardBanner   ///< LeaderboardBanner adapter type.
 };
 
 /// Vungle banner ad state.
@@ -46,6 +49,9 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 
 @optional
+// Check is banner ad
+- (BOOL)isBannerAd;
+
 // Vungle banner ad state.
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;
 
