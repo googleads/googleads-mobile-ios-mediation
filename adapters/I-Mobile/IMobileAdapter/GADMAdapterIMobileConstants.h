@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Adapter version.
-static NSString *const kGADMAdapterIMobileVersion = @"2.0.29.0";
+static NSString *const kGADMAdapterIMobileVersion = @"2.0.31.0";
 
 /// Key of i-mobile publisher ID.
 static NSString *const kGADMAdapterIMobilePublisherIdKey = @"publisherId";
