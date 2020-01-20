@@ -165,18 +165,20 @@
   [_connector adapterWillPresentInterstitial:self];
 }
 
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-
-  if (didDownload) {
-    [strongConnector adapterDidGetAdClick:self];
-  }
-
-  [strongConnector adapterWillDismissInterstitial:self];
+- (void)willCloseAd {
+  [_connector adapterWillDismissInterstitial:self];
 }
 
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+- (void)didCloseAd {
   [_connector adapterDidDismissInterstitial:self];
+}
+
+- (void)trackClick {
+  [_connector adapterDidGetAdClick:self];
+}
+
+- (void)willLeaveApplication {
+  [_connector adapterWillLeaveApplication:self];
 }
 
 @end

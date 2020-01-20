@@ -35,13 +35,20 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
+- (void)willCloseAd;
+- (void)didCloseAd;
+- (void)trackClick;
 
 @optional
 
 // Get banner request object
 @property(nonatomic, nonnull) GADMAdapterVungleBannerRequest *bannerRequest;
+
+// Reward user for watching a Rewarded Video Ad successfully
+- (void)rewardUser;
+
+// App will leave current application
+- (void)willLeaveApplication;
 
 // Vungle banner ad state.
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;

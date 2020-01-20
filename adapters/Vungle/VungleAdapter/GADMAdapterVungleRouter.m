@@ -513,26 +513,45 @@ const CGSize kVNGBannerShortSize = {300, 50};
   }
 }
 
-- (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
-                          placementID:(nonnull NSString *)placementID {
+- (void)vungleWillCloseAdForPlacementID:(nonnull NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate =
-      [self getDelegateForPlacement:placementID
-          withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
-  [delegate willCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
+  [self getDelegateForPlacement:placementID
+  withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate willCloseAd];
 }
 
-- (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
-                         placementID:(nonnull NSString *)placementID {
+- (void)vungleDidCloseAdForPlacementID:(nonnull NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate =
-      [self getDelegateForPlacement:placementID
-          withBannerRouterDelegateState:BannerRouterDelegateStateClosing];
+  [self getDelegateForPlacement:placementID
+  withBannerRouterDelegateState:BannerRouterDelegateStateClosing];
 
   if (!delegate) {
     return;
   }
 
-  [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
+  [delegate didCloseAd];
   [self removeDelegate:delegate];
+}
+
+- (void)vungleTrackClickForPlacementID:(nullable NSString *)placementID {
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID
+                                           withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate trackClick];
+}
+
+- (void)vungleRewardUserForPlacementID:(nullable NSString *)placementID {
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  if (delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded && [delegate respondsToSelector:@selector(rewardUser)]) {
+    [delegate rewardUser];
+  }
+}
+
+- (void)vungleWillLeaveApplicationForPlacementID:(nullable NSString *)placementID {
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID
+                                           withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  if ([delegate respondsToSelector:@selector(willLeaveApplication)]) {
+    [delegate willLeaveApplication];
+  }
 }
 
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable
