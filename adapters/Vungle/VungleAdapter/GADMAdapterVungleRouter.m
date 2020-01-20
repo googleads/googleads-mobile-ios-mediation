@@ -385,19 +385,18 @@ const CGSize kVNGBannerShortSize = {300, 50};
 
 - (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info
                          placementID:(nonnull NSString *)placementID {
-  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if (!delegate) {
-    return;
-  }
-
-  [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
-
   if ([placementID isEqualToString:_bannerPlacementID]) {
     if (!_isBannerPresenting) {
       _bannerPlacementID = nil;
     }
   }
 
+  id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+  if (!delegate) {
+    return;
+  }
+
+  [delegate didCloseAd:[info.completedView boolValue] didDownload:[info.didDownload boolValue]];
   [self removeDelegate:delegate];
 }
 

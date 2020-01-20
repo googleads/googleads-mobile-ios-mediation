@@ -118,7 +118,8 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+  GADMAdapterVungleInterstitial *__weak weakSelf = self;
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
 }
 
 #pragma mark - GAD Ad Network Protocol Interstitial Methods
@@ -158,7 +159,8 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+  GADMAdapterVungleInterstitial *__weak weakSelf = self;
+  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:weakSelf];
 }
 
 - (void)stopBeingDelegate {
