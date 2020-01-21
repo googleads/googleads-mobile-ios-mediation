@@ -47,7 +47,7 @@
 		458F73782388A178006738A0 /* GADMAdapterVerizonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 458F73762388A178006738A0 /* GADMAdapterVerizonUtils.m */; };
 		6000826C23AA48D600C44734 /* GADMVerizonPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6000826A23AA48D500C44734 /* GADMVerizonPrivacy.m */; };
 		6000826D23AA48D600C44734 /* GADMVerizonPrivacy_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6000826B23AA48D600C44734 /* GADMVerizonPrivacy_Internal.h */; };
-		6000826F23AA48EC00C44734 /* GADMVerizonPrivacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6000826E23AA48EC00C44734 /* GADMVerizonPrivacy.h */; };
+		6000826F23AA48EC00C44734 /* GADMVerizonPrivacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 6000826E23AA48EC00C44734 /* GADMVerizonPrivacy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		600C908F2359D84400EFAB42 /* GADMAdapterVerizonNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 600C90872359D84400EFAB42 /* GADMAdapterVerizonNativeAd.m */; };
 		600C90902359D84400EFAB42 /* GADMAdapterVerizonNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 600C90882359D84400EFAB42 /* GADMAdapterVerizonNativeAd.h */; };
 		600C90912359D84400EFAB42 /* GADMAdapterVerizonBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 600C90892359D84400EFAB42 /* GADMAdapterVerizonBaseClass.m */; };
@@ -342,7 +342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
 		7DD2DCBD1DD12E3E00888FDB /* Static Library Script */ = {
 			isa = PBXShellScriptBuildPhase;
