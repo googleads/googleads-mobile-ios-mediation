@@ -17,9 +17,8 @@
 // limitations under the License.
 //
 
-@import SampleAdSDK;
-
 #import "SampleAdapter.h"
+#import <SampleAdSDK/SampleAdSDK.h>
 #import "SampleAdapterConstants.h"
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAd.h"
@@ -48,9 +47,6 @@
 
   /// Native ad types requested.
   NSArray<GADAdLoaderAdType> *_nativeAdTypes;
-
-  /// The configurations used to initialize sample rewarded ad.
-  GADMediationRewardedAdConfiguration *_adConfig;
 
   /// Handles any callback when the sample rewarded ad finishes loading.
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
@@ -81,9 +77,9 @@
 }
 
 - (void)getInterstitial {
-  _interstitialAd = [[SampleInterstitial alloc] init];
+  _interstitialAd =
+      [[SampleInterstitial alloc] initWithAdUnitID:[_connector credentials][@"ad_unit"]];
   _interstitialAd.delegate = _adapterDelegate;
-  _interstitialAd.adUnit = [_connector credentials][@"ad_unit"];
 
   SampleAdRequest *request = [[SampleAdRequest alloc] init];
   // Set up request parameters.
@@ -262,16 +258,23 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _adConfig = adConfiguration;
   _loadCompletionHandler = completionHandler;
 
-  NSString *adUnit = _adConfig.credentials.settings[SampleSDKAdUnitID];
+  NSString *adUnit = adConfiguration.credentials.settings[SampleSDKAdUnitIDKey];
   _rewardedAd = [[SampleRewardedAd alloc] initWithAdUnitID:adUnit];
   _rewardedAd.delegate = self;
   [_rewardedAd fetchAd:[[SampleAdRequest alloc] init]];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  if (!_rewardedAd.isReady) {
+    NSError *error =
+        [NSError errorWithDomain:kAdapterErrorDomain
+                            code:0
+                        userInfo:@{NSLocalizedDescriptionKey : @"Unable to display ad."}];
+    [_rewardedAdDelegate didFailToPresentWithError:error];
+    return;
+  }
   [_rewardedAd presentFromRootViewController:viewController];
 }
 
@@ -287,22 +290,23 @@
   [_rewardedAdDelegate didDismissFullScreenView];
 }
 
-- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)error {
-  [_rewardedAdDelegate didFailToPresentWithError:[NSError errorWithDomain:kAdapterErrorDomain
-                                                                     code:error
-                                                                 userInfo:nil]];
+- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode {
+  _loadCompletionHandler(nil, [NSError errorWithDomain:kAdapterErrorDomain
+                                                  code:kGADErrorNoFill
+                                              userInfo:nil]);
 }
 
-- (void)rewardedAdDidpresent:(nonnull SampleRewardedAd *)rewardedAd {
+- (void)rewardedAdDidPresent:(nonnull SampleRewardedAd *)rewardedAd {
   [_rewardedAdDelegate willPresentFullScreenView];
   [_rewardedAdDelegate didStartVideo];
+  [_rewardedAdDelegate reportImpression];
 }
 
 - (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
-  GADAdReward *rewards =
+  GADAdReward *aReward =
       [[GADAdReward alloc] initWithRewardType:@""
                                  rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
-  [_rewardedAdDelegate didRewardUserWithReward:rewards];
+  [_rewardedAdDelegate didRewardUserWithReward:aReward];
 }
 
 @end

@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
 
-@interface GADMediationAdapterDuAd : NSObject <GADMediationAdapter>
+/// Safely adds |object| to |set| if |object| is not nil.
+void GADMAdapterVerizonMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-@end
+/// Initializes Verizon Media SDK with the provided site ID.
+BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID);

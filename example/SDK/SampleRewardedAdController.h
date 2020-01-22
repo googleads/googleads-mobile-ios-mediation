@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import "SampleRewardedAd.h"
 #import "SampleRewardedAdDelegate.h"

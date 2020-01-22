@@ -31,3 +31,8 @@ void GADFBConfigureMediationService(void);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Set the mixed audience configuration in the Facebook Audience Network SDK.
+void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment);
+
+

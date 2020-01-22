@@ -19,8 +19,8 @@
 
 #import "ViewController.h"
 
-@import GoogleMobileAds;
-@import SampleAdSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
 #import "AdSourceConfig.h"
 #import "ExampleUnifiedNativeAdView.h"

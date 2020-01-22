@@ -13,13 +13,11 @@
 
 @interface GADMAdapterVerizonBaseClass : NSObject <GADMAdNetworkAdapter>
 
-@property(nonatomic, strong) VASInlineAdFactory *inlineAdFactory;
-@property(nonatomic, strong) VASInlineAdView *inlineAd;
-@property(nonatomic, strong) VASInterstitialAdFactory *interstitialAdFactory;
-@property(nonatomic, strong) VASInterstitialAd *interstitialAd;
-@property(nonatomic, strong) VASAds *vasAds;
-@property(nonatomic, strong) NSString *placementID;
-@property(nonatomic, weak, readonly) id<GADMAdNetworkConnector> connector;
-+ (VASLogger *)logger;
+@property(nonatomic, strong, nullable) VASInlineAdFactory *inlineAdFactory;
+@property(nonatomic, strong, nullable) VASInlineAdView *inlineAd;
+@property(nonatomic, strong, nullable) VASInterstitialAdFactory *interstitialAdFactory;
+@property(nonatomic, strong, nullable) VASInterstitialAd *interstitialAd;
+@property(nonatomic, strong, nullable) NSString *placementID;
++ (nonnull VASLogger *)logger;
 
 @end

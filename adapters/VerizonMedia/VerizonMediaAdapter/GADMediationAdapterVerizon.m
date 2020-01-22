@@ -6,8 +6,9 @@
 
 #import "GADMediationAdapterVerizon.h"
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonConsent_Internal.h"
 #import "GADMAdapterVerizonRewardedAd.h"
+#import "GADMAdapterVerizonUtils.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 @implementation GADMediationAdapterVerizon {
   GADMAdapterVerizonRewardedAd *_rewardedAd;
@@ -16,32 +17,14 @@
 - (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   self = [super initWithGADMAdNetworkConnector:connector];
   if (self) {
-    [self initializeVASAds];
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[kGADMAdapterVerizonMediaPosition]) {
+      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
   return self;
-}
-
-- (void)initializeVASAds {
-  // Position.
-  NSDictionary *credentials = [self.connector credentials];
-  if (credentials[kGADMAdapterVerizonMediaPosition]) {
-    self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
-  }
-
-  if (![VASAds.sharedInstance isInitialized]) {
-    // Site ID.
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-    if (!siteID.length) {
-      siteID = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
-    }
-    [VASStandardEdition initializeWithSiteId:siteID];
-  }
-
-  if (UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-    self.vasAds = VASAds.sharedInstance;
-    [GADMVerizonConsent.sharedInstance updateConsentInfo];
-  }
 }
 
 #pragma mark - GADMediationAdapter
@@ -52,14 +35,15 @@
 
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *siteID = cred.settings[kGADMAdapterVerizonMediaDCN];
-    [siteIDs addObject:siteID];
+    GADMAdapterVerizonMutableSetAddObject(siteIDs, siteID);
   }
 
   if (!siteIDs.count) {
-    NSString *errorString = @"Verizon media mediation configurations did not contain a valid site ID.";
+    NSString *errorString =
+        @"Verizon media mediation configurations did not contain a valid site ID.";
     NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
                                          code:kGADErrorMediationAdapterError
-                                     userInfo:@{ NSLocalizedDescriptionKey : errorString }];
+                                     userInfo:@{NSLocalizedDescriptionKey : errorString}];
     completionHandler(error);
     return;
   }
@@ -68,7 +52,8 @@
 
   if (siteIDs.count != 1) {
     NSLog(@"Found the following site IDs: %@. Please remove any site IDs you are not using from"
-          @"the AdMob/Ad Manager UI.", siteIDs);
+          @"the AdMob/Ad Manager UI.",
+          siteIDs);
     NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
   }
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -111,9 +96,11 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   _rewardedAd = [[GADMAdapterVerizonRewardedAd alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

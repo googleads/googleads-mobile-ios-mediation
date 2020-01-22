@@ -33,7 +33,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 451277C6207DADA100D85E57 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
 			buildPhases = (
-				451277C9207DADD200D85E57 /* Framework Script */,
+				451277C9207DADD200D85E57 /* Static Library Script */,
 			);
 			dependencies = (
 			);
@@ -43,13 +43,18 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00C43B66237E268400C955A2 /* GADMAdapterFyberUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */; };
+		00C43B67237E268400C955A2 /* GADMAdapterFyberUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */; };
+		00F66C97237E0F230051027D /* GADMAdapterFyberConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */; };
+		00F66C98237E0F230051027D /* GADMAdapterFyberRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */; };
+		00F66C99237E0F230051027D /* GADMAdapterFyberRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */; };
 		4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */; };
 		4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */; };
 		451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4512777E207D92C100D85E57 /* FyberAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00DD265122F109A80039C1D4 /* PBXContainerItemProxy */ = {
+		00DE7014237F7CBB007EB8CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45127773207D92C100D85E57 /* Project object */;
 			proxyType = 1;
@@ -71,7 +76,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberUtils.h; sourceTree = "<group>"; };
+		00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberUtils.m; sourceTree = "<group>"; };
 		00DD265022F109970039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberConstants.h; sourceTree = "<group>"; };
+		00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberRewardedAd.m; sourceTree = "<group>"; };
+		00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberRewardedAd.h; sourceTree = "<group>"; };
 		4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFyber.h; sourceTree = "<group>"; };
 		4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFyber.m; sourceTree = "<group>"; };
 		4512777B207D92C100D85E57 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +134,11 @@
 			isa = PBXGroup;
 			children = (
 				451277AB207DA59400D85E57 /* README.md */,
+				00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */,
+				00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */,
+				00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */,
+				00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */,
+				00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */,
 				4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */,
 				4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */,
 			);
@@ -177,6 +192,9 @@
 			files = (
 				451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */,
 				4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */,
+				00F66C97237E0F230051027D /* GADMAdapterFyberConstants.h in Headers */,
+				00C43B66237E268400C955A2 /* GADMAdapterFyberUtils.h in Headers */,
+				00F66C99237E0F230051027D /* GADMAdapterFyberRewardedAd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,7 +213,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				00DD265222F109A80039C1D4 /* PBXTargetDependency */,
+				00DE7015237F7CBB007EB8CA /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = FyberAdapter;
@@ -275,21 +293,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
-		451277C9207DADD200D85E57 /* Framework Script */ = {
+		451277C9207DADD200D85E57 /* Static Library Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Framework Script";
+			name = "Static Library Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -298,17 +316,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F66C98237E0F230051027D /* GADMAdapterFyberRewardedAd.m in Sources */,
 				4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */,
+				00C43B67237E268400C955A2 /* GADMAdapterFyberUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00DD265222F109A80039C1D4 /* PBXTargetDependency */ = {
+		00DE7015237F7CBB007EB8CA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00DD264922F1097C0039C1D4 /* ValidateSourceCode */;
-			targetProxy = 00DD265122F109A80039C1D4 /* PBXContainerItemProxy */;
+			targetProxy = 00DE7014237F7CBB007EB8CA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -334,6 +354,7 @@
 		};
 		45127782207D92C100D85E57 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 451277A5207D9F6400D85E57 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -389,6 +410,7 @@
 		};
 		45127783207D92C100D85E57 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 451277A5207D9F6400D85E57 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -441,48 +463,19 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
 				FAT_LIBRARY_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/Drop_Framework_And_Headers",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Drop_Framework_and_Headers/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=*]" = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Drop_Framework_And_Headers/**",
-					"$(inherited)",
-				);
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -491,47 +484,19 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
 				FAT_LIBRARY_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/Drop_Framework_And_Headers",
-					"$(inherited)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Drop_Framework_and_Headers/**",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=*]" = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Drop_Framework_And_Headers/**",
-					"$(inherited)",
-				);
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				OTHER_LDFLAGS = "";
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
@@ -540,53 +505,21 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
 				FAT_LIBRARY_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
 				LIB_NAME = libAdapter;
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				ONLY_ACTIVE_ARCH = NO;
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -595,40 +528,11 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
 				FAT_LIBRARY_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
 				LIB_NAME = libAdapter;
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
@@ -637,10 +541,8 @@
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 i386 x86_64";
 			};
 			name = Release;
 		};
@@ -649,54 +551,20 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_MODULES_AUTOLINK = NO;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = NO;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				FAT_LIB_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-					"$(inherited)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-					"$(inherited)",
-				);
 				LIB_NAME = libAdapter;
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				ONLY_ACTIVE_ARCH = YES;
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 x86_64 i386";
 			};
 			name = Debug;
 		};
@@ -705,54 +573,20 @@
 			buildSettings = {
 				AD_NETWORK_NAME = Fyber;
 				BITCODE_GENERATION_MODE = bitcode;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_MODULES_AUTOLINK = NO;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = NO;
-				CLANG_WARN_COMMA = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
-				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = NO;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				EXECUTABLE_PREFIX = lib;
-				FAT_LIB_NAME = libAdapterFyber;
 				FRAMEWORK_NAME = FyberAdapter;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-					"$(inherited)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
 				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
-					"$(inherited)",
-				);
 				LIB_NAME = libAdapter;
 				MIN_OS_MAJOR_VERSION = 8;
 				MIN_OS_MAJOR_VERSION_64_BIT = 8;
 				MIN_OS_MINOR_VERSION = 0;
 				MIN_OS_MINOR_VERSION_64_BIT = 0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				ONLY_ACTIVE_ARCH = YES;
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_NAME = Adapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "\"$(SRCROOT)/Public/**\"";
 				SEPERATE_STRIP = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 x86_64 i386";
 			};
 			name = Release;
 		};

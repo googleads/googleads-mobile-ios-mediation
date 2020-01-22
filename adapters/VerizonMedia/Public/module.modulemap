@@ -8,4 +8,5 @@ framework module VerizonMediaAdapter {
   link framework "UIKit"
 
   // Add any public headers here.
+  header "GADMVerizonPrivacy.h"
 }

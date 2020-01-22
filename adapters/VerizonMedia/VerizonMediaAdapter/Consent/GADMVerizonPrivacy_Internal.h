@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-static NSString *const kGADMAdapterDuAdVersion = @"1.1.2.1";
+#import <Foundation/Foundation.h>
+#import "GADMVerizonPrivacy.h"
 
-static NSString *const kGADMAdapterDuAdAppID = @"appId";
+@interface GADMVerizonPrivacy (Internal)
 
-static NSString *const kGADMAdapterDuAdPlacementID = @"placementId";
+/**
+ * Updates the privacy data to be forwarded to the Verizon Ads SDK.
+ */
+- (void)updatePrivacyData;
 
-static NSString *const kGADMAdapterDuAdErrorDomain = @"com.google.mediation.duad";
+@end

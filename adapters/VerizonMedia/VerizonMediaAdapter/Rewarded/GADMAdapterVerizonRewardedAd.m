@@ -6,13 +6,14 @@
 
 #import "GADMAdapterVerizonRewardedAd.h"
 
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
+#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonConsent_Internal.h"
+#import "GADMVerizonPrivacy_Internal.h"
+#import "GADMAdapterVerizonUtils.h"
 
-NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
+NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
 @interface GADMAdapterVerizonRewardedAd () <VASInterstitialAdDelegate,
                                             VASInterstitialAdFactoryDelegate>
@@ -21,9 +22,6 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 @implementation GADMAdapterVerizonRewardedAd {
   /// Verizon media rewarded ad.
   VASInterstitialAd *_rewardedAd;
-
-  /// A shared instance of the Verizon media core SDK.
-  VASAds *_vasAds;
 
   /// Placement ID string used to request ads from Verizon Ads SDK.
   NSString *_placementID;
@@ -43,46 +41,33 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   BOOL _isVideoCompletionEventCalled;
 }
 
-- (void)initializeVASSDK {
-  NSDictionary *settings = _adConfiguration.credentials.settings;
-  if(settings[kGADMAdapterVerizonMediaPosition]) {
-    _placementID = settings[kGADMAdapterVerizonMediaPosition];
-  }
-
-  NSString *siteId = settings[kGADMAdapterVerizonMediaDCN];
-  if (!siteId.length) {
-    siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
-  }
-
-  if(UIDevice.currentDevice.systemVersion.floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-    if(![VASAds.sharedInstance isInitialized]) {
-      [VASStandardEdition initializeWithSiteId:siteId];
-    }
-    _vasAds = [VASAds sharedInstance];
-    [GADMVerizonConsent.sharedInstance updateConsentInfo];
-  }
-}
-
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
-                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler {
+                       completionHandler:
+                           (nonnull GADMediationRewardedLoadCompletionHandler)handler {
   _adConfiguration = adConfig;
-  if (!_vasAds) {
-    [self initializeVASSDK];
-  }
+    
+  NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
+  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+    
+  _placementID = credentials[kGADMAdapterVerizonMediaPosition];
 
-  if (!_placementID || ![_vasAds isInitialized]) {
-    NSError *error = [NSError errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorMediationAdapterError
-                                     userInfo:@{ NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."}];
+  if (!_placementID) {
+    NSError *error = [NSError
+        errorWithDomain:kGADErrorDomain
+                   code:kGADErrorMediationAdapterError
+               userInfo:@{
+                 NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
+               }];
     handler(nil, error);
+    return;
   }
 
   [self setRequestInfoFromAdConfiguration];
   _rewardedCompletionHandler = handler;
   _rewardedAd = nil;
   _rewardedAdFactory = [[VASInterstitialAdFactory alloc] initWithPlacementId:_placementID
-                                                                      vasAds:_vasAds
+                                                                      vasAds:VASAds.sharedInstance
                                                                     delegate:self];
   [_rewardedAdFactory load:self];
 }
@@ -100,7 +85,7 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
   // Location.
   if (_adConfiguration.hasUserLocation) {
-    _vasAds.locationEnabled = YES;
+    VASAds.sharedInstance.locationEnabled = YES;
   }
 }
 
@@ -108,13 +93,13 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator.
-  builder.appMediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
 
-  _vasAds.requestMetadata = [builder build];
+  VASAds.sharedInstance.requestMetadata = [builder build];
 }
 
 - (void)setCoppaFromAdConfiguration {
-  _vasAds.COPPA = _adConfiguration.childDirectedTreatment;
+  VASAds.sharedInstance.COPPA = _adConfiguration.childDirectedTreatment;
 }
 
 - (void)dealloc {
@@ -203,8 +188,8 @@ NSString * const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
       !_isVideoCompletionEventCalled) {
     dispatch_async(dispatch_get_main_queue(), ^{
       GADAdReward *reward =
-        [[GADAdReward alloc] initWithRewardType:@""
-                                   rewardAmount:[[NSDecimalNumber alloc] initWithInteger:1]];
+          [[GADAdReward alloc] initWithRewardType:@""
+                                     rewardAmount:[[NSDecimalNumber alloc] initWithInteger:1]];
       [self->_adEventDelegate didRewardUserWithReward:reward];
       self->_isVideoCompletionEventCalled = YES;
     });

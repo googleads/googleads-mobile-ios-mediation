@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <DuAdAdapter/GADDuAdNetworkExtras.h>
+@interface GADMVerizonPrivacy : NSObject
+
+@property(class, atomic, readonly, nonnull) GADMVerizonPrivacy *sharedInstance;
+
+/**
+ * Privacy data forwarded to the Verizon Ads SDK.
+ */
+@property(nonatomic, readonly, nullable) NSDictionary<NSString *, id> *privacyData;
+
+/**
+ * Sets privacy data on the Verizon Ads SDK once it's initialized.
+ * Can be called before the Verizon SDK is initialized.
+ */
+- (void)setPrivacyData:(nonnull NSDictionary<NSString *, id> *)privacyData;
+
+@end

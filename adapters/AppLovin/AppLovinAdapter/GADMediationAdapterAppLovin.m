@@ -66,23 +66,18 @@
           (unsigned long)sdkKeys.count];
 
   // Initialize SDKs based on SDK keys.
-  NSSet<NSString *> *sdkKeysCopy = [sdkKeys copy];
-  for (NSString *sdkKey in sdkKeysCopy) {
-    [GADMAdapterAppLovinUtils log:@"Initializing SDK for SDK key %@", sdkKey];
-
+  dispatch_group_t group = dispatch_group_create();
+  for (NSString *sdkKey in sdkKeys) {
+    dispatch_group_enter(group);
     ALSdk *sdk = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:sdkKey];
     [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
-      [GADMAdapterAppLovinUtils log:@"Initialization completed for SDK key %@", sdkKey];
-      GADMAdapterAppLovinMutableSetRemoveObject(sdkKeys, sdkKey);
-
-      // Once all instances of SDK keys have been initialized, callback the initialization
-      // listener.
-      if (sdkKeys.count == 0) {
-        [GADMAdapterAppLovinUtils log:@"All SDK(s) completed initialization"];
-        completionHandler(nil);
-      }
+      dispatch_group_leave(group);
     }];
   }
+  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    [GADMAdapterAppLovinUtils log:@"All SDKs completed initialization."];
+    completionHandler(nil);
+  });
 }
 
 + (GADVersionNumber)version {

@@ -8,6 +8,13 @@ Built and tested with
 - Google Mobile Ads SDK version 7.53.1.
 - Nend SDK version 5.4.0.
 
+#### Version 5.3.1.0
+- Verified compatibility with nend SDK 5.3.1.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.52.0.
+- Nend SDK version 5.3.1.
+
 #### Version 5.3.0.0
 - Verified compatibility with nend SDK 5.3.0.
 

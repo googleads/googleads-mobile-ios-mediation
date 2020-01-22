@@ -147,17 +147,17 @@
 			children = (
 				89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */,
 				89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */,
+				89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */,
+				892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */,
+				89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */,
+				89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */,
+				89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */,
 				89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */,
 				89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */,
 				89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */,
 				89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */,
-				89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */,
-				89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */,
-				892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */,
 				89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */,
 				89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */,
-				89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */,
-				89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */,
 				45D672F9223AEE8400323EC6 /* GADMediationAdapterMyTarget.h */,
 				45D672FA223AEE8400323EC6 /* GADMediationAdapterMyTarget.m */,
 				45D672FD223AEF5B00323EC6 /* GADMRewardedAdMyTarget.h */,
@@ -266,7 +266,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Mail.Ru Group";
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -282,10 +282,9 @@
 			};
 			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "MyTargetAdapter" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = 7DFABB141DA8682C00322E02;
@@ -405,6 +404,7 @@
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -412,6 +412,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -444,7 +445,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
@@ -455,6 +456,7 @@
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -462,6 +464,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -488,7 +491,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};

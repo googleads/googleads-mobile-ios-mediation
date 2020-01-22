@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /// Sample error codes.
 typedef NS_ENUM(NSInteger, SampleErrorCode) {

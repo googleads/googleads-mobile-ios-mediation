@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "GADMVerizonConsent.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMVerizonConsent (Internal)
+/// Rewarded mediation network adapter for Fyber.
+@interface GADMAdapterFyberRewardedAd : NSObject
 
-/**
- * Updates the consent info to be forwarded to the Verizon Ads SDK.
- */
-- (void)updateConsentInfo;
+/// Dedicated initializer to create a new instance of a rewarded ad.
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads a rewarded ad from the Fyber SDK.
+- (void)loadRewardedAd;
 
 @end
