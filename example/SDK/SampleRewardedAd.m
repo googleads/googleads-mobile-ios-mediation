@@ -34,6 +34,9 @@
 
 - (void)fetchAd:(SampleAdRequest *)request {
   if (!self.adUnit) {
+    if (self.enableDebugLogging) {
+      NSLog(@"Ad fail to load due to ad unit ID missing.");
+    }
     [_delegate rewardedAdDidFailToLoadWithError:SampleErrorCodeBadRequest];
   }
   int randomValue = arc4random() % 100;

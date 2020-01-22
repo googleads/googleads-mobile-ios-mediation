@@ -36,6 +36,9 @@
 		AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB031F606689003BB4D2 /* SampleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */; };
 		AEC0D11D1F3BC63F005B3813 /* SampleAdSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF6F362D23CE8E16002BA090 /* SampleExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F362923CE8D62002BA090 /* SampleExtras.m */; };
+		EF6F363123CE981D002BA090 /* SampleExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = EF6F363023CE981D002BA090 /* SampleExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF6F363223CE9A93002BA090 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */; };
 		EFA49FEB235A51B10006917F /* SampleRewardedAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFA49FED235A51EC0006917F /* SampleRewardedAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */; };
 		EFA49FEF235A522C0006917F /* SampleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEE235A522C0006917F /* SampleRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,6 +91,8 @@
 		AEABBB031F606689003BB4D2 /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapter.h; sourceTree = "<group>"; };
 		AEABBB041F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterMediatedNativeAd.m; sourceTree = "<group>"; };
 		AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF6F362923CE8D62002BA090 /* SampleExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleExtras.m; sourceTree = "<group>"; };
+		EF6F363023CE981D002BA090 /* SampleExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleExtras.h; sourceTree = "<group>"; };
 		EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAdController.h; sourceTree = "<group>"; };
 		EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleRewardedAdController.m; sourceTree = "<group>"; };
 		EFA49FEE235A522C0006917F /* SampleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAd.h; sourceTree = "<group>"; };
@@ -107,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF6F363223CE9A93002BA090 /* SampleAdSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,7 +193,9 @@
 		AEABBB101F60670A003BB4D2 /* Adapter */ = {
 			isa = PBXGroup;
 			children = (
+				EF6F362923CE8D62002BA090 /* SampleExtras.m */,
 				AEABBB031F606689003BB4D2 /* SampleAdapter.h */,
+				EF6F363023CE981D002BA090 /* SampleExtras.h */,
 				AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */,
 				AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */,
 				AEABBB011F606688003BB4D2 /* SampleAdapterDelegate.h */,
@@ -243,6 +251,7 @@
 				AEABBB0A1F606689003BB4D2 /* SampleAdapterProtocol.h in Headers */,
 				AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */,
 				AEABBB0B1F606689003BB4D2 /* SampleAdapterDelegate.h in Headers */,
+				EF6F363123CE981D002BA090 /* SampleExtras.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +374,7 @@
 			files = (
 				AEABBB0E1F606689003BB4D2 /* SampleAdapterMediatedNativeAd.m in Sources */,
 				AEABBB081F606689003BB4D2 /* SampleAdapterDelegate.m in Sources */,
+				EF6F362D23CE8E16002BA090 /* SampleExtras.m in Sources */,
 				AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

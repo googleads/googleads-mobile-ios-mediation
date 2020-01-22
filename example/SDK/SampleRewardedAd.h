@@ -44,6 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// successfully loaded.
 @property(nonatomic, readonly) NSUInteger reward;
 
+/// A flag that indicates whether debug logging is on.
+@property(nonatomic) BOOL enableDebugLogging;
+
 ///  Present the rewarded ad on screen.
 - (void)presentFromRootViewController:(UIViewController *)viewController;
 

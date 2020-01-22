@@ -36,4 +36,7 @@ typedef NS_ENUM(NSInteger, SampleErrorCode) {
 /// Array of keyword strings for describing the current user activity.
 @property(nonatomic, copy) NSArray<NSString *> *keywords;
 
+/// A flag that indicates whether ad video audio should be muted.
+@property(nonatomic) BOOL mute;
+
 @end

@@ -22,6 +22,7 @@
 #import "SampleAdapterConstants.h"
 #import "SampleAdapterDelegate.h"
 #import "SampleAdapterMediatedNativeAd.h"
+#import "SampleExtras.h"
 
 @interface SampleAdapter () <SampleRewardedAdDelegate, GADMediationRewardedAd> {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -211,9 +212,7 @@
 #pragma mark GADMediationAdapter implementation
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  // OPTIONAL: Create your own class implementing GADAdNetworkExtras and return that class type
-  // here for your publishers to use. This class does not use extras.
-  return Nil;
+  return [SampleExtras class];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -246,8 +245,8 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  /// Since the Sample SDK doesn't need to initialize, the completion handler is called directly
-  /// here.
+  // Since the Sample SDK doesn't need to initialize, the completion handler is called directly
+  // here.
   completionHandler(nil);
 }
 
@@ -261,9 +260,18 @@
   _loadCompletionHandler = completionHandler;
 
   NSString *adUnit = adConfiguration.credentials.settings[SampleSDKAdUnitIDKey];
+  SampleExtras *extras = adConfiguration.extras;
+
   _rewardedAd = [[SampleRewardedAd alloc] initWithAdUnitID:adUnit];
+  _rewardedAd.enableDebugLogging = extras.enableDebugLogging;
+
+  // Check the extras to see if the request should be customized.
+  SampleAdRequest *request = [[SampleAdRequest alloc] init];
+  request.mute = extras.muteAudio;
+
+  // Set the delegate on the rewarded ad to listen for callbacks from the Sample SDK.
   _rewardedAd.delegate = self;
-  [_rewardedAd fetchAd:[[SampleAdRequest alloc] init]];
+  [_rewardedAd fetchAd:request];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

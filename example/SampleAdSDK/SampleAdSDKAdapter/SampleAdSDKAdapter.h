@@ -23,7 +23,8 @@ FOUNDATION_EXPORT double SampleAdSDKAdapterVersionNumber;
 FOUNDATION_EXPORT const unsigned char SampleAdSDKAdapterVersionString[];
 
 #import <SampleAdSDKAdapter/SampleAdapter.h>
-#import <SampleAdSDKAdapter/SampleAdapterDelegate.h>
 #import <SampleAdSDKAdapter/SampleAdapterConstants.h>
-#import <SampleAdSDKAdapter/SampleAdapterProtocol.h>
+#import <SampleAdSDKAdapter/SampleAdapterDelegate.h>
 #import <SampleAdSDKAdapter/SampleAdapterMediatedNativeAd.h>
+#import <SampleAdSDKAdapter/SampleAdapterProtocol.h>
+#import <SampleAdSDKAdapter/SampleExtras.h>
