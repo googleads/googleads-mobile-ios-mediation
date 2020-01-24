@@ -32,9 +32,6 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
-
-  /// YES if the adapter is loading.
-  BOOL _isLoading;
 }
 
 @end
@@ -54,8 +51,10 @@
 }
 
 - (void)stopBeingDelegate {
-  [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
-  [_bannerAd stopBeingDelegate];
+  if (_bannerAd != nil) {
+    [_bannerAd stopBeingDelegate];
+  }
+  [UnityAds removeDelegate:self];
 }
 
 #pragma mark Interstitial Methods
@@ -81,17 +80,14 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-  _isLoading = YES;
-  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
+    
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID];
+  [UnityAds addDelegate:self];
+  [UnityAds load:_placementID];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad
-  // has already loaded.
-  [_networkConnector adapterWillPresentInterstitial:self];
-  [[GADMAdapterUnitySingleton sharedInstance]
-      presentInterstitialAdForViewController:rootViewController
-                                    delegate:self];
+    [UnityAds show:rootViewController placementId:_placementID];
 }
 
 #pragma mark Banner Methods
@@ -123,32 +119,32 @@
 
 #pragma mark - Unity Delegate Methods
 
-- (void)unityAdsPlacementStateChanged:(NSString *)placementId
+- (void)unityAdsPlacementStateChanged:(NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
-  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
-  // Google Mobile Ads SDK.
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
+    if (newState == kUnityAdsPlacementStateNoFill){
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+    }
+  }
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-  if (strongNetworkConnector) {
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
     [strongNetworkConnector adapterWillDismissInterstitial:self];
     [strongNetworkConnector adapterDidDismissInterstitial:self];
+    [UnityAds removeDelegate:self];
   }
 }
 
 - (void)unityAdsReady:(NSString *)placementID {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-  if (!_isLoading) {
-    return;
-  }
-
-  if (strongNetworkConnector) {
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
     [strongNetworkConnector adapterDidReceiveInterstitial:self];
   }
-  _isLoading = NO;
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
@@ -156,7 +152,7 @@
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
-  if (strongNetworkConnector) {
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
     [strongNetworkConnector adapterDidGetAdClick:self];
     [strongNetworkConnector adapterWillLeaveApplication:self];
   }
@@ -164,27 +160,23 @@
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-  if (!_isLoading) {
-    // Unity Ads show error will only happen after the ad has been loaded. So, we will send
-    // dismiss/close callbacks.
-    if (error == kUnityAdsErrorShowError) {
-      if (strongNetworkConnector) {
+    if (strongNetworkConnector) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+      if (error == kUnityAdsErrorShowError) {
         [strongNetworkConnector adapterWillDismissInterstitial:self];
         [strongNetworkConnector adapterDidDismissInterstitial:self];
       }
+      [UnityAds removeDelegate:self];
     }
     return;
-  }
-
-  NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-  if (strongNetworkConnector) {
-    [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-  }
-  _isLoading = NO;
 }
 
-- (void)unityAdsDidStart:(nonnull NSString *)placementId {
-  // nothing to do
+- (void)unityAdsDidStart:(nonnull NSString *)placementID {
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
+    [strongNetworkConnector adapterWillPresentInterstitial:self];
+  }
 }
 
 @end

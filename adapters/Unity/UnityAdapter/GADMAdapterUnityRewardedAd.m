@@ -57,8 +57,6 @@
   _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
   NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
 
-  GADMAdapterUnityRewardedAd __weak *weakSelf = self;
-
   if (!_gameID || !_placementID) {
     if (_adLoadCompletionHandler) {
       NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
@@ -81,27 +79,13 @@
     return;
   }
 
-  if ([UnityAds isReady:_placementID]) {
-    if (_adLoadCompletionHandler) {
-      _adEventDelegate = _adLoadCompletionHandler(self, nil);
-      _adLoadCompletionHandler = nil;
-    }
-    _isLoading = NO;
-  } else {
-    _isLoading = YES;
-  }
-
-  [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID];
+  [UnityAds addDelegate:self];
+  [UnityAds load:_placementID];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (_isLoading) {
-    NSError *presentError = GADUnityErrorWithDescription(@"Ad has not finished loading.");
-    [_adEventDelegate didFailToPresentWithError:presentError];
-  } else {
-    [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController
-                                                                          delegate:self];
-  }
+  [UnityAds show:viewController placementId:_placementID];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -117,12 +101,10 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-  if (!_isLoading) {
-    if (error == kUnityAdsErrorShowError) {
-      NSError *presentError = GADUnityErrorWithDescription(message);
-      [_adEventDelegate didFailToPresentWithError:presentError];
-    }
-    return;
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate && error == kUnityAdsErrorShowError) {
+    NSError *presentError = GADUnityErrorWithDescription(message);
+    [_adEventDelegate didFailToPresentWithError:presentError];
   }
 
   if (_adLoadCompletionHandler) {
@@ -130,57 +112,64 @@
     _adLoadCompletionHandler(nil, errorWithDescription);
     _adLoadCompletionHandler = nil;
   }
-  _isLoading = NO;
 }
 
-- (void)unityAdsDidFinish:(nonnull NSString *)placementId
+- (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (state == kUnityAdsFinishStateCompleted) {
-    [strongDelegate didEndVideo];
-    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
-    // amount of 1. Publishers using this adapter should override the reward on the AdMob
-    // front-end.
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                     rewardAmount:[NSDecimalNumber one]];
-    [strongDelegate didRewardUserWithReward:reward];
+  if (strongDelegate && [placementID isEqualToString:_placementID]) {
+    if (state == kUnityAdsFinishStateCompleted) {
+      [strongDelegate didEndVideo];
+      // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+      // amount of 1. Publishers using this adapter should override the reward on the AdMob
+      // front-end.
+      GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                         rewardAmount:[NSDecimalNumber one]];
+      [strongDelegate didRewardUserWithReward:reward];
+    }
+    [strongDelegate willDismissFullScreenView];
+    [strongDelegate didDismissFullScreenView];
+    [UnityAds removeDelegate:self];
   }
-  [strongDelegate willDismissFullScreenView];
-  [strongDelegate didDismissFullScreenView];
 }
 
-- (void)unityAdsDidStart:(nonnull NSString *)placementId {
+- (void)unityAdsDidStart:(nonnull NSString *)placementID {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate didStartVideo];
+  if (strongDelegate && [placementID isEqualToString:_placementID]) {
+    [strongDelegate willPresentFullScreenView];
+    [strongDelegate didStartVideo];
+  }
 }
 
-- (void)unityAdsReady:(nonnull NSString *)placementId {
-  if (!_isLoading) {
-    return;
-  }
-
-  if (_adLoadCompletionHandler) {
+- (void)unityAdsReady:(nonnull NSString *)placementID {
+  if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
     _adLoadCompletionHandler = nil;
   }
-  _isLoading = NO;
 }
 
-- (void)unityAdsDidClick:(nonnull NSString *)placementId {
+- (void)unityAdsDidClick:(nonnull NSString *)placementID {
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  [strongDelegate reportClick];
+  if (strongDelegate && [placementID isEqualToString:_placementID]) {
+    [strongDelegate reportClick];
+  }
 }
 
-- (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementId
+- (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
   // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
   // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
   // Google Mobile Ads SDK.
+  //id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID] && newState == kUnityAdsPlacementStateNoFill) {
+    NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
+    _adLoadCompletionHandler(nil, errorWithDescription);
+    _adLoadCompletionHandler = nil;
+  }
 }
 
 @end
