@@ -33,10 +33,10 @@
 }
 
 + (nullable id<GADMediatedUnifiedNativeAd>)
-    mediatedUnifiedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
-                                        nativeAd:(MTRGNativeAd *)nativeAd
+    mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
+                                        nativeAd:(nonnull MTRGNativeAd *)nativeAd
                                   autoLoadImages:(BOOL)autoLoadImages
-                                     mediaAdView:(MTRGMediaAdView *)mediaAdView {
+                                     mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
         promoBanner.ctaText) else return nil;
   guard((autoLoadImages && promoBanner.image.image) ||
@@ -56,10 +56,10 @@
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
-    initWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
-                     nativeAd:(MTRGNativeAd *)nativeAd
+    initWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
+                     nativeAd:(nonnull MTRGNativeAd *)nativeAd
                autoLoadImages:(BOOL)autoLoadImages
-                  mediaAdView:(MTRGMediaAdView *)mediaAdView {
+                  mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _nativeAd = nativeAd;
@@ -91,56 +91,56 @@
   return self;
 }
 
-- (void)addExtraAsset:(NSString *)asset forKey:(NSString *)key {
+- (void)addExtraAsset:(nullable NSString *)asset forKey:(nonnull NSString *)key {
   guard(asset && ![asset isEqualToString:@""]) else return;
   [_extraAssets setObject:asset forKey:key];
 }
 
-- (NSString *)headline {
+- (nullable NSString *)headline {
   return _headline;
 }
 
-- (NSArray<GADNativeAdImage *> *)images {
+- (nullable NSArray<GADNativeAdImage *> *)images {
   return _images;
 }
 
-- (NSString *)body {
+- (nullable NSString *)body {
   return _body;
 }
 
-- (GADNativeAdImage *)icon {
+- (nullable GADNativeAdImage *)icon {
   return _icon;
 }
 
-- (NSString *)callToAction {
+- (nullable NSString *)callToAction {
   return _callToAction;
 }
 
-- (NSDecimalNumber *)starRating {
+- (nullable NSDecimalNumber *)starRating {
   return _starRating;
 }
 
-- (NSString *)store {
+- (nullable NSString *)store {
   return nil;
 }
 
-- (NSString *)price {
+- (nullable NSString *)price {
   return nil;
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
   return _advertiser;
 }
 
-- (NSDictionary<NSString *, id> *)extraAssets {
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
   return _extraAssets;
 }
 
-- (UIView *)adChoicesView {
+- (nullable UIView *)adChoicesView {
   return nil;
 }
 
-- (UIView *)mediaView {
+- (nullable UIView *)mediaView {
   return _mediaAdView;
 }
 
@@ -152,12 +152,12 @@
   return _mediaAdView.aspectRatio;
 }
 
-- (void)didRenderInView:(UIView *)view
+- (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
   guard(_nativeAd) else return;
 
@@ -174,9 +174,9 @@
   // do nothing
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
-                                 view:(UIView *)view
-                       viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(nonnull UIView *)view
+                       viewController:(nonnull UIViewController *)viewController {
   // do nothing
 }
 

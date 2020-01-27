@@ -45,12 +45,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		40000AEE23018B54008C7557 /* VungleRouterConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 40000AEC23018B54008C7557 /* VungleRouterConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		40000AEF23018B54008C7557 /* VungleRouterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 40000AED23018B54008C7557 /* VungleRouterConfiguration.m */; };
-		4552392820B6381D0081388F /* VungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552392520B6381D0081388F /* VungleRouter.m */; };
-		4552392920B6381E0081388F /* VungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392620B6381D0081388F /* VungleRouter.h */; };
 		4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552392720B6381D0081388F /* VungleRouterConsent.m */; };
 		4552392C20B638270081388F /* VungleRouterConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392B20B638270081388F /* VungleRouterConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4557855B238DE7E700523142 /* GADMAdapterVungleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4557855A238DE7E700523142 /* GADMAdapterVungleDelegate.h */; };
+		458F734F2385DFF2006738A0 /* GADMAdapterVungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */; };
+		458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */; };
 		4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */; };
 		4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */; };
 		4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */; };
@@ -68,7 +67,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */ = {
+		458F73512385E0A4006738A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
 			proxyType = 1;
@@ -105,12 +104,11 @@
 
 /* Begin PBXFileReference section */
 		00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
-		40000AEC23018B54008C7557 /* VungleRouterConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouterConfiguration.h; sourceTree = "<group>"; };
-		40000AED23018B54008C7557 /* VungleRouterConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConfiguration.m; sourceTree = "<group>"; };
-		4552392520B6381D0081388F /* VungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouter.m; sourceTree = "<group>"; };
-		4552392620B6381D0081388F /* VungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouter.h; sourceTree = "<group>"; };
 		4552392720B6381D0081388F /* VungleRouterConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConsent.m; sourceTree = "<group>"; };
 		4552392B20B638270081388F /* VungleRouterConsent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouterConsent.h; sourceTree = "<group>"; };
+		4557855A238DE7E700523142 /* GADMAdapterVungleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleDelegate.h; sourceTree = "<group>"; };
+		458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRouter.h; sourceTree = "<group>"; };
+		458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleRouter.m; sourceTree = "<group>"; };
 		4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleConstants.h; sourceTree = "<group>"; };
 		4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleUtils.h; sourceTree = "<group>"; };
 		4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleUtils.m; sourceTree = "<group>"; };
@@ -151,23 +149,22 @@
 		7D15756E1EB7FB9200059469 /* VungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				40000AEC23018B54008C7557 /* VungleRouterConfiguration.h */,
-				40000AED23018B54008C7557 /* VungleRouterConfiguration.m */,
-				4552392620B6381D0081388F /* VungleRouter.h */,
-				4552392520B6381D0081388F /* VungleRouter.m */,
-				4552392720B6381D0081388F /* VungleRouterConsent.m */,
+				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
+				4557855A238DE7E700523142 /* GADMAdapterVungleDelegate.h */,
 				A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */,
 				A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */,
 				A85428DA1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				A85428DB1F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m */,
-				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
-				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
-				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
 				45BFFB5B22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h */,
 				45BFFB5C22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m */,
-				4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */,
+				458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */,
+				458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */,
 				4593F48D227CE28A00F57AE5 /* GADMAdapterVungleUtils.h */,
 				4593F48E227CE28A00F57AE5 /* GADMAdapterVungleUtils.m */,
+				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
+				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
+				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
+				4552392720B6381D0081388F /* VungleRouterConsent.m */,
 			);
 			path = VungleAdapter;
 			sourceTree = "<group>";
@@ -240,16 +237,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40000AEE23018B54008C7557 /* VungleRouterConfiguration.h in Headers */,
 				4593F48F227CE28A00F57AE5 /* GADMAdapterVungleUtils.h in Headers */,
 				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
 				45BFFB5D22272D4300C96A67 /* GADMAdapterVungleRewardedAd.h in Headers */,
+				4557855B238DE7E700523142 /* GADMAdapterVungleDelegate.h in Headers */,
+				458F734F2385DFF2006738A0 /* GADMAdapterVungleRouter.h in Headers */,
 				7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */,
 				56C4F0F21F29531200BABF7E /* VungleAdNetworkExtras.h in Headers */,
 				A85428E21F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
 				45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */,
 				4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */,
-				4552392920B6381E0081388F /* VungleRouter.h in Headers */,
 				4552392C20B638270081388F /* VungleRouterConsent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +266,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				00DD26B422F10DF80039C1D4 /* PBXTargetDependency */,
+				458F73522385E0A4006738A0 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -344,7 +341,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
 		7DD2DCBD1DD12E3E00888FDB /* Static Library Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -367,14 +364,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */,
 				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,
 				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
 				45BFFB5E22272D4300C96A67 /* GADMAdapterVungleRewardedAd.m in Sources */,
 				4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */,
 				A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */,
 				A85428E31F11853A00C135E7 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
-				4552392820B6381D0081388F /* VungleRouter.m in Sources */,
-				40000AEF23018B54008C7557 /* VungleRouterConfiguration.m in Sources */,
 				4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,10 +378,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00DD26B422F10DF80039C1D4 /* PBXTargetDependency */ = {
+		458F73522385E0A4006738A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
-			targetProxy = 00DD26B322F10DF80039C1D4 /* PBXContainerItemProxy */;
+			targetProxy = 458F73512385E0A4006738A0 /* PBXContainerItemProxy */;
 		};
 		A8435CF41F152C8E00AA595E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -419,14 +415,14 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -538,14 +534,14 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};

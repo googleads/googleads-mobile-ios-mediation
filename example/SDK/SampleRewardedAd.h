@@ -17,8 +17,8 @@
 #import "SampleAdRequest.h"
 #import "SampleRewardedAdDelegate.h"
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The reward earned by the user for interacting with a rewarded ad. Is nil until the ad has
 /// successfully loaded.
 @property(nonatomic, readonly) NSUInteger reward;
+
+/// A flag that indicates whether debug logging is on.
+@property(nonatomic) BOOL enableDebugLogging;
 
 ///  Present the rewarded ad on screen.
 - (void)presentFromRootViewController:(UIViewController *)viewController;

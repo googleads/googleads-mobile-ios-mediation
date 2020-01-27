@@ -23,16 +23,17 @@
 @end
 
 /// Find closest supported ad size from a given ad size.
-/// Returns nil if no supported size matches.
-static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeFullBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard),
-    NSValueFromGADAdSize(kGADAdSizeSkyscraper)
-  ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize) {
+  // Supported sizes
+  // 320 x 50
+  // 300 x 250
+  // 728 x 90
 
-  return closestSize;
+  NSArray<NSValue *> *potentialSizeValues =
+      @[ @(kGADAdSizeBanner), @(kGADAdSizeMediumRectangle), @(kGADAdSizeLeaderboard) ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizeValues);
+  return CGSizeFromGADAdSize(closestSize);
 }
 
 @implementation GADMAdapterInMobi
@@ -237,71 +238,26 @@ __attribute__((constructor)) static void initialize_imageCache() {
           @"Inmobi");
   }
 
-  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
+  CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(adSize);
 
-  if (GADAdSizeEqualToSize(adSize, kGADAdSizeBanner)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 320, 50)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 300, 250)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeFullBanner)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 468, 60)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 728, 90)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeSkyscraper)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 120, 600)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if ((GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerPortrait)) ||
-             (GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerLandscape))) {
-    [self getOptimalSlotSize];
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else {
-    NSString *errorDesc = [NSString
-        stringWithFormat:@"[InMobi] Exception - Invalid ad type %@", NSStringFromGADAdSize(adSize)];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  if (CGSizeEqualToSize(size, CGSizeZero)) {
+    NSString *errorDescription =
+        [NSString stringWithFormat:@"Invalid size for InMobi mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(adSize)];
+    NSDictionary *errorInfo = @{NSLocalizedDescriptionKey : errorDescription};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorMediationInvalidAdSize
                                                      userInfo:errorInfo];
     [self.connector adapter:self didFailAd:error];
     return;
   }
+  self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
+                                    placementId:placementId];
+  self.adView.delegate = self;
   // Let Mediation do the refresh.
   [self.adView shouldAutoRefresh:NO];
-  self.adView.delegate = self;
   [self prepareRequestParameters];
   [self.adView load];
-}
-
-- (void)getOptimalSlotSize {
-  CGRect screenBounds = [UIScreen mainScreen].bounds;
-  CGFloat screenWidth = CGRectGetWidth(screenBounds);
-  CGFloat screenHeight = CGRectGetHeight(screenBounds);
-
-  NSMutableArray *dataArray = [[NSMutableArray alloc] initWithCapacity:3];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:728],
-                                                           [NSNumber numberWithInt:90], nil]
-                  atIndex:0];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:468],
-                                                           [NSNumber numberWithInt:60], nil]
-                  atIndex:1];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:320],
-                                                           [NSNumber numberWithInt:50], nil]
-                  atIndex:2];
-
-  for (int i = 0; i < [dataArray count]; i++) {
-    if (([[[dataArray objectAtIndex:i] objectAtIndex:0] intValue] <= screenWidth) &&
-        ([[[dataArray objectAtIndex:i] objectAtIndex:1] intValue]) <= screenHeight) {
-      self.width = [[[dataArray objectAtIndex:i] objectAtIndex:0] intValue];
-      self.height = [[[dataArray objectAtIndex:i] objectAtIndex:1] intValue];
-    }
-  }
-  self.width = [[[dataArray objectAtIndex:2] objectAtIndex:0] intValue];
-  self.height = [[[dataArray objectAtIndex:2] objectAtIndex:1] intValue];
 }
 
 - (void)stopBeingDelegate {

@@ -19,8 +19,9 @@
 
 #import "ViewController.h"
 
-@import GoogleMobileAds;
-@import SampleAdSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
+#import <SampleAdSDKAdapter/SampleAdSDKAdapter.h>
 
 #import "AdSourceConfig.h"
 #import "ExampleUnifiedNativeAdView.h"
@@ -104,6 +105,10 @@
 - (void)requestRewarded {
   self.rewardedAd = [[GADRewardedAd alloc] initWithAdUnitID:self.config.rewardedAdUnitID];
   GADRequest *request = [GADRequest request];
+  SampleExtras *extras = [[SampleExtras alloc] init];
+  extras.enableDebugLogging = YES;
+  extras.muteAudio = YES;
+  [request registerAdNetworkExtras:extras];
   [self.rewardedAd loadRequest:request
              completionHandler:^(GADRequestError *_Nullable error) {
                if (error) {

@@ -25,7 +25,7 @@ static BOOL _isLogEnabled = YES;
   _isLogEnabled = isLogEnabled;
 }
 
-+ (NSError *)errorWithDescription:(NSString *)description {
++ (nonnull NSError *)errorWithDescription:(nonnull NSString *)description {
   NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
   NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain
                                        code:1000
@@ -33,15 +33,15 @@ static BOOL _isLogEnabled = YES;
   return error;
 }
 
-+ (NSString *)noAdWithReason:(NSString *)reason {
++ (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason {
   NSMutableString *description = [kGADMAdapterMyTargetErrorNoAd mutableCopy];
-  if (reason && ![reason isEqualToString:@""]) {
+  if (![reason isEqualToString:@""]) {
     [description appendFormat:@": %@", reason];
   }
   return description;
 }
 
-+ (NSUInteger)slotIdFromCredentials:(NSDictionary *)credentials {
++ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary *)credentials {
   id slotIdValue = [credentials objectForKey:kGADMAdapterMyTargetSlotIdKey];
   guard(slotIdValue) else return 0;
 
@@ -58,8 +58,8 @@ static BOOL _isLogEnabled = YES;
   return slotId;
 }
 
-+ (void)fillCustomParams:(MTRGCustomParams *)customParams
-           withConnector:(id<GADMediationAdRequest>)connector {
++ (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
+           withConnector:(nonnull id<GADMediationAdRequest>)connector {
   id<GADMediationAdRequest> strongConnector = connector;
   guard(strongConnector && customParams) else return;
   customParams.gender = [GADMAdapterMyTargetUtils genderFromAdmobGender:strongConnector.userGender];
@@ -83,7 +83,7 @@ static BOOL _isLogEnabled = YES;
   return gender;
 }
 
-+ (NSNumber *)ageFromBirthday:(NSDate *)birthday {
++ (nonnull NSNumber *)ageFromBirthday:(nonnull NSDate *)birthday {
   guard(birthday) else return nil;
   NSCalendar *calendar =
       [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -100,7 +100,7 @@ static BOOL _isLogEnabled = YES;
          ceilf(size1.size.height) == ceilf(size2.size.height);
 }
 
-+ (GADNativeAdImage *)nativeAdImageWithImageData:(MTRGImageData *)imageData {
++ (nonnull GADNativeAdImage *)nativeAdImageWithImageData:(nonnull MTRGImageData *)imageData {
   guard(imageData) else return nil;
 
   GADNativeAdImage *nativeAdImage = nil;

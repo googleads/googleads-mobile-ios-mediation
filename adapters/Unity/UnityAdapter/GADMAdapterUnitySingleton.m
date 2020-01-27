@@ -62,7 +62,7 @@
   [mediationMetaData commit];
 
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID testMode:false enablePerPlacementLoad:true];
+  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES];
 }
 
 @end

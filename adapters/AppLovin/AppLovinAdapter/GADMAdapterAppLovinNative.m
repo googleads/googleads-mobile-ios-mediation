@@ -15,6 +15,11 @@
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinMediatedNativeUnifiedAd.h"
 
+/// Called by the adapter after downloading the native ad image assets or encountering an error.
+typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_Nullable error,
+                                                                      UIImage *_Nullable mainImage,
+                                                                      UIImage *_Nullable iconImage);
+
 @interface GADMAdapterAppLovinNative () <ALNativeAdLoadDelegate, ALNativeAdPrecacheDelegate>
 
 @end
@@ -81,6 +86,58 @@
   }
 }
 
+- (void)loadImagesForNativeAd:(nonnull ALNativeAd *)nativeAd
+            completionHandler:
+                (nonnull GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)completionHandler {
+  dispatch_group_t group = dispatch_group_create();
+  __block UIImage *mainImage = nil;
+  __block NSError *mainImageError = nil;
+  __block NSError *iconImageError = nil;
+  dispatch_group_enter(group);
+  [[NSURLSession.sharedSession
+        dataTaskWithURL:nativeAd.imageURL
+      completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
+                          NSError *_Nullable error) {
+        if (data) {
+          mainImage = [[UIImage alloc] initWithData:data];
+        }
+        mainImageError = error;
+        dispatch_group_leave(group);
+      }] resume];
+  __block UIImage *iconImage = nil;
+  dispatch_group_enter(group);
+  [[NSURLSession.sharedSession
+        dataTaskWithURL:nativeAd.iconURL
+      completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
+                          NSError *_Nullable error) {
+        if (data) {
+          mainImage = [[UIImage alloc] initWithData:data];
+        }
+        iconImageError = error;
+        dispatch_group_leave(group);
+      }] resume];
+
+  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    NSError *error = nil;
+    if (!mainImage || !iconImage) {
+      NSMutableString *description = [[NSMutableString alloc] init];
+
+      if (mainImageError.localizedDescription) {
+        [description appendFormat:@"%@ ", mainImageError.localizedDescription];
+      }
+
+      if (iconImageError.localizedDescription) {
+        [description appendString:iconImageError.localizedDescription];
+      }
+      error = GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+                                                             description);
+      mainImage = nil;
+      iconImage = nil;
+    }
+    completionHandler(error, mainImage, iconImage);
+  });
+}
+
 #pragma mark - AppLovin Native Ad Precache Delegate Methods
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
@@ -98,17 +155,29 @@
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
     didPrecacheImagesForAd:(nonnull ALNativeAd *)ad {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
-        [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad];
-    if (unifiedNativeAd) {
-      [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
-      [self->_connector adapter:self didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
-      return;
-    }
-
-    [self notifyFailureWithErrorCode:kGADErrorNoFill description:@"Failed to create a native ad."];
-  });
+  GADMAdapterAppLovinNative *__weak weakSelf = self;
+  [self loadImagesForNativeAd:ad
+            completionHandler:^(NSError *_Nullable error, UIImage *_Nullable mainImage,
+                                UIImage *_Nullable iconImage) {
+              GADMAdapterAppLovinNative *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+              id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+              if (!mainImage || !iconImage) {
+                NSError *downloadError = GADMAdapterAppLovinErrorWithCodeAndDescription(
+                    kGADErrorMediationAdapterError, error.localizedDescription);
+                [strongConnector adapter:strongSelf didFailAd:downloadError];
+                return;
+              }
+              GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
+                  [[GADMAppLovinMediatedNativeUnifiedAd alloc] initWithNativeAd:ad
+                                                                      mainImage:mainImage
+                                                                      iconImage:iconImage];
+              [GADMAdapterAppLovinUtils log:@"Native ad loaded."];
+              [strongConnector adapter:strongSelf
+                  didReceiveMediatedUnifiedNativeAd:unifiedNativeAd];
+            }];
 }
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service

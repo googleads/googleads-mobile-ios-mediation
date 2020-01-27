@@ -18,9 +18,9 @@
 //
 
 #import "AdSourceConfig.h"
+#import <SampleAdSDKAdapter/SampleAdSDKAdapter.h>
 #import "../CustomEvent/SampleCustomEventConstants.h"
 #import "MediationExample-Swift.h"
-@import SampleAdSDKAdapter;
 
 NSString *const kCustomEventBannerAdUnitID = @"ca-app-pub-3940256099942544/2493674513";
 NSString *const kCustomEventInterstitialAdUnitID = @"ca-app-pub-3940256099942544/3970407716";

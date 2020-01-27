@@ -44,12 +44,6 @@
   atomic_flag _impressionLogged;
 }
 
-/// Empty method to bypass Apple's private method checking since
-/// GADMediatedUnifiedNativeAdNotificationSource's mediatedNativeAdDidRecordImpression method is
-/// dynamically called by this class's instances.
-+ (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
-}
-
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super initWithGADMAdNetworkConnector:connector adapter:adapter];

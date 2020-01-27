@@ -13,31 +13,7 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 #include <stdatomic.h>
 
-/// AppLovin Banner Delegate wrapper. AppLovin banner protocols are implemented in a separate class
-/// to avoid a retain cycle, as the AppLovin SDK keep a strong reference to its delegate.
-@interface GADMAppLovinRtbBannerDelegate
-    : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
-
-/// AppLovin banner ad renderer to which the events are delegated.
-@property(nonatomic, weak) GADMRTBAdapterAppLovinBannerRenderer *parentRenderer;
-
-- (nonnull instancetype)initWithParentRenderer:
-    (nonnull GADMRTBAdapterAppLovinBannerRenderer *)parentRenderer;
-
-@end
-
-@interface GADMRTBAdapterAppLovinBannerRenderer () <GADMediationBannerAd>
-
-/// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
-@property(nonatomic, readonly) GADMediationBannerLoadCompletionHandler adLoadCompletionHandler;
-
-/// Delegate to notify the Google Mobile Ads SDK of banner presentation events.
-@property(nonatomic, weak, nullable) id<GADMediationBannerAdEventDelegate> delegate;
-
-/// AppLovin banner ad view.
-@property(nonatomic, readonly) ALAdView *adView;
-
-@end
+#import "GADMAppLovinRTBBannerDelegate.h"
 
 @implementation GADMRTBAdapterAppLovinBannerRenderer {
   /// Data used to render an banner ad.
@@ -99,8 +75,8 @@
   // Create adview object.
   _adView = [[ALAdView alloc] initWithSdk:_sdk size:appLovinAdSize];
 
-  GADMAppLovinRtbBannerDelegate *delegate =
-      [[GADMAppLovinRtbBannerDelegate alloc] initWithParentRenderer:self];
+  GADMAppLovinRTBBannerDelegate *delegate =
+      [[GADMAppLovinRTBBannerDelegate alloc] initWithParentRenderer:self];
   _adView.adDisplayDelegate = delegate;
   _adView.adEventDelegate = delegate;
 
@@ -117,91 +93,6 @@
 - (void)dealloc {
   _adView.adDisplayDelegate = nil;
   _adView.adEventDelegate = nil;
-}
-
-@end
-
-@implementation GADMAppLovinRtbBannerDelegate
-
-#pragma mark - Initialization
-
-- (nonnull instancetype)initWithParentRenderer:
-    (nonnull GADMRTBAdapterAppLovinBannerRenderer *)parentRenderer {
-  self = [super init];
-  if (self) {
-    _parentRenderer = parentRenderer;
-  }
-  return self;
-}
-
-#pragma mark - Ad Load Delegate
-
-- (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
-  [GADMAdapterAppLovinUtils log:@"Banner did load ad: %@", ad];
-
-  GADMRTBAdapterAppLovinBannerRenderer *parentRenderer = _parentRenderer;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if (parentRenderer.adLoadCompletionHandler) {
-      parentRenderer.delegate = parentRenderer.adLoadCompletionHandler(parentRenderer, nil);
-    }
-  });
-  [parentRenderer.adView render:ad];
-}
-
-- (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
-  NSString *errorString =
-      [NSString stringWithFormat:@"Failed to load banner ad with error: %d", code];
-  [GADMAdapterAppLovinUtils log:errorString];
-  GADMRTBAdapterAppLovinBannerRenderer *parentRenderer = _parentRenderer;
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      [GADMAdapterAppLovinUtils toAdMobErrorCode:code], errorString);
-  if (parentRenderer.adLoadCompletionHandler) {
-    parentRenderer.adLoadCompletionHandler(nil, error);
-  }
-}
-
-#pragma mark - Ad Display Delegate
-
-- (void)ad:(nonnull ALAd *)ad wasDisplayedIn:(nonnull UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner displayed"];
-  [_parentRenderer.delegate reportImpression];
-}
-
-- (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner dismissed"];
-}
-
-- (void)ad:(nonnull ALAd *)ad wasClickedIn:(nonnull UIView *)view {
-  [GADMAdapterAppLovinUtils log:@"Banner clicked"];
-  [_parentRenderer.delegate reportClick];
-}
-
-#pragma mark - Ad View Event Delegate
-
-- (void)ad:(nonnull ALAd *)ad didPresentFullscreenForAdView:(nonnull ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner presented fullscreen"];
-  [_parentRenderer.delegate willPresentFullScreenView];
-}
-
-- (void)ad:(nonnull ALAd *)ad willDismissFullscreenForAdView:(nonnull ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner will dismiss fullscreen"];
-  [_parentRenderer.delegate willDismissFullScreenView];
-}
-
-- (void)ad:(nonnull ALAd *)ad didDismissFullscreenForAdView:(nonnull ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner did dismiss fullscreen"];
-  [_parentRenderer.delegate didDismissFullScreenView];
-}
-
-- (void)ad:(nonnull ALAd *)ad willLeaveApplicationForAdView:(nonnull ALAdView *)adView {
-  [GADMAdapterAppLovinUtils log:@"Banner left application"];
-  [_parentRenderer.delegate willBackgroundApplication];
-}
-
-- (void)ad:(nonnull ALAd *)ad
-    didFailToDisplayInAdView:(nonnull ALAdView *)adView
-                   withError:(ALAdViewDisplayErrorCode)code {
-  [GADMAdapterAppLovinUtils log:@"Banner failed to display: %ld", (long)code];
 }
 
 @end

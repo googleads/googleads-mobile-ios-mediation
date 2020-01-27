@@ -258,7 +258,7 @@
 		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
 					7D1B6CA21DC2ACF900D8CABF = {
@@ -367,6 +367,7 @@
 		00DD263622F108B40039C1D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -375,6 +376,7 @@
 		00DD263722F108B40039C1D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -383,6 +385,7 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};
 			name = Debug;
@@ -390,6 +393,7 @@
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};
 			name = Release;
@@ -476,6 +480,7 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				SKIP_INSTALL = YES;
 			};
@@ -484,6 +489,7 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 				SKIP_INSTALL = YES;
 			};
@@ -492,6 +498,7 @@
 		7DFABB551DA86A1100322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};
 			name = Debug;
@@ -499,6 +506,7 @@
 		7DFABB561DA86A1100322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_MAP_PATH = "$(SRCROOT)/Public";
 			};
 			name = Release;

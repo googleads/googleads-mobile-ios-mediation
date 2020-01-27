@@ -17,8 +17,8 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import SampleAdSDK;
+#import <Foundation/Foundation.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
 #import "SampleAdapterProtocol.h"
 

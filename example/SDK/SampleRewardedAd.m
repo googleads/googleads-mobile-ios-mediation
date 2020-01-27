@@ -18,8 +18,8 @@
 #import "SampleRewardedAdController.h"
 #import "SampleRewardedAdDelegate.h"
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @implementation SampleRewardedAd
 
@@ -34,6 +34,9 @@
 
 - (void)fetchAd:(SampleAdRequest *)request {
   if (!self.adUnit) {
+    if (self.enableDebugLogging) {
+      NSLog(@"Ad fail to load due to ad unit ID missing.");
+    }
     [_delegate rewardedAdDidFailToLoadWithError:SampleErrorCodeBadRequest];
   }
   int randomValue = arc4random() % 100;
@@ -57,6 +60,7 @@
   self.ready = NO;
   SampleRewardedAdController *rewardedAdVC =
       [[SampleRewardedAdController alloc] initWithRewardedAd:self];
+  rewardedAdVC.modalPresentationStyle = UIModalPresentationFullScreen;
   rewardedAdVC.delegate = _delegate;
   [viewController presentViewController:rewardedAdVC animated:YES completion:nil];
 }

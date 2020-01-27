@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,18 +13,22 @@
 // limitations under the License.
 
 #import "GADMAdapterTapjoySingleton.h"
+
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoyUtils.h"
 
-@interface GADMAdapterTapjoySingleton ()
+@implementation GADMAdapterTapjoySingleton {
+  /// Map table to hold the interstitial and rewarded ad delegates with placement name as key.
+  NSMapTable<NSString *, id<TJPlacementDelegate, TJPlacementVideoDelegate>> *_adapterDelegates;
 
-@property(nonatomic)
-    NSMapTable<NSString *, id<TJPlacementDelegate, TJPlacementVideoDelegate>> *adapterDelegates;
-@property(nonatomic) NSMutableArray<TapjoyInitCompletionHandler> *completionHandlers;
-@property(nonatomic) TapjoyInitState initState;
+  /// Array to hold the Tapjoy SDK initialization delegates.
+  NSMutableArray<TapjoyInitCompletionHandler> *_completionHandlers;
 
-@end
-@implementation GADMAdapterTapjoySingleton
+  /// Tapjoy SDK initialization state.
+  GADMAdapterTapjoyInitState _initState;
+}
 
 + (nonnull instancetype)sharedInstance {
   static GADMAdapterTapjoySingleton *sharedMyManager = nil;
@@ -37,28 +41,33 @@
 
 - (nonnull instancetype)init {
   if (self = [super init]) {
-    self.adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                  valueOptions:NSPointerFunctionsWeakMemory];
-    self.completionHandlers = [[NSMutableArray alloc] init];
-    self.initState = UNINITIALIZED;
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                              valueOptions:NSPointerFunctionsWeakMemory];
+    _completionHandlers = [[NSMutableArray alloc] init];
+    _initState = GADMAdapterTapjoyInitStateUninitialized;
   }
   return self;
 }
 
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
-                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                              options:(nullable NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler {
-  if (_initState == INITIALIZED) {
+  if (_initState == GADMAdapterTapjoyInitStateInitialized) {
     completionHandler(nil);
     return;
-  } else if (_initState == INITIALIZING) {
-    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
+  }
+
+  GADMAdapterTapjoyMutableArrayAddObject(_completionHandlers, completionHandler);
+  if (_initState == GADMAdapterTapjoyInitStateInitializing) {
     return;
-  } else if (_initState == UNINITIALIZED) {
-    [self setupListeners];
-    GADMAdapterTapjoyMutableArrayAddObject(self.completionHandlers, completionHandler);
+  }
+
+  [self setupListeners];
+  _initState = GADMAdapterTapjoyInitStateInitializing;
+  if (options) {
     [Tapjoy connect:sdkKey options:options];
-    _initState = INITIALIZING;
+  } else {
+    [Tapjoy connect:sdkKey];
   }
 }
 
@@ -74,8 +83,8 @@
                                              object:nil];
 }
 
-- (void)tjcConnectSuccess:(NSNotification *)notifyObj {
-  _initState = INITIALIZED;
+- (void)tjcConnectSuccess:(nonnull NSNotification *)notifyObj {
+  _initState = GADMAdapterTapjoyInitStateInitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_SUCCESS object:nil];
   for (TapjoyInitCompletionHandler completionHandler in _completionHandlers) {
     completionHandler(nil);
@@ -83,13 +92,12 @@
   [_completionHandlers removeAllObjects];
 }
 
-- (void)tjcConnectFail:(NSNotification *)notifyObj {
-  _initState = UNINITIALIZED;
+- (void)tjcConnectFail:(nonnull NSNotification *)notifyObj {
+  _initState = GADMAdapterTapjoyInitStateUninitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_FAILED object:nil];
-  NSError *adapterError =
-      [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                          code:0
-                      userInfo:@{NSLocalizedDescriptionKey : @"Tapjoy Connect failed."}];
+
+  NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorInternalError,
+                                                                       @"Tapjoy Connect failed.");
   for (TapjoyInitCompletionHandler completionHandler in _completionHandlers) {
     completionHandler(adapterError);
   }
@@ -101,14 +109,9 @@
                   bidResponse:(nullable NSString *)bidResponse
                      delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
   if ([self getDelegateForPlacementName:placementName]) {
-    NSError *adapterError =
-        [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                            code:0
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              @"A request is already in processing for same placement name. Can't "
-                              @"make a new request for the same placement name."
-                        }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorInvalidRequest, @"A request is already in processing for same placement name. "
+                                 @"Can't make a new request for the same placement name.");
     [delegate requestDidFail:nil error:adapterError];
     return nil;
   }
@@ -122,15 +125,12 @@
   tjPlacement.videoDelegate = self;
   if (bidResponse) {
     NSData *data = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingAllowFragments
-                                                                   error:nil];
+    NSDictionary<id, id> *responseData =
+        [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
 
-    NSDictionary *auctionData = @{
-      TJ_AUCTION_DATA : responseData[TJ_AUCTION_DATA],
-      TJ_AUCTION_ID : responseData[TJ_AUCTION_ID]
-    };
-    [tjPlacement setAuctionData:auctionData];
+    NSDictionary<NSString *, id> *auctionData =
+        GADMAdapterTapjoyAuctionDataForResponseData(responseData);
+    tjPlacement.auctionData = auctionData;
   }
   [tjPlacement requestContent];
   return tjPlacement;
@@ -142,23 +142,22 @@
   return [self requestAdForPlacementName:placementName bidResponse:nil delegate:delegate];
 }
 
-- (void)addDelegate:(id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
-    forPlacementName:(NSString *)placementName;
-{
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:delegate forKey:placementName];
+- (void)addDelegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
+    forPlacementName:(nonnull NSString *)placementName {
+  @synchronized(_adapterDelegates) {
+    [_adapterDelegates setObject:delegate forKey:placementName];
   }
 }
 
-- (void)removeDelegateForPlacementName:(NSString *)placementName {
-  @synchronized(self.adapterDelegates) {
-    GADMAdapterTapjoyMapTableRemoveObjectForKey(self.adapterDelegates, placementName);
+- (void)removeDelegateForPlacementName:(nonnull NSString *)placementName {
+  @synchronized(_adapterDelegates) {
+    GADMAdapterTapjoyMapTableRemoveObjectForKey(_adapterDelegates, placementName);
   }
 }
 
-- (BOOL)containsDelegateForPlacementName:(NSString *)placementName {
-  @synchronized(self.adapterDelegates) {
-    if ([self.adapterDelegates objectForKey:placementName]) {
+- (BOOL)containsDelegateForPlacementName:(nonnull NSString *)placementName {
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementName]) {
       return YES;
     } else {
       return NO;
@@ -166,40 +165,40 @@
   }
 }
 
-- (id<TJPlacementDelegate, TJPlacementVideoDelegate>)getDelegateForPlacementName:
-    (NSString *)placementName {
+- (nullable id<TJPlacementDelegate, TJPlacementVideoDelegate>)getDelegateForPlacementName:
+    (nonnull NSString *)placementName {
   @synchronized(_adapterDelegates) {
     return [_adapterDelegates objectForKey:placementName];
   }
 }
 
 #pragma mark - TJPlacementDelegate methods
-- (void)requestDidSucceed:(TJPlacement *)placement {
+- (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [delegate requestDidSucceed:placement];
 }
 
-- (void)requestDidFail:(TJPlacement *)placement error:(NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
   [delegate requestDidFail:placement error:error];
 }
 
-- (void)contentIsReady:(TJPlacement *)placement {
+- (void)contentIsReady:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [delegate contentIsReady:placement];
 }
 
-- (void)contentDidAppear:(TJPlacement *)placement {
+- (void)contentDidAppear:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [delegate contentDidAppear:placement];
 }
 
-- (void)contentDidDisappear:(TJPlacement *)placement {
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
@@ -207,19 +206,20 @@
 }
 
 #pragma mark Tapjoy Video
-- (void)videoDidStart:(TJPlacement *)placement {
+
+- (void)videoDidStart:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [delegate videoDidStart:placement];
 }
 
-- (void)videoDidComplete:(TJPlacement *)placement {
+- (void)videoDidComplete:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [delegate videoDidComplete:placement];
 }
 
-- (void)videoDidFail:(TJPlacement *)placement error:(NSString *)errorMsg {
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];

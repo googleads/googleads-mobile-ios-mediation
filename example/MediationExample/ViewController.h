@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import "AdSourceConfig.h"
 
 @interface ViewController : UIViewController

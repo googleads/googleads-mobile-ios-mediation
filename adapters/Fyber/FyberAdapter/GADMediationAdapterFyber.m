@@ -1,236 +1,312 @@
+// Copyright 2019 Google LLC
 //
-//  GADMediationAdapterFyber.m
-//  Adapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Fyber on 8/8/19.
-//  Copyright © 2019 Google. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
-
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMediationAdapterFyber.h"
-#import "GADFYBMediationRewardedAd.h"
 #import "GADMAdapterFyberConstants.h"
+#import "GADMAdapterFyberRewardedAd.h"
+#import "GADMAdapterFyberUtils.h"
 
-@import CoreLocation;
-@import GoogleMobileAds;
-@import IASDKCore;
-@import IASDKVideo;
-@import IASDKMRAID;
+#import <CoreLocation/CoreLocation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IASDKCore/IASDKCore.h>
+#import <IASDKMRAID/IASDKMRAID.h>
+#import <IASDKVideo/IASDKVideo.h>
 
 @interface GADMediationAdapterFyber () <GADMediationAdapter, GADMAdNetworkAdapter, IAUnitDelegate>
-
-@property (nonatomic, nonnull) id<GADMAdNetworkConnector> connector;
-
-@property (nonatomic, strong, nonnull) IAViewUnitController *viewUnitController;
-@property (nonatomic, strong, nonnull) IAFullscreenUnitController *fullscreenUnitController;
-
-@property (nonatomic, strong, nonnull) IAMRAIDContentController *MRAIDContentController;
-@property (nonatomic, strong, nonnull) IAVideoContentController *videoContentController;
-
-@property (nonatomic, strong) IAAdSpot *adSpot;
-
-@property (nonatomic, strong, nullable) GADFYBMediationRewardedAd *rewardedAd;
-
 @end
 
-@implementation GADMediationAdapterFyber
+@implementation GADMediationAdapterFyber {
+  /// Connector from the Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  /// Fyber fullscreen controller to catch banner related ad events.
+  IAViewUnitController *_viewUnitController;
+
+  /// Fyber fullscreen controller to catch interstitial related ad events.
+  IAFullscreenUnitController *_fullscreenUnitController;
+
+  /// Fyber fullscreen controller to catch video content related callbacks.
+  IAMRAIDContentController *_MRAIDContentController;
+
+  /// Fyber video controller to catch video progress events.
+  IAVideoContentController *_videoContentController;
+
+  /// Fyber Ad spot to be loaded.
+  IAAdSpot *_adSpot;
+
+  /// Fyber rewarded ad wrapper.
+  GADMAdapterFyberRewardedAd *_rewardedAd;
+}
 
 #pragma mark - GADMediationAdapter
 
 + (GADVersionNumber)adSDKVersion {
-    return [GADMediationAdapterFyber versionFromString:[[IASDKCore sharedInstance] version]];
+  return GADMAdapterFyberVersionFromString([[IASDKCore sharedInstance] version]);
 }
-
 
 + (GADVersionNumber)version {
-    return [GADMediationAdapterFyber versionFromString:kFYBAdapterVersion];
+  return GADMAdapterFyberVersionFromString(kGADMAdapterFyberVersion);
 }
 
-+ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSMutableSet<NSString *> *applicationIDs = [[NSMutableSet alloc] init];
 
-    if (configuration.credentials.count > 0) {
-        GADMediationCredentials *credentials = configuration.credentials[0];
-        NSString *applicationId = credentials.settings[@"applicationId"];
-        
-        if (applicationId) {
-            NSLog(@"Fyber marketplace SDK version: %@", IASDKCore.sharedInstance.version);
-            [IALogger setLogLevel:IALogLevelVerbose];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [IASDKCore.sharedInstance initWithAppID:applicationId];
-                completionHandler(nil);
-            });
-        } else {
-            completionHandler([NSError errorWithDomain:kGADMAdapterFyberErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:@"Fyber marketplace could not initialized, app ID is unknown"}]);
-        }
+  for (GADMediationCredentials *credential in configuration.credentials) {
+    NSString *appID = credential.settings[kGADMAdapterFyberApplicationID];
+    if (appID.length) {
+      GADMAdapterFyberMutableSetAddObject(applicationIDs, appID);
     }
+  }
+
+  if (!applicationIDs.count) {
+    NSString *logMessage =
+        @"Fyber Marketplace SDK could not be initialized; missing or invalid application ID.";
+    GADMAdapterFyberLog(@"%@", logMessage);
+    NSError *error =
+        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, logMessage);
+    completionHandler(error);
+    return;
+  }
+
+  NSString *applicationID = applicationIDs.allObjects.firstObject;
+  if (applicationIDs.count > 1) {
+    GADMAdapterFyberLog(
+        @"Fyber supports a single application ID but multiple application IDs were provided. "
+        @"Remove unneeded applications IDs from your mediation configurations. Application IDs: %@",
+        applicationIDs);
+    GADMAdapterFyberLog(@"Configuring Fyber Marketplace SDK with application ID: %@.",
+                        applicationID);
+  }
+
+  NSError *initError = nil;
+  GADMAdapterFyberInitializeWithAppID(applicationID, &initError);
+  completionHandler(initError);
 }
 
 #pragma mark - GADMAdNetworkAdapter
 
 + (NSString *)adapterVersion {
-    return kFYBAdapterVersion;
+  return kGADMAdapterFyberVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return nil;
+  return Nil;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    self = [super init];
-    
-    if (self) {
-        _connector = connector;
-    }
-    
-    return self;
+  self = [super init];
+  if (self) {
+    _connector = connector;
+  }
+  return self;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    __weak typeof(self) weakSelf = self;
-    NSString *spotId = [self.connector credentials][kFYBSpotID];
-    
-    [self initBannerWithRequest:[self buildRequestWithSpotId:spotId]];
-    [self.adSpot fetchAdWithCompletion:^(IAAdSpot * _Nullable adSpot, IAAdModel * _Nullable adModel, NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
 
-        if (error) {
-            [strongSelf.connector adapter:strongSelf didFailAd:error];
-        } else {
-            [strongSelf.connector adapter:strongSelf didReceiveAdView:strongSelf.viewUnitController.adView];
-        }
-    }];
+  NSError *initError = nil;
+  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
+      strongConnector.credentials[kGADMAdapterFyberApplicationID], &initError);
+  if (!didInitialize) {
+    GADMAdapterFyberLog(@"Failed to load banner ad: %@", initError.localizedDescription);
+    [strongConnector adapter:self didFailAd:initError];
+    return;
+  }
+
+  NSString *spotID = strongConnector.credentials[kGADMAdapterFyberSpotID];
+  IAAdRequest *request =
+      GADMAdapterFyberBuildRequestWithSpotIDAndConnector(spotID, strongConnector);
+  [self initBannerWithRequest:request];
+
+  GADMediationAdapterFyber *__weak weakSelf = self;
+  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
+                                   NSError *_Nullable error) {
+    GADMediationAdapterFyber *strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      GADMAdapterFyberLog(@"Failed to load banner ad: %@", error.localizedDescription);
+      [strongConnector adapter:strongSelf didFailAd:error];
+    } else {
+      [strongConnector adapter:strongSelf didReceiveAdView:strongSelf->_viewUnitController.adView];
+    }
+  }];
 }
 
 - (void)getInterstitial {
-    __weak typeof(self) weakSelf = self;
-    NSString *spotId = [self.connector credentials][kFYBSpotID];
-    
-    [self initInterstitialWithRequest:[self buildRequestWithSpotId:spotId]];
-    [self.adSpot fetchAdWithCompletion:^(IAAdSpot * _Nullable adSpot, IAAdModel * _Nullable adModel, NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
 
-        if (error) {
-            [strongSelf.connector adapter:strongSelf didFailAd:error];
-        } else {
-            [strongSelf.connector adapterDidReceiveInterstitial:strongSelf];
-        }
-    }];
+  NSError *initError = nil;
+  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
+      strongConnector.credentials[kGADMAdapterFyberApplicationID], &initError);
+  if (!didInitialize) {
+    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", initError.localizedDescription);
+    [strongConnector adapter:self didFailAd:initError];
+    return;
+  }
+
+  NSString *spotID = strongConnector.credentials[kGADMAdapterFyberSpotID];
+  IAAdRequest *request =
+      GADMAdapterFyberBuildRequestWithSpotIDAndConnector(spotID, strongConnector);
+  [self initInterstitialWithRequest:request];
+
+  GADMediationAdapterFyber *__weak weakSelf = self;
+  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
+                                   NSError *_Nullable error) {
+    GADMediationAdapterFyber *strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", error.localizedDescription);
+      [strongConnector adapter:strongSelf didFailAd:error];
+    } else {
+      [strongConnector adapterDidReceiveInterstitial:strongSelf];
+    }
+  }];
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    _rewardedAd = [[GADFYBMediationRewardedAd alloc] init];
-    [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedAd = [[GADMAdapterFyberRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                          completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 - (void)stopBeingDelegate {
-    if (self.viewUnitController.unitDelegate) {
-        self.viewUnitController.unitDelegate = nil;
-    }
-    
-    if (self.fullscreenUnitController.unitDelegate) {
-        self.fullscreenUnitController.unitDelegate = nil;
-    }
+  _viewUnitController.unitDelegate = nil;
+  _fullscreenUnitController.unitDelegate = nil;
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self.fullscreenUnitController showAdAnimated:YES completion:nil];
+  [_fullscreenUnitController showAdAnimated:YES completion:nil];
 }
 
 #pragma mark - Service
 
-- (IAAdRequest * _Nonnull)buildRequestWithSpotId:(NSString *)spotId {
-    IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder>  _Nonnull builder) {
-        builder.useSecureConnections = NO;
-        builder.spotID = spotId;
-        builder.timeout = 10;
-        builder.keywords = [[self.connector.userKeywords valueForKey:@"description"] componentsJoinedByString:@""];
-        
-        if ([self.connector userHasLocation]) {
-            builder.location = [[CLLocation alloc] initWithLatitude:self.connector.userLatitude longitude:self.connector.userLongitude];
+- (void)initBannerWithRequest:(nonnull IAAdRequest *)request {
+  _MRAIDContentController =
+      [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
+      }];
+
+  GADMediationAdapterFyber *__weak weakSelf = self;
+
+  _viewUnitController =
+      [IAViewUnitController build:^(id<IAViewUnitControllerBuilder> _Nonnull builder) {
+        GADMediationAdapterFyber *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
         }
-    }];
-    
-    return request;
-}
 
-- (void)initBannerWithRequest:(IAAdRequest * _Nonnull)request {
-    _MRAIDContentController = [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder>  _Nonnull builder) {}];
-    
-    _viewUnitController = [IAViewUnitController build:^(id<IAViewUnitControllerBuilder>  _Nonnull builder) {
-        builder.unitDelegate = self;
-        [builder addSupportedContentController:self.MRAIDContentController];
-    }];
-    
-    _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder>  _Nonnull builder) {
-        builder.adRequest = request;
-        [builder addSupportedUnitController:self.viewUnitController];
-    }];
-}
+        builder.unitDelegate = strongSelf;
+        [builder addSupportedContentController:strongSelf->_MRAIDContentController];
+      }];
 
-- (void)initInterstitialWithRequest:(IAAdRequest * _Nonnull)request {
-    _MRAIDContentController = [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder>  _Nonnull builder) {}];
-    _videoContentController = [IAVideoContentController build:^(id<IAVideoContentControllerBuilder>  _Nonnull builder) {}];
+  _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
+    builder.adRequest = request;
 
-    _fullscreenUnitController = [IAFullscreenUnitController build:^(id<IAFullscreenUnitControllerBuilder>  _Nonnull builder) {
-        builder.unitDelegate = self;
-        [builder addSupportedContentController:self.MRAIDContentController];
-        [builder addSupportedContentController:self.videoContentController];
-    }];
-
-    _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder>  _Nonnull builder) {
-        builder.adRequest = request;
-        [builder addSupportedUnitController:self.fullscreenUnitController];
-    }];
-}
-
-+ (GADVersionNumber)versionFromString:(NSString *)versionString {
-    NSArray <NSString *> *versionAsArray = [versionString componentsSeparatedByString:@"."];
-    GADVersionNumber version = {0};
-    
-    if (versionAsArray.count == 3) {
-        version.majorVersion = versionAsArray[0].integerValue;
-        version.minorVersion = versionAsArray[1].integerValue;
-        version.patchVersion = versionAsArray[2].integerValue;
+    GADMediationAdapterFyber *strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
     }
-    return version;
+
+    [builder addSupportedUnitController:strongSelf->_viewUnitController];
+  }];
+}
+
+- (void)initInterstitialWithRequest:(nonnull IAAdRequest *)request {
+  _MRAIDContentController =
+      [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
+      }];
+  _videoContentController =
+      [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder){
+      }];
+
+  GADMediationAdapterFyber *__weak weakSelf = self;
+
+  _fullscreenUnitController =
+      [IAFullscreenUnitController build:^(id<IAFullscreenUnitControllerBuilder> _Nonnull builder) {
+        GADMediationAdapterFyber *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
+
+        builder.unitDelegate = strongSelf;
+        [builder addSupportedContentController:strongSelf->_MRAIDContentController];
+        [builder addSupportedContentController:strongSelf->_videoContentController];
+      }];
+
+  _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
+    builder.adRequest = request;
+
+    GADMediationAdapterFyber *strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
+    }
+
+    [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
+  }];
 }
 
 #pragma mark - IAUnitDelegate
 
-- (UIViewController * _Nonnull)IAParentViewControllerForUnitController:(IAUnitController * _Nullable)unitController {
-    return [self.connector viewControllerForPresentingModalView];
+- (nonnull UIViewController *)IAParentViewControllerForUnitController:
+    (nullable IAUnitController *)unitController {
+  return [_connector viewControllerForPresentingModalView];
 }
 
-- (void)IAAdDidReceiveClick:(IAUnitController * _Nullable)unitController {
-    [self.connector adapterDidGetAdClick:self];
+- (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController {
+  [_connector adapterDidGetAdClick:self];
 }
 
-- (void)IAUnitControllerWillPresentFullscreen:(IAUnitController * _Nullable)unitController {
-    if (unitController == self.viewUnitController) {
-        [self.connector adapterWillPresentFullScreenModal:self];
-    } else if (unitController == self.fullscreenUnitController) {
-        [self.connector adapterWillPresentInterstitial:self];
-    }
+- (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (unitController == _viewUnitController) {
+    [strongConnector adapterWillPresentFullScreenModal:self];
+  } else if (unitController == _fullscreenUnitController) {
+    [strongConnector adapterWillPresentInterstitial:self];
+  }
 }
 
-- (void)IAUnitControllerWillDismissFullscreen:(IAUnitController * _Nullable)unitController {
-    if (unitController == self.viewUnitController) {
-        [self.connector adapterWillDismissFullScreenModal:self];
-    } else if (unitController == self.fullscreenUnitController) {
-        [self.connector adapterWillDismissInterstitial:self];
-    }
+- (void)IAUnitControllerWillDismissFullscreen:(nullable IAUnitController *)unitController {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (unitController == _viewUnitController) {
+    [strongConnector adapterWillDismissFullScreenModal:self];
+  } else if (unitController == _fullscreenUnitController) {
+    [strongConnector adapterWillDismissInterstitial:self];
+  }
 }
 
-- (void)IAUnitControllerDidDismissFullscreen:(IAUnitController * _Nullable)unitController {
-    if (unitController == self.viewUnitController) {
-        [self.connector adapterDidDismissFullScreenModal:self];
-    } else if (unitController == self.fullscreenUnitController) {
-        [self.connector adapterDidDismissInterstitial:self];
-    }
+- (void)IAUnitControllerDidDismissFullscreen:(nullable IAUnitController *)unitController {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (unitController == _viewUnitController) {
+    [strongConnector adapterDidDismissFullScreenModal:self];
+  } else if (unitController == _fullscreenUnitController) {
+    [strongConnector adapterDidDismissInterstitial:self];
+  }
 }
 
-- (void)IAUnitControllerWillOpenExternalApp:(IAUnitController * _Nullable)unitController {
-    [self.connector adapterWillLeaveApplication:self];
+- (void)IAUnitControllerWillOpenExternalApp:(nullable IAUnitController *)unitController {
+  [_connector adapterWillLeaveApplication:self];
 }
 
 @end

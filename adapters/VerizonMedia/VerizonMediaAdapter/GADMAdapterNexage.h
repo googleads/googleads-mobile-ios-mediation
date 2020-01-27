@@ -4,8 +4,8 @@
 // @copyright Copyright (c) 2018 Verizon. All rights reserved.
 //
 
-#import "GADMVASAdapterBaseClass.h"
+#import "GADMAdapterVerizonBaseClass.h"
 
-@interface GADMAdapterNexage : GADMVASAdapterBaseClass
+@interface GADMAdapterNexage : GADMAdapterVerizonBaseClass
 
 @end

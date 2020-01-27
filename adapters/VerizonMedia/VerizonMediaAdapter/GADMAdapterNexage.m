@@ -5,40 +5,26 @@
 //
 
 #import "GADMAdapterNexage.h"
-#import "GADMAdapterVerizonMediaConstants.h"
-#import "GADMVerizonConsent_Internal.h"
+#import <VerizonAdsCore/VASAds+Private.h>
+#import <VerizonAdsCore/VASPEXRegistry.h>
+#import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
+#import "GADMAdapterVerizonConstants.h"
+#import "GADMAdapterVerizonUtils.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 @implementation GADMAdapterNexage
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)gadConnector {
-  if (self = [super initWithGADMAdNetworkConnector:gadConnector]) {
-    [self initializeVASAds];
+- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+  self = [super initWithGADMAdNetworkConnector:connector];
+  if (self) {
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[kGADNexagePosition]) {
+      self.placementID = credentials[kGADNexagePosition];
+    }
+    NSString *siteID = credentials[kGADNexageDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
   return self;
-}
-
-- (void)initializeVASAds {
-  // Position
-  NSDictionary *credentials = [self.connector credentials];
-  if (credentials[kGADNexagePosition] != nil) {
-    self.placementID = credentials[kGADNexagePosition];
-  }
-
-  // Site ID
-  NSString *siteId = credentials[kGADNexageDCN];
-  if (siteId.length == 0) {
-    siteId = [[NSBundle mainBundle] objectForInfoDictionaryKey:kGADVerizonSiteId];
-  }
-
-  if ([[UIDevice currentDevice] systemVersion].floatValue >= 8.0) {
-    VASAds.logLevel = VASLogLevelError;
-
-    if ([VASAds sharedInstance].initialized == NO) {
-      [VASStandardEdition initializeWithSiteId:siteId];
-    }
-    self.vasAds = [VASAds sharedInstance];
-    [GADMVerizonConsent.sharedInstance updateConsentInfo];
-  }
 }
 
 @end

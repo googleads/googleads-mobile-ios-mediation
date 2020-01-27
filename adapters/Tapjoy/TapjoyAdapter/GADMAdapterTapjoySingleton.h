@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <Tapjoy/Tapjoy.h>
 
-typedef enum { UNINITIALIZED, INITIALIZING, INITIALIZED } TapjoyInitState;
+/// Initialization state of the Tapjoy SDK.
+typedef NS_ENUM(NSUInteger, GADMAdapterTapjoyInitState) {
+  GADMAdapterTapjoyInitStateUninitialized,  /// < Tapjoy SDK is not initialized yet.
+  GADMAdapterTapjoyInitStateInitializing,   /// < Tapjoy SDK is initializing.
+  GADMAdapterTapjoyInitStateInitialized     /// < Tapjoy SDK has been initialzed.
+};
 
 typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
@@ -23,7 +28,7 @@ typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
 + (nonnull instancetype)sharedInstance;
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
-                              options:(nonnull NSDictionary<NSString *, NSNumber *> *)options
+                              options:(nullable NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler;
 - (nullable TJPlacement *)
     requestAdForPlacementName:(nonnull NSString *)placementName

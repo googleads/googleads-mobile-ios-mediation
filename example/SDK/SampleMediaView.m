@@ -18,8 +18,8 @@
 //
 
 #import "SampleMediaView.h"
+#import <UIKit/UIKit.h>
 #import "SampleNativeAd.h"
-@import UIKit;
 
 @interface SampleMediaView ()
 @property(nonatomic, strong) UILabel* label;
