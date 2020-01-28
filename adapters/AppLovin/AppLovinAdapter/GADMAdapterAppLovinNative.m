@@ -111,7 +111,7 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
       completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
                           NSError *_Nullable error) {
         if (data) {
-          mainImage = [[UIImage alloc] initWithData:data];
+          iconImage = [[UIImage alloc] initWithData:data];
         }
         iconImageError = error;
         dispatch_group_leave(group);
