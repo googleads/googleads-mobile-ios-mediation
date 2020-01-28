@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fixed an issue where the adapter was not invoking the `-rewardedAdDidPresent:` callback.
+
 #### Version 1.5.2.0
 - Verified compatibility with maio SDK version 1.5.2.
 
