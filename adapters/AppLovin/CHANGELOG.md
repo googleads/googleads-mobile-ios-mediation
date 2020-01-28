@@ -1,6 +1,6 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 6.11.1.0
 - Verified compatibility with AppLovin SDK 6.11.1.
 - Fixed an issue that caused native ads to fail to load.
 
