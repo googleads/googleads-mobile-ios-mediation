@@ -1,5 +1,8 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Version 5.6.1.0
+- Verified compatibility with FAN SDK 5.6.1.
+
 #### Version 5.6.0.0
 - Verified compatibility with FAN SDK 5.6.0.
 
