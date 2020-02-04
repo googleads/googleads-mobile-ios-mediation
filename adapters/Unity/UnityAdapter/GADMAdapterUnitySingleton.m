@@ -16,16 +16,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnitySingleton () {
-  /// Array to hold all adapter delegates.
-  NSMapTable *_adapterDelegates;
-
-  int impressionOrdinal;
-  int missedImpressionOrdinal;
-
-  /// Connector from unity adapter to send Unity callbacks.
-  __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
-}
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate>
 
 @end
 
@@ -42,27 +33,60 @@
 
 - (id)init {
   self = [super init];
-  if (self) {
-    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
-                                              valueOptions:NSMapTableWeakMemory];
-  }
   return self;
 }
 
-- (void)initializeWithGameID:(NSString *)gameID {
+- (void)initializeWithGameID:(NSString *)gameID
+                    completeBlock:(UnitySingletonCompletion)completeBlock{
   if ([UnityAds isInitialized]) {
+    completeBlock(NULL, @"UnityAds Initialization Succeeded");
     return;
   }
 
-  // Metadata needed by Unity Ads SDK before initialization.
+  [self setCompleteBlock:completeBlock];
+  
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
+  
+  [UnityAds initialize:gameID testMode:false enablePerPlacementLoad:true];
+  [UnityAds addDelegate:self];
+}
 
-  // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES];
+#pragma mark - Unity Delegate Methods
+
+- (void)unityAdsPlacementStateChanged:(NSString *)placementId
+                             oldState:(UnityAdsPlacementState)oldState
+                             newState:(UnityAdsPlacementState)newState {
+    if (newState == kUnityAdsPlacementStateWaiting || newState == kUnityAdsPlacementStateReady) {
+      if (self.completeBlock) {
+        self.completeBlock(NULL, @"UnityAds Initialization Succeeded");
+      }
+    }
+    return;
+}
+
+- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
+    if (error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument || error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorInitSanityCheckFail) {
+        if (self.completeBlock) {
+            self.completeBlock(&error, @"Unity Ads Initialization Failed");
+        }
+    }
+    return;
+}
+
+- (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
+}
+
+- (void)unityAdsDidStart:(NSString *)placementID {
+}
+
+- (void)unityAdsReady:(NSString *)placementID {
+}
+
+- (void)unityAdsDidClick:(NSString *)placementID {
 }
 
 @end

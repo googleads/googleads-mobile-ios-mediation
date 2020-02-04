@@ -79,9 +79,20 @@
     return;
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID];
-  [UnityAds addDelegate:self];
-  [UnityAds load:_placementID];
+  UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
+        if(!error) {
+            [UnityAds addDelegate:self];
+            [UnityAds load:[self getPlacementID]];
+        } else {
+            NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+            self->_adLoadCompletionHandler(nil, errorWithDescription);
+            self->_adLoadCompletionHandler = nil;
+        }
+    };
+    
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
+                                                       completeBlock:completeBlock];
+  
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -101,17 +112,17 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && error == kUnityAdsErrorShowError) {
-    NSError *presentError = GADUnityErrorWithDescription(message);
-    [_adEventDelegate didFailToPresentWithError:presentError];
-  }
-
-  if (_adLoadCompletionHandler) {
-    NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-    _adLoadCompletionHandler(nil, errorWithDescription);
-    _adLoadCompletionHandler = nil;
-  }
+//  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+//  if (strongDelegate && error == kUnityAdsErrorShowError) {
+//    NSError *presentError = GADUnityErrorWithDescription(message);
+//    [_adEventDelegate didFailToPresentWithError:presentError];
+//  }
+//
+//  if (_adLoadCompletionHandler) {
+//    NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+//    _adLoadCompletionHandler(nil, errorWithDescription);
+//    _adLoadCompletionHandler = nil;
+//  }
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
@@ -126,9 +137,13 @@
       GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                          rewardAmount:[NSDecimalNumber one]];
       [strongDelegate didRewardUserWithReward:reward];
+    } else if (state == kUnityAdsFinishStateError) {
+      NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
+      [strongDelegate didFailToPresentWithError:presentError];
     }
     [strongDelegate willDismissFullScreenView];
     [strongDelegate didDismissFullScreenView];
+    [strongDelegate didEndVideo];
     [UnityAds removeDelegate:self];
   }
 }

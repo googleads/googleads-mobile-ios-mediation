@@ -18,7 +18,11 @@
 
 #import "GADMAdapterUnityProtocol.h"
 
+typedef void (^UnitySingletonCompletion)(UnityAdsError *error, NSString *message);
+
 @interface GADMAdapterUnitySingleton : NSObject
+
+@property (nonatomic, strong) UnitySingletonCompletion completeBlock;
 
 /// Shared instance.
 + (instancetype)sharedInstance;
@@ -26,6 +30,7 @@
 /// Configures a reward-based video ad with provided |gameID| and |adapterDelegate| and returns
 /// YES if successful; otherwise returns NO.
 
-- (void)initializeWithGameID:(NSString *)gameID;
+- (void)initializeWithGameID:(NSString *)gameID
+                    completeBlock:(UnitySingletonCompletion)completeBlock;
 
 @end
