@@ -59,24 +59,33 @@
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray *potentials = @[NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  // Check if given banner size is in MREC or Banner.
+  CGSize size = CGSizeFromGADAdSize(closestSize);
+  if (size.height == kGADAdSizeBanner.size.height) {
+    if (size.width < kGADAdSizeBanner.size.width) {
+      _bannerSize = kVNGBannerShortSize;
+      self.adapterAdType = GADMAdapterVungleAdTypeShortBanner;
+    } else {
+      _bannerSize = kGADAdSizeBanner.size;
+      self.adapterAdType = GADMAdapterVungleAdTypeBanner;
+    }
+  } else if (size.height == kGADAdSizeLeaderboard.size.height) {
+    _bannerSize = kGADAdSizeLeaderboard.size;
+    self.adapterAdType = GADMAdapterVungleAdTypeLeaderboardBanner;
+  } else if (size.height == kGADAdSizeMediumRectangle.size.height) {
+    _bannerSize = kGADAdSizeMediumRectangle.size;
+    self.adapterAdType = GADMAdapterVungleAdTypeMREC;
+  } else {
+    _bannerSize = kGADAdSizeInvalid.size;
+    self.adapterAdType = GADMAdapterVungleAdTypeUnknown;
+  }
+
+  // Check if given banner size is valid
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!IsGADAdSizeValid(closestSize)) {
+  if (CGSizeEqualToSize(_bannerSize, kGADAdSizeInvalid.size)) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationInvalidAdSize, @"Vungle only supports banner ad size in 300 x 250, 320 x 50, 300 x 50 and 728 x 90.");
     [strongConnector adapter:self didFailAd:error];
     return;
-  }
-
-  _bannerSize = adSize.size;
-  if (CGSizeEqualToSize(adSize.size, kGADAdSizeMediumRectangle.size)) {
-    self.adapterAdType = GADMAdapterVungleAdTypeMREC;
-  } else if (CGSizeEqualToSize(adSize.size, kGADAdSizeBanner.size)) {
-    self.adapterAdType = GADMAdapterVungleAdTypeBanner;
-  } else if (CGSizeEqualToSize(adSize.size, kVNGBannerShortSize)) {
-    self.adapterAdType = GADMAdapterVungleAdTypeShortBanner;
-  } else if (CGSizeEqualToSize(adSize.size, kGADAdSizeLeaderboard.size)) {
-    self.adapterAdType = GADMAdapterVungleAdTypeLeaderboardBanner;
   }
 
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]

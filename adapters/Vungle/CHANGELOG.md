@@ -1,5 +1,9 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.5.2.0
+- Verified compatibility with Vungle SDK 6.5.2.
+- Added support for Smart and Adaptive Banner ads.
+
 #### Version 6.5.1.1
 - Verified compatibility with Vungle SDK 6.5.1.
 - Added support for banner (320x50, 300x50, 728x90) ads.
