@@ -1,5 +1,13 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Version 4.1.3.0
+- Verified compatibility with AdColony SDK 4.1.3.
+- Adding code to re-request ads for OB requests when the AdColony ad expires.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.55.0.
+- AdColony SDK version 4.1.3.
+
 #### Version 4.1.2.0
 - Verified compatibility with AdColony SDK 4.1.2.
 - Added support for banner ads.
