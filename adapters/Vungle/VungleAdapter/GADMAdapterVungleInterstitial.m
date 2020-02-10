@@ -35,10 +35,6 @@
   CGSize _bannerSize;
 }
 
-+ (NSString *)adapterVersion {
-  return kGADMAdapterVungleVersion;
-}
-
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [VungleAdNetworkExtras class];
 }
