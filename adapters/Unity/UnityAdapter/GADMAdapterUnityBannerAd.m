@@ -63,8 +63,6 @@
               [UnityAds addDelegate:self];
               [UnityAds load:gameID];
           } else {
-              id<GADMAdNetworkConnector> strongConnector = self->_connector;
-              id<GADMAdNetworkAdapter> strongAdapter = self->_adapter;
               if (strongConnector && strongAdapter) {
                   [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(message)];
               }

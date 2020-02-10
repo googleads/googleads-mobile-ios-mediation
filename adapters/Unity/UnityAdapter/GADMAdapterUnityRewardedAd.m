@@ -18,9 +18,6 @@
 #import "GADUnityError.h"
 
 @interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
-  // The completion handler to call when the ad loading succeeds or fails.
-  GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
-
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
 
@@ -37,6 +34,8 @@
   BOOL _isLoading;
 }
 
+// The completion handler to call when the ad loading succeeds or fails.
+@property (nonatomic, copy)GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
 @end
 
 @implementation GADMAdapterUnityRewardedAd
@@ -78,21 +77,22 @@
     }
     return;
   }
-
+  GADMAdapterUnityRewardedAd *__weak weakSelf = self;
+    
   UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-        if(!error) {
-            [UnityAds addDelegate:self];
-            [UnityAds load:[self getPlacementID]];
-        } else {
-            NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-            self->_adLoadCompletionHandler(nil, errorWithDescription);
-            self->_adLoadCompletionHandler = nil;
+      if(!error) {
+        [UnityAds addDelegate:self];
+        [UnityAds load:[self getPlacementID]];
+      } else {
+        NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+        if(weakSelf) {
+          weakSelf.adLoadCompletionHandler(nil, errorWithDescription);
         }
-    };
+      }
+  };
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
                                                        completeBlock:completeBlock];
-  
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -112,17 +112,6 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-//  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-//  if (strongDelegate && error == kUnityAdsErrorShowError) {
-//    NSError *presentError = GADUnityErrorWithDescription(message);
-//    [_adEventDelegate didFailToPresentWithError:presentError];
-//  }
-//
-//  if (_adLoadCompletionHandler) {
-//    NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-//    _adLoadCompletionHandler(nil, errorWithDescription);
-//    _adLoadCompletionHandler = nil;
-//  }
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
@@ -143,7 +132,6 @@
     }
     [strongDelegate willDismissFullScreenView];
     [strongDelegate didDismissFullScreenView];
-    [strongDelegate didEndVideo];
     [UnityAds removeDelegate:self];
   }
 }

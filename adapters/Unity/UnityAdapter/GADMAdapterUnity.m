@@ -86,10 +86,9 @@
             [UnityAds addDelegate:self];
             [UnityAds load:[self getPlacementID]];
     } else {
-      id<GADMAdNetworkConnector> strongNetworkConnector = self->_networkConnector;
-      if (strongNetworkConnector) {
+      if (strongConnector) {
         NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-        [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+        [strongConnector adapter:self didFailAd:errorWithDescription];
       }
     }
   };
