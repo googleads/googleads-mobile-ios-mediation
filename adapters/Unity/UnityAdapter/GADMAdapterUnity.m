@@ -137,7 +137,13 @@
   if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
     if (newState == kUnityAdsPlacementStateNoFill){
       NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
-        [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+    } else if (newState == kUnityAdsPlacementStateDisabled) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_DISABLED");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+    } else if (newState == kUnityAdsPlacementStateNotAvailable) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_NOTAVAILABLE");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
     }
   }
 }
@@ -146,16 +152,12 @@
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
   if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
     if (state == kUnityAdsFinishStateCompleted) {
-     
-          
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
     } else if (state == kUnityAdsFinishStateError) {
-        [strongNetworkConnector adapterWillDismissInterstitial:self];
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-    
+      [strongNetworkConnector adapterWillPresentInterstitial:self];
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
     } else if (state == kUnityAdsFinishStateSkipped) {
-        [strongNetworkConnector adapterWillDismissInterstitial:self];
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-    
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
     }
     [UnityAds removeDelegate:self];
   }
@@ -180,17 +182,7 @@
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-//  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-//    if (strongNetworkConnector) {
-//      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-//      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-//      if (error == kUnityAdsErrorShowError) {
-//        [strongNetworkConnector adapterWillDismissInterstitial:self];
-//        [strongNetworkConnector adapterDidDismissInterstitial:self];
-//      }
-//      [UnityAds removeDelegate:self];
-//    }
-//    return;
+  //do nothing.
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {

@@ -127,10 +127,10 @@
                                                          rewardAmount:[NSDecimalNumber one]];
       [strongDelegate didRewardUserWithReward:reward];
     } else if (state == kUnityAdsFinishStateError) {
+      [strongDelegate willPresentFullScreenView];
       NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
       [strongDelegate didFailToPresentWithError:presentError];
     }
-    [strongDelegate willDismissFullScreenView];
     [strongDelegate didDismissFullScreenView];
     [UnityAds removeDelegate:self];
   }
@@ -147,7 +147,6 @@
 - (void)unityAdsReady:(nonnull NSString *)placementID {
   if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
-    _adLoadCompletionHandler = nil;
   }
 }
 
@@ -168,10 +167,17 @@
   // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
   // Google Mobile Ads SDK.
   //id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID] && newState == kUnityAdsPlacementStateNoFill) {
-    NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
-    _adLoadCompletionHandler(nil, errorWithDescription);
-    _adLoadCompletionHandler = nil;
+  if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
+    if (newState == kUnityAdsPlacementStateNoFill) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
+      _adLoadCompletionHandler(nil, errorWithDescription);
+    } else if (newState == kUnityAdsPlacementStateNotAvailable) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_NOTAVAILABLE");
+      _adLoadCompletionHandler(nil, errorWithDescription);
+    } else if (newState == kUnityAdsPlacementStateDisabled) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_DISABLED");
+      _adLoadCompletionHandler(nil, errorWithDescription);
+    }
   }
 }
 

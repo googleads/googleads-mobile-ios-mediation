@@ -63,6 +63,7 @@
     if (newState == kUnityAdsPlacementStateWaiting || newState == kUnityAdsPlacementStateReady) {
       if (self.completeBlock) {
         self.completeBlock(NULL, @"UnityAds Initialization Succeeded");
+        self.completeBlock = nil;
       }
     }
     return;
@@ -72,6 +73,7 @@
     if (error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument || error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorInitSanityCheckFail) {
         if (self.completeBlock) {
             self.completeBlock(&error, @"Unity Ads Initialization Failed");
+            self.completeBlock = nil;
         }
     }
     return;
