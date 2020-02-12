@@ -51,8 +51,8 @@
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
   
-  [UnityAds initialize:gameID testMode:false enablePerPlacementLoad:true];
   [UnityAds addDelegate:self];
+  [UnityAds initialize:gameID testMode:false enablePerPlacementLoad:true];
 }
 
 #pragma mark - Unity Delegate Methods
