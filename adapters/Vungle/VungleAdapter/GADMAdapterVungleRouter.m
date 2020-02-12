@@ -108,8 +108,13 @@ const CGSize kVNGBannerShortSize = {300, 50};
   return [[VungleSDK sharedSDK] isInitialized];
 }
 
-- (BOOL)isAdCachedForPlacementID:(nonnull NSString *)placementID {
-  return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
+- (BOOL)isAdCachedForPlacementID:(nonnull NSString *)placementID withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
+  GADMAdapterVungleAdType adType = [delegate adapterAdType];
+  if (adType != GADMAdapterVungleAdTypeBanner && adType != GADMAdapterVungleAdTypeShortBanner && adType != GADMAdapterVungleAdTypeLeaderboardBanner) {
+    return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
+  }
+
+  return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID withSize:[self getVungleBannerAdSizeType:adType]];
 }
 
 - (void)addDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
@@ -208,7 +213,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
   [self addDelegate:delegate];
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
-  if ([sdk isAdCachedForPlacementID:placement]) {
+  if ([self isAdCachedForPlacementID:placement withDelegate:delegate]) {
     [delegate adAvailable];
   } else {
     NSError *loadError;
