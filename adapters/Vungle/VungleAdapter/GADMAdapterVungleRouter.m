@@ -226,7 +226,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
           }
     } else {
         if (![sdk loadPlacementWithID:placement withSize:[self getVungleBannerAdSizeType:adType] error:&loadError]) {
-            if (loadError) {
+            if ((loadError) && (loadError.code != VungleSDKResetPlacementForDifferentAdSize)) {
                 return loadError;
             }
         }
