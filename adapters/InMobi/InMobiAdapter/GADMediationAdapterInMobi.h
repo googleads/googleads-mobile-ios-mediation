@@ -16,7 +16,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
 
-@interface GADMediationAdapterInMobi : NSObject <GADRTBAdapter>
+@interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
 + (BOOL)isAppInitialised;
 + (void)setIsAppInitialised:(BOOL)status;
 @end

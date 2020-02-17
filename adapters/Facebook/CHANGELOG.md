@@ -3,6 +3,10 @@
 #### Version 5.6.1.0
 - Verified compatibility with FAN SDK 5.6.1.
 
+Built and tested with
+- Google Mobile Ads SDK version 7.53.1.
+- FAN SDK version 5.6.1.
+
 #### Version 5.6.0.0
 - Verified compatibility with FAN SDK 5.6.0.
 

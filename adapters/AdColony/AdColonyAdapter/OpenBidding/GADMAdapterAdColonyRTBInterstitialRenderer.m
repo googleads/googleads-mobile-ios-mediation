@@ -35,12 +35,16 @@
 
   /// An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+
+  /// Ad configuration for the ad to be loaded.
+  GADMediationInterstitialAdConfiguration *_adConfiguration;
 }
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
                     completionHandler:
                         (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
+  _adConfiguration = adConfig;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [handler copy];
   _renderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
@@ -56,9 +60,13 @@
     return delegate;
   };
 
+  [self loadAd];
+}
+
+- (void)loadAd {
   GADMAdapterAdColonyRTBInterstitialRenderer *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper
-      setupZoneFromAdConfig:adConfig
+      setupZoneFromAdConfig:_adConfiguration
                    callback:^(NSString *zone, NSError *error) {
                      GADMAdapterAdColonyRTBInterstitialRenderer *strongSelf = weakSelf;
 
@@ -75,8 +83,8 @@
                      }
 
                      GADMAdapterAdColonyLog(@"Requesting interstitial ad for zone: %@", zone);
-                     AdColonyAdOptions *options =
-                         [GADMAdapterAdColonyHelper getAdOptionsFromAdConfig:adConfig];
+                     AdColonyAdOptions *options = [GADMAdapterAdColonyHelper
+                         getAdOptionsFromAdConfig:strongSelf->_adConfiguration];
                      [AdColony requestInterstitialInZone:zone
                                                  options:options
                                              andDelegate:strongSelf];
@@ -122,14 +130,16 @@
 }
 
 - (void)adColonyInterstitialExpired:(nonnull AdColonyInterstitial *)interstitial {
-  // Each time AdColony's SDK is configured, it discards previously loaded ads. Publishers should
-  // initialize the GMA SDK and wait for initialization to complete to ensure that AdColony's SDK
-  // gets initialized with all known zones.
-  GADMAdapterAdColonyLog(
-      @"Interstitial ad expired due to configuring another ad. Use -[GADMobileAds "
-      @"startWithCompletionHandler:] to initialize the Google Mobile Ads SDK and wait for the "
-      @"completion handler to be called before requesting an ad. Zone: %@",
-      interstitial.zoneID);
+  // Only reload an ad on open bidding, where AdColony would otherwise be charged for an impression
+  // it couldn't show. Don't reload ads for regular mediation, as it has side effects on reporting.
+  if (_adConfiguration.bidResponse) {
+    // Re-requesting interstitial ad to avoid the following situation:
+    // 1. Request a interstitial ad from AdColony.
+    // 2. AdColony ad loads. Adapter sends a callback saying the ad has been loaded.
+    // 3. AdColony ad expires due to timeout.
+    // 4. Publisher will not be able to present the ad as it has expired.
+    [self loadAd];
+  }
 }
 
 - (void)adColonyInterstitialWillLeaveApplication:(nonnull AdColonyInterstitial *)interstitial {

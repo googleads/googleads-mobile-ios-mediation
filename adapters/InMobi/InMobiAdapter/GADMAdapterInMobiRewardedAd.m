@@ -32,9 +32,6 @@
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _renderCompletionHandler;
 
-  /// The Completion handler for signal generation. Returns either signals or an error object.
-  GADRTBSignalCompletionHandler _signalCompletionHandler;
-
   /// An ad event delegate to invoke when ad rendering events occur.
   id<GADMediationRewardedAdEventDelegate> __weak _adEventDelegate;
 
@@ -57,22 +54,6 @@
     _rewardedAd.delegate = self;
   }
   return self;
-}
-
-- (void)collectIMSignalsWithGACompletionHandler:
-    (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
-  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return;
-    }
-    if (originalCompletionHandler) {
-      originalCompletionHandler(signals, error);
-    }
-    originalCompletionHandler = nil;
-  };
-  [_rewardedAd getSignals];
 }
 
 - (void)loadRewardedAdForAdConfiguration:
@@ -132,11 +113,7 @@
           @"Inmobi");
   }
   [self prepareRequestParameters];
-  if (_adConfig.bidResponse) {
-    [_rewardedAd load:[adConfiguration.bidResponse dataUsingEncoding:NSUTF8StringEncoding]];
-  } else {
-    [_rewardedAd load];
-  }
+  [_rewardedAd load];
 }
 
 - (void)prepareRequestParameters {
@@ -199,16 +176,6 @@
 }
 
 #pragma mark IMInterstitialDelegate methods
-
-- (void)interstitial:(IMInterstitial *)interstitial gotSignals:(NSData *)signals {
-  NSString *signalsString = [[NSString alloc] initWithData:signals encoding:NSUTF8StringEncoding];
-  _signalCompletionHandler(signalsString, nil);
-}
-
-- (void)interstitial:(IMInterstitial *)interstitial
-    failedToGetSignalsWithError:(IMRequestStatus *)status {
-  _signalCompletionHandler(nil, status);
-}
 
 - (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
   _adEventDelegate = _renderCompletionHandler(self, nil);

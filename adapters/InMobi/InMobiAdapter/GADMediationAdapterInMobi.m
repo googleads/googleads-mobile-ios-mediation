@@ -19,17 +19,10 @@
 #import "GADMAdapterInMobiRewardedAd.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
-#import "InMobiBannerAd.h"
-#import "InMobiInterstitialAd.h"
 
 static BOOL isAppInitialized;
 
 @implementation GADMediationAdapterInMobi {
-  /// InMobi banner ad wrapper.
-  InMobiBannerAd *_bannerAd;
-
-  /// InMobi interstitial ad wrapper.
-  InMobiInterstitialAd *_interstitialAd;
 
   /// InMobi rewarded ad wrapper.
   GADMAdapterInMobiRewardedAd *_rewardedAd;
@@ -106,102 +99,6 @@ static BOOL isAppInitialized;
 
 + (void)setIsAppInitialised:(BOOL)status {
   isAppInitialized = status;
-}
-
-- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
-                         completionHandler:
-                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  if (params.configuration.credentials.count == 0) {
-    completionHandler(
-        nil,
-        [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                            code:kGADErrorMediationDataError
-                        userInfo:@{NSLocalizedDescriptionKey : @"Inmobi credentials unavailable"}]);
-  }
-
-  GADMediationCredentials *credentials = params.configuration.credentials.firstObject;
-  NSDictionary<NSString *, id> *settings = credentials.settings;
-  NSString *accountIdentifier = settings[kGADMAdapterInMobiAccountID];
-  NSString *placementIdentifierString = settings[kGADMAdapterInMobiPlacementID];
-  NSNumber *placementIdentifier =
-      [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-
-  NSError *error = GADMAdapterInMobiValidatePlacementIdentifier(placementIdentifier);
-  if (error) {
-    completionHandler(nil, error);
-    return;
-  }
-
-  if (!isAppInitialized) {
-    [IMSdk initWithAccountID:accountIdentifier];
-  }
-
-  GADAdSize adSize = params.adSize;
-  switch (credentials.format) {
-    case GADAdFormatBanner: {
-      // This avoids a crash where UI methods are invoked on a non-main thread.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        self->_bannerAd = [[InMobiBannerAd alloc] initWithPlacementIdentifier:placementIdentifier
-                                                                       adSize:adSize];
-        [self->_bannerAd collectIMSignalsWithGMACompletionHandler:completionHandler];
-      });
-    } break;
-    case GADAdFormatInterstitial:
-      _interstitialAd =
-          [[InMobiInterstitialAd alloc] initWithPlacementIdentifier:placementIdentifier];
-      [_interstitialAd collectIMSignalsWithGACompletionHandler:completionHandler];
-      break;
-    case GADAdFormatRewarded:
-      _rewardedAd =
-          [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
-      [_rewardedAd collectIMSignalsWithGACompletionHandler:completionHandler];
-      break;
-    case GADAdFormatNative:
-      completionHandler(
-          nil,
-          [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                              code:kGADErrorInvalidRequest
-                          userInfo:@{
-                            NSLocalizedDescriptionKey :
-                                @"The InMobi adapter currently does not support Native ads in Open "
-                                @"Bidding. Please contact the InMobi team to request this feature."
-                          }]);
-      break;
-  }
-}
-
-- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  if (!_bannerAd) {
-    NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];
-    NSNumber *placementIdentifier =
-        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-
-    GADAdSize adSize = adConfiguration.adSize;
-    _bannerAd = [[InMobiBannerAd alloc] initWithPlacementIdentifier:placementIdentifier
-                                                             adSize:adSize];
-  }
-
-  [_bannerAd loadIMBannerResponseWithGMAAdConfig:adConfiguration
-                               completionHandler:completionHandler];
-}
-
-- (void)loadInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:
-                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  if (!_interstitialAd) {
-    NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];
-    NSNumber *placementIdentifier =
-        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-    _interstitialAd =
-        [[InMobiInterstitialAd alloc] initWithPlacementIdentifier:placementIdentifier];
-  }
-
-  [_interstitialAd loadIMInterstitialResponseWithGMAdConfig:adConfiguration
-                                          completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
