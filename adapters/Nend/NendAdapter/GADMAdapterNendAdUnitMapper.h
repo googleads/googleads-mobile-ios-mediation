@@ -1,5 +1,5 @@
 //
-//  GADNendAdUnitMapper.h
+//  GADMAdapterNendAdUnitMapper.h
 //  NendAdapter
 //
 //  Copyright © 2019 FAN Communications. All rights reserved.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GADNendAdUnitMapper : NSObject
+@interface GADMAdapterNendAdUnitMapper : NSObject
 
 + (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId;
 + (NSString *)mappingAdUnitId:(id<GADMAdNetworkConnector>)connector

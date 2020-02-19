@@ -7,7 +7,7 @@
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
-#import "GADNendAdUnitMapper.h"
+#import "GADMAdapterNendAdUnitMapper.h"
 
 @import NendAd;
 
@@ -192,7 +192,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId {
-    return [GADNendAdUnitMapper validateApiKey:apiKey spotId:spotId];
+    return [GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId];
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {

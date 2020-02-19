@@ -1,13 +1,13 @@
 //
-//  GADNendAdUnitMapper.m
+//  GADMAdapterNendAdUnitMapper.m
 //  NendAdapter
 //
 //  Copyright © 2019 FAN Communications. All rights reserved.
 //
 
-#import "GADNendAdUnitMapper.h"
+#import "GADMAdapterNendAdUnitMapper.h"
 
-@implementation GADNendAdUnitMapper
+@implementation GADMAdapterNendAdUnitMapper
 
 + (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId {
     if (!apiKey || apiKey.length == 0 || !spotId || spotId.length == 0) {

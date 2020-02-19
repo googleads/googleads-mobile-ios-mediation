@@ -8,9 +8,9 @@
 #import "GADMediationAdapterNendNativeForwarder.h"
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNend.h"
-#import "GADNendAdUnitMapper.h"
+#import "GADMAdapterNendAdUnitMapper.h"
 
-@interface GADMediationAdapterNendNativeForwarder () <GADNendNativeAdLoaderDelegate>
+@interface GADMediationAdapterNendNativeForwarder () <GADMAdapterNendNativeAdLoaderDelegate>
 
 @property(nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
@@ -33,8 +33,8 @@
 - (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes options:(NSArray<GADAdLoaderOptions *> *)options {
     id<GADMAdNetworkConnector> strongConnector = self.connector;
 
-    NSString *spotId= [GADNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendSpotID];
-    NSString *apiKey = [GADNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendApiKey];
+    NSString *spotId= [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendSpotID];
+    NSString *apiKey = [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendApiKey];
     GADMAdapterNendExtras *extras = [strongConnector networkExtras];
 
     [self fetchNativeAd:options spotId:spotId apiKey:apiKey extra:extras];

@@ -6,7 +6,7 @@
 //
 
 #import "GADMAdapterNendNativeVideoAd.h"
-#import "GADNendNativeAdLoader.h"
+#import "GADMAdapterNendNativeAdLoader.h"
 
 @interface GADMAdapterNendNativeVideoAd () <NADNativeVideoDelegate, NADNativeVideoViewDelegate>
 
@@ -94,12 +94,12 @@
 
 - (BOOL)handlesUserImpressions
 {
-    return [GADNendNativeAdLoader handlesUserImpressions];
+    return [GADMAdapterNendNativeAdLoader handlesUserImpressions];
 }
 
 - (BOOL)handlesUserClicks
 {
-    return [GADNendNativeAdLoader handlesUserClicks];
+    return [GADMAdapterNendNativeAdLoader handlesUserClicks];
 }
 
 #pragma mark - NADNativeVideoDelegate
