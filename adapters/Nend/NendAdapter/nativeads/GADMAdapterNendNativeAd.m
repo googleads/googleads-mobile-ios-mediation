@@ -16,6 +16,7 @@
 @property(nonatomic, strong) GADNativeAdImage *mappedIcon;
 @property(nonatomic, strong) NSArray *mappedImages;
 @property(nonatomic, strong) UILabel *advertisingExplicitlyView;
+@property(nonatomic, strong) UIImageView *imageView;
 
 @end
 
@@ -30,12 +31,14 @@
         _nativeAd.delegate = self;
         _advertisingExplicitlyView = [UILabel new];
         _advertisingExplicitlyView.text = [_nativeAd prTextForAdvertisingExplicitly:NADNativeAdvertisingExplicitlyPR];
+        _imageView = [UIImageView new];
         
         if (logo) {
             _mappedIcon = logo;
         }
         if (image) {
             _mappedImages = [NSArray arrayWithObject:image];
+            _imageView.image = image.image;
         }
     }
     return self;
@@ -46,7 +49,7 @@
 }
 
 - (UIView *)mediaView {
-    return nil;
+    return self.imageView;
 }
 
 - (NSString *)advertiser {
