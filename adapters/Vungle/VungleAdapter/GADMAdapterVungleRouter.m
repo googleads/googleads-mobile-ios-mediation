@@ -377,8 +377,11 @@ const CGSize kVNGBannerShortSize = {300, 50};
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
-  if ([placementID isEqualToString:_bannerPlacementID]) {
+  if ([placementID isEqualToString:_bannerPlacementID] || !_bannerPlacementID) {
     _isBannerPresenting = YES;
+    if (!_bannerPlacementID) {
+      _bannerPlacementID = placementID;
+    }
   }
 }
 
