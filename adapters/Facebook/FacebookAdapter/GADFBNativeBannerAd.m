@@ -99,6 +99,10 @@
   return nil;
 }
 
+- (nullable GADNativeAdImage *)icon {
+  return [[GADNativeAdImage alloc] initWithImage:_nativeBannerAd.iconImage];
+}
+
 - (nullable NSString *)headline {
   return _nativeBannerAd.headline;
 }
