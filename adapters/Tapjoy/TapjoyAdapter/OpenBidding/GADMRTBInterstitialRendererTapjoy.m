@@ -1,45 +1,62 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #import "GADMRTBInterstitialRendererTapjoy.h"
 
 #import <Tapjoy/Tapjoy.h>
+
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
 #import "GADMAdapterTapjoySingleton.h"
+#import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
 @interface GADMRTBInterstitialRendererTapjoy () <GADMediationInterstitialAd,
                                                  TJPlacementDelegate,
                                                  TJPlacementVideoDelegate>
-
-@property(nonatomic, strong) GADMediationInterstitialAdConfiguration *adConfig;
-
-@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler renderCompletionHandler;
-
-@property(nonatomic, strong) TJPlacement *interstitialAd;
-
-@property(nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> delegate;
-
-@property(nonatomic, copy) NSString *placementName;
-
 @end
 
-@implementation GADMRTBInterstitialRendererTapjoy
+@implementation GADMRTBInterstitialRendererTapjoy {
+  /// Interstitial ad configuration for the ad to be loaded.
+  GADMediationInterstitialAdConfiguration *_adConfig;
+
+  /// Completion handler to call when an ad loads successfully or fails.
+  GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
+
+  /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
+  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
+
+  /// Tapjoy interstitial ad object.
+  TJPlacement *_interstitialAd;
+
+  /// Tapjoy placement name.
+  NSString *_placementName;
+}
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderInterstitialForAdConfig:(GADMediationInterstitialAdConfiguration *)adConfig
-                    completionHandler:(GADMediationInterstitialLoadCompletionHandler)handler {
+- (void)renderInterstitialForAdConfig:(nonnull GADMediationInterstitialAdConfiguration *)adConfig
+                    completionHandler:
+                        (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   _renderCompletionHandler = handler;
   _adConfig = adConfig;
   _placementName = adConfig.credentials.settings[kGADMAdapterTapjoyPlacementKey];
   NSString *sdkKey = adConfig.credentials.settings[kGADMAdapterTapjoySdkKey];
 
   if (!sdkKey.length || !_placementName.length) {
-    NSError *adapterError = [NSError
-        errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                   code:0
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Did not receive valid Tapjoy server parameters"
-               }];
+    NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
     handler(nil, adapterError);
     return;
   }
@@ -49,21 +66,27 @@
 
   if (Tapjoy.isConnected) {
     [self requestInterstitialAd];
-  } else {
-    NSDictionary *connectOptions =
-        @{TJC_OPTION_ENABLE_LOGGING : [NSNumber numberWithInt:extras.debugEnabled]};
-    GADMRTBInterstitialRendererTapjoy *__weak weakSelf = self;
-    [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
-                                          options:connectOptions
-                                completionHandler:^(NSError *error) {
-                                  GADMRTBInterstitialRendererTapjoy *__strong strongSelf = weakSelf;
-                                  if (error) {
-                                    handler(nil, error);
-                                  } else if (strongSelf) {
-                                    [strongSelf requestInterstitialAd];
-                                  }
-                                }];
+    return;
   }
+
+  // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
+  NSDictionary<NSString *, NSNumber *> *connectOptions =
+      @{TJC_OPTION_ENABLE_LOGGING : @(extras.debugEnabled)};
+  GADMRTBInterstitialRendererTapjoy *__weak weakSelf = self;
+  [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
+                                        options:connectOptions
+                              completionHandler:^(NSError *error) {
+                                GADMRTBInterstitialRendererTapjoy *__strong strongSelf = weakSelf;
+                                if (!strongSelf) {
+                                  return;
+                                }
+
+                                if (error) {
+                                  handler(nil, error);
+                                  return;
+                                }
+                                [strongSelf requestInterstitialAd];
+                              }];
 }
 
 - (void)requestInterstitialAd {
@@ -77,37 +100,33 @@
 
 #pragma mark GADMediationInterstitialAd
 
-- (void)presentFromViewController:(UIViewController *)viewController {
-  if ([_interstitialAd isContentAvailable])
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  if (_interstitialAd.isContentAvailable) {
     [_interstitialAd showContentWithViewController:viewController];
-}
-
-#pragma mark TajoyPlacementDelegate methods
-- (void)requestDidSucceed:(TJPlacement *)placement {
-  if (!placement.isContentAvailable) {
-    NSError *adapterError = [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain
-                                                code:0
-                                            userInfo:@{NSLocalizedDescriptionKey : @"NO_FILL"}];
-    self.renderCompletionHandler(nil, adapterError);
   }
 }
 
-- (void)requestDidFail:(TJPlacement *)placement error:(NSError *)error {
-  self.renderCompletionHandler(nil, error);
+#pragma mark TajoyPlacementDelegate methods
+- (void)requestDidSucceed:(nonnull TJPlacement *)placement {
+  // Do nothing. contentIsReady: indicates that an ad has loaded.
 }
 
-- (void)contentIsReady:(TJPlacement *)placement {
-  self.delegate = self.renderCompletionHandler(self, nil);
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
+  _renderCompletionHandler(nil, error);
 }
 
-- (void)contentDidAppear:(TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
+- (void)contentIsReady:(nonnull TJPlacement *)placement {
+  _delegate = _renderCompletionHandler(self, nil);
+}
+
+- (void)contentDidAppear:(nonnull TJPlacement *)placement {
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willPresentFullScreenView];
   [strongDelegate reportImpression];
 }
 
-- (void)contentDidDisappear:(TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = self.delegate;
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
+  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willDismissFullScreenView];
   [strongDelegate didDismissFullScreenView];
 }

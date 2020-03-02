@@ -14,7 +14,7 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
 

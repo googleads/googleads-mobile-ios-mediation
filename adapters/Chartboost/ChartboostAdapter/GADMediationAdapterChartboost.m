@@ -16,43 +16,52 @@
 #import <Chartboost/Chartboost.h>
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
+#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
 #import "GADMRewardedAdChartboost.h"
 
-@interface GADMediationAdapterChartboost ()
-
-@property(nonatomic, strong) GADMRewardedAdChartboost *rewardedAd;
-
-@end
-
-@implementation GADMediationAdapterChartboost
+@implementation GADMediationAdapterChartboost {
+  /// Chartboost rewarded ad wrapper.
+  GADMRewardedAdChartboost *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *appID = [cred.settings valueForKey:kGADMAdapterChartboostAppID];
-    NSString *appSignature = [cred.settings valueForKey:kGADMAdapterChartboostAppSignature];
-    credentials[appID] = appSignature;
+    NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
+    NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
+    GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+  }
+
+  if (!credentials.count) {
+    NSError *error = [NSError
+        errorWithDomain:kGADMAdapterChartboostErrorDomain
+                   code:kGADErrorMediationDataError
+               userInfo:@{
+                 NSLocalizedDescriptionKey : @"Chartboost mediation configurations did not contain "
+                                             @"a valid appID and app signature."
+               }];
+    completionHandler(error);
+    return;
   }
 
   NSString *appID = credentials.allKeys.firstObject;
   NSString *appSignature = credentials[appID];
-
   if (credentials.count > 1) {
-    NSLog(@"Found multiple app ids: %@. Please remove any app ids you are not using from the AdMob "
-          @"UI.",
+    NSLog(@"Found multiple app IDs: %@. "
+          @"Please remove any app IDs you are not using from the AdMob UI.",
           credentials.allKeys);
-    NSLog(@"Initializing Chartbbost SDK with the appID: %@ and app signature: %@", appID,
+    NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-
-  [[GADMAdapterChartboostSingleton sharedManager] startWithAppId:appID
-                                                    appSignature:appSignature
-                                               completionHandler:^(NSError *error) {
-                                                 completionHandler(error);
-                                               }];
+  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
+  [sharedInstance startWithAppId:appID
+                    appSignature:appSignature
+               completionHandler:^(NSError *error) {
+                 completionHandler(error);
+               }];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -77,7 +86,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 4) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
@@ -89,9 +98,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdChartboost alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMRewardedAdChartboost alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

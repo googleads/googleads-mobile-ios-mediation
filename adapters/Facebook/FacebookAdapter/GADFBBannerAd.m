@@ -14,27 +14,13 @@
 
 #import "GADFBBannerAd.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADFBAdapterDelegate.h"
-#import "GADFBError.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
-
-@interface GADFBBannerAd () {
-  /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _connector;
-
-  /// Adapter for receiving ad request notifications.
-  __weak id<GADMAdNetworkAdapter> _adapter;
-
-  /// Banner ad obtained from Facebook's Audience Network.
-  FBAdView *_bannerAd;
-
-  /// Handles delegate notifications from bannerAd.
-  GADFBAdapterDelegate *_adapterDelegate;
-}
-@end
+#import "GADMediationAdapterFacebook.h"
 
 /// Converts ad size from Google Mobile Ads SDK to ad size interpreted by Facebook Audience Network.
 static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleasing *error) {
@@ -63,25 +49,31 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   }
 
   if (error) {
-    NSDictionary *params = @{
-      NSLocalizedDescriptionKey :
-          [NSString stringWithFormat:@"Invalid size (%@) for Facebook mediation adapter.",
-                                     NSStringFromGADAdSize(gadAdSize)]
-    };
-    *error = [NSError errorWithDomain:kGADErrorDomain
-                                 code:kGADErrorMediationInvalidAdSize
-                             userInfo:params];
+    *error = GADFBErrorWithDescription(
+        [NSString stringWithFormat:@"Invalid size for Facebook mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)]);
   }
 
-  FBAdSize fbSize;
-  fbSize.size = CGSizeZero;
+  FBAdSize fbSize = {0};
   return fbSize;
 }
 
-@implementation GADFBBannerAd
+@implementation GADFBBannerAd {
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter {
+  /// Adapter for receiving ad request notifications.
+  __weak id<GADMAdNetworkAdapter> _adapter;
+
+  /// Banner ad obtained from Facebook's Audience Network.
+  FBAdView *_bannerAd;
+
+  /// Handles delegate notifications from bannerAd.
+  GADFBAdapterDelegate *_adapterDelegate;
+}
+
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
     _adapter = adapter;
@@ -90,10 +82,6 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
     _adapterDelegate = [[GADFBAdapterDelegate alloc] initWithAdapter:adapter connector:connector];
   }
   return self;
-}
-
-- (instancetype)init {
-  return nil;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
@@ -145,8 +133,7 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   if (size.size.width < 0) {
     _adapterDelegate.finalBannerSize = adSize.size;
   }
-  [FBAdSettings setMediationService:[NSString
-      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
+  GADFBConfigureMediationService();
   [_bannerAd loadAd];
 }
 

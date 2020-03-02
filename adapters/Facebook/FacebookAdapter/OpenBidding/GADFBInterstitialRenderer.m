@@ -14,14 +14,18 @@
 
 #import "GADFBInterstitialRenderer.h"
 
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <AdSupport/AdSupport.h>
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#import "GADFBError.h"
+#include <stdatomic.h>
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
-@interface GADFBInterstitialRenderer () <GADMediationInterstitialAd, FBInterstitialAdDelegate> {
+@interface GADFBInterstitialRenderer () <GADMediationInterstitialAd, FBInterstitialAdDelegate>
+@end
+
+@implementation GADFBInterstitialRenderer {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -34,16 +38,27 @@
   BOOL _isRTBRequest;
 }
 
-@end
-
-@implementation GADFBInterstitialRenderer
-
 - (void)renderInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:
-                               (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler {
   // Store the completion handler for later use.
-  _adLoadCompletionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _adLoadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   if (adConfiguration.bidResponse) {
     _isRTBRequest = YES;
   }
@@ -54,13 +69,18 @@
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
     NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
-    completionHandler(nil, error);
+    _adLoadCompletionHandler(nil, error);
     return;
   }
 
   // Create the interstitial.
   _interstitialAd = [[FBInterstitialAd alloc] initWithPlacementID:placementID];
   _interstitialAd.delegate = self;
+
+  // Adds a watermark to the ad.
+  FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+  watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+  _interstitialAd.extraHint = watermarkHint;
 
   // Load ad.
   [_interstitialAd loadAdWithBidPayload:adConfiguration.bidResponse];
@@ -77,9 +97,7 @@
 }
 
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
-  if (!_isRTBRequest) {
-    [_adEventDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
@@ -109,8 +127,8 @@
 #pragma mark GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  // The FAN SDK doesn't have a callback for an interstitial presenting a full screen view. Invoke
-  // this callback on the Google Mobile Ads SDK within this method instead.
+  // The Facebook Audience Network SDK doesn't have a callback for an interstitial presenting a full
+  // screen view. Invoke this callback on the Google Mobile Ads SDK within this method instead.
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
     [strongDelegate willPresentFullScreenView];

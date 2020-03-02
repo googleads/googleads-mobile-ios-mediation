@@ -43,8 +43,6 @@
 
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:_mediaId];
-  // MaioInstance生成時にテストモードかどうかを指定する
-  [Maio setAdTestMode:adConfiguration.isTestRequest];
 
   GADMAdapterMaioRewardedAd *__weak weakSelf = self;
   [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
@@ -64,6 +62,8 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:_mediaId];
+
+  [self.adEventDelegate willPresentFullScreenView];
   [adManager showAdForZoneId:self.zoneId rootViewController:viewController];
 }
 

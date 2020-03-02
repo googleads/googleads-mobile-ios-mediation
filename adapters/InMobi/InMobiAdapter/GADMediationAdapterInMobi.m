@@ -17,36 +17,50 @@
 #import "GADMAdapterInMobi.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 
-@interface GADMediationAdapterInMobi ()
+static BOOL isAppInitialized;
 
-@property(nonatomic) GADMAdapterInMobiRewardedAd *rewardedAd;
+@implementation GADMediationAdapterInMobi {
 
-@end
+  /// InMobi rewarded ad wrapper.
+  GADMAdapterInMobiRewardedAd *_rewardedAd;
+}
 
-@implementation GADMediationAdapterInMobi
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSMutableSet<NSString *> *accountIDs = [[NSMutableSet alloc] init];
 
-BOOL isAppInitialised;
-
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet *accountIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [accountIDs addObject:cred.settings[kGADMAdapterInMobiAccountID]];
+    NSString *accountIDFromSettings = cred.settings[kGADMAdapterInMobiAccountID];
+    if (accountIDFromSettings.length) {
+      GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
+    }
+  }
+
+  if (!accountIDs.count) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                            code:kGADErrorMediationDataError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey :
+                              @"InMobi mediation configurations did not contain a valid account ID."
+                        }];
+    completionHandler(error);
+    return;
   }
 
   NSString *accountID = [accountIDs anyObject];
-
   if (accountIDs.count > 1) {
-    NSLog(@"Found the following account ID's: %@. Please remove any account IDs you are not using "
-          @"from the AdMob UI.",
+    NSLog(@"Found the following account IDs: %@. "
+          @"Please remove any account IDs you are not using from the AdMob UI.",
           accountIDs);
-    NSLog(@"Initializing InMobi SDK with the account ID %@", accountID);
+    NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
-  [IMSdk initWithAccountID:accountID consentDictionary:[GADMInMobiConsent getConsent]];
-  isAppInitialised = YES;
+  [IMSdk initWithAccountID:accountID consentDictionary:GADMInMobiConsent.consent];
+  isAppInitialized = YES;
   completionHandler(nil);
 }
 
@@ -55,7 +69,7 @@ BOOL isAppInitialised;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -70,7 +84,7 @@ BOOL isAppInitialised;
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
@@ -80,25 +94,27 @@ BOOL isAppInitialised;
 }
 
 + (BOOL)isAppInitialised {
-  return isAppInitialised;
+  return isAppInitialized;
 }
 
 + (void)setIsAppInitialised:(BOOL)status {
-  isAppInitialised = status;
+  isAppInitialized = status;
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (!isAppInitialised) {
-    NSString *accountID = adConfiguration.credentials.settings[kGADMAdapterInMobiAccountID];
-    [IMSdk initWithAccountID:accountID consentDictionary:[GADMInMobiConsent getConsent]];
-    isAppInitialised = YES;
+  if (!_rewardedAd) {
+    NSString *placementIdentifierString =
+        adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];
+    NSNumber *placementIdentifier =
+        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+    _rewardedAd =
+        [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
   }
 
-  self.rewardedAd = [[GADMAdapterInMobiRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

@@ -16,6 +16,8 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnitySingleton.h"
+#import "GADMAdapterUnityUtils.h"
+#import "GADUnityError.h"
 @import UnityAds;
 
 @interface GADMediationAdapterUnity ()
@@ -31,20 +33,26 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [gameIDs addObject:[cred.settings objectForKey:kGADMAdapterUnityGameID]];
+    NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
+    GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
+  }
+
+  if (!gameIDs.count) {
+    NSError *errorWithDescription = GADUnityErrorWithDescription(
+        @"UnityAds mediation configurations did not contain a valid game ID.");
+    completionHandler(errorWithDescription);
+    return;
   }
 
   NSString *gameID = [gameIDs anyObject];
-
-  if (gameIDs.count != 1) {
-    NSLog(@"Found the following game IDs: %@. Please remove any game IDs you are not using from "
-          @"the AdMob UI.",
+  if (gameIDs.count > 1) {
+    NSLog(@"Found the following game IDs: %@. "
+          @"Please remove any game IDs you are not using from the AdMob UI.",
           gameIDs);
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
 
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
-
   completionHandler(nil);
 }
 
@@ -70,7 +78,7 @@
   GADVersionNumber version = {0};
   NSString *adapterVersion = kGADMAdapterUnityVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
-  if (components.count == 4) {
+  if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;

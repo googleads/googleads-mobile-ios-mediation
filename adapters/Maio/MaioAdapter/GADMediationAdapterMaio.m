@@ -15,7 +15,9 @@
 #import "GADMediationAdapterMaio.h"
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioRewardedAd.h"
+#import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
+#import "GADMMaioError.h"
 @import Maio;
 
 @interface GADMediationAdapterMaio () <MaioDelegate>
@@ -30,14 +32,21 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *mediaIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [mediaIDs addObject:[cred.settings valueForKey:kGADMMaioAdapterMediaId]];
+    NSString *mediaID = cred.settings[kGADMMaioAdapterMediaId];
+    GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
+  }
+
+  if (!mediaIDs.count) {
+    NSError *error = [GADMMaioError
+        errorWithDescription:@"Maio mediation configurations did not contain a valid media ID."];
+    completionHandler(error);
+    return;
   }
 
   NSString *mediaID = [mediaIDs anyObject];
-
   if (mediaIDs.count > 1) {
-    NSLog(@"Found the following media IDs: %@. Please remove any media IDs you are not using from "
-          @"the AdMob UI.",
+    NSLog(@"Found the following media IDs: %@. "
+          @"Please remove any media IDs you are not using from the AdMob UI.",
           mediaIDs);
     NSLog(@"Initializing Maio SDK with the media ID %@", mediaID);
   }
@@ -54,7 +63,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -69,7 +78,7 @@
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMMaioAdapterVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =

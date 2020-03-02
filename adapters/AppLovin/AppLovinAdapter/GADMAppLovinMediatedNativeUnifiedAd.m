@@ -7,104 +7,104 @@
 //
 
 #import "GADMAppLovinMediatedNativeUnifiedAd.h"
-
+#import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinExtraAssets.h"
 
-@interface GADMAppLovinMediatedNativeUnifiedAd ()
+@implementation GADMAppLovinMediatedNativeUnifiedAd {
+  /// AppLovin Native object used to request an ad.
+  ALNativeAd *_nativeAd;
 
-@property(nonatomic, strong) ALNativeAd *nativeAd;
-@property(nonatomic, strong) NSArray *nativeAdImages;
-@property(nonatomic, strong) GADNativeAdImage *nativeAdIcon;
-@property(nonatomic, strong) UIImageView *mainImageView;
-@property(nonatomic, copy) NSDictionary<NSString *, id> *extras;
+  /// Array of GADNativeAdImage objects.
+  NSArray<GADNativeAdImage *> *_nativeAdImages;
 
-@end
+  /// Icon image.
+  GADNativeAdImage *_nativeAdIcon;
 
-@implementation GADMAppLovinMediatedNativeUnifiedAd
+  /// Main image view sent to Google Mobile Ads SDK.
+  UIImageView *_mainImageView;
+}
 
-- (instancetype)initWithNativeAd:(ALNativeAd *)nativeAd {
-  if (!nativeAd) {
-    return nil;
-  }
-
+- (nonnull instancetype)initWithNativeAd:(nonnull ALNativeAd *)nativeAd
+                               mainImage:(nonnull UIImage *)mainImage
+                               iconImage:(nonnull UIImage *)iconImage {
   self = [super init];
   if (self) {
-    self.nativeAd = nativeAd;
-    UIImage *downloadedImage =
-        [UIImage imageWithData:[NSData dataWithContentsOfURL:self.nativeAd.imageURL]];
-    GADNativeAdImage *image = [[GADNativeAdImage alloc] initWithImage:downloadedImage];
-    self.nativeAdImages = @[ image ];
-    UIImage *downloadedIcon =
-        [UIImage imageWithData:[NSData dataWithContentsOfURL:self.nativeAd.iconURL]];
-    self.nativeAdIcon = [[GADNativeAdImage alloc] initWithImage:downloadedIcon];
-    self.mainImageView = [[UIImageView alloc] initWithImage:downloadedImage];
-
-    NSMutableDictionary *extraAssets =
-        [NSMutableDictionary dictionaryWithObject:self.nativeAd.adIdNumber forKey:GADMAppLovinAdID];
-    if (self.nativeAd.captionText) {
-      extraAssets[GADMAppLovinCaption] = self.nativeAd.captionText;
-    }
-    self.extras = extraAssets;
+    _nativeAd = nativeAd;
+    _mainImageView = [[UIImageView alloc] initWithImage:mainImage];
+    _nativeAdImages = @[ [[GADNativeAdImage alloc] initWithImage:mainImage] ];
+    _nativeAdIcon = [[GADNativeAdImage alloc] initWithImage:iconImage];
   }
   return self;
 }
 
-- (NSString *)headline {
-  return self.nativeAd.title;
+- (nullable NSString *)headline {
+  return _nativeAd.title;
 }
 
-- (NSString *)body {
-  return self.nativeAd.descriptionText;
+- (nullable NSString *)body {
+  return _nativeAd.descriptionText;
 }
 
-- (NSString *)callToAction {
-  return self.nativeAd.ctaText;
+- (nullable NSString *)callToAction {
+  return _nativeAd.ctaText;
 }
 
-- (GADNativeAdImage *)icon {
-  return self.nativeAdIcon;
+- (nullable GADNativeAdImage *)icon {
+  return _nativeAdIcon;
 }
 
-- (NSArray<GADNativeAdImage *> *)images {
-  return self.nativeAdImages;
+- (nullable NSArray<GADNativeAdImage *> *)images {
+  return _nativeAdImages;
 }
 
-- (NSDecimalNumber *)starRating {
-  return [[NSDecimalNumber alloc] initWithFloat:self.nativeAd.starRating.floatValue];
+- (nullable NSDecimalNumber *)starRating {
+  return [[NSDecimalNumber alloc] initWithFloat:_nativeAd.starRating.floatValue];
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
   return nil;
 }
 
-- (NSString *)store {
+- (nullable NSString *)store {
   return nil;
 }
 
-- (NSString *)price {
+- (nullable NSString *)price {
   return nil;
 }
 
-- (NSDictionary<NSString *, id> *)extraAssets {
-  return self.extras;
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
+  NSMutableDictionary<NSString *, id> *_extras = [[NSMutableDictionary alloc] init];
+  GADMAdapterAppLovinMutableDictionarySetObjectForKey(_extras, GADMAppLovinAdID,
+                                                      _nativeAd.adIdNumber);
+  GADMAdapterAppLovinMutableDictionarySetObjectForKey(_extras, GADMAppLovinCaption,
+                                                      _nativeAd.captionText);
+  return _extras;
 }
 
 - (BOOL)hasVideoContent {
   return NO;
 }
 
-- (UIView *)mediaView {
-  return self.mainImageView;
+- (nullable UIView *)mediaView {
+  return _mainImageView;
+}
+
+- (CGFloat)mediaContentAspectRatio {
+  if (_mainImageView.frame.size.height) {
+    return _mainImageView.frame.size.width / _mainImageView.frame.size.height;
+  }
+  return 0.0f;
 }
 
 - (void)didRecordImpression {
-  [self.nativeAd trackImpression];
+  [_nativeAd trackImpression];
 }
 
 - (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
-  [self.nativeAd launchClickTarget];
+  [_nativeAd launchClickTarget];
 }
 
 @end

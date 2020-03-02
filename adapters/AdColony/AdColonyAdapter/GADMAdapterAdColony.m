@@ -3,33 +3,25 @@
 //
 
 #import "GADMAdapterAdColony.h"
+
+#import <AdColony/AdColony.h>
+
 #import "GADMAdapterAdColonyConstants.h"
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
-#import <AdColony/AdColony.h>
-
-#define DEBUG_LOGGING 0
-
-#if DEBUG_LOGGING
-#define NSLogDebug(...) NSLog(__VA_ARGS__)
-#else
-#define NSLogDebug(...)
-#endif
-
-@interface GADMAdapterAdColony ()
-
-@property AdColonyInterstitial *ad;
-@property NSString *appId;
-@property NSString *currentZone;
-@property NSArray *zones;
-@property(weak) id<GADMAdNetworkConnector> connector;
-
+@interface GADMAdapterAdColony () <AdColonyAdViewDelegate, AdColonyInterstitialDelegate>
 @end
 
-@implementation GADMAdapterAdColony
+@implementation GADMAdapterAdColony {
+  /// AdColony interstitial ad.
+  AdColonyInterstitial *_interstitialAd;
+
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+}
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterAdColony class];
@@ -44,10 +36,9 @@
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-  if (self = [super init]) {
-    self.connector = connector;
-    NSDictionary *credentials = [connector credentials];
-    self.appId = credentials[kGADMAdapterAdColonyAppIDkey];
+  self = [super init];
+  if (self) {
+    _connector = connector;
   }
   return self;
 }
@@ -57,109 +48,77 @@
 - (void)getInterstitial {
   GADMAdapterAdColony *__weak weakSelf = self;
   [GADMAdapterAdColonyHelper
-      setupZoneFromConnector:self.connector
-                    callback:^(NSString *zone, NSError *error) {
+      setupZoneFromConnector:_connector
+                    callback:^(NSString *_Nullable zone, NSError *_Nullable error) {
                       GADMAdapterAdColony *strongSelf = weakSelf;
-                      if (error && strongSelf) {
-                        [strongSelf.connector adapter:strongSelf didFailAd:error];
+                      if (!strongSelf) {
+                        return;
+                      }
+                      id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+                      if (error) {
+                        [strongConnector adapter:strongSelf didFailAd:error];
                         return;
                       }
 
-                      NSLogDebug(@"Zone in interstitial class: %@", zone);
-                      [strongSelf getInterstitialFromZoneId:zone withConnector:self.connector];
+                      GADMAdapterAdColonyLog(@"Requesting interstitial ad for zone: %@", zone);
+                      AdColonyAdOptions *options =
+                          [GADMAdapterAdColonyHelper getAdOptionsFromConnector:strongConnector];
+                      [AdColony requestInterstitialInZone:zone
+                                                  options:options
+                                              andDelegate:strongSelf];
                     }];
 }
 
-- (void)getInterstitialFromZoneId:(NSString *)zone
-                    withConnector:(id<GADMAdNetworkConnector>)connector {
-  self.ad = nil;
-
-  __weak GADMAdapterAdColony *weakSelf = self;
-
-  AdColonyAdOptions *options = [GADMAdapterAdColonyHelper getAdOptionsFromConnector:connector];
-
-  NSLogDebug(@"getInterstitialFromZoneId: %@", zone);
-
-  [AdColony requestInterstitialInZone:zone
-      options:options
-      success:^(AdColonyInterstitial *_Nonnull ad) {
-        NSLogDebug(@"Retrieve ad: %@", zone);
-        weakSelf.ad = ad;
-        if (weakSelf.connector) {
-          [weakSelf.connector adapterDidReceiveInterstitial:weakSelf];
-        }
-
-        // Re-request intersitial when expires, this avoids the situation:
-        // 1. Admob interstitial request from zone A. Causes ADC configure to occur with zone A,
-        // then ADC ad request from zone A. Both succeed.
-        // 2. Admob rewarded video request from zone B. Causes ADC configure to occur with zones A,
-        // B, then ADC ad request from zone B. Both succeed.
-        // 3. Try to present ad loaded from zone A. It doesn’t show because of error: `No session
-        // with id: xyz has been registered. Cannot show interstitial`.
-        [ad setExpire:^{
-          NSLog(@"AdColonyAdapter [Info]: Interstitial Ad expired from zone: %@ because of "
-                @"configuring another Ad. To avoid this situation, use startWithCompletionHandler: "
-                @"to initialize Google Mobile Ads SDK and wait for the completion handler to be "
-                @"called before requesting an ad.",
-                zone);
-        }];
-      }
-      failure:^(AdColonyAdRequestError *_Nonnull err) {
-        NSError *error =
-            [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                                code:kGADErrorInvalidRequest
-                            userInfo:@{NSLocalizedDescriptionKey : err.localizedDescription}];
-        if (weakSelf.connector) {
-          [weakSelf.connector adapter:weakSelf didFailAd:error];
-        }
-        NSLog(@"AdColonyAdapter [Info] : Failed to retrieve ad: %@", error.localizedDescription);
-      }];
-}
-
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  __weak GADMAdapterAdColony *weakSelf = self;
-
-  [self.ad setOpen:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillPresentInterstitial:weakSelf];
-    }
-  }];
-
-  [self.ad setClick:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterDidGetAdClick:weakSelf];
-    }
-  }];
-
-  [self.ad setClose:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillDismissInterstitial:weakSelf];
-      [weakSelf.connector adapterDidDismissInterstitial:weakSelf];
-    }
-  }];
-
-  [self.ad setLeftApplication:^{
-    if (weakSelf.connector) {
-      [weakSelf.connector adapterWillLeaveApplication:weakSelf];
-    }
-  }];
-
-  if (![self.ad showWithPresentingViewController:rootViewController]) {
-    NSLog(@"AdColonyAdapter [Info] : Failed to show ad.");
+  if (![_interstitialAd showWithPresentingViewController:rootViewController]) {
+    GADMAdapterAdColonyLog(@"Failed to show ad.");
   }
 }
 
 #pragma mark - Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                          code:kGADErrorInvalidRequest
-                      userInfo:@{
-                        NSLocalizedDescriptionKey : @"AdColony adapter doesn't currently support"
-                                                     "Instant-Feed videos."
-                      }];
-  [self.connector adapter:self didFailAd:error];
+  GADMAdapterAdColony *__weak weakSelf = self;
+  [GADMAdapterAdColonyHelper
+      setupZoneFromConnector:_connector
+                    callback:^(NSString *_Nullable zone, NSError *_Nullable error) {
+                      GADMAdapterAdColony *strongSelf = weakSelf;
+                      if (!strongSelf) {
+                        return;
+                      }
+
+                      id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+                      if (error) {
+                        [strongConnector adapter:strongSelf didFailAd:error];
+                        return;
+                      }
+
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                        UIViewController *viewController =
+                            [strongConnector viewControllerForPresentingModalView];
+                        if (!viewController) {
+                          NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+                              kGADErrorInvalidRequest, @"View controller cannot be nil.");
+                          [strongConnector adapter:strongSelf didFailAd:error];
+                          return;
+                        }
+
+                        GADMAdapterAdColonyLog(@"Requesting banner for zone: %@", zone);
+                        [strongSelf requestBannerInZoneId:zone
+                                                   adSize:adSize
+                                           viewController:viewController];
+                      });
+                    }];
+}
+
+- (void)requestBannerInZoneId:(nonnull NSString *)zone
+                       adSize:(GADAdSize)adSize
+               viewController:(nonnull UIViewController *)viewController {
+  AdColonyAdSize adColonyAdSize = AdColonyAdSizeMake(adSize.size.width, adSize.size.height);
+  [AdColony requestAdViewInZone:zone
+                       withSize:adColonyAdSize
+                 viewController:viewController
+                    andDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -172,6 +131,79 @@
   // AdColony retains the AdColonyAdDelegate during ad playback and does not issue any callbacks
   // outside of ad playback or async calls already in flight.
   // We could cancel the callbacks for async calls already made, but is overkill IMO.
+}
+
+#pragma mark - AdColonyAdViewDelegate Delegate
+
+- (void)adColonyAdViewDidLoad:(nonnull AdColonyAdView *)adView {
+  GADMAdapterAdColonyLog(@"Banner ad loaded.");
+  [_connector adapter:self didReceiveAdView:adView];
+}
+
+- (void)adColonyAdViewDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
+  GADMAdapterAdColonyLog(@"Failed to load banner ad: %@", error.localizedDescription);
+  [_connector adapter:self didFailAd:error];
+}
+
+- (void)adColonyAdViewWillLeaveApplication:(nonnull AdColonyAdView *)adView {
+  [_connector adapterWillLeaveApplication:self];
+}
+
+- (void)adColonyAdViewWillOpen:(nonnull AdColonyAdView *)adView {
+  [_connector adapterWillPresentFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidClose:(nonnull AdColonyAdView *)adView {
+  [_connector adapterDidDismissFullScreenModal:self];
+}
+
+- (void)adColonyAdViewDidReceiveClick:(nonnull AdColonyAdView *)adView {
+  [_connector adapterDidGetAdClick:self];
+}
+
+#pragma mark - AdColonyInterstitialDelegate Delegate
+
+- (void)adColonyInterstitialDidLoad:(nonnull AdColonyInterstitial *)interstitial {
+  GADMAdapterAdColonyLog(@"Loaded interstitial ad for zone: %@", interstitial.zoneID);
+  _interstitialAd = interstitial;
+  [_connector adapterDidReceiveInterstitial:self];
+}
+
+- (void)adColonyInterstitialDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
+  GADMAdapterAdColonyLog(@"Failed to load interstitial ad with error: %@",
+                         error.localizedDescription);
+  NSError *requestError =
+      GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
+  [_connector adapter:self didFailAd:requestError];
+}
+
+- (void)adColonyInterstitialWillOpen:(nonnull AdColonyInterstitial *)interstitial {
+  [_connector adapterWillPresentInterstitial:self];
+}
+
+- (void)adColonyInterstitialDidClose:(nonnull AdColonyInterstitial *)interstitial {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
+}
+
+- (void)adColonyInterstitialExpired:(nonnull AdColonyInterstitial *)interstitial {
+  // Each time AdColony's SDK is configured, it discards previously loaded ads. Publishers should
+  // initialize the GMA SDK and wait for initialization to complete to ensure that AdColony's SDK
+  // gets initialized with all known zones.
+  GADMAdapterAdColonyLog(
+      @"Interstitial ad expired due to configuring another ad. Use -[GADMobileAds "
+      @"startWithCompletionHandler:] to initialize the Google Mobile Ads SDK and wait for the "
+      @"completion handler to be called before requesting an ad. Zone: %@",
+      interstitial.zoneID);
+}
+
+- (void)adColonyInterstitialWillLeaveApplication:(nonnull AdColonyInterstitial *)interstitial {
+  [_connector adapterWillLeaveApplication:self];
+}
+
+- (void)adColonyInterstitialDidReceiveClick:(nonnull AdColonyInterstitial *)interstitial {
+  [_connector adapterDidGetAdClick:self];
 }
 
 @end

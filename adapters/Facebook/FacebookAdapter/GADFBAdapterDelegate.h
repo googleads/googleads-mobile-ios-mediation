@@ -12,25 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <Foundation/Foundation.h>
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
 
-/// Delegate for listening to notifications from Facebook's Audience Network (FAN).
+/// Delegate for listening to notifications from Facebook Audience Network.
 @interface GADFBAdapterDelegate
     : NSObject <FBAdViewDelegate, FBInterstitialAdDelegate, FBRewardedVideoAdDelegate>
 
-/// FAN banner views can have flexible width. Set this property to the desired banner view's size.
-/// Set to CGSizeZero if resizing is not desired.
+/// Facebook Audience Network banner views can have flexible width. Set this property to the desired
+/// banner view's size. Set to CGSizeZero if resizing is not desired.
 @property(nonatomic, assign) CGSize finalBannerSize;
 
 /// Initializes a new instance with |adapter| and |connector|.
-- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
-                      connector:(id<GADMAdNetworkConnector>)connector NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithAdapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+                              connector:(nonnull id<GADMAdNetworkConnector>)connector
+    NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
-- (instancetype)init __unavailable;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 @end

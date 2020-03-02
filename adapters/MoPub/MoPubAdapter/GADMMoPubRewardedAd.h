@@ -1,10 +1,11 @@
-
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMMoPubRewardedAd : NSObject <GADMediationRewardedAd>
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+/// Requests rewarded ads from MoPub SDK.
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 @end

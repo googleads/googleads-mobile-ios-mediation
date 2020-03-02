@@ -5,7 +5,7 @@
 //  Copyright © 2017 F@N Communications. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADNendRewardedNetworkExtras : NSObject<GADAdNetworkExtras>
 

@@ -13,8 +13,16 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/IronSource.h>
+
+/// Adds |object| to |set| if |object| is not nil.
+void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
+                                              NSObject *_Nonnull object);
+
+/// Sets |value| for |key| in |mapTable| if |value| is not nil.
+void GADMAdapterIronSourceMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
+                                                  id<NSCopying> _Nullable key, id _Nullable value);
 
 /// Holds Shared code for IronSource adapters.
 @interface GADMAdapterIronSourceUtils : NSObject

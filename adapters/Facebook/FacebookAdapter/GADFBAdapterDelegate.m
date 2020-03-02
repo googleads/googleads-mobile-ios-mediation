@@ -16,28 +16,21 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADFBAdapterDelegate () {
+@implementation GADFBAdapterDelegate {
   /// Connector from Google AdMob SDK which will receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
   /// Adapter for receiving notification of ad request.
   __weak id<GADMAdNetworkAdapter> _adapter;
 }
-@end
 
-@implementation GADFBAdapterDelegate
-
-- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
-                      connector:(id<GADMAdNetworkConnector>)connector {
+- (nonnull instancetype)initWithAdapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+                              connector:(nonnull id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     _connector = connector;
     _adapter = adapter;
   }
   return self;
-}
-
-- (instancetype)init {
-  return nil;
 }
 
 #pragma mark - FBAdViewDelegate

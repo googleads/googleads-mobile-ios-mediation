@@ -14,22 +14,17 @@
 
 #import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate, UnityAdsBannerDelegate> {
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
   /// Array to hold all adapter delegates.
   NSMapTable *_adapterDelegates;
-
-  NSString *_bannerPlacementID;
-  bool _bannerRequested;
 
   int impressionOrdinal;
   int missedImpressionOrdinal;
 
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
-
-  /// Connector from unity adapter to send Banner callbacks
-  __weak id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate> _currentBannerDelegate;
 }
 
 @end
@@ -50,7 +45,6 @@
   if (self) {
     _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
                                               valueOptions:NSMapTableWeakMemory];
-    _bannerRequested = NO;
   }
   return self;
 }
@@ -64,12 +58,12 @@
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
-  [mediationMetaData set:@"enable_metadata_load" value:[NSNumber numberWithBool:YES]];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
 
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID delegate:self];
+  [UnityAds initialize:gameID testMode:NO];
+  [UnityAds addDelegate:self];
 }
 
 - (void)addAdapterDelegate:
@@ -97,18 +91,13 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
-
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
   }
 }
 
@@ -149,18 +138,13 @@
 
   [self addAdapterDelegate:adapterDelegate];
 
-  if ([UnityAds isInitialized]) {
-    // Call metadata load API
-    NSString *uniqueEventId = [[NSUUID UUID] UUIDString];
-    UADSMetaData *loadMetaData = [[UADSMetaData alloc] initWithCategory:@"load"];
-    [loadMetaData set:uniqueEventId value:placementID];
-    [loadMetaData commit];
-
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    }
-  } else {
+  if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
+  if ([UnityAds isReady:placementID]) {
+    [adapterDelegate unityAdsReady:placementID];
   }
 }
 
@@ -182,64 +166,6 @@
   }
 }
 
-#pragma mark - Banner ad methods
-
-- (void)presentBannerAd:(NSString *)gameID
-               delegate:(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>)adapterDelegate {
-  _currentBannerDelegate = adapterDelegate;
-
-  if ([UnityAds isSupported]) {
-    NSString *placementID = [_currentBannerDelegate getPlacementID];
-    if (placementID == nil) {
-      NSString *description =
-          [[NSString alloc] initWithFormat:@"Tried to show banners with a nil placement ID"];
-      [_currentBannerDelegate unityAdsBannerDidError:description];
-      return;
-    } else {
-      _bannerPlacementID = placementID;
-    }
-
-    if (![UnityAds isInitialized]) {
-      [self initializeWithGameID:gameID];
-      _bannerRequested = true;
-    } else {
-      [UnityAdsBanner setDelegate:self];
-      [UnityAdsBanner loadBanner:_bannerPlacementID];
-    }
-  } else {
-    NSString *description =
-        [[NSString alloc] initWithFormat:@"Unity Ads is not supported for this device."];
-    [_currentBannerDelegate unityAdsBannerDidError:description];
-  }
-}
-
-#pragma mark - Unity Banner Delegate Methods
-
-- (void)unityAdsBannerDidLoad:(NSString *)placementId view:(UIView *)view {
-  [_currentBannerDelegate unityAdsBannerDidLoad:_bannerPlacementID view:view];
-}
-
-- (void)unityAdsBannerDidUnload:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidUnload:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidShow:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidShow:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidHide:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidHide:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidClick:(NSString *)placementId {
-  [_currentBannerDelegate unityAdsBannerDidClick:_bannerPlacementID];
-}
-
-- (void)unityAdsBannerDidError:(NSString *)message {
-  NSString *description = [[NSString alloc] initWithFormat:@"Internal Unity Ads banner error"];
-  [_currentBannerDelegate unityAdsBannerDidError:description];
-}
-
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
@@ -252,7 +178,7 @@
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
   @synchronized(_adapterDelegates) {
-    [_adapterDelegates removeObjectForKey:placementID];
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
   }
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }
@@ -269,12 +195,6 @@
 
   if (adapterDelegate) {
     [adapterDelegate unityAdsReady:placementID];
-  }
-
-  if (_bannerRequested && [placementID isEqualToString:_bannerPlacementID]) {
-    [UnityAdsBanner setDelegate:self];
-    [UnityAdsBanner loadBanner:_bannerPlacementID];
-    _bannerRequested = false;
   }
 }
 
@@ -304,7 +224,7 @@
 
 - (void)stopTrackingDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  [_adapterDelegates removeObjectForKey:[adapterDelegate getPlacementID]];
+  GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID]);
 }
 
 @end

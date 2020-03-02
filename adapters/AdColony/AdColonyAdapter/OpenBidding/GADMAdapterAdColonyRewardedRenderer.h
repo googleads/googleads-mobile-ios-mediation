@@ -18,7 +18,7 @@
 @interface GADMAdapterAdColonyRewardedRenderer : NSObject
 
 /// Render a rewarded ad with the provided ad configuration.
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfig
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)handler;
+- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
+                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
 
 @end

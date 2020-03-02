@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,26 +15,27 @@
 #import <Foundation/Foundation.h>
 #import <Tapjoy/Tapjoy.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-typedef enum { UNINITIALIZED, INITIALIZING, INITIALIZED } TapjoyInitState;
+/// Initialization state of the Tapjoy SDK.
+typedef NS_ENUM(NSUInteger, GADMAdapterTapjoyInitState) {
+  GADMAdapterTapjoyInitStateUninitialized,  /// < Tapjoy SDK is not initialized yet.
+  GADMAdapterTapjoyInitStateInitializing,   /// < Tapjoy SDK is initializing.
+  GADMAdapterTapjoyInitStateInitialized     /// < Tapjoy SDK has been initialzed.
+};
 
 typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
 @interface GADMAdapterTapjoySingleton : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
 
-+ (instancetype)sharedInstance;
-- (void)initializeTapjoySDKWithSDKKey:(NSString *)sdkKey
-                              options:(NSDictionary<NSString *, NSNumber *> *)options
-                    completionHandler:(TapjoyInitCompletionHandler)completionHandler;
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
-- (TJPlacement *)requestAdForPlacementName:(NSString *)placementName
-                               bidResponse:(NSString *_Nullable)bidResponse
-                                  delegate:
-                                      (id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
++ (nonnull instancetype)sharedInstance;
+- (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
+                              options:(nullable NSDictionary<NSString *, NSNumber *> *)options
+                    completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler;
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
+- (nullable TJPlacement *)
+    requestAdForPlacementName:(nonnull NSString *)placementName
+                  bidResponse:(nullable NSString *)bidResponse
+                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
 
 @end
-
-NS_ASSUME_NONNULL_END

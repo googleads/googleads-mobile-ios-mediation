@@ -17,9 +17,9 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import GoogleMobileAds;
-@import SampleAdSDK;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
 @interface SampleCustomEventNativeAd : NSObject<GADCustomEventNativeAd>
 

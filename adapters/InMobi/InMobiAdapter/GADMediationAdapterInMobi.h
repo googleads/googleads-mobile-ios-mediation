@@ -13,10 +13,10 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/InMobiSDK.h>
 
 @interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
 + (BOOL)isAppInitialised;
 + (void)setIsAppInitialised:(BOOL)status;
-
 @end

@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, AdSourceType) {
 @property(nonatomic, readonly, copy) NSString *bannerAdUnitID;
 @property(nonatomic, readonly, copy) NSString *interstitialAdUnitID;
 @property(nonatomic, readonly, copy) NSString *nativeAdUnitID;
+@property(nonatomic, readonly, copy) NSString *rewardedAdUnitID;
 @property(nonatomic, readonly, copy) NSString *awesomenessKey;
 
 + (instancetype)configWithType:(AdSourceType)adSourceType;

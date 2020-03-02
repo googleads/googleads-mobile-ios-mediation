@@ -14,14 +14,19 @@
 
 #import "GADFBRewardedRenderer.h"
 
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <AdSupport/AdSupport.h>
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#import "GADFBError.h"
+#include <stdatomic.h>
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
-@interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate> {
+@interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate>
+
+@end
+
+@implementation GADFBRewardedRenderer {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -34,15 +39,27 @@
   BOOL _isRTBRequest;
 }
 
-@end
-
-@implementation GADFBRewardedRenderer
-
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Store the ad config and completion handler for later use.
-  _adLoadCompletionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _adLoadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   if (adConfiguration.bidResponse) {
     _isRTBRequest = YES;
   }
@@ -67,11 +84,14 @@
   }
 
   _rewardedAd.delegate = self;
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion],
-                                                     kGADMAdapterFacebookVersion]];
+  GADFBConfigureMediationService();
 
   if (_isRTBRequest) {
+    // Adds a watermark to the ad.
+    FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+    watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+    _rewardedAd.extraHint = watermarkHint;
+    // Load ad.
     [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
   } else {
     [_rewardedAd loadAd];
@@ -120,17 +140,14 @@
 }
 
 - (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && !_isRTBRequest) {
-    [strongDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 #pragma mark GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  /// The FAN SDK doesn't have callbacks for a rewarded ad opening or playing. Invoke callbacks on
-  /// the Google Mobile Ads SDK within this method instead.
+  /// The Facebook Audience Network SDK doesn't have callbacks for a rewarded ad opening or playing.
+  /// Invoke callbacks on the Google Mobile Ads SDK within this method instead.
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (!strongDelegate) {
     return;

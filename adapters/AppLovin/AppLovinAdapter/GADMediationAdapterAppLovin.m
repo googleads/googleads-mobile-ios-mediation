@@ -20,69 +20,73 @@
 #import "GADMRTBAdapterAppLovinBannerRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 
-@interface GADMediationAdapterAppLovin ()
-@property(nonatomic, strong) GADMAdapterAppLovinRewardedRenderer *rewardedRenderer;
-@property(nonatomic, strong) GADMRTBAdapterAppLovinBannerRenderer *bannerRenderer;
-@property(nonatomic, strong) GADMRTBAdapterAppLovinInterstitialRenderer *interstitialRenderer;
-@end
+@implementation GADMediationAdapterAppLovin {
+  /// AppLovin banner ad wrapper.
+  GADMRTBAdapterAppLovinBannerRenderer *_bannerRenderer;
 
-@implementation GADMediationAdapterAppLovin
+  /// AppLovin interstitial ad wrapper.
+  GADMRTBAdapterAppLovinInterstitialRenderer *_interstitialRenderer;
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  // Compile all the SDK keys we should initialize for
+  /// AppLovin rewarded ad wrapper.
+  GADMAdapterAppLovinRewardedRenderer *_rewardedRenderer;
+}
+
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  // Compile all the SDK keys that should be initialized.
   NSMutableSet<NSString *> *sdkKeys = [NSMutableSet set];
-  NSObject *sdkKeysLock = [[NSObject alloc] init];
 
-  // Compile SDK keys from configuration credentials
+  // Compile SDK keys from configuration credentials.
   for (GADMediationCredentials *credentials in configuration.credentials) {
-    NSString *sdkKey = credentials.settings[GADMAdapterAppLovinConstant.sdkKey];
-    if (sdkKey) {
-      [sdkKeys addObject:sdkKey];
+    NSString *sdkKey = credentials.settings[GADMAdapterAppLovinSDKKey];
+    if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:sdkKey]) {
+      GADMAdapterAppLovinMutableSetAddObject(sdkKeys, sdkKey);
     }
   }
 
-  // Add SDK key from Info.plist if exists
-  if ([GADMAdapterAppLovinUtils infoDictionaryHasValidSDKKey]) {
+  // Add SDK key from Info.plist if it exists.
+  if ([GADMAdapterAppLovinUtils infoDictionarySDKKey]) {
     NSString *sdkKey = [GADMAdapterAppLovinUtils infoDictionarySDKKey];
-    [sdkKeys addObject:sdkKey];
+    if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:sdkKey]) {
+      GADMAdapterAppLovinMutableSetAddObject(sdkKeys, sdkKey);
+    }
   }
 
-  // Log to the publisher that having more than 1 SDK key is... abnormal
-  if (sdkKeys.count > 1) {
-    [GADMAdapterAppLovinUtils
-        log:@"Found %lu SDK keys. Please remove any SDK keys you are not using from the AdMob UI.",
-            sdkKeys.count];
+  if (!sdkKeys.count) {
+    NSString *errorString = @"No SDK keys are found. Please add valid SDK keys in the AdMob UI.";
+    [GADMAdapterAppLovinUtils log:errorString];
+    NSError *error =
+        GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorString);
+    completionHandler(error);
+    return;
   }
 
-  // Initialize SDKs based on SDK keys
-  NSSet<NSString *> *sdkKeysCopy = [sdkKeys copy];
-  for (NSString *sdkKey in sdkKeysCopy) {
-    [GADMAdapterAppLovinUtils log:@"Initializing SDK for SDK key %@", sdkKey];
+  [GADMAdapterAppLovinUtils
+      log:@"Found %lu SDK keys. Please remove any SDK keys you are not using from the AdMob UI.",
+          (unsigned long)sdkKeys.count];
 
+  // Initialize SDKs based on SDK keys.
+  dispatch_group_t group = dispatch_group_create();
+  for (NSString *sdkKey in sdkKeys) {
+    dispatch_group_enter(group);
     ALSdk *sdk = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:sdkKey];
     [sdk initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
-      @synchronized(sdkKeysLock) {
-        [sdkKeys removeObject:sdkKey];
-
-        // Once all instances of SDK keys have been initialized, callback the initialization
-        // listener
-        if (sdkKeys.count == 0) {
-          [GADMAdapterAppLovinUtils log:@"All SDK(s) completed initialization"];
-          completionHandler(nil);
-        }
-      }
+      dispatch_group_leave(group);
     }];
   }
+  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    [GADMAdapterAppLovinUtils log:@"All SDKs completed initialization."];
+    completionHandler(nil);
+  });
 }
 
 + (GADVersionNumber)version {
-  NSString *versionString = GADMAdapterAppLovinConstant.adapterVersion;
+  NSString *versionString = GADMAdapterAppLovinAdapterVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   [GADMAdapterAppLovinUtils
       log:[NSString stringWithFormat:@"AppLovin adapter version: %@", versionString]];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 4) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     // Adapter versions have 2 patch versions. Multiply the first patch by 100.
@@ -98,7 +102,7 @@
   [GADMAdapterAppLovinUtils
       log:[NSString stringWithFormat:@"AppLovin SDK version: %@", versionString]];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -110,10 +114,11 @@
   return [GADMAdapterAppLovinExtras class];
 }
 
-- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
-                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
+                         completionHandler:
+                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
-  // Check if supported ad format
+  // Check if supported ad format.
   if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
     [self handleCollectSignalsFailureForMessage:
               @"Requested to collect signal for unsupported native ad format. Ignoring..."
@@ -122,67 +127,55 @@
   }
 
   ALSdk *sdk = [GADMAdapterAppLovinUtils
-                retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
+      retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
 
   NSString *signal = sdk.adService.bidToken;
 
   if (signal.length > 0) {
-    [GADMAdapterAppLovinUtils log:@"Generated bid token %@", signal];
+    [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", signal];
     completionHandler(signal, nil);
   } else {
-    [GADMAdapterAppLovinUtils log:@"Failed to generate bid token"];
-    [self handleCollectSignalsFailureForMessage:@"Failed to generate bid token"
+    [self handleCollectSignalsFailureForMessage:@"Failed to generate bid token."
                               completionHandler:completionHandler];
   }
 }
 
 - (void)handleCollectSignalsFailureForMessage:(NSString *)errorMessage
                             completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinConstant.rtbErrorDomain
-                                       code:kGADErrorMediationAdapterError
-                                   userInfo:@{NSLocalizedFailureReasonErrorKey : errorMessage}];
-  [GADMAdapterAppLovinUtils log:errorMessage];
+  NSError *error =
+      GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorMessage);
   completionHandler(nil, error);
-}
-
-- (void)dealloc {
-  self.bannerRenderer = nil;
-  self.interstitialRenderer = nil;
-  self.rewardedRenderer = nil;
 }
 
 #pragma mark - GADMediationAdapter load Ad
 
-- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  self.bannerRenderer =
+- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:
+                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerRenderer =
       [[GADMRTBAdapterAppLovinBannerRenderer alloc] initWithAdConfiguration:adConfiguration
                                                           completionHandler:completionHandler];
-  [self.bannerRenderer loadAd];
+  [_bannerRenderer loadAd];
 }
 
 - (void)loadInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:
-                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  self.interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler {
+  _interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
       initWithAdConfiguration:adConfiguration
             completionHandler:completionHandler];
-  [self.interstitialRenderer loadAd];
+  [_interstitialRenderer loadAd];
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedRenderer =
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];
-  /// If adConfiguration has a bid response, this load call is for open bidding.
-  if (adConfiguration.bidResponse) {
-    [self.rewardedRenderer requestRTBRewardedAd];
-  } else {
-    [self.rewardedRenderer requestRewardedAd];
-  }
+  [_rewardedRenderer requestRewardedAd];
 }
 
 @end
