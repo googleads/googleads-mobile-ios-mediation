@@ -82,15 +82,15 @@
   }
 
   UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-    if(!error) {
-            [UnityAds addDelegate:self];
-            [UnityAds load:[self getPlacementID]];
-    } else {
+    if(error) {
       if (strongConnector) {
         NSError *errorWithDescription = GADUnityErrorWithDescription(message);
         [strongConnector adapter:self didFailAd:errorWithDescription];
       }
+      return;
     }
+    [UnityAds addDelegate:self];
+    [UnityAds load:[self getPlacementID]];
   };
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID

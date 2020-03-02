@@ -53,11 +53,11 @@
   }
   
   UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-    if(!error && completionHandler) {
-      completionHandler(nil);
-    } else {
+    if (error) {
       completionHandler(GADUnityErrorWithDescription(message));
+      return;
     }
+    completionHandler(nil);
   };
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID

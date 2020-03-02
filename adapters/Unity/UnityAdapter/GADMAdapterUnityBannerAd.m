@@ -59,14 +59,12 @@
     NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
       
     UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-          if(!error) {
-              [UnityAds addDelegate:self];
-              [UnityAds load:gameID];
-          } else {
-              if (strongConnector && strongAdapter) {
-                  [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(message)];
-              }
+        if(error) {
+          if (strongConnector && strongAdapter) {
+            [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(message)];
           }
+          return;
+        }
       };
       
       [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID

@@ -39,11 +39,11 @@
 - (void)initializeWithGameID:(NSString *)gameID
                     completeBlock:(UnitySingletonCompletion)completeBlock{
   if ([UnityAds isInitialized]) {
-    completeBlock(NULL, @"UnityAds Initialization Succeeded");
+    completeBlock(nil, @"UnityAds Initialization Succeeded");
     return;
   }
 
-  [self setCompleteBlock:completeBlock];
+  self.completeBlock = completeBlock;
   
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
@@ -60,13 +60,10 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-    if (newState == kUnityAdsPlacementStateWaiting || newState == kUnityAdsPlacementStateReady) {
-      if (self.completeBlock) {
-        self.completeBlock(NULL, @"UnityAds Initialization Succeeded");
-        self.completeBlock = nil;
-      }
+    if ((newState == kUnityAdsPlacementStateWaiting || newState == kUnityAdsPlacementStateReady) && self.completeBlock) {
+      self.completeBlock(nil, @"UnityAds Initialization Succeeded");
+      self.completeBlock = nil;
     }
-    return;
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {

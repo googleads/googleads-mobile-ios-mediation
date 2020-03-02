@@ -80,15 +80,15 @@
   GADMAdapterUnityRewardedAd *__weak weakSelf = self;
     
   UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-      if(!error) {
-        [UnityAds addDelegate:self];
-        [UnityAds load:[self getPlacementID]];
-      } else {
-        NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-        if(weakSelf) {
-          weakSelf.adLoadCompletionHandler(nil, errorWithDescription);
-        }
+    if(error) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+      if(weakSelf) {
+        weakSelf.adLoadCompletionHandler(nil, errorWithDescription);
       }
+      return;
+    }
+    [UnityAds addDelegate:self];
+    [UnityAds load:[self getPlacementID]];
   };
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
@@ -163,10 +163,6 @@
 - (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
-  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
-  // Google Mobile Ads SDK.
-  //id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
     if (newState == kUnityAdsPlacementStateNoFill) {
       NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
