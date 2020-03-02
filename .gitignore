@@ -3,3 +3,4 @@ adapters/Chartboost/ChartboostAdapter.xcodeproj/xcuserdata
 IDEWorkspaceChecks.plist
 adapters/Chartboost/Drop_Framework_And_Headers/Chartboost.framework
 adapters/Chartboost/Drop_Framework_And_Headers/GoogleMobileAds.framework
+adapters/Chartboost/Library/ChartboostAdapter.framework
