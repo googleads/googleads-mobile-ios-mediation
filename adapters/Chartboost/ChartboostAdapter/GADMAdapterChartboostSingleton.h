@@ -36,6 +36,8 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
           appSignature:(nonnull NSString *)appSignature
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
 
+- (void)setFrameworkWithConnector:(id<GADMAdNetworkConnector>)connector;
+
 /// Configures a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
 - (void)configureRewardedAdWithAppID:(nonnull NSString *)appID
                         appSignature:(nonnull NSString *)appSignature
@@ -45,18 +47,6 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
 /// Presents the current rewarded ad for |adapterDelegate|.
 - (void)presentRewardedAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Initializes a new interstitial ad instance.
-- (void)configureInterstitialAdWithDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Presents the current interstitial ad for |adapterDelegate|.
-- (void)presentInterstitialAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Tells the adapter to remove itself as an |adapterDelegate|.
-- (void)stopTrackingInterstitialDelegate:
     (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 @end

@@ -20,6 +20,8 @@
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 
+#import "GADCHBInterstitial.h"
+
 @implementation GADMAdapterChartboost {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
@@ -32,6 +34,8 @@
 
   /// Strong reference to loading banner to keep it in memory.
   CHBBanner *_loadingBanner;
+    
+    GADCHBInterstitial *_interstitial;
 }
 
 + (NSString *)adapterVersion {
@@ -47,8 +51,8 @@
 }
 
 - (void)stopBeingDelegate {
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance stopTrackingInterstitialDelegate:self];
+    [_interstitial destroy];
+    _interstitial = nil;
 }
 
 #pragma mark Interstitial
@@ -65,21 +69,23 @@
 }
 
 - (void)getInterstitial {
-  GADMAdapterChartboost *__weak weakSelf = self;
-  [self initializeChartboost:^(NSError *_Nullable error) {
-    GADMAdapterChartboost *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
-
-    if (error) {
-      [strongSelf->_connector adapter:strongSelf didFailAd:error];
-      return;
-    }
-
-    GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-    [sharedInstance configureInterstitialAdWithDelegate:strongSelf];
-  }];
+    GADMAdapterChartboost * __weak weakSelf = self;
+    [self initializeChartboost:^(NSError * _Nullable error) {
+        GADMAdapterChartboost *strongSelf = weakSelf;
+        id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
+        if (!strongSelf) {
+            return;
+        }
+        if (error) {
+            [strongConnector adapter:strongSelf didFailAd:error];
+            return;
+        }
+        [GADMAdapterChartboostSingleton.sharedInstance setFrameworkWithConnector:strongConnector];
+        [strongSelf->_interstitial destroy];
+        strongSelf->_interstitial = [[GADCHBInterstitial alloc] initWithNetworkAdapter:strongSelf
+                                                                             connector:strongConnector];
+        [strongSelf->_interstitial load];
+    }];
 }
 
 - (void)initializeChartboost:(ChartboostInitCompletionHandler)completion {
@@ -118,8 +124,11 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
-  [sharedInstance presentInterstitialAdForDelegate:self];
+    if (_interstitial) {
+        [_interstitial showFromViewController:rootViewController];
+    } else {
+        // TODO: Error: getInterstitial not called
+    }
 }
 
 #pragma mark Banner
@@ -171,46 +180,6 @@
 
 - (void)didFailToLoadAdWithError:(NSError *)error {
   [_connector adapter:self didFailAd:error];
-}
-
-#pragma mark - Chartboost Interstitial Ad Delegate Methods
-
-- (void)didDisplayInterstitial:(CBLocation)location {
-  [_connector adapterWillPresentInterstitial:self];
-}
-
-- (void)didCacheInterstitial:(CBLocation)location {
-  if (_loading) {
-    [_connector adapterDidReceiveInterstitial:self];
-    _loading = NO;
-  }
-}
-
-- (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-
-  if (_loading) {
-    [strongConnector adapter:self didFailAd:adRequestErrorTypeForCBLoadError(error)];
-    _loading = NO;
-  } else if (error == CBLoadErrorInternetUnavailableAtShow) {
-    // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
-    // fails to present an ad for which a didCacheInterstitial event has already been sent.
-    [strongConnector adapterWillPresentInterstitial:self];
-    [strongConnector adapterWillDismissInterstitial:self];
-    [strongConnector adapterDidDismissInterstitial:self];
-  }
-}
-
-- (void)didDismissInterstitial:(CBLocation)location {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  [strongConnector adapterWillDismissInterstitial:self];
-  [strongConnector adapterDidDismissInterstitial:self];
-}
-
-- (void)didClickInterstitial:(CBLocation)location {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  [strongConnector adapterDidGetAdClick:self];
-  [strongConnector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - Chartboost Banner Delegate Methods

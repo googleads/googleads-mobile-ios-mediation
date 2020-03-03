@@ -24,9 +24,6 @@
 @end
 
 @implementation GADMAdapterChartboostSingleton {
-  /// Hash Map to hold all interstitial adapter delegates.
-  NSMapTable<NSString *, id<GADMAdapterChartboostDataProvider, ChartboostDelegate>>
-      *_interstitialAdapterDelegates;
 
   /// Hash Map to hold all rewarded adapter delegates.
   NSMapTable<NSString *, id<GADMAdapterChartboostDataProvider, ChartboostDelegate>>
@@ -56,9 +53,6 @@
 - (nonnull instancetype)init {
   self = [super init];
   if (self) {
-    _interstitialAdapterDelegates =
-        [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                              valueOptions:NSPointerFunctionsWeakMemory];
     _rewardedAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                       valueOptions:NSPointerFunctionsWeakMemory];
     _queue = dispatch_queue_create("com.google.admob.chartboost_adapter_singleton",
@@ -92,6 +86,14 @@
   });
 }
 
+- (void)setFrameworkWithConnector:(id<GADMAdNetworkConnector>)connector
+{
+    GADMChartboostExtras *extras = [connector networkExtras];
+    if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
+        [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+    }
+}
+
 - (void)addRewardedAdAdapterDelegate:
     (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   @synchronized(_rewardedAdapterDelegates) {
@@ -109,32 +111,9 @@
 }
 
 - (nullable id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-    getInterstitialAdapterDelegateForAdLocation:(NSString *)adLocation {
-  @synchronized(_interstitialAdapterDelegates) {
-    return [_interstitialAdapterDelegates objectForKey:adLocation];
-  }
-}
-
-- (nullable id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
     getRewardedAdapterDelegateForAdLocation:(NSString *)adLocation {
   @synchronized(_rewardedAdapterDelegates) {
     return [_rewardedAdapterDelegates objectForKey:adLocation];
-  }
-}
-
-- (void)addInterstitialAdapterDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  @synchronized(_interstitialAdapterDelegates) {
-    GADMAdapterChartboostMapTableSetObjectForKey(_interstitialAdapterDelegates,
-                                                 [adapterDelegate getAdLocation], adapterDelegate);
-  }
-}
-
-- (void)removeInterstitialAdapterDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  @synchronized(_interstitialAdapterDelegates) {
-    GADMAdapterChartboostMapTableRemoveObjectForKey(_interstitialAdapterDelegates,
-                                                    [adapterDelegate getAdLocation]);
   }
 }
 
@@ -176,41 +155,6 @@
   [Chartboost showRewardedVideo:[adapterDelegate getAdLocation]];
 }
 
-#pragma mark - Interstitial methods
-
-- (void)configureInterstitialAdWithDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
-  if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
-    [Chartboost setFramework:chartboostExtras.framework
-                 withVersion:chartboostExtras.frameworkVersion];
-  }
-
-  NSString *adLocation = [adapterDelegate getAdLocation];
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> existingDelegate =
-      [self getInterstitialAdapterDelegateForAdLocation:adLocation];
-
-  if (existingDelegate) {
-    NSError *error = GADChartboostErrorWithDescription(
-        @"Already requested an ad for this ad location. Can't make another request.");
-    [adapterDelegate didFailToLoadAdWithError:error];
-    return;
-  }
-
-  [self addInterstitialAdapterDelegate:adapterDelegate];
-
-  if ([Chartboost hasInterstitial:adLocation]) {
-    [adapterDelegate didCacheInterstitial:adLocation];
-  } else {
-    [Chartboost cacheInterstitial:adLocation];
-  }
-}
-
-- (void)presentInterstitialAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  [Chartboost showInterstitial:[adapterDelegate getAdLocation]];
-}
-
 #pragma mark - Chartboost Delegate mathods
 
 - (void)didInitialize:(BOOL)status {
@@ -227,38 +171,6 @@
     }
   }
   [_completionHandlers removeAllObjects];
-}
-
-#pragma mark - Chartboost Interstitial Delegate Methods
-
-- (void)didDisplayInterstitial:(CBLocation)location {
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
-      [self getInterstitialAdapterDelegateForAdLocation:location];
-  [delegate didDisplayInterstitial:location];
-}
-
-- (void)didCacheInterstitial:(CBLocation)location {
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
-      [self getInterstitialAdapterDelegateForAdLocation:location];
-  [delegate didCacheInterstitial:location];
-}
-
-- (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
-      [self getInterstitialAdapterDelegateForAdLocation:location];
-  [delegate didFailToLoadInterstitial:location withError:error];
-}
-
-- (void)didDismissInterstitial:(CBLocation)location {
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
-      [self getInterstitialAdapterDelegateForAdLocation:location];
-  [delegate didDismissInterstitial:location];
-}
-
-- (void)didClickInterstitial:(CBLocation)location {
-  id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
-      [self getInterstitialAdapterDelegateForAdLocation:location];
-  [delegate didClickInterstitial:location];
 }
 
 #pragma mark - Chartboost Reward Based Video Ad Delegate Methods
@@ -297,11 +209,6 @@
   id<GADMAdapterChartboostDataProvider, ChartboostDelegate> delegate =
       [self getRewardedAdapterDelegateForAdLocation:location];
   [delegate didCompleteRewardedVideo:location withReward:reward];
-}
-
-- (void)stopTrackingInterstitialDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
-  [self removeInterstitialAdapterDelegate:adapterDelegate];
 }
 
 @end
