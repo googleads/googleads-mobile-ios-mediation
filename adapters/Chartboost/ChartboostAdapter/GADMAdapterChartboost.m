@@ -25,6 +25,8 @@
 #import "Chartboost+Mediation.h"
 #endif
 
+// TODO: Is only one GADMAdNetworkAdapter subclass ever instantiated for a mediated SDK and it receives all the ad requests? Or can it be deallocated and instantiated again, having only one instance alive at the time that receives all the ad requests? Or is it instantiated multiple times, once for each ad request?
+// TODO: Do the GADMAdNetworkConnector credentials change before an ad request to inform of the ad unit for that ad request (ad location in Chartboost terminology)? If so when exactly does this credentials information change?
 @implementation GADMAdapterChartboost {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
@@ -66,6 +68,10 @@
 
 // MARK: - Interstitial
 
+// TODO: Can getInterstitial and getBannerWithSize: be called multiple times before the last ad is dismissed? In that case we'll want to keep references to mutliple ads of the same type. Should we deallocate them once dismissed?
+// TODO: Can they be called with the same connector credentials (same ad unit id)?
+// TODO: Does Google's SDK expect one call to adapterDidReceiveInterstitial: and adapter:didReceiveAdView: for every ad request if multiple requests where made while in the process of loading the ad?
+// TODO: What if those requests loaded an ad with the same ad unit id? How does the connector know which of the ads is done loading?
 - (void)getInterstitial {
   GADMAdapterChartboost * __weak weakSelf = self;
   [self initializeChartboost:^(NSError * _Nullable error) {
@@ -81,7 +87,7 @@
     GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[strongConnector networkExtras]];
     
-    // TODO: Only one ad at the same time? Want to destroy it?
+    // TODO: Want to destroy the current interstitial ad? Depends on the previous questions.
     [strongSelf->_interstitial destroy];
     strongSelf->_interstitial =
     [[GADCHBInterstitial alloc] initWithLocation:[strongSelf locationFromConnector]
@@ -92,6 +98,7 @@
   }];
 }
 
+// TODO: If getInterstitial can be called multiple times before the last ad is dismissed, how do we know which interstitial ad we want to show here?
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   if (_interstitial) {
     [_interstitial showFromViewController:rootViewController];
@@ -119,7 +126,7 @@
     
     // CHBBanner is a UIView subclass so it needs to be used on the main thread.
     dispatch_async(dispatch_get_main_queue(), ^{
-      // TODO: Can get multiple banner requests? Want to destroy current one?
+      // TODO: Want to destroy the current banner ad? Depends on the previous questions.
       [strongSelf->_banner destroy];
       strongSelf->_banner =
       [[GADCHBBanner alloc] initWithSize:adSize.size

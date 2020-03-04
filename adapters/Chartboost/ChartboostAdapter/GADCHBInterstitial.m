@@ -74,6 +74,7 @@
   if (error) {
     // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
     if (!_adIsShown) {
+      // TODO: Is this the preferred way to report a presentation error?
       [strongConnector adapterWillPresentInterstitial:strongAdapter];
       [strongConnector adapterWillDismissInterstitial:strongAdapter];
       [strongConnector adapterDidDismissInterstitial:strongAdapter];
@@ -88,7 +89,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
   [strongConnector adapterDidGetAdClick:strongAdapter];
-  // TODO: Need to call this even if showing an in-app browser?
+  // TODO: Need to call this even if showing an in-app browser (without leaving the app)? Should we call adapterWillPresentFullScreenModal: intead? Here we can't know if a click will result in leaving the app or showing some view controller inside the app itself.
   if (!error) {
     [strongConnector adapterWillLeaveApplication:strongAdapter];
   }
