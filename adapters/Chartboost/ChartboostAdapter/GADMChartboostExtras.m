@@ -14,6 +14,27 @@
 
 #import "GADMChartboostExtras.h"
 
-@implementation GADMChartboostExtras
+@implementation GADMChartboostExtras {
+  /// Chartboost custom framework.
+  CBFramework _framework;
+  /// Chartboost custom framework version.
+  NSString *_frameworkVersion;
+}
+
++ (nonnull GADMChartboostExtras *)extrasWithFramework:(CBFramework)framework
+                                              version:(nullable NSString *)frameworkVersion {
+  GADMChartboostExtras *extras = [[GADMChartboostExtras alloc] init];
+  extras->_framework = framework;
+  extras->_frameworkVersion = [frameworkVersion copy];
+  return extras;
+}
+
+- (CBFramework)framework {
+  return _framework;
+}
+
+- (NSString *)frameworkVersion {
+  return _frameworkVersion;
+}
 
 @end

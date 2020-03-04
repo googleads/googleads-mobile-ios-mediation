@@ -17,13 +17,18 @@
 
 typedef NS_ENUM(NSUInteger, CBFramework);
 
-/// Keys for the Chartboost extra assets.
+NS_ASSUME_NONNULL_BEGIN
+
+/// Chartboost GADAdNetworkExtras used to provide info about the framework used by your app.
 @interface GADMChartboostExtras : NSObject<GADAdNetworkExtras>
-
 /// Chartboost custom framework.
-@property(nonatomic, assign) CBFramework framework;
-
+@property(nonatomic, readonly) CBFramework framework;
 /// Chartboost custom framework version.
-@property(nonatomic, copy) NSString *frameworkVersion;
-
+@property(nonatomic, readonly, nullable) NSString *frameworkVersion;
+/// Initializer that takes a framework type and a framework version.
++ (nonnull GADMChartboostExtras *)extrasWithFramework:(CBFramework)framework
+                                              version:(nullable NSString *)frameworkVersion;
+- (instancetype)init NS_UNAVAILABLE;
 @end
+
+NS_ASSUME_NONNULL_END
