@@ -16,6 +16,14 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import "GADMAdapterChartboost.h"
 
+// TODO: Review all imports in all files
+// TODO: NS_ASSUME_NONNULL in all files
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
+#import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
+
 typedef NS_ENUM(NSInteger, GADMAdapterChartboostInitState) {
   GADMAdapterChartboostUninitialized,
   GADMAdapterChartboostInitialized,
@@ -32,11 +40,13 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 @property(class, atomic, readonly, nonnull) GADMAdapterChartboostSingleton *sharedInstance;
 
 /// Starts the Chartboost SDK.
-- (void)startWithAppId:(nonnull NSString *)appId
-          appSignature:(nonnull NSString *)appSignature
+- (void)startWithAppId:(NSString *)appId
+          appSignature:(NSString *)appSignature
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
 
-- (void)setFrameworkWithConnector:(id<GADMAdNetworkConnector>)connector;
+- (void)setFrameworkWithExtras:(nullable GADMChartboostExtras *)extras;
+
+- (CHBMediation *)mediation;
 
 /// Configures a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
 - (void)configureRewardedAdWithAppID:(nonnull NSString *)appID

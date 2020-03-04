@@ -20,6 +20,12 @@
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
+#import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
+
 #import "GADCHBInterstitial.h"
 
 @implementation GADMAdapterChartboost {
@@ -55,6 +61,16 @@
     _interstitial = nil;
 }
 
+- (NSString *)locationFromConnector
+{
+    NSString *location = _connector.credentials[kGADMAdapterChartboostAdLocation];
+    if ([location isKindOfClass:NSString.class]) {
+        location = [location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    location = location.length > 0 ? location : CBLocationDefault;
+    return location;
+}
+
 #pragma mark Interstitial
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -73,54 +89,31 @@
     [self initializeChartboost:^(NSError * _Nullable error) {
         GADMAdapterChartboost *strongSelf = weakSelf;
         id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
-        if (!strongSelf) {
+        if (!strongSelf || !strongConnector) {
             return;
         }
         if (error) {
             [strongConnector adapter:strongSelf didFailAd:error];
             return;
         }
-        [GADMAdapterChartboostSingleton.sharedInstance setFrameworkWithConnector:strongConnector];
+        GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
+        [chartboost setFrameworkWithExtras:[strongConnector networkExtras]];
         [strongSelf->_interstitial destroy];
-        strongSelf->_interstitial = [[GADCHBInterstitial alloc] initWithNetworkAdapter:strongSelf
-                                                                             connector:strongConnector];
+        strongSelf->_interstitial = [[GADCHBInterstitial alloc] initWithLocation:[strongSelf locationFromConnector]
+                                                                       mediation:[chartboost mediation]
+                                                                  networkAdapter:strongSelf
+                                                                       connector:strongConnector];
         [strongSelf->_interstitial load];
     }];
 }
 
 - (void)initializeChartboost:(ChartboostInitCompletionHandler)completion {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *adLocation = [strongConnector.credentials[kGADMAdapterChartboostAdLocation]
-      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-  if (adLocation) {
-    _chartboostAdLocation = [adLocation copy];
-  } else {
-    _chartboostAdLocation = [CBLocationDefault copy];
-  }
-
-  if (!appID || !appSignature) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    if (completion) {
-      completion(error);
-    }
-    return;
-  }
-
-  _loading = YES;
-
-  GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *_Nullable error) {
-                 if (completion) {
-                   completion(error);
-                 }
-               }];
+    _loading = YES;
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
+    [sharedInstance startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
+                      appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+                 completionHandler:completion];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -167,7 +160,7 @@
 }
 
 #pragma mark GADMAdapterChartboostDataProvider Methods
-
+// TODO: Remove
 - (NSString *)getAdLocation {
   return _chartboostAdLocation;
 }

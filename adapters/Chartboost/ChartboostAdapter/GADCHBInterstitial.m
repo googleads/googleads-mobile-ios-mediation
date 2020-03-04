@@ -7,32 +7,30 @@
 //
 
 #import "GADCHBInterstitial.h"
-#if __has_include(<Chartboost/Chartboost+Mediation.h>)
-#import <Chartboost/Chartboost+Mediation.h>
-#else
-#import "Chartboost+Mediation.h"
-#endif
+#import "GADMChartboostError.h"
 
 @interface GADCHBInterstitial () <CHBInterstitialDelegate>
 @end
 
 @implementation GADCHBInterstitial {
-    __weak id<GADMAdNetworkAdapterProtocol> _networkAdapter;
+    __weak id<GADMAdNetworkAdapter> _networkAdapter;
     __weak id<GADMAdNetworkConnector> _connector;
     CHBInterstitial *_ad;
     BOOL _adIsShown;
 }
 
-- (instancetype)initWithNetworkAdapter:(id<GADMAdNetworkAdapterProtocol>)networkAdapter
-                             connector:(id<GADMAdNetworkConnector>)connector
+- (instancetype)initWithLocation:(NSString *)location
+                       mediation:(CHBMediation *)mediation
+                  networkAdapter:(id<GADMAdNetworkAdapter>)networkAdapter
+                       connector:(id<GADMAdNetworkConnector>)connector
 {
     self = [super init];
     if (self) {
         _networkAdapter = networkAdapter;
         _connector = connector;
-        _ad = [[CHBInterstitial alloc] initWithLocation:[self locationFromConnector:connector]
-                                              mediation:[self mediation]
-                                               delegate:self]
+        _ad = [[CHBInterstitial alloc] initWithLocation:location
+                                              mediation:mediation
+                                               delegate:self];
         _adIsShown = NO;
     }
     return self;
@@ -45,24 +43,6 @@
     _ad = nil;
 }
 
-- (NSString *)locationFromConnector:(id<GADMAdNetworkConnector>)connector
-{
-    NSString *location = connector.credentials[kGADMAdapterChartboostAdLocation];
-    if ([location isKindOfClass:NSString.class]) {
-        location = [location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    }
-    location = location.length > 0 ? location : CBLocationDefault;
-    return location;
-}
-
-// TODO: Move somewhere else?
-- (CHBMediation *)mediation
-{
-    return [[CHBMediation alloc] initWithType:CBMediationAdMob
-                               libraryVersion:[GADRequest sdkVersion]
-                               adapterVersion:kGADMAdapterChartboostVersion];
-}
-
 - (void)load
 {
     [_ad cache];
@@ -73,13 +53,12 @@
     [_ad showFromViewController:viewController];
 }
 
-// MARK: - CHBAdDelegate
+// MARK: - CHBInterstitialDelegate
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error
 {
     if (error) {
-        // TODO: Proper error mapping (adRequestErrorTypeForCBLoadError)
-        [_connector adapter:_networkAdapter didFailAd:adRequestErrorTypeForCBLoadError(error)];
+        [_connector adapter:_networkAdapter didFailAd:NSErrorForCHBCacheError(error)];
     } else {
         [_connector adapterDidReceiveInterstitial:_networkAdapter];
     }

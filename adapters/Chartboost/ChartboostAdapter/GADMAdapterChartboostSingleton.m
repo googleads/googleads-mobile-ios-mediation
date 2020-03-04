@@ -62,9 +62,21 @@
   return self;
 }
 
-- (void)startWithAppId:(nonnull NSString *)appId
-          appSignature:(nonnull NSString *)appSignature
-     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+// TODO: Substitute start method with completion version and get rid of queues and init states
+- (void)startWithAppId:(NSString *)appId
+          appSignature:(NSString *)appSignature
+     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler
+{
+    appId = [appId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    if (!appId || !appSignature) {
+        completionHandler(GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil."));
+        return;
+    }
+    
+    
+    
   dispatch_async(_queue, ^{
     switch (self->_initState) {
       case GADMAdapterChartboostInitialized:
@@ -86,9 +98,9 @@
   });
 }
 
-- (void)setFrameworkWithConnector:(id<GADMAdNetworkConnector>)connector
+- (void)setFrameworkWithExtras:(GADMChartboostExtras *)extras
 {
-    GADMChartboostExtras *extras = [connector networkExtras];
+    // TODO: Extras is nil if not set by publisher?
     if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
         [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
     }
@@ -154,6 +166,11 @@
     (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   [Chartboost showRewardedVideo:[adapterDelegate getAdLocation]];
 }
+- (CHBMediation *)mediation
+{
+    return [[CHBMediation alloc] initWithType:CBMediationAdMob
+                               libraryVersion:[GADRequest sdkVersion]
+                               adapterVersion:kGADMAdapterChartboostVersion];}
 
 #pragma mark - Chartboost Delegate mathods
 
