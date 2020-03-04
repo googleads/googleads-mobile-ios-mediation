@@ -48,15 +48,4 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
 - (CHBMediation *)mediation;
 
-/// Configures a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
-- (void)configureRewardedAdWithAppID:(nonnull NSString *)appID
-                        appSignature:(nonnull NSString *)appSignature
-                            delegate:
-                                (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                    adapterDelegate;
-
-/// Presents the current rewarded ad for |adapterDelegate|.
-- (void)presentRewardedAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
 @end

@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #import <Chartboost/CHBBanner.h>
-#import <Chartboost/Chartboost.h>
-#import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMAdapterChartboostDataProvider.h"
@@ -22,7 +20,6 @@
 /// Adapter for communicating with the Chartboost Network to fetch interstitial ads.
 @interface GADMAdapterChartboost : NSObject <GADMAdNetworkAdapter,
                                              GADMAdapterChartboostDataProvider,
-                                             ChartboostDelegate,
                                              CHBBannerDelegate>
 
 @end
