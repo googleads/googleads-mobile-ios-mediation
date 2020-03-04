@@ -13,39 +13,31 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import "GADMAdapterChartboost.h"
-
-// TODO: Review all imports in all files
-// TODO: NS_ASSUME_NONNULL in all files
+#import "GADMChartboostExtras.h"
 #if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
 #else
 #import "Chartboost+Mediation.h"
 #endif
 
-typedef NS_ENUM(NSInteger, GADMAdapterChartboostInitState) {
-  GADMAdapterChartboostUninitialized,
-  GADMAdapterChartboostInitialized,
-  GADMAdapterChartboostInitializing
-};
+NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
-
-@protocol GADMAdapterChartboostDataProvider;
 
 @interface GADMAdapterChartboostSingleton : NSObject
 
 /// Shared instance.
-@property(class, atomic, readonly, nonnull) GADMAdapterChartboostSingleton *sharedInstance;
+@property(class, atomic, readonly) GADMAdapterChartboostSingleton *sharedInstance;
 
 /// Starts the Chartboost SDK.
-- (void)startWithAppId:(NSString *)appId
-          appSignature:(NSString *)appSignature
-     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
+- (void)startWithAppId:(nullable NSString *)appId
+          appSignature:(nullable NSString *)appSignature
+     completionHandler:(ChartboostInitCompletionHandler)completionHandler;
 
 - (void)setFrameworkWithExtras:(nullable GADMChartboostExtras *)extras;
 
 - (CHBMediation *)mediation;
 
 @end
+
+NS_ASSUME_NONNULL_END
