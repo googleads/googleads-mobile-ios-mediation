@@ -16,7 +16,6 @@
 #import <Chartboost/Chartboost.h>
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
-#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
 #import "GADCHBRewarded.h"
 #import "GADMChartboostError.h"
@@ -27,37 +26,29 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
-  
+  NSString *appID = nil;
+  NSString *appSignature = nil;
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
-    NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
-    GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
-  }
-  
-  if (!credentials.count) {
-    NSError *error = GADChartboostError(kGADErrorMediationDataError,
-                                        @"Chartboost mediation configurations did not contain a"
-                                        @"valid appID and app signature.");
-    completionHandler(error);
-    return;
-  }
-  
-  NSString *appID = credentials.allKeys.firstObject;
-  NSString *appSignature = credentials[appID];
-  if (credentials.count > 1) {
-    NSLog(@"Found multiple app IDs: %@. "
-          @"Please remove any app IDs you are not using from the AdMob UI.",
-          credentials.allKeys);
-    NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
-          appSignature);
+    NSString *ID = cred.settings[kGADMAdapterChartboostAppID];
+    NSString *signature = cred.settings[kGADMAdapterChartboostAppSignature];
+    if (ID && signature) {
+      if (!appID && !appSignature) {
+        appID = ID;
+        appSignature = signature;
+      } else {
+        NSLog(@"Found multiple app IDs: %@. "
+              @"Please remove any app IDs you are not using from the AdMob UI.",
+              configuration.credentials);
+        NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
+              appSignature);
+        break;
+      }
+    }
   }
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   [sharedInstance startWithAppId:appID
                     appSignature:appSignature
-               completionHandler:^(NSError *error) {
-    completionHandler(error);
-  }];
+               completionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {
