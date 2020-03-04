@@ -104,9 +104,8 @@
   return location;
 }
 
-// TODO: Should we use GADMRewardBasedVideoAdNetworkAdapter instead of GADMediationAdapter for loading rewarded ads? Why?
-// TODO: Should we use GADMediationAdapter to load interstitial and banner ads instead of GADMAdNetworkAdapter? Why?
-// TODO: Can loadRewardedAdForAdConfiguration: be called multiple times before the last ad is dismissed? In that case we'll want to keep references to mutliple rewarded ads. Should we deallocate them once dismissed?
+// TODO: Should we use GADMRewardBasedVideoAdNetworkAdapter instead of GADMediationAdapter for loading rewarded ads?
+// TODO: Should we use GADMediationAdapter to load interstitial and banner ads instead of GADMAdNetworkAdapter?
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   __weak GADMediationAdapterChartboost * weakSelf = self;
@@ -127,8 +126,6 @@
     GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[adConfiguration extras]];
     
-    // TODO: Want to destroy the current rewarded ad? Depends on the previous question.
-    [strongSelf->_rewarded destroy];
     strongSelf->_rewarded =
     [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]
                                    mediation:[chartboost mediation]
