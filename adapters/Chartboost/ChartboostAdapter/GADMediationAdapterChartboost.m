@@ -18,11 +18,11 @@
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
-#import "GADMRewardedAdChartboost.h"
+#import "GADCHBRewarded.h"
+#import "GADMChartboostError.h"
 
 @implementation GADMediationAdapterChartboost {
-  /// Chartboost rewarded ad wrapper.
-  GADMRewardedAdChartboost *_rewardedAd;
+  GADCHBRewarded *_rewarded;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -95,12 +95,49 @@
   return version;
 }
 
+- (void)initializeChartboostWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                                     completion:(ChartboostInitCompletionHandler)completion {
+    GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
+    [sharedInstance startWithAppId:adConfiguration.credentials.settings[kGADMAdapterChartboostAppID]
+                      appSignature:adConfiguration.credentials.settings[kGADMAdapterChartboostAppSignature]
+                 completionHandler:completion];
+}
+
+- (NSString *)locationFromAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+{
+    NSString *location = adConfiguration.credentials.settings[kGADMAdapterChartboostAdLocation];
+    if ([location isKindOfClass:NSString.class]) {
+        location = [location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    location = location.length > 0 ? location : CBLocationDefault;
+    return location;
+}
+
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [[GADMRewardedAdChartboost alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler
+{
+    __weak GADMediationAdapterChartboost * weakSelf = self;
+    [self initializeChartboostWithAdConfiguration:adConfiguration completion:^(NSError * _Nullable error) {
+        if (error) {
+            completionHandler(nil, error);
+            return;
+        }
+        GADMediationAdapterChartboost *strongSelf = weakSelf;
+        if (!strongSelf) {
+            NSError *error = GADChartboostErrorWithDescription(@"GADMediationAdapterChartboost deallocated before rewarded ad could be loaded");
+            completionHandler(nil, error);
+            return;
+        }
+        
+        GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
+        [strongSelf->_rewarded destroy];
+        strongSelf->_rewarded = [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]
+                                                               mediation:[chartboost mediation]
+                                                         adConfiguration:adConfiguration
+                                                       completionHandler:completionHandler];
+        [chartboost setFrameworkWithExtras:[adConfiguration extras]];
+        [strongSelf->_rewarded load];
+    }];
 }
 
 @end
