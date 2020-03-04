@@ -22,8 +22,7 @@
 - (instancetype)initWithLocation:(NSString *)location
                        mediation:(CHBMediation *)mediation
                  adConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-               completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler
-{
+               completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _loadCompletionHandler = completionHandler;
@@ -35,25 +34,21 @@
   return self;
 }
 
-- (void)destroy
-{
+- (void)destroy {
   _loadCompletionHandler = nil;
   _adEventDelegate = nil;
   _ad = nil;
 }
 
-- (void)load
-{
+- (void)load {
   [_ad cache];
 }
 
-- (void)presentFromViewController:(nonnull UIViewController *)viewController
-{
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [_ad showFromViewController:viewController];
 }
 
-- (void)completeLoadWithError:(nullable CHBCacheError *)error
-{
+- (void)completeLoadWithError:(nullable CHBCacheError *)error {
   if (!_loadCompletionHandler) {
     return;
   }
@@ -67,18 +62,14 @@
 
 // MARK: - CHBRewardedDelegate
 
-- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error
-{
+- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   [self completeLoadWithError:error];
 }
 
-- (void)willShowAd:(CHBShowEvent *)event
-{
-  
+- (void)willShowAd:(CHBShowEvent *)event {
 }
 
-- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error
-{
+- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (error) {
     // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
@@ -93,26 +84,21 @@
   }
 }
 
-- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
+- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
   [_adEventDelegate reportClick];
 }
 
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
-  
+- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
 }
 
-- (void)didDismissAd:(CHBDismissEvent *)event
-{
+- (void)didDismissAd:(CHBDismissEvent *)event {
   _adIsShown = NO;
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate willDismissFullScreenView];
   [strongDelegate didDismissFullScreenView];
 }
 
-- (void)didEarnReward:(CHBRewardEvent *)event
-{
+- (void)didEarnReward:(CHBRewardEvent *)event {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate didEndVideo];
   NSDecimalNumber *reward = [[NSDecimalNumber alloc] initWithInteger:event.reward];

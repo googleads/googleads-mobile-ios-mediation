@@ -59,8 +59,7 @@
 // TODO: Substitute start method with completion version and get rid of queues and init states
 - (void)startWithAppId:(NSString *)appId
           appSignature:(NSString *)appSignature
-     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler
-{
+     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
   appId = [appId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   
@@ -92,16 +91,14 @@
   });
 }
 
-- (void)setFrameworkWithExtras:(GADMChartboostExtras *)extras
-{
+- (void)setFrameworkWithExtras:(GADMChartboostExtras *)extras {
   // TODO: Extras is nil if not set by publisher?
   if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
     [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
   }
 }
 
-- (CHBMediation *)mediation
-{
+- (CHBMediation *)mediation {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
                              libraryVersion:[GADRequest sdkVersion]
                              adapterVersion:kGADMAdapterChartboostVersion];

@@ -22,8 +22,7 @@
 - (instancetype)initWithLocation:(NSString *)location
                        mediation:(CHBMediation *)mediation
                   networkAdapter:(id<GADMAdNetworkAdapter>)networkAdapter
-                       connector:(id<GADMAdNetworkConnector>)connector
-{
+                       connector:(id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     _networkAdapter = networkAdapter;
@@ -36,27 +35,23 @@
   return self;
 }
 
-- (void)destroy
-{
+- (void)destroy {
   _networkAdapter = nil;
   _connector = nil;
   _ad = nil;
 }
 
-- (void)load
-{
+- (void)load {
   [_ad cache];
 }
 
-- (void)showFromViewController:(UIViewController *)viewController
-{
+- (void)showFromViewController:(UIViewController *)viewController {
   [_ad showFromViewController:viewController];
 }
 
 // MARK: - CHBInterstitialDelegate
 
-- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error
-{
+- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
   if (error) {
@@ -66,13 +61,10 @@
   }
 }
 
-- (void)willShowAd:(CHBShowEvent *)event
-{
-  
+- (void)willShowAd:(CHBShowEvent *)event {
 }
 
-- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error
-{
+- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
   if (error) {
@@ -88,8 +80,7 @@
   }
 }
 
-- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
+- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
   [strongConnector adapterDidGetAdClick:strongAdapter];
@@ -99,13 +90,10 @@
   }
 }
 
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error
-{
-  
+- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
 }
 
-- (void)didDismissAd:(CHBDismissEvent *)event
-{
+- (void)didDismissAd:(CHBDismissEvent *)event {
   _adIsShown = NO;
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;

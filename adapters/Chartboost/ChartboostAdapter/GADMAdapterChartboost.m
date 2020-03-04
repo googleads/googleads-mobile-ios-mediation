@@ -61,8 +61,7 @@
   _interstitial = nil;
 }
 
-- (NSString *)locationFromConnector
-{
+- (NSString *)locationFromConnector {
   NSString *location = _connector.credentials[kGADMAdapterChartboostAdLocation];
   if ([location isKindOfClass:NSString.class]) {
     location = [location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];

@@ -77,8 +77,7 @@
   return [GADMChartboostExtras class];
 }
 
-+ (GADVersionNumber)version
-{
++ (GADVersionNumber)version {
   NSString *versionString = kGADMAdapterChartboostVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   
@@ -93,16 +92,14 @@
 }
 
 - (void)initializeChartboostWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                                     completion:(ChartboostInitCompletionHandler)completion
-{
+                                     completion:(ChartboostInitCompletionHandler)completion {
   GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
   [sharedInstance startWithAppId:adConfiguration.credentials.settings[kGADMAdapterChartboostAppID]
                     appSignature:adConfiguration.credentials.settings[kGADMAdapterChartboostAppSignature]
                completionHandler:completion];
 }
 
-- (NSString *)locationFromAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-{
+- (NSString *)locationFromAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration {
   NSString *location = adConfiguration.credentials.settings[kGADMAdapterChartboostAdLocation];
   if ([location isKindOfClass:NSString.class]) {
     location = [location stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -112,8 +109,7 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler
-{
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   __weak GADMediationAdapterChartboost * weakSelf = self;
   [self initializeChartboostWithAdConfiguration:adConfiguration completion:^(NSError * _Nullable error) {
     if (error) {
