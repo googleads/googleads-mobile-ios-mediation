@@ -37,9 +37,3 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 @end
 
 NS_ASSUME_NONNULL_END
-
-// TODO: Review all imports in all files
-// TODO: NS_ASSUME_NONNULL in all files
-// TODO: Make sure lines are not too long in all files
-// TODO: Solve all project warnings
-// TODO: Solve all doubts -> leave as comments in code

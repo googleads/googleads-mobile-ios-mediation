@@ -96,7 +96,7 @@
   if (_interstitial) {
     [_interstitial showFromViewController:rootViewController];
   } else {
-    // TODO: Error: getInterstitial not called
+    NSLog(@"GADMAdapterChartboost error: trying to present interstitial before it is loaded.");
   }
 }
 

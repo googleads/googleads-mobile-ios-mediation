@@ -34,7 +34,8 @@
   appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   
   if (!appId || !appSignature) {
-    completionHandler(GADChartboostError(kGADErrorMediationDataError, @"App ID & App Signature cannot be nil."));
+    completionHandler(GADChartboostError(kGADErrorMediationDataError,
+                                         @"App ID & App Signature cannot be nil."));
     return;
   }
   
