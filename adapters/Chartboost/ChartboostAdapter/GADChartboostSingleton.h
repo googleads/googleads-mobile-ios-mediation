@@ -30,11 +30,10 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 - (void)startWithAppId:(nullable NSString *)appId
           appSignature:(nullable NSString *)appSignature
      completionHandler:(ChartboostInitCompletionHandler)completionHandler;
-
+/// Provides framework info to Chartboost SDK.
 - (void)setFrameworkWithExtras:(nullable GADMChartboostExtras *)extras;
-
+/// A Chartboost mediation object that describes the current mediation environment.
 - (CHBMediation *)mediation;
-
 @end
 
 NS_ASSUME_NONNULL_END

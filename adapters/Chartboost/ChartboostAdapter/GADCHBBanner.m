@@ -13,8 +13,11 @@
 @end
 
 @implementation GADCHBBanner {
+  /// Adapter for receiving ad request notifications.
   __weak id<GADMAdNetworkAdapter> _networkAdapter;
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
+  /// Chartboost banner ad.
   CHBBanner *_ad;
 }
 

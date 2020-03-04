@@ -25,6 +25,7 @@
 #endif
 
 @implementation GADMediationAdapterChartboost {
+  /// Chartboost rewarded ad wrapper.
   GADCHBRewarded *_rewarded;
 }
 
@@ -123,6 +124,7 @@
     GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[adConfiguration extras]];
     
+    // TODO: Want to destroy a current rewarded ad??
     [strongSelf->_rewarded destroy];
     strongSelf->_rewarded =
     [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]

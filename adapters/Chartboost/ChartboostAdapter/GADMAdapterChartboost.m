@@ -80,7 +80,8 @@
     }
     GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[strongConnector networkExtras]];
-    // TODO: Only one ad at the same time? (same for rewarded)
+    
+    // TODO: Only one ad at the same time? Want to destroy it?
     [strongSelf->_interstitial destroy];
     strongSelf->_interstitial =
     [[GADCHBInterstitial alloc] initWithLocation:[strongSelf locationFromConnector]

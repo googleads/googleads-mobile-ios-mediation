@@ -17,11 +17,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADCHBRewarded : NSObject <GADMediationRewardedAd>
+/// Ad wrapper initializer.
 - (instancetype)initWithLocation:(NSString *)location
                        mediation:(CHBMediation *)mediation
                  adConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+/// Removes references to adapter, connector and ad severing all communication between them.
 - (void)destroy;
+/// Loads an ad.
 - (void)load;
 @end
 

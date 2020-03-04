@@ -17,12 +17,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADCHBBanner : NSObject
+/// Ad wrapper initializer.
 - (instancetype)initWithSize:(CGSize)size
                     location:(NSString *)location
                    mediation:(CHBMediation *)mediation
               networkAdapter:(id<GADMAdNetworkAdapter>)networkAdapter
                    connector:(id<GADMAdNetworkConnector>)connector;
+/// Removes references to adapter, connector and ad severing all communication between them.
 - (void)destroy;
+/// Loads and shows an ad.
 - (void)showFromViewController:(nullable UIViewController *)viewController;
 @end
 

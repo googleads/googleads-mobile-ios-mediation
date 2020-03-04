@@ -13,9 +13,13 @@
 @end
 
 @implementation GADCHBInterstitial {
+  /// Adapter for receiving ad request notifications.
   __weak id<GADMAdNetworkAdapter> _networkAdapter;
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
+  /// Chartboost interstitial ad.
   CHBInterstitial *_ad;
+  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
   BOOL _adIsShown;
 }
 

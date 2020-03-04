@@ -13,9 +13,13 @@
 @end
 
 @implementation GADCHBRewarded {
+  // The completion handler to call when the ad load finishes.
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
+  // The delegate to notify of ad-related events.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  /// Chartboost rewarded ad.
   CHBRewarded *_ad;
+  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
   BOOL _adIsShown;
 }
 

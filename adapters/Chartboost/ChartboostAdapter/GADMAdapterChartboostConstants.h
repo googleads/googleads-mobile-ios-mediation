@@ -17,13 +17,13 @@
 /// Chartboost mediation network adapter version.
 static NSString *const kGADMAdapterChartboostVersion = @"8.1.0.0";
 
-/// Chartboost App ID.
+/// Chartboost App ID key.
 static NSString *const kGADMAdapterChartboostAppID = @"appId";
 
-/// Chartboost App Signature.
+/// Chartboost App Signature key.
 static NSString *const kGADMAdapterChartboostAppSignature = @"appSignature";
 
-/// Chartboost Ad Location.
+/// Chartboost Ad Location key.
 static NSString *const kGADMAdapterChartboostAdLocation = @"adLocation";
 
 /// Chartboost adapter error domain.

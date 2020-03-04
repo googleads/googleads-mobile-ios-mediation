@@ -23,7 +23,7 @@
 /// set to |description|, and error code set to |code|.
 NSError *GADChartboostError(GADErrorCode code, NSString *description);
 
-/// Returns an NSError with description acquired from the CHBCacheError.
+/// Returns an NSError with description and code acquired from the CHBCacheError.
 NSError *NSErrorForCHBCacheError(CHBCacheError *error);
 
 /// Returns an NSError with description acquired from the CHBShowError.
