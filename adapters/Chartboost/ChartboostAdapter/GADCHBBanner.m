@@ -56,8 +56,7 @@
   } else {
     [strongConnector adapter:strongAdapter didReceiveAdView:_ad];
   }
-  // Nilling the chartboost banner ad after loaded.
-  _ad = nil;
+  _ad = nil; // we don't need a strong reference to the banner after it is loaded
 }
 
 - (void)willShowAd:(CHBShowEvent *)event {

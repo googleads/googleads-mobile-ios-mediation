@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
 #import "GADMChartboostExtras.h"
 #if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
@@ -25,10 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
 @interface GADChartboostSingleton : NSObject
-
 /// Shared instance.
 @property(class, atomic, readonly) GADChartboostSingleton *sharedInstance;
-
 /// Starts the Chartboost SDK.
 - (void)startWithAppId:(nullable NSString *)appId
           appSignature:(nullable NSString *)appSignature
