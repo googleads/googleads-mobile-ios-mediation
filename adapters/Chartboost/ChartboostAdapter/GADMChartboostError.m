@@ -20,7 +20,7 @@ GADErrorCode GADErrorCodeForCHBCacheErrorCode(CHBCacheErrorCode code);
 NSError *GADChartboostError(GADErrorCode code, NSString *description) {
   description = description ? [description copy] : @"";
   return [NSError errorWithDomain:kGADMAdapterChartboostErrorDomain
-                             code:0
+                             code:code
                          userInfo:@{NSLocalizedDescriptionKey : description,
                                     NSLocalizedFailureReasonErrorKey : description}];
 }
