@@ -133,19 +133,19 @@
 				458DB67922F4B7A5008D000B /* GADMAdapterChartboost.h */,
 				458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */,
 				458DB67E22F4B7A7008D000B /* GADMAdapterChartboostConstants.h */,
-				458DB67522F4B7A4008D000B /* GADChartboostSingleton.h */,
-				458DB68022F4B7A8008D000B /* GADChartboostSingleton.m */,
-				458DB67F22F4B7A7008D000B /* GADMChartboostError.h */,
-				458DB67422F4B7A3008D000B /* GADMChartboostError.m */,
 				458DB68222F4B7A8008D000B /* GADMChartboostExtras.m */,
 				458DB67C22F4B7A6008D000B /* GADMediationAdapterChartboost.h */,
 				458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */,
+				458DB67522F4B7A4008D000B /* GADChartboostSingleton.h */,
+				458DB68022F4B7A8008D000B /* GADChartboostSingleton.m */,
 				EA0CFBB3240D6F0100EC615D /* GADCHBInterstitial.h */,
 				EA0CFBB4240D6F0100EC615D /* GADCHBInterstitial.m */,
 				EA2AF0B7240EAA3A00919957 /* GADCHBRewarded.h */,
 				EA2AF0B8240EAA3A00919957 /* GADCHBRewarded.m */,
 				EA92C08E240FD3DC0076B177 /* GADCHBBanner.h */,
 				EA92C08F240FD3DC0076B177 /* GADCHBBanner.m */,
+				458DB67F22F4B7A7008D000B /* GADMChartboostError.h */,
+				458DB67422F4B7A3008D000B /* GADMChartboostError.m */,
 			);
 			path = ChartboostAdapter;
 			sourceTree = "<group>";
