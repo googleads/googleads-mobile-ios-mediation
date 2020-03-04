@@ -13,12 +13,16 @@
 // limitations under the License.
 
 #import "GADMediationAdapterChartboost.h"
-#import <Chartboost/Chartboost.h>
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMChartboostExtras.h"
-#import "GADCHBRewarded.h"
 #import "GADMChartboostError.h"
+#import "GADCHBRewarded.h"
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
+#import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
 
 @implementation GADMediationAdapterChartboost {
   GADCHBRewarded *_rewarded;
@@ -51,21 +55,21 @@
                completionHandler:completionHandler];
 }
 
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
+  return [GADMChartboostExtras class];
+}
+
 + (GADVersionNumber)adSDKVersion {
   NSString *versionString = [Chartboost getSDKVersion];
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
   }
   return version;
-}
-
-+ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADMChartboostExtras class];
 }
 
 + (GADVersionNumber)version {
@@ -110,17 +114,19 @@
     GADMediationAdapterChartboost *strongSelf = weakSelf;
     if (!strongSelf) {
       NSError *error = GADChartboostError(kGADErrorMediationAdapterError,
-                                          @"GADMediationAdapterChartboost deallocated before rewarded ad could be loaded");
+                                          @"GADMediationAdapterChartboost deallocated before "
+                                          @"rewarded ad could be loaded");
       completionHandler(nil, error);
       return;
     }
     
     GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
     [strongSelf->_rewarded destroy];
-    strongSelf->_rewarded = [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]
-                                                           mediation:[chartboost mediation]
-                                                     adConfiguration:adConfiguration
-                                                   completionHandler:completionHandler];
+    strongSelf->_rewarded =
+    [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]
+                                   mediation:[chartboost mediation]
+                             adConfiguration:adConfiguration
+                           completionHandler:completionHandler];
     [chartboost setFrameworkWithExtras:[adConfiguration extras]];
     [strongSelf->_rewarded load];
   }];
