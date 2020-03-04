@@ -24,13 +24,13 @@
 @end
 
 @implementation GADMAdapterChartboostSingleton {
-
+  
   /// Concurrent dispatch queue.
   dispatch_queue_t _queue;
-
+  
   /// Chartboost SDK init state.
   GADMAdapterChartboostInitState _initState;
-
+  
   /// An array of completion handlers to be called once the Chartboost SDK is initialized.
   NSMutableArray<ChartboostInitCompletionHandler> *_completionHandlers;
 }
@@ -61,16 +61,16 @@
           appSignature:(NSString *)appSignature
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler
 {
-    appId = [appId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-    if (!appId || !appSignature) {
-        completionHandler(GADChartboostError(kGADErrorMediationDataError, @"App ID & App Signature cannot be nil."));
-        return;
-    }
-    
-    
-    
+  appId = [appId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  
+  if (!appId || !appSignature) {
+    completionHandler(GADChartboostError(kGADErrorMediationDataError, @"App ID & App Signature cannot be nil."));
+    return;
+  }
+  
+  
+  
   dispatch_async(_queue, ^{
     switch (self->_initState) {
       case GADMAdapterChartboostInitialized:
@@ -94,17 +94,17 @@
 
 - (void)setFrameworkWithExtras:(GADMChartboostExtras *)extras
 {
-    // TODO: Extras is nil if not set by publisher?
-    if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
-        [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-    }
+  // TODO: Extras is nil if not set by publisher?
+  if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
+    [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+  }
 }
 
 - (CHBMediation *)mediation
 {
-    return [[CHBMediation alloc] initWithType:CBMediationAdMob
-                               libraryVersion:[GADRequest sdkVersion]
-                               adapterVersion:kGADMAdapterChartboostVersion];
+  return [[CHBMediation alloc] initWithType:CBMediationAdMob
+                             libraryVersion:[GADRequest sdkVersion]
+                             adapterVersion:kGADMAdapterChartboostVersion];
 }
 
 #pragma mark - Chartboost Delegate mathods

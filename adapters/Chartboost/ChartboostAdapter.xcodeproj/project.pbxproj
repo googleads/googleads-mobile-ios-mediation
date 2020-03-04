@@ -202,7 +202,9 @@
 				7DFABB1E1DA8682C00322E02 /* Products */,
 				7D386A611DDA4BD500744A5F /* Public */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		7DFABB1E1DA8682C00322E02 /* Products */ = {
 			isa = PBXGroup;
