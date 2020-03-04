@@ -57,10 +57,12 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error
 {
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
     if (error) {
-        [_connector adapter:_networkAdapter didFailAd:NSErrorForCHBCacheError(error)];
+        [strongConnector adapter:strongAdapter didFailAd:NSErrorForCHBCacheError(error)];
     } else {
-        [_connector adapterDidReceiveInterstitial:_networkAdapter];
+        [strongConnector adapterDidReceiveInterstitial:strongAdapter];
     }
 }
 
@@ -71,24 +73,29 @@
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error
 {
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
     if (error) {
         // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
         if (!_adIsShown) {
-            [_connector adapterWillPresentInterstitial:_networkAdapter];
-            [_connector adapterWillDismissInterstitial:_networkAdapter];
-            [_connector adapterDidDismissInterstitial:_networkAdapter];
+            [strongConnector adapterWillPresentInterstitial:strongAdapter];
+            [strongConnector adapterWillDismissInterstitial:strongAdapter];
+            [strongConnector adapterDidDismissInterstitial:strongAdapter];
         }
     } else {
         _adIsShown = YES;
-        [_connector adapterWillPresentInterstitial:_networkAdapter];
+        [strongConnector adapterWillPresentInterstitial:strongAdapter];
     }
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error
 {
-    [_connector adapterDidGetAdClick:_networkAdapter];
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
+    [strongConnector adapterDidGetAdClick:strongAdapter];
+    // TODO: Need to call this even if showing an in-app browser?
     if (!error) {
-        [_connector adapterWillLeaveApplication:_networkAdapter];
+        [strongConnector adapterWillLeaveApplication:strongAdapter];
     }
 }
 
@@ -100,8 +107,10 @@
 - (void)didDismissAd:(CHBDismissEvent *)event
 {
     _adIsShown = NO;
-    [_connector adapterWillDismissInterstitial:_networkAdapter];
-    [_connector adapterDidDismissInterstitial:_networkAdapter];
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
+    [strongConnector adapterWillDismissInterstitial:strongAdapter];
+    [strongConnector adapterDidDismissInterstitial:strongAdapter];
 }
 
 @end
