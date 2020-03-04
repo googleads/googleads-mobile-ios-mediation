@@ -12,7 +12,6 @@
 @interface GADCHBRewarded () <CHBRewardedDelegate>
 @end
 
-
 @implementation GADCHBRewarded {
     GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
     __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
@@ -59,7 +58,6 @@
         return;
     }
     if (error) {
-        // TODO: Proper error mapping
         _loadCompletionHandler(nil, NSErrorForCHBCacheError(error));
     } else {
         _adEventDelegate = _loadCompletionHandler(self, nil);
@@ -85,7 +83,6 @@
     if (error) {
         // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
         if (!_adIsShown) {
-            // TODO: Proper error mapping
             [strongDelegate didFailToPresentWithError:NSErrorForCHBShowError(error)];
         }
     } else {
@@ -118,7 +115,7 @@
 {
     id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
     [strongDelegate didEndVideo];
-    NSDecimalNumber *reward = [[NSDecimalNumber alloc] initWithInt:event.reward];
+    NSDecimalNumber *reward = [[NSDecimalNumber alloc] initWithInteger:event.reward];
     GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:reward];
     [strongDelegate didRewardUserWithReward:gadReward];
 }

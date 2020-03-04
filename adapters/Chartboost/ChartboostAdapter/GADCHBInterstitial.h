@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLocation:(NSString *)location
                        mediation:(CHBMediation *)mediation
                   networkAdapter:(id<GADMAdNetworkAdapter>)networkAdapter
-                             connector:(id<GADMAdNetworkConnector>)connector;
+                       connector:(id<GADMAdNetworkConnector>)connector;
 - (void)destroy;
 - (void)load;
 - (void)showFromViewController:(nullable UIViewController *)viewController;
