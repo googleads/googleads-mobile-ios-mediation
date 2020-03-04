@@ -43,13 +43,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		458DB68322F4B7A8008D000B /* GADMChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67422F4B7A3008D000B /* GADMChartboostError.m */; };
+		458DB68322F4B7A8008D000B /* GADChartboostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67422F4B7A3008D000B /* GADChartboostError.m */; };
 		458DB68422F4B7A8008D000B /* GADChartboostSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67522F4B7A4008D000B /* GADChartboostSingleton.h */; };
 		458DB68822F4B7A8008D000B /* GADMAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67922F4B7A5008D000B /* GADMAdapterChartboost.h */; };
 		458DB68A22F4B7A8008D000B /* GADMAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */; };
 		458DB68B22F4B7A8008D000B /* GADMediationAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67C22F4B7A6008D000B /* GADMediationAdapterChartboost.h */; };
 		458DB68D22F4B7A8008D000B /* GADMAdapterChartboostConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67E22F4B7A7008D000B /* GADMAdapterChartboostConstants.h */; };
-		458DB68E22F4B7A8008D000B /* GADMChartboostError.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67F22F4B7A7008D000B /* GADMChartboostError.h */; };
+		458DB68E22F4B7A8008D000B /* GADChartboostError.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67F22F4B7A7008D000B /* GADChartboostError.h */; };
 		458DB68F22F4B7A8008D000B /* GADChartboostSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB68022F4B7A8008D000B /* GADChartboostSingleton.m */; };
 		458DB69022F4B7A8008D000B /* GADMediationAdapterChartboost.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */; };
 		458DB69122F4B7A8008D000B /* GADMChartboostExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DB68222F4B7A8008D000B /* GADMChartboostExtras.m */; };
@@ -86,13 +86,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		458DB67422F4B7A3008D000B /* GADMChartboostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostError.m; sourceTree = "<group>"; };
+		458DB67422F4B7A3008D000B /* GADChartboostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADChartboostError.m; sourceTree = "<group>"; };
 		458DB67522F4B7A4008D000B /* GADChartboostSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADChartboostSingleton.h; sourceTree = "<group>"; };
 		458DB67922F4B7A5008D000B /* GADMAdapterChartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboost.h; sourceTree = "<group>"; };
 		458DB67B22F4B7A6008D000B /* GADMAdapterChartboost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterChartboost.m; sourceTree = "<group>"; };
 		458DB67C22F4B7A6008D000B /* GADMediationAdapterChartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterChartboost.h; sourceTree = "<group>"; };
 		458DB67E22F4B7A7008D000B /* GADMAdapterChartboostConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostConstants.h; sourceTree = "<group>"; };
-		458DB67F22F4B7A7008D000B /* GADMChartboostError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMChartboostError.h; sourceTree = "<group>"; };
+		458DB67F22F4B7A7008D000B /* GADChartboostError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADChartboostError.h; sourceTree = "<group>"; };
 		458DB68022F4B7A8008D000B /* GADChartboostSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADChartboostSingleton.m; sourceTree = "<group>"; };
 		458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterChartboost.m; sourceTree = "<group>"; };
 		458DB68222F4B7A8008D000B /* GADMChartboostExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostExtras.m; sourceTree = "<group>"; };
@@ -144,8 +144,8 @@
 				EA2AF0B8240EAA3A00919957 /* GADCHBRewarded.m */,
 				EA92C08E240FD3DC0076B177 /* GADCHBBanner.h */,
 				EA92C08F240FD3DC0076B177 /* GADCHBBanner.m */,
-				458DB67F22F4B7A7008D000B /* GADMChartboostError.h */,
-				458DB67422F4B7A3008D000B /* GADMChartboostError.m */,
+				458DB67F22F4B7A7008D000B /* GADChartboostError.h */,
+				458DB67422F4B7A3008D000B /* GADChartboostError.m */,
 			);
 			path = ChartboostAdapter;
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 				458DB68822F4B7A8008D000B /* GADMAdapterChartboost.h in Headers */,
 				EA92C090240FD3DC0076B177 /* GADCHBBanner.h in Headers */,
 				EA0CFBB5240D6F0100EC615D /* GADCHBInterstitial.h in Headers */,
-				458DB68E22F4B7A8008D000B /* GADMChartboostError.h in Headers */,
+				458DB68E22F4B7A8008D000B /* GADChartboostError.h in Headers */,
 				458DB68422F4B7A8008D000B /* GADChartboostSingleton.h in Headers */,
 				7D386A731DDA4BD500744A5F /* ChartboostAdapter.h in Headers */,
 				458DB68B22F4B7A8008D000B /* GADMediationAdapterChartboost.h in Headers */,
@@ -346,7 +346,7 @@
 			files = (
 				EA92C091240FD3DC0076B177 /* GADCHBBanner.m in Sources */,
 				458DB69122F4B7A8008D000B /* GADMChartboostExtras.m in Sources */,
-				458DB68322F4B7A8008D000B /* GADMChartboostError.m in Sources */,
+				458DB68322F4B7A8008D000B /* GADChartboostError.m in Sources */,
 				458DB68A22F4B7A8008D000B /* GADMAdapterChartboost.m in Sources */,
 				458DB68F22F4B7A8008D000B /* GADChartboostSingleton.m in Sources */,
 				EA0CFBB6240D6F0100EC615D /* GADCHBInterstitial.m in Sources */,

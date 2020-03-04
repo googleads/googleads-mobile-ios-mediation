@@ -14,7 +14,7 @@
 
 #import "GADChartboostSingleton.h"
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 
 @implementation GADChartboostSingleton
 

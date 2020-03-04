@@ -7,7 +7,7 @@
 //
 
 #import "GADCHBRewarded.h"
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 
 @interface GADCHBRewarded () <CHBRewardedDelegate>
 @end

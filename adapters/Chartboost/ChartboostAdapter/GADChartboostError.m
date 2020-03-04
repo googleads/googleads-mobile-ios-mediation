@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 #import "GADMAdapterChartboostConstants.h"
 
 GADErrorCode GADErrorCodeForCHBCacheErrorCode(CHBCacheErrorCode code);

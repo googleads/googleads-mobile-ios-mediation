@@ -7,7 +7,7 @@
 //
 
 #import "GADCHBInterstitial.h"
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 
 @interface GADCHBInterstitial () <CHBInterstitialDelegate>
 @end

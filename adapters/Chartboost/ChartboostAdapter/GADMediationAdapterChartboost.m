@@ -16,7 +16,7 @@
 #import "GADMAdapterChartboostConstants.h"
 #import "GADChartboostSingleton.h"
 #import "GADMChartboostExtras.h"
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 #import "GADCHBRewarded.h"
 #if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost.h>

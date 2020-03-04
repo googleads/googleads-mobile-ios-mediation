@@ -7,7 +7,7 @@
 //
 
 #import "GADCHBBanner.h"
-#import "GADMChartboostError.h"
+#import "GADChartboostError.h"
 
 @interface GADCHBBanner () <CHBBannerDelegate>
 @end
