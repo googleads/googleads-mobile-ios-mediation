@@ -41,7 +41,7 @@
         appID = ID;
         appSignature = signature;
       } else {
-        NSLog(@"Found multiple app IDs: %@. "
+        NSLog(@"Found multiple Chartbost app IDs: %@. "
               @"Please remove any app IDs you are not using from the AdMob UI.",
               configuration.credentials);
         NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
