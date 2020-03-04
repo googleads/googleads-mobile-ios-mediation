@@ -44,7 +44,6 @@
   }];
 }
 
-// TODO: Will GADMAdNetworkConnector networkExtras always be nil if not set by the publisher using registerAdNetworkExtras:?
 - (void)setFrameworkWithExtras:(GADMChartboostExtras *)extras {
   if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
     [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
