@@ -24,10 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
-@interface GADMAdapterChartboostSingleton : NSObject
+@interface GADChartboostSingleton : NSObject
 
 /// Shared instance.
-@property(class, atomic, readonly) GADMAdapterChartboostSingleton *sharedInstance;
+@property(class, atomic, readonly) GADChartboostSingleton *sharedInstance;
 
 /// Starts the Chartboost SDK.
 - (void)startWithAppId:(nullable NSString *)appId
@@ -41,3 +41,9 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 @end
 
 NS_ASSUME_NONNULL_END
+
+// TODO: Review all imports in all files
+// TODO: NS_ASSUME_NONNULL in all files
+// TODO: Make sure lines are not too long in all files
+// TODO: Solve all project warnings
+// TODO: Solve all doubts -> leave as comments in code

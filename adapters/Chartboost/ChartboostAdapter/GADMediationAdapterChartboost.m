@@ -14,7 +14,7 @@
 
 #import "GADMediationAdapterChartboost.h"
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
+#import "GADChartboostSingleton.h"
 #import "GADMChartboostExtras.h"
 #import "GADMChartboostError.h"
 #import "GADCHBRewarded.h"
@@ -49,10 +49,10 @@
       }
     }
   }
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:completionHandler];
+  GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
+  [chartboost startWithAppId:appID
+                appSignature:appSignature
+           completionHandler:completionHandler];
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -88,10 +88,10 @@
 
 - (void)initializeChartboostWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                                      completion:(ChartboostInitCompletionHandler)completion {
-  GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
-  [sharedInstance startWithAppId:adConfiguration.credentials.settings[kGADMAdapterChartboostAppID]
-                    appSignature:adConfiguration.credentials.settings[kGADMAdapterChartboostAppSignature]
-               completionHandler:completion];
+  GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
+  [chartboost startWithAppId:adConfiguration.credentials.settings[kGADMAdapterChartboostAppID]
+                appSignature:adConfiguration.credentials.settings[kGADMAdapterChartboostAppSignature]
+           completionHandler:completion];
 }
 
 - (NSString *)locationFromAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration {
@@ -120,14 +120,15 @@
       return;
     }
     
-    GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
+    GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
+    [chartboost setFrameworkWithExtras:[adConfiguration extras]];
+    
     [strongSelf->_rewarded destroy];
     strongSelf->_rewarded =
     [[GADCHBRewarded alloc] initWithLocation:[strongSelf locationFromAdConfiguration:adConfiguration]
                                    mediation:[chartboost mediation]
                              adConfiguration:adConfiguration
                            completionHandler:completionHandler];
-    [chartboost setFrameworkWithExtras:[adConfiguration extras]];
     [strongSelf->_rewarded load];
   }];
 }

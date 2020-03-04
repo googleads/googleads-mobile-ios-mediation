@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterChartboostSingleton.h"
+#import "GADChartboostSingleton.h"
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMChartboostError.h"
 
-@implementation GADMAdapterChartboostSingleton
+@implementation GADChartboostSingleton
 
-+ (nonnull GADMAdapterChartboostSingleton *)sharedInstance {
-  static GADMAdapterChartboostSingleton *sharedInstance = nil;
++ (nonnull GADChartboostSingleton *)sharedInstance {
+  static GADChartboostSingleton *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[GADMAdapterChartboostSingleton alloc] init];
+    sharedInstance = [[GADChartboostSingleton alloc] init];
   });
   return sharedInstance;
 }

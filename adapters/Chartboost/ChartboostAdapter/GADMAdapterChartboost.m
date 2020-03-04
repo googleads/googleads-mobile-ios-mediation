@@ -14,7 +14,7 @@
 
 #import "GADMAdapterChartboost.h"
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
+#import "GADChartboostSingleton.h"
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 #import "GADCHBInterstitial.h"
@@ -78,7 +78,7 @@
       [strongConnector adapter:strongSelf didFailAd:error];
       return;
     }
-    GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
+    GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[strongConnector networkExtras]];
     // TODO: Only one ad at the same time? (same for rewarded)
     [strongSelf->_interstitial destroy];
@@ -113,7 +113,7 @@
       [strongConnector adapter:strongSelf didFailAd:error];
       return;
     }
-    GADMAdapterChartboostSingleton *chartboost = GADMAdapterChartboostSingleton.sharedInstance;
+    GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
     [chartboost setFrameworkWithExtras:[strongConnector networkExtras]];
     
     // CHBBanner is a UIView subclass so it needs to be used on the main thread.
@@ -140,7 +140,7 @@
 
 - (void)initializeChartboost:(ChartboostInitCompletionHandler)completion {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  GADMAdapterChartboostSingleton *chartboost = [GADMAdapterChartboostSingleton sharedInstance];
+  GADChartboostSingleton *chartboost = [GADChartboostSingleton sharedInstance];
   [chartboost startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
                 appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
            completionHandler:completion];
