@@ -36,13 +36,9 @@
   }
 
   if (!credentials.count) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterChartboostErrorDomain
-                   code:kGADErrorMediationDataError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Chartboost mediation configurations did not contain "
-                                             @"a valid appID and app signature."
-               }];
+    NSError *error = GADChartboostError(kGADErrorMediationDataError,
+                                        @"Chartboost mediation configurations did not contain a"
+                                        @"valid appID and app signature.");
     completionHandler(error);
     return;
   }
@@ -81,22 +77,24 @@
   return [GADMChartboostExtras class];
 }
 
-+ (GADVersionNumber)version {
-  NSString *versionString = kGADMAdapterChartboostVersion;
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
-
-  GADVersionNumber version = {0};
-  if (versionComponents.count >= 4) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion =
++ (GADVersionNumber)version
+{
+    NSString *versionString = kGADMAdapterChartboostVersion;
+    NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+    
+    GADVersionNumber version = {0};
+    if (versionComponents.count >= 4) {
+        version.majorVersion = [versionComponents[0] integerValue];
+        version.minorVersion = [versionComponents[1] integerValue];
+        version.patchVersion =
         [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
-  }
-  return version;
+    }
+    return version;
 }
 
 - (void)initializeChartboostWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                                     completion:(ChartboostInitCompletionHandler)completion {
+                                     completion:(ChartboostInitCompletionHandler)completion
+{
     GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
     [sharedInstance startWithAppId:adConfiguration.credentials.settings[kGADMAdapterChartboostAppID]
                       appSignature:adConfiguration.credentials.settings[kGADMAdapterChartboostAppSignature]
@@ -124,7 +122,8 @@
         }
         GADMediationAdapterChartboost *strongSelf = weakSelf;
         if (!strongSelf) {
-            NSError *error = GADChartboostErrorWithDescription(@"GADMediationAdapterChartboost deallocated before rewarded ad could be loaded");
+            NSError *error = GADChartboostError(kGADErrorMediationAdapterError,
+                                                @"GADMediationAdapterChartboost deallocated before rewarded ad could be loaded");
             completionHandler(nil, error);
             return;
         }

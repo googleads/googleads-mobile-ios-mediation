@@ -65,7 +65,7 @@
     appSignature = [appSignature stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
     if (!appId || !appSignature) {
-        completionHandler(GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil."));
+        completionHandler(GADChartboostError(kGADErrorMediationDataError, @"App ID & App Signature cannot be nil."));
         return;
     }
     
@@ -117,7 +117,7 @@
     }
   } else {
     _initState = GADMAdapterChartboostUninitialized;
-    NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+    NSError *error = GADChartboostError(0, @"Failed to initialize Chartboost SDK.");
     for (ChartboostInitCompletionHandler completionHandler in _completionHandlers) {
       completionHandler(error);
     }

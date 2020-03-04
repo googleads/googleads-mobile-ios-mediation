@@ -13,81 +13,39 @@
 // limitations under the License.
 
 #import "GADMChartboostError.h"
+#import "GADMAdapterChartboostConstants.h"
 
-NSError *GADChartboostErrorWithDescription(NSString *description) {
-  description = [description copy];
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.chartboost"
-                                       code:0
-                                   userInfo:userInfo];
-  return error;
-}
+GADErrorCode GADErrorCodeForCHBCacheErrorCode(CHBCacheErrorCode code);
 
-NSError *adRequestErrorTypeForCBLoadError(CBLoadError error) {
-  NSString *description = nil;
-  switch (error) {
-    case CBLoadErrorInternal:
-      description = @"Internal error.";
-      break;
-    case CBLoadErrorInternetUnavailable:
-      description = @"Internet unavailable.";
-      break;
-    case CBLoadErrorTooManyConnections:
-      description = @"Too many connections.";
-      break;
-    case CBLoadErrorWrongOrientation:
-      description = @"Wrong orientation.";
-      break;
-    case CBLoadErrorFirstSessionInterstitialsDisabled:
-      description = @"Interstitial disabled.";
-      break;
-    case CBLoadErrorNetworkFailure:
-      description = @"Network failure.";
-      break;
-    case CBLoadErrorNoAdFound:
-      description = @"No ad found.";
-      break;
-    case CBLoadErrorSessionNotStarted:
-      description = @"Session not started.";
-      break;
-    case CBLoadErrorImpressionAlreadyVisible:
-      description = @"Impression already visible.";
-      break;
-    case CBLoadErrorUserCancellation:
-      description = @"User cancellation.";
-      break;
-    case CBLoadErrorNoLocationFound:
-      description = @"No location found.";
-      break;
-    case CBLoadErrorAssetDownloadFailure:
-      description = @"Error downloading asset.";
-      break;
-    case CBLoadErrorPrefetchingIncomplete:
-      description = @"Video prefetching is not finished.";
-      break;
-    case CBLoadErrorWebViewScriptError:
-      description = @"Web view script error.";
-      break;
-    case CBLoadErrorInternetUnavailableAtShow:
-      description = @"Internet unavailable while presenting.";
-      break;
-    default:
-      description = @"No inventory.";
-      break;
-  }
-
-  return GADChartboostErrorWithDescription(description);
+NSError *GADChartboostError(GADErrorCode code, NSString *description) {
+  description = description ? [description copy] : @"";
+  return [NSError errorWithDomain:kGADMAdapterChartboostErrorDomain
+                             code:0
+                         userInfo:@{NSLocalizedDescriptionKey : description,
+                                    NSLocalizedFailureReasonErrorKey : description}];
 }
 
 NSError *NSErrorForCHBCacheError(CHBCacheError *error) {
-  return GADChartboostErrorWithDescription([error description]);
+  return GADChartboostError(GADErrorCodeForCHBCacheErrorCode(error.code), [error description]);
 }
 
 NSError *NSErrorForCHBShowError(CHBShowError *error) {
-  return GADChartboostErrorWithDescription([error description]);
+  return GADChartboostError(0, [error description]);
 }
 
 NSError *NSErrorForCHBClickError(CHBClickError *error) {
-  return GADChartboostErrorWithDescription([error description]);
+  return GADChartboostError(0, [error description]);
+}
+
+GADErrorCode GADErrorCodeForCHBCacheErrorCode(CHBCacheErrorCode code) {
+  switch (code) {
+    case CHBCacheErrorCodeInternal: return kGADErrorInternalError;
+    case CHBCacheErrorCodeInternetUnavailable: return kGADErrorNetworkError;
+    case CHBCacheErrorCodeNetworkFailure: return kGADErrorNetworkError;
+    case CHBCacheErrorCodeNoAdFound: return kGADErrorNoFill;
+    case CHBCacheErrorCodeSessionNotStarted: return kGADErrorMediationAdapterError;
+    case CHBCacheErrorCodeAssetDownloadFailure: return kGADErrorMediationDataError;
+    case CHBCacheErrorCodePublisherDisabled: return kGADErrorInvalidRequest;
+  }
+  return kGADErrorInvalidRequest;
 }

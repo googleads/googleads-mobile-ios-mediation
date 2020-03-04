@@ -13,15 +13,11 @@
 // limitations under the License.
 
 #import <Chartboost/CHBAdDelegate.h>
-#import <Chartboost/Chartboost.h>
-#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
-/// set to |description|.
-NSError *GADChartboostErrorWithDescription(NSString *description);
-
-/// Returns an NSError with description acquired from the CBLoadError.
-NSError *adRequestErrorTypeForCBLoadError(CBLoadError error);
+/// set to |description|, and error code set to |code|.
+NSError *GADChartboostError(GADErrorCode code, NSString *description);
 
 /// Returns an NSError with description acquired from the CHBCacheError.
 NSError *NSErrorForCHBCacheError(CHBCacheError *error);
