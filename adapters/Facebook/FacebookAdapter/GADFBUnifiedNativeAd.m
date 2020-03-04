@@ -140,7 +140,7 @@
 }
 
 - (CGFloat)mediaContentAspectRatio{
-  return _mediaView.aspectRatio;
+  return _nativeAd.aspectRatio;
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
