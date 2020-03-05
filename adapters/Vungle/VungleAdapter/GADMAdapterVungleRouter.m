@@ -380,7 +380,11 @@ const CGSize kVNGBannerShortSize = {300, 50};
   if ([placementID isEqualToString:_bannerPlacementID] || !_bannerPlacementID) {
     _isBannerPresenting = YES;
     if (!_bannerPlacementID) {
-      _bannerPlacementID = placementID;
+      id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
+      // The delegate is not Interstitial or Rewarded Video Ad
+      if (!delegate) {
+        _bannerPlacementID = placementID;
+      }
     }
   }
 }
