@@ -18,6 +18,8 @@
 #import "GADUnityError.h"
 
 @interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
+    // The completion handler to call when the ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
 
@@ -32,10 +34,13 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
+    
+  NSString *_uuid;
+    
+  UADSMetaData *_metaData;
 }
 
-// The completion handler to call when the ad loading succeeds or fails.
-@property (nonatomic, copy)GADMediationRewardedLoadCompletionHandler adLoadCompletionHandler;
+
 @end
 
 @implementation GADMAdapterUnityRewardedAd
@@ -47,6 +52,14 @@
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
+    
+    _uuid = [[NSUUID UUID] UUIDString];
+      
+    _metaData = [[UADSMetaData alloc] init];
+      
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData setValue:@"create-adapter" forKey:_uuid];
+    [_metaData commit];
   }
   return self;
 }
@@ -57,7 +70,7 @@
   NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
 
   if (!_gameID || !_placementID) {
-    if (_adLoadCompletionHandler) {
+      if (_adLoadCompletionHandler) {
       NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
       _adLoadCompletionHandler(nil, error);
       _adLoadCompletionHandler = nil;
@@ -78,25 +91,36 @@
     return;
   }
   GADMAdapterUnityRewardedAd *__weak weakSelf = self;
-    
-  UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-    if(error) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-      if(weakSelf) {
-        weakSelf.adLoadCompletionHandler(nil, errorWithDescription);
-      }
-      return;
-    }
-    [UnityAds addDelegate:self];
-    [UnityAds load:[self getPlacementID]];
-  };
+    UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
+        GADMAdapterUnityRewardedAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
+        
+        if (error) {
+            NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+            strongSelf->_adLoadCompletionHandler(nil, errorWithDescription);
+            return;
+        }
+        [UnityAds addDelegate:strongSelf];
+        [UnityAds load:[strongSelf getPlacementID]];
+    };
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
                                                        completeBlock:completeBlock];
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData setValue:@"load-rewarded" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
+  [_metaData commit];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [UnityAds show:viewController placementId:_placementID];
+    
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData setValue:@"show-rewarded" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
+  [_metaData commit];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods

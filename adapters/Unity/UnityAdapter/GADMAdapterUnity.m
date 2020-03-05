@@ -32,6 +32,10 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
+  
+  NSString *_uuid;
+
+  UADSMetaData *_metaData;
 }
 
 @end
@@ -67,6 +71,13 @@
   self = [super init];
   if (self) {
     _networkConnector = connector;
+    _uuid = [[NSUUID UUID] UUIDString];
+    
+    _metaData = [[UADSMetaData alloc] init];
+    
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData setValue:@"create-adapter" forKey:_uuid];
+    [_metaData commit];
   }
   return self;
 }
@@ -95,10 +106,20 @@
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
                                                        completeBlock:completeBlock];
+    
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData setValue:@"load-interstitial" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
+  [_metaData commit];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
     [UnityAds show:rootViewController placementId:_placementID];
+    
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData setValue:@"show-interstitial" forKey:_uuid];
+    [_metaData setValue:_placementID forKey:_uuid];
+    [_metaData commit];
 }
 
 #pragma mark Banner Methods
