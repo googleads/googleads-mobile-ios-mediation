@@ -34,10 +34,6 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
-    
-  NSString *_uuid;
-    
-  UADSMetaData *_metaData;
 }
 
 
@@ -52,14 +48,6 @@
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
-    
-    _uuid = [[NSUUID UUID] UUIDString];
-      
-    _metaData = [[UADSMetaData alloc] init];
-      
-    [_metaData setCategory:@"mediation_adapter"];
-    [_metaData setValue:@"create-adapter" forKey:_uuid];
-    [_metaData commit];
   }
   return self;
 }
@@ -108,19 +96,10 @@
     
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
                                                        completeBlock:completeBlock];
-  [_metaData setCategory:@"mediation_adapter"];
-  [_metaData setValue:@"load-rewarded" forKey:_uuid];
-  [_metaData setValue:_placementID forKey:_uuid];
-  [_metaData commit];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [UnityAds show:viewController placementId:_placementID];
-    
-  [_metaData setCategory:@"mediation_adapter"];
-  [_metaData setValue:@"show-rewarded" forKey:_uuid];
-  [_metaData setValue:_placementID forKey:_uuid];
-  [_metaData commit];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
