@@ -30,12 +30,23 @@ extern const CGSize kVNGBannerShortSize;
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
+- (void)removeBannerDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
                       adapterType:(GADMAdapterVungleAdType)adapterType;
 - (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
                                  delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
                                    extras:(nullable VungleAdNetworkExtras *)extras
                            forPlacementID:(nonnull NSString *)placementID;
-- (void)completeBannerAdViewForPlacementID:(nullable NSString *)placementID;
-- (BOOL)canRequestBannerAdForPlacementID:(nonnull NSString *)placmentID;
+- (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
+- (BOOL)canRequestBannerAdForPlacementID:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
+@end
+
+@interface GADMAdapterVungleBannerRequest : NSObject <NSCopying>
+
+- (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
+                         uniquePubRequestID:(nonnull NSString *)uniquePubRequestID;
+
+@property(nonatomic, copy, readonly) NSString *_Nonnull placementID;
+@property(nonatomic, copy, readonly) NSString *_Nonnull uniquePubRequestID;
+
 @end

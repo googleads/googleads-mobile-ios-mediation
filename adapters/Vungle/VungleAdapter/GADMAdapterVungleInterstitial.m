@@ -88,9 +88,11 @@
     return;
   }
 
+  VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
-                                                  networkExtras:[strongConnector networkExtras]];
-
+                                                  networkExtras:networkExtras];
+  self.bannerRequest = [[GADMAdapterVungleBannerRequest alloc] initWithPlacementID:self.desiredPlacement ?: @""
+                                                                uniquePubRequestID:networkExtras.UUID ?: @""];
   if (!self.desiredPlacement) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
@@ -101,7 +103,7 @@
   // Check if a banner or MREC ad has been initiated with the samne PlacementID
   // or not. (Vungle supports 4 types of banner currently.)
   if (![[GADMAdapterVungleRouter sharedInstance]
-          canRequestBannerAdForPlacementID:self.desiredPlacement]) {
+          canRequestBannerAdForPlacementID:self.bannerRequest]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"A banner ad type has already been "
                                         @"instantiated. Multiple banner ads are not "
@@ -176,10 +178,12 @@
     _didBannerFinishPresenting = YES;
 
     [[GADMAdapterVungleRouter sharedInstance]
-        completeBannerAdViewForPlacementID:self.desiredPlacement];
+        completeBannerAdViewForPlacementID:self];
+    [[GADMAdapterVungleRouter sharedInstance] removeBannerDelegate:self];
+  } else {
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
   _connector = nil;
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -239,6 +243,7 @@
 @synthesize desiredPlacement;
 @synthesize adapterAdType;
 @synthesize bannerState;
+@synthesize bannerRequest;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
