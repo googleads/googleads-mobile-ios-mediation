@@ -141,9 +141,9 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 
   dispatch_async(_lockQueue, ^{
     if ([GADMAdapterMoPubInterstitialDelegates objectForKey:publisherID]) {
-      NSError *adapterError = GADMAdapterMoPubErrorWithCodeAndDescription(
-          kGADErrorInvalidRequest, @"Unable to request a second ad using the same publisher ID "
-                                   @"while the first ad is still active.");
+      NSError *adapterError = GADMoPubErrorWithCodeAndDescription(
+          GADMoPubErrorAdAlreadyLoaded, @"Unable to request a second ad using the same publisher "
+                                        @"ID while the first ad is still active.");
       [strongConnector adapter:self didFailAd:adapterError];
       return;
     } else {
@@ -181,8 +181,8 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  NSError *adapterError =
-      GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorNoFill, @"Mopub failed to fill the ad.");
+  NSError *adapterError = GADMoPubErrorWithCodeAndDescription(GADMoPubErrorSDKFailureCallback,
+                                                              @"MoPub failed to load the ad.");
   dispatch_async(_lockQueue, ^{
     GADMAdapterMoPubMapTableRemoveObjectForKey(GADMAdapterMoPubInterstitialDelegates,
                                                interstitial.adUnitId);
@@ -323,8 +323,8 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
     }
     id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
     if (!imagesDictionary[kAdIconImageKey] || !imagesDictionary[kAdMainImageKey]) {
-      NSError *adapterError = GADMAdapterMoPubErrorWithCodeAndDescription(
-          kGADErrorNetworkError, @"Failed to download images.");
+      NSError *adapterError = GADMoPubErrorWithCodeAndDescription(GADMoPubErrorLoadingImages,
+                                                                  @"Failed to download images.");
       [strongConnector adapter:strongSelf didFailAd:adapterError];
       return;
     }
@@ -357,11 +357,11 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 - (void)preCacheNativeImagesWithCompletionHandler:
     (void (^)(NSDictionary<NSString *, GADNativeAdImage *> *_Nullable imagesDictionary))
         completionHandler {
-  NSArray<NSString *> *keyArray = @[kAdIconImageKey, kAdMainImageKey];
+  NSArray<NSString *> *keyArray = @[ kAdIconImageKey, kAdMainImageKey ];
   NSDictionary<NSString *, NSURL *> *imageURLDictionary = [self imageURLsForKeys:keyArray];
   if (!imageURLDictionary[kAdMainImageKey] || !imageURLDictionary[kAdIconImageKey]) {
-    NSError *adapterError = GADMAdapterMoPubErrorWithCodeAndDescription(
-        kGADErrorReceivedInvalidResponse, @"Can't find the required MoPub native ad image assets.");
+    NSError *adapterError = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorLoadingImages, @"Can't find the required MoPub native ad image assets.");
     [_connector adapter:self didFailAd:adapterError];
     return;
   }
