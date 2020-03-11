@@ -1,5 +1,12 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Version 5.10.0.1
+- Added standardized adapter error codes and messages.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.56.0.
+- MoPub SDK version 5.10.0.
+
 #### Version 5.10.0.0
 - Verified compatibility with MoPub SDK 5.10.0.
 
