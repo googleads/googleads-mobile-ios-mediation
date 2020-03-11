@@ -80,10 +80,9 @@
   [MPRewardedVideo setDelegate:self forAdUnitId:adUnitID];
 
   if ([self getDelegateForAdUnitID:adUnitID]) {
-    NSString *description = @"MoPub does not support requesting a 2nd ad for the same ad unit ID "
-                            @"while the first request is in progress.";
-    NSError *error =
-        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorAdAlreadyLoaded, @"MoPub does not support requesting a 2nd ad for the same ad "
+                                      @"unit ID while the first request is in progress.");
     return error;
   } else {
     [self addDelegate:delegate forAdUnitID:adUnitID];

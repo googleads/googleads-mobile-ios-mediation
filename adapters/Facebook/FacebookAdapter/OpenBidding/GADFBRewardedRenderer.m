@@ -68,7 +68,8 @@
       [GADMediationAdapterFacebook getPlacementIDFromCredentials:adConfiguration.credentials];
 
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -78,7 +79,7 @@
   if (!_rewardedAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBRewardedVideoAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -159,7 +160,7 @@
   } else {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBRewardedVideoAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdNotValid, description);
     [strongDelegate didFailToPresentWithError:error];
   }
 }

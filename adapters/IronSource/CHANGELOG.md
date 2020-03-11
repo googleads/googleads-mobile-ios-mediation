@@ -2,6 +2,7 @@
 
 #### Version 6.14.0.0
 - Verified compatibility with ironSource SDK version 6.14.0.
+- Removed support for the i386 architecture.
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.56.0.

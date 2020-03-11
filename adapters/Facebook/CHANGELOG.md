@@ -1,5 +1,19 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Version 5.7.1.2
+- Added standardized adapter error codes and messages.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.56.0.
+- FAN SDK version 5.7.1.
+
+#### Version 5.7.1.1
+- Removed support for the i386 architecture.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.56.0.
+- FAN SDK version 5.7.1.
+
 #### Version 5.7.1.0
 - Verified compatibility with FAN SDK 5.7.1.
 - Added support for Facebook native banner ads when using open bidding.

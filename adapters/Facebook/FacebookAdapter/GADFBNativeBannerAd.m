@@ -66,7 +66,8 @@
   // ID is nil.
   NSString *placementID = [strongConnector publisherId];
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -78,7 +79,7 @@
   if (!_nativeBannerAd) {
     NSString *description = [[NSString alloc]
         initWithFormat:@"Failed to initialize %@.", NSStringFromClass([FBNativeBannerAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }

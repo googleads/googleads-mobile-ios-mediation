@@ -15,6 +15,21 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADFBErrorCode) {
+  /// Missing server parameters.
+  GADFBErrorInvalidRequest = 101,
+  /// Banner Size Mismatch.
+  GADFBErrorBannerSizeMismatch = 102,
+  /// The Facebook ad object is nil after calling its initializer.
+  GADFBErrorAdObjectNil = 103,
+  /// The Facebook ad object is not valid (e.g. when trying to show a full screen ad).
+  GADFBErrorAdNotValid = 104,
+  /// Root view controller is nil.
+  GADFBErrorRootViewControllerNil = 105,
+  /// The Facebook SDK returned an initialization error.
+  GADFBErrorInitializationFailure = 106
+};
+
 @interface GADMediationAdapterFacebook : NSObject <GADRTBAdapter>
 
 + (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials;
