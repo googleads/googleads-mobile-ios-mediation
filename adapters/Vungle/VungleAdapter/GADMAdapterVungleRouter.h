@@ -32,7 +32,6 @@ extern const CGSize kVNGBannerShortSize;
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
-- (void)removeBannerDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
                       adapterType:(GADMAdapterVungleAdType)adapterType;
 - (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView

@@ -180,11 +180,9 @@
 
     [[GADMAdapterVungleRouter sharedInstance]
         completeBannerAdViewForPlacementID:self];
-    [[GADMAdapterVungleRouter sharedInstance] removeBannerDelegate:self];
-  } else {
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
   _connector = nil;
+  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -228,7 +226,7 @@
     return;
   }
 
-  self.bannerState = BannerRouterDelegateStatePlaying;
+  self.bannerState = BannerRouterDelegateStateWillPlay;
   [_connector adapter:self didReceiveAdView:bannerView];
 }
 

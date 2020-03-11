@@ -39,6 +39,6 @@
 
 @property(nonatomic, copy) NSNumber *_Nullable orientations;
 
-@property(nonatomic, copy, readonly) NSString *_Nonnull UUID;
+@property(nonatomic, copy) NSString *_Nonnull UUID;
 
 @end
