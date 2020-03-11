@@ -2,17 +2,15 @@
 
 #### Version 6.5.2.0
 - Verified compatibility with Vungle SDK 6.5.2.
+- Added support for multiple Banners with same placementID.
 - Added support for Smart and Adaptive Banner ads.
-
-#### Version 6.5.1.1
-- Verified compatibility with Vungle SDK 6.5.1.
-- Added support for banner (320x50, 300x50, 728x90) ads.
+- Added support for Banner (320x50, 300x50, 728x90) ads.
 - Added video orientation option when play ads.
-- Fix a bug where failed to call report_ad after the first refresh
+- Fix a bug where failed to call report_ad after the first refresh.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.53.1
-- Vungle SDK version 6.5.1.
+- Google Mobile Ads SDK version 7.56.0.
+- Vungle SDK version 6.5.2.
 
 #### Version 6.4.6.0
 - Verified compatibility with Vungle SDK 6.4.6.
@@ -21,7 +19,7 @@ Build and tested with
 - Removed callbacks to adapterWillLeaveApplication, which were previously not invoked at the correct time.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.52.0
+- Google Mobile Ads SDK version 7.52.0.
 - Vungle SDK version 6.4.6.
 
 #### Version 6.3.2.3

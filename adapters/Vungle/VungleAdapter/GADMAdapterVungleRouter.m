@@ -16,6 +16,7 @@
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouterConsent.h"
+#import "GADMAdapterVungleBannerRequest.h"
 
 const CGSize kVNGBannerShortSize = {300, 50};
 
@@ -501,67 +502,6 @@ const CGSize kVNGBannerShortSize = {300, 50};
 
 - (void)vungleSDKFailedToInitializeWithError:(nonnull NSError *)error {
   [self initialized:false error:error];
-}
-
-@end
-
-@interface GADMAdapterVungleBannerRequest ()
-
-@property(nonatomic, copy) NSString *placementID;
-@property(nonatomic, copy) NSString *uniquePubRequestID;
-
-@end
-
-@implementation GADMAdapterVungleBannerRequest
-
-- (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
-                         uniquePubRequestID:(nonnull NSString *)uniquePubRequestID{
-  self = [super init];
-  if (self) {
-    _placementID = [placementID copy];
-    _uniquePubRequestID = [uniquePubRequestID copy];
-  }
-  return self;
-}
-
-- (nonnull instancetype)init {
-  return [self initWithPlacementID:@"" uniquePubRequestID:@""];
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-  GADMAdapterVungleBannerRequest *copy = [[[self class] alloc] init];
-  if (copy) {
-    copy.placementID = [self.placementID copyWithZone:zone];
-    copy.uniquePubRequestID = [self.uniquePubRequestID copyWithZone:zone];
-  }
-  return copy;
-}
-
-- (BOOL)isEqualToBannerRequest:(GADMAdapterVungleBannerRequest *)bannerRequest {
-  if (!bannerRequest) {
-    return NO;
-  }
-
-  BOOL haveEqualPlacementIDs = [self.placementID isEqualToString:bannerRequest.placementID];
-  BOOL haveEqualUniquePubRequestIDs = [self.uniquePubRequestID isEqualToString:bannerRequest.uniquePubRequestID];
-
-  return haveEqualPlacementIDs && haveEqualUniquePubRequestIDs;
-}
-
-- (BOOL)isEqual:(id)object {
-  if (self == object) {
-    return YES;
-  }
-
-  if (![object isKindOfClass:[GADMAdapterVungleBannerRequest class]]) {
-    return NO;
-  }
-
-  return [self isEqualToBannerRequest:(GADMAdapterVungleBannerRequest *)object];
-}
-
-- (NSUInteger)hash {
-  return [self.placementID hash] ^ [self.uniquePubRequestID hash];
 }
 
 @end

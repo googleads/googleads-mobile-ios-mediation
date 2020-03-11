@@ -17,6 +17,7 @@
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMAdapterVungleBannerRequest.h"
 
 @interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate>
 @end
