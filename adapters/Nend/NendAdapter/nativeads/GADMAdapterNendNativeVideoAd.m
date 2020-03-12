@@ -100,7 +100,12 @@
 - (void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADUnifiedNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController
 {
     self.nendMediaView.frame = view.frame;
+    [self.videoAd registerInteractionViews:clickableAssetViews.allValues];
     self.nendMediaView.videoAd = self.videoAd;
+}
+
+- (void)didUntrackView:(UIView *)view {
+    [self.videoAd unregisterInteractionViews];
 }
 
 - (BOOL)handlesUserImpressions
