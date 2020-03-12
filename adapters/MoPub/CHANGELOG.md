@@ -2,6 +2,7 @@
 
 #### Version 5.10.0.1
 - Added standardized adapter error codes and messages.
+- Removed support for the i386 architecture.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.56.0.
