@@ -35,21 +35,21 @@
 
 - (void)initializeMoPubSDKWithAdUnitID:(nonnull NSString *)adUnitID
                      completionHandler:(void (^_Nullable)(void))completionHandler {
-  if (MoPub.sharedInstance.isSdkInitialized) {
-    completionHandler();
-    return;
-  }
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (MoPub.sharedInstance.isSdkInitialized) {
+      completionHandler();
+      return;
+    }
 
-  MPMoPubConfiguration *sdkConfig =
-      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
+    MPMoPubConfiguration *sdkConfig =
+        [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
 
-  [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
-                                            completion:^{
-                                              NSLog(@"MoPub SDK initialized.");
-                                              dispatch_async(dispatch_get_main_queue(), ^{
+    [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
+                                              completion:^{
+                                                NSLog(@"MoPub SDK initialized.");
                                                 completionHandler();
-                                              });
-                                            }];
+                                              }];
+  });
 }
 
 - (void)addDelegate:(nonnull id<MPRewardedVideoDelegate>)adapterDelegate
