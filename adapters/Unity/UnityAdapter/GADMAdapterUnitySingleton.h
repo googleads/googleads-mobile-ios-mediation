@@ -23,6 +23,7 @@ typedef void (^UnitySingletonCompletion)(UnityAdsError *error, NSString *message
 @interface GADMAdapterUnitySingleton : NSObject
 
 @property (nonatomic, strong) UnitySingletonCompletion completeBlock;
+@property NSMutableSet<NSString*>* placementsInUse;
 
 /// Shared instance.
 + (instancetype)sharedInstance;

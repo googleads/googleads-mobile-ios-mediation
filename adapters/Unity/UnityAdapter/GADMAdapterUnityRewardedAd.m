@@ -58,8 +58,17 @@
   NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
 
   if (!_gameID || !_placementID) {
-      if (_adLoadCompletionHandler) {
+    if (_adLoadCompletionHandler) {
       NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+      _adLoadCompletionHandler(nil, error);
+      _adLoadCompletionHandler = nil;
+    }
+    return;
+  } else if ([[GADMAdapterUnitySingleton sharedInstance].placementsInUse containsObject:_placementID]) {
+    if (_adLoadCompletionHandler) {
+      NSString *errorMsg = @"An ad is already loading for placement ID: ";
+      errorMsg = [errorMsg stringByAppendingString:_placementID];
+      NSError *error = GADUnityErrorWithDescription(errorMsg);
       _adLoadCompletionHandler(nil, error);
       _adLoadCompletionHandler = nil;
     }
@@ -82,14 +91,18 @@
     UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
         GADMAdapterUnityRewardedAd *strongSelf = weakSelf;
         if (!strongSelf) {
+            [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:[self getPlacementID]];
             return;
         }
         
         if (error) {
             NSError *errorWithDescription = GADUnityErrorWithDescription(message);
             strongSelf->_adLoadCompletionHandler(nil, errorWithDescription);
+            [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:[self getPlacementID]];
             return;
         }
+        
+        [[GADMAdapterUnitySingleton sharedInstance].placementsInUse addObject:[self getPlacementID]];
         [UnityAds addDelegate:strongSelf];
         [UnityAds load:[strongSelf getPlacementID]];
     };
@@ -99,7 +112,12 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:_placementID];
   [UnityAds show:viewController placementId:_placementID];
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (strongDelegate) {
+    [strongDelegate willPresentFullScreenView];
+  }
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -115,26 +133,29 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
+    //do nothing.
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && [placementID isEqualToString:_placementID]) {
-    if (state == kUnityAdsFinishStateCompleted) {
-      [strongDelegate didEndVideo];
-      // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
-      // amount of 1. Publishers using this adapter should override the reward on the AdMob
-      // front-end.
-      GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+  if ([placementID isEqualToString:_placementID]) {
+    id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+    if (strongDelegate) {
+      if (state == kUnityAdsFinishStateCompleted) {
+        [strongDelegate didEndVideo];
+        // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+        // amount of 1. Publishers using this adapter should override the reward on the AdMob
+        // front-end.
+        GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                          rewardAmount:[NSDecimalNumber one]];
-      [strongDelegate didRewardUserWithReward:reward];
-    } else if (state == kUnityAdsFinishStateError) {
-      [strongDelegate willPresentFullScreenView];
-      NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
-      [strongDelegate didFailToPresentWithError:presentError];
+        [strongDelegate didRewardUserWithReward:reward];
+      } else if (state == kUnityAdsFinishStateError) {
+        NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
+        [strongDelegate didFailToPresentWithError:presentError];
+      }
+      [strongDelegate didDismissFullScreenView];
     }
-    [strongDelegate didDismissFullScreenView];
+    [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:placementID];
     [UnityAds removeDelegate:self];
   }
 }
@@ -142,7 +163,6 @@
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate && [placementID isEqualToString:_placementID]) {
-    [strongDelegate willPresentFullScreenView];
     [strongDelegate didStartVideo];
   }
 }
@@ -166,16 +186,15 @@
 - (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
-    if (newState == kUnityAdsPlacementStateNoFill) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
-      _adLoadCompletionHandler(nil, errorWithDescription);
-    } else if (newState == kUnityAdsPlacementStateNotAvailable) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_NOTAVAILABLE");
-      _adLoadCompletionHandler(nil, errorWithDescription);
-    } else if (newState == kUnityAdsPlacementStateDisabled) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_DISABLED");
-      _adLoadCompletionHandler(nil, errorWithDescription);
+  if ([placementID isEqualToString:_placementID]) {
+    if (newState == kUnityAdsPlacementStateNoFill || newState == kUnityAdsPlacementStateDisabled) {
+      if (_adLoadCompletionHandler) {
+        NSString *errorMsg = @"Failed to load: ";
+        errorMsg = [errorMsg stringByAppendingString:placementID];
+        NSError *errorWithDescription = GADUnityErrorWithDescription(errorMsg);
+        _adLoadCompletionHandler(nil, errorWithDescription);
+      }
+      [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:placementID];
     }
   }
 }

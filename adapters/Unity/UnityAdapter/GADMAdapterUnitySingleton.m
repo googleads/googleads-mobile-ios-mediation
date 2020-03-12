@@ -33,6 +33,9 @@
 
 - (id)init {
   self = [super init];
+    if (self) {
+      self.placementsInUse = [[NSMutableSet alloc] init];
+    }
   return self;
 }
 
