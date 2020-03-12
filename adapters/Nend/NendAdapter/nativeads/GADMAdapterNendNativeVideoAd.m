@@ -42,6 +42,17 @@
     return self.nendMediaView;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+    if (self.videoAd.hasVideo) {
+        if (self.videoAd.orientation == 1) {
+            return 9.0f / 16.0f;
+        } else {
+            return 16.0 / 9.0f;
+        }
+    }
+    return 0.0f;
+}
+
 - (NSString *)advertiser {
     return self.videoAd.advertiserName;
 }

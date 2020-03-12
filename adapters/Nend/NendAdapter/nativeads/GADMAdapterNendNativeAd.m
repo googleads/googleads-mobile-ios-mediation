@@ -17,6 +17,7 @@
 @property(nonatomic, strong) NSArray *mappedImages;
 @property(nonatomic, strong) UILabel *advertisingExplicitlyView;
 @property(nonatomic, strong) UIImageView *imageView;
+@property(nonatomic) CGFloat mediaContentAspectRatio;
 
 @end
 
@@ -39,6 +40,9 @@
         if (image) {
             _mappedImages = [NSArray arrayWithObject:image];
             _imageView.image = image.image;
+            _mediaContentAspectRatio = image.image.size.height / image.image.size.width;
+        } else {
+            _mediaContentAspectRatio = 0.0f;
         }
     }
     return self;
@@ -50,6 +54,10 @@
 
 - (UIView *)mediaView {
     return self.imageView;
+}
+
+- (CGFloat)mediaContentAspectRatio {
+    return self.mediaContentAspectRatio;
 }
 
 - (NSString *)advertiser {
