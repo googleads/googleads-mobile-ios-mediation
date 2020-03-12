@@ -1,0 +1,5 @@
+build/
+Drop_Framework_And_Headers/
+Library/
+**/xcuserdata/
+NendAdapter.xcodeproj/xcshareddata/xcschemes/Adapter.xcscheme

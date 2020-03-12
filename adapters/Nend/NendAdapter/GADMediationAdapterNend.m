@@ -16,11 +16,17 @@
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendRewardedAd.h"
 #import "GADNendRewardedNetworkExtras.h"
+#import "GADMAdapterNend.h"
+#import "GADMediationAdapterNend.h"
+#import "GADMediationAdapterNendNativeForwarder.h"
+#import "GADMAdapterNendNativeAdLoader.h"
+
 @import NendAd;
 
 @interface GADMediationAdapterNend ()
 
 @property(nonatomic, strong) GADMAdapterNendRewardedAd *rewardedAd;
+@property(nonatomic, strong) GADMediationAdapterNendNativeForwarder *nativeMediation;
 
 @end
 
@@ -50,7 +56,39 @@
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADNendRewardedNetworkExtras class];
+  return [GADMAdapterNendExtras class];
+}
+
++ (NSString *)adapterVersion {
+    return kGADMAdapterNendVersion;
+}
+
+- (void)stopBeingDelegate { /* Do nothing here */ }
+
+- (void)getBannerWithSize:(GADAdSize)adSize { /* Do nothing here */ }
+
+- (void)getInterstitial { /* Do nothing here */ }
+
+- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController { /* Do nothing here */ }
+
+- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes options:(NSArray<GADAdLoaderOptions *> *)options {
+    [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
+}
+
+- (BOOL)handlesUserImpressions {
+    return YES;
+}
+
+- (BOOL)handlesUserClicks {
+    return YES;
+}
+
+- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+    self = [super init];
+    if (self != nil) {
+        _nativeMediation = [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self connector:connector];
+    }
+    return self;
 }
 
 + (GADVersionNumber)version {
