@@ -94,12 +94,12 @@
 
 - (BOOL)handlesUserImpressions
 {
-    return [GADMAdapterNendNativeAdLoader handlesUserImpressions];
+    return YES;
 }
 
 - (BOOL)handlesUserClicks
 {
-    return [GADMAdapterNendNativeAdLoader handlesUserClicks];
+    return YES;
 }
 
 #pragma mark - NADNativeVideoDelegate

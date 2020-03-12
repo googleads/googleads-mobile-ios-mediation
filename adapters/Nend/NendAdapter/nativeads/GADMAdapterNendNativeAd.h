@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMAdapterNendNativeAd : NSObject <GADMediationNativeAd>
 
-- (instancetype)initWithNormal:(NADNative *)ad
+- (instancetype)initWithNormal:(nonnull NADNative *)ad
                           logo:(nullable GADNativeAdImage *)logo
                          image:(nullable GADNativeAdImage *)image;
 

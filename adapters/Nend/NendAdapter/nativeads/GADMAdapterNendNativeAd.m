@@ -22,7 +22,7 @@
 
 @implementation GADMAdapterNendNativeAd
 
-- (instancetype)initWithNormal:(NADNative *)ad
+- (instancetype)initWithNormal:(nonnull NADNative *)ad
                           logo:(nullable GADNativeAdImage *)logo
                          image:(nullable GADNativeAdImage *)image {
     self = [super init];
@@ -103,12 +103,12 @@
 
 - (BOOL)handlesUserImpressions
 {
-    return [GADMAdapterNendNativeAdLoader handlesUserImpressions];
+    return YES;
 }
 
 - (BOOL)handlesUserClicks
 {
-    return [GADMAdapterNendNativeAdLoader handlesUserClicks];
+    return YES;
 }
 
 #pragma mark - NADNativeDelegate

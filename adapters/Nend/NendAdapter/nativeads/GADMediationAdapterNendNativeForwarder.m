@@ -35,19 +35,26 @@
 
     NSString *spotId= [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendSpotID];
     NSString *apiKey = [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector paramKey:kGADMAdapterNendApiKey];
-    GADMAdapterNendExtras *extras = [strongConnector networkExtras];
+    GADMAdapterNendExtras *extras;
+    if (strongConnector != nil) {
+        extras = [strongConnector networkExtras];
+    }
 
     [self fetchNativeAd:options spotId:spotId apiKey:apiKey extra:extras];
 }
 
 - (void)didFailToLoadWithError:(NSError *)error {
     id<GADMAdNetworkAdapter> strongAdapter = self.adapter;
-    [self.connector adapter:strongAdapter didFailAd:error];
+    if (strongAdapter != nil) {
+        [self.connector adapter:strongAdapter didFailAd:error];
+    }
 }
 
 - (void)didReceiveUnifiedNativeAd:(nonnull id<GADMediationNativeAd>)ad {
     id<GADMAdNetworkAdapter> strongAdapter = self.adapter;
-    [self.connector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:ad];
+    if (strongAdapter != nil) {
+        [self.connector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:ad];
+    }
 }
 
 @end

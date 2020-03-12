@@ -34,9 +34,6 @@ typedef void (^NADNativeVideoCompletionBlock)(NADNativeVideo * _Nullable ad, NSE
                apiKey:(NSString *)apiKey
                 extra:(GADMAdapterNendExtras *)extras;
 
-+ (BOOL)handlesUserImpressions;
-+ (BOOL)handlesUserClicks;
-
 @end
 
 NS_ASSUME_NONNULL_END

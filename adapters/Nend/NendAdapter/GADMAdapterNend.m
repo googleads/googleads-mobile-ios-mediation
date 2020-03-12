@@ -77,7 +77,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterNendErrorDomain
                    code:kGADErrorInternalError
@@ -125,7 +125,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterNendErrorDomain
                    code:kGADErrorInternalError
@@ -189,10 +189,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (NSString *)getNendAdParam:(NSString *)paramKey {
   return [self.connector credentials][paramKey];
-}
-
-- (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId {
-    return [GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId];
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {

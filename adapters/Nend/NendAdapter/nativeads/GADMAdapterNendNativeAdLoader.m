@@ -122,12 +122,4 @@
     return [[options filteredArrayUsingPredicate:predicate] firstObject];
 }
 
-+ (BOOL)handlesUserImpressions {
-    return YES;
-}
-
-+ (BOOL)handlesUserClicks {
-    return YES;
-}
-
 @end
