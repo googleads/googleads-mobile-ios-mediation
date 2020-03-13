@@ -1,5 +1,8 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Next Version
+- Adapter now returns a non-zero `mediaContent` aspect ratio regardless if the media view is rendered or not.
+
 #### Version 5.7.1.2
 - Added standardized adapter error codes and messages.
 
