@@ -2,6 +2,7 @@
 
 #### Version 6.11.5.0
 - Verified compatibility with AppLovin SDK 6.11.5.
+- Removed support for the i386 architecture.
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.56.0.
