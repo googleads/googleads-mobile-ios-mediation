@@ -182,7 +182,7 @@
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {
-  //nothing to do
+  // nothing to do
 }
 
 @end

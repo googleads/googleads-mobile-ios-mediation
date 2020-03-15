@@ -36,7 +36,6 @@
   BOOL _isLoading;
 }
 
-
 @end
 
 @implementation GADMAdapterUnityRewardedAd
@@ -56,7 +55,7 @@
   _gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
   _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
   NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
-   
+
   GADMAdapterUnityRewardedAd __weak *weakSelf = self;
 
   if (!_gameID || !_placementID) {

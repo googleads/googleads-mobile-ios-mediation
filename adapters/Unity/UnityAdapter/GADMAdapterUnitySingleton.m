@@ -41,7 +41,7 @@
   self = [super init];
   if (self) {
     _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
-                                                  valueOptions:NSMapTableWeakMemory];
+                                              valueOptions:NSMapTableWeakMemory];
   }
   return self;
 }
@@ -85,13 +85,13 @@
       return;
     }
   }
-    
+
   [self addAdapterDelegate:adapterDelegate];
-    
+
   if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
   }
-    
+
   [UnityAds load:placementID];
 }
 
@@ -100,7 +100,7 @@
                                       (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
                                           adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-    
+
   NSString *placementID = [adapterDelegate getPlacementID];
   [UnityAds show:viewController placementId:placementID];
 }
@@ -120,7 +120,7 @@
       return;
     }
   }
-    
+ 
   [self addAdapterDelegate:adapterDelegate];
   if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
@@ -131,7 +131,7 @@
 
 - (void)presentInterstitialAdForViewController:(UIViewController *)viewController
                                       delegate:(id<GADMAdapterUnityDataProvider,
-                                                UnityAdsExtendedDelegate>)adapterDelegate {
+                                                   UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
 
   NSString *placementID = [adapterDelegate getPlacementID];
@@ -169,7 +169,7 @@
   @synchronized(_adapterDelegates) {
     adapterDelegate = [_adapterDelegates objectForKey:placementID];
   }
-  
+
   if (adapterDelegate) {
     [adapterDelegate unityAdsReady:placementID];
   }
