@@ -56,19 +56,12 @@
   _gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
   _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
   NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
+   
+  GADMAdapterUnityRewardedAd __weak *weakSelf = self;
 
   if (!_gameID || !_placementID) {
     if (_adLoadCompletionHandler) {
       NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
-      _adLoadCompletionHandler(nil, error);
-      _adLoadCompletionHandler = nil;
-    }
-    return;
-  } else if ([[GADMAdapterUnitySingleton sharedInstance].placementsInUse containsObject:_placementID]) {
-    if (_adLoadCompletionHandler) {
-      NSString *errorMsg = @"An ad is already loading for placement ID: ";
-      errorMsg = [errorMsg stringByAppendingString:_placementID];
-      NSError *error = GADUnityErrorWithDescription(errorMsg);
       _adLoadCompletionHandler(nil, error);
       _adLoadCompletionHandler = nil;
     }
@@ -87,37 +80,16 @@
     }
     return;
   }
-  GADMAdapterUnityRewardedAd *__weak weakSelf = self;
-    UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-        GADMAdapterUnityRewardedAd *strongSelf = weakSelf;
-        if (!strongSelf) {
-            [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:[self getPlacementID]];
-            return;
-        }
-        
-        if (error) {
-            NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-            strongSelf->_adLoadCompletionHandler(nil, errorWithDescription);
-            [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:[self getPlacementID]];
-            return;
-        }
-        
-        [[GADMAdapterUnitySingleton sharedInstance].placementsInUse addObject:[self getPlacementID]];
-        [UnityAds addDelegate:strongSelf];
-        [UnityAds load:[strongSelf getPlacementID]];
-    };
-    
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
-                                                       completeBlock:completeBlock];
+  
+  [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:_placementID];
-  [UnityAds show:viewController placementId:_placementID];
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
     [strongDelegate willPresentFullScreenView];
   }
+  [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController delegate:self];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -133,7 +105,18 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-    //do nothing.
+    if (error == kUnityAdsErrorNotInitialized) {
+      if (_adLoadCompletionHandler) {
+        NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+        _adLoadCompletionHandler(nil, errorWithDescription);
+        _adLoadCompletionHandler = nil;
+      }
+    } else {
+      if (_adEventDelegate) {
+          NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+          [_adEventDelegate didFailToPresentWithError:errorWithDescription];
+      }
+    }
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
@@ -153,10 +136,9 @@
         NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
         [strongDelegate didFailToPresentWithError:presentError];
       }
+      [strongDelegate willDismissFullScreenView];
       [strongDelegate didDismissFullScreenView];
     }
-    [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:placementID];
-    [UnityAds removeDelegate:self];
   }
 }
 
@@ -194,7 +176,6 @@
         NSError *errorWithDescription = GADUnityErrorWithDescription(errorMsg);
         _adLoadCompletionHandler(nil, errorWithDescription);
       }
-      [[GADMAdapterUnitySingleton sharedInstance].placementsInUse removeObject:placementID];
     }
   }
 }
