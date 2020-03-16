@@ -1,4 +1,5 @@
 #import "GADMAdapterMoPubUtils.h"
+
 #import "GADMAdapterMoPubConstants.h"
 
 void GADMAdapterMoPubMutableArrayAddObject(NSMutableArray *_Nullable array,
@@ -29,8 +30,10 @@ void GADMAdapterMoPubMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonn
   }
 }
 
-NSError *_Nonnull GADMAdapterMoPubErrorWithCodeAndDescription(NSUInteger code,
-                                                              NSString *_Nonnull description) {
-  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterMoPubVersion code:code userInfo:userInfo];
+NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode *_Nonnull code,
+                                                      NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubVersion code:code userInfo:userInfo];
+  return error;
 }

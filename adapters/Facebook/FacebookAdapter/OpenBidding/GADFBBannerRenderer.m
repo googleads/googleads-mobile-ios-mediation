@@ -74,7 +74,7 @@
   NSString *placementID =
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+      NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -83,7 +83,7 @@
   // if the root view controller is nil.
   UIViewController *rootViewController = adConfiguration.topViewController;
   if (!rootViewController) {
-    NSError *error = GADFBErrorWithDescription(@"Root view controller cannot be nil.");
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorRootViewControllerNil, @"Root view controller cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }

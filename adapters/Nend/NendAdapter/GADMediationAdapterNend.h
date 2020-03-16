@@ -15,6 +15,6 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
-@interface GADMediationAdapterNend : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterNend : NSObject <GADMediationAdapter, GADMAdNetworkAdapter>
 
 @end
