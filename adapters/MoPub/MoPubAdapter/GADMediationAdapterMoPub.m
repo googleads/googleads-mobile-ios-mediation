@@ -26,8 +26,9 @@
                                                                completionHandler(nil);
                                                              }];
   } else {
-    NSError *error = GADMAdapterMoPubErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to initialize MoPub SDK. Ad unit ID is empty.");
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorInvalidServerParameters,
+        @"Failed to initialize MoPub SDK. Ad unit ID is empty.");
     completionHandler(error);
   }
 }

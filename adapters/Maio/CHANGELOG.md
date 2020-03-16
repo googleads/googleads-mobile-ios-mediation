@@ -1,5 +1,12 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 1.5.3.0
+- Verified compatibility with maio SDK version 1.5.3.
+
+Build and tested with:
+- Google Mobile Ads SDK version 7.55.1.
+- Maio SDK version 1.5.3.
+
 #### Version 1.5.2.1
 - Fixed an issue where the adapter was not invoking the `-rewardedAdDidPresent:` callback.
 

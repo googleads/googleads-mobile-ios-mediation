@@ -23,7 +23,10 @@
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
-@interface GADFBNativeRenderer () <GADMediationNativeAd, FBNativeAdDelegate, FBMediaViewDelegate>
+@interface GADFBNativeRenderer () <GADMediationNativeAd,
+                                   FBNativeAdDelegate,
+                                   FBNativeBannerAdDelegate,
+                                   FBMediaViewDelegate>
 
 @end
 
@@ -31,8 +34,8 @@
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
 
-  // The Facebook rewarded ad.
-  FBNativeAd *_nativeAd;
+  // The Facebook native ad.
+  FBNativeAdBase *_nativeAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationNativeAdEventDelegate> _adEventDelegate;
@@ -81,14 +84,24 @@
   NSString *placementID =
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  // Create the nativeAd ad.
-  _nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementID];
-  _nativeAd.delegate = self;
+  // Create the native ad.
+  if (adConfiguration.bidResponse) {
+    _nativeAd = [FBNativeAdBase nativeAdWithPlacementId:placementID
+                                             bidPayload:adConfiguration.bidResponse
+                                                  error:nil];
+  } else {
+    _nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementID];
+  }
+  if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
+    ((FBNativeAd *)_nativeAd).delegate = self;
+  } else if ([_nativeAd isKindOfClass:[FBNativeBannerAd class]]) {
+    ((FBNativeBannerAd *)_nativeAd).delegate = self;
+  }
 
   // Adds a watermark to the ad.
   FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
@@ -132,12 +145,7 @@
 }
 
 - (nullable GADNativeAdImage *)icon {
-  UIGraphicsImageRenderer *renderer =
-      [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(1, 1)];
-  UIImage *image =
-      [renderer imageWithActions:^(UIGraphicsImageRendererContext *_Nonnull rendererContext){
-      }];
-  return [[GADNativeAdImage alloc] initWithImage:image];
+  return [[GADNativeAdImage alloc] initWithImage:_nativeAd.iconImage];
 }
 
 - (nullable NSString *)callToAction {
@@ -180,11 +188,18 @@
     iconView = (UIImageView *)clickableAssetViews[GADUnifiedNativeIconAsset];
   }
 
-  [_nativeAd registerViewForInteraction:view
-                              mediaView:_mediaView
-                          iconImageView:iconView
-                         viewController:viewController
-                         clickableViews:assets];
+  if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
+    [(FBNativeAd *)_nativeAd registerViewForInteraction:view
+                                              mediaView:_mediaView
+                                          iconImageView:iconView
+                                         viewController:viewController
+                                         clickableViews:assets];
+  } else if ([_nativeAd isKindOfClass:[FBNativeBannerAd class]]) {
+    [(FBNativeBannerAd *)_nativeAd registerViewForInteraction:view
+                                                iconImageView:iconView
+                                               viewController:viewController
+                                               clickableViews:assets];
+  }
 }
 
 - (void)didUntrackView:(UIView *)view {
@@ -202,33 +217,19 @@
 #pragma mark - FBNativeAdDelegate
 
 - (void)nativeAdDidLoad:(FBNativeAd *)nativeAd {
-  if (_nativeAd) {
-    [_nativeAd unregisterView];
-  }
-  _nativeAd = nativeAd;
-  _mediaView = [[FBMediaView alloc] init];
-  _mediaView.delegate = self;
-  [self loadAdOptionsView];
-  _adEventDelegate = _adLoadCompletionHandler(self, nil);
+  [self nativeAdBaseDidLoad:nativeAd];
 }
 
 - (void)nativeAdDidClick:(FBNativeAd *)nativeAd {
-  if (!_isRTBRequest) {
-    [_adEventDelegate reportClick];
-  }
+  [self nativeAdBaseDidClick:nativeAd];
 }
 
 - (void)nativeAd:(FBNativeAd *)nativeAd didFailWithError:(NSError *)error {
-  _adLoadCompletionHandler(nil, error);
+  [self nativeAdBase:nativeAd didFailWithError:error];
 }
 
 - (void)nativeAdWillLogImpression:(FBNativeAd *)nativeAd {
-  if (atomic_flag_test_and_set(&_impressionLogged)) {
-    GADFB_LOG(@"FBNativeAd is trying to log an impression again. Adapter will ignore "
-              @"duplicate impression pings.");
-    return;
-  }
-  [_adEventDelegate reportImpression];
+  [self nativeAdBaseWillLogImpression:nativeAd];
 }
 
 - (void)nativeAdDidFinishHandlingClick:(FBNativeAd *)nativeAd {
@@ -237,6 +238,58 @@
 
 - (void)nativeAdDidDownloadMedia:(FBNativeAd *)nativeAd {
   // Do nothing.
+}
+
+#pragma mark - FBNativeBannerAdDelegate
+
+- (void)nativeBannerAdDidLoad:(FBNativeBannerAd *)nativeBannerAd {
+  [self nativeAdBaseDidLoad:nativeBannerAd];
+}
+
+- (void)nativeBannerAdDidClick:(FBNativeBannerAd *)nativeBannerAd {
+  [self nativeAdBaseDidClick:nativeBannerAd];
+}
+
+- (void)nativeBannerAd:(FBNativeBannerAd *)nativeBannerAd didFailWithError:(NSError *)error {
+  [self nativeAdBase:nativeBannerAd didFailWithError:error];
+}
+
+- (void)nativeBannerAdWillLogImpression:(FBNativeBannerAd *)nativeBannerAd {
+  [self nativeAdBaseWillLogImpression:nativeBannerAd];
+}
+
+#pragma mark - Common delegate methods
+
+- (void)nativeAdBaseDidLoad:(FBNativeAdBase *)nativeAd {
+  if (_nativeAd) {
+    [_nativeAd unregisterView];
+  }
+  _nativeAd = nativeAd;
+  if ([nativeAd isKindOfClass:[FBNativeAd class]]) {
+    _mediaView = [[FBMediaView alloc] init];
+    _mediaView.delegate = self;
+  }
+  [self loadAdOptionsView];
+  _adEventDelegate = _adLoadCompletionHandler(self, nil);
+}
+
+- (void)nativeAdBaseDidClick:(FBNativeAdBase *)nativeAd {
+  if (!_isRTBRequest) {
+    [_adEventDelegate reportClick];
+  }
+}
+
+- (void)nativeAdBase:(FBNativeAdBase *)nativeAd didFailWithError:(NSError *)error {
+  _adLoadCompletionHandler(nil, error);
+}
+
+- (void)nativeAdBaseWillLogImpression:(FBNativeAdBase *)nativeAd {
+  if (atomic_flag_test_and_set(&_impressionLogged)) {
+    GADFB_LOG(@"FBNativeAd is trying to log an impression again. Adapter will ignore "
+              @"duplicate impression pings.");
+    return;
+  }
+  [_adEventDelegate reportImpression];
 }
 
 #pragma mark - FBMediaViewDelegate

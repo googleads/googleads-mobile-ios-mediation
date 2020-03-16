@@ -2,11 +2,12 @@
 //  GADMAdapterNend.m
 //  NendAdapter
 //
-//  Copyright © 2017 F@N Communications. All rights reserved.
+//  Copyright © 2017 FAN Communications. All rights reserved.
 //
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendAdUnitMapper.h"
 
 @import NendAd;
 
@@ -76,7 +77,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterNendErrorDomain
                    code:kGADErrorInternalError
@@ -124,7 +125,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterNendErrorDomain
                    code:kGADErrorInternalError
@@ -188,13 +189,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (NSString *)getNendAdParam:(NSString *)paramKey {
   return [self.connector credentials][paramKey];
-}
-
-- (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId {
-  if (!apiKey || apiKey.length == 0 || !spotId || spotId.length == 0) {
-    return false;
-  }
-  return true;
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {

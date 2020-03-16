@@ -1,7 +1,6 @@
 #import "GADMMoPubRewardedAd.h"
 
 #include <stdatomic.h>
-
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
@@ -51,9 +50,9 @@
 
   _adUnitID = adConfiguration.credentials.settings[kGADMAdapterMoPubPubIdKey];
   if ([_adUnitID length] == 0) {
-    NSString *description = @"Failed to request a MoPub rewarded ad. Ad unit ID is empty.";
-    NSError *error =
-        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorInvalidServerParameters,
+        @"Failed to request a MoPub rewarded ad. Ad unit ID is empty.");
     completionHandler(nil, error);
     return;
   }
@@ -94,7 +93,7 @@
     }
 
     NSError *error =
-        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
+        GADMoPubErrorWithCodeAndDescription(GADMoPubErrorInvalidServerParameters, description);
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }
