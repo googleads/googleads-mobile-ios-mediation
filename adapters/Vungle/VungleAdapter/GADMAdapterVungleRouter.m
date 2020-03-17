@@ -500,15 +500,17 @@ const CGSize kVNGBannerShortSize = {300, 50};
   if (!delegate) {
     return;
   }
-  if (error) {
-    NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
-    [delegate adNotAvailable:error];
-    [self removeDelegate:delegate];
-    return;
-  }
 
   if (isAdPlayable) {
     [delegate adAvailable];
+  } else {
+    if (error) {
+      NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
+    } else {
+      error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError, [NSString stringWithFormat:@"Ad is not available for placementID: %@.", placementID]);
+    }
+    [delegate adNotAvailable:error];
+    [self removeDelegate:delegate];
   }
 }
 
