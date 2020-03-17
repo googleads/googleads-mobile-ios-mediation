@@ -175,6 +175,7 @@
         NSError *errorWithDescription = GADUnityErrorWithDescription(errorMsg);
         _adLoadCompletionHandler(nil, errorWithDescription);
       }
+      [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
     }
   }
 }
