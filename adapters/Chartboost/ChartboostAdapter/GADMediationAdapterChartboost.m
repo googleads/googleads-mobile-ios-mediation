@@ -104,8 +104,6 @@
   return location;
 }
 
-// TODO: Should we use GADMRewardBasedVideoAdNetworkAdapter instead of GADMediationAdapter for loading rewarded ads?
-// TODO: Should we use GADMediationAdapter to load interstitial and banner ads instead of GADMAdNetworkAdapter?
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   __weak GADMediationAdapterChartboost * weakSelf = self;
