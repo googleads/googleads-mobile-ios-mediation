@@ -3,6 +3,7 @@
 #### Version 6.5.3.0
 - Verified compatibility with Vungle SDK 6.5.3.
 - Fix ad availability delays issue with longer waterfall.
+- Remove support for i386 architecture.
 
 Build and tested with
 - Google Mobile Ads SDK version 7.56.0.
