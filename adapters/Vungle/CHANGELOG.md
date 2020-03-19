@@ -1,5 +1,13 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.5.3.0
+- Verified compatibility with Vungle SDK 6.5.3.
+- Fix ad availability delays issue with longer waterfall.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.56.0.
+- Vungle SDK version 6.5.3.
+
 #### Version 6.5.2.0
 - Verified compatibility with Vungle SDK 6.5.2.
 - Added support for multiple Banners with same placementID.
