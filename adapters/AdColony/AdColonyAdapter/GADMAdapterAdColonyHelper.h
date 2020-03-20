@@ -6,11 +6,14 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+#import "GADMediationAdapterAdColony.h"
+
 #define GADMAdapterAdColonyLog(format, args...) NSLog(@"AdColonyAdapter: " format, ##args)
 
-/// Returns an NSError with provided error code and description.
-NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,
-                                                                 NSString *_Nonnull description);
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(
+    GADMAdapterAdColonyErrorCode *_Nonnull code, NSString *_Nonnull description);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
