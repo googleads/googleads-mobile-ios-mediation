@@ -503,7 +503,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
 
   if (isAdPlayable) {
     [delegate adAvailable];
-  } else {
+  } else if (!isAdPlayable && ![[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID]) {
     if (error) {
       NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
     } else {
