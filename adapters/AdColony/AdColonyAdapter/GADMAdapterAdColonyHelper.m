@@ -185,11 +185,14 @@
 
 @end
 
-NSError *GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,
-                                                        NSString *_Nonnull description) {
-  return [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                             code:code
-                         userInfo:@{NSLocalizedDescriptionKey : description}];
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(
+    GADMAdapterAdColonyErrorCode *_Nonnull code, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
