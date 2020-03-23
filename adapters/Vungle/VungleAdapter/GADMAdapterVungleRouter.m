@@ -377,7 +377,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
                            forPlacementID:(nonnull NSString *)placementID {
   NSError *bannerError = nil;
   NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-  if (extras.muted) {
+  if (extras != nil) {
     [VungleSDK sharedSDK].muted = extras.muted;
   } else {
     [VungleSDK sharedSDK].muted = YES;
@@ -408,7 +408,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
   return nil;
 }
 
-- (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate; {
+- (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   @synchronized(self) {
     if (!delegate) {
       return;
