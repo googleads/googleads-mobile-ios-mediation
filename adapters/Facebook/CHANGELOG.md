@@ -1,5 +1,8 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Version 5.8.0.0
+- Verified compatibility with FAN SDK 5.8.0.
+
 #### Next Version
 - Adapter now returns a non-zero `mediaContent` aspect ratio regardless if the media view is rendered or not.
 
