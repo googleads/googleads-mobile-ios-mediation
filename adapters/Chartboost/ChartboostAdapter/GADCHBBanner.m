@@ -74,8 +74,8 @@
 - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _networkAdapter;
+  [strongConnector adapterDidGetAdClick:strongAdapter];
   if (!error) {
-    [strongConnector adapterDidGetAdClick:strongAdapter];
     [strongConnector adapterWillPresentFullScreenModal:strongAdapter];
   }
 }
