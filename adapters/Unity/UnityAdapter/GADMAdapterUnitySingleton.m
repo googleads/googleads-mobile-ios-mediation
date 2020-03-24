@@ -16,7 +16,13 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate>
+@interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
+  /// Array to hold all adapter delegates.
+  NSMapTable *_adapterDelegates;
+
+  /// Connector from unity adapter to send Unity callbacks.
+  __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
+}
 
 @end
 
@@ -33,26 +39,103 @@
 
 - (id)init {
   self = [super init];
+  if (self) {
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+                                              valueOptions:NSMapTableWeakMemory];
+  }
   return self;
 }
 
-- (void)initializeWithGameID:(NSString *)gameID
-                    completeBlock:(UnitySingletonCompletion)completeBlock{
+- (void)initializeWithGameID:(NSString *)gameID {
   if ([UnityAds isInitialized]) {
-    completeBlock(nil, @"UnityAds Initialization Succeeded");
     return;
   }
 
-  self.completeBlock = completeBlock;
-  
+  // Metadata needed by Unity Ads SDK before initialization.
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
-  
+
+  // Initializing Unity Ads with |gameID|.
   [UnityAds addDelegate:self];
-  [UnityAds initialize:gameID testMode:false enablePerPlacementLoad:true];
+  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES];
+}
+
+- (void)addAdapterDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  @synchronized(_adapterDelegates) {
+    [_adapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getPlacementID]];
+  }
+}
+
+#pragma mark - Rewardbased video ad methods
+
+- (void)requestRewardedAdWithDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
+  NSString *placementID = [adapterDelegate getPlacementID];
+
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
+    }
+  }
+
+  [self addAdapterDelegate:adapterDelegate];
+
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
+}
+
+- (void)presentRewardedAdForViewController:(UIViewController *)viewController
+                                  delegate:
+                                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                          adapterDelegate {
+  _currentShowingUnityDelegate = adapterDelegate;
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  [UnityAds show:viewController placementId:placementID];
+}
+
+#pragma mark - Interstitial ad methods
+
+- (void)requestInterstitialAdWithDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
+  NSString *placementID = [adapterDelegate getPlacementID];
+
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
+    }
+  }
+ 
+  [self addAdapterDelegate:adapterDelegate];
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
+}
+
+- (void)presentInterstitialAdForViewController:(UIViewController *)viewController
+                                      delegate:(id<GADMAdapterUnityDataProvider,
+                                                   UnityAdsExtendedDelegate>)adapterDelegate {
+  _currentShowingUnityDelegate = adapterDelegate;
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  [UnityAds show:viewController placementId:placementID];
 }
 
 #pragma mark - Unity Delegate Methods
@@ -60,32 +143,65 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-    if ((newState == kUnityAdsPlacementStateWaiting || newState == kUnityAdsPlacementStateReady) && self.completeBlock) {
-      self.completeBlock(nil, @"UnityAds Initialization Succeeded");
-      self.completeBlock = nil;
-    }
-}
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  @synchronized(_adapterDelegates) {
+    adapterDelegate = [_adapterDelegates objectForKey:placementId];
+  }
 
-- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-    if (error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument || error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorInitSanityCheckFail) {
-        if (self.completeBlock) {
-            self.completeBlock(&error, @"Unity Ads Initialization Failed");
-            self.completeBlock = nil;
-        }
-    }
-    return;
+  if (adapterDelegate) {
+    [adapterDelegate unityAdsPlacementStateChanged:placementId oldState:oldState newState:newState];
+  }
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
+  @synchronized(_adapterDelegates) {
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
+  }
+  [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }
 
 - (void)unityAdsDidStart:(NSString *)placementID {
+  [_currentShowingUnityDelegate unityAdsDidStart:placementID];
 }
 
 - (void)unityAdsReady:(NSString *)placementID {
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  @synchronized(_adapterDelegates) {
+    adapterDelegate = [_adapterDelegates objectForKey:placementID];
+  }
+
+  if (adapterDelegate) {
+    [adapterDelegate unityAdsReady:placementID];
+  }
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
+  [_currentShowingUnityDelegate unityAdsDidClick:placementID];
+}
+
+- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
+  if (error == kUnityAdsErrorInitSanityCheckFail || error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument ||
+      error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorAdBlockerDetected) {
+    NSArray *delegates;
+    @synchronized(_adapterDelegates) {
+      delegates = _adapterDelegates.objectEnumerator.allObjects;
+    }
+
+    for (id<UnityAdsExtendedDelegate, UnityAdsExtendedDelegate> delegate in delegates) {
+      [delegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:message];
+    }
+        
+    @synchronized(_adapterDelegates) {
+      [_adapterDelegates removeAllObjects];
+    }
+  } else {
+    [_currentShowingUnityDelegate unityAdsDidError:error withMessage:message];
+  }
+}
+
+- (void)stopTrackingDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID]);
 }
 
 @end

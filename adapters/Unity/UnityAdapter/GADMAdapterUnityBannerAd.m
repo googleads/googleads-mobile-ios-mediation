@@ -57,18 +57,7 @@
 
   if (![UnityAds isInitialized]) {
     NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-      
-    UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-        if(error) {
-          if (strongConnector && strongAdapter) {
-            [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(message)];
-          }
-          return;
-        }
-      };
-      
-      [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID
-                                                         completeBlock:completeBlock];
+      [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
   }
 
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
