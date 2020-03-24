@@ -20,7 +20,7 @@
 #import "GADUnityError.h"
 @import UnityAds;
 
-@interface GADMediationAdapterUnity () <GADMediationAdapter>
+@interface GADMediationAdapterUnity ()
 
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
 
@@ -52,16 +52,8 @@
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
   
-  UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
-    if (error) {
-      completionHandler(GADUnityErrorWithDescription(message));
-      return;
-    }
-    completionHandler(nil);
-  };
-    
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID
-                                                        completeBlock:completeBlock];
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
+  completionHandler(nil);
 }
 
 + (GADVersionNumber)adSDKVersion {
