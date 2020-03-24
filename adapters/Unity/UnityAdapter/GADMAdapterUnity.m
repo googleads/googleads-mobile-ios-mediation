@@ -32,7 +32,9 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
+  
   NSString *_uuid;
+
   UADSMetaData *_metaData;
 }
 
@@ -56,7 +58,7 @@
   if (_bannerAd != nil) {
     [_bannerAd stopBeingDelegate];
   }
-  [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
+  [UnityAds removeDelegate:self];
 }
 
 #pragma mark Interstitial Methods
@@ -89,6 +91,21 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
+
+  UnitySingletonCompletion completeBlock = ^(UnityAdsError *error, NSString *message) {
+    if(error) {
+      if (strongConnector) {
+        NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+        [strongConnector adapter:self didFailAd:errorWithDescription];
+      }
+      return;
+    }
+    [UnityAds addDelegate:self];
+    [UnityAds load:[self getPlacementID]];
+  };
+    
+  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
+                                                       completeBlock:completeBlock];
     
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"load-interstitial"];
@@ -97,8 +114,12 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [_networkConnector adapterWillPresentInterstitial:self];
-  [[GADMAdapterUnitySingleton sharedInstance] presentInterstitialAdForViewController:rootViewController delegate:self];
+    [UnityAds show:rootViewController placementId:_placementID];
+    
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData set:_uuid value:@"show-interstitial"];
+    [_metaData set:_uuid value:_placementID];
+    [_metaData commit];
 }
 
 #pragma mark Banner Methods
@@ -133,31 +154,33 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  if([placementID isEqualToString:_placementID]) {
-    if (newState == kUnityAdsPlacementStateNoFill || newState == kUnityAdsPlacementStateDisabled) {
-      id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-      if (strongNetworkConnector) {
-        NSString *errorMsg = @"Failed to load: ";
-        errorMsg = [errorMsg stringByAppendingString:placementID];
-        NSError *errorWithDescription = GADUnityErrorWithDescription(errorMsg);
-        [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-      }
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
+    if (newState == kUnityAdsPlacementStateNoFill){
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"NO_FILL");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+    } else if (newState == kUnityAdsPlacementStateDisabled) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_DISABLED");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
+    } else if (newState == kUnityAdsPlacementStateNotAvailable) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(@"PlACEMENT_NOTAVAILABLE");
+      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
     }
   }
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
-  if ([placementID isEqualToString:_placementID]) {
-    id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-    if (strongNetworkConnector) {
-      if (state == kUnityAdsFinishStateCompleted) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      } else if (state == kUnityAdsFinishStateError) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      } else if (state == kUnityAdsFinishStateSkipped) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      }
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
+    if (state == kUnityAdsFinishStateCompleted) {
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
+    } else if (state == kUnityAdsFinishStateError) {
+      [strongNetworkConnector adapterWillPresentInterstitial:self];
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
+    } else if (state == kUnityAdsFinishStateSkipped) {
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
     }
+    [UnityAds removeDelegate:self];
   }
 }
 
@@ -180,20 +203,14 @@
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-  if (strongNetworkConnector) {
-    if (error == kUnityAdsErrorNotInitialized) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-    } else {
-      [strongNetworkConnector adapterWillDismissInterstitial:self];
-      [strongNetworkConnector adapterDidDismissInterstitial:self];
-    }
-  }
+  //do nothing.
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {
-  // nothing to do
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
+    [strongNetworkConnector adapterWillPresentInterstitial:self];
+  }
 }
 
 @end
