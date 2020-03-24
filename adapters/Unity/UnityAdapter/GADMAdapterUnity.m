@@ -76,7 +76,7 @@
     _metaData = [[UADSMetaData alloc] init];
     
     [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"create-adapter"];
+    [_metaData setValue:@"create-adapter" forKey:_uuid];
     [_metaData commit];
   }
   return self;
@@ -108,8 +108,8 @@
                                                        completeBlock:completeBlock];
     
   [_metaData setCategory:@"mediation_adapter"];
-  [_metaData set:_uuid value:@"load-interstitial"];
-  [_metaData set:_uuid value:_placementID];
+  [_metaData setValue:@"load-interstitial" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
   [_metaData commit];
 }
 
@@ -117,8 +117,8 @@
     [UnityAds show:rootViewController placementId:_placementID];
     
     [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"show-interstitial"];
-    [_metaData set:_uuid value:_placementID];
+    [_metaData setValue:@"show-interstitial" forKey:_uuid];
+    [_metaData setValue:_placementID forKey:_uuid];
     [_metaData commit];
 }
 

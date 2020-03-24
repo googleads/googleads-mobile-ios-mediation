@@ -58,7 +58,7 @@
     _metaData = [[UADSMetaData alloc] init];
       
     [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"create-adapter"];
+    [_metaData setValue:@"create-adapter" forKey:_uuid];
     [_metaData commit];
   }
   return self;
@@ -109,8 +109,8 @@
   [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:_gameID
                                                        completeBlock:completeBlock];
   [_metaData setCategory:@"mediation_adapter"];
-  [_metaData set:_uuid value:@"load-rewarded"];
-  [_metaData set:_uuid value:_placementID];
+  [_metaData setValue:@"load-rewarded" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
   [_metaData commit];
 }
 
@@ -118,8 +118,8 @@
   [UnityAds show:viewController placementId:_placementID];
     
   [_metaData setCategory:@"mediation_adapter"];
-  [_metaData set:_uuid value:@"show-rewarded"];
-  [_metaData set:_uuid value:_placementID];
+  [_metaData setValue:@"show-rewarded" forKey:_uuid];
+  [_metaData setValue:_placementID forKey:_uuid];
   [_metaData commit];
 }
 
