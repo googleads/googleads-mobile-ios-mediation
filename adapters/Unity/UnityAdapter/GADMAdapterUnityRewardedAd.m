@@ -34,6 +34,9 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
+  
+  NSString *_uuid;
+  UADSMetaData *_metaData;
 }
 
 @end
@@ -47,6 +50,13 @@
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
+
+    _uuid = [[NSUUID UUID] UUIDString];
+
+    _metaData = [[UADSMetaData alloc] init];
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData set:_uuid value:@"create-adapter"];
+    [_metaData commit];
   }
   return self;
 }
@@ -79,7 +89,11 @@
     }
     return;
   }
-  
+
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData set:_uuid value:@"load-rewarded"];
+  [_metaData set:_uuid value:_placementID];
+  [_metaData commit];
   [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
 }
 
@@ -88,6 +102,12 @@
   if (strongDelegate) {
     [strongDelegate willPresentFullScreenView];
   }
+
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData set:_uuid value:@"show-rewarded"];
+  [_metaData set:_uuid value:_placementID];
+  [_metaData commit];
+
   [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController delegate:self];
 }
 

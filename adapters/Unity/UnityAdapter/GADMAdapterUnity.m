@@ -32,6 +32,9 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
+  
+  NSString *_uuid;
+  UADSMetaData *_metaData;
 
 }
 
@@ -68,6 +71,14 @@
   self = [super init];
   if (self) {
     _networkConnector = connector;
+    
+    _uuid = [[NSUUID UUID] UUIDString];
+      
+    _metaData = [[UADSMetaData alloc] init];
+      
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData set:_uuid value:@"create-adapter"];
+    [_metaData commit];
   }
   return self;
 }
@@ -81,12 +92,23 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-    
+
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData set:_uuid value:@"load-interstitial"];
+  [_metaData set:_uuid value:_placementID];
+  [_metaData commit];
+
   [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [_networkConnector adapterWillPresentInterstitial:self];
+
+  [_metaData setCategory:@"mediation_adapter"];
+  [_metaData set:_uuid value:@"show-interstitial"];
+  [_metaData set:_uuid value:_placementID];
+  [_metaData commit];
+
   [[GADMAdapterUnitySingleton sharedInstance] presentInterstitialAdForViewController:rootViewController delegate:self];
 }
 
