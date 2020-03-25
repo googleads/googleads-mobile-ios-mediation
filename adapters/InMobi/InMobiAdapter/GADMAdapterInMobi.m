@@ -43,8 +43,6 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 
 static NSCache *imageCache;
 
-static BOOL isAccountInitialised = false;
-
 __attribute__((constructor)) static void initialize_imageCache() {
   imageCache = [[NSCache alloc] init];
 }
@@ -59,10 +57,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return kGADMAdapterInMobiVersion;
 }
 
-+ (BOOL)isAppInitialised {
-  return isAccountInitialised;
-}
-
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADInMobiExtras class];
 }
@@ -74,10 +68,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if ((self = [super init])) {
     self.connector = connector;
   }
-  [IMSdk initWithAccountID:self.connector.credentials[kGADMAdapterInMobiAccountID]
-         consentDictionary:GADMInMobiConsent.consent];
-  isAccountInitialised = true;
-  NSLog(@"Initialized successfully");
   return self;
 }
 
@@ -154,10 +144,18 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
+  NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
+  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  if (error) {
+    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+    [self.connector adapter:self didFailAd:error];
+    return;
+  }
+
   long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
+        [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
     NSDictionary *errorInfo =
         [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -194,10 +192,18 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)getInterstitial {
+  NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
+  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  if (error) {
+    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+    [self.connector adapter:self didFailAd:error];
+    return;
+  }
+
   long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
+        [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
     NSDictionary *errorInfo =
         [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -219,11 +225,18 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  long long placementId = self.placementId;
+  NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
+  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  if (error) {
+    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+    [self.connector adapter:self didFailAd:error];
+    return;
+  }
 
+  long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
+        [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
     NSDictionary *errorInfo =
         [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain

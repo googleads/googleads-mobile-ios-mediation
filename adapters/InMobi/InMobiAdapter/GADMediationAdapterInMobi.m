@@ -20,16 +20,20 @@
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 
-static BOOL isAppInitialized;
-
 @implementation GADMediationAdapterInMobi {
-
   /// InMobi rewarded ad wrapper.
   GADMAdapterInMobiRewardedAd *_rewardedAd;
 }
 
+static BOOL _isInitialized;
+
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  if (_isInitialized) {
+    completionHandler(nil);
+    return;
+  }
+
   NSMutableSet<NSString *> *accountIDs = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
@@ -40,13 +44,9 @@ static BOOL isAppInitialized;
   }
 
   if (!accountIDs.count) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                            code:kGADErrorMediationDataError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey :
-                              @"InMobi mediation configurations did not contain a valid account ID."
-                        }];
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        kGADErrorMediationDataError,
+        @"InMobi mediation configurations did not contain a valid account ID.");
     completionHandler(error);
     return;
   }
@@ -59,9 +59,8 @@ static BOOL isAppInitialized;
     NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
-  [IMSdk initWithAccountID:accountID consentDictionary:GADMInMobiConsent.consent];
-  isAppInitialized = YES;
-  completionHandler(nil);
+  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  completionHandler(error);
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -93,14 +92,6 @@ static BOOL isAppInitialized;
   return version;
 }
 
-+ (BOOL)isAppInitialised {
-  return isAppInitialized;
-}
-
-+ (void)setIsAppInitialised:(BOOL)status {
-  isAppInitialized = status;
-}
-
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
@@ -115,6 +106,32 @@ static BOOL isAppInitialized;
 
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
+}
+
++ (nullable NSError *)initializeWithAccountID:(nonnull NSString *)accountID {
+  if (_isInitialized) {
+    return nil;
+  }
+
+  NSError *error = nil;
+  if (!accountID.length) {
+    error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        kGADErrorMediationDataError, @"[InMobi] Error - Account ID not specified.");
+    return error;
+  }
+
+  [IMSdk initWithAccountID:accountID consentDictionary:GADMInMobiConsent.consent andError:&error];
+  if (error) {
+    return error;
+  }
+
+  _isInitialized = YES;
+  NSLog(@"[InMobi] Initialized successfully.");
+  return nil;
+}
+
++ (BOOL)isInitialized {
+  return _isInitialized;
 }
 
 @end

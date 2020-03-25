@@ -77,6 +77,14 @@
     return delegate;
   };
 
+  NSString *accountID = _adConfig.credentials.settings[kGADMAdapterInMobiAccountID];
+  NSError *initError = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  if (initError) {
+    NSLog(@"[InMobi] Initialization failed: %@", initError.localizedDescription);
+    _renderCompletionHandler(nil, initError);
+    return;
+  }
+
   // Converting a string to a long long value.
   long long placement =
       [adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];

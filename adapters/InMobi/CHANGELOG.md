@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next Version
+- Adapter now fails early when InMobi SDK initialization fails.
+
 #### Version 9.0.0.0
 - Verified compatibility with InMobi SDK 9.0.0.
 - Removed open bidding capability for banner, interstitial, and rewarded formats.
