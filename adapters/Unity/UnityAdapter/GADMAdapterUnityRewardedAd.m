@@ -34,8 +34,11 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
-  
+
+  /// UUID for Unity instrument analysis
   NSString *_uuid;
+
+  /// MetaData for storing Unity instrument analysis
   UADSMetaData *_metaData;
 }
 
@@ -140,25 +143,29 @@
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
-  if ([placementID isEqualToString:_placementID]) {
-    id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-    if (strongDelegate) {
-      if (state == kUnityAdsFinishStateCompleted) {
-        [strongDelegate didEndVideo];
-        // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
-        // amount of 1. Publishers using this adapter should override the reward on the AdMob
-        // front-end.
-        GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                         rewardAmount:[NSDecimalNumber one]];
-        [strongDelegate didRewardUserWithReward:reward];
-      } else if (state == kUnityAdsFinishStateError) {
-        NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
-        [strongDelegate didFailToPresentWithError:presentError];
-      }
-      [strongDelegate willDismissFullScreenView];
-      [strongDelegate didDismissFullScreenView];
-    }
+  if (![placementID isEqualToString:_placementID]) {
+    return;
   }
+
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
+  if (!strongDelegate) {
+    return;
+  }
+  if ( state == kUnityAdsFinishStateCompleted) {
+    [strongDelegate didEndVideo];
+
+    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+    // amount of 1. Publishers using this adapter should override the reward on the AdMob
+    // front-end.
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:[NSDecimalNumber one]];
+    [strongDelegate didRewardUserWithReward:reward];
+  } else if (state == kUnityAdsFinishStateError) {
+    NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");
+    [strongDelegate didFailToPresentWithError:presentError];
+  }
+
+  [strongDelegate willDismissFullScreenView];
+  [strongDelegate didDismissFullScreenView];
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {

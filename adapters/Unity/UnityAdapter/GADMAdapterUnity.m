@@ -32,8 +32,11 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
-  
+
+  /// UUID for Unity instrument analysis
   NSString *_uuid;
+
+  /// MetaData for storing Unity instrument analysis
   UADSMetaData *_metaData;
 
 }
@@ -161,13 +164,7 @@
   if ([placementID isEqualToString:_placementID]) {
     id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
     if (strongNetworkConnector) {
-      if (state == kUnityAdsFinishStateCompleted) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      } else if (state == kUnityAdsFinishStateError) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      } else if (state == kUnityAdsFinishStateSkipped) {
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-      }
+      [strongNetworkConnector adapterDidDismissInterstitial:self];
     }
   }
 }

@@ -182,7 +182,7 @@
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
   if (error == kUnityAdsErrorInitSanityCheckFail || error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument ||
       error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorAdBlockerDetected) {
-    NSArray *delegates;
+    NSArray<id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>> *delegates;
     @synchronized(_adapterDelegates) {
       delegates = _adapterDelegates.objectEnumerator.allObjects;
     }

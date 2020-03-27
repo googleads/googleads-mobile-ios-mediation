@@ -57,7 +57,7 @@
 
   if (![UnityAds isInitialized]) {
     NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-      [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
+    [GADMAdapterUnitySingleton.sharedInstance initializeWithGameID:gameID];
   }
 
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
