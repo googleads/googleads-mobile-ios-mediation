@@ -56,10 +56,8 @@
 		600C90942359D84400EFAB42 /* GADMAdapterVerizonRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 600C908D2359D84400EFAB42 /* GADMAdapterVerizonRewardedAd.h */; };
 		600C90952359D84400EFAB42 /* GADMAdapterVerizonConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 600C908E2359D84400EFAB42 /* GADMAdapterVerizonConstants.h */; };
 		7D1575721EB7FBB200059469 /* VerizonMediaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* VerizonMediaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A960A578222484A80060E5D9 /* GADMAdapterNexage.h in Headers */ = {isa = PBXBuildFile; fileRef = A960A572222484A80060E5D9 /* GADMAdapterNexage.h */; };
 		A960A57A222484A80060E5D9 /* GADMediationAdapterVerizon.m in Sources */ = {isa = PBXBuildFile; fileRef = A960A574222484A80060E5D9 /* GADMediationAdapterVerizon.m */; };
 		A960A57C222484A80060E5D9 /* GADMediationAdapterVerizon.h in Headers */ = {isa = PBXBuildFile; fileRef = A960A576222484A80060E5D9 /* GADMediationAdapterVerizon.h */; };
-		A960A57D222484A80060E5D9 /* GADMAdapterNexage.m in Sources */ = {isa = PBXBuildFile; fileRef = A960A577222484A80060E5D9 /* GADMAdapterNexage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,10 +107,8 @@
 		7DC8681F1DDA8D4400F0F1C4 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A960A572222484A80060E5D9 /* GADMAdapterNexage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNexage.h; sourceTree = "<group>"; };
 		A960A574222484A80060E5D9 /* GADMediationAdapterVerizon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterVerizon.m; sourceTree = "<group>"; };
 		A960A576222484A80060E5D9 /* GADMediationAdapterVerizon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterVerizon.h; sourceTree = "<group>"; };
-		A960A577222484A80060E5D9 /* GADMAdapterNexage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNexage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,8 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				600C90812359D82C00EFAB42 /* Consent */,
-				A960A572222484A80060E5D9 /* GADMAdapterNexage.h */,
-				A960A577222484A80060E5D9 /* GADMAdapterNexage.m */,
 				600C908A2359D84400EFAB42 /* GADMAdapterVerizonBaseClass.h */,
 				600C90892359D84400EFAB42 /* GADMAdapterVerizonBaseClass.m */,
 				600C908E2359D84400EFAB42 /* GADMAdapterVerizonConstants.h */,
@@ -248,7 +242,6 @@
 				6000826D23AA48D600C44734 /* GADMVerizonPrivacy_Internal.h in Headers */,
 				600C90902359D84400EFAB42 /* GADMAdapterVerizonNativeAd.h in Headers */,
 				A960A57C222484A80060E5D9 /* GADMediationAdapterVerizon.h in Headers */,
-				A960A578222484A80060E5D9 /* GADMAdapterNexage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +360,6 @@
 			files = (
 				600C90912359D84400EFAB42 /* GADMAdapterVerizonBaseClass.m in Sources */,
 				A960A57A222484A80060E5D9 /* GADMediationAdapterVerizon.m in Sources */,
-				A960A57D222484A80060E5D9 /* GADMAdapterNexage.m in Sources */,
 				6000826C23AA48D600C44734 /* GADMVerizonPrivacy.m in Sources */,
 				458F73782388A178006738A0 /* GADMAdapterVerizonUtils.m in Sources */,
 				600C908F2359D84400EFAB42 /* GADMAdapterVerizonNativeAd.m in Sources */,
