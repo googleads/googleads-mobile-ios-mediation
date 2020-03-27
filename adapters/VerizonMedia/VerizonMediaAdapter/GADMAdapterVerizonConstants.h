@@ -15,17 +15,11 @@
 #import <Foundation/Foundation.h>
 
 /// Verizon Media mediation network adapter version.
-static NSString *const _Nonnull kGADMAdapterVerizonMediaVersion = @"1.4.0.0";
+static NSString *const _Nonnull kGADMAdapterVerizonMediaVersion = @"1.5.0.0";
 
 /// Verizon Media mediation adapter error domain.
 static NSString *const _Nonnull kGADMAdapterVerizonMediaErrorDomain =
     @"com.google.mediation.verizonmedia";
-
-/// Verizon Media mediation adapter legacy position server parameter key.
-static NSString *const _Nonnull kGADNexagePosition = @"position";
-
-/// Verizon Media mediation adapter legacy dcn server parameter key.
-static NSString *const _Nonnull kGADNexageDCN = @"dcn";
 
 /// Verizon Media mediation adapter position server parameter key.
 static NSString *const _Nonnull kGADMAdapterVerizonMediaPosition = @"placement_id";
