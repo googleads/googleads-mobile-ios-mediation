@@ -1,5 +1,8 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Next Version
+- Adapter now fails if the request to Tapjoy returns without any available content.
+
 #### Version 12.4.2.0
 - Verified compatibility with Tapjoy SDK 12.4.2.
 - Now requires minimum iOS version 9.0.
