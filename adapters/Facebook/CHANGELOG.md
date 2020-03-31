@@ -1,6 +1,5 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-
 #### Next Version
 
 
@@ -16,7 +15,7 @@ Built and tested with
 - FAN SDK version 5.7.1.
 
 #### Version 5.7.1.1
-- Removed support for the i386 architecture.s
+- Removed support for the i386 architecture.
 Built and tested with
 - Google Mobile Ads SDK version 7.56.0.
 - FAN SDK version 5.7.1.
