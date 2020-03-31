@@ -1,9 +1,11 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Version 5.8.0.0
-- Verified compatibility with FAN SDK 5.8.0.
 
 #### Next Version
+
+
+#### Version 5.8.0.0
+- Verified compatibility with FAN 5.8.0.
 - Adapter now returns a non-zero `mediaContent` aspect ratio regardless if the media view is rendered or not.
 
 #### Version 5.7.1.2
@@ -14,8 +16,7 @@ Built and tested with
 - FAN SDK version 5.7.1.
 
 #### Version 5.7.1.1
-- Removed support for the i386 architecture.
-
+- Removed support for the i386 architecture.s
 Built and tested with
 - Google Mobile Ads SDK version 7.56.0.
 - FAN SDK version 5.7.1.
