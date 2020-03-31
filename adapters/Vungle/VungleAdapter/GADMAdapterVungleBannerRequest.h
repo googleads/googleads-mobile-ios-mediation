@@ -19,6 +19,8 @@
 - (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
                          uniquePubRequestID:(nonnull NSString *)uniquePubRequestID;
 
+- (BOOL)isEqualToBannerRequest:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
+
 @property(nonatomic, copy, readonly) NSString *_Nonnull placementID;
 @property(nonatomic, copy, readonly) NSString *_Nonnull uniquePubRequestID;
 

@@ -40,6 +40,10 @@
   return [VungleAdNetworkExtras class];
 }
 
++ (NSString *)adapterVersion {
+  return kGADMAdapterVungleVersion;
+}
+
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
@@ -241,6 +245,8 @@
 @synthesize adapterAdType;
 @synthesize bannerState;
 @synthesize bannerRequest;
+@synthesize isRefreshedForBannerAd;
+@synthesize isRequestingBannerAdForRefresh;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
