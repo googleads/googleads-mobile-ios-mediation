@@ -29,17 +29,6 @@
 			name = Framework;
 			productName = Framework;
 		};
-		7DFABB531DA86A1100322E02 /* FatAdapter */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7DFABB541DA86A1100322E02 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
-			buildPhases = (
-				7DFABB571DA86A4100322E02 /* Static Library Script */,
-			);
-			dependencies = (
-			);
-			name = FatAdapter;
-			productName = FatAdapter;
-		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -101,7 +90,6 @@
 		7D9083761E4BCB3E0071C8AD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D9083781E4BCF4C0071C8AD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
-		7D9552B21DC006E5005DCE8D /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		88898C1C1DDFD11700B0E673 /* GADMAdapterTapjoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoy.h; sourceTree = "<group>"; };
@@ -166,7 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				7D9083781E4BCF4C0071C8AD /* README.md */,
-				7D9552B21DC006E5005DCE8D /* Script_Library.sh */,
 				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
 				00DD263222F108AE0039C1D4 /* Script_Validate.sh */,
 			);
@@ -267,9 +254,6 @@
 					7DFABB1C1DA8682C00322E02 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					7DFABB531DA86A1100322E02 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
 				};
 			};
 			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "TapjoyAdapter" */;
@@ -286,7 +270,6 @@
 			projectRoot = "";
 			targets = (
 				7DFABB1C1DA8682C00322E02 /* Adapter */,
-				7DFABB531DA86A1100322E02 /* FatAdapter */,
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
 				00DD263322F108B40039C1D4 /* ValidateSourceCode */,
 			);
@@ -321,20 +304,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
-		};
-		7DFABB571DA86A4100322E02 /* Static Library Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Static Library Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -514,22 +483,6 @@
 			};
 			name = Release;
 		};
-		7DFABB551DA86A1100322E02 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-			};
-			name = Debug;
-		};
-		7DFABB561DA86A1100322E02 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -565,15 +518,6 @@
 			buildConfigurations = (
 				7DFABB271DA8682C00322E02 /* Debug */,
 				7DFABB281DA8682C00322E02 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7DFABB541DA86A1100322E02 /* Build configuration list for PBXAggregateTarget "FatAdapter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7DFABB551DA86A1100322E02 /* Debug */,
-				7DFABB561DA86A1100322E02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
