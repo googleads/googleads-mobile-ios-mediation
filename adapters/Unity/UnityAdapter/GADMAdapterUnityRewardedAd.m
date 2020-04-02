@@ -106,6 +106,17 @@
     [strongDelegate willPresentFullScreenView];
   }
 
+  if (![UnityAds isReady: _placementID] && strongDelegate) {
+    NSError *presentError = GADUnityErrorWithDescription(@"Failed to show Unity Ads rewarded video.");
+    [strongDelegate didFailToPresentWithError:presentError];
+
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData set:_uuid value:@"fail-to-show-rewarded"];
+    [_metaData set:_uuid value:_placementID];
+    [_metaData commit];
+    return;
+  }
+
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"show-rewarded"];
   [_metaData set:_uuid value:_placementID];

@@ -107,11 +107,19 @@
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [_networkConnector adapterWillPresentInterstitial:self];
 
+  if (![UnityAds isReady: _placementID]) {
+    [_networkConnector adapterDidDismissInterstitial:self];
+    [_metaData setCategory:@"mediation_adapter"];
+    [_metaData set:_uuid value:@"fail-to-show-interstitial"];
+    [_metaData set:_uuid value:_placementID];
+    [_metaData commit];
+    return;
+  }
+
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"show-interstitial"];
   [_metaData set:_uuid value:_placementID];
   [_metaData commit];
-
   [[GADMAdapterUnitySingleton sharedInstance] presentInterstitialAdForViewController:rootViewController delegate:self];
 }
 
