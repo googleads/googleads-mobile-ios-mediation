@@ -1,8 +1,11 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Next Version
-- Fix bug introduced in 5.6.1.0 where `tagForChildDirectedTreatment` was incorrectly mapped to Facebook's
-  `setMixedAudience` method.
+#### Version 5.8.0.1
+- Fix bug introduced in 5.6.1.0 where `tagForChildDirectedTreatment` was incorrectly mapped to Facebook's setMixedAudience` method.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.57.0.
+- FAN SDK version 5.8.0
 
 #### Version 5.8.0.0
 - Verified compatibility with FAN SDK 5.8.0.
