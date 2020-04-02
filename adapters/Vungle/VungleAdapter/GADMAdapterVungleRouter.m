@@ -173,10 +173,6 @@ const CGSize kVNGBannerShortSize = {300, 50};
 }
 
 - (void)replaceOldBannerDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  if (!delegate) {
-    return;
-  }
-
   if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
     @synchronized(_bannerDelegates) {
       // We only support displaying one Vungle Banner Ad at the same time currently
