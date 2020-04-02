@@ -1,5 +1,9 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fix bug introduced in 5.6.1.0 where `tagForChildDirectedTreatment` was incorrectly mapped to Facebook's
+  `setMixedAudience` method.
+
 #### Version 5.8.0.0
 - Verified compatibility with FAN SDK 5.8.0.
 - Adapter now returns a non-zero `mediaContent` aspect ratio regardless if the media view is rendered or not.

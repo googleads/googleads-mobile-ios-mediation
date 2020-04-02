@@ -42,5 +42,5 @@ void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set,
 }
 
 void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment) {
-  [FBAdSettings setMixedAudience:!childDirectedTreatment.boolValue];
+  [FBAdSettings setMixedAudience:childDirectedTreatment.boolValue];
 }
