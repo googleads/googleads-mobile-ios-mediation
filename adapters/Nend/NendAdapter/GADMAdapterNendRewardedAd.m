@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #import "GADMAdapterNendRewardedAd.h"
+
+#import <NendAd/NendAd.h>
+
 #import "GADMAdapterNendConstants.h"
 #import "GADNendRewardedNetworkExtras.h"
-@import NendAd;
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
 
@@ -27,9 +29,10 @@
 
 @implementation GADMAdapterNendRewardedAd
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.completionHandler = completionHandler;
 
   NSString *spotId = adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
@@ -59,63 +62,66 @@
 
 #pragma mark - GADMediationRewardedAd
 
-- (void)presentFromViewController:(UIViewController *)viewController {
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (self.rewardedVideo.isReady) {
     [self.rewardedVideo showAdFromViewController:viewController];
   } else {
-    NSError *error = [NSError
-                       errorWithDomain:kGADMAdapterNendErrorDomain
-                       code:kGADErrorInternalError
-                       userInfo:@{NSLocalizedDescriptionKey : @"The rewarded ad is not ready to be shown."}];
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                            code:kGADErrorInternalError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey : @"The rewarded ad is not ready to be shown."
+                        }];
     [self.adEventDelegate didFailToPresentWithError:error];
   }
 }
 
 #pragma mark - NADRewardedVideoDelegate
 
-- (void)nadRewardVideoAdDidReceiveAd:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidReceiveAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   self.adEventDelegate = self.completionHandler(self, nil);
 }
 
-- (void)nadRewardVideoAd:(NADRewardedVideo *)nadRewardedVideoAd
+- (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
     didFailToLoadWithError:(NSError *)error {
   self.completionHandler(nil, error);
 }
 
-- (void)nadRewardVideoAdDidOpen:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidOpen:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = self.adEventDelegate;
   [strongAdEventDelegate willPresentFullScreenView];
   [strongAdEventDelegate reportImpression];
 }
 
-- (void)nadRewardVideoAdDidClose:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidClose:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   [self.adEventDelegate didDismissFullScreenView];
 }
 
-- (void)nadRewardVideoAdDidStartPlaying:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidStartPlaying:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   [self.adEventDelegate didStartVideo];
 }
 
-- (void)nadRewardVideoAdDidCompletePlaying:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidCompletePlaying:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   [self.adEventDelegate didEndVideo];
 }
 
-- (void)nadRewardVideoAdDidClickAd:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidClickAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   [self.adEventDelegate reportClick];
 }
 
-- (void)nadRewardVideoAdDidClickInformation:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidClickInformation:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   // do nothing
 }
 
-- (void)nadRewardVideoAd:(NADRewardedVideo *)nadRewardedVideoAd didReward:(NADReward *)reward {
+- (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
+               didReward:(NADReward *)reward {
   NSDecimalNumber *amount = [NSDecimalNumber
       decimalNumberWithDecimal:[[NSNumber numberWithInteger:reward.amount] decimalValue]];
   GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:reward.name rewardAmount:amount];
   [self.adEventDelegate didRewardUserWithReward:gadReward];
 }
 
-- (void)nadRewardVideoAdDidFailedToPlay:(NADRewardedVideo *)nadRewardedVideoAd {
+- (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
                                        code:kGADErrorInternalError
                                    userInfo:@{NSLocalizedDescriptionKey : @"No ads to show."}];
