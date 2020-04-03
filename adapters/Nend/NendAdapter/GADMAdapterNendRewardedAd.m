@@ -17,6 +17,7 @@
 #import <NendAd/NendAd.h>
 
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendUtils.h"
 #import "GADNendRewardedNetworkExtras.h"
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
@@ -49,10 +50,8 @@
 
     self.rewardedVideo.delegate = self;
   } else {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterNendErrorDomain
-                   code:kGADErrorInternalError
-               userInfo:@{NSLocalizedDescriptionKey : @"SpotID and apiKey must not be nil"}];
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
     completionHandler(nil, error);
     return;
   }
@@ -66,12 +65,8 @@
   if (self.rewardedVideo.isReady) {
     [self.rewardedVideo showAdFromViewController:viewController];
   } else {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterNendErrorDomain
-                            code:kGADErrorInternalError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey : @"The rewarded ad is not ready to be shown."
-                        }];
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"The rewarded ad is not ready to be shown.");
     [self.adEventDelegate didFailToPresentWithError:error];
   }
 }
@@ -122,9 +117,8 @@
 }
 
 - (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
-                                       code:kGADErrorInternalError
-                                   userInfo:@{NSLocalizedDescriptionKey : @"No ads to show."}];
+  NSError *error =
+      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, @"No ads to show.");
   [self.adEventDelegate didFailToPresentWithError:error];
 }
 

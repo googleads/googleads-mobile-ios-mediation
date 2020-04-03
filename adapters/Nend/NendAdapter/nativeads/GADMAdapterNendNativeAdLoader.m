@@ -12,6 +12,7 @@
 #import "GADMAdapterNendAdUnitMapper.h"
 #import "GADMAdapterNendNativeAd.h"
 #import "GADMAdapterNendNativeVideoAd.h"
+#import "GADMAdapterNendUtils.h"
 
 @implementation GADMAdapterNendNativeAdLoader
 
@@ -20,10 +21,8 @@
                apiKey:(nonnull NSString *)apiKey
                 extra:(nonnull GADMAdapterNendExtras *)extras {
   if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterNendErrorDomain
-                   code:kGADErrorInternalError
-               userInfo:@{NSLocalizedDescriptionKey : @"SpotID and apiKey must not be nil"}];
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"SpotID and apiKey must not be nil.");
     [self didFailToLoadWithError:error];
     return;
   }
@@ -97,12 +96,8 @@
                       [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
                   [self didReceiveUnifiedNativeAd:unifiedAd];
                 } else {
-                  NSError *imageError =
-                      [NSError errorWithDomain:kGADMAdapterNendErrorDomain
-                                          code:kGADErrorInternalError
-                                      userInfo:@{
-                                        NSLocalizedDescriptionKey : @"Failed to load image assets."
-                                      }];
+                  NSError *imageError = GADMAdapterNendErrorWithCodeAndDescription(
+                      kGADErrorInternalError, @"Failed to load image assets.");
                   [self didFailToLoadWithError:imageError];
                 }
               }];

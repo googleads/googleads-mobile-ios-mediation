@@ -13,4 +13,5 @@
 + (BOOL)validateApiKey:(nonnull NSString *)apiKey spotId:(nonnull NSString *)spotId;
 + (nonnull NSString *)mappingAdUnitId:(nonnull id<GADMAdNetworkConnector>)connector
                              paramKey:(nonnull NSString *)paramKey;
+
 @end
