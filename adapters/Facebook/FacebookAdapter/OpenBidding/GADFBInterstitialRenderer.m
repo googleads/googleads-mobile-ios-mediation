@@ -33,7 +33,9 @@
   FBInterstitialAd *_interstitialAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
-  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  // Intentionally keeping a reference to the delegate because this delegate is returned from the
+  // GMA SDK, not set on the GMA SDK.
+  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 
   BOOL _isRTBRequest;
 }
@@ -68,7 +70,8 @@
   NSString *placementID =
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
-    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.") ;
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -130,10 +133,17 @@
   // The Facebook Audience Network SDK doesn't have a callback for an interstitial presenting a full
   // screen view. Invoke this callback on the Google Mobile Ads SDK within this method instead.
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate) {
+  if (![_interstitialAd showAdFromRootViewController:viewController]) {
+    NSString *description = [NSString
+        stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBInterstitialAd class])];
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdNotValid, description);
+    [strongDelegate didFailToPresentWithError:error];
+    // TODO: Remove these callbacks if GADInterstitial adds a presentation failure callback in the future.
     [strongDelegate willPresentFullScreenView];
+    [strongDelegate willDismissFullScreenView];
+    [strongDelegate didDismissFullScreenView];
+    return;
   }
-  [_interstitialAd showAdFromRootViewController:viewController];
 }
 
 @end

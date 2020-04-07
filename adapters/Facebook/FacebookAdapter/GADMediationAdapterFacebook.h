@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, GADFBErrorCode) {
   GADFBErrorBannerSizeMismatch = 102,
   /// The Facebook ad object is nil after calling its initializer.
   GADFBErrorAdObjectNil = 103,
-  /// The Facebook ad object is not valid (e.g. when trying to show a full screen ad).
+  /// The Facebook SDK returned NO from its showAd call.
   GADFBErrorAdNotValid = 104,
   /// Root view controller is nil.
   GADFBErrorRootViewControllerNil = 105,

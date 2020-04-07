@@ -83,7 +83,17 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
-  [_interstitialAd showAdFromRootViewController:rootViewController];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+  if (![_interstitialAd showAdFromRootViewController:rootViewController]) {
+    NSLog(@"%@ failed to present.", NSStringFromClass([FBInterstitialAd class]));
+    [strongConnector adapterWillPresentFullScreenModal:strongAdapter];
+    [strongConnector adapterWillDismissFullScreenModal:strongAdapter];
+    [strongConnector adapterDidDismissFullScreenModal:strongAdapter];
+    return;
+  }
 }
-
 @end
