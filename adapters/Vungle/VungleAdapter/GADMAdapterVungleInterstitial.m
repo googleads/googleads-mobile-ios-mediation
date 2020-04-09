@@ -97,7 +97,7 @@
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
   self.bannerRequest = [[GADMAdapterVungleBannerRequest alloc] initWithPlacementID:self.desiredPlacement ?: @""
-                                                                uniquePubRequestID:networkExtras.UUID ?: @""];
+                                                                uniquePubRequestID:networkExtras.UUID];
   if (!self.desiredPlacement) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(

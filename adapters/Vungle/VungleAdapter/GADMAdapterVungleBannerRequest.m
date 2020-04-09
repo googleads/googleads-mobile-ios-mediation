@@ -24,7 +24,7 @@
 @implementation GADMAdapterVungleBannerRequest
 
 - (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
-                         uniquePubRequestID:(nonnull NSString *)uniquePubRequestID{
+                         uniquePubRequestID:(nullable NSString *)uniquePubRequestID {
   self = [super init];
   if (self) {
     _placementID = [placementID copy];
@@ -34,7 +34,7 @@
 }
 
 - (nonnull instancetype)init {
-  return [self initWithPlacementID:@"" uniquePubRequestID:@""];
+  return [self initWithPlacementID:@"" uniquePubRequestID:nil];
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {

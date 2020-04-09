@@ -17,11 +17,11 @@
 @interface GADMAdapterVungleBannerRequest : NSObject <NSCopying>
 
 - (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
-                         uniquePubRequestID:(nonnull NSString *)uniquePubRequestID;
+                         uniquePubRequestID:(nullable NSString *)uniquePubRequestID;
 
 - (BOOL)isEqualToBannerRequest:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
 
 @property(nonatomic, copy, readonly) NSString *_Nonnull placementID;
-@property(nonatomic, copy, readonly) NSString *_Nonnull uniquePubRequestID;
+@property(nonatomic, copy, readonly) NSString *_Nullable uniquePubRequestID;
 
 @end
