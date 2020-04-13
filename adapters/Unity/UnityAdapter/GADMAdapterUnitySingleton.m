@@ -66,7 +66,8 @@
 - (void)addAdapterDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
   @synchronized(_adapterDelegates) {
-    [_adapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getPlacementID]];
+    GADMAdapterUnityMapTableSetObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID],
+                                            adapterDelegate);
   }
 }
 
