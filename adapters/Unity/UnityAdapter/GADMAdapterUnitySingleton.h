@@ -45,7 +45,7 @@
 /// Presents an interstitial ad for |viewController| with |adapterDelegate|.
 - (void)presentInterstitialAdForViewController:(UIViewController *)viewController
                                       delegate:(id<GADMAdapterUnityDataProvider,
-                                                    UnityAdsExtendedDelegate>)adapterDelegate;
+                                                   UnityAdsExtendedDelegate>)adapterDelegate;
 
 /// Tells the adapter to remove itself as a |adapterDelegate|.
 - (void)stopTrackingDelegate:

@@ -14,11 +14,11 @@
 
 #import "GADMAdapterUnity.h"
 
+#import "GADMAdapterUnityBannerAd.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnitySingleton.h"
 #import "GADMediationAdapterUnity.h"
 #import "GADUnityError.h"
-#import "GADMAdapterUnityBannerAd.h"
 
 @interface GADMAdapterUnity () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -38,7 +38,6 @@
 
   /// MetaData for storing Unity instrument analysis
   UADSMetaData *_metaData;
-
 }
 
 @end
@@ -74,11 +73,11 @@
   self = [super init];
   if (self) {
     _networkConnector = connector;
-    
+
     _uuid = [[NSUUID UUID] UUIDString];
-      
+
     _metaData = [[UADSMetaData alloc] init];
-      
+
     [_metaData setCategory:@"mediation_adapter"];
     [_metaData set:_uuid value:@"create-adapter"];
     [_metaData commit];
@@ -107,7 +106,7 @@
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [_networkConnector adapterWillPresentInterstitial:self];
 
-  if (![UnityAds isReady: _placementID]) {
+  if (![UnityAds isReady:_placementID]) {
     [_networkConnector adapterDidDismissInterstitial:self];
     [_metaData setCategory:@"mediation_adapter"];
     [_metaData set:_uuid value:@"fail-to-show-interstitial"];
@@ -120,7 +119,9 @@
   [_metaData set:_uuid value:@"show-interstitial"];
   [_metaData set:_uuid value:_placementID];
   [_metaData commit];
-  [[GADMAdapterUnitySingleton sharedInstance] presentInterstitialAdForViewController:rootViewController delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance]
+      presentInterstitialAdForViewController:rootViewController
+                                    delegate:self];
 }
 
 #pragma mark Banner Methods
@@ -155,7 +156,7 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  if([placementID isEqualToString:_placementID]) {
+  if ([placementID isEqualToString:_placementID]) {
     if (newState == kUnityAdsPlacementStateNoFill || newState == kUnityAdsPlacementStateDisabled) {
       id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
       if (strongNetworkConnector) {

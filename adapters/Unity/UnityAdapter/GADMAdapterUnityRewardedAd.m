@@ -18,7 +18,7 @@
 #import "GADUnityError.h"
 
 @interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
-    // The completion handler to call when the ad loading succeeds or fails.
+  // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
@@ -106,8 +106,9 @@
     [strongDelegate willPresentFullScreenView];
   }
 
-  if (![UnityAds isReady: _placementID] && strongDelegate) {
-    NSError *presentError = GADUnityErrorWithDescription(@"Failed to show Unity Ads rewarded video.");
+  if (![UnityAds isReady:_placementID] && strongDelegate) {
+    NSError *presentError =
+        GADUnityErrorWithDescription(@"Failed to show Unity Ads rewarded video.");
     [strongDelegate didFailToPresentWithError:presentError];
 
     [_metaData setCategory:@"mediation_adapter"];
@@ -122,7 +123,8 @@
   [_metaData set:_uuid value:_placementID];
   [_metaData commit];
 
-  [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController delegate:self];
+  [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController
+                                                                        delegate:self];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -138,18 +140,18 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-    if (error == kUnityAdsErrorNotInitialized) {
-      if (_adLoadCompletionHandler) {
-        NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-        _adLoadCompletionHandler(nil, errorWithDescription);
-        _adLoadCompletionHandler = nil;
-      }
-    } else {
-      if (_adEventDelegate) {
-          NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-          [_adEventDelegate didFailToPresentWithError:errorWithDescription];
-      }
+  if (error == kUnityAdsErrorNotInitialized) {
+    if (_adLoadCompletionHandler) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+      _adLoadCompletionHandler(nil, errorWithDescription);
+      _adLoadCompletionHandler = nil;
     }
+  } else {
+    if (_adEventDelegate) {
+      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
+      [_adEventDelegate didFailToPresentWithError:errorWithDescription];
+    }
+  }
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
@@ -162,13 +164,14 @@
   if (!strongDelegate) {
     return;
   }
-  if ( state == kUnityAdsFinishStateCompleted) {
+  if (state == kUnityAdsFinishStateCompleted) {
     [strongDelegate didEndVideo];
 
     // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
     // amount of 1. Publishers using this adapter should override the reward on the AdMob
     // front-end.
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:[NSDecimalNumber one]];
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                     rewardAmount:[NSDecimalNumber one]];
     [strongDelegate didRewardUserWithReward:reward];
   } else if (state == kUnityAdsFinishStateError) {
     NSError *presentError = GADUnityErrorWithDescription(@"Finish State Error");

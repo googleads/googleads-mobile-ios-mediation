@@ -120,7 +120,7 @@
       return;
     }
   }
- 
+
   [self addAdapterDelegate:adapterDelegate];
   if (![UnityAds isInitialized]) {
     [self initializeWithGameID:gameID];
@@ -180,8 +180,9 @@
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-  if (error == kUnityAdsErrorInitSanityCheckFail || error == kUnityAdsErrorNotInitialized || error == kUnityAdsErrorInvalidArgument ||
-      error == kUnityAdsErrorInitializedFailed || error == kUnityAdsErrorAdBlockerDetected) {
+  if (error == kUnityAdsErrorInitSanityCheckFail || error == kUnityAdsErrorNotInitialized ||
+      error == kUnityAdsErrorInvalidArgument || error == kUnityAdsErrorInitializedFailed ||
+      error == kUnityAdsErrorAdBlockerDetected) {
     NSArray<id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>> *delegates;
     @synchronized(_adapterDelegates) {
       delegates = _adapterDelegates.objectEnumerator.allObjects;
@@ -190,7 +191,7 @@
     for (id<UnityAdsExtendedDelegate, UnityAdsExtendedDelegate> delegate in delegates) {
       [delegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:message];
     }
-        
+
     @synchronized(_adapterDelegates) {
       [_adapterDelegates removeAllObjects];
     }
