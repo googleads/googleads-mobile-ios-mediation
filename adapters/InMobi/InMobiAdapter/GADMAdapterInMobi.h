@@ -15,9 +15,11 @@
 
 @interface GADMAdapterInMobi
     : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate>
+
 @property(nonatomic, retain) IMBanner *adView;
 @property(nonatomic, retain) IMInterstitial *interstitial;
 @property(nonatomic, retain) IMNative *native;
 @property(nonatomic, readonly) long long placementId;
 @property(nonatomic, strong) id<GADMAdNetworkConnector> connector;
+
 @end

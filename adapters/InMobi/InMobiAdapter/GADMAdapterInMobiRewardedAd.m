@@ -187,12 +187,12 @@
 
 #pragma mark IMInterstitialDelegate methods
 
-- (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
+- (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   _adEventDelegate = _renderCompletionHandler(self, nil);
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
-    didFailToLoadWithError:(IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
@@ -206,11 +206,11 @@
   _renderCompletionHandler(nil, requestError);
 }
 
-- (void)interstitialWillPresent:(IMInterstitial *)interstitial {
+- (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
   [_adEventDelegate willPresentFullScreenView];
 }
 
-- (void)interstitialDidPresent:(IMInterstitial *)interstitial {
+- (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
     [strongDelegate reportImpression];
@@ -218,8 +218,8 @@
   }
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
-    didFailToPresentWithError:(IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToPresentWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   GADRequestError *reqError =
@@ -232,27 +232,28 @@
   [_adEventDelegate didFailToPresentWithError:reqError];
 }
 
-- (void)interstitialWillDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
   [_adEventDelegate willDismissFullScreenView];
 }
 
-- (void)interstitialDidDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didInteractWithParams:(nonnull NSDictionary *)params {
   [_adEventDelegate reportClick];
 }
 
-- (void)interstitialDidReceiveAd:(IMInterstitial *)interstitial {
+- (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
   // No equivalent callback in the Google Mobile Ads SDK.
   // This event indicates that InMobi fetched an ad from the server, but hasn't loaded it yet.
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
   NSString *key = rewards.allKeys.firstObject;

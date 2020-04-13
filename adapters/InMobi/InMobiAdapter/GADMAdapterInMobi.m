@@ -53,15 +53,15 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return [GADMediationAdapterInMobi class];
 }
 
-+ (NSString *)adapterVersion {
++ (nonnull NSString *)adapterVersion {
   return kGADMAdapterInMobiVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADInMobiExtras class];
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id)connector {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id)connector {
   self.connector = connector;
   self.shouldDownloadImages = YES;
   self.serveAnyAd = NO;
@@ -149,7 +149,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 }
 
-- (Boolean)isPerformanceAd:(IMNative *)imNative {
+- (Boolean)isPerformanceAd:(nonnull IMNative *)imNative {
   NSData *data = [imNative.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
   NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data
@@ -161,7 +161,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return NO;
 }
 
-- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
+- (void)getNativeAdWithAdTypes:(nonnull NSArray *)adTypes options:(nullable NSArray *)options {
   NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
   NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
   if (error) {
@@ -296,7 +296,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   self.interstitial.delegate = nil;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   if ([self.interstitial isReady]) {
     [self.interstitial showFromViewController:rootViewController
                                 withAnimation:kIMInterstitialAnimationTypeCoverVertical];
@@ -319,12 +319,12 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 #pragma mark IMBannerDelegate methods
 
-- (void)bannerDidFinishLoading:(IMBanner *)banner {
+- (void)bannerDidFinishLoading:(nonnull IMBanner *)banner {
   NSLog(@"<<<<<ad request completed>>>>>");
   [self.connector adapter:self didReceiveAdView:banner];
 }
 
-- (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error {
+- (void)banner:(nonnull IMBanner *)banner didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
   NSDictionary *errorInfo =
@@ -337,47 +337,48 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSLog(@"error code=%ld", (long)[error code]);
 }
 
-- (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params {
+- (void)banner:(nonnull IMBanner *)banner didInteractWithParams:(nonnull NSDictionary *)params {
   NSLog(@"<<<< bannerDidInteract >>>>");
   [self.connector adapterDidGetAdClick:self];
 }
 
-- (void)userWillLeaveApplicationFromBanner:(IMBanner *)banner {
+- (void)userWillLeaveApplicationFromBanner:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillLeaveApplication >>>>");
   [self.connector adapterWillLeaveApplication:self];
 }
 
-- (void)bannerWillPresentScreen:(IMBanner *)banner {
+- (void)bannerWillPresentScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillPresentScreen >>>>");
   [self.connector adapterWillPresentFullScreenModal:self];
 }
 
-- (void)bannerDidPresentScreen:(IMBanner *)banner {
+- (void)bannerDidPresentScreen:(nonnull IMBanner *)banner {
   NSLog(@"InMobi banner did present screen");
 }
 
-- (void)bannerWillDismissScreen:(IMBanner *)banner {
+- (void)bannerWillDismissScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillDismissScreen >>>>");
   [self.connector adapterWillDismissFullScreenModal:self];
 }
 
-- (void)bannerDidDismissScreen:(IMBanner *)banner {
+- (void)bannerDidDismissScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerDidDismissScreen >>>>");
   [self.connector adapterDidDismissFullScreenModal:self];
 }
 
-- (void)banner:(IMBanner *)banner rewardActionCompletedWithRewards:(NSDictionary *)rewards {
+- (void)banner:(nonnull IMBanner *)banner
+    rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
   NSLog(@"InMobi banner reward action completed with rewards: %@", [rewards description]);
 }
 
 #pragma mark IMAdInterstitialDelegate methods
 
-- (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
+- (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidFinishRequest >>>>");
   [self.connector adapterDidReceiveInterstitial:self];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
@@ -391,18 +392,18 @@ __attribute__((constructor)) static void initialize_imageCache() {
   [self.connector adapter:self didFailAd:reqError];
 }
 
-- (void)interstitialWillPresent:(IMInterstitial *)interstitial {
+- (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillPresentScreen >>>>");
   if (self.connector != nil) {
     [self.connector adapterWillPresentInterstitial:self];
   }
 }
 
-- (void)interstitialDidPresent:(IMInterstitial *)interstitial {
+- (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidPresent >>>>");
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(IMRequestStatus *)error {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
@@ -416,36 +417,37 @@ __attribute__((constructor)) static void initialize_imageCache() {
   [self.connector adapter:self didFailAd:reqError];
 }
 
-- (void)interstitialWillDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillDismiss >>>>");
   if (self.connector != nil) {
     [self.connector adapterWillDismissInterstitial:self];
   }
 }
 
-- (void)interstitialDidDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidDismiss >>>>");
   [self.connector adapterDidDismissInterstitial:self];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didInteractWithParams:(nonnull NSDictionary *)params {
   NSLog(@"<<<< interstitialDidInteract >>>>");
   [self.connector adapterDidGetAdClick:self];
 }
 
-- (void)userWillLeaveApplicationFromInterstitial:(IMInterstitial *)interstitial {
+- (void)userWillLeaveApplicationFromInterstitial:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< userWillLeaveApplicationFromInterstitial >>>>");
   [self.connector adapterWillLeaveApplication:self];
 }
 
-- (void)interstitialDidReceiveAd:(IMInterstitial *)interstitial {
+- (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
   NSLog(@"InMobi AdServer returned a response");
 }
 
 /**
  * Notifies the delegate that the native ad has finished loading
  */
-- (void)nativeDidFinishLoading:(IMNative *)native {
+- (void)nativeDidFinishLoading:(nonnull IMNative *)native {
   if (self.native != native) {
     GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                             code:kGADErrorNoFill
@@ -464,7 +466,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 /**
  * Notifies the delegate that the native ad has failed to load with error.
  */
-- (void)native:(IMNative *)native didFailToLoadWithError:(IMRequestStatus *)error {
+- (void)native:(nonnull IMNative *)native didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSLog(@"Native Ad failed to load");
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
   NSString *errorDesc = [error localizedDescription];
@@ -480,7 +482,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 /**
  * Notifies the delegate that the native ad would be presenting a full screen content.
  */
-- (void)nativeWillPresentScreen:(IMNative *)native {
+- (void)nativeWillPresentScreen:(nonnull IMNative *)native {
   NSLog(@"Native Will Present screen");
   [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
 }
@@ -488,14 +490,14 @@ __attribute__((constructor)) static void initialize_imageCache() {
 /**
  * Notifies the delegate that the native ad has presented a full screen content.
  */
-- (void)nativeDidPresentScreen:(IMNative *)native {
+- (void)nativeDidPresentScreen:(nonnull IMNative *)native {
   NSLog(@"Native Did Present screen");
 }
 
 /**
  * Notifies the delegate that the native ad would be dismissing the presented full screen content.
  */
-- (void)nativeWillDismissScreen:(IMNative *)native {
+- (void)nativeWillDismissScreen:(nonnull IMNative *)native {
   NSLog(@"Native Will dismiss screen");
   [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
 }
@@ -503,7 +505,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 /**
  * Notifies the delegate that the native ad has dismissed the presented full screen content.
  */
-- (void)nativeDidDismissScreen:(IMNative *)native {
+- (void)nativeDidDismissScreen:(nonnull IMNative *)native {
   NSLog(@"Native Did dismiss screen");
   [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
 }
@@ -511,25 +513,25 @@ __attribute__((constructor)) static void initialize_imageCache() {
 /**
  * Notifies the delegate that the user will be taken outside the application context.
  */
-- (void)userWillLeaveApplicationFromNative:(IMNative *)native {
+- (void)userWillLeaveApplicationFromNative:(nonnull IMNative *)native {
   NSLog(@"User will leave application from native");
   [self.connector adapterWillLeaveApplication:self];
 }
 
-- (void)nativeAdImpressed:(IMNative *)native {
+- (void)nativeAdImpressed:(nonnull IMNative *)native {
   NSLog(@"InMobi recorded impression successfully");
   [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
 }
 
-- (void)native:(IMNative *)native didInteractWithParams:(NSDictionary *)params {
+- (void)native:(nonnull IMNative *)native didInteractWithParams:(nonnull NSDictionary *)params {
   NSLog(@"User did interact with native");
 }
 
-- (void)nativeDidFinishPlayingMedia:(IMNative *)native {
+- (void)nativeDidFinishPlayingMedia:(nonnull IMNative *)native {
   NSLog(@"Native ad finished playing media");
 }
 
-- (void)userDidSkipPlayingMediaFromNative:(IMNative *)native {
+- (void)userDidSkipPlayingMediaFromNative:(nonnull IMNative *)native {
   NSLog(@"User did skip playing media from native");
 }
 

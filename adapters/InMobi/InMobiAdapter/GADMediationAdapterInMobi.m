@@ -92,9 +92,10 @@ static BOOL _isInitialized;
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (!_rewardedAd) {
     NSString *placementIdentifierString =
         adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];

@@ -243,20 +243,20 @@ static CGFloat const DefaultIconScale = 1.0;
   return _aspectRatio;
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
-                                 view:(UIView *)view
-                       viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(nonnull UIView *)view
+                       viewController:(nonnull UIViewController *)viewController {
   if (_native) {
     [_native reportAdClickAndOpenLandingPage];
   }
 }
 
-- (void)didRenderInView:(UIView *)view
+- (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(nonnull UIViewController *)viewController {
   GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
@@ -265,7 +265,7 @@ static CGFloat const DefaultIconScale = 1.0;
   _aspectRatio = primaryView.frame.size.width / primaryView.frame.size.height;
 }
 
-- (void)didUntrackView:(UIView *)view {
+- (void)didUntrackView:(nullable UIView *)view {
   [_native recyclePrimaryView];
   _native = nil;
 }
@@ -277,7 +277,7 @@ static CGFloat const DefaultIconScale = 1.0;
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }
 
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(InMobiMediatedUnifiedNativeAd *)ad {
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nullable InMobiMediatedUnifiedNativeAd *)ad {
   if (self.adapter != nil && self.adapter.connector != nil) {
     [self.adapter.connector adapter:self.adapter didReceiveMediatedUnifiedNativeAd:ad];
   }
