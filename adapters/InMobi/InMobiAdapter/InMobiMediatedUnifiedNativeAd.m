@@ -8,6 +8,7 @@
 
 #import "InMobiMediatedUnifiedNativeAd.h"
 #import <Foundation/Foundation.h>
+#import "GADMAdapterInMobiUtils.h"
 #import "NativeAdKeys.h"
 
 static CGFloat const DefaultIconScale = 1.0;
@@ -123,7 +124,7 @@ static CGFloat const DefaultIconScale = 1.0;
       UIImage *image = [UIImage imageWithData:imageData];
       if (image) {
         cachedImage = image;
-        [imageCache setObject:cachedImage forKey:cacheKey];
+        GADMAdapterInMobiCacheSetObjectForKey(imageCache, cacheKey, cachedImage);
       }
     }
     dispatch_async(dispatch_get_main_queue(), ^{

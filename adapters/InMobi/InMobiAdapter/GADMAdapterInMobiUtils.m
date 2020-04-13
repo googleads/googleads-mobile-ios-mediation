@@ -62,6 +62,13 @@ void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
   }
 }
 
+void GADMAdapterInMobiCacheSetObjectForKey(NSCache *_Nonnull cache, id<NSCopying> _Nullable key,
+                                           id _Nullable value) {
+  if (value && key) {
+    [cache setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
