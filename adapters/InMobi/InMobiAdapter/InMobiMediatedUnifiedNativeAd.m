@@ -104,10 +104,11 @@ static CGFloat const DefaultIconScale = 1.0;
                     self->_mappedIcon = [[GADNativeAdImage alloc] initWithImage:image];
                     completed();
                   }];
-  } else {
-    _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
-    completed();
+    return;
   }
+
+  _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
+  completed();
 }
 
 #pragma mark - Async Image
@@ -194,22 +195,23 @@ static CGFloat const DefaultIconScale = 1.0;
 
 - (nullable NSString *)store {
   NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
-  if (landingURL) {
-    NSRange searchedRange = NSMakeRange(0, [landingURL length]);
-    NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
-                                                  options:0
-                                                    error:&error];
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
-                                                        options:0
-                                                          range:searchedRange];
-    if (numberOfMatches == 0)
-      return @"Others";
-    else
-      return @"iTunes";
+  if (!landingURL.length) {
+    return @"";
   }
-  return @"";
+
+  NSRange searchedRange = NSMakeRange(0, [landingURL length]);
+  NSError *error = nil;
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
+                                                options:0
+                                                  error:&error];
+  NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
+                                                      options:0
+                                                        range:searchedRange];
+  if (numberOfMatches == 0) {
+    return @"Others";
+  }
+  return @"iTunes";
 }
 
 - (nullable NSString *)price {

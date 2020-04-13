@@ -65,7 +65,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   self.connector = connector;
   self.shouldDownloadImages = YES;
   self.serveAnyAd = NO;
-  if ((self = [super init])) {
+  if (self = [super init]) {
     self.connector = connector;
   }
   return self;
@@ -90,17 +90,29 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   if (self.extraInfo != nil) {
-    if (self.extraInfo.postalCode != nil) [IMSdk setPostalCode:self.extraInfo.postalCode];
-    if (self.extraInfo.areaCode != nil) [IMSdk setAreaCode:self.extraInfo.areaCode];
-    if (self.extraInfo.interests != nil) [IMSdk setInterests:self.extraInfo.interests];
-    if (self.extraInfo.age) [IMSdk setAge:self.extraInfo.age];
-    if (self.extraInfo.yearOfBirth) [IMSdk setYearOfBirth:self.extraInfo.yearOfBirth];
+    if (self.extraInfo.postalCode != nil) {
+      [IMSdk setPostalCode:self.extraInfo.postalCode];
+    }
+    if (self.extraInfo.areaCode != nil) {
+      [IMSdk setAreaCode:self.extraInfo.areaCode];
+    }
+    if (self.extraInfo.interests != nil) {
+      [IMSdk setInterests:self.extraInfo.interests];
+    }
+    if (self.extraInfo.age) {
+      [IMSdk setAge:self.extraInfo.age];
+    }
+    if (self.extraInfo.yearOfBirth) {
+      [IMSdk setYearOfBirth:self.extraInfo.yearOfBirth];
+    }
     if (self.extraInfo.city && self.extraInfo.state && self.extraInfo.country) {
       [IMSdk setLocationWithCity:self.extraInfo.city
                            state:self.extraInfo.state
                          country:self.extraInfo.country];
     }
-    if (self.extraInfo.language != nil) [IMSdk setLanguage:self.extraInfo.language];
+    if (self.extraInfo.language != nil) {
+      [IMSdk setLanguage:self.extraInfo.language];
+    }
   }
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -120,13 +132,19 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if (self.adView) {
     // Let Mediation do the refresh animation.
     self.adView.transitionAnimation = UIViewAnimationTransitionNone;
-    if (self.extraInfo.keywords != nil) [self.adView setKeywords:self.extraInfo.keywords];
+    if (self.extraInfo.keywords != nil) {
+      [self.adView setKeywords:self.extraInfo.keywords];
+    }
     [self.adView setExtras:[NSDictionary dictionaryWithDictionary:dict]];
   } else if (self.interstitial) {
-    if (self.extraInfo.keywords != nil) [self.interstitial setKeywords:self.extraInfo.keywords];
+    if (self.extraInfo.keywords != nil) {
+      [self.interstitial setKeywords:self.extraInfo.keywords];
+    }
     [self.interstitial setExtras:[NSDictionary dictionaryWithDictionary:dict]];
   } else if (self.native) {
-    if (self.extraInfo.keywords != nil) [self.native setKeywords:self.extraInfo.keywords];
+    if (self.extraInfo.keywords != nil) {
+      [self.native setKeywords:self.extraInfo.keywords];
+    }
     [self.native setExtras:[NSDictionary dictionaryWithDictionary:dict]];
   }
 }
@@ -375,7 +393,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)interstitialWillPresent:(IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillPresentScreen >>>>");
-  if (self.connector != nil) [self.connector adapterWillPresentInterstitial:self];
+  if (self.connector != nil) {
+    [self.connector adapterWillPresentInterstitial:self];
+  }
 }
 
 - (void)interstitialDidPresent:(IMInterstitial *)interstitial {
@@ -398,7 +418,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)interstitialWillDismiss:(IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillDismiss >>>>");
-  if (self.connector != nil) [self.connector adapterWillDismissInterstitial:self];
+  if (self.connector != nil) {
+    [self.connector adapterWillDismissInterstitial:self];
+  }
 }
 
 - (void)interstitialDidDismiss:(IMInterstitial *)interstitial {

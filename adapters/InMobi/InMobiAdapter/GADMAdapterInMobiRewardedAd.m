@@ -172,7 +172,9 @@
   }
 
   if (_rewardedAd) {
-    if (_extraInfo.keywords != nil) [_rewardedAd setKeywords:_extraInfo.keywords];
+    if (_extraInfo.keywords != nil) {
+      [_rewardedAd setKeywords:_extraInfo.keywords];
+    }
     [_rewardedAd setExtras:[extrasDictionary copy]];
   }
 }
