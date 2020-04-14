@@ -37,6 +37,9 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   /// MoPub banner ad.
   MPAdView *_bannerAd;
 
+  /// Requested banner ad size.
+  GADAdSize _requestedAdSize;
+
   /// MoPub interstitial ad.
   MPInterstitialAdController *_interstitialAd;
 
@@ -226,20 +229,59 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   _bannerAd.location = currentlocation;
   // MoPub banner frame must be set. For reference:
   // https://developers.mopub.com/publishers/ios/banner/#loading-banner-ads-in-your-app
-  _bannerAd.frame = CGRectMake(0, 0, adSize.size.width, adSize.size.height);
+  _requestedAdSize = adSize;
+  _bannerAd.frame = CGRectMake(0, 0, _requestedAdSize.size.width, _requestedAdSize.size.height);
 
   MPLogDebug(@"Requesting Banner Ad from MoPub Ad Network.");
   [[GADMAdapterMoPubSingleton sharedInstance]
       initializeMoPubSDKWithAdUnitID:publisherID
                    completionHandler:^{
-                     [self->_bannerAd loadAdWithMaxAdSize:adSize.size];
+                     [self->_bannerAd loadAdWithMaxAdSize:self->_requestedAdSize.size];
                    }];
 }
 
 #pragma mark MoPub Ads View delegate methods
 
 - (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
-  [_connector adapter:self didReceiveAdView:view];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  // If the publisher provides a minimum ad size to be loaded, then only that specified ad size
+  // will be verified against the ad size returned by MoPub.
+  GADMoPubNetworkExtras *extras = strongConnector.networkExtras;
+  if (extras && !CGSizeEqualToSize(extras.minimumBannerSize, CGSizeZero)) {
+    if (adSize.height < extras.minimumBannerSize.height ||
+        adSize.width < extras.minimumBannerSize.width) {
+      NSString *errorMessage = [NSString
+          stringWithFormat:@"The loaded ad was smaller than the minimum required banner size. "
+                           @"Loaded size: %@, minimum size: %@",
+                           NSStringFromCGSize(adSize),
+                           NSStringFromCGSize(extras.minimumBannerSize)];
+      NSError *error =
+          GADMoPubErrorWithCodeAndDescription(GADMoPubErrorMinimumBannerSize, errorMessage);
+      [strongConnector adapter:self didFailAd:error];
+      return;
+    }
+  } else {
+    NSArray<NSValue *> *potentials = @[ [NSValue valueWithCGSize:adSize] ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(_requestedAdSize, potentials);
+    if (!IsGADAdSizeValid(closestSize)) {
+      NSString *errorMessage = [NSString
+          stringWithFormat:@"The loaded ad is not large enough to match the requested banner size. "
+                           @"To allow smaller banner sizes to fill a larger request, pass a "
+                           @"GADMoPubNetworkExtras object to your ad request and set the "
+                           @"minimumBannerSize property. Loaded ad size: %@, requested size: %@",
+                           NSStringFromCGSize(adSize), NSStringFromGADAdSize(_requestedAdSize)];
+      NSError *error =
+          GADMoPubErrorWithCodeAndDescription(GADMoPubErrorBannerSizeMismatch, errorMessage);
+      [strongConnector adapter:self didFailAd:error];
+      return;
+    }
+  }
+
+  [strongConnector adapter:self didReceiveAdView:view];
 }
 
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {

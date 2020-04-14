@@ -1,5 +1,10 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added support for flexible banner ad sizes.
+- Added a new extra to the `GADMoPubNetworkExtras` class:
+  * `minimumBannerSize` - minimum ad size allowed for MoPub banner ads.
+
 #### Version 5.11.0.0
 - Verified compatibility with MoPub SDK 5.11.0.
 
