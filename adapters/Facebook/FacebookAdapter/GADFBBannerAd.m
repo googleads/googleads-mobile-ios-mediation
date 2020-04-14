@@ -31,10 +31,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
       GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight90Banner.size.height));
   GADAdSize mRect =
       GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight250Rectangle.size.height));
-  GADAdSize interstitial = GADAdSizeFromCGSize(kFBAdSizeInterstitial.size);
   NSArray *potentials = @[
-    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(mRect),
-    NSValueFromGADAdSize(interstitial)
+    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(mRect)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
@@ -44,8 +42,6 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
     return kFBAdSizeHeight90Banner;
   } else if (size.height == kFBAdSizeHeight250Rectangle.size.height) {
     return kFBAdSizeHeight250Rectangle;
-  } else if (CGSizeEqualToSize(size, kFBAdSizeInterstitial.size)) {
-    return kFBAdSizeInterstitial;
   }
 
   if (error) {

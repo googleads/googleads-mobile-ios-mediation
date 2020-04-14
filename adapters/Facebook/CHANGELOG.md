@@ -3,6 +3,7 @@
 #### Next Version
 - Adapter now calls adapterWillPresentScreen: immediately followed by adapterDidDismissScreen: if interstitial ads fail to present.
 - For non-open bidding, adapter now calls adapterWillPresentScreen: as soon as the ad is presented, not when the FB SDK records an impression. This now matches existing open bidding behavior.
+- Fixed a bug where some banner requests failed with reason "Display format doesn't match".
 
 #### Version 5.8.0.1
 - Fix bug introduced in 5.6.1.0 where `tagForChildDirectedTreatment` was incorrectly mapped to Facebook's `setMixedAudience` method.
@@ -11,7 +12,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.57.0.
 - FAN SDK version 5.8.0
 
-#### Version 5.8.0.0 (Deprecated, use 5.8.0.1 or newer) 
+#### Version 5.8.0.0 (Deprecated, use 5.8.0.1 or newer)
 - Verified compatibility with FAN SDK 5.8.0.
 - Adapter now returns a non-zero `mediaContent` aspect ratio regardless if the media view is rendered or not.
 
