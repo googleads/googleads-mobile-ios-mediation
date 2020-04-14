@@ -145,7 +145,7 @@
 - (void)addDelegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
     forPlacementName:(nonnull NSString *)placementName {
   @synchronized(_adapterDelegates) {
-    [_adapterDelegates setObject:delegate forKey:placementName];
+    GADMAdapterTapjoyMapTableSetObjectForKey(_adapterDelegates, placementName, delegate);
   }
 }
 
