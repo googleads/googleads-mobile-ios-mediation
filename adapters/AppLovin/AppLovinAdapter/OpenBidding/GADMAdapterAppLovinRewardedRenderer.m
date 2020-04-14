@@ -13,6 +13,7 @@
 #import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
+#import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -71,7 +72,7 @@
 - (void)requestRewardedAd {
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -80,10 +81,10 @@
 
   // Unable to resolve a valid zone - error out
   if (!self.zoneIdentifier) {
-    [GADMAdapterAppLovinUtils
-        log:@"Invalid custom zone entered. Please double-check your credentials."];
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                    @"Unable to resolve zone");
+    NSString *errorMessage = @"Invalid custom zone entered. Please double-check your credentials.";
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, errorMessage);
+
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -92,7 +93,7 @@
       GADMAdapterAppLovinMediationManager.sharedInstance;
   if ([sharedInstance containsAndAddRewardedZoneIdentifier:_zoneIdentifier]) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorInvalidRequest,
+        GADMAdapterAppLovinErrorAdAlreadyLoaded,
         @"Can't request a second ad for the same zone identifier without showing the first ad.");
     _adLoadCompletionHandler(nil, error);
     return;
@@ -128,7 +129,7 @@
     [_incent showAd:_ad andNotify:_appLovinDelegate];
   } else {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Attempting to show rewarded video before one was loaded");
+        GADMAdapterAppLovinErrorShow, @"Attempting to show rewarded video before one was loaded");
     [_delegate didFailToPresentWithError:error];
   }
 }

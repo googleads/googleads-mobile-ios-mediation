@@ -42,8 +42,7 @@
 
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
   GADMAdapterAppLovin *parentAdapter = _parentAdapter;
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Banner failed to load");
+  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
   [parentAdapter.connector adapter:parentAdapter didFailAd:error];
 }
 
