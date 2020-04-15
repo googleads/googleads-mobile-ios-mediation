@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "VungleAdNetworkExtras.h"
+#import <Foundation/Foundation.h>
 
-@implementation VungleAdNetworkExtras
+@interface GADMAdapterVungleBannerRequest : NSObject <NSCopying>
 
-- (nonnull instancetype)init {
-    self = [super init];
-    if (self) {
-        _UUID = [[NSUUID UUID] UUIDString];
-    }
-    return self;
-}
+- (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
+                         uniquePubRequestID:(nullable NSString *)uniquePubRequestID;
+
+- (BOOL)isEqualToBannerRequest:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
+
+@property(nonatomic, copy, readonly) NSString *_Nonnull placementID;
+@property(nonatomic, copy, readonly) NSString *_Nullable uniquePubRequestID;
 
 @end
