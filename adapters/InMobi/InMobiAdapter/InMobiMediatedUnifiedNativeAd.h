@@ -19,10 +19,13 @@
 
 @interface InMobiMediatedUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
+/// InMobi network adapter.
+@property(nonatomic, strong, readonly, nullable) GADMAdapterInMobi *adapter;
+
+/// Initializes the unified native ad renderer.
 - (nonnull instancetype)initWithInMobiUnifiedNativeAd:(nonnull IMNative *)unifiedNativeAd
                                               adapter:(nonnull GADMAdapterInMobi *)adapter
                                   shouldDownloadImage:(BOOL)shouldDownloadImage
                                                 cache:(nonnull NSCache *)imageCache;
 
-@property(nonatomic, strong, nullable) GADMAdapterInMobi *adapter;
 @end

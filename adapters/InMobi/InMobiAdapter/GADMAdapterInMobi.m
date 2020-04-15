@@ -14,14 +14,6 @@
 #import "InMobiMediatedUnifiedNativeAd.h"
 #import "NativeAdKeys.h"
 
-@interface GADMAdapterInMobi ()
-@property(nonatomic, assign) CGFloat width, height;
-@property(nonatomic, strong) InMobiMediatedUnifiedNativeAd *nativeAd;
-@property(nonatomic, strong) GADInMobiExtras *extraInfo;
-@property(nonatomic, assign) BOOL shouldDownloadImages;
-@property(nonatomic, assign) BOOL serveAnyAd;
-@end
-
 /// Find closest supported ad size from a given ad size.
 static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize) {
   // Supported sizes
@@ -36,18 +28,31 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   return CGSizeFromGADAdSize(closestSize);
 }
 
-@implementation GADMAdapterInMobi
-@synthesize adView = adView_;
-@synthesize interstitial = interstitial_;
-@synthesize native = native_;
+@implementation GADMAdapterInMobi {
+  /// InMobi banner ad object.
+  IMBanner *_adView;
+
+  /// InMobi interstitial ad object.
+  IMInterstitial *_interstitial;
+
+  /// InMobi native ad object.
+  IMNative *_native;
+
+  /// Google Mobile Ads unified native ad wrapper.
+  InMobiMediatedUnifiedNativeAd *_nativeAd;
+
+  /// InMobi network extras.
+  GADInMobiExtras *_extraInfo;
+
+  /// Indicates whether native ad images should be downloaded.
+  BOOL _shouldDownloadImages;
+}
 
 static NSCache *imageCache;
 
 __attribute__((constructor)) static void initialize_imageCache() {
   imageCache = [[NSCache alloc] init];
 }
-
-@synthesize connector = connector_;
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterInMobi class];
@@ -62,11 +67,10 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id)connector {
-  self.connector = connector;
-  self.shouldDownloadImages = YES;
-  self.serveAnyAd = NO;
   if (self = [super init]) {
-    self.connector = connector;
+    _connector = connector;
+
+    _shouldDownloadImages = YES;
   }
   return self;
 }
@@ -86,38 +90,36 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   if (self.connector) {
-    self.extraInfo = [self.connector networkExtras];
+    _extraInfo = [self.connector networkExtras];
   }
 
-  if (self.extraInfo != nil) {
-    if (self.extraInfo.postalCode != nil) {
-      [IMSdk setPostalCode:self.extraInfo.postalCode];
+  if (_extraInfo != nil) {
+    if (_extraInfo.postalCode != nil) {
+      [IMSdk setPostalCode:_extraInfo.postalCode];
     }
-    if (self.extraInfo.areaCode != nil) {
-      [IMSdk setAreaCode:self.extraInfo.areaCode];
+    if (_extraInfo.areaCode != nil) {
+      [IMSdk setAreaCode:_extraInfo.areaCode];
     }
-    if (self.extraInfo.interests != nil) {
-      [IMSdk setInterests:self.extraInfo.interests];
+    if (_extraInfo.interests != nil) {
+      [IMSdk setInterests:_extraInfo.interests];
     }
-    if (self.extraInfo.age) {
-      [IMSdk setAge:self.extraInfo.age];
+    if (_extraInfo.age) {
+      [IMSdk setAge:_extraInfo.age];
     }
-    if (self.extraInfo.yearOfBirth) {
-      [IMSdk setYearOfBirth:self.extraInfo.yearOfBirth];
+    if (_extraInfo.yearOfBirth) {
+      [IMSdk setYearOfBirth:_extraInfo.yearOfBirth];
     }
-    if (self.extraInfo.city && self.extraInfo.state && self.extraInfo.country) {
-      [IMSdk setLocationWithCity:self.extraInfo.city
-                           state:self.extraInfo.state
-                         country:self.extraInfo.country];
+    if (_extraInfo.city && _extraInfo.state && _extraInfo.country) {
+      [IMSdk setLocationWithCity:_extraInfo.city state:_extraInfo.state country:_extraInfo.country];
     }
-    if (self.extraInfo.language != nil) {
-      [IMSdk setLanguage:self.extraInfo.language];
+    if (_extraInfo.language != nil) {
+      [IMSdk setLanguage:_extraInfo.language];
     }
   }
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-  if (self.extraInfo && self.extraInfo.additionalParameters) {
-    dict = [NSMutableDictionary dictionaryWithDictionary:self.extraInfo.additionalParameters];
+  if (_extraInfo && _extraInfo.additionalParameters) {
+    dict = [NSMutableDictionary dictionaryWithDictionary:_extraInfo.additionalParameters];
   }
 
   GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"tp", @"c_admob");
@@ -129,23 +131,23 @@ __attribute__((constructor)) static void initialize_imageCache() {
     GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"coppa", @"0");
   }
 
-  if (self.adView) {
+  if (_adView) {
     // Let Mediation do the refresh animation.
-    self.adView.transitionAnimation = UIViewAnimationTransitionNone;
-    if (self.extraInfo.keywords != nil) {
-      [self.adView setKeywords:self.extraInfo.keywords];
+    _adView.transitionAnimation = UIViewAnimationTransitionNone;
+    if (_extraInfo.keywords != nil) {
+      [_adView setKeywords:_extraInfo.keywords];
     }
-    [self.adView setExtras:[NSDictionary dictionaryWithDictionary:dict]];
-  } else if (self.interstitial) {
-    if (self.extraInfo.keywords != nil) {
-      [self.interstitial setKeywords:self.extraInfo.keywords];
+    [_adView setExtras:[NSDictionary dictionaryWithDictionary:dict]];
+  } else if (_interstitial) {
+    if (_extraInfo.keywords != nil) {
+      [_interstitial setKeywords:_extraInfo.keywords];
     }
-    [self.interstitial setExtras:[NSDictionary dictionaryWithDictionary:dict]];
-  } else if (self.native) {
-    if (self.extraInfo.keywords != nil) {
-      [self.native setKeywords:self.extraInfo.keywords];
+    [_interstitial setExtras:[NSDictionary dictionaryWithDictionary:dict]];
+  } else if (_native) {
+    if (_extraInfo.keywords != nil) {
+      [_native setKeywords:_extraInfo.keywords];
     }
-    [self.native setExtras:[NSDictionary dictionaryWithDictionary:dict]];
+    [_native setExtras:[NSDictionary dictionaryWithDictionary:dict]];
   }
 }
 
@@ -192,13 +194,13 @@ __attribute__((constructor)) static void initialize_imageCache() {
     if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       continue;
     }
-    self.shouldDownloadImages = !imageOptions.disableImageLoading;
+    _shouldDownloadImages = !imageOptions.disableImageLoading;
   }
 
   NSLog(@"Requesting native ad from InMobi");
-  self.native = [[IMNative alloc] initWithPlacementId:placementId delegate:self];
+  _native = [[IMNative alloc] initWithPlacementId:placementId delegate:self];
   [self prepareRequestParameters];
-  [self.native load];
+  [_native load];
 }
 
 - (BOOL)handlesUserImpressions {
@@ -236,10 +238,10 @@ __attribute__((constructor)) static void initialize_imageCache() {
           @"Inmobi");
   }
 
-  self.interstitial = [[IMInterstitial alloc] initWithPlacementId:placementId];
+  _interstitial = [[IMInterstitial alloc] initWithPlacementId:placementId];
   [self prepareRequestParameters];
-  self.interstitial.delegate = self;
-  [self.interstitial load];
+  _interstitial.delegate = self;
+  [_interstitial load];
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
@@ -282,29 +284,29 @@ __attribute__((constructor)) static void initialize_imageCache() {
     [self.connector adapter:self didFailAd:error];
     return;
   }
-  self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
-                                    placementId:placementId];
-  self.adView.delegate = self;
+  _adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
+                                placementId:placementId];
+  _adView.delegate = self;
   // Let Mediation do the refresh.
-  [self.adView shouldAutoRefresh:NO];
+  [_adView shouldAutoRefresh:NO];
   [self prepareRequestParameters];
-  [self.adView load];
+  [_adView load];
 }
 
 - (void)stopBeingDelegate {
-  self.adView.delegate = nil;
-  self.interstitial.delegate = nil;
+  _adView.delegate = nil;
+  _interstitial.delegate = nil;
 }
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
-  if ([self.interstitial isReady]) {
-    [self.interstitial showFromViewController:rootViewController
-                                withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+  if ([_interstitial isReady]) {
+    [_interstitial showFromViewController:rootViewController
+                            withAnimation:kIMInterstitialAnimationTypeCoverVertical];
   }
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-  return [self.interstitial isReady];
+  return [_interstitial isReady];
 }
 
 #pragma mark -
@@ -448,7 +450,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  * Notifies the delegate that the native ad has finished loading
  */
 - (void)nativeDidFinishLoading:(nonnull IMNative *)native {
-  if (self.native != native) {
+  if (_native != native) {
     GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                             code:kGADErrorNoFill
                                                         userInfo:nil];
@@ -456,10 +458,10 @@ __attribute__((constructor)) static void initialize_imageCache() {
     return;
   }
 
-  self.nativeAd =
+  _nativeAd =
       [[InMobiMediatedUnifiedNativeAd alloc] initWithInMobiUnifiedNativeAd:native
                                                                    adapter:self
-                                                       shouldDownloadImage:self.shouldDownloadImages
+                                                       shouldDownloadImage:_shouldDownloadImages
                                                                      cache:imageCache];
 }
 
@@ -484,7 +486,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillPresentScreen:(nonnull IMNative *)native {
   NSLog(@"Native Will Present screen");
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:_nativeAd];
 }
 
 /**
@@ -499,7 +501,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeWillDismissScreen:(nonnull IMNative *)native {
   NSLog(@"Native Will dismiss screen");
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:_nativeAd];
 }
 
 /**
@@ -507,7 +509,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)nativeDidDismissScreen:(nonnull IMNative *)native {
   NSLog(@"Native Did dismiss screen");
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:_nativeAd];
 }
 
 /**
@@ -520,7 +522,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)nativeAdImpressed:(nonnull IMNative *)native {
   NSLog(@"InMobi recorded impression successfully");
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:_nativeAd];
 }
 
 - (void)native:(nonnull IMNative *)native didInteractWithParams:(nonnull NSDictionary *)params {
