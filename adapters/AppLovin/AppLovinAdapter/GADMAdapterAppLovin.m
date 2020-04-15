@@ -158,8 +158,9 @@
   ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
 
   if (!appLovinAdSize) {
-    NSString *errorMessage =
-        (@"Adapter requested to display a banner ad of unsupported size: %@", appLovinAdSize);
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Adapter requested to display a banner ad of unsupported size: %@",
+                         appLovinAdSize];
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
     [strongConnector adapter:self didFailAd:error];
