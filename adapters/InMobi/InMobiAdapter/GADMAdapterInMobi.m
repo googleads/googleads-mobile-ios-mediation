@@ -117,9 +117,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
     }
   }
 
-  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  NSMutableDictionary<NSString *, id> *dict = [[NSMutableDictionary alloc] init];
   if (_extraInfo && _extraInfo.additionalParameters) {
-    dict = [NSMutableDictionary dictionaryWithDictionary:_extraInfo.additionalParameters];
+    dict = [_extraInfo.additionalParameters mutableCopy];
   }
 
   GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"tp", @"c_admob");
@@ -154,16 +154,17 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (Boolean)isPerformanceAd:(nonnull IMNative *)imNative {
   NSData *data = [imNative.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = nil;
-  NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:kNilOptions
-                                                                   error:&error];
+  NSDictionary<NSString *, id> *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                                 options:kNilOptions
+                                                                                   error:&error];
   if ([[jsonDictionary objectForKey:PACKAGE_NAME] length]) {
     return YES;
   }
   return NO;
 }
 
-- (void)getNativeAdWithAdTypes:(nonnull NSArray *)adTypes options:(nullable NSArray *)options {
+- (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(nullable NSArray<GADAdLoaderOptions *> *)options {
   NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
   NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
   if (error) {
@@ -176,8 +177,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if (placementId == -1) {
     NSString *errorDesc =
         [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorInvalidRequest
                                                      userInfo:errorInfo];
@@ -224,8 +224,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if (placementId == -1) {
     NSString *errorDesc =
         [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorInvalidRequest
                                                      userInfo:errorInfo];
@@ -257,8 +256,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   if (placementId == -1) {
     NSString *errorDesc =
         [NSString stringWithFormat:@"[InMobi] Error - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorInvalidRequest
                                                      userInfo:errorInfo];
@@ -272,12 +270,12 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(adSize);
-
   if (CGSizeEqualToSize(size, CGSizeZero)) {
     NSString *errorDescription =
         [NSString stringWithFormat:@"Invalid size for InMobi mediation adapter. Size: %@",
                                    NSStringFromGADAdSize(adSize)];
-    NSDictionary *errorInfo = @{NSLocalizedDescriptionKey : errorDescription};
+    NSDictionary<NSString *, NSString *> *errorInfo =
+        @{NSLocalizedDescriptionKey : errorDescription};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorMediationInvalidAdSize
                                                      userInfo:errorInfo];
@@ -328,9 +326,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)banner:(nonnull IMBanner *)banner didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                           code:errorCode
                                                       userInfo:errorInfo];
@@ -385,9 +382,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                           code:errorCode
                                                       userInfo:errorInfo];
@@ -410,9 +406,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
   NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
   NSLog(@"error code=%ld", (long)[error code]);
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                           code:errorCode
                                                       userInfo:errorInfo];
@@ -471,9 +466,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (void)native:(nonnull IMNative *)native didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSLog(@"Native Ad failed to load");
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                           code:errorCode
                                                       userInfo:errorInfo];

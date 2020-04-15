@@ -105,8 +105,7 @@
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
     NSString *errorDesc = [NSString
         stringWithFormat:@"[InMobi] Error - cannot request multiple ads using same placement ID."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorInvalidRequest
                                                      userInfo:errorInfo];
@@ -194,9 +193,8 @@
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *requestError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                               code:errorCode
                                                           userInfo:errorInfo];
@@ -221,11 +219,11 @@
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(nonnull IMRequestStatus *)error {
   NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  GADRequestError *reqError =
-      [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                  code:errorCode
-                              userInfo:@{NSLocalizedDescriptionKey : errorDesc ?: @""}];
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
+  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                                                          code:errorCode
+                                                      userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];

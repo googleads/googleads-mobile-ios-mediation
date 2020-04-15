@@ -65,7 +65,7 @@ static BOOL _isInitialized;
 
 + (GADVersionNumber)adSDKVersion {
   NSString *versionString = [IMSdk getVersion];
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 3) {
@@ -81,7 +81,8 @@ static BOOL _isInitialized;
 }
 
 + (GADVersionNumber)version {
-  NSArray *versionComponents = [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
