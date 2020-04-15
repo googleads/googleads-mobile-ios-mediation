@@ -76,16 +76,16 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)prepareRequestParameters {
-  if ([self.connector userGender] == kGADGenderMale) {
+  if (self.connector.userGender == kGADGenderMale) {
     [IMSdk setGender:kIMSDKGenderMale];
-  } else if ([self.connector userGender] == kGADGenderFemale) {
+  } else if (self.connector.userGender == kGADGenderFemale) {
     [IMSdk setGender:kIMSDKGenderFemale];
   }
 
-  if ([self.connector userBirthday] != nil) {
+  if (self.connector.userBirthday != nil) {
     NSDateComponents *components = [[NSCalendar currentCalendar]
         components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-          fromDate:[self.connector userBirthday]];
+          fromDate:self.connector.userBirthday];
     [IMSdk setYearOfBirth:[components year]];
   }
 
@@ -325,7 +325,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)banner:(nonnull IMBanner *)banner didFailToLoadWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -333,7 +333,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
                                                       userInfo:errorInfo];
   [self.connector adapter:self didFailAd:reqError];
   NSLog(@"<<<< ad request failed.>>>, error=%@", error);
-  NSLog(@"error code=%ld", (long)[error code]);
+  NSLog(@"error code=%ld", (long)error.code);
 }
 
 - (void)banner:(nonnull IMBanner *)banner didInteractWithParams:(nonnull NSDictionary *)params {
@@ -367,7 +367,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)banner:(nonnull IMBanner *)banner
     rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
-  NSLog(@"InMobi banner reward action completed with rewards: %@", [rewards description]);
+  NSLog(@"InMobi banner reward action completed with rewards: %@", rewards.description);
 }
 
 #pragma mark IMAdInterstitialDelegate methods
@@ -379,9 +379,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(IMRequestStatus *)error {
-  NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
-  NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSLog(@"interstitial did fail with error=%@", error.localizedDescription);
+  NSLog(@"error code=%ld", (long)error.code);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -403,9 +403,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(IMRequestStatus *)error {
-  NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
-  NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSLog(@"interstitial did fail with error=%@", error.localizedDescription);
+  NSLog(@"error code=%ld", (long)error.code);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -465,7 +465,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
  */
 - (void)native:(nonnull IMNative *)native didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   NSLog(@"Native Ad failed to load");
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain

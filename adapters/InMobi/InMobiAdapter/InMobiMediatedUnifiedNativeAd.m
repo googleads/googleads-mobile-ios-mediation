@@ -159,8 +159,8 @@ static CGFloat const DefaultIconScale = 1.0;
 #pragma mark - Helpers
 
 - (BOOL)isValidWithNativeAd:(nonnull IMNative *)native imageURL:(nonnull NSString *)imageURL {
-  if (![[native adTitle] length] || ![[native adDescription] length] ||
-      ![[native adCtaText] length] || ![native adIcon] || ![imageURL length]) {
+  if (!native.adTitle.length || !native.adDescription.length || !native.adCtaText.length ||
+      !native.adIcon || !imageURL.length) {
     return NO;
   }
   return YES;
@@ -199,7 +199,7 @@ static CGFloat const DefaultIconScale = 1.0;
     return @"";
   }
 
-  NSRange searchedRange = NSMakeRange(0, [landingURL length]);
+  NSRange searchedRange = NSMakeRange(0, landingURL.length);
   NSError *error = nil;
   NSRegularExpression *regex =
       [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"

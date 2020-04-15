@@ -127,7 +127,7 @@
   GADMediationRewardedAdConfiguration *strongAdConfig = _adConfig;
 
   if (strongAdConfig.extras) {
-    _extraInfo = [strongAdConfig extras];
+    _extraInfo = strongAdConfig.extras;
   }
 
   if (_extraInfo.postalCode) {
@@ -161,7 +161,7 @@
   NSString *versionString = [GADRequest sdkVersion];
   GADMAdapterInMobiMutableDictionarySetObjectForKey(extrasDictionary, @"tp-ver", versionString);
 
-  NSNumber *childDirectedTreatment = [strongAdConfig childDirectedTreatment];
+  NSNumber *childDirectedTreatment = strongAdConfig.childDirectedTreatment;
   if (childDirectedTreatment) {
     NSString *coppaString =
         (childDirectedTreatment.boolValue || [_extraInfo.additionalParameters[@"coppa"] boolValue])
@@ -172,7 +172,7 @@
 
   if (_rewardedAd) {
     if (_extraInfo.keywords != nil) {
-      [_rewardedAd setKeywords:_extraInfo.keywords];
+      _rewardedAd.keywords = _extraInfo.keywords;
     }
     [_rewardedAd setExtras:[extrasDictionary copy]];
   }
@@ -192,7 +192,7 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *requestError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
@@ -218,7 +218,7 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
   NSDictionary<NSString *, NSString *> *errorInfo =
       @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
