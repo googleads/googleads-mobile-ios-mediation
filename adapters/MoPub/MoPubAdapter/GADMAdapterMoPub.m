@@ -155,14 +155,10 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
     }
   });
 
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
-                                                           longitude:strongConnector.userLongitude];
-
   _interstitialAd = [MPInterstitialAdController interstitialAdControllerForAdUnitId:publisherID];
   _interstitialAd.delegate = self;
   _interstitialAd.keywords = [self getKeywords:NO];
   _interstitialAd.userDataKeywords = [self getKeywords:YES];
-  _interstitialAd.location = currentlocation;
 
   MPLogDebug(@"Requesting Interstitial Ad from MoPub Ad Network.");
   [[GADMAdapterMoPubSingleton sharedInstance] initializeMoPubSDKWithAdUnitID:publisherID
@@ -219,14 +215,10 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
 
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
-                                                           longitude:strongConnector.userLongitude];
-
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID];
   _bannerAd.delegate = self;
   _bannerAd.keywords = [self getKeywords:NO];
   _bannerAd.userDataKeywords = [self getKeywords:YES];
-  _bannerAd.location = currentlocation;
   // MoPub banner frame must be set. For reference:
   // https://developers.mopub.com/publishers/ios/banner/#loading-banner-ads-in-your-app
   _requestedAdSize = adSize;
@@ -326,9 +318,6 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
   targeting.keywords = [self getKeywords:NO];
   targeting.userDataKeywords = [self getKeywords:YES];
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:strongConnector.userLatitude
-                                                           longitude:strongConnector.userLongitude];
-  targeting.location = currentlocation;
   NSSet<NSString *> *desiredAssets = [NSSet
       setWithObjects:kAdTitleKey, kAdTextKey, kAdIconImageKey, kAdMainImageKey, kAdCTATextKey, nil];
   targeting.desiredAssets = desiredAssets;

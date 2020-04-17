@@ -88,13 +88,9 @@
     [self addDelegate:delegate forAdUnitID:adUnitID];
   }
 
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:adConfig.userLatitude
-                                                           longitude:adConfig.userLongitude];
-
   [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:adUnitID
                                           keywords:[self getKeywords:false forAdConfig:adConfig]
                                   userDataKeywords:[self getKeywords:true forAdConfig:adConfig]
-                                          location:currentlocation
                                  mediationSettings:@[]];
   return nil;
 }
