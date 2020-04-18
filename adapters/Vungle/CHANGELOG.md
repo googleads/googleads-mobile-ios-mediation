@@ -2,7 +2,7 @@
 
 #### Version 6.5.3.0
 - Verified compatibility with Vungle SDK 6.5.3.
-- Added support for multiple Banners with same placementID.
+- Now requires Google Mobile Ads SDK version 7.58.0 or higher.
 - Added support for Smart and Adaptive Banner ads.
 - Added support for Banner (320x50, 300x50, 728x90) ads.
 - Added video orientation option when play ads.
@@ -11,7 +11,7 @@
 - Remove support for i386 architecture.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.56.0.
+- Google Mobile Ads SDK version 7.58.0.
 - Vungle SDK version 6.5.3.
 
 #### Version 6.4.6.0
