@@ -7,7 +7,10 @@
 //
 
 #import "VungleRouterConfiguration.h"
+
 #import <VungleSDK/VungleSDK.h>
+
+#import "GADMAdapterVungleUtils.h"
 
 // These keys are also defined in VNGPersisteceManager.
 static NSString *const kAdapterMinimumFileSystemSizeForInit = @"vungleMinimumFileSystemSizeForInit";
@@ -27,7 +30,8 @@ static NSString *const kAdapterMinimumFileSystemSizeForAssetDownload =
     [[NSUserDefaults standardUserDefaults] setInteger:size
                                                forKey:kAdapterMinimumFileSystemSizeForInit];
   } else {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAdapterMinimumFileSystemSizeForInit];
+    GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults.standardUserDefaults,
+                                                    kAdapterMinimumFileSystemSizeForInit);
   }
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -40,10 +44,10 @@ static NSString *const kAdapterMinimumFileSystemSizeForAssetDownload =
         setInteger:size
             forKey:kAdapterMinimumFileSystemSizeForAssetDownload];
   } else {
-    [[NSUserDefaults standardUserDefaults]
-        removeObjectForKey:kAdapterMinimumFileSystemSizeForAdRequest];
-    [[NSUserDefaults standardUserDefaults]
-        removeObjectForKey:kAdapterMinimumFileSystemSizeForAssetDownload];
+    GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults.standardUserDefaults,
+                                                    kAdapterMinimumFileSystemSizeForAdRequest);
+    GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults.standardUserDefaults,
+                                                    kAdapterMinimumFileSystemSizeForAssetDownload);
   }
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
