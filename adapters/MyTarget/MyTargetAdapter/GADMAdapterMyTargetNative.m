@@ -24,7 +24,6 @@
   id<GADMediatedUnifiedNativeAd> _mediatedUnifiedNativeAd;
   __weak id<GADMAdNetworkConnector> _connector;
   MTRGMediaAdView *_mediaAdView;
-  BOOL _autoLoadImages;
   NSString *_adTypesRequested;
 }
 
@@ -121,7 +120,7 @@
     return;
   }
 
-  _autoLoadImages = YES;
+  MTRGCachePolicy cachePolicy = MTRGCachePolicyAll;
   for (GADAdLoaderOptions *adLoaderOptions in options) {
     if (![adLoaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       continue;
@@ -130,14 +129,14 @@
     GADNativeAdImageAdLoaderOptions *imageOptions =
         (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
     if (imageOptions.disableImageLoading) {
-      _autoLoadImages = NO;
+      cachePolicy = cachePolicy & ~MTRGCachePolicyImages;
       break;
     }
   }
 
   _nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
   _nativeAd.delegate = self;
-  _nativeAd.autoLoadImages = _autoLoadImages;
+  _nativeAd.cachePolicy = cachePolicy;
   [GADMAdapterMyTargetUtils fillCustomParams:_nativeAd.customParams withConnector:strongConnector];
   [_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                   forKey:kMTRGCustomParamsMediationKey];
@@ -166,7 +165,6 @@
   _mediatedUnifiedNativeAd = [GADMAdapterMyTargetMediatedUnifiedNativeAd
       mediatedUnifiedNativeAdWithNativePromoBanner:promoBanner
                                           nativeAd:_nativeAd
-                                    autoLoadImages:_autoLoadImages
                                        mediaAdView:_mediaAdView];
   if (!_mediatedUnifiedNativeAd) {
     MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);

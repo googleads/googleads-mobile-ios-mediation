@@ -31,13 +31,14 @@
 + (nullable id<GADMediatedUnifiedNativeAd>)
     mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                                         nativeAd:(nonnull MTRGNativeAd *)nativeAd
-                                  autoLoadImages:(BOOL)autoLoadImages
                                      mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   if (!promoBanner.title || !promoBanner.descriptionText || !promoBanner.image ||
       !promoBanner.ctaText) {
     return nil;
   }
 
+  BOOL autoLoadImages = (nativeAd.cachePolicy == MTRGCachePolicyImages) || (nativeAd.cachePolicy == MTRGCachePolicyAll);
+  
   if ((autoLoadImages && !promoBanner.image.image) || (!autoLoadImages && !promoBanner.image.url)) {
     return nil;
   }
@@ -59,14 +60,12 @@
   return
       [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
                                                                            nativeAd:nativeAd
-                                                                     autoLoadImages:autoLoadImages
                                                                         mediaAdView:mediaAdView];
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
     initWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                      nativeAd:(nonnull MTRGNativeAd *)nativeAd
-               autoLoadImages:(BOOL)autoLoadImages
                   mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
@@ -155,7 +154,7 @@
 }
 
 - (BOOL)hasVideoContent {
-  return YES;
+  return YES; // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
 }
 
 - (CGFloat)mediaContentAspectRatio {
