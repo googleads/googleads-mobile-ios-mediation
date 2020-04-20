@@ -7,7 +7,7 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <AppLovinSDk/AppLovinSDK.h>
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface GADMAdapterAppLovinExtras : NSObject<GADAdNetworkExtras>
 

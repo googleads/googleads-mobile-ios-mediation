@@ -13,13 +13,12 @@
 // limitations under the License.
 
 #import "GADMAdapterUnitySingleton.h"
-
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnityWeakReference.h"
+#import "GADMAdapterUnityUtils.h"
 
 @interface GADMAdapterUnitySingleton () <UnityAdsExtendedDelegate> {
   /// Array to hold all adapter delegates.
-  NSMutableArray *_adapterDelegates;
+  NSMapTable *_adapterDelegates;
 
   /// Connector from unity adapter to send Unity callbacks.
   __weak id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> _currentShowingUnityDelegate;
@@ -41,121 +40,103 @@
 - (id)init {
   self = [super init];
   if (self) {
-    _adapterDelegates = [[NSMutableArray alloc] init];
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory
+                                              valueOptions:NSMapTableWeakMemory];
   }
   return self;
 }
 
 - (void)initializeWithGameID:(NSString *)gameID {
+  if ([UnityAds isInitialized]) {
+    return;
+  }
+
   // Metadata needed by Unity Ads SDK before initialization.
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-  [mediationMetaData setName:GADMAdapterUnityMediationNetworkName];
-  [mediationMetaData setVersion:GADMAdapterUnityVersion];
+  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
+
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID delegate:self];
+  [UnityAds addDelegate:self];
+  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES];
 }
 
 - (void)addAdapterDelegate:
-                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  GADMAdapterUnityWeakReference *delegateReference =
-      [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
-  // Removes duplicate delegate references.
-  [self removeAdapterDelegate:delegateReference];
-  [_adapterDelegates addObject:delegateReference];
-}
-
-- (void)removeAdapterDelegate:(GADMAdapterUnityWeakReference *)adapterDelegate {
-  // Removes duplicate mediation adapter delegate references.
-  NSMutableArray *delegatesToRemove = [NSMutableArray array];
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        if ([weakReference isEqual:adapterDelegate]) {
-          [delegatesToRemove addObject:obj];
-        }
-      }];
-  [_adapterDelegates removeObjectsInArray:delegatesToRemove];
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  @synchronized(_adapterDelegates) {
+    GADMAdapterUnityMapTableSetObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID],
+                                            adapterDelegate);
+  }
 }
 
 #pragma mark - Rewardbased video ad methods
 
-- (BOOL)configureRewardBasedVideoAdWithGameID:(NSString *)gameID
-                                     delegate:
-                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                            adapterDelegate {
-  if ([UnityAds isSupported]) {
-    if (![UnityAds isInitialized]) {
-      // Add delegate reference in adapterDelegate list only if Unity Ads is not initialized.
-      [self addAdapterDelegate:adapterDelegate];
-      [self initializeWithGameID:gameID];
-    }
-    return YES;
-  }
-  return NO;
-}
+- (void)requestRewardedAdWithDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
+  NSString *placementID = [adapterDelegate getPlacementID];
 
-- (void)requestRewardBasedVideoAdWithDelegate:
-        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
-  if ([UnityAds isInitialized]) {
-    NSString *placementID = [adapterDelegate getPlacementID];
-    if ([UnityAds isReady:placementID]) {
-      [adapterDelegate unityAdsReady:placementID];
-    } else {
-      NSString *description =
-          [[NSString alloc] initWithFormat:@"%@ failed to receive reward based video ad.",
-                                           NSStringFromClass([UnityAds class])];
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
     }
   }
+
+  [self addAdapterDelegate:adapterDelegate];
+
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
 }
 
-- (void)presentRewardBasedVideoAdForViewController:(UIViewController *)viewController
-                                          delegate:
-                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                            adapterDelegate {
+- (void)presentRewardedAdForViewController:(UIViewController *)viewController
+                                  delegate:
+                                      (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
+                                          adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
-  [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  [UnityAds show:viewController placementId:placementID];
 }
 
 #pragma mark - Interstitial ad methods
 
-- (void)configureInterstitialAdWithGameID:(NSString *)gameID
-                                 delegate:
-                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                            adapterDelegate {
-  if ([UnityAds isSupported]) {
-    if ([UnityAds isInitialized]) {
-      NSString *placementID = [adapterDelegate getPlacementID];
-      if ([UnityAds isReady:placementID]) {
-        [adapterDelegate unityAdsReady:placementID];
-      } else {
-        NSString *description =
-            [[NSString alloc] initWithFormat:@"%@ failed to receive interstitial ad.",
-                                             NSStringFromClass([UnityAds class])];
-        [adapterDelegate unityAdsDidError:kUnityAdsErrorShowError withMessage:description];
-      }
-    } else {
-      // Add delegate reference in adapterDelegate list only if Unity Ads is not initialized.
-      [self addAdapterDelegate:adapterDelegate];
-      [self initializeWithGameID:gameID];
+- (void)requestInterstitialAdWithDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  NSString *gameID = [adapterDelegate getGameID];
+  NSString *placementID = [adapterDelegate getPlacementID];
+
+  @synchronized(_adapterDelegates) {
+    if ([_adapterDelegates objectForKey:placementID]) {
+      NSString *message = @"An ad is already loading for placement ID %@";
+      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
+                            withMessage:[NSString stringWithFormat:message, placementID]];
+      return;
     }
-  } else {
-    NSString *description =
-        [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-                                         NSStringFromClass([UnityAds class])];
-    [adapterDelegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:description];
   }
+
+  [self addAdapterDelegate:adapterDelegate];
+  if (![UnityAds isInitialized]) {
+    [self initializeWithGameID:gameID];
+  }
+
+  [UnityAds load:placementID];
 }
 
 - (void)presentInterstitialAdForViewController:(UIViewController *)viewController
-                                      delegate:
-                                        (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                            adapterDelegate {
+                                      delegate:(id<GADMAdapterUnityDataProvider,
+                                                   UnityAdsExtendedDelegate>)adapterDelegate {
   _currentShowingUnityDelegate = adapterDelegate;
-  // The Unity Ads show method checks whether an ad is available.
-  [UnityAds show:viewController placementId:[adapterDelegate getPlacementID]];
+
+  NSString *placementID = [adapterDelegate getPlacementID];
+  [UnityAds show:viewController placementId:placementID];
 }
 
 #pragma mark - Unity Delegate Methods
@@ -163,11 +144,20 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // The unityAdsReady: and unityAdsDidError: callback methods are used to forward Unity Ads SDK
-  // states to the adapters. No need to forward this callback to the adapters.
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  @synchronized(_adapterDelegates) {
+    adapterDelegate = [_adapterDelegates objectForKey:placementId];
+  }
+
+  if (adapterDelegate) {
+    [adapterDelegate unityAdsPlacementStateChanged:placementId oldState:oldState newState:newState];
+  }
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
+  @synchronized(_adapterDelegates) {
+    GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, placementID);
+  }
   [_currentShowingUnityDelegate unityAdsDidFinish:placementID withFinishState:state];
 }
 
@@ -176,17 +166,14 @@
 }
 
 - (void)unityAdsReady:(NSString *)placementID {
-  NSMutableArray *delegatesToRemove = [NSMutableArray array];
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        if ([[(id<GADMAdapterUnityDataProvider>)weakReference.weakObject getPlacementID]
-                isEqualToString:placementID]) {
-          [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsReady:placementID];
-          [delegatesToRemove addObject:obj];
-        }
-      }];
-  [_adapterDelegates removeObjectsInArray:delegatesToRemove];
+  id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> adapterDelegate;
+  @synchronized(_adapterDelegates) {
+    adapterDelegate = [_adapterDelegates objectForKey:placementID];
+  }
+
+  if (adapterDelegate) {
+    [adapterDelegate unityAdsReady:placementID];
+  }
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
@@ -194,28 +181,29 @@
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-  // If the error is of type show, we will not have it's delegate reference in our adapterDelegate
-  // list. Delegate instances are being removed when we get unityAdsReady callback.
-  if (error == kUnityAdsErrorShowError) {
+  if (error == kUnityAdsErrorInitSanityCheckFail || error == kUnityAdsErrorNotInitialized ||
+      error == kUnityAdsErrorInvalidArgument || error == kUnityAdsErrorInitializedFailed ||
+      error == kUnityAdsErrorAdBlockerDetected) {
+    NSArray<id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>> *delegates;
+    @synchronized(_adapterDelegates) {
+      delegates = _adapterDelegates.objectEnumerator.allObjects;
+    }
+
+    for (id<UnityAdsExtendedDelegate, UnityAdsExtendedDelegate> delegate in delegates) {
+      [delegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:message];
+    }
+
+    @synchronized(_adapterDelegates) {
+      [_adapterDelegates removeAllObjects];
+    }
+  } else {
     [_currentShowingUnityDelegate unityAdsDidError:error withMessage:message];
-    return;
   }
-  NSMutableArray *delegatesToRemove = [NSMutableArray array];
-  [_adapterDelegates
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-        GADMAdapterUnityWeakReference *weakReference = obj;
-        [(id<UnityAdsExtendedDelegate>)weakReference.weakObject unityAdsDidError:error
-                                                                     withMessage:message];
-        [delegatesToRemove addObject:obj];
-      }];
-  [_adapterDelegates removeObjectsInArray:delegatesToRemove];
 }
 
-- (void)stopTrackingDelegate:(id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)
-                                 adapterDelegate {
-  GADMAdapterUnityWeakReference *delegateReference =
-      [[GADMAdapterUnityWeakReference alloc] initWithObject:adapterDelegate];
-  [self removeAdapterDelegate:delegateReference];
+- (void)stopTrackingDelegate:
+    (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
+  GADMAdapterUnityMapTableRemoveObjectForKey(_adapterDelegates, [adapterDelegate getPlacementID]);
 }
 
 @end

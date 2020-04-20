@@ -18,97 +18,37 @@
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
+#import "GADMediationAdapterChartboost.h"
 
-@interface GADMAdapterChartboost () {
+@implementation GADMAdapterChartboost {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMRewardBasedVideoAdNetworkConnector> _rewardbasedVideoAdConnector;
-
-  /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _interstitialConnector;
+  __weak id<GADMAdNetworkConnector> _connector;
 
   /// YES if the adapter is loading.
   BOOL _loading;
 
-  /// YES if the adapter is initialized.
-  BOOL _initialized;
-
   /// Chartboost ad location.
   NSString *_chartboostAdLocation;
+
+  /// Strong reference to loading banner to keep it in memory.
+  CHBBanner *_loadingBanner;
 }
 
-@end
-
-@implementation GADMAdapterChartboost
-
 + (NSString *)adapterVersion {
-  return GADMAdapterChartboostVersion;
+  return kGADMAdapterChartboostVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMChartboostExtras class];
 }
 
-#pragma mark Rewardbased video
-
-- (instancetype)initWithRewardBasedVideoAdNetworkConnector:
-        (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
-  if (!connector) {
-    return nil;
-  }
-  self = [super init];
-  if (self) {
-    _rewardbasedVideoAdConnector = connector;
-  }
-  return self;
-}
-
-- (void)setUp {
-  NSString *appID =
-      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAppID]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *appSignature =
-      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAppSignature]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *adLocation =
-      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  if (adLocation) {
-    _chartboostAdLocation = [adLocation copy];
-  } else {
-    _chartboostAdLocation = [CBLocationDefault copy];
-  }
-
-  if (!appID || !appSignature) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    [_rewardbasedVideoAdConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
-    return;
-  }
-
-  _initialized = NO;
-  [[GADMAdapterChartboostSingleton sharedManager] configureRewardBasedVideoAdWithAppID:appID
-                                                                        adAppSignature:appSignature
-                                                                              delegate:self];
-}
-
-- (void)requestRewardBasedVideoAd {
-  NSString *adLocation =
-      [[[_rewardbasedVideoAdConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  if (adLocation) {
-    _chartboostAdLocation = [adLocation copy];
-  } else {
-    _chartboostAdLocation = [CBLocationDefault copy];
-  }
-  _loading = YES;
-  [[GADMAdapterChartboostSingleton sharedManager] requestRewardBasedVideoForDelegate:self];
-}
-
-- (void)presentRewardBasedVideoAdWithRootViewController:(UIViewController *)viewController {
-  [[GADMAdapterChartboostSingleton sharedManager] presentRewardBasedVideoAdForDelegate:self];
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterChartboost class];
 }
 
 - (void)stopBeingDelegate {
-  [[GADMAdapterChartboostSingleton sharedManager] stopTrackingDelegate:self];
+  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
+  [sharedInstance stopTrackingInterstitialDelegate:self];
 }
 
 #pragma mark Interstitial
@@ -119,20 +59,38 @@
   }
   self = [super init];
   if (self) {
-    _interstitialConnector = connector;
+    _connector = connector;
   }
   return self;
 }
 
 - (void)getInterstitial {
-  NSString *appID = [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAppID]
+  GADMAdapterChartboost *__weak weakSelf = self;
+  [self initializeChartboost:^(NSError *_Nullable error) {
+    GADMAdapterChartboost *strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
+    }
+
+    if (error) {
+      [strongSelf->_connector adapter:strongSelf didFailAd:error];
+      return;
+    }
+
+    GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
+    [sharedInstance configureInterstitialAdWithDelegate:strongSelf];
+  }];
+}
+
+- (void)initializeChartboost:(ChartboostInitCompletionHandler)completion {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *appSignature =
-      [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAppSignature]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSString *adLocation =
-      [[[_interstitialConnector credentials] objectForKey:GADMAdapterChartboostAdLocation]
-          stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSString *adLocation = [strongConnector.credentials[kGADMAdapterChartboostAdLocation]
+      stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
   if (adLocation) {
     _chartboostAdLocation = [adLocation copy];
   } else {
@@ -141,25 +99,58 @@
 
   if (!appID || !appSignature) {
     NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    [_interstitialConnector adapter:self didFailAd:error];
+    if (completion) {
+      completion(error);
+    }
     return;
   }
+
   _loading = YES;
-  [[GADMAdapterChartboostSingleton sharedManager] configureInterstitialAdWithAppID:appID
-                                                                    adAppSignature:appSignature
-                                                                          delegate:self];
+
+  GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
+  [sharedInstance startWithAppId:appID
+                    appSignature:appSignature
+               completionHandler:^(NSError *_Nullable error) {
+                 if (completion) {
+                   completion(error);
+                 }
+               }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [[GADMAdapterChartboostSingleton sharedManager] presentInterstitialAdForDelegate:self];
+  GADMAdapterChartboostSingleton *sharedInstance = [GADMAdapterChartboostSingleton sharedInstance];
+  [sharedInstance presentInterstitialAdForDelegate:self];
 }
 
 #pragma mark Banner
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  // Chartboost doesn't support banner ads.
-  NSError *error = GADChartboostErrorWithDescription(@"Chartboost Ads doesn't support banner ads.");
-  [_interstitialConnector adapter:self didFailAd:error];
+  GADMAdapterChartboost *__weak weakSelf = self;
+  [self initializeChartboost:^(NSError *_Nullable error) {
+      // CHBBanner is a UIView subclass so it needs to be used on the main thread.
+      dispatch_async(dispatch_get_main_queue(), ^{
+          GADMAdapterChartboost *strongSelf = weakSelf;
+          if (!strongSelf) {
+              return;
+          }
+          if (error) {
+              [strongSelf->_connector adapter:strongSelf didFailAd:error];
+              return;
+          }
+          UIViewController *viewController =
+            [strongSelf->_connector viewControllerForPresentingModalView];
+          GADMChartboostExtras *extras = [strongSelf extras];
+          if (extras.frameworkVersion && extras.framework) {
+              [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+          }
+          CHBBanner *banner = [[CHBBanner alloc] initWithSize:adSize.size
+                                                     location:[strongSelf getAdLocation]
+                                                     delegate:self];
+          banner.automaticallyRefreshesContent = NO;
+          strongSelf->_loadingBanner = banner;
+          [banner showFromViewController:viewController];
+      });
+  }];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -174,172 +165,94 @@
 
 - (GADMChartboostExtras *)extras {
   GADMChartboostExtras *chartboostExtras;
-  if (_rewardbasedVideoAdConnector) {
-    chartboostExtras = [_rewardbasedVideoAdConnector networkExtras];
-  } else {
-    chartboostExtras = [_interstitialConnector networkExtras];
-  }
+  chartboostExtras = [_connector networkExtras];
   return chartboostExtras;
 }
 
-#pragma mark ChartboostDelegate Methods
-
-- (void)didInitialize:(BOOL)status {
-  if (_initialized) {
-    return;
-  }
-  _initialized = status;
-  if (_initialized) {
-    [_rewardbasedVideoAdConnector adapterDidSetUpRewardBasedVideoAd:self];
-  } else {
-    NSString *description = [NSString stringWithFormat:@"%@ failed to setup reward based video ad.",
-                                                       NSStringFromClass([Chartboost class])];
-    NSError *error = GADChartboostErrorWithDescription(description);
-    [_rewardbasedVideoAdConnector adapter:self didFailToSetUpRewardBasedVideoAdWithError:error];
-  }
+- (void)didFailToLoadAdWithError:(NSError *)error {
+  [_connector adapter:self didFailAd:error];
 }
 
 #pragma mark - Chartboost Interstitial Ad Delegate Methods
 
 - (void)didDisplayInterstitial:(CBLocation)location {
-  [_interstitialConnector adapterWillPresentInterstitial:self];
+  [_connector adapterWillPresentInterstitial:self];
 }
 
 - (void)didCacheInterstitial:(CBLocation)location {
-  if (_loading && [location isEqual:_chartboostAdLocation]) {
-    [_interstitialConnector adapterDidReceiveInterstitial:self];
+  if (_loading) {
+    [_connector adapterDidReceiveInterstitial:self];
     _loading = NO;
   }
 }
 
 - (void)didFailToLoadInterstitial:(CBLocation)location withError:(CBLoadError)error {
-  if ([location isEqual:_chartboostAdLocation]) {
-    if (_loading) {
-      [_interstitialConnector adapter:self didFailAd:[self adRequestErrorTypeForCBLoadError:error]];
-      _loading = NO;
-    } else if (error == CBLoadErrorInternetUnavailableAtShow) {
-      // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
-      // fails to present an ad for which a didCacheInterstitial event has already been sent.
-      [_interstitialConnector adapterWillPresentInterstitial:self];
-      [_interstitialConnector adapterWillDismissInterstitial:self];
-      [_interstitialConnector adapterDidDismissInterstitial:self];
-    }
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (_loading) {
+    [strongConnector adapter:self didFailAd:adRequestErrorTypeForCBLoadError(error)];
+    _loading = NO;
+  } else if (error == CBLoadErrorInternetUnavailableAtShow) {
+    // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
+    // fails to present an ad for which a didCacheInterstitial event has already been sent.
+    [strongConnector adapterWillPresentInterstitial:self];
+    [strongConnector adapterWillDismissInterstitial:self];
+    [strongConnector adapterDidDismissInterstitial:self];
   }
 }
 
 - (void)didDismissInterstitial:(CBLocation)location {
-  [_interstitialConnector adapterWillDismissInterstitial:self];
-  [_interstitialConnector adapterDidDismissInterstitial:self];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
 }
 
 - (void)didClickInterstitial:(CBLocation)location {
-  [_interstitialConnector adapterDidGetAdClick:self];
-  [_interstitialConnector adapterWillLeaveApplication:self];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
-#pragma mark - Chartboost Reward Based Video Ad Delegate Methods
+#pragma mark - Chartboost Banner Delegate Methods
 
-- (void)didDisplayRewardedVideo:(CBLocation)location {
-  [_rewardbasedVideoAdConnector adapterDidOpenRewardBasedVideoAd:self];
-  [_rewardbasedVideoAdConnector adapterDidStartPlayingRewardBasedVideoAd:self];
+- (void)didCacheAd:(nonnull CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (error) {
+    [strongConnector adapter:self didFailAd:NSErrorForCHBCacheError(error)];
+  } else {
+    [strongConnector adapter:self didReceiveAdView:_loadingBanner];
+  }
+  // Nilling the chartboost banner ad after loaded.
+  _loadingBanner = nil;
 }
 
-- (void)didCacheRewardedVideo:(CBLocation)location {
-  if (_loading && [location isEqual:_chartboostAdLocation]) {
-    [_rewardbasedVideoAdConnector adapterDidReceiveRewardBasedVideoAd:self];
-    _loading = NO;
+- (void)willShowAd:(nonnull CHBShowEvent *)event error:(nullable CHBShowError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (error) {
+    [strongConnector adapter:self didFailAd:NSErrorForCHBShowError(error)];
   }
 }
 
-- (void)didFailToLoadRewardedVideo:(CBLocation)location withError:(CBLoadError)error {
-  if ([location isEqual:_chartboostAdLocation]) {
-    if (_loading) {
-      [_rewardbasedVideoAdConnector adapter:self
-          didFailToLoadRewardBasedVideoAdwithError:[self adRequestErrorTypeForCBLoadError:error]];
-      _loading = NO;
-    } else if (error == CBLoadErrorInternetUnavailableAtShow) {
-      // Chartboost sends the CBLoadErrorInternetUnavailableAtShow error when the Chartboost SDK
-      // fails to present an ad for which a didCacheRewardedVideo event has already been sent.
-      [_rewardbasedVideoAdConnector adapterDidOpenRewardBasedVideoAd:self];
-      [_rewardbasedVideoAdConnector adapterDidCloseRewardBasedVideoAd:self];
-    }
+- (void)didShowAd:(nonnull CHBShowEvent *)event error:(nullable CHBShowError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (error) {
+    [strongConnector adapter:self didFailAd:NSErrorForCHBShowError(error)];
   }
 }
 
-- (void)didDismissRewardedVideo:(CBLocation)location {
-  [_rewardbasedVideoAdConnector adapterDidCloseRewardBasedVideoAd:self];
-}
-
-- (void)didClickRewardedVideo:(CBLocation)location {
-  [_rewardbasedVideoAdConnector adapterDidGetAdClick:self];
-  [_rewardbasedVideoAdConnector adapterWillLeaveApplication:self];
-}
-
-- (void)didCompleteRewardedVideo:(CBLocation)location withReward:(int)reward {
-  [_rewardbasedVideoAdConnector adapterDidCompletePlayingRewardBasedVideoAd:self];
-  /// Chartboost doesn't provide access to the reward type.
-  GADAdReward *adReward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[[NSDecimalNumber alloc] initWithInt:reward]];
-  [_rewardbasedVideoAdConnector adapter:self didRewardUserWithReward:adReward];
-}
-
-#pragma mark - Internal methods
-
-- (NSError *)adRequestErrorTypeForCBLoadError:(CBLoadError)error {
-  NSString *description = nil;
-  switch (error) {
-    case CBLoadErrorInternal:
-      description = @"Internal error.";
-      break;
-    case CBLoadErrorInternetUnavailable:
-      description = @"Internet unavailable.";
-      break;
-    case CBLoadErrorTooManyConnections:
-      description = @"Too many connections.";
-      break;
-    case CBLoadErrorWrongOrientation:
-      description = @"Wrong orientation.";
-      break;
-    case CBLoadErrorFirstSessionInterstitialsDisabled:
-      description = @"Interstitial disabled.";
-      break;
-    case CBLoadErrorNetworkFailure:
-      description = @"Network failure.";
-      break;
-    case CBLoadErrorNoAdFound:
-      description = @"No ad found.";
-      break;
-    case CBLoadErrorSessionNotStarted:
-      description = @"Session not started.";
-      break;
-    case CBLoadErrorImpressionAlreadyVisible:
-      description = @"Impression already visible.";
-      break;
-    case CBLoadErrorUserCancellation:
-      description = @"User cancellation.";
-      break;
-    case CBLoadErrorNoLocationFound:
-      description = @"No location found.";
-      break;
-    case CBLoadErrorAssetDownloadFailure:
-      description = @"Error downloading asset.";
-      break;
-    case CBLoadErrorPrefetchingIncomplete:
-      description = @"Video prefetching is not finished.";
-      break;
-    case CBLoadErrorWebViewScriptError:
-      description = @"Web view script error.";
-      break;
-    case CBLoadErrorInternetUnavailableAtShow:
-      description = @"Internet unavailable while presenting.";
-      break;
-    default:
-      description = @"No inventory.";
-      break;
+- (void)didClickAd:(nonnull CHBClickEvent *)event error:(nullable CHBClickError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!error) {
+    [strongConnector adapterDidGetAdClick:self];
+    [strongConnector adapterWillPresentFullScreenModal:self];
   }
+}
 
-  return GADChartboostErrorWithDescription(description);
+- (void)didFinishHandlingClick:(nonnull CHBClickEvent *)event
+                         error:(nullable CHBClickError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  [strongConnector adapterWillDismissFullScreenModal:self];
+  [strongConnector adapterDidDismissFullScreenModal:self];
 }
 
 @end

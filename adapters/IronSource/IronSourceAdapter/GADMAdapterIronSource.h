@@ -13,10 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "GADMAdapterIronSourceBase.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Adapter for communicating with the IronSource Network to fetch nterstitial video ads.
-@interface GADMAdapterIronSource
-    : GADMAdapterIronSourceBase<GADMAdNetworkAdapter, ISDemandOnlyInterstitialDelegate>
+@interface GADMAdapterIronSource : NSObject <GADMAdNetworkAdapter>
 
 @end

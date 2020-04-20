@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Adapter for communicating with Facebook's Audience Network to fetch banner, interstitial,
 /// reward-based video, and native ads.
-@interface GADMAdapterFacebook
-    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMAdapterFacebook : NSObject <GADMAdNetworkAdapter>
 
 @end

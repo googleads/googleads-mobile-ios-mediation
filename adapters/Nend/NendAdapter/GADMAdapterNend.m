@@ -2,19 +2,19 @@
 //  GADMAdapterNend.m
 //  NendAdapter
 //
-//  Copyright © 2017 F@N Communications. All rights reserved.
+//  Copyright © 2017 FAN Communications. All rights reserved.
 //
 
 #import "GADMAdapterNend.h"
-#import "GADMAdapterNendSetting.h"
 
-@import NendAd;
+#import <NendAd/NendAd.h>
+
+#import "GADMAdapterNendAdUnitMapper.h"
+#import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendUtils.h"
 
 @implementation GADMAdapterNendExtras
 @end
-
-static NSString *const kDictionaryKeyApiKey = @"apiKey";
-static NSString *const kDictionaryKeySpotId = @"spotId";
 
 typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoStopped,
@@ -22,14 +22,28 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoClickedWhenPlaying,
 };
 
-@interface GADMAdapterNend () <NADViewDelegate, NADInterstitialDelegate,
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(kGADAdSizeBanner),
+    NSValueFromGADAdSize(kGADAdSizeLargeBanner),
+    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+
+  return closestSize;
+}
+
+@interface GADMAdapterNend () <NADViewDelegate,
+                               NADInterstitialDelegate,
                                NADInterstitialVideoDelegate>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @property(nonatomic, strong) NADView *nadView;
 @property(nonatomic, strong) NADInterstitial *interstitial;
 @property(nonatomic, strong) NADInterstitialVideo *interstitialVideo;
-@property(nonatomic) CGSize selectedAdSize;
 @property(nonatomic, strong) NSNotificationCenter *notificationCenter;
 @property(nonatomic) GADMNendInterstitialType interstitialType;
 @property(nonatomic) InterstitialVideoStatus interstitialVideoStatus;
@@ -38,15 +52,16 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 @implementation GADMAdapterNend
 
-+ (NSString *)adapterVersion {
-  return GADM_ADAPTER_NEND_VERSION;
++ (nonnull NSString *)adapterVersion {
+  return kGADMAdapterNendVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMAdapterNendExtras class];
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self != nil) {
     _connector = connector;
@@ -62,11 +77,13 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
-  NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
+  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
+  NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
-    [strongConnector adapter:self didFailAd:nil];
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -79,7 +96,7 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
     self.interstitialVideo = [[NADInterstitialVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     self.interstitialVideo.delegate = self;
     self.interstitialVideo.userId = extras.userId;
-    self.interstitialVideo.mediationName = @"AdMob";
+    self.interstitialVideo.mediationName = kGADMAdapterNendMediationName;
     [self.interstitialVideo loadAd];
   } else {
     self.interstitial = [NADInterstitial sharedInstance];
@@ -91,22 +108,26 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
-  if (!GADAdSizeEqualToSize(adSize, kGADAdSizeBanner) &&           // 320x50
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLargeBanner) &&      // 320x100
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle) &&  // 300x250
-      !GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {      // 728x90
-    [strongConnector adapter:self didFailAd:nil];
+  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
+
+  if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+    NSString *errorMsg =
+        [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
+                                   NSStringFromGADAdSize(adSize)];
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, errorMsg);
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
-  self.selectedAdSize = (CGSize)adSize.size;
   self.nadView = [[NADView alloc] initWithFrame:CGRectZero];
 
-  NSString *apiKey = [self getNendAdParam:kDictionaryKeyApiKey];
-  NSString *spotId = [self getNendAdParam:kDictionaryKeySpotId];
+  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
+  NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![self validateApiKey:apiKey spotId:spotId]) {
-    [strongConnector adapter:self didFailAd:nil];
+  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -139,7 +160,7 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   return YES;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   if (self.interstitialType == GADMNendInterstitialTypeVideo) {
     if (self.interstitialVideo.isReady) {
       [self.interstitialVideo showAdFromViewController:rootViewController];
@@ -167,14 +188,7 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   return [self.connector credentials][paramKey];
 }
 
-- (BOOL)validateApiKey:(NSString *)apiKey spotId:(NSString *)spotId {
-  if (!apiKey || apiKey.length == 0 || !spotId || spotId.length == 0) {
-    return false;
-  }
-  return true;
-}
-
-- (void)willEnterForeground:(NSNotification *)notification {
+- (void)willEnterForeground:(nonnull NSNotification *)notification {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
@@ -182,32 +196,28 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 #pragma mark - NADViewDelegate
 
-- (void)nadViewDidReceiveAd:(NADView *)adView {
+- (void)nadViewDidReceiveAd:(nonnull NADView *)adView {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [self.nadView pause];
 
-  if ((self.selectedAdSize.height != adView.frame.size.height) ||
-      (self.selectedAdSize.width != adView.frame.size.width)) {
-    // Size of NADView is different from placement size
-    [strongConnector adapter:self didFailAd:nil];
-    return;
-  }
   [strongConnector adapter:self didReceiveAdView:adView];
 }
 
-- (void)nadViewDidFailToReceiveAd:(NADView *)adView {
+- (void)nadViewDidFailToReceiveAd:(nonnull NADView *)adView {
   NSLog(@"[nend adapter] Banner did fail to load...");
   [self.nadView pause];
-  [self.connector adapter:self didFailAd:nil];
+  NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError,
+                                                              @"Failed to load banner ad.");
+  [self.connector adapter:self didFailAd:error];
 }
 
-- (void)nadViewDidClickAd:(NADView *)adView {
+- (void)nadViewDidClickAd:(nonnull NADView *)adView {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];
 }
 
-- (void)nadViewDidClickInformation:(NADView *)adView {
+- (void)nadViewDidClickInformation:(nonnull NADView *)adView {
   [self.connector adapterWillLeaveApplication:self];
 }
 
@@ -218,7 +228,9 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   if (status == SUCCESS) {
     [strongConnector adapterDidReceiveInterstitial:self];
   } else {
-    [strongConnector adapter:self didFailAd:nil];
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError,
+                                                                @"Failed to load interstitial ad.");
+    [strongConnector adapter:self didFailAd:error];
   }
 }
 
@@ -250,24 +262,25 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 
 #pragma mark - NADInterstitialVideoDelegate
 
-- (void)nadInterstitialVideoAdDidReceiveAd:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidReceiveAd:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   [self.connector adapterDidReceiveInterstitial:self];
 }
 
-- (void)nadInterstitialVideoAd:(NADInterstitialVideo *)nadInterstitialVideoAd
-        didFailToLoadWithError:(NSError *)error {
+- (void)nadInterstitialVideoAd:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd
+        didFailToLoadWithError:(nonnull NSError *)error {
   [self.connector adapter:self didFailAd:error];
 }
 
-- (void)nadInterstitialVideoAdDidFailedToPlay:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidFailedToPlay:
+    (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   NSLog(@"[nend adapter] Interstitial video ad failed to play...");
 }
 
-- (void)nadInterstitialVideoAdDidOpen:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidOpen:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   [self.connector adapterWillPresentInterstitial:self];
 }
 
-- (void)nadInterstitialVideoAdDidClose:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidClose:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   id<GADMAdNetworkConnector> strongConnector = self.connector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
@@ -276,7 +289,7 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   }
 }
 
-- (void)nadInterstitialVideoAdDidClickAd:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidClickAd:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   switch (self.interstitialVideoStatus) {
     case InterstitialVideoIsPlaying:
     case InterstitialVideoClickedWhenPlaying:
@@ -288,21 +301,25 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   }
 }
 
-- (void)nadInterstitialVideoAdDidClickInformation:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidClickInformation:
+    (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   [self.connector adapterWillLeaveApplication:self];
 }
 
-- (void)nadInterstitialVideoAdDidStopPlaying:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidStopPlaying:
+    (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   if (self.interstitialVideoStatus != InterstitialVideoClickedWhenPlaying) {
     self.interstitialVideoStatus = InterstitialVideoStopped;
   }
 }
 
-- (void)nadInterstitialVideoAdDidStartPlaying:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidStartPlaying:
+    (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   self.interstitialVideoStatus = InterstitialVideoIsPlaying;
 }
 
-- (void)nadInterstitialVideoAdDidCompletePlaying:(NADInterstitialVideo *)nadInterstitialVideoAd {
+- (void)nadInterstitialVideoAdDidCompletePlaying:
+    (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
   self.interstitialVideoStatus = InterstitialVideoStopped;
 }
 

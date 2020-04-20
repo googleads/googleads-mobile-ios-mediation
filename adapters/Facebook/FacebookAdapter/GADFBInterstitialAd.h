@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
@@ -22,12 +22,12 @@
 @interface GADFBInterstitialAd : NSObject
 
 /// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
     NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
-- (instancetype)init __unavailable;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Starts fetching an interstitial from Facebook's Audience Network.
 - (void)getInterstitial;
@@ -36,6 +36,6 @@
 - (void)stopBeingDelegate;
 
 /// Present a full screen interstitial from |rootViewController|.
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController;
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController;
 
 @end

@@ -2,9 +2,8 @@
 // Copyright 2016, AdColony, Inc.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterAdColony
-    : NSObject<GADMAdNetworkAdapter, GADMRewardBasedVideoAdNetworkAdapter>
+@interface GADMAdapterAdColony : NSObject <GADMAdNetworkAdapter>
 
 @end

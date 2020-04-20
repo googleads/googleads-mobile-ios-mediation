@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2016-2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Adapter version.
-GAD_EXTERN NSString *const kGADMAdapterTapjoyVersion;
-
-/// Adapter for communicating with the Tapjoy Network to fetch reward-based video ads and
-/// interstitial ads.
-@interface GADMAdapterTapjoy : NSObject <GADMRewardBasedVideoAdNetworkAdapter, GADMAdNetworkAdapter>
+/// Adapter for communicating with the Tapjoy Network to fetch interstitial ads.
+@interface GADMAdapterTapjoy : NSObject <GADMAdNetworkAdapter>
 
 @end
