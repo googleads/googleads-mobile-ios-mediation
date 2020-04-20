@@ -19,12 +19,12 @@
 @interface GADFBBannerAd : NSObject
 
 /// Initializes a new instance with |connector| and |adapter|.
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
     NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
-- (instancetype)init __unavailable;
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Starts fetching a banner ad for given |adSize|.
 - (void)getBannerWithSize:(GADAdSize)adSize;

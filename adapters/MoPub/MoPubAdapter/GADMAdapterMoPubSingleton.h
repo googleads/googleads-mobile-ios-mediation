@@ -1,18 +1,22 @@
-
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMAdapterMoPubConstants.h"
 #import "MPRewardedVideo.h"
 #import "MoPub.h"
-#import "MoPubAdapterConstants.h"
-@import GoogleMobileAds;
 
 @interface GADMAdapterMoPubSingleton : NSObject
 
-+ (instancetype)sharedInstance;
+/// Shared instance.
+@property(class, atomic, readonly, nonnull) GADMAdapterMoPubSingleton *sharedInstance;
 
-- (void)initializeMoPubSDKWithAdUnitID:(NSString *)adUnitID
+/// Initializes MoPub SDK.
+- (void)initializeMoPubSDKWithAdUnitID:(nonnull NSString *)adUnitID
                      completionHandler:(void (^_Nullable)(void))completionHandler;
-- (NSError *)requestRewardedAdForAdUnitID:(NSString *)adUnitID
-                                 adConfig:(GADMediationRewardedAdConfiguration *)adConfig
-                                 delegate:(id<MPRewardedVideoDelegate>)delegate;
+
+/// Requests rewarded ads from MoPub SDK.
+- (nullable NSError *)
+    requestRewardedAdForAdUnitID:(nonnull NSString *)adUnitID
+                        adConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig
+                        delegate:(nonnull id<MPRewardedVideoDelegate>)delegate;
 
 @end

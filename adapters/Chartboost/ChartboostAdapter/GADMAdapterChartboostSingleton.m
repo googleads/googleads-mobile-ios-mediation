@@ -16,9 +16,14 @@
 
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostDataProvider.h"
+#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 
-@interface GADMAdapterChartboostSingleton () <ChartboostDelegate> {
+@interface GADMAdapterChartboostSingleton () <ChartboostDelegate>
+
+@end
+
+@implementation GADMAdapterChartboostSingleton {
   /// Hash Map to hold all interstitial adapter delegates.
   NSMapTable<NSString *, id<GADMAdapterChartboostDataProvider, ChartboostDelegate>>
       *_interstitialAdapterDelegates;
@@ -30,27 +35,25 @@
   /// Concurrent dispatch queue.
   dispatch_queue_t _queue;
 
-  ChartboostInitState _initState;
+  /// Chartboost SDK init state.
+  GADMAdapterChartboostInitState _initState;
 
+  /// An array of completion handlers to be called once the Chartboost SDK is initialized.
   NSMutableArray<ChartboostInitCompletionHandler> *_completionHandlers;
 }
 
-@end
-
-@implementation GADMAdapterChartboostSingleton
-
 #pragma mark - Singleton Initializers
 
-+ (instancetype)sharedManager {
++ (nonnull GADMAdapterChartboostSingleton *)sharedInstance {
   static GADMAdapterChartboostSingleton *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    sharedInstance = [[GADMAdapterChartboostSingleton alloc] init];
   });
   return sharedInstance;
 }
 
-- (id)init {
+- (nonnull instancetype)init {
   self = [super init];
   if (self) {
     _interstitialAdapterDelegates =
@@ -59,55 +62,60 @@
     _rewardedAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                       valueOptions:NSPointerFunctionsWeakMemory];
     _queue = dispatch_queue_create("com.google.admob.chartboost_adapter_singleton",
-                                   DISPATCH_QUEUE_CONCURRENT);
+                                   DISPATCH_QUEUE_SERIAL);
     _completionHandlers = [[NSMutableArray alloc] init];
-    _initState = UNINITIALIZED;
   }
   return self;
 }
 
-- (void)startWithAppId:(NSString *)appId
-          appSignature:(NSString *)appSignature
-     completionHandler:(ChartboostInitCompletionHandler)completionHandler {
-  if (_initState == INITIALIZED) {
-    completionHandler(nil);
-    return;
-  }
-
-  static dispatch_once_t once;
-  dispatch_once(&once, ^{
-    [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
-    [Chartboost setMediation:CBMediationAdMob
-          withLibraryVersion:[GADRequest sdkVersion]
-              adapterVersion:kGADMAdapterChartboostVersion];
-    [Chartboost setAutoCacheAds:YES];
+- (void)startWithAppId:(nonnull NSString *)appId
+          appSignature:(nonnull NSString *)appSignature
+     completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+  dispatch_async(_queue, ^{
+    switch (self->_initState) {
+      case GADMAdapterChartboostInitialized:
+        completionHandler(nil);
+        break;
+      case GADMAdapterChartboostInitializing:
+        GADMAdapterChartboostMutableArrayAddObject(self->_completionHandlers, completionHandler);
+        break;
+      case GADMAdapterChartboostUninitialized:
+        GADMAdapterChartboostMutableArrayAddObject(self->_completionHandlers, completionHandler);
+        self->_initState = GADMAdapterChartboostInitializing;
+        [Chartboost startWithAppId:appId appSignature:appSignature delegate:self];
+        [Chartboost setMediation:CBMediationAdMob
+              withLibraryVersion:[GADRequest sdkVersion]
+                  adapterVersion:kGADMAdapterChartboostVersion];
+        [Chartboost setAutoCacheAds:YES];
+        break;
+    }
   });
-  _initState = INITIALIZING;
-  [_completionHandlers addObject:completionHandler];
 }
 
 - (void)addRewardedAdAdapterDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   @synchronized(_rewardedAdapterDelegates) {
-    [_rewardedAdapterDelegates setObject:adapterDelegate forKey:[adapterDelegate getAdLocation]];
+    GADMAdapterChartboostMapTableSetObjectForKey(_rewardedAdapterDelegates,
+                                                 [adapterDelegate getAdLocation], adapterDelegate);
   }
 }
 
 - (void)removeRewardedAdAdapterDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   @synchronized(_rewardedAdapterDelegates) {
-    [_rewardedAdapterDelegates removeObjectForKey:[adapterDelegate getAdLocation]];
+    GADMAdapterChartboostMapTableRemoveObjectForKey(_rewardedAdapterDelegates,
+                                                    [adapterDelegate getAdLocation]);
   }
 }
 
-- (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+- (nullable id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
     getInterstitialAdapterDelegateForAdLocation:(NSString *)adLocation {
   @synchronized(_interstitialAdapterDelegates) {
     return [_interstitialAdapterDelegates objectForKey:adLocation];
   }
 }
 
-- (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+- (nullable id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
     getRewardedAdapterDelegateForAdLocation:(NSString *)adLocation {
   @synchronized(_rewardedAdapterDelegates) {
     return [_rewardedAdapterDelegates objectForKey:adLocation];
@@ -115,26 +123,28 @@
 }
 
 - (void)addInterstitialAdapterDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   @synchronized(_interstitialAdapterDelegates) {
-    [_interstitialAdapterDelegates setObject:adapterDelegate
-                                      forKey:[adapterDelegate getAdLocation]];
+    GADMAdapterChartboostMapTableSetObjectForKey(_interstitialAdapterDelegates,
+                                                 [adapterDelegate getAdLocation], adapterDelegate);
   }
 }
 
 - (void)removeInterstitialAdapterDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   @synchronized(_interstitialAdapterDelegates) {
-    [_interstitialAdapterDelegates removeObjectForKey:[adapterDelegate getAdLocation]];
+    GADMAdapterChartboostMapTableRemoveObjectForKey(_interstitialAdapterDelegates,
+                                                    [adapterDelegate getAdLocation]);
   }
 }
 
 #pragma mark - Rewarded Ads Methods
 
-- (void)configureRewardedAdWithAppID:(NSString *)appID
-                        appSignature:(NSString *)appSignature
-                            delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                         adapterDelegate {
+- (void)configureRewardedAdWithAppID:(nonnull NSString *)appID
+                        appSignature:(nonnull NSString *)appSignature
+                            delegate:
+                                (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
+                                    adapterDelegate {
   GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
   if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
     [Chartboost setFramework:chartboostExtras.framework
@@ -168,10 +178,8 @@
 
 #pragma mark - Interstitial methods
 
-- (void)configureInterstitialAdWithAppID:(NSString *)appID
-                            appSignature:(NSString *)appSignature
-                                delegate:(id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                             adapterDelegate {
+- (void)configureInterstitialAdWithDelegate:
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   GADMChartboostExtras *chartboostExtras = [adapterDelegate extras];
   if (chartboostExtras.frameworkVersion && chartboostExtras.framework) {
     [Chartboost setFramework:chartboostExtras.framework
@@ -199,20 +207,20 @@
 }
 
 - (void)presentInterstitialAdForDelegate:
-    (id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
+    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate {
   [Chartboost showInterstitial:[adapterDelegate getAdLocation]];
 }
 
-#pragma mark - Chartboost Delegate mathods -
+#pragma mark - Chartboost Delegate mathods
 
 - (void)didInitialize:(BOOL)status {
   if (status) {
-    _initState = INITIALIZED;
+    _initState = GADMAdapterChartboostInitialized;
     for (ChartboostInitCompletionHandler completionHandler in _completionHandlers) {
       completionHandler(nil);
     }
   } else {
-    _initState = UNINITIALIZED;
+    _initState = GADMAdapterChartboostUninitialized;
     NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
     for (ChartboostInitCompletionHandler completionHandler in _completionHandlers) {
       completionHandler(error);

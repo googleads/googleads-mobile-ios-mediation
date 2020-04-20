@@ -8,103 +8,113 @@
 
 #import "InMobiMediatedUnifiedNativeAd.h"
 #import <Foundation/Foundation.h>
+#import "GADMAdapterInMobiUtils.h"
 #import "NativeAdKeys.h"
 
 static CGFloat const DefaultIconScale = 1.0;
 
 @interface InMobiMediatedUnifiedNativeAd () <InMobiMediatedUnifiedNativeAdDelegate>
-
-@property(nonatomic, strong) IMNative *native;
-@property(nonatomic, strong) GADNativeAdImage *mappedIcon;
-@property(nonatomic, copy) NSArray *mappedImages;
-@property(nonatomic, copy) NSDictionary *extras;
-@property(nonatomic, strong) NSDictionary *nativeAdContentDictionary;
-
 @end
 
-@implementation InMobiMediatedUnifiedNativeAd
+@implementation InMobiMediatedUnifiedNativeAd {
+  /// Native ad obtained from InMobi.
+  IMNative *_native;
 
-@synthesize adapter = adapter_;
+  /// Aspect ratio of the Native ad obtained from InMobi.
+  CGFloat _aspectRatio;
 
-- (instancetype)initWithInMobiUnifiedNativeAd:(IMNative *)nativeAd
-                                  withAdapter:(GADMAdapterInMobi *)adapter
-                          shouldDownloadImage:(BOOL)shouldDownloadImage
-                                    withCache:(NSCache *)imageCache {
-  if (!nativeAd) {
-    return nil;
-  }
+  /// Icon image sent to Google Mobile Ads SDK.
+  GADNativeAdImage *_mappedIcon;
+
+  /// Array of GADNativeAdImage objects sent to Google Mobile Ads SDK.
+  NSArray<GADNativeAdImage *> *_mappedImages;
+
+  /// A dictionary of asset names and object pairs for assets that are not handled by
+  /// properties of the GADMediatedUnifiedNativeAd.
+  NSDictionary<NSString *, id> *_extras;
+
+  /// Contains the assests of the InMobi native ad.
+  NSDictionary<NSString *, id> *_nativeAdContentDictionary;
+}
+
+- (nonnull instancetype)initWithInMobiUnifiedNativeAd:(nonnull IMNative *)unifiedNativeAd
+                                              adapter:(nonnull GADMAdapterInMobi *)adapter
+                                  shouldDownloadImage:(BOOL)shouldDownloadImage
+                                                cache:(nonnull NSCache *)imageCache {
   self = [super init];
-  self.adapter = adapter;
-  self.native = nativeAd;
-
-  NSData *data = [self.native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
-  __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
-  [self setupWithData:data
-      shouldDownloadImage:shouldDownloadImage
-               imageCache:imageCache
-                completed:^{
-                  [weakSelf notifyCompletion];
-                }];
+  if (self) {
+    _adapter = adapter;
+    _native = unifiedNativeAd;
+    NSData *data = [_native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
+    __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
+    [self setupWithData:data
+        shouldDownloadImage:shouldDownloadImage
+                 imageCache:imageCache
+                  completed:^{
+                    [weakSelf notifyCompletion];
+                  }];
+  }
   return self;
 }
 
 #pragma mark - Setup Data
 
-- (void)setupWithData:(NSData *)data
+- (void)setupWithData:(nullable NSData *)data
     shouldDownloadImage:(BOOL)shouldDownloadImage
-             imageCache:(NSCache *)imageCache
+             imageCache:(nonnull NSCache *)imageCache
               completed:(void (^)())completed {
   if (!data) {
     completed();
     return;
   }
 
-  self.nativeAdContentDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options:kNilOptions
-                                                                     error:nil];
-  NSDictionary *iconDictionary = [self.nativeAdContentDictionary objectForKey:ICON];
+  _nativeAdContentDictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
+  NSDictionary<NSString *, NSString *> *iconDictionary = _nativeAdContentDictionary[ICON];
 
   if (!iconDictionary) {
     completed();
     return;
   }
 
-  NSString *iconStringURL = [iconDictionary objectForKey:URL];
-  if ([self isValidWithNativeAd:self.native imageURL:iconStringURL]) {
-    self.extras = [[NSDictionary alloc]
-        initWithObjectsAndKeys:[self.nativeAdContentDictionary objectForKey:LANDING_URL],
-                               LANDING_URL, nil];
-    NSURL *iconURL = [NSURL URLWithString:iconStringURL];
-
-    // Pass a blank image since we are using only mediaview.
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    self.mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
-
-    if (!shouldDownloadImage) {
-      self.mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
-      completed();
-    } else {
-      NSURL *imageURL = [NSURL URLWithString:iconStringURL];
-      __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
-      [self loadImageWithURL:imageURL
-                  imageCache:imageCache
-                    callback:^(UIImage *image) {
-                      weakSelf.mappedIcon = [[GADNativeAdImage alloc] initWithImage:image];
-                      completed();
-                    }];
-    }
-  } else {
+  NSString *iconStringURL = iconDictionary[URL];
+  if (![self isValidWithNativeAd:_native imageURL:iconStringURL]) {
     completed();
+    return;
   }
+
+  NSString *landingURL = _nativeAdContentDictionary[LANDING_URL];
+  if (landingURL) {
+    _extras = @{LANDING_URL : landingURL};
+  }
+  NSURL *iconURL = [NSURL URLWithString:iconStringURL];
+
+  // Pass a blank image since we are using only mediaview.
+  UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
+  UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  _mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
+
+  if (shouldDownloadImage) {
+    [self loadImageWithURL:iconURL
+                imageCache:imageCache
+                  callback:^(UIImage *image) {
+                    self->_mappedIcon = [[GADNativeAdImage alloc] initWithImage:image];
+                    completed();
+                  }];
+    return;
+  }
+
+  _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
+  completed();
 }
 
 #pragma mark - Async Image
 
-- (void)loadImageWithURL:(NSURL *)url
-              imageCache:(NSCache *)imageCache
+- (void)loadImageWithURL:(nonnull NSURL *)url
+              imageCache:(nonnull NSCache *)imageCache
                 callback:(void (^)(UIImage *))callback {
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
     NSString *cacheKey =
@@ -115,7 +125,7 @@ static CGFloat const DefaultIconScale = 1.0;
       UIImage *image = [UIImage imageWithData:imageData];
       if (image) {
         cachedImage = image;
-        [imageCache setObject:cachedImage forKey:cacheKey];
+        GADMAdapterInMobiCacheSetObjectForKey(imageCache, cacheKey, cachedImage);
       }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -127,7 +137,7 @@ static CGFloat const DefaultIconScale = 1.0;
 #pragma mark - Completion
 
 - (void)notifyCompletion {
-  if (self.mappedIcon && self.mappedImages) {
+  if (_mappedIcon && _mappedImages) {
     [self notifyMediatedUnifiedNativeAdSuccessful];
   } else {
     [self notifyMediatedUnifiedNativeAdFailed];
@@ -148,77 +158,78 @@ static CGFloat const DefaultIconScale = 1.0;
 
 #pragma mark - Helpers
 
-- (BOOL)isValidWithNativeAd:(IMNative *)native imageURL:(NSString *)imageURL {
-  if (![[native adTitle] length] || ![[native adDescription] length] ||
-      ![[native adCtaText] length] || ![native adIcon] || ![imageURL length]) {
+- (BOOL)isValidWithNativeAd:(nonnull IMNative *)native imageURL:(nonnull NSString *)imageURL {
+  if (!native.adTitle.length || !native.adDescription.length || !native.adCtaText.length ||
+      !native.adIcon || !imageURL.length) {
     return NO;
   }
   return YES;
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
   return nil;
 }
 
-- (NSString *)headline {
-  return self.native.adTitle;
+- (nullable NSString *)headline {
+  return _native.adTitle;
 }
 
-- (NSString *)body {
-  return self.native.adDescription;
+- (nullable NSString *)body {
+  return _native.adDescription;
 }
 
-- (GADNativeAdImage *)icon {
-  return self.mappedIcon;
+- (nullable GADNativeAdImage *)icon {
+  return _mappedIcon;
 }
 
-- (NSString *)callToAction {
-  return self.native.adCtaText;
+- (nullable NSString *)callToAction {
+  return _native.adCtaText;
 }
 
-- (NSDecimalNumber *)starRating {
-  if (self.native) {
-    return (NSDecimalNumber *)self.native.adRating;
+- (nullable NSDecimalNumber *)starRating {
+  if (_native) {
+    return (NSDecimalNumber *)_native.adRating;
   }
   return 0;
 }
 
-- (NSString *)store {
-  NSString *landingURL = (NSString *)(self.native.adLandingPageUrl.absoluteString);
-  if (landingURL) {
-    NSRange searchedRange = NSMakeRange(0, [landingURL length]);
-    NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
-                                                  options:0
-                                                    error:&error];
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
-                                                        options:0
-                                                          range:searchedRange];
-    if (numberOfMatches == 0)
-      return @"Others";
-    else
-      return @"iTunes";
+- (nullable NSString *)store {
+  NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
+  if (!landingURL.length) {
+    return @"";
+  }
+
+  NSRange searchedRange = NSMakeRange(0, landingURL.length);
+  NSError *error = nil;
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
+                                                options:0
+                                                  error:&error];
+  NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
+                                                      options:0
+                                                        range:searchedRange];
+  if (numberOfMatches == 0) {
+    return @"Others";
+  }
+  return @"iTunes";
+}
+
+- (nullable NSString *)price {
+  if ([_nativeAdContentDictionary[PRICE] length]) {
+    return _nativeAdContentDictionary[PRICE];
   }
   return @"";
 }
 
-- (NSString *)price {
-  if ([[self.nativeAdContentDictionary objectForKey:PRICE] length]) {
-    return [self.nativeAdContentDictionary objectForKey:PRICE];
-  }
-  return @"";
+- (nullable NSArray<GADNativeAdImage *> *)images {
+  return _mappedImages;
 }
 
-- (NSArray *)images {
-  return self.mappedImages;
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
+  return _extras;
 }
 
-- (NSDictionary *)extraAssets {
-  return self.extras;
-}
-
-- (UIView *GAD_NULLABLE_TYPE)mediaView {
+- (nullable UIView *)mediaView {
   UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
   placeHolderView.userInteractionEnabled = NO;
   return placeHolderView;
@@ -228,45 +239,47 @@ static CGFloat const DefaultIconScale = 1.0;
   return true;
 }
 
-- (id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
+- (CGFloat)mediaContentAspectRatio {
+  return _aspectRatio;
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
-                                 view:(UIView *)view
-                       viewController:(UIViewController *)viewController {
-  if (self.native) {
-    [self.native reportAdClickAndOpenLandingPage];
+- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(nonnull UIView *)view
+                       viewController:(nonnull UIViewController *)viewController {
+  if (_native) {
+    [_native reportAdClickAndOpenLandingPage];
   }
 }
 
-- (void)didRenderInView:(UIView *)view
+- (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(nonnull UIViewController *)viewController {
   GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
-  UIView *primaryView = [self.native primaryViewOfWidth:mediaView.frame.size.width];
+  UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
   [mediaView addSubview:primaryView];
+
+  _aspectRatio = primaryView.frame.size.width / primaryView.frame.size.height;
 }
 
-- (void)didUntrackView:(UIView *)view {
-  [self.native recyclePrimaryView];
-  self.native = nil;
+- (void)didUntrackView:(nullable UIView *)view {
+  [_native recyclePrimaryView];
+  _native = nil;
 }
 
 - (void)inmobiMediatedUnifiedNativeAdFailed {
   GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                          code:kGADErrorMediationNoFill
+                                                          code:kGADErrorNoFill
                                                       userInfo:nil];
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }
 
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(InMobiMediatedUnifiedNativeAd *)ad {
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nullable InMobiMediatedUnifiedNativeAd *)ad {
   if (self.adapter != nil && self.adapter.connector != nil) {
-    [self.adapter.connector adapter:self.adapter didReceiveMediatedNativeAd:ad];
+    [self.adapter.connector adapter:self.adapter didReceiveMediatedUnifiedNativeAd:ad];
   }
 }
 

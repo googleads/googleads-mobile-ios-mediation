@@ -1,19 +1,17 @@
 #import "GADMediationAdapterMoPub.h"
 
+#import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
+#import "GADMAdapterMoPubUtils.h"
 #import "GADMMoPubRewardedAd.h"
 #import "GADMoPubNetworkExtras.h"
 #import "MPRewardedVideo.h"
 #import "MoPub.h"
-#import "MoPubAdapterConstants.h"
 
-@interface GADMediationAdapterMoPub () <MPRewardedVideoDelegate>
-
-@property(nonatomic, strong) GADMMoPubRewardedAd *rewardedAd;
-
-@end
-
-@implementation GADMediationAdapterMoPub
+@implementation GADMediationAdapterMoPub {
+  /// MoPub rewarded ad wrapper.
+  GADMMoPubRewardedAd *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -28,13 +26,9 @@
                                                                completionHandler(nil);
                                                              }];
   } else {
-    NSString *description = @"Failed to initialize MoPub SDK. Ad unit ID is empty.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-
-    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
-                                         code:0
-                                     userInfo:userInfo];
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorInvalidServerParameters,
+        @"Failed to initialize MoPub SDK. Ad unit ID is empty.");
     completionHandler(error);
   }
 }
@@ -44,7 +38,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -59,7 +53,7 @@
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMAdapterMoPubVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
@@ -71,9 +65,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMMoPubRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMMoPubRewardedAd alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

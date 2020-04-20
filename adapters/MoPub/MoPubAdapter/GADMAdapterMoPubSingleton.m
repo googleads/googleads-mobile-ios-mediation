@@ -1,15 +1,20 @@
-
 #import "GADMAdapterMoPubSingleton.h"
 
+#import "GADMAdapterMoPubUtils.h"
+#import "MPRewardedVideo.h"
+
 @interface GADMAdapterMoPubSingleton () <MPRewardedVideoDelegate>
-
-@property(nonatomic) NSMapTable *adapterDelegates;
-
 @end
 
-@implementation GADMAdapterMoPubSingleton
+@implementation GADMAdapterMoPubSingleton {
+  /// Stores rewarded ad delegate with ad unit identifier as a key.
+  NSMapTable<NSString *, id<MPRewardedVideoDelegate>> *_adapterDelegates;
 
-+ (instancetype)sharedInstance {
+  /// Serializes ivar usage.
+  dispatch_queue_t _lockQueue;
+}
+
++ (nonnull GADMAdapterMoPubSingleton *)sharedInstance {
   static GADMAdapterMoPubSingleton *sharedMyManager = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -18,87 +23,82 @@
   return sharedMyManager;
 }
 
-- (instancetype)init {
-  if (self = [super init]) {
-    self.adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                  valueOptions:NSPointerFunctionsWeakMemory];
+- (nonnull instancetype)init {
+  self = [super init];
+  if (self) {
+    _adapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                              valueOptions:NSPointerFunctionsWeakMemory];
+    _lockQueue = dispatch_queue_create("mopub-rewardedAdapterDelegates", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
 
-- (void)initializeMoPubSDKWithAdUnitID:(NSString *)adUnitID
+- (void)initializeMoPubSDKWithAdUnitID:(nonnull NSString *)adUnitID
                      completionHandler:(void (^_Nullable)(void))completionHandler {
-  if (MoPub.sharedInstance.isSdkInitialized) {
-    completionHandler();
-    return;
-  }
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (MoPub.sharedInstance.isSdkInitialized) {
+      completionHandler();
+      return;
+    }
 
-  MPMoPubConfiguration *sdkConfig =
-      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
+    MPMoPubConfiguration *sdkConfig =
+        [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
 
-  [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
-                                            completion:^{
-                                              NSLog(@"MoPub SDK initialized.");
-                                              dispatch_async(dispatch_get_main_queue(), ^{
+    [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
+                                              completion:^{
+                                                NSLog(@"MoPub SDK initialized.");
                                                 completionHandler();
-                                              });
-                                            }];
+                                              }];
+  });
 }
 
-- (void)addDelegate:(id<MPRewardedVideoDelegate>)adapterDelegate forAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates setObject:adapterDelegate forKey:adUnitID];
-  }
+- (void)addDelegate:(nonnull id<MPRewardedVideoDelegate>)adapterDelegate
+        forAdUnitID:(nonnull NSString *)adUnitID {
+  dispatch_async(_lockQueue, ^{
+    GADMAdapterMoPubMapTableSetObjectForKey(self->_adapterDelegates, adUnitID, adapterDelegate);
+  });
 }
 
-- (void)removeDelegateForAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    [self.adapterDelegates removeObjectForKey:adUnitID];
-  }
+- (void)removeDelegateForAdUnitID:(nonnull NSString *)adUnitID {
+  dispatch_async(_lockQueue, ^{
+    GADMAdapterMoPubMapTableRemoveObjectForKey(self->_adapterDelegates, adUnitID);
+  });
 }
 
-- (id<MPRewardedVideoDelegate>)getDelegateForAdUnitID:(NSString *)adUnitID {
-  @synchronized(self.adapterDelegates) {
-    return [self.adapterDelegates objectForKey:adUnitID];
-  }
+- (nullable id<MPRewardedVideoDelegate>)getDelegateForAdUnitID:(nonnull NSString *)adUnitID {
+  __block id<MPRewardedVideoDelegate> delegate = nil;
+  dispatch_sync(_lockQueue, ^{
+    delegate = [self->_adapterDelegates objectForKey:adUnitID];
+  });
+  return delegate;
 }
 
-- (NSError *)requestRewardedAdForAdUnitID:(NSString *)adUnitID
-                                 adConfig:(GADMediationRewardedAdConfiguration *)adConfig
-                                 delegate:(id<MPRewardedVideoDelegate>)delegate {
+- (nullable NSError *)
+    requestRewardedAdForAdUnitID:(nonnull NSString *)adUnitID
+                        adConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig
+                        delegate:(nonnull id<MPRewardedVideoDelegate>)delegate {
   [MPRewardedVideo setDelegate:self forAdUnitId:adUnitID];
 
   if ([self getDelegateForAdUnitID:adUnitID]) {
-    NSString *description = @"MoPub does not support requesting a 2nd ad for the same ad unit ID "
-                            @"while the first request is in progress.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-
-    NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubErrorDomain
-                                         code:0
-                                     userInfo:userInfo];
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorAdAlreadyLoaded, @"MoPub does not support requesting a 2nd ad for the same ad "
+                                      @"unit ID while the first request is in progress.");
     return error;
   } else {
     [self addDelegate:delegate forAdUnitID:adUnitID];
   }
 
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:adConfig.userLatitude
-                                                           longitude:adConfig.userLongitude];
-
   [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:adUnitID
                                           keywords:[self getKeywords:false forAdConfig:adConfig]
                                   userDataKeywords:[self getKeywords:true forAdConfig:adConfig]
-                                          location:currentlocation
                                  mediationSettings:@[]];
   return nil;
 }
 
-/*
- Keywords passed from AdMob are separated into 1) personally identifiable,
- and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
- */
+/// Keywords passed from AdMob are separated into 1) personally identifiable,
+/// and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
 - (NSString *)getKeywords:(BOOL)intendedForPII
-              forAdConfig:(GADMediationRewardedAdConfiguration *)adConfig {
+              forAdConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig {
   NSString *keywordsBuilder = [NSString stringWithFormat:@"%@", kGADMAdapterMoPubTpValue];
 
   if (intendedForPII) {
@@ -112,7 +112,7 @@
   }
 }
 
-- (BOOL)keywordsContainUserData:(GADMediationRewardedAdConfiguration *)adConfig {
+- (BOOL)keywordsContainUserData:(nonnull GADMediationRewardedAdConfiguration *)adConfig {
   return [adConfig hasUserLocation];
 }
 

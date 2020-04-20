@@ -79,3 +79,15 @@ NSError *adRequestErrorTypeForCBLoadError(CBLoadError error) {
 
   return GADChartboostErrorWithDescription(description);
 }
+
+NSError *NSErrorForCHBCacheError(CHBCacheError *error) {
+  return GADChartboostErrorWithDescription([error description]);
+}
+
+NSError *NSErrorForCHBShowError(CHBShowError *error) {
+  return GADChartboostErrorWithDescription([error description]);
+}
+
+NSError *NSErrorForCHBClickError(CHBClickError *error) {
+  return GADChartboostErrorWithDescription([error description]);
+}

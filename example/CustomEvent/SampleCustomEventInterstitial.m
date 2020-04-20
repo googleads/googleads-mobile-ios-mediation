@@ -37,9 +37,8 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 - (void)requestInterstitialAdWithParameter:(NSString *)serverParameter
                                      label:(NSString *)serverLabel
                                    request:(GADCustomEventRequest *)request {
-  self.interstitial = [[SampleInterstitial alloc] init];
+  self.interstitial = [[SampleInterstitial alloc] initWithAdUnitID:serverParameter];
   self.interstitial.delegate = self;
-  self.interstitial.adUnit = serverParameter;
   SampleAdRequest *adRequest = [[SampleAdRequest alloc] init];
   adRequest.testMode = request.isTesting;
   adRequest.keywords = request.userKeywords;

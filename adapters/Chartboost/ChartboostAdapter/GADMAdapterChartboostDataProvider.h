@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "GADMChartboostExtras.h"
 
@@ -26,6 +26,7 @@
 /// Returns the Chartboost ad location.
 - (NSString *)getAdLocation;
 
+/// Called after an ad has failed to load.
 - (void)didFailToLoadAdWithError:(NSError *)error;
 
 @end

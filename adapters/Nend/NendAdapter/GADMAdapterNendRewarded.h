@@ -2,10 +2,10 @@
 //  GADMAdapterNendRewarded.h
 //  NendAdapter
 //
-//  Copyright © 2017 F@N Communications. All rights reserved.
+//  Copyright © 2017 FAN Communications. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterNendRewarded : NSObject
 

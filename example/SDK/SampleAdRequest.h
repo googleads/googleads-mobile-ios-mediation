@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /// Sample error codes.
 typedef NS_ENUM(NSInteger, SampleErrorCode) {
@@ -35,5 +35,8 @@ typedef NS_ENUM(NSInteger, SampleErrorCode) {
 
 /// Array of keyword strings for describing the current user activity.
 @property(nonatomic, copy) NSArray<NSString *> *keywords;
+
+/// A flag that indicates whether ad video audio should be muted.
+@property(nonatomic) BOOL mute;
 
 @end

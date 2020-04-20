@@ -17,9 +17,9 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import GoogleMobileAds;
-@import SampleAdSDK;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
 /// This class is responsible for "mapping" a unified native ad to the interface
 /// expected by the Google Mobile Ads SDK. The names and data types of assets provided

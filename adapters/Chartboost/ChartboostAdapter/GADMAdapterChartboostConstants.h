@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /// Chartboost mediation network adapter version.
-static NSString *const kGADMAdapterChartboostVersion = @"7.5.0.1";
+static NSString *const kGADMAdapterChartboostVersion = @"8.0.4.0";
 
 /// Chartboost App ID.
 static NSString *const kGADMAdapterChartboostAppID = @"appId";
@@ -26,4 +26,5 @@ static NSString *const kGADMAdapterChartboostAppSignature = @"appSignature";
 /// Chartboost Ad Location.
 static NSString *const kGADMAdapterChartboostAdLocation = @"adLocation";
 
+/// Chartboost adapter error domain.
 static NSString *const kGADMAdapterChartboostErrorDomain = @"com.google.mediation.chartboost";

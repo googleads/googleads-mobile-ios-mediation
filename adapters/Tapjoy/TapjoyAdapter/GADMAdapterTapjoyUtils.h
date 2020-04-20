@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,4 +14,33 @@
 
 #import <Foundation/Foundation.h>
 
+/// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Adds |object| to |array| if |object| is not nil.
+void GADMAdapterTapjoyMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object);
+
+/// Removes |object| from |array| if |object| is not nil.
+void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
+                                               NSObject *_Nonnull object);
+
+/// Sets |value| for |key| in mapTable if |key| and |value| are not nil.
+void GADMAdapterTapjoyMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                              id<NSCopying> _Nullable key, id _Nullable value);
+
+/// Removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
+
+/// Sets |value| for |key| in |dictionary| if |key| and |value| are not nil.
+void GADMAdapterTapjoyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                       id<NSCopying> _Nullable key,
+                                                       id _Nullable value);
+
+/// Returns an NSError with the specified code and description.
+NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
+                                                               NSString *_Nonnull description);
+
+/// Returns a dictionary of the auction data from a specified ad response.
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterTapjoyAuctionDataForResponseData(
+    NSDictionary<id, id> *_Nullable responseData);

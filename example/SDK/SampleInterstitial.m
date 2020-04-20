@@ -18,14 +18,22 @@
 //
 
 #import "SampleInterstitial.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@import Foundation;
-@import UIKit;
-
-@interface SampleInterstitial () <UIAlertViewDelegate>
+@interface SampleInterstitial ()
 @end
 
 @implementation SampleInterstitial
+
+- (instancetype)initWithAdUnitID:(NSString *)adUnitID {
+  self = [super init];
+  if (self) {
+    _adUnit = adUnitID;
+    self.interstitialLoaded = NO;
+  }
+  return self;
+}
 
 - (void)fetchAd:(SampleAdRequest *)request {
   // If the publisher didn't set an ad unit, return a bad request.
@@ -48,29 +56,53 @@
 }
 
 - (void)show {
+  if (!self.isInterstitialLoaded) {
+    NSLog(@"Sample interstitial is not ready to show.");
+    return;
+  }
+
   // Notify the developer that a full screen view will be presented.
   [self.delegate interstitialWillPresentScreen:self];
 
-  [[[UIAlertView alloc]
-          initWithTitle:@"Sample Interstitial"
-                message:@"You are viewing a sample interstitial ad.\n\n\nPress Close to dismiss "
-                @"the interstitial or press Click to simulate clicking an interstitial"
-               delegate:self
-      cancelButtonTitle:@"Close"
-      otherButtonTitles:@"Click", nil] show];
-  self.interstitialLoaded = NO;
-}
+  __weak SampleInterstitial *weakSelf = self;
+  UIAlertController *alert = [UIAlertController
+      alertControllerWithTitle:@"Sample Interstitial"
+                       message:
+                           @"You are viewing a sample interstitial ad.\n\n\nPress Close to dismiss "
+                           @"\nthe interstitial or press Click to simulate clicking an interstitial"
+                preferredStyle:UIAlertControllerStyleAlert];
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-  [self.delegate interstitialWillDismissScreen:self];
-}
+  UIAlertAction *close =
+      [UIAlertAction actionWithTitle:@"Close"
+                               style:UIAlertActionStyleCancel
+                             handler:^(UIAlertAction *action) {
+                               SampleInterstitial *strongSelf = weakSelf;
+                               [strongSelf.delegate interstitialWillDismissScreen:strongSelf];
+                               [strongSelf.delegate interstitialDidDismissScreen:strongSelf];
+                             }];
+  UIAlertAction *click =
+      [UIAlertAction actionWithTitle:@"Click"
+                               style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction *action) {
+                               SampleInterstitial *strongSelf = weakSelf;
+                               if (!strongSelf) {
+                                 return;
+                               }
+                               [strongSelf.delegate interstitialWillDismissScreen:strongSelf];
+                               [strongSelf.delegate interstitialDidDismissScreen:strongSelf];
+                               [strongSelf.delegate interstitialWillLeaveApplication:strongSelf];
+                               [[UIApplication sharedApplication]
+                                   openURL:[NSURL URLWithString:@"https://www.google.com"]];
+                             }];
+  [alert addAction:close];
+  [alert addAction:click];
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-  if (buttonIndex == 1) {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.google.com"]];
-    [self.delegate interstitialWillLeaveApplication:self];
-  }
-  [self.delegate interstitialDidDismissScreen:self];
+  [UIApplication.sharedApplication.keyWindow.rootViewController
+      presentViewController:alert
+                   animated:YES
+                 completion:^(void) {
+                   weakSelf.interstitialLoaded = NO;
+                 }];
 }
 
 @end

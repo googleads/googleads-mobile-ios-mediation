@@ -14,12 +14,12 @@
 #import <InMobiSDK/IMRequestStatus.h>
 
 @interface GADMAdapterInMobi
-    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate> {
-}
-+ (BOOL)isAppInitialised;
-@property(nonatomic, retain) IMBanner *adView;
-@property(nonatomic, retain) IMInterstitial *interstitial;
-@property(nonatomic, retain) IMNative *native;
+    : NSObject <GADMAdNetworkAdapter, IMBannerDelegate, IMInterstitialDelegate, IMNativeDelegate>
+
+/// InMobi placement ID.
 @property(nonatomic, readonly) long long placementId;
-@property(nonatomic, strong) id<GADMAdNetworkConnector> connector;
+
+/// Google Mobile Ads SDK ad network connector.
+@property(nonatomic, strong, readonly) id<GADMAdNetworkConnector> connector;
+
 @end

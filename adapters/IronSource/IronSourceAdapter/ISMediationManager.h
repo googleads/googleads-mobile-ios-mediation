@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/IronSource.h>
 #import "GADMAdapterIronSourceInterstitialDelegate.h"
 #import "GADMAdapterIronSourceRewardedDelegate.h"

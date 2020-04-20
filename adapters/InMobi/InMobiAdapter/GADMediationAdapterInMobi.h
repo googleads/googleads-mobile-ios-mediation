@@ -16,8 +16,13 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
 
-@interface GADMediationAdapterInMobi : NSObject <GADRTBAdapter>
-+ (BOOL)isAppInitialised;
-+ (void)setIsAppInitialised:(BOOL)status;
+@interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
+
+/// Indicates whether InMobi SDK has been successfully initialized.
+@property(class, nonatomic, assign, readonly) BOOL isInitialized;
+
+/// Initialize the InMobi SDK with the specified |accountID|. Returns an NSError if initialization
+/// failed.
++ (nullable NSError *)initializeWithAccountID:(nonnull NSString *)accountID;
 
 @end

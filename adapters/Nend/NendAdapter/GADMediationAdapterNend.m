@@ -13,14 +13,20 @@
 // limitations under the License.
 
 #import "GADMediationAdapterNend.h"
+
+#import <NendAd/NendAd.h>
+
+#import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendNativeAdLoader.h"
 #import "GADMAdapterNendRewardedAd.h"
+#import "GADMediationAdapterNendNativeForwarder.h"
 #import "GADNendRewardedNetworkExtras.h"
-@import NendAd;
 
 @interface GADMediationAdapterNend ()
 
 @property(nonatomic, strong) GADMAdapterNendRewardedAd *rewardedAd;
+@property(nonatomic, strong) GADMediationAdapterNendNativeForwarder *nativeMediation;
 
 @end
 
@@ -37,7 +43,7 @@
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion = [versionComponents[2] integerValue];
@@ -50,13 +56,53 @@
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADNendRewardedNetworkExtras class];
+  return [GADMAdapterNendExtras class];
+}
+
++ (nonnull NSString *)adapterVersion {
+  return kGADMAdapterNendVersion;
+}
+
+- (void)stopBeingDelegate { /* Do nothing here */
+}
+
+- (void)getBannerWithSize:(GADAdSize)adSize { /* Do nothing here */
+}
+
+- (void)getInterstitial { /* Do nothing here */
+}
+
+- (void)presentInterstitialFromRootViewController:
+    (nonnull UIViewController *)rootViewController { /* Do nothing here */
+}
+
+- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(NSArray<GADAdLoaderOptions *> *)options {
+  [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
+}
+
+- (BOOL)handlesUserImpressions {
+  return YES;
+}
+
+- (BOOL)handlesUserClicks {
+  return YES;
+}
+
+- (nonnull instancetype)initWithGADMAdNetworkConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
+  self = [super init];
+  if (self != nil) {
+    _nativeMediation = [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self
+                                                                             connector:connector];
+  }
+  return self;
 }
 
 + (GADVersionNumber)version {
   NSArray *versionComponents = [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
+  if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
@@ -65,9 +111,10 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterNendRewardedAd alloc] init];
   [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
