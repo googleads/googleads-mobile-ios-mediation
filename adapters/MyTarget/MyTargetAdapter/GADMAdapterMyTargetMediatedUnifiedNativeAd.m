@@ -10,10 +10,6 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-#define guard(CONDITION) \
-  if (CONDITION) {       \
-  }
-
 @interface GADMAdapterMyTargetMediatedUnifiedNativeAd ()
 
 @property(nonatomic, strong) MTRGNativeAd *nativeAd;
@@ -33,33 +29,44 @@
 }
 
 + (nullable id<GADMediatedUnifiedNativeAd>)
-    mediatedUnifiedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
-                                        nativeAd:(MTRGNativeAd *)nativeAd
-                                  autoLoadImages:(BOOL)autoLoadImages
-                                     mediaAdView:(MTRGMediaAdView *)mediaAdView {
-  guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
-        promoBanner.ctaText) else return nil;
-  guard((autoLoadImages && promoBanner.image.image) ||
-        (!autoLoadImages && promoBanner.image.url)) else return nil;
-  if (promoBanner.navigationType == MTRGNavigationTypeWeb) {
-    guard(promoBanner.domain) else return nil;
-  } else if (promoBanner.navigationType == MTRGNavigationTypeStore) {
-    guard(promoBanner.icon) else return nil;
-    guard((autoLoadImages && promoBanner.icon.image) ||
-          (!autoLoadImages && promoBanner.icon.url)) else return nil;
+    mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
+                                        nativeAd:(nonnull MTRGNativeAd *)nativeAd
+                                     mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
+  if (!promoBanner.title || !promoBanner.descriptionText || !promoBanner.image ||
+      !promoBanner.ctaText) {
+    return nil;
   }
+
+  BOOL autoLoadImages = (nativeAd.cachePolicy == MTRGCachePolicyImages) || (nativeAd.cachePolicy == MTRGCachePolicyAll);
+  
+  if ((autoLoadImages && !promoBanner.image.image) || (!autoLoadImages && !promoBanner.image.url)) {
+    return nil;
+  }
+
+  if (promoBanner.navigationType == MTRGNavigationTypeWeb && !promoBanner.domain) {
+    return nil;
+  }
+
+  if (promoBanner.navigationType == MTRGNavigationTypeStore) {
+    if (!promoBanner.icon) {
+      return nil;
+    }
+
+    if ((autoLoadImages && !promoBanner.icon.image) || (!autoLoadImages && !promoBanner.icon.url)) {
+      return nil;
+    }
+  }
+
   return
       [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
                                                                            nativeAd:nativeAd
-                                                                     autoLoadImages:autoLoadImages
                                                                         mediaAdView:mediaAdView];
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
-    initWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
-                     nativeAd:(MTRGNativeAd *)nativeAd
-               autoLoadImages:(BOOL)autoLoadImages
-                  mediaAdView:(MTRGMediaAdView *)mediaAdView {
+    initWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
+                     nativeAd:(nonnull MTRGNativeAd *)nativeAd
+                  mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
     _nativeAd = nativeAd;
@@ -91,71 +98,79 @@
   return self;
 }
 
-- (void)addExtraAsset:(NSString *)asset forKey:(NSString *)key {
-  guard(asset && ![asset isEqualToString:@""]) else return;
+- (void)addExtraAsset:(nullable NSString *)asset forKey:(nonnull NSString *)key {
+  if (!asset.length) {
+    return;
+  }
   [_extraAssets setObject:asset forKey:key];
 }
 
-- (NSString *)headline {
+- (nullable NSString *)headline {
   return _headline;
 }
 
-- (NSArray<GADNativeAdImage *> *)images {
+- (nullable NSArray<GADNativeAdImage *> *)images {
   return _images;
 }
 
-- (NSString *)body {
+- (nullable NSString *)body {
   return _body;
 }
 
-- (GADNativeAdImage *)icon {
+- (nullable GADNativeAdImage *)icon {
   return _icon;
 }
 
-- (NSString *)callToAction {
+- (nullable NSString *)callToAction {
   return _callToAction;
 }
 
-- (NSDecimalNumber *)starRating {
+- (nullable NSDecimalNumber *)starRating {
   return _starRating;
 }
 
-- (NSString *)store {
+- (nullable NSString *)store {
   return nil;
 }
 
-- (NSString *)price {
+- (nullable NSString *)price {
   return nil;
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
   return _advertiser;
 }
 
-- (NSDictionary<NSString *, id> *)extraAssets {
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
   return _extraAssets;
 }
 
-- (UIView *)adChoicesView {
+- (nullable UIView *)adChoicesView {
   return nil;
 }
 
-- (UIView *)mediaView {
+- (nullable UIView *)mediaView {
   return _mediaAdView;
 }
 
 - (BOOL)hasVideoContent {
-  return YES;
+  return YES; // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
 }
 
-- (void)didRenderInView:(UIView *)view
+- (CGFloat)mediaContentAspectRatio {
+  return _mediaAdView.aspectRatio;
+}
+
+- (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
-  guard(_nativeAd) else return;
+  if (!_nativeAd) {
+    return;
+  }
 
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
@@ -170,15 +185,18 @@
   // do nothing
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
-                                 view:(UIView *)view
-                       viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(nonnull UIView *)view
+                       viewController:(nonnull UIViewController *)viewController {
   // do nothing
 }
 
 - (void)didUntrackView:(nullable UIView *)view {
   MTRGLogInfo();
-  guard(_nativeAd) else return;
+  if (!_nativeAd) {
+    return;
+  }
+
   [_nativeAd unregisterView];
 }
 
