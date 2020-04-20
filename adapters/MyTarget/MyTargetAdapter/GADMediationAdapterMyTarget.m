@@ -26,8 +26,8 @@
 
 @implementation GADMediationAdapterMyTarget
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // INFO: MyTarget SDK doesn't have any initialization API.
   completionHandler(nil);
 }
@@ -36,7 +36,7 @@
   NSString *versionString = [MTRGVersion currentVersion];
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
-  if (components.count == 3) {
+  if (components.count >= 3) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue;
@@ -54,7 +54,7 @@
   NSString *versionString = kGADMAdapterMyTargetVersion;
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (components.count == 3) {
+  if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
@@ -62,9 +62,10 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
   [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];

@@ -9,16 +9,11 @@
 @import GoogleMobileAds;
 @import MyTargetSDK;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMAdapterMyTargetMediatedUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
 + (nullable id<GADMediatedUnifiedNativeAd>)
-    mediatedUnifiedNativeAdWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner
-                                        nativeAd:(MTRGNativeAd *)nativeAd
-                                  autoLoadImages:(BOOL)autoLoadImages
-                                     mediaAdView:(MTRGMediaAdView *)mediaAdView;
+    mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
+                                        nativeAd:(nonnull MTRGNativeAd *)nativeAd
+                                     mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView;
 
 @end
-
-NS_ASSUME_NONNULL_END
