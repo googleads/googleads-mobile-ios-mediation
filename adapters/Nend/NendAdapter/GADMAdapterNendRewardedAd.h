@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterNendRewardedAd : NSObject <GADMediationRewardedAd>
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

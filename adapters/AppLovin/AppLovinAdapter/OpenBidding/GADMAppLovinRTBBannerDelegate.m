@@ -48,13 +48,9 @@
 }
 
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
-  NSString *errorString =
-      [NSString stringWithFormat:@"Failed to load banner ad with error: %d", code];
-  [GADMAdapterAppLovinUtils log:errorString];
   GADMRTBAdapterAppLovinBannerRenderer *parentRenderer = _parentRenderer;
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      [GADMAdapterAppLovinUtils toAdMobErrorCode:code], errorString);
   if (parentRenderer.adLoadCompletionHandler) {
+    NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
     parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }

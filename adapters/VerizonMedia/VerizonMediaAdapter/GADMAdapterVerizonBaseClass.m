@@ -142,11 +142,6 @@
   // The cache mechanism is not used in the AdMob mediation flow.
 }
 
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
 #pragma mark - VASInterstitialAdDelegate
 
 - (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {
@@ -249,7 +244,7 @@
   });
 }
 
-- (nullable UIViewController *)adPresentingViewController {
+- (nullable UIViewController *)inlineAdPresentingViewController {
   return [_connector viewControllerForPresentingModalView];
 }
 
@@ -262,10 +257,10 @@
   // AdMob does not expose a resize callback to map to this.
 }
 
-- (void)inlineAdEvent:(nonnull VASInlineAdView *)inlineAd
-               source:(nonnull NSString *)source
-              eventId:(nonnull NSString *)eventId
-            arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
+- (void)inlineAd:(nonnull VASInlineAdView *)inlineAd
+           event:(nonnull NSString *)eventId
+          source:(nonnull NSString *)source
+       arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
   // A generic callback that does currently need an implementation for inline placements.
 }
 

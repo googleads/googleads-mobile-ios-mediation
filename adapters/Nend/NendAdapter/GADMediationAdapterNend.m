@@ -13,15 +13,15 @@
 // limitations under the License.
 
 #import "GADMediationAdapterNend.h"
-#import "GADMAdapterNendConstants.h"
-#import "GADMAdapterNendRewardedAd.h"
-#import "GADNendRewardedNetworkExtras.h"
-#import "GADMAdapterNend.h"
-#import "GADMediationAdapterNend.h"
-#import "GADMediationAdapterNendNativeForwarder.h"
-#import "GADMAdapterNendNativeAdLoader.h"
 
-@import NendAd;
+#import <NendAd/NendAd.h>
+
+#import "GADMAdapterNend.h"
+#import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendNativeAdLoader.h"
+#import "GADMAdapterNendRewardedAd.h"
+#import "GADMediationAdapterNendNativeForwarder.h"
+#import "GADNendRewardedNetworkExtras.h"
 
 @interface GADMediationAdapterNend ()
 
@@ -59,36 +59,44 @@
   return [GADMAdapterNendExtras class];
 }
 
-+ (NSString *)adapterVersion {
-    return kGADMAdapterNendVersion;
++ (nonnull NSString *)adapterVersion {
+  return kGADMAdapterNendVersion;
 }
 
-- (void)stopBeingDelegate { /* Do nothing here */ }
+- (void)stopBeingDelegate { /* Do nothing here */
+}
 
-- (void)getBannerWithSize:(GADAdSize)adSize { /* Do nothing here */ }
+- (void)getBannerWithSize:(GADAdSize)adSize { /* Do nothing here */
+}
 
-- (void)getInterstitial { /* Do nothing here */ }
+- (void)getInterstitial { /* Do nothing here */
+}
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController { /* Do nothing here */ }
+- (void)presentInterstitialFromRootViewController:
+    (nonnull UIViewController *)rootViewController { /* Do nothing here */
+}
 
-- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes options:(NSArray<GADAdLoaderOptions *> *)options {
-    [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
+- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(NSArray<GADAdLoaderOptions *> *)options {
+  [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
 }
 
 - (BOOL)handlesUserImpressions {
-    return YES;
+  return YES;
 }
 
 - (BOOL)handlesUserClicks {
-    return YES;
+  return YES;
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    self = [super init];
-    if (self != nil) {
-        _nativeMediation = [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self connector:connector];
-    }
-    return self;
+- (nonnull instancetype)initWithGADMAdNetworkConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
+  self = [super init];
+  if (self != nil) {
+    _nativeMediation = [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self
+                                                                             connector:connector];
+  }
+  return self;
 }
 
 + (GADVersionNumber)version {
@@ -103,9 +111,10 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterNendRewardedAd alloc] init];
   [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];

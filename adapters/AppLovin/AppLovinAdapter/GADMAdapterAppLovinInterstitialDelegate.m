@@ -44,8 +44,7 @@
   GADMAdapterAppLovin *parentRenderer = _parentRenderer;
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeInterstitialZoneIdentifier:parentRenderer.zoneIdentifier];
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Interstitial failed to load");
+  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
   [parentRenderer.connector adapter:parentRenderer didFailAd:error];
 }
 

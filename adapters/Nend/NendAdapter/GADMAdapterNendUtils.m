@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "VungleAdNetworkExtras.h"
+#import "GADMAdapterNendUtils.h"
+#import "GADMAdapterNendConstants.h"
 
-@implementation VungleAdNetworkExtras
-
-- (nonnull instancetype)init {
-    self = [super init];
-    if (self) {
-        _UUID = [[NSUUID UUID] UUIDString];
-    }
-    return self;
+NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode *_Nonnull code,
+                                                             NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
-
-@end

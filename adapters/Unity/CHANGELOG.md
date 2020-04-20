@@ -1,5 +1,13 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Version 3.4.2.1
+- Improved forwarding of Unity's errors to recognize initialization and ad load failures earlier and reduce timeouts.
+- Removed support for the i386 architecture.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.57.0.
+- Unity Ads SDK version 3.4.2.
+
 #### Version 3.4.2.0
 - Verified compatibility with unity ads SDK 3.4.2.
 

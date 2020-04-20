@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "VungleAdNetworkExtras.h"
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@implementation VungleAdNetworkExtras
-
-- (nonnull instancetype)init {
-    self = [super init];
-    if (self) {
-        _UUID = [[NSUUID UUID] UUIDString];
-    }
-    return self;
-}
-
-@end
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode *_Nonnull code,
+                                                             NSString *_Nonnull description);

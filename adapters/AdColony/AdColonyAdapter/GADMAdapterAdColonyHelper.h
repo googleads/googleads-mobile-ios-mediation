@@ -31,6 +31,10 @@ void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_N
 void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,
                                               NSObject *_Nonnull object);
 
+/// Returns a dispatch time relative to DISPATCH_TIME_NOW for the provided time interval or
+/// DISPATCH_TIME_NOW if the interval is negative.
+dispatch_time_t GADMAdapterAdColonyDispatchTimeForInterval(NSTimeInterval interval);
+
 /// Retrieve zone ID from the settings dictionary.
 NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
     NSDictionary<NSString *, id> *_Nonnull settings);

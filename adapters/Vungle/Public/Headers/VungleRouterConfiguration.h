@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "VungleAdNetworkExtras.h"
+#import <Foundation/Foundation.h>
 
-@implementation VungleAdNetworkExtras
-
-- (nonnull instancetype)init {
-    self = [super init];
-    if (self) {
-        _UUID = [[NSUUID UUID] UUIDString];
-    }
-    return self;
-}
-
+@interface VungleRouterConfiguration : NSObject
++ (void)setPublishIDFV:(BOOL)publish;
++ (void)setMinSpaceForInit:(int)size;
++ (void)setMinSpaceForAdLoad:(int)size;
 @end

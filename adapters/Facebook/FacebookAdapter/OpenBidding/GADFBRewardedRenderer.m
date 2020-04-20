@@ -34,9 +34,15 @@
   FBRewardedVideoAd *_rewardedAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  // Intentionally keeping a reference to the delegate because this delegate is returned from the
+  // GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
+  /// Indicates whether this renderer is loading a real-time bidding request.
   BOOL _isRTBRequest;
+
+  /// Indicates whether presentFromViewController: was called on this renderer.
+  BOOL _presentCalled;
 }
 
 - (void)loadRewardedAdForAdConfiguration:
@@ -106,6 +112,11 @@
 }
 
 - (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
+  if (_presentCalled) {
+    NSLog(@"Received a Facebook SDK error during presentation: $@", error.localizedDescription);
+    [_adEventDelegate didFailToPresentWithError:error];
+    return;
+  }
   _adLoadCompletionHandler(nil, error);
 }
 
@@ -150,19 +161,16 @@
   /// The Facebook Audience Network SDK doesn't have callbacks for a rewarded ad opening or playing.
   /// Invoke callbacks on the Google Mobile Ads SDK within this method instead.
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (!strongDelegate) {
-    return;
-  }
-  if ([_rewardedAd isAdValid]) {
-    [_rewardedAd showAdFromRootViewController:viewController];
-    [strongDelegate willPresentFullScreenView];
-    [strongDelegate didStartVideo];
-  } else {
+  _presentCalled = YES;
+  if (![_rewardedAd showAdFromRootViewController:viewController]) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBRewardedVideoAd class])];
     NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdNotValid, description);
     [strongDelegate didFailToPresentWithError:error];
+    return;
   }
+  [strongDelegate willPresentFullScreenView];
+  [strongDelegate didStartVideo];
 }
 
 @end

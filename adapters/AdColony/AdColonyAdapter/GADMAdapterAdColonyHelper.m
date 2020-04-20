@@ -245,3 +245,10 @@ void GADMAdapterAdColonyMutableSetAddObjectsFromArray(NSMutableSet *_Nullable se
     [set addObjectsFromArray:array];
   }
 }
+
+dispatch_time_t GADMAdapterAdColonyDispatchTimeForInterval(NSTimeInterval interval) {
+  if (interval < 0) {
+    return DISPATCH_TIME_NOW;
+  }
+  return dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC));  // Allow pattern.
+}

@@ -14,10 +14,6 @@
 #import "GADMAdapterMyTargetMediatedUnifiedNativeAd.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-#define guard(CONDITION) \
-  if (CONDITION) {       \
-  }
-
 @interface GADMAdapterMyTargetNative () <MTRGNativeAdDelegate>
 
 @property(nonatomic, strong, nonnull) MTRGNativeAd *nativeAd;
@@ -60,7 +56,10 @@
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapter:self
                  didFailAd:[GADMAdapterMyTargetUtils
                                errorWithDescription:kGADMAdapterMyTargetErrorBannersNotSupported]];
@@ -69,7 +68,10 @@
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector
         adapter:self
       didFailAd:[GADMAdapterMyTargetUtils
@@ -92,7 +94,10 @@
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector
         adapter:self
       didFailAd:[GADMAdapterMyTargetUtils
@@ -103,10 +108,12 @@
                        options:(nullable NSArray<GADAdLoaderOptions *> *)options {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
 
   NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
-  guard(slotId > 0) else {
+  if (slotId <= 0) {
     MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
     [strongConnector
           adapter:self
@@ -116,7 +123,10 @@
 
   _autoLoadImages = YES;
   for (GADAdLoaderOptions *adLoaderOptions in options) {
-    guard([adLoaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) else continue;
+    if (![adLoaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      continue;
+    }
+
     GADNativeAdImageAdLoaderOptions *imageOptions =
         (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
     if (imageOptions.disableImageLoading) {
@@ -148,7 +158,9 @@
                            nativeAd:(nonnull MTRGNativeAd *)nativeAd {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
 
   _mediaAdView = [MTRGNativeViewsFactory createMediaAdView];
   _mediatedUnifiedNativeAd = [GADMAdapterMyTargetMediatedUnifiedNativeAd
@@ -156,7 +168,7 @@
                                           nativeAd:_nativeAd
                                     autoLoadImages:_autoLoadImages
                                        mediaAdView:_mediaAdView];
-  guard(_mediatedUnifiedNativeAd) else {
+  if (!_mediatedUnifiedNativeAd) {
     MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
     [strongConnector adapter:self
                    didFailAd:[GADMAdapterMyTargetUtils
@@ -170,7 +182,10 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
   MTRGLogError(description);
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
+
   NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
   [strongConnector adapter:self didFailAd:error];
 }

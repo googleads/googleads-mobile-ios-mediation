@@ -38,7 +38,14 @@ void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
                                                        id<NSCopying> _Nullable key,
                                                        id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value; // Allow pattern.
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
+void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull userDefaults,
+                                                     id _Nullable key) {
+  if (key) {
+    [userDefaults removeObjectForKey:key];  // Allow pattern.
   }
 }
 

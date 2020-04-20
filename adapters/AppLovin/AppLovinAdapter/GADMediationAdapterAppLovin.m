@@ -54,9 +54,8 @@
 
   if (!sdkKeys.count) {
     NSString *errorString = @"No SDK keys are found. Please add valid SDK keys in the AdMob UI.";
-    [GADMAdapterAppLovinUtils log:errorString];
-    NSError *error =
-        GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorString);
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorMissingSDKKey, errorString);
     completionHandler(error);
     return;
   }
@@ -120,31 +119,31 @@
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
   // Check if supported ad format.
   if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
-    [self handleCollectSignalsFailureForMessage:
-              @"Requested to collect signal for unsupported native ad format. Ignoring..."
-                              completionHandler:completionHandler];
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorUnsupportedAdFormat,
+        @"Requested to collect signal for unsupported native ad format. Ignoring...");
+    completionHandler(nil, error);
     return;
   }
 
   ALSdk *sdk = [GADMAdapterAppLovinUtils
       retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
-
+  if (!sdk) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
+    completionHandler(nil, error);
+    return;
+  }
   NSString *signal = sdk.adService.bidToken;
 
   if (signal.length > 0) {
     [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", signal];
     completionHandler(signal, nil);
   } else {
-    [self handleCollectSignalsFailureForMessage:@"Failed to generate bid token."
-                              completionHandler:completionHandler];
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
+    completionHandler(nil, error);
   }
-}
-
-- (void)handleCollectSignalsFailureForMessage:(NSString *)errorMessage
-                            completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  NSError *error =
-      GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorMessage);
-  completionHandler(nil, error);
 }
 
 #pragma mark - GADMediationAdapter load Ad

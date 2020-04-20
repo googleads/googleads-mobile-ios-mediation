@@ -6,17 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
-@import NendAd;
-
-NS_ASSUME_NONNULL_BEGIN
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <NendAd/NendAd.h>
 
 @interface GADMAdapterNendNativeAd : NSObject <GADMediationNativeAd>
 
-- (instancetype)initWithNormal:(nonnull NADNative *)ad
-                          logo:(nullable GADNativeAdImage *)logo
-                         image:(nullable GADNativeAdImage *)image;
+- (nonnull instancetype)initWithNormal:(nonnull NADNative *)ad
+                                  logo:(nullable GADNativeAdImage *)logo
+                                 image:(nullable GADNativeAdImage *)image;
 
 @end
-
-NS_ASSUME_NONNULL_END

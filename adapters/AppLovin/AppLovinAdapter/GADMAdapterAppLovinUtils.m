@@ -10,6 +10,7 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
+#import "GADMediationAdapterAppLovin.h"
 
 static const NSUInteger kALSDKKeyLength = 86;
 static const NSUInteger kALZoneIdentifierLength = 16;
@@ -71,14 +72,23 @@ void GADMAdapterAppLovinMutableDictionaryRemoveObjectForKey(
   }
 }
 
-NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADErrorCode code,
-                                                                 NSString *_Nonnull description) {
-  [GADMAdapterAppLovinUtils log:description];
+NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(
+    GADMAdapterAppLovinErrorCode *_Nonnull code, NSString *_Nonnull description) {
   NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinErrorDomain
                                        code:code
                                    userInfo:@{NSLocalizedFailureReasonErrorKey : description}];
   return error;
 }
+
+NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger *_Nonnull code) {
+  NSError *error = [NSError
+      errorWithDomain:GADMAdapterAppLovinSDKErrorDomain
+                 code:code
+             userInfo:@{
+               NSLocalizedFailureReasonErrorKey : @"AppLovin SDK returned a failure callback."
+             }];
+  return error;
+};
 
 @implementation GADMAdapterAppLovinUtils
 
@@ -140,20 +150,6 @@ NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADErrorCode co
 
   // Custom zone is invalid - return nil (adapter will fail the ad load).
   return nil;
-}
-
-+ (GADErrorCode)toAdMobErrorCode:(int)code {
-  if (code == kALErrorCodeNoFill) {
-    return kGADErrorNoFill;
-  } else if (code == kALErrorCodeAdRequestNetworkTimeout) {
-    return kGADErrorTimeout;
-  } else if (code == kALErrorCodeInvalidResponse) {
-    return kGADErrorReceivedInvalidResponse;
-  } else if (code == kALErrorCodeUnableToRenderAd) {
-    return kGADErrorServerError;
-  } else {
-    return kGADErrorInternalError;
-  }
 }
 
 #pragma mark - Banner Util Methods

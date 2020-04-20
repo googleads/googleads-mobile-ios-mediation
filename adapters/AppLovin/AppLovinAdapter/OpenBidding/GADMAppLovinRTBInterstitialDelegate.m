@@ -50,8 +50,7 @@
 - (void)adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code {
   GADMRTBAdapterAppLovinInterstitialRenderer *parentRenderer = _parentRenderer;
   if (parentRenderer.adLoadCompletionHandler) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Failed to load interstitial ad");
+    NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
     parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }

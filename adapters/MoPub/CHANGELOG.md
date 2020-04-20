@@ -1,5 +1,16 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Version 5.12.0.0
+- Verified compatibility with MoPub SDK 5.12.0.
+- Now requires Google Mobile Ads SDK version 7.58.0 or higher.
+- Added support for flexible banner ad sizes.
+- Added a new extra to the `GADMoPubNetworkExtras` class:
+  * `minimumBannerSize` - minimum ad size allowed for MoPub banner ads.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.58.0.
+- MoPub SDK version 5.12.0.
+
 #### Version 5.11.0.0
 - Verified compatibility with MoPub SDK 5.11.0.
 

@@ -5,7 +5,7 @@
 //  Copyright © 2017 FAN Communications. All rights reserved.
 //
 
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterNendRewarded : NSObject
 

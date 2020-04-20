@@ -28,6 +28,9 @@
 
   /// Tapjoy SDK initialization state.
   GADMAdapterTapjoyInitState _initState;
+
+  /// Serializes instance variable usage.
+  dispatch_queue_t _lockQueue;
 }
 
 + (nonnull instancetype)sharedInstance {
@@ -45,6 +48,7 @@
                                               valueOptions:NSPointerFunctionsWeakMemory];
     _completionHandlers = [[NSMutableArray alloc] init];
     _initState = GADMAdapterTapjoyInitStateUninitialized;
+    _lockQueue = dispatch_queue_create("tapjoy-singleton", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -144,32 +148,36 @@
 
 - (void)addDelegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
     forPlacementName:(nonnull NSString *)placementName {
-  @synchronized(_adapterDelegates) {
-    [_adapterDelegates setObject:delegate forKey:placementName];
-  }
+  dispatch_async(_lockQueue, ^{
+    GADMAdapterTapjoyMapTableSetObjectForKey(self->_adapterDelegates, placementName, delegate);
+  });
 }
 
 - (void)removeDelegateForPlacementName:(nonnull NSString *)placementName {
-  @synchronized(_adapterDelegates) {
-    GADMAdapterTapjoyMapTableRemoveObjectForKey(_adapterDelegates, placementName);
-  }
+  dispatch_async(_lockQueue, ^{
+    GADMAdapterTapjoyMapTableRemoveObjectForKey(self->_adapterDelegates, placementName);
+  });
 }
 
 - (BOOL)containsDelegateForPlacementName:(nonnull NSString *)placementName {
-  @synchronized(_adapterDelegates) {
-    if ([_adapterDelegates objectForKey:placementName]) {
-      return YES;
+  __block BOOL containsDelegate = NO;
+  dispatch_sync(_lockQueue, ^{
+    if ([self->_adapterDelegates objectForKey:placementName]) {
+      containsDelegate = YES;
     } else {
-      return NO;
+      containsDelegate = NO;
     }
-  }
+  });
+  return containsDelegate;
 }
 
 - (nullable id<TJPlacementDelegate, TJPlacementVideoDelegate>)getDelegateForPlacementName:
     (nonnull NSString *)placementName {
-  @synchronized(_adapterDelegates) {
-    return [_adapterDelegates objectForKey:placementName];
-  }
+  __block id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate = nil;
+  dispatch_sync(_lockQueue, ^{
+    delegate = [self->_adapterDelegates objectForKey:placementName];
+  });
+  return delegate;
 }
 
 #pragma mark - TJPlacementDelegate methods

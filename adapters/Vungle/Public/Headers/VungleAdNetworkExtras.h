@@ -37,4 +37,8 @@
 
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
+@property(nonatomic, copy) NSNumber *_Nullable orientations;
+
+@property(nonatomic, copy, readonly) NSString *_Nonnull UUID;
+
 @end
