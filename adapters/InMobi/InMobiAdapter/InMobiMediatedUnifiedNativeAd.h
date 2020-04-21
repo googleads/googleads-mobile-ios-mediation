@@ -13,7 +13,7 @@
 @class InMobiMediatedUnifiedNativeAd;
 
 @protocol InMobiMediatedUnifiedNativeAdDelegate <NSObject>
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nullable InMobiMediatedUnifiedNativeAd *)ad;
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nonnull InMobiMediatedUnifiedNativeAd *)ad;
 - (void)inmobiMediatedUnifiedNativeAdFailed;
 @end
 
