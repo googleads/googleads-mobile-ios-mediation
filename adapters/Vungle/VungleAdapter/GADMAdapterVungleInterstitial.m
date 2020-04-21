@@ -17,7 +17,6 @@
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
-#import "GADMAdapterVungleBannerRequest.h"
 
 @interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate>
 @end
@@ -96,26 +95,14 @@
   VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
-  self.bannerRequest = [[GADMAdapterVungleBannerRequest alloc] initWithPlacementID:self.desiredPlacement ?: @""
-                                                                uniquePubRequestID:networkExtras.UUID];
-  if (!self.desiredPlacement) {
+  self.uniquePubRequestID = [networkExtras.UUID copy];
+  if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
                                  kGADErrorMediationDataError, @"Placement ID not specified.")];
     return;
   }
 
-  // Check if a banner or MREC ad has been initiated with the samne PlacementID
-  // or not. (Vungle supports 4 types of banner currently.)
-  if (![[GADMAdapterVungleRouter sharedInstance]
-          canRequestBannerAdForPlacementID:self.bannerRequest]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"A banner ad type has already been "
-                                        @"instantiated. Multiple banner ads are not "
-                                        @"supported with Vungle iOS SDK.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
   VungleSDK *sdk = [VungleSDK sharedSDK];
 
   if ([sdk isInitialized]) {
@@ -243,7 +230,7 @@
 @synthesize desiredPlacement;
 @synthesize adapterAdType;
 @synthesize bannerState;
-@synthesize bannerRequest;
+@synthesize uniquePubRequestID;
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
 

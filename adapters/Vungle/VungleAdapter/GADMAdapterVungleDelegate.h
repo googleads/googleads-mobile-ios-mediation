@@ -33,8 +33,6 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateClosed
 };
 
-@class GADMAdapterVungleBannerRequest;
-
 /// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
@@ -56,8 +54,8 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 // Check is banner ad
 - (BOOL)isBannerAd;
 
-// Get banner request object
-@property(nonatomic, nonnull) GADMAdapterVungleBannerRequest *bannerRequest;
+// Differentiate two banners with same placement ID
+@property(nonatomic, nullable) NSString *uniquePubRequestID;
 
 // Reward user for watching a Rewarded Video Ad successfully
 - (void)rewardUser;

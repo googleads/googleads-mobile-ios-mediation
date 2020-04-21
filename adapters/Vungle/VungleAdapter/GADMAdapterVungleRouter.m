@@ -20,6 +20,8 @@
 
 const CGSize kVNGBannerShortSize = {300, 50};
 
+static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
+
 @implementation GADMAdapterVungleRouter {
   /// Map table to hold the interstitial or rewarded ad delegates with placement ID as a key.
   NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_delegates;
@@ -28,13 +30,10 @@ const CGSize kVNGBannerShortSize = {300, 50};
   NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_initializingDelegates;
 
   /// Map table to hold the banner ad delegates with placement ID as a key.
-  NSMapTable<GADMAdapterVungleBannerRequest *, id<GADMAdapterVungleDelegate>> *_bannerDelegates;
+  NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_bannerDelegates;
 
-  /// Indicates whether a banner ad is presenting.
-  BOOL _isBannerPresenting;
-
-  /// Vungle's BannerRequest which inclues banner placementID and banner uniquePubRequestID.
-  GADMAdapterVungleBannerRequest *_bannerRequest;
+  /// Dictionary to hold the placement ID and uniquePubRequestID for banners are being requested
+  NSMutableDictionary<NSString *, NSString *> *_bannerRequestingDict;
 
   /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
@@ -59,6 +58,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
                                                    valueOptions:NSPointerFunctionsWeakMemory];
     _bannerDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                              valueOptions:NSPointerFunctionsWeakMemory];
+    _bannerRequestingDict = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -93,7 +93,6 @@ const CGSize kVNGBannerShortSize = {300, 50};
   }
 
   _isInitializing = YES;
-  _isBannerPresenting = NO;
 
   // Disable refresh functionality for all banners
   [[VungleSDK sharedSDK] disableBannerRefresh];
@@ -122,80 +121,54 @@ const CGSize kVNGBannerShortSize = {300, 50};
 }
 
 - (BOOL)addDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  if (!delegate) {
-    return NO;
-  }
-
   if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
       delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
     @synchronized(_delegates) {
       if (![_delegates objectForKey:delegate.desiredPlacement]) {
         GADMAdapterVungleMapTableSetObjectForKey(_delegates, delegate.desiredPlacement, delegate);
+        return YES;
       }
     }
   } else if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
     @synchronized(_bannerDelegates) {
-      // We only support displaying one Vungle Banner Ad at the same time currently
-      if (_bannerRequest != nil &&
-          ![_bannerRequest isEqualToBannerRequest:delegate.bannerRequest]) {
-        [self checkSamePlacementIDwithNilUniquePubRequestID:delegate.bannerRequest];
-        return NO;
-      }
-
-      if (![_bannerDelegates objectForKey:delegate.bannerRequest]) {
-        NSEnumerator *enumerator = _bannerDelegates.keyEnumerator;
-        GADMAdapterVungleBannerRequest *vungleBannerRequest = nil;
-        while (vungleBannerRequest = [enumerator nextObject]) {
-          // There is already a banner delegate with same placementID
-          // but different uniquePubRequestID in _bannerDelegates.
-          if ([vungleBannerRequest.placementID
-                  isEqualToString:delegate.bannerRequest.placementID]) {
-            return NO;
-          } else if (vungleBannerRequest.placementID.length > 0 &&
-                     ![vungleBannerRequest.placementID
-                         isEqualToString:delegate.bannerRequest.placementID]) {
-            // There is already a banner delegate with different placementID in _bannerDelegates.
-            if (!_bannerRequest) {
-              _bannerRequest = [vungleBannerRequest copy];
-            }
-            return NO;
-          }
+      if (![_bannerDelegates objectForKey:delegate.desiredPlacement] &&
+          ![_bannerRequestingDict objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableSetObjectForKey(_bannerDelegates, delegate.desiredPlacement,
+                                                 delegate);
+        GADMAdapterVungleMutableDictionarySetObjectForKey(_bannerRequestingDict, delegate.desiredPlacement,
+                                                          delegate.uniquePubRequestID ? :
+                                                          kGADMAdapterVungleNullPubRequestID);
+        return YES;
+      } else if ([_bannerDelegates objectForKey:delegate.desiredPlacement]) {
+        id<GADMAdapterVungleDelegate> bannerDelegate = [_bannerDelegates objectForKey:delegate.desiredPlacement];
+        if ([bannerDelegate.uniquePubRequestID isEqualToString:delegate.uniquePubRequestID]){
+          /* The isRequestingBannerAdForRefresh flag is used for an edge case, when the old Banner
+           * delegate is removed from _bannerDelegates and there is a refresh Banner delegate doesn't
+           * construct Banner view successfully and add to _bannerDelegates yet. Adapter cannot request
+           * another Banner ad with same placement Id and different uniquePubRequestID.
+           */
+          bannerDelegate.isRequestingBannerAdForRefresh = YES;
+          delegate.isRefreshedForBannerAd = YES;
+          return YES;
         }
 
-        GADMAdapterVungleMapTableSetObjectForKey(_bannerDelegates, delegate.bannerRequest,
-                                                 delegate);
-        _bannerRequest = [delegate.bannerRequest copy];
-      } else {
-        id<GADMAdapterVungleDelegate> bannerDelegate =
-            [_bannerDelegates objectForKey:delegate.bannerRequest];
-
-        /* The isRequestingBannerAdForRefresh flag is used for an edge case, when the old Banner
-         * delegate is removed from _bannerDelegates and there is a refresh Banner delegate doesn't
-         * construct Banner view successfully and add to _bannerDelegates yet. Adapter cannot set
-         * _bannerRequest to nil to prevent requesting another Banner ad with different
-         * bannerRequest.
-         */
-        bannerDelegate.isRequestingBannerAdForRefresh = YES;
-        delegate.isRefreshedForBannerAd = YES;
+        if (!bannerDelegate.uniquePubRequestID) {
+          NSLog(@"Ad already loaded for placement ID: %@, and cannot determine if this is a refresh. Set "
+          @"Vungle extras when making an ad request to support refresh on Vungle banner ads.",
+          bannerDelegate.desiredPlacement);
+        } else {
+          NSLog(@"Ad already loaded for placement ID: %@", bannerDelegate.desiredPlacement);
+        }
       }
     }
   }
-  return YES;
+  return NO;
 }
 
 - (void)replaceOldBannerDelegateWithDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
     @synchronized(_bannerDelegates) {
-      // We only support displaying one Vungle Banner Ad at the same time currently
-      if (_bannerRequest != nil &&
-          ![_bannerRequest isEqualToBannerRequest:delegate.bannerRequest]) {
-        return;
-      }
-
-      GADMAdapterVungleMapTableSetObjectForKey(_bannerDelegates, delegate.bannerRequest, delegate);
-      if (!_bannerRequest) {
-        _bannerRequest = [delegate.bannerRequest copy];
-      }
+      GADMAdapterVungleMapTableSetObjectForKey(_bannerDelegates, delegate.desiredPlacement, delegate);
     }
   }
 }
@@ -209,28 +182,20 @@ const CGSize kVNGBannerShortSize = {300, 50};
                                     withBannerRouterDelegateState:
                                         (BannerRouterDelegateState)bannerState {
   id<GADMAdapterVungleDelegate> delegate = nil;
-  if ([placement isEqualToString:_bannerRequest.placementID]) {
-    @synchronized(_bannerDelegates) {
-      NSEnumerator *enumerator = _bannerDelegates.keyEnumerator;
-      GADMAdapterVungleBannerRequest *vungleBannerRequest = nil;
-      while (vungleBannerRequest = [enumerator nextObject]) {
-        if ([vungleBannerRequest.placementID isEqualToString:placement]) {
-          id<GADMAdapterVungleDelegate> bannerDelegate =
-              [_bannerDelegates objectForKey:vungleBannerRequest];
-          if (bannerDelegate.bannerState == bannerState) {
-            return bannerDelegate;
-          }
-        }
-      }
-    }
-  } else {
-    @synchronized(_delegates) {
-      if ([_delegates objectForKey:placement]) {
-        delegate = [_delegates objectForKey:placement];
+  @synchronized(_bannerDelegates) {
+    if ([_bannerDelegates objectForKey:placement]) {
+      id<GADMAdapterVungleDelegate> bannerDelegate = [_bannerDelegates objectForKey:placement];
+      if (bannerDelegate && bannerDelegate.bannerState == bannerState) {
+        return bannerDelegate;
       }
     }
   }
 
+  @synchronized(_delegates) {
+    if ([_delegates objectForKey:placement]) {
+      delegate = [_delegates objectForKey:placement];
+    }
+  }
   return delegate;
 }
 
@@ -244,14 +209,15 @@ const CGSize kVNGBannerShortSize = {300, 50};
     }
   } else if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
     @synchronized(_bannerDelegates) {
-      if (delegate && (delegate == [_bannerDelegates objectForKey:delegate.bannerRequest])) {
-        GADMAdapterVungleMapTableRemoveObjectForKey(_bannerDelegates, delegate.bannerRequest);
+      if (delegate && (delegate == [_bannerDelegates objectForKey:delegate.desiredPlacement])) {
+        GADMAdapterVungleMapTableRemoveObjectForKey(_bannerDelegates, delegate.desiredPlacement);
       }
-      if ([delegate.bannerRequest isEqualToBannerRequest:_bannerRequest] ||
-          ([delegate.bannerRequest.placementID isEqualToString:_bannerRequest.placementID] &&
-           !delegate.bannerRequest.uniquePubRequestID && !_bannerRequest.uniquePubRequestID)) {
-        if (!_isBannerPresenting && !delegate.isRequestingBannerAdForRefresh) {
-          _bannerRequest = nil;
+      NSString *pubRequestID = [_bannerRequestingDict objectForKey:delegate.desiredPlacement];
+      if ([pubRequestID isEqualToString:delegate.uniquePubRequestID] ||
+          ([pubRequestID isEqualToString:kGADMAdapterVungleNullPubRequestID] &&
+           !delegate.uniquePubRequestID)) {
+        if (!delegate.isRequestingBannerAdForRefresh) {
+          [_bannerRequestingDict removeObjectForKey:delegate.desiredPlacement];
         }
       }
     }
@@ -278,37 +244,26 @@ const CGSize kVNGBannerShortSize = {300, 50};
   return NO;
 }
 
-- (BOOL)canRequestBannerAdForPlacementID:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest {
-  @synchronized(_bannerDelegates) {
-    if (_bannerDelegates.count > 0) {
-      [self checkSamePlacementIDwithNilUniquePubRequestID:bannerRequest];
-      return _bannerRequest == nil || [_bannerRequest isEqualToBannerRequest:bannerRequest];
-    }
-    return YES;
-  }
-}
-
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
+  if (!delegate) {
+    return GADMAdapterVungleErrorWithCodeAndDescription(
+                                                        kGADErrorMediationAdapterError, @"Can't load ad when try to add a nil delegate.");
+  }
+
   id<GADMAdapterVungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
     return error;
   }
+
   BOOL addSuccessed = [self addDelegate:delegate];
   if (!addSuccessed) {
-    NSError *error = nil;
-    if (delegate) {
-      error = GADMAdapterVungleErrorWithCodeAndDescription(
+    return  GADMAdapterVungleErrorWithCodeAndDescription(
           kGADErrorMediationAdapterError, @"A banner ad type has already been "
                                           @"instantiated. Multiple banner ads are not "
                                           @"supported with Vungle iOS SDK.");
-    } else {
-      error = GADMAdapterVungleErrorWithCodeAndDescription(
-          kGADErrorMediationAdapterError, @"Can't load ad when try to add a nil delegate.");
-    }
-    return error;
   }
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
@@ -451,16 +406,14 @@ const CGSize kVNGBannerShortSize = {300, 50};
       return;
     }
 
-    if (![_bannerDelegates objectForKey:delegate.bannerRequest]) {
+    if (![_bannerDelegates objectForKey:delegate.desiredPlacement]) {
       return;
     }
 
-    if ((_isBannerPresenting && delegate.bannerState == BannerRouterDelegateStatePlaying) ||
+    if (delegate.bannerState == BannerRouterDelegateStatePlaying ||
         delegate.bannerState == BannerRouterDelegateStateWillPlay) {
       NSLog(@"Vungle: Triggering an ad completion call for %@", delegate.desiredPlacement);
-
-      [[VungleSDK sharedSDK] finishedDisplayingAd];
-      _isBannerPresenting = NO;
+      [[VungleSDK sharedSDK] finishDisplayingAd:delegate.desiredPlacement];
     }
   }
 }
@@ -474,20 +427,6 @@ const CGSize kVNGBannerShortSize = {300, 50};
   }
 
   [_initializingDelegates removeAllObjects];
-}
-
-- (void)checkSamePlacementIDwithNilUniquePubRequestID:
-    (nonnull GADMAdapterVungleBannerRequest *)vungleBannerRequest {
-  if ([vungleBannerRequest.placementID isEqualToString:_bannerRequest.placementID] &&
-      !_bannerRequest.uniquePubRequestID) {
-    NSLog(@"Ad already loaded for placement ID: %@, and cannot determine if this is a refresh. Set "
-          @"Vungle extras when making an ad request to support refresh on Vungle banner ads.",
-          vungleBannerRequest.placementID);
-  } else if ([vungleBannerRequest.placementID isEqualToString:_bannerRequest.placementID] &&
-             ![vungleBannerRequest.uniquePubRequestID
-                 isEqualToString:_bannerRequest.uniquePubRequestID]) {
-    NSLog(@"Ad already loaded for placement ID: %@", _bannerRequest.placementID);
-  }
 }
 
 #pragma mark - VungleSDKDelegate methods
@@ -505,17 +444,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
-  if ([placementID isEqualToString:_bannerRequest.placementID]) {
-    _isBannerPresenting = YES;
-  } else if (!_bannerRequest) {
-    id<GADMAdapterVungleDelegate> delegate =
-        [self getDelegateForPlacement:placementID
-            withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
-    // The delegate is not Interstitial or Rewarded Video Ad
-    if (!delegate) {
-      _isBannerPresenting = YES;
-    }
-  }
+  NSLog(@"Vungle: Did show Ad for placement ID:%@", placementID);
 }
 
 - (void)vungleWillCloseAdForPlacementID:(nonnull NSString *)placementID {
