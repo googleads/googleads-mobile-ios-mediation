@@ -21,17 +21,12 @@
 
 @interface GADMAdapterNendNativeAdLoader : NSObject
 
-@property(nonatomic, strong, nonnull) NADNativeClient *normalLoader;
-@property(nonatomic, strong, nonnull) NADNativeVideoLoader *videoLoader;
-
-@property(nonatomic, strong, nonnull) NADNativeCompletionBlock normalCompletionBlock;
 typedef void (^NADNativeVideoCompletionBlock)(NADNativeVideo *_Nullable ad,
-                                              NSError *_Nullable error);
-@property(nonatomic, strong, nonnull) NADNativeVideoCompletionBlock videoCompletionBlock;
+NSError *_Nullable error);
 
 - (void)fetchNativeAd:(nonnull NSArray *)options
                spotId:(nonnull NSString *)spotId
                apiKey:(nonnull NSString *)apiKey
-                extra:(nonnull GADMAdapterNendExtras *)extras;
+               extra:(nonnull GADMAdapterNendExtras *)extras;
 
 @end

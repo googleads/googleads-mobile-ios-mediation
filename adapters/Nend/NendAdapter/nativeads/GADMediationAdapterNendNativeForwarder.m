@@ -13,12 +13,15 @@
 
 @interface GADMediationAdapterNendNativeForwarder () <GADMAdapterNendNativeAdLoaderDelegate>
 
-@property(nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
-@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
-
 @end
 
-@implementation GADMediationAdapterNendNativeForwarder
+@implementation GADMediationAdapterNendNativeForwarder {
+  // Connector from the Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  // Adapter for receiving ad request notifications.
+  __weak id<GADMAdNetworkAdapter> _adapter;
+}
 
 - (nonnull instancetype)initWithAdapter:(nonnull id<GADMAdNetworkAdapter>)adapter
                               connector:(nonnull id<GADMAdNetworkConnector>)connector {
@@ -32,7 +35,7 @@
 
 - (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
                        options:(nullable NSArray<GADAdLoaderOptions *> *)options {
-  id<GADMAdNetworkConnector> strongConnector = self.connector;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
 
   NSString *spotId = [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector
                                                          paramKey:kGADMAdapterNendSpotID];
@@ -46,17 +49,17 @@
   [self fetchNativeAd:options spotId:spotId apiKey:apiKey extra:extras];
 }
 
-- (void)didFailToLoadWithError:(NSError *)error {
-  id<GADMAdNetworkAdapter> strongAdapter = self.adapter;
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongAdapter != nil) {
-    [self.connector adapter:strongAdapter didFailAd:error];
+    [_connector adapter:strongAdapter didFailAd:error];
   }
 }
 
 - (void)didReceiveUnifiedNativeAd:(nonnull id<GADMediationNativeAd>)ad {
-  id<GADMAdNetworkAdapter> strongAdapter = self.adapter;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongAdapter != nil) {
-    [self.connector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:ad];
+    [_connector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:ad];
   }
 }
 

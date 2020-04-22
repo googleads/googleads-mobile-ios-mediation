@@ -14,8 +14,19 @@
 #import "GADMAdapterNendNativeVideoAd.h"
 #import "GADMAdapterNendUtils.h"
 
-@implementation GADMAdapterNendNativeAdLoader
+@implementation GADMAdapterNendNativeAdLoader {
+  /// nend video completion block.
+  NADNativeVideoCompletionBlock _videoCompletionBlock;
 
+  ///  nend normal completion block.
+  NADNativeCompletionBlock _normalCompletionBlock;
+
+  ///  nend normal loader.
+  NADNativeClient *_normalLoader;
+
+  ///  nend video loader.
+  NADNativeVideoLoader *_videoLoader;
+}
 - (void)fetchNativeAd:(nonnull NSArray *)options
                spotId:(nonnull NSString *)spotId
                apiKey:(nonnull NSString *)apiKey
@@ -30,22 +41,22 @@
   [self prepareLoaderCompletionBlocks:options];
 
   if (extras && extras.nativeType == GADMNendNativeTypeVideo) {
-    self.videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
-                                                             apiKey:apiKey
-                                                        clickAction:NADNativeVideoClickActionLP];
-    self.videoLoader.mediationName = kGADMAdapterNendMediationName;
-    self.videoLoader.userId = extras.userId;
+    _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
+                                                         apiKey:apiKey
+                                                    clickAction:NADNativeVideoClickActionLP];
+    _videoLoader.mediationName = kGADMAdapterNendMediationName;
+    _videoLoader.userId = extras.userId;
 
-    [self.videoLoader loadAdWithCompletionHandler:self.videoCompletionBlock];
+    [_videoLoader loadAdWithCompletionHandler:_videoCompletionBlock];
   } else {
-    self.normalLoader = [[NADNativeClient alloc] initWithSpotId:spotId apiKey:apiKey];
-    [self.normalLoader loadWithCompletionBlock:self.normalCompletionBlock];
+    _normalLoader = [[NADNativeClient alloc] initWithSpotId:spotId apiKey:apiKey];
+    [_normalLoader loadWithCompletionBlock:_normalCompletionBlock];
   }
 }
 
 - (void)prepareLoaderCompletionBlocks:(nonnull NSArray *)options {
   __weak GADMAdapterNendNativeAdLoader *weakSelf = self;
-  self.normalCompletionBlock = ^(NADNative *ad, NSError *error) {
+  _normalCompletionBlock = ^(NADNative *_Nullable ad, NSError *_Nullable error) {
     GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
@@ -56,7 +67,7 @@
       [strongSelf fetchImageAssets:ad imageOptions:[strongSelf pullImageAdLoaderOptions:options]];
     }
   };
-  self.videoCompletionBlock = ^(NADNativeVideo *_Nullable ad, NSError *_Nullable error) {
+  _videoCompletionBlock = ^(NADNativeVideo *_Nullable ad, NSError *_Nullable error) {
     GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
@@ -71,8 +82,8 @@
   };
 }
 
-- (void)fetchImageAssets:(NADNative *)ad
-            imageOptions:(GADNativeAdImageAdLoaderOptions *)imageOptions {
+- (void)fetchImageAssets:(nonnull NADNative *)ad
+            imageOptions:(nonnull GADNativeAdImageAdLoaderOptions *)imageOptions {
   [self fetchLogo:ad
       disableLoading:imageOptions.disableImageLoading
         imageHandler:^(GADNativeAdImage *_Nullable logo) {
@@ -106,7 +117,7 @@
         }];
 }
 
-- (void)fetchLogo:(nullable NADNative *)ad
+- (void)fetchLogo:(nonnull NADNative *)ad
     disableLoading:(BOOL)disableLoading
       imageHandler:(void (^)(GADNativeAdImage *_Nullable logo))imageHandler {
   if (!ad.logoUrl) {
@@ -137,7 +148,7 @@
               format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (GADNativeAdImageAdLoaderOptions *)pullImageAdLoaderOptions:(NSArray *)options {
+- (nonnull GADNativeAdImageAdLoaderOptions *)pullImageAdLoaderOptions:(nonnull NSArray *)options {
   NSPredicate *predicate =
       [NSPredicate predicateWithFormat:@"class == %@", [GADNativeAdImageAdLoaderOptions class]];
   return [[options filteredArrayUsingPredicate:predicate] firstObject];

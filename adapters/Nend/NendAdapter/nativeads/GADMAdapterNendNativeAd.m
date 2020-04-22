@@ -13,16 +13,27 @@
 
 @interface GADMAdapterNendNativeAd () <NADNativeDelegate>
 
-@property(nonatomic, strong) NADNative *nativeAd;
-@property(nonatomic, strong) GADNativeAdImage *mappedIcon;
-@property(nonatomic, strong) NSArray *mappedImages;
-@property(nonatomic, strong) UILabel *advertisingExplicitlyView;
-@property(nonatomic, strong) UIImageView *imageView;
-@property(nonatomic) CGFloat mediaContentAspectRatio;
-
 @end
 
-@implementation GADMAdapterNendNativeAd
+@implementation GADMAdapterNendNativeAd {
+  /// nend native ad.
+  NADNative *_nativeAd;
+
+  /// Icon image.
+  GADNativeAdImage *_mappedIcon;
+
+  /// Array of Images.
+  NSArray *_mappedImages;
+
+  /// nend AdChoices view.
+  UILabel *_advertisingExplicitlyView;
+
+  /// nend media view.
+  UIImageView *_imageView;
+
+  /// Media content aspect ratio.
+  CGFloat _mediaContentAspectRatio;
+}
 
 - (nonnull instancetype)initWithNormal:(nonnull NADNative *)ad
                                   logo:(nullable GADNativeAdImage *)logo
@@ -54,36 +65,36 @@
   return false;
 }
 
-- (UIView *)mediaView {
-  return self.imageView;
+- (nullable UIView *)mediaView {
+  return _imageView;
 }
 
 - (CGFloat)mediaContentAspectRatio {
-  return self.mediaContentAspectRatio;
+  return _mediaContentAspectRatio;
 }
 
 - (nullable NSString *)advertiser {
-  return self.nativeAd.promotionName;
+  return _nativeAd.promotionName;
 }
 
 - (nullable NSString *)headline {
-  return self.nativeAd.shortText;
+  return _nativeAd.shortText;
 }
 
 - (nullable NSArray *)images {
-  return self.mappedImages;
+  return _mappedImages;
 }
 
 - (nullable NSString *)body {
-  return self.nativeAd.longText;
+  return _nativeAd.longText;
 }
 
 - (nullable GADNativeAdImage *)icon {
-  return self.mappedIcon;
+  return _mappedIcon;
 }
 
 - (nullable NSString *)callToAction {
-  return self.nativeAd.actionButtonText;
+  return _nativeAd.actionButtonText;
 }
 
 - (nullable NSDecimalNumber *)starRating {
@@ -103,7 +114,7 @@
 }
 
 - (nullable UIView *)adChoicesView {
-  return self.advertisingExplicitlyView;
+  return _advertisingExplicitlyView;
 }
 
 - (void)didRenderInView:(nonnull UIView *)view
@@ -112,7 +123,7 @@
     nonclickableAssetViews:
         (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  [self.nativeAd activateAdView:view withPrLabel:self.adChoicesView];
+  [_nativeAd activateAdView:view withPrLabel:self.adChoicesView];
 }
 
 - (BOOL)handlesUserImpressions {

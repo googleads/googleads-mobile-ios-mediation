@@ -22,33 +22,37 @@
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
 
-@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler completionHandler;
-@property(nonatomic, weak) id<GADMediationRewardedAdEventDelegate> adEventDelegate;
-@property(nonatomic, strong) NADRewardedVideo *rewardedVideo;
-
 @end
 
-@implementation GADMAdapterNendRewardedAd
+@implementation GADMAdapterNendRewardedAd {
+  /// The completion handler to call when ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _completionHandler;
 
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+
+  ///  nend rewarded video.
+  NADRewardedVideo *_rewardedVideo;
+}
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.completionHandler = completionHandler;
+  _completionHandler = completionHandler;
 
   NSString *spotId = adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
   NSString *apiKey = adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
 
   if (spotId.length != 0 && apiKey.length != 0) {
-    self.rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
-    self.rewardedVideo.mediationName = kGADMAdapterNendMediationName;
+    _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
+    _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
 
     GADNendRewardedNetworkExtras *extras = [adConfiguration extras];
     if (extras) {
-      self.rewardedVideo.userId = extras.userId;
+      _rewardedVideo.userId = extras.userId;
     }
 
-    self.rewardedVideo.delegate = self;
+    _rewardedVideo.delegate = self;
   } else {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil");
@@ -56,52 +60,52 @@
     return;
   }
 
-  [self.rewardedVideo loadAd];
+  [_rewardedVideo loadAd];
 }
 
 #pragma mark - GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (self.rewardedVideo.isReady) {
-    [self.rewardedVideo showAdFromViewController:viewController];
+  if (_rewardedVideo.isReady) {
+    [_rewardedVideo showAdFromViewController:viewController];
   } else {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"The rewarded ad is not ready to be shown.");
-    [self.adEventDelegate didFailToPresentWithError:error];
+    [_adEventDelegate didFailToPresentWithError:error];
   }
 }
 
 #pragma mark - NADRewardedVideoDelegate
 
 - (void)nadRewardVideoAdDidReceiveAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  self.adEventDelegate = self.completionHandler(self, nil);
+  _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
     didFailToLoadWithError:(NSError *)error {
-  self.completionHandler(nil, error);
+  _completionHandler(nil, error);
 }
 
 - (void)nadRewardVideoAdDidOpen:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = self.adEventDelegate;
+  id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
   [strongAdEventDelegate willPresentFullScreenView];
   [strongAdEventDelegate reportImpression];
 }
 
 - (void)nadRewardVideoAdDidClose:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  [self.adEventDelegate didDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 - (void)nadRewardVideoAdDidStartPlaying:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  [self.adEventDelegate didStartVideo];
+  [_adEventDelegate didStartVideo];
 }
 
 - (void)nadRewardVideoAdDidCompletePlaying:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  [self.adEventDelegate didEndVideo];
+  [_adEventDelegate didEndVideo];
 }
 
 - (void)nadRewardVideoAdDidClickAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  [self.adEventDelegate reportClick];
+  [_adEventDelegate reportClick];
 }
 
 - (void)nadRewardVideoAdDidClickInformation:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
@@ -113,13 +117,13 @@
   NSDecimalNumber *amount = [NSDecimalNumber
       decimalNumberWithDecimal:[[NSNumber numberWithInteger:reward.amount] decimalValue]];
   GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:reward.name rewardAmount:amount];
-  [self.adEventDelegate didRewardUserWithReward:gadReward];
+  [_adEventDelegate didRewardUserWithReward:gadReward];
 }
 
 - (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
   NSError *error =
       GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, @"No ads to show.");
-  [self.adEventDelegate didFailToPresentWithError:error];
+  [_adEventDelegate didFailToPresentWithError:error];
 }
 
 @end

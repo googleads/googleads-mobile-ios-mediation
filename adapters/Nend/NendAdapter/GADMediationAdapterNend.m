@@ -25,15 +25,18 @@
 
 @interface GADMediationAdapterNend ()
 
-@property(nonatomic, strong) GADMAdapterNendRewardedAd *rewardedAd;
-@property(nonatomic, strong) GADMediationAdapterNendNativeForwarder *nativeMediation;
-
 @end
 
-@implementation GADMediationAdapterNend
+@implementation GADMediationAdapterNend {
+  /// Rewarded ad.
+  GADMAdapterNendRewardedAd *_rewardedAd;
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  /// nend's native mediation forwarder.
+  GADMediationAdapterNendNativeForwarder *_nativeMediation;
+}
+
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // INFO: Nend SDK doesn't have any initialization API.
   completionHandler(nil);
 }
@@ -76,9 +79,9 @@
     (nonnull UIViewController *)rootViewController { /* Do nothing here */
 }
 
-- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes
-                       options:(NSArray<GADAdLoaderOptions *> *)options {
-  [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
+- (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(nullable NSArray<GADAdLoaderOptions *> *)options {
+  [_nativeMediation getNativeAdWithAdTypes:adTypes options:options];
 }
 
 - (BOOL)handlesUserImpressions {
@@ -115,9 +118,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMAdapterNendRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterNendRewardedAd alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end
