@@ -2,7 +2,6 @@
 
 #### Next Version
 - Adapter now calls adapterWillPresentScreen: immediately followed by adapterDidDismissScreen: if interstitial ads fail to present.
-- For non-open bidding, adapter now calls adapterWillPresentScreen: as soon as the ad is presented, not when the FB SDK records an impression. This now matches existing open bidding behavior.
 - Fixed a bug where some banner requests failed with reason "Display format doesn't match".
 
 #### Version 5.8.0.1
