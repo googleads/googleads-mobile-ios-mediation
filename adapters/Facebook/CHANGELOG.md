@@ -1,8 +1,12 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.8.0.2
 - Adapter now calls adapterWillPresentScreen: immediately followed by adapterDidDismissScreen: if interstitial ads fail to present.
 - Fixed a bug where some banner requests failed with reason "Display format doesn't match".
+
+Built and tested with
+- Google Mobile Ads SDK version 7.58.0.
+- FAN SDK version 5.8.0.
 
 #### Version 5.8.0.1
 - Fix bug introduced in 5.6.1.0 where `tagForChildDirectedTreatment` was incorrectly mapped to Facebook's `setMixedAudience` method.
