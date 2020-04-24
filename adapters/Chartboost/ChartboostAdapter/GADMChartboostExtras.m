@@ -14,6 +14,20 @@
 
 #import "GADMChartboostExtras.h"
 
+#if __has_include(<Chartboost/Chartboost.h>)
+#import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
+
 @implementation GADMChartboostExtras
+
+- (nonnull instancetype)init {
+  self = [super init];
+  if (self) {
+    _framework = CBFrameworkOther;
+  }
+  return self;
+}
 
 @end
