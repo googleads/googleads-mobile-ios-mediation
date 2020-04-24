@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Chartboost/Chartboost+Mediation.h>
 #import <Foundation/Foundation.h>
 
 /// Sets |value| for |key| in |dictionary| if |value| is not nil.
@@ -30,3 +31,6 @@ void GADMAdapterChartboostMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTa
 /// Sets |value| for |key| in |mapTable| if |value| is not nil.
 void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                                   id<NSCopying> _Nullable key, id _Nullable value);
+
+/// Creates and returns a Chartboost mediation object.
+CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);

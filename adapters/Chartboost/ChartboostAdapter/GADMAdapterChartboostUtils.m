@@ -14,6 +14,10 @@
 
 #import "GADMAdapterChartboostUtils.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import "GADMAdapterChartboostConstants.h"
+
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                            id<NSCopying> _Nullable key,
                                                            id _Nullable value) {
@@ -41,4 +45,10 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
   if (value && key) {
     [mapTable setObject:value forKey:key];  // Allow pattern.
   }
+}
+
+CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
+  return [[CHBMediation alloc] initWithType:CBMediationAdMob
+                             libraryVersion:[GADRequest sdkVersion]
+                             adapterVersion:kGADMAdapterChartboostVersion];
 }
