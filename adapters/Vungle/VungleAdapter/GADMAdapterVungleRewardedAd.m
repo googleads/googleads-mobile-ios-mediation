@@ -69,7 +69,7 @@
   self.desiredPlacement =
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
-  if (!self.desiredPlacement) {
+  if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
                                                                   @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);

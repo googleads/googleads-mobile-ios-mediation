@@ -127,7 +127,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
-  if (!self.desiredPlacement) {
+  if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
                                  kGADErrorMediationDataError, @"Placement ID not specified.")];
