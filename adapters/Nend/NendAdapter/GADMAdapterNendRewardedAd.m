@@ -47,7 +47,7 @@
     _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
 
-    GADNendRewardedNetworkExtras *extras = [adConfiguration extras];
+    GADNendRewardedNetworkExtras *extras = adConfiguration.extras;
     if (extras) {
       _rewardedVideo.userId = extras.userId;
     }
@@ -115,7 +115,7 @@
 - (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
                didReward:(NADReward *)reward {
   NSDecimalNumber *amount = [NSDecimalNumber
-      decimalNumberWithDecimal:[[NSNumber numberWithInteger:reward.amount] decimalValue]];
+      decimalNumberWithDecimal:[NSNumber numberWithInteger:reward.amount].decimalValue];
   GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:reward.name rewardAmount:amount];
   [_adEventDelegate didRewardUserWithReward:gadReward];
 }

@@ -42,17 +42,17 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = [[NSNumber numberWithDouble:NendAdVersionNumber] stringValue];
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+  NSString *versionString = [NSNumber numberWithDouble:NendAdVersionNumber].stringValue;
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 3) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion = [versionComponents[2] integerValue];
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion = versionComponents[2].integerValue;
   } else {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
     version.patchVersion = 0;
   }
   return version;
@@ -103,13 +103,14 @@
 }
 
 + (GADVersionNumber)version {
-  NSArray *versionComponents = [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
     version.patchVersion =
-        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
+        versionComponents[2].integerValue * 100 + versionComponents[3].integerValue;
   }
   return version;
 }

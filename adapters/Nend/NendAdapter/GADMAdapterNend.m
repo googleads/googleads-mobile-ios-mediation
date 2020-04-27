@@ -145,7 +145,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   }
 
   [_nadView setNendID:apiKey spotID:spotId];
-  [_nadView setBackgroundColor:[UIColor clearColor]];
+  [_nadView setBackgroundColor:UIColor.clearColor];
   [_nadView setDelegate:self];
   [_nadView load];
 }
@@ -256,11 +256,11 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
       [strongConnector adapterWillLeaveApplication:self];
       break;
     case CLOSE:
-      if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+      if (UIApplication.sharedApplication.applicationState == UIApplicationStateActive) {
         [strongConnector adapterWillDismissInterstitial:self];
         [strongConnector adapterDidDismissInterstitial:self];
       } else {
-        _notificationCenter = [NSNotificationCenter defaultCenter];
+        _notificationCenter = NSNotificationCenter.defaultCenter;
         [_notificationCenter addObserver:self
                                 selector:@selector(willEnterForeground:)
                                     name:UIApplicationWillEnterForegroundNotification
