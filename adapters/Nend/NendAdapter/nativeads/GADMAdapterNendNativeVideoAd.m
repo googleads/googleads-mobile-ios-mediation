@@ -32,7 +32,7 @@
     _videoAd = ad;
     _videoAd.delegate = self;
 
-    _nendMediaView = [NADNativeVideoView new];
+    _nendMediaView = [[NADNativeVideoView alloc] init];
     _nendMediaView.delegate = self;
 
     _mappedIcon = [[GADNativeAdImage alloc] initWithImage:ad.logoImage];

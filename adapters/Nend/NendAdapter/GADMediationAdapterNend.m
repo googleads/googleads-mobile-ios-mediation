@@ -23,10 +23,6 @@
 #import "GADMediationAdapterNendNativeForwarder.h"
 #import "GADNendRewardedNetworkExtras.h"
 
-@interface GADMediationAdapterNend ()
-
-@end
-
 @implementation GADMediationAdapterNend {
   /// Rewarded ad.
   GADMAdapterNendRewardedAd *_rewardedAd;
@@ -54,6 +50,19 @@
     version.majorVersion = versionComponents[0].integerValue;
     version.minorVersion = versionComponents[1].integerValue;
     version.patchVersion = 0;
+  }
+  return version;
+}
+
++ (GADVersionNumber)version {
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 4) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion =
+        versionComponents[2].integerValue * 100 + versionComponents[3].integerValue;
   }
   return version;
 }
@@ -100,19 +109,6 @@
                                                                              connector:connector];
   }
   return self;
-}
-
-+ (GADVersionNumber)version {
-  NSArray<NSString *> *versionComponents =
-      [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
-  GADVersionNumber version = {0};
-  if (versionComponents.count >= 4) {
-    version.majorVersion = versionComponents[0].integerValue;
-    version.minorVersion = versionComponents[1].integerValue;
-    version.patchVersion =
-        versionComponents[2].integerValue * 100 + versionComponents[3].integerValue;
-  }
-  return version;
 }
 
 - (void)loadRewardedAdForAdConfiguration:

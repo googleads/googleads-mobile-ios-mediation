@@ -42,14 +42,15 @@
   if (self) {
     _nativeAd = ad;
     _nativeAd.delegate = self;
-    _advertisingExplicitlyView = [UILabel new];
+    _advertisingExplicitlyView = [[UILabel alloc] init];
     _advertisingExplicitlyView.text =
         [_nativeAd prTextForAdvertisingExplicitly:NADNativeAdvertisingExplicitlyPR];
-    _imageView = [UIImageView new];
+    _imageView = [[UIImageView alloc] init];
 
     if (logo) {
       _mappedIcon = logo;
     }
+
     if (image) {
       _mappedImages = [NSArray arrayWithObject:image];
       _imageView.image = image.image;

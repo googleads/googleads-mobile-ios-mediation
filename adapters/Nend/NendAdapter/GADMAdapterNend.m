@@ -175,18 +175,18 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   if (_interstitialType == GADMNendInterstitialTypeVideo) {
-    if (_interstitialVideo.isReady) {
-      [_interstitialVideo showAdFromViewController:rootViewController];
-    } else {
+    if (!_interstitialVideo.isReady) {
       NSLog(@"[nend adapter] Interstitial video ad is not ready...");
+      return;
     }
+    [_interstitialVideo showAdFromViewController:rootViewController];
   } else {
     NADInterstitialShowResult result = [_interstitial showAdFromViewController:rootViewController];
-    if (result == AD_SHOW_SUCCESS) {
-      [_connector adapterWillPresentInterstitial:self];
-    } else {
+    if (result != AD_SHOW_SUCCESS) {
       NSLog(@"[nend adapter] Interstitial ad failed to present.");
+      return;
     }
+    [_connector adapterWillPresentInterstitial:self];
   }
 }
 
@@ -237,13 +237,13 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)didFinishLoadInterstitialAdWithStatus:(NADInterstitialStatusCode)status {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (status == SUCCESS) {
-    [strongConnector adapterDidReceiveInterstitial:self];
-  } else {
+  if (status != SUCCESS) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError,
                                                                 @"Failed to load interstitial ad.");
     [strongConnector adapter:self didFailAd:error];
+    return;
   }
+  [strongConnector adapterDidReceiveInterstitial:self];
 }
 
 - (void)didClickWithType:(NADInterstitialClickType)type {

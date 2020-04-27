@@ -61,24 +61,26 @@
     if (!strongSelf) {
       return;
     }
+
     if (error) {
       [strongSelf didFailToLoadWithError:error];
-    } else {
-      [strongSelf fetchImageAssets:ad imageOptions:[strongSelf pullImageAdLoaderOptions:options]];
+      return;
     }
+    [strongSelf fetchImageAssets:ad imageOptions:[strongSelf pullImageAdLoaderOptions:options]];
   };
   _videoCompletionBlock = ^(NADNativeVideo *_Nullable ad, NSError *_Nullable error) {
     GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
     }
+
     if (error) {
       [strongSelf didFailToLoadWithError:error];
-    } else {
-      GADMAdapterNendNativeVideoAd *unifiedAd =
-          [[GADMAdapterNendNativeVideoAd alloc] initWithVideo:ad];
-      [strongSelf didReceiveUnifiedNativeAd:unifiedAd];
+      return;
     }
+    GADMAdapterNendNativeVideoAd *unifiedAd =
+        [[GADMAdapterNendNativeVideoAd alloc] initWithVideo:ad];
+    [strongSelf didReceiveUnifiedNativeAd:unifiedAd];
   };
 }
 
@@ -91,29 +93,31 @@
             GADMAdapterNendNativeAd *unifiedAd =
                 [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:nil image:nil];
             [self didReceiveUnifiedNativeAd:unifiedAd];
-          } else {
-            if (imageOptions.disableImageLoading) {
-              GADNativeAdImage *adImage =
-                  [[GADNativeAdImage alloc] initWithURL:[NSURL URLWithString:ad.logoUrl]
-                                                  scale:1.0f];
-              GADMAdapterNendNativeAd *unifiedAd =
-                  [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
-              [self didReceiveUnifiedNativeAd:unifiedAd];
-            } else {
-              [ad loadAdImageWithCompletionBlock:^(UIImage *image) {
-                if (image) {
-                  GADNativeAdImage *adImage = [[GADNativeAdImage alloc] initWithImage:image];
-                  GADMAdapterNendNativeAd *unifiedAd =
-                      [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
-                  [self didReceiveUnifiedNativeAd:unifiedAd];
-                } else {
-                  NSError *imageError = GADMAdapterNendErrorWithCodeAndDescription(
-                      kGADErrorInternalError, @"Failed to load image assets.");
-                  [self didFailToLoadWithError:imageError];
-                }
-              }];
-            }
+            return;
           }
+
+          if (imageOptions.disableImageLoading) {
+            GADNativeAdImage *adImage =
+                [[GADNativeAdImage alloc] initWithURL:[NSURL URLWithString:ad.logoUrl] scale:1.0f];
+            GADMAdapterNendNativeAd *unifiedAd =
+                [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
+            [self didReceiveUnifiedNativeAd:unifiedAd];
+            return;
+          }
+
+          [ad loadAdImageWithCompletionBlock:^(UIImage *image) {
+            if (!image) {
+              NSError *imageError = GADMAdapterNendErrorWithCodeAndDescription(
+                  kGADErrorInternalError, @"Failed to load image assets.");
+              [self didFailToLoadWithError:imageError];
+              return;
+            }
+
+            GADNativeAdImage *adImage = [[GADNativeAdImage alloc] initWithImage:image];
+            GADMAdapterNendNativeAd *unifiedAd =
+                [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
+            [self didReceiveUnifiedNativeAd:unifiedAd];
+          }];
         }];
 }
 
@@ -122,20 +126,22 @@
       imageHandler:(void (^)(GADNativeAdImage *_Nullable logo))imageHandler {
   if (!ad.logoUrl) {
     imageHandler(nil);
-  } else {
-    if (disableLoading) {
-      imageHandler([[GADNativeAdImage alloc] initWithURL:[NSURL URLWithString:ad.logoUrl]
-                                                   scale:1.0f]);
-    } else {
-      [ad loadLogoImageWithCompletionBlock:^(UIImage *logo) {
-        if (logo) {
-          imageHandler([[GADNativeAdImage alloc] initWithImage:logo]);
-        } else {
-          imageHandler(nil);
-        }
-      }];
-    }
+    return;
   }
+
+  if (disableLoading) {
+    imageHandler([[GADNativeAdImage alloc] initWithURL:[NSURL URLWithString:ad.logoUrl]
+                                                 scale:1.0f]);
+    return;
+  }
+
+  [ad loadLogoImageWithCompletionBlock:^(UIImage *logo) {
+    GADNativeAdImage *image = nil;
+    if (logo) {
+      image = [[GADNativeAdImage alloc] initWithImage:logo];
+    }
+    imageHandler(image);
+  }];
 }
 
 - (void)didFailToLoadWithError:(nonnull NSError *)error {

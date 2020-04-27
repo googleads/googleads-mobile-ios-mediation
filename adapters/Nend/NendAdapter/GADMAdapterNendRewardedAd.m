@@ -71,37 +71,36 @@
 - (void)loadRewardedAd {
   NSString *spotId = _adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
   NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
-
-  if (spotId.length != 0 && apiKey.length != 0) {
-    _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
-    _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
-
-    GADNendRewardedNetworkExtras *extras = _adConfiguration.extras;
-    if (extras) {
-      _rewardedVideo.userId = extras.userId;
-    }
-
-    _rewardedVideo.delegate = self;
-  } else {
+  if (!spotId.length || !apiKey.length) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil");
     _completionHandler(nil, error);
     return;
   }
 
+  _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
+  _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
+
+  GADNendRewardedNetworkExtras *extras = _adConfiguration.extras;
+  if (extras) {
+    _rewardedVideo.userId = extras.userId;
+  }
+
+  _rewardedVideo.delegate = self;
   [_rewardedVideo loadAd];
 }
 
 #pragma mark - GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (_rewardedVideo.isReady) {
-    [_rewardedVideo showAdFromViewController:viewController];
-  } else {
+  if (!_rewardedVideo.isReady) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"The rewarded ad is not ready to be shown.");
     [_adEventDelegate didFailToPresentWithError:error];
+    return;
   }
+
+  [_rewardedVideo showAdFromViewController:viewController];
 }
 
 #pragma mark - NADRewardedVideoDelegate
