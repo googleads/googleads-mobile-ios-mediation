@@ -55,9 +55,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   /// nend interstitial video.
   NADInterstitialVideo *_interstitialVideo;
 
-  /// Notification center.
-  NSNotificationCenter *_notificationCenter;
-
   /// Interstitial type.
   GADMNendInterstitialType _interstitialType;
 
@@ -80,7 +77,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     _connector = connector;
     _nadView = nil;
     _interstitial = nil;
-    _notificationCenter = nil;
     _interstitialVideo = nil;
     _interstitialType = GADMNendInterstitialTypeNormal;
     _interstitialVideoStatus = InterstitialVideoStopped;
@@ -151,17 +147,15 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)stopBeingDelegate {
+  [NSNotificationCenter.defaultCenter removeObserver:self
+                                                name:UIApplicationWillEnterForegroundNotification
+                                              object:nil];
+
   if (_nadView) {
     _nadView.delegate = nil;
   }
   if (_interstitial && _interstitial.delegate == self) {
     _interstitial.delegate = nil;
-  }
-  if (_notificationCenter) {
-    [_notificationCenter removeObserver:self
-                                   name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
-    _notificationCenter = nil;
   }
   if (_interstitialVideo) {
     _interstitialVideo.delegate = nil;
@@ -260,11 +254,10 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
         [strongConnector adapterWillDismissInterstitial:self];
         [strongConnector adapterDidDismissInterstitial:self];
       } else {
-        _notificationCenter = NSNotificationCenter.defaultCenter;
-        [_notificationCenter addObserver:self
-                                selector:@selector(willEnterForeground:)
-                                    name:UIApplicationWillEnterForegroundNotification
-                                  object:nil];
+        [NSNotificationCenter.defaultCenter addObserver:self
+                                               selector:@selector(willEnterForeground:)
+                                                   name:UIApplicationWillEnterForegroundNotification
+                                                 object:nil];
       }
       break;
     default:
