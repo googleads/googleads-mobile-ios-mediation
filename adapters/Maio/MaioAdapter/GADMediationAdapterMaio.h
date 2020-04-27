@@ -15,6 +15,11 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 
+typedef NS_ENUM(NSInteger, GADMAdapterMaioErrorCode) {
+  /// Maio does not yet have an ad available.
+  GADMAdapterMaioErrorAdNotAvailable = 101
+};
+
 @interface GADMediationAdapterMaio : NSObject <GADMediationAdapter>
 
 @end
