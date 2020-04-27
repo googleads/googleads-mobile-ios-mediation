@@ -16,6 +16,8 @@
 
 #import <NendAd/NendAd.h>
 
+#include <stdatomic.h>
+
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendUtils.h"
 #import "GADNendRewardedNetworkExtras.h"
@@ -28,26 +30,53 @@
   /// The completion handler to call when ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _completionHandler;
 
+  /// Rewarded ad configuration of the ad request.
+  GADMediationRewardedAdConfiguration *_adConfiguration;
+
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   ///  nend rewarded video.
   NADRewardedVideo *_rewardedVideo;
 }
-- (void)loadRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _completionHandler = completionHandler;
 
-  NSString *spotId = adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
-  NSString *apiKey = adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  self = [super init];
+  if (self) {
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+        [completionHandler copy];
+
+    _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+        _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+      if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+        return nil;
+      }
+
+      id<GADMediationRewardedAdEventDelegate> delegate = nil;
+      if (originalCompletionHandler) {
+        delegate = originalCompletionHandler(ad, error);
+      }
+      originalCompletionHandler = nil;
+      return delegate;
+    };
+
+    _adConfiguration = adConfiguration;
+  }
+  return self;
+}
+
+- (void)loadRewardedAd {
+  NSString *spotId = _adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
+  NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
 
   if (spotId.length != 0 && apiKey.length != 0) {
     _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
 
-    GADNendRewardedNetworkExtras *extras = adConfiguration.extras;
+    GADNendRewardedNetworkExtras *extras = _adConfiguration.extras;
     if (extras) {
       _rewardedVideo.userId = extras.userId;
     }
@@ -56,7 +85,7 @@
   } else {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil");
-    completionHandler(nil, error);
+    _completionHandler(nil, error);
     return;
   }
 
