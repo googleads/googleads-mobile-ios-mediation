@@ -39,6 +39,9 @@
 
   /// Chartboost rewarded ad object
   CHBRewarded *_rewardedAd;
+    
+  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
+  BOOL _adIsShown;
 }
 
 - (nonnull instancetype)
@@ -47,6 +50,7 @@
   self = [super init];
   if (self) {
     _adConfig = adConfiguration;
+    _adIsShown = NO;
 
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
@@ -117,12 +121,16 @@
   }
 
   if (error) {
-    NSError *showError = NSErrorForCHBShowError(error);
-    NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
-    [strongDelegate didFailToPresentWithError:showError];
-    return;
+    // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
+    if (!_adIsShown) {
+      NSError *showError = NSErrorForCHBShowError(error);
+      NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
+      [strongDelegate didFailToPresentWithError:showError];
+      return;
+    }
   }
-
+  
+  _adIsShown = YES;
   [strongDelegate willPresentFullScreenView];
   [strongDelegate reportImpression];
   [strongDelegate didStartVideo];
@@ -157,6 +165,7 @@
     return;
   }
 
+  _adIsShown = NO;
   [strongDelegate willDismissFullScreenView];
   [strongDelegate didDismissFullScreenView];
 }
