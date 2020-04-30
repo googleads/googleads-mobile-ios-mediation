@@ -33,6 +33,9 @@
 
   /// Chartboost interstitial ad object.
   CHBInterstitial *_interstitialAd;
+    
+  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
+  BOOL _adIsShown;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -41,6 +44,7 @@
   if (self) {
     _adapter = adapter;
     _connector = connector;
+    _adIsShown = NO;
   }
   return self;
 }
@@ -108,13 +112,17 @@
   }
 
   [strongConnector adapterWillPresentInterstitial:strongAdapter];
-
+  
   if (error) {
-    NSError *showError = NSErrorForCHBShowError(error);
-    NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
-    [strongConnector adapterWillDismissInterstitial:strongAdapter];
-    [strongConnector adapterDidDismissInterstitial:strongAdapter];
-    return;
+    // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
+    if (!_adIsShown) {
+      NSError *showError = NSErrorForCHBShowError(error);
+      NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
+      [strongConnector adapterWillDismissInterstitial:strongAdapter];
+      [strongConnector adapterDidDismissInterstitial:strongAdapter];
+    }
+  } else {
+    _adIsShown = YES;
   }
 }
 
@@ -130,7 +138,6 @@
     NSError *clickError = NSErrorForCHBClickError(error);
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
-    return;
   }
 }
 
@@ -141,6 +148,7 @@
     return;
   }
 
+  _adIsShown = NO;
   [strongConnector adapterWillDismissInterstitial:strongAdapter];
   [strongConnector adapterDidDismissInterstitial:strongAdapter];
 }
