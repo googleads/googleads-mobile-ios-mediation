@@ -35,7 +35,7 @@
     NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
 
     if (appID.length && appSignature.length) {
-      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, cred);
     }
   }
 
@@ -47,8 +47,9 @@
     return;
   }
 
-  NSString *appID = credentials.allKeys.firstObject;
-  NSString *appSignature = credentials[appID];
+  GADMediationCredentials *firstCredentials = credentials.allValues.firstObject;
+  NSString *appID = firstCredentials.settings[kGADMAdapterChartboostAppID];
+  NSString *appSignature = firstCredentials.settings[kGADMAdapterChartboostAppSignature];
   if (credentials.count > 1) {
     NSLog(@"Found multiple app IDs: %@. "
           @"Please remove any app IDs you are not using from the AdMob UI.",
@@ -57,11 +58,11 @@
           appSignature);
   }
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *error) {
-                 completionHandler(error);
-               }];
+  [sharedInstance startWithCredentials:firstCredentials
+                         networkExtras:nil
+                     completionHandler:^(NSError *error) {
+                       completionHandler(error);
+                     }];
 }
 
 + (GADVersionNumber)adSDKVersion {
