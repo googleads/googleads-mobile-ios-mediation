@@ -78,17 +78,6 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  if (!_interstitialAd.isCached) {
-    NSLog(@"Failed to show interstitial ad from Chartboost: Interstitial ad not cached.");
-    id<GADMAdNetworkConnector> strongConnector = _connector;
-    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    if (strongConnector && strongAdapter) {
-      [strongConnector adapterWillPresentInterstitial:strongAdapter];
-      [strongConnector adapterWillDismissInterstitial:strongAdapter];
-      [strongConnector adapterDidDismissInterstitial:strongAdapter];
-    }
-    return;
-  }
   [_interstitialAd showFromViewController:rootViewController];
 }
 
