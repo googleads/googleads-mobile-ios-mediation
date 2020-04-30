@@ -15,12 +15,9 @@
 #import "GADMAdapterChartboostBannerAd.h"
 
 #import <Chartboost/Chartboost+Mediation.h>
-
-#import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostBannerAd () <CHBBannerDelegate>
 @end
@@ -52,55 +49,34 @@
   if (!strongConnector || !strongAdapter) {
     return;
   }
-
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
-  NSString *adLocation = [strongConnector.credentials[kGADMAdapterChartboostAdLocation]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  if (!adLocation.length) {
-    NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location...");
-    adLocation = [CBLocationDefault copy];
-  }
-
+  
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *_Nullable error) {
-                 GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
-                 if (!strongSelf || !strongConnector) {
-                   return;
-                 }
-
-                 if (error) {
-                   NSLog(@"%@", error.localizedDescription);
-                   [strongConnector adapter:strongAdapter didFailAd:error];
-                   return;
-                 }
-
-                 GADMChartboostExtras *extras = [strongConnector networkExtras];
-                 if (extras.frameworkVersion && extras.framework) {
-                   [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                 }
-
-                 CHBMediation *mediation = GADMAdapterChartboostMediation();
-                 strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
-                                                                location:adLocation
-                                                               mediation:mediation
-                                                                delegate:strongSelf];
-                 strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
-                 [strongSelf->_bannerAd cache];
-               }];
+  [sharedInstance startWithNetworkConnector:strongConnector
+                          completionHandler:^(NSError *_Nullable error) {
+      // CHBBanner is a UIView subclass so it is safer to use it on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+      GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
+      if (!strongSelf || !strongConnector) {
+        return;
+      }
+        
+      if (error) {
+        NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
+        [strongConnector adapter:strongAdapter didFailAd:error];
+        return;
+      }
+        
+      NSString *adLocation = GADMAdapterChartboostAdLocationFromConnector(strongConnector);
+      CHBMediation *mediation = GADMAdapterChartboostMediation();
+      strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
+                                                     location:adLocation
+                                                    mediation:mediation
+                                                     delegate:strongSelf];
+      strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
+      [strongSelf->_bannerAd cache];
+    });
+  }];
 }
 
 #pragma mark - CHBBannerDelegate methods
