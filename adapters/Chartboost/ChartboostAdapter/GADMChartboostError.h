@@ -20,9 +20,6 @@
 /// set to |description|.
 NSError *GADChartboostErrorWithDescription(NSString *description);
 
-/// Returns an NSError with description acquired from the CBLoadError.
-NSError *adRequestErrorTypeForCBLoadError(CBLoadError error);
-
 /// Returns an NSError with description acquired from the CHBCacheError.
 NSError *NSErrorForCHBCacheError(CHBCacheError *error);
 
