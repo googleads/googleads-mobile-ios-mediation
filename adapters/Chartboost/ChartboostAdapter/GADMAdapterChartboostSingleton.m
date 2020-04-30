@@ -19,6 +19,7 @@
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
+#import "GADMChartboostExtras.h"
 
 @implementation GADMAdapterChartboostSingleton
 
@@ -33,12 +34,39 @@
   return sharedInstance;
 }
 
+- (void)startWithNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+    NSString *appID = [connector.credentials[kGADMAdapterChartboostAppID]
+        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    NSString *appSignature = [connector.credentials[kGADMAdapterChartboostAppSignature]
+        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    
+    if (!appID.length || !appSignature.length) {
+      NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
+      completionHandler(error);
+      return;
+    }
+    
+    [self startWithAppId:appID
+            appSignature:appSignature
+                  extras:[connector networkExtras]
+       completionHandler:completionHandler];
+}
+
 - (void)startWithAppId:(nonnull NSString *)appId
           appSignature:(nonnull NSString *)appSignature
+                extras:(nullable GADMChartboostExtras *)extras
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
     [Chartboost startWithAppId:appId appSignature:appSignature completion:^(BOOL started) {
-      NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-      completionHandler(started ? nil : error);
+      NSError *error = nil;
+      if (started) {
+        if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
+          [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+        }
+      } else {
+        error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+      }
+      completionHandler(error);
     }];
 }
 
