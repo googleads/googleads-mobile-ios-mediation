@@ -16,4 +16,12 @@
 
 @implementation GADMChartboostExtras
 
+- (nonnull instancetype)init {
+  self = [super init];
+  if (self) {
+    _framework = CBFrameworkOther;
+  }
+  return self;
+}
+
 @end
