@@ -20,13 +20,7 @@
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 
-@implementation GADMAdapterChartboostSingleton {
-  /// Chartboost SDK init state.
-  GADMAdapterChartboostInitState _initState;
-
-  /// An array of completion handlers to be called once the Chartboost SDK is initialized.
-  NSMutableArray<ChartboostInitCompletionHandler> *_completionHandlers;
-}
+@implementation GADMAdapterChartboostSingleton
 
 #pragma mark - Singleton Initializers
 
@@ -39,56 +33,13 @@
   return sharedInstance;
 }
 
-- (nonnull instancetype)init {
-  self = [super init];
-  if (self) {
-    _completionHandlers = [[NSMutableArray alloc] init];
-  }
-  return self;
-}
-
 - (void)startWithAppId:(nonnull NSString *)appId
           appSignature:(nonnull NSString *)appSignature
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
-  switch (self->_initState) {
-    case GADMAdapterChartboostInitialized:
-      completionHandler(nil);
-      break;
-    case GADMAdapterChartboostInitializing:
-      GADMAdapterChartboostMutableArrayAddObject(self->_completionHandlers, completionHandler);
-      break;
-    case GADMAdapterChartboostUninitialized:
-      GADMAdapterChartboostMutableArrayAddObject(self->_completionHandlers, completionHandler);
-      self->_initState = GADMAdapterChartboostInitializing;
-
-      GADMAdapterChartboostSingleton *weakSelf = self;
-      [Chartboost startWithAppId:appId
-                    appSignature:appSignature
-                      completion:^(BOOL success) {
-                        GADMAdapterChartboostSingleton *strongSelf = weakSelf;
-                        if (!strongSelf) {
-                          return;
-                        }
-
-                        if (success) {
-                          strongSelf->_initState = GADMAdapterChartboostInitialized;
-                          for (ChartboostInitCompletionHandler completionHandler in strongSelf
-                                   ->_completionHandlers) {
-                            completionHandler(nil);
-                          }
-                        } else {
-                          strongSelf->_initState = GADMAdapterChartboostUninitialized;
-                          NSError *error = GADChartboostErrorWithDescription(
-                              @"Failed to initialize Chartboost SDK.");
-                          for (ChartboostInitCompletionHandler completionHandler in strongSelf
-                                   ->_completionHandlers) {
-                            completionHandler(error);
-                          }
-                        }
-                        [strongSelf->_completionHandlers removeAllObjects];
-                      }];
-      break;
-  }
+    [Chartboost startWithAppId:appId appSignature:appSignature completion:^(BOOL started) {
+      NSError *error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+      completionHandler(started ? nil : error);
+    }];
 }
 
 @end
