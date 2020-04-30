@@ -68,46 +68,23 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = [_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load rewarded ad from Chartboost: %@", error.localizedDescription);
-    _completionHandler(nil, error);
-    return;
-  }
-
-  NSString *adLocation = [_adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  if (!adLocation.length) {
-    NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location...");
-    adLocation = [CBLocationDefault copy];
-  }
-
   GADMAdapterChartboostRewardedAd *weakSelf = self;
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *error) {
+  [sharedInstance startWithCredentials:_adConfig.credentials
+                         networkExtras:_adConfig.extras
+                     completionHandler:^(NSError *error) {
                  GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;
                  }
 
                  if (error) {
-                   NSLog(@"%@", error.localizedDescription);
+                   NSLog(@"Failed to load rewarded ad from Chartboost: %@", error.localizedDescription);
                    strongSelf->_completionHandler(nil, error);
                    return;
                  }
 
-                 GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
-                 if (extras.frameworkVersion && extras.framework) {
-                   [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                 }
-
+                 NSString *adLocation = GADMAdapterChartboostAdLocationFromAdConfig(strongSelf->_adConfig);
                  CHBMediation *mediation = GADMAdapterChartboostMediation();
                  strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
                                                                        mediation:mediation
