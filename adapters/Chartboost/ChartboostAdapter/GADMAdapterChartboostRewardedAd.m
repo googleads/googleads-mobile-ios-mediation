@@ -14,15 +14,12 @@
 
 #import "GADMAdapterChartboostRewardedAd.h"
 
-#import <Chartboost/Chartboost+Mediation.h>
-
 #include <stdatomic.h>
 
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostRewardedAd () <CHBRewardedDelegate>
 @end

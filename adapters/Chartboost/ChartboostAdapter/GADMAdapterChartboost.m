@@ -17,8 +17,6 @@
 #import "GADMAdapterChartboostBannerAd.h"
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostInterstitialAd.h"
-#import "GADMAdapterChartboostSingleton.h"
-#import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 

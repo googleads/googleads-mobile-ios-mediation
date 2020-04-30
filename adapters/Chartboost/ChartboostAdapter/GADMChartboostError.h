@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Chartboost/CHBAdDelegate.h>
-#import <Chartboost/Chartboost.h>
 #import <Foundation/Foundation.h>
+#if __has_include(<Chartboost/CHBAdDelegate.h>)
+#import <Chartboost/CHBAdDelegate.h>
+#else
+#import "CHBAdDelegate.h"
+#endif
 
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
 /// set to |description|.

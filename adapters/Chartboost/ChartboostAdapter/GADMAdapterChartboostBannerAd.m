@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #import "GADMAdapterChartboostBannerAd.h"
-
-#import <Chartboost/Chartboost+Mediation.h>
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
