@@ -16,11 +16,9 @@
 
 #import <Chartboost/Chartboost+Mediation.h>
 
-#import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostInterstitialAd () <CHBInterstitialDelegate>
 
@@ -54,47 +52,23 @@
     return;
   }
 
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-
-  if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load interstitial ad from Chartboost: %@", error.localizedDescription);
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
-  NSString *adLocation = [strongConnector.credentials[kGADMAdapterChartboostAdLocation]
-      stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  if (!adLocation.length) {
-    NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location...");
-    adLocation = [CBLocationDefault copy];
-  }
-
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *_Nullable error) {
+  [sharedInstance startWithNetworkConnector:strongConnector
+                          completionHandler:^(NSError *_Nullable error) {
                  GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;
                  }
 
                  if (error) {
-                   NSLog(@"%@", error.localizedDescription);
+                   NSLog(@"Failed to load interstitial ad from Chartboost: %@", error.localizedDescription);
                    [strongConnector adapter:strongAdapter didFailAd:error];
                    return;
                  }
 
-                 GADMChartboostExtras *extras = [strongConnector networkExtras];
-                 if (extras.frameworkVersion && extras.framework) {
-                   [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                 }
-
                  CHBMediation *mediation = GADMAdapterChartboostMediation();
+                 NSString *adLocation = GADMAdapterChartboostAdLocationFromConnector(strongConnector);
                  strongSelf->_interstitialAd =
                      [[CHBInterstitial alloc] initWithLocation:adLocation
                                                      mediation:mediation
