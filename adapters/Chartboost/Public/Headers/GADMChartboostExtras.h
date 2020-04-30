@@ -14,8 +14,11 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
-typedef NS_ENUM(NSUInteger, CBFramework);
+#if __has_include(<Chartboost/Chartboost.h>)
+#import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
 
 /// Keys for the Chartboost extra assets.
 @interface GADMChartboostExtras : NSObject<GADAdNetworkExtras>
