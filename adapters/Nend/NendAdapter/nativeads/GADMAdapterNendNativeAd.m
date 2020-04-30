@@ -35,9 +35,9 @@
   CGFloat _mediaContentAspectRatio;
 }
 
-- (nonnull instancetype)initWithNormal:(nonnull NADNative *)ad
-                                  logo:(nullable GADNativeAdImage *)logo
-                                 image:(nullable GADNativeAdImage *)image {
+- (nonnull instancetype)initWithNativeAd:(nonnull NADNative *)ad
+                                    logo:(nullable GADNativeAdImage *)logo
+                                   image:(nullable GADNativeAdImage *)image {
   self = [super init];
   if (self) {
     _nativeAd = ad;

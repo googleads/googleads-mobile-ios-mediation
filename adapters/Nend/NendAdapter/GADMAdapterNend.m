@@ -89,7 +89,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil");
     [strongConnector adapter:self didFailAd:error];
@@ -133,7 +133,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
   NSString *spotId = [self getNendAdParam:kGADMAdapterNendSpotID];
 
-  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil");
     [strongConnector adapter:self didFailAd:error];

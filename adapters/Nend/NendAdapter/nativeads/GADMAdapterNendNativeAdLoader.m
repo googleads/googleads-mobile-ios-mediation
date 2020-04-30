@@ -15,30 +15,23 @@
 #import "GADMAdapterNendUtils.h"
 
 @implementation GADMAdapterNendNativeAdLoader {
-  /// nend video completion block.
-  NADNativeVideoCompletionBlock _videoCompletionBlock;
-
-  ///  nend normal completion block.
-  NADNativeCompletionBlock _normalCompletionBlock;
-
-  ///  nend normal loader.
+  /// nend native ad loader.
   NADNativeClient *_normalLoader;
 
-  ///  nend video loader.
+  /// nend native video ad loader.
   NADNativeVideoLoader *_videoLoader;
 }
+
 - (void)fetchNativeAd:(nonnull NSArray *)options
                spotId:(nonnull NSString *)spotId
                apiKey:(nonnull NSString *)apiKey
                 extra:(nonnull GADMAdapterNendExtras *)extras {
-  if (![GADMAdapterNendAdUnitMapper validateApiKey:apiKey spotId:spotId]) {
+  if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         kGADErrorInternalError, @"SpotID and apiKey must not be nil.");
     [self didFailToLoadWithError:error];
     return;
   }
-
-  [self prepareLoaderCompletionBlocks:options];
 
   if (extras && extras.nativeType == GADMNendNativeTypeVideo) {
     _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
@@ -47,41 +40,39 @@
     _videoLoader.mediationName = kGADMAdapterNendMediationName;
     _videoLoader.userId = extras.userId;
 
-    [_videoLoader loadAdWithCompletionHandler:_videoCompletionBlock];
+    __weak GADMAdapterNendNativeAdLoader *weakSelf = self;
+    [_videoLoader loadAdWithCompletionHandler:^(NADNativeVideo *_Nullable nativeAd,
+                                                NSError *_Nullable error) {
+      GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
+      if (!strongSelf) {
+        return;
+      }
+
+      if (error) {
+        [strongSelf didFailToLoadWithError:error];
+        return;
+      }
+      GADMAdapterNendNativeVideoAd *unifiedAd =
+          [[GADMAdapterNendNativeVideoAd alloc] initWithVideo:nativeAd];
+      [strongSelf didReceiveUnifiedNativeAd:unifiedAd];
+    }];
   } else {
     _normalLoader = [[NADNativeClient alloc] initWithSpotId:spotId apiKey:apiKey];
-    [_normalLoader loadWithCompletionBlock:_normalCompletionBlock];
+
+    __weak GADMAdapterNendNativeAdLoader *weakSelf = self;
+    [_normalLoader loadWithCompletionBlock:^(NADNative *_Nullable ad, NSError *_Nullable error) {
+      GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
+      if (!strongSelf) {
+        return;
+      }
+
+      if (error) {
+        [strongSelf didFailToLoadWithError:error];
+        return;
+      }
+      [strongSelf fetchImageAssets:ad imageOptions:[strongSelf pullImageAdLoaderOptions:options]];
+    }];
   }
-}
-
-- (void)prepareLoaderCompletionBlocks:(nonnull NSArray *)options {
-  __weak GADMAdapterNendNativeAdLoader *weakSelf = self;
-  _normalCompletionBlock = ^(NADNative *_Nullable ad, NSError *_Nullable error) {
-    GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
-
-    if (error) {
-      [strongSelf didFailToLoadWithError:error];
-      return;
-    }
-    [strongSelf fetchImageAssets:ad imageOptions:[strongSelf pullImageAdLoaderOptions:options]];
-  };
-  _videoCompletionBlock = ^(NADNativeVideo *_Nullable ad, NSError *_Nullable error) {
-    GADMAdapterNendNativeAdLoader *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
-
-    if (error) {
-      [strongSelf didFailToLoadWithError:error];
-      return;
-    }
-    GADMAdapterNendNativeVideoAd *unifiedAd =
-        [[GADMAdapterNendNativeVideoAd alloc] initWithVideo:ad];
-    [strongSelf didReceiveUnifiedNativeAd:unifiedAd];
-  };
 }
 
 - (void)fetchImageAssets:(nonnull NADNative *)ad
@@ -91,7 +82,7 @@
         imageHandler:^(GADNativeAdImage *_Nullable logo) {
           if (!ad.imageUrl) {
             GADMAdapterNendNativeAd *unifiedAd =
-                [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:nil image:nil];
+                [[GADMAdapterNendNativeAd alloc] initWithNativeAd:ad logo:nil image:nil];
             [self didReceiveUnifiedNativeAd:unifiedAd];
             return;
           }
@@ -100,12 +91,12 @@
             GADNativeAdImage *adImage =
                 [[GADNativeAdImage alloc] initWithURL:[NSURL URLWithString:ad.logoUrl] scale:1.0f];
             GADMAdapterNendNativeAd *unifiedAd =
-                [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
+                [[GADMAdapterNendNativeAd alloc] initWithNativeAd:ad logo:logo image:adImage];
             [self didReceiveUnifiedNativeAd:unifiedAd];
             return;
           }
 
-          [ad loadAdImageWithCompletionBlock:^(UIImage *image) {
+          [ad loadAdImageWithCompletionBlock:^(UIImage *_Nullable image) {
             if (!image) {
               NSError *imageError = GADMAdapterNendErrorWithCodeAndDescription(
                   kGADErrorInternalError, @"Failed to load image assets.");
@@ -115,7 +106,7 @@
 
             GADNativeAdImage *adImage = [[GADNativeAdImage alloc] initWithImage:image];
             GADMAdapterNendNativeAd *unifiedAd =
-                [[GADMAdapterNendNativeAd alloc] initWithNormal:ad logo:logo image:adImage];
+                [[GADMAdapterNendNativeAd alloc] initWithNativeAd:ad logo:logo image:adImage];
             [self didReceiveUnifiedNativeAd:unifiedAd];
           }];
         }];
@@ -135,7 +126,7 @@
     return;
   }
 
-  [ad loadLogoImageWithCompletionBlock:^(UIImage *logo) {
+  [ad loadLogoImageWithCompletionBlock:^(UIImage *_Nullable logo) {
     GADNativeAdImage *image = nil;
     if (logo) {
       image = [[GADNativeAdImage alloc] initWithImage:logo];

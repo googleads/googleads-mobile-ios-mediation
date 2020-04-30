@@ -36,15 +36,13 @@
 - (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
                        options:(nullable NSArray<GADAdLoaderOptions *> *)options {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-
-  NSString *spotId = [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector
-                                                         paramKey:kGADMAdapterNendSpotID];
-  NSString *apiKey = [GADMAdapterNendAdUnitMapper mappingAdUnitId:strongConnector
-                                                         paramKey:kGADMAdapterNendApiKey];
-  GADMAdapterNendExtras *extras;
-  if (strongConnector != nil) {
-    extras = [strongConnector networkExtras];
+  if (!strongConnector) {
+    return;
   }
+
+  NSString *spotId = [strongConnector credentials][kGADMAdapterNendSpotID];
+  NSString *apiKey = [strongConnector credentials][kGADMAdapterNendApiKey];
+  GADMAdapterNendExtras *extras = [strongConnector networkExtras];
 
   [self fetchNativeAd:options spotId:spotId apiKey:apiKey extra:extras];
 }

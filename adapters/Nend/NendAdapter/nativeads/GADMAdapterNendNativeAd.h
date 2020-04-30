@@ -11,8 +11,8 @@
 
 @interface GADMAdapterNendNativeAd : NSObject <GADMediationNativeAd>
 
-- (nonnull instancetype)initWithNormal:(nonnull NADNative *)ad
-                                  logo:(nullable GADNativeAdImage *)logo
-                                 image:(nullable GADNativeAdImage *)image;
+- (nonnull instancetype)initWithNativeAd:(nonnull NADNative *)ad
+                                    logo:(nullable GADNativeAdImage *)logo
+                                   image:(nullable GADNativeAdImage *)image;
 
 @end
