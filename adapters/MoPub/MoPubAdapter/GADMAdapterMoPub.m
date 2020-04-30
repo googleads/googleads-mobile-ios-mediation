@@ -257,7 +257,8 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
       return;
     }
   } else {
-    NSArray<NSValue *> *potentials = @[ [NSValue valueWithCGSize:adSize] ];
+    GADAdSize loadedBannerSize = GADAdSizeFromCGSize(adSize);
+    NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(loadedBannerSize) ];
     GADAdSize closestSize = GADClosestValidSizeForAdSizes(_requestedAdSize, potentials);
     if (!IsGADAdSizeValid(closestSize)) {
       NSString *errorMessage = [NSString

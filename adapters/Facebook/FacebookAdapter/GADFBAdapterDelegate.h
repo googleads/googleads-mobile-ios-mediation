@@ -19,8 +19,7 @@
 @protocol GADMAdNetworkConnector;
 
 /// Delegate for listening to notifications from Facebook Audience Network.
-@interface GADFBAdapterDelegate
-    : NSObject <FBAdViewDelegate, FBInterstitialAdDelegate, FBRewardedVideoAdDelegate>
+@interface GADFBAdapterDelegate : NSObject <FBAdViewDelegate, FBRewardedVideoAdDelegate>
 
 /// Facebook Audience Network banner views can have flexible width. Set this property to the desired
 /// banner view's size. Set to CGSizeZero if resizing is not desired.

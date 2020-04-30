@@ -143,18 +143,16 @@
   // screen view. Invoke this callback on the Google Mobile Ads SDK within this method instead.
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = _adEventDelegate;
   _presentCalled = YES;
+
   if (![_interstitialAd showAdFromRootViewController:viewController]) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBInterstitialAd class])];
     NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdNotValid, description);
     [strongDelegate didFailToPresentWithError:error];
-    // TODO: Remove these callbacks if GADInterstitial adds a presentation failure callback in the
-    // future.
-    [strongDelegate willPresentFullScreenView];
-    [strongDelegate willDismissFullScreenView];
-    [strongDelegate didDismissFullScreenView];
     return;
   }
+
+  [strongDelegate willPresentFullScreenView];
 }
 
 @end

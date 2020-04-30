@@ -20,37 +20,62 @@
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendNativeAdLoader.h"
 #import "GADMAdapterNendRewardedAd.h"
+#import "GADMAdapterNendUtils.h"
 #import "GADMediationAdapterNendNativeForwarder.h"
 #import "GADNendRewardedNetworkExtras.h"
 
-@interface GADMediationAdapterNend ()
+@implementation GADMediationAdapterNend {
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-@property(nonatomic, strong) GADMAdapterNendRewardedAd *rewardedAd;
-@property(nonatomic, strong) GADMediationAdapterNendNativeForwarder *nativeMediation;
+  /// Rewarded ad.
+  GADMAdapterNendRewardedAd *_rewardedAd;
 
-@end
+  /// nend's native mediation forwarder.
+  GADMediationAdapterNendNativeForwarder *_nendNativeForwarder;
+}
 
-@implementation GADMediationAdapterNend
+- (nonnull instancetype)initWithGADMAdNetworkConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
+  self = [super init];
+  if (self != nil) {
+    _connector = connector;
+  }
+  return self;
+}
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // INFO: Nend SDK doesn't have any initialization API.
   completionHandler(nil);
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = [[NSNumber numberWithDouble:NendAdVersionNumber] stringValue];
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+  NSString *versionString = [NSNumber numberWithDouble:NendAdVersionNumber].stringValue;
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 3) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion = [versionComponents[2] integerValue];
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion = versionComponents[2].integerValue;
   } else {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
     version.patchVersion = 0;
+  }
+  return version;
+}
+
++ (GADVersionNumber)version {
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 4) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion =
+        versionComponents[2].integerValue * 100 + versionComponents[3].integerValue;
   }
   return version;
 }
@@ -63,22 +88,31 @@
   return kGADMAdapterNendVersion;
 }
 
-- (void)stopBeingDelegate { /* Do nothing here */
+- (void)stopBeingDelegate {
+  // Do nothing here.
 }
 
-- (void)getBannerWithSize:(GADAdSize)adSize { /* Do nothing here */
+- (void)getBannerWithSize:(GADAdSize)adSize {
+  NSError *error =
+      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInvalidRequest, @"Not supported.");
+  [_connector adapter:self didFailAd:error];
 }
 
-- (void)getInterstitial { /* Do nothing here */
+- (void)getInterstitial {
+  NSError *error =
+      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInvalidRequest, @"Not supported.");
+  [_connector adapter:self didFailAd:error];
 }
 
-- (void)presentInterstitialFromRootViewController:
-    (nonnull UIViewController *)rootViewController { /* Do nothing here */
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
+  // Do nothing here.
 }
 
-- (void)getNativeAdWithAdTypes:(NSArray<GADAdLoaderAdType> *)adTypes
-                       options:(NSArray<GADAdLoaderOptions *> *)options {
-  [self.nativeMediation getNativeAdWithAdTypes:adTypes options:options];
+- (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(nullable NSArray<GADAdLoaderOptions *> *)options {
+  _nendNativeForwarder =
+      [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self connector:_connector];
+  [_nendNativeForwarder getNativeAdWithAdTypes:adTypes options:options];
 }
 
 - (BOOL)handlesUserImpressions {
@@ -89,35 +123,13 @@
   return YES;
 }
 
-- (nonnull instancetype)initWithGADMAdNetworkConnector:
-    (nonnull id<GADMAdNetworkConnector>)connector {
-  self = [super init];
-  if (self != nil) {
-    _nativeMediation = [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self
-                                                                             connector:connector];
-  }
-  return self;
-}
-
-+ (GADVersionNumber)version {
-  NSArray *versionComponents = [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
-  GADVersionNumber version = {0};
-  if (versionComponents.count >= 4) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion =
-        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
-  }
-  return version;
-}
-
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMAdapterNendRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterNendRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                         completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 @end

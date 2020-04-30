@@ -10,14 +10,21 @@
 
 @interface GADMAdapterNendNativeVideoAd () <NADNativeVideoDelegate, NADNativeVideoViewDelegate>
 
-@property(nonatomic, strong) NADNativeVideo *videoAd;
-@property(nonatomic, strong) NADNativeVideoView *nendMediaView;
-@property(nonatomic, strong) GADNativeAdImage *mappedIcon;
-@property(nonatomic, strong) NSDecimalNumber *userRating;
-
 @end
 
-@implementation GADMAdapterNendNativeVideoAd
+@implementation GADMAdapterNendNativeVideoAd {
+  /// nend video ad.
+  NADNativeVideo *_videoAd;
+
+  /// nend media view.
+  NADNativeVideoView *_nendMediaView;
+
+  /// Mapped icon.
+  GADNativeAdImage *_mappedIcon;
+
+  /// User rating.
+  NSDecimalNumber *_userRating;
+}
 
 - (nonnull instancetype)initWithVideo:(nonnull NADNativeVideo *)ad {
   self = [super init];
@@ -25,7 +32,7 @@
     _videoAd = ad;
     _videoAd.delegate = self;
 
-    _nendMediaView = [NADNativeVideoView new];
+    _nendMediaView = [[NADNativeVideoView alloc] init];
     _nendMediaView.delegate = self;
 
     _mappedIcon = [[GADNativeAdImage alloc] initWithImage:ad.logoImage];
@@ -35,16 +42,16 @@
 }
 
 - (BOOL)hasVideoContent {
-  return self.videoAd.hasVideo;
+  return _videoAd.hasVideo;
 }
 
 - (nullable UIView *)mediaView {
-  return self.nendMediaView;
+  return _nendMediaView;
 }
 
 - (CGFloat)mediaContentAspectRatio {
-  if (self.videoAd.hasVideo) {
-    if (self.videoAd.orientation == 1) {
+  if (_videoAd.hasVideo) {
+    if (_videoAd.orientation == 1) {
       return 9.0f / 16.0f;
     } else {
       return 16.0 / 9.0f;
@@ -54,11 +61,11 @@
 }
 
 - (nullable NSString *)advertiser {
-  return self.videoAd.advertiserName;
+  return _videoAd.advertiserName;
 }
 
 - (nullable NSString *)headline {
-  return self.videoAd.title;
+  return _videoAd.title;
 }
 
 - (nullable NSArray *)images {
@@ -66,19 +73,19 @@
 }
 
 - (nullable NSString *)body {
-  return self.videoAd.explanation;
+  return _videoAd.explanation;
 }
 
 - (nullable GADNativeAdImage *)icon {
-  return self.mappedIcon;
+  return _mappedIcon;
 }
 
 - (nullable NSString *)callToAction {
-  return self.videoAd.callToAction;
+  return _videoAd.callToAction;
 }
 
 - (nullable NSDecimalNumber *)starRating {
-  return self.userRating;
+  return _userRating;
 }
 
 - (nullable NSString *)store {
@@ -103,13 +110,13 @@
     nonclickableAssetViews:
         (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  self.nendMediaView.frame = view.frame;
-  [self.videoAd registerInteractionViews:clickableAssetViews.allValues];
-  self.nendMediaView.videoAd = self.videoAd;
+  _nendMediaView.frame = view.frame;
+  [_videoAd registerInteractionViews:clickableAssetViews.allValues];
+  _nendMediaView.videoAd = _videoAd;
 }
 
 - (void)didUntrackView:(nullable UIView *)view {
-  [self.videoAd unregisterInteractionViews];
+  [_videoAd unregisterInteractionViews];
 }
 
 - (BOOL)handlesUserImpressions {

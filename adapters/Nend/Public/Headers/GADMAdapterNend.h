@@ -7,7 +7,7 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterNend : NSObject<GADMAdNetworkAdapter>
+@interface GADMAdapterNend : NSObject <GADMAdNetworkAdapter>
 
 @end
 
@@ -21,10 +21,15 @@ typedef NS_ENUM(NSInteger, GADMNendNativeType) {
   GADMNendNativeTypeVideo = 2,
 };
 
-@interface GADMAdapterNendExtras : NSObject<GADAdNetworkExtras>
+@interface GADMAdapterNendExtras : NSObject <GADAdNetworkExtras>
 
+/// Interstitial type.
 @property(nonatomic) GADMNendInterstitialType interstitialType;
+
+/// Native type.
 @property(nonatomic) GADMNendNativeType nativeType;
+
+/// User ID.
 @property(nonatomic, copy) NSString *userId;
 
 @end

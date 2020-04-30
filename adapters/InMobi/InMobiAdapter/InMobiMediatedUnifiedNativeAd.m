@@ -277,7 +277,7 @@ static CGFloat const DefaultIconScale = 1.0;
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }
 
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nullable InMobiMediatedUnifiedNativeAd *)ad {
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nonnull InMobiMediatedUnifiedNativeAd *)ad {
   if (self.adapter != nil && self.adapter.connector != nil) {
     [self.adapter.connector adapter:self.adapter didReceiveMediatedUnifiedNativeAd:ad];
   }
