@@ -41,15 +41,23 @@
     NSString *appSignature = [connector.credentials[kGADMAdapterChartboostAppSignature]
         stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
     
-    if (!appID.length || !appSignature.length) {
-      NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-      completionHandler(error);
-      return;
-    }
-    
     [self startWithAppId:appID
             appSignature:appSignature
                   extras:[connector networkExtras]
+       completionHandler:completionHandler];
+}
+
+- (void)startWithCredentials:(nonnull GADMediationCredentials *)credentials
+               networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
+           completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+    NSString *appID = [credentials.settings[kGADMAdapterChartboostAppID]
+        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    NSString *appSignature = [credentials.settings[kGADMAdapterChartboostAppSignature]
+        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    
+    [self startWithAppId:appID
+            appSignature:appSignature
+                  extras:networkExtras
        completionHandler:completionHandler];
 }
 
@@ -57,6 +65,11 @@
           appSignature:(nonnull NSString *)appSignature
                 extras:(nullable GADMChartboostExtras *)extras
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+    if (!appId.length || !appSignature.length) {
+      NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
+      completionHandler(error);
+      return;
+    }
     [Chartboost startWithAppId:appId appSignature:appSignature completion:^(BOOL started) {
       NSError *error = nil;
       if (started) {

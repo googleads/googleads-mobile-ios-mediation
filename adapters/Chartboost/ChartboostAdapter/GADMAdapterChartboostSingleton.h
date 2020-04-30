@@ -25,8 +25,13 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 /// Shared instance.
 @property(class, atomic, readonly, nonnull) GADMAdapterChartboostSingleton *sharedInstance;
 
-/// Starts the Chartboost SDK.
+/// Starts the Chartboost SDK using credentials obtained from the network connector.
 - (void)startWithNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                 completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
+
+/// Starts the Chartboost SDK using the provided credentials.
+- (void)startWithCredentials:(nonnull GADMediationCredentials *)credentials
+               networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
+           completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
 
 @end
