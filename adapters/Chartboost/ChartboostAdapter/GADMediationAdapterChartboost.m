@@ -19,6 +19,7 @@
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
+#import "GADMChartboostError.h
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
@@ -39,13 +40,9 @@
   }
 
   if (!credentials.count) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterChartboostErrorDomain
-                   code:kGADErrorMediationDataError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Chartboost mediation configurations did not contain "
-                                             @"a valid appID and app signature."
-               }];
+    NSError *error = GADChartboostErrorWithDescription(
+      @"Chartboost mediation configurations did not contain "
+      @"a valid appID and app signature.");
     completionHandler(error);
     return;
   }
