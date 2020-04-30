@@ -94,12 +94,6 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (!_rewardedAd.isCached) {
-    NSError *showError = GADChartboostErrorWithDescription(@"Rewarded ad not cached.");
-    NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
-    [_adEventDelegate didFailToPresentWithError:showError];
-    return;
-  }
   [_rewardedAd showFromViewController:viewController];
 }
 
