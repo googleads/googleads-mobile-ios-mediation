@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import "GADMChartboostError.h"
+#import "GADMAdapterChartboostConstants.h"
 
 NSError *GADChartboostErrorWithDescription(NSString *description) {
-  description = [description copy];
+  description = description ? [description copy] : @"";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.chartboost"
+  NSError *error = [NSError errorWithDomain:kGADMAdapterChartboostErrorDomain
                                        code:0
                                    userInfo:userInfo];
   return error;
