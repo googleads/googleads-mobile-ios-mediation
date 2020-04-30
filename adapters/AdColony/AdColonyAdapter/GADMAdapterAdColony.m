@@ -98,7 +98,8 @@
                             [strongConnector viewControllerForPresentingModalView];
                         if (!viewController) {
                           NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-                              kGADErrorInvalidRequest, @"View controller cannot be nil.");
+                              GADMAdapterAdColonyErrorRootViewControllerNil,
+                              @"View controller cannot be nil.");
                           [strongConnector adapter:strongSelf didFailAd:error];
                           return;
                         }
@@ -172,9 +173,7 @@
 - (void)adColonyInterstitialDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
   GADMAdapterAdColonyLog(@"Failed to load interstitial ad with error: %@",
                          error.localizedDescription);
-  NSError *requestError =
-      GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
-  [_connector adapter:self didFailAd:requestError];
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)adColonyInterstitialWillOpen:(nonnull AdColonyInterstitial *)interstitial {

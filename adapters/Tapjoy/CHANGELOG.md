@@ -1,5 +1,13 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Version 12.4.2.1
+- Adapter now fails if the request to Tapjoy returns without any available content.
+- Removed support for the i386 architecture.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.57.0.
+- Tapjoy SDK version 12.4.2.
+
 #### Version 12.4.2.0
 - Verified compatibility with Tapjoy SDK 12.4.2.
 - Now requires minimum iOS version 9.0.

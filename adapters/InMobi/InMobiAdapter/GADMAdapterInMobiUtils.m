@@ -5,9 +5,12 @@
 //
 
 #import "GADMAdapterInMobiUtils.h"
+
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
+
 #include <stdatomic.h>
+
 #import "GADMAdapterInMobiConstants.h"
 
 NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
@@ -59,18 +62,25 @@ void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
   }
 }
 
+void GADMAdapterInMobiCacheSetObjectForKey(NSCache *_Nonnull cache, id<NSCopying> _Nullable key,
+                                           id _Nullable value) {
+  if (value && key) {
+    [cache setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
+NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(NSInteger code,
+                                                               NSString *_Nonnull description) {
+  NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
+  return [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain code:code userInfo:errorInfo];
+}
+
 NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
     NSNumber *_Nonnull placementIdentifier) {
   if (placementIdentifier.longLongValue) {
     return nil;
   }
 
-  NSError *error = [NSError
-      errorWithDomain:kGADMAdapterInMobiErrorDomain
-                 code:kGADErrorInvalidRequest
-             userInfo:@{
-               NSLocalizedDescriptionKey : @"[InMobi] Exception - Placement ID not specified."
-
-             }];
-  return error;
+  return GADMAdapterInMobiErrorWithCodeAndDescription(
+      kGADErrorInvalidRequest, @"[InMobi] Error - Placement ID not specified.");
 }

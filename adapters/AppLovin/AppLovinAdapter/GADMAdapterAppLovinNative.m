@@ -14,6 +14,7 @@
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinMediatedNativeUnifiedAd.h"
+#import "GADMediationAdapterAppLovin.h"
 
 /// Called by the adapter after downloading the native ad image assets or encountering an error.
 typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_Nullable error,
@@ -54,9 +55,8 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
   if (!_sdk) {
-    [GADMAdapterAppLovinUtils log:@"Failed to retrieve SDK instance"];
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve AppLovin SDK for native adapter.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid Server parameters.");
     [_connector adapter:self didFailAd:error];
     return;
   }
@@ -71,19 +71,26 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
     didFailToLoadAdsWithError:(NSInteger)code {
-  [self notifyFailureWithErrorCode:[GADMAdapterAppLovinUtils toAdMobErrorCode:(int)code]
-                       description:@"Failed to load native ads."];
+  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service didLoadAds:(nonnull NSArray *)ads {
-  if (ads.count > 0 &&
-      [GADMAdapterAppLovinNative containsRequiredUnifiedNativeAssets:[ads firstObject]]) {
-    [service precacheResourcesForNativeAd:[ads firstObject] andNotify:self];
-  } else {
-    [self notifyFailureWithErrorCode:kGADErrorNoFill
-                         description:@"Ad from AppLovin doesn't have all assets required for "
-                                     @"unified native ad formats."];
+  if (ads.count <= 0) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorZeroAdsLoaded,
+        @"AppLovin called nativeAdService:didLoadAds:with 0 Ads");
+    [_connector adapter:self didFailAd:error];
+    return;
   }
+  if (![GADMAdapterAppLovinNative containsRequiredUnifiedNativeAssets:[ads firstObject]]) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorMissingNativeAssets,
+        @"Ad doesn't have all assets required for unified native ad formats.");
+    [_connector adapter:self didFailAd:error];
+    return;
+  }
+  [service precacheResourcesForNativeAd:[ads firstObject] andNotify:self];
 }
 
 - (void)loadImagesForNativeAd:(nonnull ALNativeAd *)nativeAd
@@ -129,7 +136,7 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
       if (iconImageError.localizedDescription) {
         [description appendString:iconImageError.localizedDescription];
       }
-      error = GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+      error = GADMAdapterAppLovinErrorWithCodeAndDescription(GADMAdapterAppLovinErrorLoadingImages,
                                                              description);
       mainImage = nil;
       iconImage = nil;
@@ -143,8 +150,8 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
     didFailToPrecacheImagesForAd:(nonnull ALNativeAd *)ad
                        withError:(NSInteger)errorCode {
-  [self notifyFailureWithErrorCode:[GADMAdapterAppLovinUtils toAdMobErrorCode:(int)errorCode]
-                       description:@"Native ad failed to pre cache images."];
+  NSError *error = GADMAdapterAppLovinSDKErrorWithCode(errorCode);
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)nativeAdService:(nonnull ALNativeAdService *)service
@@ -164,10 +171,8 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
                 return;
               }
               id<GADMAdNetworkConnector> strongConnector = strongSelf->_connector;
-              if (!mainImage || !iconImage) {
-                NSError *downloadError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-                    kGADErrorMediationAdapterError, error.localizedDescription);
-                [strongConnector adapter:strongSelf didFailAd:downloadError];
+              if (error) {
+                [strongConnector adapter:strongSelf didFailAd:error];
                 return;
               }
               GADMAppLovinMediatedNativeUnifiedAd *unifiedNativeAd =
@@ -185,12 +190,6 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
   // Do nothing.
 }
 
-- (void)notifyFailureWithErrorCode:(NSInteger)errorCode description:(NSString *)description {
-  NSError *error =
-      GADMAdapterAppLovinErrorWithCodeAndDescription(errorCode, @"Native ad failed to load.");
-  [_connector adapter:self didFailAd:error];
-}
-
 #pragma mark - Private Util Methods
 
 /// Check whether or not the AppLovin native ad has all the required assets to map to a
@@ -202,15 +201,19 @@ typedef void (^GADMAdapterAppLovinNativeAdLoadImageCompletionHandler)(NSError *_
 #pragma mark - Unused Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  [self notifyFailureWithErrorCode:kGADErrorInvalidRequest
-                       description:@"Incorrect class called for banner request. Use "
-                                   @"GADMAdapterAppLovin for banner ad requests."];
+  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+      GADMAdapterAppLovinErrorUnsupportedAdFormat,
+      @"Incorrect class called for banner request. Use "
+      @"GADMAdapterAppLovin for banner ad requests.");
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)getInterstitial {
-  [self notifyFailureWithErrorCode:kGADErrorInvalidRequest
-                       description:@"Incorrect class called for interstitial request. Use "
-                                   @"GADMAdapterAppLovin for interstitial ad requests."];
+  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+      GADMAdapterAppLovinErrorUnsupportedAdFormat,
+      @"Incorrect class called for interstitial request. UseGADMAdapterAppLovin for interstitial "
+      @"ad requests.");
+  [_connector adapter:self didFailAd:error];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animationType {

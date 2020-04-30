@@ -1,5 +1,13 @@
 ## Fyber iOS Mediation Adapter Changelog
 
+#### Version 7.5.4.0
+- Verified compatibility with Fyber Marketplace SDK version 7.5.4.
+- Removed support for the i386 architecture.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.57.0.
+- Fyber Marketplace SDK version 7.5.4.
+
 #### Version 7.5.3.0
 - Verified compatibility with Fyber Marketplace SDK version 7.5.3.
 

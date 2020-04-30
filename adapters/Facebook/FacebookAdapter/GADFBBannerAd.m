@@ -31,10 +31,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
       GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight90Banner.size.height));
   GADAdSize mRect =
       GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kFBAdSizeHeight250Rectangle.size.height));
-  GADAdSize interstitial = GADAdSizeFromCGSize(kFBAdSizeInterstitial.size);
   NSArray *potentials = @[
-    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(mRect),
-    NSValueFromGADAdSize(interstitial)
+    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(mRect)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
@@ -44,14 +42,13 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
     return kFBAdSizeHeight90Banner;
   } else if (size.height == kFBAdSizeHeight250Rectangle.size.height) {
     return kFBAdSizeHeight250Rectangle;
-  } else if (CGSizeEqualToSize(size, kFBAdSizeInterstitial.size)) {
-    return kFBAdSizeInterstitial;
   }
 
   if (error) {
-    *error = GADFBErrorWithDescription(
+    NSString *description =
         [NSString stringWithFormat:@"Invalid size for Facebook mediation adapter. Size: %@",
-                                   NSStringFromGADAdSize(gadAdSize)]);
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADFBErrorWithCodeAndDescription(GADFBErrorBannerSizeMismatch, description);
   }
 
   FBAdSize fbSize = {0};
@@ -103,7 +100,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   // if the root view controller is nil.
   UIViewController *rootViewController = [strongConnector viewControllerForPresentingModalView];
   if (!rootViewController) {
-    error = GADFBErrorWithDescription(@"Root view controller cannot be nil.");
+    error = GADFBErrorWithCodeAndDescription(GADFBErrorRootViewControllerNil,
+                                             @"Root view controller cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -112,7 +110,8 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   // if the placement ID is nil.
   NSString *placementID = [strongConnector publisherId];
   if (!placementID) {
-    error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -123,7 +122,7 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   if (!_bannerAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBAdView class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }

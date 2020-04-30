@@ -16,13 +16,15 @@
 @synthesize educationType;
 @synthesize language;
 
-- (void)setLocationWithCity:(NSString *)city state:(NSString *)state country:(NSString *)country {
+- (void)setLocationWithCity:(nullable NSString *)city
+                      state:(nullable NSString *)state
+                    country:(nullable NSString *)country {
   _city = city;
   _state = state;
   _country = country;
 }
 
-- (void)setLocation:(CLLocation *)location {
+- (void)setLocation:(nonnull CLLocation *)location {
   _location = location;
   [IMSdk setLocation:location];
 }

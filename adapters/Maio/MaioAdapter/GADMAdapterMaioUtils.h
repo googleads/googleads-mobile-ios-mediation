@@ -14,6 +14,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GADMediationAdapterMaio.h"
+
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
@@ -27,3 +29,8 @@ void GADMAdapterMaioMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, i
 /// Sets |value| for |key| in |mapTable| if |value| is not nil.
 void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                             id<NSCopying> _Nullable key, id _Nullable value);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(
+    GADMAdapterMaioErrorCode *_Nonnull code, NSString *_Nonnull description);

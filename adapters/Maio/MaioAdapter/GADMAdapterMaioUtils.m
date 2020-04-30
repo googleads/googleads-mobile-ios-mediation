@@ -14,6 +14,8 @@
 
 #import "GADMAdapterMaioUtils.h"
 
+#import "GADMMaioConstants.h"
+
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
@@ -40,4 +42,12 @@ void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
   if (value && key) {
     [mapTable setObject:value forKey:key];  // Allow pattern.
   }
+}
+
+NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(
+    GADMAdapterMaioErrorCode *_Nonnull code, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMMaioErrorDomain code:code userInfo:userInfo];
+  return error;
 }

@@ -101,10 +101,10 @@
   }];
 
   if (![_rewardedAd showWithPresentingViewController:viewController]) {
-    NSString *errorMessage = @"Failed to show ad for zone";
-    GADMAdapterAdColonyLog(@"%@: %@.", errorMessage, _rewardedAd.zoneID);
-    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                    errorMessage);
+    NSString *errorMessage = (@"Failed to show ad for zone: %@", _rewardedAd.zoneID);
+    GADMAdapterAdColonyLog(@"%@", errorMessage);
+    NSError *error =
+        GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorShow, errorMessage);
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }
@@ -118,8 +118,8 @@
     NSString *errorMessage =
         @"Zone used for rewarded video is not a rewarded video zone on AdColony portal.";
     GADMAdapterAdColonyLog(@"%@", errorMessage);
-    NSError *error =
-        GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorInvalidRequest, errorMessage);
+    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+        GADMAdapterAdColonyErrorZoneNotRewarded, errorMessage);
     _loadCompletionHandler(nil, error);
     return;
   }
@@ -130,9 +130,7 @@
 
 - (void)adColonyInterstitialDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
   GADMAdapterAdColonyLog(@"Failed to load rewarded ad with error: %@", error.localizedDescription);
-  NSError *requestError =
-      GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
-  _loadCompletionHandler(nil, requestError);
+  _loadCompletionHandler(nil, error);
 }
 
 - (void)adColonyInterstitialWillOpen:(nonnull AdColonyInterstitial *)interstitial {

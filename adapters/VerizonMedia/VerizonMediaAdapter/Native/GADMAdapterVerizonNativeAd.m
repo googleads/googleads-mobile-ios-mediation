@@ -54,7 +54,7 @@
     return;
   }
   _nativeAdFactory = [[VASNativeAdFactory alloc] initWithPlacementId:_placementID
-                                                             adTypes:@[ @"inline" ]
+                                                             adTypes:@[ @"100", @"simpleImage" ]
                                                               vasAds:VASAds.sharedInstance
                                                             delegate:self];
   [_nativeAdFactory load:self];
@@ -121,7 +121,7 @@
 
 - (GADNativeAdImage *)imageForComponent:(NSString *)componentId {
   GADNativeAdImage *GADImage;
-  id<VASComponent> component = [_nativeAd.rootBundle component:componentId];
+  id<VASComponent> component = [_nativeAd component:componentId];
   if ([component conformsToProtocol:@protocol(VASNativeImageComponent)]) {
     UIImageView *imageView = (UIImageView *)((id<VASNativeImageComponent>)component).view;
     if ([imageView isKindOfClass:[UIImageView class]]) {
@@ -246,6 +246,24 @@
   });
 }
 
+- (void)nativeAd:(nonnull VASNativeAd *)nativeAd
+           event:(nonnull NSString *)eventId
+          source:(nonnull NSString *)source
+       arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
+    // Do nothing.
+}
+
+- (nullable UIViewController *)nativeAdPresentingViewController {
+  return [_connector viewControllerForPresentingModalView];
+}
+
+- (void)nativeAdClicked:(nonnull VASNativeAd *)nativeAd
+          withComponent:(nonnull id<VASComponent>)component {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self->_connector adapterDidGetAdClick:self->_adapter];
+  });
+}
+
 #pragma mark - VASNativeAdFactory Delegate
 
 - (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
@@ -260,24 +278,6 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     self->_nativeAd = nativeAd;
     [self->_connector adapter:self->_adapter didReceiveMediatedUnifiedNativeAd:self];
-  });
-}
-
-- (void)nativeAdEvent:(nonnull VASNativeAd *)nativeAd
-               source:(nonnull NSString *)source
-              eventId:(nonnull NSString *)eventId
-            arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
-  // Do nothing.
-}
-
-- (nullable UIViewController *)nativeAdPresentingViewController {
-  return [_connector viewControllerForPresentingModalView];
-}
-
-- (void)nativeAdClicked:(nonnull VASNativeAd *)nativeAd
-          withComponent:(nonnull id<VASComponent>)component {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterDidGetAdClick:self->_adapter];
   });
 }
 

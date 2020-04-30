@@ -53,7 +53,7 @@
 - (void)loadAd {
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters..");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -66,8 +66,8 @@
     NSString *errorString =
         [NSString stringWithFormat:@"Failed to request banner with unsupported size : %@",
                                    NSStringFromCGSize(_adConfiguration.adSize.size)];
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize,
-                                                                    errorString);
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorBannerSizeMismatch, errorString);
     _adLoadCompletionHandler(nil, error);
     return;
   }

@@ -8,6 +8,7 @@
 
 #import "InMobiMediatedUnifiedNativeAd.h"
 #import <Foundation/Foundation.h>
+#import "GADMAdapterInMobiUtils.h"
 #import "NativeAdKeys.h"
 
 static CGFloat const DefaultIconScale = 1.0;
@@ -103,10 +104,11 @@ static CGFloat const DefaultIconScale = 1.0;
                     self->_mappedIcon = [[GADNativeAdImage alloc] initWithImage:image];
                     completed();
                   }];
-  } else {
-    _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
-    completed();
+    return;
   }
+
+  _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
+  completed();
 }
 
 #pragma mark - Async Image
@@ -123,7 +125,7 @@ static CGFloat const DefaultIconScale = 1.0;
       UIImage *image = [UIImage imageWithData:imageData];
       if (image) {
         cachedImage = image;
-        [imageCache setObject:cachedImage forKey:cacheKey];
+        GADMAdapterInMobiCacheSetObjectForKey(imageCache, cacheKey, cachedImage);
       }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -157,8 +159,8 @@ static CGFloat const DefaultIconScale = 1.0;
 #pragma mark - Helpers
 
 - (BOOL)isValidWithNativeAd:(nonnull IMNative *)native imageURL:(nonnull NSString *)imageURL {
-  if (![[native adTitle] length] || ![[native adDescription] length] ||
-      ![[native adCtaText] length] || ![native adIcon] || ![imageURL length]) {
+  if (!native.adTitle.length || !native.adDescription.length || !native.adCtaText.length ||
+      !native.adIcon || !imageURL.length) {
     return NO;
   }
   return YES;
@@ -193,22 +195,23 @@ static CGFloat const DefaultIconScale = 1.0;
 
 - (nullable NSString *)store {
   NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
-  if (landingURL) {
-    NSRange searchedRange = NSMakeRange(0, [landingURL length]);
-    NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
-                                                  options:0
-                                                    error:&error];
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
-                                                        options:0
-                                                          range:searchedRange];
-    if (numberOfMatches == 0)
-      return @"Others";
-    else
-      return @"iTunes";
+  if (!landingURL.length) {
+    return @"";
   }
-  return @"";
+
+  NSRange searchedRange = NSMakeRange(0, landingURL.length);
+  NSError *error = nil;
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
+                                                options:0
+                                                  error:&error];
+  NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
+                                                      options:0
+                                                        range:searchedRange];
+  if (numberOfMatches == 0) {
+    return @"Others";
+  }
+  return @"iTunes";
 }
 
 - (nullable NSString *)price {
@@ -240,20 +243,20 @@ static CGFloat const DefaultIconScale = 1.0;
   return _aspectRatio;
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
-                                 view:(UIView *)view
-                       viewController:(UIViewController *)viewController {
+- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+                                 view:(nonnull UIView *)view
+                       viewController:(nonnull UIViewController *)viewController {
   if (_native) {
     [_native reportAdClickAndOpenLandingPage];
   }
 }
 
-- (void)didRenderInView:(UIView *)view
+- (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
+        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(nonnull UIViewController *)viewController {
   GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
@@ -262,7 +265,7 @@ static CGFloat const DefaultIconScale = 1.0;
   _aspectRatio = primaryView.frame.size.width / primaryView.frame.size.height;
 }
 
-- (void)didUntrackView:(UIView *)view {
+- (void)didUntrackView:(nullable UIView *)view {
   [_native recyclePrimaryView];
   _native = nil;
 }
@@ -274,7 +277,7 @@ static CGFloat const DefaultIconScale = 1.0;
   [self.adapter.connector adapter:self.adapter didFailAd:reqError];
 }
 
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(InMobiMediatedUnifiedNativeAd *)ad {
+- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nonnull InMobiMediatedUnifiedNativeAd *)ad {
   if (self.adapter != nil && self.adapter.connector != nil) {
     [self.adapter.connector adapter:self.adapter didReceiveMediatedUnifiedNativeAd:ad];
   }
