@@ -14,6 +14,7 @@
 
 #import <Chartboost/Chartboost+Mediation.h>
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Sets |value| for |key| in |dictionary| if |value| is not nil.
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
@@ -34,3 +35,5 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
+
+NSString *_Nullable GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetworkConnector> _Nonnull connector);

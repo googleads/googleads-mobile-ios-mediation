@@ -14,8 +14,6 @@
 
 #import "GADMAdapterChartboostUtils.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "GADMAdapterChartboostConstants.h"
 
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
@@ -51,4 +49,14 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
                              libraryVersion:[GADRequest sdkVersion]
                              adapterVersion:kGADMAdapterChartboostVersion];
+}
+
+NSString *_Nullable GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
+  NSString *adLocation = [connector.credentials[kGADMAdapterChartboostAdLocation]
+    stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+  if (!adLocation.length) {
+    NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location...");
+    adLocation = [CBLocationDefault copy];
+  }
+  return adLocation;
 }
