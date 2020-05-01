@@ -97,8 +97,22 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   // Disable refresh functionality for all banners
   [[VungleSDK sharedSDK] disableBannerRefresh];
 
+  // Set init options for priority placement
+  NSMutableDictionary *initOptions = [NSMutableDictionary dictionary];
+  if (delegate) {
+    NSString *priorityPlacementID = delegate.desiredPlacement;
+    [initOptions setObject:priorityPlacementID forKey:VungleSDKInitOptionKeyPriorityPlacementID];
+
+    NSInteger priorityPlacementAdSize = 1;
+    GADMAdapterVungleAdType adType = [delegate adapterAdType];
+    if (adType == GADMAdapterVungleAdTypeBanner || adType == GADMAdapterVungleAdTypeShortBanner || adType == GADMAdapterVungleAdTypeLeaderboardBanner) {
+      priorityPlacementAdSize = [self getVungleBannerAdSizeType:adType];
+    }
+    [initOptions setObject:[NSNumber numberWithInteger:priorityPlacementAdSize] forKey:VungleSDKInitOptionKeyPriorityPlacementAdSize];
+  }
+     
   NSError *err = nil;
-  [sdk startWithAppId:appId error:&err];
+  [sdk startWithAppId:appId options:initOptions error:&err];
   if (err) {
     [self initialized:NO error:err];
   }
