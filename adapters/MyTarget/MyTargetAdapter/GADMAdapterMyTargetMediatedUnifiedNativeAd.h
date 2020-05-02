@@ -14,6 +14,7 @@
 + (nullable id<GADMediatedUnifiedNativeAd>)
     mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                                         nativeAd:(nonnull MTRGNativeAd *)nativeAd
+                                  autoLoadImages:(BOOL)autoLoadImages
                                      mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView;
 
 @end

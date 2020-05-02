@@ -31,14 +31,13 @@
 + (nullable id<GADMediatedUnifiedNativeAd>)
     mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                                         nativeAd:(nonnull MTRGNativeAd *)nativeAd
+                                  autoLoadImages:(BOOL)autoLoadImages
                                      mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   if (!promoBanner.title || !promoBanner.descriptionText || !promoBanner.image ||
       !promoBanner.ctaText) {
     return nil;
   }
 
-  BOOL autoLoadImages = (nativeAd.cachePolicy == MTRGCachePolicyImages) || (nativeAd.cachePolicy == MTRGCachePolicyAll);
-  
   if ((autoLoadImages && !promoBanner.image.image) || (!autoLoadImages && !promoBanner.image.url)) {
     return nil;
   }
