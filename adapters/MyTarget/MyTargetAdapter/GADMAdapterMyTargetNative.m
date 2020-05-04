@@ -122,6 +122,7 @@
   }
 
   _autoLoadImages = YES;
+  MTRGCachePolicy cachePolicy = MTRGCachePolicyAll;
   for (GADAdLoaderOptions *adLoaderOptions in options) {
     if (![adLoaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       continue;
@@ -131,13 +132,14 @@
         (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
     if (imageOptions.disableImageLoading) {
       _autoLoadImages = NO;
+      cachePolicy = cachePolicy & ~MTRGCachePolicyImages;
       break;
     }
   }
 
   _nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
   _nativeAd.delegate = self;
-  _nativeAd.autoLoadImages = _autoLoadImages;
+  _nativeAd.cachePolicy = cachePolicy;
   [GADMAdapterMyTargetUtils fillCustomParams:_nativeAd.customParams withConnector:strongConnector];
   [_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                   forKey:kMTRGCustomParamsMediationKey];
