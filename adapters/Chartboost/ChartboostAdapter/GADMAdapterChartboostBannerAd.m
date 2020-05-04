@@ -52,6 +52,10 @@
   NSString *appId = strongConnector.credentials[kGADMAdapterChartboostAppID];
   NSString *appSignature = strongConnector.credentials[kGADMAdapterChartboostAppSignature];
   id<GADAdNetworkExtras> networkExtras = [strongConnector networkExtras];
+  NSString *adLocation = GADMAdapterChartboostAdLocation(
+    strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
     [sharedInstance startWithAppId:appId
@@ -66,14 +70,12 @@
                      }
                        
                      if (error) {
-                       NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
+                       NSLog(@"Failed to load banner ad from Chartboost: %@",
+                             error.localizedDescription);
                        [strongConnector adapter:strongAdapter didFailAd:error];
                        return;
                      }
-                       
-                     NSString *adLocation = GADMAdapterChartboostAdLocation(
-                       strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
-                     CHBMediation *mediation = GADMAdapterChartboostMediation();
+                     
                      strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
                                                                     location:adLocation
                                                                    mediation:mediation

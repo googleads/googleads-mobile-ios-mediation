@@ -72,6 +72,10 @@
   NSString *appId = _adConfig.credentials.settings[kGADMAdapterChartboostAppID];
   NSString *appSignature = _adConfig.credentials.settings[kGADMAdapterChartboostAppSignature];
   id<GADAdNetworkExtras> networkExtras = [_adConfig extras];
+  NSString *adLocation = GADMAdapterChartboostAdLocation(
+    _adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]);
+  CHBMediation *mediation = GADMAdapterChartboostMediation();
+  
   GADMAdapterChartboostRewardedAd *weakSelf = self;
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   [sharedInstance startWithAppId:appId
@@ -84,14 +88,12 @@
                  }
 
                  if (error) {
-                   NSLog(@"Failed to load rewarded ad from Chartboost: %@", error.localizedDescription);
+                   NSLog(@"Failed to load rewarded ad from Chartboost: %@",
+                         error.localizedDescription);
                    strongSelf->_completionHandler(nil, error);
                    return;
                  }
-
-                 NSString *adLocation = GADMAdapterChartboostAdLocation(
-                   strongSelf->_adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]);
-                 CHBMediation *mediation = GADMAdapterChartboostMediation();
+                 
                  strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
                                                                        mediation:mediation
                                                                         delegate:strongSelf];
