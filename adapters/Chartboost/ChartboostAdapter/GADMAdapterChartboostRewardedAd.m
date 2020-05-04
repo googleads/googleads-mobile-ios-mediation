@@ -123,19 +123,18 @@
   }
 
   if (error) {
+    NSError *showError = NSErrorForCHBShowError(error);
+    NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
     // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
     if (!_adIsShown) {
-      NSError *showError = NSErrorForCHBShowError(error);
-      NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
       [strongDelegate didFailToPresentWithError:showError];
-      return;
     }
+  } else {
+    _adIsShown = YES;
+    [strongDelegate willPresentFullScreenView];
+    [strongDelegate reportImpression];
+    [strongDelegate didStartVideo];
   }
-  
-  _adIsShown = YES;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate reportImpression];
-  [strongDelegate didStartVideo];
 }
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
