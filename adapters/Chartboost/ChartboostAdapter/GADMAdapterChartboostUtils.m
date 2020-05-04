@@ -56,12 +56,12 @@ NSString *_Nonnull GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetwork
     connector.credentials[kGADMAdapterChartboostAdLocation]);
 }
 
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig:(GADMediationAdConfiguration * _Nonnull)adConfig {
+NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig(GADMediationAdConfiguration * _Nonnull adConfig) {
   return GADMAdapterChartboostAdLocationFromString(
     adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]);
 }
 
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromString:(NSString * _Nullable)string {
+NSString *_Nonnull GADMAdapterChartboostAdLocationFromString(NSString * _Nullable string) {
   NSString *adLocation = [string
     stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
   if (!adLocation.length) {

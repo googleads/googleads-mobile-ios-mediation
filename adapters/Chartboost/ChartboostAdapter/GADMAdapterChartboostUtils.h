@@ -43,4 +43,4 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 
 NSString *_Nonnull GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetworkConnector> _Nonnull connector);
 
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig:(GADMediationAdConfiguration * _Nonnull)adConfig;
+NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig(GADMediationAdConfiguration * _Nonnull adConfig);
