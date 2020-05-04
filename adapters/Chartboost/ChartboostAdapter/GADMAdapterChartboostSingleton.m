@@ -33,13 +33,8 @@
 
 - (void)startWithNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                 completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
-    NSString *appID = [connector.credentials[kGADMAdapterChartboostAppID]
-        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-    NSString *appSignature = [connector.credentials[kGADMAdapterChartboostAppSignature]
-        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-    
-    [self startWithAppId:appID
-            appSignature:appSignature
+    [self startWithAppId:connector.credentials[kGADMAdapterChartboostAppID]
+            appSignature:connector.credentials[kGADMAdapterChartboostAppSignature]
                   extras:[connector networkExtras]
        completionHandler:completionHandler];
 }
@@ -47,13 +42,8 @@
 - (void)startWithCredentials:(nonnull GADMediationCredentials *)credentials
                networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
            completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
-    NSString *appID = [credentials.settings[kGADMAdapterChartboostAppID]
-        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-    NSString *appSignature = [credentials.settings[kGADMAdapterChartboostAppSignature]
-        stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-    
-    [self startWithAppId:appID
-            appSignature:appSignature
+    [self startWithAppId:credentials.settings[kGADMAdapterChartboostAppID]
+            appSignature:credentials.settings[kGADMAdapterChartboostAppSignature]
                   extras:networkExtras
        completionHandler:completionHandler];
 }
@@ -62,6 +52,10 @@
           appSignature:(nonnull NSString *)appSignature
                 extras:(nullable GADMChartboostExtras *)extras
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
+    
+    appId = [appId stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    appSignature = [appSignature stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    
     if (!appId.length || !appSignature.length) {
       NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
       completionHandler(error);
