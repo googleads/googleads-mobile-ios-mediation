@@ -51,17 +51,7 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
                              adapterVersion:kGADMAdapterChartboostVersion];
 }
 
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-  return GADMAdapterChartboostAdLocationFromString(
-    connector.credentials[kGADMAdapterChartboostAdLocation]);
-}
-
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig(GADMediationAdConfiguration * _Nonnull adConfig) {
-  return GADMAdapterChartboostAdLocationFromString(
-    adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]);
-}
-
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromString(NSString * _Nullable string) {
+NSString *_Nonnull GADMAdapterChartboostAdLocation(NSString * _Nullable string) {
   NSString *adLocation = [string
     stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
   if (!adLocation.length) {

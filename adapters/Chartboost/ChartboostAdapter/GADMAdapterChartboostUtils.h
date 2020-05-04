@@ -41,6 +41,5 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
 
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromConnector(id<GADMAdNetworkConnector> _Nonnull connector);
-
-NSString *_Nonnull GADMAdapterChartboostAdLocationFromAdConfig(GADMediationAdConfiguration * _Nonnull adConfig);
+/// Returns a valid Chartboost ad location string based on the given string.
+NSString *_Nonnull GADMAdapterChartboostAdLocation(NSString * _Nullable string);

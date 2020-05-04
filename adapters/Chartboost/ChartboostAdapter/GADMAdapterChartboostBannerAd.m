@@ -71,7 +71,8 @@
         return;
       }
         
-      NSString *adLocation = GADMAdapterChartboostAdLocationFromConnector(strongConnector);
+      NSString *adLocation = GADMAdapterChartboostAdLocation(
+        strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
       CHBMediation *mediation = GADMAdapterChartboostMediation();
       strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
                                                      location:adLocation

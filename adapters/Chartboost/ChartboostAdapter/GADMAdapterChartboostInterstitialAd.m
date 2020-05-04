@@ -75,7 +75,8 @@
                  }
 
                  CHBMediation *mediation = GADMAdapterChartboostMediation();
-                 NSString *adLocation = GADMAdapterChartboostAdLocationFromConnector(strongConnector);
+                 NSString *adLocation = GADMAdapterChartboostAdLocation(
+                   strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
                  strongSelf->_interstitialAd =
                      [[CHBInterstitial alloc] initWithLocation:adLocation
                                                      mediation:mediation

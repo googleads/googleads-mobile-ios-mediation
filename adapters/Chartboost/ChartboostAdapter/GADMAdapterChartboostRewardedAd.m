@@ -89,7 +89,8 @@
                    return;
                  }
 
-                 NSString *adLocation = GADMAdapterChartboostAdLocationFromAdConfig(strongSelf->_adConfig);
+                 NSString *adLocation = GADMAdapterChartboostAdLocation(
+                   strongSelf->_adConfig.credentials.settings[kGADMAdapterChartboostAdLocation]);
                  CHBMediation *mediation = GADMAdapterChartboostMediation();
                  strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
                                                                        mediation:mediation
