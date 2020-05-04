@@ -69,11 +69,14 @@
 }
 
 - (void)loadRewardedAd {
+  NSString *appId = _adConfig.credentials.settings[kGADMAdapterChartboostAppID];
+  NSString *appSignature = _adConfig.credentials.settings[kGADMAdapterChartboostAppSignature];
+  id<GADAdNetworkExtras> networkExtras = [_adConfig extras];
   GADMAdapterChartboostRewardedAd *weakSelf = self;
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
-                    appSignature:_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
-                   networkExtras:_adConfig.extras
+  [sharedInstance startWithAppId:appId
+                    appSignature:appSignature
+                   networkExtras:networkExtras
                completionHandler:^(NSError *error) {
                  GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
                  if (!strongSelf) {

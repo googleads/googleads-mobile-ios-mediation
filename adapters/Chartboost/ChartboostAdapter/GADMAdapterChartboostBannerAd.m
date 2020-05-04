@@ -49,11 +49,14 @@
     return;
   }
   
+  NSString *appId = strongConnector.credentials[kGADMAdapterChartboostAppID];
+  NSString *appSignature = strongConnector.credentials[kGADMAdapterChartboostAppSignature];
+  id<GADAdNetworkExtras> networkExtras = [strongConnector networkExtras];
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-    [sharedInstance startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
-                      appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
-                            extras:strongConnector.networkExtras
+    [sharedInstance startWithAppId:appId
+                      appSignature:appSignature
+                     networkExtras:networkExtras
                  completionHandler:^(NSError *_Nullable error) {
       // CHBBanner is a UIView subclass so it is safer to use it on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{

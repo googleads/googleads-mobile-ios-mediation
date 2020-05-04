@@ -54,11 +54,14 @@
     return;
   }
 
+  NSString *appId = strongConnector.credentials[kGADMAdapterChartboostAppID];
+  NSString *appSignature = strongConnector.credentials[kGADMAdapterChartboostAppSignature];
+  id<GADAdNetworkExtras> networkExtras = [strongConnector networkExtras];
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [sharedInstance startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
-                    appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
-                          extras:strongConnector.networkExtras
+  [sharedInstance startWithAppId:appId
+                    appSignature:appSignature
+                   networkExtras:networkExtras
                completionHandler:^(NSError *_Nullable error) {
                  GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
                  if (!strongSelf) {
