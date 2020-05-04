@@ -18,7 +18,7 @@
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
-#import "GADMChartboostError.h
+#import "GADMChartboostError.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
