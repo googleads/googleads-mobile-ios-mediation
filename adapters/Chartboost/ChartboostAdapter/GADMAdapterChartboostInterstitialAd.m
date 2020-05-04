@@ -113,19 +113,19 @@
   if (!strongConnector || !strongAdapter) {
     return;
   }
-
-  [strongConnector adapterWillPresentInterstitial:strongAdapter];
   
   if (error) {
     // if the ad is shown Chartboost will proceed to dismiss it and the rest is handled in didDismissAd:
     if (!_adIsShown) {
       NSError *showError = NSErrorForCHBShowError(error);
       NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
+      [strongConnector adapterWillPresentInterstitial:strongAdapter];
       [strongConnector adapterWillDismissInterstitial:strongAdapter];
       [strongConnector adapterDidDismissInterstitial:strongAdapter];
     }
   } else {
     _adIsShown = YES;
+    [strongConnector adapterWillPresentInterstitial:strongAdapter];
   }
 }
 
