@@ -71,9 +71,10 @@
 - (void)loadRewardedAd {
   GADMAdapterChartboostRewardedAd *weakSelf = self;
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithCredentials:_adConfig.credentials
-                         networkExtras:_adConfig.extras
-                     completionHandler:^(NSError *error) {
+  [sharedInstance startWithAppId:_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
+                    appSignature:_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
+                   networkExtras:_adConfig.extras
+               completionHandler:^(NSError *error) {
                  GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;

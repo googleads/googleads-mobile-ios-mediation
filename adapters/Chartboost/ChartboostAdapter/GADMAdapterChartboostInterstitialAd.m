@@ -15,6 +15,7 @@
 #import "GADMAdapterChartboostInterstitialAd.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
+#import "GADMAdapterChartboostConstants.h"
 #import "GADMChartboostError.h"
 
 @interface GADMAdapterChartboostInterstitialAd () <CHBInterstitialDelegate>
@@ -55,8 +56,10 @@
 
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [sharedInstance startWithNetworkConnector:strongConnector
-                          completionHandler:^(NSError *_Nullable error) {
+  [sharedInstance startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
+                    appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+                          extras:strongConnector.networkExtras
+               completionHandler:^(NSError *_Nullable error) {
                  GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;

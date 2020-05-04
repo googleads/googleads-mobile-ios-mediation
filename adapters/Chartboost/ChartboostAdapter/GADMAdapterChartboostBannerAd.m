@@ -15,6 +15,7 @@
 #import "GADMAdapterChartboostBannerAd.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
+#import "GADMAdapterChartboostConstants.h"
 #import "GADMChartboostError.h"
 
 @interface GADMAdapterChartboostBannerAd () <CHBBannerDelegate>
@@ -50,8 +51,10 @@
   
   GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [sharedInstance startWithNetworkConnector:strongConnector
-                          completionHandler:^(NSError *_Nullable error) {
+    [sharedInstance startWithAppId:strongConnector.credentials[kGADMAdapterChartboostAppID]
+                      appSignature:strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+                            extras:strongConnector.networkExtras
+                 completionHandler:^(NSError *_Nullable error) {
       // CHBBanner is a UIView subclass so it is safer to use it on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
       GADMAdapterChartboostBannerAd *strongSelf = weakSelf;

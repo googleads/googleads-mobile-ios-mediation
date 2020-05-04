@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #import "GADMAdapterChartboostSingleton.h"
-#import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
 
@@ -31,26 +29,9 @@
   return sharedInstance;
 }
 
-- (void)startWithNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
-    [self startWithAppId:connector.credentials[kGADMAdapterChartboostAppID]
-            appSignature:connector.credentials[kGADMAdapterChartboostAppSignature]
-                  extras:[connector networkExtras]
-       completionHandler:completionHandler];
-}
-
-- (void)startWithCredentials:(nonnull GADMediationCredentials *)credentials
-               networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
-           completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
-    [self startWithAppId:credentials.settings[kGADMAdapterChartboostAppID]
-            appSignature:credentials.settings[kGADMAdapterChartboostAppSignature]
-                  extras:networkExtras
-       completionHandler:completionHandler];
-}
-
-- (void)startWithAppId:(nonnull NSString *)appId
-          appSignature:(nonnull NSString *)appSignature
-                extras:(nullable GADMChartboostExtras *)extras
+- (void)startWithAppId:(nullable NSString *)appId
+          appSignature:(nullable NSString *)appSignature
+         networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler {
     
     appId = [appId stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
@@ -64,8 +45,9 @@
     [Chartboost startWithAppId:appId appSignature:appSignature completion:^(BOOL started) {
       NSError *error = nil;
       if (started) {
-        if (extras && [extras isKindOfClass:GADMChartboostExtras.class]) {
-          [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+        if (networkExtras && [networkExtras isKindOfClass:GADMChartboostExtras.class]) {
+          GADMChartboostExtras *cbExtras = (GADMChartboostExtras *)networkExtras;
+          [Chartboost setFramework:cbExtras.framework withVersion:cbExtras.frameworkVersion];
         }
       } else {
         error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
