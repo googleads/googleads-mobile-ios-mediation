@@ -60,8 +60,8 @@
                     appSignature:appSignature
                    networkExtras:nil
                completionHandler:^(NSError *error) {
-                       completionHandler(error);
-                     }];
+                 completionHandler(error);
+               }];
 }
 
 + (GADVersionNumber)adSDKVersion {

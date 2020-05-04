@@ -58,29 +58,29 @@
                       appSignature:appSignature
                      networkExtras:networkExtras
                  completionHandler:^(NSError *_Nullable error) {
-      // CHBBanner is a UIView subclass so it is safer to use it on the main thread
-    dispatch_async(dispatch_get_main_queue(), ^{
-      GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
-      if (!strongSelf || !strongConnector) {
-        return;
-      }
-        
-      if (error) {
-        NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
-        [strongConnector adapter:strongAdapter didFailAd:error];
-        return;
-      }
-        
-      NSString *adLocation = GADMAdapterChartboostAdLocation(
-        strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
-      CHBMediation *mediation = GADMAdapterChartboostMediation();
-      strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
-                                                     location:adLocation
-                                                    mediation:mediation
-                                                     delegate:strongSelf];
-      strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
-      [strongSelf->_bannerAd cache];
-    });
+                   // CHBBanner is a UIView subclass so it is safer to use it on the main thread
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
+                     if (!strongSelf || !strongConnector) {
+                       return;
+                     }
+                       
+                     if (error) {
+                       NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
+                       [strongConnector adapter:strongAdapter didFailAd:error];
+                       return;
+                     }
+                       
+                     NSString *adLocation = GADMAdapterChartboostAdLocation(
+                       strongConnector.credentials[kGADMAdapterChartboostAdLocation]);
+                     CHBMediation *mediation = GADMAdapterChartboostMediation();
+                     strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
+                                                                    location:adLocation
+                                                                   mediation:mediation
+                                                                    delegate:strongSelf];
+                     strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
+                     [strongSelf->_bannerAd cache];
+                   });
   }];
 }
 

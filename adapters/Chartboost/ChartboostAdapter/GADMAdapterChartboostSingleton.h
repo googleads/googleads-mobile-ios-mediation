@@ -22,7 +22,7 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 /// Shared instance.
 @property(class, atomic, readonly, nonnull) GADMAdapterChartboostSingleton *sharedInstance;
 
-/// Starts the Chartboost SDK using the provided credentials.
+/// Starts the Chartboost SDK.
 - (void)startWithAppId:(nullable NSString *)appId
           appSignature:(nullable NSString *)appSignature
          networkExtras:(nullable id<GADAdNetworkExtras>)networkExtras
