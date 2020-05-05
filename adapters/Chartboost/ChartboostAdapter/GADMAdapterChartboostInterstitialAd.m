@@ -32,7 +32,7 @@
   /// Chartboost interstitial ad object.
   CHBInterstitial *_interstitialAd;
     
-  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
+  /// YES if ad is visible, used to distinguish between show errors before and after ad presentation.
   BOOL _adIsShown;
 }
 

@@ -37,7 +37,7 @@
   /// Chartboost rewarded ad object
   CHBRewarded *_rewardedAd;
     
-  /// YES if ad is visible, used to distinguish between show errors before and during ad presentation.
+  /// YES if ad is visible, used to distinguish between show errors before and after ad presentation.
   BOOL _adIsShown;
 }
 
