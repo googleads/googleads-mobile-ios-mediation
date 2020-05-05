@@ -13,6 +13,11 @@
 // limitations under the License.
 
 #import "GADMChartboostExtras.h"
+#if __has_include(<Chartboost/Chartboost.h>)
+#import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
 
 @implementation GADMChartboostExtras
 
