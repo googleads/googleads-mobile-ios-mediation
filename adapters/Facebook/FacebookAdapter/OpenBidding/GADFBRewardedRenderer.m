@@ -113,7 +113,7 @@
 
 - (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
   if (_presentCalled) {
-    NSLog(@"Received a Facebook SDK error during presentation: $@", error.localizedDescription);
+    NSLog(@"Received a Facebook SDK error during presentation: %@", error.localizedDescription);
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }

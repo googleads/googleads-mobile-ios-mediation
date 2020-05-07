@@ -25,7 +25,7 @@
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode *_Nonnull code,
+NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode code,
                                                    NSString *_Nonnull description);
 
 /// Set the mediation service information in the Facebook Audience Network SDK.
