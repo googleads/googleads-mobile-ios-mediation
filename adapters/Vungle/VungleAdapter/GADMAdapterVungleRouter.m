@@ -37,6 +37,9 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
   /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
+
+  /// Vungle's prioritized placementID
+  NSString *_prioritizedPlacementID;
 }
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance {
@@ -102,6 +105,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   if (delegate) {
     NSString *priorityPlacementID = delegate.desiredPlacement;
     [initOptions setObject:priorityPlacementID forKey:VungleSDKInitOptionKeyPriorityPlacementID];
+    _prioritizedPlacementID = [priorityPlacementID copy];
 
     NSInteger priorityPlacementAdSize = 1;
     GADMAdapterVungleAdType adType = [delegate adapterAdType];
@@ -283,7 +287,28 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   VungleSDK *sdk = [VungleSDK sharedSDK];
   if ([self isAdCachedForPlacementID:placement withDelegate:delegate]) {
     [delegate adAvailable];
-    return nil;
+  } else {
+    // We already requested an ad for _prioritizedPlacementID,
+    // so we don't need to request again.
+    if ([_prioritizedPlacementID isEqualToString:placement]) {
+      return nil;
+    }
+
+    NSError *loadError = nil;
+    GADMAdapterVungleAdType adType = [delegate adapterAdType];
+    if (adType != GADMAdapterVungleAdTypeBanner && adType != GADMAdapterVungleAdTypeShortBanner && adType != GADMAdapterVungleAdTypeLeaderboardBanner) {
+        if (![sdk loadPlacementWithID:placement error:&loadError]) {
+              if (loadError) {
+                  return loadError;
+              }
+          }
+    } else {
+        if (![sdk loadPlacementWithID:placement withSize:[self getVungleBannerAdSizeType:adType] error:&loadError]) {
+            if ((loadError) && (loadError.code != VungleSDKResetPlacementForDifferentAdSize)) {
+                return loadError;
+            }
+        }
+    }
   }
 
   NSError *loadError = nil;
@@ -441,6 +466,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   }
 
   [_initializingDelegates removeAllObjects];
+  _prioritizedPlacementID = nil;
 }
 
 #pragma mark - VungleSDKDelegate methods
