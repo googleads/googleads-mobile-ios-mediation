@@ -6,7 +6,7 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.5.1.0";
+static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.5.2.0";
 static NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";
 static NSString *const _Nonnull kGADMAdapterMyTargetGenderKey = @"gender";
 static NSString *const _Nonnull kGADMAdapterMyTargetBirthdayKey = @"birthday";
