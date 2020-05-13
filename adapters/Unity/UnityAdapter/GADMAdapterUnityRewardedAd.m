@@ -102,11 +102,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate) {
-    [strongDelegate willPresentFullScreenView];
-  }
-
-  if (![UnityAds isReady:_placementID] && strongDelegate) {
+  if (![UnityAds isReady:_placementID]) {
     NSError *presentError =
         GADUnityErrorWithDescription(@"Failed to show Unity Ads rewarded video.");
     [strongDelegate didFailToPresentWithError:presentError];
@@ -117,6 +113,7 @@
     [_metaData commit];
     return;
   }
+  [strongDelegate willPresentFullScreenView];
 
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"show-rewarded"];
