@@ -23,7 +23,7 @@
   GADNativeAdImage *_mappedIcon;
 
   /// Array of Images.
-  NSArray *_mappedImages;
+  NSArray<GADNativeAdImage *> *_mappedImages;
 
   /// nend AdChoices view.
   UILabel *_advertisingExplicitlyView;
@@ -82,7 +82,7 @@
   return _nativeAd.shortText;
 }
 
-- (nullable NSArray *)images {
+- (nullable NSArray<GADNativeAdImage *> *)images {
   return _mappedImages;
 }
 
@@ -110,7 +110,7 @@
   return nil;
 }
 
-- (nullable NSDictionary *)extraAssets {
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
   return nil;
 }
 

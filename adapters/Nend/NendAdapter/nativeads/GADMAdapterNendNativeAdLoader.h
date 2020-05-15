@@ -22,11 +22,11 @@
 @interface GADMAdapterNendNativeAdLoader : NSObject
 
 typedef void (^NADNativeVideoCompletionBlock)(NADNativeVideo *_Nullable ad,
-NSError *_Nullable error);
+                                              NSError *_Nullable error);
 
-- (void)fetchNativeAd:(nonnull NSArray *)options
+- (void)fetchNativeAd:(nonnull NSArray<GADAdLoaderOptions *> *)options
                spotId:(nonnull NSString *)spotId
                apiKey:(nonnull NSString *)apiKey
-               extra:(nonnull GADMAdapterNendExtras *)extras;
+                extra:(nonnull GADMAdapterNendExtras *)extras;
 
 @end
