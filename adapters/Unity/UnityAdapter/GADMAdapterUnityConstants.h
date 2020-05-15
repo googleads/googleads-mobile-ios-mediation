@@ -14,6 +14,12 @@
 
 @import Foundation;
 
+/// Unity adapter error domain.
+static NSString *const GADMAdapterUnityErrorDomain = @"com.google.mediation.unity";
+
+/// Unity SDK error domain.
+static NSString *const GADMAdapterUnitySDKErrorDomain = @"com.google.mediation.unitySDK";
+
 /// Unity Ads game ID.
 static NSString *const kGADMAdapterUnityGameID = @"gameId";
 

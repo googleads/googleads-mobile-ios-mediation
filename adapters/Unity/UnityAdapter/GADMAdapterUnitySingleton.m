@@ -80,9 +80,11 @@
 
   @synchronized(_adapterDelegates) {
     if ([_adapterDelegates objectForKey:placementID]) {
-      NSString *message = @"An ad is already loading for placement ID %@";
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
-                            withMessage:[NSString stringWithFormat:message, placementID]];
+      NSString *message =
+          [NSString stringWithFormat:@"An ad is already loading for placement ID: %@", placementID];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+          GADMAdapterUnityErrorAdAlreadyLoaded, message);
+      [adapterDelegate didFailToLoadWithError:error];
       return;
     }
   }
@@ -115,9 +117,11 @@
 
   @synchronized(_adapterDelegates) {
     if ([_adapterDelegates objectForKey:placementID]) {
-      NSString *message = @"An ad is already loading for placement ID %@";
-      [adapterDelegate unityAdsDidError:kUnityAdsErrorInternalError
-                            withMessage:[NSString stringWithFormat:message, placementID]];
+      NSString *message =
+          [NSString stringWithFormat:@"An ad is already loading for placement ID: %@", placementID];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+          GADMAdapterUnityErrorAdAlreadyLoaded, message);
+      [adapterDelegate didFailToLoadWithError:error];
       return;
     }
   }
@@ -189,10 +193,10 @@
       delegates = _adapterDelegates.objectEnumerator.allObjects;
     }
 
-    for (id<UnityAdsExtendedDelegate, UnityAdsExtendedDelegate> delegate in delegates) {
-      [delegate unityAdsDidError:kUnityAdsErrorNotInitialized withMessage:message];
+    for (id<UnityAdsExtendedDelegate, GADMAdapterUnityDataProvider> delegate in delegates) {
+      NSError *sdkError = GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
+      [delegate didFailToLoadWithError:sdkError];
     }
-
     @synchronized(_adapterDelegates) {
       [_adapterDelegates removeAllObjects];
     }
@@ -200,7 +204,6 @@
     [_currentShowingUnityDelegate unityAdsDidError:error withMessage:message];
   }
 }
-
 - (void)stopTrackingDelegate:
     (id<GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>)adapterDelegate {
     @synchronized(_adapterDelegates) {

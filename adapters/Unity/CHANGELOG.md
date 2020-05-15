@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added standardized adapter error codes and messages.
+
 #### Version 3.4.2.1
 - Improved forwarding of Unity's errors to recognize initialization and ad load failures earlier and reduce timeouts.
 - Removed support for the i386 architecture.

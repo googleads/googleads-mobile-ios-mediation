@@ -16,8 +16,8 @@
 
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnitySingleton.h"
+#import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
-#import "GADUnityError.h"
 
 @interface GADMAdapterUnityBannerAd () <UADSBannerViewDelegate>
 @end
@@ -51,7 +51,7 @@
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
 
   if (!strongConnector || !strongAdapter) {
-    NSLog(@"Adapter Error: No GADMAdNetworkConnector or GADMAdNetworkAdapter found.");
+    NSLog(@"Adapter Error: No GADMAdNetworkConnector nor GADMAdNetworkAdapter found.");
     return;
   }
 
@@ -64,7 +64,8 @@
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
 
   if (!_bannerAd) {
-    NSError *error = GADUnityErrorWithDescription(@"Unity banner failed to initialize.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -108,10 +109,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-    NSString *errorMsg =
-        [NSString stringWithFormat:@"Unity Ads banner failed to load with error: %@",
-                                   error.localizedDescription];
-    [strongConnector adapter:strongAdapter didFailAd:GADUnityErrorWithDescription(errorMsg)];
+    [strongConnector adapter:strongAdapter didFailAd:error];
   }
 }
 
