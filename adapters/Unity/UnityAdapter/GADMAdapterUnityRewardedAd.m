@@ -24,7 +24,7 @@
   GADMediationAdConfiguration *_adConfiguration;
 
   // An ad event delegate to invoke when ad rendering events occur.
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Game ID of Unity Ads network.
   NSString *_gameID;
@@ -103,11 +103,10 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (![UnityAds isReady:_placementID]) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
         GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
-    [strongDelegate didFailToPresentWithError:error];
+    [_adEventDelegate didFailToPresentWithError:error];
 
     [_metaData setCategory:@"mediation_adapter"];
     [_metaData set:_uuid value:@"fail-to-show-rewarded"];
@@ -115,7 +114,7 @@
     [_metaData commit];
     return;
   }
-  [strongDelegate willPresentFullScreenView];
+  [_adEventDelegate willPresentFullScreenView];
 
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"show-rewarded"];
@@ -165,34 +164,29 @@
     return;
   }
 
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (!strongDelegate) {
-    return;
-  }
   if (state == kUnityAdsFinishStateCompleted) {
-    [strongDelegate didEndVideo];
+    [_adEventDelegate didEndVideo];
 
     // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
     // amount of 1. Publishers using this adapter should override the reward on the AdMob
     // front-end.
     GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                      rewardAmount:[NSDecimalNumber one]];
-    [strongDelegate didRewardUserWithReward:reward];
+    [_adEventDelegate didRewardUserWithReward:reward];
   } else if (state == kUnityAdsFinishStateError) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
         GADMAdapterUnityErrorFinish,
         @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
-    [strongDelegate didFailToPresentWithError:error];
+    [_adEventDelegate didFailToPresentWithError:error];
   }
 
-  [strongDelegate willDismissFullScreenView];
-  [strongDelegate didDismissFullScreenView];
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && [placementID isEqualToString:_placementID]) {
-    [strongDelegate didStartVideo];
+  if ([placementID isEqualToString:_placementID]) {
+    [_adEventDelegate didStartVideo];
   }
 }
 
@@ -206,9 +200,8 @@
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && [placementID isEqualToString:_placementID]) {
-    [strongDelegate reportClick];
+  if ([placementID isEqualToString:_placementID]) {
+    [_adEventDelegate reportClick];
   }
 }
 
