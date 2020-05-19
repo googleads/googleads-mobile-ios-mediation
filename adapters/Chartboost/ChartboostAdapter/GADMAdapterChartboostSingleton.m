@@ -14,12 +14,10 @@
 
 #import "GADMAdapterChartboostSingleton.h"
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
-
-#if __has_include(<Chartboost/Chartboost.h>)
-#import <Chartboost/Chartboost.h>
 #else
-#import "Chartboost.h"
+#import "Chartboost+Mediation.h"
 #endif
 
 #import "GADMAdapterChartboostConstants.h"

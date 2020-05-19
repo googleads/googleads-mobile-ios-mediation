@@ -14,7 +14,11 @@
 
 #import "GADMAdapterChartboostRewardedAd.h"
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
 
 #include <stdatomic.h>
 
