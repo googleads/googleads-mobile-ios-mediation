@@ -77,6 +77,14 @@
     return delegate;
   };
 
+  NSString *accountID = _adConfig.credentials.settings[kGADMAdapterInMobiAccountID];
+  NSError *initError = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
+  if (initError) {
+    NSLog(@"[InMobi] Initialization failed: %@", initError.localizedDescription);
+    _renderCompletionHandler(nil, initError);
+    return;
+  }
+
   // Converting a string to a long long value.
   long long placement =
       [adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
@@ -97,8 +105,7 @@
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
     NSString *errorDesc = [NSString
         stringWithFormat:@"[InMobi] Error - cannot request multiple ads using same placement ID."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
     GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                          code:kGADErrorInvalidRequest
                                                      userInfo:errorInfo];
@@ -120,7 +127,7 @@
   GADMediationRewardedAdConfiguration *strongAdConfig = _adConfig;
 
   if (strongAdConfig.extras) {
-    _extraInfo = [strongAdConfig extras];
+    _extraInfo = strongAdConfig.extras;
   }
 
   if (_extraInfo.postalCode) {
@@ -154,7 +161,7 @@
   NSString *versionString = [GADRequest sdkVersion];
   GADMAdapterInMobiMutableDictionarySetObjectForKey(extrasDictionary, @"tp-ver", versionString);
 
-  NSNumber *childDirectedTreatment = [strongAdConfig childDirectedTreatment];
+  NSNumber *childDirectedTreatment = strongAdConfig.childDirectedTreatment;
   if (childDirectedTreatment) {
     NSString *coppaString =
         (childDirectedTreatment.boolValue || [_extraInfo.additionalParameters[@"coppa"] boolValue])
@@ -164,7 +171,9 @@
   }
 
   if (_rewardedAd) {
-    if (_extraInfo.keywords != nil) [_rewardedAd setKeywords:_extraInfo.keywords];
+    if (_extraInfo.keywords != nil) {
+      _rewardedAd.keywords = _extraInfo.keywords;
+    }
     [_rewardedAd setExtras:[extrasDictionary copy]];
   }
 }
@@ -177,16 +186,15 @@
 
 #pragma mark IMInterstitialDelegate methods
 
-- (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
+- (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   _adEventDelegate = _renderCompletionHandler(self, nil);
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
-    didFailToLoadWithError:(IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
   GADRequestError *requestError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
                                                               code:errorCode
                                                           userInfo:errorInfo];
@@ -196,11 +204,11 @@
   _renderCompletionHandler(nil, requestError);
 }
 
-- (void)interstitialWillPresent:(IMInterstitial *)interstitial {
+- (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
   [_adEventDelegate willPresentFullScreenView];
 }
 
-- (void)interstitialDidPresent:(IMInterstitial *)interstitial {
+- (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
     [strongDelegate reportImpression];
@@ -208,41 +216,42 @@
   }
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
-    didFailToPresentWithError:(IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode([error code]);
-  NSString *errorDesc = [error localizedDescription];
-  GADRequestError *reqError =
-      [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                  code:errorCode
-                              userInfo:@{NSLocalizedDescriptionKey : errorDesc ?: @""}];
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToPresentWithError:(nonnull IMRequestStatus *)error {
+  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
+  NSDictionary<NSString *, NSString *> *errorInfo =
+      @{NSLocalizedDescriptionKey : error.localizedDescription};
+  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                                                          code:errorCode
+                                                      userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
   [_adEventDelegate didFailToPresentWithError:reqError];
 }
 
-- (void)interstitialWillDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
   [_adEventDelegate willDismissFullScreenView];
 }
 
-- (void)interstitialDidDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didInteractWithParams:(nonnull NSDictionary *)params {
   [_adEventDelegate reportClick];
 }
 
-- (void)interstitialDidReceiveAd:(IMInterstitial *)interstitial {
+- (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
   // No equivalent callback in the Google Mobile Ads SDK.
   // This event indicates that InMobi fetched an ad from the server, but hasn't loaded it yet.
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
   NSString *key = rewards.allKeys.firstObject;

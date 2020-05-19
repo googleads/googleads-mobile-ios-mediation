@@ -10,10 +10,6 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-#define guard(CONDITION) \
-  if (CONDITION) {       \
-  }
-
 @interface GADMAdapterMyTargetMediatedUnifiedNativeAd ()
 
 @property(nonatomic, strong) MTRGNativeAd *nativeAd;
@@ -37,28 +33,38 @@
                                         nativeAd:(nonnull MTRGNativeAd *)nativeAd
                                   autoLoadImages:(BOOL)autoLoadImages
                                      mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
-  guard(promoBanner.title && promoBanner.descriptionText && promoBanner.image &&
-        promoBanner.ctaText) else return nil;
-  guard((autoLoadImages && promoBanner.image.image) ||
-        (!autoLoadImages && promoBanner.image.url)) else return nil;
-  if (promoBanner.navigationType == MTRGNavigationTypeWeb) {
-    guard(promoBanner.domain) else return nil;
-  } else if (promoBanner.navigationType == MTRGNavigationTypeStore) {
-    guard(promoBanner.icon) else return nil;
-    guard((autoLoadImages && promoBanner.icon.image) ||
-          (!autoLoadImages && promoBanner.icon.url)) else return nil;
+  if (!promoBanner.title || !promoBanner.descriptionText || !promoBanner.image ||
+      !promoBanner.ctaText) {
+    return nil;
   }
+
+  if ((autoLoadImages && !promoBanner.image.image) || (!autoLoadImages && !promoBanner.image.url)) {
+    return nil;
+  }
+
+  if (promoBanner.navigationType == MTRGNavigationTypeWeb && !promoBanner.domain) {
+    return nil;
+  }
+
+  if (promoBanner.navigationType == MTRGNavigationTypeStore) {
+    if (!promoBanner.icon) {
+      return nil;
+    }
+
+    if ((autoLoadImages && !promoBanner.icon.image) || (!autoLoadImages && !promoBanner.icon.url)) {
+      return nil;
+    }
+  }
+
   return
       [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
                                                                            nativeAd:nativeAd
-                                                                     autoLoadImages:autoLoadImages
                                                                         mediaAdView:mediaAdView];
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
     initWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                      nativeAd:(nonnull MTRGNativeAd *)nativeAd
-               autoLoadImages:(BOOL)autoLoadImages
                   mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
@@ -92,7 +98,9 @@
 }
 
 - (void)addExtraAsset:(nullable NSString *)asset forKey:(nonnull NSString *)key {
-  guard(asset && ![asset isEqualToString:@""]) else return;
+  if (!asset.length) {
+    return;
+  }
   [_extraAssets setObject:asset forKey:key];
 }
 
@@ -145,7 +153,7 @@
 }
 
 - (BOOL)hasVideoContent {
-  return YES;
+  return YES; // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
 }
 
 - (CGFloat)mediaContentAspectRatio {
@@ -159,7 +167,9 @@
         (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
-  guard(_nativeAd) else return;
+  if (!_nativeAd) {
+    return;
+  }
 
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
@@ -182,7 +192,10 @@
 
 - (void)didUntrackView:(nullable UIView *)view {
   MTRGLogInfo();
-  guard(_nativeAd) else return;
+  if (!_nativeAd) {
+    return;
+  }
+
   [_nativeAd unregisterView];
 }
 

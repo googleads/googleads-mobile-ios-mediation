@@ -58,8 +58,7 @@
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
   if (parentRenderer.adLoadCompletionHandler) {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        [GADMAdapterAppLovinUtils toAdMobErrorCode:code], @"Rewarded ad failed to load.");
+    NSError *error = GADMAdapterAppLovinSDKErrorWithCode(code);
     parentRenderer.adLoadCompletionHandler(nil, error);
   }
 }

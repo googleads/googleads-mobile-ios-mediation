@@ -10,6 +10,7 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
+#import "GADMediationAdapterAppLovin.h"
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #include <stdatomic.h>
@@ -59,7 +60,7 @@
 - (void)loadAd {
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
     _adLoadCompletionHandler(nil, error);
     return;
   }

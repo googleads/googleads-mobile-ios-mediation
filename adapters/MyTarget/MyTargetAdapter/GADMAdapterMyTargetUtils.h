@@ -33,8 +33,8 @@
 + (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
            withConnector:(nonnull id<GADMediationAdRequest>)connector;
 + (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;
-+ (nonnull NSNumber *)ageFromBirthday:(nonnull NSDate *)birthday;
++ (nullable NSNumber *)ageFromBirthday:(nullable NSDate *)birthday;
 + (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
-+ (nonnull GADNativeAdImage *)nativeAdImageWithImageData:(nonnull MTRGImageData *)imageData;
++ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
 
 @end

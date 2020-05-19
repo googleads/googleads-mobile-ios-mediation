@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import "GADMediationAdapterFacebook.h"
 
 /// Macro wrapper for NSLog only if debug mode is enabled.
 #if DEBUG
@@ -22,9 +23,10 @@
 #define GADFB_LOG(...)
 #endif
 
-/// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
-/// set to |description|.
-NSError *_Nonnull GADFBErrorWithDescription(NSString *_Nonnull description);
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode code,
+                                                   NSString *_Nonnull description);
 
 /// Set the mediation service information in the Facebook Audience Network SDK.
 void GADFBConfigureMediationService(void);
@@ -34,5 +36,3 @@ void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set, NSObjec
 
 /// Set the mixed audience configuration in the Facebook Audience Network SDK.
 void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment);
-
-

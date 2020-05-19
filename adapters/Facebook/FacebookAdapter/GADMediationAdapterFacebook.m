@@ -54,7 +54,8 @@
                              completionHandler:^(FBAdInitResults *_Nonnull results) {
                                NSError *error = nil;
                                if (!results.success) {
-                                 error = GADFBErrorWithDescription(results.message);
+                                 error = GADFBErrorWithCodeAndDescription(
+                                     GADFBErrorInitializationFailure, results.message);
                                }
                                completionHandler(error);
                              }];

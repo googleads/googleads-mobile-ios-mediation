@@ -17,7 +17,6 @@
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
-#import "GADUnityError.h"
 @import UnityAds;
 
 @interface GADMediationAdapterUnity ()
@@ -38,9 +37,10 @@
   }
 
   if (!gameIDs.count) {
-    NSError *errorWithDescription = GADUnityErrorWithDescription(
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorInvalidServerParameters,
         @"UnityAds mediation configurations did not contain a valid game ID.");
-    completionHandler(errorWithDescription);
+    completionHandler(error);
     return;
   }
 

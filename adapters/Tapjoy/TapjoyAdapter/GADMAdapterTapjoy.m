@@ -122,7 +122,13 @@
 
 #pragma mark - TJPlacementDelegate methods
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
-  // Do nothing. contentIsReady: indicates that an ad has loaded.
+  // If the placement's content is not available at this time, then the request is considered a
+  // failure.
+  if (!placement.contentAvailable) {
+    NSError *loadError =
+        GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, @"Ad not available.");
+    [_interstitialConnector adapter:self didFailAd:loadError];
+  }
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {

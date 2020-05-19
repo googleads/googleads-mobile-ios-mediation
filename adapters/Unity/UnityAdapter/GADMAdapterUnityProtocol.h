@@ -24,4 +24,7 @@
 /// Returns placement ID for either reward-based video ad or interstitial ad of Unity Ads network.
 - (NSString *)getPlacementID;
 
+/// Called when an ad fails to load.
+- (void)didFailToLoadWithError:(nonnull NSError *)error;
+
 @end

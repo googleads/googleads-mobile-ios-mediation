@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "GADMediationAdapterMoPub.h"
 
 /// Adds |object| to |array| if |object| is not nil.
 void GADMAdapterMoPubMutableArrayAddObject(NSMutableArray *_Nullable array,
@@ -16,6 +17,7 @@ void GADMAdapterMoPubMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonn
                                                       id<NSCopying> _Nullable key,
                                                       id _Nullable value);
 
-/// Returns an NSError with provided error code and description.
-NSError *_Nonnull GADMAdapterMoPubErrorWithCodeAndDescription(NSUInteger code,
-                                                              NSString *_Nonnull description);
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode *_Nonnull code,
+                                                      NSString *_Nonnull description);
