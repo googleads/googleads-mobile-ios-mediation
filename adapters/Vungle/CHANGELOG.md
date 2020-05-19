@@ -1,5 +1,15 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.7.0.0
+- Verified compatibility with Vungle SDK 6.7.0.
+- Added support for playing multi ads at the time.
+- Added support for new Vungle SDK event handlers.
+- Added support for new Vungle SDK init API.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.59.0.
+- Vungle SDK version 6.7.0.
+
 #### Version 6.5.3.0
 - Verified compatibility with Vungle SDK 6.5.3.
 - Now requires Google Mobile Ads SDK version 7.58.0 or higher.
