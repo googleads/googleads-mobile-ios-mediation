@@ -18,11 +18,6 @@
 
 #import "GADMAdapterChartboost.h"
 
-typedef NS_ENUM(NSInteger, GADMAdapterChartboostInitState) {
-  GADMAdapterChartboostUninitialized,
-  GADMAdapterChartboostInitialized,
-  GADMAdapterChartboostInitializing
-};
 
 typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
