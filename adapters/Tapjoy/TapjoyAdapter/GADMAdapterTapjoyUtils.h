@@ -25,6 +25,10 @@ void GADMAdapterTapjoyMutableArrayAddObject(NSMutableArray *_Nullable array,
 void GADMAdapterTapjoyMutableArrayRemoveObject(NSMutableArray *_Nullable array,
                                                NSObject *_Nonnull object);
 
+/// Sets |value| for |key| in mapTable if |key| and |value| are not nil.
+void GADMAdapterTapjoyMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                              id<NSCopying> _Nullable key, id _Nullable value);
+
 /// Removes the object for |key| in mapTable if |key| is not nil.
 void GADMAdapterTapjoyMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
 

@@ -13,6 +13,7 @@
 #import "GADMAdapterAppLovinInterstitialDelegate.h"
 #import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMAdapterAppLovinUtils.h"
+#import "GADMediationAdapterAppLovin.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -76,7 +77,7 @@
 
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -86,9 +87,8 @@
   // Unable to resolve a valid zone - error out
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    [GADMAdapterAppLovinUtils log:errorString];
-    NSError *error =
-        GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorString);
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -99,7 +99,7 @@
       GADMAdapterAppLovinMediationManager.sharedInstance;
   if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorInvalidRequest,
+        GADMAdapterAppLovinErrorAdAlreadyLoaded,
         @"Can't request a second ad for the same zone identifier without showing the first ad.");
     [strongConnector adapter:self didFailAd:error];
     return;
@@ -135,7 +135,7 @@
 
   if (!_sdk) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Failed to retrieve SDK instance.");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -145,9 +145,8 @@
   // Unable to resolve a valid zone - error out.
   if (!_zoneIdentifier) {
     NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
-    [GADMAdapterAppLovinUtils log:errorString];
-    NSError *error =
-        GADMAdapterAppLovinErrorWithCodeAndDescription(kGADErrorMediationAdapterError, errorString);
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -159,9 +158,11 @@
   ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
 
   if (!appLovinAdSize) {
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Adapter requested to display a banner ad of unsupported size: %@",
+                         appLovinAdSize];
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        kGADErrorMediationInvalidAdSize,
-        @"Adapter requested to display a banner ad of unsupported size");
+        GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
     [strongConnector adapter:self didFailAd:error];
     return;
   }

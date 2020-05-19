@@ -185,11 +185,14 @@
 
 @end
 
-NSError *GADMAdapterAdColonyErrorWithCodeAndDescription(NSUInteger code,
-                                                        NSString *_Nonnull description) {
-  return [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
-                             code:code
-                         userInfo:@{NSLocalizedDescriptionKey : description}];
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(
+    GADMAdapterAdColonyErrorCode *_Nonnull code, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
@@ -241,4 +244,11 @@ void GADMAdapterAdColonyMutableSetAddObjectsFromArray(NSMutableSet *_Nullable se
   if (array) {
     [set addObjectsFromArray:array];
   }
+}
+
+dispatch_time_t GADMAdapterAdColonyDispatchTimeForInterval(NSTimeInterval interval) {
+  if (interval < 0) {
+    return DISPATCH_TIME_NOW;
+  }
+  return dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC));  // Allow pattern.
 }

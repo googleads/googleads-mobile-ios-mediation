@@ -17,7 +17,10 @@
 
 @interface GADMAdapterInMobiRewardedAd : NSObject <GADMediationRewardedAd>
 
+/// Initializes the rewarded ad renderer.
 - (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier;
+
+/// Loads an InMobi rewarded ad.
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:

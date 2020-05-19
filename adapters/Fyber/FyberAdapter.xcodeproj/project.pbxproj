@@ -29,17 +29,6 @@
 			name = Framework;
 			productName = Framework;
 		};
-		451277C5207DADA100D85E57 /* FatAdapter */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 451277C6207DADA100D85E57 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
-			buildPhases = (
-				451277C9207DADD200D85E57 /* Static Library Script */,
-			);
-			dependencies = (
-			);
-			name = FatAdapter;
-			productName = FatAdapter;
-		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -88,7 +77,6 @@
 		4512777E207D92C100D85E57 /* FyberAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FyberAdapter.h; sourceTree = "<group>"; };
 		4512779E207D973000D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4512779F207D976300D85E57 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		451277A1207D984F00D85E57 /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		451277A2207D9C2000D85E57 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		451277A3207D9C9A00D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		451277A5207D9F6400D85E57 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -149,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				451277A3207D9C9A00D85E57 /* README.md */,
-				451277A1207D984F00D85E57 /* Script_Library.sh */,
 				451277A2207D9C2000D85E57 /* Script_Framework.sh */,
 				00DD265022F109970039C1D4 /* Script_Validate.sh */,
 			);
@@ -240,10 +227,6 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
-					451277C5207DADA100D85E57 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 45127776207D92C100D85E57 /* Build configuration list for PBXProject "FyberAdapter" */;
@@ -259,7 +242,6 @@
 			projectRoot = "";
 			targets = (
 				4512777A207D92C100D85E57 /* Adapter */,
-				451277C5207DADA100D85E57 /* FatAdapter */,
 				451277BB207DA8C400D85E57 /* Framework */,
 				00DD264922F1097C0039C1D4 /* ValidateSourceCode */,
 			);
@@ -294,20 +276,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
-		};
-		451277C9207DADD200D85E57 /* Static Library Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Static Library Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -546,50 +514,6 @@
 			};
 			name = Release;
 		};
-		451277C7207DADA100D85E57 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				AD_NETWORK_NAME = Fyber;
-				BITCODE_GENERATION_MODE = bitcode;
-				FRAMEWORK_NAME = FyberAdapter;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 8;
-				MIN_OS_MAJOR_VERSION_64_BIT = 8;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
-				PRODUCT_NAME = Adapter;
-				SEPERATE_STRIP = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		451277C8207DADA100D85E57 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				AD_NETWORK_NAME = Fyber;
-				BITCODE_GENERATION_MODE = bitcode;
-				FRAMEWORK_NAME = FyberAdapter;
-				IPHONEOS_DEPLOYMENT_TARGET = "$(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)";
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=arm64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				"IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64]" = "$(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)";
-				LIB_NAME = libAdapter;
-				MIN_OS_MAJOR_VERSION = 8;
-				MIN_OS_MAJOR_VERSION_64_BIT = 8;
-				MIN_OS_MINOR_VERSION = 0;
-				MIN_OS_MINOR_VERSION_64_BIT = 0;
-				MODULE_MAP_PATH = "$(SRCROOT)/Public";
-				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
-				PRODUCT_NAME = Adapter;
-				SEPERATE_STRIP = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -625,15 +549,6 @@
 			buildConfigurations = (
 				451277BD207DA8C400D85E57 /* Debug */,
 				451277BE207DA8C400D85E57 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		451277C6207DADA100D85E57 /* Build configuration list for PBXAggregateTarget "FatAdapter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				451277C7207DADA100D85E57 /* Debug */,
-				451277C8207DADA100D85E57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

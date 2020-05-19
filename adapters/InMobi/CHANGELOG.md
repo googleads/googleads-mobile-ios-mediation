@@ -1,5 +1,14 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 9.0.4.0
+- Verified compatibility with InMobi SDK 9.0.4.
+- Adapter now fails early when InMobi SDK initialization fails.
+- Removed support for the i386 architecture.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.57.0
+- InMobi SDK version 9.0.4
+
 #### Version 9.0.0.0
 - Verified compatibility with InMobi SDK 9.0.0.
 - Removed open bidding capability for banner, interstitial, and rewarded formats.

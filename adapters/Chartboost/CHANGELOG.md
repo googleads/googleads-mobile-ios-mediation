@@ -1,5 +1,19 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use Chartboost's new API and removed deprecated APIs.
+- Adapter now supports loading multiple ads of the same format using the same Chartboost location.
+- If the reward is not overridden in the AdMob or Ad Manager UI, the reward value for rewarded ads is now the value specified in the Chartboost UI instead of `0`.
+
+#### Version 8.1.0.0
+- Verified compatibility with Chartboost SDK 8.1.0.
+- Updated the minimum required Google Mobile Ads SDK version to 7.59.0.
+- Removed support for the i386 architecture.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.59.0.
+- Chartboost SDK version 8.1.0.
+
 #### Version 8.0.4.0
 - Verified compatibility with Chartboost SDK 8.0.4.
 

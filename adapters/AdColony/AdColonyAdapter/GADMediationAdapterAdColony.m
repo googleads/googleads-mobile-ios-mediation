@@ -61,7 +61,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
   if (appIDs.count < 1 || zoneIDs.count < 1) {
     NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-        kGADErrorInvalidRequest,
+        GADMAdapterAdColonyErrorMissingServerParameters,
         @"AdColony mediation configurations did not contain a valid app ID or zone ID.");
     completionHandler(error);
     return;

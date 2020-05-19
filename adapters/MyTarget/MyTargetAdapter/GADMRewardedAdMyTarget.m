@@ -18,10 +18,6 @@
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-#define guard(CONDITION) \
-  if (CONDITION) {       \
-  }
-
 @interface GADMRewardedAdMyTarget () <MTRGInterstitialAdDelegate>
 
 @property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler completionHandler;
@@ -53,7 +49,7 @@ BOOL _isRewardedAdLoaded;
 
   NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:credentials];
 
-  guard(slotId > 0) else {
+  if (slotId <= 0) {
     MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
     NSError *error =
         [GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId];
@@ -71,7 +67,7 @@ BOOL _isRewardedAdLoaded;
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
 
-  guard(_isRewardedAdLoaded && self.rewardedAd) else {
+  if (!_isRewardedAdLoaded || !self.rewardedAd) {
     NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorNoAd];
     id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
     if (strongDelegate) {
@@ -102,21 +98,30 @@ BOOL _isRewardedAdLoaded;
 - (void)onClickWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
-  guard(strongDelegate) else return;
+  if (!strongDelegate) {
+    return;
+  }
+
   [strongDelegate reportClick];
 }
 
 - (void)onCloseWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
-  guard(strongDelegate) else return;
+  if (!strongDelegate) {
+    return;
+  }
+
   [strongDelegate didDismissFullScreenView];
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
-  guard(strongDelegate) else return;
+  if (!strongDelegate) {
+    return;
+  }
+
   [strongDelegate didEndVideo];
   NSString *rewardType = @"";                             // must not be nil
   NSDecimalNumber *rewardAmount = [NSDecimalNumber one];  // must not be nil
@@ -128,7 +133,10 @@ BOOL _isRewardedAdLoaded;
 - (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = self.adEventDelegate;
   MTRGLogInfo();
-  guard(strongDelegate) else return;
+  if (!strongDelegate) {
+    return;
+  }
+
   [strongDelegate willPresentFullScreenView];
   [strongDelegate didStartVideo];
 }

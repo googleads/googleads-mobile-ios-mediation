@@ -10,6 +10,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+#import "GADMediationAdapterAppLovin.h"
+
 #define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
@@ -45,9 +47,13 @@ void GADMAdapterAppLovinMutableDictionarySetObjectForKey(NSMutableDictionary *_N
 void GADMAdapterAppLovinMutableDictionaryRemoveObjectForKey(
     NSMutableDictionary *_Nonnull dictionary, id<NSCopying> _Nullable key);
 
-/// Returns an error with the provided description and error code.
-NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADErrorCode code,
-                                                                 NSString *_Nonnull description);
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(
+    GADMAdapterAppLovinErrorCode *_Nonnull code, NSString *_Nonnull description);
+
+/// Returns an NSError with the provided error code.
+NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger *_Nonnull code);
 
 @interface GADMAdapterAppLovinUtils : NSObject
 
@@ -72,9 +78,6 @@ NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADErrorCode co
 /// default zone if no zone identifier exists.
 + (nullable NSString *)zoneIdentifierForAdConfiguration:
     (nonnull GADMediationAdConfiguration *)adConfig;
-
-/// Convert the given AppLovin SDK error code into the appropriate AdMob error code.
-+ (GADErrorCode)toAdMobErrorCode:(int)appLovinErrorCode;
 
 /// Returns the closest ALAdSize size from the requested GADAdSize.
 + (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size;

@@ -95,7 +95,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (![_interstitialAd showWithPresentingViewController:viewController]) {
-    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
+    NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorShow,
                                                                     @"Failed to show ad for zone.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
@@ -110,11 +110,9 @@
 }
 
 - (void)adColonyInterstitialDidFailToLoad:(nonnull AdColonyAdRequestError *)error {
-  GADMAdapterAdColonyLog(@"Failed to load interstitial ad with error: %@",
+  GADMAdapterAdColonyLog("Failed to load interstitial ad with error: %@",
                          error.localizedDescription);
-  NSError *requestError =
-      GADMAdapterAdColonyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
-  _renderCompletionHandler(nil, requestError);
+  _renderCompletionHandler(nil, error);
 }
 
 - (void)adColonyInterstitialWillOpen:(nonnull AdColonyInterstitial *)interstitial {

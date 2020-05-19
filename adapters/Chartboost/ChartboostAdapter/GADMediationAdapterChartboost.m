@@ -15,14 +15,14 @@
 #import "GADMediationAdapterChartboost.h"
 #import <Chartboost/Chartboost.h>
 #import "GADMAdapterChartboostConstants.h"
+#import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
-#import "GADMRewardedAdChartboost.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
-  GADMRewardedAdChartboost *_rewardedAd;
+  GADMAdapterChartboostRewardedAd *_rewardedAd;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -32,7 +32,10 @@
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
     NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
-    GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+
+    if (appID.length && appSignature.length) {
+      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+    }
   }
 
   if (!credentials.count) {
@@ -98,9 +101,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [[GADMRewardedAdChartboost alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterChartboostRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                               completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 @end

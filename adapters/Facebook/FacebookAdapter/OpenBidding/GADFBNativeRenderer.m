@@ -19,7 +19,7 @@
 #include <stdatomic.h>
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
-#import "GADFButils.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
@@ -53,6 +53,7 @@
   /// Facebook media view.
   FBMediaView *_mediaView;
 
+  /// Indicates whether this renderer is loading a real-time bidding request.
   BOOL _isRTBRequest;
 }
 
@@ -84,7 +85,8 @@
   NSString *placementID =
       adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }

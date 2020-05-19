@@ -35,21 +35,21 @@
 
 - (void)initializeMoPubSDKWithAdUnitID:(nonnull NSString *)adUnitID
                      completionHandler:(void (^_Nullable)(void))completionHandler {
-  if (MoPub.sharedInstance.isSdkInitialized) {
-    completionHandler();
-    return;
-  }
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (MoPub.sharedInstance.isSdkInitialized) {
+      completionHandler();
+      return;
+    }
 
-  MPMoPubConfiguration *sdkConfig =
-      [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
+    MPMoPubConfiguration *sdkConfig =
+        [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
 
-  [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
-                                            completion:^{
-                                              NSLog(@"MoPub SDK initialized.");
-                                              dispatch_async(dispatch_get_main_queue(), ^{
+    [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
+                                              completion:^{
+                                                NSLog(@"MoPub SDK initialized.");
                                                 completionHandler();
-                                              });
-                                            }];
+                                              }];
+  });
 }
 
 - (void)addDelegate:(nonnull id<MPRewardedVideoDelegate>)adapterDelegate
@@ -80,22 +80,17 @@
   [MPRewardedVideo setDelegate:self forAdUnitId:adUnitID];
 
   if ([self getDelegateForAdUnitID:adUnitID]) {
-    NSString *description = @"MoPub does not support requesting a 2nd ad for the same ad unit ID "
-                            @"while the first request is in progress.";
-    NSError *error =
-        GADMAdapterMoPubErrorWithCodeAndDescription(kGADErrorMediationAdapterError, description);
+    NSError *error = GADMoPubErrorWithCodeAndDescription(
+        GADMoPubErrorAdAlreadyLoaded, @"MoPub does not support requesting a 2nd ad for the same ad "
+                                      @"unit ID while the first request is in progress.");
     return error;
   } else {
     [self addDelegate:delegate forAdUnitID:adUnitID];
   }
 
-  CLLocation *currentlocation = [[CLLocation alloc] initWithLatitude:adConfig.userLatitude
-                                                           longitude:adConfig.userLongitude];
-
   [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:adUnitID
                                           keywords:[self getKeywords:false forAdConfig:adConfig]
                                   userDataKeywords:[self getKeywords:true forAdConfig:adConfig]
-                                          location:currentlocation
                                  mediationSettings:@[]];
   return nil;
 }

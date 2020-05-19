@@ -81,7 +81,7 @@
           @"This error can be mitigated by waiting for the Google Mobile Ads SDK's initialization "
           @"completion handler to be called prior to loading ads.";
       NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-          kGADErrorMediationAdapterError, errorString);
+          GADMAdapterAdColonyErrorConfigureRateLimit, errorString);
       callback(error);
       return;
     }
@@ -100,40 +100,40 @@
 
   GADMAdapterAdColonyLog(@"Zones that are being configured: %@", zoneIDs);
   _calledConfigureInLastFiveSeconds = YES;
-  [AdColony configureWithAppID:appID
-                       zoneIDs:zoneIDs
-                       options:options
-                    completion:^(NSArray<AdColonyZone *> *_Nonnull zones) {
-                      GADMAdapterAdColonyInitializer *strongSelf = weakSelf;
-                      if (!strongSelf) {
-                        return;
-                      }
-                      dispatch_async(strongSelf->_lockQueue, ^{
-                        NSError *error = nil;
-                        if (zones.count) {
-                          strongSelf->_adColonyAdapterInitState =
-                              GADMAdapterAdColonyInitStateInitialized;
-                          for (AdColonyZone *zone in zones) {
-                            NSString *zoneID = zone.identifier;
-                            GADMAdapterAdColonyMutableSetAddObject(strongSelf->_configuredZones,
-                                                                   zoneID);
-                          }
-                        } else {
-                          strongSelf->_adColonyAdapterInitState =
-                              GADMAdapterAdColonyInitStateUninitialized;
-                          error = GADMAdapterAdColonyErrorWithCodeAndDescription(
-                              kGADErrorMediationAdapterError, @"Failed to configure all zones.");
-                        }
+  [AdColony
+      configureWithAppID:appID
+                 zoneIDs:zoneIDs
+                 options:options
+              completion:^(NSArray<AdColonyZone *> *_Nonnull zones) {
+                GADMAdapterAdColonyInitializer *strongSelf = weakSelf;
+                if (!strongSelf) {
+                  return;
+                }
+                dispatch_async(strongSelf->_lockQueue, ^{
+                  NSError *error = nil;
+                  if (zones.count) {
+                    strongSelf->_adColonyAdapterInitState = GADMAdapterAdColonyInitStateInitialized;
+                    for (AdColonyZone *zone in zones) {
+                      NSString *zoneID = zone.identifier;
+                      GADMAdapterAdColonyMutableSetAddObject(strongSelf->_configuredZones, zoneID);
+                    }
+                  } else {
+                    strongSelf->_adColonyAdapterInitState =
+                        GADMAdapterAdColonyInitStateUninitialized;
+                    error = GADMAdapterAdColonyErrorWithCodeAndDescription(
+                        GADMAdapterAdColonyErrorInitialization, @"Failed to configure all zones.");
+                  }
 
-                        for (GADMAdapterAdColonyInitCompletionHandler callback in strongSelf
-                                 ->_callbacks) {
-                          callback(error);
-                        }
-                        [strongSelf->_callbacks removeAllObjects];
-                      });
-                    }];
+                  for (GADMAdapterAdColonyInitCompletionHandler callback in strongSelf
+                           ->_callbacks) {
+                    callback(error);
+                  }
+                  [strongSelf->_callbacks removeAllObjects];
+                });
+              }];
 
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), _lockQueue, ^{
+
+  dispatch_after(GADMAdapterAdColonyDispatchTimeForInterval(5), _lockQueue, ^{
     // TODO: Discuss with AdColony if they can change their configure call to send a callback if
     // called a second time within a 5 second span. Alternatively, discuss with AdColony what the
     // side effects are of attempting to call configure every 5 seconds. By not retrying here, there
