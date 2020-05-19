@@ -101,7 +101,7 @@
                  }
 
                  GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
-                 if (extras.frameworkVersion && extras.framework) {
+                 if (extras) {
                    [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
                  }
 

@@ -87,7 +87,7 @@
                  }
 
                  GADMChartboostExtras *extras = [strongConnector networkExtras];
-                 if (extras.frameworkVersion && extras.framework) {
+                 if (extras) {
                    [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
                  }
 
