@@ -29,10 +29,10 @@
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
+  id<GADMediationRewardedAdEventDelegate> _delegate;
 
-  /// Indicates whether the rewarded ad is presenting.
-  BOOL _isRewardedAdPresenting;
+  /// Indicates whether the rewarded ad is loaded.
+  BOOL _isAdLoaded;
 }
 
 - (nonnull instancetype)
@@ -112,7 +112,6 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  _isRewardedAdPresenting = YES;
   if (![[GADMAdapterVungleRouter sharedInstance] playAd:viewController
                                                delegate:self
                                                  extras:[_adConfiguration extras]]) {
@@ -141,15 +140,19 @@
 }
 
 - (void)adAvailable {
-  if (!_isRewardedAdPresenting) {
-    if (_adLoadCompletionHandler) {
-      _delegate = _adLoadCompletionHandler(self, nil);
-    }
+  if (_isAdLoaded) {
+    // Already invoked an ad load callback.
+    return;
+  }
+  _isAdLoaded = YES;
 
-    if (!_delegate) {
-      // In this case, the request for Vungle has been timed out. Clean up self.
-      [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
-    }
+  if (_adLoadCompletionHandler) {
+    _delegate = _adLoadCompletionHandler(self, nil);
+  }
+
+  if (!_delegate) {
+    // In this case, the request for Vungle has been timed out. Clean up self.
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
 }
 
@@ -172,7 +175,6 @@
 }
 
 - (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  _isRewardedAdPresenting = NO;
   [_delegate willDismissFullScreenView];
 }
 
@@ -184,6 +186,10 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
+  if (_isAdLoaded) {
+    // Already invoked an ad load callback.
+    return;
+  }
   _adLoadCompletionHandler(nil, error);
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
