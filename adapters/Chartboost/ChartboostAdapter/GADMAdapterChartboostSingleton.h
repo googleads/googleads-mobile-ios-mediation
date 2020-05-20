@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Chartboost/Chartboost+Mediation.h>
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+
 #import "GADMAdapterChartboost.h"
 
 typedef NS_ENUM(NSInteger, GADMAdapterChartboostInitState) {
@@ -24,8 +26,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterChartboostInitState) {
 
 typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 
-@protocol GADMAdapterChartboostDataProvider;
-
 @interface GADMAdapterChartboostSingleton : NSObject
 
 /// Shared instance.
@@ -35,28 +35,5 @@ typedef void (^ChartboostInitCompletionHandler)(NSError *_Nullable error);
 - (void)startWithAppId:(nonnull NSString *)appId
           appSignature:(nonnull NSString *)appSignature
      completionHandler:(nonnull ChartboostInitCompletionHandler)completionHandler;
-
-/// Configures a new rewarded ad instance with |appID|, |appSignature| and |adapterDelegate|.
-- (void)configureRewardedAdWithAppID:(nonnull NSString *)appID
-                        appSignature:(nonnull NSString *)appSignature
-                            delegate:
-                                (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)
-                                    adapterDelegate;
-
-/// Presents the current rewarded ad for |adapterDelegate|.
-- (void)presentRewardedAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Initializes a new interstitial ad instance.
-- (void)configureInterstitialAdWithDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Presents the current interstitial ad for |adapterDelegate|.
-- (void)presentInterstitialAdForDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
-
-/// Tells the adapter to remove itself as an |adapterDelegate|.
-- (void)stopTrackingInterstitialDelegate:
-    (nonnull id<GADMAdapterChartboostDataProvider, ChartboostDelegate>)adapterDelegate;
 
 @end

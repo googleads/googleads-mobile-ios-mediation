@@ -14,6 +14,17 @@
 
 #import "GADMAdapterChartboostUtils.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import "GADMAdapterChartboostConstants.h"
+
+#pragma mark - Private utility method prototypes
+
+/// Returns a valid Chartboost ad location based on the given string.
+NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string);
+
+#pragma mark - Public utility methods
+
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                            id<NSCopying> _Nullable key,
                                                            id _Nullable value) {
@@ -41,4 +52,32 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
   if (value && key) {
     [mapTable setObject:value forKey:key];  // Allow pattern.
   }
+}
+
+NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
+    id<GADMAdNetworkConnector> _Nonnull connector) {
+  return GADMAdapterChartboostLocationFromString(
+      connector.credentials[kGADMAdapterChartboostAdLocation]);
+}
+
+NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration) {
+  return GADMAdapterChartboostLocationFromString(
+      adConfiguration.credentials.settings[kGADMAdapterChartboostAdLocation]);
+}
+
+NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
+  NSString *adLocation =
+      [string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+  if (!adLocation.length) {
+    NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location.");
+    return [CBLocationDefault copy];
+  }
+  return adLocation;
+}
+
+CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
+  return [[CHBMediation alloc] initWithType:CBMediationAdMob
+                             libraryVersion:[GADRequest sdkVersion]
+                             adapterVersion:kGADMAdapterChartboostVersion];
 }
