@@ -29,8 +29,8 @@
   /// Indicates whether the banner ad finished presenting or not.
   BOOL _didBannerFinishPresenting;
 
-  /// Indicates whether the interstitial ad is presenting or not.
-  BOOL _isInterstitialAdPresenting;
+  /// Indicates whether a banner or interstitial ad is loaded.
+  BOOL _isAdLoaded;
 
   /// The CGSize of Banner Ad view
   CGSize _bannerSize;
@@ -200,7 +200,6 @@
     [strongConnector adapterDidDismissInterstitial:self];
     return;
   }
-  _isInterstitialAdPresenting = YES;
 }
 
 #pragma mark - Private methods
@@ -257,10 +256,14 @@
 }
 
 - (void)adAvailable {
+  if (_isAdLoaded) {
+    // Already invoked an ad load callback.
+    return;
+  }
+  _isAdLoaded = YES;
+
   if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
-    if (!_isInterstitialAdPresenting) {
-      [_connector adapterDidReceiveInterstitial:self];
-    }
+    [_connector adapterDidReceiveInterstitial:self];
   }
 
   if ([self isBannerAd]) {
@@ -270,6 +273,10 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
+  if (_isAdLoaded) {
+    // Already invoked an ad load callback.
+    return;
+  }
   [_connector adapter:self didFailAd:error];
 }
 
@@ -294,7 +301,6 @@
 
   if (self.adapterAdType == GADMAdapterVungleAdTypeInterstitial) {
     [strongConnector adapterWillDismissInterstitial:self];
-    _isInterstitialAdPresenting = NO;
   }
 }
 

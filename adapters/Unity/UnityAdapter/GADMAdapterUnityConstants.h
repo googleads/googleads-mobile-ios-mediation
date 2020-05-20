@@ -14,6 +14,12 @@
 
 @import Foundation;
 
+/// Unity adapter error domain.
+static NSString *const GADMAdapterUnityErrorDomain = @"com.google.mediation.unity";
+
+/// Unity SDK error domain.
+static NSString *const GADMAdapterUnitySDKErrorDomain = @"com.google.mediation.unitySDK";
+
 /// Unity Ads game ID.
 static NSString *const kGADMAdapterUnityGameID = @"gameId";
 
@@ -23,7 +29,7 @@ static NSString *const kGADMAdapterUnityGameID = @"gameId";
 static NSString *const kGADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const kGADMAdapterUnityVersion = @"3.4.2.1";
+static NSString *const kGADMAdapterUnityVersion = @"3.4.2.2";
 
 /// Ad mediation network name.
 static NSString *const kGADMAdapterUnityMediationNetworkName = @"AdMob";
