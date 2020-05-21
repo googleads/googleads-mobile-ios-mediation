@@ -56,10 +56,9 @@
     }
   }
 
-  return
-      [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
-                                                                           nativeAd:nativeAd
-                                                                        mediaAdView:mediaAdView];
+  return [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
+                                                                              nativeAd:nativeAd
+                                                                           mediaAdView:mediaAdView];
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
@@ -81,27 +80,24 @@
       _images = (image != nil) ? @[ image ] : nil;
       _icon = [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.icon];
 
-      _extraAssets = [NSMutableDictionary new];
-      [self addExtraAsset:promoBanner.advertisingLabel
-                   forKey:kGADMAdapterMyTargetExtraAssetAdvertisingLabel];
-      [self addExtraAsset:promoBanner.ageRestrictions
-                   forKey:kGADMAdapterMyTargetExtraAssetAgeRestrictions];
-      [self addExtraAsset:promoBanner.category forKey:kGADMAdapterMyTargetExtraAssetCategory];
-      [self addExtraAsset:promoBanner.subcategory forKey:kGADMAdapterMyTargetExtraAssetSubcategory];
+      _extraAssets = [[NSMutableDictionary alloc] init];
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetAdvertisingLabel,
+          promoBanner.advertisingLabel);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
       if (promoBanner.votes > 0) {
-        [_extraAssets setObject:[NSNumber numberWithUnsignedInteger:promoBanner.votes]
-                         forKey:kGADMAdapterMyTargetExtraAssetVotes];
+        GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+            _extraAssets, kGADMAdapterMyTargetExtraAssetVotes,
+            [NSNumber numberWithUnsignedInteger:promoBanner.votes]);
       }
     }
   }
   return self;
-}
-
-- (void)addExtraAsset:(nullable NSString *)asset forKey:(nonnull NSString *)key {
-  if (!asset.length) {
-    return;
-  }
-  [_extraAssets setObject:asset forKey:key];
 }
 
 - (nullable NSString *)headline {
@@ -153,7 +149,7 @@
 }
 
 - (BOOL)hasVideoContent {
-  return YES; // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
+  return YES;  // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
 }
 
 - (CGFloat)mediaContentAspectRatio {

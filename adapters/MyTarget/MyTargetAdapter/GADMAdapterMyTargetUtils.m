@@ -9,6 +9,14 @@
 #import "GADMAdapterMyTargetUtils.h"
 #import "GADMAdapterMyTargetConstants.h"
 
+void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value) {
+  if (value && key) {
+    dictionary[key] = value;  // Allow pattern.
+  }
+}
+
 @implementation GADMAdapterMyTargetUtils
 
 static BOOL _isLogEnabled = YES;

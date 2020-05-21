@@ -23,6 +23,11 @@
     NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); \
   }
 
+/// Sets |value| for |key| in |dictionary| if |value| is not nil.
+void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value);
+
 @interface GADMAdapterMyTargetUtils : NSObject
 
 + (BOOL)isLogEnabled;
