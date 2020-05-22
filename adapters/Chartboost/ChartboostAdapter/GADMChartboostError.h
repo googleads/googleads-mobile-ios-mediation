@@ -17,11 +17,6 @@
 #else
 #import "Chartboost.h"
 #endif
-#if __has_include(<Chartboost/CHBAdDelegate.h>)
-#import <Chartboost/CHBAdDelegate.h>
-#else
-#import "CHBAdDelegate.h"
-#endif
 #import <Foundation/Foundation.h>
 
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
