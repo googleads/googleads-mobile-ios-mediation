@@ -23,7 +23,6 @@
 #include <stdatomic.h>
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
@@ -89,16 +88,17 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
   GADMAdapterChartboostRewardedAd *weakSelf = self;
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *error) {
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
                  GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;
                  }
-
-                 if (error) {
+                 
+                 if (!success) {
+                   NSError *error = GADChartboostErrorWithDescription(
+                     @"Failed to initialize Chartboost SDK.");
                    NSLog(@"%@", error.localizedDescription);
                    strongSelf->_completionHandler(nil, error);
                    return;
