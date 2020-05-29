@@ -14,10 +14,13 @@
 
 #import "GADMAdapterChartboostInterstitialAd.h"
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
@@ -70,24 +73,25 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *_Nullable error) {
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
                  GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
                  if (!strongSelf) {
                    return;
                  }
 
-                 if (error) {
+                 if (!success) {
+                   NSError *error = GADChartboostErrorWithDescription(
+                     @"Failed to initialize Chartboost SDK.");
                    NSLog(@"%@", error.localizedDescription);
                    [strongConnector adapter:strongAdapter didFailAd:error];
                    return;
                  }
 
                  GADMChartboostExtras *extras = [strongConnector networkExtras];
-                 if (extras.frameworkVersion && extras.framework) {
+                 if (extras) {
                    [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
                  }
 

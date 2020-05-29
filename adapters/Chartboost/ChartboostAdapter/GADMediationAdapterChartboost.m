@@ -13,12 +13,16 @@
 // limitations under the License.
 
 #import "GADMediationAdapterChartboost.h"
+#if __has_include(<Chartboost/Chartboost.h>)
 #import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostRewardedAd.h"
-#import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostExtras.h"
+#import "GADMChartboostError.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
@@ -59,12 +63,16 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *error) {
-                 completionHandler(error);
-               }];
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
+                    NSError *error = nil;
+                    if (!success) {
+                      error = GADChartboostErrorWithDescription(
+                        @"Failed to initialize Chartboost SDK.");
+                    }
+                    completionHandler(error);
+                  }];
 }
 
 + (GADVersionNumber)adSDKVersion {
