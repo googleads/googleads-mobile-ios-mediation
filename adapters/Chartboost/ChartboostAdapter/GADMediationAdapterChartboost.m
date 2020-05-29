@@ -21,8 +21,8 @@
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
-#import "GADMChartboostExtras.h"
 #import "GADMChartboostError.h"
+#import "GADMChartboostExtras.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
@@ -63,16 +63,16 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  [Chartboost startWithAppId:appID
-                appSignature:appSignature
-                  completion:^(BOOL success) {
-                    NSError *error = nil;
-                    if (!success) {
-                      error = GADChartboostErrorWithDescription(
-                        @"Failed to initialize Chartboost SDK.");
-                    }
-                    completionHandler(error);
-                  }];
+  [Chartboost
+      startWithAppId:appID
+        appSignature:appSignature
+          completion:^(BOOL success) {
+            NSError *error = nil;
+            if (!success) {
+              error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+            }
+            completionHandler(error);
+          }];
 }
 
 + (GADVersionNumber)adSDKVersion {

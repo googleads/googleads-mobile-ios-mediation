@@ -88,33 +88,34 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
   GADMAdapterChartboostRewardedAd *weakSelf = self;
-  [Chartboost startWithAppId:appID
-                appSignature:appSignature
-                  completion:^(BOOL success) {
-                 GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
-                 if (!strongSelf) {
-                   return;
-                 }
-                 
-                 if (!success) {
-                   NSError *error = GADChartboostErrorWithDescription(
-                     @"Failed to initialize Chartboost SDK.");
-                   NSLog(@"%@", error.localizedDescription);
-                   strongSelf->_completionHandler(nil, error);
-                   return;
-                 }
+  [Chartboost
+      startWithAppId:appID
+        appSignature:appSignature
+          completion:^(BOOL success) {
+            GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
+            if (!strongSelf) {
+              return;
+            }
 
-                 GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
-                 if (extras) {
-                   [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                 }
+            if (!success) {
+              NSError *error =
+                  GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+              NSLog(@"%@", error.localizedDescription);
+              strongSelf->_completionHandler(nil, error);
+              return;
+            }
 
-                 CHBMediation *mediation = GADMAdapterChartboostMediation();
-                 strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
-                                                                       mediation:mediation
-                                                                        delegate:strongSelf];
-                 [strongSelf->_rewardedAd cache];
-               }];
+            GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
+            if (extras) {
+              [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+            }
+
+            CHBMediation *mediation = GADMAdapterChartboostMediation();
+            strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
+                                                                  mediation:mediation
+                                                                   delegate:strongSelf];
+            [strongSelf->_rewardedAd cache];
+          }];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

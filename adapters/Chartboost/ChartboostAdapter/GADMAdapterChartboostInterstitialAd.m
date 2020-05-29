@@ -74,34 +74,34 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [Chartboost startWithAppId:appID
-                appSignature:appSignature
-                  completion:^(BOOL success) {
-                 GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
-                 if (!strongSelf) {
-                   return;
-                 }
+  [Chartboost
+      startWithAppId:appID
+        appSignature:appSignature
+          completion:^(BOOL success) {
+            GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
+            if (!strongSelf) {
+              return;
+            }
 
-                 if (!success) {
-                   NSError *error = GADChartboostErrorWithDescription(
-                     @"Failed to initialize Chartboost SDK.");
-                   NSLog(@"%@", error.localizedDescription);
-                   [strongConnector adapter:strongAdapter didFailAd:error];
-                   return;
-                 }
+            if (!success) {
+              NSError *error =
+                  GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+              NSLog(@"%@", error.localizedDescription);
+              [strongConnector adapter:strongAdapter didFailAd:error];
+              return;
+            }
 
-                 GADMChartboostExtras *extras = [strongConnector networkExtras];
-                 if (extras) {
-                   [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                 }
+            GADMChartboostExtras *extras = [strongConnector networkExtras];
+            if (extras) {
+              [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+            }
 
-                 CHBMediation *mediation = GADMAdapterChartboostMediation();
-                 strongSelf->_interstitialAd =
-                     [[CHBInterstitial alloc] initWithLocation:adLocation
-                                                     mediation:mediation
-                                                      delegate:strongSelf];
-                 [strongSelf->_interstitialAd cache];
-               }];
+            CHBMediation *mediation = GADMAdapterChartboostMediation();
+            strongSelf->_interstitialAd = [[CHBInterstitial alloc] initWithLocation:adLocation
+                                                                          mediation:mediation
+                                                                           delegate:strongSelf];
+            [strongSelf->_interstitialAd cache];
+          }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
