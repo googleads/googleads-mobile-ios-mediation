@@ -35,6 +35,13 @@ NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode
   return errorCode;
 }
 
+void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
 void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.

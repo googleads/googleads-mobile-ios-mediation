@@ -1,6 +1,7 @@
 ## InMobi iOS Mediation Adapter Changelog
 
 #### Next Version
+- Verified compatibility with InMobi SDK 9.0.6.
 - Update InMobi iOS adapter CocoaPod dependency to use InMobiSDK/Core.
 
 #### Version 9.0.4.0

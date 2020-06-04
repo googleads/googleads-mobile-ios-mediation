@@ -9,6 +9,10 @@
 
 NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode);
 
+/// Adds |object| to |array| if |object| is not nil.
+void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object);
+
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
