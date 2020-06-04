@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADFBRewardedInterstitialRenderer.h"
 
-@interface GADFBRewardedRenderer : NSObject
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-/// Asks the receiver to load the ad configuration.
-- (void)loadRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+@implementation GADFBRewardedInterstitialRenderer
 
+- (FBAdExperienceType)adExperienceType {
+  return FBAdExperienceTypeRewardedInterstitial;
+}
 @end

@@ -58,7 +58,8 @@
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   if (![[GADMobileAds sharedInstance] isSDKVersionAtLeastMajor:7 minor:46 patch:0]) {
-    NSLog(@"This version of the Facebook adapter requires a newer version of the Google Mobile Ads SDK.");
+    NSLog(@"This version of the Facebook adapter requires a newer version of the Google Mobile Ads "
+          @"SDK.");
     return nil;
   }
   self = [self init];

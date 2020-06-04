@@ -1,5 +1,9 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added support for rewarded interstitial ads.
+- Updated the minimum required Google Mobile Ads SDK version 7.60.0 or higher.
+
 #### Version 5.9.0.0
 - Verified compatibility with FAN SDK 5.9.0.
 - Now requires Google Mobile Ads SDK version 7.59.0 or higher.

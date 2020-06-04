@@ -93,6 +93,11 @@
   _rewardedAd.delegate = self;
   GADFBConfigureMediationService();
 
+  FBAdExperienceConfig *adExperienceConfig =
+      [[FBAdExperienceConfig alloc] initWithAdExperienceType:[self adExperienceType]];
+  _rewardedAd.adExperienceConfig = adExperienceConfig;
+  NSLog(@"Requesting ad with ad experience type: %@", adExperienceConfig.adExperienceType);
+
   if (_isRTBRequest) {
     // Adds a watermark to the ad.
     FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
@@ -103,6 +108,10 @@
   } else {
     [_rewardedAd loadAd];
   }
+}
+
+- (FBAdExperienceType)adExperienceType {
+  return FBAdExperienceTypeRewarded;
 }
 
 #pragma mark FBRewardedVideoAdDelegate
