@@ -165,7 +165,6 @@
 }
 
 - (void)willCloseAd {
-  _isRewardedAdPresenting = NO;
   [_delegate willDismissFullScreenView];
 }
 
