@@ -1,8 +1,7 @@
 ## Fyber iOS Mediation Adapter Changelog
 
 #### Version 7.5.6.1
-- Verified compatibility with Fyber Marketplace SDK version 7.5.6.
-- Removed Fyber logs
+- Temporarily removed Fyber Marketplace SDK-specific logging.
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.60.0.
