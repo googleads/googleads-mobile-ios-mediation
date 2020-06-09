@@ -7,6 +7,7 @@
 //
 
 #import "GADMAdapterMyTargetUtils.h"
+
 #import "GADMAdapterMyTargetConstants.h"
 
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,

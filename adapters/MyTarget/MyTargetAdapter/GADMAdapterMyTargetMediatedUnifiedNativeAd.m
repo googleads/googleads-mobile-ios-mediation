@@ -7,6 +7,7 @@
 //
 
 #import "GADMAdapterMyTargetMediatedUnifiedNativeAd.h"
+
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 

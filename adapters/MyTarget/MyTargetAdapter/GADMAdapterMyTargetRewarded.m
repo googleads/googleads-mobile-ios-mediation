@@ -7,6 +7,7 @@
 //
 
 #import "GADMAdapterMyTargetRewarded.h"
+
 #import "GADMediationAdapterMyTarget.h"
 
 @implementation GADMAdapterMyTargetRewarded

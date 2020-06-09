@@ -6,8 +6,8 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-@import GoogleMobileAds;
-@import MyTargetSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MyTargetSDK/MyTargetSDK.h>
 
 #define MTRGLogInfo()                                                                    \
   if ([GADMAdapterMyTargetUtils isLogEnabled]) {                                         \

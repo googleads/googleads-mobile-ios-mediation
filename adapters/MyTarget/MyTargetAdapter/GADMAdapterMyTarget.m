@@ -6,9 +6,10 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
 #import "GADMAdapterMyTarget.h"
+
+#import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"

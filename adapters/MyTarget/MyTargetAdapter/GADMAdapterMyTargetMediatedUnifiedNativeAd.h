@@ -6,8 +6,8 @@
 //  Copyright © 2018 Mail.Ru Group. All rights reserved.
 //
 
-@import GoogleMobileAds;
-@import MyTargetSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MyTargetSDK/MyTargetSDK.h>
 
 @interface GADMAdapterMyTargetMediatedUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 

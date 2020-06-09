@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #import "GADMRewardedAdMyTarget.h"
+
 #import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
