@@ -1,5 +1,11 @@
 ## Verizon Media iOS Mediation Adapter Changelog
 
+#### Version 1.6.0.0
+- Verified compatibility with Verizon Ads Standard Edition version 1.6.0.
+- Built and tested with:
+    - Google Mobile Ads SDK version 7.60.0.
+    - Verizon Ads SDK version 1.6.0
+
 #### Version 1.5.0.0
 - Verified compatibility with Verizon Ads Standard Edition version 1.5.0.
 - Removed support for legacy Nexage adapter configurations.
