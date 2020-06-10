@@ -14,8 +14,9 @@
 
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADUnityError.h"
+#import "GADMAdapterUnityRouter.h"
 
 @interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
@@ -34,12 +35,12 @@
 
   /// YES if the adapter is loading.
   BOOL _isLoading;
-
   /// UUID for Unity instrument analysis
   NSString *_uuid;
 
   /// MetaData for storing Unity instrument analysis
   UADSMetaData *_metaData;
+  GADMAdapterUnityRouter *_unityRouter;
 }
 
 @end
@@ -99,7 +100,8 @@
   [_metaData set:_uuid value:@"load-rewarded"];
   [_metaData set:_uuid value:_placementID];
   [_metaData commit];
-  [[GADMAdapterUnitySingleton sharedInstance] requestRewardedAdWithDelegate:weakSelf];
+  _unityRouter = [[GADMAdapterUnityRouter alloc] initializeWithGameID:_gameID];
+  [_unityRouter requestRewardedAdWithDelegate:weakSelf];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -113,16 +115,15 @@
     [_metaData set:_uuid value:_placementID];
     [_metaData commit];
     return;
-  }
+}
   [_adEventDelegate willPresentFullScreenView];
 
   [_metaData setCategory:@"mediation_adapter"];
   [_metaData set:_uuid value:@"show-rewarded"];
   [_metaData set:_uuid value:_placementID];
   [_metaData commit];
-
-  [[GADMAdapterUnitySingleton sharedInstance] presentRewardedAdForViewController:viewController
-                                                                        delegate:self];
+    
+  [_unityRouter presentRewardedAdForViewController:viewController delegate:self];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -219,7 +220,6 @@
           GADMAdapterUnityErrorPlacementStateNoFill, errorMsg);
       _adLoadCompletionHandler(nil, error);
     }
-    [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
     return;
   }
   if (newState == kUnityAdsPlacementStateDisabled) {
@@ -230,7 +230,6 @@
           GADMAdapterUnityErrorPlacementStateDisabled, errorMsg);
       _adLoadCompletionHandler(nil, error);
     }
-    [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
     return;
   }
 }

@@ -15,8 +15,9 @@
 #import "GADMediationAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
-#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADUnityError.h"
+#import "GADMAdapterUnityRouter.h"
 @import UnityAds;
 
 @interface GADMediationAdapterUnity ()
@@ -51,8 +52,8 @@
           gameIDs);
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
-
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
+    
+    [[GADMAdapterUnityRouter alloc] initializeWithGameID:gameID];
   completionHandler(nil);
 }
 
