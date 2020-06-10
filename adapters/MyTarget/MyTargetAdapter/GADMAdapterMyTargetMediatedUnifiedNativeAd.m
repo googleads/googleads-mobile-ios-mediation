@@ -11,21 +11,35 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-@interface GADMAdapterMyTargetMediatedUnifiedNativeAd ()
-
-@property(nonatomic, strong) MTRGNativeAd *nativeAd;
-
-@end
-
 @implementation GADMAdapterMyTargetMediatedUnifiedNativeAd {
+  /// myTarget native ad object.
+  MTRGNativeAd *_nativeAd;
+
+  /// myTarget native ad headline text.
   NSString *_headline;
+
+  /// myTarget native ad images.
   NSArray<GADNativeAdImage *> *_images;
+
+  /// myTarget native ad body text.
   NSString *_body;
+
+  /// myTarget native ad icon image.
   GADNativeAdImage *_icon;
+
+  /// myTarget native ad call to action text.
   NSString *_callToAction;
+
+  /// myTarget native ad star rating.
   NSDecimalNumber *_starRating;
+
+  /// myTarget native ad advertiser text.
   NSString *_advertiser;
+
+  /// Additional myTarget native ad assets/
   NSMutableDictionary *_extraAssets;
+
+  /// myTarget media view.
   MTRGMediaAdView *_mediaAdView;
 }
 
@@ -171,20 +185,20 @@
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.nativeAd registerView:view
-                 withController:viewController
-             withClickableViews:clickableAssetViews.allValues];
+    [self->_nativeAd registerView:view
+                   withController:viewController
+               withClickableViews:clickableAssetViews.allValues];
   });
 }
 
 - (void)didRecordImpression {
-  // do nothing
+  // Do nothing.
 }
 
 - (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
-  // do nothing
+  // Do nothing.
 }
 
 - (void)didUntrackView:(nullable UIView *)view {

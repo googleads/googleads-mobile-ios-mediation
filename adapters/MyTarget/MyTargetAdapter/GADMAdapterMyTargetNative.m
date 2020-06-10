@@ -16,17 +16,23 @@
 #import "GADMAdapterMyTargetUtils.h"
 
 @interface GADMAdapterMyTargetNative () <MTRGNativeAdDelegate>
-
-@property(nonatomic, strong, nonnull) MTRGNativeAd *nativeAd;
-
 @end
 
 @implementation GADMAdapterMyTargetNative {
-  id<GADMediatedUnifiedNativeAd> _mediatedUnifiedNativeAd;
+  /// myTarget mediated unified native ad wrapper.
+  GADMAdapterMyTargetMediatedUnifiedNativeAd *_mediatedUnifiedNativeAd;
+
+  /// Google Mobile Ads SDK ad network connector.
   __weak id<GADMAdNetworkConnector> _connector;
+
+  /// myTarget native ad object.
+  MTRGNativeAd *_nativeAd;
+
+  /// myTarget media view.
   MTRGMediaAdView *_mediaAdView;
+
+  /// Indicates whether native ad images should be loaded.
   BOOL _autoLoadImages;
-  NSString *_adTypesRequested;
 }
 
 + (nonnull NSString *)adapterVersion {
