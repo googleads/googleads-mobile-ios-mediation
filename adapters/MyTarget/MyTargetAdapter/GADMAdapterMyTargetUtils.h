@@ -34,7 +34,7 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
 + (void)setLogEnabled:(BOOL)isLogEnabled;
 + (nonnull NSError *)errorWithDescription:(nonnull NSString *)description;
 + (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason;
-+ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary *)credentials;
++ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary<NSString *, id> *)credentials;
 + (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
            withConnector:(nonnull id<GADMediationAdRequest>)connector;
 + (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;

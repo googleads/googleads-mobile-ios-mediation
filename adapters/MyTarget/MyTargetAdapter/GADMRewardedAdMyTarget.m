@@ -49,7 +49,7 @@ BOOL _isRewardedAdLoaded;
     [GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
   }
 
-  NSDictionary *credentials = adConfiguration.credentials.settings;
+  NSDictionary<NSString *, id> *credentials = adConfiguration.credentials.settings;
 
   MTRGLogDebug(@"Credentials: %@", credentials);
 

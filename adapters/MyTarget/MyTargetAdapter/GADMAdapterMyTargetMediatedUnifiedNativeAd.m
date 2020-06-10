@@ -37,7 +37,7 @@
   NSString *_advertiser;
 
   /// Additional myTarget native ad assets/
-  NSMutableDictionary *_extraAssets;
+  NSMutableDictionary<NSString *, id> *_extraAssets;
 
   /// myTarget media view.
   MTRGMediaAdView *_mediaAdView;

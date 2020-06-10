@@ -31,7 +31,7 @@ static BOOL _isLogEnabled = YES;
 }
 
 + (nonnull NSError *)errorWithDescription:(nonnull NSString *)description {
-  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
+  NSDictionary<NSString *, id> *userInfo = @{NSLocalizedDescriptionKey : description};
   NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain
                                        code:1000
                                    userInfo:userInfo];
@@ -46,8 +46,8 @@ static BOOL _isLogEnabled = YES;
   return description;
 }
 
-+ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary *)credentials {
-  id slotIdValue = [credentials objectForKey:kGADMAdapterMyTargetSlotIdKey];
++ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary<NSString *, id> *)credentials {
+  id slotIdValue = credentials[kGADMAdapterMyTargetSlotIdKey];
   if (!slotIdValue) {
     return 0;
   }
