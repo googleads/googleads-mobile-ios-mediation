@@ -20,13 +20,6 @@
 /// Safely adds |object| to |set| if the |object| is not nil.
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-/// Safely sets |value| for |key| in mapTable if |key| and |value| are not nil.
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value);
-
-/// Safely removes the object for |key| in mapTable if |key| is not nil.
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
-
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,

@@ -7,7 +7,6 @@
 //
 
 #import "GADMUnityInterstitialAd.h"
-#import "GADMAdapterUnityRouter.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 
@@ -15,10 +14,11 @@
 
 @end
 @implementation GADMUnityInterstitialAd {
+    int impressionOrdinal;
+    int missedImpressionOrdinal;
     NSString *_placementID;
     NSString *_gameID;
     BOOL _isLoading;
-    GADMAdapterUnityRouter *_unityRouter;
 /// Connector from Google Mobile Ads SDK to receive ad configurations.
     __weak id<GADMAdNetworkConnector> _connector;
 
@@ -52,13 +52,10 @@
         return;
     }
     _isLoading = YES;
-    _unityRouter = [[GADMAdapterUnityRouter alloc] initializeWithGameID:_gameID];
-    if (!_unityRouter) {
-      NSError *error = GADUnityErrorWithDescription(@"Failed to initialise ");
-      [strongConnector adapter:strongAdapter didFailAd:error];
-      return;
+    [UnityAds load:_placementID];
+    if ([UnityAds isReady:_placementID]) {
+        [self unityAdsReady:_placementID];
     }
-    [_unityRouter requestInterstitialAdWithDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -67,7 +64,16 @@
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     [strongConnector adapterWillPresentInterstitial:strongAdapter];
-    [_unityRouter presentInterstitialAdForViewController:rootViewController delegate:self];
+    if ([UnityAds isReady:_placementID]) {
+        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+        [mediationMetaData setOrdinal:impressionOrdinal++];
+        [mediationMetaData commit];
+        [UnityAds show:rootViewController placementId:_placementID];
+    } else {
+        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+        [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
+        [mediationMetaData commit];
+    }
 }
 #pragma mark GADMAdapterUnityDataProvider Methods
 

@@ -24,4 +24,6 @@
 @interface GADMAdapterUnity
     : NSObject <GADMAdNetworkAdapter, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
 
+- (void)initializeWithGameID:(NSString *)gameID;
+
 @end

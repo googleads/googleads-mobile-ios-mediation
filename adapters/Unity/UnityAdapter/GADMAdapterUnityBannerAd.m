@@ -15,7 +15,6 @@
 #import "GADMAdapterUnityBannerAd.h"
 
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnityRouter.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 
@@ -34,8 +33,6 @@
 
   /// Unity ads placement ID.
   NSString *_placementID;
-    
-    GADMAdapterUnityRouter *_unityRouter;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -55,11 +52,6 @@
   if (!strongConnector || !strongAdapter) {
     NSLog(@"Adapter Error: No GADMAdNetworkConnector nor GADMAdNetworkAdapter found.");
     return;
-  }
-
-  if (![UnityAds isInitialized]) {
-    NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-    [_unityRouter initializeWithGameID:gameID];
   }
 
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];

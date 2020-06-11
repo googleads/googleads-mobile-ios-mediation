@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 #import <UnityAds/UnityAds.h>
+#import "GADMAdapterUnityProtocol.h"
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;

@@ -65,6 +65,22 @@
   }
 }
 
+- (void)initializeWithGameID:(NSString *)gameID {
+    if ([UnityAds isInitialized]) {
+        return;
+    }
+    // Metadata needed by Unity Ads SDK before initialization.
+    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+    [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+    [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+    [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+    [mediationMetaData commit];
+    
+    // Initializing Unity Ads with |gameID|.
+    [UnityAds initialize:gameID testMode:NO];
+    [UnityAds addDelegate:self];
+}
+
 #pragma mark Interstitial Methods
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -88,9 +104,11 @@
 }
 
 - (void)getInterstitial {
-  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
-  [_interstitialAd getInterstitial];
+    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+    _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+    _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+    [self initializeWithGameID:_gameID];
+    [_interstitialAd getInterstitial];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -102,19 +120,20 @@
 #pragma mark Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-  _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
-  if (!_gameID || !_placementID) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-
-  _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
-                                                                       adapter:self];
-  [_bannerAd loadBannerWithSize:adSize];
+    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+    _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
+    _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
+    if (!_gameID || !_placementID) {
+        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+                                                                     GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
+        [strongConnector adapter:self didFailAd:error];
+        return;
+    }
+    
+    _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
+                                                                         adapter:self];
+    [self initializeWithGameID:_gameID];
+    [_bannerAd loadBannerWithSize:adSize];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
