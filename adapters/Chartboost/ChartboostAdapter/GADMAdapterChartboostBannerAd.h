@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,18 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK.h>
 
-@interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
+@interface GADMAdapterChartboostBannerAd : NSObject
+
+/// Initializes a new instance with |connector| and |adapter|.
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+    NS_DESIGNATED_INITIALIZER;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a banner ad from Chartboost with the given |adSize|.
+- (void)getBannerWithSize:(GADAdSize)adSize;
 
 @end

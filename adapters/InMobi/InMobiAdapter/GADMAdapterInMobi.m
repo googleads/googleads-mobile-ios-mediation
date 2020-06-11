@@ -5,9 +5,12 @@
 //
 
 #import "GADMAdapterInMobi.h"
+
 #import <InMobiSDK/IMSdk.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
@@ -166,13 +169,27 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
                        options:(nullable NSArray<GADAdLoaderOptions *> *)options {
   NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
-  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
-  if (error) {
-    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
-    [self.connector adapter:self didFailAd:error];
-    return;
-  }
+  GADMAdapterInMobi *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobi *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf.connector adapter:strongSelf didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestNativeAdWithAdTypes:adTypes options:options];
+            }];
+}
+
+- (void)requestNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
+                           options:(nullable NSArray<GADAdLoaderOptions *> *)options {
   long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =
@@ -213,13 +230,26 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)getInterstitial {
   NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
-  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
-  if (error) {
-    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
-    [self.connector adapter:self didFailAd:error];
-    return;
-  }
+  GADMAdapterInMobi *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobi *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf.connector adapter:strongSelf didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestInterstitialAd];
+            }];
+}
+
+- (void)requestInterstitialAd {
   long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =
@@ -245,13 +275,26 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   NSString *accountID = self.connector.credentials[kGADMAdapterInMobiAccountID];
-  NSError *error = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
-  if (error) {
-    NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
-    [self.connector adapter:self didFailAd:error];
-    return;
-  }
+  GADMAdapterInMobi *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobi *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf.connector adapter:strongSelf didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestBannerWithSize:adSize];
+            }];
+}
+
+- (void)requestBannerWithSize:(GADAdSize)adSize {
   long long placementId = self.placementId;
   if (placementId == -1) {
     NSString *errorDesc =

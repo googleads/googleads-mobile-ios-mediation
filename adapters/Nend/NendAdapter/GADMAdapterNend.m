@@ -11,10 +11,8 @@
 
 #import "GADMAdapterNendAdUnitMapper.h"
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendUtils.h"
-
-@implementation GADMAdapterNendExtras
-@end
 
 typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoStopped,
@@ -56,7 +54,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NADInterstitialVideo *_interstitialVideo;
 
   /// Interstitial type.
-  GADMNendInterstitialType _interstitialType;
+  GADMAdapterNendInterstitialType _interstitialType;
 
   /// Interstitial  video status.
   InterstitialVideoStatus _interstitialVideoStatus;
@@ -78,7 +76,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     _nadView = nil;
     _interstitial = nil;
     _interstitialVideo = nil;
-    _interstitialType = GADMNendInterstitialTypeNormal;
+    _interstitialType = GADMAdapterNendInterstitialTypeNormal;
     _interstitialVideoStatus = InterstitialVideoStopped;
   }
   return self;
@@ -101,7 +99,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     _interstitialType = extras.interstitialType;
   }
 
-  if (_interstitialType == GADMNendInterstitialTypeVideo) {
+  if (_interstitialType == GADMAdapterNendInterstitialTypeVideo) {
     _interstitialVideo = [[NADInterstitialVideo alloc] initWithSpotId:spotId apiKey:apiKey];
     _interstitialVideo.delegate = self;
     _interstitialVideo.userId = extras.userId;
@@ -168,7 +166,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
-  if (_interstitialType == GADMNendInterstitialTypeVideo) {
+  if (_interstitialType == GADMAdapterNendInterstitialTypeVideo) {
     if (!_interstitialVideo.isReady) {
       NSLog(@"[nend adapter] Interstitial video ad is not ready...");
       return;

@@ -6,21 +6,21 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
 #import "GADMAdapterMyTarget.h"
+
+#import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
 
 @interface GADMAdapterMyTarget () <MTRGAdViewDelegate, MTRGInterstitialAdDelegate>
-
 @end
 
 /// Find closest supported ad size from a given ad size.
 /// Returns nil if no supported size matches.
 static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray *potentials = @[
+  NSArray<NSValue *> *potentials = @[
     NSValueFromGADAdSize(kGADAdSizeBanner),
     NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard),
@@ -29,10 +29,19 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 @implementation GADMAdapterMyTarget {
-  MTRGAdView *_adView;
-  MTRGInterstitialAd *_interstitialAd;
+  /// Google Mobile Ads SDK ad network connector.
   __weak id<GADMAdNetworkConnector> _connector;
+
+  /// myTarget banner ad object.
+  MTRGAdView *_adView;
+
+  /// myTarget interstitial ad object.
+  MTRGInterstitialAd *_interstitialAd;
+
+  /// Indicates whether myTarget has loaded an interstitial ad.
   BOOL _isInterstitialLoaded;
+
+  /// Indicates whether myTarget has presented an interstitial ad.
   BOOL _isInterstitialStarted;
 }
 
@@ -238,7 +247,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  // do nothing
+  // Do nothing.
 }
 
 - (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {

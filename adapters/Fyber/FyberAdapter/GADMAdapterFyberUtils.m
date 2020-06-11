@@ -104,7 +104,6 @@ BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nonnull appID,
     return NO;
   }
 
-  [IALogger setLogLevel:IALogLevelInfo];
   GADMAdapterFyberLog(@"Configuring Fyber Marketplace SDK with application ID: %@.", appID);
   [IASDKCore.sharedInstance initWithAppID:appID];
   return (IASDKCore.sharedInstance.appID != nil);

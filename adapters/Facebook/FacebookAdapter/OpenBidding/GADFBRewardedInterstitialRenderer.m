@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK.h>
+#import "GADFBRewardedInterstitialRenderer.h"
 
-@interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
+@implementation GADFBRewardedInterstitialRenderer
+
+- (FBAdExperienceType)adExperienceType {
+  return FBAdExperienceTypeRewardedInterstitial;
+}
 @end

@@ -30,7 +30,7 @@ void GADMAdapterMoPubMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonn
   }
 }
 
-NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode *_Nonnull code,
+NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode code,
                                                       NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};

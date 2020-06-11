@@ -13,18 +13,21 @@
 // limitations under the License.
 
 #import "GADMediationAdapterMyTarget.h"
+
 #import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMRewardedAdMyTarget.h"
 
 @interface GADMediationAdapterMyTarget ()
 
-@property(nonatomic, strong) GADMRewardedAdMyTarget *rewardedAd;
-
 @end
 
-@implementation GADMediationAdapterMyTarget
+@implementation GADMediationAdapterMyTarget {
+  /// myTarget rewarded ad wrapper.
+  GADMRewardedAdMyTarget *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -66,9 +69,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

@@ -1,5 +1,21 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 9.0.7.0
+- Verified compatibility with InMobi SDK 9.0.7.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.60.0.
+- InMobi SDK version 9.0.7.
+
+#### Version 9.0.6.0
+- Verified compatibility with InMobi SDK 9.0.6.
+- Updated InMobi iOS adapter CocoaPod dependency to use `InMobiSDK/Core`.
+- Now requires Google Mobile Ads SDK version 7.60.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.60.0
+- InMobi SDK version 9.0.6
+
 #### Version 9.0.4.0
 - Verified compatibility with InMobi SDK 9.0.4.
 - Adapter now fails early when InMobi SDK initialization fails.

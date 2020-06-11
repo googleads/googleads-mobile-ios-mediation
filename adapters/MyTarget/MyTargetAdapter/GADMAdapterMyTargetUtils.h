@@ -6,8 +6,8 @@
 //  Copyright © 2017 Mail.Ru Group. All rights reserved.
 //
 
-@import GoogleMobileAds;
-@import MyTargetSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MyTargetSDK/MyTargetSDK.h>
 
 #define MTRGLogInfo()                                                                    \
   if ([GADMAdapterMyTargetUtils isLogEnabled]) {                                         \
@@ -23,13 +23,18 @@
     NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); \
   }
 
+/// Sets |value| for |key| in |dictionary| if |value| is not nil.
+void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value);
+
 @interface GADMAdapterMyTargetUtils : NSObject
 
 + (BOOL)isLogEnabled;
 + (void)setLogEnabled:(BOOL)isLogEnabled;
 + (nonnull NSError *)errorWithDescription:(nonnull NSString *)description;
 + (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason;
-+ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary *)credentials;
++ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary<NSString *, id> *)credentials;
 + (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
            withConnector:(nonnull id<GADMediationAdRequest>)connector;
 + (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;

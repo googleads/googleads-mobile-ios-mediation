@@ -185,8 +185,8 @@
 
 @end
 
-NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(
-    GADMAdapterAdColonyErrorCode *_Nonnull code, NSString *_Nonnull description) {
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorCode code,
+                                                                 NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain

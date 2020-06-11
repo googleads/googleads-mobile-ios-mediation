@@ -18,11 +18,11 @@
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendNativeAdLoader.h"
 #import "GADMAdapterNendRewardedAd.h"
 #import "GADMAdapterNendUtils.h"
 #import "GADMediationAdapterNendNativeForwarder.h"
-#import "GADNendRewardedNetworkExtras.h"
 
 @implementation GADMediationAdapterNend {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
