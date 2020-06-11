@@ -16,7 +16,7 @@
 
 #import "GADMAdapterUnityBannerAd.h"
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnitySingleton.h"
+#import "GADMUnityInterstitialAd.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 
@@ -32,6 +32,9 @@
 
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
+    
+  /// Unity Ads Interstitial Ad wrapper
+  GADMUnityInterstitialAd *_interstitialAd;
 
   /// UUID for Unity instrument analysis
   NSString *_uuid;
@@ -60,7 +63,6 @@
   if (_bannerAd != nil) {
     [_bannerAd stopBeingDelegate];
   }
-  [[GADMAdapterUnitySingleton sharedInstance] stopTrackingDelegate:self];
 }
 
 #pragma mark Interstitial Methods
@@ -87,42 +89,14 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
-  _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
-  if (!_gameID || !_placementID) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-
-  [_metaData setCategory:@"mediation_adapter"];
-  [_metaData set:_uuid value:@"load-interstitial"];
-  [_metaData set:_uuid value:_placementID];
-  [_metaData commit];
-
-  [[GADMAdapterUnitySingleton sharedInstance] requestInterstitialAdWithDelegate:self];
+  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+  [_interstitialAd getInterstitial];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [_networkConnector adapterWillPresentInterstitial:self];
-
-  if (![UnityAds isReady:_placementID]) {
-    [_networkConnector adapterDidDismissInterstitial:self];
-    [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"fail-to-show-interstitial"];
-    [_metaData set:_uuid value:_placementID];
-    [_metaData commit];
-    return;
-  }
-
-  [_metaData setCategory:@"mediation_adapter"];
-  [_metaData set:_uuid value:@"show-interstitial"];
-  [_metaData set:_uuid value:_placementID];
-  [_metaData commit];
-  [[GADMAdapterUnitySingleton sharedInstance]
-      presentInterstitialAdForViewController:rootViewController
-                                    delegate:self];
+    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+    [strongConnector adapterWillPresentInterstitial:self];
+    [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
 }
 
 #pragma mark Banner Methods

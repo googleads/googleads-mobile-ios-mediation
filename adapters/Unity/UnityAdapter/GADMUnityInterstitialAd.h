@@ -7,11 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+@import GoogleMobileAds;
+#import <UnityAds/UnityAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol GADMAdNetworkAdapter;
+@protocol GADMAdNetworkConnector;
 
 @interface GADMUnityInterstitialAd : NSObject
 
-@end
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
 
-NS_ASSUME_NONNULL_END
+/// Requests GADAdapterUnityRouter to fetch interstitial Ad
+- (void)getInterstitial;
+
+
+/// Requests GADAdapterUnityRouter to present interstitial Ad
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController;
+@end

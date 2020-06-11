@@ -15,7 +15,7 @@
 #import "GADMAdapterUnityBannerAd.h"
 
 #import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnitySingleton.h"
+#import "GADMAdapterUnityRouter.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 
@@ -34,6 +34,8 @@
 
   /// Unity ads placement ID.
   NSString *_placementID;
+    
+    GADMAdapterUnityRouter *_unityRouter;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -57,7 +59,7 @@
 
   if (![UnityAds isInitialized]) {
     NSString *gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-    [GADMAdapterUnitySingleton.sharedInstance initializeWithGameID:gameID];
+    [_unityRouter initializeWithGameID:gameID];
   }
 
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
