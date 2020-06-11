@@ -7,7 +7,7 @@
 - Added support for new Vungle SDK init API.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.59.0.
+- Google Mobile Ads SDK version 7.60.0.
 - Vungle SDK version 6.7.0.
 
 #### Version 6.5.3.0
