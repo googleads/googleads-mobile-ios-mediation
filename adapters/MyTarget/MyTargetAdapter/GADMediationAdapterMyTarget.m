@@ -18,7 +18,7 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
-#import "GADMRewardedAdMyTarget.h"
+#import "GADMAdapterMyTargetRewardedAd.h"
 
 @interface GADMediationAdapterMyTarget ()
 
@@ -26,7 +26,7 @@
 
 @implementation GADMediationAdapterMyTarget {
   /// myTarget rewarded ad wrapper.
-  GADMRewardedAdMyTarget *_rewardedAd;
+  GADMAdapterMyTargetRewardedAd *_rewardedAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -69,9 +69,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterMyTargetRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                             completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 @end

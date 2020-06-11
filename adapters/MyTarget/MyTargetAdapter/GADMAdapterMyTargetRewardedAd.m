@@ -12,20 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMRewardedAdMyTarget.h"
+#import "GADMAdapterMyTargetRewardedAd.h"
 
 #import <MyTargetSDK/MyTargetSDK.h>
+
+#import <stdatomic.h>
 
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-@interface GADMRewardedAdMyTarget () <MTRGInterstitialAdDelegate>
+@interface GADMAdapterMyTargetRewardedAd () <MTRGInterstitialAdDelegate>
 @end
 
-@implementation GADMRewardedAdMyTarget {
+@implementation GADMAdapterMyTargetRewardedAd {
   /// Completion handler to forward ad load events to the Google Mobile Ads SDK.
   GADMediationRewardedLoadCompletionHandler _completionHandler;
+
+  /// Rewarded ad configuration of the ad request.
+  GADMediationRewardedAdConfiguration *_adConfiguration;
 
   /// Ad event delegate to forward ad events to the Google Mobile Ads SDK.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
@@ -36,30 +41,52 @@
 
 BOOL _isRewardedAdLoaded;
 
-- (void)loadRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  MTRGLogInfo();
-  _completionHandler = completionHandler;
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  self = [super init];
+  if (self) {
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+        [completionHandler copy];
 
-  id<GADAdNetworkExtras> networkExtras = adConfiguration.extras;
+    _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+        _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+      if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+        return nil;
+      }
+
+      id<GADMediationRewardedAdEventDelegate> delegate = nil;
+      if (originalCompletionHandler) {
+        delegate = originalCompletionHandler(ad, error);
+      }
+
+      originalCompletionHandler = nil;
+      return delegate;
+    };
+
+    _adConfiguration = adConfiguration;
+  }
+  return self;
+}
+
+- (void)loadRewardedAd {
+  MTRGLogInfo();
+  id<GADAdNetworkExtras> networkExtras = _adConfiguration.extras;
   if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]]) {
     GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
     [GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
   }
 
-  NSDictionary<NSString *, id> *credentials = adConfiguration.credentials.settings;
-
+  NSDictionary<NSString *, id> *credentials = _adConfiguration.credentials.settings;
   MTRGLogDebug(@"Credentials: %@", credentials);
 
   NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:credentials];
-
   if (slotId <= 0) {
     MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
     NSError *error =
         [GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId];
-    completionHandler(nil, error);
+    _completionHandler(nil, error);
     return;
   }
 
