@@ -44,11 +44,12 @@
     MPMoPubConfiguration *sdkConfig =
         [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:adUnitID];
 
-    [MoPub.sharedInstance initializeSdkWithConfiguration:sdkConfig
-                                              completion:^{
-                                                NSLog(@"MoPub SDK initialized.");
-                                                completionHandler();
-                                              }];
+    [MoPub.sharedInstance
+        initializeSdkWithConfiguration:sdkConfig
+                            completion:^{
+                              NSLog(@"MoPub SDK initialized.");
+                              dispatch_async(dispatch_get_main_queue(), completionHandler);
+                            }];
   });
 }
 
