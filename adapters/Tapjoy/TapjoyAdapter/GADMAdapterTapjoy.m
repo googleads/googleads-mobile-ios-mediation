@@ -48,7 +48,7 @@
   return [GADMediationAdapterTapjoy class];
 }
 
-#pragma mark Interstitial
+#pragma mark - Interstitial
 
 - (nullable instancetype)initWithGADMAdNetworkConnector:
     (nonnull id<GADMAdNetworkConnector>)connector {
@@ -121,6 +121,7 @@
 }
 
 #pragma mark - TJPlacementDelegate methods
+
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
@@ -145,30 +146,38 @@
   [_interstitialConnector adapterWillPresentInterstitial:self];
 }
 
-- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  [strongConnector adapterWillDismissInterstitial:self];
-  [strongConnector adapterDidDismissInterstitial:self];
-}
-
 - (void)didClick:(nonnull TJPlacement *)placement {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterDidGetAdClick:self];
   [strongConnector adapterWillLeaveApplication:self];
 }
 
-#pragma mark Tapjoy Video
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
+  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
+}
+
+#pragma mark - TJPlacementVideoDelegate methods
 
 - (void)videoDidStart:(nonnull TJPlacement *)placement {
-  // Do nothing
+  // Do nothing.
 }
 
 - (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  // Do nothing
+  // Do nothing.
 }
 
 - (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
-  // Do nothing
+  // Do nothing.
 }
 
 @end

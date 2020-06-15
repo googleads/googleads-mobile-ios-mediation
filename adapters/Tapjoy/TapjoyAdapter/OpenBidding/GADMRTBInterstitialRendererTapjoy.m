@@ -36,7 +36,9 @@
   GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
 
   /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
+  /// Intentionally keeping a strong reference to the delegate because this is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationInterstitialAdEventDelegate> _delegate;
 
   /// Tapjoy interstitial ad object.
   TJPlacement *_interstitialAd;
@@ -98,7 +100,7 @@
                                                                     delegate:self];
 }
 
-#pragma mark GADMediationInterstitialAd
+#pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_interstitialAd.isContentAvailable) {
@@ -106,7 +108,8 @@
   }
 }
 
-#pragma mark TajoyPlacementDelegate methods
+#pragma mark - TajoyPlacementDelegate methods
+
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
@@ -126,15 +129,32 @@
 }
 
 - (void)contentDidAppear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate reportImpression];
+  [_delegate willPresentFullScreenView];
+  [_delegate reportImpression];
+}
+
+- (void)didClick:(TJPlacement *)placement {
+  [_delegate reportClick];
+  [_delegate willBackgroundApplication];
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willDismissFullScreenView];
-  [strongDelegate didDismissFullScreenView];
+  [_delegate willDismissFullScreenView];
+  [_delegate didDismissFullScreenView];
+}
+
+#pragma mark - TJPlacementVideoDelegate methods
+
+- (void)videoDidStart:(nonnull TJPlacement *)placement {
+  // Do nothing.
+}
+
+- (void)videoDidComplete:(nonnull TJPlacement *)placement {
+  // Do nothing.
+}
+
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
+  // Do nothing.
 }
 
 @end

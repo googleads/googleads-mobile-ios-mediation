@@ -206,6 +206,12 @@
   [delegate contentDidAppear:placement];
 }
 
+- (void)didClick:(TJPlacement *)placement {
+  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
+      [self getDelegateForPlacementName:placement.placementName];
+  [delegate didClick:placement];
+}
+
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
