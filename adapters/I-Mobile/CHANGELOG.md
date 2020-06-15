@@ -1,5 +1,8 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Version 2.0.32.0
+- Added support for scaling adaptive banner.
+
 #### Version 2.0.31.0
 - Verified compatibility with i-mobile SDK version 2.0.31.
 
