@@ -18,14 +18,14 @@
 
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyDelegate.h"
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
 @interface GADMRTBInterstitialRendererTapjoy () <GADMediationInterstitialAd,
-                                                 TJPlacementDelegate,
-                                                 TJPlacementVideoDelegate>
+                                                 GADMAdapterTapjoyDelegate>
 @end
 
 @implementation GADMRTBInterstitialRendererTapjoy {
@@ -58,7 +58,8 @@
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
+        GADMAdapterTapjoyErrorInvalidServerParameters,
+        @"Did not receive valid Tapjoy server parameters.");
     handler(nil, adapterError);
     return;
   }
@@ -114,8 +115,8 @@
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
   if (!placement.contentAvailable) {
-    NSError *loadError =
-        GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, @"Ad not available.");
+    NSError *loadError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorPlacementContentNotAvailable, @"Ad not available.");
     _renderCompletionHandler(nil, loadError);
   }
 }
@@ -155,6 +156,12 @@
 
 - (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   // Do nothing.
+}
+
+#pragma mark - GADMAdapterTapjoyDelegate
+
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  _renderCompletionHandler(nil, error);
 }
 
 @end

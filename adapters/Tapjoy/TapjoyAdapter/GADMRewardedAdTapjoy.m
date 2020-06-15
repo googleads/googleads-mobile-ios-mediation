@@ -20,13 +20,12 @@
 
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyDelegate.h"
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 
-@interface GADMRewardedAdTapjoy () <GADMediationRewardedAd,
-                                    TJPlacementDelegate,
-                                    TJPlacementVideoDelegate>
+@interface GADMRewardedAdTapjoy () <GADMediationRewardedAd, GADMAdapterTapjoyDelegate>
 @end
 
 @implementation GADMRewardedAdTapjoy {
@@ -79,7 +78,8 @@
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
+        GADMAdapterTapjoyErrorInvalidServerParameters,
+        @"Did not receive valid Tapjoy server parameters.");
     _completionHandler(nil, adapterError);
     return;
   }
@@ -140,16 +140,14 @@
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
   if (!placement.contentAvailable) {
-    NSError *loadError =
-        GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, @"Ad not available.");
+    NSError *loadError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorPlacementContentNotAvailable, @"Ad not available.");
     _completionHandler(nil, loadError);
   }
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
-  NSError *adapterError =
-      GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
-  _completionHandler(nil, adapterError);
+  _completionHandler(nil, error);
 }
 
 - (void)contentIsReady:(nonnull TJPlacement *)placement {
@@ -186,8 +184,14 @@
 
 - (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   NSError *adapterError =
-      GADMAdapterTapjoyErrorWithCodeAndDescription(GADPresentationErrorCodeInternal, errorMsg);
+      GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoyErrorPlacementVideo, errorMsg);
   [_adEventDelegate didFailToPresentWithError:adapterError];
+}
+
+#pragma mark - GADMAdapterTapjoyDelegate
+
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  _completionHandler(nil, error);
 }
 
 @end
