@@ -13,8 +13,10 @@ static NSString *const _Nonnull kGADMAdapterMyTargetBirthdayKey = @"birthday";
 static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeKey = @"at";
 static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeInstall = @"1";
 static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeContent = @"2";
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorDomain =
-    @"com.my.target.sdk.mediation.admob.errorDomain";
+static NSString *const _Nonnull kGADMAdapterMyTargetAdapterErrorDomain =
+    @"com.google.mediation.mytarget";
+static NSString *const _Nonnull kGADMAdapterMyTargetSDKErrorDomain =
+    @"com.google.mediation.mytargetSDK";
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorSlotId =
     @"Invalid credentials: slotId not found";
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorNoAd = @"No ad";

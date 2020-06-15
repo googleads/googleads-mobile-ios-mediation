@@ -75,17 +75,17 @@ BOOL _isRewardedAdLoaded;
   id<GADAdNetworkExtras> networkExtras = _adConfiguration.extras;
   if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]]) {
     GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
-    [GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
+    GADMAdapterMyTargetUtils.logEnabled = extras.isDebugMode;
   }
 
   NSDictionary<NSString *, id> *credentials = _adConfiguration.credentials.settings;
   MTRGLogDebug(@"Credentials: %@", credentials);
 
-  NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:credentials];
+  NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(credentials);
   if (slotId <= 0) {
     MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
     NSError *error =
-        [GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId];
+        GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId);
     _completionHandler(nil, error);
     return;
   }
@@ -101,7 +101,7 @@ BOOL _isRewardedAdLoaded;
   MTRGLogInfo();
 
   if (!_isRewardedAdLoaded || !_rewardedAd) {
-    NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorNoAd];
+    NSError *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorNoAd);
     id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
     if (strongDelegate) {
       [strongDelegate didFailToPresentWithError:error];
@@ -122,9 +122,8 @@ BOOL _isRewardedAdLoaded;
 - (void)onNoAdWithReason:(nonnull NSString *)reason
           interstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
-  MTRGLogError(description);
-  NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
+  MTRGLogError(reason);
+  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
   _completionHandler(nil, error);
 }
 
@@ -156,8 +155,8 @@ BOOL _isRewardedAdLoaded;
   }
 
   [strongDelegate didEndVideo];
-  NSString *rewardType = @"";                             // must not be nil
-  NSDecimalNumber *rewardAmount = [NSDecimalNumber one];  // must not be nil
+  NSString *rewardType = @"";                           // must not be nil
+  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // must not be nil
   GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType
                                                      rewardAmount:rewardAmount];
   [strongDelegate didRewardUserWithReward:adReward];

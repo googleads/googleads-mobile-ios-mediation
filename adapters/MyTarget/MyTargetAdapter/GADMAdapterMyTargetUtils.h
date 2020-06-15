@@ -10,16 +10,16 @@
 #import <MyTargetSDK/MyTargetSDK.h>
 
 #define MTRGLogInfo()                                                                    \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                                         \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                                             \
     NSLog(@"[%@ info] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd)); \
   }
 #define MTRGLogDebug(format, ...)                               \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                    \
     NSLog(@"[%@ debug] %@", NSStringFromClass([self class]),    \
           [NSString stringWithFormat:(format), ##__VA_ARGS__]); \
   }
 #define MTRGLogError(message)                                            \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                         \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                             \
     NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); \
   }
 
@@ -28,18 +28,29 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value);
 
+/// Returns an SDK specific NSError with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description);
+
+/// Returns an adapter specific NSError with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description);
+
+/// Sets myTarget's customParams from |connector|.
+void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
+                                         id<GADMAdNetworkConnector> _Nonnull connector);
+
+/// Gets the myTarget slot ID from the specified |credentials|.
+NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
+    NSDictionary<NSString *, id> *_Nullable credentials);
+
+/// Returns a GADNativeAdImage from the specified myTarget |imageData|.
+GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
+    MTRGImageData *_Nullable imageData);
+
 @interface GADMAdapterMyTargetUtils : NSObject
 
-+ (BOOL)isLogEnabled;
-+ (void)setLogEnabled:(BOOL)isLogEnabled;
-+ (nonnull NSError *)errorWithDescription:(nonnull NSString *)description;
-+ (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason;
-+ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary<NSString *, id> *)credentials;
-+ (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
-           withConnector:(nonnull id<GADMediationAdRequest>)connector;
-+ (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;
-+ (nullable NSNumber *)ageFromBirthday:(nullable NSDate *)birthday;
-+ (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
+/// Indicates whether debug logs are enabled for the myTarget adapter.
+@property(class, nonatomic, assign) BOOL logEnabled;
 
 @end

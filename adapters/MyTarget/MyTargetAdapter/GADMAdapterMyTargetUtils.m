@@ -18,101 +18,67 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
   }
 }
 
-@implementation GADMAdapterMyTargetUtils
-
-static BOOL _isLogEnabled = YES;
-
-+ (BOOL)isLogEnabled {
-  return _isLogEnabled;
+NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description) {
+  NSDictionary<NSString *, id> *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  return [NSError errorWithDomain:kGADMAdapterMyTargetSDKErrorDomain code:0 userInfo:userInfo];
 }
 
-+ (void)setLogEnabled:(BOOL)isLogEnabled {
-  _isLogEnabled = isLogEnabled;
+NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description) {
+  NSDictionary<NSString *, id> *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  return [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+                             code:1000
+                         userInfo:userInfo];
 }
 
-+ (nonnull NSError *)errorWithDescription:(nonnull NSString *)description {
-  NSDictionary<NSString *, id> *userInfo = @{NSLocalizedDescriptionKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetErrorDomain
-                                       code:1000
-                                   userInfo:userInfo];
-  return error;
-}
-
-+ (nonnull NSString *)noAdWithReason:(nonnull NSString *)reason {
-  NSMutableString *description = [kGADMAdapterMyTargetErrorNoAd mutableCopy];
-  if (![reason isEqualToString:@""]) {
-    [description appendFormat:@": %@", reason];
+void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
+                                         id<GADMAdNetworkConnector> _Nonnull connector) {
+  switch (connector.userGender) {
+    case kGADGenderMale:
+      customParams.gender = MTRGGenderMale;
+      break;
+    case kGADGenderFemale:
+      customParams.gender = MTRGGenderFemale;
+      break;
+    default:
+      customParams.gender = MTRGGenderUnspecified;
+      break;
   }
-  return description;
+
+  NSDate *birthday = connector.userBirthday;
+  if (birthday) {
+    NSCalendar *calendar =
+        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear
+                                               fromDate:birthday
+                                                 toDate:[NSDate date]
+                                                options:0];
+    customParams.age = [NSNumber numberWithInteger:components.year];
+  }
 }
 
-+ (NSUInteger)slotIdFromCredentials:(nullable NSDictionary<NSString *, id> *)credentials {
+NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
+    NSDictionary<NSString *, id> *_Nullable credentials) {
   id slotIdValue = credentials[kGADMAdapterMyTargetSlotIdKey];
   if (!slotIdValue) {
     return 0;
   }
 
-  NSUInteger slotId = 0;
   if ([slotIdValue isKindOfClass:[NSString class]]) {
     NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
     NSString *slotIdString = (NSString *)slotIdValue;
     NSNumber *slotIdNumber = [formatString numberFromString:slotIdString];
-    slotId = slotIdNumber ? [slotIdNumber unsignedIntegerValue] : 0;
+    return (slotIdNumber ? slotIdNumber.unsignedIntegerValue : 0);
   } else if ([slotIdValue isKindOfClass:[NSNumber class]]) {
     NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
-    slotId = [slotIdNumber unsignedIntegerValue];
+    return slotIdNumber.unsignedIntegerValue;
   }
-  return slotId;
+  return 0;
 }
 
-+ (void)fillCustomParams:(nonnull MTRGCustomParams *)customParams
-           withConnector:(nonnull id<GADMediationAdRequest>)connector {
-  id<GADMediationAdRequest> strongConnector = connector;
-  if (!strongConnector || !customParams) {
-    return;
-  }
-
-  customParams.gender = [GADMAdapterMyTargetUtils genderFromAdmobGender:strongConnector.userGender];
-  customParams.age = [GADMAdapterMyTargetUtils ageFromBirthday:strongConnector.userBirthday];
-}
-
-+ (MTRGGender)genderFromAdmobGender:(GADGender)admobGender {
-  MTRGGender gender = MTRGGenderUnknown;
-  switch (admobGender) {
-    case kGADGenderMale:
-      gender = MTRGGenderMale;
-      break;
-    case kGADGenderFemale:
-      gender = MTRGGenderFemale;
-      break;
-    default:
-      gender = MTRGGenderUnspecified;
-      break;
-  }
-  return gender;
-}
-
-+ (nullable NSNumber *)ageFromBirthday:(nullable NSDate *)birthday {
-  if (!birthday) {
-    return nil;
-  }
-
-  NSCalendar *calendar =
-      [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-  NSDateComponents *components = [calendar components:NSCalendarUnitYear
-                                             fromDate:birthday
-                                               toDate:[NSDate date]
-                                              options:0];
-  return [NSNumber numberWithInteger:components.year];
-}
-
-+ (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2 {
-  // for compatibility with iPhone X
-  return ceilf(size1.size.width) == ceilf(size2.size.width) &&
-         ceilf(size1.size.height) == ceilf(size2.size.height);
-}
-
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData {
+GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
+    MTRGImageData *_Nullable imageData) {
   if (!imageData) {
     return nil;
   }
@@ -125,6 +91,18 @@ static BOOL _isLogEnabled = YES;
     nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
   }
   return nativeAdImage;
+}
+
+@implementation GADMAdapterMyTargetUtils
+
+static BOOL _isLogEnabled = YES;
+
++ (BOOL)logEnabled {
+  return _isLogEnabled;
+}
+
++ (void)setLogEnabled:(BOOL)logEnabled {
+  _isLogEnabled = logEnabled;
 }
 
 @end

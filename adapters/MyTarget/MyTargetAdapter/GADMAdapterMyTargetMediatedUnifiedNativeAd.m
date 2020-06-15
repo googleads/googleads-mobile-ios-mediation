@@ -90,10 +90,9 @@
       _starRating = [NSDecimalNumber decimalNumberWithDecimal:promoBanner.rating.decimalValue];
       _advertiser = promoBanner.domain;
       _mediaAdView = mediaAdView;
-      GADNativeAdImage *image =
-          [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.image];
+      GADNativeAdImage *image = GADMAdapterMyTargetNativeAdImageWithImageData(promoBanner.image);
       _images = (image != nil) ? @[ image ] : nil;
-      _icon = [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.icon];
+      _icon = GADMAdapterMyTargetNativeAdImageWithImageData(promoBanner.icon);
 
       _extraAssets = [[NSMutableDictionary alloc] init];
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
