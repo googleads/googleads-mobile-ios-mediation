@@ -8,8 +8,9 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterMyTargetExtras : NSObject<GADAdNetworkExtras>
+@interface GADMAdapterMyTargetExtras : NSObject <GADAdNetworkExtras>
 
+/// Indicates whether the adapter is in debug mode.
 @property BOOL isDebugMode;
 
 @end

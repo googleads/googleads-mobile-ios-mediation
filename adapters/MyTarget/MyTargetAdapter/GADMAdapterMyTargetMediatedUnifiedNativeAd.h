@@ -11,6 +11,7 @@
 
 @interface GADMAdapterMyTargetMediatedUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
+/// Creates a unified native ad from the specified myTarget native ad objects and configurations.
 + (nullable id<GADMediatedUnifiedNativeAd>)
     mediatedUnifiedNativeAdWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                                         nativeAd:(nonnull MTRGNativeAd *)nativeAd
