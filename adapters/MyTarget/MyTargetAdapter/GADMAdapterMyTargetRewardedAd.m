@@ -32,8 +32,10 @@
   /// Rewarded ad configuration of the ad request.
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
-  /// Ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  /// Ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  /// Intentionally keeping a strong reference to the delegate because this is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// myTarget rewarded ad object.
   MTRGInterstitialAd *_rewardedAd;
@@ -102,10 +104,7 @@ BOOL _isRewardedAdLoaded;
 
   if (!_isRewardedAdLoaded || !_rewardedAd) {
     NSError *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorNoAd);
-    id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-    if (strongDelegate) {
-      [strongDelegate didFailToPresentWithError:error];
-    }
+    [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
   [_rewardedAd showWithController:viewController];
@@ -128,49 +127,30 @@ BOOL _isRewardedAdLoaded;
 }
 
 - (void)onClickWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   MTRGLogInfo();
-  if (!strongDelegate) {
-    return;
-  }
-
-  [strongDelegate reportClick];
+  [_adEventDelegate reportClick];
 }
 
 - (void)onCloseWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   MTRGLogInfo();
-  if (!strongDelegate) {
-    return;
-  }
-
-  [strongDelegate didDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   MTRGLogInfo();
-  if (!strongDelegate) {
-    return;
-  }
+  [_adEventDelegate didEndVideo];
 
-  [strongDelegate didEndVideo];
-  NSString *rewardType = @"";                           // must not be nil
-  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // must not be nil
+  NSString *rewardType = @"";                           // Must not be nil.
+  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // Must not be nil.
   GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType
                                                      rewardAmount:rewardAmount];
-  [strongDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUserWithReward:adReward];
 }
 
 - (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   MTRGLogInfo();
-  if (!strongDelegate) {
-    return;
-  }
-
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate didStartVideo];
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate didStartVideo];
 }
 
 - (void)onLeaveApplicationWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
