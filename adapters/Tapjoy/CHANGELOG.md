@@ -1,11 +1,16 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 12.4.2.2
 - Updated the adapter to be more consistent in forwarding ad event callbacks:
-  - Interstitial and rewarded ads now record clicks.
-  - Interstitial ads now forward `interstitialWillLeaveApplication:` when clicked.
-  - Rewarded ads now forward `willDismissFullScreenView:` when dismissed.
+    - Interstitial and rewarded ads now record clicks.
+    - Interstitial ads now forward `interstitialWillLeaveApplication:` when clicked.
+    - Rewarded ads now forward `willDismissFullScreenView:` when dismissed.
+- Added standardized adapter error codes and messages.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.60.0.
+- Tapjoy SDK version 12.4.2.
 
 #### Version 12.4.2.1
 - Adapter now fails if the request to Tapjoy returns without any available content.
