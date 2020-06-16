@@ -35,14 +35,8 @@
     
     /// Unity Ads Interstitial Ad wrapper
     GADMUnityInterstitialAd *_interstitialAd;
-    
-    BOOL initSuccess;
-    
+        
 }
-
-typedef void (^OninitCompletionBlock) (BOOL result, UnityAdsInitializationError *error);
-@property (nonatomic, copy) OninitCompletionBlock initComplete;
-
 
 @end
 
@@ -198,7 +192,6 @@ typedef void (^OninitCompletionBlock) (BOOL result, UnityAdsInitializationError 
         [strongConnector adapter:self didFailAd:error];
         
     }
-    initSuccess = NO;
 }
 
 @end
