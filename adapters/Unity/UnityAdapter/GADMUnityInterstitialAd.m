@@ -10,12 +10,10 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 
-@interface GADMUnityInterstitialAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
+@interface GADMUnityInterstitialAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
 
 @end
 @implementation GADMUnityInterstitialAd {
-    int impressionOrdinal;
-    int missedImpressionOrdinal;
     NSString *_placementID;
     NSString *_gameID;
     BOOL _isLoading;
@@ -52,10 +50,8 @@
         return;
     }
     _isLoading = YES;
-    [UnityAds load:_placementID];
-    if ([UnityAds isReady:_placementID]) {
-        [self unityAdsReady:_placementID];
-    }
+//    [UnityAds load:_placementID];
+    [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -65,14 +61,7 @@
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     [strongConnector adapterWillPresentInterstitial:strongAdapter];
     if ([UnityAds isReady:_placementID]) {
-        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-        [mediationMetaData setOrdinal:impressionOrdinal++];
-        [mediationMetaData commit];
         [UnityAds show:rootViewController placementId:_placementID];
-    } else {
-        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-        [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
-        [mediationMetaData commit];
     }
 }
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -93,8 +82,6 @@
     }
 }
 
-
-
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
@@ -112,19 +99,6 @@
         [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
         [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
     }
-}
-
-- (void)unityAdsReady:(NSString *)placementID {
-    id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
-    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    if (!_isLoading) {
-        return;
-    }
-
-    if (strongNetworkConnector) {
-        [strongNetworkConnector adapterDidReceiveInterstitial:strongAdapter];
-    }
-    _isLoading = NO;
 }
 
 - (void)unityAdsDidClick:(NSString *)placementID {
@@ -165,5 +139,32 @@
   // nothing to do
 }
 
+- (void)unityAdsReady:(nonnull NSString *)placementId {
+    // nothing to do
+}
+
+
+// UnityAdsLoadDelegate methods
+
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+    id<GADMAdNetworkConnector> strongConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+    if (strongConnector && strongAdapter) {
+        NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+        [strongConnector adapter:strongAdapter didFailAd:error];
+    }
+}
+
+- (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
+    id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
+    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+    if (!_isLoading) {
+        return;
+    }
+    if (strongNetworkConnector && strongAdapter) {
+        [strongNetworkConnector adapterDidReceiveInterstitial:strongAdapter];
+    }
+    _isLoading = NO;
+}
 
 @end

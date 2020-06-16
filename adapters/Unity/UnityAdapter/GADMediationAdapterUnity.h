@@ -16,25 +16,28 @@
 @import GoogleMobileAds;
 
 typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
-  /// Invalid server parameters.
-  GADMAdapterUnityErrorInvalidServerParameters = 101,
-  /// Device not supported by UnityAds.
-  GADMAdapterUnityErrorDeviceNotSupported = 102,
-  /// UnityAds finished presenting with error state kUnityAdsFinishStateError.
-  GADMAdapterUnityErrorFinish = 103,
-  /// The Unity ad object is nil after calling its initializer.
-  GADMAdapterUnityErrorAdObjectNil = 104,
-  /// Failed to show Unity Ads due to ad not ready.
-  GADMAdapterUnityErrorShowAdNotReady = 105,
-  /// UnityAds called a placement changed callback with placement state
-  /// kUnityAdsPlacementStateNoFill.
-  GADMAdapterUnityErrorPlacementStateNoFill = 106,
-  /// UnityAds called a placement changed callback with placement state
-  /// kUnityAdsPlacementStateDisabled.
-  GADMAdapterUnityErrorPlacementStateDisabled = 107,
-  /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
-  /// ads for the same placement.
-  GADMAdapterUnityErrorAdAlreadyLoaded = 108
+    /// Invalid server parameters.
+    GADMAdapterUnityErrorInvalidServerParameters = 101,
+    /// Device not supported by UnityAds.
+    GADMAdapterUnityErrorDeviceNotSupported = 102,
+    /// UnityAds finished presenting with error state kUnityAdsFinishStateError.
+    GADMAdapterUnityErrorFinish = 103,
+    /// The Unity ad object is nil after calling its initializer.
+    GADMAdapterUnityErrorAdObjectNil = 104,
+    /// Failed to show Unity Ads due to ad not ready.
+    GADMAdapterUnityErrorShowAdNotReady = 105,
+    /// UnityAds called a placement changed callback with placement state
+    /// kUnityAdsPlacementStateNoFill.
+    GADMAdapterUnityErrorPlacementStateNoFill = 106,
+    /// UnityAds called a placement changed callback with placement state
+    /// kUnityAdsPlacementStateDisabled.
+    GADMAdapterUnityErrorPlacementStateDisabled = 107,
+    /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
+    /// ads for the same placement.
+    GADMAdapterUnityErrorAdAlreadyLoaded = 108,
+    /// UnityAds returned an initialization error
+    GADMAdapterUnityErrorAdInitializationFailure = 109
+    
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>

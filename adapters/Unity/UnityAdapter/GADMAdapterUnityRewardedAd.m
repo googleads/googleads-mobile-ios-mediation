@@ -17,17 +17,16 @@
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate> {
-    int impressionOrdinal;
-    int missedImpressionOrdinal;
+@interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
+    
     // Ad configuration for the ad to be rendered.
     GADMediationAdConfiguration *_adConfiguration;
     
     // An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-    
+
     /// Game ID of Unity Ads network.
     NSString *_gameID;
     
@@ -36,12 +35,6 @@
     
     /// YES if the adapter is loading.
     BOOL _isLoading;
-    
-    /// UUID for Unity instrument analysis
-    NSString *_uuid;
-    
-    /// MetaData for storing Unity instrument analysis
-    UADSMetaData *_metaData;    
 }
 
 @end
@@ -55,13 +48,6 @@
     if (self) {
         _adLoadCompletionHandler = completionHandler;
         _adConfiguration = adConfiguration;
-        
-        _uuid = [[NSUUID UUID] UUIDString];
-        
-        _metaData = [[UADSMetaData alloc] init];
-        [_metaData setCategory:@"mediation_adapter"];
-        [_metaData set:_uuid value:@"create-adapter"];
-        [_metaData commit];
     }
     return self;
 }
@@ -94,15 +80,8 @@
         }
         return;
     }
-    
-    [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"load-rewarded"];
-    [_metaData set:_uuid value:_placementID];
-    [_metaData commit];
-    [UnityAds load:_placementID];
-    if ([UnityAds isReady:_placementID]) {
-        [self unityAdsReady:_placementID];
-    }
+//    [UnityAds load:_placementID];
+    [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -110,25 +89,9 @@
         NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
                                                                      GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
         [_adEventDelegate didFailToPresentWithError:error];
-        
-        [_metaData setCategory:@"mediation_adapter"];
-        [_metaData set:_uuid value:@"fail-to-show-rewarded"];
-        [_metaData set:_uuid value:_placementID];
-        [_metaData commit];
-        UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-        [mediationMetaData setMissedImpressionOrdinal:missedImpressionOrdinal++];
-        [mediationMetaData commit];
         return;
     }
     [_adEventDelegate willPresentFullScreenView];
-    [_metaData setCategory:@"mediation_adapter"];
-    [_metaData set:_uuid value:@"show-rewarded"];
-    [_metaData set:_uuid value:_placementID];
-    [_metaData commit];
-    
-    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-    [mediationMetaData setOrdinal:impressionOrdinal++];
-    [mediationMetaData commit];
     [UnityAds show:viewController placementId:_placementID];
 }
 
@@ -149,19 +112,10 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-    if (error == kUnityAdsErrorNotInitialized) {
-        if (_adLoadCompletionHandler) {
-            NSError *errorWithDescription =
-            GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
-            _adLoadCompletionHandler(nil, errorWithDescription);
-            _adLoadCompletionHandler = nil;
-        }
-    } else {
-        if (_adEventDelegate) {
-            NSError *errorWithDescription =
-            GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
-            [_adEventDelegate didFailToPresentWithError:errorWithDescription];
-        }
+    if (_adEventDelegate) {
+        NSError *errorWithDescription =
+        GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
+        [_adEventDelegate didFailToPresentWithError:errorWithDescription];
     }
 }
 
@@ -198,9 +152,6 @@
 }
 
 - (void)unityAdsReady:(nonnull NSString *)placementID {
-    if (_adLoadCompletionHandler && [placementID isEqualToString:_placementID]) {
-        _adEventDelegate = _adLoadCompletionHandler(self, nil);
-    }
 }
 
 - (void)unityAdsDidClick:(nonnull NSString *)placementID {
@@ -215,28 +166,18 @@
 - (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-    if (![placementID isEqualToString:_placementID]) {
-        return;
+}
+
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId { 
+    if (_adLoadCompletionHandler && [placementId isEqualToString:_placementID]) {
+        NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+        _adEventDelegate = _adLoadCompletionHandler(nil, error);
     }
-    if (newState == kUnityAdsPlacementStateNoFill) {
-        if (_adLoadCompletionHandler) {
-            NSString *errorMsg =
-            [NSString stringWithFormat:@"No ad available for this placement ID: %@", placementID];
-            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                         GADMAdapterUnityErrorPlacementStateNoFill, errorMsg);
-            _adLoadCompletionHandler(nil, error);
-        }
-        return;
-    }
-    if (newState == kUnityAdsPlacementStateDisabled) {
-        if (_adLoadCompletionHandler) {
-            NSString *errorMsg =
-            [NSString stringWithFormat:@"This placement ID is currently disabled: %@", placementID];
-            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                         GADMAdapterUnityErrorPlacementStateDisabled, errorMsg);
-            _adLoadCompletionHandler(nil, error);
-        }
-        return;
+}
+
+- (void)unityAdsAdLoaded:(nonnull NSString *)placementId { 
+    if (_adLoadCompletionHandler && [placementId isEqualToString:_placementID]) {
+        _adEventDelegate = _adLoadCompletionHandler(self, nil);
     }
 }
 

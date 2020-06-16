@@ -22,7 +22,7 @@
 /// Google Mobile Ads SDK.
 
 @interface GADMAdapterUnity
-    : NSObject <GADMAdNetworkAdapter, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
+    : NSObject <GADMAdNetworkAdapter, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsInitializationDelegate>
 
 - (void)initializeWithGameID:(NSString *)gameID;
 
