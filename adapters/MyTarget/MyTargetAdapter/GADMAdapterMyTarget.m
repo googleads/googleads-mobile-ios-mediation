@@ -43,12 +43,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
   /// myTarget interstitial ad object.
   MTRGInterstitialAd *_interstitialAd;
-
-  /// Indicates whether myTarget has loaded an interstitial ad.
-  BOOL _isInterstitialLoaded;
-
-  /// Indicates whether myTarget has presented an interstitial ad.
-  BOOL _isInterstitialStarted;
 }
 
 + (nonnull NSString *)adapterVersion {
@@ -72,8 +66,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     MTRGLogInfo();
     MTRGLogDebug(@"Credentials: %@", connector.credentials);
     _connector = connector;
-    _isInterstitialLoaded = NO;
-    _isInterstitialStarted = NO;
   }
   return self;
 }
@@ -137,7 +129,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     return;
   }
 
-  _isInterstitialLoaded = NO;
   _interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
   _interstitialAd.delegate = self;
   GADMAdapterMyTargetFillCustomParams(_interstitialAd.customParams, strongConnector);
@@ -166,7 +157,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   MTRGLogInfo();
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!_isInterstitialLoaded || _isInterstitialStarted || !_interstitialAd || !strongConnector) {
+  if (!strongConnector || !_interstitialAd) {
     return;
   }
 
@@ -214,7 +205,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     return;
   }
 
-  _isInterstitialStarted = YES;
   [strongConnector adapterWillPresentFullScreenModal:self];
 }
 
@@ -225,7 +215,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     return;
   }
 
-  _isInterstitialStarted = NO;
   [strongConnector adapterWillDismissFullScreenModal:self];
   [strongConnector adapterDidDismissFullScreenModal:self];
 }
@@ -249,7 +238,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     return;
   }
 
-  _isInterstitialLoaded = YES;
   [strongConnector adapterDidReceiveInterstitial:self];
 }
 
