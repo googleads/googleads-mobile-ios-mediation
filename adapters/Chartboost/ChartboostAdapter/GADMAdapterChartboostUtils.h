@@ -12,7 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
+#import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Sets |value| for |key| in |dictionary| if |value| is not nil.
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
@@ -30,3 +36,14 @@ void GADMAdapterChartboostMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTa
 /// Sets |value| for |key| in |mapTable| if |value| is not nil.
 void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                                   id<NSCopying> _Nullable key, id _Nullable value);
+
+/// Returns a valid Chartboost ad location string from the given |connector|.
+NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
+    id<GADMAdNetworkConnector> _Nonnull connector);
+
+/// Returns a valid Chartboost ad location string from the given ad configuration.
+NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration);
+
+/// Creates and returns a Chartboost mediation object.
+CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);

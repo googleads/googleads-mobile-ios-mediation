@@ -8,5 +8,4 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <NendAdapter/GADMAdapterNend.h>
-#import <NendAdapter/GADNendRewardedNetworkExtras.h>
+#import <NendAdapter/GADMAdapterNendExtras.h>

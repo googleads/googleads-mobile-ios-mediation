@@ -1,5 +1,13 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed the `GADNendRewardedNetworkExtras` class. If you want to pass network
+extras to the nend iOS adapter, please use the `GADMAdapterNendExtras` class.
+- Renamed the following enums from the `GADMAdapterNendExtras` class:
+  - `GADMNendInterstitialType` to `GADMAdapterNendInterstitialType`.
+  - `GADMNendNativeType` to `GADMAdapterNendNativeType`.
+- Updated the minimum required Google Mobile Ads SDK version to 7.59.0.
+
 #### Version 5.4.1.0
 - Verified compatibility with nend SDK 5.4.1.
 - Added support for native ads.

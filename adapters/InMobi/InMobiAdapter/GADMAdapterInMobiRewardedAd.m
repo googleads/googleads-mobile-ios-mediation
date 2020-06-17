@@ -18,9 +18,9 @@
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiDelegateManager.h"
+#import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
-#import "GADMediationAdapterInMobi.h"
 
 @interface GADMAdapterInMobiRewardedAd () <IMInterstitialDelegate>
 @end
@@ -77,17 +77,30 @@
     return delegate;
   };
 
+  GADMAdapterInMobiRewardedAd *__weak weakSelf = self;
   NSString *accountID = _adConfig.credentials.settings[kGADMAdapterInMobiAccountID];
-  NSError *initError = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
-  if (initError) {
-    NSLog(@"[InMobi] Initialization failed: %@", initError.localizedDescription);
-    _renderCompletionHandler(nil, initError);
-    return;
-  }
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobiRewardedAd *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                strongSelf->_renderCompletionHandler(nil, error);
+                return;
+              }
+
+              [strongSelf requestRewardedAd];
+            }];
+}
+
+- (void)requestRewardedAd {
   // Converting a string to a long long value.
   long long placement =
-      [adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
+      [_adConfig.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
 
   // Converting a long long value to a NSNumber so that it can be used as a key to store in a
   // dictionary.

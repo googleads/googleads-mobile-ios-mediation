@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,18 +13,21 @@
 // limitations under the License.
 
 #import "GADMediationAdapterMyTarget.h"
+
 #import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
-#import "GADMRewardedAdMyTarget.h"
+#import "GADMAdapterMyTargetRewardedAd.h"
 
 @interface GADMediationAdapterMyTarget ()
 
-@property(nonatomic, strong) GADMRewardedAdMyTarget *rewardedAd;
-
 @end
 
-@implementation GADMediationAdapterMyTarget
+@implementation GADMediationAdapterMyTarget {
+  /// myTarget rewarded ad wrapper.
+  GADMAdapterMyTargetRewardedAd *_rewardedAd;
+}
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -66,9 +69,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMRewardedAdMyTarget alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterMyTargetRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                             completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 @end

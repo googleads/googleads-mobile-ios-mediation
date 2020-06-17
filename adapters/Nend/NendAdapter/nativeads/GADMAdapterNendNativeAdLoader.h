@@ -11,6 +11,7 @@
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendExtras.h"
 
 @protocol GADMAdapterNendNativeAdLoaderDelegate <NSObject>
 
