@@ -12,21 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Vungle adapter ad type.
-typedef NS_ENUM(NSUInteger, GADMAdapterVungleAdType) {
-  GADMAdapterVungleAdTypeUnknown,            ///< Unknown adapter type.
-  GADMAdapterVungleAdTypeRewarded,           ///< Rewarded adapter type.
-  GADMAdapterVungleAdTypeInterstitial,       ///< Interstitial adapter type.
-  GADMAdapterVungleAdTypeMREC,               ///< MREC adapter type.
-  GADMAdapterVungleAdTypeBanner,             ///< Banner adapter type.
-  GADMAdapterVungleAdTypeShortBanner,        ///< ShortBanner adapter type.
-  GADMAdapterVungleAdTypeLeaderboardBanner   ///< LeaderboardBanner adapter type.
-};
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Vungle banner ad state.
 typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateRequesting,
-  BannerRouterDelegateStateCached,
   BannerRouterDelegateStateWillPlay,
   BannerRouterDelegateStatePlaying,
   BannerRouterDelegateStateClosing,
@@ -41,9 +31,6 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 /// Placement ID used to request an ad from Vungle.
 @property(nonatomic, nonnull) NSString *desiredPlacement;
 
-/// Vungle adapter ad type.
-@property(nonatomic) GADMAdapterVungleAdType adapterAdType;
-
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
@@ -52,8 +39,6 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
 
 @optional
-// Check is banner ad
-- (BOOL)isBannerAd;
 
 // Get banner request object
 @property(nonatomic, nonnull) GADMAdapterVungleBannerRequest *bannerRequest;
@@ -66,5 +51,8 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 
 // Is requesting a Banner ad for a refresh request
 @property(nonatomic, assign) BOOL isRequestingBannerAdForRefresh;
+
+// Requested banner ad size.
+- (GADAdSize)bannerAdSize;
 
 @end

@@ -17,11 +17,11 @@
 @implementation VungleAdNetworkExtras
 
 - (nonnull instancetype)init {
-    self = [super init];
-    if (self) {
-        _UUID = [[NSUUID UUID] UUIDString];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _UUID = [[NSUUID UUID] UUIDString];
+  }
+  return self;
 }
 
 @end

@@ -55,6 +55,23 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
   return [NSError errorWithDomain:kGADMAdapterVungleErrorDomain code:code userInfo:userInfo];
 }
 
+VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
+  if (adSize.height == kGADAdSizeLeaderboard.size.height) {
+    return VungleAdSizeBannerLeaderboard;
+  }
+
+  if (adSize.height != kGADAdSizeBanner.size.height) {
+    return VungleAdSizeUnknown;
+  }
+
+  // Height is 50.
+  if (adSize.width < kGADAdSizeBanner.size.width) {
+    return VungleAdSizeBannerShort;
+  }
+
+  return VungleAdSizeBanner;
+}
+
 @implementation GADMAdapterVungleUtils
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {
