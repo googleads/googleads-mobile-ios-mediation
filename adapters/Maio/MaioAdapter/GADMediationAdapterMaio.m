@@ -76,6 +76,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterMaio adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSArray *versionComponents = [kGADMMaioAdapterVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

@@ -93,6 +93,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterIronSource adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSString *adapterVersion = kGADMAdapterIronSourceAdapterVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];

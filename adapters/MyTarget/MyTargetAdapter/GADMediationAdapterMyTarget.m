@@ -54,6 +54,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterMyTarget adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterMyTargetVersion;
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
