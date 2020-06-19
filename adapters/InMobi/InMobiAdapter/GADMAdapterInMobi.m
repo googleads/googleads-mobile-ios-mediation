@@ -130,7 +130,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
   if ([self.connector childDirectedTreatment]) {
     NSString *coppaString = [[self.connector childDirectedTreatment] integerValue]? @"1" : @"0";
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(extrasDictionary, @"coppa", coppaString);
+    GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"coppa", coppaString);
   }
 
   if (_adView) {
