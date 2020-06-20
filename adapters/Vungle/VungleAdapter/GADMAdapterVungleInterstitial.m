@@ -13,9 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterVungleInterstitial.h"
-
 #import "GADMAdapterVungleBanner.h"
-#import "GADMAdapterVungleBannerRequest.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
@@ -99,10 +97,11 @@
 - (void)stopBeingDelegate {
   if (_bannerAd) {
     [_bannerAd cleanUp];
+  } else {
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
 
   _connector = nil;
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {

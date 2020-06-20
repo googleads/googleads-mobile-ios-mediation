@@ -153,8 +153,7 @@
 }
 
 - (void)didCloseAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate didDismissFullScreenView];
+  [_delegate didDismissFullScreenView];
 
   GADMAdapterVungleRewardedAd __weak *weakSelf = self;
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
@@ -181,8 +180,7 @@
 }
 
 - (void)trackClick {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate reportClick];
+  [_delegate reportClick];
 }
 
 - (void)rewardUser {

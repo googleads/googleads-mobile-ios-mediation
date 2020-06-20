@@ -2,12 +2,12 @@
 
 #### Version 6.7.0.0
 - Verified compatibility with Vungle SDK 6.7.0.
-- Added support for playing multi ads at the time.
+- Added support for playing multi ads at the same time.
 - Added support for new Vungle SDK event handlers.
 - Added support for new Vungle SDK init API.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.60.0.
+- Google Mobile Ads SDK version 7.61.0.
 - Vungle SDK version 6.7.0.
 
 #### Version 6.5.3.0

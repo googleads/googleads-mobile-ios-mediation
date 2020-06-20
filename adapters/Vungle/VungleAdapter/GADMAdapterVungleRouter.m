@@ -107,13 +107,15 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     _prioritizedPlacementID = [priorityPlacementID copy];
 
     NSInteger priorityPlacementAdSize = 1;
-    GADMAdapterVungleAdType adType = [delegate adapterAdType];
-    if (adType == GADMAdapterVungleAdTypeBanner || adType == GADMAdapterVungleAdTypeShortBanner || adType == GADMAdapterVungleAdTypeLeaderboardBanner) {
-      priorityPlacementAdSize = [self getVungleBannerAdSizeType:adType];
+    if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
+      GADAdSize adSize = [delegate bannerAdSize];
+      if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+        priorityPlacementAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
+      }
     }
     [initOptions setObject:[NSNumber numberWithInteger:priorityPlacementAdSize] forKey:VungleSDKInitOptionKeyPriorityPlacementAdSize];
   }
-     
+
   NSError *err = nil;
   [sdk startWithAppId:appId options:initOptions error:&err];
   if (err) {
@@ -490,8 +492,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
 - (void)vungleRewardUserForPlacementID:(nullable NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if (delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded &&
-      [delegate respondsToSelector:@selector(rewardUser)]) {
+  if ([delegate respondsToSelector:@selector(rewardUser)]) {
     [delegate rewardUser];
   }
 }
