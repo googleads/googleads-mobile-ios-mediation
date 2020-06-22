@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Adapter version string.
-static NSString *const kGADMAdapterInMobiVersion = @"9.0.7.0";
+static NSString *const kGADMAdapterInMobiVersion = @"9.0.7.1";
 
 /// InMobi SDK key.
 static NSString *const kGADMAdapterInMobiAccountID = @"accountid";
