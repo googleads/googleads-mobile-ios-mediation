@@ -13,28 +13,6 @@
 
 #import "GADMAdapterInMobiConstants.h"
 
-NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
-  NSInteger errorCode;
-  switch (inMobiErrorCode) {
-    case kIMStatusCodeNoFill:
-      errorCode = kGADErrorNoFill;
-      break;
-    case kIMStatusCodeRequestTimedOut:
-      errorCode = kGADErrorTimeout;
-      break;
-    case kIMStatusCodeServerError:
-      errorCode = kGADErrorServerError;
-      break;
-    case kIMStatusCodeInternalError:
-      errorCode = kGADErrorInternalError;
-      break;
-    default:
-      errorCode = kGADErrorInternalError;
-      break;
-  }
-  return errorCode;
-}
-
 void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
                                             NSObject *_Nonnull object) {
   if (object) {
@@ -76,10 +54,14 @@ void GADMAdapterInMobiCacheSetObjectForKey(NSCache *_Nonnull cache, id<NSCopying
   }
 }
 
-NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(NSInteger code,
+NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(GADMAdapterInMobiErrorCode code,
                                                                NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain code:code userInfo:errorInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
@@ -89,5 +71,6 @@ NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
   }
 
   return GADMAdapterInMobiErrorWithCodeAndDescription(
-      kGADErrorInvalidRequest, @"[InMobi] Error - Placement ID not specified.");
+      GADMAdapterInMobiErrorInvalidServerParameters,
+      @"[InMobi] Error - Placement ID not specified.");
 }

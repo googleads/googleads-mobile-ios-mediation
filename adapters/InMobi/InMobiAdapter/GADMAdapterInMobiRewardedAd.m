@@ -21,6 +21,7 @@
 #import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
+#import "GADMediationAdapterInMobi.h"
 
 @interface GADMAdapterInMobiRewardedAd () <IMInterstitialDelegate>
 @end
@@ -116,12 +117,9 @@
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
-    NSString *errorDesc = [NSString
-        stringWithFormat:@"[InMobi] Error - cannot request multiple ads using same placement ID."];
-    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorInvalidRequest
-                                                     userInfo:errorInfo];
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorAdAlreadyLoaded,
+        @"[InMobi] Error - cannot request multiple ads using same placement ID.");
     _renderCompletionHandler(nil, error);
     return;
   }
@@ -205,16 +203,10 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
-  NSDictionary<NSString *, NSString *> *errorInfo =
-      @{NSLocalizedDescriptionKey : error.localizedDescription};
-  GADRequestError *requestError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                              code:errorCode
-                                                          userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
-  _renderCompletionHandler(nil, requestError);
+  _renderCompletionHandler(nil, error);
 }
 
 - (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
@@ -231,16 +223,10 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
-  NSDictionary<NSString *, NSString *> *errorInfo =
-      @{NSLocalizedDescriptionKey : error.localizedDescription};
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
-  [_adEventDelegate didFailToPresentWithError:reqError];
+  [_adEventDelegate didFailToPresentWithError:error];
 }
 
 - (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {

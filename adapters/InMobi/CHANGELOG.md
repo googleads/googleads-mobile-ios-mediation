@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added standardized adapter error codes and messages.
+
 #### Version 9.0.7.0
 - Verified compatibility with InMobi SDK 9.0.7.
 

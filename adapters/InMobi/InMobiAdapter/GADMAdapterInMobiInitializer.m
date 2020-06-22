@@ -50,7 +50,7 @@
 
   if (!accountID.length) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-        kGADErrorMediationDataError, @"Missing or Invalid Account ID.");
+        GADMAdapterInMobiErrorInvalidServerParameters, @"Missing or Invalid Account ID.");
     completionHandler(error);
     return;
   }

@@ -6,8 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
-NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode);
+#import "GADMediationAdapterInMobi.h"
 
 /// Adds |object| to |array| if |object| is not nil.
 void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
@@ -32,8 +31,9 @@ void GADMAdapterInMobiMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
 void GADMAdapterInMobiCacheSetObjectForKey(NSCache *_Nonnull cache, id<NSCopying> _Nullable key,
                                            id _Nullable value);
 
-/// Returns an NSError with the specified |code| and |description|.
-NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(NSInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(GADMAdapterInMobiErrorCode code,
                                                                NSString *_Nonnull description);
 
 /// Validates the placement identifier obtained from the Google Mobile Ads SDK.

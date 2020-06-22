@@ -45,7 +45,7 @@
 
   if (!accountIDs.count) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-        kGADErrorMediationDataError,
+        GADMAdapterInMobiErrorInvalidServerParameters,
         @"InMobi mediation configurations did not contain a valid account ID.");
     completionHandler(error);
     return;
