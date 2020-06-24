@@ -128,10 +128,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
   GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"tp", @"c_admob");
   GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"tp-ver", [GADRequest sdkVersion]);
 
-  if ([[self.connector childDirectedTreatment] integerValue] == 1) {
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"coppa", @"1");
-  } else {
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"coppa", @"0");
+  if ([self.connector childDirectedTreatment]) {
+    NSString *coppaString = [[self.connector childDirectedTreatment] integerValue]? @"1" : @"0";
+    GADMAdapterInMobiMutableDictionarySetObjectForKey(dict, @"coppa", coppaString);
   }
 
   if (_adView) {
