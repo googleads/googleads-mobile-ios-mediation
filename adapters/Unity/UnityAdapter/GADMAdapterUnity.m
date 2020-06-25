@@ -60,15 +60,17 @@
     }
 }
 
-- (void)initializeWithGameID:(NSString *)gameID {
+- (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
     if ([UnityAds isInitialized]) {
         return;
     }
     // Metadata needed by Unity Ads SDK before initialization.
     GADMUnityConfigureMediationService();
     // Initializing Unity Ads with |gameID|.
-//    [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES];
-    [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:self];
+    if (!initDelegate) {
+        return;
+    }
+    [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
     [UnityAds addDelegate:self];
 }
 
@@ -87,13 +89,15 @@
     id<GADMAdNetworkConnector> strongConnector = _networkConnector;
     _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
     _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
-    [self initializeWithGameID:_gameID];
+//    [self initializeWithGameID:_gameID];
     [_interstitialAd getInterstitial];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
     id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    [strongConnector adapterWillPresentInterstitial:self];
+    if (strongConnector) {
+        [strongConnector adapterWillPresentInterstitial:self];
+    }
     [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
 }
 
@@ -116,7 +120,7 @@
     
     _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                          adapter:self];
-    [self initializeWithGameID:_gameID];
+//    [self initializeWithGameID:_gameID];
     [_bannerAd loadBannerWithSize:adSize];
 }
 
