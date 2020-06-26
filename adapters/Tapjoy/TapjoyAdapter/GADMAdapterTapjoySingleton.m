@@ -17,11 +17,12 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyDelegate.h"
 #import "GADMAdapterTapjoyUtils.h"
 
 @implementation GADMAdapterTapjoySingleton {
   /// Map table to hold the interstitial and rewarded ad delegates with placement name as key.
-  NSMapTable<NSString *, id<TJPlacementDelegate, TJPlacementVideoDelegate>> *_adapterDelegates;
+  NSMapTable<NSString *, id<GADMAdapterTapjoyDelegate>> *_adapterDelegates;
 
   /// Array to hold the Tapjoy SDK initialization delegates.
   NSMutableArray<TapjoyInitCompletionHandler> *_completionHandlers;
@@ -100,23 +101,24 @@
   _initState = GADMAdapterTapjoyInitStateUninitialized;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:TJC_CONNECT_FAILED object:nil];
 
-  NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorInternalError,
-                                                                       @"Tapjoy Connect failed.");
+  NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+      GADMAdapterTapjoyErrorInitializationFailure, @"Tapjoy SDK failed to initialize.");
   for (TapjoyInitCompletionHandler completionHandler in _completionHandlers) {
     completionHandler(adapterError);
   }
   [_completionHandlers removeAllObjects];
 }
 
-- (nullable TJPlacement *)
-    requestAdForPlacementName:(nonnull NSString *)placementName
-                  bidResponse:(nullable NSString *)bidResponse
-                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
+- (nullable TJPlacement *)requestAdForPlacementName:(nonnull NSString *)placementName
+                                        bidResponse:(nullable NSString *)bidResponse
+                                           delegate:
+                                               (nonnull id<GADMAdapterTapjoyDelegate>)delegate {
   if ([self getDelegateForPlacementName:placementName]) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorInvalidRequest, @"A request is already in processing for same placement name. "
-                                 @"Can't make a new request for the same placement name.");
-    [delegate requestDidFail:nil error:adapterError];
+        GADMAdapterTapjoyErrorAdAlreadyLoaded,
+        @"A request is already in processing for same placement name. "
+        @"Can't make a new request for the same placement name.");
+    [delegate didFailToLoadWithError:adapterError];
     return nil;
   }
 
@@ -206,6 +208,12 @@
   [delegate contentDidAppear:placement];
 }
 
+- (void)didClick:(TJPlacement *)placement {
+  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
+      [self getDelegateForPlacementName:placement.placementName];
+  [delegate didClick:placement];
+}
+
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
@@ -213,7 +221,7 @@
   [delegate contentDidDisappear:placement];
 }
 
-#pragma mark Tapjoy Video
+#pragma mark - Tapjoy Video
 
 - (void)videoDidStart:(nonnull TJPlacement *)placement {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =

@@ -12,8 +12,8 @@
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(
-    GADMAdapterAdColonyErrorCode *_Nonnull code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorCode code,
+                                                                 NSString *_Nonnull description);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);

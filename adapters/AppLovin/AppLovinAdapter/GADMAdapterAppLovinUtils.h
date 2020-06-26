@@ -49,11 +49,11 @@ void GADMAdapterAppLovinMutableDictionaryRemoveObjectForKey(
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(
-    GADMAdapterAppLovinErrorCode *_Nonnull code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADMAdapterAppLovinErrorCode code,
+                                                                 NSString *_Nonnull description);
 
 /// Returns an NSError with the provided error code.
-NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger *_Nonnull code);
+NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code);
 
 @interface GADMAdapterAppLovinUtils : NSObject
 

@@ -22,4 +22,5 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+
 @end

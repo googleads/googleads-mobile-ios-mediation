@@ -72,15 +72,15 @@ void GADMAdapterAppLovinMutableDictionaryRemoveObjectForKey(
   }
 }
 
-NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(
-    GADMAdapterAppLovinErrorCode *_Nonnull code, NSString *_Nonnull description) {
+NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADMAdapterAppLovinErrorCode code,
+                                                                 NSString *_Nonnull description) {
   NSError *error = [NSError errorWithDomain:GADMAdapterAppLovinErrorDomain
                                        code:code
                                    userInfo:@{NSLocalizedFailureReasonErrorKey : description}];
   return error;
 }
 
-NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger *_Nonnull code) {
+NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   NSError *error = [NSError
       errorWithDomain:GADMAdapterAppLovinSDKErrorDomain
                  code:code

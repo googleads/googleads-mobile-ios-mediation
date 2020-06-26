@@ -33,7 +33,7 @@
     return;
   }
 
-  if (extras && extras.nativeType == GADMNendNativeTypeVideo) {
+  if (extras && extras.nativeType == GADMAdapterNendNativeTypeVideo) {
     _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
                                                          apiKey:apiKey
                                                     clickAction:NADNativeVideoClickActionLP];

@@ -18,6 +18,7 @@
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiDelegateManager.h"
+#import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
@@ -77,17 +78,30 @@
     return delegate;
   };
 
+  GADMAdapterInMobiRewardedAd *__weak weakSelf = self;
   NSString *accountID = _adConfig.credentials.settings[kGADMAdapterInMobiAccountID];
-  NSError *initError = [GADMediationAdapterInMobi initializeWithAccountID:accountID];
-  if (initError) {
-    NSLog(@"[InMobi] Initialization failed: %@", initError.localizedDescription);
-    _renderCompletionHandler(nil, initError);
-    return;
-  }
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobiRewardedAd *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                strongSelf->_renderCompletionHandler(nil, error);
+                return;
+              }
+
+              [strongSelf requestRewardedAd];
+            }];
+}
+
+- (void)requestRewardedAd {
   // Converting a string to a long long value.
   long long placement =
-      [adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
+      [_adConfig.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
 
   // Converting a long long value to a NSNumber so that it can be used as a key to store in a
   // dictionary.
@@ -103,12 +117,9 @@
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
-    NSString *errorDesc = [NSString
-        stringWithFormat:@"[InMobi] Error - cannot request multiple ads using same placement ID."];
-    NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : errorDesc};
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorInvalidRequest
-                                                     userInfo:errorInfo];
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorAdAlreadyLoaded,
+        @"[InMobi] Error - cannot request multiple ads using same placement ID.");
     _renderCompletionHandler(nil, error);
     return;
   }
@@ -192,16 +203,10 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
-  NSDictionary<NSString *, NSString *> *errorInfo =
-      @{NSLocalizedDescriptionKey : error.localizedDescription};
-  GADRequestError *requestError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                              code:errorCode
-                                                          userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
-  _renderCompletionHandler(nil, requestError);
+  _renderCompletionHandler(nil, error);
 }
 
 - (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
@@ -218,16 +223,10 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(nonnull IMRequestStatus *)error {
-  NSInteger errorCode = GADMAdapterInMobiAdMobErrorCodeForInMobiCode(error.code);
-  NSDictionary<NSString *, NSString *> *errorInfo =
-      @{NSLocalizedDescriptionKey : error.localizedDescription};
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
-  [_adEventDelegate didFailToPresentWithError:reqError];
+  [_adEventDelegate didFailToPresentWithError:error];
 }
 
 - (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {

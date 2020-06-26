@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import "GADMediationAdapterTapjoy.h"
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterTapjoyMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
@@ -37,8 +38,9 @@ void GADMAdapterTapjoyMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
                                                        id<NSCopying> _Nullable key,
                                                        id _Nullable value);
 
-/// Returns an NSError with the specified code and description.
-NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoyErrorCode code,
                                                                NSString *_Nonnull description);
 
 /// Returns a dictionary of the auction data from a specified ad response.

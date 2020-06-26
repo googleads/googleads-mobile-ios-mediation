@@ -111,14 +111,18 @@ const CGSize kVNGBannerShortSize = {300, 50};
 
 - (BOOL)isAdCachedForPlacementID:(nonnull NSString *)placementID
                     withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  GADMAdapterVungleAdType adType = [delegate adapterAdType];
-  if (adType != GADMAdapterVungleAdTypeBanner && adType != GADMAdapterVungleAdTypeShortBanner &&
-      adType != GADMAdapterVungleAdTypeLeaderboardBanner) {
-    return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
+  if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
+    GADAdSize adSize = [delegate bannerAdSize];
+
+    // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
+    // as opposed to isAdCachedForPlacementID:withSize:.
+    if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+      VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
+      return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID withSize:vungleAdSize];
+    }
   }
 
-  return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID
-                                                withSize:[self getVungleBannerAdSizeType:adType]];
+  return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
 }
 
 - (BOOL)addDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
@@ -126,14 +130,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
     return NO;
   }
 
-  if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
-      delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
-    @synchronized(_delegates) {
-      if (![_delegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableSetObjectForKey(_delegates, delegate.desiredPlacement, delegate);
-      }
-    }
-  } else if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
+  if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
     @synchronized(_bannerDelegates) {
       // We only support displaying one Vungle Banner Ad at the same time currently
       if (_bannerRequest != nil &&
@@ -179,12 +176,18 @@ const CGSize kVNGBannerShortSize = {300, 50};
         delegate.isRefreshedForBannerAd = YES;
       }
     }
+  } else {
+    @synchronized(_delegates) {
+      if (![_delegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableSetObjectForKey(_delegates, delegate.desiredPlacement, delegate);
+      }
+    }
   }
   return YES;
 }
 
 - (void)replaceOldBannerDelegateWithDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
+  if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
     @synchronized(_bannerDelegates) {
       // We only support displaying one Vungle Banner Ad at the same time currently
       if (_bannerRequest != nil &&
@@ -235,14 +238,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
 }
 
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  if (delegate.adapterAdType == GADMAdapterVungleAdTypeInterstitial ||
-      delegate.adapterAdType == GADMAdapterVungleAdTypeRewarded) {
-    @synchronized(_delegates) {
-      if (delegate && [_delegates objectForKey:delegate.desiredPlacement]) {
-        GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
-      }
-    }
-  } else if ([delegate respondsToSelector:@selector(isBannerAd)] && [delegate isBannerAd]) {
+  if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
     @synchronized(_bannerDelegates) {
       if (delegate && (delegate == [_bannerDelegates objectForKey:delegate.bannerRequest])) {
         GADMAdapterVungleMapTableRemoveObjectForKey(_bannerDelegates, delegate.bannerRequest);
@@ -255,11 +251,16 @@ const CGSize kVNGBannerShortSize = {300, 50};
         }
       }
     }
+  } else {
+    @synchronized(_delegates) {
+      if (delegate && [_delegates objectForKey:delegate.desiredPlacement]) {
+        GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
+      }
+    }
   }
 }
 
-- (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID
-                      adapterType:(GADMAdapterVungleAdType)adapterType {
+- (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID {
   NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *delegates;
   if ([self isSDKInitialized]) {
     delegates = [_delegates copy];
@@ -269,8 +270,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
 
   for (NSString *key in delegates) {
     id<GADMAdapterVungleDelegate> delegate = [delegates objectForKey:key];
-    if (delegate.adapterAdType == adapterType &&
-        [delegate.desiredPlacement isEqualToString:placementID]) {
+    if ([delegate.desiredPlacement isEqualToString:placementID]) {
       return YES;
     }
   }
@@ -296,6 +296,7 @@ const CGSize kVNGBannerShortSize = {300, 50};
         kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
     return error;
   }
+
   BOOL addSuccessed = [self addDelegate:delegate];
   if (!addSuccessed) {
     NSError *error = nil;
@@ -318,15 +319,22 @@ const CGSize kVNGBannerShortSize = {300, 50};
   }
 
   NSError *loadError = nil;
-  GADMAdapterVungleAdType adType = [delegate adapterAdType];
-  if (adType != GADMAdapterVungleAdTypeBanner && adType != GADMAdapterVungleAdTypeShortBanner &&
-      adType != GADMAdapterVungleAdTypeLeaderboardBanner) {
-    [sdk loadPlacementWithID:placement error:&loadError];
+
+  if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
+    GADAdSize adSize = [delegate bannerAdSize];
+
+    // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
+    // as opposed to isAdCachedForPlacementID:withSize:.
+    if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+      VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
+      [sdk loadPlacementWithID:placement withSize:vungleAdSize error:&loadError];
+    } else {
+      [sdk loadPlacementWithID:placement error:&loadError];
+    }
   } else {
-    [sdk loadPlacementWithID:placement
-                    withSize:[self getVungleBannerAdSizeType:adType]
-                       error:&loadError];
+    [sdk loadPlacementWithID:placement error:&loadError];
   }
+
   // For the VungleSDKResetPlacementForDifferentAdSize error, Vungle SDK currently still tries to
   // cache an ad for the new size. Adapter treats this as not an error for now.
   // TODO: Remove this error override once Vungle SDK is updated to stop returning this error.
@@ -334,19 +342,6 @@ const CGSize kVNGBannerShortSize = {300, 50};
     loadError = nil;
   }
   return loadError;
-}
-
-- (VungleAdSize)getVungleBannerAdSizeType:(GADMAdapterVungleAdType)adType {
-  switch (adType) {
-    case GADMAdapterVungleAdTypeBanner:
-      return VungleAdSizeBanner;
-    case GADMAdapterVungleAdTypeShortBanner:
-      return VungleAdSizeBannerShort;
-    case GADMAdapterVungleAdTypeLeaderboardBanner:
-      return VungleAdSizeBannerLeaderboard;
-    default:
-      return VungleAdSizeUnknown;
-  }
 }
 
 - (BOOL)playAd:(nonnull UIViewController *)viewController

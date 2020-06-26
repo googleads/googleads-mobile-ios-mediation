@@ -14,10 +14,13 @@
 
 #import "GADMAdapterChartboostBannerAd.h"
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
@@ -66,39 +69,41 @@
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *_Nullable error) {
-                 // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the main
-                 // thread.
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                   GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
-                   if (!strongSelf || !strongConnector) {
-                     return;
-                   }
+  [Chartboost
+      startWithAppId:appID
+        appSignature:appSignature
+          completion:^(BOOL success) {
+            // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the main
+            // thread.
+            dispatch_async(dispatch_get_main_queue(), ^{
+              GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
+              if (!strongSelf || !strongConnector) {
+                return;
+              }
 
-                   if (error) {
-                     NSLog(@"%@", error.localizedDescription);
-                     [strongConnector adapter:strongAdapter didFailAd:error];
-                     return;
-                   }
+              if (!success) {
+                NSError *error =
+                    GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+                NSLog(@"%@", error.localizedDescription);
+                [strongConnector adapter:strongAdapter didFailAd:error];
+                return;
+              }
 
-                   GADMChartboostExtras *extras = [strongConnector networkExtras];
-                   if (extras.frameworkVersion && extras.framework) {
-                     [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-                   }
+              GADMChartboostExtras *extras = [strongConnector networkExtras];
+              if (extras) {
+                [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
+              }
 
-                   CHBMediation *mediation = GADMAdapterChartboostMediation();
-                   strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
-                                                                  location:adLocation
-                                                                 mediation:mediation
-                                                                  delegate:strongSelf];
-                   strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
-                   [strongSelf->_bannerAd cache];
-                 });
-               }];
+              CHBMediation *mediation = GADMAdapterChartboostMediation();
+              strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
+                                                             location:adLocation
+                                                            mediation:mediation
+                                                             delegate:strongSelf];
+              strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
+              [strongSelf->_bannerAd cache];
+            });
+          }];
 }
 
 #pragma mark - CHBBannerDelegate methods

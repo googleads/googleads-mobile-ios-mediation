@@ -93,11 +93,19 @@ typedef NS_ENUM(NSUInteger, GADMAdapterImobileAdType) {
   GADMAdapterIMobileLog(@"Requesting banner ad of size %@ for spotID %@",
                         NSStringFromGADAdSize(adSize), _spotID);
 
+  // Create view to display banner ads.
+  float scaleRatio = [self canScale:imobileAdSize] ? [self calcScaleRatio:adSize From:imobileAdSize] : 1.0f;
   _imobileAdView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, 0, imobileAdSize.size.width, imobileAdSize.size.height)];
+      initWithFrame:CGRectMake(0, 0, imobileAdSize.size.width * scaleRatio, imobileAdSize.size.height * scaleRatio)];
+  [ImobileSdkAds showBySpotIDForAdMobMediation:_spotID View:_imobileAdView Ratio:scaleRatio];
+}
 
-  // Call i-mobile SDK.
-  [ImobileSdkAds showBySpotIDForAdMobMediation:_spotID View:_imobileAdView];
+- (BOOL)canScale:(GADAdSize)iMobileAdSize {
+  return iMobileAdSize.size.width == 320 && (iMobileAdSize.size.height == 50 || iMobileAdSize.size.height == 100);
+}
+
+- (float)calcScaleRatio:(GADAdSize)requestedAdSize From:(GADAdSize)iMobileAdSize {
+  return MIN((requestedAdSize.size.width / iMobileAdSize.size.width), (requestedAdSize.size.height / iMobileAdSize.size.height));
 }
 
 - (void)getInterstitial {

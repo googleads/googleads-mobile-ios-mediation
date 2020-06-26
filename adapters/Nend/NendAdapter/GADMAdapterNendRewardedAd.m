@@ -19,8 +19,8 @@
 #include <stdatomic.h>
 
 #import "GADMAdapterNendConstants.h"
+#import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendUtils.h"
-#import "GADNendRewardedNetworkExtras.h"
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
 
@@ -81,7 +81,7 @@
   _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
   _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
 
-  GADNendRewardedNetworkExtras *extras = _adConfiguration.extras;
+  GADMAdapterNendExtras *extras = _adConfiguration.extras;
   if (extras) {
     _rewardedVideo.userId = extras.userId;
   }

@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#if __has_include(<Chartboost/Chartboost+Mediation.h>)
 #import <Chartboost/Chartboost+Mediation.h>
+#else
+#import "Chartboost+Mediation.h"
+#endif
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 

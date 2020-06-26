@@ -18,14 +18,14 @@
 
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyDelegate.h"
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 #import "GADMediationAdapterTapjoy.h"
 
 @interface GADMRTBInterstitialRendererTapjoy () <GADMediationInterstitialAd,
-                                                 TJPlacementDelegate,
-                                                 TJPlacementVideoDelegate>
+                                                 GADMAdapterTapjoyDelegate>
 @end
 
 @implementation GADMRTBInterstitialRendererTapjoy {
@@ -36,7 +36,9 @@
   GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
 
   /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
+  /// Intentionally keeping a strong reference to the delegate because this is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationInterstitialAdEventDelegate> _delegate;
 
   /// Tapjoy interstitial ad object.
   TJPlacement *_interstitialAd;
@@ -56,7 +58,8 @@
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
+        GADMAdapterTapjoyErrorInvalidServerParameters,
+        @"Did not receive valid Tapjoy server parameters.");
     handler(nil, adapterError);
     return;
   }
@@ -98,7 +101,7 @@
                                                                     delegate:self];
 }
 
-#pragma mark GADMediationInterstitialAd
+#pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_interstitialAd.isContentAvailable) {
@@ -106,13 +109,14 @@
   }
 }
 
-#pragma mark TajoyPlacementDelegate methods
+#pragma mark - TajoyPlacementDelegate methods
+
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
   if (!placement.contentAvailable) {
-    NSError *loadError =
-        GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, @"Ad not available.");
+    NSError *loadError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorPlacementContentNotAvailable, @"Ad not available.");
     _renderCompletionHandler(nil, loadError);
   }
 }
@@ -126,15 +130,38 @@
 }
 
 - (void)contentDidAppear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate reportImpression];
+  [_delegate willPresentFullScreenView];
+  [_delegate reportImpression];
+}
+
+- (void)didClick:(TJPlacement *)placement {
+  [_delegate reportClick];
+  [_delegate willBackgroundApplication];
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willDismissFullScreenView];
-  [strongDelegate didDismissFullScreenView];
+  [_delegate willDismissFullScreenView];
+  [_delegate didDismissFullScreenView];
+}
+
+#pragma mark - TJPlacementVideoDelegate methods
+
+- (void)videoDidStart:(nonnull TJPlacement *)placement {
+  // Do nothing.
+}
+
+- (void)videoDidComplete:(nonnull TJPlacement *)placement {
+  // Do nothing.
+}
+
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
+  // Do nothing.
+}
+
+#pragma mark - GADMAdapterTapjoyDelegate
+
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  _renderCompletionHandler(nil, error);
 }
 
 @end

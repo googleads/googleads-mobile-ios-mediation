@@ -34,6 +34,7 @@
 /* Begin PBXBuildFile section */
 		00AC999622E9265A00262599 /* GADMAdapterTapjoyUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */; };
 		00AC999722E9265A00262599 /* GADMAdapterTapjoyUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */; };
+		239E23272485A091001BA5C9 /* GADMAdapterTapjoyDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 239E23262485A091001BA5C9 /* GADMAdapterTapjoyDelegate.h */; };
 		452D97DA22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */; };
 		452D97DB22A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */; };
 		453B0B3C229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h in Headers */ = {isa = PBXBuildFile; fileRef = 453B0B3A229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h */; };
@@ -75,6 +76,7 @@
 		00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoyUtils.h; sourceTree = "<group>"; };
 		00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterTapjoyUtils.m; sourceTree = "<group>"; };
 		00DD263222F108AE0039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		239E23262485A091001BA5C9 /* GADMAdapterTapjoyDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterTapjoyDelegate.h; sourceTree = "<group>"; };
 		452D97D822A6F2DA009F8F71 /* GADMRewardedAdTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRewardedAdTapjoy.h; sourceTree = "<group>"; };
 		452D97D922A6F2DA009F8F71 /* GADMRewardedAdTapjoy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMRewardedAdTapjoy.m; sourceTree = "<group>"; };
 		453B0B3A229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMRTBInterstitialRendererTapjoy.h; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				45E6363C2238809E006EB5A1 /* GADMAdapterTapjoyConstants.h */,
 				4588B2E422498B4800868387 /* GADMAdapterTapjoySingleton.h */,
 				4588B2E522498B4800868387 /* GADMAdapterTapjoySingleton.m */,
+				239E23262485A091001BA5C9 /* GADMAdapterTapjoyDelegate.h */,
 				00AC999422E9265A00262599 /* GADMAdapterTapjoyUtils.h */,
 				00AC999522E9265A00262599 /* GADMAdapterTapjoyUtils.m */,
 				45E6363422386F39006EB5A1 /* GADMediationAdapterTapjoy.h */,
@@ -206,6 +209,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				239E23272485A091001BA5C9 /* GADMAdapterTapjoyDelegate.h in Headers */,
 				00AC999622E9265A00262599 /* GADMAdapterTapjoyUtils.h in Headers */,
 				4588B2E622498B4800868387 /* GADMAdapterTapjoySingleton.h in Headers */,
 				453B0B3C229F60B400D60AB3 /* GADMRTBInterstitialRendererTapjoy.h in Headers */,

@@ -65,7 +65,6 @@
 }
 
 - (void)requestRewardedAd {
-  self.adapterAdType = GADMAdapterVungleAdTypeRewarded;
   self.desiredPlacement =
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
@@ -76,9 +75,7 @@
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance]
-          hasDelegateForPlacementID:self.desiredPlacement
-                        adapterType:GADMAdapterVungleAdTypeRewarded]) {
+  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
@@ -129,7 +126,6 @@
 #pragma mark - VungleRouter delegates
 
 @synthesize desiredPlacement;
-@synthesize adapterAdType;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
