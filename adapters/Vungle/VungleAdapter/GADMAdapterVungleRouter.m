@@ -106,9 +106,12 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     [initOptions setObject:priorityPlacementID forKey:VungleSDKInitOptionKeyPriorityPlacementID];
     _prioritizedPlacementID = [priorityPlacementID copy];
 
-    NSInteger priorityPlacementAdSize = 1;
+    VungleAdSize priorityPlacementAdSize = VungleAdSizeUnknown;
     if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
       GADAdSize adSize = [delegate bannerAdSize];
+
+      // Vungle's MREC ads are a special case where doesn't need to set Banner size
+      // since they have fixed size(300x250).
       if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
         priorityPlacementAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
       }
@@ -264,11 +267,6 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
-  if (!delegate) {
-    return GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Can't load ad when try to add a nil delegate.");
-  }
-
   id<GADMAdapterVungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
     return GADMAdapterVungleErrorWithCodeAndDescription(

@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 @optional
 
 // Differentiate two banners with same placement ID
-@property(nonatomic, nullable) NSString *uniquePubRequestID;
+@property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
 
 // Reward user for watching a Rewarded Video Ad successfully
 - (void)rewardUser;
