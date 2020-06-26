@@ -1,24 +1,39 @@
 //
-//  InMobiMediatedUnifiedNativeAd.m
+//  GADMAdapterInMobiUnifiedNativeAd.m
 //  InMobiAdapter
 //
 //  Created by Niranjan Agrawal on 1/22/16.
 //
 //
 
-#import "InMobiMediatedUnifiedNativeAd.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
+
 #import <Foundation/Foundation.h>
+
+#import "GADInMobiExtras.h"
+#import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiUtils.h"
+#import "GADMediationAdapterInMobi.h"
 #import "NativeAdKeys.h"
 
 static CGFloat const DefaultIconScale = 1.0;
 
-@interface InMobiMediatedUnifiedNativeAd () <InMobiMediatedUnifiedNativeAdDelegate>
+@interface GADMAdapterInMobiUnifiedNativeAd () <IMNativeDelegate>
 @end
 
-@implementation InMobiMediatedUnifiedNativeAd {
-  /// Native ad obtained from InMobi.
+@implementation GADMAdapterInMobiUnifiedNativeAd {
+  /// Connector from the Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _connector;
+
+  /// Adapter for receiving ad load callbacks.
+  __weak id<GADMAdNetworkAdapter> _adapter;
+
+  /// InMobi native ad object.
   IMNative *_native;
+
+  /// Indicates whether native ad images should be downloaded.
+  BOOL _shouldDownloadImages;
 
   /// Aspect ratio of the Native ad obtained from InMobi.
   CGFloat _aspectRatio;
@@ -37,24 +52,161 @@ static CGFloat const DefaultIconScale = 1.0;
   NSDictionary<NSString *, id> *_nativeAdContentDictionary;
 }
 
-- (nonnull instancetype)initWithInMobiUnifiedNativeAd:(nonnull IMNative *)unifiedNativeAd
-                                              adapter:(nonnull GADMAdapterInMobi *)adapter
-                                  shouldDownloadImage:(BOOL)shouldDownloadImage
-                                                cache:(nonnull NSCache *)imageCache {
+static NSCache *imageCache;
+
+__attribute__((constructor)) static void initialize_imageCache() {
+  imageCache = [[NSCache alloc] init];
+}
+
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
+    _connector = connector;
     _adapter = adapter;
-    _native = unifiedNativeAd;
-    NSData *data = [_native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
-    __weak InMobiMediatedUnifiedNativeAd *weakSelf = self;
-    [self setupWithData:data
-        shouldDownloadImage:shouldDownloadImage
-                 imageCache:imageCache
-                  completed:^{
-                    [weakSelf notifyCompletion];
-                  }];
+    _shouldDownloadImages = YES;
   }
   return self;
+}
+
+- (void)requestNativeAdWithOptions:(nullable NSArray<GADAdLoaderOptions *> *)options {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+
+  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
+    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      continue;
+    }
+    _shouldDownloadImages = !imageOptions.disableImageLoading;
+  }
+
+  NSString *accountID = strongConnector.credentials[kGADMAdapterInMobiAccountID];
+  GADMAdapterInMobiUnifiedNativeAd *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobiUnifiedNativeAd *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf->_connector adapter:strongAdapter didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestNativeAd];
+            }];
+}
+
+- (void)requestNativeAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+
+  long long placementId =
+      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+  if (placementId == 0) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidServerParameters,
+        @"[InMobi] Error - Placement ID not specified.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
+  if ([strongConnector testMode]) {
+    NSLog(@"[InMobi] Please enter your device ID in the InMobi console to recieve test ads from "
+          @"Inmobi");
+  }
+
+  NSLog(@"[InMobi] Requesting native ad from InMobi.");
+  _native = [[IMNative alloc] initWithPlacementId:placementId delegate:self];
+
+  GADInMobiExtras *extras = [strongConnector networkExtras];
+  if (extras && extras.keywords) {
+    [_native setKeywords:extras.keywords];
+  }
+
+  GADMAdapterInMobiSetTargetingFromConnector(strongConnector);
+  NSDictionary<NSString *, id> *requestParameters =
+      GADMAdapterInMobiCreateRequestParametersFromConnector(strongConnector);
+  [_native setExtras:requestParameters];
+
+  [_native load];
+}
+
+#pragma mark - IMNativeDelegate
+
+- (void)nativeDidFinishLoading:(nonnull IMNative *)native {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+
+  NSData *data = [_native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
+  __weak GADMAdapterInMobiUnifiedNativeAd *weakSelf = self;
+  [self setupWithData:data
+      shouldDownloadImage:_shouldDownloadImages
+               imageCache:imageCache
+                completed:^{
+                  GADMAdapterInMobiUnifiedNativeAd *strongSelf = weakSelf;
+                  if (strongSelf) {
+                    [strongSelf notifyCompletion];
+                  }
+                }];
+}
+
+- (void)native:(nonnull IMNative *)native didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+  NSLog(@"Native Ad failed to load");
+  [_connector adapter:_adapter didFailAd:error];
+}
+
+- (void)nativeWillPresentScreen:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] Native Will Present screen.");
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self];
+}
+
+- (void)nativeDidPresentScreen:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] Native Did Present screen.");
+}
+
+- (void)nativeWillDismissScreen:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] Native Will dismiss screen.");
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self];
+}
+
+- (void)nativeDidDismissScreen:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] Native Did dismiss screen.");
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self];
+}
+
+- (void)userWillLeaveApplicationFromNative:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] User will leave application from native.");
+  [_connector adapterWillLeaveApplication:_adapter];
+}
+
+- (void)nativeAdImpressed:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] InMobi recorded impression successfully.");
+  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
+}
+
+- (void)native:(nonnull IMNative *)native didInteractWithParams:(nonnull NSDictionary *)params {
+  NSLog(@"[InMobi] User did interact with native.");
+}
+
+- (void)nativeDidFinishPlayingMedia:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] Native ad finished playing media.");
+}
+
+- (void)userDidSkipPlayingMediaFromNative:(nonnull IMNative *)native {
+  NSLog(@"[InMobi] User did skip playing media from native.");
 }
 
 #pragma mark - Setup Data
@@ -137,23 +289,21 @@ static CGFloat const DefaultIconScale = 1.0;
 #pragma mark - Completion
 
 - (void)notifyCompletion {
-  if (_mappedIcon && _mappedImages) {
-    [self notifyMediatedUnifiedNativeAdSuccessful];
-  } else {
-    [self notifyMediatedUnifiedNativeAdFailed];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
   }
-}
 
-- (void)notifyMediatedUnifiedNativeAdSuccessful {
-  if ([self respondsToSelector:@selector(inmobiMediatedUnifiedNativeAdSuccessful:)]) {
-    [self inmobiMediatedUnifiedNativeAdSuccessful:self];
+  if (!_mappedIcon || !_mappedImages) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorMissingNativeAssets,
+        @"InMobi returned an ad without image or icon assets.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
   }
-}
 
-- (void)notifyMediatedUnifiedNativeAdFailed {
-  if ([self respondsToSelector:@selector(inmobiMediatedUnifiedNativeAdFailed)]) {
-    [self inmobiMediatedUnifiedNativeAdFailed];
-  }
+  [strongConnector adapter:strongAdapter didReceiveMediatedUnifiedNativeAd:self];
 }
 
 #pragma mark - Helpers
@@ -165,6 +315,8 @@ static CGFloat const DefaultIconScale = 1.0;
   }
   return YES;
 }
+
+#pragma mark - GADMediatedUnifiedNativeAd
 
 - (nullable NSString *)advertiser {
   return nil;
@@ -268,19 +420,6 @@ static CGFloat const DefaultIconScale = 1.0;
 - (void)didUntrackView:(nullable UIView *)view {
   [_native recyclePrimaryView];
   _native = nil;
-}
-
-- (void)inmobiMediatedUnifiedNativeAdFailed {
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADErrorDomain
-                                                          code:kGADErrorNoFill
-                                                      userInfo:nil];
-  [self.adapter.connector adapter:self.adapter didFailAd:reqError];
-}
-
-- (void)inmobiMediatedUnifiedNativeAdSuccessful:(nonnull InMobiMediatedUnifiedNativeAd *)ad {
-  if (self.adapter != nil && self.adapter.connector != nil) {
-    [self.adapter.connector adapter:self.adapter didReceiveMediatedUnifiedNativeAd:ad];
-  }
 }
 
 @end
