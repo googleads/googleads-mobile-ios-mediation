@@ -286,8 +286,9 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     return nil;
   }
 
-  // We already requested an ad for _prioritizedPlacementID,
-  // so we don't need to request again.
+  // Vungle 6.7.0 SDK cannot handle a second loadPlacementWithID: call while the first ad load is in progress.
+  // Work around this behavior by explicitly avoiding calling loadPlacementWithID: on the first request for
+  // this placement, as the priority placement has already started loading at initialization time.
   if ([_prioritizedPlacementID isEqualToString:placement]) {
     return nil;
   }
