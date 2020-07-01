@@ -90,7 +90,10 @@
     _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
     _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
 //    [self initializeWithGameID:_gameID];
-    [_interstitialAd getInterstitial];
+    if ([UnityAds isInitialized]) {
+        [_interstitialAd getInterstitial];
+    }
+    
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -120,8 +123,10 @@
     
     _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                          adapter:self];
-//    [self initializeWithGameID:_gameID];
-    [_bannerAd loadBannerWithSize:adSize];
+    if ([UnityAds isInitialized]) {
+        [_bannerAd loadBannerWithSize:adSize];
+    }
+    
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods

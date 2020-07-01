@@ -16,8 +16,11 @@
 
 @implementation GADMUnityInitializationDelegate
 
--(id)initializeWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock *)completionHandler {
-    initCompletionBlock = *completionHandler;
+-(instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+    self = [super init];
+    if (self) {
+        initCompletionBlock = completionHandler;
+    }
     return self;
 }
 
