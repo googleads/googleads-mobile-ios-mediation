@@ -490,18 +490,14 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
 - (void)vungleRewardUserForPlacementID:(nullable NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate = [self getDelegateForPlacement:placementID];
-  if ([delegate respondsToSelector:@selector(rewardUser)]) {
-    [delegate rewardUser];
-  }
+  [delegate rewardUser];
 }
 
 - (void)vungleWillLeaveApplicationForPlacementID:(nullable NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate =
       [self getDelegateForPlacement:placementID
       withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
-  if ([delegate respondsToSelector:@selector(willLeaveApplication)]) {
-    [delegate willLeaveApplication];
-  }
+  [delegate willLeaveApplication];
 }
 
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable

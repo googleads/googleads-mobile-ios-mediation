@@ -192,4 +192,8 @@
   [strongDelegate didRewardUserWithReward:reward];
 }
 
+- (void)willLeaveApplication {
+  NSLog(@"%@ received willLeaveApplication event.", NSStringFromClass(self.class));
+}
+
 @end

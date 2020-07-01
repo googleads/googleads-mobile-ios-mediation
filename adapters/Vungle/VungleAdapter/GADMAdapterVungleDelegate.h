@@ -36,17 +36,13 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)willCloseAd;
 - (void)didCloseAd;
 - (void)trackClick;
+- (void)rewardUser;
+- (void)willLeaveApplication;
 
 @optional
 
 // Differentiate two banners with same placement ID
 @property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
-
-// Reward user for watching a Rewarded Video Ad successfully
-- (void)rewardUser;
-
-// App will leave current application
-- (void)willLeaveApplication;
 
 // Vungle banner ad state.
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;

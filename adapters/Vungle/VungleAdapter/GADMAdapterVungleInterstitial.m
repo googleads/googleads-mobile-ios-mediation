@@ -180,4 +180,8 @@
   [_connector adapterWillLeaveApplication:self];
 }
 
+- (void)rewardUser {
+  NSLog(@"%@ received rewardUser event.", NSStringFromClass(self.class));
+}
+
 @end
