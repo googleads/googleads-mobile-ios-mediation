@@ -1,30 +1,51 @@
+// Copyright 2018 Google LLC
 //
-//  GADMAdapterMyTargetMediatedUnifiedNativeAd.m
-//  MyTargetAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Andrey Seredkin on 23.05.2018.
-//  Copyright © 2018 Mail.Ru Group. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMAdapterMyTargetMediatedUnifiedNativeAd.h"
+
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-@interface GADMAdapterMyTargetMediatedUnifiedNativeAd ()
-
-@property(nonatomic, strong) MTRGNativeAd *nativeAd;
-
-@end
-
 @implementation GADMAdapterMyTargetMediatedUnifiedNativeAd {
+  /// myTarget native ad object.
+  MTRGNativeAd *_nativeAd;
+
+  /// myTarget native ad headline text.
   NSString *_headline;
+
+  /// myTarget native ad images.
   NSArray<GADNativeAdImage *> *_images;
+
+  /// myTarget native ad body text.
   NSString *_body;
+
+  /// myTarget native ad icon image.
   GADNativeAdImage *_icon;
+
+  /// myTarget native ad call to action text.
   NSString *_callToAction;
+
+  /// myTarget native ad star rating.
   NSDecimalNumber *_starRating;
+
+  /// myTarget native ad advertiser text.
   NSString *_advertiser;
-  NSMutableDictionary *_extraAssets;
+
+  /// Additional myTarget native ad assets/
+  NSMutableDictionary<NSString *, id> *_extraAssets;
+
+  /// myTarget media view.
   MTRGMediaAdView *_mediaAdView;
 }
 
@@ -56,17 +77,14 @@
     }
   }
 
-  return
-      [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
-                                                                           nativeAd:nativeAd
-                                                                     autoLoadImages:autoLoadImages
-                                                                        mediaAdView:mediaAdView];
+  return [[GADMAdapterMyTargetMediatedUnifiedNativeAd alloc] initWithNativePromoBanner:promoBanner
+                                                                              nativeAd:nativeAd
+                                                                           mediaAdView:mediaAdView];
 }
 
 - (nullable id<GADMediatedUnifiedNativeAd>)
     initWithNativePromoBanner:(nonnull MTRGNativePromoBanner *)promoBanner
                      nativeAd:(nonnull MTRGNativeAd *)nativeAd
-               autoLoadImages:(BOOL)autoLoadImages
                   mediaAdView:(nonnull MTRGMediaAdView *)mediaAdView {
   self = [super init];
   if (self) {
@@ -78,32 +96,28 @@
       _starRating = [NSDecimalNumber decimalNumberWithDecimal:promoBanner.rating.decimalValue];
       _advertiser = promoBanner.domain;
       _mediaAdView = mediaAdView;
-      GADNativeAdImage *image =
-          [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.image];
+      GADNativeAdImage *image = GADMAdapterMyTargetNativeAdImageWithImageData(promoBanner.image);
       _images = (image != nil) ? @[ image ] : nil;
-      _icon = [GADMAdapterMyTargetUtils nativeAdImageWithImageData:promoBanner.icon];
+      _icon = GADMAdapterMyTargetNativeAdImageWithImageData(promoBanner.icon);
 
-      _extraAssets = [NSMutableDictionary new];
-      [self addExtraAsset:promoBanner.advertisingLabel
-                   forKey:kGADMAdapterMyTargetExtraAssetAdvertisingLabel];
-      [self addExtraAsset:promoBanner.ageRestrictions
-                   forKey:kGADMAdapterMyTargetExtraAssetAgeRestrictions];
-      [self addExtraAsset:promoBanner.category forKey:kGADMAdapterMyTargetExtraAssetCategory];
-      [self addExtraAsset:promoBanner.subcategory forKey:kGADMAdapterMyTargetExtraAssetSubcategory];
+      _extraAssets = [[NSMutableDictionary alloc] init];
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetAdvertisingLabel,
+          promoBanner.advertisingLabel);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+          _extraAssets, kGADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
       if (promoBanner.votes > 0) {
-        [_extraAssets setObject:[NSNumber numberWithUnsignedInteger:promoBanner.votes]
-                         forKey:kGADMAdapterMyTargetExtraAssetVotes];
+        GADMAdapterMyTargetMutableDictionarySetObjectForKey(
+            _extraAssets, kGADMAdapterMyTargetExtraAssetVotes,
+            [NSNumber numberWithUnsignedInteger:promoBanner.votes]);
       }
     }
   }
   return self;
-}
-
-- (void)addExtraAsset:(nullable NSString *)asset forKey:(nonnull NSString *)key {
-  if (!asset.length) {
-    return;
-  }
-  [_extraAssets setObject:asset forKey:key];
 }
 
 - (nullable NSString *)headline {
@@ -155,7 +169,7 @@
 }
 
 - (BOOL)hasVideoContent {
-  return YES;
+  return YES;  // For correct behaviour of GADMediaView return true instead of promoBanner.hasVideo
 }
 
 - (CGFloat)mediaContentAspectRatio {
@@ -176,20 +190,20 @@
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.nativeAd registerView:view
-                 withController:viewController
-             withClickableViews:clickableAssetViews.allValues];
+    [self->_nativeAd registerView:view
+                   withController:viewController
+               withClickableViews:clickableAssetViews.allValues];
   });
 }
 
 - (void)didRecordImpression {
-  // do nothing
+  // Do nothing.
 }
 
 - (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
-  // do nothing
+  // Do nothing.
 }
 
 - (void)didUntrackView:(nullable UIView *)view {

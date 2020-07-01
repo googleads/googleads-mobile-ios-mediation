@@ -18,7 +18,7 @@
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode *_Nonnull code,
+NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode code,
                                                    NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};

@@ -52,7 +52,8 @@
   }
 
   BOOL haveEqualPlacementIDs = [self.placementID isEqualToString:bannerRequest.placementID];
-  BOOL haveEqualUniquePubRequestIDs = [self.uniquePubRequestID isEqualToString:bannerRequest.uniquePubRequestID];
+  BOOL haveEqualUniquePubRequestIDs =
+      [self.uniquePubRequestID isEqualToString:bannerRequest.uniquePubRequestID];
 
   return haveEqualPlacementIDs && haveEqualUniquePubRequestIDs;
 }

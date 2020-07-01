@@ -20,13 +20,12 @@
 
 #import "GADMAdapterTapjoy.h"
 #import "GADMAdapterTapjoyConstants.h"
+#import "GADMAdapterTapjoyDelegate.h"
 #import "GADMAdapterTapjoySingleton.h"
 #import "GADMAdapterTapjoyUtils.h"
 #import "GADMTapjoyExtras.h"
 
-@interface GADMRewardedAdTapjoy () <GADMediationRewardedAd,
-                                    TJPlacementDelegate,
-                                    TJPlacementVideoDelegate>
+@interface GADMRewardedAdTapjoy () <GADMediationRewardedAd, GADMAdapterTapjoyDelegate>
 @end
 
 @implementation GADMRewardedAdTapjoy {
@@ -37,7 +36,9 @@
   GADMediationRewardedLoadCompletionHandler _completionHandler;
 
   /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  /// Intentionally keeping a strong reference to the delegate because this is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Tapjoy rewarded ad object.
   TJPlacement *_rewardedAd;
@@ -77,7 +78,8 @@
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorMediationDataError, @"Did not receive valid Tapjoy server parameters.");
+        GADMAdapterTapjoyErrorInvalidServerParameters,
+        @"Did not receive valid Tapjoy server parameters.");
     _completionHandler(nil, adapterError);
     return;
   }
@@ -93,11 +95,11 @@
   // Tapjoy is not yet connected. Wait for initialization to complete before requesting a placement.
   NSDictionary<NSString *, NSNumber *> *connectOptions =
       @{TJC_OPTION_ENABLE_LOGGING : @(extras.debugEnabled)};
-  GADMRewardedAdTapjoy *__weak weakSelf = self;
+  __weak GADMRewardedAdTapjoy *weakSelf = self;
   [sharedInstance initializeTapjoySDKWithSDKKey:sdkKey
                                         options:connectOptions
                               completionHandler:^(NSError *error) {
-                                GADMRewardedAdTapjoy *__strong strongSelf = weakSelf;
+                                GADMRewardedAdTapjoy *strongSelf = weakSelf;
                                 if (!strongSelf) {
                                   return;
                                 }
@@ -126,27 +128,26 @@
   }
 }
 
-#pragma mark GADMediationRewardedAd
+#pragma mark - GADMediationRewardedAd methods
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [_rewardedAd showContentWithViewController:viewController];
 }
 
 #pragma mark - TJPlacementDelegate methods
+
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
   // If the placement's content is not available at this time, then the request is considered a
   // failure.
   if (!placement.contentAvailable) {
-    NSError *loadError =
-        GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, @"Ad not available.");
+    NSError *loadError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorPlacementContentNotAvailable, @"Ad not available.");
     _completionHandler(nil, loadError);
   }
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
-  NSError *adapterError =
-      GADMAdapterTapjoyErrorWithCodeAndDescription(kGADErrorNoFill, error.localizedDescription);
-  _completionHandler(nil, adapterError);
+  _completionHandler(nil, error);
 }
 
 - (void)contentIsReady:(nonnull TJPlacement *)placement {
@@ -155,36 +156,42 @@
 
 - (void)contentDidAppear:(nonnull TJPlacement *)placement {
   [_adEventDelegate willPresentFullScreenView];
-}
-
-- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  [_adEventDelegate didDismissFullScreenView];
+  [_adEventDelegate reportImpression];
 }
 
 - (void)didClick:(nonnull TJPlacement *)placement {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  [strongDelegate reportClick];
-  [strongDelegate willDismissFullScreenView];
+  [_adEventDelegate reportClick];
 }
 
-#pragma mark Tapjoy Video
+- (void)contentDidDisappear:(nonnull TJPlacement *)placement {
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
+}
+
+#pragma mark - TJPlacementVideoDelegate methods
+
 - (void)videoDidStart:(nonnull TJPlacement *)placement {
   [_adEventDelegate didStartVideo];
 }
 
 - (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  [strongDelegate didEndVideo];
+  [_adEventDelegate didEndVideo];
   // Tapjoy only supports fixed rewards and doesn't provide a reward type or amount.
   GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
                                                    rewardAmount:NSDecimalNumber.one];
-  [strongDelegate didRewardUserWithReward:reward];
+  [_adEventDelegate didRewardUserWithReward:reward];
 }
 
 - (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
   NSError *adapterError =
-      GADMAdapterTapjoyErrorWithCodeAndDescription(GADPresentationErrorCodeInternal, errorMsg);
+      GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoyErrorPlacementVideo, errorMsg);
   [_adEventDelegate didFailToPresentWithError:adapterError];
+}
+
+#pragma mark - GADMAdapterTapjoyDelegate
+
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  _completionHandler(nil, error);
 }
 
 @end

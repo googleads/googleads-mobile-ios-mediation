@@ -51,6 +51,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterMoPub adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSArray *versionComponents = [kGADMAdapterMoPubVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

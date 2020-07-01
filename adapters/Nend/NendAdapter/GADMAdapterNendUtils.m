@@ -17,7 +17,7 @@
 
 NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode *_Nonnull code,
                                                              NSString *_Nonnull description) {
-  NSDictionary *userInfo =
+  NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
                                        code:code

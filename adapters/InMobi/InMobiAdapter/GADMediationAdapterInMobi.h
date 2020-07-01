@@ -16,13 +16,18 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
 
+typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
+  /// Missing server parameters.
+  GADMAdapterInMobiErrorInvalidServerParameters = 101,
+  /// Banner Size Mismatch.
+  GADMAdapterInMobiErrorBannerSizeMismatch = 102,
+  /// An ad is already loaded for this network configuration.
+  GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
+  /// InMobi native ad returned with missing native assets, or required image assets failed to
+  /// download.
+  GADMAdapterInMobiErrorMissingNativeAssets = 104
+};
+
 @interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
-
-/// Indicates whether InMobi SDK has been successfully initialized.
-@property(class, nonatomic, assign, readonly) BOOL isInitialized;
-
-/// Initialize the InMobi SDK with the specified |accountID|. Returns an NSError if initialization
-/// failed.
-+ (nullable NSError *)initializeWithAccountID:(nonnull NSString *)accountID;
 
 @end

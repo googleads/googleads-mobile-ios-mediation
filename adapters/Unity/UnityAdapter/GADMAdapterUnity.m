@@ -17,8 +17,8 @@
 #import "GADMAdapterUnityBannerAd.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnitySingleton.h"
+#import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
-#import "GADUnityError.h"
 
 @interface GADMAdapterUnity () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -90,7 +90,8 @@
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -131,7 +132,8 @@
   _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -151,20 +153,39 @@
   return _placementID;
 }
 
+- (void)didFailToLoadWithError:(nonnull NSError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+  if (strongConnector != nil) {
+    [strongConnector adapter:self didFailAd:error];
+  }
+}
+
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsPlacementStateChanged:(NSString *)placementID
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  if ([placementID isEqualToString:_placementID]) {
-    if (newState == kUnityAdsPlacementStateNoFill || newState == kUnityAdsPlacementStateDisabled) {
-      id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-      if (strongNetworkConnector) {
-        NSString *errorMsg = @"Failed to load: ";
-        errorMsg = [errorMsg stringByAppendingString:placementID];
-        NSError *errorWithDescription = GADUnityErrorWithDescription(errorMsg);
-        [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-      }
+  if (![placementID isEqualToString:_placementID]) {
+    return;
+  }
+
+  id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
+  if (newState == kUnityAdsPlacementStateNoFill) {
+    if (strongNetworkConnector) {
+      NSString *errorMsg =
+          [NSString stringWithFormat:@"No ad available for the placement ID: %@", placementID];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+          GADMAdapterUnityErrorPlacementStateNoFill, errorMsg);
+      [strongNetworkConnector adapter:self didFailAd:error];
+    }
+  }
+  if (newState == kUnityAdsPlacementStateDisabled) {
+    if (strongNetworkConnector) {
+      NSString *errorMsg =
+          [NSString stringWithFormat:@"This placement ID is currently disabled: %@", placementID];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+          GADMAdapterUnityErrorPlacementStateDisabled, errorMsg);
+      [strongNetworkConnector adapter:self didFailAd:error];
     }
   }
 }
@@ -199,13 +220,8 @@
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
   id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
   if (strongNetworkConnector) {
-    if (error == kUnityAdsErrorNotInitialized) {
-      NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-      [strongNetworkConnector adapter:self didFailAd:errorWithDescription];
-    } else {
-      [strongNetworkConnector adapterWillDismissInterstitial:self];
-      [strongNetworkConnector adapterDidDismissInterstitial:self];
-    }
+    [strongNetworkConnector adapterWillDismissInterstitial:self];
+    [strongNetworkConnector adapterDidDismissInterstitial:self];
   }
 }
 

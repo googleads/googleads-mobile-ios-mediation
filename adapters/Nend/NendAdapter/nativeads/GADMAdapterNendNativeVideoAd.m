@@ -68,7 +68,7 @@
   return _videoAd.title;
 }
 
-- (nullable NSArray *)images {
+- (nullable NSArray<GADNativeAdImage *> *)images {
   return nil;
 }
 
@@ -96,7 +96,7 @@
   return nil;
 }
 
-- (nullable NSDictionary *)extraAssets {
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
   return nil;
 }
 

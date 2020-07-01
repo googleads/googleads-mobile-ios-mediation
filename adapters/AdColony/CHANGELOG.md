@@ -1,5 +1,13 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Version 4.1.5.0
+- Verified compatibility with AdColony SDK 4.1.5.
+- Updated the minimum required Google Mobile Ads SDK version to 7.60.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.60.0.
+- AdColony SDK version 4.1.5.
+
 #### Version 4.1.4.1
 - Added standardized adapter error codes and messages.
 - Removed support for the i386 architecture.

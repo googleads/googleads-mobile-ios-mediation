@@ -32,6 +32,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0005897B246B6B5800C427F5 /* GADMAdapterInMobiInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 00058979246B6B5800C427F5 /* GADMAdapterInMobiInitializer.h */; };
+		0005897C246B6B5800C427F5 /* GADMAdapterInMobiInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0005897A246B6B5800C427F5 /* GADMAdapterInMobiInitializer.m */; };
 		450B839122FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */; };
 		450B839222FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */; };
 		455AD1C320C737C1009FDF47 /* GADMInMobiConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD1C120C737C0009FDF47 /* GADMInMobiConsent.m */; };
@@ -46,10 +48,10 @@
 		56C0258B1F31208500B57D6B /* InMobiAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C0258A1F31208500B57D6B /* InMobiAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		56C0258D1F3120A300B57D6B /* GADInMobiExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C0258C1F3120A300B57D6B /* GADInMobiExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F87CEFAA1EEEBE5C0052D774 /* GADMAdapterInMobi.h in Headers */ = {isa = PBXBuildFile; fileRef = F87CEFA91EEEBE5C0052D774 /* GADMAdapterInMobi.h */; };
-		F8A580881ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A580831ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m */; };
+		F8A580881ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A580831ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.m */; };
 		F8A580891ECEE8690068E9FA /* GADInMobiExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A580841ECEE8690068E9FA /* GADInMobiExtras.m */; };
 		F8A5808A1ECEE8690068E9FA /* GADMAdapterInMobi.m in Sources */ = {isa = PBXBuildFile; fileRef = F8A580851ECEE8690068E9FA /* GADMAdapterInMobi.m */; };
-		F8A5808B1ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A580861ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h */; };
+		F8A5808B1ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A580861ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.h */; };
 		F8A5808C1ECEE8690068E9FA /* NativeAdKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A580871ECEE8690068E9FA /* NativeAdKeys.h */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00058979246B6B5800C427F5 /* GADMAdapterInMobiInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobiInitializer.h; sourceTree = "<group>"; };
+		0005897A246B6B5800C427F5 /* GADMAdapterInMobiInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterInMobiInitializer.m; sourceTree = "<group>"; };
 		00DD265B22F10A620039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobiDelegateManager.h; sourceTree = "<group>"; };
 		450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterInMobiDelegateManager.m; sourceTree = "<group>"; };
@@ -100,10 +104,10 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F87CEFA91EEEBE5C0052D774 /* GADMAdapterInMobi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobi.h; sourceTree = "<group>"; };
-		F8A580831ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InMobiMediatedUnifiedNativeAd.m; sourceTree = "<group>"; };
+		F8A580831ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterInMobiUnifiedNativeAd.m; sourceTree = "<group>"; };
 		F8A580841ECEE8690068E9FA /* GADInMobiExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADInMobiExtras.m; sourceTree = "<group>"; };
 		F8A580851ECEE8690068E9FA /* GADMAdapterInMobi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterInMobi.m; sourceTree = "<group>"; };
-		F8A580861ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InMobiMediatedUnifiedNativeAd.h; sourceTree = "<group>"; };
+		F8A580861ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobiUnifiedNativeAd.h; sourceTree = "<group>"; };
 		F8A580871ECEE8690068E9FA /* NativeAdKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdKeys.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,15 +131,17 @@
 				4588B2F0224AC20600868387 /* GADMAdapterInMobiConstants.h */,
 				450B838F22FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h */,
 				450B839022FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m */,
+				00058979246B6B5800C427F5 /* GADMAdapterInMobiInitializer.h */,
+				0005897A246B6B5800C427F5 /* GADMAdapterInMobiInitializer.m */,
 				4588B2EC224AC1D300868387 /* GADMAdapterInMobiRewardedAd.h */,
 				4588B2ED224AC1D300868387 /* GADMAdapterInMobiRewardedAd.m */,
+				F8A580861ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.h */,
+				F8A580831ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.m */,
 				457AC83F2256B43000F8E09D /* GADMAdapterInMobiUtils.h */,
 				457AC8402256B43000F8E09D /* GADMAdapterInMobiUtils.m */,
 				4588B2E8224AC0E900868387 /* GADMediationAdapterInMobi.h */,
 				4588B2E9224AC0E900868387 /* GADMediationAdapterInMobi.m */,
 				455AD1C120C737C0009FDF47 /* GADMInMobiConsent.m */,
-				F8A580861ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h */,
-				F8A580831ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m */,
 				F8A580871ECEE8690068E9FA /* NativeAdKeys.h */,
 			);
 			path = InMobiAdapter;
@@ -208,6 +214,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0005897B246B6B5800C427F5 /* GADMAdapterInMobiInitializer.h in Headers */,
 				56C0258B1F31208500B57D6B /* InMobiAdapter.h in Headers */,
 				F87CEFAA1EEEBE5C0052D774 /* GADMAdapterInMobi.h in Headers */,
 				4588B2F1224AC20600868387 /* GADMAdapterInMobiConstants.h in Headers */,
@@ -215,7 +222,7 @@
 				F8A5808C1ECEE8690068E9FA /* NativeAdKeys.h in Headers */,
 				457AC8412256B43000F8E09D /* GADMAdapterInMobiUtils.h in Headers */,
 				455AD1C420C737C1009FDF47 /* GADMInMobiConsent.h in Headers */,
-				F8A5808B1ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.h in Headers */,
+				F8A5808B1ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.h in Headers */,
 				4588B2EE224AC1D300868387 /* GADMAdapterInMobiRewardedAd.h in Headers */,
 				450B839122FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.h in Headers */,
 				4588B2EA224AC0E900868387 /* GADMediationAdapterInMobi.h in Headers */,
@@ -318,12 +325,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8A580891ECEE8690068E9FA /* GADInMobiExtras.m in Sources */,
-				F8A580881ECEE8690068E9FA /* InMobiMediatedUnifiedNativeAd.m in Sources */,
+				F8A580881ECEE8690068E9FA /* GADMAdapterInMobiUnifiedNativeAd.m in Sources */,
 				4588B2EB224AC0E900868387 /* GADMediationAdapterInMobi.m in Sources */,
 				450B839222FA4190005F35E0 /* GADMAdapterInMobiDelegateManager.m in Sources */,
 				457AC8422256B43000F8E09D /* GADMAdapterInMobiUtils.m in Sources */,
 				F8A5808A1ECEE8690068E9FA /* GADMAdapterInMobi.m in Sources */,
 				455AD1C320C737C1009FDF47 /* GADMInMobiConsent.m in Sources */,
+				0005897C246B6B5800C427F5 /* GADMAdapterInMobiInitializer.m in Sources */,
 				4588B2EF224AC1D300868387 /* GADMAdapterInMobiRewardedAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

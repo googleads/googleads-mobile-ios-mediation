@@ -22,7 +22,7 @@
   NADNativeVideoLoader *_videoLoader;
 }
 
-- (void)fetchNativeAd:(nonnull NSArray *)options
+- (void)fetchNativeAd:(nonnull NSArray<GADAdLoaderOptions *> *)options
                spotId:(nonnull NSString *)spotId
                apiKey:(nonnull NSString *)apiKey
                 extra:(nonnull GADMAdapterNendExtras *)extras {
@@ -33,7 +33,7 @@
     return;
   }
 
-  if (extras && extras.nativeType == GADMNendNativeTypeVideo) {
+  if (extras && extras.nativeType == GADMAdapterNendNativeTypeVideo) {
     _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
                                                          apiKey:apiKey
                                                     clickAction:NADNativeVideoClickActionLP];
@@ -145,10 +145,12 @@
               format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (nonnull GADNativeAdImageAdLoaderOptions *)pullImageAdLoaderOptions:(nonnull NSArray *)options {
+- (nonnull GADNativeAdImageAdLoaderOptions *)pullImageAdLoaderOptions:
+    (nonnull NSArray<GADAdLoaderOptions *> *)options {
   NSPredicate *predicate =
       [NSPredicate predicateWithFormat:@"class == %@", [GADNativeAdImageAdLoaderOptions class]];
-  return [[options filteredArrayUsingPredicate:predicate] firstObject];
+  return (GADNativeAdImageAdLoaderOptions *)[options filteredArrayUsingPredicate:predicate]
+      .firstObject;
 }
 
 @end

@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterVungleRewardedAd : NSObject<GADMediationRewardedAd>
+@interface GADMAdapterVungleRewardedAd : NSObject <GADMediationRewardedAd>
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration

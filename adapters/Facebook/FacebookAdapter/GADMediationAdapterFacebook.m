@@ -18,6 +18,7 @@
 #import "GADFBInterstitialRenderer.h"
 #import "GADFBNativeRenderer.h"
 #import "GADFBNetworkExtras.h"
+#import "GADFBRewardedInterstitialRenderer.h"
 #import "GADFBRewardedRenderer.h"
 #import "GADFBUtils.h"
 #import "GADMAdapterFacebook.h"
@@ -32,6 +33,8 @@
   GADFBInterstitialRenderer *_interstitial;
   /// Facebook Audience Network banner ad wrapper.
   GADFBBannerRenderer *_banner;
+  /// Facebook Audience Network rewarded interstitial ad wrapper.
+  GADFBRewardedInterstitialRenderer *_rewardedInterstitialAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -70,6 +73,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterFacebook adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [kGADMAdapterFacebookVersion componentsSeparatedByString:@"."];
   if (components.count == 4) {
@@ -136,6 +143,18 @@
   _rewardedAd = [[GADFBRewardedRenderer alloc] init];
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:(GADMediationRewardedLoadCompletionHandler)
+                                                         completionHandler {
+  if (adConfiguration.childDirectedTreatment) {
+    GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
+  }
+  _rewardedInterstitialAd = [[GADFBRewardedInterstitialRenderer alloc] init];
+  [_rewardedInterstitialAd loadRewardedAdForAdConfiguration:adConfiguration
+                                          completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration

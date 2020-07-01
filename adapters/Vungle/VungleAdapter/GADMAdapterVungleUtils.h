@@ -39,6 +39,9 @@ void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull us
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description);
 
+/// Returns a VungleAdSize object from the specified adSize
+VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize);
+
 @interface GADMAdapterVungleUtils : NSObject
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters;

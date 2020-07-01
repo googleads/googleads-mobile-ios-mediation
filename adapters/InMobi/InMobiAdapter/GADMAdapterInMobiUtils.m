@@ -9,30 +9,25 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK.h>
 
-#include <stdatomic.h>
-
+#import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 
-NSInteger GADMAdapterInMobiAdMobErrorCodeForInMobiCode(NSInteger inMobiErrorCode) {
-  NSInteger errorCode;
-  switch (inMobiErrorCode) {
-    case kIMStatusCodeNoFill:
-      errorCode = kGADErrorNoFill;
-      break;
-    case kIMStatusCodeRequestTimedOut:
-      errorCode = kGADErrorTimeout;
-      break;
-    case kIMStatusCodeServerError:
-      errorCode = kGADErrorServerError;
-      break;
-    case kIMStatusCodeInternalError:
-      errorCode = kGADErrorInternalError;
-      break;
-    default:
-      errorCode = kGADErrorInternalError;
-      break;
+#pragma mark - Internal utility method prototypes
+
+/// Sets up additional InMobi targeting information from the specified |extras|.
+void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras);
+
+/// Sets additional InMobi parameters to |requestParameters| from the specified |extras|.
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
+    GADInMobiExtras *_Nullable extras);
+
+#pragma mark - Public utility methods
+
+void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
   }
-  return errorCode;
 }
 
 void GADMAdapterInMobiMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
@@ -69,10 +64,14 @@ void GADMAdapterInMobiCacheSetObjectForKey(NSCache *_Nonnull cache, id<NSCopying
   }
 }
 
-NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(NSInteger code,
+NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(GADMAdapterInMobiErrorCode code,
                                                                NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain code:code userInfo:errorInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
@@ -82,5 +81,97 @@ NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
   }
 
   return GADMAdapterInMobiErrorWithCodeAndDescription(
-      kGADErrorInvalidRequest, @"[InMobi] Error - Placement ID not specified.");
+      GADMAdapterInMobiErrorInvalidServerParameters,
+      @"[InMobi] Error - Placement ID not specified.");
+}
+
+void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) {
+  if (extras == nil) {
+    return;
+  }
+
+  if (extras.postalCode) {
+    [IMSdk setPostalCode:extras.postalCode];
+  }
+  if (extras.areaCode) {
+    [IMSdk setAreaCode:extras.areaCode];
+  }
+  if (extras.interests) {
+    [IMSdk setInterests:extras.interests];
+  }
+  if (extras.age) {
+    [IMSdk setAge:extras.age];
+  }
+  if (extras.yearOfBirth) {
+    [IMSdk setYearOfBirth:extras.yearOfBirth];
+  }
+  if (extras.city && extras.state && extras.country) {
+    [IMSdk setLocationWithCity:extras.city state:extras.state country:extras.country];
+  }
+  if (extras.language) {
+    [IMSdk setLanguage:extras.language];
+  }
+}
+
+void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
+  if (connector.userGender == kGADGenderMale) {
+    [IMSdk setGender:kIMSDKGenderMale];
+  } else if (connector.userGender == kGADGenderFemale) {
+    [IMSdk setGender:kIMSDKGenderFemale];
+  }
+
+  if (connector.userBirthday != nil) {
+    NSDateComponents *components = [NSCalendar.currentCalendar
+        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
+          fromDate:connector.userBirthday];
+    [IMSdk setYearOfBirth:components.year];
+  }
+
+  GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
+}
+
+void GADMAdapterInMobiSetTargetingFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfig) {
+  GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
+}
+
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
+    GADInMobiExtras *_Nullable extras) {
+  NSMutableDictionary<NSString *, id> *additionalParameters = [[NSMutableDictionary alloc] init];
+
+  if (extras && extras.additionalParameters) {
+    [additionalParameters addEntriesFromDictionary:extras.additionalParameters];
+  }
+
+  GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp", @"c_admob");
+  GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp-ver",
+                                                    [GADRequest sdkVersion]);
+
+  return additionalParameters;
+}
+
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromConnector(
+    id<GADMAdNetworkConnector> _Nonnull connector) {
+  NSMutableDictionary<NSString *, id> *requestParameters =
+      [GADMAdapterInMobiAdditonalParametersFromInMobiExtras([connector networkExtras]) mutableCopy];
+
+  if ([connector childDirectedTreatment]) {
+    NSString *coppaString = [[connector childDirectedTreatment] integerValue] ? @"1" : @"0";
+    GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters, @"coppa", coppaString);
+  }
+
+  return requestParameters;
+}
+
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfig) {
+  NSMutableDictionary<NSString *, id> *requestParameters =
+      [GADMAdapterInMobiAdditonalParametersFromInMobiExtras(adConfig.extras) mutableCopy];
+
+  if (adConfig.childDirectedTreatment) {
+    NSString *coppaString = [adConfig.childDirectedTreatment integerValue] ? @"1" : @"0";
+    GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters, @"coppa", coppaString);
+  }
+
+  return requestParameters;
 }

@@ -19,5 +19,5 @@ void GADMAdapterMoPubMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonn
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode *_Nonnull code,
+NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode code,
                                                       NSString *_Nonnull description);

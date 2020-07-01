@@ -13,16 +13,20 @@
 // limitations under the License.
 
 #import "GADMediationAdapterChartboost.h"
+#if __has_include(<Chartboost/Chartboost.h>)
 #import <Chartboost/Chartboost.h>
+#else
+#import "Chartboost.h"
+#endif
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostSingleton.h"
+#import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
+#import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
-#import "GADMRewardedAdChartboost.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
-  GADMRewardedAdChartboost *_rewardedAd;
+  GADMAdapterChartboostRewardedAd *_rewardedAd;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -32,7 +36,10 @@
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
     NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
-    GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+
+    if (appID.length && appSignature.length) {
+      GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
+    }
   }
 
   if (!credentials.count) {
@@ -56,12 +63,16 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  GADMAdapterChartboostSingleton *sharedInstance = GADMAdapterChartboostSingleton.sharedInstance;
-  [sharedInstance startWithAppId:appID
-                    appSignature:appSignature
-               completionHandler:^(NSError *error) {
-                 completionHandler(error);
-               }];
+  [Chartboost
+      startWithAppId:appID
+        appSignature:appSignature
+          completion:^(BOOL success) {
+            NSError *error = nil;
+            if (!success) {
+              error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
+            }
+            completionHandler(error);
+          }];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -82,6 +93,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterChartboost adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterChartboostVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
@@ -98,9 +113,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [[GADMRewardedAdChartboost alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterChartboostRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                               completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAd];
 }
 
 @end

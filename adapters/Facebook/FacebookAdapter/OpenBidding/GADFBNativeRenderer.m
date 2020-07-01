@@ -19,7 +19,7 @@
 #include <stdatomic.h>
 #import "GADFBExtraAssets.h"
 #import "GADFBNetworkExtras.h"
-#import "GADFButils.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
