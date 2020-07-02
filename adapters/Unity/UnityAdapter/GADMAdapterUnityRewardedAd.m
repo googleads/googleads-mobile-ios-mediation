@@ -56,11 +56,9 @@
     _gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
     _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
     NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
-    
     if (!_gameID || !_placementID) {
         if (_adLoadCompletionHandler) {
-            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                         GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
+            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
             _adLoadCompletionHandler(nil, error);
             _adLoadCompletionHandler = nil;
         }
@@ -71,16 +69,13 @@
         NSString *description =
         [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
          NSStringFromClass([UnityAds class])];
-        
         if (_adLoadCompletionHandler) {
-            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                         GADMAdapterUnityErrorDeviceNotSupported, description);
+            NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorDeviceNotSupported, description);
             _adLoadCompletionHandler(nil, error);
             _adLoadCompletionHandler = nil;
         }
         return;
     }
-//    [UnityAds load:_placementID];
     [UnityAds load:_placementID loadDelegate:self];
 }
 

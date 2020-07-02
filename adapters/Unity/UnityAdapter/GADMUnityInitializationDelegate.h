@@ -14,7 +14,7 @@
     GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
 }
 
-- (instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
+- (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
 
 @end
 

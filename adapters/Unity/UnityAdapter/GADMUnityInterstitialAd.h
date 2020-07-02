@@ -16,7 +16,7 @@
 
 @interface GADMUnityInterstitialAd : NSObject
 
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+- (instancetype _Nullable)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
 
 /// Requests GADAdapterUnityRouter to fetch interstitial Ad

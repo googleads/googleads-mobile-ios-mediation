@@ -17,23 +17,25 @@
     NSString *_placementID;
     NSString *_gameID;
     BOOL _isLoading;
-/// Connector from Google Mobile Ads SDK to receive ad configurations.
+    /// Connector from Google Mobile Ads SDK to receive ad configurations.
     __weak id<GADMAdNetworkConnector> _connector;
-
+    
     /// Adapter for receiving ad request notifications.
     __weak id<GADMAdNetworkAdapter> _adapter;
 }
 
 
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
-  self = [super init];
-  if (self) {
-    _adapter = adapter;
-    _connector = connector;
-
-  }
-  return self;
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+    if ([UnityAds isInitialized]) {
+        return nil;
+    }
+    self = [super init];
+    if (self) {
+        _adapter = adapter;
+        _connector = connector;
+    }
+    return self;
 }
 
 - (void)getInterstitial {
@@ -45,20 +47,19 @@
     _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
     _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
     if (!_gameID || !_placementID) {
-        NSError *error = GADUnityErrorWithDescription(@"Game ID and Placement ID cannot be nil.");
+        NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
         [strongConnector adapter:strongAdapter didFailAd:error];
         return;
     }
     _isLoading = YES;
-//    [UnityAds load:_placementID];
     [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad
-  // has already loaded.
+    // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad has already loaded.
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+    if (!strongConnector || !strongAdapter) return;
     [strongConnector adapterWillPresentInterstitial:strongAdapter];
     if ([UnityAds isReady:_placementID]) {
         [UnityAds show:rootViewController placementId:_placementID];
@@ -67,18 +68,18 @@
 #pragma mark GADMAdapterUnityDataProvider Methods
 
 - (NSString *)getGameID {
-  return _gameID;
+    return _gameID;
 }
 
 - (NSString *)getPlacementID {
-  return _placementID;
+    return _placementID;
 }
 
 - (void)didFailToLoadWithError:(nonnull NSError *)error { 
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     if (strongConnector != nil && strongAdapter != nil) {
-      [strongConnector adapter:strongAdapter didFailAd:error];
+        [strongConnector adapter:strongAdapter didFailAd:error];
     }
 }
 
@@ -87,9 +88,9 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
-  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
-  // Google Mobile Ads SDK.
+    // This callback is not forwarded to the adapter by the GADMAdapterUnitySingleton and the adapter
+    // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
+    // Google Mobile Ads SDK.
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
@@ -104,9 +105,9 @@
 - (void)unityAdsDidClick:(NSString *)placementID {
     id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-      // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
-      // that a click event indicates the user is leaving the application for a browser or deeplink, and
-      // notifies the Google Mobile Ads SDK accordingly.
+    // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
+    // that a click event indicates the user is leaving the application for a browser or deeplink, and
+    // notifies the Google Mobile Ads SDK accordingly.
     if (strongNetworkConnector) {
         [strongNetworkConnector adapterDidGetAdClick:strongAdapter];
         [strongNetworkConnector adapterWillLeaveApplication:strongAdapter];
@@ -126,8 +127,8 @@
             }
         }
         return;
-  }
-
+    }
+    
     NSError *errorWithDescription = GADUnityErrorWithDescription(message);
     if (strongNetworkConnector && strongAdapter) {
         [strongNetworkConnector adapter:strongAdapter didFailAd:errorWithDescription];
@@ -136,7 +137,7 @@
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementId {
-  // nothing to do
+    // nothing to do
 }
 
 - (void)unityAdsReady:(nonnull NSString *)placementId {

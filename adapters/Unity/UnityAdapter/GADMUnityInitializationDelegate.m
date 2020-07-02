@@ -16,7 +16,7 @@
 
 @implementation GADMUnityInitializationDelegate
 
--(instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+-(nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
     self = [super init];
     if (self) {
         initCompletionBlock = completionHandler;
@@ -25,7 +25,6 @@
 }
 
 // UnityAdsInitialization Delegate methods
-
 - (void)initializationComplete {
     NSLog(@"Unity Ads initialized successfully");
     initCompletionBlock(nil);
@@ -34,14 +33,6 @@
 - (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
     NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
     initCompletionBlock(err);
-//    self->error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
-//    self->result = message;
-//    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-//    if (strongConnector) {
-//        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
-//        [strongConnector adapter:self didFailAd:error];
-//
-//    }
 }
 
 @end
