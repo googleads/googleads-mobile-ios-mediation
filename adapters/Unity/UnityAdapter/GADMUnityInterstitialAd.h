@@ -14,7 +14,7 @@
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;
 
-@interface GADMUnityInterstitialAd : NSObject
+@interface GADMUnityInterstitialAd : NSObject <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
 
 - (instancetype _Nullable)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;

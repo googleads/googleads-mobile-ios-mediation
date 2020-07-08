@@ -76,6 +76,7 @@
         }
         return;
     }
+    [UnityAds addDelegate:self];
     [UnityAds load:_placementID loadDelegate:self];
 }
 

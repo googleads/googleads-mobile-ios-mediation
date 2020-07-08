@@ -37,7 +37,7 @@
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
-    if ([UnityAds isInitialized]) {
+    if (![UnityAds isInitialized]) {
         return nil;
     }
     self = [super init];
@@ -68,7 +68,7 @@
         [strongConnector adapter:strongAdapter didFailAd:error];
         return;
     }
-    
+    [UnityAds setDebugMode:YES];
     _bannerAd.delegate = self;
     [_bannerAd load];
 }

@@ -10,7 +10,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 
-@interface GADMUnityInterstitialAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
+@interface GADMUnityInterstitialAd () 
 
 @end
 @implementation GADMUnityInterstitialAd {
@@ -27,7 +27,7 @@
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
-    if ([UnityAds isInitialized]) {
+    if (![UnityAds isInitialized]) {
         return nil;
     }
     self = [super init];
@@ -52,6 +52,7 @@
         return;
     }
     _isLoading = YES;
+    [UnityAds addDelegate:self];
     [UnityAds load:_placementID loadDelegate:self];
 }
 

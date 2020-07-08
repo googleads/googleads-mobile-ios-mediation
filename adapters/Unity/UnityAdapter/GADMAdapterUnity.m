@@ -66,10 +66,8 @@
     }
     // Metadata needed by Unity Ads SDK before initialization.
     GADMUnityConfigureMediationService();
-    
     // Initializing Unity Ads with |gameID|.
     [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
-    [UnityAds addDelegate:self];
 }
 
 #pragma mark Interstitial Methods
@@ -151,49 +149,6 @@
         [strongConnector adapter:self didFailAd:error];
     }
 }
-
-#pragma mark - Unity Delegate Methods
-
-- (void)unityAdsPlacementStateChanged:(NSString *)placementID
-                             oldState:(UnityAdsPlacementState)oldState
-                             newState:(UnityAdsPlacementState)newState {
-}
-
-- (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
-    if ([placementID isEqualToString:_placementID]) {
-        id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-        if (strongNetworkConnector) {
-            [strongNetworkConnector adapterDidDismissInterstitial:self];
-        }
-    }
-}
-
-- (void)unityAdsReady:(NSString *)placementID {
-}
-
-- (void)unityAdsDidClick:(NSString *)placementID {
-    id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-    // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
-    // that a click event indicates the user is leaving the application for a browser or deeplink, and
-    // notifies the Google Mobile Ads SDK accordingly.
-    if (strongNetworkConnector && [placementID isEqualToString:_placementID]) {
-        [strongNetworkConnector adapterDidGetAdClick:self];
-        [strongNetworkConnector adapterWillLeaveApplication:self];
-    }
-}
-
-- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-    id<GADMAdNetworkConnector> strongNetworkConnector = _networkConnector;
-    if (strongNetworkConnector) {
-        [strongNetworkConnector adapterWillDismissInterstitial:self];
-        [strongNetworkConnector adapterDidDismissInterstitial:self];
-    }
-}
-
-- (void)unityAdsDidStart:(nonnull NSString *)placementID {
-    // nothing to do
-}
-
 
 // UnityAdsInitialization Delegate methods
 - (void)initializationComplete {
