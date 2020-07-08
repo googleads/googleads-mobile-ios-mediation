@@ -20,9 +20,12 @@ typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
   /// Missing server parameters.
   GADMAdapterInMobiErrorInvalidServerParameters = 101,
   /// Banner Size Mismatch.
-  GADMAdapterInErrorBannerSizeMismatch = 102,
+  GADMAdapterInMobiErrorBannerSizeMismatch = 102,
   /// An ad is already loaded for this network configuration.
-  GADMAdapterInMobiErrorAdAlreadyLoaded = 103
+  GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
+  /// InMobi native ad returned with missing native assets, or required image assets failed to
+  /// download.
+  GADMAdapterInMobiErrorMissingNativeAssets = 104
 };
 
 @interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
