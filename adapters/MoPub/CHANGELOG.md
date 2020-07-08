@@ -1,5 +1,10 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added a new extra to the `GADMoPubNetworkExtras` class:
+  * `customRewardData` - custom reward data for MoPub rewarded ads.
+- Now requires Google Mobile Ads SDK version 7.61.0 or higher.
+
 #### Version 5.13.0.0
 - Verified compatibility with MoPub SDK 5.13.0.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
