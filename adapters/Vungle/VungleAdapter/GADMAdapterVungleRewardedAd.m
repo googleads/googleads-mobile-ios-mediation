@@ -193,7 +193,7 @@
 }
 
 - (void)willLeaveApplication {
-  NSLog(@"%@ received willLeaveApplication event.", NSStringFromClass(self.class));
+  // Do nothing.
 }
 
 @end

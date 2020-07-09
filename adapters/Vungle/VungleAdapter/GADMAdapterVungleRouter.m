@@ -104,7 +104,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   if (delegate) {
     NSString *priorityPlacementID = delegate.desiredPlacement;
     [initOptions setObject:priorityPlacementID forKey:VungleSDKInitOptionKeyPriorityPlacementID];
-    _prioritizedPlacementID = [priorityPlacementID copy];
+    _prioritizedPlacementID = delegate.desiredPlacement;
 
     VungleAdSize priorityPlacementAdSize = VungleAdSizeUnknown;
     if ([delegate respondsToSelector:@selector(bannerAdSize)]) {

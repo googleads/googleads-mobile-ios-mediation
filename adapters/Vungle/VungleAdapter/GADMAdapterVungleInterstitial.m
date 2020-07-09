@@ -181,7 +181,7 @@
 }
 
 - (void)rewardUser {
-  NSLog(@"%@ received rewardUser event.", NSStringFromClass(self.class));
+  // Do nothing.
 }
 
 @end

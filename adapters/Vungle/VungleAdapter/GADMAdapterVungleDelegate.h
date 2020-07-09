@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 @protocol GADMAdapterVungleDelegate <NSObject>
 
 /// Placement ID used to request an ad from Vungle.
-@property(nonatomic, nonnull) NSString *desiredPlacement;
+@property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
