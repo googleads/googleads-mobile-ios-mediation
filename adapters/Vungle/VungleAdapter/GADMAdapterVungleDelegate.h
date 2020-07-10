@@ -23,25 +23,26 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateClosed
 };
 
-@class GADMAdapterVungleBannerRequest;
-
 /// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
 /// Placement ID used to request an ad from Vungle.
-@property(nonatomic, nonnull) NSString *desiredPlacement;
+@property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
+- (void)willCloseAd;
+- (void)didCloseAd;
+- (void)trackClick;
+- (void)rewardUser;
+- (void)willLeaveApplication;
 
 @optional
 
-// Get banner request object
-@property(nonatomic, nonnull) GADMAdapterVungleBannerRequest *bannerRequest;
+// Differentiate two banners with same placement ID
+@property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
 
 // Vungle banner ad state.
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;

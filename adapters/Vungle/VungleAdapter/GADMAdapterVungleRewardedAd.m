@@ -68,7 +68,7 @@
   self.desiredPlacement =
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
-  if (!self.desiredPlacement) {
+  if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
                                                                   @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
@@ -152,25 +152,14 @@
   }
 }
 
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  if (completedView) {
-    [strongDelegate didEndVideo];
-    GADAdReward *reward =
-        [[GADAdReward alloc] initWithRewardType:@"vungle"
-                                   rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-    [strongDelegate didRewardUserWithReward:reward];
-  }
-  if (didDownload) {
-    [strongDelegate reportClick];
-  }
-  [strongDelegate didDismissFullScreenView];
+- (void)didCloseAd {
+  [_delegate didDismissFullScreenView];
 
   GADMAdapterVungleRewardedAd __weak *weakSelf = self;
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
 }
 
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+- (void)willCloseAd {
   [_delegate willDismissFullScreenView];
 }
 
@@ -188,6 +177,23 @@
   }
   _adLoadCompletionHandler(nil, error);
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+}
+
+- (void)trackClick {
+  [_delegate reportClick];
+}
+
+- (void)rewardUser {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
+  [strongDelegate didEndVideo];
+  GADAdReward *reward =
+  [[GADAdReward alloc] initWithRewardType:@"vungle"
+                             rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
+  [strongDelegate didRewardUserWithReward:reward];
+}
+
+- (void)willLeaveApplication {
+  // Do nothing.
 }
 
 @end

@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #import "GADMAdapterVungleBanner.h"
-
-#import "GADMAdapterVungleBannerRequest.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
@@ -40,7 +38,7 @@
 
 @synthesize desiredPlacement;
 @synthesize bannerState;
-@synthesize bannerRequest;
+@synthesize uniquePubRequestID;
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
 
@@ -75,24 +73,10 @@
   VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
-  self.bannerRequest =
-      [[GADMAdapterVungleBannerRequest alloc] initWithPlacementID:self.desiredPlacement ?: @""
-                                               uniquePubRequestID:networkExtras.UUID];
-  if (!self.desiredPlacement) {
+  self.uniquePubRequestID = [networkExtras.UUID copy];
+  if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
                                                                   @"Placement ID not specified.");
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
-  // Check if a banner or MREC ad has been initiated with the same PlacementID or not.
-  // Vungle supports 4 types of banner currently.
-  if (![[GADMAdapterVungleRouter sharedInstance]
-          canRequestBannerAdForPlacementID:self.bannerRequest]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"A banner ad type has already been "
-                                        @"instantiated. Multiple banner ads are not "
-                                        @"supported with Vungle iOS SDK.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -213,15 +197,24 @@
   self.bannerState = BannerRouterDelegateStatePlaying;
 }
 
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  if (didDownload) {
-    [_connector adapterDidGetAdClick:_adapter];
-  }
+- (void)willCloseAd {
   self.bannerState = BannerRouterDelegateStateClosing;
 }
 
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+- (void)didCloseAd {
   self.bannerState = BannerRouterDelegateStateClosed;
+}
+
+- (void)trackClick {
+  [_connector adapterDidGetAdClick:_adapter];
+}
+
+- (void)willLeaveApplication {
+  [_connector adapterWillLeaveApplication:_adapter];
+}
+
+- (void)rewardUser {
+  // Do nothing.
 }
 
 @end
