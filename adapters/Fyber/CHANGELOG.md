@@ -1,5 +1,15 @@
 ## Fyber iOS Mediation Adapter Changelog
 
+#### Version 7.6.0.0
+- Verified compatibility with Fyber Marketplace SDK version 7.6.0.
+- Added support for rewarded playables.
+- Added IAAdDidReward callback (for both rewarded video and rewarded playable) where the user is being rewarded (instead of being rewarded in IAVideoCompleted).
+- Added isReady API to verity the ad is not expired.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.61.0.
+- Fyber Marketplace SDK version 7.6.0.
+
 #### Version 7.5.6.1
 - Temporarily removed Fyber Marketplace SDK-specific logging.
 

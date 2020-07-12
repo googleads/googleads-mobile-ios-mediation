@@ -15,6 +15,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <IASDKCore/IASDKCore.h>
 #import <IASDKVideo/IASDKVideo.h>
+#import <IASDKMRAID/IASDKMRAID.h>
 
 #include <stdatomic.h>
 
@@ -31,10 +32,13 @@
   /// Ad configuration for the ad to be loaded.
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
-  /// Fyber fullscreen controller to catch ad events.
+  /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
+    
+  /// Fyber mraid controller to support HTML ads.
+  IAMRAIDContentController *_MRAIDContentController;
 
-  /// Fyber video controller to catch video progress events.
+  /// Fyber video controller to support VAST ads and to catch video progress events.
   IAVideoContentController *_videoContentController;
 
   /// Fyber Ad spot to be loaded.
@@ -102,6 +106,9 @@
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
 
   GADMAdapterFyberRewardedAd *__weak weakSelf = self;
+  _MRAIDContentController =
+  [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){}];
+    
   _videoContentController =
       [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
@@ -121,6 +128,7 @@
 
         builder.unitDelegate = strongSelf;
         [builder addSupportedContentController:strongSelf->_videoContentController];
+        [builder addSupportedContentController:strongSelf->_MRAIDContentController];
       }];
 
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
@@ -130,6 +138,7 @@
     }
 
     builder.adRequest = request;
+    builder.mediationType = [IAMediationAdMob new];
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
@@ -152,8 +161,15 @@
 #pragma mark - GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  _parentViewController = viewController;
-  [_fullscreenUnitController showAdAnimated:YES completion:nil];
+  if (_fullscreenUnitController.isPresented) {
+    GADMAdapterFyberLog(@"Failed to show rewarded ad, it is already presented");
+  } else
+  if (!_fullscreenUnitController.isReady) {
+    GADMAdapterFyberLog(@"Failed to show rewarded ad, it has already expired");
+  } else {
+    _parentViewController = viewController;
+    [_fullscreenUnitController showAdAnimated:YES completion:nil];
+  }
 }
 
 #pragma mark - IAUnitDelegate
@@ -171,6 +187,16 @@
   [_delegate reportImpression];
 }
 
+- (void)IAAdDidReward:(nullable IAUnitController *)unitController {
+    GADMAdapterFyberLog(@"IAAdDidReward");
+    id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
+    GADAdReward *reward =
+      [[GADAdReward alloc] initWithRewardType:@""
+                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
+    
+    [strongDelegate didRewardUserWithReward:reward];
+}
+
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
   [_delegate willPresentFullScreenView];
 }
@@ -186,13 +212,7 @@
 #pragma mark - IAVideoContentDelegate
 
 - (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-
-  [strongDelegate didEndVideo];
-  [strongDelegate didRewardUserWithReward:reward];
+  [_delegate didEndVideo];
 }
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
