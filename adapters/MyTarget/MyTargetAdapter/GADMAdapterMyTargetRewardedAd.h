@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMRewardedAdMyTarget : NSObject <GADMediationRewardedAd>
+@interface GADMAdapterMyTargetRewardedAd : NSObject <GADMediationRewardedAd>
 
-- (void)loadRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+/// Initializes a new instance with |adConfiguration| and |completionHandler|.
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler
+    NS_DESIGNATED_INITIALIZER;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads a rewarded ad from myTarget.
+- (void)loadRewardedAd;
 
 @end

@@ -80,6 +80,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterAppLovin adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSString *versionString = GADMAdapterAppLovinAdapterVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   [GADMAdapterAppLovinUtils

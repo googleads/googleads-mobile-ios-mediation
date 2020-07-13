@@ -44,7 +44,7 @@
 
   if (!sdkKeys.count) {
     NSError *error = GADMAdapterTapjoyErrorWithCodeAndDescription(
-        kGADErrorMediationDataError,
+        GADMAdapterTapjoyErrorInvalidServerParameters,
         @"Tapjoy mediation configurations did not contain a valid SDK Key.");
     completionHandler(error);
     return;
@@ -83,6 +83,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterTapjoy adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
       [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
 

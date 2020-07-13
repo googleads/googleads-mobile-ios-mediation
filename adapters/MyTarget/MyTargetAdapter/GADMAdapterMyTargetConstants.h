@@ -1,31 +1,49 @@
+// Copyright 2017 Google LLC
 //
-//  GADMAdapterMyTargetConstants.h
-//  MyTargetAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Andrey Seredkin on 28.09.17.
-//  Copyright © 2017 Mail.Ru Group. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.6.0.0";
+/// myTarget mediation network adapter version.
+static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.7.0.0";
+
+/// myTarget mediation network adapter slot ID server parameter key.
 static NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";
-static NSString *const _Nonnull kGADMAdapterMyTargetGenderKey = @"gender";
-static NSString *const _Nonnull kGADMAdapterMyTargetBirthdayKey = @"birthday";
-static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeKey = @"at";
-static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeInstall = @"1";
-static NSString *const _Nonnull kGADMAdapterMyTargetNativeAdTypeContent = @"2";
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorDomain =
-    @"com.my.target.sdk.mediation.admob.errorDomain";
+
+/// Error domain for myTarget adapter specific errors.
+static NSString *const _Nonnull kGADMAdapterMyTargetAdapterErrorDomain =
+    @"com.google.mediation.mytarget";
+
+/// Error domain for myTarget SDK specific errors.
+static NSString *const _Nonnull kGADMAdapterMyTargetSDKErrorDomain =
+    @"com.google.mediation.mytargetSDK";
+
+/// Error message for missing myTarget slot ID.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorSlotId =
     @"Invalid credentials: slotId not found";
+
+/// Error message for myTarget no fills.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorNoAd = @"No ad";
+
+/// Error message for missing required native ad assets.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorMediatedAdInvalid =
     @"Some of the Always Included assets are not available for the ad";
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorMediatedAdDoesNotMatch =
-    @"Mediated NativeAd [%@] doesn't match reqeusted type (%@)";
+
+/// Error message for requesting a banner ad format through the incorrect adapter class.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorBannersNotSupported =
     @"Banners are not supported by this adapter";
+
+/// Error message for requesting an interstitial ad format through the incorrect adapter class.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorInterstitialNotSupported =
     @"Interstitial ads are not supported by this adapter";
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorInvalidNativeAdType =
-    @"Invalid NativeAd type (%@)";
+
+/// Error message for requesting a banner ad with an unsupported ad size.
 static NSString *const _Nonnull kGADMAdapterMyTargetErrorInvalidSize = @"Size not supported";

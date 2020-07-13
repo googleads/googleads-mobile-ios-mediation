@@ -12,51 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Vungle adapter ad type.
-typedef NS_ENUM(NSUInteger, GADMAdapterVungleAdType) {
-  GADMAdapterVungleAdTypeUnknown,            ///< Unknown adapter type.
-  GADMAdapterVungleAdTypeRewarded,           ///< Rewarded adapter type.
-  GADMAdapterVungleAdTypeInterstitial,       ///< Interstitial adapter type.
-  GADMAdapterVungleAdTypeMREC,               ///< MREC adapter type.
-  GADMAdapterVungleAdTypeBanner,             ///< Banner adapter type.
-  GADMAdapterVungleAdTypeShortBanner,        ///< ShortBanner adapter type.
-  GADMAdapterVungleAdTypeLeaderboardBanner   ///< LeaderboardBanner adapter type.
-};
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 /// Vungle banner ad state.
 typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
   BannerRouterDelegateStateRequesting,
-  BannerRouterDelegateStateCached,
   BannerRouterDelegateStateWillPlay,
   BannerRouterDelegateStatePlaying,
   BannerRouterDelegateStateClosing,
   BannerRouterDelegateStateClosed
 };
 
-@class GADMAdapterVungleBannerRequest;
-
 /// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
 /// Placement ID used to request an ad from Vungle.
-@property(nonatomic, nonnull) NSString *desiredPlacement;
-
-/// Vungle adapter ad type.
-@property(nonatomic) GADMAdapterVungleAdType adapterAdType;
+@property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload;
+- (void)willCloseAd;
+- (void)didCloseAd;
+- (void)trackClick;
+- (void)rewardUser;
+- (void)willLeaveApplication;
 
 @optional
-// Check is banner ad
-- (BOOL)isBannerAd;
 
-// Get banner request object
-@property(nonatomic, nonnull) GADMAdapterVungleBannerRequest *bannerRequest;
+// Differentiate two banners with same placement ID
+@property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
 
 // Vungle banner ad state.
 @property(nonatomic, assign) BannerRouterDelegateState bannerState;
@@ -66,5 +52,8 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 
 // Is requesting a Banner ad for a refresh request
 @property(nonatomic, assign) BOOL isRequestingBannerAdForRefresh;
+
+// Requested banner ad size.
+- (GADAdSize)bannerAdSize;
 
 @end

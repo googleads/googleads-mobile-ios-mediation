@@ -65,20 +65,17 @@
 }
 
 - (void)requestRewardedAd {
-  self.adapterAdType = GADMAdapterVungleAdTypeRewarded;
   self.desiredPlacement =
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
-  if (!self.desiredPlacement) {
+  if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
                                                                   @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance]
-          hasDelegateForPlacementID:self.desiredPlacement
-                        adapterType:GADMAdapterVungleAdTypeRewarded]) {
+  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
@@ -129,7 +126,6 @@
 #pragma mark - VungleRouter delegates
 
 @synthesize desiredPlacement;
-@synthesize adapterAdType;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -156,25 +152,14 @@
   }
 }
 
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  if (completedView) {
-    [strongDelegate didEndVideo];
-    GADAdReward *reward =
-        [[GADAdReward alloc] initWithRewardType:@"vungle"
-                                   rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-    [strongDelegate didRewardUserWithReward:reward];
-  }
-  if (didDownload) {
-    [strongDelegate reportClick];
-  }
-  [strongDelegate didDismissFullScreenView];
+- (void)didCloseAd {
+  [_delegate didDismissFullScreenView];
 
   GADMAdapterVungleRewardedAd __weak *weakSelf = self;
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
 }
 
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+- (void)willCloseAd {
   [_delegate willDismissFullScreenView];
 }
 
@@ -192,6 +177,23 @@
   }
   _adLoadCompletionHandler(nil, error);
   [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+}
+
+- (void)trackClick {
+  [_delegate reportClick];
+}
+
+- (void)rewardUser {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
+  [strongDelegate didEndVideo];
+  GADAdReward *reward =
+  [[GADAdReward alloc] initWithRewardType:@"vungle"
+                             rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
+  [strongDelegate didRewardUserWithReward:reward];
+}
+
+- (void)willLeaveApplication {
+  // Do nothing.
 }
 
 @end

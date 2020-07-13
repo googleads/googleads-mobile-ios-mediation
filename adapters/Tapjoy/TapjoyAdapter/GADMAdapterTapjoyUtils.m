@@ -59,10 +59,11 @@ void GADMAdapterTapjoyMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
   }
 }
 
-NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(NSInteger code,
+NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoyErrorCode code,
                                                                NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *errorInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain code:code userInfo:errorInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  return [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain code:code userInfo:userInfo];
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterTapjoyAuctionDataForResponseData(

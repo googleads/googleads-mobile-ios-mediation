@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GADMAdapterVungleBannerRequest : NSObject <NSCopying>
+/// The purpose of the GADMAdapterTapjoyDelegate protocol is to allow the singleton to interact
+/// with the adapter.
+@protocol GADMAdapterTapjoyDelegate <NSObject, TJPlacementDelegate, TJPlacementVideoDelegate>
 
-- (nonnull instancetype)initWithPlacementID:(nonnull NSString *)placementID
-                         uniquePubRequestID:(nullable NSString *)uniquePubRequestID;
-
-- (BOOL)isEqualToBannerRequest:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
-
-@property(nonatomic, copy, readonly) NSString *_Nonnull placementID;
-@property(nonatomic, copy, readonly) NSString *_Nullable uniquePubRequestID;
+/// Called when an ad fails to load.
+- (void)didFailToLoadWithError:(nonnull NSError *)error;
 
 @end

@@ -93,6 +93,10 @@
 }
 
 + (GADVersionNumber)version {
+  return [GADMediationAdapterChartboost adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterChartboostVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 

@@ -1,9 +1,11 @@
 #import "GADMMoPubRewardedAd.h"
 
 #include <stdatomic.h>
+
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
+#import "GADMoPubNetworkExtras.h"
 #import "MPRewardedVideo.h"
 #import "MoPub.h"
 
@@ -76,14 +78,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   // MoPub ads have a 4-hour expiration time window
-  if ([MPRewardedVideo hasAdAvailableForAdUnitID:_adUnitID]) {
-    NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:_adUnitID];
-    MPRewardedVideoReward *reward = rewards[0];
-
-    [MPRewardedVideo presentRewardedVideoAdForAdUnitID:_adUnitID
-                                    fromViewController:viewController
-                                            withReward:reward];
-  } else {
+  if (![MPRewardedVideo hasAdAvailableForAdUnitID:_adUnitID]) {
     NSString *description;
     if (_adExpired) {
       description = @"Failed to show a MoPub rewarded ad. Ad has expired after 4 hours. "
@@ -95,7 +90,17 @@
     NSError *error =
         GADMoPubErrorWithCodeAndDescription(GADMoPubErrorInvalidServerParameters, description);
     [_adEventDelegate didFailToPresentWithError:error];
+    return;
   }
+
+  NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:_adUnitID];
+  MPRewardedVideoReward *reward = rewards[0];
+
+  GADMoPubNetworkExtras *extras = _adConfig.extras;
+  [MPRewardedVideo presentRewardedVideoAdForAdUnitID:_adUnitID
+                                  fromViewController:viewController
+                                          withReward:reward
+                                          customData:extras.customRewardData];
 }
 
 #pragma mark GADMAdapterMoPubRewardedAdDelegate methods
