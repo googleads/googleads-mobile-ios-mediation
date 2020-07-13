@@ -38,7 +38,7 @@
   /// Fyber mraid controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
-  /// Fyber video controller to support VAST ads and to catch video progress events.
+  /// Fyber video controller to support video ads and to catch video progress events.
   IAVideoContentController *_videoContentController;
 
   /// Fyber Ad spot to be loaded.
