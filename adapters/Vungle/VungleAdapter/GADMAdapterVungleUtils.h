@@ -35,6 +35,10 @@ void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Non
 void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull userDefaults,
                                                      id _Nullable key);
 
+/// Removes the object for |key| in |dictionary| if |key| is not nil.
+void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                          id<NSCopying> _Nullable key);
+
 /// Returns an NSError with the specified code and description.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description);
