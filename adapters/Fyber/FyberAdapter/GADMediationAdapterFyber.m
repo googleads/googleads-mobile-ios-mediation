@@ -56,10 +56,6 @@
 }
 
 + (GADVersionNumber)version {
-  return [GADMediationAdapterFyber adapterVersion];
-}
-
-+ (GADVersionNumber)adapterVersion {
   return GADMAdapterFyberVersionFromString(kGADMAdapterFyberVersion);
 }
 
