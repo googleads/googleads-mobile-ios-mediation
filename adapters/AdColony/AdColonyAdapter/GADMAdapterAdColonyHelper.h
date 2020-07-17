@@ -22,11 +22,6 @@ void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set, NSObjec
 void GADMAdapterAdColonyMutableSetAddObjectsFromArray(NSMutableSet *_Nullable set,
                                                       NSArray *_Nonnull array);
 
-/// Sets |value| for |key| in |dictionary| if |value| is not nil.
-void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                         id<NSCopying> _Nullable key,
-                                                         id _Nullable value);
-
 /// Adds |object| to |array| if |object| is not nil.
 void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,
                                               NSObject *_Nonnull object);
@@ -38,9 +33,6 @@ dispatch_time_t GADMAdapterAdColonyDispatchTimeForInterval(NSTimeInterval interv
 /// Retrieve zone ID from the settings dictionary.
 NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
     NSDictionary<NSString *, id> *_Nonnull settings);
-
-/// Retrieve zone ID from the reply string.
-NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply);
 
 @interface GADMAdapterAdColonyHelper : NSObject
 
@@ -70,11 +62,5 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply);
 /// Configures the zone provided by the GADMediationAdConfiguration with AdColony SDK.
 + (void)setupZoneFromAdConfig:(nonnull GADMediationAdConfiguration *)adConfig
                      callback:(nonnull void (^)(NSString *_Nullable, NSError *_Nullable))callback;
-
-/// Retrieves a dictionary from the provided JSON string.
-+ (nullable NSDictionary *)getDictionaryFromJsonString:(nonnull NSString *)jsonString;
-
-/// Retrieves a JSON string from the provided dictionary.
-+ (nullable NSString *)getJsonStringFromDictionary:(nonnull NSDictionary *)dictionary;
 
 @end
