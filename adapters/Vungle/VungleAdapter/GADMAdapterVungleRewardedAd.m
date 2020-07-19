@@ -114,7 +114,7 @@
                                                  extras:[_adConfiguration extras]]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         kGADErrorMediationAdapterError, @"Adapter failed to present rewarded ad.");
-    _adLoadCompletionHandler(nil, error);
+    [_delegate didFailToPresentWithError:error];
   }
 }
 
