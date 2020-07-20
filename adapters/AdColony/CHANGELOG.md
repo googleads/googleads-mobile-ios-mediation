@@ -4,7 +4,7 @@
 - Verified compatibility with AdColony SDK 4.2.0.
 
 Built and tested with
-- Google Mobile Ads SDK version 7.61.0.
+- Google Mobile Ads SDK version 7.62.0.
 - AdColony SDK version 4.2.0.
 
 #### Version 4.1.5.0
