@@ -23,7 +23,7 @@
 }
 
 - (void)fetchNativeAd:(nonnull NSArray<GADAdLoaderOptions *> *)options
-               spotId:(nonnull NSString *)spotId
+               spotId:(NSInteger)spotId
                apiKey:(nonnull NSString *)apiKey
                 extra:(nonnull GADMAdapterNendExtras *)extras {
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
@@ -34,7 +34,7 @@
   }
 
   if (extras && extras.nativeType == GADMAdapterNendNativeTypeVideo) {
-    _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotId:spotId
+    _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotID:spotId
                                                          apiKey:apiKey
                                                     clickAction:NADNativeVideoClickActionLP];
     _videoLoader.mediationName = kGADMAdapterNendMediationName;
@@ -57,7 +57,7 @@
       [strongSelf didReceiveUnifiedNativeAd:unifiedAd];
     }];
   } else {
-    _normalLoader = [[NADNativeClient alloc] initWithSpotId:spotId apiKey:apiKey];
+    _normalLoader = [[NADNativeClient alloc] initWithSpotID:spotId apiKey:apiKey];
 
     __weak GADMAdapterNendNativeAdLoader *weakSelf = self;
     [_normalLoader loadWithCompletionBlock:^(NADNative *_Nullable ad, NSError *_Nullable error) {

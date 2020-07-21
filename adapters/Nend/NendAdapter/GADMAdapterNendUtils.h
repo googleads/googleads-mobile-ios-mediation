@@ -17,5 +17,5 @@
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode *_Nonnull code,
+NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode code,
                                                              NSString *_Nonnull description);

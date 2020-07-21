@@ -55,14 +55,14 @@
   NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count >= 3) {
+  if (versionComponents.count >= 1) {
     version.majorVersion = versionComponents[0].integerValue;
-    version.minorVersion = versionComponents[1].integerValue;
-    version.patchVersion = versionComponents[2].integerValue;
-  } else {
-    version.majorVersion = versionComponents[0].integerValue;
-    version.minorVersion = versionComponents[1].integerValue;
-    version.patchVersion = 0;
+    if (versionComponents.count >= 2) {
+      version.minorVersion = versionComponents[1].integerValue;
+      if (versionComponents.count >= 3) {
+        version.patchVersion = versionComponents[2].integerValue;
+      }
+    }
   }
   return version;
 }

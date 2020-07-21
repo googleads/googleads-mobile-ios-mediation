@@ -26,7 +26,7 @@ typedef void (^NADNativeVideoCompletionBlock)(NADNativeVideo *_Nullable ad,
                                               NSError *_Nullable error);
 
 - (void)fetchNativeAd:(nonnull NSArray<GADAdLoaderOptions *> *)options
-               spotId:(nonnull NSString *)spotId
+               spotId:(NSInteger)spotId
                apiKey:(nonnull NSString *)apiKey
                 extra:(nonnull GADMAdapterNendExtras *)extras;
 
