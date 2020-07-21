@@ -10,4 +10,7 @@
 /// Minimum ad size allowed for MoPub banner ads. Defaults to CGSizeZero.
 @property(assign) CGSize minimumBannerSize;
 
+/// Custom reward data for MoPub rewarded video ads.
+@property(nonatomic, copy, nullable) NSString *customRewardData;
+
 @end

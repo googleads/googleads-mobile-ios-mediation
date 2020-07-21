@@ -13,9 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterVungleInterstitial.h"
-
 #import "GADMAdapterVungleBanner.h"
-#import "GADMAdapterVungleBannerRequest.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
@@ -65,7 +63,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
-  if (!self.desiredPlacement) {
+  if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
                                  kGADErrorMediationDataError, @"Placement ID not specified.")];
@@ -99,10 +97,11 @@
 - (void)stopBeingDelegate {
   if (_bannerAd) {
     [_bannerAd cleanUp];
+  } else {
+    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
   }
 
   _connector = nil;
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -165,18 +164,24 @@
   [_connector adapterWillPresentInterstitial:self];
 }
 
-- (void)willCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-
-  if (didDownload) {
-    [strongConnector adapterDidGetAdClick:self];
-  }
-
-  [strongConnector adapterWillDismissInterstitial:self];
+- (void)willCloseAd {
+  [_connector adapterWillDismissInterstitial:self];
 }
 
-- (void)didCloseAd:(BOOL)completedView didDownload:(BOOL)didDownload {
+- (void)didCloseAd {
   [_connector adapterDidDismissInterstitial:self];
+}
+
+- (void)trackClick {
+  [_connector adapterDidGetAdClick:self];
+}
+
+- (void)willLeaveApplication {
+  [_connector adapterWillLeaveApplication:self];
+}
+
+- (void)rewardUser {
+  // Do nothing.
 }
 
 @end

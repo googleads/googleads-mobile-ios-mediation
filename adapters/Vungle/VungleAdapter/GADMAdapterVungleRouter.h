@@ -19,8 +19,6 @@
 
 extern const CGSize kVNGBannerShortSize;
 
-@class GADMAdapterVungleBannerRequest;
-
 @interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;
@@ -38,6 +36,5 @@ extern const CGSize kVNGBannerShortSize;
                                    extras:(nullable VungleAdNetworkExtras *)extras
                            forPlacementID:(nonnull NSString *)placementID;
 - (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
-- (BOOL)canRequestBannerAdForPlacementID:(nonnull GADMAdapterVungleBannerRequest *)bannerRequest;
 
 @end

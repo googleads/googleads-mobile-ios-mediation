@@ -1,5 +1,19 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fixed an issue where `didFailToPresentWithError:` was not called when a rewarded ad failed to present.
+
+#### Version 6.7.0.0
+- Verified compatibility with Vungle SDK 6.7.0.
+- Now requires Google Mobile Ads SDK version 7.62.0 or higher.
+- Added support for playing multi ads at the same time.
+- Clicks now reported when the click happens instead of when the ad is closed.
+- Banner and interstitial ads now forward the willLeaveApplication callback.
+
+Build and tested with
+- Google Mobile Ads SDK version 7.62.0.
+- Vungle SDK version 6.7.0.
+
 #### Version 6.5.3.0
 - Verified compatibility with Vungle SDK 6.5.3.
 - Now requires Google Mobile Ads SDK version 7.58.0 or higher.

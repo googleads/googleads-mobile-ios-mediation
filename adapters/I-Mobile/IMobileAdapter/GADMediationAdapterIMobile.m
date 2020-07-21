@@ -43,10 +43,6 @@
 }
 
 + (GADVersionNumber)version {
-  return [GADMediationAdapterIMobile adapterVersion];
-}
-
-+ (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [kGADMAdapterIMobileVersion componentsSeparatedByString:@"."];
 
@@ -140,8 +136,7 @@
 
 #pragma mark - IMobileSdkAdsDelegate
 
-- (void)imobileSdkAdsSpot:(NSString *)spotId
-         didFailWithValue:(ImobileSdkAdsFailResult)value {
+- (void)imobileSdkAdsSpot:(NSString *)spotId didFailWithValue:(ImobileSdkAdsFailResult)value {
   [self stopBeingDelegate];
   NSInteger errorCode = GADMAdapterIMobileAdMobErrorFromIMobileResult(value);
   NSString *errorString = [NSString stringWithFormat:@"Failed to get an ad for spotID: %@", spotId];

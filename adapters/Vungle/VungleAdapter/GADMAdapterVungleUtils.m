@@ -49,6 +49,13 @@ void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull us
   }
 }
 
+void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                          id<NSCopying> _Nullable key) {
+  if (key) {
+    [dictionary removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo = @{NSLocalizedDescriptionKey : description};
