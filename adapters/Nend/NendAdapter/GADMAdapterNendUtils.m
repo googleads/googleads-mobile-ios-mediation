@@ -15,7 +15,7 @@
 #import "GADMAdapterNendUtils.h"
 #import "GADMAdapterNendConstants.h"
 
-NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode *_Nonnull code,
+NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode code,
                                                              NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};

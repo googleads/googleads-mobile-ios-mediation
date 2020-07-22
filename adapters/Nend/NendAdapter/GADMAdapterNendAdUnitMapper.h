@@ -10,6 +10,6 @@
 
 @interface GADMAdapterNendAdUnitMapper : NSObject
 
-+ (BOOL)isValidAPIKey:(nonnull NSString *)apiKey spotId:(nonnull NSString *)spotId;
++ (BOOL)isValidAPIKey:(nonnull NSString *)apiKey spotId:(NSInteger)spotId;
 
 @end

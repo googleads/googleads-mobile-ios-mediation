@@ -78,7 +78,7 @@
     return;
   }
 
-  _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotId:spotId apiKey:apiKey];
+  _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotID:spotId.integerValue apiKey:apiKey];
   _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
 
   GADMAdapterNendExtras *extras = _adConfiguration.extras;
