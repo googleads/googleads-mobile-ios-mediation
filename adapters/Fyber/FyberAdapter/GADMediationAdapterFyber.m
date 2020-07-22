@@ -36,7 +36,7 @@
   /// Fyber fullscreen controller to catch interstitial related ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
 
-  /// Fyber mraid controller to support HTML ads and to catch MRAID content related callbacks.
+  /// Fyber MRAID controller to support HTML ads and to catch MRAID content related callbacks.
   IAMRAIDContentController *_MRAIDContentController;
 
   /// Fyber video controller to support VAST ads and to catch video progress events.
@@ -196,11 +196,11 @@
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   if (_fullscreenUnitController.isPresented) {
-      GADMAdapterFyberLog(@"Failed to show interstitial ad, it is already presented");
+    GADMAdapterFyberLog(@"Failed to show interstitial ad, it is already presented");
   } else if (!_fullscreenUnitController.isReady) {
-      GADMAdapterFyberLog(@"Failed to show interstitial ad, it has already expired");
+    GADMAdapterFyberLog(@"Failed to show interstitial ad, it has already expired");
   } else {
-      [_fullscreenUnitController showAdAnimated:YES completion:nil];
+    [_fullscreenUnitController showAdAnimated:YES completion:nil];
   }
 }
 
@@ -226,7 +226,7 @@
 
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
-    builder.mediationType = [IAMediationAdMob new];
+    builder.mediationType = [[IAMediationAdMob alloc] init];
 
     GADMediationAdapterFyber *strongSelf = weakSelf;
     if (!strongSelf) {
@@ -261,7 +261,7 @@
 
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
-    builder.mediationType = [IAMediationAdMob new];
+    builder.mediationType = [[IAMediationAdMob alloc] init];
 
     GADMediationAdapterFyber *strongSelf = weakSelf;
     if (!strongSelf) {

@@ -14,8 +14,8 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import <IASDKCore/IASDKCore.h>
-#import <IASDKVideo/IASDKVideo.h>
 #import <IASDKMRAID/IASDKMRAID.h>
+#import <IASDKVideo/IASDKVideo.h>
 
 #include <stdatomic.h>
 
@@ -34,7 +34,7 @@
 
   /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
-    
+
   /// Fyber mraid controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
@@ -107,8 +107,9 @@
 
   GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   _MRAIDContentController =
-  [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){}];
-    
+      [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
+      }];
+
   _videoContentController =
       [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
@@ -138,7 +139,7 @@
     }
 
     builder.adRequest = request;
-    builder.mediationType = [IAMediationAdMob new];
+    builder.mediationType = [[IAMediationAdMob alloc] init];
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
@@ -163,8 +164,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_fullscreenUnitController.isPresented) {
     GADMAdapterFyberLog(@"Failed to show rewarded ad, it is already presented");
-  } else
-  if (!_fullscreenUnitController.isReady) {
+  } else if (!_fullscreenUnitController.isReady) {
     GADMAdapterFyberLog(@"Failed to show rewarded ad, it has already expired");
   } else {
     _parentViewController = viewController;
@@ -188,13 +188,10 @@
 }
 
 - (void)IAAdDidReward:(nullable IAUnitController *)unitController {
-    GADMAdapterFyberLog(@"IAAdDidReward");
-    id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-    GADAdReward *reward =
+  GADAdReward *reward =
       [[GADAdReward alloc] initWithRewardType:@""
                                  rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-    
-    [strongDelegate didRewardUserWithReward:reward];
+  [_delegate didRewardUserWithReward:reward];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
