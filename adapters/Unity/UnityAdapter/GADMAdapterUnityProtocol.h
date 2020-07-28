@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /// The purpose of the GADMAdapterUnityDataProvider protocol is to allow the singleton to interact
 /// with the adapter.
