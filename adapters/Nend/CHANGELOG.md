@@ -1,5 +1,12 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Version 6.0.1.0
+- Verified compatibility with nend SDK 6.0.1.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.62.0.
+- Nend SDK version 6.0.1.
+
 #### Version 6.0.0.0
 - Verified compatibility with nend SDK 6.0.0.
 - Removed the `GADNendRewardedNetworkExtras` class. If you want to pass network
