@@ -2,10 +2,11 @@
 
 #### Version 5.10.1.0
 - Verified compatibility with FAN SDK 5.10.1.
-- Now requires Google Mobile Ads SDK version 7.61.0 or higher.
+- Now requires Google Mobile Ads SDK version 7.62.0 or higher.
+- Fixed a bug where adapterWillLeaveApplication: was not being called for interstitial ads for non-open bidding.
 
 Built and tested with
-- Google Mobile Ads SDK version 7.61.0.
+- Google Mobile Ads SDK version 7.62.0.
 - FAN SDK version 5.10.1.
 
 #### Version 5.10.0.0
