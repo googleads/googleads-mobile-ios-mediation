@@ -1,5 +1,12 @@
 ## Verizon Media iOS Mediation Adapter Changelog
 
+#### Version 1.7.0.0
+- Verified compatibility with Verizon Ads Standard Edition version 1.7.0.
+- Now requires Google Mobile Ads SDK version 7.62.0 or higher.
+- Built and tested with:
+    - Google Mobile Ads SDK version 7.62.0.
+    - Verizon Ads SDK version 1.7.0
+
 #### Version 1.6.0.0
 - Verified compatibility with Verizon Ads Standard Edition version 1.6.0.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
