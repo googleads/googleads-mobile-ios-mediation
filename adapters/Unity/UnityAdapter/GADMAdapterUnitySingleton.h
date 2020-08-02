@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
-@import UnityAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 
 #import "GADMAdapterUnityProtocol.h"
 

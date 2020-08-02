@@ -42,9 +42,6 @@
 
   /// Chartboost rewarded ad object
   CHBRewarded *_rewardedAd;
-
-  /// Indicates whether Chartboost SDK called the -didShowAd:error: delegate method.
-  BOOL _didShowAdWasCalled;
 }
 
 - (nonnull instancetype)
@@ -142,24 +139,19 @@
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
-  BOOL didShowAdPreviouslyCalled = _didShowAdWasCalled;
-  _didShowAdWasCalled = YES;
+  if (error) {
+    NSError *showError = NSErrorForCHBShowError(error);
+    NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
 
-  if (!didShowAdPreviouslyCalled) {
-    if (error) {
-      NSError *showError = NSErrorForCHBShowError(error);
-      NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
-
-      // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
-      // -didDismissAd:
-      [_adEventDelegate didFailToPresentWithError:showError];
-      return;
-    }
-
-    [_adEventDelegate willPresentFullScreenView];
-    [_adEventDelegate reportImpression];
-    [_adEventDelegate didStartVideo];
+    // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
+    // -didDismissAd:
+    [_adEventDelegate didFailToPresentWithError:showError];
+    return;
   }
+
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate reportImpression];
+  [_adEventDelegate didStartVideo];
 }
 
 - (void)didEarnReward:(CHBRewardEvent *)event {

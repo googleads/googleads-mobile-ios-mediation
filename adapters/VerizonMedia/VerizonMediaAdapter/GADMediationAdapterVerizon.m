@@ -63,10 +63,6 @@
 }
 
 + (GADVersionNumber)version {
-  return [GADMediationAdapterVerizon adapterVersion];
-}
-
-+ (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
       [kGADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
 
