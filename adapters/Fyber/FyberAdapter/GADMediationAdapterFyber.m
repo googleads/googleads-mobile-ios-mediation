@@ -141,9 +141,28 @@
     if (error) {
       GADMAdapterFyberLog(@"Failed to load banner ad: %@", error.localizedDescription);
       [strongConnector adapter:strongSelf didFailAd:error];
-    } else {
-      [strongConnector adapter:strongSelf didReceiveAdView:strongSelf->_viewUnitController.adView];
+      return;
     }
+
+    // Verify the loaded ad size with the requested ad size.
+    GADAdSize loadedAdSize =
+        GADAdSizeFromCGSize(CGSizeMake(strongSelf->_viewUnitController.adView.frame.size.width,
+                                       strongSelf->_viewUnitController.adView.frame.size.height));
+    NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(loadedAdSize) ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
+    if (!IsGADAdSizeValid(closestSize)) {
+      NSString *logMessage = [NSString
+          stringWithFormat:@"The loaded ad size did not match the requested ad size. Requested ad "
+                           @"size: %@. Loaded size: %@.",
+                           NSStringFromGADAdSize(adSize), NSStringFromGADAdSize(loadedAdSize)];
+      GADMAdapterFyberLog(@"Failed to load banner ad: %@", logMessage);
+      NSError *error =
+          GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize, logMessage);
+      [strongConnector adapter:strongSelf didFailAd:error];
+      return;
+    }
+
+    [strongConnector adapter:strongSelf didReceiveAdView:strongSelf->_viewUnitController.adView];
   }];
 }
 
@@ -212,7 +231,6 @@
       }];
 
   GADMediationAdapterFyber *__weak weakSelf = self;
-
   _viewUnitController =
       [IAViewUnitController build:^(id<IAViewUnitControllerBuilder> _Nonnull builder) {
         GADMediationAdapterFyber *strongSelf = weakSelf;

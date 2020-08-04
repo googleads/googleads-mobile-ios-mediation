@@ -3,6 +3,7 @@
 #### Version 7.6.0.0
 - Verified compatibility with Fyber Marketplace SDK version 7.6.0.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
+- Updated the adapter to support inline adaptive banner requests.
 - Added support for rewarded HTML.
 - Added new reward callback: IAAdDidReward (for both rewarded video and rewarded HTML). IAVideoCompleted is no longer used for rewarding.
 
