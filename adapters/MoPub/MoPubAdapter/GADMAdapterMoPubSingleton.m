@@ -1,7 +1,6 @@
 #import "GADMAdapterMoPubSingleton.h"
 
 #import "GADMAdapterMoPubUtils.h"
-#import "MPRewardedVideo.h"
 
 @interface GADMAdapterMoPubSingleton () <MPRewardedVideoDelegate>
 @end

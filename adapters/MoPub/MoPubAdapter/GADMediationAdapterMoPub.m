@@ -5,8 +5,7 @@
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMMoPubRewardedAd.h"
 #import "GADMoPubNetworkExtras.h"
-#import "MPRewardedVideo.h"
-#import "MoPub.h"
+#import <MoPub/MoPub.h>
 
 @implementation GADMediationAdapterMoPub {
   /// MoPub rewarded ad wrapper.

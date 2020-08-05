@@ -6,8 +6,7 @@
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMoPubNetworkExtras.h"
-#import "MPRewardedVideo.h"
-#import "MoPub.h"
+#import <MoPub/MoPub.h>
 
 @interface GADMMoPubRewardedAd () <MPRewardedVideoDelegate>
 @end

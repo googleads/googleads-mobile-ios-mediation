@@ -5,20 +5,9 @@
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 #import "GADMoPubNetworkExtras.h"
-#import "MPAdView.h"
-#import "MPImageDownloadQueue.h"
-#import "MPInterstitialAdController.h"
-#import "MPLogging.h"
-#import "MPNativeAd.h"
-#import "MPNativeAdConstants.h"
-#import "MPNativeAdDelegate.h"
-#import "MPNativeAdRequest.h"
-#import "MPNativeAdRequestTargeting.h"
-#import "MPNativeAdUtils.h"
-#import "MPNativeCache.h"
-#import "MPStaticNativeAdRenderer.h"
-#import "MPStaticNativeAdRendererSettings.h"
-#import "MoPub.h"
+#import <MoPub/MoPub.h>
+#import <MoPub/MPNativeAds.h>
+
 
 static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialDelegates;
 

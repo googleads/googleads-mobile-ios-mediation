@@ -1,11 +1,7 @@
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 
 #import "GADMAdapterMoPubConstants.h"
-#import "MPAdDestinationDisplayAgent.h"
-#import "MPCoreInstanceProvider.h"
-#import "MPLogging.h"
-#import "MPNativeAd.h"
-#import "MPNativeAdConstants.h"
+#import <MoPub/MPAdDestinationDisplayAgent.h>
 
 @interface GADMAdapterMopubUnifiedNativeAd () <MPAdDestinationDisplayAgentDelegate>
 @end
