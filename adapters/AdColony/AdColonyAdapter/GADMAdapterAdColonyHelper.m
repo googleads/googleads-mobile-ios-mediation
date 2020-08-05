@@ -12,6 +12,8 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
+#define ADCOLONY_AD_MARKUP @"adm"
+
 @implementation GADMAdapterAdColonyHelper
 
 + (nullable AdColonyAppOptions *)getAppOptionsFromConnector:
@@ -106,7 +108,7 @@
     if (options == nil) {
       options = [AdColonyAdOptions new];
     }
-    [options setOption:@"adm" withStringValue:adConfig.bidResponse];
+    [options setOption:ADCOLONY_AD_MARKUP withStringValue:adConfig.bidResponse];
   }
 
   return options;
