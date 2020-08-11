@@ -73,6 +73,11 @@
   return nil;
 }
 
+/// AppLovin SDK doesn't have an AdChoices view.
+- (nullable UIView *)adChoicesView {
+  return nil;
+}
+
 - (nullable NSDictionary<NSString *, id> *)extraAssets {
   NSMutableDictionary<NSString *, id> *_extras = [[NSMutableDictionary alloc] init];
   GADMAdapterAppLovinMutableDictionarySetObjectForKey(_extras, GADMAppLovinAdID,
