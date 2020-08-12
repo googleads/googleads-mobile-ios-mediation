@@ -23,19 +23,26 @@ import SampleAdSDK
 /// Constant for Sample Ad Network custom event error domain.
 private let customEventErrorDomain: String = "com.google.CustomEvent"
 
-@objc public class SampleCustomEventBannerSwift: NSObject, GADCustomEventBanner {
+@objc class SampleCustomEventBannerSwift: NSObject, GADCustomEventBanner {
 
   /// The Sample Ad Network banner.
-  public var bannerAd: SampleBanner?
-  public var delegate: GADCustomEventBannerDelegate?
+  var bannerAd: SampleBanner?
+  var delegate: GADCustomEventBannerDelegate?
 
-  public func requestAd(_ adSize: GADAdSize,
-                        parameter serverParameter: String?,
-                        label serverLabel: String?,
-                        request: GADCustomEventRequest) {
+  required override init() {
+    super.init()
+  }
+
+  func requestAd(
+    _ adSize: GADAdSize,
+    parameter serverParameter: String?,
+    label serverLabel: String?,
+    request: GADCustomEventRequest
+  ) {
 
     // Create the bannerView with the appropriate size.
-    bannerAd = SampleBanner(frame: CGRect(x: 0, y: 0, width: adSize.size.width, height: adSize.size.height))
+    bannerAd = SampleBanner(
+      frame: CGRect(x: 0, y: 0, width: adSize.size.width, height: adSize.size.height))
     bannerAd?.delegate = self
     bannerAd?.adUnit = serverParameter
     let adRequest = SampleAdRequest()
@@ -47,16 +54,16 @@ private let customEventErrorDomain: String = "com.google.CustomEvent"
 
 extension SampleCustomEventBannerSwift: SampleBannerAdDelegate {
 
-  public func bannerDidLoad(_ banner: SampleBanner) {
+  func bannerDidLoad(_ banner: SampleBanner) {
     delegate?.customEventBanner(self, didReceiveAd: banner)
   }
 
-  public func banner(_ banner: SampleBanner, didFailToLoadAdWith errorCode: SampleErrorCode) {
+  func banner(_ banner: SampleBanner, didFailToLoadAdWith errorCode: SampleErrorCode) {
     let error = NSError(domain: customEventErrorDomain, code: errorCode.rawValue, userInfo: nil)
     delegate?.customEventBanner(self, didFailAd: error)
   }
 
-  public func bannerWillLeaveApplication(_ banner: SampleBanner) {
+  func bannerWillLeaveApplication(_ banner: SampleBanner) {
     delegate?.customEventBannerWasClicked(self)
     delegate?.customEventBannerWillLeaveApplication(self)
   }

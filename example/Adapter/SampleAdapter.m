@@ -21,7 +21,6 @@
 #import <SampleAdSDK/SampleAdSDK.h>
 #import "SampleAdapterConstants.h"
 #import "SampleAdapterDelegate.h"
-#import "SampleAdapterMediatedNativeAd.h"
 #import "SampleExtras.h"
 
 @interface SampleAdapter () <SampleRewardedAdDelegate, GADMediationRewardedAd> {

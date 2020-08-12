@@ -21,7 +21,7 @@
 
 #import "SampleAdapterConstants.h"
 
-@interface SampleAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate>
+@interface SampleAdapterMediatedNativeAd ()
 
 @property(nonatomic, strong) SampleNativeAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
@@ -123,28 +123,28 @@
   return self.adInfoView;
 }
 
-#pragma mark - GADMediatedNativeAd requirement
+#pragma mark - GADMediatedUnifiedNativeAd requirement
 
-- (nullable id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
+- (nullable id<GADUnifiedNativeAdDelegate>)mediatedNativeAdDelegate {
   return self;
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
+- (void)mediatedNativeAd:(id<GADMediationNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
   [self didUntrackView:view];
 }
 
-- (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
+- (void)mediatedNativeAdDidRecordImpression:(id<GADMediationNativeAd>)mediatedNativeAd {
   [self didRecordImpression];
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
+- (void)mediatedNativeAd:(id<GADMediationNativeAd>)mediatedNativeAd
     didRecordClickOnAssetWithName:(NSString *)assetName
                              view:(UIView *)view
                    viewController:(UIViewController *)viewController {
   [self didRecordClickOnAssetWithName:assetName view:view viewController:viewController];
 }
 
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
+- (void)mediatedNativeAd:(id<GADMediationNativeAd>)mediatedNativeAd
            didRenderInView:(UIView *)view
        clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
     nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
