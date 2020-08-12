@@ -52,10 +52,16 @@
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     
-    if (!strongConnector || !strongAdapter) {
-        NSLog(@"Adapter Error: No GADMAdNetworkConnector nor GADMAdNetworkAdapter found.");
+    if (!strongConnector) {
+        NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
         return;
     }
+    
+    if (!strongAdapter) {
+        NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
+        return;
+    }
+    
     _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
     if (!_placementID) {
         NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
@@ -68,7 +74,6 @@
         [strongConnector adapter:strongAdapter didFailAd:error];
         return;
     }
-    [UnityAds setDebugMode:YES];
     _bannerAd.delegate = self;
     [_bannerAd load];
 }
@@ -81,6 +86,7 @@
 #pragma mark UADSBannerView Delegate methods
 
 - (void)bannerViewDidLoad:(UADSBannerView *)bannerView {
+    NSLog(@"Unity Ads finished loading banner for placement ID '%@'.", _placementID);
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     if (strongConnector && strongAdapter) {
@@ -89,6 +95,7 @@
 }
 
 - (void)bannerViewDidClick:(UADSBannerView *)bannerView {
+    NSLog(@"Unity Ads banner for placement ID '%@' was clicked.", _placementID);
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     if (strongAdapter && strongConnector) {
@@ -105,6 +112,7 @@
 }
 
 - (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error {
+    NSLog(@"An error occurred for Unity Ads banner with placement ID '%@'.", _placementID);
     id<GADMAdNetworkConnector> strongConnector = _connector;
     id<GADMAdNetworkAdapter> strongAdapter = _adapter;
     if (strongConnector && strongAdapter) {

@@ -76,6 +76,7 @@
         }
         return;
     }
+    
     [UnityAds addDelegate:self];
     [UnityAds load:_placementID loadDelegate:self];
 }
@@ -117,9 +118,6 @@
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
-    if (![placementID isEqualToString:_placementID]) {
-        return;
-    }
     
     if (state == kUnityAdsFinishStateCompleted) {
         [_adEventDelegate didEndVideo];
@@ -142,9 +140,7 @@
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementID {
-    if ([placementID isEqualToString:_placementID]) {
-        [_adEventDelegate didStartVideo];
-    }
+    [_adEventDelegate didStartVideo];
 }
 
 - (void)unityAdsReady:(nonnull NSString *)placementID {
@@ -154,9 +150,7 @@
     // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
     // that a click event indicates the user is leaving the application for a browser or deeplink, and
     // notifies the Google Mobile Ads SDK accordingly.
-    if ([placementID isEqualToString:_placementID]) {
-        [_adEventDelegate reportClick];
-    }
+    [_adEventDelegate reportClick];
 }
 
 - (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
@@ -165,14 +159,14 @@
 }
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId { 
-    if (_adLoadCompletionHandler && [placementId isEqualToString:_placementID]) {
+    if (_adLoadCompletionHandler) {
         NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
         _adEventDelegate = _adLoadCompletionHandler(nil, error);
     }
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId { 
-    if (_adLoadCompletionHandler && [placementId isEqualToString:_placementID]) {
+    if (_adLoadCompletionHandler) {
         _adEventDelegate = _adLoadCompletionHandler(self, nil);
     }
 }

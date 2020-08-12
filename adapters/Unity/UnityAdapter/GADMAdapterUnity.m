@@ -61,8 +61,13 @@
 }
 
 - (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
-    if ([UnityAds isInitialized] || !initDelegate) {
+    if ([UnityAds isInitialized]) {
+        NSLog(@"Unity Ads has already been initialized.");
         return;
+    }
+    if (!initDelegate)
+    {
+        NSLog(@"Unity Ads could not be initialized: init delegate is null.");
     }
     // Metadata needed by Unity Ads SDK before initialization.
     GADMUnityConfigureMediationService();
@@ -153,6 +158,7 @@
 // UnityAdsInitialization Delegate methods
 - (void)initializationComplete {
     NSLog(@"Unity Ads initialized successfully");
+    initCompletionBlock(nil);
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {

@@ -23,6 +23,7 @@
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:
                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
+
 - (instancetype)init __unavailable;
 
 - (void)requestRewardedAd;
