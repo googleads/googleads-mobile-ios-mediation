@@ -158,7 +158,6 @@
 // UnityAdsInitialization Delegate methods
 - (void)initializationComplete {
     NSLog(@"Unity Ads initialized successfully");
-    initCompletionBlock(nil);
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
