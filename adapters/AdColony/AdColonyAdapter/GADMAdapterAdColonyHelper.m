@@ -12,8 +12,6 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMediationAdapterAdColony.h"
 
-#define ADCOLONY_AD_MARKUP @"adm"
-
 @implementation GADMAdapterAdColonyHelper
 
 + (nullable AdColonyAppOptions *)getAppOptionsFromConnector:
@@ -103,12 +101,12 @@
     // Popups only apply to rewarded ads.
     options = [self getAdOptionsFromExtras:extras];
   }
-    
+
   if (adConfig.bidResponse) {
     if (options == nil) {
       options = [AdColonyAdOptions new];
     }
-    [options setOption:ADCOLONY_AD_MARKUP withStringValue:adConfig.bidResponse];
+    [options setOption:kGADMAdapterAdColonyAdMarkupKey withStringValue:adConfig.bidResponse];
   }
 
   return options;

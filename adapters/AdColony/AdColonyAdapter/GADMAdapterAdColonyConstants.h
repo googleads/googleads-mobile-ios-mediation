@@ -16,3 +16,6 @@ static NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 
 /// AdColony mediation adapter app ID key
 static NSString *const kGADMAdapterAdColonyAppIDkey = @"app_id";
+
+/// AdColony mediation adapter ad Markup key
+static NSString *const kGADMAdapterAdColonyAdMarkupKey = @"adm";
