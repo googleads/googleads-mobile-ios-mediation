@@ -61,14 +61,14 @@
 }
 
 - (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
+    if (![UnityAds isSupported]) {
+        NSLog(@"Unity Ads cannot be initialized: this device is not supported.");
+    }
+    
     if ([UnityAds isInitialized]) {
         NSLog(@"Unity Ads has already been initialized.");
-        return;
     }
-    if (!initDelegate)
-    {
-        NSLog(@"Unity Ads could not be initialized: init delegate is null.");
-    }
+    
     // Metadata needed by Unity Ads SDK before initialization.
     GADMUnityConfigureMediationService();
     // Initializing Unity Ads with |gameID|.
