@@ -1,5 +1,12 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Version 6.18.0.2.0
+- Verified compatibility with ironSource SDK version 6.18.0.2
+
+Build and tested with:
+- Google Mobile Ads SDK version 7.63.0.
+- IronSource SDK version 6.18.0.2
+
 #### Version 6.18.0.1.0
 - Verified compatibility with ironSource SDK version 6.18.0.1
 - Now requires Google Mobile Ads SDK version 7.63.0 or higher.
