@@ -158,9 +158,13 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
   GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
   GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect), NSValueFromGADAdSize(leaderboard)
-  ];
+  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect) ];
+  if (IS_IPAD) {
+    // iPad also supports 728x90.
+    potentials = @[
+      NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect), NSValueFromGADAdSize(leaderboard)
+    ];
+  }
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
   CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
   if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {

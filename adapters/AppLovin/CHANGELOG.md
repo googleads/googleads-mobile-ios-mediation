@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed 728x90 as a supported format for iPhone devices.
+
 #### Version 6.13.0.0
 - Verified compatibility with AppLovin SDK 6.13.0.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
