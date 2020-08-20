@@ -2,9 +2,10 @@
 
 #### Version 7.6.2.0
 - Verified compatibility with Fyber Marketplace SDK version 7.6.2.
+- Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 
 Built and tested with:
-- Google Mobile Ads SDK version 7.62.0.
+- Google Mobile Ads SDK version 7.64.0.
 - Fyber Marketplace SDK version 7.6.2.
 
 #### Version 7.6.0.0
