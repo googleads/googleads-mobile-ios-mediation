@@ -163,7 +163,7 @@
       return;
     }
 
-      [strongConnector adapter:strongSelf didReceiveAdView:strongSelf->_viewUnitController.adView];
+    [strongConnector adapter:strongSelf didReceiveAdView:strongSelf->_viewUnitController.adView];
   }];
 }
 
@@ -216,11 +216,11 @@
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   if (_fullscreenUnitController.isPresented) {
-      GADMAdapterFyberLog(@"Failed to show interstitial ad, it is already presented");
+    GADMAdapterFyberLog(@"Failed to show interstitial ad, it is already presented");
   } else if (!_fullscreenUnitController.isReady) {
-      GADMAdapterFyberLog(@"Failed to show interstitial ad, it has already expired");
+    GADMAdapterFyberLog(@"Failed to show interstitial ad, it has already expired");
   } else {
-      [_fullscreenUnitController showAdAnimated:YES completion:nil];
+    [_fullscreenUnitController showAdAnimated:YES completion:nil];
   }
 }
 
@@ -232,7 +232,6 @@
       }];
 
   GADMediationAdapterFyber *__weak weakSelf = self;
-
   _viewUnitController =
       [IAViewUnitController build:^(id<IAViewUnitControllerBuilder> _Nonnull builder) {
         GADMediationAdapterFyber *strongSelf = weakSelf;
