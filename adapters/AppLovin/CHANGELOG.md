@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 6.13.4.1
+- Removed support for 300x250 medium rectangle ads and native ads.
+
 #### Version 6.13.4.0
 - Verified compatibility with AppLovin SDK 6.13.4.
 
