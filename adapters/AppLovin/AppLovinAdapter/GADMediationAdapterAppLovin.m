@@ -121,7 +121,15 @@
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
-
+  // Check if supported ad format.
+  if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorUnsupportedAdFormat,
+        @"Requested to collect signal for unsupported native ad format. Ignoring...");
+    completionHandler(nil, error);
+    return;
+  }
+    
   ALSdk *sdk = [GADMAdapterAppLovinUtils
       retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
   if (!sdk) {
