@@ -1,18 +1,24 @@
+// Copyright 2020 Google LLC.
 //
-//  GADMUnityInterstitialAd.m
-//  AdMob-TestApp-Local
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Kavya Katooru on 6/10/20.
-//  Copyright © 2020 Unity Ads. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMUnityInterstitialAd.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 
-@interface GADMUnityInterstitialAd () 
-
+@interface GADMUnityInterstitialAd ()
 @end
+
 @implementation GADMUnityInterstitialAd {
     NSString *_placementID;
     NSString *_gameID;
@@ -28,6 +34,7 @@
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
     if (![UnityAds isInitialized]) {
+        NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
         return nil;
     }
     self = [super init];
@@ -82,23 +89,6 @@
     [strongConnector adapterWillPresentInterstitial:strongAdapter];
     if ([UnityAds isReady:_placementID]) {
         [UnityAds show:rootViewController placementId:_placementID];
-    }
-}
-#pragma mark GADMAdapterUnityDataProvider Methods
-
-- (NSString *)getGameID {
-    return _gameID;
-}
-
-- (NSString *)getPlacementID {
-    return _placementID;
-}
-
-- (void)didFailToLoadWithError:(nonnull NSError *)error { 
-    id<GADMAdNetworkConnector> strongConnector = _connector;
-    id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    if (strongConnector != nil && strongAdapter != nil) {
-        [strongConnector adapter:strongAdapter didFailAd:error];
     }
 }
 

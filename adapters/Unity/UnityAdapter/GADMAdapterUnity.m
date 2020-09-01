@@ -138,34 +138,4 @@
     [_bannerAd loadBannerWithSize:adSize];
 }
 
-#pragma mark GADMAdapterUnityDataProvider Methods
-
-- (NSString *)getGameID {
-    return _gameID;
-}
-
-- (NSString *)getPlacementID {
-    return _placementID;
-}
-
-- (void)didFailToLoadWithError:(nonnull NSError *)error {
-    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    if (strongConnector != nil) {
-        [strongConnector adapter:self didFailAd:error];
-    }
-}
-
-// UnityAdsInitialization Delegate methods
-- (void)initializationComplete {
-    NSLog(@"Unity Ads initialized successfully");
-}
-
-- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
-    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    if (strongConnector) {
-        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
-        [strongConnector adapter:self didFailAd:error];
-    }
-}
-
 @end

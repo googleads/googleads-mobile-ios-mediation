@@ -17,7 +17,7 @@
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnityRewardedAd () <GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
+@interface GADMAdapterUnityRewardedAd () <UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -55,7 +55,7 @@
 - (void)requestRewardedAd {
     _gameID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityGameID];
     _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
-    NSLog(@"Requesting unity rewarded ad with placement: %@", _placementID);
+    NSLog(@"Requesting Unity rewarded ad with placement: %@", _placementID);
     if (!_gameID || !_placementID) {
         if (_adLoadCompletionHandler) {
             NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
@@ -90,20 +90,6 @@
     }
     [_adEventDelegate willPresentFullScreenView];
     [UnityAds show:viewController placementId:_placementID];
-}
-
-#pragma mark GADMAdapterUnityDataProvider Methods
-
-- (NSString *)getGameID {
-    return _gameID;
-}
-
-- (NSString *)getPlacementID {
-    return _placementID;
-}
-
-- (void)didFailToLoadWithError:(nonnull NSError *)error {
-    _adLoadCompletionHandler(nil, error);
 }
 
 #pragma mark - Unity Delegate Methods

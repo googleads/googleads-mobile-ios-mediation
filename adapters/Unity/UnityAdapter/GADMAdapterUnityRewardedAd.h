@@ -15,10 +15,9 @@
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
 @import UnityAds;
-#import "GADMAdapterUnityProtocol.h"
 
 @interface GADMAdapterUnityRewardedAd
-    : NSObject <GADMediationRewardedAd, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
+    : NSObject <GADMediationRewardedAd, UnityAdsExtendedDelegate> 
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:
