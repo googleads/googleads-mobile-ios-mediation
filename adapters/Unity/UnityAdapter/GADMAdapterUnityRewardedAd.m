@@ -42,8 +42,7 @@
 @implementation GADMAdapterUnityRewardedAd
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:
-(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                      completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adLoadCompletionHandler = completionHandler;

@@ -37,8 +37,7 @@
   }
   
   if (!gameIDs.count) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                 GADMAdapterUnityErrorInvalidServerParameters,
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters,
                                                                  @"UnityAds mediation configurations did not contain a valid game ID.");
     completionHandler(error);
     return;
@@ -86,8 +85,7 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterUnityRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                               completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];
