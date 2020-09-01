@@ -25,9 +25,9 @@ void GADMUnityConfigureMediationService(void);
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
-                                                            NSString *_Nonnull description);
+                                                              NSString *_Nonnull description);
 
 /// Returns an NSError with error |error| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |message|.
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(UnityAdsError errorCode,
-                                                                    NSString *_Nonnull message);
+                                                                      NSString *_Nonnull message);

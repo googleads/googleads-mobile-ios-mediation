@@ -36,15 +36,15 @@
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                     adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   if (![UnityAds isInitialized]) {
-      NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
-      return nil;
+    NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
+    return nil;
   }
   self = [super init];
   if (self) {
-      _adapter = adapter;
-      _connector = connector;
+    _adapter = adapter;
+    _connector = connector;
   }
   return self;
 }
@@ -54,26 +54,26 @@
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   
   if (!strongConnector) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
+    return;
   }
   
   if (!strongAdapter) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
+    return;
   }
   
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_placementID) {
-      NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
-      [strongConnector adapter:strongAdapter didFailAd:error];
-      return;
+    NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
   }
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
   if (!_bannerAd) {
-      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
-      [strongConnector adapter:strongAdapter didFailAd:error];
-      return;
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
   }
   _bannerAd.delegate = self;
   [_bannerAd load];
@@ -91,7 +91,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-      [strongConnector adapter:strongAdapter didReceiveAdView:bannerView];
+    [strongConnector adapter:strongAdapter didReceiveAdView:bannerView];
   }
 }
 
@@ -100,7 +100,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongAdapter && strongConnector) {
-      [strongConnector adapterDidGetAdClick:strongAdapter];
+    [strongConnector adapterDidGetAdClick:strongAdapter];
   }
 }
 
@@ -108,7 +108,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongAdapter && strongConnector) {
-      [strongConnector adapterWillLeaveApplication:strongAdapter];
+    [strongConnector adapterWillLeaveApplication:strongAdapter];
   }
 }
 
@@ -117,7 +117,7 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-      [strongConnector adapter:strongAdapter didFailAd:error];
+    [strongConnector adapter:strongAdapter didFailAd:error];
   }
 }
 

@@ -32,7 +32,7 @@
 -(nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   self = [super init];
   if (self) {
-      initCompletionBlock = completionHandler;
+    initCompletionBlock = completionHandler;
   }
   return self;
 }

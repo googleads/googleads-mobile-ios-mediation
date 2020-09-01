@@ -26,7 +26,7 @@
   
   // An ad event delegate to invoke when ad rendering events occur.
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-
+  
   /// Game ID of Unity Ads network.
   NSString *_gameID;
   
@@ -42,12 +42,12 @@
 @implementation GADMAdapterUnityRewardedAd
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                    completionHandler:
+                      completionHandler:
 (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
-      _adLoadCompletionHandler = completionHandler;
-      _adConfiguration = adConfiguration;
+    _adLoadCompletionHandler = completionHandler;
+    _adConfiguration = adConfiguration;
   }
   return self;
 }
@@ -57,24 +57,24 @@
   _placementID = [_adConfiguration.credentials.settings objectForKey:kGADMAdapterUnityPlacementID];
   NSLog(@"Requesting Unity rewarded ad with placement: %@", _placementID);
   if (!_gameID || !_placementID) {
-      if (_adLoadCompletionHandler) {
-          NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
-          _adLoadCompletionHandler(nil, error);
-          _adLoadCompletionHandler = nil;
-      }
-      return;
+    if (_adLoadCompletionHandler) {
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
+      _adLoadCompletionHandler(nil, error);
+      _adLoadCompletionHandler = nil;
+    }
+    return;
   }
   
   if (![UnityAds isSupported]) {
-      NSString *description =
-      [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-       NSStringFromClass([UnityAds class])];
-      if (_adLoadCompletionHandler) {
-          NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorDeviceNotSupported, description);
-          _adLoadCompletionHandler(nil, error);
-          _adLoadCompletionHandler = nil;
-      }
-      return;
+    NSString *description =
+    [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
+     NSStringFromClass([UnityAds class])];
+    if (_adLoadCompletionHandler) {
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorDeviceNotSupported, description);
+      _adLoadCompletionHandler(nil, error);
+      _adLoadCompletionHandler = nil;
+    }
+    return;
   }
   
   [UnityAds addDelegate:self];
@@ -83,10 +83,9 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (![UnityAds isReady:_placementID]) {
-      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                   GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
-      [_adEventDelegate didFailToPresentWithError:error];
-      return;
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
+    [_adEventDelegate didFailToPresentWithError:error];
+    return;
   }
   [_adEventDelegate willPresentFullScreenView];
   [UnityAds show:viewController placementId:_placementID];
@@ -96,29 +95,28 @@
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
   if (_adEventDelegate) {
-      NSError *errorWithDescription =
-      GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
-      [_adEventDelegate didFailToPresentWithError:errorWithDescription];
+    NSError *errorWithDescription =
+    GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
+    [_adEventDelegate didFailToPresentWithError:errorWithDescription];
   }
 }
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
-        withFinishState:(UnityAdsFinishState)state {
+          withFinishState:(UnityAdsFinishState)state {
   
   if (state == kUnityAdsFinishStateCompleted) {
-      [_adEventDelegate didEndVideo];
-      
-      // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
-      // amount of 1. Publishers using this adapter should override the reward on the AdMob
-      // front-end.
-      GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                       rewardAmount:[NSDecimalNumber one]];
-      [_adEventDelegate didRewardUserWithReward:reward];
+    [_adEventDelegate didEndVideo];
+    
+    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+    // amount of 1. Publishers using this adapter should override the reward on the AdMob
+    // front-end.
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                     rewardAmount:[NSDecimalNumber one]];
+    [_adEventDelegate didRewardUserWithReward:reward];
   } else if (state == kUnityAdsFinishStateError) {
-      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-                                                                   GADMAdapterUnityErrorFinish,
-                                                                   @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
-      [_adEventDelegate didFailToPresentWithError:error];
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorFinish,
+                                                                 @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
+    [_adEventDelegate didFailToPresentWithError:error];
   }
   
   [_adEventDelegate willDismissFullScreenView];
@@ -140,20 +138,20 @@
 }
 
 - (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
-                           oldState:(UnityAdsPlacementState)oldState
-                           newState:(UnityAdsPlacementState)newState {
+                             oldState:(UnityAdsPlacementState)oldState
+                             newState:(UnityAdsPlacementState)newState {
 }
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId { 
   if (_adLoadCompletionHandler) {
-      NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
-      _adEventDelegate = _adLoadCompletionHandler(nil, error);
+    NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+    _adEventDelegate = _adLoadCompletionHandler(nil, error);
   }
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId { 
   if (_adLoadCompletionHandler) {
-      _adEventDelegate = _adLoadCompletionHandler(self, nil);
+    _adEventDelegate = _adLoadCompletionHandler(self, nil);
   }
 }
 

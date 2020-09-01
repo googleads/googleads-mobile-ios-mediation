@@ -32,15 +32,15 @@
 
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                     adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   if (![UnityAds isInitialized]) {
-      NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
-      return nil;
+    NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
+    return nil;
   }
   self = [super init];
   if (self) {
-      _adapter = adapter;
-      _connector = connector;
+    _adapter = adapter;
+    _connector = connector;
   }
   return self;
 }
@@ -50,21 +50,21 @@
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   
   if (!strongConnector) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
+    return;
   }
   
   if (!strongAdapter) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
+    return;
   }
   
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-      NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
-      [strongConnector adapter:strongAdapter didFailAd:error];
-      return;
+    NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
   }
   _isLoading = YES;
   [UnityAds addDelegate:self];
@@ -77,26 +77,26 @@
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   
   if (!strongConnector) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
+    return;
   }
   
   if (!strongAdapter) {
-      NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
-      return;
+    NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
+    return;
   }
   
   [strongConnector adapterWillPresentInterstitial:strongAdapter];
   if ([UnityAds isReady:_placementID]) {
-      [UnityAds show:rootViewController placementId:_placementID];
+    [UnityAds show:rootViewController placementId:_placementID];
   }
 }
 
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
-                           oldState:(UnityAdsPlacementState)oldState
-                           newState:(UnityAdsPlacementState)newState {
+                             oldState:(UnityAdsPlacementState)oldState
+                             newState:(UnityAdsPlacementState)newState {
   // This callback is not forwarded to the adapter. The adapter
   // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
   // Google Mobile Ads SDK.
@@ -106,8 +106,8 @@
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongNetworkConnector && strongAdapter) {
-      [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
-      [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
+    [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
+    [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
   }
 }
 
@@ -118,8 +118,8 @@
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
   if (strongNetworkConnector && strongAdapter) {
-      [strongNetworkConnector adapterDidGetAdClick:strongAdapter];
-      [strongNetworkConnector adapterWillLeaveApplication:strongAdapter];
+    [strongNetworkConnector adapterDidGetAdClick:strongAdapter];
+    [strongNetworkConnector adapterWillLeaveApplication:strongAdapter];
   }
 }
 
@@ -127,20 +127,20 @@
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (!_isLoading) {
-      // Unity Ads show error will only happen after the ad has been loaded. So, we will send
-      // dismiss/close callbacks.
-      if (error == kUnityAdsErrorShowError) {
-          if (strongNetworkConnector && strongAdapter) {
-              [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
-              [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
-          }
+    // Unity Ads show error will only happen after the ad has been loaded. So, we will send
+    // dismiss/close callbacks.
+    if (error == kUnityAdsErrorShowError) {
+      if (strongNetworkConnector && strongAdapter) {
+        [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
+        [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
       }
-      return;
+    }
+    return;
   }
   
   NSError *errorWithDescription = GADUnityErrorWithDescription(message);
   if (strongNetworkConnector && strongAdapter) {
-      [strongNetworkConnector adapter:strongAdapter didFailAd:errorWithDescription];
+    [strongNetworkConnector adapter:strongAdapter didFailAd:errorWithDescription];
   }
   _isLoading = NO;
 }
@@ -160,8 +160,8 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-      NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
-      [strongConnector adapter:strongAdapter didFailAd:error];
+    NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+    [strongConnector adapter:strongAdapter didFailAd:error];
   }
 }
 
@@ -169,10 +169,10 @@
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (!_isLoading) {
-      return;
+    return;
   }
   if (strongNetworkConnector && strongAdapter) {
-      [strongNetworkConnector adapterDidReceiveInterstitial:strongAdapter];
+    [strongNetworkConnector adapterDidReceiveInterstitial:strongAdapter];
   }
   _isLoading = NO;
 }
