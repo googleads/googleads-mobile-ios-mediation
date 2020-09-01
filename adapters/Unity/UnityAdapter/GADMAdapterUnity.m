@@ -21,21 +21,21 @@
 #import "GADMediationAdapterUnity.h"
 
 @interface GADMAdapterUnity (){
-    /// Connector from Google Mobile Ads SDK to receive ad configurations.
-    __weak id<GADMAdNetworkConnector> _networkConnector;
-    
-    /// Game ID of Unity Ads network.
-    NSString *_gameID;
-    
-    /// Placement ID of Unity Ads network.
-    NSString *_placementID;
-    
-    /// Unity Ads Banner wrapper
-    GADMAdapterUnityBannerAd *_bannerAd;
-    
-    /// Unity Ads Interstitial Ad wrapper
-    GADMUnityInterstitialAd *_interstitialAd;
-        
+  /// Connector from Google Mobile Ads SDK to receive ad configurations.
+  __weak id<GADMAdNetworkConnector> _networkConnector;
+  
+  /// Game ID of Unity Ads network.
+  NSString *_gameID;
+  
+  /// Placement ID of Unity Ads network.
+  NSString *_placementID;
+  
+  /// Unity Ads Banner wrapper
+  GADMAdapterUnityBannerAd *_bannerAd;
+  
+  /// Unity Ads Interstitial Ad wrapper
+  GADMUnityInterstitialAd *_interstitialAd;
+  
 }
 
 @end
@@ -43,99 +43,99 @@
 @implementation GADMAdapterUnity
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-    return [GADMediationAdapterUnity class];
+  return [GADMediationAdapterUnity class];
 }
 
 + (NSString *)adapterVersion {
-    return kGADMAdapterUnityVersion;
+  return kGADMAdapterUnityVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return Nil;
+  return Nil;
 }
 
 - (void)stopBeingDelegate {
-    if (_bannerAd != nil) {
-        [_bannerAd stopBeingDelegate];
-    }
+  if (_bannerAd != nil) {
+      [_bannerAd stopBeingDelegate];
+  }
 }
 
 - (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
-    if (![UnityAds isSupported]) {
-        NSLog(@"Unity Ads cannot be initialized: this device is not supported.");
-    }
-    
-    if ([UnityAds isInitialized]) {
-        NSLog(@"Unity Ads has already been initialized.");
-    }
-    
-    // Metadata needed by Unity Ads SDK before initialization.
-    GADMUnityConfigureMediationService();
-    // Initializing Unity Ads with |gameID|.
-    [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
+  if (![UnityAds isSupported]) {
+      NSLog(@"Unity Ads cannot be initialized: this device is not supported.");
+  }
+  
+  if ([UnityAds isInitialized]) {
+      NSLog(@"Unity Ads has already been initialized.");
+  }
+  
+  // Metadata needed by Unity Ads SDK before initialization.
+  GADMUnityConfigureMediationService();
+  // Initializing Unity Ads with |gameID|.
+  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
 }
 
 #pragma mark Interstitial Methods
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    if (!connector) {
-        return nil;
-    }
-    self = [super init];
-    if (self) {
-        _networkConnector = connector;
-    }
-    return self;
+  if (!connector) {
+      return nil;
+  }
+  self = [super init];
+  if (self) {
+      _networkConnector = connector;
+  }
+  return self;
 }
 
 - (void)getInterstitial {
-    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    if (!strongConnector) return;
-    _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
-    _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
-    if (!_interstitialAd) {
-        NSString *description = [NSString
-            stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMUnityInterstitialAd class])];
-        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
-        [strongConnector adapter:self didFailAd:error];
-        return;
-    }
-    [_interstitialAd getInterstitial];
+  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+  if (!strongConnector) return;
+  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
+  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+  if (!_interstitialAd) {
+      NSString *description = [NSString
+                               stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMUnityInterstitialAd class])];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
+      [strongConnector adapter:self didFailAd:error];
+      return;
+  }
+  [_interstitialAd getInterstitial];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    if (strongConnector) {
-        [strongConnector adapterWillPresentInterstitial:self];
-    }
-    [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
+  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+  if (strongConnector) {
+      [strongConnector adapterWillPresentInterstitial:self];
+  }
+  [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
 }
 
 #pragma mark Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-    if (!strongConnector) {
-        NSLog(@"Adapter Error: No GADMAdNetworkConnector found.");
-        return;
-    }
-    _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-    _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
-    if (!_gameID || !_placementID) {
-        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription( GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
-        [strongConnector adapter:self didFailAd:error];
-        return;
-    }
-    _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
-                                                                         adapter:self];
-    if (!_bannerAd) {
-        NSString *description = [NSString
-            stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMAdapterUnityBannerAd class])];
-        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
-        [strongConnector adapter:self didFailAd:error];
-        return;
-    }
-    [_bannerAd loadBannerWithSize:adSize];
+  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+  if (!strongConnector) {
+      NSLog(@"Adapter Error: No GADMAdNetworkConnector found.");
+      return;
+  }
+  _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
+  _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
+  if (!_gameID || !_placementID) {
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription( GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
+      [strongConnector adapter:self didFailAd:error];
+      return;
+  }
+  _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
+                                                                       adapter:self];
+  if (!_bannerAd) {
+      NSString *description = [NSString
+                               stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMAdapterUnityBannerAd class])];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
+      [strongConnector adapter:self didFailAd:error];
+      return;
+  }
+  [_bannerAd loadBannerWithSize:adSize];
 }
 
 @end

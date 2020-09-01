@@ -21,8 +21,8 @@
 
 /// Initializes a new instance with |connector| and |adapter|.
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+                                             adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+  NS_DESIGNATED_INITIALIZER;
 
 /// Init unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;

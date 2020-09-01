@@ -17,7 +17,7 @@
 @import UnityAds;
 
 @interface GADMUnityInitializationDelegate : NSObject {
-    GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
+  GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
 }
 
 - (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;

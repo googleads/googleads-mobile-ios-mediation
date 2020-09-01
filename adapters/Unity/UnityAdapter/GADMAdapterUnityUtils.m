@@ -16,35 +16,35 @@
 #import "GADMAdapterUnityConstants.h"
 
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
-  if (object) {
-    [set addObject:object];  // Allow pattern.
-  }
+if (object) {
+  [set addObject:object];  // Allow pattern.
+}
 }
 
 void GADMUnityConfigureMediationService(void) {
-    UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-    [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
-    [mediationMetaData setVersion:kGADMAdapterUnityVersion];
-    [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
-    [mediationMetaData commit];
+  UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+  [mediationMetaData commit];
 }
 
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
-                                                              NSString *_Nonnull description) {
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
-                                       code:code
-                                   userInfo:userInfo];
-  return error;
+                                                            NSString *_Nonnull description) {
+NSDictionary *userInfo =
+    @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
+                                     code:code
+                                 userInfo:userInfo];
+return error;
 }
 
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(UnityAdsError errorCode,
-                                                                      NSString *_Nonnull message) {
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
-  NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
-                                       code:errorCode
-                                   userInfo:userInfo];
-  return error;
+                                                                    NSString *_Nonnull message) {
+NSDictionary *userInfo =
+    @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
+NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
+                                     code:errorCode
+                                 userInfo:userInfo];
+return error;
 }
