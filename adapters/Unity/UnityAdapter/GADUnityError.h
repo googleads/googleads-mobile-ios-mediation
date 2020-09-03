@@ -14,6 +14,9 @@
 
 @import Foundation;
 
+/// Missing gameID or placementID
+static NSString *const kMISSING_ID_ERROR = @"Game ID and Placement ID cannot be nil.";
+
 /// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
 /// set to |description|.
 NSError *GADUnityErrorWithDescription(NSString *description);

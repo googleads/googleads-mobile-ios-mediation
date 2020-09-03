@@ -34,9 +34,13 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   GADMAdapterUnityErrorPlacementStateDisabled = 107,
   /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
   /// ads for the same placement.
-  GADMAdapterUnityErrorAdAlreadyLoaded = 108
+  GADMAdapterUnityErrorAdAlreadyLoaded = 108,
+  /// UnityAds returned an initialization error
+  GADMAdapterUnityErrorAdInitializationFailure = 109
+  
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
+@property (nonatomic, copy) GADMediationAdapterSetUpCompletionBlock _Nonnull completionBlock;
 
 @end
