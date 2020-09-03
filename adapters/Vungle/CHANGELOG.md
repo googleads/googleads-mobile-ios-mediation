@@ -2,10 +2,11 @@
 
 #### Version 6.7.1.0
 - Verified compatibility with Vungle SDK 6.7.1.
+- Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 - Fixed an issue where `didFailToPresentWithError:` was not called when a rewarded ad failed to present.
 
 Build and tested with
-- Google Mobile Ads SDK version 7.62.0.
+- Google Mobile Ads SDK version 7.64.0.
 - Vungle SDK version 6.7.1.
 
 #### Version 6.7.0.0
