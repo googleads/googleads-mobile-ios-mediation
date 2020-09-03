@@ -34,7 +34,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   GADMAdapterUnityErrorPlacementStateDisabled = 107,
   /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
   /// ads for the same placement.
-  GADMAdapterUnityErrorAdAlreadyLoaded = 108
+  GADMAdapterUnityErrorAdAlreadyLoaded = 108,
+  /// Banner size mismatch.
+  GADMAdapterUnityErrorSizeMismatch = 109
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
