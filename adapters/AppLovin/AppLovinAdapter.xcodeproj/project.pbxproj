@@ -48,12 +48,6 @@
 		454A17BF2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454A17BD2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m */; };
 		454A17C22332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 454A17C02332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.h */; };
 		454A17C32332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454A17C12332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.m */; };
-		455AD22320CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */; };
-		455AD22420CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */; };
-		455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */; };
-		455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */; };
-		455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */; };
-		455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		457F4D81233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 457F4D7F233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h */; };
 		457F4D82233555CE0047E30A /* GADMAdapterAppLovinMediationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 457F4D80233555CE0047E30A /* GADMAdapterAppLovinMediationManager.m */; };
 		45866690237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4586668E237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.h */; };
@@ -114,12 +108,6 @@
 		454A17BD2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinInterstitialDelegate.m; sourceTree = "<group>"; };
 		454A17C02332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRewardedDelegate.h; sourceTree = "<group>"; };
 		454A17C12332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinRewardedDelegate.m; sourceTree = "<group>"; };
-		455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinNative.h; sourceTree = "<group>"; };
-		455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinExtraAssets.m; sourceTree = "<group>"; };
-		455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAppLovinMediatedNativeUnifiedAd.m; sourceTree = "<group>"; };
-		455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinMediatedNativeUnifiedAd.h; sourceTree = "<group>"; };
-		455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinNative.m; sourceTree = "<group>"; };
-		455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinExtraAssets.h; sourceTree = "<group>"; };
 		457F4D7F233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinMediationManager.h; sourceTree = "<group>"; };
 		457F4D80233555CE0047E30A /* GADMAdapterAppLovinMediationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinMediationManager.m; sourceTree = "<group>"; };
 		4586668E237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAppLovinRTBBannerDelegate.h; sourceTree = "<group>"; };
@@ -166,7 +154,6 @@
 		359ADF971EFDA7D900E2DBFE /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				455AD22A20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h */,
 				B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */,
 				359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */,
 			);
@@ -216,15 +203,10 @@
 				454A17BD2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m */,
 				457F4D7F233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h */,
 				457F4D80233555CE0047E30A /* GADMAdapterAppLovinMediationManager.m */,
-				455AD21C20CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h */,
-				455AD22220CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m */,
 				1D4C081620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h */,
 				1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */,
 				1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */,
 				1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */,
-				455AD21D20CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m */,
-				455AD22120CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h */,
-				455AD21F20CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m */,
 				45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */,
 				45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */,
 				45BFFBCF2228AE2200C96A67 /* OpenBidding */,
@@ -270,16 +252,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				455AD22820CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.h in Headers */,
 				454A17BA2332B7C10022ACF9 /* GADMAdapterAppLovinBannerDelegate.h in Headers */,
 				45866690237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.h in Headers */,
 				1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */,
 				45BFFBD62228AE6A00C96A67 /* GADMRTBAdapterAppLovinBannerRenderer.h in Headers */,
 				1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
 				1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */,
-				455AD22320CA0EFF009FDF47 /* GADMAdapterAppLovinNative.h in Headers */,
 				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
-				455AD22B20CA0F93009FDF47 /* GADMAppLovinExtraAssets.h in Headers */,
 				45BFFBDA2228AE8900C96A67 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				454A17BE2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.h in Headers */,
@@ -390,16 +369,13 @@
 				454A17BB2332B7C10022ACF9 /* GADMAdapterAppLovinBannerDelegate.m in Sources */,
 				1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */,
 				1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */,
-				455AD22420CA0EFF009FDF47 /* GADMAppLovinExtraAssets.m in Sources */,
 				454A17BF2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m in Sources */,
 				45866695237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */,
 				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */,
 				45866691237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.m in Sources */,
 				45BFFBD32228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.m in Sources */,
-				455AD22920CA0EFF009FDF47 /* GADMAdapterAppLovinNative.m in Sources */,
 				457F4D82233555CE0047E30A /* GADMAdapterAppLovinMediationManager.m in Sources */,
 				454A17C32332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.m in Sources */,
-				455AD22620CA0EFF009FDF47 /* GADMAppLovinMediatedNativeUnifiedAd.m in Sources */,
 				45BFFBD72228AE6A00C96A67 /* GADMRTBAdapterAppLovinBannerRenderer.m in Sources */,
 				45BFFBCE2228ADE100C96A67 /* GADMediationAdapterAppLovin.m in Sources */,
 				1D4C082620192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m in Sources */,
