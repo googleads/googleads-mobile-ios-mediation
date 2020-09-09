@@ -16,12 +16,16 @@
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "GADFBAdapterDelegate.h"
-#import "GADFBError.h"
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
+#import "GADMediationAdapterFacebook.h"
 
-@interface GADFBInterstitialAd () {
+@interface GADFBInterstitialAd () <FBInterstitialAdDelegate>
+
+@end
+
+@implementation GADFBInterstitialAd {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 
@@ -33,24 +37,19 @@
 
   /// Handles delegate notifications from interstitialAd.
   GADFBAdapterDelegate *_adapterDelegate;
+
+  /// Indicates whether presentFromViewController: was called on this renderer.
+  BOOL _presentCalled;
 }
-@end
 
-@implementation GADFBInterstitialAd
-
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector
-                                       adapter:(id<GADMAdNetworkAdapter>)adapter {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
     _adapter = adapter;
     _connector = connector;
-    _adapterDelegate = [[GADFBAdapterDelegate alloc] initWithAdapter:adapter connector:connector];
   }
   return self;
-}
-
-- (instancetype)init {
-  return nil;
 }
 
 - (void)getInterstitial {
@@ -65,7 +64,8 @@
   // NSInvalidArgumentException if the placement ID is nil.
   NSString *placementID = [strongConnector publisherId];
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -74,14 +74,13 @@
   if (!_interstitialAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBInterstitialAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  _interstitialAd.delegate = _adapterDelegate;
-  [FBAdSettings setMediationService:[NSString
-      stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion], kGADMAdapterFacebookVersion]];
+  _interstitialAd.delegate = self;
+  GADFBConfigureMediationService();
   [_interstitialAd loadAd];
 }
 
@@ -89,8 +88,80 @@
   _adapterDelegate = nil;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [_interstitialAd showAdFromRootViewController:rootViewController];
+#pragma mark FBInterstitialAdDelegate
+
+- (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (strongConnector && strongAdapter) {
+    [strongConnector adapterWillPresentInterstitial:strongAdapter];
+  }
 }
 
+- (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (strongConnector && strongAdapter) {
+    [strongConnector adapterDidGetAdClick:strongAdapter];
+    [strongConnector adapterWillLeaveApplication:strongAdapter];
+  }
+}
+
+- (void)interstitialAdDidClose:(FBInterstitialAd *)interstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (strongConnector && strongAdapter) {
+    [strongConnector adapterDidDismissInterstitial:strongAdapter];
+  }
+}
+
+- (void)interstitialAdWillClose:(FBInterstitialAd *)interstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (strongConnector && strongAdapter) {
+    [strongConnector adapterWillDismissInterstitial:strongAdapter];
+  }
+}
+
+- (void)interstitialAdDidLoad:(FBInterstitialAd *)interstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (strongConnector && strongAdapter) {
+    [strongConnector adapterDidReceiveInterstitial:strongAdapter];
+  }
+}
+
+- (void)interstitialAd:(FBInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+  if (_presentCalled) {
+    // Treat this error as a presentation error.
+    [strongConnector adapterWillDismissFullScreenModal:strongAdapter];
+    [strongConnector adapterDidDismissFullScreenModal:strongAdapter];
+    return;
+  }
+  [strongConnector adapter:strongAdapter didFailAd:error];
+}
+
+#pragma mark GADMediationInterstitialAd
+
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  if (!strongConnector || !strongAdapter) {
+    return;
+  }
+  _presentCalled = YES;
+
+  if (![_interstitialAd showAdFromRootViewController:rootViewController]) {
+    NSLog(@"%@ failed to present.", NSStringFromClass([FBInterstitialAd class]));
+    [strongConnector adapterWillDismissFullScreenModal:strongAdapter];
+    [strongConnector adapterDidDismissFullScreenModal:strongAdapter];
+    return;
+  }
+  [strongConnector adapterWillPresentFullScreenModal:strongAdapter];
+}
 @end

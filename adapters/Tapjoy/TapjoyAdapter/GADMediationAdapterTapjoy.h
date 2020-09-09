@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,22 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+typedef NS_ENUM(NSInteger, GADMAdapterTapjoyErrorCode) {
+  /// Missing server parameters.
+  GADMAdapterTapjoyErrorInvalidServerParameters = 101,
+  /// Tapjoy SDK failed to initialize.
+  GADMAdapterTapjoyErrorInitializationFailure = 102,
+  /// The Tapjoy adapter does not support the ad format being requested.
+  GADMAdapterTapjoyErrorAdFormatNotSupported = 103,
+  /// Tapjoy sent a successful load callback but no content was available.
+  GADMAdapterTapjoyErrorPlacementContentNotAvailable = 104,
+  /// An ad is already loaded for this network configuration.
+  GADMAdapterTapjoyErrorAdAlreadyLoaded = 105,
+  /// Tapjoy SDK placement video related error.
+  GADMAdapterTapjoyErrorPlacementVideo = 106
+};
 
 @interface GADMediationAdapterTapjoy : NSObject <GADRTBAdapter>
 

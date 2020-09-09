@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /// The purpose of the GADMAdapterUnityDataProvider protocol is to allow the singleton to interact
 /// with the adapter.
@@ -23,5 +23,8 @@
 
 /// Returns placement ID for either reward-based video ad or interstitial ad of Unity Ads network.
 - (NSString *)getPlacementID;
+
+/// Called when an ad fails to load.
+- (void)didFailToLoadWithError:(nonnull NSError *)error;
 
 @end

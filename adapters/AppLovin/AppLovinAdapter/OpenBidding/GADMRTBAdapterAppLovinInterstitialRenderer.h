@@ -6,19 +6,28 @@
 //  Copyright © 2018 Google. All rights reserved.
 //
 
+#import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@interface GADMRTBAdapterAppLovinInterstitialRenderer : NSObject <GADMediationInterstitialAd>
 
-@interface GADMRTBAdapterAppLovinInterstitialRenderer : NSObject
+/// Callback object to notify the Google Mobile Ads SDK if ad rendering succeeded or failed.
+@property(nonatomic, copy, nonnull, readonly)
+    GADMediationInterstitialLoadCompletionHandler adLoadCompletionHandler;
 
+/// Delegate to notify the Google Mobile Ads SDK of interstitial presentation events.
+@property(nonatomic, weak, nullable) id<GADMediationInterstitialAdEventDelegate> delegate;
+
+/// An AppLovin interstitial ad.
+@property(nonatomic, nullable) ALAd *ad;
+
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)handler;
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads an AppLovin interstitial ad.
 - (void)loadAd;
 
-- (instancetype)initWithAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationInterstitialLoadCompletionHandler)handler;
-- (instancetype)init NS_UNAVAILABLE;
-
 @end
-
-NS_ASSUME_NONNULL_END

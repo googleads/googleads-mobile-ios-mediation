@@ -13,15 +13,15 @@
 // limitations under the License.
 
 // Adapter version string
-static NSString *const kGADMAdapterNendVersion = @"5.1.1.0";
+static NSString *const _Nonnull kGADMAdapterNendVersion = @"6.0.2.0";
 
 // Adapter mediation agent
-static NSString *const kGADMAdapterNendMediationName = @"AdMob";
+static NSString *const _Nonnull kGADMAdapterNendMediationName = @"AdMob";
 
 // Nend API key
-static NSString *const kGADMAdapterNendApiKey = @"apiKey";
+static NSString *const _Nonnull kGADMAdapterNendApiKey = @"apiKey";
 
 // Nend spot id name
-static NSString *const kGADMAdapterNendSpotID = @"spotId";
+static NSString *const _Nonnull kGADMAdapterNendSpotID = @"spotId";
 
-static NSString *const kGADMAdapterNendErrorDomain = @"com.google.mediation.nend";
+static NSString *const _Nonnull kGADMAdapterNendErrorDomain = @"com.google.mediation.nend";

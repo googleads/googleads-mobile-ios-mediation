@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "SampleNativeAdLoaderDelegate.h"
 #import "SampleNativeAdRequest.h"

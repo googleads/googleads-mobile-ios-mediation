@@ -5,184 +5,77 @@
 //
 
 #import "GADMAdapterInMobi.h"
+
 #import <InMobiSDK/IMSdk.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiInitializer.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
-#import "InMobiMediatedUnifiedNativeAd.h"
 #import "NativeAdKeys.h"
-#import "GADMAdapterInMobiUtils.h"
-#import "GADMediationAdapterInMobi.h"
-
-@interface GADMAdapterInMobi ()
-@property(nonatomic, assign) CGFloat width, height;
-@property(nonatomic, strong) InMobiMediatedUnifiedNativeAd *nativeAd;
-@property(nonatomic, strong) GADInMobiExtras *extraInfo;
-@property(nonatomic, assign) BOOL shouldDownloadImages;
-@property(nonatomic, assign) BOOL serveAnyAd;
-@end
 
 /// Find closest supported ad size from a given ad size.
-/// Returns nil if no supported size matches.
-static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeFullBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard),
-    NSValueFromGADAdSize(kGADAdSizeSkyscraper)
-  ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize) {
+  // Supported sizes
+  // 320 x 50
+  // 300 x 250
+  // 728 x 90
 
-  return closestSize;
+  NSArray<NSValue *> *potentialSizeValues =
+      @[ @(kGADAdSizeBanner), @(kGADAdSizeMediumRectangle), @(kGADAdSizeLeaderboard) ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizeValues);
+  return CGSizeFromGADAdSize(closestSize);
 }
 
-@implementation GADMAdapterInMobi
-@synthesize adView = adView_;
-@synthesize interstitial = interstitial_;
-@synthesize native = native_;
+@implementation GADMAdapterInMobi {
+  /// Google Mobile Ads SDK ad network connector.
+  __weak id<GADMAdNetworkConnector> _connector;
 
-static NSCache *imageCache;
+  /// InMobi banner ad object.
+  IMBanner *_adView;
 
-static BOOL isAccountInitialised = false;
+  /// InMobi interstitial ad object.
+  IMInterstitial *_interstitial;
 
-__attribute__((constructor)) static void initialize_imageCache() {
-  imageCache = [[NSCache alloc] init];
+  /// Google Mobile Ads unified native ad wrapper.
+  GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
 }
-
-@synthesize connector = connector_;
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterInMobi class];
 }
 
-+ (NSString *)adapterVersion {
++ (nonnull NSString *)adapterVersion {
   return kGADMAdapterInMobiVersion;
 }
 
-+ (BOOL)isAppInitialised {
-  return isAccountInitialised;
-}
-
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADInMobiExtras class];
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id)connector {
-  self.connector = connector;
-  self.shouldDownloadImages = YES;
-  self.serveAnyAd = NO;
-  if ((self = [super init])) {
-    self.connector = connector;
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id)connector {
+  if (self = [super init]) {
+    _connector = connector;
   }
-  [IMSdk initWithAccountID:self.connector.credentials[kGADMAdapterInMobiAccountID]
-         consentDictionary:[GADMInMobiConsent getConsent]];
-  isAccountInitialised = true;
-  NSLog(@"Initialized successfully");
   return self;
 }
 
-- (void)prepareRequestParameters {
-  if ([self.connector userGender] == kGADGenderMale) {
-    [IMSdk setGender:kIMSDKGenderMale];
-  } else if ([self.connector userGender] == kGADGenderFemale) {
-    [IMSdk setGender:kIMSDKGenderFemale];
-  }
-
-  if ([self.connector userBirthday] != nil) {
-    NSDateComponents *components = [[NSCalendar currentCalendar]
-        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-          fromDate:[self.connector userBirthday]];
-    [IMSdk setYearOfBirth:[components year]];
-  }
-
-  if (self.connector) {
-    self.extraInfo = [self.connector networkExtras];
-  }
-
-  if (self.extraInfo != nil) {
-    if (self.extraInfo.postalCode != nil) [IMSdk setPostalCode:self.extraInfo.postalCode];
-    if (self.extraInfo.areaCode != nil) [IMSdk setAreaCode:self.extraInfo.areaCode];
-    if (self.extraInfo.interests != nil) [IMSdk setInterests:self.extraInfo.interests];
-    if (self.extraInfo.age) [IMSdk setAge:self.extraInfo.age];
-    if (self.extraInfo.yearOfBirth) [IMSdk setYearOfBirth:self.extraInfo.yearOfBirth];
-    if (self.extraInfo.city && self.extraInfo.state && self.extraInfo.country) {
-      [IMSdk setLocationWithCity:self.extraInfo.city
-                           state:self.extraInfo.state
-                         country:self.extraInfo.country];
-    }
-    if (self.extraInfo.language != nil) [IMSdk setLanguage:self.extraInfo.language];
-  }
-
-  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-  if (self.extraInfo && self.extraInfo.additionalParameters) {
-    dict = [NSMutableDictionary dictionaryWithDictionary:self.extraInfo.additionalParameters];
-  }
-
-  [dict setObject:@"c_admob" forKey:@"tp"];
-  [dict setObject:[GADRequest sdkVersion] forKey:@"tp-ver"];
-
-  if ([[self.connector childDirectedTreatment] integerValue] == 1) {
-    [dict setObject:@"1" forKey:@"coppa"];
-  } else {
-    [dict setObject:@"0" forKey:@"coppa"];
-  }
-
-  if (self.adView) {
-    // Let Mediation do the refresh animation.
-    self.adView.transitionAnimation = UIViewAnimationTransitionNone;
-    if (self.extraInfo.keywords != nil) [self.adView setKeywords:self.extraInfo.keywords];
-    [self.adView setExtras:[NSDictionary dictionaryWithDictionary:dict]];
-  } else if (self.interstitial) {
-    if (self.extraInfo.keywords != nil) [self.interstitial setKeywords:self.extraInfo.keywords];
-    [self.interstitial setExtras:[NSDictionary dictionaryWithDictionary:dict]];
-  } else if (self.native) {
-    if (self.extraInfo.keywords != nil) [self.native setKeywords:self.extraInfo.keywords];
-    [self.native setExtras:[NSDictionary dictionaryWithDictionary:dict]];
-  }
-}
-
-- (Boolean)isPerformanceAd:(IMNative *)imNative {
-  NSData *data = [imNative.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
-  NSError *error = nil;
-  NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:kNilOptions
-                                                                   error:&error];
-  if ([[jsonDictionary objectForKey:PACKAGE_NAME] length]) {
-    return YES;
-  }
-  return NO;
-}
-
-- (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
-  long long placementId = self.placementId;
-  if (placementId == -1) {
-    NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorInvalidRequest
-                                                     userInfo:errorInfo];
-    [self.connector adapter:self didFailAd:error];
+- (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
+                       options:(nullable NSArray<GADAdLoaderOptions *> *)options {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  id<GADMAdNetworkAdapter> strongSelf = self;
+  if (!strongConnector || !strongSelf) {
     return;
   }
 
-  if ([self.connector testMode]) {
-    NSLog(@"[InMobi] Please enter your device ID in the InMobi console to recieve test ads from "
-          @"Inmobi");
-  }
-
-  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
-    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-      continue;
-    }
-    self.shouldDownloadImages = !imageOptions.disableImageLoading;
-  }
-
-  NSLog(@"Requesting native ad from InMobi");
-  self.native = [[IMNative alloc] initWithPlacementId:placementId delegate:self];
-  [self prepareRequestParameters];
-  [self.native load];
+  _nativeAd =
+      [[GADMAdapterInMobiUnifiedNativeAd alloc] initWithGADMAdNetworkConnector:strongConnector
+                                                                       adapter:strongSelf];
+  [_nativeAd requestNativeAdWithOptions:options];
 }
 
 - (BOOL)handlesUserImpressions {
@@ -194,353 +87,248 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)getInterstitial {
-  long long placementId = self.placementId;
-  if (placementId == -1) {
-    NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorInvalidRequest
-                                                     userInfo:errorInfo];
-    [self.connector adapter:self didFailAd:error];
+  NSString *accountID = _connector.credentials[kGADMAdapterInMobiAccountID];
+  GADMAdapterInMobi *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobi *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf->_connector adapter:strongSelf didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestInterstitialAd];
+            }];
+}
+
+- (void)requestInterstitialAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
     return;
   }
 
-  if ([self.connector testMode]) {
-    NSLog(@"[InMobi] Please enter your device ID in the InMobi console to recieve test ads from "
-          @"Inmobi");
+  long long placementId =
+      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+  if (placementId == 0) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidServerParameters,
+        @"[InMobi] Error - Placement ID not specified.");
+    [strongConnector adapter:self didFailAd:error];
+    return;
   }
 
-  self.interstitial = [[IMInterstitial alloc] initWithPlacementId:placementId];
-  [self prepareRequestParameters];
-  self.interstitial.delegate = self;
-  [self.interstitial load];
+  if ([strongConnector testMode]) {
+    NSLog(@"[InMobi] Please enter your device ID in the InMobi console to receive test ads from "
+          @"InMobi");
+  }
+
+  _interstitial = [[IMInterstitial alloc] initWithPlacementId:placementId];
+
+  GADInMobiExtras *extras = [strongConnector networkExtras];
+  if (extras && extras.keywords) {
+    [_interstitial setKeywords:extras.keywords];
+  }
+
+  GADMAdapterInMobiSetTargetingFromConnector(strongConnector);
+  NSDictionary<NSString *, id> *requestParameters =
+      GADMAdapterInMobiCreateRequestParametersFromConnector(strongConnector);
+  [_interstitial setExtras:requestParameters];
+
+  _interstitial.delegate = self;
+  [_interstitial load];
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  long long placementId = self.placementId;
+  NSString *accountID = _connector.credentials[kGADMAdapterInMobiAccountID];
+  GADMAdapterInMobi *__weak weakSelf = self;
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobi *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
 
-  if (placementId == -1) {
-    NSString *errorDesc =
-        [NSString stringWithFormat:@"[InMobi] Exception - Placement ID not specified."];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorInvalidRequest
-                                                     userInfo:errorInfo];
-    [self.connector adapter:self didFailAd:error];
+              if (error) {
+                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                [strongSelf->_connector adapter:strongSelf didFailAd:error];
+                return;
+              }
+
+              [strongSelf requestBannerWithSize:adSize];
+            }];
+}
+
+- (void)requestBannerWithSize:(GADAdSize)adSize {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
     return;
   }
 
-  if ([self.connector testMode]) {
+  long long placementId =
+      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+  if (placementId == 0) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidServerParameters,
+        @"[InMobi] Error - Placement ID not specified.");
+    [strongConnector adapter:self didFailAd:error];
+    return;
+  }
+
+  if ([strongConnector testMode]) {
     NSLog(@"[InMobi] Please enter your device ID in the InMobi console to recieve test ads from "
           @"Inmobi");
   }
 
-  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
-
-  if (GADAdSizeEqualToSize(adSize, kGADAdSizeBanner)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 320, 50)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 300, 250)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeFullBanner)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 468, 60)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 728, 90)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeSkyscraper)) {
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, 120, 600)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else if ((GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerPortrait)) ||
-             (GADAdSizeEqualToSize(adSize, kGADAdSizeSmartBannerLandscape))) {
-    [self getOptimalSlotSize];
-    self.adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)
-                                      placementId:placementId];  // self.placementId is hardcoded
-  } else {
-    NSString *errorDesc = [NSString
-        stringWithFormat:@"[InMobi] Exception - Invalid ad type %@", NSStringFromGADAdSize(adSize)];
-    NSDictionary *errorInfo =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-    GADRequestError *error = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                         code:kGADErrorMediationInvalidAdSize
-                                                     userInfo:errorInfo];
-    [self.connector adapter:self didFailAd:error];
+  CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(adSize);
+  if (CGSizeEqualToSize(size, CGSizeZero)) {
+    NSString *description =
+        [NSString stringWithFormat:@"Invalid size for InMobi mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(adSize)];
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorBannerSizeMismatch, description);
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
+
+  _adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
+                                placementId:placementId];
+
   // Let Mediation do the refresh.
-  [self.adView shouldAutoRefresh:NO];
-  self.adView.delegate = self;
-  [self prepareRequestParameters];
-  [self.adView load];
-}
+  [_adView shouldAutoRefresh:NO];
+  _adView.transitionAnimation = UIViewAnimationTransitionNone;
 
-- (void)getOptimalSlotSize {
-  CGRect screenBounds = [UIScreen mainScreen].bounds;
-  CGFloat screenWidth = CGRectGetWidth(screenBounds);
-  CGFloat screenHeight = CGRectGetHeight(screenBounds);
-
-  NSMutableArray *dataArray = [[NSMutableArray alloc] initWithCapacity:3];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:728],
-                                                           [NSNumber numberWithInt:90], nil]
-                  atIndex:0];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:468],
-                                                           [NSNumber numberWithInt:60], nil]
-                  atIndex:1];
-  [dataArray insertObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:320],
-                                                           [NSNumber numberWithInt:50], nil]
-                  atIndex:2];
-
-  for (int i = 0; i < [dataArray count]; i++) {
-    if (([[[dataArray objectAtIndex:i] objectAtIndex:0] intValue] <= screenWidth) &&
-        ([[[dataArray objectAtIndex:i] objectAtIndex:1] intValue]) <= screenHeight) {
-      self.width = [[[dataArray objectAtIndex:i] objectAtIndex:0] intValue];
-      self.height = [[[dataArray objectAtIndex:i] objectAtIndex:1] intValue];
-    }
+  GADInMobiExtras *extras = [strongConnector networkExtras];
+  if (extras && extras.keywords) {
+    [_adView setKeywords:extras.keywords];
   }
-  self.width = [[[dataArray objectAtIndex:2] objectAtIndex:0] intValue];
-  self.height = [[[dataArray objectAtIndex:2] objectAtIndex:1] intValue];
+
+  GADMAdapterInMobiSetTargetingFromConnector(strongConnector);
+  NSDictionary<NSString *, id> *requestParameters =
+      GADMAdapterInMobiCreateRequestParametersFromConnector(strongConnector);
+  [_adView setExtras:requestParameters];
+
+  _adView.delegate = self;
+  [_adView load];
 }
 
 - (void)stopBeingDelegate {
-  self.adView.delegate = nil;
-  self.interstitial.delegate = nil;
+  _adView.delegate = nil;
+  _interstitial.delegate = nil;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  if ([self.interstitial isReady]) {
-    [self.interstitial showFromViewController:rootViewController
-                                withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
+  if ([_interstitial isReady]) {
+    [_interstitial showFromViewController:rootViewController
+                            withAnimation:kIMInterstitialAnimationTypeCoverVertical];
   }
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-  return [self.interstitial isReady];
+  return [_interstitial isReady];
 }
 
 #pragma mark -
-#pragma mark Properties
-
-- (long long)placementId {
-  if (self.connector != nil && self.connector.credentials[kGADMAdapterInMobiPlacementID]) {
-    return [self.connector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
-  }
-  return -1;
-}
-
 #pragma mark IMBannerDelegate methods
 
-- (void)bannerDidFinishLoading:(IMBanner *)banner {
+- (void)bannerDidFinishLoading:(nonnull IMBanner *)banner {
   NSLog(@"<<<<<ad request completed>>>>>");
-  [self.connector adapter:self didReceiveAdView:banner];
+  [_connector adapter:self didReceiveAdView:banner];
 }
 
-- (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error {
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
-  [self.connector adapter:self didFailAd:reqError];
-  NSLog(@"<<<< ad request failed.>>>, error=%@", error);
-  NSLog(@"error code=%ld", (long)[error code]);
+- (void)banner:(nonnull IMBanner *)banner didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+  [_connector adapter:self didFailAd:error];
 }
 
-- (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params {
+- (void)banner:(nonnull IMBanner *)banner didInteractWithParams:(nonnull NSDictionary *)params {
   NSLog(@"<<<< bannerDidInteract >>>>");
-  [self.connector adapterDidGetAdClick:self];
+  [_connector adapterDidGetAdClick:self];
 }
 
-- (void)userWillLeaveApplicationFromBanner:(IMBanner *)banner {
+- (void)userWillLeaveApplicationFromBanner:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillLeaveApplication >>>>");
-  [self.connector adapterWillLeaveApplication:self];
+  [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)bannerWillPresentScreen:(IMBanner *)banner {
+- (void)bannerWillPresentScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillPresentScreen >>>>");
-  [self.connector adapterWillPresentFullScreenModal:self];
+  [_connector adapterWillPresentFullScreenModal:self];
 }
 
-- (void)bannerDidPresentScreen:(IMBanner *)banner {
+- (void)bannerDidPresentScreen:(nonnull IMBanner *)banner {
   NSLog(@"InMobi banner did present screen");
 }
 
-- (void)bannerWillDismissScreen:(IMBanner *)banner {
+- (void)bannerWillDismissScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerWillDismissScreen >>>>");
-  [self.connector adapterWillDismissFullScreenModal:self];
+  [_connector adapterWillDismissFullScreenModal:self];
 }
 
-- (void)bannerDidDismissScreen:(IMBanner *)banner {
+- (void)bannerDidDismissScreen:(nonnull IMBanner *)banner {
   NSLog(@"<<<< bannerDidDismissScreen >>>>");
-  [self.connector adapterDidDismissFullScreenModal:self];
+  [_connector adapterDidDismissFullScreenModal:self];
 }
 
-- (void)banner:(IMBanner *)banner rewardActionCompletedWithRewards:(NSDictionary *)rewards {
-  NSLog(@"InMobi banner reward action completed with rewards: %@", [rewards description]);
+- (void)banner:(nonnull IMBanner *)banner
+    rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
+  NSLog(@"InMobi banner reward action completed with rewards: %@", rewards.description);
 }
 
 #pragma mark IMAdInterstitialDelegate methods
 
-- (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
+- (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidFinishRequest >>>>");
-  [self.connector adapterDidReceiveInterstitial:self];
+  [_connector adapterDidReceiveInterstitial:self];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(IMRequestStatus *)error {
-  NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
-  NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
-  [self.connector adapter:self didFailAd:reqError];
+  [_connector adapter:self didFailAd:error];
 }
 
-- (void)interstitialWillPresent:(IMInterstitial *)interstitial {
+- (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillPresentScreen >>>>");
-  if (self.connector != nil) [self.connector adapterWillPresentInterstitial:self];
+  [_connector adapterWillPresentInterstitial:self];
 }
 
-- (void)interstitialDidPresent:(IMInterstitial *)interstitial {
+- (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidPresent >>>>");
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(IMRequestStatus *)error {
-  NSLog(@"interstitial did fail with error=%@", [error localizedDescription]);
-  NSLog(@"error code=%ld", (long)[error code]);
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
-  [self.connector adapter:self didFailAd:reqError];
+  [_connector adapter:self didFailAd:error];
 }
 
-- (void)interstitialWillDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialWillDismiss >>>>");
-  if (self.connector != nil) [self.connector adapterWillDismissInterstitial:self];
+  [_connector adapterWillDismissInterstitial:self];
 }
 
-- (void)interstitialDidDismiss:(IMInterstitial *)interstitial {
+- (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< interstitialDidDismiss >>>>");
-  [self.connector adapterDidDismissInterstitial:self];
+  [_connector adapterDidDismissInterstitial:self];
 }
 
-- (void)interstitial:(IMInterstitial *)interstitial didInteractWithParams:(NSDictionary *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didInteractWithParams:(nonnull NSDictionary *)params {
   NSLog(@"<<<< interstitialDidInteract >>>>");
-  [self.connector adapterDidGetAdClick:self];
+  [_connector adapterDidGetAdClick:self];
 }
 
-- (void)userWillLeaveApplicationFromInterstitial:(IMInterstitial *)interstitial {
+- (void)userWillLeaveApplicationFromInterstitial:(nonnull IMInterstitial *)interstitial {
   NSLog(@"<<<< userWillLeaveApplicationFromInterstitial >>>>");
-  [self.connector adapterWillLeaveApplication:self];
+  [_connector adapterWillLeaveApplication:self];
 }
 
-- (void)interstitialDidReceiveAd:(IMInterstitial *)interstitial {
-  NSLog(@"InMobi AdServer returned a response");
-}
-
-/**
- * Notifies the delegate that the native ad has finished loading
- */
-- (void)nativeDidFinishLoading:(IMNative *)native {
-  if (self.native != native) {
-    GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                            code:kGADErrorMediationNoFill
-                                                        userInfo:nil];
-    [self.connector adapter:self didFailAd:reqError];
-    return;
-  }
-
-  self.nativeAd = [[InMobiMediatedUnifiedNativeAd alloc]
-      initWithInMobiUnifiedNativeAd:native
-                           withAdapter:self
-                   shouldDownloadImage:self.shouldDownloadImages
-                             withCache:imageCache];
-}
-
-/**
- * Notifies the delegate that the native ad has failed to load with error.
- */
-- (void)native:(IMNative *)native didFailToLoadWithError:(IMRequestStatus *)error {
-  NSLog(@"Native Ad failed to load");
-  NSInteger errorCode = [GADMAdapterInMobiUtils getAdMobErrorCode:[error code]];
-  NSString *errorDesc = [error localizedDescription];
-  NSDictionary *errorInfo =
-      [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
-  GADRequestError *reqError = [GADRequestError errorWithDomain:kGADMAdapterInMobiErrorDomain
-                                                          code:errorCode
-                                                      userInfo:errorInfo];
-
-  [self.connector adapter:self didFailAd:reqError];
-}
-
-/**
- * Notifies the delegate that the native ad would be presenting a full screen content.
- */
-- (void)nativeWillPresentScreen:(IMNative *)native {
-  NSLog(@"Native Will Present screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillPresentScreen:self.nativeAd];
-}
-
-/**
- * Notifies the delegate that the native ad has presented a full screen content.
- */
-- (void)nativeDidPresentScreen:(IMNative *)native {
-  NSLog(@"Native Did Present screen");
-}
-
-/**
- * Notifies the delegate that the native ad would be dismissing the presented full screen content.
- */
-- (void)nativeWillDismissScreen:(IMNative *)native {
-  NSLog(@"Native Will dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdWillDismissScreen:self.nativeAd];
-}
-
-/**
- * Notifies the delegate that the native ad has dismissed the presented full screen content.
- */
-- (void)nativeDidDismissScreen:(IMNative *)native {
-  NSLog(@"Native Did dismiss screen");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidDismissScreen:self.nativeAd];
-}
-
-/**
- * Notifies the delegate that the user will be taken outside the application context.
- */
-- (void)userWillLeaveApplicationFromNative:(IMNative *)native {
-  NSLog(@"User will leave application from native");
-  [self.connector adapterWillLeaveApplication:self];
-}
-
-- (void)nativeAdImpressed:(IMNative *)native {
-  NSLog(@"InMobi recorded impression successfully");
-  [GADMediatedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self.nativeAd];
-}
-
-- (void)native:(IMNative *)native didInteractWithParams:(NSDictionary *)params {
-  NSLog(@"User did interact with native");
-}
-
-- (void)nativeDidFinishPlayingMedia:(IMNative *)native {
-  NSLog(@"Native ad finished playing media");
-}
-
-- (void)userDidSkipPlayingMediaFromNative:(IMNative *)native {
-  NSLog(@"User did skip playing media from native");
+- (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
+  NSLog(@"InMobi AdServer returned a response.");
 }
 
 @end

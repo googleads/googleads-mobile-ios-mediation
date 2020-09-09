@@ -107,7 +107,7 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 // Indicates if the custom event handles user clicks. Return YES if the custom event should handle
 // user clicks.
 - (BOOL)handlesUserClicks {
-  return YES;
+  return NO;
 }
 
 - (BOOL)handlesUserImpressions {

@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
-@import UnityAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 
 #import "GADMAdapterUnityProtocol.h"
 
 /// Adapter for communicating with the Unity Ads Network to fetch ads through the
 /// Google Mobile Ads SDK.
 
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter,
-                                        GADMAdapterUnityDataProvider,
-                                        UnityAdsExtendedDelegate,
-                                        UnityAdsBannerDelegate>
+@interface GADMAdapterUnity
+    : NSObject <GADMAdNetworkAdapter, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
 
 @end

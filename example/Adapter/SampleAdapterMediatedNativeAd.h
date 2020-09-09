@@ -17,16 +17,16 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import GoogleMobileAds;
-@import SampleAdSDK;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
 /// This class is responsible for "mapping" a native ad to the interface
 /// expected by the Google Mobile Ads SDK. The names and data types of assets provided
 /// by a mediated network don't always line up with the ones expected by the Google
 /// Mobile Ads SDK (one might have "title" while the other expects "headline," for
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
-@interface SampleAdapterMediatedNativeAd : NSObject<GADMediatedUnifiedNativeAd, GADMediatedNativeAd>
+@interface SampleAdapterMediatedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
 
 - (null_unspecified instancetype)init NS_UNAVAILABLE;
 

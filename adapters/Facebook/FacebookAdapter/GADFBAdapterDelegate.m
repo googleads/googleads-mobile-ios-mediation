@@ -16,28 +16,21 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADFBAdapterDelegate () {
+@implementation GADFBAdapterDelegate {
   /// Connector from Google AdMob SDK which will receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
   /// Adapter for receiving notification of ad request.
   __weak id<GADMAdNetworkAdapter> _adapter;
 }
-@end
 
-@implementation GADFBAdapterDelegate
-
-- (instancetype)initWithAdapter:(id<GADMAdNetworkAdapter>)adapter
-                      connector:(id<GADMAdNetworkConnector>)connector {
+- (nonnull instancetype)initWithAdapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+                              connector:(nonnull id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     _connector = connector;
     _adapter = adapter;
   }
   return self;
-}
-
-- (instancetype)init {
-  return nil;
 }
 
 #pragma mark - FBAdViewDelegate
@@ -89,64 +82,6 @@
 - (UIViewController *)viewControllerForPresentingModalView {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   return [strongConnector viewControllerForPresentingModalView];
-}
-
-#pragma mark - FBInterstitialAdDelegate
-
-- (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    [strongConnector adapterWillPresentInterstitial:strongAdapter];
-  }
-}
-
-- (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    if ([strongConnector respondsToSelector:@selector(adapterDidGetAdClick:)]) {
-      [strongConnector adapterDidGetAdClick:strongAdapter];
-    }
-
-    [strongConnector adapterWillLeaveApplication:strongAdapter];
-  }
-}
-
-- (void)interstitialAdDidClose:(FBInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    [strongConnector adapterDidDismissInterstitial:strongAdapter];
-  }
-}
-
-- (void)interstitialAdWillClose:(FBInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    [strongConnector adapterWillDismissInterstitial:strongAdapter];
-  }
-}
-
-- (void)interstitialAdDidLoad:(FBInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    if ([strongConnector respondsToSelector:@selector(adapterDidReceiveInterstitial:)]) {
-      [strongConnector adapterDidReceiveInterstitial:strongAdapter];
-    } else {
-      [strongConnector adapterDidReceiveInterstitial:strongAdapter];
-    }
-  }
-}
-
-- (void)interstitialAd:(FBInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (strongConnector && strongAdapter) {
-    [strongConnector adapter:strongAdapter didFailAd:error];
-  }
 }
 
 @end

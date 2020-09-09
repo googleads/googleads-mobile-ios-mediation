@@ -14,7 +14,30 @@
 
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import "GADMediationAdapterAppLovin.h"
+
+typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
+  /// Banner Size Mismatch.
+  GADMAdapterAppLovinErrorBannerSizeMismatch = 101,
+  /// Invalid server parameters.
+  GADMAdapterAppLovinErrorInvalidServerParameters = 102,
+  /// Failed to show ad.
+  GADMAdapterAppLovinErrorShow = 103,
+  /// An ad is already loaded for this network configuration.
+  GADMAdapterAppLovinErrorAdAlreadyLoaded = 104,
+  /// SDK key not found.
+  GADMAdapterAppLovinErrorMissingSDKKey = 105,
+  /// There was an error loading data from the network.
+  GADMAdapterAppLovinErrorLoadingImages = 106,
+  /// Bid token is empty.
+  GADMAdapterAppLovinErrorEmptyBidToken = 107,
+  /// Unsupported ad format.
+  GADMAdapterAppLovinErrorUnsupportedAdFormat = 108,
+  /// AppLovin sent a successful load callback but loaded zero ads.
+  GADMAdapterAppLovinErrorZeroAdsLoaded = 110
+};
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
 

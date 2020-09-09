@@ -19,8 +19,8 @@
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:
-                               (GADMediationInterstitialLoadCompletionHandler)completionHandler;
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler;
 
 @end

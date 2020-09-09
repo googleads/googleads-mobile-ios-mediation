@@ -76,8 +76,8 @@
   }
 
   /* Parse instance id key */
-  if ([credentials objectForKey:kGADMAdapterIronSourceInstanceId]) {
-    self.instanceID = [credentials objectForKey:kGADMAdapterIronSourceInstanceId];
+  if (credentials[kGADMAdapterIronSourceInstanceId]) {
+    self.instanceID = credentials[kGADMAdapterIronSourceInstanceId];
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {

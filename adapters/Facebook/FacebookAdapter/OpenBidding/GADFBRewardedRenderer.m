@@ -14,14 +14,19 @@
 
 #import "GADFBRewardedRenderer.h"
 
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <AdSupport/AdSupport.h>
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
 
-#import "GADFBError.h"
+#include <stdatomic.h>
+#import "GADFBUtils.h"
 #import "GADMAdapterFacebookConstants.h"
 #import "GADMediationAdapterFacebook.h"
 
-@interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate> {
+@interface GADFBRewardedRenderer () <GADMediationRewardedAd, FBRewardedVideoAdDelegate>
+
+@end
+
+@implementation GADFBRewardedRenderer {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -29,20 +34,38 @@
   FBRewardedVideoAd *_rewardedAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  // Intentionally keeping a reference to the delegate because this delegate is returned from the
+  // GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
+  /// Indicates whether this renderer is loading a real-time bidding request.
   BOOL _isRTBRequest;
+
+  /// Indicates whether presentFromViewController: was called on this renderer.
+  BOOL _presentCalled;
 }
 
-@end
-
-@implementation GADFBRewardedRenderer
-
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Store the ad config and completion handler for later use.
-  _adLoadCompletionHandler = completionHandler;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _adLoadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
   if (adConfiguration.bidResponse) {
     _isRTBRequest = YES;
   }
@@ -51,7 +74,8 @@
       [GADMediationAdapterFacebook getPlacementIDFromCredentials:adConfiguration.credentials];
 
   if (!placementID) {
-    NSError *error = GADFBErrorWithDescription(@"Placement ID cannot be nil.");
+    NSError *error =
+        GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -61,21 +85,33 @@
   if (!_rewardedAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBRewardedVideoAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   _rewardedAd.delegate = self;
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion],
-                                                     kGADMAdapterFacebookVersion]];
+  GADFBConfigureMediationService();
+
+  FBAdExperienceConfig *adExperienceConfig =
+      [[FBAdExperienceConfig alloc] initWithAdExperienceType:[self adExperienceType]];
+  _rewardedAd.adExperienceConfig = adExperienceConfig;
+  NSLog(@"Requesting ad with ad experience type: %@", adExperienceConfig.adExperienceType);
 
   if (_isRTBRequest) {
+    // Adds a watermark to the ad.
+    FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+    watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+    _rewardedAd.extraHint = watermarkHint;
+    // Load ad.
     [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
   } else {
     [_rewardedAd loadAd];
   }
+}
+
+- (FBAdExperienceType)adExperienceType {
+  return FBAdExperienceTypeRewarded;
 }
 
 #pragma mark FBRewardedVideoAdDelegate
@@ -85,6 +121,11 @@
 }
 
 - (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
+  if (_presentCalled) {
+    NSLog(@"Received a Facebook SDK error during presentation: %@", error.localizedDescription);
+    [_adEventDelegate didFailToPresentWithError:error];
+    return;
+  }
   _adLoadCompletionHandler(nil, error);
 }
 
@@ -120,31 +161,25 @@
 }
 
 - (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && !_isRTBRequest) {
-    [strongDelegate reportImpression];
-  }
+  [_adEventDelegate reportImpression];
 }
 
 #pragma mark GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  /// The FAN SDK doesn't have callbacks for a rewarded ad opening or playing. Invoke callbacks on
-  /// the Google Mobile Ads SDK within this method instead.
+  /// The Facebook Audience Network SDK doesn't have callbacks for a rewarded ad opening or playing.
+  /// Invoke callbacks on the Google Mobile Ads SDK within this method instead.
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (!strongDelegate) {
-    return;
-  }
-  if ([_rewardedAd isAdValid]) {
-    [_rewardedAd showAdFromRootViewController:viewController];
-    [strongDelegate willPresentFullScreenView];
-    [strongDelegate didStartVideo];
-  } else {
+  _presentCalled = YES;
+  if (![_rewardedAd showAdFromRootViewController:viewController]) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to present.", NSStringFromClass([FBRewardedVideoAd class])];
-    NSError *error = GADFBErrorWithDescription(description);
+    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdNotValid, description);
     [strongDelegate didFailToPresentWithError:error];
+    return;
   }
+  [strongDelegate willPresentFullScreenView];
+  [strongDelegate didStartVideo];
 }
 
 @end

@@ -25,18 +25,17 @@ FOUNDATION_EXPORT double SampleAdSDKVersionNumber;
 //! Project version string for SampleAdSDK.
 FOUNDATION_EXPORT const unsigned char SampleAdSDKVersionString[];
 
+#import <SampleAdSDK/SampleAdInfoView.h>
 #import <SampleAdSDK/SampleAdRequest.h>
 #import <SampleAdSDK/SampleBanner.h>
 #import <SampleAdSDK/SampleBannerAdDelegate.h>
 #import <SampleAdSDK/SampleInterstitial.h>
 #import <SampleAdSDK/SampleInterstitialAdDelegate.h>
-#import <SampleAdSDK/SampleRewardBasedVideo.h>
-#import <SampleAdSDK/SampleRewardBasedVideoDelegate.h>
-#import <SampleAdSDK/SampleRewardBasedVideoController.h>
-#import <SampleAdSDK/SampleRewardBasedVideoAd.h>
+#import <SampleAdSDK/SampleMediaView.h>
+#import <SampleAdSDK/SampleNativeAd.h>
 #import <SampleAdSDK/SampleNativeAdLoader.h>
 #import <SampleAdSDK/SampleNativeAdLoaderDelegate.h>
-#import <SampleAdSDK/SampleNativeAd.h>
 #import <SampleAdSDK/SampleNativeAdRequest.h>
-#import <SampleAdSDK/SampleAdInfoView.h>
-#import <SampleAdSDK/SampleMediaView.h>
+#import <SampleAdSDK/SampleRewardedAd.h>
+#import <SampleAdSDK/SampleRewardedAdController.h>
+#import <SampleAdSDK/SampleRewardedAdDelegate.h>

@@ -7,5 +7,5 @@ framework module NendAdapter {
   link framework "Foundation"
   link framework "UIKit"
 
-  header "GADNendRewardedNetworkExtras.h"
+  header "GADMAdapterNendExtras.h"
 }

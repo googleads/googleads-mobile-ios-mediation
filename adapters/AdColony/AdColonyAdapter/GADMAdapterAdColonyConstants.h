@@ -3,7 +3,7 @@
 //
 
 /// AdColony mediation network adapter version.
-static NSString *const kGADMAdapterAdColonyVersionString = @"3.3.7.2";
+static NSString *const kGADMAdapterAdColonyVersionString = @"4.3.1.0";
 
 /// AdColony mediation adapter error domain
 static NSString *const kGADMAdapterAdColonyErrorDomain = @"com.google.mediation.adcolony";
@@ -17,5 +17,5 @@ static NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";
 /// AdColony mediation adapter app ID key
 static NSString *const kGADMAdapterAdColonyAppIDkey = @"app_id";
 
-static NSString *const kGADMAdapterAdColonyAltAdIdKey = @"adc_alt_id";
-static NSString *const kGADMAdapterAdColonyBidReplyKey = @"bid_value";
+/// AdColony mediation adapter ad Markup key
+static NSString *const kGADMAdapterAdColonyAdMarkupKey = @"adm";

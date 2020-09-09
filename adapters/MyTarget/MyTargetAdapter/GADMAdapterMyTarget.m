@@ -1,30 +1,32 @@
+// Copyright 2017 Google LLC
 //
-//  GADMAdapterMyTarget.m
-//  MyTargetAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Andrey Seredkin on 27.09.17.
-//  Copyright © 2017 Mail.Ru Group. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
-
-@import MyTargetSDK;
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMAdapterMyTarget.h"
+
+#import <MyTargetSDK/MyTargetSDK.h>
+
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-#define guard(CONDITION) \
-  if (CONDITION) {       \
-  }
-
 @interface GADMAdapterMyTarget () <MTRGAdViewDelegate, MTRGInterstitialAdDelegate>
-
 @end
 
 /// Find closest supported ad size from a given ad size.
 /// Returns nil if no supported size matches.
 static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray *potentials = @[
+  NSArray<NSValue *> *potentials = @[
     NSValueFromGADAdSize(kGADAdSizeBanner),
     NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard),
@@ -33,95 +35,103 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 @implementation GADMAdapterMyTarget {
-  MTRGAdView *_adView;
-  MTRGInterstitialAd *_interstitialAd;
+  /// Google Mobile Ads SDK ad network connector.
   __weak id<GADMAdNetworkConnector> _connector;
-  BOOL _isInterstitialLoaded;
-  BOOL _isInterstitialStarted;
+
+  /// myTarget banner ad object.
+  MTRGAdView *_adView;
+
+  /// myTarget interstitial ad object.
+  MTRGInterstitialAd *_interstitialAd;
 }
 
-+ (NSString *)adapterVersion {
++ (nonnull NSString *)adapterVersion {
   return kGADMAdapterMyTargetVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMAdapterMyTargetExtras class];
 }
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+- (nonnull instancetype)initWithGADMAdNetworkConnector:
+    (nonnull id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     id<GADAdNetworkExtras> networkExtras = connector.networkExtras;
     if (networkExtras && [networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]]) {
       GADMAdapterMyTargetExtras *extras = (GADMAdapterMyTargetExtras *)networkExtras;
-      [GADMAdapterMyTargetUtils setLogEnabled:extras.isDebugMode];
+      GADMAdapterMyTargetUtils.logEnabled = extras.isDebugMode;
     }
 
     MTRGLogInfo();
     MTRGLogDebug(@"Credentials: %@", connector.credentials);
     _connector = connector;
-    _isInterstitialLoaded = NO;
-    _isInterstitialStarted = NO;
   }
   return self;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
   MTRGLogDebug(@"adSize: %.fx%.f", adSize.size.width, adSize.size.height);
-  guard(strongConnector) else return;
 
-  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
-  MTRGAdSize adViewSize;
-  if ([GADMAdapterMyTargetUtils isSize:adSize equalToSize:kGADAdSizeBanner]) {
-    adViewSize = MTRGAdSize_320x50;
-  } else if ([GADMAdapterMyTargetUtils isSize:adSize equalToSize:kGADAdSizeMediumRectangle]) {
-    adViewSize = MTRGAdSize_300x250;
-  } else if ([GADMAdapterMyTargetUtils isSize:adSize equalToSize:kGADAdSizeLeaderboard]) {
-    adViewSize = MTRGAdSize_728x90;
-  } else {
-    [self delegateOnNoAdWithReason:kGADMAdapterMyTargetErrorInvalidSize];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
     return;
   }
 
-  NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
-  guard(slotId > 0) else {
+  adSize = GADSupportedAdSizeFromRequestedSize(adSize);
+  MTRGAdSize adViewSize;
+  if (GADAdSizeEqualToSize(adSize, kGADAdSizeBanner)) {
+    adViewSize = MTRGAdSize_320x50;
+  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+    adViewSize = MTRGAdSize_300x250;
+  } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
+    adViewSize = MTRGAdSize_728x90;
+  } else {
+    MTRGLogError(kGADMAdapterMyTargetErrorInvalidSize);
+    [strongConnector adapter:self
+                   didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(
+                                 kGADMAdapterMyTargetErrorInvalidSize)];
+    return;
+  }
+
+  NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(strongConnector.credentials);
+  if (slotId <= 0) {
     MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
     [strongConnector
           adapter:self
-        didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId]];
+        didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId)];
     return;
   }
 
   _adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO adSize:adViewSize];
   _adView.delegate = self;
   _adView.viewController = strongConnector.viewControllerForPresentingModalView;
-  [GADMAdapterMyTargetUtils fillCustomParams:_adView.customParams withConnector:strongConnector];
+  GADMAdapterMyTargetFillCustomParams(_adView.customParams, strongConnector);
   [_adView.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                 forKey:kMTRGCustomParamsMediationKey];
   [_adView load];
 }
 
 - (void)getInterstitial {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
   MTRGLogInfo();
-  guard(strongConnector) else return;
-
-  NSUInteger slotId = [GADMAdapterMyTargetUtils slotIdFromCredentials:strongConnector.credentials];
-  guard(slotId > 0) else {
-    MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
-    [strongConnector
-          adapter:self
-        didFailAd:[GADMAdapterMyTargetUtils errorWithDescription:kGADMAdapterMyTargetErrorSlotId]];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
     return;
   }
 
-  _isInterstitialLoaded = NO;
+  NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(strongConnector.credentials);
+  if (slotId <= 0) {
+    MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
+    [strongConnector
+          adapter:self
+        didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId)];
+    return;
+  }
+
   _interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
   _interstitialAd.delegate = self;
-  [GADMAdapterMyTargetUtils fillCustomParams:_interstitialAd.customParams
-                               withConnector:strongConnector];
+  GADMAdapterMyTargetFillCustomParams(_interstitialAd.customParams, strongConnector);
   [_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                         forKey:kMTRGCustomParamsMediationKey];
   [_interstitialAd load];
@@ -144,11 +154,12 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   return YES;
 }
 
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
   MTRGLogInfo();
-  guard(_isInterstitialLoaded && !_isInterstitialStarted && _interstitialAd &&
-        strongConnector) else return;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector || !_interstitialAd) {
+    return;
+  }
 
   [_interstitialAd showWithController:rootViewController];
   [strongConnector adapterWillPresentInterstitial:self];
@@ -156,105 +167,134 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 #pragma mark - MTRGAdViewDelegate
 
-- (void)onLoadWithAdView:(MTRGAdView *)adView {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)onLoadWithAdView:(nonnull MTRGAdView *)adView {
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapter:self didReceiveAdView:adView];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView {
-  [self delegateOnNoAdWithReason:reason];
-}
-
-- (void)onAdClickWithAdView:(MTRGAdView *)adView {
-  [self delegateOnClick];
-}
-
-- (void)onShowModalWithAdView:(MTRGAdView *)adView {
+- (void)onNoAdWithReason:(nonnull NSString *)reason adView:(nonnull MTRGAdView *)adView {
+  MTRGLogError(reason);
   id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
+  [strongConnector adapter:self didFailAd:error];
+}
+
+- (void)onAdClickWithAdView:(nonnull MTRGAdView *)adView {
   MTRGLogInfo();
-  guard(strongConnector) else return;
-  _isInterstitialStarted = YES;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterDidGetAdClick:self];
+}
+
+- (void)onShowModalWithAdView:(nonnull MTRGAdView *)adView {
+  MTRGLogInfo();
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterWillPresentFullScreenModal:self];
 }
 
-- (void)onDismissModalWithAdView:(MTRGAdView *)adView {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)onDismissModalWithAdView:(nonnull MTRGAdView *)adView {
   MTRGLogInfo();
-  guard(strongConnector) else return;
-  _isInterstitialStarted = NO;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterWillDismissFullScreenModal:self];
   [strongConnector adapterDidDismissFullScreenModal:self];
 }
 
-- (void)onLeaveApplicationWithAdView:(MTRGAdView *)adView {
-  [self delegateOnLeaveApplication];
+- (void)onLeaveApplicationWithAdView:(nonnull MTRGAdView *)adView {
+  MTRGLogInfo();
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - MTRGInterstitialAdDelegate
 
-- (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)onLoadWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  guard(strongConnector) else return;
-  _isInterstitialLoaded = YES;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterDidReceiveInterstitial:self];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  [self delegateOnNoAdWithReason:reason];
-}
-
-- (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  [self delegateOnClick];
-}
-
-- (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
+- (void)onNoAdWithReason:(nonnull NSString *)reason
+          interstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+  MTRGLogError(reason);
   id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
+  [strongConnector adapter:self didFailAd:error];
+}
+
+- (void)onClickWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterDidGetAdClick:self];
+}
+
+- (void)onCloseWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+  MTRGLogInfo();
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
 }
 
-- (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  // do nothing
+- (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+  // Do nothing.
 }
 
-- (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  guard(strongConnector) else return;
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterWillPresentInterstitial:self];
 }
 
-- (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd {
-  [self delegateOnLeaveApplication];
-}
-
-#pragma mark - delegates
-
-- (void)delegateOnNoAdWithReason:(NSString *)reason {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *description = [GADMAdapterMyTargetUtils noAdWithReason:reason];
-  MTRGLogError(description);
-  guard(strongConnector) else return;
-  NSError *error = [GADMAdapterMyTargetUtils errorWithDescription:description];
-  [strongConnector adapter:self didFailAd:error];
-}
-
-- (void)delegateOnClick {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
+- (void)onLeaveApplicationWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  guard(strongConnector) else return;
-  [strongConnector adapterDidGetAdClick:self];
-}
-
-- (void)delegateOnLeaveApplication {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  MTRGLogInfo();
-  guard(strongConnector) else return;
+  if (!strongConnector) {
+    return;
+  }
+
   [strongConnector adapterWillLeaveApplication:self];
 }
 

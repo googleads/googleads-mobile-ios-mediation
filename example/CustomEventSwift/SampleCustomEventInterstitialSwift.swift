@@ -28,12 +28,17 @@ class SampleCustomEventInterstitialSwift: NSObject, GADCustomEventInterstitial {
   var interstitial: SampleInterstitial?
   var delegate: GADCustomEventInterstitialDelegate?
 
-  func requestAd(withParameter serverParameter: String?,
-                 label serverLabel: String?,
-                 request: GADCustomEventRequest) {
-    interstitial = SampleInterstitial()
+  required override init() {
+    super.init()
+  }
+
+  func requestAd(
+    withParameter serverParameter: String?,
+    label serverLabel: String?,
+    request: GADCustomEventRequest
+  ) {
+    interstitial = SampleInterstitial.init(adUnitID: serverParameter)
     interstitial?.delegate = self
-    interstitial?.adUnit = serverParameter
     let adRequest = SampleAdRequest()
     adRequest.testMode = request.isTesting
     adRequest.keywords = request.userKeywords as? [String]
@@ -54,7 +59,9 @@ extension SampleCustomEventInterstitialSwift: SampleInterstitialAdDelegate {
     delegate?.customEventInterstitialDidReceiveAd(self)
   }
 
-  func interstitial(_ interstitial: SampleInterstitial, didFailToLoadAdWith errorCode: SampleErrorCode) {
+  func interstitial(
+    _ interstitial: SampleInterstitial, didFailToLoadAdWith errorCode: SampleErrorCode
+  ) {
     let error = NSError(domain: customEventErrorDomain, code: errorCode.rawValue, userInfo: nil)
     delegate?.customEventInterstitial(self, didFailAd: error)
   }

@@ -1,44 +1,62 @@
+// Copyright 2017 Google LLC
 //
-//  GADMAdapterMyTargetUtils.h
-//  MyTargetAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Andrey Seredkin on 28.09.17.
-//  Copyright © 2017 Mail.Ru Group. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-@import GoogleMobileAds;
-@import MyTargetSDK;
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MyTargetSDK/MyTargetSDK.h>
 
 #define MTRGLogInfo()                                                                    \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                                         \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                                             \
     NSLog(@"[%@ info] %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd)); \
   }
 #define MTRGLogDebug(format, ...)                               \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                    \
     NSLog(@"[%@ debug] %@", NSStringFromClass([self class]),    \
           [NSString stringWithFormat:(format), ##__VA_ARGS__]); \
   }
 #define MTRGLogError(message)                                            \
-  if ([GADMAdapterMyTargetUtils isLogEnabled]) {                         \
+  if (GADMAdapterMyTargetUtils.logEnabled) {                             \
     NSLog(@"[%@ error] %@", NSStringFromClass([self class]), (message)); \
   }
 
-NS_ASSUME_NONNULL_BEGIN
+/// Sets |value| for |key| in |dictionary| if |value| is not nil.
+void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
+                                                         id<NSCopying> _Nullable key,
+                                                         id _Nullable value);
+
+/// Returns an SDK specific NSError with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description);
+
+/// Returns an adapter specific NSError with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description);
+
+/// Sets myTarget's customParams from |connector|.
+void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
+                                         id<GADMAdNetworkConnector> _Nonnull connector);
+
+/// Gets the myTarget slot ID from the specified |credentials|.
+NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
+    NSDictionary<NSString *, id> *_Nullable credentials);
+
+/// Returns a GADNativeAdImage from the specified myTarget |imageData|.
+GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
+    MTRGImageData *_Nullable imageData);
 
 @interface GADMAdapterMyTargetUtils : NSObject
 
-+ (BOOL)isLogEnabled;
-+ (void)setLogEnabled:(BOOL)isLogEnabled;
-+ (NSError *)errorWithDescription:(NSString *)description;
-+ (NSString *)noAdWithReason:(NSString *)reason;
-+ (NSUInteger)slotIdFromCredentials:(NSDictionary *)credentials;
-+ (void)fillCustomParams:(MTRGCustomParams *)customParams
-           withConnector:(nullable id<GADMediationAdRequest>)connector;
-+ (MTRGGender)genderFromAdmobGender:(GADGender)admobGender;
-+ (nullable NSNumber *)ageFromBirthday:(NSDate *)birthday;
-+ (BOOL)isSize:(GADAdSize)size1 equalToSize:(GADAdSize)size2;
-+ (nullable GADNativeAdImage *)nativeAdImageWithImageData:(nullable MTRGImageData *)imageData;
+/// Indicates whether debug logs are enabled for the myTarget adapter.
+@property(class, nonatomic, assign) BOOL logEnabled;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -16,49 +16,64 @@
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobi.h"
 #import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 
-@interface GADMediationAdapterInMobi ()
+@implementation GADMediationAdapterInMobi {
+  /// InMobi rewarded ad wrapper.
+  GADMAdapterInMobiRewardedAd *_rewardedAd;
+}
 
-@property(nonatomic) GADMAdapterInMobiRewardedAd *rewardedAd;
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  if (GADMAdapterInMobiInitializer.sharedInstance.initializationState ==
+      GADMAdapterInMobiInitStateInitialized) {
+    completionHandler(nil);
+    return;
+  }
 
-@end
+  NSMutableSet<NSString *> *accountIDs = [[NSMutableSet alloc] init];
 
-@implementation GADMediationAdapterInMobi
-
-BOOL isAppInitialised;
-
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet *accountIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
-    [accountIDs addObject:cred.settings[kGADMAdapterInMobiAccountID]];
+    NSString *accountIDFromSettings = cred.settings[kGADMAdapterInMobiAccountID];
+    if (accountIDFromSettings.length) {
+      GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
+    }
+  }
+
+  if (!accountIDs.count) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidServerParameters,
+        @"InMobi mediation configurations did not contain a valid account ID.");
+    completionHandler(error);
+    return;
   }
 
   NSString *accountID = [accountIDs anyObject];
-
   if (accountIDs.count > 1) {
-    NSLog(@"Found the following account ID's: %@. Please remove any account IDs you are not using "
-          @"from the AdMob UI.",
+    NSLog(@"Found the following account IDs: %@. "
+          @"Please remove any account IDs you are not using from the AdMob UI.",
           accountIDs);
-    NSLog(@"Initializing InMobi SDK with the account ID %@", accountID);
+    NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
-  [IMSdk initWithAccountID:accountID consentDictionary:[GADMInMobiConsent getConsent]];
-  isAppInitialised = YES;
-  completionHandler(nil);
+  [GADMAdapterInMobiInitializer.sharedInstance initializeWithAccountID:accountID
+                                                     completionHandler:^(NSError *_Nullable error) {
+                                                       completionHandler(error);
+                                                     }];
 }
 
 + (GADVersionNumber)adSDKVersion {
   NSString *versionString = [IMSdk getVersion];
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion = [versionComponents[2] integerValue];
+  if (versionComponents.count >= 3) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion = versionComponents[2].integerValue;
   }
   return version;
 }
@@ -68,37 +83,37 @@ BOOL isAppInitialised;
 }
 
 + (GADVersionNumber)version {
-  NSArray *versionComponents = [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
+  return [GADMediationAdapterInMobi adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
+  NSArray<NSString *> *versionComponents =
+      [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count == 3) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
+  if (versionComponents.count >= 4) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
     version.patchVersion =
-        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
+        versionComponents[2].integerValue * 100 + versionComponents[3].integerValue;
   }
   return version;
 }
 
-+ (BOOL)isAppInitialised {
-  return isAppInitialised;
-}
-
-+ (void)setIsAppInitialised:(BOOL)status {
-  isAppInitialised = status;
-}
-
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (!isAppInitialised) {
-    NSString *accountID = adConfiguration.credentials.settings[kGADMAdapterInMobiAccountID];
-    [IMSdk initWithAccountID:accountID consentDictionary:[GADMInMobiConsent getConsent]];
-    isAppInitialised = YES;
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (!_rewardedAd) {
+    NSString *placementIdentifierString =
+        adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];
+    NSNumber *placementIdentifier =
+        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+    _rewardedAd =
+        [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
   }
 
-  self.rewardedAd = [[GADMAdapterInMobiRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 @end

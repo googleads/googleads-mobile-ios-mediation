@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@import Foundation;
-@import GoogleMobileAds;
-@import UnityAds;
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 
 #import "GADMAdapterUnityProtocol.h"
 
@@ -46,10 +46,6 @@
 - (void)presentInterstitialAdForViewController:(UIViewController *)viewController
                                       delegate:(id<GADMAdapterUnityDataProvider,
                                                    UnityAdsExtendedDelegate>)adapterDelegate;
-
-/// Presents a banner ad for |gameID| with |adapterDelegate|
-- (void)presentBannerAd:(NSString *)gameID
-               delegate:(id<GADMAdapterUnityDataProvider, UnityAdsBannerDelegate>)adapterDelegate;
 
 /// Tells the adapter to remove itself as a |adapterDelegate|.
 - (void)stopTrackingDelegate:
