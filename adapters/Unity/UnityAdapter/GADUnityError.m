@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #import "GADUnityError.h"
+#import "GADMAdapterUnityConstants.h"
 
 NSError *GADUnityErrorWithDescription(NSString *description) {
   description = [description copy];
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.unity" code:0 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain code:0 userInfo:userInfo];
   return error;
 }

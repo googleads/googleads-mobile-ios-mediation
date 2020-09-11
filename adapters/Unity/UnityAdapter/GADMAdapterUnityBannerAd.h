@@ -20,9 +20,9 @@
 @interface GADMAdapterUnityBannerAd : NSObject
 
 /// Initializes a new instance with |connector| and |adapter|.
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                             adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+  NS_DESIGNATED_INITIALIZER;
 
 /// Init unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;

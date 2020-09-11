@@ -21,23 +21,18 @@ void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
   }
 }
 
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value) {
-  if (value && key) {
-    [mapTable setObject:value forKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
-  if (key) {
-    [mapTable removeObjectForKey:key];  // Allow pattern.
-  }
+void GADMUnityConfigureMediationService(void) {
+  UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+  [mediationMetaData commit];
 }
 
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
                                        code:code
                                    userInfo:userInfo];
@@ -47,7 +42,7 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(UnityAdsError errorCode,
                                                                       NSString *_Nonnull message) {
   NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
+  @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];

@@ -13,16 +13,15 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import "GADMAdapterUnityProtocol.h"
-#import "GADMAdapterUnitySingleton.h"
+@import GoogleMobileAds;
+@import UnityAds;
 
 @interface GADMAdapterUnityRewardedAd
-    : NSObject <GADMediationRewardedAd, GADMAdapterUnityDataProvider, UnityAdsExtendedDelegate>
+: NSObject <GADMediationRewardedAd, UnityAdsExtendedDelegate>
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:
-                          (GADMediationRewardedLoadCompletionHandler)completionHandler;
+                      completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+
 - (instancetype)init __unavailable;
 
 - (void)requestRewardedAd;

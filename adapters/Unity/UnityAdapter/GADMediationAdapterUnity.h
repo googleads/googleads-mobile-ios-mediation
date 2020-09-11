@@ -36,9 +36,12 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   /// ads for the same placement.
   GADMAdapterUnityErrorAdAlreadyLoaded = 108,
   /// Banner size mismatch.
-  GADMAdapterUnityErrorSizeMismatch = 109
+  GADMAdapterUnityErrorSizeMismatch = 109,
+  /// UnityAds returned an initialization error
+  GADMAdapterUnityErrorAdInitializationFailure = 110
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
+@property (nonatomic, copy) GADMediationAdapterSetUpCompletionBlock _Nonnull completionBlock;
 
 @end
