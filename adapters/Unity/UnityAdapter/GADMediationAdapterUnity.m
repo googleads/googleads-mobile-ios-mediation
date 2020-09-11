@@ -15,12 +15,12 @@
 #import "GADMediationAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
-#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADMAdapterUnity.h"
+#import "GADMUnityInitializationDelegate.h"
 @import UnityAds;
 
 @interface GADMediationAdapterUnity ()
-
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
 
 @end
@@ -35,15 +35,14 @@
     NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
     GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
   }
-
+  
   if (!gameIDs.count) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters,
-        @"UnityAds mediation configurations did not contain a valid game ID.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters,
+                                                                 @"UnityAds mediation configurations did not contain a valid game ID.");
     completionHandler(error);
     return;
   }
-
+  
   NSString *gameID = [gameIDs anyObject];
   if (gameIDs.count > 1) {
     NSLog(@"Found the following game IDs: %@. "
@@ -51,9 +50,8 @@
           gameIDs);
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
-
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
-  completionHandler(nil);
+  GADMUnityInitializationDelegate* initializationDelegate = [[GADMUnityInitializationDelegate alloc] initWithCompletionHandler:completionHandler];
+  [[GADMAdapterUnity alloc] initializeWithGameID:gameID withInitDelegate:initializationDelegate];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -87,8 +85,7 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterUnityRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                               completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];
