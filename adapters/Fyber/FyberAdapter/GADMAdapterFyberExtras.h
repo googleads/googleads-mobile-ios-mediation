@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Fyber mediation adapter version.
-static NSString* const _Nonnull kGADMAdapterFyberVersion = @"7.6.4.0";
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IASDKCore/IASDKCore.h>
 
-/// Fyber mediation adapter app ID key.
-static NSString* const _Nonnull kGADMAdapterFyberApplicationID = @"applicationId";
+NS_ASSUME_NONNULL_BEGIN
 
-/// Fyber mediation adapter spot ID key.
-static NSString* const _Nonnull kGADMAdapterFyberSpotID = @"spotId";
+@interface GADMAdapterFyberExtras : NSObject <GADAdNetworkExtras>
 
-/// Fyber mediation adapter error domain.
-static NSString* const _Nonnull kGADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";
+/// Use this to pass the user's info
+@property (nonatomic, copy, nullable) IAUserData *userData;
+
+/// Use this to pass keywords
+@property (nonatomic, copy, nullable) NSString *keywords;
+
+@end
+
+NS_ASSUME_NONNULL_END

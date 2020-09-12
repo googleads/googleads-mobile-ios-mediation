@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Fyber mediation adapter version.
-static NSString* const _Nonnull kGADMAdapterFyberVersion = @"7.6.4.0";
+#import "GADMAdapterFyberExtras.h"
 
-/// Fyber mediation adapter app ID key.
-static NSString* const _Nonnull kGADMAdapterFyberApplicationID = @"applicationId";
+@implementation GADMAdapterFyberExtras
 
-/// Fyber mediation adapter spot ID key.
-static NSString* const _Nonnull kGADMAdapterFyberSpotID = @"spotId";
-
-/// Fyber mediation adapter error domain.
-static NSString* const _Nonnull kGADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";
+@end

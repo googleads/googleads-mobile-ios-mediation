@@ -16,6 +16,7 @@
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberRewardedAd.h"
 #import "GADMAdapterFyberUtils.h"
+#import "GADMAdapterFyberExtras.h"
 
 #import <CoreLocation/CoreLocation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
@@ -102,7 +103,7 @@
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return GADMAdapterFyberExtras.class;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
