@@ -1,5 +1,14 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Version 2.0.33.0
+- Verified compatibility with i-mobile SDK version 2.0.33.
+- Now requires Google Mobile Ads SDK version 7.65.0 or higher.
+- Now requires minimum iOS version of 9.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.65.0.
+- i-mobile SDK version 2.0.33.
+
 #### Version 2.0.32.0
 - Verified compatibility with i-mobile SDK version 2.0.32.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
