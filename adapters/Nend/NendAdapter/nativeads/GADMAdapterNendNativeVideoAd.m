@@ -110,7 +110,12 @@
     nonclickableAssetViews:
         (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  _nendMediaView.frame = view.frame;
+  for (UIView *subview in view.subviews) {
+    if ([subview isKindOfClass:[GADMediaView class]]) {
+      _nendMediaView.bounds = subview.bounds;
+      break;
+    }
+  }
   [_videoAd registerInteractionViews:clickableAssetViews.allValues];
   _nendMediaView.videoAd = _videoAd;
 }
