@@ -1,13 +1,13 @@
 #import "GADMAdapterMoPub.h"
 
+#import <MoPubSDK/Internal/Utility/MPImageDownloadQueue.h>
+#import <MoPubSDK/Internal/Utility/MPNativeCache.h>
+#import <MoPubSDK/MoPub.h>
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 #import "GADMoPubNetworkExtras.h"
-#import <MoPub/MoPub.h>
-#import <MoPub/MPNativeAds.h>
-
 
 static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialDelegates;
 

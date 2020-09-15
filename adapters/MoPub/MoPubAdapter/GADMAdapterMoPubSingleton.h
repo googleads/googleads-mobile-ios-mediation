@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MoPubSDK/MoPub.h>
 #import "GADMAdapterMoPubConstants.h"
-#import <MoPub/MoPub.h>
 
 @interface GADMAdapterMoPubSingleton : NSObject
 

@@ -1,7 +1,7 @@
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 
+#import <MoPubSDK/Internal/Common/MPAdDestinationDisplayAgent.h>
 #import "GADMAdapterMoPubConstants.h"
-#import <MoPub/MPAdDestinationDisplayAgent.h>
 
 @interface GADMAdapterMopubUnifiedNativeAd () <MPAdDestinationDisplayAgentDelegate>
 @end
