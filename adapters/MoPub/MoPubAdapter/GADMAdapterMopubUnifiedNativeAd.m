@@ -29,7 +29,7 @@
   MPAdDestinationDisplayAgent *_displayDestinationAgent;
 
   /// ViewController that should be used to present modal views for the ad.
-  UIViewController *_baseViewController;
+  __weak UIViewController *_baseViewController;
 
   /// Ad loader options for configuring the view of native ads.
   GADNativeAdViewAdOptions *_nativeAdViewOptions;
