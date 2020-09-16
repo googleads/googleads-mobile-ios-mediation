@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2020 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -97,12 +97,10 @@
 - (void)unityAdsPlacementStateChanged:(NSString *)placementId
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
-  // This callback is not forwarded to the adapter. The adapter
-  // should use the unityAdsReady: and unityAdsDidError: callbacks to forward Unity Ads SDK state to
-  // Google Mobile Ads SDK.
 }
 
 - (void)unityAdsDidFinish:(NSString *)placementID withFinishState:(UnityAdsFinishState)state {
+  [UnityAds removeDelegate:self];
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongNetworkConnector && strongAdapter) {
@@ -124,6 +122,7 @@
 }
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
+  [UnityAds removeDelegate:self];
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (!_isLoading) {
@@ -157,10 +156,11 @@
 // UnityAdsLoadDelegate methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+  [UnityAds removeDelegate:self];
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-    NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+    NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load interstitial ad with placement ID '%@'", placementId]);
     [strongConnector adapter:strongAdapter didFailAd:error];
   }
 }

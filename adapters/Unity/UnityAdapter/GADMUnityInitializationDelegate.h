@@ -13,8 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
-@import UnityAds;
+
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 
 @interface GADMUnityInitializationDelegate : NSObject {
   GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
