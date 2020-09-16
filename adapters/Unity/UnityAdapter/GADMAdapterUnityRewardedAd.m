@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,6 +94,7 @@
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
   if (_adEventDelegate) {
+    [UnityAds removeDelegate:self];
     NSError *errorWithDescription =
     GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
     [_adEventDelegate didFailToPresentWithError:errorWithDescription];
@@ -102,6 +103,7 @@
 
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
+  [UnityAds removeDelegate:self];
   
   if (state == kUnityAdsFinishStateCompleted) {
     [_adEventDelegate didEndVideo];
@@ -141,9 +143,10 @@
                              newState:(UnityAdsPlacementState)newState {
 }
 
-- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId { 
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+  [UnityAds removeDelegate:self];
   if (_adLoadCompletionHandler) {
-    NSError *error = GADUnityErrorWithDescription(@"unityAdsAdFailedToLoad");
+    NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load rewarded ad with placement ID '%@'", placementId]);
     _adEventDelegate = _adLoadCompletionHandler(nil, error);
   }
 }

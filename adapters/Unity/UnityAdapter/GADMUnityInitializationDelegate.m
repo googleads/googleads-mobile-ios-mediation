@@ -1,10 +1,3 @@
-//
-//  GADMUnityInitializationDelegate.m
-//  AdMob-TestApp-Local
-//
-//  Created by Kavya Katooru on 6/25/20.
-//  Copyright © 2020 Unity Ads. All rights reserved.
-//
 // Copyright 2020 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
