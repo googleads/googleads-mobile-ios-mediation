@@ -149,7 +149,8 @@
 }
 
 - (void)unityAdsReady:(nonnull NSString *)placementId {
-  // nothing to do
+  // Logic to mark a placement ready has moved to the UnityAdsLoadDelegate function
+  // unityAdsAdLoaded.
 }
 
 
