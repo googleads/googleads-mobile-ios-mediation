@@ -17,7 +17,7 @@
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMUnityInitializer.h"
-@import UnityAds;
+#import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
