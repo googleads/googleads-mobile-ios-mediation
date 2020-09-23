@@ -13,9 +13,17 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
+
+/// Adapter for communicating with the Unity Ads Network to fetch ads through the
+/// Google Mobile Ads SDK.
+
+@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
+
+- (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate;
+
+@end
 
 @interface GADMUnityInitializationDelegate : NSObject {
   GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
@@ -24,4 +32,3 @@
 - (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
 
 @end
-

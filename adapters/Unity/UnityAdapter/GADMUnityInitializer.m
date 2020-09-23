@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterUnity.h"
+#import "GADMUnityInitializer.h"
 #import "GADUnityError.h"
+#import "GADMAdapterUnityUtils.h"
+
 #import "GADMAdapterUnityBannerAd.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMUnityInterstitialAd.h"
-#import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 
 @interface GADMAdapterUnity (){
@@ -139,6 +140,33 @@
     return;
   }
   [_bannerAd loadBannerWithSize:adSize];
+}
+
+@end
+
+@interface GADMUnityInitializationDelegate ()<UnityAdsInitializationDelegate>
+
+@end
+
+@implementation GADMUnityInitializationDelegate
+
+-(nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  self = [super init];
+  if (self) {
+    initCompletionBlock = completionHandler;
+  }
+  return self;
+}
+
+// UnityAdsInitialization Delegate methods
+- (void)initializationComplete {
+  NSLog(@"Unity Ads initialized successfully");
+  initCompletionBlock(nil);
+}
+
+- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
+  NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
+  initCompletionBlock(err);
 }
 
 @end

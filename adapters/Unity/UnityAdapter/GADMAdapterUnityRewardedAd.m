@@ -93,8 +93,8 @@
 #pragma mark - Unity Delegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-  if (_adEventDelegate) {
     [UnityAds removeDelegate:self];
+    if (_adEventDelegate) {
     NSError *errorWithDescription =
     GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
     [_adEventDelegate didFailToPresentWithError:errorWithDescription];

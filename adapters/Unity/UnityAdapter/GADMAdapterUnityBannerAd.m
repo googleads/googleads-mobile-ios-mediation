@@ -37,10 +37,6 @@
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
-  if (![UnityAds isInitialized]) {
-    NSLog(@"Unity Ads Adapter Error: Unity Ads is not initialized.");
-    return nil;
-  }
   self = [super init];
   if (self) {
     _adapter = adapter;
@@ -52,6 +48,10 @@
 - (void)loadBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
+  
+  if (![UnityAds isInitialized]) {
+    [GADMAdapterUnity initialize];
+  }
   
   if (!strongConnector) {
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
