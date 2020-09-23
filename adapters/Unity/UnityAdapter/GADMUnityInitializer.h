@@ -25,3 +25,11 @@
 - (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate;
 
 @end
+
+@interface GADMUnityInitializationDelegate : NSObject {
+  GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
+}
+
+- (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
+
+@end

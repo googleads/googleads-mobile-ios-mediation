@@ -17,6 +17,8 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
 
+#import "GADMUnityInitializer.h"
+
 @interface GADMAdapterUnityBannerAd : NSObject
 
 /// Initializes a new instance with |connector| and |adapter|.
