@@ -157,10 +157,13 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
 + (nullable ALAdSize *)appLovinAdSizeFromRequestedSize:(GADAdSize)size {
   GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
   GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
-  GADAdSize mRect = GADAdSizeFromCGSize(CGSizeMake(300, 250));
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mRect), NSValueFromGADAdSize(leaderboard)
-  ];
+  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner) ];
+  if (IS_IPAD) {
+    // iPad also supports 728x90.
+    potentials = @[
+      NSValueFromGADAdSize(banner), NSValueFromGADAdSize(leaderboard)
+    ];
+  }
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
   CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
   if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
@@ -168,9 +171,6 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   }
   if (CGSizeEqualToSize(CGSizeFromGADAdSize(leaderboard), closestCGSize)) {
     return ALAdSize.leader;
-  }
-  if (CGSizeEqualToSize(CGSizeFromGADAdSize(mRect), closestCGSize)) {
-    return ALAdSize.mrec;
   }
 
   [GADMAdapterAppLovinUtils

@@ -103,6 +103,7 @@
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
     [strongConnector adapterDidGetAdClick:strongAdapter];
+    [strongConnector adapterWillLeaveApplication:strongAdapter];
   }
 }
 

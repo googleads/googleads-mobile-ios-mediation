@@ -129,6 +129,17 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _networkConnector;
+  GADAdSize supportedSize = [self supportedAdSizeFromRequestedSize:adSize];
+  if (!IsGADAdSizeValid(supportedSize)) {
+    NSString *errorMsg = [NSString
+        stringWithFormat:
+            @"UnityAds supported banner sizes are not a good fit for the requested size: %@",
+            NSStringFromGADAdSize(adSize)];
+    NSError *error =
+        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
+    [strongConnector adapter:self didFailAd:error];
+    return;
+  }
   _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
@@ -140,7 +151,7 @@
 
   _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                        adapter:self];
-  [_bannerAd loadBannerWithSize:adSize];
+  [_bannerAd loadBannerWithSize:supportedSize];
 }
 
 #pragma mark GADMAdapterUnityDataProvider Methods
@@ -158,6 +169,13 @@
   if (strongConnector != nil) {
     [strongConnector adapter:self didFailAd:error];
   }
+}
+
+/// Find closest supported ad size from a given ad size.
+- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
+  NSArray *potentials =
+      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 #pragma mark - Unity Delegate Methods

@@ -15,6 +15,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "GADMAdapterFyberConstants.h"
+#import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberUtils.h"
 
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
@@ -47,9 +48,13 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
     NSString *_Nonnull spotID, id<GADMAdNetworkConnector> _Nonnull connector) {
-  NSString *keywords;
+  GADMAdapterFyberExtras *extras = connector.networkExtras;
+
+  NSString *keywords = nil;
   if (connector.userKeywords) {
-    keywords = [connector.userKeywords componentsJoinedByString:@""];
+    keywords = [connector.userKeywords componentsJoinedByString:@" "];
+  } else if (extras.keywords) {
+    keywords = extras.keywords;
   }
 
   CLLocation *location;
@@ -58,7 +63,7 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
                                           longitude:connector.userLongitude];
   }
 
-  return GADMAdapterFyberBuildRequestWithSpotID(spotID, keywords, location);
+  return GADMAdapterFyberBuildRequestWithSpotID(spotID, keywords, location, extras.userData);
 }
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
@@ -69,16 +74,25 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
                                           longitude:adConfiguration.userLongitude];
   }
 
-  return GADMAdapterFyberBuildRequestWithSpotID(spotID, nil, location);
+  GADMAdapterFyberExtras *extras = adConfiguration.extras;
+  NSString *keywords = nil;
+
+  if (extras.keywords) {
+    keywords = extras.keywords;
+  }
+
+  return GADMAdapterFyberBuildRequestWithSpotID(spotID, keywords, location, extras.userData);
 }
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull spotID,
                                                              NSString *_Nullable keywords,
-                                                             CLLocation *_Nullable location) {
+                                                             CLLocation *_Nullable location,
+                                                             IAUserData *_Nullable userData) {
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;
     builder.spotID = spotID;
     builder.timeout = 10;
+    builder.userData = userData;
     if (keywords) {
       builder.keywords = keywords;
     }

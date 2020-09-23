@@ -102,6 +102,13 @@
     options = [self getAdOptionsFromExtras:extras];
   }
 
+  if (adConfig.bidResponse) {
+    if (options == nil) {
+      options = [AdColonyAdOptions new];
+    }
+    [options setOption:kGADMAdapterAdColonyAdMarkupKey withStringValue:adConfig.bidResponse];
+  }
+
   return options;
 }
 
@@ -161,28 +168,6 @@
   [self setupZoneFromSettings:credentials options:options callback:callback];
 }
 
-+ (nullable NSDictionary *)getDictionaryFromJsonString:(nonnull NSString *)jsonString {
-  NSData *objectData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:objectData
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:nil];
-  return dictionary;
-}
-
-// Method to build JSON from dictionary
-+ (nullable NSString *)getJsonStringFromDictionary:(nonnull NSDictionary *)dictionary {
-  NSString *json = nil;
-  NSError *error;
-
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                     options:NSJSONWritingPrettyPrinted
-                                                       error:&error];
-  if (!error) {
-    json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  }
-  return json;
-}
-
 @end
 
 NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorCode code,
@@ -213,23 +198,6 @@ NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
   NSString *zoneID = zoneIDs.firstObject;
 
   return zoneID;
-}
-
-NSString *_Nullable GADMAdapterAdColonyZoneIDForReply(NSString *_Nonnull reply) {
-  if (!reply) {
-    return nil;
-  }
-  NSDictionary *bidData = [GADMAdapterAdColonyHelper getDictionaryFromJsonString:reply];
-  NSString *zoneId = bidData[@"zone"];
-  return zoneId;
-}
-
-void GADMAdapterAdColonyMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                         id<NSCopying> _Nullable key,
-                                                         id _Nullable value) {
-  if (value && key) {
-    dictionary[key] = value;  // Allow pattern.
-  }
 }
 
 void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,

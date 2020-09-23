@@ -35,8 +35,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorEmptyBidToken = 107,
   /// Unsupported ad format.
   GADMAdapterAppLovinErrorUnsupportedAdFormat = 108,
-  /// AppLovin native ad is missing required assets.
-  GADMAdapterAppLovinErrorMissingNativeAssets = 109,
   /// AppLovin sent a successful load callback but loaded zero ads.
   GADMAdapterAppLovinErrorZeroAdsLoaded = 110
 };

@@ -1,8 +1,40 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 6.14.2.0
+Verified compatibility with AppLovin SDK 6.14.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.65.0.
+- AppLovin SDK version 6.14.2.
+
+#### Version 6.13.4.1
+- Now requires Google Mobile Ads SDK version 7.65.0 or higher.
+- Removed support for 300x250 medium rectangle ads and native ads.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.65.0.
+- AppLovin SDK version 6.13.4.
+
+#### Version 6.13.4.0
+- Verified compatibility with AppLovin SDK 6.13.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.64.0.
+- AppLovin SDK version 6.13.4.
+
+#### Version 6.13.1.0
+- Verified compatibility with AppLovin SDK 6.13.1.
+- Now requires Google Mobile Ads SDK version 7.64.0 or higher.
+- Removed 728x90 as a supported format for iPhone devices.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.64.0.
+- AppLovin SDK version 6.13.1.
+
 #### Version 6.13.0.0
 - Verified compatibility with AppLovin SDK 6.13.0.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
+- Removed 728x90 as a supported format for iPhone devices.
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.61.0.

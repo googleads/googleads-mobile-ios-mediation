@@ -19,7 +19,6 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <SampleAdSDK/SampleAdSDK.h>
 
 @interface SampleCustomEventNativeAd : NSObject<GADCustomEventNativeAd>
 

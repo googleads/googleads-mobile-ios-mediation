@@ -2,12 +2,11 @@
 
 #include <stdatomic.h>
 
+#import <MoPubSDK/MoPub.h>
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMoPubNetworkExtras.h"
-#import "MPRewardedVideo.h"
-#import "MoPub.h"
 
 @interface GADMMoPubRewardedAd () <MPRewardedVideoDelegate>
 @end

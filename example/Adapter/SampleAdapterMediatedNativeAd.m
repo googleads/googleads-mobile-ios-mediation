@@ -21,7 +21,7 @@
 
 #import "SampleAdapterConstants.h"
 
-@interface SampleAdapterMediatedNativeAd () <GADMediatedNativeAdDelegate>
+@interface SampleAdapterMediatedNativeAd ()
 
 @property(nonatomic, strong) SampleNativeAd *sampleAd;
 @property(nonatomic, copy) NSArray *mappedImages;
@@ -123,46 +123,13 @@
   return self.adInfoView;
 }
 
-#pragma mark - GADMediatedNativeAd requirement
-
-- (nullable id<GADMediatedNativeAdDelegate>)mediatedNativeAdDelegate {
-  return self;
-}
-
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd didUntrackView:(UIView *)view {
-  [self didUntrackView:view];
-}
-
-- (void)mediatedNativeAdDidRecordImpression:(id<GADMediatedNativeAd>)mediatedNativeAd {
-  [self didRecordImpression];
-}
-
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-    didRecordClickOnAssetWithName:(NSString *)assetName
-                             view:(UIView *)view
-                   viewController:(UIViewController *)viewController {
-  [self didRecordClickOnAssetWithName:assetName view:view viewController:viewController];
-}
-
-- (void)mediatedNativeAd:(id<GADMediatedNativeAd>)mediatedNativeAd
-           didRenderInView:(UIView *)view
-       clickableAssetViews:(NSDictionary<NSString *, UIView *> *)clickableAssetViews
-    nonclickableAssetViews:(NSDictionary<NSString *, UIView *> *)nonclickableAssetViews
-            viewController:(UIViewController *)viewController {
-  [self didRenderInView:view
-         clickableAssetViews:clickableAssetViews
-      nonclickableAssetViews:nonclickableAssetViews
-              viewController:viewController];
-}
-
 // Because the Sample SDK has click and impression tracking via methods on its native ad object
 // which the developer is required to call, there's no need to pass it a reference to the UIView
 // being used to display the native ad. So there's no need to implement
-// mediatedNativeAd:didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews here.
-// If your mediated network does need a reference to the view, this method can be used to provide
-// one.
-// You can also access the clickable and non-clickable views by asset key if the mediation network
-// needs this information.
+// didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews
+// here. If your mediated network does need a reference to the view, this method can be used to
+// provide one. You can also access the clickable and non-clickable views by asset key if the
+// mediation network needs this information.
 - (void)didRenderInView:(UIView *)view
        clickableAssetViews:
            (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews

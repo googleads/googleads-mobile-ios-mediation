@@ -9,8 +9,8 @@
 
 @implementation GADMAdapterNendAdUnitMapper
 
-+ (BOOL)isValidAPIKey:(nonnull NSString *)apiKey spotId:(nonnull NSString *)spotId {
-  if (!apiKey || apiKey.length == 0 || !spotId || spotId.length == 0) {
++ (BOOL)isValidAPIKey:(nonnull NSString *)apiKey spotId:(NSInteger)spotId {
+  if (!apiKey || apiKey.length == 0 || spotId == 0) {
     return false;
   }
   return true;

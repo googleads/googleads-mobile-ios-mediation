@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <MoPubSDK/MoPub.h>
+#import <MoPubSDK/NativeAds/MPNativeAds.h>
 #import "GADMoPubNetworkExtras.h"
-#import "MPNativeAd.h"
 
 /// MoPub's native ad wrapper.
 @interface GADMAdapterMopubUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>

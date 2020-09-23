@@ -38,9 +38,6 @@
 
   /// Chartboost interstitial ad object.
   CHBInterstitial *_interstitialAd;
-
-  /// Indicates whether Chartboost SDK called the -didShowAd:error: delegate method.
-  BOOL _didShowAdWasCalled;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
@@ -145,21 +142,16 @@
     return;
   }
 
-  BOOL didShowAdPreviouslyCalled = _didShowAdWasCalled;
-  _didShowAdWasCalled = YES;
+  [strongConnector adapterWillPresentInterstitial:strongAdapter];
 
-  if (!didShowAdPreviouslyCalled) {
-    [strongConnector adapterWillPresentInterstitial:strongAdapter];
+  if (error) {
+    NSError *showError = NSErrorForCHBShowError(error);
+    NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
 
-    if (error) {
-      NSError *showError = NSErrorForCHBShowError(error);
-      NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
-
-      // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
-      // -didDismissAd:
-      [strongConnector adapterWillDismissInterstitial:strongAdapter];
-      [strongConnector adapterDidDismissInterstitial:strongAdapter];
-    }
+    // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
+    // -didDismissAd:
+    [strongConnector adapterWillDismissInterstitial:strongAdapter];
+    [strongConnector adapterDidDismissInterstitial:strongAdapter];
   }
 }
 

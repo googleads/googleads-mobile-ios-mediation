@@ -44,7 +44,7 @@
   NSString *apiKey = [strongConnector credentials][kGADMAdapterNendApiKey];
   GADMAdapterNendExtras *extras = [strongConnector networkExtras];
 
-  [self fetchNativeAd:options spotId:spotId apiKey:apiKey extra:extras];
+  [self fetchNativeAd:options spotId:spotId.integerValue apiKey:apiKey extra:extras];
 }
 
 - (void)didFailToLoadWithError:(nonnull NSError *)error {

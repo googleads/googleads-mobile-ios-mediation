@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// myTarget mediation network adapter version.
-static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.7.1.0";
+static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.7.5.0";
 
 /// myTarget mediation network adapter slot ID server parameter key.
 static NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";

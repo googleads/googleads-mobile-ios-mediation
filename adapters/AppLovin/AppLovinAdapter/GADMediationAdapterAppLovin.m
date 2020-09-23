@@ -129,7 +129,7 @@
     completionHandler(nil, error);
     return;
   }
-
+    
   ALSdk *sdk = [GADMAdapterAppLovinUtils
       retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
   if (!sdk) {

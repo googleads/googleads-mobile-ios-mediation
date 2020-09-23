@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,14 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IASDKCore/IASDKCore.h>
 
-/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
-/// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode code,
-                                                             NSString *_Nonnull description);
+@interface GADMAdapterFyberExtras : NSObject <GADAdNetworkExtras>
+
+/// Use this to pass the user's info
+@property(nonatomic, copy, nullable) IAUserData *userData;
+
+/// Use this to pass keywords
+@property(nonatomic, copy, nullable) NSString *keywords;
+
+@end
