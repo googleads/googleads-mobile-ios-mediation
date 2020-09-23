@@ -17,7 +17,7 @@
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMUnityInitializer.h"
-@import UnityAds;
+#import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
@@ -72,6 +72,10 @@
 }
 
 + (GADVersionNumber)version {
+ return [GADMediationAdapterUnity adapterVersion];
+}
+
++ (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSString *adapterVersion = kGADMAdapterUnityVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];

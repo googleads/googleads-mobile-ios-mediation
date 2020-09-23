@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
@@ -36,8 +35,10 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
   /// ads for the same placement.
   GADMAdapterUnityErrorAdAlreadyLoaded = 108,
+  /// Banner size mismatch.
+  GADMAdapterUnityErrorSizeMismatch = 109,
   /// UnityAds returned an initialization error
-  GADMAdapterUnityErrorAdInitializationFailure = 109
+  GADMAdapterUnityErrorAdInitializationFailure = 110
   
 };
 

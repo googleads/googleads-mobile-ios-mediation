@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import "GADMediationAdapterUnity.h"
 #import <UnityAds/UnityAds.h>
 
