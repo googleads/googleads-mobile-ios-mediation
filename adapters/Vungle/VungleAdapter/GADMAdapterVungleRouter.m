@@ -322,12 +322,6 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     [sdk loadPlacementWithID:placement error:&loadError];
   }
 
-  // For the VungleSDKResetPlacementForDifferentAdSize error, Vungle SDK currently still tries to
-  // cache an ad for the new size. Adapter treats this as not an error for now.
-  // TODO: Remove this error override once Vungle SDK is updated to stop returning this error.
-  if (loadError.code == VungleSDKResetPlacementForDifferentAdSize) {
-    loadError = nil;
-  }
   return loadError;
 }
 
