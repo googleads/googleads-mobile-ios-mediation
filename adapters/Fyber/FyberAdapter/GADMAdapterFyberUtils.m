@@ -15,8 +15,8 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "GADMAdapterFyberConstants.h"
-#import "GADMAdapterFyberUtils.h"
 #import "GADMAdapterFyberExtras.h"
+#import "GADMAdapterFyberUtils.h"
 
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
@@ -48,10 +48,7 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
     NSString *_Nonnull spotID, id<GADMAdNetworkConnector> _Nonnull connector) {
-  GADMAdapterFyberExtras *extras = nil;
-  if (connector.networkExtras) {
-    extras = connector.networkExtras;
-  }
+  GADMAdapterFyberExtras *extras = connector.networkExtras;
 
   NSString *keywords = nil;
   if (connector.userKeywords) {
@@ -76,17 +73,14 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     location = [[CLLocation alloc] initWithLatitude:adConfiguration.userLatitude
                                           longitude:adConfiguration.userLongitude];
   }
-  
-  GADMAdapterFyberExtras *extras = nil;
+
+  GADMAdapterFyberExtras *extras = adConfiguration.extras;
   NSString *keywords = nil;
-  if (adConfiguration.extras) {
-    extras = adConfiguration.extras;
-  }
-    
+
   if (extras.keywords) {
     keywords = extras.keywords;
   }
-    
+
   return GADMAdapterFyberBuildRequestWithSpotID(spotID, keywords, location, extras.userData);
 }
 

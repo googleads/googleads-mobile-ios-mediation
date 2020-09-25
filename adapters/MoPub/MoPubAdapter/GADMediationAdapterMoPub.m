@@ -1,11 +1,11 @@
 #import "GADMediationAdapterMoPub.h"
 
+#import <MoPubSDK/MoPub.h>
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMMoPubRewardedAd.h"
 #import "GADMoPubNetworkExtras.h"
-#import <MoPub/MoPub.h>
 
 @implementation GADMediationAdapterMoPub {
   /// MoPub rewarded ad wrapper.

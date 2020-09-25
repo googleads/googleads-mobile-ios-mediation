@@ -16,16 +16,12 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IASDKCore/IASDKCore.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMAdapterFyberExtras : NSObject <GADAdNetworkExtras>
 
 /// Use this to pass the user's info
-@property (nonatomic, copy, nullable) IAUserData *userData;
+@property(nonatomic, copy, nullable) IAUserData *userData;
 
 /// Use this to pass keywords
-@property (nonatomic, copy, nullable) NSString *keywords;
+@property(nonatomic, copy, nullable) NSString *keywords;
 
 @end
-
-NS_ASSUME_NONNULL_END

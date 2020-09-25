@@ -2,10 +2,11 @@
 
 #### Version 7.6.4.0
 - Verified compatibility with Fyber Marketplace SDK version 7.6.4.
-- Added support for Fyber extra class
+- Now requires Google Mobile Ads SDK version 7.65.0 or higher.
+- Added GADMAdapterFyberExtras class, enabling publishers to pass keywords and userData to Fyber Marketplace SDK.
 
 Built and tested with:
-- Google Mobile Ads SDK version 7.64.0.
+- Google Mobile Ads SDK version 7.65.0.
 - Fyber Marketplace SDK version 7.6.4.
 
 #### Version 7.6.3.0
