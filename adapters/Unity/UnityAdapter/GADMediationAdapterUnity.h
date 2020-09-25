@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,9 +36,12 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   /// ads for the same placement.
   GADMAdapterUnityErrorAdAlreadyLoaded = 108,
   /// Banner size mismatch.
-  GADMAdapterUnityErrorSizeMismatch = 109
+  GADMAdapterUnityErrorSizeMismatch = 109,
+  /// UnityAds returned an initialization error
+  GADMAdapterUnityErrorAdInitializationFailure = 110
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
+@property (nonatomic, copy) GADMediationAdapterSetUpCompletionBlock _Nonnull completionBlock;
 
 @end

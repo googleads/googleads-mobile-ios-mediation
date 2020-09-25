@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2020 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,19 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UnityAds/UnityAds.h>
-
 #import "GADMediationAdapterUnity.h"
+#import <UnityAds/UnityAds.h>
 
 /// Safely adds |object| to |set| if the |object| is not nil.
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-/// Safely sets |value| for |key| in mapTable if |key| and |value| are not nil.
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value);
-
-/// Safely removes the object for |key| in mapTable if |key| is not nil.
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
+void GADMUnityConfigureMediationService(void);
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
