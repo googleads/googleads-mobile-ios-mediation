@@ -199,10 +199,14 @@
 
 - (void)willCloseAd {
   self.bannerState = BannerRouterDelegateStateClosing;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
 }
 
 - (void)didCloseAd {
   self.bannerState = BannerRouterDelegateStateClosed;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
 }
 
 - (void)trackClick {
