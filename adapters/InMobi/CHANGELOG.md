@@ -1,5 +1,13 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 9.1.0.0
+- Verified compatibility with InMobi SDK 9.1.0.
+- Now requires Google Mobile Ads SDK version 7.65.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.65.0.
+- InMobi SDK version 9.1.0.
+
 #### Version 9.0.7.2
 - Rewarded ads no longer default to coppa=0 when child directed treatment is unspecified.
 
