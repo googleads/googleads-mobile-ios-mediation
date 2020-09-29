@@ -138,7 +138,8 @@
 }
 
 - (void)privacyIconTapped {
-  _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
+  _displayDestinationAgent =
+      (MPAdDestinationDisplayAgent *)[MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
       displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
 }
