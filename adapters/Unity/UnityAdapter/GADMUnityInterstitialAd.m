@@ -44,11 +44,6 @@
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-    
-  if (![UnityAds isInitialized]) {
-    //[GADMAdapterUnity initializeWithGameID: _gameID withInitDelegate:Nil];
-    [GADMAdapterUnity initialize];
-  }
   
   if (!strongConnector) {
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
@@ -67,6 +62,11 @@
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
+
+  if (![UnityAds isInitialized]) {
+      [[GADMAdapterUnity alloc] initializeWithGameID: _gameID withInitDelegate:Nil];
+  }
+
   _isLoading = YES;
   [UnityAds addDelegate:self];
   [UnityAds load:_placementID loadDelegate:self];
@@ -154,8 +154,7 @@
   // unityAdsAdLoaded.
 }
 
-
-// UnityAdsLoadDelegate methods
+#pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
   [UnityAds removeDelegate:self];

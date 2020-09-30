@@ -31,6 +31,9 @@
   /// Unity Ads banner ad object.
   UADSBannerView *_bannerAd;
   
+  /// Unity ads game ID.
+  NSString *_gameID;
+  
   /// Unity ads placement ID.
   NSString *_placementID;
 }
@@ -49,10 +52,6 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   
-  if (![UnityAds isInitialized]) {
-    [GADMAdapterUnity initialize];
-  }
-  
   if (!strongConnector) {
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
     return;
@@ -62,13 +61,19 @@
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
     return;
   }
-  
+    
+  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
-  if (!_placementID) {
+  if (!_gameID || !_placementID) {
     NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
+
+  if (![UnityAds isInitialized]) {
+    [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
+  }
+
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
   if (!_bannerAd) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
