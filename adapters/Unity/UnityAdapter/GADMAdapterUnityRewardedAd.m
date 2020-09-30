@@ -32,9 +32,6 @@
   
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
-  
-  /// YES if the adapter is loading.
-  BOOL _isLoading;
 }
 
 @end
