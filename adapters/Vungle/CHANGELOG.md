@@ -20,7 +20,7 @@ Build and tested with
 #### Version 6.7.0.0
 - Verified compatibility with Vungle SDK 6.7.0.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
-- Added support for playing multi ads at the same time.
+- Added support for playing multiple banner ads at the same time.
 - Clicks now reported when the click happens instead of when the ad is closed.
 - Banner and interstitial ads now forward the willLeaveApplication callback.
 
