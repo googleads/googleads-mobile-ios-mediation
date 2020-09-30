@@ -17,7 +17,7 @@
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
 
-@interface GADMAdapterUnityRewardedAd () <UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
+@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
   
@@ -94,7 +94,7 @@
   [UnityAds show:viewController placementId:_placementID];
 }
 
-#pragma mark - Unity Delegate Methods
+#pragma mark - UnityAdsExtendedDelegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
     [UnityAds removeDelegate:self];
@@ -149,7 +149,7 @@
                              newState:(UnityAdsPlacementState)newState {
 }
 
-#pragma mark - UnityLoadDelegate Methods
+#pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
   [UnityAds removeDelegate:self];
