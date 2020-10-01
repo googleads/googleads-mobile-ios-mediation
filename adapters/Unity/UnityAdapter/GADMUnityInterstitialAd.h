@@ -15,9 +15,7 @@
 #import <Foundation/Foundation.h>
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <UnityAds/UnityAds.h>'
-
-#import "GADMUnityInitializer.h"
+#import <UnityAds/UnityAds.h>
 
 @protocol GADMAdNetworkAdapter;
 @protocol GADMAdNetworkConnector;

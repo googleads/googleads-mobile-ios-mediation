@@ -16,6 +16,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADMUnityInitializer.h"
 
 @interface GADMAdapterUnityRewardedAd () <UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
@@ -76,6 +77,10 @@
     return;
   }
   
+  if (![UnityAds isInitialized]) {
+    [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
+  }
+
   [UnityAds addDelegate:self];
   [UnityAds load:_placementID loadDelegate:self];
 }
@@ -144,6 +149,8 @@
                              oldState:(UnityAdsPlacementState)oldState
                              newState:(UnityAdsPlacementState)newState {
 }
+
+#pragma mark - UnityLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
   [UnityAds removeDelegate:self];
