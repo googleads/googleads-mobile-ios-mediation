@@ -15,6 +15,7 @@
 #import "GADMUnityInterstitialAd.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
+#import "GADMUnityInitializer.h"
 
 @interface GADMUnityInterstitialAd ()
 @end
