@@ -71,18 +71,6 @@
     return;
   }
 
-  GADAdSize supportedSize = [self supportedAdSizeFromRequestedSize:adSize];
-  if (!IsGADAdSizeValid(supportedSize)) {
-    NSString *errorMsg = [NSString
-        stringWithFormat:
-            @"UnityAds supported banner sizes are not a good fit for the requested size: %@",
-            NSStringFromGADAdSize(adSize)];
-    NSError *error =
-        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
   if (![UnityAds isInitialized]) {
     [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
   }
@@ -100,13 +88,6 @@
 - (void)stopBeingDelegate {
   _bannerAd = nil;
   _bannerAd.delegate = nil;
-}
-
-// Find closest supported ad size from a given ad size.
-- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
-  NSArray *potentials =
-      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
-  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 #pragma mark UADSBannerView Delegate methods
