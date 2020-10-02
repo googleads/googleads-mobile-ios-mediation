@@ -96,7 +96,7 @@
   if (!_interstitialAd) {
     NSString *description = [NSString
                              stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMUnityInterstitialAd class])];
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -135,7 +135,7 @@
   _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription( GADMAdapterUnityErrorInvalidServerParameters, kMISSING_ID_ERROR);
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription( GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -145,7 +145,7 @@
   if (!_bannerAd) {
     NSString *description = [NSString
                              stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMAdapterUnityBannerAd class])];
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, description);
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
     [strongConnector adapter:self didFailAd:error];
     return;
   }

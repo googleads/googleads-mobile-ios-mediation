@@ -16,6 +16,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 #import "GADMUnityInitializer.h"
+#import "GADMAdapterUnityUtils.h"
 
 @interface GADMUnityInterstitialAd ()
 @end
@@ -59,7 +60,8 @@
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
+     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+           GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -150,7 +152,8 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
-    NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load interstitial ad with placement ID '%@'", placementId]);
+    NSString *errorMsg = [NSString stringWithFormat:@"No ad available for the placement ID: %@", _placementID];
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorPlacementStateNoFill, errorMsg);
     [strongConnector adapter:strongAdapter didFailAd:error];
   }
 }

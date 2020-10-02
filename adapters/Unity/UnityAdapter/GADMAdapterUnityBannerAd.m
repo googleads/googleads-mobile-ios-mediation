@@ -66,7 +66,8 @@
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADUnityErrorWithDescription(kMISSING_ID_ERROR);
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+           GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
