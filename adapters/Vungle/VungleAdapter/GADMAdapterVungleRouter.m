@@ -31,7 +31,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   /// Map table to hold the banner ad delegates with placement ID as a key.
   NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_bannerDelegates;
 
-  /// Dictionary to hold the placement ID and uniquePubRequestID for banners are being requested
+  /// Dictionary to hold the key: uniquePubRequestID and value: placement ID for requested banners.
   NSMutableDictionary<NSString *, NSString *> *_bannerRequestingDict;
 
   /// Indicates whether the Vungle SDK is initializing.
@@ -213,7 +213,6 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 - (nullable id<GADMAdapterVungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement
                                     withBannerRouterDelegateState:
                                         (BannerRouterDelegateState)bannerState {
-  id<GADMAdapterVungleDelegate> delegate = nil;
   @synchronized(_bannerDelegates) {
     if ([_bannerDelegates objectForKey:placement]) {
       id<GADMAdapterVungleDelegate> bannerDelegate = [_bannerDelegates objectForKey:placement];
@@ -225,10 +224,10 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
   @synchronized(_delegates) {
     if ([_delegates objectForKey:placement]) {
-      delegate = [_delegates objectForKey:placement];
+      return [_delegates objectForKey:placement];
     }
   }
-  return delegate;
+  return nil;
 }
 
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
