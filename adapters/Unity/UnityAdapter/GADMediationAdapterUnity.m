@@ -34,14 +34,14 @@
     NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
     GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
   }
-  
+
   if (!gameIDs.count) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters,
                                                                  @"UnityAds mediation configurations did not contain a valid game ID.");
     completionHandler(error);
     return;
   }
-  
+
   NSString *gameID = [gameIDs anyObject];
   if (gameIDs.count > 1) {
     NSLog(@"Found the following game IDs: %@. "
@@ -88,7 +88,8 @@
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewardedAd = [[GADMAdapterUnityRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                               completionHandler:completionHandler];
   [self.rewardedAd requestRewardedAd];

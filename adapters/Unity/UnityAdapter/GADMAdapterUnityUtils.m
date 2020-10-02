@@ -32,7 +32,7 @@ void GADMUnityConfigureMediationService(void) {
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =
-  @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
                                        code:code
                                    userInfo:userInfo];
@@ -42,7 +42,7 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(UnityAdsError errorCode,
                                                                       NSString *_Nonnull message) {
   NSDictionary *userInfo =
-  @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
+    @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];

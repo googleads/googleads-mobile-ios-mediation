@@ -21,16 +21,15 @@
 @interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
-  
   // Ad configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfiguration;
-  
+
   // An ad event delegate to invoke when ad rendering events occur.
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-  
+
   /// Game ID of Unity Ads network.
   NSString *_gameID;
-  
+
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
 }
@@ -61,7 +60,7 @@
     }
     return;
   }
-  
+
   if (![UnityAds isSupported]) {
     NSString *description =
     [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
@@ -121,7 +120,7 @@
                                                                  @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
-  
+
   [_adEventDelegate willDismissFullScreenView];
   [_adEventDelegate didDismissFullScreenView];
 }
