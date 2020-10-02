@@ -90,8 +90,6 @@
     [UnityAds addDelegate:self];
     [strongConnector adapterWillPresentInterstitial:strongAdapter];
     [UnityAds show:rootViewController placementId:_placementID];
-  } else {
-    return;
   }
 }
 
