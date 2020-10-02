@@ -78,7 +78,6 @@
     [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
   }
 
-  [UnityAds addDelegate:self];
   [UnityAds load:_placementID loadDelegate:self];
 }
 
@@ -89,6 +88,7 @@
     return;
   }
   [_adEventDelegate willPresentFullScreenView];
+  [UnityAds addDelegate:self];
   [UnityAds show:viewController placementId:_placementID];
 }
 
@@ -150,7 +150,6 @@
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
-  [UnityAds removeDelegate:self];
   if (_adLoadCompletionHandler) {
     NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load rewarded ad with placement ID '%@'", placementId]);
     _adEventDelegate = _adLoadCompletionHandler(nil, error);
