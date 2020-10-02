@@ -68,8 +68,6 @@
       [[GADMAdapterUnity alloc] initializeWithGameID: _gameID withInitDelegate:Nil];
   }
 
-  _isLoading = YES;
-  [UnityAds addDelegate:self];
   [UnityAds load:_placementID loadDelegate:self];
 }
 
@@ -88,8 +86,9 @@
     return;
   }
   
-  [strongConnector adapterWillPresentInterstitial:strongAdapter];
   if ([UnityAds isReady:_placementID]) {
+    [UnityAds addDelegate:self];
+    [strongConnector adapterWillPresentInterstitial:strongAdapter];
     [UnityAds show:rootViewController placementId:_placementID];
   }
 }
@@ -127,23 +126,13 @@
   [UnityAds removeDelegate:self];
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (!_isLoading) {
-    // Unity Ads show error will only happen after the ad has been loaded. So, we will send
-    // dismiss/close callbacks.
-    if (error == kUnityAdsErrorShowError) {
-      if (strongNetworkConnector && strongAdapter) {
+
+  if (error == kUnityAdsErrorShowError) {
+    if (strongNetworkConnector && strongAdapter) {
         [strongNetworkConnector adapterWillDismissInterstitial:strongAdapter];
         [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
-      }
     }
-    return;
   }
-  
-  NSError *errorWithDescription = GADUnityErrorWithDescription(message);
-  if (strongNetworkConnector && strongAdapter) {
-    [strongNetworkConnector adapter:strongAdapter didFailAd:errorWithDescription];
-  }
-  _isLoading = NO;
 }
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementId {
@@ -158,7 +147,6 @@
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
-  [UnityAds removeDelegate:self];
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
@@ -170,13 +158,10 @@
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (!_isLoading) {
-    return;
-  }
+  
   if (strongNetworkConnector && strongAdapter) {
     [strongNetworkConnector adapterDidReceiveInterstitial:strongAdapter];
   }
-  _isLoading = NO;
 }
 
 @end
