@@ -16,6 +16,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADMUnityInitializer.h"
 
 @interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.

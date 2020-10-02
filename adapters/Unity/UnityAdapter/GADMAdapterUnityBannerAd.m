@@ -17,6 +17,7 @@
 #import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 #import "GADUnityError.h"
+#import "GADMUnityInitializer.h"
 
 @interface GADMAdapterUnityBannerAd () <UADSBannerViewDelegate>
 @end
