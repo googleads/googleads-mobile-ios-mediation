@@ -1,4 +1,4 @@
-// Copyright 2020 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,11 +62,17 @@
 
 - (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
   if (![UnityAds isSupported]) {
-    NSLog(@"Unity Ads cannot be initialized: this device is not supported.");
+    NSString *message =
+      [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
+       NSStringFromClass([UnityAds class])];
+    [initDelegate initializationFailed:(kUnityInitializationErrorInternalError) withMessage:message];
+    return;
   }
   
   if ([UnityAds isInitialized]) {
     NSLog(@"Unity Ads has already been initialized.");
+    [initDelegate initializationComplete];
+    return;
   }
   
   // Metadata needed by Unity Ads SDK before initialization.

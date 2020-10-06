@@ -1,4 +1,4 @@
-// Copyright 2020 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -139,6 +139,7 @@
 
 - (void)unityAdsDidStart:(nonnull NSString *)placementId {
   // nothing to do
+    //todo: double check if impression need this
 }
 
 - (void)unityAdsReady:(nonnull NSString *)placementId {
