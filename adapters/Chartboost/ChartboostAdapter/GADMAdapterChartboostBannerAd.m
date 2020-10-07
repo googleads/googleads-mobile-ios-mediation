@@ -55,6 +55,11 @@
   if (!strongConnector || !strongAdapter) {
     return;
   }
+    
+  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterMinimumOSVersion)) {
+      NSLog(@"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.", kGADMAdapterMinimumOSVersion);
+      return;
+  }
 
   NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
