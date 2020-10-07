@@ -110,10 +110,6 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  if (strongConnector) {
-    [strongConnector adapterWillPresentInterstitial:self];
-  }
   [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
 }
 
