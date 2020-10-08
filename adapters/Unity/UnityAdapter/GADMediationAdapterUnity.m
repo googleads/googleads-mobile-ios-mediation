@@ -16,7 +16,7 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityUtils.h"
-#import "GADMUnityInitializer.h"
+#import "GADMAdapterUnity.h"
 #import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()

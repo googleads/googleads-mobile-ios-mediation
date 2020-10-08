@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMUnityInitializer.h"
+#import "GADMAdapterUnity.h"
 #import "GADUnityError.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityBannerAd.h"
