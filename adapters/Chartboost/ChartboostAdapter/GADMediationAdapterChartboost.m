@@ -32,9 +32,9 @@
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {    
   if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterMinimumOSVersion)) {
-    NSString* log = [NSString stringWithFormat:@"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.", kGADMAdapterMinimumOSVersion];
-    NSLog(@"%@", log);
-    completionHandler(GADChartboostErrorWithDescription(log));
+    NSString* logError = [NSString stringWithFormat:@"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.", kGADMAdapterMinimumOSVersion];
+    NSLog(@"%@", logError);
+    completionHandler(GADChartboostErrorWithDescription(logError));
     return;
   }
     
