@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to support adaptive banner requests.
+
 #### Version 8.2.1.0
 - Verified compatibility with Chartboost SDK 8.2.1.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.

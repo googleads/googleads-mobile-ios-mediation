@@ -47,3 +47,7 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
 
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
+
+/// Returns the closest CHBBannerSize size from the requested GADAdSize.
+CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);
