@@ -14,7 +14,7 @@
 
 // IronSource internal reporting const.
 static NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
-static NSString *const kGADMAdapterIronSourceAdapterVersion = @"7.0.1.0";
+static NSString *const kGADMAdapterIronSourceAdapterVersion = @"7.0.3.0";
 static NSString *const kGADMIronSourceDefaultInstanceId = @"0";
 static NSString *const kGADMAdapterIronSourceInternalVersion = @"310";
 

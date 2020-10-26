@@ -345,6 +345,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return 0;
 }
 
+/// InMobi SDK doesn't have an AdChoices view.
+- (nullable UIView *)adChoicesView {
+  return nil;
+}
+
 - (nullable NSString *)store {
   NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
   if (!landingURL.length) {

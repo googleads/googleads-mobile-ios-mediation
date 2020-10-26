@@ -9,11 +9,6 @@
 
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
-#import "GADMAdapterNendNativeAdLoader.h"
-
-@interface GADMAdapterNendNativeAd () <NADNativeDelegate>
-
-@end
 
 @implementation GADMAdapterNendNativeAd {
   /// nend native ad.
@@ -41,7 +36,6 @@
   self = [super init];
   if (self) {
     _nativeAd = ad;
-    _nativeAd.delegate = self;
     _advertisingExplicitlyView = [[UILabel alloc] init];
     _advertisingExplicitlyView.text =
         [_nativeAd prTextForAdvertisingExplicitly:NADNativeAdvertisingExplicitlyPR];
@@ -133,26 +127,6 @@
 
 - (BOOL)handlesUserClicks {
   return YES;
-}
-
-#pragma mark - NADNativeDelegate
-- (void)nadNativeDidImpression:(nonnull NADNative *)ad {
-  // Note : Adapter report click event here,
-  //       but Google-Mobile-Ads-SDK does'n send event to App...
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
-}
-
-- (void)nadNativeDidClickAd:(nonnull NADNative *)ad {
-  // Note : Adapter report click event here,
-  //       but Google-Mobile-Ads-SDK does'n send event to App...
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
-
-  // It's OK to reach event to App.
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
-}
-
-- (void)nadNativeDidClickInformation:(nonnull NADNative *)ad {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
 }
 
 @end

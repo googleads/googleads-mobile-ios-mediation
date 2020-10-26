@@ -3,6 +3,7 @@
 #import <MoPubSDK/Internal/Utility/MPImageDownloadQueue.h>
 #import <MoPubSDK/Internal/Utility/MPNativeCache.h>
 #import <MoPubSDK/MoPub.h>
+
 #import "GADMAdapterMoPubConstants.h"
 #import "GADMAdapterMoPubSingleton.h"
 #import "GADMAdapterMoPubUtils.h"

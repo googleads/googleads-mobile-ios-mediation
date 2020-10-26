@@ -1,6 +1,7 @@
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 
 #import <MoPubSDK/Internal/Common/MPAdDestinationDisplayAgent.h>
+
 #import "GADMAdapterMoPubConstants.h"
 
 @interface GADMAdapterMopubUnifiedNativeAd () <MPAdDestinationDisplayAgentDelegate>
@@ -138,9 +139,11 @@
 }
 
 - (void)privacyIconTapped {
-  _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
+  _displayDestinationAgent =
+      (MPAdDestinationDisplayAgent *)[MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
-      displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
+         displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]
+      skAdNetworkClickthroughData:nil];
 }
 
 #pragma GCC diagnostic ignored "-Wundeclared-selector"

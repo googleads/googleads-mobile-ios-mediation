@@ -68,6 +68,14 @@
     return;
   }
 
+  // Convert requested size to Chartboost Ad Size.
+  NSError *error = nil;
+  CHBBannerSize chartboostAdSize = GADMAdapterChartboostBannerSizeFromAdSize(adSize, &error);
+  if (error) {
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
   [Chartboost
@@ -96,7 +104,7 @@
               }
 
               CHBMediation *mediation = GADMAdapterChartboostMediation();
-              strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
+              strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:chartboostAdSize
                                                              location:adLocation
                                                             mediation:mediation
                                                              delegate:strongSelf];

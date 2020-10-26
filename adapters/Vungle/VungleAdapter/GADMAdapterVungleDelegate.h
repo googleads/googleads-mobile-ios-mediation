@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 
 @optional
 
-// Differentiate two banners with same placement ID
+// A unique identifier representing the ad request used to load an ad.
 @property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
 
 // Vungle banner ad state.
