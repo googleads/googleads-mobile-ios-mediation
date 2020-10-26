@@ -26,10 +26,13 @@
 /// Find closest supported ad size from a given ad size.
 /// Returns nil if no supported size matches.
 static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  MTRGAdSize *adSizeAdaptive = [MTRGAdSize adSizeForCurrentOrientationForWidth:gadAdSize.size.width];
+  GADAdSize gadAdSizeAdaptive = GADAdSizeFromCGSize(adSizeAdaptive.size);
   NSArray<NSValue *> *potentials = @[
     NSValueFromGADAdSize(kGADAdSizeBanner),
     NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+    NSValueFromGADAdSize(gadAdSizeAdaptive)
   ];
   return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
@@ -71,7 +74,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  MTRGLogInfo();
+  MTRGLogDebug(@"getBannerWithSize: %@", NSStringFromGADAdSize(adSize));
 
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (!strongConnector) {
@@ -86,9 +89,9 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     adViewSize = [MTRGAdSize adSize300x250];
   } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
     adViewSize = [MTRGAdSize adSize728x90];
-  } else if (adSize.size.width < 0 && adSize.size.height < 0) {
+  } else if (!GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
 	// Adaptive
-    adViewSize = [MTRGAdSize adSizeForCurrentOrientation];
+    adViewSize = [MTRGAdSize adSizeForCurrentOrientationForWidth:adSize.size.width];
   } else {
     MTRGLogError(kGADMAdapterMyTargetErrorInvalidSize);
     [strongConnector adapter:self

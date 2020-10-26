@@ -4,7 +4,7 @@
 - Verified compatibility with myTarget SDK version 5.9.2.
 
 Build and tested With:
-- Google Mobile Ads SDK version 7.66.0.
+- Google Mobile Ads SDK version 7.67.0.
 - MyTarget SDK version 5.9.2
 
 #### Version 5.7.5.0
