@@ -37,6 +37,8 @@
 @end
 
 @implementation GADMAdapterUnityRewardedAd
+  /// A dictionary to keep track loaded Placement IDs
+  static NSMutableDictionary<NSString *, id> *_placementInUseRewarded;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
@@ -44,6 +46,9 @@
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
+    if (_placementInUseRewarded == nil) {
+      _placementInUseRewarded = [[NSMutableDictionary alloc] init];
+    };
   }
   return self;
 }
@@ -65,10 +70,24 @@
     [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
   }
 
+  @synchronized (_placementInUseRewarded) {
+    if ([_placementInUseRewarded objectForKey:_placementID]) {
+      if (_adLoadCompletionHandler) {
+        NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID]);
+        _adEventDelegate = _adLoadCompletionHandler(nil, error);
+      }
+      return;
+    }
+    [_placementInUseRewarded setValue:self forKey:_placementID];
+  }
+
   [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  @synchronized (_placementInUseRewarded) {
+    [_placementInUseRewarded removeObjectForKey:_placementID];
+  }
   if (![UnityAds isReady:_placementID]) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
     [_adEventDelegate didFailToPresentWithError:error];
@@ -137,6 +156,9 @@
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+  @synchronized (_placementInUseRewarded) {
+    [_placementInUseRewarded removeObjectForKey:_placementID];
+  }
   if (_adLoadCompletionHandler) {
     NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load rewarded ad with placement ID '%@'", placementId]);
     _adEventDelegate = _adLoadCompletionHandler(nil, error);

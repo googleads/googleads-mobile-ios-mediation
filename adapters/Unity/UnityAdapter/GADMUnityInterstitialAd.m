@@ -32,6 +32,8 @@
   __weak id<GADMAdNetworkAdapter> _adapter;
 }
 
+  /// A dictionary to keep track loaded Placement IDs
+  static NSMutableDictionary<NSString *, id> *_placementInUse;
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -39,6 +41,9 @@
   if (self) {
     _adapter = adapter;
     _connector = connector;
+    if (_placementInUse == nil) {
+      _placementInUse = [[NSMutableDictionary alloc] init];
+    }
   }
   return self;
 }
@@ -67,13 +72,28 @@
   }
 
   if (![UnityAds isInitialized]) {
-      [[GADMAdapterUnity alloc] initializeWithGameID: _gameID withInitDelegate:Nil];
+    [[GADMAdapterUnity alloc] initializeWithGameID: _gameID withInitDelegate:Nil];
   }
 
+  @synchronized (_placementInUse) {
+    if ([_placementInUse objectForKey:_placementID]) {
+      if (strongConnector && strongAdapter) {
+        NSString *errorMsg = [NSString stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID];
+        NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdAlreadyLoaded, errorMsg);
+        [strongConnector adapter:strongAdapter didFailAd:error];
+      }
+      return;
+    }
+
+    [_placementInUse setValue:self forKey:_placementID];
+}
   [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+  @synchronized (_placementInUse) {
+    [_placementInUse removeObjectForKey:_placementID];
+  }
   // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad has already loaded.
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
@@ -150,6 +170,9 @@
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+  @synchronized (_placementInUse) {
+    [_placementInUse removeObjectForKey:_placementID];
+  }
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
