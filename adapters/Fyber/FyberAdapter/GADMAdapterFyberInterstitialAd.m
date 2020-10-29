@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,48 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <CoreLocation/CoreLocation.h>
+#import "GADMAdapterFyberInterstitialAd.h"
+
 #import <IASDKCore/IASDKCore.h>
 #import <IASDKMRAID/IASDKMRAID.h>
 #import <IASDKVideo/IASDKVideo.h>
 
-#include <stdatomic.h>
+#import <stdatomic.h>
 
 #import "GADMAdapterFyberConstants.h"
-#import "GADMAdapterFyberRewardedAd.h"
 #import "GADMAdapterFyberUtils.h"
 
-@interface GADMAdapterFyberRewardedAd () <GADMediationRewardedAd,
-                                          IAUnitDelegate,
-                                          IAVideoContentDelegate>
+@interface GADMAdapterFyberInterstitialAd () <GADMediationInterstitialAd, IAUnitDelegate>
 @end
 
-@implementation GADMAdapterFyberRewardedAd {
+@implementation GADMAdapterFyberInterstitialAd {
   /// Ad configuration for the ad to be loaded.
-  GADMediationRewardedAdConfiguration *_adConfiguration;
+  GADMediationInterstitialAdConfiguration *_adConfiguration;
 
   /// The completion handler to call when an ad loads successfully or fails.
-  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
+  GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   /// Intentionally keeping a reference to the delegate because this delegate is returned from the
   /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationRewardedAdEventDelegate> _delegate;
+  id<GADMediationInterstitialAdEventDelegate> _delegate;
 
-  /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
+  /// Fyber fullscreen controller to catch interstitial related ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
-
-  /// View controller to display the Fyber ad.
-  __weak UIViewController *_parentViewController;
-
-  /// Flag to indicate whether the Fyber rewarded ad started playing.
-  atomic_flag _didStartVideo;
 }
 
-#pragma mark - Init
-
-- (nonnull instancetype)initWithAdConfiguration:
-    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration {
+- (instancetype)initWithAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
@@ -61,24 +50,22 @@
   return self;
 }
 
-#pragma mark - API
-
-- (void)loadRewardedAdWithCompletionHandler:
-    (GADMediationRewardedLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialAdWithCompletionHandler:
+    (GADMediationInterstitialLoadCompletionHandler)completionHandler {
   __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationRewardedLoadCompletionHandler originalAdLoadHandler =
+  __block GADMediationInterstitialLoadCompletionHandler originalAdLoadHandler =
       [completionHandler copy];
 
   // Ensure the original completion handler is only called once, and is deallocated once called.
-  _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
-      id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+  _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
     if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
       return nil;
     }
 
-    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
     if (originalAdLoadHandler) {
-      delegate = originalAdLoadHandler(rewardedAd, error);
+      delegate = originalAdLoadHandler(interstitialAd, error);
     }
 
     originalAdLoadHandler = nil;
@@ -89,7 +76,7 @@
   BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
       _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID], &initError);
   if (!didInitialize) {
-    GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", initError.localizedDescription);
+    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", initError.localizedDescription);
     _loadCompletionHandler(nil, initError);
     return;
   }
@@ -97,7 +84,7 @@
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
     NSString *errorMessage = @"Missing or Invalid Spot ID.";
-    GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", errorMessage);
+    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", errorMessage);
     NSError *error =
         GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
     _loadCompletionHandler(nil, error);
@@ -107,78 +94,82 @@
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
 
-  GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   IAMRAIDContentController *MRAIDContentController =
       [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
       }];
-
   IAVideoContentController *videoContentController =
-      [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder) {
-        GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
-        if (!strongSelf) {
-          return;
-        }
-
-        builder.videoContentDelegate = strongSelf;
+      [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder){
       }];
 
+  GADMAdapterFyberInterstitialAd *__weak weakSelf = self;
   _fullscreenUnitController =
       [IAFullscreenUnitController build:^(id<IAFullscreenUnitControllerBuilder> _Nonnull builder) {
-        GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
+        GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
         if (!strongSelf) {
           return;
         }
 
         builder.unitDelegate = strongSelf;
-        [builder addSupportedContentController:videoContentController];
         [builder addSupportedContentController:MRAIDContentController];
+        [builder addSupportedContentController:videoContentController];
       }];
 
   IAAdSpot *adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
-    GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
+    builder.adRequest = request;
+    builder.mediationType = [[IAMediationAdMob alloc] init];
+
+    GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
     }
 
-    builder.adRequest = request;
-    builder.mediationType = [[IAMediationAdMob alloc] init];
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
   [adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
                                   NSError *_Nullable error) {
-    GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
+    GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
     }
 
     if (error) {
-      GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", error.localizedDescription);
+      GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", error.localizedDescription);
       strongSelf->_loadCompletionHandler(nil, error);
-    } else {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+      return;
     }
+
+    strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
   }];
 }
 
-#pragma mark - GADMediationRewardedAd
+#pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_fullscreenUnitController.isPresented) {
-    GADMAdapterFyberLog(@"Failed to show rewarded ad, it is already presented");
-  } else if (!_fullscreenUnitController.isReady) {
-    GADMAdapterFyberLog(@"Failed to show rewarded ad, it has already expired");
-  } else {
-    _parentViewController = viewController;
-    [_fullscreenUnitController showAdAnimated:YES completion:nil];
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        kGADErrorAdAlreadyUsed, @"Fyber Interstitial ad has already been presented");
+    GADMAdapterFyberLog(@"Failed to present interstitial ad: %@", error.localizedDescription);
+    [_delegate didFailToPresentWithError:error];
+    return;
   }
+
+  if (!_fullscreenUnitController.isReady) {
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        kGADErrorInternalError, @"Fyber Interstitial ad is not ready to show.");
+    GADMAdapterFyberLog(@"Failed to present interstitial ad: %@", error.localizedDescription);
+    [_delegate didFailToPresentWithError:error];
+    return;
+  }
+
+  [_fullscreenUnitController showAdAnimated:YES completion:nil];
 }
 
 #pragma mark - IAUnitDelegate
 
 - (nonnull UIViewController *)IAParentViewControllerForUnitController:
     (nullable IAUnitController *)unitController {
-  return _parentViewController;
+  return _adConfiguration.topViewController;
 }
 
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController {
@@ -187,13 +178,6 @@
 
 - (void)IAAdWillLogImpression:(nullable IAUnitController *)unitController {
   [_delegate reportImpression];
-}
-
-- (void)IAAdDidReward:(nullable IAUnitController *)unitController {
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-  [_delegate didRewardUserWithReward:reward];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
@@ -208,23 +192,8 @@
   [_delegate didDismissFullScreenView];
 }
 
-#pragma mark - IAVideoContentDelegate
-
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {
-  [_delegate didEndVideo];
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
-       videoInterruptedWithError:(nonnull NSError *)error {
-  [_delegate didFailToPresentWithError:error];
-}
-
-- (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
-    videoProgressUpdatedWithCurrentTime:(NSTimeInterval)currentTime
-                              totalTime:(NSTimeInterval)totalTime {
-  if (!atomic_flag_test_and_set(&_didStartVideo)) {
-    [_delegate didStartVideo];
-  }
+- (void)IAUnitControllerWillOpenExternalApp:(nullable IAUnitController *)unitController {
+  [_delegate willBackgroundApplication];
 }
 
 @end
