@@ -26,10 +26,13 @@
 /// Find closest supported ad size from a given ad size.
 /// Returns nil if no supported size matches.
 static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  MTRGAdSize *adSizeAdaptive = [MTRGAdSize adSizeForCurrentOrientationForWidth:gadAdSize.size.width];
+  GADAdSize gadAdSizeAdaptive = GADAdSizeFromCGSize(adSizeAdaptive.size);
   NSArray<NSValue *> *potentials = @[
     NSValueFromGADAdSize(kGADAdSizeBanner),
     NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
     NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+    NSValueFromGADAdSize(gadAdSizeAdaptive)
   ];
   return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
@@ -71,8 +74,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  MTRGLogInfo();
-  MTRGLogDebug(@"adSize: %.fx%.f", adSize.size.width, adSize.size.height);
+  MTRGLogDebug(@"getBannerWithSize: %@", NSStringFromGADAdSize(adSize));
 
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (!strongConnector) {
@@ -80,13 +82,16 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   }
 
   adSize = GADSupportedAdSizeFromRequestedSize(adSize);
-  MTRGAdSize adViewSize;
+  MTRGAdSize *adViewSize = nil;
   if (GADAdSizeEqualToSize(adSize, kGADAdSizeBanner)) {
-    adViewSize = MTRGAdSize_320x50;
+    adViewSize = [MTRGAdSize adSize320x50];
   } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
-    adViewSize = MTRGAdSize_300x250;
+    adViewSize = [MTRGAdSize adSize300x250];
   } else if (GADAdSizeEqualToSize(adSize, kGADAdSizeLeaderboard)) {
-    adViewSize = MTRGAdSize_728x90;
+    adViewSize = [MTRGAdSize adSize728x90];
+  } else if (!GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+	// Adaptive
+    adViewSize = [MTRGAdSize adSizeForCurrentOrientationForWidth:adSize.size.width];
   } else {
     MTRGLogError(kGADMAdapterMyTargetErrorInvalidSize);
     [strongConnector adapter:self
@@ -104,7 +109,14 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     return;
   }
 
-  _adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO adSize:adViewSize];
+  _adView = [MTRGAdView adViewWithSlotId:slotId shouldRefreshAd:NO];
+  if (adViewSize) {
+    CGFloat width = adViewSize.size.width;
+    CGFloat height = adViewSize.size.height;
+    _adView.adSize = adViewSize;
+    _adView.frame = CGRectMake(0, 0, width, height);
+    MTRGLogDebug(@"adSize: %.fx%.f", width, height);
+  }
   _adView.delegate = self;
   _adView.viewController = strongConnector.viewControllerForPresentingModalView;
   GADMAdapterMyTargetFillCustomParams(_adView.customParams, strongConnector);
