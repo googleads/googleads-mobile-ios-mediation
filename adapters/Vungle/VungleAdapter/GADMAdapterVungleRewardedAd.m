@@ -69,15 +69,15 @@
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError,
+        GADMAdapterVungleErrorAdAlreadyLoaded,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
     _adLoadCompletionHandler(nil, error);
     return;
@@ -92,8 +92,8 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -109,11 +109,11 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  NSError *error = nil;
   if (![[GADMAdapterVungleRouter sharedInstance] playAd:viewController
                                                delegate:self
-                                                 extras:[_adConfiguration extras]]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Adapter failed to present rewarded ad.");
+                                                 extras:[_adConfiguration extras]
+                                                  error:&error]) {
     [_delegate didFailToPresentWithError:error];
   }
 }
@@ -187,8 +187,8 @@
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate didEndVideo];
   GADAdReward *reward =
-  [[GADAdReward alloc] initWithRewardType:@"vungle"
-                             rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
+      [[GADAdReward alloc] initWithRewardType:@"vungle"
+                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
   [strongDelegate didRewardUserWithReward:reward];
 }
 

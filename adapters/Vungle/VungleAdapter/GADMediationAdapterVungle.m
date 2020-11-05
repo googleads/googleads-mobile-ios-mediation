@@ -35,7 +35,7 @@
 
   if (!applicationIDs.count) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationDataError,
+        GADMAdapterVungleErrorInvalidServerParameters,
         @"Vungle mediation configurations did not contain a valid application ID.");
     completionHandler(error);
     return;
