@@ -30,10 +30,13 @@
   
   /// Adapter for receiving ad request notifications.
   __weak id<GADMAdNetworkAdapter> _adapter;
+
+  /// Serializes  dispatch queue.
+  dispatch_queue_t _lockQueue;
 }
 
-  /// A dictionary to keep track loaded Placement IDs
-  static NSMutableDictionary<NSString *, id> *_placementInUse;
+  /// A map to keep track loaded Placement IDs
+  static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
 
 - (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                        adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -41,9 +44,9 @@
   if (self) {
     _adapter = adapter;
     _connector = connector;
-    if (_placementInUse == nil) {
-      _placementInUse = [[NSMutableDictionary alloc] init];
-    }
+    _placementInUse = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                            valueOptions:NSPointerFunctionsWeakMemory];
+    _lockQueue = dispatch_queue_create("unityAds-rewardedAd", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -72,10 +75,10 @@
   }
 
   if (![UnityAds isInitialized]) {
-    [[GADMAdapterUnity alloc] initializeWithGameID: _gameID withInitDelegate:Nil];
+    [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withCompletionHandler:nil];
   }
 
-  @synchronized (_placementInUse) {
+  dispatch_sync(_lockQueue, ^{
     if ([_placementInUse objectForKey:_placementID]) {
       if (strongConnector && strongAdapter) {
         NSString *errorMsg = [NSString stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID];
@@ -84,16 +87,15 @@
       }
       return;
     }
-
-    [_placementInUse setValue:self forKey:_placementID];
-}
+    GADMAdapterUnityMapTableSetObjectForKey(_placementInUse, _placementID, self);
+  });
   [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  @synchronized (_placementInUse) {
-    [_placementInUse removeObjectForKey:_placementID];
-  }
+  dispatch_sync(_lockQueue, ^{
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, _placementID);
+  });
   // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad has already loaded.
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
@@ -108,11 +110,15 @@
     return;
   }
   
-  if ([UnityAds isReady:_placementID]) {
-    [UnityAds addDelegate:self];
-    [strongConnector adapterWillPresentInterstitial:strongAdapter];
-    [UnityAds show:rootViewController placementId:_placementID];
+  if (![UnityAds isReady:_placementID]) {
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads interstitial.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
   }
+
+  [UnityAds addDelegate:self];
+  [strongConnector adapterWillPresentInterstitial:strongAdapter];
+  [UnityAds show:rootViewController placementId:_placementID];
 }
 
 #pragma mark - Unity Delegate Methods
@@ -170,9 +176,9 @@
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
-  @synchronized (_placementInUse) {
-    [_placementInUse removeObjectForKey:_placementID];
-  }
+  dispatch_sync(_lockQueue, ^{
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, _placementID);
+  });
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {

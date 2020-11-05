@@ -40,6 +40,17 @@
 
 @end
 
+@interface GADMUnityInitializationDelegate : NSObject {
+  GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
+}
+
+- (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
+
+- (void)initializationComplete;
+- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message;
+
+@end
+
 @implementation GADMAdapterUnity
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
@@ -60,7 +71,9 @@
   }
 }
 
-- (void)initializeWithGameID:(NSString *)gameID withInitDelegate:(id)initDelegate{
+- (void)initializeWithGameID:(NSString *)gameID withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler{
+  GADMUnityInitializationDelegate* initDelegate = [[GADMUnityInitializationDelegate alloc] initWithCompletionHandler:completionHandler];
+
   if (![UnityAds isSupported]) {
     NSString *message =
       [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
@@ -70,7 +83,6 @@
   }
   
   if ([UnityAds isInitialized]) {
-    NSLog(@"Unity Ads has already been initialized.");
     [initDelegate initializationComplete];
     return;
   }
@@ -180,12 +192,16 @@
 // UnityAdsInitialization Delegate methods
 - (void)initializationComplete {
   NSLog(@"Unity Ads initialized successfully");
-  initCompletionBlock(nil);
+  if (initCompletionBlock) {
+    initCompletionBlock(nil);
+  }
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
-  NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
-  initCompletionBlock(err);
+  if (initCompletionBlock) {
+    NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
+    initCompletionBlock(err);
+  }
 }
 
 @end

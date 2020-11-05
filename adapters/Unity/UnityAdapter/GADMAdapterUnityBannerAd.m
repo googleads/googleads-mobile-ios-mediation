@@ -73,7 +73,7 @@
   }
 
   if (![UnityAds isInitialized]) {
-    [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withInitDelegate:Nil];
+    [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withCompletionHandler:nil];
   }
 
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];

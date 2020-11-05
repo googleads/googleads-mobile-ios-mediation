@@ -29,6 +29,19 @@ void GADMUnityConfigureMediationService(void) {
   [mediationMetaData commit];
 }
 
+void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                             id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =

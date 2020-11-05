@@ -42,6 +42,5 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
-@property (nonatomic, copy) GADMediationAdapterSetUpCompletionBlock _Nonnull completionBlock;
 
 @end
