@@ -79,7 +79,7 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
 }
 
 BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
-                                         NSError *__autoreleasing _Nullable *_Nullable error) {
+                                         NSError *_Nullable __autoreleasing *_Nullable error) {
   // If the appID is set, then the Fyber SDK has already been initialized.
   if (IASDKCore.sharedInstance.appID) {
     return YES;

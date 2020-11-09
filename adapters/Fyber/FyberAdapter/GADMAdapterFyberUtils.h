@@ -35,4 +35,4 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
 /// Initializes the Fyber SDK with the given app ID. Returns YES if Fyber is initialized
 /// successfully, otherwise NO and sets |error|.
 BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
-                                         NSError *__autoreleasing _Nullable *_Nullable error);
+                                         NSError *_Nullable __autoreleasing *_Nullable error);
