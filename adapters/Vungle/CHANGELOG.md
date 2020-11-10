@@ -3,6 +3,10 @@
 #### Next Version
 - Added standardized adapter error codes and messages.
 
+#### Version 6.9.0.0
+- Verified compatibility with Vungle SDK 6.9.0.
+- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+
 #### Version 6.8.1.0
 - Verified compatibility with Vungle SDK 6.8.1.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
