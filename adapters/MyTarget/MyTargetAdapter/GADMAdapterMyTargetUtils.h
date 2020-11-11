@@ -54,6 +54,10 @@ NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
 GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
     MTRGImageData *_Nullable imageData);
 
+/// Returns the closest MTRGAdSize size from the requested GADAdSize.
+MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);
+
 @interface GADMAdapterMyTargetUtils : NSObject
 
 /// Indicates whether debug logs are enabled for the myTarget adapter.

@@ -112,32 +112,31 @@ BOOL _isRewardedAdLoaded;
 
 #pragma mark - MTRGRewardedAdDelegate
 
-- (void)onLoadWithRewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onLoadWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   _isRewardedAdLoaded = YES;
   _adEventDelegate = _completionHandler(self, nil);
 }
 
-- (void)onNoAdWithReason:(NSString *)reason
-              rewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onNoAdWithReason:(nonnull NSString *)reason
+              rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   MTRGLogError(reason);
   NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
   _completionHandler(nil, error);
 }
 
-- (void)onClickWithRewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onClickWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate reportClick];
 }
 
-- (void)onCloseWithRewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onCloseWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)onReward:(MTRGReward *)reward
-      rewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onReward:(nonnull MTRGReward *)reward rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didEndVideo];
 
@@ -148,13 +147,13 @@ BOOL _isRewardedAdLoaded;
   [_adEventDelegate didRewardUserWithReward:adReward];
 }
 
-- (void)onDisplayWithRewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onDisplayWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate willPresentFullScreenView];
   [_adEventDelegate didStartVideo];
 }
 
-- (void)onLeaveApplicationWithRewardedAd:(MTRGRewardedAd *)rewardedAd {
+- (void)onLeaveApplicationWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   // Do nothing. The Google Mobile Ads SDK does not have an equivalent callback.
 }
 
