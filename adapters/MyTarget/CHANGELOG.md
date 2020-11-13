@@ -9,6 +9,7 @@ Build and tested With:
 - MyTarget SDK version 5.9.3
 
 #### Version 5.9.2.0
+- Added support for myTarget's adaptive banner ad size.
 - Verified compatibility with myTarget SDK version 5.9.2.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
 
