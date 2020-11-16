@@ -452,6 +452,13 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   NSLog(@"Vungle: Did show Ad for placement ID:%@", placementID);
 }
 
+- (void)vungleAdViewedForPlacement:(NSString *)placementID {
+  id<GADMAdapterVungleDelegate> delegate =
+      [self getDelegateForPlacement:placementID
+          withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate didViewAd];
+}
+
 - (void)vungleWillCloseAdForPlacementID:(nonnull NSString *)placementID {
   id<GADMAdapterVungleDelegate> delegate =
       [self getDelegateForPlacement:placementID

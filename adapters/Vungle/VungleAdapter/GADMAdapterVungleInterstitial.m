@@ -168,6 +168,10 @@
 }
 
 - (void)willShowAd {
+  // Do nothing.
+}
+
+- (void)didViewAd {
   [_connector adapterWillPresentInterstitial:self];
 }
 

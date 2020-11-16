@@ -194,6 +194,10 @@
   self.bannerState = BannerRouterDelegateStatePlaying;
 }
 
+- (void)didViewAd {
+  // Do nothing.
+}
+
 - (void)willCloseAd {
   self.bannerState = BannerRouterDelegateStateClosing;
   // This callback is fired when the banner itself is destroyed/removed, not when the user returns
