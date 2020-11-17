@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added standardized adapter error codes and messages.
+
 #### Version 7.0.3.0
 - Verified compatibility with ironSource SDK version 7.0.3
 

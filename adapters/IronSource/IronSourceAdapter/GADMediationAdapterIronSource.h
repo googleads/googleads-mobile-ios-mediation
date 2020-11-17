@@ -15,5 +15,14 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
+  /// Invalid server parameters.
+  GADMAdapterIronSourceErrorInvalidServerParameters = 101,
+  /// Unsupported ad format.
+  GADMAdapterIronSourceErrorAdFormatNotSupported = 102,
+  /// An ad is already loaded for this network configuration.
+  GADMAdapterIronSourceErrorAdAlreadyLoaded = 103,
+};
+
 @interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
 @end

@@ -23,8 +23,11 @@ static NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
 static NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
 static NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
 
-// IronSource instance states
+// IronSource instance states.
 typedef NSString *InstanceState NS_STRING_ENUM;
 static InstanceState const kInstanceStateLocked = @"LOCKED";
 static InstanceState const kInstanceStateStart = @"START";
 static InstanceState const kInstanceStateCanLoad = @"CANLOAD";
+
+// IronSource mediation adapter error domain.
+static NSString *const kGADMAdapterIronSourceErrorDomain = @"com.google.mediation.IronSource";
