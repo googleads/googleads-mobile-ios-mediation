@@ -122,4 +122,16 @@
                                   completionHandler:completionHandler];
 }
 
+- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if (adConfiguration.bidResponse) {
+    [self.rtbAdapter loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    return;
+  }
+
+  // Nevar use? Interstitial(Mediation) use GADMMaioInterstitialAdapter.
+  NSError *error = [GADMMaioError errorWithDescription:@"Incompatible call for the interstitial. This logic need bidResponse."];
+  completionHandler(nil, error);
+}
+
 @end

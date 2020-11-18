@@ -8,10 +8,12 @@
 
 #import "GADRTBAdapterMaioEntryPoint.h"
 #import "GADRTBMaioRewardedAd.h"
+#import "GADRTBMaioInterstitialAd.h"
 
 @interface GADRTBAdapterMaioEntryPoint ()
 
 @property (nonatomic) GADRTBMaioRewardedAd* rewarded;
+@property (nonatomic) GADRTBMaioInterstitialAd* interstitial;
 
 @end
 
@@ -20,6 +22,11 @@
 -(void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewarded = [[GADRTBMaioRewardedAd alloc] init];
   [self.rewarded loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
+- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  self.interstitial = [[GADRTBMaioInterstitialAd alloc] init];
+  [self.interstitial loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  GADRTBAdapterMaio.h
+//  GADRTBMaioInterstitialAd.h
 //  Adapter
 //
 //  Created by i-mobile on 2020/11/18.
@@ -12,13 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GADRTBAdapterMaioEntryPoint : NSObject
-
-- (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler: (nonnull GADMediationRewardedLoadCompletionHandler) completionHandler;
+@interface GADRTBMaioInterstitialAd : NSObject <GADMediationInterstitialAd>
 
 - (void)loadInterstitialForAdConfiguration: (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler: (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
