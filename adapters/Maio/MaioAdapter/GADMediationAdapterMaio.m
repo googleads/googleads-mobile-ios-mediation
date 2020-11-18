@@ -18,15 +18,27 @@
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 #import "GADMMaioError.h"
+#import "GADRTBAdapterMaioEntryPoint.h"
 @import Maio;
 
 @interface GADMediationAdapterMaio () <MaioDelegate>
 
 @property(nonatomic) GADMAdapterMaioRewardedAd *rewardedAd;
 
+@property(nonatomic) GADRTBAdapterMaioEntryPoint *rtbAdapter;
+
 @end
 
 @implementation GADMediationAdapterMaio
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _rtbAdapter = [GADRTBAdapterMaioEntryPoint new];
+    }
+    return self;
+}
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -100,6 +112,11 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (adConfiguration.bidResponse) {
+    [self.rtbAdapter loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    return;
+  }
+
   self.rewardedAd = [[GADMAdapterMaioRewardedAd alloc] init];
   [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
