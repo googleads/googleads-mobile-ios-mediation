@@ -39,10 +39,8 @@
 		419E44CF251BFD60004DD07C /* GADMAdapterUnityRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C0251BFD60004DD07C /* GADMAdapterUnityRewardedAd.h */; };
 		419E44D0251BFD60004DD07C /* GADMAdapterUnityBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C1251BFD60004DD07C /* GADMAdapterUnityBannerAd.m */; };
 		419E44D1251BFD60004DD07C /* GADMUnityInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C2251BFD60004DD07C /* GADMUnityInterstitialAd.h */; };
-		419E44D2251BFD60004DD07C /* GADMUnityInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C3251BFD60004DD07C /* GADMUnityInitializer.m */; };
 		419E44D3251BFD60004DD07C /* GADMAdapterUnityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */; };
 		419E44D4251BFD60004DD07C /* GADMAdapterUnityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */; };
-		419E44D5251BFD60004DD07C /* GADMUnityInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C6251BFD60004DD07C /* GADMUnityInitializer.h */; };
 		419E44D6251BFD60004DD07C /* GADMediationAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */; };
 		419E44D7251BFD60004DD07C /* GADMAdapterUnityRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C8251BFD60004DD07C /* GADMAdapterUnityRewardedAd.m */; };
 		419E44D8251BFD60004DD07C /* GADMediationAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */; };
@@ -81,10 +79,8 @@
 		419E44C0251BFD60004DD07C /* GADMAdapterUnityRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityRewardedAd.h; sourceTree = "<group>"; };
 		419E44C1251BFD60004DD07C /* GADMAdapterUnityBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityBannerAd.m; sourceTree = "<group>"; };
 		419E44C2251BFD60004DD07C /* GADMUnityInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMUnityInterstitialAd.h; sourceTree = "<group>"; };
-		419E44C3251BFD60004DD07C /* GADMUnityInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMUnityInitializer.m; sourceTree = "<group>"; };
 		419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityUtils.m; sourceTree = "<group>"; };
 		419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityConstants.h; sourceTree = "<group>"; };
-		419E44C6251BFD60004DD07C /* GADMUnityInitializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMUnityInitializer.h; sourceTree = "<group>"; };
 		419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterUnity.h; sourceTree = "<group>"; };
 		419E44C8251BFD60004DD07C /* GADMAdapterUnityRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnityRewardedAd.m; sourceTree = "<group>"; };
 		419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterUnity.m; sourceTree = "<group>"; };
@@ -151,8 +147,6 @@
 				419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */,
 				419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */,
 				419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */,
-				419E44C6251BFD60004DD07C /* GADMUnityInitializer.h */,
-				419E44C3251BFD60004DD07C /* GADMUnityInitializer.m */,
 				419E44C2251BFD60004DD07C /* GADMUnityInterstitialAd.h */,
 				419E44BE251BFD60004DD07C /* GADMUnityInterstitialAd.m */,
 				419E44BF251BFD60004DD07C /* GADUnityError.h */,
@@ -200,7 +194,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				419E44D6251BFD60004DD07C /* GADMediationAdapterUnity.h in Headers */,
-				419E44D5251BFD60004DD07C /* GADMUnityInitializer.h in Headers */,
 				419E44D1251BFD60004DD07C /* GADMUnityInterstitialAd.h in Headers */,
 				419E44D4251BFD60004DD07C /* GADMAdapterUnityConstants.h in Headers */,
 				419E44CF251BFD60004DD07C /* GADMAdapterUnityRewardedAd.h in Headers */,
@@ -312,7 +305,6 @@
 				419E44D7251BFD60004DD07C /* GADMAdapterUnityRewardedAd.m in Sources */,
 				419E44D3251BFD60004DD07C /* GADMAdapterUnityUtils.m in Sources */,
 				419E44D8251BFD60004DD07C /* GADMediationAdapterUnity.m in Sources */,
-				419E44D2251BFD60004DD07C /* GADMUnityInitializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

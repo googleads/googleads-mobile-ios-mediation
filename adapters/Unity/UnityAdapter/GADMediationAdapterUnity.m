@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADMediationAdapterUnity.h"
+#import <UnityAds/UnityAds.h>
+#import "GADMAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityUtils.h"
-#import "GADMAdapterUnity.h"
-#import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
@@ -36,8 +36,9 @@
   }
 
   if (!gameIDs.count) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters,
-                                                                 @"UnityAds mediation configurations did not contain a valid game ID.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorInvalidServerParameters,
+        @"UnityAds mediation configurations did not contain a valid game ID.");
     completionHandler(error);
     return;
   }

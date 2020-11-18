@@ -22,12 +22,12 @@
 
 @interface GADMUnityInterstitialAd : NSObject <UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
 
-- (instancetype _Nullable)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+- (instancetype _Nullable)initWithGADMAdNetworkConnector:
+                              (nonnull id<GADMAdNetworkConnector>)connector
                                                  adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
 
 /// Loads an interstitial ad from Unity Ads
 - (void)getInterstitial;
-
 
 /// Presents an interstitial ad using Unity Ads
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController;

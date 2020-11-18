@@ -13,12 +13,14 @@
 // limitations under the License.
 
 #import "GADMAdapterUnityRewardedAd.h"
-#import "GADMAdapterUnityConstants.h"
-#import "GADUnityError.h"
-#import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnity.h"
+#import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
+#import "GADUnityError.h"
 
-@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate> {
+@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd,
+                                          UnityAdsExtendedDelegate,
+                                          UnityAdsLoadDelegate> {
   // The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
   // Ad configuration for the ad to be rendered.
@@ -33,24 +35,25 @@
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
 
-  ///Serial dispatch queue.
+  /// Serial dispatch queue.
   dispatch_queue_t _lockQueue;
 }
 
 @end
 
 @implementation GADMAdapterUnityRewardedAd
-  /// A map to keep track loaded Placement IDs
-  static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewarded;
+/// A map to keep track loaded Placement IDs
+static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewarded;
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+                      completionHandler:
+                          (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
     _placementInUseRewarded = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                                      valueOptions:NSPointerFunctionsWeakMemory];
+                                                    valueOptions:NSPointerFunctionsWeakMemory];
     _lockQueue = dispatch_queue_create("unityAds-rewardedAd", DISPATCH_QUEUE_SERIAL);
   }
   return self;
@@ -62,13 +65,14 @@
   NSLog(@"Requesting Unity rewarded ad with placement: %@", _placementID);
   if (!_gameID || !_placementID) {
     if (_adLoadCompletionHandler) {
-      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
+      NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+          GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
       _adLoadCompletionHandler(nil, error);
       _adLoadCompletionHandler = nil;
     }
     return;
   }
-  
+
   if (![UnityAds isInitialized]) {
     [[GADMAdapterUnity alloc] initializeWithGameID:_gameID withCompletionHandler:nil];
   }
@@ -76,7 +80,8 @@
   dispatch_sync(_lockQueue, ^{
     if ([_placementInUseRewarded objectForKey:_placementID]) {
       if (_adLoadCompletionHandler) {
-        NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID]);
+        NSError *error = GADUnityErrorWithDescription([NSString
+            stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID]);
         _adEventDelegate = _adLoadCompletionHandler(nil, error);
       }
       return;
@@ -92,7 +97,8 @@
     GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, _placementID);
   });
   if (![UnityAds isReady:_placementID]) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
@@ -104,10 +110,10 @@
 #pragma mark - UnityAdsExtendedDelegate Methods
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-    [UnityAds removeDelegate:self];
-    if (_adEventDelegate) {
+  [UnityAds removeDelegate:self];
+  if (_adEventDelegate) {
     NSError *errorWithDescription =
-    GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
+        GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
     [_adEventDelegate didFailToPresentWithError:errorWithDescription];
   }
 }
@@ -115,10 +121,10 @@
 - (void)unityAdsDidFinish:(nonnull NSString *)placementID
           withFinishState:(UnityAdsFinishState)state {
   [UnityAds removeDelegate:self];
-  
+
   if (state == kUnityAdsFinishStateCompleted) {
     [_adEventDelegate didEndVideo];
-    
+
     // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
     // amount of 1. Publishers using this adapter should override the reward on the AdMob
     // front-end.
@@ -126,8 +132,9 @@
                                                      rewardAmount:[NSDecimalNumber one]];
     [_adEventDelegate didRewardUserWithReward:reward];
   } else if (state == kUnityAdsFinishStateError) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorFinish,
-                                                                 @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorFinish,
+        @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
 
@@ -163,12 +170,13 @@
     GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, _placementID);
   });
   if (_adLoadCompletionHandler) {
-    NSError *error = GADUnityErrorWithDescription([NSString stringWithFormat:@"Failed to load rewarded ad with placement ID '%@'", placementId]);
+    NSError *error = GADUnityErrorWithDescription([NSString
+        stringWithFormat:@"Failed to load rewarded ad with placement ID '%@'", placementId]);
     _adEventDelegate = _adLoadCompletionHandler(nil, error);
   }
 }
 
-- (void)unityAdsAdLoaded:(nonnull NSString *)placementId { 
+- (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
   if (_adLoadCompletionHandler) {
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
   }

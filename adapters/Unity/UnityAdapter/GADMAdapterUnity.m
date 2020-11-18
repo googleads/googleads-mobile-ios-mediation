@@ -13,29 +13,28 @@
 // limitations under the License.
 
 #import "GADMAdapterUnity.h"
-#import "GADUnityError.h"
-#import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityBannerAd.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
 #import "GADMUnityInterstitialAd.h"
 #import "GADMediationAdapterUnity.h"
+#import "GADUnityError.h"
 
-@interface GADMAdapterUnity (){
+@interface GADMAdapterUnity () {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _networkConnector;
-  
+
   /// Game ID of Unity Ads network.
   NSString *_gameID;
-  
+
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
-  
+
   /// Unity Ads Banner wrapper
   GADMAdapterUnityBannerAd *_bannerAd;
-  
+
   /// Unity Ads Interstitial Ad wrapper
   GADMUnityInterstitialAd *_interstitialAd;
-  
 }
 
 @end
@@ -44,10 +43,12 @@
   GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
 }
 
-- (nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
+- (nonnull instancetype)initWithCompletionHandler:
+    (GADMediationAdapterSetUpCompletionBlock)completionHandler;
 
 - (void)initializationComplete;
-- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message;
+- (void)initializationFailed:(UnityAdsInitializationError)error
+                 withMessage:(nonnull NSString *)message;
 
 @end
 
@@ -71,26 +72,31 @@
   }
 }
 
-- (void)initializeWithGameID:(NSString *)gameID withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler{
-  GADMUnityInitializationDelegate* initDelegate = [[GADMUnityInitializationDelegate alloc] initWithCompletionHandler:completionHandler];
+- (void)initializeWithGameID:(NSString *)gameID
+       withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  GADMUnityInitializationDelegate *initDelegate =
+      [[GADMUnityInitializationDelegate alloc] initWithCompletionHandler:completionHandler];
 
   if (![UnityAds isSupported]) {
-    NSString *message =
-      [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-       NSStringFromClass([UnityAds class])];
-    [initDelegate initializationFailed:(kUnityInitializationErrorInternalError) withMessage:message];
+    NSString *message = [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
+                                                         NSStringFromClass([UnityAds class])];
+    [initDelegate initializationFailed:(kUnityInitializationErrorInternalError)
+                           withMessage:message];
     return;
   }
-  
+
   if ([UnityAds isInitialized]) {
     [initDelegate initializationComplete];
     return;
   }
-  
+
   // Metadata needed by Unity Ads SDK before initialization.
   GADMUnityConfigureMediationService();
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
+  [UnityAds initialize:gameID
+                    testMode:NO
+      enablePerPlacementLoad:YES
+      initializationDelegate:initDelegate];
 }
 
 #pragma mark Interstitial Methods
@@ -110,11 +116,14 @@
   id<GADMAdNetworkConnector> strongConnector = _networkConnector;
   if (!strongConnector) return;
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
-  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector adapter:self];
+  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector
+                                                                            adapter:self];
   if (!_interstitialAd) {
-    NSString *description = [NSString
-                             stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMUnityInterstitialAd class])];
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
+    NSString *description =
+        [NSString stringWithFormat:@"%@ initialization failed!",
+                                   NSStringFromClass([GADMUnityInterstitialAd class])];
+    NSError *error =
+        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -149,7 +158,8 @@
   _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription( GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -157,9 +167,11 @@
                                                                        adapter:self];
 
   if (!_bannerAd) {
-    NSString *description = [NSString
-                             stringWithFormat:@"%@ initialization failed!", NSStringFromClass([GADMAdapterUnityBannerAd class])];
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
+    NSString *description =
+        [NSString stringWithFormat:@"%@ initialization failed!",
+                                   NSStringFromClass([GADMAdapterUnityBannerAd class])];
+    NSError *error =
+        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -175,13 +187,14 @@
 
 @end
 
-@interface GADMUnityInitializationDelegate ()<UnityAdsInitializationDelegate>
+@interface GADMUnityInitializationDelegate () <UnityAdsInitializationDelegate>
 
 @end
 
 @implementation GADMUnityInitializationDelegate
 
--(nonnull instancetype)initWithCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+- (nonnull instancetype)initWithCompletionHandler:
+    (GADMediationAdapterSetUpCompletionBlock)completionHandler {
   self = [super init];
   if (self) {
     initCompletionBlock = completionHandler;
@@ -197,9 +210,11 @@
   }
 }
 
-- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
+- (void)initializationFailed:(UnityAdsInitializationError)error
+                 withMessage:(nonnull NSString *)message {
   if (initCompletionBlock) {
-    NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
+    NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorAdInitializationFailure, message);
     initCompletionBlock(err);
   }
 }

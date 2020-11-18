@@ -21,6 +21,7 @@
 
 @interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
 
-- (void)initializeWithGameID:(NSString *)gameID withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
+- (void)initializeWithGameID:(NSString *)gameID
+       withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler;
 
 @end

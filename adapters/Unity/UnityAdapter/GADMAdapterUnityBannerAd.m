@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADMAdapterUnityBannerAd.h"
+#import "GADMAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMediationAdapterUnity.h"
 #import "GADUnityError.h"
-#import "GADMAdapterUnity.h"
 
 @interface GADMAdapterUnityBannerAd () <UADSBannerViewDelegate>
 @end
@@ -25,22 +25,22 @@
 @implementation GADMAdapterUnityBannerAd {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
-  
+
   /// Adapter for receiving ad request notifications.
   __weak id<GADMAdNetworkAdapter> _adapter;
-  
+
   /// Unity Ads banner ad object.
   UADSBannerView *_bannerAd;
-  
+
   /// Unity ads game ID.
   NSString *_gameID;
-  
+
   /// Unity ads placement ID.
   NSString *_placementID;
 }
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
   self = [super init];
   if (self) {
     _adapter = adapter;
@@ -52,22 +52,22 @@
 - (void)loadBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  
+
   if (!strongConnector) {
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkConnector found.");
     return;
   }
-  
+
   if (!strongAdapter) {
     NSLog(@"Unity Ads Adapter Error: No GADMAdNetworkAdapter found.");
     return;
   }
-    
+
   _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
   _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
   if (!_gameID || !_placementID) {
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-           GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
+        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -78,7 +78,8 @@
 
   _bannerAd = [[UADSBannerView alloc] initWithPlacementId:_placementID size:adSize.size];
   if (!_bannerAd) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorAdObjectNil, @"Unity banner failed to initialize.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
