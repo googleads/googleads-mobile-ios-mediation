@@ -50,6 +50,8 @@
 		C29F39311FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */; };
 		C2DA22E32564E59100253DFC /* GADRTBAdapterMaioEntryPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = C2DA22E12564E59100253DFC /* GADRTBAdapterMaioEntryPoint.h */; };
 		C2DA22E42564E59100253DFC /* GADRTBAdapterMaioEntryPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C2DA22E22564E59100253DFC /* GADRTBAdapterMaioEntryPoint.m */; };
+		C2DA22F02564F58100253DFC /* GADRTBMaioRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = C2DA22EE2564F58100253DFC /* GADRTBMaioRewardedAd.h */; };
+		C2DA22F12564F58100253DFC /* GADRTBMaioRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = C2DA22EF2564F58100253DFC /* GADRTBMaioRewardedAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,8 @@
 		C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioInterstitialAdapter.m; sourceTree = "<group>"; };
 		C2DA22E12564E59100253DFC /* GADRTBAdapterMaioEntryPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADRTBAdapterMaioEntryPoint.h; sourceTree = "<group>"; };
 		C2DA22E22564E59100253DFC /* GADRTBAdapterMaioEntryPoint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADRTBAdapterMaioEntryPoint.m; sourceTree = "<group>"; };
+		C2DA22EE2564F58100253DFC /* GADRTBMaioRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADRTBMaioRewardedAd.h; sourceTree = "<group>"; };
+		C2DA22EF2564F58100253DFC /* GADRTBMaioRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADRTBMaioRewardedAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +206,8 @@
 			children = (
 				C2DA22E12564E59100253DFC /* GADRTBAdapterMaioEntryPoint.h */,
 				C2DA22E22564E59100253DFC /* GADRTBAdapterMaioEntryPoint.m */,
+				C2DA22EE2564F58100253DFC /* GADRTBMaioRewardedAd.h */,
+				C2DA22EF2564F58100253DFC /* GADRTBMaioRewardedAd.m */,
 			);
 			path = RTBAdapter;
 			sourceTree = "<group>";
@@ -217,6 +223,7 @@
 				C29F39281FB996CD00A32028 /* GADMMaioConstants.h in Headers */,
 				C2DA22E32564E59100253DFC /* GADRTBAdapterMaioEntryPoint.h in Headers */,
 				45E6353822309EAE006EB5A1 /* GADMediationAdapterMaio.h in Headers */,
+				C2DA22F02564F58100253DFC /* GADRTBMaioRewardedAd.h in Headers */,
 				C29F392A1FB996CD00A32028 /* GADMMaioError.h in Headers */,
 				C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */,
 				45021519225E907500FD53A1 /* GADMAdapterMaioAdsManager.h in Headers */,
@@ -323,6 +330,7 @@
 			files = (
 				4502151A225E907500FD53A1 /* GADMAdapterMaioAdsManager.m in Sources */,
 				C2DA22E42564E59100253DFC /* GADRTBAdapterMaioEntryPoint.m in Sources */,
+				C2DA22F12564F58100253DFC /* GADRTBMaioRewardedAd.m in Sources */,
 				45E6353D22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m in Sources */,
 				45E6353922309EAE006EB5A1 /* GADMediationAdapterMaio.m in Sources */,
 				00AC999322E923F300262599 /* GADMAdapterMaioUtils.m in Sources */,

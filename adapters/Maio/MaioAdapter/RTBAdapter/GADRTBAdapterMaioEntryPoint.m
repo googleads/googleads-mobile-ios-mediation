@@ -7,11 +7,19 @@
 //
 
 #import "GADRTBAdapterMaioEntryPoint.h"
+#import "GADRTBMaioRewardedAd.h"
+
+@interface GADRTBAdapterMaioEntryPoint ()
+
+@property (nonatomic) GADRTBMaioRewardedAd* rewarded;
+
+@end
 
 @implementation GADRTBAdapterMaioEntryPoint
 
 -(void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-  // TODO: implement
+  self.rewarded = [[GADRTBMaioRewardedAd alloc] init];
+  [self.rewarded loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end
