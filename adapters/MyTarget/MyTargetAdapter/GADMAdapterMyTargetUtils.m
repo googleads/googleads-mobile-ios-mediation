@@ -16,6 +16,8 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
+#import "GADMediationAdapterMyTarget.h"
+
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
@@ -36,6 +38,16 @@ NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonn
   return [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
                              code:1000
                          userInfo:userInfo];
+}
+
+NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
+                                                                 NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
@@ -121,10 +133,12 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
     return [MTRGAdSize adSizeForCurrentOrientationForWidth:closestSize.size.width];
   }
   if (error) {
-    [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
-                               @"requested ad size. Requested ad size: %@",
-                               NSStringFromGADAdSize(gadAdSize)];
-    *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorInvalidSize);
+    NSString *description =
+        [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorBannerSizeMismatch, description);
   }
   return nil;
 }
