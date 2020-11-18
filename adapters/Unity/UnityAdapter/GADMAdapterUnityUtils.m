@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,14 @@ void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
   }
 }
 
+void GADMUnityConfigureMediationService(void) {
+  UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+  [mediationMetaData commit];
+}
+
 void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
                                              id<NSCopying> _Nullable key, id _Nullable value) {
   if (value && key) {
@@ -37,7 +45,7 @@ void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, 
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
                                        code:code
                                    userInfo:userInfo];
@@ -47,7 +55,7 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(UnityAdsError errorCode,
                                                                       NSString *_Nonnull message) {
   NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
+    @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];

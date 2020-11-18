@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,11 @@
 #import "GADMediationAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
-#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADMAdapterUnity.h"
 #import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()
-
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
 
 @end
@@ -37,9 +36,8 @@
   }
 
   if (!gameIDs.count) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters,
-        @"UnityAds mediation configurations did not contain a valid game ID.");
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorInvalidServerParameters,
+                                                                 @"UnityAds mediation configurations did not contain a valid game ID.");
     completionHandler(error);
     return;
   }
@@ -52,8 +50,7 @@
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
-  completionHandler(nil);
+  [[GADMAdapterUnity alloc] initializeWithGameID:gameID withCompletionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {

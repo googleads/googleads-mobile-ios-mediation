@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
 
@@ -21,8 +20,8 @@
 
 /// Initializes a new instance with |connector| and |adapter|.
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+                                             adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
+  NS_DESIGNATED_INITIALIZER;
 
 /// Init unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;

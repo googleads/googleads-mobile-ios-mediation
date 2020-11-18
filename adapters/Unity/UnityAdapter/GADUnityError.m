@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #import "GADUnityError.h"
+#import "GADMAdapterUnityConstants.h"
 
 NSError *GADUnityErrorWithDescription(NSString *description) {
   description = [description copy];
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.unity" code:0 userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain code:0 userInfo:userInfo];
   return error;
 }
