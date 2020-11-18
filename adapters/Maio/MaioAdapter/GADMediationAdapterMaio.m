@@ -104,9 +104,7 @@
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
-
-  NSString *signal = @"";
-  completionHandler(signal, nil);
+  [self.rtbAdapter collectSignalsForRequestParameters:params completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration

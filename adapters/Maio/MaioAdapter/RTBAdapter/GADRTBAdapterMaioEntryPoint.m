@@ -19,6 +19,12 @@
 
 @implementation GADRTBAdapterMaioEntryPoint
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+
+  NSString *signal = @"";
+  completionHandler(signal, nil);
+}
+
 -(void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewarded = [[GADRTBMaioRewardedAd alloc] init];
   [self.rewarded loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
