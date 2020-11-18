@@ -18,4 +18,7 @@ static NSString *const kGADMMaioAdapterMediaId = @"mediaId";
 /// Maio zone ID.
 static NSString *const kGADMMaioAdapterZoneId = @"zoneId";
 
+/// Maio zoneID for OpenBidding
+static NSString *const kGADRTBMaioAdapterZoneId = @"dummyZoneForRTB";
+
 #endif /* GADMMaioConstants_h */

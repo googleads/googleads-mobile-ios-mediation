@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GADRTBMaioRewardedAd : NSObject
+@interface GADRTBMaioRewardedAd : NSObject<GADMediationRewardedAd>
 
 - (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler: (nonnull GADMediationRewardedLoadCompletionHandler) completionHandler;
