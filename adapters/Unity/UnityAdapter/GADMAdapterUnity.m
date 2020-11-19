@@ -20,9 +20,15 @@
 #import "GADMediationAdapterUnity.h"
 #import "GADUnityError.h"
 
-@interface GADMAdapterUnity () {
+@interface GADMAdapterUnity () <UnityAdsInitializationDelegate>
+@end
+
+@implementation GADMAdapterUnity {
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _networkConnector;
+
+  /// Completion handler for initializing the Unity Ads SDK.
+  GADMediationAdapterSetUpCompletionBlock _initCompletionHandler;
 
   /// Game ID of Unity Ads network.
   NSString *_gameID;
@@ -36,23 +42,6 @@
   /// Unity Ads Interstitial Ad wrapper
   GADMUnityInterstitialAd *_interstitialAd;
 }
-
-@end
-
-@interface GADMUnityInitializationDelegate : NSObject {
-  GADMediationAdapterSetUpCompletionBlock initCompletionBlock;
-}
-
-- (nonnull instancetype)initWithCompletionHandler:
-    (GADMediationAdapterSetUpCompletionBlock)completionHandler;
-
-- (void)initializationComplete;
-- (void)initializationFailed:(UnityAdsInitializationError)error
-                 withMessage:(nonnull NSString *)message;
-
-@end
-
-@implementation GADMAdapterUnity
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterUnity class];
@@ -74,29 +63,27 @@
 
 - (void)initializeWithGameID:(NSString *)gameID
        withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  GADMUnityInitializationDelegate *initDelegate =
-      [[GADMUnityInitializationDelegate alloc] initWithCompletionHandler:completionHandler];
-
   if (![UnityAds isSupported]) {
     NSString *message = [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
                                                          NSStringFromClass([UnityAds class])];
-    [initDelegate initializationFailed:(kUnityInitializationErrorInternalError)
-                           withMessage:message];
+    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorAdInitializationFailure, message);
+    completionHandler(error);
     return;
   }
 
   if ([UnityAds isInitialized]) {
-    [initDelegate initializationComplete];
+    NSLog(@"Unity Ads initialized successfully");
+    completionHandler(nil);
     return;
   }
 
-  // Metadata needed by Unity Ads SDK before initialization.
-  GADMUnityConfigureMediationService();
+  // Configure metadata needed by Unity Ads SDK before initialization.
+  GADMAdapterUnityConfigureMediationService();
+
   // Initializing Unity Ads with |gameID|.
-  [UnityAds initialize:gameID
-                    testMode:NO
-      enablePerPlacementLoad:YES
-      initializationDelegate:initDelegate];
+  _initCompletionHandler = completionHandler;
+  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:self];
 }
 
 #pragma mark Interstitial Methods
@@ -185,38 +172,18 @@
   return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
-@end
+#pragma mark UnityAdsInitializationDelegate Methods
 
-@interface GADMUnityInitializationDelegate () <UnityAdsInitializationDelegate>
-
-@end
-
-@implementation GADMUnityInitializationDelegate
-
-- (nonnull instancetype)initWithCompletionHandler:
-    (GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  self = [super init];
-  if (self) {
-    initCompletionBlock = completionHandler;
-  }
-  return self;
-}
-
-// UnityAdsInitialization Delegate methods
 - (void)initializationComplete {
   NSLog(@"Unity Ads initialized successfully");
-  if (initCompletionBlock) {
-    initCompletionBlock(nil);
-  }
+  _initCompletionHandler(nil);
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error
                  withMessage:(nonnull NSString *)message {
-  if (initCompletionBlock) {
-    NSError *err = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorAdInitializationFailure, message);
-    initCompletionBlock(err);
-  }
+  NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(
+      GADMAdapterUnityErrorAdInitializationFailure, message);
+  _initCompletionHandler(adapterError);
 }
 
 @end

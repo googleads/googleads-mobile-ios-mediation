@@ -21,7 +21,7 @@ void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
   }
 }
 
-void GADMUnityConfigureMediationService(void) {
+void GADMAdapterUnityConfigureMediationService(void) {
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];

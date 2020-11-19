@@ -32,6 +32,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00DF0F6C256593E7006A9764 /* GADMAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 00DF0F6A256593E7006A9764 /* GADMAdapterUnity.m */; };
+		00DF0F6D256593E7006A9764 /* GADMAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 00DF0F6B256593E7006A9764 /* GADMAdapterUnity.h */; };
 		419E44CB251BFD60004DD07C /* GADMAdapterUnityUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */; };
 		419E44CC251BFD60004DD07C /* GADUnityError.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44BD251BFD60004DD07C /* GADUnityError.m */; };
 		419E44CD251BFD60004DD07C /* GADMUnityInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44BE251BFD60004DD07C /* GADMUnityInterstitialAd.m */; };
@@ -72,6 +74,8 @@
 
 /* Begin PBXFileReference section */
 		00DD269322F10D040039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		00DF0F6A256593E7006A9764 /* GADMAdapterUnity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterUnity.m; sourceTree = "<group>"; };
+		00DF0F6B256593E7006A9764 /* GADMAdapterUnity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnity.h; sourceTree = "<group>"; };
 		419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterUnityUtils.h; sourceTree = "<group>"; };
 		419E44BD251BFD60004DD07C /* GADUnityError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADUnityError.m; sourceTree = "<group>"; };
 		419E44BE251BFD60004DD07C /* GADMUnityInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMUnityInterstitialAd.m; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 		7DA7825D1DDA681E000C088E /* UnityAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				00DF0F6B256593E7006A9764 /* GADMAdapterUnity.h */,
+				00DF0F6A256593E7006A9764 /* GADMAdapterUnity.m */,
 				419E44CA251BFD60004DD07C /* GADMAdapterUnityBannerAd.h */,
 				419E44C1251BFD60004DD07C /* GADMAdapterUnityBannerAd.m */,
 				419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */,
@@ -195,6 +201,7 @@
 			files = (
 				419E44D6251BFD60004DD07C /* GADMediationAdapterUnity.h in Headers */,
 				419E44D1251BFD60004DD07C /* GADMUnityInterstitialAd.h in Headers */,
+				00DF0F6D256593E7006A9764 /* GADMAdapterUnity.h in Headers */,
 				419E44D4251BFD60004DD07C /* GADMAdapterUnityConstants.h in Headers */,
 				419E44CF251BFD60004DD07C /* GADMAdapterUnityRewardedAd.h in Headers */,
 				7DA782681DDA681E000C088E /* UnityAdapter.h in Headers */,
@@ -305,6 +312,7 @@
 				419E44D7251BFD60004DD07C /* GADMAdapterUnityRewardedAd.m in Sources */,
 				419E44D3251BFD60004DD07C /* GADMAdapterUnityUtils.m in Sources */,
 				419E44D8251BFD60004DD07C /* GADMediationAdapterUnity.m in Sources */,
+				00DF0F6C256593E7006A9764 /* GADMAdapterUnity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

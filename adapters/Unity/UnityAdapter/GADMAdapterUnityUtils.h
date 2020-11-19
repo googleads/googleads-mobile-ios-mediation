@@ -19,7 +19,8 @@
 /// Safely adds |object| to |set| if the |object| is not nil.
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-void GADMUnityConfigureMediationService(void);
+/// Configures metadata needed by Unity Ads SDK before initialization.
+void GADMAdapterUnityConfigureMediationService(void);
 
 /// Safely sets |value| for |key| in mapTable if |key| and |value| are not nil.
 void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,

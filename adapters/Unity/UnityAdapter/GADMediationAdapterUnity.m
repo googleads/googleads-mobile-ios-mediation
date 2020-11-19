@@ -20,6 +20,7 @@
 #import "GADMAdapterUnityUtils.h"
 
 @interface GADMediationAdapterUnity ()
+
 @property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
 
 @end
