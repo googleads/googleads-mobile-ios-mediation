@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMediationAdapterIMobile.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <ImobileSdkAds/ImobileSdkAds.h>
 
-@interface IMobileAdapter : GADMediationAdapterIMobile
+@interface GADMAdapterIMobileManager : NSObject
+
+/// Shared instance.
+@property(class, atomic, readonly, nonnull) GADMAdapterIMobileManager *sharedInstance;
+
+/// Requests an interstitial ad from the i-mobile SDK.
+- (nullable NSError *)requestInterstitialAdForSpotId:(nonnull NSString *)spotId
+                                            delegate:(nonnull id<IMobileSdkAdsDelegate>)delegate;
+
 @end
