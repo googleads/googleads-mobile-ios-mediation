@@ -43,6 +43,13 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+
+  NSMutableSet *publisherIDs = [[NSMutableSet alloc] init];
+  for (GADMediationCredentials *cred in configuration.credentials) {
+    NSString *publisherID = cred.settings[kGADMMaioAdapterPublisherID];
+    GADMAdapterMaioMutableSetAddObject(publisherIDs, publisherID);
+  }
+
   NSMutableSet *mediaIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *mediaID = cred.settings[kGADMMaioAdapterMediaId];
