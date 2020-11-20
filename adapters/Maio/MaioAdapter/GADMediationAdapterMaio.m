@@ -56,6 +56,10 @@
     GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
   }
 
+  [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
+}
+
++ (void)setupCaseExistsMediaIDs: (nonnull NSSet *)mediaIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
   if (!mediaIDs.count) {
     NSError *error = [GADMMaioError
         errorWithDescription:@"Maio mediation configurations did not contain a valid media ID."];
