@@ -56,13 +56,15 @@
     GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
   }
 
-  if (!mediaIDs.count && !publisherIDs.count) {
+  BOOL existsMediaID = mediaIDs.count > 0;
+  BOOL existsPublisherID = publisherIDs.count > 0;
+  if (!existsMediaID && !existsPublisherID) {
     [self setUpCaseNotExistsAnyWithCompletionHandler:completionHandler];
-  } else if (!mediaIDs.count && publisherIDs.count) {
+  } else if (!existsMediaID && existsPublisherID) {
     [self setupCaseExistsPublisherIDs:publisherIDs completionHandler:completionHandler];
-  } else if (mediaIDs.count && !publisherIDs.count) {
+  } else if (existsMediaID && !existsPublisherID) {
     [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
-  } else if (mediaIDs.count && publisherIDs.count) {
+  } else if (existsMediaID && existsPublisherID) {
     [self setUpCaseExistsMediaIDs:mediaIDs publisherIDs:publisherIDs completionHandler:completionHandler];
   }
 }
