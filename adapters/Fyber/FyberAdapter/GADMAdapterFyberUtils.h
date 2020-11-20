@@ -28,20 +28,11 @@ NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(NSInteger code,
 /// Creates and returns a GADVersionNumber from a specified string.
 GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionString);
 
-/// Creates an ad request object for Fyber from a given spot ID and connector.
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
-    NSString *_Nonnull spotID, id<GADMAdNetworkConnector> _Nonnull connector);
-
 /// Creates an ad request object for Fyber from a given spot ID and configuration.
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration);
 
-/// Creates an ad request object for Fyber from the specified information.
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull spotID,
-                                                             NSString *_Nullable keywords,
-                                                             CLLocation *_Nullable location);
-
 /// Initializes the Fyber SDK with the given app ID. Returns YES if Fyber is initialized
 /// successfully, otherwise NO and sets |error|.
-BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nonnull appID,
-                                         NSError *__autoreleasing _Nullable *_Nullable error);
+BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
+                                         NSError *_Nullable __autoreleasing *_Nullable error);

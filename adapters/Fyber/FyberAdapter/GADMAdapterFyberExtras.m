@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+#import "GADMAdapterFyberExtras.h"
 
-/// The purpose of the GADMAdapterUnityDataProvider protocol is to allow the singleton to interact
-/// with the adapter.
-@protocol GADMAdapterUnityDataProvider <NSObject>
-
-/// Returns the game ID to use for initializing the Unity Ads SDK.
-- (NSString *)getGameID;
-
-/// Returns placement ID for either reward-based video ad or interstitial ad of Unity Ads network.
-- (NSString *)getPlacementID;
-
-/// Called when an ad fails to load.
-- (void)didFailToLoadWithError:(nonnull NSError *)error;
+@implementation GADMAdapterFyberExtras
 
 @end

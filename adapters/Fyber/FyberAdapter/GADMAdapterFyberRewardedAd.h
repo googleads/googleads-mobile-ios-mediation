@@ -19,14 +19,14 @@
 @interface GADMAdapterFyberRewardedAd : NSObject
 
 /// Dedicated initializer to create a new instance of a rewarded ad.
-- (nonnull instancetype)
-    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration;
 
 /// Unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Loads a rewarded ad from the Fyber SDK.
-- (void)loadRewardedAd;
+- (void)loadRewardedAdWithCompletionHandler:
+    (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

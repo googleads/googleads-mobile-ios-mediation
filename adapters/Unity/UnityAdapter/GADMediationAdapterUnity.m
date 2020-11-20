@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADMediationAdapterUnity.h"
+#import <UnityAds/UnityAds.h>
+#import "GADMAdapterUnity.h"
 #import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityRewardedAd.h"
-#import "GADMAdapterUnitySingleton.h"
 #import "GADMAdapterUnityUtils.h"
-#import <UnityAds/UnityAds.h>
 
 @interface GADMediationAdapterUnity ()
 
@@ -52,8 +52,7 @@
     NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
   }
 
-  [[GADMAdapterUnitySingleton sharedInstance] initializeWithGameID:gameID];
-  completionHandler(nil);
+  [[GADMAdapterUnity alloc] initializeWithGameID:gameID withCompletionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {

@@ -15,6 +15,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "GADMAdapterFyberConstants.h"
+#import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberUtils.h"
 
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
@@ -25,7 +26,8 @@ void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
 
 NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(NSInteger code,
                                                               NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *info = @{NSLocalizedDescriptionKey : description};
+  NSDictionary<NSString *, NSString *> *info =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   return [NSError errorWithDomain:kGADMAdapterFyberErrorDomain code:code userInfo:info];
 }
 
@@ -45,22 +47,6 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
   return version;
 }
 
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
-    NSString *_Nonnull spotID, id<GADMAdNetworkConnector> _Nonnull connector) {
-  NSString *keywords;
-  if (connector.userKeywords) {
-    keywords = [connector.userKeywords componentsJoinedByString:@""];
-  }
-
-  CLLocation *location;
-  if (connector.userHasLocation) {
-    location = [[CLLocation alloc] initWithLatitude:connector.userLatitude
-                                          longitude:connector.userLongitude];
-  }
-
-  return GADMAdapterFyberBuildRequestWithSpotID(spotID, keywords, location);
-}
-
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
   CLLocation *location;
@@ -69,16 +55,18 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
                                           longitude:adConfiguration.userLongitude];
   }
 
-  return GADMAdapterFyberBuildRequestWithSpotID(spotID, nil, location);
-}
+  GADMAdapterFyberExtras *extras = adConfiguration.extras;
+  NSString *keywords = nil;
 
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull spotID,
-                                                             NSString *_Nullable keywords,
-                                                             CLLocation *_Nullable location) {
+  if (extras.keywords) {
+    keywords = extras.keywords;
+  }
+
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;
     builder.spotID = spotID;
     builder.timeout = 10;
+    builder.userData = extras.userData;
     if (keywords) {
       builder.keywords = keywords;
     }
@@ -90,8 +78,8 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull 
   return request;
 }
 
-BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nonnull appID,
-                                         NSError *__autoreleasing _Nullable *_Nullable error) {
+BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
+                                         NSError *_Nullable __autoreleasing *_Nullable error) {
   // If the appID is set, then the Fyber SDK has already been initialized.
   if (IASDKCore.sharedInstance.appID) {
     return YES;

@@ -64,8 +64,8 @@
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
                                    NSStringFromGADAdSize(adSize)];
-    NSError *error =
-        GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize, errorMessage);
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -75,8 +75,8 @@
                                                   networkExtras:networkExtras];
   self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -89,8 +89,8 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -166,18 +166,15 @@
     return;
   }
   _isAdLoaded = YES;
-
   UIView *bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
-  bannerView =
+  NSError *bannerViewError =
       [[GADMAdapterVungleRouter sharedInstance] renderBannerAdInView:bannerView
                                                             delegate:self
                                                               extras:[strongConnector networkExtras]
                                                       forPlacementID:self.desiredPlacement];
-  if (!bannerView) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                  @"Couldn't create ad view.");
-    [strongConnector adapter:strongAdapter didFailAd:error];
+  if (bannerViewError) {
+    [strongConnector adapter:strongAdapter didFailAd:bannerViewError];
     return;
   }
 
@@ -199,10 +196,14 @@
 
 - (void)willCloseAd {
   self.bannerState = BannerRouterDelegateStateClosing;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
 }
 
 - (void)didCloseAd {
   self.bannerState = BannerRouterDelegateStateClosed;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
 }
 
 - (void)trackClick {

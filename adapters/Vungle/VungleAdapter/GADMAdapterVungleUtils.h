@@ -14,6 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import <VungleSDK/VungleSDK.h>
+#import "GADMediationAdapterVungle.h"
 #import "VungleAdNetworkExtras.h"
 
 /// Safely adds |object| to |set| if |object| is not nil.
@@ -39,8 +40,9 @@ void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull us
 void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                           id<NSCopying> _Nullable key);
 
-/// Returns an NSError with the specified code and description.
-NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description);
 
 /// Returns a VungleAdSize object from the specified adSize

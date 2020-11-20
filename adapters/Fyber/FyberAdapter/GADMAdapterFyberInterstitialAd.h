@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,14 +15,17 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
-  /// Invalid server parameters.
-  GADMAdapterIronSourceErrorInvalidServerParameters = 101,
-  /// Unsupported ad format.
-  GADMAdapterIronSourceErrorAdFormatNotSupported = 102,
-  /// An ad is already loaded for this network configuration.
-  GADMAdapterIronSourceErrorAdAlreadyLoaded = 103,
-};
+@interface GADMAdapterFyberInterstitialAd : NSObject
 
-@interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
+/// Dedicated initializer to create a new instance of an interstitial ad.
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads an interstitial ad from the Fyber SDK.
+- (void)loadInterstitialAdWithCompletionHandler:
+    (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+
 @end

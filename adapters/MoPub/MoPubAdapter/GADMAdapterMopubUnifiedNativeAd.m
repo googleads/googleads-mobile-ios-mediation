@@ -1,7 +1,8 @@
 #import "GADMAdapterMopubUnifiedNativeAd.h"
 
+#import <MoPubSDK/Internal/Common/MPAdDestinationDisplayAgent.h>
+
 #import "GADMAdapterMoPubConstants.h"
-#import <MoPub/MPAdDestinationDisplayAgent.h>
 
 @interface GADMAdapterMopubUnifiedNativeAd () <MPAdDestinationDisplayAgentDelegate>
 @end
@@ -29,7 +30,7 @@
   MPAdDestinationDisplayAgent *_displayDestinationAgent;
 
   /// ViewController that should be used to present modal views for the ad.
-  UIViewController *_baseViewController;
+  __weak UIViewController *_baseViewController;
 
   /// Ad loader options for configuring the view of native ads.
   GADNativeAdViewAdOptions *_nativeAdViewOptions;
@@ -138,9 +139,11 @@
 }
 
 - (void)privacyIconTapped {
-  _displayDestinationAgent = [MPAdDestinationDisplayAgent agentWithDelegate:self];
+  _displayDestinationAgent =
+      (MPAdDestinationDisplayAgent *)[MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
-      displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]];
+         displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]
+      skAdNetworkClickthroughData:nil];
 }
 
 #pragma GCC diagnostic ignored "-Wundeclared-selector"

@@ -17,6 +17,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMAdapterChartboostConstants.h"
+#import "GADMChartboostError.h"
 
 #pragma mark - Private utility method prototypes
 
@@ -80,4 +81,33 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
                              libraryVersion:[GADRequest sdkVersion]
                              adapterVersion:kGADMAdapterChartboostVersion];
+}
+
+#pragma mark - Banner Util Methods
+
+CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (GADAdSizeEqualToSize(closestSize, kGADAdSizeBanner)) {
+    return CHBBannerSizeStandard;
+  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeMediumRectangle)) {
+    return CHBBannerSizeMedium;
+  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
+    return CHBBannerSizeLeaderboard;
+  }
+  if (error) {
+    NSString *description =
+        [NSString stringWithFormat:@"Chartboost's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADChartboostErrorWithDescription(description);
+  }
+
+  CHBBannerSize chartboostSize = {0};
+  return chartboostSize;
 }

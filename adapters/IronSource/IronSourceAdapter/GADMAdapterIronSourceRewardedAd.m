@@ -69,11 +69,9 @@
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-    [GADMAdapterIronSourceUtils onLog:@"Fail to setup, 'appKey' parameter is missing"];
-    NSError *error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"IronSource Adapter failed to setUp"
-              andReason:@"'appKey' parameter is missing"
-          andSuggestion:@"Make sure that 'appKey' server parameter is added"];
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorInvalidServerParameters,
+        @"'appKey' parameter is missing. Make sure that appKey' server parameter is added.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -114,18 +112,10 @@
 }
 
 - (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString
-                stringWithFormat:@"RewardedVideoDidFailToLoad for Instance ID: %@ with Error: %@",
-                                 instanceId, error]];
   _adLoadCompletionHandler(nil, error);
 }
 
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString stringWithFormat:@"IronSource rewardedVideo did fail to show with error: %@, "
-                                       @"for Instance ID: %@",
-                                       error.description, instanceId]];
   [_adEventDelegate didFailToPresentWithError:error];
 }
 

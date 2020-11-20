@@ -78,7 +78,7 @@
 
   if (adapterDelegate == nil) {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"loadRewardedAdWithDelegate adapterDelegate is null"]];
+        onLog:[NSString stringWithFormat:@"loadRewardedAdWithDelegate adapterDelegate is null."]];
     return;
   }
 
@@ -91,11 +91,10 @@
                                    instanceID]];
     [IronSource loadISDemandOnlyRewardedVideo:instanceID];
   } else {
-    NSError *Error =
-        [GADMAdapterIronSourceUtils createErrorWith:@"instance already exists"
-                                          andReason:@"couldn't load another one in the same time!"
-                                      andSuggestion:nil];
-    [adapterDelegate rewardedVideoDidFailToLoadWithError:Error instanceId:instanceID];
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorAdAlreadyLoaded,
+        @"Instance already loaded. Couldn't load another one in the same time!");
+    [adapterDelegate rewardedVideoDidFailToLoadWithError:error instanceId:instanceID];
   }
 }
 
@@ -113,7 +112,7 @@
   if (adapterDelegate == nil) {
     [GADMAdapterIronSourceUtils
         onLog:[NSString
-                  stringWithFormat:@"requestInterstitialAdWithDelegate adapterDelegate is null"]];
+                  stringWithFormat:@"requestInterstitialAdWithDelegate adapterDelegate is null."]];
     return;
   }
   if ([self canLoadInterstitialInstance:instanceID]) {
@@ -125,11 +124,10 @@
                                    instanceID]];
     [IronSource loadISDemandOnlyInterstitial:instanceID];
   } else {
-    NSError *Error =
-        [GADMAdapterIronSourceUtils createErrorWith:@"instance already exists"
-                                          andReason:@"couldn't load another one in the same time!"
-                                      andSuggestion:nil];
-    [adapterDelegate interstitialDidFailToLoadWithError:Error instanceId:instanceID];
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorAdAlreadyLoaded,
+        @"Instance already loaded. Couldn't load another one in the same time!");
+    [adapterDelegate interstitialDidFailToLoadWithError:error instanceId:instanceID];
   }
 }
 
@@ -156,16 +154,11 @@
     [GADMAdapterIronSourceUtils
         onLog:[NSString
                   stringWithFormat:
-                      @"ISMediationManager - rewardedVideoAdRewarded adapterDelegate is null"]];
+                      @"ISMediationManager - rewardedVideoAdRewarded adapterDelegate is null."]];
   }
 }
 
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceID {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString
-                stringWithFormat:@"ISMediationManager got rewardedVideoDidFailToShowWithError for "
-                                 @"instance %@ with error %@",
-                                 instanceID, error]];
   id<GADMAdapterIronSourceRewardedDelegate> delegate =
       [self getRewardedDelegateForInstanceID:instanceID];
   if (delegate) {
@@ -175,7 +168,7 @@
     [GADMAdapterIronSourceUtils
         onLog:[NSString
                   stringWithFormat:@"ISMediationManager - rewardedVideoDidFailToShowWithError "
-                                   @"adapterDelegate is null"]];
+                                   @"adapterDelegate is null."]];
   }
 }
 
@@ -191,7 +184,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - rewardedVideoDidOpen adapterDelegate is null"]];
+                            @"ISMediationManager - rewardedVideoDidOpen adapterDelegate is null."]];
   }
 }
 
@@ -207,8 +200,9 @@
     [delegate rewardedVideoDidClose:instanceID];
   } else {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - rewardedVideoDidClose adapterDelegate is null"]];
+        onLog:[NSString
+                  stringWithFormat:
+                      @"ISMediationManager - rewardedVideoDidClose adapterDelegate is null."]];
   }
 }
 
@@ -224,8 +218,9 @@
     [delegate rewardedVideoDidClick:instanceID];
   } else {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - rewardedVideoDidClick adapterDelegate is null"]];
+        onLog:[NSString
+                  stringWithFormat:
+                      @"ISMediationManager - rewardedVideoDidClick adapterDelegate is null."]];
   }
 }
 
@@ -242,16 +237,11 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - rewardedVideoDidLoad adapterDelegate is null"]];
+                            @"ISMediationManager - rewardedVideoDidLoad adapterDelegate is null."]];
   }
 }
 
 - (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceID {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString
-                stringWithFormat:@"ISMediationManager got rewardedVideoDidFailToLoadWithError for "
-                                 @"instance %@ with error %@",
-                                 instanceID, error]];
   id<GADMAdapterIronSourceRewardedDelegate> delegate =
       [self getRewardedDelegateForInstanceID:instanceID];
   if (delegate) {
@@ -261,7 +251,7 @@
     [GADMAdapterIronSourceUtils
         onLog:[NSString
                   stringWithFormat:@"ISMediationManager - rewardedVideoDidFailToLoadWithError "
-                                   @"adapterDelegate is null"]];
+                                   @"adapterDelegate is null."]];
   }
 }
 
@@ -275,7 +265,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - interstitialDidLoad adapterDelegate is null"]];
+                            @"ISMediationManager - interstitialDidLoad adapterDelegate is null."]];
   }
 }
 
@@ -288,7 +278,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"ISMediationManager - interstitialDidFailToLoadWithError "
-                                         @"adapterDelegate is null"]];
+                                         @"adapterDelegate is null."]];
   }
 }
 
@@ -300,7 +290,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - interstitialDidOpen adapterDelegate is null"]];
+                            @"ISMediationManager - interstitialDidOpen adapterDelegate is null."]];
   }
 }
 
@@ -313,7 +303,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - interstitialDidClose adapterDelegate is null"]];
+                            @"ISMediationManager - interstitialDidClose adapterDelegate is null."]];
   }
 }
 
@@ -326,7 +316,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"ISMediationManager - interstitialDidFailToShowWithError "
-                                         @"adapterDelegate is null"]];
+                                         @"adapterDelegate is null."]];
   }
 }
 
@@ -338,7 +328,7 @@
   } else {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:
-                            @"ISMediationManager - didClickInterstitial adapterDelegate is null"]];
+                            @"ISMediationManager - didClickInterstitial adapterDelegate is null."]];
   }
 }
 
@@ -406,7 +396,7 @@
   id<GADMAdapterIronSourceRewardedDelegate> delegate = adapterDelegate;
   if (delegate == nil) {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"changeInstanceState- adapterDelegate is nil"]];
+        onLog:[NSString stringWithFormat:@"changeInstanceState - adapterDelegate is nil."]];
     return;
   }
   [GADMAdapterIronSourceUtils
@@ -443,7 +433,7 @@
 
   if (delegate == nil) {
     [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"changeInstanceState- adapterDelegate is nil"]];
+        onLog:[NSString stringWithFormat:@"changeInstanceState - adapterDelegate is nil."]];
     return;
   }
   [GADMAdapterIronSourceUtils

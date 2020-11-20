@@ -16,6 +16,8 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
+#import "GADMediationAdapterMyTarget.h"
+
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
@@ -36,6 +38,16 @@ NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonn
   return [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
                              code:1000
                          userInfo:userInfo];
+}
+
+NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
+                                                                 NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
@@ -97,6 +109,38 @@ GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
     nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
   }
   return nativeAdImage;
+}
+
+MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  /// Find closest supported ad size from a given ad size.
+  MTRGAdSize *adSizeAdaptive =
+      [MTRGAdSize adSizeForCurrentOrientationForWidth:gadAdSize.size.width];
+  GADAdSize gadAdSizeAdaptive = GADAdSizeFromCGSize(adSizeAdaptive.size);
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(gadAdSizeAdaptive)
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (GADAdSizeEqualToSize(closestSize, kGADAdSizeBanner)) {
+    return [MTRGAdSize adSize320x50];
+  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeMediumRectangle)) {
+    return [MTRGAdSize adSize300x250];
+  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
+    return [MTRGAdSize adSize728x90];
+  } else if (!GADAdSizeEqualToSize(closestSize, kGADAdSizeInvalid)) {
+    // Adaptive
+    return [MTRGAdSize adSizeForCurrentOrientationForWidth:closestSize.size.width];
+  }
+  if (error) {
+    NSString *description =
+        [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorBannerSizeMismatch, description);
+  }
+  return nil;
 }
 
 @implementation GADMAdapterMyTargetUtils

@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UnityAds/UnityAds.h>
-
 #import "GADMediationAdapterUnity.h"
 
 /// Safely adds |object| to |set| if the |object| is not nil.
 void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+/// Configures metadata needed by Unity Ads SDK before initialization.
+void GADMAdapterUnityConfigureMediationService(void);
 
 /// Safely sets |value| for |key| in mapTable if |key| and |value| are not nil.
 void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,

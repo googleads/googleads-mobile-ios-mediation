@@ -15,6 +15,21 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADMAdapterMyTargetErrorCode) {
+  /// MyTarget SDK does not yet have an ad available.
+  GADMAdapterMyTargetErrorNoFill = 100,
+  /// Missing server parameters.
+  GADMAdapterMyTargetErrorInvalidServerParameters = 101,
+  /// Unsupported ad format.
+  GADMAdapterMyTargetErrorUnsupportedAdFormat = 102,
+  /// Tried to show a myTarget ad that is not loaded.
+  GADMAdapterMyTargetErrorAdNotLoaded = 103,
+  /// Banner Size Mismatch.
+  GADMAdapterMyTargetErrorBannerSizeMismatch = 104,
+  /// Missing required native ad assets.
+  GADMAdapterMyTargetErrorMissingNativeAssets = 105
+};
+
 @interface GADMediationAdapterMyTarget : NSObject <GADMediationAdapter>
 
 @end

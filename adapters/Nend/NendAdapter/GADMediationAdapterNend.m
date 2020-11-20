@@ -19,29 +19,16 @@
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
-#import "GADMAdapterNendNativeAdLoader.h"
 #import "GADMAdapterNendRewardedAd.h"
 #import "GADMAdapterNendUtils.h"
-#import "GADMediationAdapterNendNativeForwarder.h"
+#import "GADMediationAdapterNendNativeAdLoader.h"
 
 @implementation GADMediationAdapterNend {
-  /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _connector;
-
   /// Rewarded ad.
   GADMAdapterNendRewardedAd *_rewardedAd;
 
-  /// nend's native mediation forwarder.
-  GADMediationAdapterNendNativeForwarder *_nendNativeForwarder;
-}
-
-- (nonnull instancetype)initWithGADMAdNetworkConnector:
-    (nonnull id<GADMAdNetworkConnector>)connector {
-  self = [super init];
-  if (self != nil) {
-    _connector = connector;
-  }
-  return self;
+  /// nend's native mediation ad loader.
+  GADMediationAdapterNendNativeAdLoader *_nendNativeAdLoader;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -84,45 +71,6 @@
   return [GADMAdapterNendExtras class];
 }
 
-+ (nonnull NSString *)adapterVersion {
-  return kGADMAdapterNendVersion;
-}
-
-- (void)stopBeingDelegate {
-  // Do nothing here.
-}
-
-- (void)getBannerWithSize:(GADAdSize)adSize {
-  NSError *error =
-      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInvalidRequest, @"Not supported.");
-  [_connector adapter:self didFailAd:error];
-}
-
-- (void)getInterstitial {
-  NSError *error =
-      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInvalidRequest, @"Not supported.");
-  [_connector adapter:self didFailAd:error];
-}
-
-- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
-  // Do nothing here.
-}
-
-- (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
-                       options:(nullable NSArray<GADAdLoaderOptions *> *)options {
-  _nendNativeForwarder =
-      [[GADMediationAdapterNendNativeForwarder alloc] initWithAdapter:self connector:_connector];
-  [_nendNativeForwarder getNativeAdWithAdTypes:adTypes options:options];
-}
-
-- (BOOL)handlesUserImpressions {
-  return YES;
-}
-
-- (BOOL)handlesUserClicks {
-  return YES;
-}
-
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
@@ -130,6 +78,13 @@
   _rewardedAd = [[GADMAdapterNendRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];
   [_rewardedAd loadRewardedAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nendNativeAdLoader =
+      [[GADMediationAdapterNendNativeAdLoader alloc] initWithAdConfiguration:adConfiguration];
+  [_nendNativeAdLoader loadNativeAdWithCompletionHandler:completionHandler];
 }
 
 @end

@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,14 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IASDKCore/IASDKCore.h>
 
-typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
-  /// Invalid server parameters.
-  GADMAdapterIronSourceErrorInvalidServerParameters = 101,
-  /// Unsupported ad format.
-  GADMAdapterIronSourceErrorAdFormatNotSupported = 102,
-  /// An ad is already loaded for this network configuration.
-  GADMAdapterIronSourceErrorAdAlreadyLoaded = 103,
-};
+@interface GADMAdapterFyberExtras : NSObject <GADAdNetworkExtras>
 
-@interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
+/// Use this to pass the user's info
+@property(nonatomic, copy, nullable) IAUserData *userData;
+
+/// Use this to pass keywords
+@property(nonatomic, copy, nullable) NSString *keywords;
+
 @end

@@ -56,10 +56,14 @@ void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_
   }
 }
 
-NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(NSInteger code,
+NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *userInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterVungleErrorDomain code:code userInfo:userInfo];
+  NSDictionary<NSString *, NSString *> *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {

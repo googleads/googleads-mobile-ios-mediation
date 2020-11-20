@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,14 @@ void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
   if (object) {
     [set addObject:object];  // Allow pattern.
   }
+}
+
+void GADMAdapterUnityConfigureMediationService(void) {
+  UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
+  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
+  [mediationMetaData commit];
 }
 
 void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,

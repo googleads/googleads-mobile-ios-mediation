@@ -66,14 +66,15 @@
   if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
-                                 kGADErrorMediationDataError, @"Placement ID not specified.")];
+                                 GADMAdapterVungleErrorInvalidServerParameters,
+                                 @"Placement ID not specified.")];
     return;
   }
 
   VungleSDK *sdk = [VungleSDK sharedSDK];
   if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorInvalidRequest,
+        GADMAdapterVungleErrorAdAlreadyLoaded,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
     [strongConnector adapter:self didFailAd:error];
     return;
@@ -86,8 +87,8 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -109,10 +110,16 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+  NSError *error = nil;
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
                                                delegate:self
-                                                 extras:[strongConnector networkExtras]]) {
+                                                 extras:[strongConnector networkExtras]
+                                                  error:&error]) {
+    // Ad not playable.
+    if (error) {
+      NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
+    }
     [strongConnector adapterWillPresentInterstitial:self];
     [strongConnector adapterDidDismissInterstitial:self];
     return;
