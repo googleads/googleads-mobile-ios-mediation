@@ -56,7 +56,15 @@
     GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
   }
 
-  [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
+  if (!mediaIDs.count && !publisherIDs.count) {
+    [self setUpCaseNotExistsAnyWithCompletionHandler:completionHandler];
+  } else if (!mediaIDs.count && publisherIDs.count) {
+    [self setupCaseExistsPublisherIDs:publisherIDs completionHandler:completionHandler];
+  } else if (mediaIDs.count && !publisherIDs.count) {
+    [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
+  } else if (mediaIDs.count && publisherIDs.count) {
+    [self setUpCaseExistsMediaIDs:mediaIDs publisherIDs:publisherIDs completionHandler:completionHandler];
+  }
 }
 
 + (void)setupCaseExistsMediaIDs: (nonnull NSSet *)mediaIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
@@ -80,6 +88,19 @@
   [manager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
     completionHandler(error);
   }];
+}
+
++ (void)setUpCaseNotExistsAnyWithCompletionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
+  NSError *error = [GADMMaioError errorWithDescription:@"Maio mediation configuration did not contain a valid identifier"];
+  completionHandler(error);
+}
+
++ (void)setupCaseExistsPublisherIDs: (nonnull NSSet *)publisherIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
+  completionHandler(nil);
+}
+
++ (void)setUpCaseExistsMediaIDs: (nonnull NSSet *)mediaIDs publisherIDs: (nonnull NSSet *)publisherIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
+  [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {
