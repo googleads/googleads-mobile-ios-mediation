@@ -176,14 +176,18 @@
 
 - (void)initializationComplete {
   NSLog(@"Unity Ads initialized successfully");
-  _initCompletionHandler(nil);
+  if (_initCompletionHandler) {
+    _initCompletionHandler(nil);
+  }
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error
                  withMessage:(nonnull NSString *)message {
-  NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(
-      GADMAdapterUnityErrorAdInitializationFailure, message);
-  _initCompletionHandler(adapterError);
+  if (_initCompletionHandler) {
+    NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(
+        GADMAdapterUnityErrorAdInitializationFailure, message);
+    _initCompletionHandler(adapterError);
+  }
 }
 
 @end
