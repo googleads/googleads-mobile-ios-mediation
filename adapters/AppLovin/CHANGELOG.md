@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added the `GADMediationAdapterAppLovin.SDKSettings` property. Publishers may now configure AppLovin SDK settings through this API.
+
 #### Version 6.14.9.0
 - Verified compatibility with AppLovin SDK 6.14.9.
 

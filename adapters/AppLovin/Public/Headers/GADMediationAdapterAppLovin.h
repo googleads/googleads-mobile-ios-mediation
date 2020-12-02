@@ -41,4 +41,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
 
+@property(class, nonatomic, strong, readonly) ALSdkSettings *SDKSettings;
+
 @end

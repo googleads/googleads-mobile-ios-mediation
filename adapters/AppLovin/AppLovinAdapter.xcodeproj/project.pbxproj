@@ -54,7 +54,7 @@
 		45866691237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4586668F237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.m */; };
 		45866694237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 45866692237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.h */; };
 		45866695237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45866693237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.m */; };
-		45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; };
+		45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45BFFBCE2228ADE100C96A67 /* GADMediationAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */; };
 		45BFFBD22228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFBD02228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.h */; };
 		45BFFBD32228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFBD12228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.m */; };
@@ -155,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */,
+				45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */,
 				359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */,
 			);
 			path = Headers;
@@ -207,7 +208,6 @@
 				1D4C081B20192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.m */,
 				1D4C081C20192BAF00B1876F /* GADMAdapterAppLovinUtils.h */,
 				1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */,
-				45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */,
 				45BFFBCC2228ADE100C96A67 /* GADMediationAdapterAppLovin.m */,
 				45BFFBCF2228AE2200C96A67 /* OpenBidding */,
 			);
@@ -252,21 +252,21 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
+				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
 				454A17BA2332B7C10022ACF9 /* GADMAdapterAppLovinBannerDelegate.h in Headers */,
 				45866690237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.h in Headers */,
+				45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */,
 				1D4C082220192BAF00B1876F /* GADMAdapterAppLovinConstant.h in Headers */,
 				45BFFBD62228AE6A00C96A67 /* GADMRTBAdapterAppLovinBannerRenderer.h in Headers */,
 				1D4C082120192BAF00B1876F /* GADMAdapterAppLovinRewardBasedVideoAd.h in Headers */,
 				1D4C082520192BAF00B1876F /* GADMAdapterAppLovin.h in Headers */,
-				359ADFA01EFDBDA600E2DBFE /* AppLovinAdapter.h in Headers */,
 				45BFFBDA2228AE8900C96A67 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				454A17BE2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.h in Headers */,
 				45BFFBD22228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.h in Headers */,
 				45866694237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */,
 				457F4D81233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h in Headers */,
-				B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */,
-				45BFFBCD2228ADE100C96A67 /* GADMediationAdapterAppLovin.h in Headers */,
 				454A17C22332B9E90022ACF9 /* GADMAppLovinRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
