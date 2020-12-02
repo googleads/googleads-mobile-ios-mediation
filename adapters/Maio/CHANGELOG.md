@@ -1,5 +1,13 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 1.5.6.0
+- Verified compatibility with maio SDK version 1.5.6.
+- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+
+Build and tested with:
+- Google Mobile Ads SDK version 7.68.0.
+- Maio SDK version 1.5.6.
+
 #### Version 1.5.5.0
 - Verified compatibility with maio SDK version 1.5.5.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
