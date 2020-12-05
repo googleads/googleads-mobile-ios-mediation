@@ -30,7 +30,16 @@
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {    
+  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterMinimumOSVersion)) {
+    NSString* logError =
+      [NSString stringWithFormat:@"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
+       kGADMAdapterMinimumOSVersion];
+    NSLog(@"%@", logError);
+    completionHandler(GADChartboostErrorWithDescription(logError));
+    return;
+  }
+    
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
