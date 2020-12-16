@@ -29,14 +29,11 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorAdAlreadyLoaded = 104,
   /// SDK key not found.
   GADMAdapterAppLovinErrorMissingSDKKey = 105,
-  /// There was an error loading data from the network.
-  GADMAdapterAppLovinErrorLoadingImages = 106,
   /// Bid token is empty.
   GADMAdapterAppLovinErrorEmptyBidToken = 107,
   /// Unsupported ad format.
-  GADMAdapterAppLovinErrorUnsupportedAdFormat = 108,
-  /// AppLovin sent a successful load callback but loaded zero ads.
-  GADMAdapterAppLovinErrorZeroAdsLoaded = 110
+  GADMAdapterAppLovinErrorUnsupportedAdFormat = 108
+  // Next ID = 111
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
