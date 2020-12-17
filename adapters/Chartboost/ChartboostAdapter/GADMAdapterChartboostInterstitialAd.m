@@ -57,15 +57,16 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterMinimumOSVersion)) {
-    NSString* logError =
-      [NSString stringWithFormat:@"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-       kGADMAdapterMinimumOSVersion];
+  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+    NSString *logError = [NSString
+        stringWithFormat:
+            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
+            kGADMAdapterChartboostMinimumOSVersion];
     NSLog(@"%@", logError);
     [strongConnector adapter:strongAdapter didFailAd:GADChartboostErrorWithDescription(logError)];
     return;
   }
-    
+
   NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
   NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]

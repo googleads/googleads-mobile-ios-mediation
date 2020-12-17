@@ -20,7 +20,9 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                    \
+  ([[[UIDevice currentDevice] systemVersion] compare:v \
+                                             options:NSNumericSearch] == NSOrderedAscending)
 
 /// Sets |value| for |key| in |dictionary| if |value| is not nil.
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
