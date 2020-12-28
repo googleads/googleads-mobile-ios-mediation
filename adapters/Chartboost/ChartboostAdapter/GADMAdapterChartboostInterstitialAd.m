@@ -58,12 +58,13 @@
   }
 
   if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
-    NSString *logError = [NSString
+    NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             kGADMAdapterChartboostMinimumOSVersion];
-    NSLog(@"%@", logError);
-    [strongConnector adapter:strongAdapter didFailAd:GADChartboostErrorWithDescription(logError)];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
@@ -73,8 +74,9 @@
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load interstitial ad from Chartboost: %@", error.localizedDescription);
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorInvalidServerParameters,
+        @"App ID and/or App Signature cannot be nil.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -91,9 +93,9 @@
             }
 
             if (!success) {
-              NSError *error =
-                  GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-              NSLog(@"%@", error.localizedDescription);
+              NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+                  GADMAdapterChartboostErrorInitializationFailure,
+                  @"Failed to initialize Chartboost SDK.");
               [strongConnector adapter:strongAdapter didFailAd:error];
               return;
             }
@@ -136,7 +138,7 @@
   }
 
   if (error) {
-    NSError *loadError = NSErrorForCHBCacheError(error);
+    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
     NSLog(@"Failed to load interstitial ad from Chartboost: %@", loadError.localizedDescription);
     [strongConnector adapter:strongAdapter didFailAd:loadError];
     return;
@@ -155,7 +157,7 @@
   [strongConnector adapterWillPresentInterstitial:strongAdapter];
 
   if (error) {
-    NSError *showError = NSErrorForCHBShowError(error);
+    NSError *showError = GADMChartboostErrorForCHBShowError(error);
     NSLog(@"Failed to show interstitial ad from Chartboost: %@", showError.localizedDescription);
 
     // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
@@ -174,7 +176,7 @@
 
   [strongConnector adapterDidGetAdClick:strongAdapter];
   if (error) {
-    NSError *clickError = NSErrorForCHBClickError(error);
+    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
     NSLog(@"An error occurred when clicking the Chartboost interstitial ad: %@",
           clickError.localizedDescription);
     return;

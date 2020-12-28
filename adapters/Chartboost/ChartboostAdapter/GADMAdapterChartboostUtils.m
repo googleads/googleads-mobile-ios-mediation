@@ -83,6 +83,16 @@ CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
                              adapterVersion:kGADMAdapterChartboostVersion];
 }
 
+NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
+    GADMAdapterChartboostErrorCode code, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterChartboostErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
+}
+
 #pragma mark - Banner Util Methods
 
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
@@ -105,7 +115,8 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
         [NSString stringWithFormat:@"Chartboost's supported banner sizes are not valid for the "
                                    @"requested ad size. Requested ad size: %@",
                                    NSStringFromGADAdSize(gadAdSize)];
-    *error = GADChartboostErrorWithDescription(description);
+    *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorBannerSizeMismatch, description);
   }
 
   CHBBannerSize chartboostSize = {0};
