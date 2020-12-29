@@ -1,7 +1,13 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 6.14.10.0
+- Verified compatibility with AppLovin SDK 6.14.10.
+- Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 - Added the `GADMediationAdapterAppLovin.SDKSettings` property. Publishers may now configure AppLovin SDK settings through this API.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.69.0.
+- AppLovin SDK version 6.14.10.
 
 #### Version 6.14.9.0
 - Verified compatibility with AppLovin SDK 6.14.9.
