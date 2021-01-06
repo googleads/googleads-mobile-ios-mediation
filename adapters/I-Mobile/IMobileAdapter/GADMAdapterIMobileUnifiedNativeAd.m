@@ -241,6 +241,7 @@
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
   [_iMobileNativeAd sendClick];
+  [_delegate willBackgroundApplication];
 }
 
 @end
