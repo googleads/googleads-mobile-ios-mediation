@@ -15,6 +15,12 @@ fi
 # Create output directory.
 mkdir -p "${OUTPUT_FOLDER}"
 
+# Build static library for iOS Device.
+xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphoneos" ARCHS="armv7 arm64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
+
+# Build static library for iOS Simulator.
+xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphonesimulator" ARCHS="i386 x86_64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
+
 # Export framework at path.
 export FRAMEWORK_LOCATION="${BUILT_PRODUCTS_DIR}/${FRAMEWORK_NAME}.framework"
 
@@ -26,12 +32,6 @@ mkdir -p "${FRAMEWORK_LOCATION}/Versions/A/Headers"
 /bin/ln -sfh Versions/Current/Headers "${FRAMEWORK_LOCATION}/Headers"
 /bin/ln -sfh "Versions/Current/${FRAMEWORK_NAME}" \
 "${FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
-
-# Build static library for iOS Device.
-xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphoneos" ARCHS="armv7 arm64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
-
-# Build static library for iOS Simulator.
-xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphonesimulator" ARCHS="i386 x86_64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}"
 
 # Create universal framework using lipo.
 lipo -create "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${LIB_NAME}.a" "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${LIB_NAME}.a" -output "${FRAMEWORK_LOCATION}/Versions/A/${FRAMEWORK_NAME}"
