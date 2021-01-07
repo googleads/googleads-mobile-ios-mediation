@@ -394,7 +394,6 @@
 		00DD266F22F10B0D0039C1D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -402,7 +401,6 @@
 		00DD267022F10B0D0039C1D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -410,14 +408,12 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -508,7 +504,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XCFrameworks",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -521,7 +516,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/XCFrameworks",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
