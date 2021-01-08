@@ -1,9 +1,14 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 2.0.33.1
 - Added standardized adapter error codes and messages.
 - Adapter now limits requesting of multiple interstitial ads using the same i-mobile Spot ID.
 - Adapter now forwards the `-nativeAdWillLeaveApplication:` callback when native ads are tapped.
+- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.68.0.
+- i-mobile SDK version 2.0.33.
 
 #### Version 2.0.33.0
 - Verified compatibility with i-mobile SDK version 2.0.33.
