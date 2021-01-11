@@ -1,5 +1,8 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fixed an issue where the media view is sometimes displayed in the incorrect position.
+
 #### Version 7.0.1.0
 - Verified compatibility with nend SDK 7.0.1.
 - Updated the minimum required Google Mobile Ads SDK version to 7.69.0.
