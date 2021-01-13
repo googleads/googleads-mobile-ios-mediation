@@ -38,6 +38,15 @@
   /// GMA SDK, not set on the GMA SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
 
+  /// Fyber Ad Spot to be loaded.
+  IAAdSpot *_adSpot;
+
+  /// Fyber MRAID controller to support HTML ads.
+  IAMRAIDContentController *_MRAIDContentController;
+
+  /// Fyber video controller to support video ads and to catch video progress events.
+  IAVideoContentController *_videoContentController;
+
   /// Fyber fullscreen controller to catch interstitial related ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
 }
@@ -72,15 +81,27 @@
     return delegate;
   };
 
-  NSError *initError = nil;
-  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
-      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID], &initError);
-  if (!didInitialize) {
-    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", initError.localizedDescription);
-    _loadCompletionHandler(nil, initError);
-    return;
-  }
+  GADMAdapterFyberInterstitialAd *__weak weakSelf = self;
+  GADMAdapterFyberInitializeWithAppId(
+      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID],
+      ^(NSError *_Nullable error) {
+        GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
 
+        if (error) {
+          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+                              error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+          return;
+        }
+
+        [self loadInterstitialAd];
+      });
+}
+
+- (void)loadInterstitialAd {
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
     NSString *errorMessage = @"Missing or Invalid Spot ID.";
@@ -91,13 +112,10 @@
     return;
   }
 
-  IAAdRequest *request =
-      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
-
-  IAMRAIDContentController *MRAIDContentController =
+  _MRAIDContentController =
       [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
       }];
-  IAVideoContentController *videoContentController =
+  _videoContentController =
       [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder){
       }];
 
@@ -110,11 +128,13 @@
         }
 
         builder.unitDelegate = strongSelf;
-        [builder addSupportedContentController:MRAIDContentController];
-        [builder addSupportedContentController:videoContentController];
+        [builder addSupportedContentController:strongSelf->_MRAIDContentController];
+        [builder addSupportedContentController:strongSelf->_videoContentController];
       }];
 
-  IAAdSpot *adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
+  IAAdRequest *request =
+      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+  _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
     builder.mediationType = [[IAMediationAdMob alloc] init];
 
@@ -126,8 +146,8 @@
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
-  [adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
-                                  NSError *_Nullable error) {
+  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
+                                   NSError *_Nullable error) {
     GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
