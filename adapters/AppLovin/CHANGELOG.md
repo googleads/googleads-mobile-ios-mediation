@@ -1,5 +1,12 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 6.15.0.0
+- Verified compatibility with AppLovin SDK 6.15.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.69.0.
+- AppLovin SDK version 6.15.0.
+
 #### Version 6.14.11.0
 - Verified compatibility with AppLovin SDK 6.14.11.
 
