@@ -52,7 +52,12 @@ NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTa
 
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
                                          id<GADMAdNetworkConnector> _Nonnull connector) {
-  switch (connector.userGender) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  GADGender userGender = connector.userGender;
+  NSDate *birthday = connector.userBirthday;
+#pragma clang diagnostic pop
+  switch (userGender) {
     case kGADGenderMale:
       customParams.gender = MTRGGenderMale;
       break;
@@ -64,7 +69,6 @@ void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams
       break;
   }
 
-  NSDate *birthday = connector.userBirthday;
   if (birthday) {
     NSCalendar *calendar =
         [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -128,9 +132,15 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
     return [MTRGAdSize adSize300x250];
   } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
     return [MTRGAdSize adSize728x90];
-  } else if (!GADAdSizeEqualToSize(closestSize, kGADAdSizeInvalid)) {
-    // Adaptive
-    return [MTRGAdSize adSizeForCurrentOrientationForWidth:closestSize.size.width];
+  } else {
+    CGFloat width = closestSize.size.width;
+    CGFloat height = closestSize.size.height;
+    if (width > 0 &&
+        height >= kGADMAdapterMyTargetBannerHeightMin &&
+        height < kGADMAdapterMyTargetBannerAspectRatioMin * width) {
+      // Adaptive
+      return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
+    }
   }
   if (error) {
     NSString *description =
