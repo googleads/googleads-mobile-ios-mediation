@@ -48,7 +48,7 @@ mkdir -p "${OUTPUT_FOLDER}"
     FRAMEWORK_LOCATION_SIMULATOR="${BUILD_DIR_SIMULATOR}/${FRAMEWORK_NAME}.framework"
     mkdir -p ${BUILD_DIR_SIMULATOR}
 
-    xcodebuild archive -scheme Adapter -configuration "${CONFIGURATION}" -destination="generic/platform=iOS Simulator" -sdk iphonesimulator -archivePath $BUILD_DIR_SIMULATOR/archive ARCHS="i386 x86_64" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    xcodebuild archive -scheme Adapter -configuration "${CONFIGURATION}" -destination="generic/platform=iOS Simulator" -sdk iphonesimulator -archivePath $BUILD_DIR_SIMULATOR/archive ARCHS="arm64 i386 x86_64" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
     # Create the path to the real framework headers.
     mkdir -p "${FRAMEWORK_LOCATION_SIMULATOR}/Versions/A/Headers"
