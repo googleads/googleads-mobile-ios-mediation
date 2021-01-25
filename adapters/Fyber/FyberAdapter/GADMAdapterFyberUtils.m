@@ -18,6 +18,13 @@
 #import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberUtils.h"
 
+void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
@@ -78,21 +85,26 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
   return request;
 }
 
-BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
-                                         NSError *_Nullable __autoreleasing *_Nullable error) {
-  // If the appID is set, then the Fyber SDK has already been initialized.
-  if (IASDKCore.sharedInstance.appID) {
-    return YES;
+void GADMAdapterFyberInitializeWithAppId(
+    NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler) {
+  if (IASDKCore.sharedInstance.isInitialised) {
+    completionHandler(nil);
+    return;
   }
 
   if (!appID.length) {
-    *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        kGADErrorInternalError,
-        @"Fyber Marketplace SDK could not be initialized; missing or invalid application ID.");
-    return NO;
+    NSString *errorMessage = @"Missing or invalid Application ID.";
+    GADMAdapterFyberLog(@"Failed to load ad: %@", errorMessage);
+    NSError *error =
+        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    completionHandler(error);
+    return;
   }
 
-  GADMAdapterFyberLog(@"Configuring Fyber Marketplace SDK with application ID: %@.", appID);
-  [IASDKCore.sharedInstance initWithAppID:appID];
-  return (IASDKCore.sharedInstance.appID != nil);
+  GADMAdapterFyberLog(@"Initializing Fyber Marketplace SDK with application ID: %@", appID);
+  [IASDKCore.sharedInstance initWithAppID:appID
+                          completionBlock:^(BOOL success, NSError *_Nullable error) {
+                            completionHandler(error);
+                          }
+                          completionQueue:nil];
 }

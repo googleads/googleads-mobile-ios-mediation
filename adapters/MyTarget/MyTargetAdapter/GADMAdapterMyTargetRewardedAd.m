@@ -85,9 +85,8 @@ BOOL _isRewardedAdLoaded;
 
   NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(credentials);
   if (slotId <= 0) {
-    MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
-    NSError *error =
-        GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId);
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorInvalidServerParameters, @"Slot ID cannot be nil.");
     _completionHandler(nil, error);
     return;
   }
@@ -103,7 +102,8 @@ BOOL _isRewardedAdLoaded;
   MTRGLogInfo();
 
   if (!_isRewardedAdLoaded || !_rewardedAd) {
-    NSError *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorNoAd);
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorAdNotLoaded, @"No Ad loaded.");
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
@@ -122,7 +122,8 @@ BOOL _isRewardedAdLoaded;
               rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   MTRGLogError(reason);
-  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
+  NSError *error =
+      GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorNoFill, reason);
   _completionHandler(nil, error);
 }
 

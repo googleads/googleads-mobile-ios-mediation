@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,21 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
-/// Adapter for native ads.
-@interface GADMediationAdapterIMobile
-    : NSObject <GADMediationAdapter, GADMAdNetworkAdapter, IMobileSdkAdsDelegate>
+typedef NS_ENUM(NSInteger, GADMAdapterIMobileErrorCode) {
+  /// Missing or invalid server parameters.
+  GADMAdapterIMobileErrorInvalidServerParameters = 101,
+  /// Unsupported ad size requested.
+  GADMAdapterIMobileErrorBannerSizeMismatch = 102,
+  /// i-mobile failed to present an ad.
+  GADMAdapterIMobileErrorAdNotPresented = 103,
+  /// i-mobile returned an empty native ad array.
+  GADMAdapterIMobileErrorEmptyNativeAdArray = 104,
+  /// i-mobile failed to download native ad assets.
+  GADMAdapterIMobileErrorNativeAssetsDownloadFailed = 105,
+  /// i-mobile does not support requesting for multiple interstitial ads using the same Spot ID.
+  GADMAdapterIMobileErrorAdAlreadyLoaded = 106
+};
+
+@interface GADMediationAdapterIMobile : NSObject
 
 @end

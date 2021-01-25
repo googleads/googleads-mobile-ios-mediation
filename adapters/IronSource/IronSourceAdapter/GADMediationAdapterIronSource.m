@@ -43,12 +43,9 @@
   }
 
   if (!appKeys.count) {
-    [GADMAdapterIronSourceUtils
-        onLog:@"IronSource mediation configurations did not contain a valid app key."];
-    NSError *error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"IronSource Adapter failed to initialize"
-              andReason:@"'appKey' parameter is missing"
-          andSuggestion:@"Make sure that 'appKey' server parameter is added"];
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorInvalidServerParameters,
+        @"IronSource mediation configurations did not contain a valid app key.");
     completionHandler(error);
     return;
   }

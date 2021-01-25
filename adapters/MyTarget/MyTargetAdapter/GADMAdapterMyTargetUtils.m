@@ -16,6 +16,8 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
+#import "GADMediationAdapterMyTarget.h"
+
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
@@ -38,9 +40,24 @@ NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonn
                          userInfo:userInfo];
 }
 
+NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
+                                                                 NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
+}
+
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
                                          id<GADMAdNetworkConnector> _Nonnull connector) {
-  switch (connector.userGender) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  GADGender userGender = connector.userGender;
+  NSDate *birthday = connector.userBirthday;
+#pragma clang diagnostic pop
+  switch (userGender) {
     case kGADGenderMale:
       customParams.gender = MTRGGenderMale;
       break;
@@ -52,7 +69,6 @@ void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams
       break;
   }
 
-  NSDate *birthday = connector.userBirthday;
   if (birthday) {
     NSCalendar *calendar =
         [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -116,15 +132,23 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
     return [MTRGAdSize adSize300x250];
   } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
     return [MTRGAdSize adSize728x90];
-  } else if (!GADAdSizeEqualToSize(closestSize, kGADAdSizeInvalid)) {
-    // Adaptive
-    return [MTRGAdSize adSizeForCurrentOrientationForWidth:closestSize.size.width];
+  } else {
+    CGFloat width = closestSize.size.width;
+    CGFloat height = closestSize.size.height;
+    if (width > 0 &&
+        height >= kGADMAdapterMyTargetBannerHeightMin &&
+        height < kGADMAdapterMyTargetBannerAspectRatioMin * width) {
+      // Adaptive
+      return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
+    }
   }
   if (error) {
-    [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
-                               @"requested ad size. Requested ad size: %@",
-                               NSStringFromGADAdSize(gadAdSize)];
-    *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorInvalidSize);
+    NSString *description =
+        [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorBannerSizeMismatch, description);
   }
   return nil;
 }

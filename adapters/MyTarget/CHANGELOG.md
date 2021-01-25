@@ -1,5 +1,49 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Version 5.9.9.1
+- Fixed an issue where banner ads sometimes load with a larger size than requested.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.69.0.
+- MyTarget SDK version 5.9.9
+
+#### Version 5.9.9.0
+- Verified compatibility with myTarget SDK version 5.9.9.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.69.0.
+- MyTarget SDK version 5.9.9
+
+#### Version 5.9.8.0
+- Verified compatibility with myTarget SDK version 5.9.8.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.69.0.
+- MyTarget SDK version 5.9.8
+
+#### Version 5.9.7.0
+- Verified compatibility with myTarget SDK version 5.9.7.
+- Now requires Google Mobile Ads SDK version 7.69.0 or higher.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.69.0.
+- MyTarget SDK version 5.9.7
+
+#### Version 5.9.6.0
+- Verified compatibility with myTarget SDK version 5.9.6.
+- Added standardized adapter error codes and messages.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.68.0.
+- MyTarget SDK version 5.9.6
+
+#### Version 5.9.5.0
+- Verified compatibility with myTarget SDK version 5.9.5.
+
+Build and tested With:
+- Google Mobile Ads SDK version 7.68.0.
+- MyTarget SDK version 5.9.5
+
 #### Version 5.9.4.0
 - Verified compatibility with myTarget SDK version 5.9.4.
 
@@ -67,7 +111,7 @@ Build and tested With:
 Build and tested With:
 - Google Mobile Ads SDK version 7.61.0.
 - MyTarget SDK version 5.7.0
-.
+
 #### Version 5.6.3.0
 - Verified compatibility with myTarget SDK version 5.6.3.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.

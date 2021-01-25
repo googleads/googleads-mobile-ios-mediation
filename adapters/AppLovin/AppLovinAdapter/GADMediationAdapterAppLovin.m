@@ -31,6 +31,15 @@
   GADMAdapterAppLovinRewardedRenderer *_rewardedRenderer;
 }
 
++ (ALSdkSettings *)SDKSettings {
+  static ALSdkSettings *GADMAdapterAppLovinSDKSettings;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    GADMAdapterAppLovinSDKSettings = [[ALSdkSettings alloc] init];
+  });
+  return GADMAdapterAppLovinSDKSettings;
+}
+
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // Compile all the SDK keys that should be initialized.
@@ -129,7 +138,7 @@
     completionHandler(nil, error);
     return;
   }
-    
+
   ALSdk *sdk = [GADMAdapterAppLovinUtils
       retrieveSDKFromCredentials:params.configuration.credentials.firstObject.settings];
   if (!sdk) {

@@ -14,6 +14,7 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <MyTargetSDK/MyTargetSDK.h>
+#import "GADMediationAdapterMyTarget.h"
 
 #define MTRGLogInfo()                                                                    \
   if (GADMAdapterMyTargetUtils.logEnabled) {                                             \
@@ -41,6 +42,11 @@ NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull 
 /// Returns an adapter specific NSError with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
+                                                                 NSString *_Nonnull description);
 
 /// Sets myTarget's customParams from |connector|.
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,

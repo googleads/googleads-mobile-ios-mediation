@@ -18,6 +18,13 @@
 
 #define GADMAdapterFyberLog(format, args...) NSLog(@"FyberAdapter: " format, ##args)
 
+// Fyber adapter initialization completion handler.
+typedef void (^GADMAdapterFyberInitCompletionHandler)(NSError *_Nullable error);
+
+/// Safely adds |object| to |array| if |object| is not nil.
+void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object);
+
 /// Safely adds |object| to |set| if |object| is not nil.
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
@@ -32,7 +39,6 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration);
 
-/// Initializes the Fyber SDK with the given app ID. Returns YES if Fyber is initialized
-/// successfully, otherwise NO and sets |error|.
-BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nullable appID,
-                                         NSError *_Nullable __autoreleasing *_Nullable error);
+/// Initialize the Fyber Marketplace SDK with a given application ID and completion handler.
+void GADMAdapterFyberInitializeWithAppId(
+    NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler);

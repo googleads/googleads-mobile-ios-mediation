@@ -13,18 +13,22 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
 
-@interface GADMAdapterUnityRewardedAd
-    : NSObject <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
+@protocol GADMAdNetworkAdapter;
+@protocol GADMAdNetworkConnector;
 
-- (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:
-                          (GADMediationRewardedLoadCompletionHandler)completionHandler;
+@interface GADMUnityInterstitialAd : NSObject <UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
 
-- (instancetype)init __unavailable;
+- (instancetype _Nullable)initWithGADMAdNetworkConnector:
+                              (nonnull id<GADMAdNetworkConnector>)connector
+                                                 adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
 
-- (void)requestRewardedAd;
+/// Loads an interstitial ad from Unity Ads
+- (void)getInterstitial;
 
+/// Presents an interstitial ad using Unity Ads
+- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController;
 @end

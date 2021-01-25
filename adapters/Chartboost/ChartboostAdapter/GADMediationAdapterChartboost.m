@@ -23,6 +23,7 @@
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMChartboostExtras.h"
+#import "GADMediationAdapterChartboost.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
@@ -31,6 +32,17 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+    NSString *logMessage = [NSString
+        stringWithFormat:
+            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
+            kGADMAdapterChartboostMinimumOSVersion];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    completionHandler(error);
+    return;
+  }
+
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
@@ -43,13 +55,9 @@
   }
 
   if (!credentials.count) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterChartboostErrorDomain
-                   code:kGADErrorMediationDataError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Chartboost mediation configurations did not contain "
-                                             @"a valid appID and app signature."
-               }];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorInvalidServerParameters,
+        @"Chartboost mediation configurations did not contain a valid appID and app signature.");
     completionHandler(error);
     return;
   }
@@ -63,16 +71,17 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  [Chartboost
-      startWithAppId:appID
-        appSignature:appSignature
-          completion:^(BOOL success) {
-            NSError *error = nil;
-            if (!success) {
-              error = GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-            }
-            completionHandler(error);
-          }];
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
+                    NSError *error = nil;
+                    if (!success) {
+                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
+                          GADMAdapterChartboostErrorInitializationFailure,
+                          @"Chartboost SDK initialization failed.");
+                    }
+                    completionHandler(error);
+                  }];
 }
 
 + (GADVersionNumber)adSDKVersion {
