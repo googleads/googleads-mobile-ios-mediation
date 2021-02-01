@@ -1,6 +1,6 @@
-# GoogleAds to Verizon Ads SDK Mediation Adapter 1.6.0.0
+# GoogleAds to Verizon Ads SDK Mediation Adapter 1.9.0.0
 
-This adapter mediates from the Google Ad Network (AdMob) SDK to the Verizon Ads Standard Edition SDK 1.6.0
+This adapter mediates from the Google Ad Network (AdMob) SDK to the Verizon Ads Standard Edition SDK 1.9.0
 
 ## Requirements
 
