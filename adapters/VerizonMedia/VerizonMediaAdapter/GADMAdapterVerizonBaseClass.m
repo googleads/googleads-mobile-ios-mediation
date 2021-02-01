@@ -131,17 +131,6 @@
   });
 }
 
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested
-                  numReceived:(NSInteger)numReceived {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
 #pragma mark - VASInterstitialAdDelegate
 
 - (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {
@@ -198,17 +187,6 @@
     self.inlineAd.frame = CGRectMake(0, 0, inlineAd.adSize.width, inlineAd.adSize.height);
     [self->_connector adapter:self didReceiveAdView:self.inlineAd];
   });
-}
-
-- (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheLoadedNumRequested:(NSInteger)numRequested
-                numReceived:(NSInteger)numReceived {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
-- (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // The cache mechanism is not used in the AdMob mediation flow.
 }
 
 #pragma mark - VASInlineAdViewDelegate
