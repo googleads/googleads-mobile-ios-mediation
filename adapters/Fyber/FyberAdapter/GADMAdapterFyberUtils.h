@@ -15,6 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IASDKCore/IASDKCore.h>
+#import "GADMediationAdapterFyber.h"
 
 #define GADMAdapterFyberLog(format, args...) NSLog(@"FyberAdapter: " format, ##args)
 
@@ -28,8 +29,9 @@ void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
 /// Safely adds |object| to |set| if |object| is not nil.
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-/// Creates and returns an NSError with the specified code and description.
-NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(NSInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(GADMAdapterFyberErrorCode code,
                                                               NSString *_Nonnull description);
 
 /// Creates and returns a GADVersionNumber from a specified string.

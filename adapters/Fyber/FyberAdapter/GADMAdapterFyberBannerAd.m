@@ -100,10 +100,9 @@
 - (void)loadBannerAd {
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
-    NSString *errorMessage = @"Missing or Invalid Spot ID.";
-    GADMAdapterFyberLog(@"Failed to load banner ad: %@", errorMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     _loadCompletionHandler(nil, error);
     return;
   }
@@ -164,9 +163,9 @@
                                      @"Requested ad size: %@. Loaded size: %@.",
                                      NSStringFromGADAdSize(strongSelf->_adConfiguration.adSize),
                                      NSStringFromGADAdSize(loadedAdSize)];
-      GADMAdapterFyberLog(@"Failed to load banner ad: %@", errorMessage);
-      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize,
-                                                                   errorMessage);
+      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+          GADMAdapterFyberErrorBannerSizeMismatch, errorMessage);
+      GADMAdapterFyberLog(@"%@", error.localizedDescription);
       strongSelf->_loadCompletionHandler(nil, error);
 
       return;

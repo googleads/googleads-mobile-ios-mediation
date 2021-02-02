@@ -117,10 +117,9 @@
 - (void)loadRewardedAd {
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
-    NSString *errorMessage = @"Missing or Invalid Spot ID.";
-    GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", errorMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     _loadCompletionHandler(nil, error);
     return;
   }

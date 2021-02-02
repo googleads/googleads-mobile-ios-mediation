@@ -1,5 +1,8 @@
 ## Fyber iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added standardized adapter error codes and messages.
+
 #### Version 7.8.0.0
 - Verified compatibility with Fyber Marketplace SDK version 7.8.0.
 
