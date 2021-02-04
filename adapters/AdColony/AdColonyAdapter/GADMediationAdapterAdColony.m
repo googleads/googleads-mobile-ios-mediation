@@ -28,9 +28,6 @@
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 @implementation GADMediationAdapterAdColony {
-  /// Completion handler for signal generation. Returns either signals or an error object.
-  GADRTBSignalCompletionHandler _signalCompletionHandler;
-
   /// AdColony interstitial ad renderer.
   GADMAdapterAdColonyRTBInterstitialRenderer *_interstitialRenderer;
 
@@ -124,22 +121,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  // Keep handler, in practice this call may be asynchronous.
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
-  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return;
-    }
-
-    if (originalCompletionHandler) {
-      originalCompletionHandler(signals, error);
-    }
-    originalCompletionHandler = nil;
-  };
-    
-  NSString *signals = [AdColony collectSignals];
-  _signalCompletionHandler(signals, nil);
+  [AdColony collectSignals:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration

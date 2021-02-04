@@ -281,15 +281,4 @@
   });
 }
 
-- (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
-    cacheLoadedNumRequested:(NSUInteger)numRequested
-                numReceived:(NSUInteger)numReceived {
-  // Do nothing.
-}
-
-- (void)nativeAdFactory:(nonnull VASNativeAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSUInteger)cacheSize {
-  // Do nothing.
-}
-
 @end

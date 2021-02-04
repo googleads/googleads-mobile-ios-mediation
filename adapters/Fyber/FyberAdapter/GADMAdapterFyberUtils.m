@@ -31,11 +31,14 @@ void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *
   }
 }
 
-NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(NSInteger code,
+NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(GADMAdapterFyberErrorCode code,
                                                               NSString *_Nonnull description) {
-  NSDictionary<NSString *, NSString *> *info =
+  NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterFyberErrorDomain code:code userInfo:info];
+  NSError *error = [NSError errorWithDomain:kGADMAdapterFyberErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }
 
 GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionString) {
@@ -93,10 +96,9 @@ void GADMAdapterFyberInitializeWithAppId(
   }
 
   if (!appID.length) {
-    NSString *errorMessage = @"Missing or invalid Application ID.";
-    GADMAdapterFyberLog(@"Failed to load ad: %@", errorMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or invalid Application ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     completionHandler(error);
     return;
   }
