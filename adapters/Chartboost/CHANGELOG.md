@@ -2,6 +2,7 @@
 
 #### Next Version
 - Added standardized adapter error codes and messages.
+- Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 
 #### Version 8.4.0.0
 - Verified compatibility with Chartboost SDK 8.4.0.
