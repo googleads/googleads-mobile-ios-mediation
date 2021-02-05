@@ -30,7 +30,8 @@ NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode code,
 
 void GADFBConfigureMediationService(void) {
   [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion],
+      setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
+                                                     GADMobileAds.sharedInstance.sdkVersion,
                                                      kGADMAdapterFacebookVersion]];
 }
 
