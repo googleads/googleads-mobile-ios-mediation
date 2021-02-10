@@ -14,8 +14,8 @@
 
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioAdsManager.h"
+#import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
 @interface GADMAdapterMaioRewardedAd () <MaioDelegate>
 
@@ -36,7 +36,9 @@
   _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneId];
 
   if (!self.mediaId) {
-    NSError *error = [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
+    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+        GADMAdapterMaioErrorInvalidServerParameters,
+        @"maio mediation configurations did not contain a valid media ID.");
     completionHandler(nil, error);
     return;
   }
@@ -149,9 +151,8 @@
  */
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
   // 再生エラー等、ロードと無関係なエラーは通知しない。
-  NSError *errorWithDescription =
-      [GADMMaioError errorWithDescription:[GADMMaioError stringFromFailReason:reason]];
-  self.completionHandler(nil, errorWithDescription);
+  NSError *error = GADMAdapterMaioSDKErrorForFailReason(reason);
+  self.completionHandler(nil, error);
 }
 
 @end
