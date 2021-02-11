@@ -2,6 +2,7 @@
 
 #### Next Version
 - Added standardized adapter error codes and messages.
+- Updated the adapter to use the `.xcframework` format.
 
 #### Version 1.5.6.0
 - Verified compatibility with maio SDK version 1.5.6.

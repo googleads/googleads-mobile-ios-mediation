@@ -1,5 +1,8 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
 #### Version 2.0.33.1
 - Added standardized adapter error codes and messages.
 - Adapter now limits requesting of multiple interstitial ads using the same i-mobile Spot ID.

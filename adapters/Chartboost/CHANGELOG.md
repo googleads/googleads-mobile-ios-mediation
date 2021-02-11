@@ -2,6 +2,7 @@
 
 #### Next Version
 - Added standardized adapter error codes and messages.
+- Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 
 #### Version 8.4.0.0

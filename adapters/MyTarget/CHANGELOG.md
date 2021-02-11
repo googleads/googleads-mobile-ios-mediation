@@ -1,5 +1,8 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
 #### Version 5.9.11.0
 - Verified compatibility with myTarget SDK version 5.9.10.
 

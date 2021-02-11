@@ -1,5 +1,8 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
 ####  Version 5.15.0.0
 - Verified compatibility with MoPub SDK 5.15.0.
 - Now requires Google Mobile Ads SDK version 7.68.0 or higher.
