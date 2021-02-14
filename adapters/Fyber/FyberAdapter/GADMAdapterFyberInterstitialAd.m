@@ -165,7 +165,7 @@
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (_fullscreenUnitControllchaer.isPresented) {
+  if (_fullscreenUnitController.isPresented) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorAdAlreadyUsed, @"Fyber Interstitial ad has already been presented.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
