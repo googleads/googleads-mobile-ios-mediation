@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
 #### Version 6.15.1.0
 - Verified compatibility with AppLovin SDK 6.15.1.
 

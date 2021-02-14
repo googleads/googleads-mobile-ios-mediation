@@ -7,8 +7,8 @@
 
 #import "GADMMaioInterstitialAdapter.h"
 #import "GADMAdapterMaioAdsManager.h"
+#import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
 @import Maio;
 
@@ -63,9 +63,11 @@
 /// method of the connector.
 - (void)getBannerWithSize:(GADAdSize)adSize {
   // not supported bunner
-  NSString *description = [NSString stringWithFormat:@"%@ is not supported banner.", self.class];
-  [self.interstitialAdConnector adapter:self
-                              didFailAd:[GADMMaioError errorWithDescription:description]];
+  NSString *description =
+      [NSString stringWithFormat:@"%@ does not supported banner.", [self class]];
+  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+      GADMAdapterMaioErrorAdFormatNotSupported, description);
+  [self.interstitialAdConnector adapter:self didFailAd:error];
 }
 
 /// Asks the adapter to initiate an interstitial ad request. The adapter does
@@ -85,7 +87,7 @@
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 
-  // MaioInstance生成時にテストモードかどうかを指定する
+  // maioInstance生成時にテストモードかどうかを指定する
   [adManager setAdTestMode:strongConnector.testMode];
 
   GADMMaioInterstitialAdapter *__weak weakSelf = self;
@@ -211,8 +213,8 @@
  *  @param reason   エラーの理由を示す列挙値
  */
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-  NSString *error = [GADMMaioError stringFromFailReason:reason];
-  [self.interstitialAdConnector adapter:self didFailAd:[GADMMaioError errorWithDescription:error]];
+  NSError *error = GADMAdapterMaioSDKErrorForFailReason(reason);
+  [self.interstitialAdConnector adapter:self didFailAd:error];
 }
 
 #pragma mark - private methods

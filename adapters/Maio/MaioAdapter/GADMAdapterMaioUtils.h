@@ -16,6 +16,8 @@
 
 #import "GADMediationAdapterMaio.h"
 
+#import <Maio/Maio.h>
+
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
@@ -32,5 +34,8 @@ void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(
-    GADMAdapterMaioErrorCode *_Nonnull code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorCode code,
+                                                             NSString *_Nonnull description);
+
+/// Returns an NSError representing a MaioFailReason.
+NSError *_Nonnull GADMAdapterMaioSDKErrorForFailReason(MaioFailReason reason);

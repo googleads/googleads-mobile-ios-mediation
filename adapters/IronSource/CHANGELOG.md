@@ -1,5 +1,9 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+- Now requires Google Mobile Ads SDK version 8.0.0 or higher.
+
 #### Version 7.1.0.0
 - Verified compatibility with ironSource SDK version 7.1.0
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.

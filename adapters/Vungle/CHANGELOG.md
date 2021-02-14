@@ -2,6 +2,7 @@
 
 #### Next Version
 - Added standardized adapter error codes and messages.
+- Updated the adapter to use the `.xcframework` format.
 
 #### Version 6.8.1.0
 - Verified compatibility with Vungle SDK 6.8.1.

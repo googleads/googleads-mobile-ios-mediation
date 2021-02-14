@@ -50,7 +50,8 @@
 
   FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
       initWithPlacementIDs:[placementIds allObjects]
-          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@", [GADRequest sdkVersion],
+          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
+                                                      GADMobileAds.sharedInstance.sdkVersion,
                                                       kGADMAdapterFacebookVersion]];
 
   [FBAudienceNetworkAds initializeWithSettings:fbSettings
