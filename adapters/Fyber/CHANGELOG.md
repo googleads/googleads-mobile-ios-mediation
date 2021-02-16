@@ -1,8 +1,14 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### Next Version
+=======
+#### Version 7.8.1.0
+- Verified compatibility with Fyber Marketplace SDK version 7.8.1.
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.0.0.
+- Fyber Marketplace SDK version 7.8.1.
 
 #### Version 7.8.0.0
 - Verified compatibility with Fyber Marketplace SDK version 7.8.0.
