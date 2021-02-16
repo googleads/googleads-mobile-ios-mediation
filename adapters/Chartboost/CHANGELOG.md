@@ -1,9 +1,13 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 8.4.0.1
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
+
+Build and tested with
+- Google Mobile Ads SDK version 8.0.0.
+- Chartboost SDK version 8.4.0.
 
 #### Version 8.4.0.0
 - Verified compatibility with Chartboost SDK 8.4.0.
