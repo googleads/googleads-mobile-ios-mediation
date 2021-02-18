@@ -1,8 +1,12 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 9.1.1.1
 - Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.0.0.
+- InMobi SDK version 9.1.1.
 
 #### Version 9.1.1.0
 - Verified compatibility with InMobi SDK 9.1.1.
