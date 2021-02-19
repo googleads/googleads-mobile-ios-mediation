@@ -1,7 +1,11 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 6.2.1.2
 - Added support for the `arm64` architecture for iOS simulators.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.0.0.
+- FAN SDK version 6.2.1.
 
 #### Version 6.2.1.1
 - Updated the adapter to use the `.xcframework` format.
