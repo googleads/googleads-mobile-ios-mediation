@@ -33,6 +33,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
+- (void)didViewAd;
 - (void)willCloseAd;
 - (void)didCloseAd;
 - (void)trackClick;

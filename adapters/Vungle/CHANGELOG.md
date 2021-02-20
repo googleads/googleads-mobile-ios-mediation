@@ -4,6 +4,12 @@
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
 
+#### Version 6.9.1.0
+- Verified compatibility with Vungle SDK 6.9.1.
+- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+- Remove VungleSDKResetPlacementForDifferentAdSize error check for loading Ads.
+- Introduce the new SDK delegate callback `vungleAdViewedForPlacement:` to track impression.
+
 #### Version 6.8.1.0
 - Verified compatibility with Vungle SDK 6.8.1.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
