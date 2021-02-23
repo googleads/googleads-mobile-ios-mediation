@@ -2,6 +2,7 @@
 
 #### Next Version
 - Updated the adapter to use the `.xcframework` format.
+- Verified compatibility with MoPub SDK 5.16.0.
 
 ####  Version 5.15.0.0
 - Verified compatibility with MoPub SDK 5.15.0.
