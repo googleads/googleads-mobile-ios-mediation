@@ -1,14 +1,16 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Next Version
-- Added standardized adapter error codes and messages.
-- Updated the adapter to use the `.xcframework` format.
-
 #### Version 6.9.1.0
 - Verified compatibility with Vungle SDK 6.9.1.
-- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+- Now requires Google Mobile Ads SDK version 8.1.0 or higher.
+- Added standardized adapter error codes and messages.
+- Updated the adapter to use the `.xcframework` format.
 - Remove VungleSDKResetPlacementForDifferentAdSize error check for loading Ads.
 - Introduce the new SDK delegate callback `vungleAdViewedForPlacement:` to track impression.
+
+Build and tested with
+- Google Mobile Ads SDK version 8.1.0.
+- Vungle SDK version 6.9.1.
 
 #### Version 6.8.1.0
 - Verified compatibility with Vungle SDK 6.8.1.
