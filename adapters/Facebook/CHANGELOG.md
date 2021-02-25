@@ -1,5 +1,8 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removing support for the `arm64` architecture for iOS simulators, as Facebook Audience Network SDK does not yet support it.
+
 #### Version 6.2.1.2
 - Added support for the `arm64` architecture for iOS simulators.
 
