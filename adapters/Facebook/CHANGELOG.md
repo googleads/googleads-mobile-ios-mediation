@@ -1,7 +1,9 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+
 #### Version 6.3.0.0
 - Now requires Xcode 12 or higher
+- Removing support for the `arm64` architecture for iOS simulators, as Facebook Audience Network SDK does not yet support it.
 
 Built and tested with
 - Google Mobile Ads SDK version 8.0.0.
