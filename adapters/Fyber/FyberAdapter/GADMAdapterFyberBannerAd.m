@@ -37,6 +37,12 @@
   /// GMA SDK, not set on the GMA SDK.
   id<GADMediationBannerAdEventDelegate> _delegate;
 
+  /// Fyber Ad Spot to be loaded.
+  IAAdSpot *_adSpot;
+
+  /// Fyber MRAID controller to support HTML ads.
+  IAMRAIDContentController *_MRAIDContentController;
+
   /// Fyber view controller to catch banner related ad events.
   IAViewUnitController *_viewUnitController;
 }
@@ -71,29 +77,37 @@
     return delegate;
   };
 
-  NSError *initError = nil;
-  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
-      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID], &initError);
-  if (!didInitialize) {
-    GADMAdapterFyberLog(@"Failed to load banner ad: %@", initError.localizedDescription);
-    _loadCompletionHandler(nil, initError);
-    return;
-  }
+  GADMAdapterFyberBannerAd *__weak weakSelf = self;
+  GADMAdapterFyberInitializeWithAppId(
+      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID],
+      ^(NSError *_Nullable error) {
+        GADMAdapterFyberBannerAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
 
+        if (error) {
+          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+                              error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+          return;
+        }
+
+        [self loadBannerAd];
+      });
+}
+
+- (void)loadBannerAd {
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
-    NSString *errorMessage = @"Missing or Invalid Spot ID.";
-    GADMAdapterFyberLog(@"Failed to load banner ad: %@", errorMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     _loadCompletionHandler(nil, error);
     return;
   }
 
-  IAAdRequest *request =
-      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
-
-  IAMRAIDContentController *MRAIDContentController =
+  _MRAIDContentController =
       [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
       }];
 
@@ -106,10 +120,12 @@
         }
 
         builder.unitDelegate = strongSelf;
-        [builder addSupportedContentController:MRAIDContentController];
+        [builder addSupportedContentController:strongSelf->_MRAIDContentController];
       }];
 
-  IAAdSpot *adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
+  IAAdRequest *request =
+      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+  _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
     builder.mediationType = [[IAMediationAdMob alloc] init];
 
@@ -121,8 +137,8 @@
     [builder addSupportedUnitController:strongSelf->_viewUnitController];
   }];
 
-  [adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
-                                  NSError *_Nullable error) {
+  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
+                                   NSError *_Nullable error) {
     GADMAdapterFyberBannerAd *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
@@ -147,9 +163,9 @@
                                      @"Requested ad size: %@. Loaded size: %@.",
                                      NSStringFromGADAdSize(strongSelf->_adConfiguration.adSize),
                                      NSStringFromGADAdSize(loadedAdSize)];
-      GADMAdapterFyberLog(@"Failed to load banner ad: %@", errorMessage);
-      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize,
-                                                                   errorMessage);
+      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+          GADMAdapterFyberErrorBannerSizeMismatch, errorMessage);
+      GADMAdapterFyberLog(@"%@", error.localizedDescription);
       strongSelf->_loadCompletionHandler(nil, error);
 
       return;

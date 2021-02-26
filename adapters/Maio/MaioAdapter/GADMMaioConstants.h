@@ -8,14 +8,19 @@
 #ifndef GADMMaioConstants_h
 #define GADMMaioConstants_h
 
+/// maio mediation adapter error domain.
 static NSString *const kGADMMaioErrorDomain = @"com.google.mediation.maio";
 
-static NSString *const kGADMMaioAdapterVersion = @"1.5.5.0";
+/// maio sdk adapter error domain.
+static NSString *const kGADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK";
 
-/// Maio media ID.
+/// maio mediation network adapter version.
+static NSString *const kGADMMaioAdapterVersion = @"1.5.6.0";
+
+/// maio media ID.
 static NSString *const kGADMMaioAdapterMediaId = @"mediaId";
 
-/// Maio zone ID.
+/// maio zone ID.
 static NSString *const kGADMMaioAdapterZoneId = @"zoneId";
 
 #endif /* GADMMaioConstants_h */

@@ -171,6 +171,10 @@
   [_connector adapterWillPresentInterstitial:self];
 }
 
+- (void)didViewAd {
+  // Do nothing.
+}
+
 - (void)willCloseAd {
   [_connector adapterWillDismissInterstitial:self];
 }

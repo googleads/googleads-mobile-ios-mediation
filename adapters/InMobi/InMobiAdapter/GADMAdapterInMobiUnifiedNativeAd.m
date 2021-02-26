@@ -400,7 +400,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return _aspectRatio;
 }
 
-- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
   if (_native) {
@@ -410,11 +410,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
+  GADNativeAdView *adView = (GADNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
   [mediaView addSubview:primaryView];

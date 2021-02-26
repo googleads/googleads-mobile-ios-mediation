@@ -37,6 +37,7 @@
 		45D672FF223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D672FD223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.h */; };
 		45D67300223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D672FE223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.m */; };
 		7D233F411DC407F400762177 /* MyTargetAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D233F401DC407F400762177 /* MyTargetAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		890FE1152582138400816721 /* GADMAdapterMyTargetConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */; };
 		892785171F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		892785181F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */; };
 		89BE9EBB20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */; };
@@ -92,6 +93,7 @@
 		7D9552BB1DC02128005DCE8D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetConstants.m; sourceTree = "<group>"; };
 		892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetExtraAssets.h; sourceTree = "<group>"; };
 		892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetExtraAssets.m; sourceTree = "<group>"; };
 		89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetMediatedUnifiedNativeAd.h; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */,
 				89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */,
 				89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */,
+				890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */,
 				892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */,
 				89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */,
 				89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */,
@@ -326,6 +329,7 @@
 				89BE9EBC20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m in Sources */,
 				89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */,
 				89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */,
+				890FE1152582138400816721 /* GADMAdapterMyTargetConstants.m in Sources */,
 				89D573221F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m in Sources */,
 				89DF93F21F7D17A00027A171 /* GADMAdapterMyTarget.m in Sources */,
 			);
@@ -414,7 +418,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
@@ -460,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};

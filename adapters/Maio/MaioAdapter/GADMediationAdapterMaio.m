@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMediationAdapterMaio.h"
+#import <Maio/Maio.h>
+
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
-@import Maio;
+#import "GADMediationAdapterMaio.h"
 
 @interface GADMediationAdapterMaio () <MaioDelegate>
 
@@ -37,8 +37,9 @@
   }
 
   if (!mediaIDs.count) {
-    NSError *error = [GADMMaioError
-        errorWithDescription:@"Maio mediation configurations did not contain a valid media ID."];
+    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+        GADMAdapterMaioErrorInvalidServerParameters,
+        @"maio mediation configurations did not contain a valid media ID.");
     completionHandler(error);
     return;
   }
@@ -48,7 +49,7 @@
     NSLog(@"Found the following media IDs: %@. "
           @"Please remove any media IDs you are not using from the AdMob UI.",
           mediaIDs);
-    NSLog(@"Initializing Maio SDK with the media ID %@", mediaID);
+    NSLog(@"Initializing maio SDK with the media ID %@", mediaID);
   }
 
   GADMAdapterMaioAdsManager *manager =

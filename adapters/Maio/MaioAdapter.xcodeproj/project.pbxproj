@@ -41,10 +41,8 @@
 		45E6353922309EAE006EB5A1 /* GADMediationAdapterMaio.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6353722309EAE006EB5A1 /* GADMediationAdapterMaio.m */; };
 		45E6353C22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E6353A22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h */; };
 		45E6353D22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E6353B22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m */; };
-		C29F39241FB996B400A32028 /* GADMMaioError.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F391B1FB98B2E00A32028 /* GADMMaioError.m */; };
 		C29F39271FB996B400A32028 /* GADMMaioRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */; };
 		C29F39281FB996CD00A32028 /* GADMMaioConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */; };
-		C29F392A1FB996CD00A32028 /* GADMMaioError.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F391D1FB98B2E00A32028 /* GADMMaioError.h */; };
 		C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */; };
 		C29F39301FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C29F392E1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h */; };
 		C29F39311FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */; };
@@ -93,8 +91,6 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioConstants.h; sourceTree = "<group>"; };
-		C29F391B1FB98B2E00A32028 /* GADMMaioError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioError.m; sourceTree = "<group>"; };
-		C29F391D1FB98B2E00A32028 /* GADMMaioError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioError.h; sourceTree = "<group>"; };
 		C29F39201FB98B2F00A32028 /* GADMMaioRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMMaioRewardedAdapter.m; sourceTree = "<group>"; };
 		C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioRewardedAdapter.h; sourceTree = "<group>"; };
 		C29F392E1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMMaioInterstitialAdapter.h; sourceTree = "<group>"; };
@@ -151,8 +147,6 @@
 				45E6353622309EAE006EB5A1 /* GADMediationAdapterMaio.h */,
 				45E6353722309EAE006EB5A1 /* GADMediationAdapterMaio.m */,
 				C29F39181FB98B2E00A32028 /* GADMMaioConstants.h */,
-				C29F391D1FB98B2E00A32028 /* GADMMaioError.h */,
-				C29F391B1FB98B2E00A32028 /* GADMMaioError.m */,
 				C29F392E1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.h */,
 				C29F392F1FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m */,
 				C29F39221FB98B2F00A32028 /* GADMMaioRewardedAdapter.h */,
@@ -202,7 +196,6 @@
 				3582A58D1FB2355D00490786 /* MaioAdapter.h in Headers */,
 				C29F39281FB996CD00A32028 /* GADMMaioConstants.h in Headers */,
 				45E6353822309EAE006EB5A1 /* GADMediationAdapterMaio.h in Headers */,
-				C29F392A1FB996CD00A32028 /* GADMMaioError.h in Headers */,
 				C29F392D1FB996CD00A32028 /* GADMMaioRewardedAdapter.h in Headers */,
 				45021519225E907500FD53A1 /* GADMAdapterMaioAdsManager.h in Headers */,
 				45E6353C22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.h in Headers */,
@@ -310,7 +303,6 @@
 				45E6353D22309EFE006EB5A1 /* GADMAdapterMaioRewardedAd.m in Sources */,
 				45E6353922309EAE006EB5A1 /* GADMediationAdapterMaio.m in Sources */,
 				00AC999322E923F300262599 /* GADMAdapterMaioUtils.m in Sources */,
-				C29F39241FB996B400A32028 /* GADMMaioError.m in Sources */,
 				C29F39311FB9BEDC00A32028 /* GADMMaioInterstitialAdapter.m in Sources */,
 				C29F39271FB996B400A32028 /* GADMMaioRewardedAdapter.m in Sources */,
 			);
@@ -330,7 +322,6 @@
 		00DD266F22F10B0D0039C1D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -338,7 +329,6 @@
 		00DD267022F10B0D0039C1D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -346,14 +336,12 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -395,6 +383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -431,6 +420,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -440,7 +430,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A31DB7ED230001E48B /* Debug.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -449,7 +438,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

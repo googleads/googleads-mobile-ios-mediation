@@ -145,7 +145,7 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromI
 
   GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp", @"c_admob");
   GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp-ver",
-                                                    [GADRequest sdkVersion]);
+                                                    GADMobileAds.sharedInstance.sdkVersion);
 
   return additionalParameters;
 }

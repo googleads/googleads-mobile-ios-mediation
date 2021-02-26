@@ -1,5 +1,24 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
+#### Version 7.0.2.0
+- Verified compatibility with nend SDK 7.0.2.
+- Fixed an issue where the media view is sometimes displayed in the incorrect position.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.69.0.
+- Nend SDK version 7.0.2.
+
+#### Version 7.0.1.0
+- Verified compatibility with nend SDK 7.0.1.
+- Updated the minimum required Google Mobile Ads SDK version to 7.69.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.69.0.
+- Nend SDK version 7.0.1.
+
 #### Version 7.0.0.0
 - Verified compatibility with nend SDK 7.0.0.
 

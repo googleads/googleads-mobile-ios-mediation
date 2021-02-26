@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,13 +16,17 @@
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
 /// Mapper for GADMediatedUnifiedNativeAd.
-@interface GADIMobileMediatedUnifiedNativeAd : NSObject<GADMediatedUnifiedNativeAd>
+@interface GADMAdapterIMobileUnifiedNativeAd : NSObject
 
-/// Initialize.
-- (nonnull instancetype)initWithIMobileNativeAd:(nonnull ImobileSdkAdsNativeObject *)iMobileNativeAd
-                                          image:(nonnull UIImage *)image NS_DESIGNATED_INITIALIZER;
+/// Dedicated initializer to create a new instance of a unified native ad adapter.
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationNativeAdConfiguration *)adConfiguration;
 
 /// Unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Loads a unified native ad from the i-mobile SDK.
+- (void)loadNativeAdWithCompletionHandler:
+    (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 
 @end

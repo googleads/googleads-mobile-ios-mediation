@@ -109,7 +109,7 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
 }
 
 + (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)sdkKey {
-  ALSdk *sdk = [ALSdk sharedWithKey:sdkKey];
+  ALSdk *sdk = [ALSdk sharedWithKey:sdkKey settings:GADMediationAdapterAppLovin.SDKSettings];
   [sdk setPluginVersion:GADMAdapterAppLovinAdapterVersion];
   sdk.mediationProvider = ALMediationProviderAdMob;
 
@@ -160,9 +160,7 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner) ];
   if (IS_IPAD) {
     // iPad also supports 728x90.
-    potentials = @[
-      NSValueFromGADAdSize(banner), NSValueFromGADAdSize(leaderboard)
-    ];
+    potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(leaderboard) ];
   }
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
   CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);

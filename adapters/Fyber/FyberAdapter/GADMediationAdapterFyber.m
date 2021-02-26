@@ -57,8 +57,12 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet<NSString *> *applicationIDs = [[NSMutableSet alloc] init];
+  if (IASDKCore.sharedInstance.isInitialised) {
+    completionHandler(nil);
+    return;
+  }
 
+  NSMutableSet<NSString *> *applicationIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *credential in configuration.credentials) {
     NSString *appID = credential.settings[kGADMAdapterFyberApplicationID];
     if (appID.length) {
@@ -67,11 +71,9 @@
   }
 
   if (!applicationIDs.count) {
-    NSString *logMessage =
-        @"Fyber Marketplace SDK could not be initialized; missing or invalid application ID.";
-    GADMAdapterFyberLog(@"%@", logMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, logMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or invalid Application ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     completionHandler(error);
     return;
   }
@@ -86,9 +88,9 @@
                         applicationID);
   }
 
-  NSError *initError = nil;
-  GADMAdapterFyberInitializeWithAppID(applicationID, &initError);
-  completionHandler(initError);
+  GADMAdapterFyberInitializeWithAppId(applicationID, ^(NSError *_Nullable error) {
+    completionHandler(error);
+  });
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
