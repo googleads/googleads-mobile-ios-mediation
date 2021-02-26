@@ -73,10 +73,6 @@
   return placementID;
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterFacebook adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [kGADMAdapterFacebookVersion componentsSeparatedByString:@"."];

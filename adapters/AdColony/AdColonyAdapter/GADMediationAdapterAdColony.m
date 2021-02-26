@@ -101,10 +101,6 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
   return [GADMAdapterAdColonyExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterAdColony adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterAdColonyVersionString;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];

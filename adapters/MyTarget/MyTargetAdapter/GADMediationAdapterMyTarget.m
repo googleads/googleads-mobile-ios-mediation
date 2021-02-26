@@ -53,10 +53,6 @@
   return [GADMAdapterMyTargetExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterMyTarget adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterMyTargetVersion;
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];

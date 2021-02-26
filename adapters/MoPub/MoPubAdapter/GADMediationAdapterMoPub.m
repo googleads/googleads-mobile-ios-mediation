@@ -49,10 +49,6 @@
   return [GADMoPubNetworkExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterMoPub adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray *versionComponents = [kGADMAdapterMoPubVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};

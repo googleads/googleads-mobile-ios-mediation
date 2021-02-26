@@ -76,10 +76,6 @@
   return nil;
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterMaio adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray *versionComponents = [kGADMMaioAdapterVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};

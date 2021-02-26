@@ -70,10 +70,6 @@
   return [VungleAdNetworkExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterVungle adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSString *versionString = kGADMAdapterVungleVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
