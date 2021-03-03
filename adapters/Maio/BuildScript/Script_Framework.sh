@@ -8,69 +8,43 @@ rm -rf "${BUILT_PRODUCTS_DIR}"
 fi
 
 # Remove framework if exists.
-if [ -d "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.xcframework" ]; then
-rm -rf "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.xcframework"
+if [ -d "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework" ]; then
+rm -rf "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework"
 fi
 
 # Create output directory.
 mkdir -p "${OUTPUT_FOLDER}"
 
-{
-    BUILD_DIR_IPHONE=${BUILD_DIR}/iphone
-    FRAMEWORK_LOCATION_IPHONE="${BUILD_DIR_IPHONE}/${FRAMEWORK_NAME}.framework"
-    mkdir -p ${BUILD_DIR_IPHONE}
+# Export framework at path.
+export FRAMEWORK_LOCATION="${BUILT_PRODUCTS_DIR}/${FRAMEWORK_NAME}.framework"
 
-    xcodebuild archive -scheme Adapter -configuration "${CONFIGURATION}" -destination="generic/platform=iOS" -sdk iphoneos -archivePath $BUILD_DIR_IPHONE/archive ARCHS="armv7 arm64" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+# Create the path to the real framework headers.
+mkdir -p "${FRAMEWORK_LOCATION}/Versions/A/Headers"
 
-    # Create the path to the real framework headers.
-    mkdir -p "${FRAMEWORK_LOCATION_IPHONE}/Versions/A/Headers"
+# Create the required symlinks.
+/bin/ln -sfh A "${FRAMEWORK_LOCATION}/Versions/Current"
+/bin/ln -sfh Versions/Current/Headers "${FRAMEWORK_LOCATION}/Headers"
+/bin/ln -sfh "Versions/Current/${FRAMEWORK_NAME}" \
+"${FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
 
-    # Create the required symlinks.
-    /bin/ln -sfh A "${FRAMEWORK_LOCATION_IPHONE}/Versions/Current"
-    /bin/ln -sfh Versions/Current/Headers "${FRAMEWORK_LOCATION_IPHONE}/Headers"
-    /bin/ln -sfh "Versions/Current/${FRAMEWORK_NAME}" \
-    "${FRAMEWORK_LOCATION_IPHONE}/${FRAMEWORK_NAME}"
+# Build static library for iOS Device.
+xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphoneos" ARCHS="armv7 arm64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}" -UseModernBuildSystem=NO
 
-    # Copy Static Library
-    /bin/cp "${BUILD_DIR_IPHONE}/archive.xcarchive/Products/usr/local/lib/${LIB_NAME}.a" "${FRAMEWORK_LOCATION_IPHONE}/Versions/A/${FRAMEWORK_NAME}"
-    # Copy Headers
-    /bin/cp "${BUILD_DIR_IPHONE}/archive.xcarchive/Products/usr/local/lib/${PUBLIC_HEADERS_FOLDER_PATH}/"* "${FRAMEWORK_LOCATION_IPHONE}/Versions/A/Headers"
+# Build static library for iOS Simulator.
+xcodebuild -target Adapter ONLY_ACTIVE_ARCH=NO -configuration "${CONFIGURATION}" clean build -sdk "iphonesimulator" ARCHS="i386 x86_64" BUILD_DIR="${BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" "${ACTION}" -UseModernBuildSystem=NO
 
-    # Create Modules directory.
-    mkdir -p "${FRAMEWORK_LOCATION_IPHONE}/Modules"
+# Create universal framework using lipo.
+lipo -create "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${LIB_NAME}.a" "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${LIB_NAME}.a" -output "${FRAMEWORK_LOCATION}/Versions/A/${FRAMEWORK_NAME}"
 
-    # Copy the module map to modules directory.
-    /bin/cp -a "${MODULE_MAP_PATH}/module.modulemap" "${FRAMEWORK_LOCATION_IPHONE}/Modules/module.modulemap"
-}
+# Copy the public headers into the framework.
+/bin/cp -a "${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/" \
+"${FRAMEWORK_LOCATION}/Versions/A/Headers"
 
-{
-    BUILD_DIR_SIMULATOR=${BUILD_DIR}/iphonesimulator
-    FRAMEWORK_LOCATION_SIMULATOR="${BUILD_DIR_SIMULATOR}/${FRAMEWORK_NAME}.framework"
-    mkdir -p ${BUILD_DIR_SIMULATOR}
+# Copy the framework to the library directory.
+ditto "${FRAMEWORK_LOCATION}" "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework"
 
-    xcodebuild archive -scheme Adapter -configuration "${CONFIGURATION}" -destination="generic/platform=iOS Simulator" -sdk iphonesimulator -archivePath $BUILD_DIR_SIMULATOR/archive ARCHS="arm64 i386 x86_64" SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+# Create Modules directory.
+mkdir -p "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework/Modules"
 
-    # Create the path to the real framework headers.
-    mkdir -p "${FRAMEWORK_LOCATION_SIMULATOR}/Versions/A/Headers"
-
-    # Create the required symlinks.
-    /bin/ln -sfh A "${FRAMEWORK_LOCATION_SIMULATOR}/Versions/Current"
-    /bin/ln -sfh Versions/Current/Headers "${FRAMEWORK_LOCATION_SIMULATOR}/Headers"
-    /bin/ln -sfh "Versions/Current/${FRAMEWORK_NAME}" \
-    "${FRAMEWORK_LOCATION_SIMULATOR}/${FRAMEWORK_NAME}"
-
-    # Copy Static Library
-    /bin/cp "${BUILD_DIR_SIMULATOR}/archive.xcarchive/Products/usr/local/lib/${LIB_NAME}.a" "${FRAMEWORK_LOCATION_SIMULATOR}/Versions/A/${FRAMEWORK_NAME}"
-    /bin/cp "${BUILD_DIR_SIMULATOR}/archive.xcarchive/Products/usr/local/lib/${PUBLIC_HEADERS_FOLDER_PATH}/"* "${FRAMEWORK_LOCATION_SIMULATOR}/Versions/A/Headers"
-
-    # Create Modules directory.
-    mkdir -p "${FRAMEWORK_LOCATION_SIMULATOR}/Modules"
-
-    # Copy the module map to modules directory.
-    /bin/cp -a "${MODULE_MAP_PATH}/module.modulemap" "${FRAMEWORK_LOCATION_SIMULATOR}/Modules/module.modulemap"
-}
-
-xcodebuild -create-xcframework -framework ${FRAMEWORK_LOCATION_IPHONE} -framework ${FRAMEWORK_LOCATION_SIMULATOR} -output "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.xcframework"
-
-open "${OUTPUT_FOLDER}"
-
+# Copy the module map to modules directory.
+/bin/cp -a "${MODULE_MAP_PATH}/module.modulemap" "${OUTPUT_FOLDER}/${FRAMEWORK_NAME}.framework/Modules/module.modulemap"
