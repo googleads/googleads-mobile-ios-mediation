@@ -1,7 +1,13 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.10.0.0
+- Verified compatibility with myTarget SDK version 5.10.0.
+- Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Updated the adapter to use the `.xcframework` format.
+
+Build and tested With:
+- Google Mobile Ads SDK version 8.1.0.
+- MyTarget SDK version 5.10.0
 
 #### Version 5.9.11.0
 - Verified compatibility with myTarget SDK version 5.9.10.
