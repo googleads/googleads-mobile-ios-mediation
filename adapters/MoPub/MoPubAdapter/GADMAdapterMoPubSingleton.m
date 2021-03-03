@@ -2,12 +2,12 @@
 
 #import "GADMAdapterMoPubUtils.h"
 
-@interface GADMAdapterMoPubSingleton () <MPRewardedVideoDelegate>
+@interface GADMAdapterMoPubSingleton () <MPRewardedAdsDelegate>
 @end
 
 @implementation GADMAdapterMoPubSingleton {
   /// Stores rewarded ad delegate with ad unit identifier as a key.
-  NSMapTable<NSString *, id<MPRewardedVideoDelegate>> *_adapterDelegates;
+  NSMapTable<NSString *, id<MPRewardedAdsDelegate>> *_adapterDelegates;
 
   /// Serializes ivar usage.
   dispatch_queue_t _lockQueue;
@@ -52,7 +52,7 @@
   });
 }
 
-- (void)addDelegate:(nonnull id<MPRewardedVideoDelegate>)adapterDelegate
+- (void)addDelegate:(nonnull id<MPRewardedAdsDelegate>)adapterDelegate
         forAdUnitID:(nonnull NSString *)adUnitID {
   dispatch_async(_lockQueue, ^{
     GADMAdapterMoPubMapTableSetObjectForKey(self->_adapterDelegates, adUnitID, adapterDelegate);
@@ -65,8 +65,8 @@
   });
 }
 
-- (nullable id<MPRewardedVideoDelegate>)getDelegateForAdUnitID:(nonnull NSString *)adUnitID {
-  __block id<MPRewardedVideoDelegate> delegate = nil;
+- (nullable id<MPRewardedAdsDelegate>)getDelegateForAdUnitID:(nonnull NSString *)adUnitID {
+  __block id<MPRewardedAdsDelegate> delegate = nil;
   dispatch_sync(_lockQueue, ^{
     delegate = [self->_adapterDelegates objectForKey:adUnitID];
   });
@@ -76,8 +76,8 @@
 - (nullable NSError *)
     requestRewardedAdForAdUnitID:(nonnull NSString *)adUnitID
                         adConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig
-                        delegate:(nonnull id<MPRewardedVideoDelegate>)delegate {
-  [MPRewardedVideo setDelegate:self forAdUnitId:adUnitID];
+                        delegate:(nonnull id<MPRewardedAdsDelegate>)delegate {
+  [MPRewardedAds setDelegate:self forAdUnitId:adUnitID];
 
   if ([self getDelegateForAdUnitID:adUnitID]) {
     NSError *error = GADMoPubErrorWithCodeAndDescription(
@@ -88,10 +88,10 @@
     [self addDelegate:delegate forAdUnitID:adUnitID];
   }
 
-  [MPRewardedVideo loadRewardedVideoAdWithAdUnitID:adUnitID
-                                          keywords:[self getKeywords:false forAdConfig:adConfig]
-                                  userDataKeywords:[self getKeywords:true forAdConfig:adConfig]
-                                 mediationSettings:@[]];
+  [MPRewardedAds loadRewardedAdWithAdUnitID:adUnitID
+                                   keywords:[self getKeywords:false forAdConfig:adConfig]
+                           userDataKeywords:[self getKeywords:true forAdConfig:adConfig]
+                          mediationSettings:@[]];
   return nil;
 }
 
@@ -116,79 +116,78 @@
   return [adConfig hasUserLocation];
 }
 
-#pragma mark MPRewardedVideoDelegate methods
+#pragma mark MPRewardedAdsDelegate methods
 
-- (void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdDidLoadForAdUnitID:adUnitID];
+    [delegate rewardedAdDidLoadForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
     [self removeDelegateForAdUnitID:adUnitID];
-    [delegate rewardedVideoAdDidFailToLoadForAdUnitID:adUnitID error:error];
+    [delegate rewardedAdDidFailToLoadForAdUnitID:adUnitID error:error];
   }
 }
 
-- (void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdWillPresentForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdWillAppearForAdUnitID:adUnitID];
+    [delegate rewardedAdWillPresentForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidPresentForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdDidAppearForAdUnitID:adUnitID];
+    [delegate rewardedAdDidPresentForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdWillDisappearForAdUnitID:adUnitID];
+    [delegate rewardedAdWillDismissForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
-    [self removeDelegateForAdUnitID:adUnitID];
-    [delegate rewardedVideoAdDidDisappearForAdUnitID:adUnitID];
-  }
-}
-
-- (void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
     [self removeDelegateForAdUnitID:adUnitID];
-    [delegate rewardedVideoAdDidExpireForAdUnitID:adUnitID];
+    [delegate rewardedAdDidDismissForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidExpireForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdDidReceiveTapEventForAdUnitID:adUnitID];
+    [self removeDelegateForAdUnitID:adUnitID];
+    [delegate rewardedAdDidExpireForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdWillLeaveApplicationForAdUnitID:adUnitID];
+    [delegate rewardedAdDidReceiveTapEventForAdUnitID:adUnitID];
   }
 }
 
-- (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID
-                                        reward:(MPRewardedVideoReward *)reward {
-  id<MPRewardedVideoDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+- (void)rewardedAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
   if (delegate) {
-    [delegate rewardedVideoAdShouldRewardForAdUnitID:adUnitID reward:reward];
+    [delegate rewardedAdWillLeaveApplicationForAdUnitID:adUnitID];
+  }
+}
+
+- (void)rewardedAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPReward *)reward {
+  id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
+  if (delegate) {
+    [delegate rewardedAdShouldRewardForAdUnitID:adUnitID reward:reward];
   }
 }
 

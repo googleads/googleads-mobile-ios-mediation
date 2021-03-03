@@ -14,6 +14,19 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
+  /// Missing server parameters.
+  GADMAdapterFyberErrorInvalidServerParameters = 101,
+  /// Banner Size Mismatch.
+  GADMAdapterFyberErrorBannerSizeMismatch = 102,
+  /// Failed to show ad because ad object has already been used.
+  GADMAdapterFyberErrorAdAlreadyUsed = 103,
+  /// Failed to show Fyber Marketplace ads due to ad not been ready.
+  GADMAdapterFyberErrorAdNotReady = 104,
+  /// The Fyber SDK returned an initialization error.
+  GADMAdapterFyberErrorInitializationFailure = 105
+};
+
 /// Mediation network adapter for Fyber.
 @interface GADMediationAdapterFyber : NSObject
 

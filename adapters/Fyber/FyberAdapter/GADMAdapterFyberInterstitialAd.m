@@ -91,7 +91,7 @@
         }
 
         if (error) {
-          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+          GADMAdapterFyberLog(@"Failed to initialize Fyber Marketplace SDK: %@",
                               error.localizedDescription);
           strongSelf->_loadCompletionHandler(nil, error);
           return;
@@ -104,10 +104,9 @@
 - (void)loadInterstitialAd {
   NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
   if (!spotID.length) {
-    NSString *errorMessage = @"Missing or Invalid Spot ID.";
-    GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", errorMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, errorMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     _loadCompletionHandler(nil, error);
     return;
   }
@@ -168,16 +167,16 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_fullscreenUnitController.isPresented) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        kGADErrorAdAlreadyUsed, @"Fyber Interstitial ad has already been presented");
-    GADMAdapterFyberLog(@"Failed to present interstitial ad: %@", error.localizedDescription);
+        GADMAdapterFyberErrorAdAlreadyUsed, @"Fyber Interstitial ad has already been presented.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     [_delegate didFailToPresentWithError:error];
     return;
   }
 
   if (!_fullscreenUnitController.isReady) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"Fyber Interstitial ad is not ready to show.");
-    GADMAdapterFyberLog(@"Failed to present interstitial ad: %@", error.localizedDescription);
+        GADMAdapterFyberErrorAdNotReady, @"Fyber Interstitial ad is not ready to show.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     [_delegate didFailToPresentWithError:error];
     return;
   }

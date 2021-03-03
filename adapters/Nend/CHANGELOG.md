@@ -1,5 +1,8 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `.xcframework` format.
+
 #### Version 7.0.2.0
 - Verified compatibility with nend SDK 7.0.2.
 - Fixed an issue where the media view is sometimes displayed in the incorrect position.

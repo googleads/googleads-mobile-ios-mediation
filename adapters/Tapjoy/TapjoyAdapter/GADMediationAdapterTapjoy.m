@@ -82,10 +82,6 @@
   return [GADMTapjoyExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterTapjoy adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
       [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];

@@ -166,8 +166,11 @@
 - (void)willShowAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willPresentFullScreenView];
-  [strongDelegate reportImpression];
   [strongDelegate didStartVideo];
+}
+
+- (void)didViewAd {
+  [_delegate reportImpression];
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {

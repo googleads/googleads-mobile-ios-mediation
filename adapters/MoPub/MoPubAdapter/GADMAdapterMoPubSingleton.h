@@ -16,6 +16,6 @@
 - (nullable NSError *)
     requestRewardedAdForAdUnitID:(nonnull NSString *)adUnitID
                         adConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig
-                        delegate:(nonnull id<MPRewardedVideoDelegate>)delegate;
+                        delegate:(nonnull id<MPRewardedAdsDelegate>)delegate;
 
 @end

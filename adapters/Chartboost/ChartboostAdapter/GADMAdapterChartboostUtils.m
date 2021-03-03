@@ -79,7 +79,7 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable s
 
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
-                             libraryVersion:[GADRequest sdkVersion]
+                             libraryVersion:GADMobileAds.sharedInstance.sdkVersion
                              adapterVersion:kGADMAdapterChartboostVersion];
 }
 

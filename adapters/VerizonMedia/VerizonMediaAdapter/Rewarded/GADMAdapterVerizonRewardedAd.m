@@ -131,22 +131,6 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   });
 }
 
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested
-                  numReceived:(NSInteger)numReceived {
-  // Unused.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // Unused.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested {
-  // Unused.
-}
-
 #pragma mark - VASInterstitialAdDelegate
 
 - (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {

@@ -15,7 +15,6 @@
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
 @interface GADMAdapterMaioAdsManager ()
 
@@ -97,9 +96,11 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
 
 - (NSError *)loadAdForZoneId:(NSString *)zoneId delegate:(id<MaioDelegate>)delegate {
   if ([self getAdapterForZoneID:zoneId]) {
-    return [GADMMaioError
-        errorWithDescription:@"Maio does not supporting requesting a second ad for the same zone "
-                             @"ID while the first request is still in progress."];
+    NSString *description =
+        [NSString stringWithFormat:@"maio does not support requesting a second ad for the same "
+                                   @"zone ID while the first request is still in progress."];
+    return GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorAdAlreadyLoaded,
+                                                      description);
   }
 
   // If maio does not have an ad ready to be shown, then we fail the ad request to avoid timeouts.
