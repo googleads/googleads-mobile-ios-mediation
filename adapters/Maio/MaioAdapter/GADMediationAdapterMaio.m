@@ -37,7 +37,7 @@
 {
     self = [super init];
     if (self) {
-        _rtbAdapter = [GADRTBAdapterMaioEntryPoint new];
+        _rtbAdapter = [[GADRTBAdapterMaioEntryPoint alloc] init];
     }
     return self;
 }
