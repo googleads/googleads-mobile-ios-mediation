@@ -17,30 +17,30 @@
 
 @interface GADRTBMaioInterstitialAd () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 
-@property (nonatomic, copy) GADMediationInterstitialLoadCompletionHandler completionHandler;
-@property (nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> adEventDelegate;
-@property (nonatomic, strong) MaioInterstitial *interstitial;
-
 @end
 
-@implementation GADRTBMaioInterstitialAd
+@implementation GADRTBMaioInterstitialAd {
+  GADMediationInterstitialLoadCompletionHandler _completionHandler;
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  MaioInterstitial *_interstitial;
+}
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  self.completionHandler = completionHandler;
+  _completionHandler = completionHandler;
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:adConfiguration.isTestRequest bidData:adConfiguration.bidResponse];
-  self.interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
+  _interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [self.interstitial showWithViewContext:viewController callback:self];
+  [_interstitial showWithViewContext:viewController callback:self];
 }
 
 #pragma mark - MaioInterstitialLoadCallback, MaioInterstitialShowCallback
 
 - (void)didLoad:(MaioInterstitial *)ad {
-  self.adEventDelegate = self.completionHandler(self, nil);
+  _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode {
@@ -49,23 +49,23 @@
   NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
 
   if (10000 <= errorCode && errorCode < 20000) {
-    self.completionHandler(nil, error);
+    _completionHandler(nil, error);
     return;
   }
   if (20000 <= errorCode && errorCode < 30000) {
-    [self.adEventDelegate didFailToPresentWithError:error];
+    [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
 }
 
 - (void)didOpen:(MaioInterstitial *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = self.adEventDelegate;
+  id<GADMediationInterstitialAdEventDelegate> delegate = _adEventDelegate;
   [delegate willPresentFullScreenView];
   [delegate reportImpression];
 }
 
 - (void)didClose:(MaioInterstitial *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = self.adEventDelegate;
+  id<GADMediationInterstitialAdEventDelegate> delegate = _adEventDelegate;
   [delegate willDismissFullScreenView];
   [delegate didDismissFullScreenView];
 }
