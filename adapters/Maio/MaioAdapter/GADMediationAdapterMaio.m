@@ -33,7 +33,7 @@
 
 @implementation GADMediationAdapterMaio
 
-- (instancetype)init
+- (nonnull instancetype)init
 {
     self = [super init];
     if (self) {
@@ -134,9 +134,9 @@
   [self.rtbAdapter collectSignalsForRequestParameters:params completionHandler:completionHandler];
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (adConfiguration.bidResponse) {
     [self.rtbAdapter loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
     return;
@@ -147,8 +147,8 @@
                                   completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   if (adConfiguration.bidResponse) {
     [self.rtbAdapter loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
     return;

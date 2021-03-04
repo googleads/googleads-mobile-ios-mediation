@@ -25,8 +25,8 @@
 
 @implementation GADRTBMaioInterstitialAd
 
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                       completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self.completionHandler = completionHandler;
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:adConfiguration.isTestRequest bidData:adConfiguration.bidResponse];

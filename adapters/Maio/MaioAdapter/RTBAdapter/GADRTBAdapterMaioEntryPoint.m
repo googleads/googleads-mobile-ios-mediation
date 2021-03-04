@@ -19,16 +19,16 @@
 
 @implementation GADRTBAdapterMaioEntryPoint
 
-- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
   completionHandler(nil, nil);
 }
 
--(void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+-(void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   self.rewarded = [[GADRTBMaioRewardedAd alloc] init];
   [self.rewarded loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self.interstitial = [[GADRTBMaioInterstitialAd alloc] init];
   [self.interstitial loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
