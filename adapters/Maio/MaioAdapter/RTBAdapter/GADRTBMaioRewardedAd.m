@@ -8,7 +8,6 @@
 
 #import "GADRTBMaioRewardedAd.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
 #import <MaioOB/MaioOB-Swift.h>
 
@@ -41,16 +40,15 @@
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = [GADMMaioError stringFromErrorCode:errorCode];
-  NSError *error = [GADMMaioError errorWithDescription:description errorCode:errorCode];
+  NSString *description = @"maio open-bidding SDK returned error";
+  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
 
-  BOOL failToLoad = [GADMMaioError codeIsAboutLoad:errorCode];
-  if (failToLoad) {
+  if (10000 <= errorCode && errorCode < 20000) {
     self.completionHandler(nil, error);
     return;
   }
-  BOOL failToShow = [GADMMaioError codeIsAboutShow:errorCode];
-  if (failToShow) {
+  if (20000 <= errorCode && errorCode < 30000) {
     [self.adEventDelegate didFailToPresentWithError:error];
     return;
   }

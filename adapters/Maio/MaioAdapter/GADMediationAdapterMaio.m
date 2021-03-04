@@ -87,7 +87,6 @@
 }
 
 + (void)setUpCaseNotExistsAnyWithCompletionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
-  NSError *error = [GADMMaioError errorWithDescription:@"Maio mediation configuration did not contain a valid identifier"];
   NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
           GADMAdapterMaioErrorInvalidServerParameters,
           @"maio mediation configurations did not contain a valid media ID.");
@@ -155,8 +154,9 @@
     return;
   }
 
-  // Nevar use? Interstitial(Mediation) use GADMMaioInterstitialAdapter.
-  NSError *error = [GADMMaioError errorWithDescription:@"Incompatible call for the interstitial. This logic need bidResponse."];
+  // Never use? Interstitial(Mediation) use GADMMaioInterstitialAdapter.
+  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorAdFormatNotSupported,
+                                                              @"Incompatible call for the interstitial. This logic need bidResponse.");
   completionHandler(nil, error);
 }
 
