@@ -49,12 +49,13 @@
   NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
 
   if (10000 <= errorCode && errorCode < 20000) {
+    // Fail to load.
     _completionHandler(nil, error);
-    return;
-  }
-  if (20000 <= errorCode && errorCode < 30000) {
+  } else if (20000 <= errorCode && errorCode < 30000) {
+    // Fail to Show
     [_adEventDelegate didFailToPresentWithError:error];
-    return;
+  } else {
+    // Unknown error code
   }
 }
 
