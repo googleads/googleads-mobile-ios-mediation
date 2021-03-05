@@ -8,6 +8,7 @@
 
 #import "GADRTBMaioRewardedAd.h"
 #import "GADMMaioConstants.h"
+#import <stdatomic.h>
 
 #import <MaioOB/MaioOB-Swift.h>
 
@@ -23,7 +24,25 @@
 
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _completionHandler = completionHandler;
+  // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+  _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(_Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error){
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:adConfiguration.isTestRequest bidData:adConfiguration.bidResponse];
   _rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
