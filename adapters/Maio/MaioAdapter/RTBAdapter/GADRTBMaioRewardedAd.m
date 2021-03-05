@@ -55,24 +55,21 @@
 }
 
 - (void)didOpen:(MaioRewarded *)ad {
-  id<GADMediationRewardedAdEventDelegate> delegate = _adEventDelegate;
-  [delegate willPresentFullScreenView];
-  [delegate reportImpression];
-  [delegate didStartVideo];
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate reportImpression];
+  [_adEventDelegate didStartVideo];
 }
 
 - (void)didClose:(MaioRewarded *)ad {
-  id<GADMediationRewardedAdEventDelegate> delegate = _adEventDelegate;
-  [delegate didEndVideo];
-  [delegate willDismissFullScreenView];
-  [delegate didDismissFullScreenView];
+  [_adEventDelegate didEndVideo];
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 - (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward {
   GADAdReward *gReward = [[GADAdReward alloc] initWithRewardType:reward.value rewardAmount:[NSDecimalNumber one]];
 
-  id<GADMediationRewardedAdEventDelegate> delegate = _adEventDelegate;
-  [delegate didRewardUserWithReward:gReward];
+  [_adEventDelegate didRewardUserWithReward:gReward];
 }
 
 @end
