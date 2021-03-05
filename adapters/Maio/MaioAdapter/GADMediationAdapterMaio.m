@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Maio/Maio.h>
+#import <MaioOB/MaioOB-Swift.h>
 
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioRewardedAd.h"
@@ -20,8 +21,6 @@
 #import "GADMMaioConstants.h"
 #import "GADMediationAdapterMaio.h"
 #import "GADRTBAdapterMaioEntryPoint.h"
-
-@import MaioOB;
 
 @interface GADMediationAdapterMaio () <MaioDelegate>
 
