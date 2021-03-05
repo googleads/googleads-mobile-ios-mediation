@@ -59,15 +59,13 @@
 }
 
 - (void)didOpen:(MaioInterstitial *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _adEventDelegate;
-  [delegate willPresentFullScreenView];
-  [delegate reportImpression];
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate reportImpression];
 }
 
 - (void)didClose:(MaioInterstitial *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _adEventDelegate;
-  [delegate willDismissFullScreenView];
-  [delegate didDismissFullScreenView];
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 @end
