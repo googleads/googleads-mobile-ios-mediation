@@ -24,10 +24,17 @@
 #import "GADMAdapterAdColonyInitializer.h"
 #import "GADMAdapterAdColonyRTBInterstitialRenderer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
+#import "GADMAdapterAdColonyRTBBannerRenderer.h"
 
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 @implementation GADMediationAdapterAdColony {
+  /// Completion handler for signal generation. Returns either signals or an error object.
+  GADRTBSignalCompletionHandler _signalCompletionHandler;
+
+  /// AdColony banner ad renderer.
+  GADMAdapterAdColonyRTBBannerRenderer *_bannerRenderer;
+
   /// AdColony interstitial ad renderer.
   GADMAdapterAdColonyRTBInterstitialRenderer *_interstitialRenderer;
 
@@ -136,5 +143,10 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
   [_interstitialRenderer renderInterstitialForAdConfig:adConfiguration
                                      completionHandler:completionHandler];
 }
-
+    
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    _bannerRenderer = [[GADMAdapterAdColonyRTBBannerRenderer alloc] init];
+    [_bannerRenderer renderBannerForAdConfig:adConfiguration completionHandler:completionHandler];
+}
 @end
