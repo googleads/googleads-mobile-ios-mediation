@@ -110,7 +110,10 @@
   if (!newValue) {
     return;
   }
-  self.adEventDelegate = self.completionHandler(self, nil);
+  id<GADMediationRewardedAdEventDelegate> delegate = self.completionHandler(self, nil);
+  if (delegate) {
+    self.adEventDelegate = delegate;
+  }
 }
 
 /**
