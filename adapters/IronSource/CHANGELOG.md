@@ -1,12 +1,19 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Version 7.1.2.0
+- Verified compatibility with ironSource SDK version 7.1.2.
+
+Build and tested with:
+- Google Mobile Ads SDK version 8.1.0.
+- IronSource SDK version 7.1.2.
+
 #### Version 7.1.1.0
 - Verified compatibility with ironSource SDK version 7.1.1.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 
 Build and tested with:
 - Google Mobile Ads SDK version 8.1.0.
-- IronSource SDK version 7.1.1
+- IronSource SDK version 7.1.1.
 
 #### Version 7.1.0.1
 - Updated the adapter to use the `.xcframework` format.
@@ -14,7 +21,7 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 8.0.0.
-- IronSource SDK version 7.1.0
+- IronSource SDK version 7.1.0.
 
 #### Version 7.1.0.0
 - Verified compatibility with ironSource SDK version 7.1.0.
@@ -22,7 +29,7 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.69.0.
-- IronSource SDK version 7.1.0
+- IronSource SDK version 7.1.0.
 
 #### Version 7.0.4.0
 - Verified compatibility with ironSource SDK version 7.0.4.
@@ -31,14 +38,14 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.68.0.
-- IronSource SDK version 7.0.4
+- IronSource SDK version 7.0.4.
 
 #### Version 7.0.3.0
 - Verified compatibility with ironSource SDK version 7.0.3.
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.66.0.
-- IronSource SDK version 7.0.3
+- IronSource SDK version 7.0.3.
 
 #### Version 7.0.2.0
 - Verified compatibility with ironSource SDK version 7.0.2.
@@ -46,14 +53,14 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.66.0.
-- IronSource SDK version 7.0.2
+- IronSource SDK version 7.0.2.
 
 #### Version 7.0.1.0
 - Verified compatibility with ironSource SDK version 7.0.1.
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.64.0.
-- IronSource SDK version 7.0.1
+- IronSource SDK version 7.0.1.
 
 #### Version 7.0.0.0
 - Verified compatibility with ironSource SDK version 7.0.0.
@@ -62,14 +69,14 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.64.0.
-- IronSource SDK version 7.0.0
+- IronSource SDK version 7.0.0.
 
 #### Version 6.18.0.2.0
 - Verified compatibility with ironSource SDK version 6.18.0.2.
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.63.0.
-- IronSource SDK version 6.18.0.2
+- IronSource SDK version 6.18.0.2.
 
 #### Version 6.18.0.1.0
 - Verified compatibility with ironSource SDK version 6.18.0.1.
@@ -77,7 +84,7 @@ Build and tested with:
 
 Build and tested with:
 - Google Mobile Ads SDK version 7.63.0.
-- IronSource SDK version 6.18.0.1
+- IronSource SDK version 6.18.0.1.
 
 #### Version 6.18.0.0
 - Verified compatibility with ironSource SDK version 6.18.0.
