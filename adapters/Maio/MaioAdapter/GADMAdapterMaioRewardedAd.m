@@ -17,6 +17,8 @@
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 
+#import <stdatomic.h>
+
 @interface GADMAdapterMaioRewardedAd () <MaioDelegate>
 
 @property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler completionHandler;
@@ -31,6 +33,26 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+  self.completionHandler = ^id<GADMediationRewardedAdEventDelegate>(_Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error){
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
+
   self.completionHandler = completionHandler;
   _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaId];
   _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneId];
@@ -88,7 +110,10 @@
   if (!newValue) {
     return;
   }
-  self.adEventDelegate = self.completionHandler(self, nil);
+  id<GADMediationRewardedAdEventDelegate> delegate = self.completionHandler(self, nil);
+  if (delegate) {
+    self.adEventDelegate = delegate;
+  }
 }
 
 /**
