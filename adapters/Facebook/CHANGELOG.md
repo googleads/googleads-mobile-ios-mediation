@@ -1,5 +1,12 @@
 ## Facebook iOS Mediation Adapter Changelog
 
+#### Version 6.3.1.0
+- Verified compatibility with FAN SDK 6.3.1.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.1.0.
+- FAN SDK version 6.3.1.
+
 #### Version 6.3.0.0
 - Verified compatibility with FAN SDK 6.3.0.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
