@@ -2,9 +2,10 @@
 
 #### Version 6.3.1.0
 - Verified compatibility with FAN SDK 6.3.1.
+- Now requires Google Mobile Ads SDK version 8.2.0 or higher.
 
 Built and tested with
-- Google Mobile Ads SDK version 8.1.0.
+- Google Mobile Ads SDK version 8.2.0.
 - FAN SDK version 6.3.1.
 
 #### Version 6.3.0.0
