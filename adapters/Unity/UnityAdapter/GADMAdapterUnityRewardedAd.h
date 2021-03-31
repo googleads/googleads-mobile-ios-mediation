@@ -17,7 +17,7 @@
 #import <UnityAds/UnityAds.h>
 
 @interface GADMAdapterUnityRewardedAd
-    : NSObject <GADMediationRewardedAd, UnityAdsExtendedDelegate, UnityAdsLoadDelegate>
+    : NSObject <GADMediationRewardedAd, UnityAdsLoadDelegate, UnityAdsShowDelegate>
 
 - (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                       completionHandler:
