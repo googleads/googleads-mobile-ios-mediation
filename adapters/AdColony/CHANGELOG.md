@@ -3,6 +3,9 @@
 #### Next Version
 - Updated the adapter to use the `.xcframework` format.
 
+#### Version 4.5.0.1
+- Added open bidding capability for banner ads.
+
 #### Version 4.5.0.0
 - Verified compatibility with AdColony SDK 4.5.0.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
