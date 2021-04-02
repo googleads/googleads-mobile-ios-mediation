@@ -53,7 +53,6 @@
     return delegate;
   };
 
-  self.completionHandler = completionHandler;
   _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaId];
   _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneId];
 
