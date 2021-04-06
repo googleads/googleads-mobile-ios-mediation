@@ -169,14 +169,13 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   [_connector adapterDidReceiveInterstitial:self];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  NSError *adapterError = GADMoPubErrorWithCodeAndDescription(GADMoPubErrorSDKFailureCallback,
-                                                              @"MoPub failed to load the ad.");
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
+                          withError:(NSError *)error {
   dispatch_async(_lockQueue, ^{
     GADMAdapterMoPubMapTableRemoveObjectForKey(GADMAdapterMoPubInterstitialDelegates,
                                                interstitial.adUnitId);
   });
-  [_connector adapter:self didFailAd:adapterError];
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {

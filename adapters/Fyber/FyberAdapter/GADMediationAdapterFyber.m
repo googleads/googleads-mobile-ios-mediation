@@ -43,10 +43,6 @@
   return GADMAdapterFyberVersionFromString([[IASDKCore sharedInstance] version]);
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterFyber adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   return GADMAdapterFyberVersionFromString(kGADMAdapterFyberVersion);
 }
@@ -71,11 +67,9 @@
   }
 
   if (!applicationIDs.count) {
-    NSString *logMessage =
-        @"Fyber Marketplace SDK could not be initialized: Missing or invalid Application ID.";
-    GADMAdapterFyberLog(@"%@", logMessage);
-    NSError *error =
-        GADMAdapterFyberErrorWithCodeAndDescription(kGADErrorMediationDataError, logMessage);
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or invalid Application ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
     completionHandler(error);
     return;
   }

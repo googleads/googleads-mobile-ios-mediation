@@ -1,5 +1,52 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 10.1.0.0
+- Verified compatibility with AppLovin SDK 10.1.0.
+- Now requires Google Mobile Ads SDK version 8.3.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.3.0.
+- AppLovin SDK version 10.1.0.
+
+#### Version 10.0.1.0
+- Verified compatibility with AppLovin SDK 10.0.1.
+- Now requires Google Mobile Ads SDK version 8.2.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.2.0.
+- AppLovin SDK version 10.0.1.
+
+#### Version 10.0.0.0
+- Verified compatibility with AppLovin SDK 10.0.0.
+- Now requires Google Mobile Ads SDK version 8.1.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.1.0.
+- AppLovin SDK version 10.0.0.
+
+#### Version 6.15.2.0
+- Verified compatibility with AppLovin SDK 6.15.2.
+- Now requires Google Mobile Ads SDK version 8.0.0 or higher.
+- Updated the adapter to use the `.xcframework` format.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.0.0.
+- AppLovin SDK version 6.15.2.
+
+#### Version 6.15.1.0
+- Verified compatibility with AppLovin SDK 6.15.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.69.0.
+- AppLovin SDK version 6.15.1.
+
+#### Version 6.15.0.0
+- Verified compatibility with AppLovin SDK 6.15.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 7.69.0.
+- AppLovin SDK version 6.15.0.
+
 #### Version 6.14.11.0
 - Verified compatibility with AppLovin SDK 6.14.11.
 

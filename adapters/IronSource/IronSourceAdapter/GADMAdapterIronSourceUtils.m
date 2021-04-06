@@ -56,7 +56,7 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 + (NSString *)getAdMobSDKVersion {
   NSString *version = @"";
-  NSString *sdkVersion = [GADRequest sdkVersion];
+  NSString *sdkVersion = GADMobileAds.sharedInstance.sdkVersion;
   @try {
     NSUInteger versionIndex = [sdkVersion rangeOfString:@"-v"].location + 1;
     version = [sdkVersion substringFromIndex:versionIndex];

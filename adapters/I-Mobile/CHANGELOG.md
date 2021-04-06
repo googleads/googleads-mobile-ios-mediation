@@ -1,5 +1,14 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Version 2.1.0.0
+- Verified compatibility with i-mobile SDK version 2.1.0.
+- Now requires Google Mobile Ads SDK version 8.1.0 or higher.
+- Updated the adapter to use the `.xcframework` format.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.1.0.
+- i-mobile SDK version 2.1.0.
+
 #### Version 2.0.33.1
 - Added standardized adapter error codes and messages.
 - Adapter now limits requesting of multiple interstitial ads using the same i-mobile Spot ID.

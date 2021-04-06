@@ -114,7 +114,7 @@
   if (_zoneIdentifier.length > 0) {
     [_sdk.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:_interstitialDelegate];
   } else {
-    [_sdk.adService loadNextAd:[ALAdSize sizeInterstitial] andNotify:_interstitialDelegate];
+    [_sdk.adService loadNextAd:ALAdSize.interstitial andNotify:_interstitialDelegate];
   }
 }
 

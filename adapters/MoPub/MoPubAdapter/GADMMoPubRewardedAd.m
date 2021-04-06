@@ -8,7 +8,7 @@
 #import "GADMAdapterMoPubUtils.h"
 #import "GADMoPubNetworkExtras.h"
 
-@interface GADMMoPubRewardedAd () <MPRewardedVideoDelegate>
+@interface GADMMoPubRewardedAd () <MPRewardedAdsDelegate>
 @end
 
 @implementation GADMMoPubRewardedAd {
@@ -77,7 +77,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   // MoPub ads have a 4-hour expiration time window
-  if (![MPRewardedVideo hasAdAvailableForAdUnitID:_adUnitID]) {
+  if (![MPRewardedAds hasAdAvailableForAdUnitID:_adUnitID]) {
     NSString *description;
     if (_adExpired) {
       description = @"Failed to show a MoPub rewarded ad. Ad has expired after 4 hours. "
@@ -92,59 +92,58 @@
     return;
   }
 
-  NSArray *rewards = [MPRewardedVideo availableRewardsForAdUnitID:_adUnitID];
-  MPRewardedVideoReward *reward = rewards[0];
+  NSArray *rewards = [MPRewardedAds availableRewardsForAdUnitID:_adUnitID];
+  MPReward *reward = rewards[0];
 
   GADMoPubNetworkExtras *extras = _adConfig.extras;
-  [MPRewardedVideo presentRewardedVideoAdForAdUnitID:_adUnitID
-                                  fromViewController:viewController
-                                          withReward:reward
-                                          customData:extras.customRewardData];
+  [MPRewardedAds presentRewardedAdForAdUnitID:_adUnitID
+                           fromViewController:viewController
+                                   withReward:reward
+                                   customData:extras.customRewardData];
 }
 
 #pragma mark GADMAdapterMoPubRewardedAdDelegate methods
 
-- (void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
   _adEventDelegate = _completionHandler(self, nil);
 }
 
-- (void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
+- (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
   _completionHandler(nil, error);
 }
 
-- (void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillPresentForAdUnitID:(NSString *)adUnitID {
   [_adEventDelegate willPresentFullScreenView];
 }
 
-- (void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidPresentForAdUnitID:(NSString *)adUnitID {
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
   [strongAdEventDelegate reportImpression];
   [strongAdEventDelegate didStartVideo];
 }
 
-- (void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
   [_adEventDelegate willDismissFullScreenView];
 }
 
-- (void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)rewardedVideoAdDidExpireForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidExpireForAdUnitID:(NSString *)adUnitID {
   MPLogDebug(@"MoPub rewarded ad has been expired. Please make a new ad request.");
   _adExpired = true;
 }
 
-- (void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
   [_adEventDelegate reportClick];
 }
 
-- (void)rewardedVideoWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
   // No equivalent API to call in GoogleMobileAds SDK.
 }
 
-- (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID
-                                        reward:(MPRewardedVideoReward *)reward {
+- (void)rewardedAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPReward *)reward {
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = _adEventDelegate;
   NSDecimalNumber *rewardAmount =
       [NSDecimalNumber decimalNumberWithDecimal:[reward.amount decimalValue]];

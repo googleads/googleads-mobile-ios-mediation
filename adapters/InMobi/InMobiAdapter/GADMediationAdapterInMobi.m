@@ -82,10 +82,6 @@
   return [GADInMobiExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterInMobi adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
       [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];

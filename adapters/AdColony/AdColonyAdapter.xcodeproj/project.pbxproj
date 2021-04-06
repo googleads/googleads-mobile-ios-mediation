@@ -48,6 +48,8 @@
 		7DDEA9411DFB30E600FCF905 /* GADMAdapterAdColony.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEA93E1DFB30E600FCF905 /* GADMAdapterAdColony.h */; };
 		7DDEA9421DFB30E600FCF905 /* GADMAdapterAdColony.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEA93F1DFB30E600FCF905 /* GADMAdapterAdColony.m */; };
 		7DDEA9431DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */; };
+		BF2D3E6A24EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2D3E6824EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.h */; };
+		BF2D3E6B24EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2D3E6924EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		7DDEA9401DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyExtras.m; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF2D3E6824EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAdColonyRTBBannerRenderer.h; sourceTree = "<group>"; };
+		BF2D3E6924EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAdColonyRTBBannerRenderer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 		454760732286125C0041D40B /* OpenBidding */ = {
 			isa = PBXGroup;
 			children = (
+				BF2D3E6824EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.h */,
+				BF2D3E6924EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.m */,
 				45476078228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h */,
 				45476079228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m */,
 				45B4C1DC237B642E0028D9E1 /* GADMAdapterAdColonyRTBInterstitialRenderer.h */,
@@ -213,6 +219,7 @@
 				7DC8682E1DDA8D4400F0F1C4 /* AdColonyAdapter.h in Headers */,
 				4593F41C227B8E2500F57AE5 /* GADMAdapterAdColonyConstants.h in Headers */,
 				4547607A228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.h in Headers */,
+				BF2D3E6A24EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.h in Headers */,
 				7DDEA93C1DFB30D200FCF905 /* GADMAdapterAdColonyExtras.h in Headers */,
 				45BFFBB822286EE100C96A67 /* GADMAdapterAdColonyInitializer.h in Headers */,
 				45B4C1DE237B64340028D9E1 /* GADMAdapterAdColonyRTBInterstitialRenderer.h in Headers */,
@@ -315,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45BFFBB922286EE100C96A67 /* GADMAdapterAdColonyInitializer.m in Sources */,
+				BF2D3E6B24EBE29800BAA447 /* GADMAdapterAdColonyRTBBannerRenderer.m in Sources */,
 				45BFFBC122286F4E00C96A67 /* GADMAdapterAdColonyHelper.m in Sources */,
 				7DDEA9431DFB30E600FCF905 /* GADMAdapterAdColonyExtras.m in Sources */,
 				4547607B228612BC0041D40B /* GADMAdapterAdColonyRewardedRenderer.m in Sources */,
@@ -338,7 +346,6 @@
 		0028CED822F0FB8100151C65 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -346,7 +353,6 @@
 		0028CED922F0FB8100151C65 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -354,14 +360,12 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -411,7 +415,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
@@ -457,7 +460,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -470,7 +472,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -482,7 +483,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
