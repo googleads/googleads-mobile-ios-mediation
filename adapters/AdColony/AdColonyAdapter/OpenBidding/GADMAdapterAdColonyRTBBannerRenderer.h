@@ -7,5 +7,5 @@
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderBannerForAdConfig:(nonnull GADMediationBannerAdConfiguration *)adConfig
-                completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
+              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
 @end
