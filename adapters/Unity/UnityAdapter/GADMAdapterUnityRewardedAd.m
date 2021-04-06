@@ -148,7 +148,7 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
 - (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
   [_adEventDelegate didEndVideo];
 
-  if (state == kUnityAdsFinishStateCompleted) {
+  if (state == kUnityShowCompletionStateCompleted) {
     // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
     // amount of 1. Publishers using this adapter should override the reward on the AdMob
     // front-end.
