@@ -132,7 +132,6 @@
                 });
               }];
 
-
   dispatch_after(GADMAdapterAdColonyDispatchTimeForInterval(5), _lockQueue, ^{
     // TODO: Discuss with AdColony if they can change their configure call to send a callback if
     // called a second time within a 5 second span. Alternatively, discuss with AdColony what the

@@ -1,8 +1,9 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 1.5.6.1
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
+- Fixed the problem that unexpected nil is assigned to RewardedAdDelegate due to the difference in life cycle between maio SDK and MaioAdapter.
 
 #### Version 1.5.6.0
 - Verified compatibility with maio SDK version 1.5.6.

@@ -1,14 +1,28 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+####  Version 5.16.2.0
+- Verified compatibility with MoPub SDK 5.16.2.
+- Now requires Google Mobile Ads SDK version 8.2.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.2.0.
+- MoPub SDK version 5.16.2.
+
+####  Version 5.16.1.0
+- Verified compatibility with MoPub SDK 5.16.1.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.1.0.
+- MoPub SDK version 5.16.1.
+
 ####  Version 5.16.0.0
 - Verified compatibility with MoPub SDK 5.16.0.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Updated the adapter to use the `.xcframework` format.
-- Verified compatibility with MoPub SDK 5.16.0.
 
 Built and tested with
 - Google Mobile Ads SDK version 8.1.0.
-- MoPub SDK version 5.16.0
+- MoPub SDK version 5.16.0.
 
 ####  Version 5.15.0.0
 - Verified compatibility with MoPub SDK 5.15.0.
@@ -16,14 +30,14 @@ Built and tested with
 
 Built and tested with
 - Google Mobile Ads SDK version 7.68.0.
-- MoPub SDK version 5.15.0
+- MoPub SDK version 5.15.0.
 
 ####  Version 5.14.1.0
 - Verified compatibility with MoPub SDK 5.14.1.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
-- MoPub SDK version 5.14.1
+- MoPub SDK version 5.14.1.
 
 ####  Version 5.14.0.0
 - Verified compatibility with MoPub SDK 5.14.0.
@@ -31,7 +45,7 @@ Built and tested with
 
 Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
-- MoPub SDK version 5.14.0
+- MoPub SDK version 5.14.0.
 
 ####  Version 5.13.1.1
 - Fixed a memory leak issue with native ads.

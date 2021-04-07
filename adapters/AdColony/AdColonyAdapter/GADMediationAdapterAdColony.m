@@ -22,12 +22,16 @@
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
+#import "GADMAdapterAdColonyRTBBannerRenderer.h"
 #import "GADMAdapterAdColonyRTBInterstitialRenderer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 @implementation GADMediationAdapterAdColony {
+  /// AdColony banner ad renderer.
+  GADMAdapterAdColonyRTBBannerRenderer *_bannerRenderer;
+
   /// AdColony interstitial ad renderer.
   GADMAdapterAdColonyRTBInterstitialRenderer *_interstitialRenderer;
 
@@ -137,4 +141,9 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
                                      completionHandler:completionHandler];
 }
 
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerRenderer = [[GADMAdapterAdColonyRTBBannerRenderer alloc] init];
+  [_bannerRenderer renderBannerForAdConfig:adConfiguration completionHandler:completionHandler];
+}
 @end

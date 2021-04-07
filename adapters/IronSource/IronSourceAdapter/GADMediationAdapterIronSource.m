@@ -110,4 +110,16 @@
   [_rewardedAd requestRewardedAd];
 }
 
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:
+                                       (nonnull GADMediationRewardedLoadCompletionHandler)
+                                           completionHandler {
+  // IronSource Rewarded Interstitial ads use the same Rewarded Video API.
+  NSLog(@"IronSource adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
+        @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
+        @"IronSource.");
+  [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
 @end
