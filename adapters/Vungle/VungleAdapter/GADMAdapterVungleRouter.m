@@ -99,6 +99,9 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   // Disable refresh functionality for all banners
   [[VungleSDK sharedSDK] disableBannerRefresh];
 
+  // Enable background downloading
+  [VungleSDK enableBackgroundDownload:YES];
+
   // Set init options for priority placement
   NSMutableDictionary *initOptions = [NSMutableDictionary dictionary];
   if (delegate) {
