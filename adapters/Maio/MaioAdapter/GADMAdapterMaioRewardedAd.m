@@ -35,8 +35,10 @@
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-  self.completionHandler = ^id<GADMediationRewardedAdEventDelegate>(_Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error){
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  self.completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
     // Only allow completion handler to be called once.
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -110,6 +112,9 @@
     return;
   }
   id<GADMediationRewardedAdEventDelegate> delegate = self.completionHandler(self, nil);
+  // Maio SDK may call maioDidChangeCanShow multiple times during the lifecycle of the ad. Avoid
+  // overwriting the delegate to nil since the completion handler only returns a non-nil delegate
+  // once.
   if (delegate) {
     self.adEventDelegate = delegate;
   }

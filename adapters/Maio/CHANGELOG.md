@@ -3,7 +3,12 @@
 #### Version 1.5.6.1
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
-- Fixed the problem that unexpected nil is assigned to RewardedAdDelegate due to the difference in life cycle between maio SDK and MaioAdapter.
+- Fixed a bug where rewarded ad events were sometimes not forwarded.
+- Now requires Google Mobile Ads SDK version 8.3.0 or higher.
+
+Build and tested with:
+- Google Mobile Ads SDK version 8.3.0.
+- Maio SDK version 1.5.6.
 
 #### Version 1.5.6.0
 - Verified compatibility with maio SDK version 1.5.6.
