@@ -17,6 +17,15 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
+@interface MTRGNativeAd ()
+
+- (void)registerView:(nonnull UIView *)containerView
+      withController:(nonnull UIViewController *)controller
+  withClickableViews:(nullable NSArray<UIView *> *)clickableViews
+     withMediaAdView:(nonnull MTRGMediaAdView *)mediaAdView;
+
+@end
+
 @implementation GADMAdapterMyTargetMediatedUnifiedNativeAd {
   /// myTarget native ad object.
   MTRGNativeAd *_nativeAd;
@@ -192,7 +201,8 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     [self->_nativeAd registerView:view
                    withController:viewController
-               withClickableViews:clickableAssetViews.allValues];
+               withClickableViews:clickableAssetViews.allValues
+                  withMediaAdView:self->_mediaAdView];
   });
 }
 
