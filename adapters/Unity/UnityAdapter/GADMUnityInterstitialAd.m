@@ -19,7 +19,7 @@
 #import "GADUnityError.h"
 
 @implementation GADMUnityInterstitialAd {
-  NSString *_placementID;
+  NSString *_loadedPlacementID;
   NSString *_gameID;
   BOOL _isLoading;
   /// Connector from Google Mobile Ads SDK to receive ad configurations.
@@ -100,7 +100,7 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, self->_placementID);
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, self->_loadedPlacementID);
   });
 
   // We will send adapterWillPresentInterstitial callback before presenting unity ad because the ad
@@ -118,18 +118,18 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
     return;
   }
 
-  if (!_placementID) {
+  if (!_loadedPlacementID) {
     NSLog(@"Unity Ads received call to show before successfully loading an ad");
   }
   
   [strongConnector adapterWillPresentInterstitial:strongAdapter];
-  [UnityAds show:rootViewController placementId:_placementID showDelegate:self];
+  [UnityAds show:rootViewController placementId:_loadedPlacementID showDelegate:self];
 }
 
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-  _placementID = placementId;
+  _loadedPlacementID = placementId;
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
 
@@ -139,16 +139,16 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
 }
 
 - (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message {
-  _placementID = placementId;
+  _loadedPlacementID = placementId;
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, self->_placementID);
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUse, self->_loadedPlacementID);
   });
 
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
   if (strongConnector && strongAdapter) {
     NSString *errorMsg =
-        [NSString stringWithFormat:@"No ad available for the placement ID: %@", _placementID];
+        [NSString stringWithFormat:@"No ad available for the placement ID: %@", _loadedPlacementID];
     NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
         GADMAdapterUnityErrorPlacementStateNoFill, errorMsg);
     [strongConnector adapter:strongAdapter didFailAd:error];
