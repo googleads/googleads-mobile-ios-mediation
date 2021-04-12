@@ -199,10 +199,16 @@
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_nativeAd registerView:view
-                   withController:viewController
-               withClickableViews:clickableAssetViews.allValues
-                  withMediaAdView:self->_mediaAdView];
+    if ([self->_nativeAd respondsToSelector:@selector(registerView:withController:withClickableViews:withMediaAdView:)]) {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues
+                    withMediaAdView:self->_mediaAdView];
+    } else {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues];
+    }
   });
 }
 
