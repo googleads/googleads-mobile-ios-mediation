@@ -9,13 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADRTBMaioRewardedAd : NSObject<GADMediationRewardedAd>
 
 - (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler: (nonnull GADMediationRewardedLoadCompletionHandler) completionHandler;
 
 @end
-
-NS_ASSUME_NONNULL_END
