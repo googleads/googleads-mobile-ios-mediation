@@ -71,6 +71,8 @@
   NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
 
+  NSLog(@"MaioRewarded did fail. error: %@", error);
+
   if (10000 <= errorCode && errorCode < 20000) {
     // Fail to load.
     _completionHandler(nil, error);
