@@ -23,10 +23,7 @@
   GADMediationRewardedAdConfiguration *_adConfiguration;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _adConfiguration = adConfiguration;
-
+- (void)loadRewardedAdWithCompletionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
@@ -49,6 +46,13 @@
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
   _rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
+}
+
+- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _adConfiguration = adConfiguration;
+
+  [self loadRewardedAdWithCompletionHandler:completionHandler];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
