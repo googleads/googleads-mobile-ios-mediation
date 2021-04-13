@@ -25,8 +25,8 @@
 }
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  _interstitial = [[GADRTBMaioInterstitialAd alloc] init];
-  [_interstitial loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  _interstitial = [[GADRTBMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration];
+  [_interstitial loadInterstitialWithCompletionHandler:completionHandler];
 }
 
 @end
