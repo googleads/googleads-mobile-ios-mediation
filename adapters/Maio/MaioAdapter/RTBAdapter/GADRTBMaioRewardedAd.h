@@ -12,7 +12,6 @@
 @interface GADRTBMaioRewardedAd : NSObject<GADMediationRewardedAd>
 
 - (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration;
-- (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler: (nonnull GADMediationRewardedLoadCompletionHandler) completionHandler;
+- (void)loadRewardedAdWithCompletionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

@@ -20,8 +20,8 @@
 }
 
 -(void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewarded = [[GADRTBMaioRewardedAd alloc] init];
-  [_rewarded loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  _rewarded = [[GADRTBMaioRewardedAd alloc] initWithAdConfiguration:adConfiguration];
+  [_rewarded loadRewardedAdWithCompletionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {

@@ -56,13 +56,6 @@
   _rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
 }
 
-- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _adConfiguration = adConfiguration;
-
-  [self loadRewardedAdWithCompletionHandler:completionHandler];
-}
-
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [_rewarded showWithViewContext:viewController callback:self];
 }
