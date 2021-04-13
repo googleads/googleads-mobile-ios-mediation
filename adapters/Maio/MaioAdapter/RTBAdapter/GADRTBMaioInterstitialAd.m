@@ -31,6 +31,10 @@
                        completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;
 
+  [self loadInterstitialWithCompletionHandler:completionHandler];
+}
+
+- (void)loadInterstitialWithCompletionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
