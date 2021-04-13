@@ -24,10 +24,13 @@
   GADMediationInterstitialLoadCompletionHandler _completionHandler;
   __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
   MaioInterstitial *_interstitial;
+  GADMediationInterstitialAdConfiguration *_adConfiguration;
 }
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _adConfiguration = adConfiguration;
+
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
@@ -48,7 +51,7 @@
     return delegate;
   };
 
-  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:adConfiguration.isTestRequest bidData:adConfiguration.bidResponse];
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
   _interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
 }
 
