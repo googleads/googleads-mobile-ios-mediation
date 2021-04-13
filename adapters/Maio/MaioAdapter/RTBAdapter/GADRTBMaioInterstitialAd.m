@@ -27,6 +27,14 @@
   GADMediationInterstitialAdConfiguration *_adConfiguration;
 }
 
+- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration {
+  self = [super init];
+  if (self) {
+    _adConfiguration = adConfiguration;
+  }
+  return self;
+}
+
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;

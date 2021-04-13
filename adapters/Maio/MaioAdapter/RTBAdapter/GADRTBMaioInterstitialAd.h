@@ -11,6 +11,7 @@
 
 @interface GADRTBMaioInterstitialAd : NSObject <GADMediationInterstitialAd>
 
+- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration;
 - (void)loadInterstitialForAdConfiguration: (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler: (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
 
