@@ -23,6 +23,14 @@
   GADMediationRewardedAdConfiguration *_adConfiguration;
 }
 
+- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration {
+  self = [super init];
+  if (self) {
+    _adConfiguration = adConfiguration;
+  }
+  return self;
+}
+
 - (void)loadRewardedAdWithCompletionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
