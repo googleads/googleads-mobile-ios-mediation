@@ -17,6 +17,15 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
+@interface MTRGNativeAd ()
+
+- (void)registerView:(nonnull UIView *)containerView
+      withController:(nonnull UIViewController *)controller
+  withClickableViews:(nullable NSArray<UIView *> *)clickableViews
+     withMediaAdView:(nonnull MTRGMediaAdView *)mediaAdView;
+
+@end
+
 @implementation GADMAdapterMyTargetMediatedUnifiedNativeAd {
   /// myTarget native ad object.
   MTRGNativeAd *_nativeAd;
@@ -190,9 +199,16 @@
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_nativeAd registerView:view
-                   withController:viewController
-               withClickableViews:clickableAssetViews.allValues];
+    if ([self->_nativeAd respondsToSelector:@selector(registerView:withController:withClickableViews:withMediaAdView:)]) {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues
+                    withMediaAdView:self->_mediaAdView];
+    } else {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues];
+    }
   });
 }
 
