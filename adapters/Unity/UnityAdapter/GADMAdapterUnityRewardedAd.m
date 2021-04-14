@@ -34,7 +34,8 @@
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Placement ID of Unity Ads network.
-  NSString *_loadedPlacementID;
+  NSString *_placementID;
+  BOOL _loadComplete;
 
   /// Serial dispatch queue.
   dispatch_queue_t _lockQueue;
@@ -73,6 +74,8 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
       return delegate;
     };
 
+    _loadComplete = NO;
+
     _adConfiguration = adConfiguration;
     _placementInUseRewarded = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                     valueOptions:NSPointerFunctionsWeakMemory];
@@ -83,10 +86,10 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
 
 - (void)requestRewardedAd {
   NSString *gameID = _adConfiguration.credentials.settings[kGADMAdapterUnityGameID];
-  _loadedPlacementID = _adConfiguration.credentials.settings[kGADMAdapterUnityPlacementID];
+  _placementID = _adConfiguration.credentials.settings[kGADMAdapterUnityPlacementID];
 
-  NSLog(@"Requesting Unity rewarded ad with placement: %@", _loadedPlacementID);
-  if (!gameID || !_loadedPlacementID) {
+  NSLog(@"Requesting Unity rewarded ad with placement: %@", _placementID);
+  if (!gameID || !_placementID) {
     if (_adLoadCompletionHandler) {
       NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
           GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
@@ -102,51 +105,50 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
 
   __block GADMAdapterUnityRewardedAd *rewardedAd = nil;
   dispatch_sync(_lockQueue, ^{
-    rewardedAd = [_placementInUseRewarded objectForKey:_loadedPlacementID];
+    rewardedAd = [_placementInUseRewarded objectForKey:_placementID];
   });
 
   if (rewardedAd) {
     if (_adLoadCompletionHandler) {
       NSError *error = GADUnityErrorWithDescription([NSString
-          stringWithFormat:@"An ad is already loading for placement ID: %@.", _loadedPlacementID]);
+          stringWithFormat:@"An ad is already loading for placement ID: %@.", _placementID]);
       _adEventDelegate = _adLoadCompletionHandler(nil, error);
     }
     return;
   }
 
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableSetObjectForKey(_placementInUseRewarded, self->_loadedPlacementID, self);
+    GADMAdapterUnityMapTableSetObjectForKey(_placementInUseRewarded, self->_placementID, self);
   });
 
-  [UnityAds load:_loadedPlacementID loadDelegate:self];
+  [UnityAds load:_placementID loadDelegate:self];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, self->_loadedPlacementID);
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, self->_placementID);
   });
 
-  if (!_loadedPlacementID) {
+  if (!_loadComplete) {
     NSLog(@"Unity Ads received call to show before successfully loading an ad");
   }
 
-  [_adEventDelegate willPresentFullScreenView];
-  [UnityAds show:viewController placementId:_loadedPlacementID showDelegate:self];
+  [UnityAds show:viewController placementId:_placementID showDelegate:self];
 }
 
 #pragma mark - UnityAdsLoadDelegate Methods
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-  _loadedPlacementID = placementId;
+  _loadComplete = YES;
   if (_adLoadCompletionHandler) {
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
 - (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message {
-  _loadedPlacementID = placementId;
+  _loadComplete = YES;
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, self->_loadedPlacementID);
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, placementId);
   });
 
   if (_adLoadCompletionHandler) {
@@ -159,6 +161,7 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
 #pragma mark - UnityAdsShowDelegate Methods
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
+  [_adEventDelegate willPresentFullScreenView];
   [_adEventDelegate didStartVideo];
 }
 
@@ -189,6 +192,9 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
   NSError *errorWithDescription =
       GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(error, message);
   [_adEventDelegate didFailToPresentWithError:errorWithDescription];
+
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 @end
