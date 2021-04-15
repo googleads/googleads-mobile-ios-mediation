@@ -91,6 +91,9 @@
     [_adEventDelegate didFailToPresentWithError:error];
   } else {
     // Unknown error code
+
+    // Notify an error when loading.
+    _completionHandler(nil, error);
   }
 }
 
