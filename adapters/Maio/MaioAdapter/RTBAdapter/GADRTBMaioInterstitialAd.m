@@ -62,7 +62,7 @@
     return delegate;
   };
 
-  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:kGADRTBMaioAdapterZoneId testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB" testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
   _interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
 }
 
