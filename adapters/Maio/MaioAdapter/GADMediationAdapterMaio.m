@@ -93,6 +93,8 @@
 }
 
 + (void)setupCaseExistsPublisherIDs: (nonnull NSSet *)publisherIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
+  // This method applies to the case of using "Maio-OpenBidding".
+  // There is no work that the SDK does for initialization.
   completionHandler(nil);
 }
 
