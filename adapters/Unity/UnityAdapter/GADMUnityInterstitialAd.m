@@ -180,7 +180,7 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
-
+  
   [strongNetworkConnector adapterDidGetAdClick:strongAdapter];
   [strongNetworkConnector adapterWillLeaveApplication:strongAdapter];
 }
@@ -205,10 +205,8 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
     return;
   }
 
-  NSError *errorWithDescription =
-      GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(error, message);
-  [strongConnector adapter:strongAdapter didFailAd:errorWithDescription];
-
+  // Simulate show failure by calling adapterWillPresentInterstitial just before adapterWillDismissInterstitial.
+  [strongConnector adapterWillPresentInterstitial:strongAdapter];
   [strongConnector adapterWillDismissInterstitial:strongAdapter];
   [strongConnector adapterDidDismissInterstitial:strongAdapter];
 }
