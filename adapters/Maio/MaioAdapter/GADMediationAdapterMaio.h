@@ -26,6 +26,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterMaioErrorCode) {
   GADMAdapterMaioErrorAdAlreadyLoaded = 104
 };
 
-@interface GADMediationAdapterMaio : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterMaio : NSObject <GADRTBAdapter>
 
 @end
