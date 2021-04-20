@@ -18,9 +18,9 @@
 #import "GADMAdapterUnityUtils.h"
 #import "GADUnityError.h"
 
-@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd,
-                                          UnityAdsExtendedDelegate,
-                                          UnityAdsLoadDelegate>
+#import "stdatomic.h"
+
+@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsLoadDelegate, UnityAdsShowDelegate>
 @end
 
 @implementation GADMAdapterUnityRewardedAd {
@@ -31,10 +31,11 @@
   GADMediationAdConfiguration *_adConfiguration;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Placement ID of Unity Ads network.
   NSString *_placementID;
+  BOOL _loadComplete;
 
   /// Serial dispatch queue.
   dispatch_queue_t _lockQueue;
@@ -48,7 +49,33 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
-    _adLoadCompletionHandler = completionHandler;
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+        [completionHandler copy];
+
+    _adLoadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+        _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+      // Only allow completion handler to be called once.
+      if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+        return nil;
+      }
+
+      id<GADMediationRewardedAdEventDelegate> delegate = nil;
+      if (originalCompletionHandler) {
+        // Call original handler and hold on to its return value.
+        delegate = originalCompletionHandler(ad, error);
+      }
+
+      // Release reference to handler. Objects retained by the handler will
+      // also be released.
+      originalCompletionHandler = nil;
+
+      // Return the return value.
+      return delegate;
+    };
+
+    _loadComplete = NO;
+
     _adConfiguration = adConfiguration;
     _placementInUseRewarded = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                                     valueOptions:NSPointerFunctionsWeakMemory];
@@ -102,78 +129,26 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
     GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, self->_placementID);
   });
 
-  if (![UnityAds isReady:_placementID]) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorShowAdNotReady, @"Failed to show Unity Ads rewarded video.");
-    [_adEventDelegate didFailToPresentWithError:error];
-    return;
-  }
-  [_adEventDelegate willPresentFullScreenView];
-  [UnityAds addDelegate:self];
-  [UnityAds show:viewController placementId:_placementID];
-}
-
-#pragma mark - UnityAdsExtendedDelegate Methods
-
-- (void)unityAdsDidError:(UnityAdsError)error withMessage:(nonnull NSString *)message {
-  [UnityAds removeDelegate:self];
-  if (_adEventDelegate) {
-    NSError *errorWithDescription =
-        GADMAdapterUnitySDKErrorWithUnityAdsErrorAndMessage(error, message);
-    [_adEventDelegate didFailToPresentWithError:errorWithDescription];
-  }
-}
-
-- (void)unityAdsDidFinish:(nonnull NSString *)placementID
-          withFinishState:(UnityAdsFinishState)state {
-  [UnityAds removeDelegate:self];
-
-  if (state == kUnityAdsFinishStateCompleted) {
-    [_adEventDelegate didEndVideo];
-
-    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
-    // amount of 1. Publishers using this adapter should override the reward on the AdMob
-    // front-end.
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                     rewardAmount:[NSDecimalNumber one]];
-    [_adEventDelegate didRewardUserWithReward:reward];
-  } else if (state == kUnityAdsFinishStateError) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorFinish,
-        @"UnityAds finished presenting with error state kUnityAdsFinishStateError.");
-    [_adEventDelegate didFailToPresentWithError:error];
+  if (!_loadComplete) {
+    NSLog(@"Unity Ads received call to show before successfully loading an ad");
   }
 
-  [_adEventDelegate willDismissFullScreenView];
-  [_adEventDelegate didDismissFullScreenView];
-}
-
-- (void)unityAdsDidStart:(nonnull NSString *)placementID {
-  [_adEventDelegate didStartVideo];
-}
-
-- (void)unityAdsReady:(nonnull NSString *)placementID {
-  // Logic to mark a placement ready has moved to the UnityAdsLoadDelegate function
-  // unityAdsAdLoaded.
-}
-
-- (void)unityAdsDidClick:(nonnull NSString *)placementID {
-  // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
-  // that a click event indicates the user is leaving the application for a browser or deeplink, and
-  // notifies the Google Mobile Ads SDK accordingly.
-  [_adEventDelegate reportClick];
-}
-
-- (void)unityAdsPlacementStateChanged:(nonnull NSString *)placementID
-                             oldState:(UnityAdsPlacementState)oldState
-                             newState:(UnityAdsPlacementState)newState {
+  [UnityAds show:viewController placementId:_placementID showDelegate:self];
 }
 
 #pragma mark - UnityAdsLoadDelegate Methods
 
-- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId {
+- (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
+  _loadComplete = YES;
+  if (_adLoadCompletionHandler) {
+    _adEventDelegate = _adLoadCompletionHandler(self, nil);
+  }
+}
+
+- (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message {
+  _loadComplete = YES;
   dispatch_async(_lockQueue, ^{
-    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, self->_placementID);
+    GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, placementId);
   });
 
   if (_adLoadCompletionHandler) {
@@ -183,10 +158,43 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
   }
 }
 
-- (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-  if (_adLoadCompletionHandler) {
-    _adEventDelegate = _adLoadCompletionHandler(self, nil);
+#pragma mark - UnityAdsShowDelegate Methods
+
+- (void)unityAdsShowStart:(nonnull NSString *)placementId {
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate didStartVideo];
+}
+
+- (void)unityAdsShowClick:(NSString *)placementId {
+  // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
+  // that a click event indicates the user is leaving the application for a browser or deeplink, and
+  // notifies the Google Mobile Ads SDK accordingly.
+  [_adEventDelegate reportClick];
+}
+
+- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
+  [_adEventDelegate didEndVideo];
+
+  if (state == kUnityShowCompletionStateCompleted) {
+    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+    // amount of 1. Publishers using this adapter should override the reward on the AdMob
+    // front-end.
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                     rewardAmount:[NSDecimalNumber one]];
+    [_adEventDelegate didRewardUserWithReward:reward];
   }
+
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
+}
+
+- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message {
+  NSError *errorWithDescription =
+      GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(error, message);
+  [_adEventDelegate didFailToPresentWithError:errorWithDescription];
+
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 @end
