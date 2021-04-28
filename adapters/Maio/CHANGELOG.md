@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Version 1.5.6.1
+#### [Version 1.5.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.5.6.1.zip)
 - Added standardized adapter error codes and messages.
 - Updated the adapter to use the `.xcframework` format.
 - Fixed a bug where rewarded ad events were sometimes not forwarded.
