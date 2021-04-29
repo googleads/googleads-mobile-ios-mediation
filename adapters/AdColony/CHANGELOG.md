@@ -1,5 +1,13 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Version 4.6.1.0
+- Verified compatibility with AdColony SDK 4.6.1.
+- Now requires Google Mobile Ads SDK version 8.4.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.4.0.
+- AdColony SDK version 4.6.1.
+
 #### Version 4.6.0.0
 - Updated the adapter to use the `.xcframework` format.
 - Added open bidding capability for banner ads.
