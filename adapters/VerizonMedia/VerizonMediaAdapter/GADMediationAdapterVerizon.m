@@ -42,7 +42,7 @@
     NSString *errorString =
         @"Verizon media mediation configurations did not contain a valid site ID.";
     NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                                         code:kGADErrorMediationAdapterError
+                                         code:GADErrorMediationAdapterError
                                      userInfo:@{NSLocalizedDescriptionKey : errorString}];
     completionHandler(error);
     return;
@@ -57,7 +57,7 @@
     NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
   }
   dispatch_async(dispatch_get_main_queue(), ^{
-    [VASStandardEdition initializeWithSiteId:siteID];
+    [VASAds initializeWithSiteId:siteID];
   });
   completionHandler(nil);
 }

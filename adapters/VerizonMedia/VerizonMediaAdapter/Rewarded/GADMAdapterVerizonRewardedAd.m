@@ -7,7 +7,6 @@
 #import "GADMAdapterVerizonRewardedAd.h"
 
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMVerizonPrivacy_Internal.h"
@@ -54,8 +53,8 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
   if (!_placementID) {
     NSError *error = [NSError
-        errorWithDomain:kGADErrorDomain
-                   code:kGADErrorMediationAdapterError
+        errorWithDomain:GADErrorDomain
+                   code:GADErrorMediationAdapterError
                userInfo:@{
                  NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
                }];
