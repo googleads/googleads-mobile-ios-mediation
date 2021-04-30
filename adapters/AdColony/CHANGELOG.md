@@ -1,6 +1,6 @@
 ## AdColony iOS Mediation Adapter Changelog
 
-#### Version 4.6.1.0
+#### [Version 4.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.6.1.0.zip)
 - Verified compatibility with AdColony SDK 4.6.1.
 - Now requires Google Mobile Ads SDK version 8.4.0 or higher.
 
@@ -8,7 +8,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.4.0.
 - AdColony SDK version 4.6.1.
 
-#### Version 4.6.0.0
+#### [Version 4.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.6.0.0.zip)
 - Updated the adapter to use the `.xcframework` format.
 - Added open bidding capability for banner ads.
 - Verified compatibility with AdColony SDK 4.6.0.
@@ -18,7 +18,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.3.0.
 - AdColony SDK version 4.6.0.
 
-#### Version 4.5.0.0
+#### [Version 4.5.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.5.0.0.zip)
 - Verified compatibility with AdColony SDK 4.5.0.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 
@@ -26,7 +26,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.69.0.
 - AdColony SDK version 4.5.0.
 
-#### Version 4.4.1.0
+#### [Version 4.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.4.1.0.zip)
 - Verified compatibility with AdColony SDK 4.4.1.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
 
@@ -34,7 +34,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
 - AdColony SDK version 4.4.1.
 
-#### Version 4.4.0.0
+#### Version [4.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.4.0.0.zip)
 - Verified compatibility with AdColony SDK 4.4.0.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 
@@ -42,14 +42,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - AdColony SDK version 4.4.0.
 
-#### Version 4.3.1.0
+#### [Version 4.3.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.3.1.0.zip)
 - Verified compatibility with AdColony SDK 4.3.1.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.64.0.
 - AdColony SDK version 4.3.1.
 
-#### Version 4.3.0.0
+#### [Version 4.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.3.0.0.zip)
 - Verified compatibility with AdColony SDK 4.3.0.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 
@@ -57,7 +57,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.64.0.
 - AdColony SDK version 4.3.0.
 
-#### Version 4.1.5.0
+#### [Version 4.1.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.1.5.0.zip)
 - Verified compatibility with AdColony SDK 4.1.5.
 - Updated the minimum required Google Mobile Ads SDK version to 7.60.0.
 
