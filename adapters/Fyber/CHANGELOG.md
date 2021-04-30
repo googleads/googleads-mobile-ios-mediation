@@ -1,6 +1,6 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### Version 7.8.1.0
+#### [Version 7.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.8.1.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.8.1.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 - Added standardized adapter error codes and messages.
@@ -10,14 +10,14 @@ Built and tested with:
 - Google Mobile Ads SDK version 8.0.0.
 - Fyber Marketplace SDK version 7.8.1.
 
-#### Version 7.8.0.0
+#### [Version 7.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.8.0.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.8.0.
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.69.0.
 - Fyber Marketplace SDK version 7.8.0.
 
-#### Version 7.7.3.0
+#### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.7.3.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.7.3.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 
@@ -25,7 +25,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.69.0.
 - Fyber Marketplace SDK version 7.7.3.
 
-#### Version 7.7.2.0
+#### [Version 7.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.7.2.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.7.2.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
 
@@ -33,7 +33,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.67.0.
 - Fyber Marketplace SDK version 7.7.2.
 
-#### Version 7.7.1.0
+#### [Version 7.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.7.1.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.7.1.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
 
@@ -41,7 +41,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.66.0.
 - Fyber Marketplace SDK version 7.7.1.
 
-#### Version 7.6.4.0
+#### [Version 7.6.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.6.4.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.6.4.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 - Added GADMAdapterFyberExtras class, enabling publishers to pass keywords and userData to Fyber Marketplace SDK.
@@ -50,14 +50,14 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.65.0.
 - Fyber Marketplace SDK version 7.6.4.
 
-#### Version 7.6.3.0
+#### [Version 7.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.6.3.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.6.3.
 
 Built and tested with:
 - Google Mobile Ads SDK version 7.64.0.
 - Fyber Marketplace SDK version 7.6.3.
 
-#### Version 7.6.2.0
+#### [Version 7.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.6.2.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.6.2.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 
@@ -65,7 +65,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.64.0.
 - Fyber Marketplace SDK version 7.6.2.
 
-#### Version 7.6.0.0
+#### [Version 7.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.6.0.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.6.0.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
 - Updated the adapter to support inline adaptive banner requests.
@@ -83,7 +83,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.60.0.
 - Fyber Marketplace SDK version 7.5.6.
 
-#### Version 7.5.6.0
+#### [Version 7.5.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.5.6.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.5.6.
 - Updated the minimum required Google Mobile Ads SDK version to 7.60.0.
 
@@ -91,7 +91,7 @@ Built and tested with:
 - Google Mobile Ads SDK version 7.60.0.
 - Fyber Marketplace SDK version 7.5.6.
 
-#### Version 7.5.5.0
+#### [Version 7.5.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.5.5.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 7.5.5.
 - Updated the minimum required Google Mobile Ads SDK version to 7.59.0.
 
