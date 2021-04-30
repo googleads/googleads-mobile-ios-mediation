@@ -16,7 +16,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.2.0.
 - FAN SDK version 6.3.1.
 
-#### Version 6.3.0.0
+#### [Version 6.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.3.0.0.zip)
 - Verified compatibility with FAN SDK 6.3.0.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Removing support for the `arm64` architecture for iOS simulators, as Facebook Audience Network SDK does not yet support it.
@@ -25,14 +25,14 @@ Built and tested with
 - Google Mobile Ads SDK version 8.1.0.
 - FAN SDK version 6.3.0.
 
-#### Version 6.2.1.2
+#### [Version 6.2.1.2](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.2.1.2.zip)
 - Added support for the `arm64` architecture for iOS simulators.
 
 Built and tested with
 - Google Mobile Ads SDK version 8.0.0.
 - FAN SDK version 6.2.1.
 
-#### Version 6.2.1.1
+#### [Version 6.2.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.2.1.1.zip)
 - Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 
@@ -40,7 +40,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.0.0.
 - FAN SDK version 6.2.1.
 
-#### Version 6.2.1.0
+#### [Version 6.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.2.1.0.zip)
 - Verified compatibility with FAN SDK 6.2.1.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 
@@ -48,7 +48,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.69.0.
 - FAN SDK version 6.2.1.
 
-#### Version 6.2.0.0
+#### [Version 6.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.2.0.0.zip)
 - Verified compatibility with FAN SDK 6.2.0.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
 
@@ -56,7 +56,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.67.0.
 - FAN SDK version 6.2.0.
 
-#### Version 6.0.0.0
+#### [Version 6.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.0.0.0.zip)
 - Verified compatibility with FAN SDK 6.0.0.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
 
@@ -64,7 +64,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
 - FAN SDK version 6.0.0.
 
-#### Version 5.10.1.0
+#### [Version 5.10.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-5.9.0.0.zip)
 - Verified compatibility with FAN SDK 5.10.1.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
 - Fixed a bug where adapterWillLeaveApplication: was not being called for interstitial ads for non-open bidding.
@@ -73,7 +73,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.62.0.
 - FAN SDK version 5.10.1.
 
-#### Version 5.10.0.0
+#### [Version 5.10.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-5.10.0.0.zip)
 - Verified compatibility with FAN SDK 5.10.0.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
 
@@ -81,7 +81,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.61.0.
 - FAN SDK version 5.10.0.
 
-#### Version 5.9.0.1
+#### [Version 5.9.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-5.9.0.1.zip)
 - Added support for rewarded interstitial ads.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
 
@@ -89,7 +89,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.60.0.
 - FAN SDK version 5.9.0.
 
-#### Version 5.9.0.0
+#### [Version 5.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-5.9.0.0.zip)
 - Verified compatibility with FAN SDK 5.9.0.
 - Now requires Google Mobile Ads SDK version 7.59.0 or higher.
 
