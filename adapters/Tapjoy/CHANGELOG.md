@@ -1,5 +1,12 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Version 12.8.0.1 (in progress)
+- Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
+
+Build and tested with
+- Google Mobile Ads SDK version 8.4.0.
+- Tapjoy SDK version 12.8.0.
+
 #### Version 12.8.0.0
 - Updated the adapter to use the `.xcframework` format.
 - Verified compatibility with Tapjoy SDK 12.8.0.
