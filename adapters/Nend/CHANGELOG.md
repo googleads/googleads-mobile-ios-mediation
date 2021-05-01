@@ -3,7 +3,7 @@
 #### Next Version
 - Updated the adapter to use the `.xcframework` format.
 
-#### Version 7.0.2.0
+#### [Version 7.0.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.0.2.0.zip)
 - Verified compatibility with nend SDK 7.0.2.
 - Fixed an issue where the media view is sometimes displayed in the incorrect position.
 
