@@ -8,7 +8,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.3.0.
 - InMobi SDK version 9.1.7.
 
-#### Version 9.1.5.0
+#### [Version 9.1.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.1.5.0.zip)
 - Verified compatibility with InMobi SDK 9.1.5.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 
@@ -16,7 +16,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.1.0.
 - InMobi SDK version 9.1.5.
 
-#### Version 9.1.1.1
+#### [Version 9.1.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.1.1.1.zip)
 - Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 
@@ -24,7 +24,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.0.0.
 - InMobi SDK version 9.1.1.
 
-#### Version 9.1.1.0
+#### [Version 9.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.1.1.0.zip)
 - Verified compatibility with InMobi SDK 9.1.1.
 - Now requires Google Mobile Ads SDK version 7.68.0 or higher.
 
@@ -32,7 +32,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.68.0.
 - InMobi SDK version 9.1.1.
 
-#### Version 9.1.0.0
+#### [Version 9.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.1.0.0.zip)
 - Verified compatibility with InMobi SDK 9.1.0.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 
@@ -40,14 +40,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - InMobi SDK version 9.1.0.
 
-#### Version 9.0.7.2
+#### [Version 9.0.7.2](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.0.7.2.zip)
 - Rewarded ads no longer default to coppa=0 when child directed treatment is unspecified.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.61.0.
 - InMobi SDK version 9.0.7.
 
-#### Version 9.0.7.1
+#### [Version 9.0.7.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.0.7.1.zip)
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
 - Added standardized adapter error codes and messages.
 
@@ -55,14 +55,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.61.0.
 - InMobi SDK version 9.0.7.
 
-#### Version 9.0.7.0
+#### [Version 9.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.0.7.0.zip)
 - Verified compatibility with InMobi SDK 9.0.7.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.60.0.
 - InMobi SDK version 9.0.7.
 
-#### Version 9.0.6.0
+#### [Version 9.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.0.6.0.zip)
 - Verified compatibility with InMobi SDK 9.0.6.
 - Updated InMobi iOS adapter CocoaPod dependency to use `InMobiSDK/Core`.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
