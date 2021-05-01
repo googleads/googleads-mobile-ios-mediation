@@ -1,6 +1,6 @@
 ## Verizon Media iOS Mediation Adapter Changelog
 
-#### Version 1.9.0.1 (in progress)
+#### [Version 1.9.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.9.0.1.zip)
 - Updated the adapter to use the `.xcframework` format.
 - Now requires Google Mobile Ads SDK version 8.0.0 or higher.
 - Built and tested with:
