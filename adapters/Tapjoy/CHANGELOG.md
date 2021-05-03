@@ -7,7 +7,7 @@ Build and tested with
 - Google Mobile Ads SDK version 8.4.0.
 - Tapjoy SDK version 12.8.0.
 
-#### Version 12.8.0.0
+#### Version [12.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.8.0.0.zip)
 - Updated the adapter to use the `.xcframework` format.
 - Verified compatibility with Tapjoy SDK 12.8.0.
 - Now requires Google Mobile Ads SDK version 8.2.0 or higher.
@@ -16,7 +16,7 @@ Build and tested with
 - Google Mobile Ads SDK version 8.2.0.
 - Tapjoy SDK version 12.8.0.
 
-#### Version 12.7.1.0
+#### [Version 12.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.7.1.0.zip)
 - Verified compatibility with Tapjoy SDK 12.7.1.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
 
@@ -24,7 +24,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.67.0.
 - Tapjoy SDK version 12.7.1.
 
-#### Version 12.7.0.0
+#### [Version 12.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.7.0.0.zip)
 - Verified compatibility with Tapjoy SDK 12.7.0.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 
@@ -32,14 +32,14 @@ Build and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - Tapjoy SDK version 12.7.0.
 
-#### Version 12.6.1.0
+#### [Version 12.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.6.1.0.zip)
 - Verified compatibility with Tapjoy SDK 12.6.1.
 
 Build and tested with
 - Google Mobile Ads SDK version 7.61.0.
 - Tapjoy SDK version 12.6.1.
 
-#### Version 12.6.0.0
+#### [Version 12.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.6.0.0.zip)
 - Verified compatibility with Tapjoy SDK 12.6.0.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
 
@@ -47,7 +47,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.61.0.
 - Tapjoy SDK version 12.6.0.
 
-#### Version 12.4.2.2
+#### [Version 12.4.2.2](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.4.2.2.zip)
 - Updated the adapter to be more consistent in forwarding ad event callbacks:
     - Interstitial and rewarded ads now record clicks.
     - Interstitial ads now forward `interstitialWillLeaveApplication:` when clicked.
