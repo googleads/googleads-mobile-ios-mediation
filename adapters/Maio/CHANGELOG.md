@@ -10,7 +10,7 @@ Build and tested with:
 - Google Mobile Ads SDK version 8.3.0.
 - Maio SDK version 1.5.6.
 
-#### Version 1.5.6.0
+#### [Version 1.5.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.5.6.0.zip)
 - Verified compatibility with maio SDK version 1.5.6.
 - Now requires Google Mobile Ads SDK version 7.68.0 or higher.
 
@@ -18,7 +18,7 @@ Build and tested with:
 - Google Mobile Ads SDK version 7.68.0.
 - Maio SDK version 1.5.6.
 
-#### Version 1.5.5.0
+#### [Version 1.5.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.5.5.0.zip)
 - Verified compatibility with maio SDK version 1.5.5.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 
@@ -26,7 +26,7 @@ Build and tested with:
 - Google Mobile Ads SDK version 7.64.0.
 - Maio SDK version 1.5.5.
 
-#### Version 1.5.4.0
+#### [Version 1.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.5.4.0.zip)
 - Verified compatibility with maio SDK version 1.5.4.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
 
