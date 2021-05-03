@@ -11,7 +11,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.69.0.
 - Nend SDK version 7.0.2.
 
-#### Version 7.0.1.0
+#### [Version 7.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.0.1.0.zip)
 - Verified compatibility with nend SDK 7.0.1.
 - Updated the minimum required Google Mobile Ads SDK version to 7.69.0.
 
@@ -19,14 +19,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.69.0.
 - Nend SDK version 7.0.1.
 
-#### Version 7.0.0.0
+#### [Version 7.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.0.0.0.zip)
 - Verified compatibility with nend SDK 7.0.0.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - Nend SDK version 7.0.0.
 
-#### Version 6.0.3.0
+#### [Version 6.0.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-6.0.3.0.zip)
 - Verified compatibility with nend SDK 6.0.3.
 - Updated the minimum required Google Mobile Ads SDK version to 7.65.0.
 
@@ -34,7 +34,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - Nend SDK version 6.0.3.
 
-#### Version 6.0.2.0
+#### [Version 6.0.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-6.0.2.0.zip)
 - Verified compatibility with nend SDK 6.0.2.
 - Updated the minimum required Google Mobile Ads SDK version to 7.64.0.
 
@@ -42,14 +42,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.64.0.
 - Nend SDK version 6.0.2.
 
-#### Version 6.0.1.0
+#### [Version 6.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-6.0.1.0.zip)
 - Verified compatibility with nend SDK 6.0.1.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.62.0.
 - Nend SDK version 6.0.1.
 
-#### Version 6.0.0.0
+#### [Version 6.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-6.0.0.0.zip)
 - Verified compatibility with nend SDK 6.0.0.
 - Removed the `GADNendRewardedNetworkExtras` class. If you want to pass network
 extras to the nend iOS adapter, please use the `GADMAdapterNendExtras` class.
@@ -62,7 +62,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.62.0.
 - Nend SDK version 6.0.0.
 
-#### Version 5.4.1.0
+#### [Version 5.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-5.4.1.0.zip)
 - Verified compatibility with nend SDK 5.4.1.
 - Added support for native ads.
 - Removed support for the i386 architecture.
