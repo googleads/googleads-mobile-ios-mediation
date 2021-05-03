@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.10.0.0
+#### Version 6.10.0.0 (in progress)
 - Verified compatibility with Vungle SDK 6.10.0.
 
 #### [Version 6.9.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.9.2.0.zip)
@@ -11,7 +11,7 @@ Build and tested with
 - Google Mobile Ads SDK version 8.3.0.
 - Vungle SDK version 6.9.2.
 
-#### Version 6.9.1.0
+#### [Version 6.9.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.9.1.0.zip)
 - Verified compatibility with Vungle SDK 6.9.1.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Added standardized adapter error codes and messages.
@@ -23,7 +23,7 @@ Build and tested with
 - Google Mobile Ads SDK version 8.1.0.
 - Vungle SDK version 6.9.1.
 
-#### Version 6.8.1.0
+#### [Version 6.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.8.1.0.zip)
 - Verified compatibility with Vungle SDK 6.8.1.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
 
@@ -31,7 +31,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.66.0.
 - Vungle SDK version 6.8.1.
 
-#### Version 6.8.0.0
+#### [Version 6.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.8.0.0.zip)
 - Verified compatibility with Vungle SDK 6.8.0.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 
@@ -39,7 +39,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - Vungle SDK version 6.8.0.
 
-#### Version 6.7.1.0
+#### [Version 6.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.7.1.0.zip)
 - Verified compatibility with Vungle SDK 6.7.1.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 - Fixed an issue where `didFailToPresentWithError:` was not called when a rewarded ad failed to present.
@@ -48,7 +48,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.64.0.
 - Vungle SDK version 6.7.1.
 
-#### Version 6.7.0.0
+#### [Version 6.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.7.0.0.zip)
 - Verified compatibility with Vungle SDK 6.7.0.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
 - Added support for playing multiple banner ads at the same time.
@@ -59,7 +59,7 @@ Build and tested with
 - Google Mobile Ads SDK version 7.62.0.
 - Vungle SDK version 6.7.0.
 
-#### Version 6.5.3.0
+#### [Version 6.5.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.5.3.0.zip)
 - Verified compatibility with Vungle SDK 6.5.3.
 - Now requires Google Mobile Ads SDK version 7.58.0 or higher.
 - Added support for Smart and Adaptive Banner ads.
