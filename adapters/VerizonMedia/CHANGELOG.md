@@ -7,21 +7,21 @@
     - Google Mobile Ads SDK version 8.4.0.
     - Verizon Ads SDK version 1.9.0.
 
-#### Version 1.9.0.0
+#### [Version 1.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.9.0.0.zip)
 - Verified compatibility with Verizon Ads Standard Edition version 1.9.0.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 - Built and tested with:
     - Google Mobile Ads SDK version 7.69.0.
     - Verizon Ads SDK version 1.9.0.
 
-#### Version 1.8.1.0
+#### [Version 1.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.8.1.0.zip)
 - Verified compatibility with Verizon Ads Standard Edition version 1.8.1.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
 - Built and tested with:
     - Google Mobile Ads SDK version 7.67.0.
     - Verizon Ads SDK version 1.8.1.
 
-#### Version 1.8.0.0
+#### [Version 1.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.8.0.0.zip)
 - Verified compatibility with Verizon Ads Standard Edition version 1.8.0.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 - Now requires minimum iOS version of 10.0.
@@ -29,14 +29,14 @@
     - Google Mobile Ads SDK version 7.65.0.
     - Verizon Ads SDK version 1.8.0.
 
-#### Version 1.7.0.0
+#### [Version 1.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.7.0.0.zip)
 - Verified compatibility with Verizon Ads Standard Edition version 1.7.0.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
 - Built and tested with:
     - Google Mobile Ads SDK version 7.62.0.
     - Verizon Ads SDK version 1.7.0.
 
-#### Version 1.6.0.0
+#### [Version 1.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.6.0.0.zip)
 - Verified compatibility with Verizon Ads Standard Edition version 1.6.0.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
 - Built and tested with:
