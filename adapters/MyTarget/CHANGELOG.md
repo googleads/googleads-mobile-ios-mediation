@@ -16,14 +16,14 @@ Build and tested With:
 - Google Mobile Ads SDK version 8.3.0.
 - MyTarget SDK version 5.10.3.
 
-#### Version 5.10.1.0
+#### [Version 5.10.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.10.1.0.zip)
 - Verified compatibility with myTarget SDK version 5.10.1.
 
 Build and tested With:
 - Google Mobile Ads SDK version 8.1.0.
 - MyTarget SDK version 5.10.1.
 
-#### Version 5.10.0.0
+#### [Version 5.10.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.10.0.0.zip)
 - Verified compatibility with myTarget SDK version 5.10.0.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Updated the adapter to use the `.xcframework` format.
@@ -32,42 +32,42 @@ Build and tested With:
 - Google Mobile Ads SDK version 8.1.0.
 - MyTarget SDK version 5.10.0.
 
-#### Version 5.9.11.0
+#### [Version 5.9.11.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.11.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.10.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.11.
 
-#### Version 5.9.10.0
+#### [Version 5.9.10.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.10.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.10.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.10.
 
-#### Version 5.9.9.1
+#### [Version 5.9.9.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.9.1.zip)
 - Fixed an issue where banner ads sometimes load with a larger size than requested.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.9.
 
-#### Version 5.9.9.0
+#### [Version 5.9.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.9.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.9.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.9.
 
-#### Version 5.9.8.0
+#### [Version 5.9.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.8.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.8.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.8.
 
-#### Version 5.9.7.0
+#### [Version 5.9.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.7.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.7.
 - Now requires Google Mobile Ads SDK version 7.69.0 or higher.
 
@@ -75,7 +75,7 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.69.0.
 - MyTarget SDK version 5.9.7.
 
-#### Version 5.9.6.0
+#### [Version 5.9.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.6.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.6.
 - Added standardized adapter error codes and messages.
 
@@ -83,21 +83,21 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.68.0.
 - MyTarget SDK version 5.9.6.
 
-#### Version 5.9.5.0
+#### [Version 5.9.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.5.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.5.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.68.0.
 - MyTarget SDK version 5.9.5.
 
-#### Version 5.9.4.0
+#### [Version 5.9.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.4.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.4.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.68.0.
 - MyTarget SDK version 5.9.4.
 
-#### Version 5.9.3.0
+#### [Version 5.9.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.3.0.zip)
 - Verified compatibility with myTarget SDK version 5.9.3.
 - Now requires Google Mobile Ads SDK version 7.68.0 or higher.
 
@@ -105,7 +105,7 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.68.0.
 - MyTarget SDK version 5.9.3.
 
-#### Version 5.9.2.0
+#### [Version 5.9.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.9.2.0.zip)
 - Added support for myTarget's adaptive banner ad size.
 - Verified compatibility with myTarget SDK version 5.9.2.
 - Now requires Google Mobile Ads SDK version 7.67.0 or higher.
@@ -114,14 +114,14 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.67.0.
 - MyTarget SDK version 5.9.2.
 
-#### Version 5.7.5.0
+#### [Version 5.7.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.5.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.5.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.64.0.
 - MyTarget SDK version 5.7.5.
 
-#### Version 5.7.4.0
+#### [Version 5.7.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.4.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.4.
 - Now requires Google Mobile Ads SDK version 7.64.0 or higher.
 
@@ -129,7 +129,7 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.64.0.
 - MyTarget SDK version 5.7.4.
 
-#### Version 5.7.3.0
+#### [Version 5.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.3.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.3.
 - Now requires Google Mobile Ads SDK version 7.63.0 or higher.
 
@@ -137,28 +137,28 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.63.0.
 - MyTarget SDK version 5.7.3.
 
-#### Version 5.7.2.0
+#### [Version 5.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.2.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.2.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.62.0.
 - MyTarget SDK version 5.7.2.
 
-#### Version 5.7.1.0
+#### [Version 5.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.1.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.1.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.61.0.
 - MyTarget SDK version 5.7.1.
 
-#### Version 5.7.0.0
+#### [Version 5.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.7.0.0.zip)
 - Verified compatibility with myTarget SDK version 5.7.0.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.61.0.
 - MyTarget SDK version 5.7.0.
 
-#### Version 5.6.3.0
+#### [Version 5.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.6.3.0.zip)
 - Verified compatibility with myTarget SDK version 5.6.3.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
 
@@ -166,21 +166,21 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.61.0.
 - MyTarget SDK version 5.6.3.
 
-#### Version 5.6.2.0
+#### [Version 5.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.6.2.0.zip)
 - Verified compatibility with myTarget SDK version 5.6.2.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.60.0.
 - MyTarget SDK version 5.6.2.
 
-#### Version 5.6.1.0
+#### [Version 5.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.6.1.0.zip)
 - Verified compatibility with myTarget SDK version 5.6.1.
 
 Build and tested With:
 - Google Mobile Ads SDK version 7.60.0.
 - MyTarget SDK version 5.6.1.
 
-#### Version 5.6.0.0
+#### [Version 5.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.6.0.0.zip)
 - Verified compatibility with myTarget SDK version 5.6.0.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
 
@@ -188,7 +188,7 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.60.0.
 - MyTarget SDK version 5.6.0.
 
-#### Version 5.5.2.0
+#### [Version 5.5.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.5.2.0.zip)
 - Verified compatibility with myTarget SDK version 5.5.2.
 - Now requires Google Mobile Ads SDK version 7.59.0 or higher.
 
@@ -196,7 +196,7 @@ Build and tested With:
 - Google Mobile Ads SDK version 7.59.0.
 - MyTarget SDK version 5.5.2.
 
-#### Version 5.5.1.0
+#### [Version 5.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.5.1.0.zip)
 - Verified compatibility with myTarget SDK version 5.5.1.
 - Now requires Google Mobile Ads SDK version 7.58.0 or higher.
 
