@@ -2,6 +2,11 @@
 
 #### Version 6.10.0.0 (in progress)
 - Verified compatibility with Vungle SDK 6.10.0.
+- Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
+
+Build and tested with
+- Google Mobile Ads SDK version 8.4.0.
+- Vungle SDK version 6.10.0.
 
 #### [Version 6.9.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.9.2.0.zip)
 - Verified compatibility with Vungle SDK 6.9.2.
