@@ -20,7 +20,9 @@
 
 #import "stdatomic.h"
 
-@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd, UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface GADMAdapterUnityRewardedAd () <GADMediationRewardedAd,
+                                          UnityAdsLoadDelegate,
+                                          UnityAdsShowDelegate>
 @end
 
 @implementation GADMAdapterUnityRewardedAd {
@@ -145,7 +147,9 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
   }
 }
 
-- (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message {
+- (void)unityAdsAdFailedToLoad:(NSString *)placementId
+                     withError:(UnityAdsLoadError)error
+                   withMessage:(NSString *)message {
   _loadComplete = YES;
   dispatch_async(_lockQueue, ^{
     GADMAdapterUnityMapTableRemoveObjectForKey(_placementInUseRewarded, placementId);
@@ -166,13 +170,11 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
 }
 
 - (void)unityAdsShowClick:(NSString *)placementId {
-  // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
-  // that a click event indicates the user is leaving the application for a browser or deeplink, and
-  // notifies the Google Mobile Ads SDK accordingly.
   [_adEventDelegate reportClick];
 }
 
-- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
+- (void)unityAdsShowComplete:(NSString *)placementId
+             withFinishState:(UnityAdsShowCompletionState)state {
   [_adEventDelegate didEndVideo];
 
   if (state == kUnityShowCompletionStateCompleted) {
@@ -188,7 +190,9 @@ static NSMapTable<NSString *, GADMAdapterUnityRewardedAd *> *_placementInUseRewa
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message {
+- (void)unityAdsShowFailed:(NSString *)placementId
+                 withError:(UnityAdsShowError)error
+               withMessage:(NSString *)message {
   NSError *errorWithDescription =
       GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(error, message);
   [_adEventDelegate didFailToPresentWithError:errorWithDescription];

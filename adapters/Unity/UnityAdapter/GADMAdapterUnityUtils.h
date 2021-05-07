@@ -36,5 +36,5 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 
 /// Returns an NSError with error |error| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |message|.
-NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(UnityAdsShowError errorCode,
-                                                                          NSString *_Nonnull message);
+NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
+    UnityAdsShowError errorCode, NSString *_Nonnull message);

@@ -143,7 +143,9 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
   [strongConnector adapterDidReceiveInterstitial:strongAdapter];
 }
 
-- (void)unityAdsAdFailedToLoad:(NSString *)placementId withError:(UnityAdsLoadError)error withMessage:(NSString *)message {
+- (void)unityAdsAdFailedToLoad:(NSString *)placementId
+                     withError:(UnityAdsLoadError)error
+                   withMessage:(NSString *)message {
   _loadComplete = YES;
 
   dispatch_async(_lockQueue, ^{
@@ -180,12 +182,13 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
   // The Unity Ads SDK doesn't provide an event for leaving the application, so the adapter assumes
   // that a click event indicates the user is leaving the application for a browser or deeplink, and
   // notifies the Google Mobile Ads SDK accordingly.
-  
+
   [strongNetworkConnector adapterDidGetAdClick:strongAdapter];
   [strongNetworkConnector adapterWillLeaveApplication:strongAdapter];
 }
 
-- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
+- (void)unityAdsShowComplete:(NSString *)placementId
+             withFinishState:(UnityAdsShowCompletionState)state {
   id<GADMAdNetworkConnector> strongNetworkConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
 
@@ -197,7 +200,9 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
   [strongNetworkConnector adapterDidDismissInterstitial:strongAdapter];
 }
 
-- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message {
+- (void)unityAdsShowFailed:(NSString *)placementId
+                 withError:(UnityAdsShowError)error
+               withMessage:(NSString *)message {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
 
@@ -205,7 +210,8 @@ static NSMapTable<NSString *, GADMUnityInterstitialAd *> *_placementInUse;
     return;
   }
 
-  // Simulate show failure by calling adapterWillPresentInterstitial just before adapterWillDismissInterstitial.
+  // Simulate show failure by calling adapterWillPresentInterstitial just before
+  // adapterWillDismissInterstitial.
   [strongConnector adapterWillPresentInterstitial:strongAdapter];
   [strongConnector adapterWillDismissInterstitial:strongAdapter];
   [strongConnector adapterDidDismissInterstitial:strongAdapter];

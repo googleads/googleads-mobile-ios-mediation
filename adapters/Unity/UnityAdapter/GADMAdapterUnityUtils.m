@@ -52,8 +52,8 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
   return error;
 }
 
-NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(UnityAdsShowError errorCode,
-                                                                      NSString *_Nonnull message) {
+NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
+    UnityAdsShowError errorCode, NSString *_Nonnull message) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
   NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
