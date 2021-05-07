@@ -80,8 +80,8 @@
   CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
   if (CGSizeEqualToSize(adSize, CGSizeZero)) {
     [connector adapter:self
-             didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                           code:kGADErrorInvalidRequest
+             didFailAd:[NSError errorWithDomain:GADErrorDomain
+                                           code:GADErrorInvalidRequest
                                        userInfo:nil]];
     return;
   }
@@ -248,7 +248,7 @@
   if (!self.placementID || ![VASAds.sharedInstance isInitialized]) {
     NSError *error = [NSError
         errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                   code:kGADErrorMediationAdapterError
+                   code:GADErrorMediationAdapterError
                userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
     [_connector adapter:self didFailAd:error];
     return NO;

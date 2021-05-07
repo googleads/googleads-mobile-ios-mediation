@@ -16,7 +16,6 @@
 
 #import <VerizonAdsCore/VASAds+Private.h>
 #import <VerizonAdsCore/VASPEXRegistry.h>
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 #import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 
 #import "GADMAdapterVerizonConstants.h"
@@ -33,7 +32,7 @@ BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID) {
     if (!siteID.length) {
       siteID = [NSBundle.mainBundle objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
     }
-    BOOL isInitialized = [VASStandardEdition initializeWithSiteId:siteID];
+    BOOL isInitialized = [VASAds initializeWithSiteId:siteID];
     
     [GADMVerizonPrivacy.sharedInstance updatePrivacyData];
     VASAds.logLevel = VASLogLevelError;

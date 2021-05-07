@@ -65,8 +65,8 @@
 - (BOOL)prepareAdapterForAdRequest {
   if (!_placementID || ![VASAds.sharedInstance isInitialized]) {
     NSError *error = [NSError
-        errorWithDomain:kGADErrorDomain
-                   code:kGADErrorMediationAdapterError
+        errorWithDomain:GADErrorDomain
+                   code:GADErrorMediationAdapterError
                userInfo:@{
                  NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
                }];
@@ -208,7 +208,7 @@
   [_nativeAd fireImpression];
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(GADNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
   [_nativeAd invokeDefaultAction];
