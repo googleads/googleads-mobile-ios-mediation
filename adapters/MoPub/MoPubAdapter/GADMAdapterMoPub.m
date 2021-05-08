@@ -262,6 +262,10 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
       return;
     }
   }
+  
+  // Update view bounds with the actual size of the ad returned
+  CGRect loadedAdBounds = CGRectMake(view.bounds.origin.x, view.bounds.origin.y, adSize.width, adSize.height);
+  view.bounds = loadedAdBounds;
 
   [strongConnector adapter:self didReceiveAdView:view];
 }
