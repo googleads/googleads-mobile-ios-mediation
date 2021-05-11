@@ -2,6 +2,7 @@
 
 #### Version 7.8.5.0 (in progress)
 - Verified compatibility with Fyber Marketplace SDK version 7.8.5.
+- Now requires building against Xcode 12.5 or higher.
 
 Built and tested with:
 - Google Mobile Ads SDK version 8.5.0.
