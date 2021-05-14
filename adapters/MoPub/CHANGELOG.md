@@ -1,5 +1,14 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+####  Version 5.17.0.0 (in progress)
+- Verified compatibility with MoPub SDK 5.17.0.
+- Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
+- Now requires building against Xcode 12.5 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.5.0.
+- MoPub SDK version 5.17.0.
+
 ####  [Version 5.16.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.2.0.zip)
 - Verified compatibility with MoPub SDK 5.16.2.
 - Now requires Google Mobile Ads SDK version 8.2.0 or higher.
