@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-static NSString *const _Nonnull kGADMAdapterVungleVersion = @"6.10.3.0";
-static NSString *const _Nonnull kGADMAdapterVungleApplicationID = @"application_id";
-static NSString *const _Nonnull kGADMAdapterVunglePlacementID = @"placementID";
-static NSString *const _Nonnull kGADMAdapterVungleErrorDomain = @"com.google.mediation.vungle";
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@interface GADMediationVungleInterstitial : NSObject
+
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)handler;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a interstitial ad from Vungle.
+- (void)requestInterstitialAd;
+
+@end
