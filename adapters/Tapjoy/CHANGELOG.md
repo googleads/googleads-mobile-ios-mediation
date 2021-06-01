@@ -1,6 +1,6 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
-#### Version 12.8.1.0 (in progress)
+#### [Version 12.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.8.1.0.zip)
 - Verified compatibility with Tapjoy SDK 12.8.1.
 
 Build and tested with
