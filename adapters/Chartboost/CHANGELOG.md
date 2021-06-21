@@ -1,5 +1,12 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Version 8.4.2.0 (in progress)
+- Verified compatibility with Chartboost SDK 8.4.2.
+
+Build and tested with
+- Google Mobile Ads SDK version 8.6.0.
+- Chartboost SDK version 8.4.2.
+
 #### [Version 8.4.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-8.4.1.1.zip)
 - Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
 
@@ -7,7 +14,8 @@ Build and tested with
 - Google Mobile Ads SDK version 8.4.0.
 - Chartboost SDK version 8.4.1.
 
-#### [Version 8.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-8.4.1.0.zip) Verified compatibility with Chartboost SDK 8.4.1.
+#### [Version 8.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-8.4.1.0.zip)
+- Verified compatibility with Chartboost SDK 8.4.1.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 
 Build and tested with
