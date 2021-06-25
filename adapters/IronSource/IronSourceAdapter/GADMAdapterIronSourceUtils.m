@@ -43,18 +43,18 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 #pragma mark Utils Methods
 
-+ (BOOL)isEmpty:(id)value {
++ (BOOL)isEmpty:(nullable id)value {
   return value == nil || [value isKindOfClass:[NSNull class]] ||
          ([value respondsToSelector:@selector(length)] && [(NSString *)value length] == 0) ||
          ([value respondsToSelector:@selector(length)] && [(NSData *)value length] == 0) ||
          ([value respondsToSelector:@selector(count)] && [(NSArray *)value count] == 0);
 }
 
-+ (void)onLog:(NSString *)log {
++ (void)onLog:(nonnull NSString *)log {
   NSLog(@"IronSourceAdapter: %@", log);
 }
 
-+ (NSString *)getAdMobSDKVersion {
++ (nonnull NSString *)getAdMobSDKVersion {
   NSString *version = @"";
   NSString *sdkVersion = GADMobileAds.sharedInstance.sdkVersion;
   @try {

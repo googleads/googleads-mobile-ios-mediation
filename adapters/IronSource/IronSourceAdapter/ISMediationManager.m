@@ -29,7 +29,7 @@
 
 @implementation ISMediationManager
 
-+ (instancetype)sharedManager {
++ (nonnull instancetype)sharedManager {
   static ISMediationManager *sharedMyManager = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -55,7 +55,7 @@
   return self;
 }
 
-- (void)initIronSourceSDKWithAppKey:(NSString *)appKey forAdUnits:(NSSet *)adUnits {
+- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits {
   if ([adUnits member:IS_INTERSTITIAL] != nil) {
     static dispatch_once_t onceTokenIS;
     dispatch_once(&onceTokenIS, ^{
@@ -72,8 +72,8 @@
   }
 }
 
-- (void)loadRewardedAdWithDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)delegate
-                        instanceID:(NSString *)instanceID {
+- (void)loadRewardedAdWithDelegate:(nonnull id<GADMAdapterIronSourceRewardedDelegate>)delegate
+                        instanceID:(nonnull NSString *)instanceID {
   id<GADMAdapterIronSourceRewardedDelegate> adapterDelegate = delegate;
 
   if (adapterDelegate == nil) {
@@ -99,7 +99,7 @@
 }
 
 - (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
-                                 instanceID:(NSString *)instanceID {
+                                 instanceID:(nonnull NSString *)instanceID {
   [GADMAdapterIronSourceUtils
       onLog:[NSString stringWithFormat:@"ISMediationManager - showRewardedVideo for instance Id %@",
                                        instanceID]];
@@ -132,7 +132,7 @@
 }
 
 - (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
-                                     instanceID:(NSString *)instanceID {
+                                     instanceID:(nonnull NSString *)instanceID {
   [GADMAdapterIronSourceUtils
       onLog:[NSString stringWithFormat:@"ISMediationManager - showInterstitial for instance Id %@",
                                        instanceID]];

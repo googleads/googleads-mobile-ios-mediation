@@ -38,7 +38,8 @@
 
 #pragma mark Admob GADMAdNetworkConnector
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+- (nullable instancetype)initWithGADMAdNetworkConnector:
+    (nullable id<GADMAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }
@@ -53,11 +54,11 @@
   return self;
 }
 
-+ (NSString *)adapterVersion {
++ (nonnull NSString *)adapterVersion {
   return kGADMAdapterIronSourceAdapterVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return Nil;
 }
 

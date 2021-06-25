@@ -34,8 +34,8 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 @interface GADMAdapterIronSourceUtils : NSObject
 
 // IronSource Util methods.
-+ (BOOL)isEmpty:(id)value;
-+ (void)onLog:(NSString *)log;
-+ (NSString *)getAdMobSDKVersion;
++ (BOOL)isEmpty:(nullable id)value;
++ (void)onLog:(nonnull NSString *)log;
++ (nonnull NSString *)getAdMobSDKVersion;
 
 @end

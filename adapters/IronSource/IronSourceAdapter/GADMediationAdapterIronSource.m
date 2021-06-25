@@ -26,8 +26,8 @@
 
 @implementation GADMediationAdapterIronSource
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *appKeys = [[NSMutableSet alloc] init];
   NSMutableSet *ironSourceAdUnits = [[NSMutableSet alloc] init];
 
@@ -101,9 +101,10 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _rewardedAd = [[GADMAdapterIronSourceRewardedAd alloc]
       initWithGADMediationRewardedAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];

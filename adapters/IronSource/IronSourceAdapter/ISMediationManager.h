@@ -21,18 +21,19 @@
 @interface ISMediationManager
     : NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate>
 
-+ (instancetype)sharedManager;
-- (void)initIronSourceSDKWithAppKey:(NSString *)appKey forAdUnits:(NSSet *)adUnits;
-- (void)loadRewardedAdWithDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)delegate
-                        instanceID:(NSString *)instanceID;
++ (nonnull instancetype)sharedManager;
+- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits;
+- (void)loadRewardedAdWithDelegate:(nonnull id<GADMAdapterIronSourceRewardedDelegate>)delegate
+                        instanceID:(nonnull NSString *)instanceID;
 
 - (void)presentRewardedAdFromViewController:(nonnull UIViewController *)viewController
-                                 instanceID:(NSString *)instanceID;
+                                 instanceID:(nonnull NSString *)instanceID;
 
-- (void)loadInterstitialAdWithDelegate:(id<GADMAdapterIronSourceInterstitialDelegate>)delegate
-                            instanceID:(NSString *)instanceID;
+- (void)loadInterstitialAdWithDelegate:
+            (nonnull id<GADMAdapterIronSourceInterstitialDelegate>)delegate
+                            instanceID:(nonnull NSString *)instanceID;
 
 - (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
-                                     instanceID:(NSString *)instanceID;
+                                     instanceID:(nonnull NSString *)instanceID;
 
 @end
