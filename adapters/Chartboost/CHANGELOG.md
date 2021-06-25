@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Version 8.4.2.0 (in progress)
+#### [Version 8.4.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-8.4.2.0.zip)
 - Verified compatibility with Chartboost SDK 8.4.2.
 
 Build and tested with
