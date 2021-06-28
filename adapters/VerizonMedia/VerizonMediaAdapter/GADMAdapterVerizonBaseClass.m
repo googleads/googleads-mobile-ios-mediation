@@ -7,6 +7,7 @@
 #import "GADMAdapterVerizonBaseClass.h"
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonNativeAd.h"
+#import "GADMAdapterVerizonUtils.h"
 
 @interface GADMAdapterVerizonBaseClass () <VASInlineAdFactoryDelegate,
                                            VASInterstitialAdFactoryDelegate,
@@ -48,6 +49,12 @@
   self = [super init];
   if (self) {
     _connector = connector;
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[kGADMAdapterVerizonMediaPosition]) {
+      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
   return self;
@@ -238,19 +245,41 @@
 - (void)inlineAd:(nonnull VASInlineAdView *)inlineAd
            event:(nonnull NSString *)eventId
           source:(nonnull NSString *)source
-       arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
+       arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
   // A generic callback that does currently need an implementation for inline placements.
 }
 
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!self.placementID || ![VASAds.sharedInstance isInitialized]) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                   code:GADErrorMediationAdapterError
-               userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
-    [_connector adapter:self didFailAd:error];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (!strongConnector) {
+    NSLog(@"Verizon Adapter Error: No GADMAdNetworkConnector found.");
+    return NO;
+  }
+
+  NSDictionary<NSString *, id> *credentials = [strongConnector credentials];
+  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+
+  BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+  if (!isInitialized) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey : @"Verizon adapter not properly initialized."
+                        }];
+    [strongConnector adapter:self didFailAd:error];
+    return NO;
+  }
+
+  if (!self.placementID) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil."}];
+    [strongConnector adapter:self didFailAd:error];
     return NO;
   }
 

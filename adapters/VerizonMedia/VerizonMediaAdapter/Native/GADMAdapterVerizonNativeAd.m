@@ -63,14 +63,34 @@
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!_placementID || ![VASAds.sharedInstance isInitialized]) {
-    NSError *error = [NSError
-        errorWithDomain:GADErrorDomain
-                   code:GADErrorMediationAdapterError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
-               }];
-    [_connector adapter:_adapter didFailAd:error];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (!strongConnector) {
+    NSLog(@"Verizon Adapter Error: No GADMAdNetworkConnector found.");
+    return NO;
+  }
+
+  NSDictionary<NSString *, id> *credentials = [strongConnector credentials];
+  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+
+  BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+  if (!isInitialized) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey : @"Verizon adapter not properly initialized."
+                        }];
+    [strongConnector adapter:self didFailAd:error];
+    return NO;
+  }
+
+  if (!_placementID) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil."}];
+    [strongConnector adapter:self didFailAd:error];
     return NO;
   }
 
@@ -249,8 +269,8 @@
 - (void)nativeAd:(nonnull VASNativeAd *)nativeAd
            event:(nonnull NSString *)eventId
           source:(nonnull NSString *)source
-       arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
-    // Do nothing.
+       arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
+  // Do nothing.
 }
 
 - (nullable UIViewController *)nativeAdPresentingViewController {

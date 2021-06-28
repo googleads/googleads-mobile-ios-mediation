@@ -8,9 +8,10 @@
 
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
 
+#include <stdatomic.h>
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonPrivacy_Internal.h"
 #import "GADMAdapterVerizonUtils.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
@@ -19,14 +20,14 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 @end
 
 @implementation GADMAdapterVerizonRewardedAd {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _rewardedCompletionHandler;
+
   /// Verizon media rewarded ad.
   VASInterstitialAd *_rewardedAd;
 
   /// Placement ID string used to request ads from Verizon Ads SDK.
   NSString *_placementID;
-
-  /// The completion handler to call when the ad loading succeeds or fails.
-  GADMediationRewardedLoadCompletionHandler _rewardedCompletionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
@@ -43,21 +44,44 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)handler {
+  // Store the ad config and completion handler for later use.
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [handler copy];
+  _rewardedCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
   _adConfiguration = adConfig;
-    
+
   NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
   NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-  GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
-    
+  BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+  if (!isInitialized) {
+    NSError *error =
+        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{
+                          NSLocalizedDescriptionKey : @"Verizon adapter not properly initialized."
+                        }];
+    handler(nil, error);
+    return;
+  }
+
   _placementID = credentials[kGADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
-    NSError *error = [NSError
-        errorWithDomain:GADErrorDomain
-                   code:GADErrorMediationAdapterError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
-               }];
+    NSError *error =
+        [NSError errorWithDomain:GADErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil"}];
     handler(nil, error);
     return;
   }
@@ -118,7 +142,6 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   dispatch_async(dispatch_get_main_queue(), ^{
     self->_rewardedAd = interstitialAd;
     self->_adEventDelegate = self->_rewardedCompletionHandler(self, nil);
-    self->_rewardedCompletionHandler = nil;
   });
 }
 
@@ -126,7 +149,6 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
              didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     self->_rewardedCompletionHandler(nil, errorInfo);
-    self->_rewardedCompletionHandler = nil;
   });
 }
 

@@ -14,19 +14,6 @@
   GADMAdapterVerizonRewardedAd *_rewardedAd;
 }
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-  self = [super initWithGADMAdNetworkConnector:connector];
-  if (self) {
-    NSDictionary<NSString *, id> *credentials = [connector credentials];
-    if (credentials[kGADMAdapterVerizonMediaPosition]) {
-      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
-    }
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
-  }
-  return self;
-}
-
 #pragma mark - GADMediationAdapter
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
