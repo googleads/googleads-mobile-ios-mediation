@@ -1,6 +1,6 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Version 6.5.1.0 (in progress)
+#### [Version 6.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.5.1.0.zip)
 - Verified compatibility with FAN SDK 6.5.1.
 
 Built and tested with
