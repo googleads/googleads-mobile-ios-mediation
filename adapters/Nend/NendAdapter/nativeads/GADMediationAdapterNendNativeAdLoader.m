@@ -16,6 +16,7 @@
 #import "GADMAdapterNendNativeAd.h"
 #import "GADMAdapterNendNativeVideoAd.h"
 #import "GADMAdapterNendUtils.h"
+#import "GADMediationAdapterNend.h"
 
 @interface GADMediationAdapterNendNativeAdLoader () <NADNativeDelegate,
                                                      NADNativeVideoDelegate,
@@ -74,7 +75,7 @@
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId.integerValue]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"SpotID and apiKey must not be nil.");
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
     _completionHandler(nil, error);
     return;
   }
@@ -169,7 +170,7 @@
   [ad loadAdImageWithCompletionBlock:^(UIImage *_Nullable image) {
     if (!image) {
       NSError *imageError = GADMAdapterNendErrorWithCodeAndDescription(
-          kGADErrorInternalError, @"Failed to load image assets.");
+          GADMAdapterNendErrorLoadingImages, @"Failed to load image assets.");
       completionHandler(nil, imageError);
       return;
     }

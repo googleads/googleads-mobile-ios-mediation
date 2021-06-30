@@ -21,6 +21,7 @@
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendUtils.h"
+#import "GADMediationAdapterNend.h"
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
 
@@ -73,7 +74,7 @@
   NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
   if (!spotId.length || !apiKey.length) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
     _completionHandler(nil, error);
     return;
   }
@@ -95,7 +96,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (!_rewardedVideo.isReady) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"The rewarded ad is not ready to be shown.");
+        GADMAdapterNendErrorShowAdNotReady, @"The rewarded ad is not ready to be shown.");
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
@@ -149,8 +150,7 @@
 }
 
 - (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  NSError *error =
-      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, @"No ads to show.");
+  NSError *error = GADMAdapterNendSDKPresentError();
   [_adEventDelegate didFailToPresentWithError:error];
 }
 

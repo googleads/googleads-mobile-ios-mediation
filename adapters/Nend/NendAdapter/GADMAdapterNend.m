@@ -13,6 +13,7 @@
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendUtils.h"
+#import "GADMediationAdapterNend.h"
 
 typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoStopped,
@@ -90,7 +91,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -123,7 +124,8 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     NSString *errorMsg =
         [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
                                    NSStringFromGADAdSize(adSize)];
-    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, errorMsg);
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        GADMAdapterNendErrorBannerSizeMismatch, errorMsg);
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -135,7 +137,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -169,19 +171,23 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   if (_interstitialType == GADMAdapterNendInterstitialTypeVideo) {
     if (!_interstitialVideo.isReady) {
-      NSLog(@"[nend adapter] Interstitial video ad is not ready...");
+      NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+          GADMAdapterNendErrorShowAdNotReady, @"nend interstitial video ad is not ready.");
+      [strongConnector adapter:self didFailAd:error];
       return;
     }
     [_interstitialVideo showAdFromViewController:rootViewController];
   } else {
     NADInterstitialShowResult result = [_interstitial showAdFromViewController:rootViewController];
     if (result != AD_SHOW_SUCCESS) {
-      NSLog(@"[nend adapter] Interstitial ad failed to present.");
+      NSError *error = GADMAdapterNendErrorForShowResult(result);
+      [strongConnector adapter:self didFailAd:error];
       return;
     }
-    [_connector adapterWillPresentInterstitial:self];
+    [strongConnector adapterWillPresentInterstitial:self];
   }
 }
 
@@ -211,10 +217,9 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)nadViewDidFailToReceiveAd:(nonnull NADView *)adView {
-  NSLog(@"[nend adapter] Banner did fail to load...");
+  NSLog(@"nend SDK banner did fail to receive ad.");
   [_nadView pause];
-  NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError,
-                                                              @"Failed to load banner ad.");
+  NSError *error = GADMAdapterNendSDKLoadError();
   [_connector adapter:self didFailAd:error];
 }
 
@@ -233,8 +238,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 - (void)didFinishLoadInterstitialAdWithStatus:(NADInterstitialStatusCode)status {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (status != SUCCESS) {
-    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError,
-                                                                @"Failed to load interstitial ad.");
+    NSError *error = GADMAdapterNendSDKLoadError();
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -281,7 +285,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)nadInterstitialVideoAdDidFailedToPlay:
     (nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
-  NSLog(@"[nend adapter] Interstitial video ad failed to play...");
+  NSLog(@"nend interstitial video ad failed to play.");
 }
 
 - (void)nadInterstitialVideoAdDidOpen:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {

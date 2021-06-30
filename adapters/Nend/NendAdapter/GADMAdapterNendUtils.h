@@ -13,9 +13,21 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GADMediationAdapterNend.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import <NendAd/NADInterstitial.h>
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
-NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADErrorCode code,
+NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendErrorCode code,
                                                              NSString *_Nonnull description);
+
+/// Returns a generic Nend load error.
+NSError *_Nonnull GADMAdapterNendSDKLoadError(void);
+
+/// Returns a generic Nend presentation error.
+NSError *_Nonnull GADMAdapterNendSDKPresentError(void);
+
+/// Returns an NSError for result |result|.
+NSError *_Nonnull GADMAdapterNendErrorForShowResult(NADInterstitialShowResult result);
