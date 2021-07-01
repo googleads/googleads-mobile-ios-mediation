@@ -251,7 +251,8 @@
 #pragma mark - VASNativeAd Delegate
 
 - (void)nativeAdDidClose:(nonnull VASNativeAd *)nativeAd {
-  // Admob adapter has no similar event, ignore it.
+  // The `onAdClosed()` has a different meaning than Google's `onAdClosed()` and is therefore not
+  // mapped.
 }
 
 - (void)nativeAdDidFail:(nonnull VASNativeAd *)nativeAd
