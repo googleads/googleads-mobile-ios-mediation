@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADMAdapterMaioUtils.h"
-
 #import "GADMMaioConstants.h"
 
 //@implementation GADMAdapterMaioUtils : NSObject

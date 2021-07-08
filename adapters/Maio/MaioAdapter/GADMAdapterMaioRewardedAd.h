@@ -13,8 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import GoogleMobileAds;
-@import Maio;
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMAdapterMaioRewardedAd : NSObject <GADMediationRewardedAd>
 

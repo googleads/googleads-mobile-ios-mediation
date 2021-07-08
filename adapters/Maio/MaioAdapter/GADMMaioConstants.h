@@ -25,12 +25,12 @@ static NSString *const kGADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK"
 static NSString *const kGADMMaioAdapterVersion = @"1.5.6.1";
 
 /// maio publisher ID.
-static NSString *const kGADMMaioAdapterPublisherID = @"publisherId";
+static NSString *const kGADMMaioAdapterPublisherIDKey = @"publisherId";
 
 /// maio media ID.
-static NSString *const kGADMMaioAdapterMediaId = @"mediaId";
+static NSString *const kGADMMaioAdapterMediaIdKey = @"mediaId";
 
 /// maio zone ID.
-static NSString *const kGADMMaioAdapterZoneId = @"zoneId";
+static NSString *const kGADMMaioAdapterZoneIdKey = @"zoneId";
 
 #endif /* GADMMaioConstants_h */

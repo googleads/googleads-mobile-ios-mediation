@@ -13,10 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
-#import "GADMediationAdapterMaio.h"
-
 #import <Maio/Maio.h>
+#import <MaioOB/MaioOB-Swift.h>
+#import "GADMediationAdapterMaio.h"
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);

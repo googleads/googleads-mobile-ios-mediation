@@ -13,7 +13,8 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import Maio;
+#import <Maio/Maio.h>
+#import <MaioOB/MaioOB-Swift.h>
 
 typedef enum { UNINITIALIZED, INITIALIZING, INITIALIZED } MaioInitState;
 
@@ -21,10 +22,12 @@ typedef void (^MaioInitCompletionHandler)(NSError *_Nullable error);
 
 @interface GADMAdapterMaioAdsManager : NSObject <MaioDelegate>
 
-+ (GADMAdapterMaioAdsManager *)getMaioAdsManagerByMediaId:(NSString *)mediaId;
-- (void)initializeMaioSDKWithCompletionHandler:(void (^)(NSError *))completionHandler;
-- (NSError *)loadAdForZoneId:(NSString *)zoneId delegate:(id<MaioDelegate>)delegate;
-- (void)showAdForZoneId:(NSString *)zoneId rootViewController:(UIViewController *)viewcontroller;
++ (nonnull GADMAdapterMaioAdsManager *)getMaioAdsManagerByMediaId:(nonnull NSString *)mediaId;
+- (void)initializeMaioSDKWithCompletionHandler:(nonnull MaioInitCompletionHandler)completionHandler;
+- (nullable NSError *)loadAdForZoneId:(nonnull NSString *)zoneId
+                             delegate:(nonnull id<MaioDelegate>)delegate;
+- (void)showAdForZoneId:(nonnull NSString *)zoneId
+     rootViewController:(nonnull UIViewController *)viewcontroller;
 - (void)setAdTestMode:(BOOL)adTestMode;
 
 @end

@@ -2,6 +2,9 @@
 # Combine iOS Device and Simulator libraries for the various architectures
 # into a single dynamic framework.
 
+# Required for new build system
+OBJROOT="${OBJROOT}/DependentBuilds"
+
 # Remove build directories if exist.
 if [ -d "${BUILT_PRODUCTS_DIR}" ]; then
   rm -rf "${BUILT_PRODUCTS_DIR}"
@@ -32,7 +35,7 @@ createFramework() {
   xcodebuild -target Adapter \
   -configuration "${CONFIGURATION}" \
   -sdk "$1" \
-  -UseModernBuildSystem=NO \
+  -UseModernBuildSystem=YES \
   ARCHS="$2" \
   BUILD_DIR="${BUILD_DIR}" \
   BUILD_ROOT="${BUILD_ROOT}" \
@@ -40,7 +43,7 @@ createFramework() {
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${SYMROOT}" \
   "${ACTION}" \
-  clean build
+  build
 
   # Create framework using lipo.
   lipo -create "${BUILD_DIR}/${CONFIGURATION}-$1/${LIB_NAME}.a" -output "${TEMP_FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"

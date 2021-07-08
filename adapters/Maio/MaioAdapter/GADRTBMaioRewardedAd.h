@@ -15,9 +15,11 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADRTBMaioInterstitialAd : NSObject <GADMediationInterstitialAd>
+@interface GADRTBMaioRewardedAd : NSObject <GADMediationRewardedAd>
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration;
-- (void)loadInterstitialWithCompletionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration;
+- (void)loadRewardedAdWithCompletionHandler:
+    (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

@@ -13,23 +13,31 @@
 // limitations under the License.
 
 #import "GADRTBMaioRewardedAd.h"
-#import "GADMMaioConstants.h"
-#import <stdatomic.h>
-
 #import <MaioOB/MaioOB-Swift.h>
+#import <stdatomic.h>
+#import "GADMMaioConstants.h"
 
 @interface GADRTBMaioRewardedAd () <MaioRewardedLoadCallback, MaioRewardedShowCallback>
-
 @end
 
 @implementation GADRTBMaioRewardedAd {
+  /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _completionHandler;
-  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-  MaioRewarded *_rewarded;
+
+  /// An ad event delegate to invoke when ad rendering events occur.
+  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+
+  /// Ad configuration of the ad request.
   GADMediationRewardedAdConfiguration *_adConfiguration;
+
+  /// maio's rewarded ad object.
+  MaioRewarded *_rewarded;
 }
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration {
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
@@ -37,11 +45,14 @@
   return self;
 }
 
-- (void)loadRewardedAdWithCompletionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+- (void)loadRewardedAdWithCompletionHandler:
+    (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-  _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(_Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error){
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
     // Only allow completion handler to be called once.
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -58,7 +69,10 @@
     return delegate;
   };
 
-  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB" testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
+  // For Open Bidding requests with bid data, the zone ID is unused.
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB"
+                                                    testMode:_adConfiguration.isTestRequest
+                                                     bidData:_adConfiguration.bidResponse];
   _rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
 }
 
@@ -74,8 +88,11 @@
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
   NSString *description = @"maio open-bidding SDK returned error";
-  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain
+                                       code:errorCode
+                                   userInfo:userInfo];
 
   NSLog(@"MaioRewarded did fail. error: %@", error);
 
@@ -106,7 +123,8 @@
 }
 
 - (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward {
-  GADAdReward *gReward = [[GADAdReward alloc] initWithRewardType:reward.value rewardAmount:[NSDecimalNumber one]];
+  GADAdReward *gReward = [[GADAdReward alloc] initWithRewardType:reward.value
+                                                    rewardAmount:[NSDecimalNumber one]];
 
   [_adEventDelegate didRewardUserWithReward:gReward];
 }

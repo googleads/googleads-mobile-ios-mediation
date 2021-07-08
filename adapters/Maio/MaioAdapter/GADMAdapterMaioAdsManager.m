@@ -34,7 +34,7 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
   instances = [[NSMutableDictionary alloc] init];
 }
 
-+ (GADMAdapterMaioAdsManager *)getMaioAdsManagerByMediaId:(NSString *)mediaId {
++ (nonnull GADMAdapterMaioAdsManager *)getMaioAdsManagerByMediaId:(nonnull NSString *)mediaId {
   @synchronized(instances) {
     GADMAdapterMaioAdsManager *instance = instances[mediaId];
     if (!instance) {
@@ -57,7 +57,8 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
   return self;
 }
 
-- (void)initializeMaioSDKWithCompletionHandler:(MaioInitCompletionHandler)completionHandler {
+- (void)initializeMaioSDKWithCompletionHandler:
+    (nonnull MaioInitCompletionHandler)completionHandler {
   if (self.initState == INITIALIZED) {
     completionHandler(nil);
     return;
@@ -67,6 +68,7 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
     self.maioInstance = [Maio startWithNonDefaultMediaId:self.mediaId delegate:self];
     self.initState = INITIALIZING;
   }
+
   @synchronized(self.completionHandlers) {
     GADMAdapterMaioMutableArrayAddObject(self.completionHandlers, completionHandler);
   }
@@ -94,7 +96,8 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
   }
 }
 
-- (NSError *)loadAdForZoneId:(NSString *)zoneId delegate:(id<MaioDelegate>)delegate {
+- (nullable NSError *)loadAdForZoneId:(nonnull NSString *)zoneId
+                             delegate:(nonnull id<MaioDelegate>)delegate {
   if ([self getAdapterForZoneID:zoneId]) {
     NSString *description =
         [NSString stringWithFormat:@"maio does not support requesting a second ad for the same "
@@ -114,7 +117,8 @@ static NSMutableDictionary<NSString *, GADMAdapterMaioAdsManager *> *instances;
   return nil;
 }
 
-- (void)showAdForZoneId:(NSString *)zoneId rootViewController:(UIViewController *)viewcontroller {
+- (void)showAdForZoneId:(nonnull NSString *)zoneId
+     rootViewController:(nonnull UIViewController *)viewcontroller {
   id<MaioDelegate> delegate = [self getAdapterForZoneID:zoneId];
   if (delegate && [self.maioInstance canShowAtZoneId:zoneId]) {
     [self.maioInstance showAtZoneId:zoneId vc:viewcontroller];

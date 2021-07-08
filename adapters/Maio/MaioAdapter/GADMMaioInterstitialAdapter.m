@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #import "GADMMaioInterstitialAdapter.h"
+
+#import <Maio/Maio.h>
+
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-
-@import Maio;
 
 @interface GADMMaioInterstitialAdapter () <MaioDelegate>
 
@@ -89,8 +90,8 @@
   if (!param) {
     return;
   }
-  self.mediaId = param[kGADMMaioAdapterMediaId];
-  self.zoneId = param[kGADMMaioAdapterZoneId];
+  self.mediaId = param[kGADMMaioAdapterMediaIdKey];
+  self.zoneId = param[kGADMMaioAdapterZoneIdKey];
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 
@@ -98,15 +99,23 @@
   [adManager setAdTestMode:strongConnector.testMode];
 
   GADMMaioInterstitialAdapter *__weak weakSelf = self;
+  id<GADMAdNetworkConnector> __weak weakConnector = strongConnector;
   [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
+    GADMMaioInterstitialAdapter *strongSelf = weakSelf;
+    id<GADMAdNetworkConnector> strongerConnector = weakConnector;
+
+    if (!strongSelf || !strongerConnector) {
+      return;
+    }
+
     if (error) {
-      [weakSelf.interstitialAdConnector adapter:weakSelf didFailAd:error];
+      [strongerConnector adapter:strongSelf didFailAd:error];
     } else {
       // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
-      [adManager setAdTestMode:weakSelf.interstitialAdConnector.testMode];
-      NSError *error = [adManager loadAdForZoneId:weakSelf.zoneId delegate:weakSelf];
+      [adManager setAdTestMode:strongSelf.interstitialAdConnector.testMode];
+      NSError *error = [adManager loadAdForZoneId:strongSelf.zoneId delegate:strongSelf];
       if (error) {
-        [self.interstitialAdConnector adapter:self didFailAd:error];
+        [strongerConnector adapter:strongSelf didFailAd:error];
       }
     }
   }];
@@ -199,8 +208,13 @@
  *  @param zoneId  広告がクリックされたゾーンの識別子
  */
 - (void)maioDidClickAd:(NSString *)zoneId {
-  [self.interstitialAdConnector adapterDidGetAdClick:self];
-  [self.interstitialAdConnector adapterWillLeaveApplication:self];
+  id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 /**
@@ -209,8 +223,13 @@
  *  @param zoneId  広告が閉じられたゾーンの識別子
  */
 - (void)maioDidCloseAd:(NSString *)zoneId {
-  [self.interstitialAdConnector adapterWillDismissInterstitial:self];
-  [self.interstitialAdConnector adapterDidDismissInterstitial:self];
+  id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
 }
 
 /**

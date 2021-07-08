@@ -13,27 +13,36 @@
 // limitations under the License.
 
 #import "GADRTBMaioInterstitialAd.h"
-#import "GADMMaioConstants.h"
-#import <stdatomic.h>
-
 #import <MaioOB/MaioOB-Swift.h>
+#import <stdatomic.h>
+#import "GADMMaioConstants.h"
 
+// TODO: Remove these once they are available in maio's SDK.
 #define MaioInterstitial MaioRewarded
 #define MaioInterstitialLoadCallback MaioRewardedLoadCallback
 #define MaioInterstitialShowCallback MaioRewardedShowCallback
 
 @interface GADRTBMaioInterstitialAd () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
-
 @end
 
 @implementation GADRTBMaioInterstitialAd {
+  /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _completionHandler;
-  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
-  MaioInterstitial *_interstitial;
+
+  /// An ad event delegate to invoke when ad rendering events occur.
+  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+
+  /// Ad configuration of the ad request.
   GADMediationInterstitialAdConfiguration *_adConfiguration;
+
+  /// maio's interstitial ad object.
+  MaioInterstitial *_interstitial;
 }
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration {
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
@@ -41,11 +50,14 @@
   return self;
 }
 
-- (void)loadInterstitialWithCompletionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialWithCompletionHandler:
+    (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-  _completionHandler = ^id<GADMediationInterstitialAdEventDelegate>(_Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error){
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _completionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
     // Only allow completion handler to be called once.
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -62,7 +74,10 @@
     return delegate;
   };
 
-  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB" testMode:_adConfiguration.isTestRequest bidData:_adConfiguration.bidResponse];
+  // For Open Bidding requests with bid data, the zone ID is unused.
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB"
+                                                    testMode:_adConfiguration.isTestRequest
+                                                     bidData:_adConfiguration.bidResponse];
   _interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
 }
 
@@ -78,8 +93,11 @@
 
 - (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode {
   NSString *description = @"maio open-bidding SDK returned error";
-  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain code:errorCode userInfo:userInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain
+                                       code:errorCode
+                                   userInfo:userInfo];
 
   NSLog(@"MaioInterstitial did fail. error: %@", error);
 

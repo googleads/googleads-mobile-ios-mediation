@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADMAdapterMaioRewardedAd.h"
+#import <MaioOB/MaioOB-Swift.h>
+#import <stdatomic.h>
 #import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-
-#import <stdatomic.h>
 
 @interface GADMAdapterMaioRewardedAd () <MaioDelegate>
 
@@ -55,8 +55,8 @@
     return delegate;
   };
 
-  _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaId];
-  _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneId];
+  _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaIdKey];
+  _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneIdKey];
 
   if (!self.mediaId) {
     NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(

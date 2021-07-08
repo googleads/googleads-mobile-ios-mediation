@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "GADMediationAdapterMaio.h"
+
 #import <Maio/Maio.h>
 #import <MaioOB/MaioOB-Swift.h>
 
@@ -19,87 +21,63 @@
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMediationAdapterMaio.h"
-#import "GADRTBAdapterMaioEntryPoint.h"
+#import "GADRTBMaioInterstitialAd.h"
+#import "GADRTBMaioRewardedAd.h"
 
 @interface GADMediationAdapterMaio () <MaioDelegate>
-
-@property(nonatomic) GADMAdapterMaioRewardedAd *rewardedAd;
-
-@property(nonatomic) GADRTBAdapterMaioEntryPoint *rtbAdapter;
-
 @end
 
-@implementation GADMediationAdapterMaio
+@implementation GADMediationAdapterMaio {
+  // maio open-bidding interstitial ad wrapper.
+  GADRTBMaioInterstitialAd *_interstitialRTBAd;
 
-- (nonnull instancetype)init
-{
-    self = [super init];
-    if (self) {
-        _rtbAdapter = [[GADRTBAdapterMaioEntryPoint alloc] init];
-    }
-    return self;
+  // maio open-bidding rewarded ad wrapper.
+  GADRTBMaioRewardedAd *_rewardedRTBAd;
+
+  // maio waterfall rewarded ad wrapper.
+  GADMAdapterMaioRewardedAd *_rewardedAd;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-
   NSMutableSet *publisherIDs = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *publisherID = cred.settings[kGADMMaioAdapterPublisherID];
+  for (GADMediationCredentials *credential in configuration.credentials) {
+    NSString *publisherID = credential.settings[kGADMMaioAdapterPublisherIDKey];
     GADMAdapterMaioMutableSetAddObject(publisherIDs, publisherID);
   }
 
   NSMutableSet *mediaIDs = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *mediaID = cred.settings[kGADMMaioAdapterMediaId];
+  for (GADMediationCredentials *credential in configuration.credentials) {
+    NSString *mediaID = credential.settings[kGADMMaioAdapterMediaIdKey];
     GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
   }
 
   BOOL existsMediaID = mediaIDs.count > 0;
   BOOL existsPublisherID = publisherIDs.count > 0;
-  if (!existsMediaID && !existsPublisherID) {
-    [self setUpCaseNotExistsAnyWithCompletionHandler:completionHandler];
-  } else if (!existsMediaID && existsPublisherID) {
-    [self setupCaseExistsPublisherIDs:publisherIDs completionHandler:completionHandler];
-  } else if (existsMediaID && !existsPublisherID) {
-    [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
-  } else if (existsMediaID && existsPublisherID) {
-    [self setUpCaseExistsMediaIDs:mediaIDs publisherIDs:publisherIDs completionHandler:completionHandler];
-  }
-}
 
-+ (void)setupCaseExistsMediaIDs: (nonnull NSSet *)mediaIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
-  NSString *mediaID = [mediaIDs anyObject];
-  if (mediaIDs.count > 1) {
-    NSLog(@"Found the following media IDs: %@. "
-          @"Please remove any media IDs you are not using from the AdMob UI.",
-          mediaIDs);
-    NSLog(@"Initializing maio SDK with the media ID %@", mediaID);
-  }
+  if (existsMediaID) {
+    NSString *mediaID = [mediaIDs anyObject];
+    if (mediaIDs.count > 1) {
+      NSLog(@"Found the following media IDs: %@. "
+            @"Please remove any media IDs you are not using from the AdMob UI.",
+            mediaIDs);
+      NSLog(@"Initializing maio SDK with the media ID: %@", mediaID);
+    }
 
-  GADMAdapterMaioAdsManager *manager =
-      [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:mediaID];
-  [manager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
+    GADMAdapterMaioAdsManager *manager =
+        [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:mediaID];
+    [manager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
+      completionHandler(error);
+    }];
+  } else if (existsPublisherID) {
+    // For Open Bidding integrations, maio SDK does not need to be initialized.
+    completionHandler(nil);
+  } else {
+    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+        GADMAdapterMaioErrorInvalidServerParameters,
+        @"maio mediation configurations did not contain a valid media ID.");
     completionHandler(error);
-  }];
-}
-
-+ (void)setUpCaseNotExistsAnyWithCompletionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
-  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
-          GADMAdapterMaioErrorInvalidServerParameters,
-          @"maio mediation configurations did not contain a valid media ID.");
-  completionHandler(error);
-}
-
-+ (void)setupCaseExistsPublisherIDs: (nonnull NSSet *)publisherIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
-  // This method applies to the case of using "Maio-OpenBidding".
-  // There is no work that the SDK does for initialization.
-  completionHandler(nil);
-}
-
-+ (void)setUpCaseExistsMediaIDs: (nonnull NSSet *)mediaIDs publisherIDs: (nonnull NSSet *)publisherIDs completionHandler: (nonnull GADMediationAdapterSetUpCompletionBlock) completionHandler {
-  [self setupCaseExistsMediaIDs:mediaIDs completionHandler:completionHandler];
+  }
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -131,33 +109,42 @@
   return version;
 }
 
-- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
-  [self.rtbAdapter collectSignalsForRequestParameters:params completionHandler:completionHandler];
+- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
+                         completionHandler:
+                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  // Maio does not send any kind of signal, so we send an empty NSString instead.
+  completionHandler(@"", nil);
 }
 
-- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (adConfiguration.bidResponse) {
-    [self.rtbAdapter loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _rewardedRTBAd = [[GADRTBMaioRewardedAd alloc] initWithAdConfiguration:adConfiguration];
+    [_rewardedRTBAd loadRewardedAdWithCompletionHandler:completionHandler];
     return;
   }
 
-  self.rewardedAd = [[GADMAdapterMaioRewardedAd alloc] init];
-  [self.rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                  completionHandler:completionHandler];
+  _rewardedAd = [[GADMAdapterMaioRewardedAd alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (void)loadInterstitialForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler {
   if (adConfiguration.bidResponse) {
-    [self.rtbAdapter loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _interstitialRTBAd = [[GADRTBMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration];
+    [_interstitialRTBAd loadInterstitialWithCompletionHandler:completionHandler];
     return;
   }
 
-  // Never use? Interstitial(Mediation) use GADMMaioInterstitialAdapter.
-  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorAdFormatNotSupported,
-                                                              @"Incompatible call for the interstitial. This logic need bidResponse.");
+  // Interstitial waterfall mediation runs through GADMMaioInterstitialAdapter.
+  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+      GADMAdapterMaioErrorAdFormatNotSupported,
+      @"Incompatible call for the interstitial. This logic need bidResponse.");
   completionHandler(nil, error);
 }
 
