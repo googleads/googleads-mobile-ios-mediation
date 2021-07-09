@@ -90,34 +90,43 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   return error;
 };
 
+NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
+  NSString *errorString = [NSString
+      stringWithFormat:@"Unable to retrieve AppLovin SDK instance with SDK Key: %@", SDKKey];
+  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+      GADMAdapterAppLovinErrorNilAppLovinSDK, errorString);
+  return error;
+}
+
 @implementation GADMAdapterAppLovinUtils
 
-+ (nullable ALSdk *)retrieveSDKFromCredentials:(NSDictionary *)credentials {
-  // Attempt to use SDK key from server first.
++ (nullable NSString *)retrieveSDKKeyFromCredentials:(nonnull NSDictionary *)credentials {
+  // Attempt to retrieve the SDK key from the credentials first.
   NSString *serverSDKKey = credentials[GADMAdapterAppLovinSDKKey];
-  if ([self isValidAppLovinSDKKey:serverSDKKey]) {
-    return [self retrieveSDKFromSDKKey:serverSDKKey];
+  if (serverSDKKey && [self isValidAppLovinSDKKey:serverSDKKey]) {
+    return serverSDKKey;
   }
 
-  // If server SDK key is invalid, then attempt to use SDK key from Info.plist.
+  // If the SDK key from the credentials is invalid, then attempt to use SDK key from
+  // Info.plist.
   NSString *infoDictSDKKey = [self infoDictionarySDKKey];
-  if ([self isValidAppLovinSDKKey:infoDictSDKKey]) {
-    return [self retrieveSDKFromSDKKey:infoDictSDKKey];
+  if (infoDictSDKKey && [self isValidAppLovinSDKKey:infoDictSDKKey]) {
+    return infoDictSDKKey;
   }
 
   return nil;
 }
 
-+ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)sdkKey {
-  ALSdk *sdk = [ALSdk sharedWithKey:sdkKey settings:GADMediationAdapterAppLovin.SDKSettings];
-  [sdk setPluginVersion:GADMAdapterAppLovinAdapterVersion];
-  sdk.mediationProvider = ALMediationProviderAdMob;
++ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)SDKKey {
+  ALSdk *SDK = [ALSdk sharedWithKey:SDKKey settings:GADMediationAdapterAppLovin.SDKSettings];
+  [SDK setPluginVersion:GADMAdapterAppLovinAdapterVersion];
+  SDK.mediationProvider = ALMediationProviderAdMob;
 
-  return sdk;
+  return SDK;
 }
 
-+ (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)sdkKey {
-  return [sdkKey isKindOfClass:[NSString class]] && ((NSString *)sdkKey).length == kALSDKKeyLength;
++ (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey {
+  return [SDKKey isKindOfClass:[NSString class]] && ((NSString *)SDKKey).length == kALSDKKeyLength;
 }
 
 + (nullable NSString *)infoDictionarySDKKey {
@@ -183,7 +192,7 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   va_start(valist, format);
   NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
   va_end(valist);
-  NSLog(@"AppLovinAdapter: %@", message);
+  NSLog(@"AppLovinAdapter: %@", message);  // Allow pattern.
 }
 
 @end

@@ -22,7 +22,7 @@
   GADMediationInterstitialAdConfiguration *_adConfiguration;
 
   /// Instance of the AppLovin SDK.
-  ALSdk *_sdk;
+  ALSdk *_SDK;
 
   /// AppLovin interstitial object used to load an ad.
   ALInterstitialAd *_interstitialAd;
@@ -50,23 +50,29 @@
       originalCompletionHandler = nil;
       return delegate;
     };
-
-    _sdk =
-        [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:adConfiguration.credentials.settings];
   }
   return self;
 }
 
 - (void)loadAd {
-  if (!_sdk) {
+  NSString *SDKKey = [GADMAdapterAppLovinUtils
+      retrieveSDKKeyFromCredentials:_adConfiguration.credentials.settings];
+  if (!SDKKey) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
+  _SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
+  if (!_SDK) {
+    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
   // Create interstitial object.
-  _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:_sdk];
+  _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:_SDK];
 
   GADMAppLovinRTBInterstitialDelegate *delegate =
       [[GADMAppLovinRTBInterstitialDelegate alloc] initWithParentRenderer:self];
@@ -74,7 +80,7 @@
   _interstitialAd.adVideoPlaybackDelegate = delegate;
 
   // Load ad.
-  [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
+  [_SDK.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
 }
 
 #pragma mark - GADMediationInterstitialAd
@@ -82,7 +88,7 @@
 - (void)presentFromViewController:(UIViewController *)viewController {
   // Update mute state
   GADMAdapterAppLovinExtras *extras = _adConfiguration.extras;
-  _sdk.settings.muted = extras.muteAudio;
+  _SDK.settings.muted = extras.muteAudio;
 
   [_interstitialAd showAd:_ad];
 }

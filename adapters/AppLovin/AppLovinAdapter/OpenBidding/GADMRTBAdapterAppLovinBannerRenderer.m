@@ -20,7 +20,7 @@
   GADMediationBannerAdConfiguration *_adConfiguration;
 
   /// Instance of the AppLovin SDK.
-  ALSdk *_sdk;
+  ALSdk *_SDK;
 }
 
 - (nonnull instancetype)
@@ -44,16 +44,23 @@
       originalCompletionHandler = nil;
       return delegate;
     };
-    _sdk =
-        [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:adConfiguration.credentials.settings];
   }
   return self;
 }
 
 - (void)loadAd {
-  if (!_sdk) {
+  NSString *SDKKey = [GADMAdapterAppLovinUtils
+      retrieveSDKKeyFromCredentials:_adConfiguration.credentials.settings];
+  if (!SDKKey) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters..");
+        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
+  _SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
+  if (!_SDK) {
+    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -73,7 +80,7 @@
   }
 
   // Create adview object.
-  _adView = [[ALAdView alloc] initWithSdk:_sdk size:appLovinAdSize];
+  _adView = [[ALAdView alloc] initWithSdk:_SDK size:appLovinAdSize];
 
   GADMAppLovinRTBBannerDelegate *delegate =
       [[GADMAppLovinRTBBannerDelegate alloc] initWithParentRenderer:self];
@@ -81,7 +88,7 @@
   _adView.adEventDelegate = delegate;
 
   // Load ad.
-  [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
+  [_SDK.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
 }
 
 #pragma mark - GADMediationBannerAd

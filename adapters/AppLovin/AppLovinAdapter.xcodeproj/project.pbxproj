@@ -32,6 +32,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00C843B42686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C843B22686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h */; };
+		00C843B52686BB5B00B351BE /* GADMAdapterAppLovinInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C843B32686BB5B00B351BE /* GADMAdapterAppLovinInitializer.m */; };
 		1D4C081E20192BAF00B1876F /* GADMAdapterAppLovin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */; };
 		1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */; };
 		1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */; };
@@ -89,6 +91,8 @@
 
 /* Begin PBXFileReference section */
 		009589E122F10666006E2408 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		00C843B22686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterAppLovinInitializer.h; sourceTree = "<group>"; };
+		00C843B32686BB5B00B351BE /* GADMAdapterAppLovinInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinInitializer.m; sourceTree = "<group>"; };
 		1D4C081320192BAF00B1876F /* GADMAdapterAppLovin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovin.m; sourceTree = "<group>"; };
 		1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinExtras.m; sourceTree = "<group>"; };
 		1D4C081520192BAF00B1876F /* GADMAdapterAppLovinUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterAppLovinUtils.m; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 				1D4C081720192BAF00B1876F /* GADMAdapterAppLovinConstant.h */,
 				1D4C081820192BAF00B1876F /* GADMAdapterAppLovinConstant.m */,
 				1D4C081420192BAF00B1876F /* GADMAdapterAppLovinExtras.m */,
+				00C843B22686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h */,
+				00C843B32686BB5B00B351BE /* GADMAdapterAppLovinInitializer.m */,
 				454A17BC2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.h */,
 				454A17BD2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m */,
 				457F4D7F233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h */,
@@ -264,6 +270,7 @@
 				45BFFBDA2228AE8900C96A67 /* GADMRTBAdapterAppLovinInterstitialRenderer.h in Headers */,
 				1D4C082720192BAF00B1876F /* GADMAdapterAppLovinUtils.h in Headers */,
 				454A17BE2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.h in Headers */,
+				00C843B42686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h in Headers */,
 				45BFFBD22228AE3D00C96A67 /* GADMAdapterAppLovinRewardedRenderer.h in Headers */,
 				45866694237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.h in Headers */,
 				457F4D81233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h in Headers */,
@@ -370,6 +377,7 @@
 				1D4C081F20192BAF00B1876F /* GADMAdapterAppLovinExtras.m in Sources */,
 				1D4C082020192BAF00B1876F /* GADMAdapterAppLovinUtils.m in Sources */,
 				454A17BF2332B96F0022ACF9 /* GADMAdapterAppLovinInterstitialDelegate.m in Sources */,
+				00C843B52686BB5B00B351BE /* GADMAdapterAppLovinInitializer.m in Sources */,
 				45866695237CCED400DC8390 /* GADMAppLovinRTBInterstitialDelegate.m in Sources */,
 				1D4C082320192BAF00B1876F /* GADMAdapterAppLovinConstant.m in Sources */,
 				45866691237CCEBC00DC8390 /* GADMAppLovinRTBBannerDelegate.m in Sources */,

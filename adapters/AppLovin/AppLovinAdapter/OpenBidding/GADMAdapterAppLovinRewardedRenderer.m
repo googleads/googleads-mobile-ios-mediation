@@ -10,6 +10,7 @@
 #include <stdatomic.h>
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
+#import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinMediationManager.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
@@ -26,7 +27,7 @@
   GADMAppLovinRewardedDelegate *_appLovinDelegate;
 
   /// Instance of the AppLovin SDK.
-  ALSdk *_sdk;
+  ALSdk *_SDKk;
 
   /// AppLovin incentivized interstitial object used to load an ad.
   ALIncentivizedInterstitialAd *_incent;
@@ -56,26 +57,34 @@
       originalCompletionHandler = nil;
       return delegate;
     };
-    _sdk =
-        [GADMAdapterAppLovinUtils retrieveSDKFromCredentials:_adConfiguration.credentials.settings];
     _lockQueue = dispatch_queue_create("applovin-rewardedAdapterDelegates", DISPATCH_QUEUE_SERIAL);
-    _appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
-
-    // Create rewarded video object.
-    _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:_sdk];
-    _incent.adDisplayDelegate = _appLovinDelegate;
-    _incent.adVideoPlaybackDelegate = _appLovinDelegate;
   }
   return self;
 }
 
 - (void)requestRewardedAd {
-  if (!_sdk) {
+  NSString *SDKKey = [GADMAdapterAppLovinUtils
+      retrieveSDKKeyFromCredentials:_adConfiguration.credentials.settings];
+  if (!SDKKey) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
+
+  _SDKk = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
+  if (!_SDKk) {
+    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
+  _appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
+
+  // Create rewarded video object.
+  _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:_SDKk];
+  _incent.adDisplayDelegate = _appLovinDelegate;
+  _incent.adVideoPlaybackDelegate = _appLovinDelegate;
 
   _zoneIdentifier = [GADMAdapterAppLovinUtils zoneIdentifierForAdConfiguration:_adConfiguration];
 
@@ -103,26 +112,42 @@
 
   if (_adConfiguration.bidResponse) {
     // Load ad.
-    [_sdk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
+    [_SDKk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
     return;
   }
 
-  // If this is a default Zone, create the incentivized ad normally.
-  if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:_zoneIdentifier]) {
-    // Loading an ad for default zone must be done through zone-agnostic
-    // `ALIncentivizedInterstitialAd` instance
-    [_incent preloadAndNotify:_appLovinDelegate];
-  }
-  // If custom zone id
-  else {
-    [_sdk.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:_appLovinDelegate];
-  }
+  GADMAdapterAppLovinRewardedRenderer *__weak weakSelf = self;
+  [GADMAdapterAppLovinInitializer.sharedInstance
+      initializeWithSDKKey:SDKKey
+         completionHandler:^(NSError *_Nullable initializationError) {
+           GADMAdapterAppLovinRewardedRenderer *strongSelf = weakSelf;
+           if (!strongSelf) {
+             return;
+           }
+
+           if (initializationError) {
+             _adLoadCompletionHandler(nil, initializationError);
+             return;
+           }
+
+           // If this is a default Zone, create the incentivized ad normally.
+           if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:strongSelf->_zoneIdentifier]) {
+             // Loading an ad for default zone must be done through zone-agnostic
+             // `ALIncentivizedInterstitialAd` instance
+             [strongSelf->_incent preloadAndNotify:strongSelf->_appLovinDelegate];
+           }
+           // If custom zone id
+           else {
+             [strongSelf->_SDKk.adService loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
+                                                           andNotify:strongSelf->_appLovinDelegate];
+           }
+         }];
 }
 
 - (void)presentFromViewController:(UIViewController *)viewController {
   // Update mute state.
   GADMAdapterAppLovinExtras *networkExtras = _adConfiguration.extras;
-  _sdk.settings.muted = networkExtras.muteAudio;
+  _SDKk.settings.muted = networkExtras.muteAudio;
 
   if (_ad) {
     [GADMAdapterAppLovinUtils log:@"Showing rewarded video for zone: %@", _zoneIdentifier];

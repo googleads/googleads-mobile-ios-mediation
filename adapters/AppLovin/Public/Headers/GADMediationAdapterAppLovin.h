@@ -32,8 +32,10 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   /// Bid token is empty.
   GADMAdapterAppLovinErrorEmptyBidToken = 107,
   /// Unsupported ad format.
-  GADMAdapterAppLovinErrorUnsupportedAdFormat = 108
-  // Next ID = 111
+  GADMAdapterAppLovinErrorUnsupportedAdFormat = 108,
+  // Error codes 109 and 110 were previous removed.
+  /// Unable to retrieve instance of the AppLovin SDK.
+  GADMAdapterAppLovinErrorNilAppLovinSDK = 111
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
