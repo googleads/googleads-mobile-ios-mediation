@@ -1,8 +1,14 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next Version (in progress)
+#### Version 1.5.8.0 (In progress)
+- Verified compatibility with maio SDK version 1.5.8 and maioOB SDK version 2.0.0-alpha.
 - Added open bidding capability to the adapter for interstitial and rewarded ad formats.
 - Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.7.0.
+- Maio SDK version 1.5.8.
+- MaioOB SDK version 2.0.0-alpha.
 
 #### [Version 1.5.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.5.6.1.zip)
 - Added standardized adapter error codes and messages.
