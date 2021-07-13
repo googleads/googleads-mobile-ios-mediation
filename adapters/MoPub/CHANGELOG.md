@@ -1,6 +1,7 @@
 ## MoPub iOS Mediation Adapter Changelog
 
-####  [Version 5.17.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.17.0.0.zip)
+#### [Version 5.17.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.17.0.0.zip)
+- Banner ads are now centered in the `GADBannerView`.
 - Verified compatibility with MoPub SDK 5.17.0.
 - Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
 - Now requires building against Xcode 12.5 or higher.
@@ -9,7 +10,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.5.0.
 - MoPub SDK version 5.17.0.
 
-####  [Version 5.16.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.2.0.zip)
+#### [Version 5.16.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.2.0.zip)
 - Verified compatibility with MoPub SDK 5.16.2.
 - Now requires Google Mobile Ads SDK version 8.2.0 or higher.
 
@@ -17,14 +18,14 @@ Built and tested with
 - Google Mobile Ads SDK version 8.2.0.
 - MoPub SDK version 5.16.2.
 
-####  [Version 5.16.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.1.0.zip)
+#### [Version 5.16.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.1.0.zip)
 - Verified compatibility with MoPub SDK 5.16.1.
 
 Built and tested with
 - Google Mobile Ads SDK version 8.1.0.
 - MoPub SDK version 5.16.1.
 
-####  [Version 5.16.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.0.0.zip)
+#### [Version 5.16.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.16.0.0.zip)
 - Verified compatibility with MoPub SDK 5.16.0.
 - Now requires Google Mobile Ads SDK version 8.1.0 or higher.
 - Updated the adapter to use the `.xcframework` format.
@@ -33,7 +34,7 @@ Built and tested with
 - Google Mobile Ads SDK version 8.1.0.
 - MoPub SDK version 5.16.0.
 
-####  [Version 5.15.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.15.0.0.zip)
+#### [Version 5.15.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.15.0.0.zip)
 - Verified compatibility with MoPub SDK 5.15.0.
 - Now requires Google Mobile Ads SDK version 7.68.0 or higher.
 
@@ -41,14 +42,14 @@ Built and tested with
 - Google Mobile Ads SDK version 7.68.0.
 - MoPub SDK version 5.15.0.
 
-####  [Version 5.14.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.14.1.0.zip)
+#### [Version 5.14.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.14.1.0.zip)
 - Verified compatibility with MoPub SDK 5.14.1.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
 - MoPub SDK version 5.14.1.
 
-####  [Version 5.14.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.14.0.0.zip)
+#### [Version 5.14.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.14.0.0.zip)
 - Verified compatibility with MoPub SDK 5.14.0.
 - Now requires Google Mobile Ads SDK version 7.66.0 or higher.
 
@@ -56,7 +57,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.66.0.
 - MoPub SDK version 5.14.0.
 
-####  [Version 5.13.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.13.1.1.zip)
+#### [Version 5.13.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.13.1.1.zip)
 - Fixed a memory leak issue with native ads.
 - Now requires Google Mobile Ads SDK version 7.65.0 or higher.
 
@@ -64,7 +65,7 @@ Built and tested with
 - Google Mobile Ads SDK version 7.65.0.
 - MoPub SDK version 5.13.1.
 
-####  [Version 5.13.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.13.1.0.zip)
+#### [Version 5.13.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.13.1.0.zip)
 - Verified compatibility with MoPub SDK 5.13.1.
 - Now requires Google Mobile Ads SDK version 7.61.0 or higher.
 - Added a new extra to the `GADMoPubNetworkExtras` class:
