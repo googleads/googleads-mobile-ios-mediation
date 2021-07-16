@@ -2,7 +2,7 @@
 
 #### Version 1.5.8.0 (In progress)
 - Verified compatibility with maio SDK version 1.5.8 and maioOB SDK version 2.0.0-alpha.
-- Added open bidding capability to the adapter for interstitial and rewarded ad formats.
+- Added bidding capability to the adapter for interstitial and rewarded ad formats.
 - Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
 
 Built and tested with:

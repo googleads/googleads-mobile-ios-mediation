@@ -189,7 +189,7 @@ void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
 
 NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
     NSDictionary<NSString *, id> *_Nonnull settings) {
-  NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDOpenBiddingKey];
+  NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDBiddingKey];
   if (!encodedZoneID) {
     encodedZoneID = settings[kGADMAdapterAdColonyZoneIDkey];
   }

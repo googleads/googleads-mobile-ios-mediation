@@ -111,7 +111,7 @@ Build and tested with
 
 #### Version 12.3.1.0
 - Verified compatibility with Tapjoy SDK 12.3.1.
-- Added open bidding capability to the adapter for interstitial and rewarded ads.
+- Added bidding capability to the adapter for interstitial and rewarded ads.
 
 #### Version 12.2.1.0
 - Verified compatibility with Tapjoy SDK 12.2.1.

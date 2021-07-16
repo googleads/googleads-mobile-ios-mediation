@@ -10,7 +10,7 @@ Built and tested with
 
 #### [Version 4.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.6.0.0.zip)
 - Updated the adapter to use the `.xcframework` format.
-- Added open bidding capability for banner ads.
+- Added bidding capability for banner ads.
 - Verified compatibility with AdColony SDK 4.6.0.
 - Now requires Google Mobile Ads SDK version 8.3.0 or higher.
 
@@ -128,7 +128,7 @@ Built and tested with
 - Fixed an issue where the `GADMediationAdapterAdColony` header was not made public.
 
 #### Version 3.3.7.1
-- Added open bidding capability to the adapter for interstitial and rewarded ads.
+- Added bidding capability to the adapter for interstitial and rewarded ads.
 
 #### Version 3.3.7.0
 - Verified compatibility with AdColony SDK 3.3.7.

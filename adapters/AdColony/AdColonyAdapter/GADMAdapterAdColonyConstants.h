@@ -8,8 +8,8 @@ static NSString *const kGADMAdapterAdColonyVersionString = @"4.6.1.0";
 /// AdColony mediation adapter error domain
 static NSString *const kGADMAdapterAdColonyErrorDomain = @"com.google.mediation.adcolony";
 
-/// AdColony mediation adapter zone ID Open bidding key
-static NSString *const kGADMAdapterAdColonyZoneIDOpenBiddingKey = @"zone_id";
+/// AdColony mediation adapter zone ID bidding key
+static NSString *const kGADMAdapterAdColonyZoneIDBiddingKey = @"zone_id";
 
 /// AdColony mediation adapter zone ID key
 static NSString *const kGADMAdapterAdColonyZoneIDkey = @"zone_ids";

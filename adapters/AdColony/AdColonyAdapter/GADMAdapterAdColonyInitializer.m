@@ -136,7 +136,7 @@
     // TODO: Discuss with AdColony if they can change their configure call to send a callback if
     // called a second time within a 5 second span. Alternatively, discuss with AdColony what the
     // side effects are of attempting to call configure every 5 seconds. By not retrying here, there
-    // is a corner case where open bidding zones are never initialized.
+    // is a corner case where bidding zones are never initialized.
     self->_calledConfigureInLastFiveSeconds = NO;
   });
 }

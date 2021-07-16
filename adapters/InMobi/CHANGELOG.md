@@ -82,7 +82,7 @@ Built and tested with
 
 #### Version 9.0.0.0
 - Verified compatibility with InMobi SDK 9.0.0.
-- Removed open bidding capability for banner, interstitial, and rewarded formats.
+- Removed bidding capability for banner, interstitial, and rewarded formats.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.53.1
@@ -96,7 +96,7 @@ Built and tested with
 
 #### Version 7.3.2.0
 - Verified compatibility with InMobi SDK 7.3.2.
-- Added open bidding capability to the adapter for banner, interstitial and rewarded ad formats.
+- Added bidding capability to the adapter for banner, interstitial and rewarded ad formats.
 
 #### Version 7.3.0.0
 - Verified compatibility with InMobi SDK 7.3.0.

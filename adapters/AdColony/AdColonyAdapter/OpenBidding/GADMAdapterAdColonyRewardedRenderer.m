@@ -148,7 +148,7 @@
 }
 
 - (void)adColonyInterstitialExpired:(nonnull AdColonyInterstitial *)interstitial {
-  // Only reload an ad on open bidding, where AdColony would otherwise be charged for an impression
+  // Only reload an ad on bidding, where AdColony would otherwise be charged for an impression
   // it couldn't show. Don't reload ads for regular mediation, as it has side effects on reporting.
   if (_adConfiguration.bidResponse) {
     // Re-requesting rewarded ad to avoid the following situation:

@@ -69,7 +69,7 @@
     return delegate;
   };
 
-  // For Open Bidding requests with bid data, the zone ID is unused.
+  // For bidding requests with bid data, the zone ID is unused.
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:@"dummyZoneForRTB"
                                                     testMode:_adConfiguration.isTestRequest
                                                      bidData:_adConfiguration.bidResponse];
@@ -87,7 +87,7 @@
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = @"maio open-bidding SDK returned error";
+  NSString *description = @"maio bidding SDK returned error";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain

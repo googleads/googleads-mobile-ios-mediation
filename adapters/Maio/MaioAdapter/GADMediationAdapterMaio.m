@@ -28,10 +28,10 @@
 @end
 
 @implementation GADMediationAdapterMaio {
-  // maio open-bidding interstitial ad wrapper.
+  // maio bidding interstitial ad wrapper.
   GADRTBMaioInterstitialAd *_interstitialRTBAd;
 
-  // maio open-bidding rewarded ad wrapper.
+  // maio bidding rewarded ad wrapper.
   GADRTBMaioRewardedAd *_rewardedRTBAd;
 
   // maio waterfall rewarded ad wrapper.
@@ -70,7 +70,7 @@
       completionHandler(error);
     }];
   } else if (existsPublisherID) {
-    // For Open Bidding integrations, maio SDK does not need to be initialized.
+    // For bidding integrations, maio SDK does not need to be initialized.
     completionHandler(nil);
   } else {
     NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(

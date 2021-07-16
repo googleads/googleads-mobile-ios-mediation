@@ -82,7 +82,7 @@ Built and tested with
 #### [Version 5.10.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-5.9.0.0.zip)
 - Verified compatibility with FAN SDK 5.10.1.
 - Now requires Google Mobile Ads SDK version 7.62.0 or higher.
-- Fixed a bug where adapterWillLeaveApplication: was not being called for interstitial ads for non-open bidding.
+- Fixed a bug where adapterWillLeaveApplication: was not being called for interstitial ads for waterfall mediation.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.62.0.
@@ -151,7 +151,7 @@ Built and tested with
 
 #### Version 5.7.1.0 (Deprecated, use 5.8.0.1 or newer)
 - Verified compatibility with FAN SDK 5.7.1.
-- Added support for Facebook native banner ads when using open bidding.
+- Added support for Facebook native banner ads when using bidding.
 - Native ads now return a `GADNativeAdImage` for the icon asset.
 
 Built and tested with
@@ -181,7 +181,7 @@ Built and tested with
 
 #### Version 5.5.1.1
 - Adapter now returns a non-zero `mediaContent` aspect ratio once the media view is rendered in a view.
-- Added additional logging for open bidding.
+- Added additional logging for bidding.
 
 #### Version 5.5.1.0
 - Verified compatibility with FAN SDK 5.5.1.
@@ -204,7 +204,7 @@ Built and tested with
 - Fixed a bug for native ads where AdOptions wasn't initialized correctly.
 
 #### Version 5.2.0.2
-- Added open bidding capability to the adapter for all ad formats.
+- Added bidding capability to the adapter for all ad formats.
 
 #### Version 5.2.0.1
 - Updated the adapter to use the new rewarded API.
