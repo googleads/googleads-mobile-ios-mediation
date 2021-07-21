@@ -65,12 +65,8 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                            code:GADErrorMediationAdapterError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey : @"Verizon adapter not properly initialized."
-                        }];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInitialization, @"Verizon SDK failed to initialize.");
     handler(nil, error);
     return;
   }
@@ -78,10 +74,8 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   _placementID = credentials[kGADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
-    NSError *error =
-        [NSError errorWithDomain:GADErrorDomain
-                            code:GADErrorMediationAdapterError
-                        userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil"}];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInvalidServerParameters, @"Placement ID cannot be nil");
     handler(nil, error);
     return;
   }

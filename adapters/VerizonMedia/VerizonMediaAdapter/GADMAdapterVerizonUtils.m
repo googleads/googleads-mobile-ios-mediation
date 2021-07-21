@@ -33,11 +33,21 @@ BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID) {
       siteID = [NSBundle.mainBundle objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
     }
     BOOL isInitialized = [VASAds initializeWithSiteId:siteID];
-    
+
     [GADMVerizonPrivacy.sharedInstance updatePrivacyData];
     VASAds.logLevel = VASLogLevelError;
-      
+
     return isInitialized;
   }
   return YES;
+}
+
+NSError *_Nonnull GADMAdapterVerizonErrorWithCodeAndDescription(GADMAdapterVerizonErrorCode code,
+                                                                NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }

@@ -26,11 +26,9 @@
   }
 
   if (!siteIDs.count) {
-    NSString *errorString =
-        @"Verizon media mediation configurations did not contain a valid site ID.";
-    NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                                         code:GADErrorMediationAdapterError
-                                     userInfo:@{NSLocalizedDescriptionKey : errorString}];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInvalidServerParameters,
+        @"Verizon media mediation configurations did not contain a valid site ID.");
     completionHandler(error);
     return;
   }

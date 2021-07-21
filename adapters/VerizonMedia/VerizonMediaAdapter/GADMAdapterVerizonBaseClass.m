@@ -86,10 +86,12 @@
 
   CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
   if (CGSizeEqualToSize(adSize, CGSizeZero)) {
-    [connector adapter:self
-             didFailAd:[NSError errorWithDomain:GADErrorDomain
-                                           code:GADErrorInvalidRequest
-                                       userInfo:nil]];
+    NSString *description =
+        [NSString stringWithFormat:@"Invalid size for Verizon Media mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(gadSize)];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorBannerSizeMismatch, description);
+    [connector adapter:self didFailAd:error];
     return;
   }
 
@@ -264,12 +266,8 @@
 
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
-    NSError *error =
-        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                            code:GADErrorMediationAdapterError
-                        userInfo:@{
-                          NSLocalizedDescriptionKey : @"Verizon adapter not properly initialized."
-                        }];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInitialization, @"Verizon SDK failed to initialize.");
     [strongConnector adapter:self didFailAd:error];
     return NO;
   }

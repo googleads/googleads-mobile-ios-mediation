@@ -13,9 +13,15 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import "GADMediationAdapterVerizon.h"
 
 /// Safely adds |object| to |set| if |object| is not nil.
 void GADMAdapterVerizonMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
 /// Initializes Verizon Media SDK with the provided site ID.
 BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterVerizonErrorWithCodeAndDescription(GADMAdapterVerizonErrorCode code,
+                                                                NSString *_Nonnull description);
