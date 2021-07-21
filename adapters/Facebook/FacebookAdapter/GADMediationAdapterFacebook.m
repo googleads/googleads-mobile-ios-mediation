@@ -66,7 +66,7 @@
 }
 
 + (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials {
-  NSString *placementID = credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
+  NSString *placementID = credentials.settings[kGADMAdapterFacebookBiddingPubID];
   if (!placementID) {
     placementID = credentials.settings[kGADMAdapterFacebookPubID];
   }

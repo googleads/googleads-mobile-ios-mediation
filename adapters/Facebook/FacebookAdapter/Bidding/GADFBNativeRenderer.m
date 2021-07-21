@@ -83,7 +83,7 @@
   }
 
   NSString *placementID =
-      adConfiguration.credentials.settings[kGADMAdapterFacebookOpenBiddingPubID];
+      adConfiguration.credentials.settings[kGADMAdapterFacebookBiddingPubID];
   if (!placementID) {
     NSError *error =
         GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
