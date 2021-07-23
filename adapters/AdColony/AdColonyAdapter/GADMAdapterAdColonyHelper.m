@@ -54,6 +54,7 @@
 
   // Set mediation network depending upon type of adapter (Legacy/RTB)
   if (adConfig.bidResponse) {
+    // TODO: Confirm with AdColony if this can be renamed AdMob_Bidding.
     [options setMediationNetwork:@"AdMob_OpenBidding"];
   } else {
     [options setMediationNetwork:ADCAdMob];
