@@ -1,5 +1,12 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Version 5.18.0.0 (in progress)
+- Verified compatibility with MoPub SDK 5.18.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.8.0.
+- MoPub SDK version 5.18.0.
+
 #### [Version 5.17.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.17.0.0.zip)
 - Banner ads are now centered in the `GADBannerView`.
 - Verified compatibility with MoPub SDK 5.17.0.
