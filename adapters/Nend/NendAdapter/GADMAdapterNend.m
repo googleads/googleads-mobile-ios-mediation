@@ -251,6 +251,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   switch (type) {
     case DOWNLOAD:
+      [strongConnector adapterDidGetAdClick:self];
     case INFORMATION:
       [strongConnector adapterWillDismissInterstitial:self];
       [strongConnector adapterDidDismissInterstitial:self];
@@ -311,6 +312,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
       [_connector adapterWillLeaveApplication:self];
       break;
   }
+  [_connector adapterDidGetAdClick:self];
 }
 
 - (void)nadInterstitialVideoAdDidClickInformation:
