@@ -1,6 +1,6 @@
 ## MoPub iOS Mediation Adapter Changelog
 
-#### Version 5.18.0.0 (in progress)
+#### [Version 5.18.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.18.0.0.zip)
 - Verified compatibility with MoPub SDK 5.18.0.
 
 Built and tested with
