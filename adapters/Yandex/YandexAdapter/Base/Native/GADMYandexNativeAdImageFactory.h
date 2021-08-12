@@ -6,7 +6,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-#import <YandexAdapter/GADMYandexNativeAdView.h>
-#import <YandexAdapter/GADMYandexNativeExtraAssets.h>
+@class YMANativeAdImage;
+
+@interface GADMYandexNativeAdImageFactory : NSObject
+
+- (GADNativeAdImage *)imageWithYandexNativeAdImage:(YMANativeAdImage *)image;
+
+@end

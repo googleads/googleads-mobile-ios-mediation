@@ -6,7 +6,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <YandexAdapter/GADMYandexNativeAdView.h>
-#import <YandexAdapter/GADMYandexNativeExtraAssets.h>
+@protocol YMANativeAd;
+@class GADMYandexNativeAd;
+
+@interface GADMYandexNativeAdFactory : NSObject
+
+- (GADMYandexNativeAd *)adMobNativeAdWithNativeAd:(id<YMANativeAd>)ad;
+
+@end

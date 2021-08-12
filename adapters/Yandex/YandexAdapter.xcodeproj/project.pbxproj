@@ -3,41 +3,28 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		00DD26B622F10E360039C1D4 /* ValidateSourceCode */ = {
+		5AD983D022EFAE79000FCD2F /* ValidateSourceCode */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 00DD26BA22F10E360039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildConfigurationList = 5AD983D322EFAE79000FCD2F /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
 			buildPhases = (
-				00DD26B922F10E360039C1D4 /* ValidateSourceCode */,
+				5AD983D622EFAE90000FCD2F /* Validate Source Code */,
 			);
 			dependencies = (
 			);
 			name = ValidateSourceCode;
-			productName = Framework;
+			productName = Validate;
 		};
-		4583B9FD20AD055F00AFBD14 /* FatAdapter */ = {
+		7D1B6CA21DC2ACF900D8CABF /* Framework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 4583B9FE20AD055F00AFBD14 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
+			buildConfigurationList = 7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */;
 			buildPhases = (
-				4583BA1720AD0C7D00AFBD14 /* FatAdapter Script */,
+				7D1B6CA61DC2AD7700D8CABF /* Framework Script */,
 			);
 			dependencies = (
-				4583BA2A20AD0D3600AFBD14 /* PBXTargetDependency */,
-			);
-			name = FatAdapter;
-			productName = FatAdapter;
-		};
-		4583BA0120AD058300AFBD14 /* Framework */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 4583BA0220AD058300AFBD14 /* Build configuration list for PBXAggregateTarget "Framework" */;
-			buildPhases = (
-				4583BA1320AD0C3300AFBD14 /* Framework Script */,
-			);
-			dependencies = (
-				4583BA2820AD0D3000AFBD14 /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -45,37 +32,85 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4583BA2C20AD0D5D00AFBD14 /* YandexAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4583BA0F20AD0A8200AFBD14 /* YandexAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31AE9A826C5220900448373 /* GADMYandexNativeExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96826C5220800448373 /* GADMYandexNativeExtraAssets.m */; };
+		B31AE9A926C5220900448373 /* GADMYandexAdapterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE96A26C5220800448373 /* GADMYandexAdapterFactory.h */; };
+		B31AE9AA26C5220900448373 /* GADMYandexRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96B26C5220800448373 /* GADMYandexRewardedAdapter.m */; };
+		B31AE9AB26C5220900448373 /* GADMediationAdapterYandex.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96C26C5220800448373 /* GADMediationAdapterYandex.m */; };
+		B31AE9AC26C5220900448373 /* GADMYandexNativeAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96D26C5220800448373 /* GADMYandexNativeAdapter.m */; };
+		B31AE9AD26C5220900448373 /* GADMYandexInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96E26C5220800448373 /* GADMYandexInterstitialAdapter.m */; };
+		B31AE9AE26C5220900448373 /* GADMYandexBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE96F26C5220800448373 /* GADMYandexBannerAdapter.m */; };
+		B31AE9AF26C5220900448373 /* GADMYandexAdapterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE97026C5220800448373 /* GADMYandexAdapterFactory.m */; };
+		B31AE9B026C5220900448373 /* GADMYandexNativeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97126C5220800448373 /* GADMYandexNativeAdapter.h */; };
+		B31AE9B126C5220900448373 /* GADMediationAdapterYandex.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97226C5220800448373 /* GADMediationAdapterYandex.h */; };
+		B31AE9B226C5220900448373 /* GADMYandexRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97326C5220800448373 /* GADMYandexRewardedAdapter.h */; };
+		B31AE9B326C5220900448373 /* GADMYandexInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97426C5220800448373 /* GADMYandexInterstitialAdapter.h */; };
+		B31AE9B426C5220900448373 /* GADMYandexBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97526C5220800448373 /* GADMYandexBannerAdapter.h */; };
+		B31AE9B526C5220900448373 /* GADMYandexErrorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97726C5220800448373 /* GADMYandexErrorFactory.h */; };
+		B31AE9B626C5220900448373 /* GADMYandexMediationLoadingDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97826C5220800448373 /* GADMYandexMediationLoadingDataProvider.h */; };
+		B31AE9B726C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97A26C5220800448373 /* GADMYandexNativeAdAssetViewsExtractor.h */; };
+		B31AE9B826C5220900448373 /* GADMYandexNativeAdViewProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97B26C5220800448373 /* GADMYandexNativeAdViewProvider.h */; };
+		B31AE9B926C5220900448373 /* GADMYandexNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE97C26C5220800448373 /* GADMYandexNativeAd.m */; };
+		B31AE9BA26C5220900448373 /* GADMYandexNativeAdLoaderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97D26C5220800448373 /* GADMYandexNativeAdLoaderFactory.h */; };
+		B31AE9BB26C5220900448373 /* YMANativeAdBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE97E26C5220800448373 /* YMANativeAdBinding.h */; };
+		B31AE9BC26C5220900448373 /* GADMYandexNativeAssetViewBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE97F26C5220800448373 /* GADMYandexNativeAssetViewBinder.m */; };
+		B31AE9BD26C5220900448373 /* GADMYandexNativeAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98026C5220800448373 /* GADMYandexNativeAdFactory.h */; };
+		B31AE9BE26C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98126C5220800448373 /* GADMYandexNativeAdRatingViewExtractor.h */; };
+		B31AE9BF26C5220900448373 /* GADMYandexNativeAdImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98226C5220800448373 /* GADMYandexNativeAdImageFactory.m */; };
+		B31AE9C026C5220900448373 /* GADMYandexCallToActionBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98326C5220800448373 /* GADMYandexCallToActionBinder.h */; };
+		B31AE9C126C5220900448373 /* GADMYandexMediaViewBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98426C5220800448373 /* GADMYandexMediaViewBinder.h */; };
+		B31AE9C226C5220900448373 /* GADMYandexNativeAdBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98526C5220800448373 /* GADMYandexNativeAdBinder.h */; };
+		B31AE9C326C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98626C5220800448373 /* GADMYandexNativeRequestConfigurationFactory.m */; };
+		B31AE9C426C5220900448373 /* GADMYandexFeedbackButtonConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98726C5220800448373 /* GADMYandexFeedbackButtonConfigurator.h */; };
+		B31AE9C526C5220900448373 /* GADMYandexNativeAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98826C5220800448373 /* GADMYandexNativeAssets.m */; };
+		B31AE9C626C5220900448373 /* GADMYandexNativeAssetViewBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98926C5220800448373 /* GADMYandexNativeAssetViewBinder.h */; };
+		B31AE9C726C5220900448373 /* GADMYandexNativeAdLoaderFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98A26C5220800448373 /* GADMYandexNativeAdLoaderFactory.m */; };
+		B31AE9C826C5220900448373 /* GADMYandexNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98B26C5220800448373 /* GADMYandexNativeAd.h */; };
+		B31AE9C926C5220900448373 /* GADMYandexNativeAdViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98C26C5220900448373 /* GADMYandexNativeAdViewProvider.m */; };
+		B31AE9CA26C5220900448373 /* GADMYandexNativeAdAssetViewsExtracting.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE98D26C5220900448373 /* GADMYandexNativeAdAssetViewsExtracting.h */; };
+		B31AE9CB26C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98E26C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.m */; };
+		B31AE9CC26C5220900448373 /* GADMYandexNativeAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE98F26C5220900448373 /* GADMYandexNativeAdFactory.m */; };
+		B31AE9CD26C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE99026C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.h */; };
+		B31AE9CE26C5220900448373 /* GADMYandexNativeAdBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99126C5220900448373 /* GADMYandexNativeAdBinder.m */; };
+		B31AE9CF26C5220900448373 /* GADMYandexCallToActionBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99226C5220900448373 /* GADMYandexCallToActionBinder.m */; };
+		B31AE9D026C5220900448373 /* GADMYandexMediaViewBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99326C5220900448373 /* GADMYandexMediaViewBinder.m */; };
+		B31AE9D126C5220900448373 /* GADMYandexNativeAdImageFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE99426C5220900448373 /* GADMYandexNativeAdImageFactory.h */; };
+		B31AE9D226C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99526C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.m */; };
+		B31AE9D326C5220900448373 /* GADMYandexNativeAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE99626C5220900448373 /* GADMYandexNativeAssets.h */; };
+		B31AE9D426C5220900448373 /* GADMYandexFeedbackButtonConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99726C5220900448373 /* GADMYandexFeedbackButtonConfigurator.m */; };
+		B31AE9D526C5220900448373 /* GADMYandexMediationLoadingData.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99826C5220900448373 /* GADMYandexMediationLoadingData.m */; };
+		B31AE9D626C5220900448373 /* GADMYandexAdFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99926C5220900448373 /* GADMYandexAdFactory.m */; };
+		B31AE9D726C5220900448373 /* GADMYandexResourceBundleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99A26C5220900448373 /* GADMYandexResourceBundleProvider.m */; };
+		B31AE9D826C5220900448373 /* GADMYandexErrorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99B26C5220900448373 /* GADMYandexErrorFactory.m */; };
+		B31AE9D926C5220900448373 /* GADMYandexMediationLoadingData.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE99C26C5220900448373 /* GADMYandexMediationLoadingData.h */; };
+		B31AE9DA26C5220900448373 /* GADMYandexAdRequestConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE99E26C5220900448373 /* GADMYandexAdRequestConfigurator.h */; };
+		B31AE9DB26C5220900448373 /* GADMYandexAdapterVersionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE99F26C5220900448373 /* GADMYandexAdapterVersionProvider.m */; };
+		B31AE9DC26C5220900448373 /* GADMYandexAdRequestParametersProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9A026C5220900448373 /* GADMYandexAdRequestParametersProvider.h */; };
+		B31AE9DD26C5220900448373 /* GADMYandexAdRequestConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE9A126C5220900448373 /* GADMYandexAdRequestConfigurator.m */; };
+		B31AE9DE26C5220900448373 /* GADMYandexAdRequestParametersProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE9A226C5220900448373 /* GADMYandexAdRequestParametersProvider.m */; };
+		B31AE9DF26C5220900448373 /* GADMYandexVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9A326C5220900448373 /* GADMYandexVersion.h */; };
+		B31AE9E026C5220900448373 /* GADMYandexAdapterVersionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9A426C5220900448373 /* GADMYandexAdapterVersionProvider.h */; };
+		B31AE9E126C5220900448373 /* GADMYandexMediationLoadingDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B31AE9A526C5220900448373 /* GADMYandexMediationLoadingDataProvider.m */; };
+		B31AE9E226C5220900448373 /* GADMYandexAdFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9A626C5220900448373 /* GADMYandexAdFactory.h */; };
+		B31AE9E326C5220900448373 /* GADMYandexResourceBundleProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9A726C5220900448373 /* GADMYandexResourceBundleProvider.h */; };
+		B31AE9EA26C5221F00448373 /* GADMYandexNativeExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9E726C5221F00448373 /* GADMYandexNativeExtraAssets.h */; };
+		B31AE9EB26C5221F00448373 /* GADMYandexNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9E826C5221F00448373 /* GADMYandexNativeAdView.h */; };
+		B31AE9EC26C5221F00448373 /* YandexAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B31AE9E926C5221F00448373 /* YandexAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00DD26BD22F10E570039C1D4 /* PBXContainerItemProxy */ = {
+		5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4583B9D920AD042100AFBD14 /* Project object */;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 00DD26B622F10E360039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
-		4583BA2720AD0D3000AFBD14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4583B9D920AD042100AFBD14 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4583BA1D20AD0D1F00AFBD14;
-			remoteInfo = Adapter;
-		};
-		4583BA2920AD0D3600AFBD14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4583B9D920AD042100AFBD14 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4583BA1D20AD0D1F00AFBD14;
-			remoteInfo = Adapter;
+			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
+			remoteInfo = Validate;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4583BA1C20AD0D1F00AFBD14 /* CopyFiles */ = {
+		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
@@ -85,23 +120,83 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00DD26B522F10E270039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
-		4583B9EE20AD049000AFBD14 /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
-		4583B9EF20AD04D300AFBD14 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
-		4583BA0520AD05C200AFBD14 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4583BA0720AD077200AFBD14 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
-		4583BA0820AD07F100AFBD14 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		4583BA0920AD084B00AFBD14 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		4583BA0A20AD092B00AFBD14 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4583BA0B20AD095A00AFBD14 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		4583BA0C20AD099A00AFBD14 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4583BA0E20AD0A0A00AFBD14 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		4583BA0F20AD0A8200AFBD14 /* YandexAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YandexAdapter.h; sourceTree = "<group>"; };
-		4583BA1E20AD0D1F00AFBD14 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AD983D722EFAEB6000FCD2F /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
+		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
+		7DC8681F1DDA8D4400F0F1C4 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B31AE96826C5220800448373 /* GADMYandexNativeExtraAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeExtraAssets.m; sourceTree = "<group>"; };
+		B31AE96A26C5220800448373 /* GADMYandexAdapterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexAdapterFactory.h; sourceTree = "<group>"; };
+		B31AE96B26C5220800448373 /* GADMYandexRewardedAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexRewardedAdapter.m; sourceTree = "<group>"; };
+		B31AE96C26C5220800448373 /* GADMediationAdapterYandex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterYandex.m; sourceTree = "<group>"; };
+		B31AE96D26C5220800448373 /* GADMYandexNativeAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdapter.m; sourceTree = "<group>"; };
+		B31AE96E26C5220800448373 /* GADMYandexInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexInterstitialAdapter.m; sourceTree = "<group>"; };
+		B31AE96F26C5220800448373 /* GADMYandexBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexBannerAdapter.m; sourceTree = "<group>"; };
+		B31AE97026C5220800448373 /* GADMYandexAdapterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexAdapterFactory.m; sourceTree = "<group>"; };
+		B31AE97126C5220800448373 /* GADMYandexNativeAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdapter.h; sourceTree = "<group>"; };
+		B31AE97226C5220800448373 /* GADMediationAdapterYandex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterYandex.h; sourceTree = "<group>"; };
+		B31AE97326C5220800448373 /* GADMYandexRewardedAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexRewardedAdapter.h; sourceTree = "<group>"; };
+		B31AE97426C5220800448373 /* GADMYandexInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexInterstitialAdapter.h; sourceTree = "<group>"; };
+		B31AE97526C5220800448373 /* GADMYandexBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexBannerAdapter.h; sourceTree = "<group>"; };
+		B31AE97726C5220800448373 /* GADMYandexErrorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexErrorFactory.h; sourceTree = "<group>"; };
+		B31AE97826C5220800448373 /* GADMYandexMediationLoadingDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexMediationLoadingDataProvider.h; sourceTree = "<group>"; };
+		B31AE97A26C5220800448373 /* GADMYandexNativeAdAssetViewsExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdAssetViewsExtractor.h; sourceTree = "<group>"; };
+		B31AE97B26C5220800448373 /* GADMYandexNativeAdViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdViewProvider.h; sourceTree = "<group>"; };
+		B31AE97C26C5220800448373 /* GADMYandexNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAd.m; sourceTree = "<group>"; };
+		B31AE97D26C5220800448373 /* GADMYandexNativeAdLoaderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdLoaderFactory.h; sourceTree = "<group>"; };
+		B31AE97E26C5220800448373 /* YMANativeAdBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMANativeAdBinding.h; sourceTree = "<group>"; };
+		B31AE97F26C5220800448373 /* GADMYandexNativeAssetViewBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAssetViewBinder.m; sourceTree = "<group>"; };
+		B31AE98026C5220800448373 /* GADMYandexNativeAdFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdFactory.h; sourceTree = "<group>"; };
+		B31AE98126C5220800448373 /* GADMYandexNativeAdRatingViewExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdRatingViewExtractor.h; sourceTree = "<group>"; };
+		B31AE98226C5220800448373 /* GADMYandexNativeAdImageFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdImageFactory.m; sourceTree = "<group>"; };
+		B31AE98326C5220800448373 /* GADMYandexCallToActionBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexCallToActionBinder.h; sourceTree = "<group>"; };
+		B31AE98426C5220800448373 /* GADMYandexMediaViewBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexMediaViewBinder.h; sourceTree = "<group>"; };
+		B31AE98526C5220800448373 /* GADMYandexNativeAdBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdBinder.h; sourceTree = "<group>"; };
+		B31AE98626C5220800448373 /* GADMYandexNativeRequestConfigurationFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeRequestConfigurationFactory.m; sourceTree = "<group>"; };
+		B31AE98726C5220800448373 /* GADMYandexFeedbackButtonConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexFeedbackButtonConfigurator.h; sourceTree = "<group>"; };
+		B31AE98826C5220800448373 /* GADMYandexNativeAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAssets.m; sourceTree = "<group>"; };
+		B31AE98926C5220800448373 /* GADMYandexNativeAssetViewBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAssetViewBinder.h; sourceTree = "<group>"; };
+		B31AE98A26C5220800448373 /* GADMYandexNativeAdLoaderFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdLoaderFactory.m; sourceTree = "<group>"; };
+		B31AE98B26C5220800448373 /* GADMYandexNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAd.h; sourceTree = "<group>"; };
+		B31AE98C26C5220900448373 /* GADMYandexNativeAdViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdViewProvider.m; sourceTree = "<group>"; };
+		B31AE98D26C5220900448373 /* GADMYandexNativeAdAssetViewsExtracting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdAssetViewsExtracting.h; sourceTree = "<group>"; };
+		B31AE98E26C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdAssetViewsExtractor.m; sourceTree = "<group>"; };
+		B31AE98F26C5220900448373 /* GADMYandexNativeAdFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdFactory.m; sourceTree = "<group>"; };
+		B31AE99026C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeRequestConfigurationFactory.h; sourceTree = "<group>"; };
+		B31AE99126C5220900448373 /* GADMYandexNativeAdBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdBinder.m; sourceTree = "<group>"; };
+		B31AE99226C5220900448373 /* GADMYandexCallToActionBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexCallToActionBinder.m; sourceTree = "<group>"; };
+		B31AE99326C5220900448373 /* GADMYandexMediaViewBinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexMediaViewBinder.m; sourceTree = "<group>"; };
+		B31AE99426C5220900448373 /* GADMYandexNativeAdImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdImageFactory.h; sourceTree = "<group>"; };
+		B31AE99526C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexNativeAdRatingViewExtractor.m; sourceTree = "<group>"; };
+		B31AE99626C5220900448373 /* GADMYandexNativeAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAssets.h; sourceTree = "<group>"; };
+		B31AE99726C5220900448373 /* GADMYandexFeedbackButtonConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexFeedbackButtonConfigurator.m; sourceTree = "<group>"; };
+		B31AE99826C5220900448373 /* GADMYandexMediationLoadingData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexMediationLoadingData.m; sourceTree = "<group>"; };
+		B31AE99926C5220900448373 /* GADMYandexAdFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexAdFactory.m; sourceTree = "<group>"; };
+		B31AE99A26C5220900448373 /* GADMYandexResourceBundleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexResourceBundleProvider.m; sourceTree = "<group>"; };
+		B31AE99B26C5220900448373 /* GADMYandexErrorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexErrorFactory.m; sourceTree = "<group>"; };
+		B31AE99C26C5220900448373 /* GADMYandexMediationLoadingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexMediationLoadingData.h; sourceTree = "<group>"; };
+		B31AE99E26C5220900448373 /* GADMYandexAdRequestConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexAdRequestConfigurator.h; sourceTree = "<group>"; };
+		B31AE99F26C5220900448373 /* GADMYandexAdapterVersionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexAdapterVersionProvider.m; sourceTree = "<group>"; };
+		B31AE9A026C5220900448373 /* GADMYandexAdRequestParametersProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexAdRequestParametersProvider.h; sourceTree = "<group>"; };
+		B31AE9A126C5220900448373 /* GADMYandexAdRequestConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexAdRequestConfigurator.m; sourceTree = "<group>"; };
+		B31AE9A226C5220900448373 /* GADMYandexAdRequestParametersProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexAdRequestParametersProvider.m; sourceTree = "<group>"; };
+		B31AE9A326C5220900448373 /* GADMYandexVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexVersion.h; sourceTree = "<group>"; };
+		B31AE9A426C5220900448373 /* GADMYandexAdapterVersionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexAdapterVersionProvider.h; sourceTree = "<group>"; };
+		B31AE9A526C5220900448373 /* GADMYandexMediationLoadingDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMYandexMediationLoadingDataProvider.m; sourceTree = "<group>"; };
+		B31AE9A626C5220900448373 /* GADMYandexAdFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexAdFactory.h; sourceTree = "<group>"; };
+		B31AE9A726C5220900448373 /* GADMYandexResourceBundleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexResourceBundleProvider.h; sourceTree = "<group>"; };
+		B31AE9E726C5221F00448373 /* GADMYandexNativeExtraAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeExtraAssets.h; sourceTree = "<group>"; };
+		B31AE9E826C5221F00448373 /* GADMYandexNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMYandexNativeAdView.h; sourceTree = "<group>"; };
+		B31AE9E926C5221F00448373 /* YandexAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YandexAdapter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4583BA1B20AD0D1F00AFBD14 /* Frameworks */ = {
+		7DFABB1A1DA8682C00322E02 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -111,162 +206,300 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4583B9D820AD042100AFBD14 = {
+		564846D51F1936C900D5B552 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4583BA0B20AD095A00AFBD14 /* CHANGELOG.md */,
-				4583BA0A20AD092B00AFBD14 /* README.md */,
-				4583B9E320AD042100AFBD14 /* YandexAdapter */,
-				4583BA0620AD073E00AFBD14 /* Configuration */,
-				4583BA0D20AD09D300AFBD14 /* Public */,
-				4583B9ED20AD043C00AFBD14 /* BuildScript */,
-				4583B9E220AD042100AFBD14 /* Products */,
 			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4583B9E220AD042100AFBD14 /* Products */ = {
+		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				4583BA1E20AD0D1F00AFBD14 /* libAdapter.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		4583B9E320AD042100AFBD14 /* YandexAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				4583BA0C20AD099A00AFBD14 /* README.md */,
-			);
-			path = YandexAdapter;
-			sourceTree = "<group>";
-		};
-		4583B9ED20AD043C00AFBD14 /* BuildScript */ = {
-			isa = PBXGroup;
-			children = (
-				4583BA0520AD05C200AFBD14 /* README.md */,
-				4583B9EE20AD049000AFBD14 /* Script_Library.sh */,
-				4583B9EF20AD04D300AFBD14 /* Script_Framework.sh */,
-				00DD26B522F10E270039C1D4 /* Script_Validate.sh */,
-			);
-			path = BuildScript;
-			sourceTree = "<group>";
-		};
-		4583BA0620AD073E00AFBD14 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				4583BA0720AD077200AFBD14 /* Adapter.xcconfig */,
-				4583BA0820AD07F100AFBD14 /* Debug.xcconfig */,
-				4583BA0920AD084B00AFBD14 /* Release.xcconfig */,
+				7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */,
+				7D6A68A31DB7ED230001E48B /* Debug.xcconfig */,
+				7D6A68A41DB7ED310001E48B /* Release.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		4583BA0D20AD09D300AFBD14 /* Public */ = {
+		7DC868191DDA8D4400F0F1C4 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				4583BA1020AD0A8600AFBD14 /* Headers */,
-				4583BA0E20AD0A0A00AFBD14 /* module.modulemap */,
+				7DC8681B1DDA8D4400F0F1C4 /* Headers */,
+				7DC8681F1DDA8D4400F0F1C4 /* module.modulemap */,
 			);
 			path = Public;
 			sourceTree = "<group>";
 		};
-		4583BA1020AD0A8600AFBD14 /* Headers */ = {
+		7DC8681B1DDA8D4400F0F1C4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				4583BA0F20AD0A8200AFBD14 /* YandexAdapter.h */,
+				B31AE9E826C5221F00448373 /* GADMYandexNativeAdView.h */,
+				B31AE9E726C5221F00448373 /* GADMYandexNativeExtraAssets.h */,
+				B31AE9E926C5221F00448373 /* YandexAdapter.h */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		7DE821BD1DB04B5000AA08CF /* BuildScript */ = {
+			isa = PBXGroup;
+			children = (
+				7D264FF21DDD1B9400027720 /* README.md */,
+				7D9552B11DC006E5005DCE8D /* Script_Framework.sh */,
+				5AD983D722EFAEB6000FCD2F /* Script_Validate.sh */,
+			);
+			path = BuildScript;
+			sourceTree = "<group>";
+		};
+		7DFABB141DA8682C00322E02 = {
+			isa = PBXGroup;
+			children = (
+				7DE821BF1DB04B5000AA08CF /* README.md */,
+				7D264FF01DDD1B4E00027720 /* CHANGELOG.md */,
+				B31AE96726C5220800448373 /* YandexAdapter */,
+				7DC868191DDA8D4400F0F1C4 /* Public */,
+				7DE821BD1DB04B5000AA08CF /* BuildScript */,
+				7D46CFDE1DB6B76E0050F612 /* Configuration */,
+				7DFABB1E1DA8682C00322E02 /* Products */,
+				564846D51F1936C900D5B552 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7DFABB1E1DA8682C00322E02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B31AE96726C5220800448373 /* YandexAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				B31AE96826C5220800448373 /* GADMYandexNativeExtraAssets.m */,
+				B31AE96926C5220800448373 /* Adapter */,
+				B31AE97626C5220800448373 /* Base */,
+			);
+			path = YandexAdapter;
+			sourceTree = "<group>";
+		};
+		B31AE96926C5220800448373 /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				B31AE96A26C5220800448373 /* GADMYandexAdapterFactory.h */,
+				B31AE96B26C5220800448373 /* GADMYandexRewardedAdapter.m */,
+				B31AE96C26C5220800448373 /* GADMediationAdapterYandex.m */,
+				B31AE96D26C5220800448373 /* GADMYandexNativeAdapter.m */,
+				B31AE96E26C5220800448373 /* GADMYandexInterstitialAdapter.m */,
+				B31AE96F26C5220800448373 /* GADMYandexBannerAdapter.m */,
+				B31AE97026C5220800448373 /* GADMYandexAdapterFactory.m */,
+				B31AE97126C5220800448373 /* GADMYandexNativeAdapter.h */,
+				B31AE97226C5220800448373 /* GADMediationAdapterYandex.h */,
+				B31AE97326C5220800448373 /* GADMYandexRewardedAdapter.h */,
+				B31AE97426C5220800448373 /* GADMYandexInterstitialAdapter.h */,
+				B31AE97526C5220800448373 /* GADMYandexBannerAdapter.h */,
+			);
+			path = Adapter;
+			sourceTree = "<group>";
+		};
+		B31AE97626C5220800448373 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				B31AE97726C5220800448373 /* GADMYandexErrorFactory.h */,
+				B31AE97826C5220800448373 /* GADMYandexMediationLoadingDataProvider.h */,
+				B31AE97926C5220800448373 /* Native */,
+				B31AE99826C5220900448373 /* GADMYandexMediationLoadingData.m */,
+				B31AE99926C5220900448373 /* GADMYandexAdFactory.m */,
+				B31AE99A26C5220900448373 /* GADMYandexResourceBundleProvider.m */,
+				B31AE99B26C5220900448373 /* GADMYandexErrorFactory.m */,
+				B31AE99C26C5220900448373 /* GADMYandexMediationLoadingData.h */,
+				B31AE99D26C5220900448373 /* AdapterVersion */,
+				B31AE9A526C5220900448373 /* GADMYandexMediationLoadingDataProvider.m */,
+				B31AE9A626C5220900448373 /* GADMYandexAdFactory.h */,
+				B31AE9A726C5220900448373 /* GADMYandexResourceBundleProvider.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		B31AE97926C5220800448373 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				B31AE97A26C5220800448373 /* GADMYandexNativeAdAssetViewsExtractor.h */,
+				B31AE97B26C5220800448373 /* GADMYandexNativeAdViewProvider.h */,
+				B31AE97C26C5220800448373 /* GADMYandexNativeAd.m */,
+				B31AE97D26C5220800448373 /* GADMYandexNativeAdLoaderFactory.h */,
+				B31AE97E26C5220800448373 /* YMANativeAdBinding.h */,
+				B31AE97F26C5220800448373 /* GADMYandexNativeAssetViewBinder.m */,
+				B31AE98026C5220800448373 /* GADMYandexNativeAdFactory.h */,
+				B31AE98126C5220800448373 /* GADMYandexNativeAdRatingViewExtractor.h */,
+				B31AE98226C5220800448373 /* GADMYandexNativeAdImageFactory.m */,
+				B31AE98326C5220800448373 /* GADMYandexCallToActionBinder.h */,
+				B31AE98426C5220800448373 /* GADMYandexMediaViewBinder.h */,
+				B31AE98526C5220800448373 /* GADMYandexNativeAdBinder.h */,
+				B31AE98626C5220800448373 /* GADMYandexNativeRequestConfigurationFactory.m */,
+				B31AE98726C5220800448373 /* GADMYandexFeedbackButtonConfigurator.h */,
+				B31AE98826C5220800448373 /* GADMYandexNativeAssets.m */,
+				B31AE98926C5220800448373 /* GADMYandexNativeAssetViewBinder.h */,
+				B31AE98A26C5220800448373 /* GADMYandexNativeAdLoaderFactory.m */,
+				B31AE98B26C5220800448373 /* GADMYandexNativeAd.h */,
+				B31AE98C26C5220900448373 /* GADMYandexNativeAdViewProvider.m */,
+				B31AE98D26C5220900448373 /* GADMYandexNativeAdAssetViewsExtracting.h */,
+				B31AE98E26C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.m */,
+				B31AE98F26C5220900448373 /* GADMYandexNativeAdFactory.m */,
+				B31AE99026C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.h */,
+				B31AE99126C5220900448373 /* GADMYandexNativeAdBinder.m */,
+				B31AE99226C5220900448373 /* GADMYandexCallToActionBinder.m */,
+				B31AE99326C5220900448373 /* GADMYandexMediaViewBinder.m */,
+				B31AE99426C5220900448373 /* GADMYandexNativeAdImageFactory.h */,
+				B31AE99526C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.m */,
+				B31AE99626C5220900448373 /* GADMYandexNativeAssets.h */,
+				B31AE99726C5220900448373 /* GADMYandexFeedbackButtonConfigurator.m */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+		B31AE99D26C5220900448373 /* AdapterVersion */ = {
+			isa = PBXGroup;
+			children = (
+				B31AE99E26C5220900448373 /* GADMYandexAdRequestConfigurator.h */,
+				B31AE99F26C5220900448373 /* GADMYandexAdapterVersionProvider.m */,
+				B31AE9A026C5220900448373 /* GADMYandexAdRequestParametersProvider.h */,
+				B31AE9A126C5220900448373 /* GADMYandexAdRequestConfigurator.m */,
+				B31AE9A226C5220900448373 /* GADMYandexAdRequestParametersProvider.m */,
+				B31AE9A326C5220900448373 /* GADMYandexVersion.h */,
+				B31AE9A426C5220900448373 /* GADMYandexAdapterVersionProvider.h */,
+			);
+			path = AdapterVersion;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		4583BA2B20AD0D5600AFBD14 /* Headers */ = {
+		7DFABB4C1DA8699700322E02 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4583BA2C20AD0D5D00AFBD14 /* YandexAdapter.h in Headers */,
+				B31AE9D126C5220900448373 /* GADMYandexNativeAdImageFactory.h in Headers */,
+				B31AE9B026C5220900448373 /* GADMYandexNativeAdapter.h in Headers */,
+				B31AE9E226C5220900448373 /* GADMYandexAdFactory.h in Headers */,
+				B31AE9C226C5220900448373 /* GADMYandexNativeAdBinder.h in Headers */,
+				B31AE9C626C5220900448373 /* GADMYandexNativeAssetViewBinder.h in Headers */,
+				B31AE9BB26C5220900448373 /* YMANativeAdBinding.h in Headers */,
+				B31AE9DC26C5220900448373 /* GADMYandexAdRequestParametersProvider.h in Headers */,
+				B31AE9B426C5220900448373 /* GADMYandexBannerAdapter.h in Headers */,
+				B31AE9DF26C5220900448373 /* GADMYandexVersion.h in Headers */,
+				B31AE9B526C5220900448373 /* GADMYandexErrorFactory.h in Headers */,
+				B31AE9B826C5220900448373 /* GADMYandexNativeAdViewProvider.h in Headers */,
+				B31AE9C126C5220900448373 /* GADMYandexMediaViewBinder.h in Headers */,
+				B31AE9CD26C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.h in Headers */,
+				B31AE9C826C5220900448373 /* GADMYandexNativeAd.h in Headers */,
+				B31AE9CA26C5220900448373 /* GADMYandexNativeAdAssetViewsExtracting.h in Headers */,
+				B31AE9BD26C5220900448373 /* GADMYandexNativeAdFactory.h in Headers */,
+				B31AE9B326C5220900448373 /* GADMYandexInterstitialAdapter.h in Headers */,
+				B31AE9C426C5220900448373 /* GADMYandexFeedbackButtonConfigurator.h in Headers */,
+				B31AE9B226C5220900448373 /* GADMYandexRewardedAdapter.h in Headers */,
+				B31AE9EA26C5221F00448373 /* GADMYandexNativeExtraAssets.h in Headers */,
+				B31AE9BE26C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.h in Headers */,
+				B31AE9A926C5220900448373 /* GADMYandexAdapterFactory.h in Headers */,
+				B31AE9EB26C5221F00448373 /* GADMYandexNativeAdView.h in Headers */,
+				B31AE9BA26C5220900448373 /* GADMYandexNativeAdLoaderFactory.h in Headers */,
+				B31AE9B726C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.h in Headers */,
+				B31AE9C026C5220900448373 /* GADMYandexCallToActionBinder.h in Headers */,
+				B31AE9D926C5220900448373 /* GADMYandexMediationLoadingData.h in Headers */,
+				B31AE9D326C5220900448373 /* GADMYandexNativeAssets.h in Headers */,
+				B31AE9E026C5220900448373 /* GADMYandexAdapterVersionProvider.h in Headers */,
+				B31AE9EC26C5221F00448373 /* YandexAdapter.h in Headers */,
+				B31AE9B626C5220900448373 /* GADMYandexMediationLoadingDataProvider.h in Headers */,
+				B31AE9B126C5220900448373 /* GADMediationAdapterYandex.h in Headers */,
+				B31AE9DA26C5220900448373 /* GADMYandexAdRequestConfigurator.h in Headers */,
+				B31AE9E326C5220900448373 /* GADMYandexResourceBundleProvider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4583BA1D20AD0D1F00AFBD14 /* Adapter */ = {
+		7DFABB1C1DA8682C00322E02 /* Adapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4583BA2420AD0D1F00AFBD14 /* Build configuration list for PBXNativeTarget "Adapter" */;
+			buildConfigurationList = 7DFABB261DA8682C00322E02 /* Build configuration list for PBXNativeTarget "Adapter" */;
 			buildPhases = (
-				4583BA1A20AD0D1F00AFBD14 /* Sources */,
-				4583BA1B20AD0D1F00AFBD14 /* Frameworks */,
-				4583BA1C20AD0D1F00AFBD14 /* CopyFiles */,
-				4583BA2B20AD0D5600AFBD14 /* Headers */,
+				7DFABB191DA8682C00322E02 /* Sources */,
+				7DFABB1A1DA8682C00322E02 /* Frameworks */,
+				7DFABB1B1DA8682C00322E02 /* CopyFiles */,
+				7DFABB4C1DA8699700322E02 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				00DD26BE22F10E570039C1D4 /* PBXTargetDependency */,
+				5AD983D522EFAE84000FCD2F /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = 4583BA1E20AD0D1F00AFBD14 /* libAdapter.a */;
+			productReference = 7DFABB1D1DA8682C00322E02 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4583B9D920AD042100AFBD14 /* Project object */ = {
+		7DFABB151DA8682C00322E02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Google;
 				TargetAttributes = {
-					4583B9FD20AD055F00AFBD14 = {
-						CreatedOnToolsVersion = 9.3;
+					5AD983D022EFAE79000FCD2F = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
 					};
-					4583BA0120AD058300AFBD14 = {
-						CreatedOnToolsVersion = 9.3;
+					7D1B6CA21DC2ACF900D8CABF = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
-					4583BA1D20AD0D1F00AFBD14 = {
-						CreatedOnToolsVersion = 9.3;
+					7DFABB1C1DA8682C00322E02 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
-			buildConfigurationList = 4583B9DC20AD042100AFBD14 /* Build configuration list for PBXProject "YandexAdapter" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "YandexAdapter" */;
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
-			mainGroup = 4583B9D820AD042100AFBD14;
-			productRefGroup = 4583B9E220AD042100AFBD14 /* Products */;
+			mainGroup = 7DFABB141DA8682C00322E02;
+			productRefGroup = 7DFABB1E1DA8682C00322E02 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4583BA1D20AD0D1F00AFBD14 /* Adapter */,
-				4583B9FD20AD055F00AFBD14 /* FatAdapter */,
-				4583BA0120AD058300AFBD14 /* Framework */,
-				00DD26B622F10E360039C1D4 /* ValidateSourceCode */,
+				7DFABB1C1DA8682C00322E02 /* Adapter */,
+				7D1B6CA21DC2ACF900D8CABF /* Framework */,
+				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00DD26B922F10E360039C1D4 /* ValidateSourceCode */ = {
+		5AD983D622EFAE90000FCD2F /* Validate Source Code */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
-			name = ValidateSourceCode;
+			name = "Validate Source Code";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = /bin/bash;
 			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
 		};
-		4583BA1320AD0C3300AFBD14 /* Framework Script */ = {
+		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,52 +513,57 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"";
 		};
-		4583BA1720AD0C7D00AFBD14 /* FatAdapter Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "FatAdapter Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4583BA1A20AD0D1F00AFBD14 /* Sources */ = {
+		7DFABB191DA8682C00322E02 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B31AE9A826C5220900448373 /* GADMYandexNativeExtraAssets.m in Sources */,
+				B31AE9D426C5220900448373 /* GADMYandexFeedbackButtonConfigurator.m in Sources */,
+				B31AE9DD26C5220900448373 /* GADMYandexAdRequestConfigurator.m in Sources */,
+				B31AE9D626C5220900448373 /* GADMYandexAdFactory.m in Sources */,
+				B31AE9AA26C5220900448373 /* GADMYandexRewardedAdapter.m in Sources */,
+				B31AE9D726C5220900448373 /* GADMYandexResourceBundleProvider.m in Sources */,
+				B31AE9AC26C5220900448373 /* GADMYandexNativeAdapter.m in Sources */,
+				B31AE9AD26C5220900448373 /* GADMYandexInterstitialAdapter.m in Sources */,
+				B31AE9C326C5220900448373 /* GADMYandexNativeRequestConfigurationFactory.m in Sources */,
+				B31AE9DE26C5220900448373 /* GADMYandexAdRequestParametersProvider.m in Sources */,
+				B31AE9BF26C5220900448373 /* GADMYandexNativeAdImageFactory.m in Sources */,
+				B31AE9C926C5220900448373 /* GADMYandexNativeAdViewProvider.m in Sources */,
+				B31AE9D026C5220900448373 /* GADMYandexMediaViewBinder.m in Sources */,
+				B31AE9AF26C5220900448373 /* GADMYandexAdapterFactory.m in Sources */,
+				B31AE9D526C5220900448373 /* GADMYandexMediationLoadingData.m in Sources */,
+				B31AE9C526C5220900448373 /* GADMYandexNativeAssets.m in Sources */,
+				B31AE9D826C5220900448373 /* GADMYandexErrorFactory.m in Sources */,
+				B31AE9DB26C5220900448373 /* GADMYandexAdapterVersionProvider.m in Sources */,
+				B31AE9CB26C5220900448373 /* GADMYandexNativeAdAssetViewsExtractor.m in Sources */,
+				B31AE9B926C5220900448373 /* GADMYandexNativeAd.m in Sources */,
+				B31AE9E126C5220900448373 /* GADMYandexMediationLoadingDataProvider.m in Sources */,
+				B31AE9C726C5220900448373 /* GADMYandexNativeAdLoaderFactory.m in Sources */,
+				B31AE9CC26C5220900448373 /* GADMYandexNativeAdFactory.m in Sources */,
+				B31AE9AB26C5220900448373 /* GADMediationAdapterYandex.m in Sources */,
+				B31AE9CE26C5220900448373 /* GADMYandexNativeAdBinder.m in Sources */,
+				B31AE9D226C5220900448373 /* GADMYandexNativeAdRatingViewExtractor.m in Sources */,
+				B31AE9BC26C5220900448373 /* GADMYandexNativeAssetViewBinder.m in Sources */,
+				B31AE9CF26C5220900448373 /* GADMYandexCallToActionBinder.m in Sources */,
+				B31AE9AE26C5220900448373 /* GADMYandexBannerAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00DD26BE22F10E570039C1D4 /* PBXTargetDependency */ = {
+		5AD983D522EFAE84000FCD2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 00DD26B622F10E360039C1D4 /* ValidateSourceCode */;
-			targetProxy = 00DD26BD22F10E570039C1D4 /* PBXContainerItemProxy */;
-		};
-		4583BA2820AD0D3000AFBD14 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4583BA1D20AD0D1F00AFBD14 /* Adapter */;
-			targetProxy = 4583BA2720AD0D3000AFBD14 /* PBXContainerItemProxy */;
-		};
-		4583BA2A20AD0D3600AFBD14 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4583BA1D20AD0D1F00AFBD14 /* Adapter */;
-			targetProxy = 4583BA2920AD0D3600AFBD14 /* PBXContainerItemProxy */;
+			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
+			targetProxy = 5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		00DD26BB22F10E360039C1D4 /* Debug */ = {
+		5AD983D122EFAE79000FCD2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -336,7 +574,7 @@
 			};
 			name = Debug;
 		};
-		00DD26BC22F10E360039C1D4 /* Release */ = {
+		5AD983D222EFAE79000FCD2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -347,11 +585,24 @@
 			};
 			name = Release;
 		};
-		4583B9E820AD042100AFBD14 /* Debug */ = {
+		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0720AD077200AFBD14 /* Adapter.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		7DFABB241DA8682C00322E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -400,17 +651,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		4583B9E920AD042100AFBD14 /* Release */ = {
+		7DFABB251DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0720AD077200AFBD14 /* Adapter.xcconfig */;
+			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -453,129 +706,67 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
+				OTHER_LDFLAGS = "$(inherited)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		4583B9FF20AD055F00AFBD14 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0820AD07F100AFBD14 /* Debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				PRODUCT_NAME = Adapter;
-			};
-			name = Debug;
-		};
-		4583BA0020AD055F00AFBD14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0920AD084B00AFBD14 /* Release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				PRODUCT_NAME = Adapter;
-			};
-			name = Release;
-		};
-		4583BA0320AD058300AFBD14 /* Debug */ = {
+		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = Adapter;
-			};
-			name = Debug;
-		};
-		4583BA0420AD058300AFBD14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = Adapter;
-			};
-			name = Release;
-		};
-		4583BA2520AD0D1F00AFBD14 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0820AD07F100AFBD14 /* Debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		4583BA2620AD0D1F00AFBD14 /* Release */ = {
+		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4583BA0920AD084B00AFBD14 /* Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00DD26BA22F10E360039C1D4 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+		5AD983D322EFAE79000FCD2F /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				00DD26BB22F10E360039C1D4 /* Debug */,
-				00DD26BC22F10E360039C1D4 /* Release */,
+				5AD983D122EFAE79000FCD2F /* Debug */,
+				5AD983D222EFAE79000FCD2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4583B9DC20AD042100AFBD14 /* Build configuration list for PBXProject "YandexAdapter" */ = {
+		7D1B6CA31DC2ACF900D8CABF /* Build configuration list for PBXAggregateTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4583B9E820AD042100AFBD14 /* Debug */,
-				4583B9E920AD042100AFBD14 /* Release */,
+				7D1B6CA41DC2ACF900D8CABF /* Debug */,
+				7D1B6CA51DC2ACF900D8CABF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4583B9FE20AD055F00AFBD14 /* Build configuration list for PBXAggregateTarget "FatAdapter" */ = {
+		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "YandexAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4583B9FF20AD055F00AFBD14 /* Debug */,
-				4583BA0020AD055F00AFBD14 /* Release */,
+				7DFABB241DA8682C00322E02 /* Debug */,
+				7DFABB251DA8682C00322E02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4583BA0220AD058300AFBD14 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+		7DFABB261DA8682C00322E02 /* Build configuration list for PBXNativeTarget "Adapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4583BA0320AD058300AFBD14 /* Debug */,
-				4583BA0420AD058300AFBD14 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4583BA2420AD0D1F00AFBD14 /* Build configuration list for PBXNativeTarget "Adapter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4583BA2520AD0D1F00AFBD14 /* Debug */,
-				4583BA2620AD0D1F00AFBD14 /* Release */,
+				7DFABB271DA8682C00322E02 /* Debug */,
+				7DFABB281DA8682C00322E02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4583B9D920AD042100AFBD14 /* Project object */;
+	rootObject = 7DFABB151DA8682C00322E02 /* Project object */;
 }

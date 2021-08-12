@@ -3,11 +3,11 @@
 **Note:** These build scripts are intended only for publishers who want to
 modify and rebuild the Yandex adapter framework. If you just want to use the
 Yandex adapter, simply add `pod 'GoogleMobileAdsMediationYandex'` to
-your Podfile and run `pod install`.
+your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
-- Xcode 7.0 or higher
-- Deployment target of 7.0 or higher
+- Xcode 12.0 or higher
+- Deployment target of 9.0 or higher
 - Google Mobile Ads SDK
 - YandexMobileAds SDK
 - Yandex Adapter Source Code
