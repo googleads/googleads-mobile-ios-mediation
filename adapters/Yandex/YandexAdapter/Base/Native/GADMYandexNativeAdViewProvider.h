@@ -5,8 +5,12 @@
  * You may obtain a copy of the License at https://yandex.com/legal/mobileads_sdk_agreement/
  */
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <YandexAdapter/GADMYandexNativeAdView.h>
-#import <YandexAdapter/GADMYandexNativeExtraAssets.h>
+@protocol GADMYandexNativeAdView;
+
+@interface GADMYandexNativeAdViewProvider : NSObject
+
+- (UIView<GADMYandexNativeAdView> *)adViewWithView:(UIView *)view;
+
+@end

@@ -1,4 +1,4 @@
-//  Copyright © 2018 Google. All rights reserved.
+//  Copyright © 2021 Google. All rights reserved.
 //
 //  Adapter.xcconfig
 //  YandexAdapter
@@ -14,13 +14,12 @@ EXECUTABLE_PREFIX = lib
 
 /// User defined variables.
 LIB_NAME = $(EXECUTABLE_PREFIX)$(PRODUCT_NAME)
-FAT_LIBRARY_NAME = $(LIB_NAME)$(AD_NETWORK_NAME)
 
 OUTPUT_FOLDER = ${PROJECT_DIR}/Library
 
-MIN_OS_MAJOR_VERSION = 7
+MIN_OS_MAJOR_VERSION = 9
 MIN_OS_MINOR_VERSION = 0
-MIN_OS_MAJOR_VERSION_64_BIT = 7
+MIN_OS_MAJOR_VERSION_64_BIT = 9
 MIN_OS_MINOR_VERSION_64_BIT = 0
 
 /// Xcode variables

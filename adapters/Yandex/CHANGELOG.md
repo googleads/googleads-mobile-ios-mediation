@@ -1,4 +1,8 @@
-# Yandex Adapter for Google Mobile Ads SDK for iOS
+# Change Log
+All notable changes to this project will be documented in this file.
 
-## Earlier versions
-- Added support for banners, interstitials, etc.
+## Version 4.3.1.0
+
+#### Updated
+* Added support for Google Mobile Ads SDK 8.8.0
+* Added support for Yandex Mobile Ads SDK version to 4.3.1

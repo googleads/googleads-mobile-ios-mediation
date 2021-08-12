@@ -6,7 +6,17 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <YandexAdapter/GADMYandexNativeAdView.h>
-#import <YandexAdapter/GADMYandexNativeExtraAssets.h>
+@class YMABundleProvider;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface GADMYandexResourceBundleProvider : NSObject
+
+- (instancetype)initWithMainBundle:(NSBundle *)mainBundle;
+
+- (nullable NSBundle *)resourceBundle;
+
+@end
+
+NS_ASSUME_NONNULL_END

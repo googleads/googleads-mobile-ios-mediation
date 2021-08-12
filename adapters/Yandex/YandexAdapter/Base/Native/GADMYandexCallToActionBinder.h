@@ -6,7 +6,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-#import <YandexAdapter/GADMYandexNativeAdView.h>
-#import <YandexAdapter/GADMYandexNativeExtraAssets.h>
+@class UIButton;
+
+@interface GADMYandexCallToActionBinder : NSObject
+
+- (void)bindWithView:(UIView *)view;
+- (void)unbind;
+
+@end

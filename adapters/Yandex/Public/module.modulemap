@@ -7,5 +7,6 @@ framework module YandexAdapter {
   link framework "Foundation"
   link framework "UIKit"
 
-  // Add any public headers here.
+  header "GADMYandexNativeAdView.h"
+  header "GADMYandexNativeExtraAssets.h"
 }
