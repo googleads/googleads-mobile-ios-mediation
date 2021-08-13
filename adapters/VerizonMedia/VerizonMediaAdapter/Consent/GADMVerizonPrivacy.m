@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADMVerizonPrivacy.h"
-#import <VerizonAdsCore/VerizonAdsCore.h>
 
 @implementation GADMVerizonPrivacy
 
@@ -26,14 +25,14 @@
   return sharedInstance;
 }
 
-- (void)setPrivacyData:(nonnull NSDictionary<NSString *, id> *)privacyData {
-  _privacyData = [privacyData copy];
+- (void)setDataPrivacy:(VASDataPrivacy *)dataPrivacy {
+  _dataPrivacy = dataPrivacy;
   [self updatePrivacyData];
 }
 
 - (void)updatePrivacyData {
   if ([VASAds.sharedInstance isInitialized]) {
-    [[VASAds sharedInstance] setPrivacyData:self.privacyData];
+    [VASAds sharedInstance].dataPrivacy = _dataPrivacy;
   }
 }
 

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <VerizonAdsCore/VerizonAdsCore.h>
 
 @interface GADMVerizonPrivacy : NSObject
 
@@ -21,12 +22,12 @@
 /**
  * Privacy data forwarded to the Verizon Ads SDK.
  */
-@property(nonatomic, readonly, nullable) NSDictionary<NSString *, id> *privacyData;
+@property(nonatomic, readonly, nullable) VASDataPrivacy *dataPrivacy;
 
 /**
  * Sets privacy data on the Verizon Ads SDK once it's initialized.
  * Can be called before the Verizon SDK is initialized.
  */
-- (void)setPrivacyData:(nonnull NSDictionary<NSString *, id> *)privacyData;
+- (void)setDataPrivacy:(nonnull VASDataPrivacy *)dataPrivacy;
 
 @end

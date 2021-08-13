@@ -116,7 +116,9 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 }
 
 - (void)setCoppaFromAdConfiguration {
-  VASAds.sharedInstance.COPPA = _adConfiguration.childDirectedTreatment;
+  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  builder.coppa.applies = [_adConfiguration.childDirectedTreatment boolValue];
+  VASAds.sharedInstance.dataPrivacy = [builder build];
 }
 
 - (void)dealloc {
