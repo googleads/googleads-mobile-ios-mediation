@@ -162,9 +162,7 @@
 }
 
 - (void)interstitialAdDidLeaveApplication:(nonnull VASInterstitialAd *)interstitialAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+  // Do nothing.
 }
 
 - (void)interstitialAdClicked:(nonnull VASInterstitialAd *)interstitialAd {
@@ -226,9 +224,7 @@
 }
 
 - (void)inlineAdDidLeaveApplication:(nonnull VASInlineAdView *)inlineAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+    // Do nothing.
 }
 
 - (nullable UIViewController *)inlineAdPresentingViewController {

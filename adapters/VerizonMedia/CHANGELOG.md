@@ -3,7 +3,7 @@
 #### [Version 1.14.0.0](In Progress)
 - Verified compatibility with Verizon Ads Standard Edition version 1.14.0.
 - Built and tested with:
-    - Google Mobile Ads SDK version 8.5.0.
+    - Google Mobile Ads SDK version 8.9.0.
     - Verizon Ads SDK version 1.14.0
     - Added standardized adapter error codes and messages.
 
