@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.10.1.0 (in progress)
+#### [Version 6.10.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.10.1.0.zip)
 - Verified compatibility with Vungle SDK 6.10.1.
 - Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
 - Now requires building against Xcode 12.5 or higher.
