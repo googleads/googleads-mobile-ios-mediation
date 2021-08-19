@@ -13,7 +13,6 @@ extern NSString *const kGADMYandexNativeAgeAsset;
 extern NSString *const kGADMYandexNativeBodyAsset;
 extern NSString *const kGADMYandexNativeCallToActionAsset;
 extern NSString *const kGADMYandexNativeDomainAsset;
-extern NSString *const kGADMYandexNativeFaviconAsset;
 extern NSString *const kGADMYandexNativeFeedbackAsset;
 extern NSString *const kGADMYandexNativeIconAsset;
 extern NSString *const kGADMYandexNativeMediaAsset;
