@@ -107,8 +107,7 @@
 - (GADNativeAdImage *)icon
 {
     YMANativeAdAssets *assets = self.nativeAd.adAssets;
-    YMANativeAdImage *icon = assets.icon ?: assets.favicon;
-    return [self.nativeAdImageFactory imageWithYandexNativeAdImage:icon];
+    return [self.nativeAdImageFactory imageWithYandexNativeAdImage:assets.icon];
 }
 
 - (NSString *)callToAction

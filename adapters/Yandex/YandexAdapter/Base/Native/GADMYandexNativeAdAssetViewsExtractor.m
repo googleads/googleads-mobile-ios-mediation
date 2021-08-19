@@ -91,9 +91,6 @@
     if (assets.icon != nil) {
         adMobViews[kGADMYandexNativeIconAsset] = assetViews[GADNativeIconAsset];
     }
-    else if (assets.favicon != nil) {
-        adMobViews[kGADMYandexNativeFaviconAsset] = assetViews[GADNativeIconAsset];
-    }
     return [adMobViews copy];
 }
 

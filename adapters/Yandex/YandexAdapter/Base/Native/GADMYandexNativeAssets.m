@@ -11,7 +11,6 @@ NSString *const kGADMYandexNativeAgeAsset = @"age";
 NSString *const kGADMYandexNativeBodyAsset = @"body";
 NSString *const kGADMYandexNativeCallToActionAsset = @"call_to_action";
 NSString *const kGADMYandexNativeDomainAsset = @"domain";
-NSString *const kGADMYandexNativeFaviconAsset = @"favicon";
 NSString *const kGADMYandexNativeFeedbackAsset = @"feedback";
 NSString *const kGADMYandexNativeIconAsset = @"icon";
 NSString *const kGADMYandexNativeMediaAsset = @"media";
