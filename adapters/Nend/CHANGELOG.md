@@ -1,6 +1,6 @@
 ## nend iOS Mediation Adapter Changelog
 
-#### Version 7.0.6.1 (In Progress)
+#### [Version 7.0.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.0.6.1.zip)
 - Fixed an issue where the `adDidRecordClick` callback is not forwarded for interstitial ads.
 
 Built and tested with
