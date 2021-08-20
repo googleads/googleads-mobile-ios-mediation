@@ -162,9 +162,7 @@
 }
 
 - (void)interstitialAdDidLeaveApplication:(nonnull VASInterstitialAd *)interstitialAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+  // Do nothing.
 }
 
 - (void)interstitialAdClicked:(nonnull VASInterstitialAd *)interstitialAd {
@@ -226,9 +224,7 @@
 }
 
 - (void)inlineAdDidLeaveApplication:(nonnull VASInlineAdView *)inlineAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+    // Do nothing.
 }
 
 - (nullable UIViewController *)inlineAdPresentingViewController {
@@ -345,7 +341,9 @@
 }
 
 - (void)setCoppaFromConnector {
-  VASAds.sharedInstance.COPPA = [_connector childDirectedTreatment];
+  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  builder.coppa.applies =  [[_connector childDirectedTreatment] boolValue];
+  VASAds.sharedInstance.dataPrivacy = [builder build];
 }
 
 - (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {

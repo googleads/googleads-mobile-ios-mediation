@@ -77,14 +77,14 @@
   if (!isInitialized) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
         GADMAdapterVerizonErrorInitialization, @"Verizon SDK failed to initialize.");
-    [strongConnector adapter:self didFailAd:error];
+    [strongConnector adapter:(id<GADMAdNetworkAdapter>)self didFailAd:error];
     return NO;
   }
 
   if (!_placementID) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
         GADMAdapterVerizonErrorInvalidServerParameters, @"Placement ID cannot be nil.");
-    [strongConnector adapter:self didFailAd:error];
+    [strongConnector adapter:(id<GADMAdNetworkAdapter>)self didFailAd:error];
     return NO;
   }
 
@@ -122,7 +122,9 @@
 }
 
 - (void)setCoppaFromConnector {
-  VASAds.sharedInstance.COPPA = [_connector childDirectedTreatment];
+  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  builder.coppa.applies =  [[_connector childDirectedTreatment] boolValue];
+  VASAds.sharedInstance.dataPrivacy = [builder build];
 }
 
 - (NSString *)stringForComponent:(NSString *)componentId {
@@ -256,9 +258,7 @@
 }
 
 - (void)nativeAdDidLeaveApplication:(nonnull VASNativeAd *)nativeAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self->_adapter];
-  });
+    // Do nothing.
 }
 
 - (void)nativeAd:(nonnull VASNativeAd *)nativeAd
