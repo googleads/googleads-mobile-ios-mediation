@@ -1,6 +1,6 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 9.2.1.0 (in progress)
+#### [Version 9.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-9.2.1.0.zip)
 - Verified compatibility with InMobi SDK 9.2.1.
 
 Built and tested with
