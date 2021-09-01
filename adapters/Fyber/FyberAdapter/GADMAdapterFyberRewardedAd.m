@@ -213,6 +213,7 @@
       [[GADAdReward alloc] initWithRewardType:@""
                                  rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
   [_delegate didRewardUserWithReward:reward];
+  [_delegate didEndVideo];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
@@ -229,9 +230,7 @@
 
 #pragma mark - IAVideoContentDelegate
 
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {
-  [_delegate didEndVideo];
-}
+- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {}
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
        videoInterruptedWithError:(nonnull NSError *)error {
