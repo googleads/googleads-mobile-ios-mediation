@@ -51,7 +51,7 @@ createFramework() {
 }
 
 createFramework "iphoneos" "armv7 arm64"
-createFramework "iphonesimulator" "x86_64"
+createFramework "iphonesimulator" "x86_64 arm64"
 
 # Create dynamic framework using the frameworks generated above.
 xcodebuild -create-xcframework \
