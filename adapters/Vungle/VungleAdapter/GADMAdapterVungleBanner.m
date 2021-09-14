@@ -146,6 +146,11 @@
   return _bannerSize;
 }
 
+- (nullable NSString *)bidResponse {
+    // This is the waterfall interstitial section. It won't have a bid response
+    return nil;
+}
+
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
     [_connector adapter:_adapter didFailAd:error];
@@ -221,5 +226,6 @@
 - (void)rewardUser {
   // Do nothing.
 }
+
 
 @end

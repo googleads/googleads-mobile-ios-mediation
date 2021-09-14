@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterVungleRewardBasedVideoAd.h"
-#import "GADMediationAdapterVungle.h"
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@implementation GADMAdapterVungleRewardBasedVideoAd
+@interface GADMediationVungleInterstitial : NSObject
 
-/// TODO(Google): Remove this class once Google's server points to GADMediationAdapterVungle
-/// directly to ask for a rewarded ad.
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)handler;
 
-+ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-  return [GADMediationAdapterVungle class];
-}
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a interstitial ad from Vungle.
+- (void)requestInterstitialAd;
 
 @end
