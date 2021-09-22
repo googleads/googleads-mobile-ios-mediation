@@ -1,6 +1,6 @@
 ## AdColony iOS Mediation Adapter Changelog
 
-#### Version 4.7.2.0 (in progress)
+#### [Version 4.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.7.2.0.zip)
 - Verified compatibility with AdColony SDK 4.7.2.
 
 Built and tested with
