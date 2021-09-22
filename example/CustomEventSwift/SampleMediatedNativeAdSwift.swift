@@ -25,7 +25,7 @@ import SampleAdSDK
 /// by a mediated network don't always line up with the ones expected by the Google
 /// Mobile Ads SDK (one might have "title" while the other expects "headline," for
 /// example). It's the job of this "mapper" class to smooth out those wrinkles.
-class SampleMediatedUnifiedNativeAdSwift : NSObject {
+class SampleMediatedNativeAdSwift : NSObject {
   // You may notice that this class and the Mediation Adapter's
   // SampleAdapterMediatedNativeAd class look an awful lot alike. That's not
   // by accident. They're the same class, with the same methods and properties,
@@ -75,7 +75,7 @@ class SampleMediatedUnifiedNativeAdSwift : NSObject {
 }
 
 /// This is a concrete implementation for the GADMediatedUnifiedNativeAd protocol.
-extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
+extension SampleMediatedNativeAdSwift : GADMediatedUnifiedNativeAd {
   var advertiser : String? {
     return sampleAd.advertiser
   }
@@ -140,15 +140,15 @@ extension SampleMediatedUnifiedNativeAdSwift : GADMediatedUnifiedNativeAd {
   // one.
   // You can also access the clickable and non-clickable views by asset key if the mediation network
   // needs this information.
-  func didRender(in view: UIView, clickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView],
-                               nonclickableAssetViews: [GADUnifiedNativeAssetIdentifier : UIView],
+  func didRender(in view: UIView, clickableAssetViews: [GADNativeAssetIdentifier : UIView],
+                               nonclickableAssetViews: [GADNativeAssetIdentifier : UIView],
                                        viewController: UIViewController) {
     // This method is called when the native ad view is rendered. Here you would pass the UIView
     // back to the mediated network's SDK.
     self.sampleAd.mediaView.playMedia()
   }
 
-  func didRecordClickOnAsset(withName assetName: GADUnifiedNativeAssetIdentifier, view: UIView, viewController: UIViewController) {
+  func didRecordClickOnAsset(withName assetName: GADNativeAssetIdentifier, view: UIView, viewController: UIViewController) {
     sampleAd.handleClick(on: view)
   }
 

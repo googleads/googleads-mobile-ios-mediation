@@ -26,6 +26,4 @@
 /// Returns native ad view options of GoogleMobileAds network.
 - (GADNativeAdViewAdOptions *)nativeAdViewAdOptions;
 
-- (NSArray<GADAdLoaderAdType> *)adTypes;
-
 @end
