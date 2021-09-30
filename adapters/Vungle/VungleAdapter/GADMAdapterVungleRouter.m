@@ -332,34 +332,34 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
       delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
         extras:(nullable VungleAdNetworkExtras *)extras
          error:(NSError *_Nullable __autoreleasing *_Nullable)error {
-  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-  [VungleSDK sharedSDK].muted = extras.muted;
-  if (extras.userId) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
-                                                      extras.userId);
-  }
-
-  if (extras.ordinal) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                      @(extras.ordinal));
-  }
-
-  if (extras.flexViewAutoDismissSeconds) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(
-        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-        @(extras.flexViewAutoDismissSeconds));
-  }
-
-  if (extras.orientations) {
-    int appOrientation = [extras.orientations intValue];
-    NSNumber *orientations = @(UIInterfaceOrientationMaskAll);
-    if (appOrientation == 1) {
-      orientations = @(UIInterfaceOrientationMaskLandscape);
-    } else if (appOrientation == 2) {
-      orientations = @(UIInterfaceOrientationMaskPortrait);
+  NSMutableDictionary *options = nil;
+  if (extras) {
+    options = [[NSMutableDictionary alloc] init];
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                      @(extras.muted));
+    if (extras.userId) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                        extras.userId);
     }
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrientations,
-                                                      orientations);
+    if (extras.ordinal) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
+                                                        @(extras.ordinal));
+    }
+    if (extras.flexViewAutoDismissSeconds) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+                                                        @(extras.flexViewAutoDismissSeconds));
+    }
+    if (extras.orientations) {
+      int appOrientation = [extras.orientations intValue];
+      NSNumber *orientations = @(UIInterfaceOrientationMaskAll);
+      if (appOrientation == 1) {
+        orientations = @(UIInterfaceOrientationMaskLandscape);
+      } else if (appOrientation == 2) {
+        orientations = @(UIInterfaceOrientationMaskPortrait);
+      }
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrientations,
+                                                        orientations);
+    }
   }
 
   return [[VungleSDK sharedSDK] playAd:viewController
@@ -372,24 +372,23 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
                                   delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
                                     extras:(nullable VungleAdNetworkExtras *)extras
                             forPlacementID:(nonnull NSString *)placementID {
-  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-  if (extras != nil) {
-    [VungleSDK sharedSDK].muted = extras.muted;
-  } else {
-    [VungleSDK sharedSDK].muted = YES;
-  }
-  if (extras.userId) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
-                                                      extras.userId);
-  }
-  if (extras.ordinal) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                      @(extras.ordinal));
-  }
-  if (extras.flexViewAutoDismissSeconds) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(
-        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-        @(extras.flexViewAutoDismissSeconds));
+  NSMutableDictionary *options = nil;
+  if (extras) {
+    options = [[NSMutableDictionary alloc] init];
+    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                      @(extras.muted));
+    if (extras.userId) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                        extras.userId);
+    }
+    if (extras.ordinal) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
+                                                        @(extras.ordinal));
+    }
+    if (extras.flexViewAutoDismissSeconds) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+                                                        @(extras.flexViewAutoDismissSeconds));
+    }
   }
 
   NSError *bannerError = nil;
