@@ -34,7 +34,7 @@
 }
 
 // Redirect to the main adapter class for bidding
-// but still implement GADMAdNetworkAdapter for waterfall
+// but still implement GADMAdNetworkAdapter for waterfall.
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterVungle class];
 }
@@ -206,6 +206,5 @@
 - (void)rewardUser {
   // Do nothing.
 }
-
 
 @end

@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 /// Placement ID used to request an ad from Vungle.
 @property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
-/// Bid Response when the ad is instantiated. May be null if Open Bidding is not enabled.
+/// Bid Response when the ad is instantiated. May be null if bidding is not enabled.
 - (nullable NSString *)bidResponse;
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;

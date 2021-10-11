@@ -117,12 +117,13 @@
   if (size.height == kGADAdSizeBanner.size.height) {
     if (size.width < kGADAdSizeBanner.size.width) {
       return shortBannerSize;
-    } else {
-      return kGADAdSizeBanner;
     }
-  } else if (size.height == kGADAdSizeLeaderboard.size.height) {
+    return kGADAdSizeBanner;
+  }
+  if (size.height == kGADAdSizeLeaderboard.size.height) {
     return kGADAdSizeLeaderboard;
-  } else if (size.height == kGADAdSizeMediumRectangle.size.height) {
+  }
+  if (size.height == kGADAdSizeMediumRectangle.size.height) {
     return kGADAdSizeMediumRectangle;
   }
 

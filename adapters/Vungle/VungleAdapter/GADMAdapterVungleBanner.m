@@ -147,7 +147,7 @@
 }
 
 - (nullable NSString *)bidResponse {
-    // This is the waterfall interstitial section. It won't have a bid response
+    // This is the waterfall banner section. It won't have a bid response.
     return nil;
 }
 
@@ -226,6 +226,5 @@
 - (void)rewardUser {
   // Do nothing.
 }
-
 
 @end

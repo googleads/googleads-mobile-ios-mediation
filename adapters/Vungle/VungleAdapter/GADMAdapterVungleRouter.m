@@ -172,7 +172,8 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
             delegate.uniquePubRequestID ?: kGADMAdapterVungleNullPubRequestID);
         return YES;
       } else if ([_bannerDelegates objectForKey:delegate.desiredPlacement]) {
-        id<GADMAdapterVungleDelegate> bannerDelegate = [_bannerDelegates objectForKey:delegate.desiredPlacement];
+        id<GADMAdapterVungleDelegate> bannerDelegate =
+          [_bannerDelegates objectForKey:delegate.desiredPlacement];
         if ([bannerDelegate.uniquePubRequestID isEqualToString:delegate.uniquePubRequestID]) {
           /* The isRequestingBannerAdForRefresh flag is used for an edge case, when the old Banner
            * delegate is removed from _bannerDelegates and there is a refresh Banner delegate
