@@ -251,7 +251,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     }
   } else {
     @synchronized(_delegates) {
-      if (delegate && [_delegates objectForKey:delegate.desiredPlacement]) {
+      if (delegate && (delegate == [_delegates objectForKey:delegate.desiredPlacement])) {
         GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
       }
     }
