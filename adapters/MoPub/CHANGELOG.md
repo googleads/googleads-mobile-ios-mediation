@@ -1,5 +1,12 @@
 ## MoPub iOS Mediation Adapter Changelog
 
+#### Version 5.18.2.0 (In progress)
+- Verified compatibility with MoPub SDK 5.18.2.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.12.0.
+- MoPub SDK version 5.18.2.
+
 #### [Version 5.18.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.18.0.1.zip)
 - Fixed an issue where the `rewardedAdWillLeaveApplicationForAdUnitID` was named incorrectly.
 
