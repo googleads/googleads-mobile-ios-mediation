@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMUnityBaseAdNetworkAdapterProxy.h"
 
-/// Adapter for communicating with the Unity Ads Network to fetch ads through the
-/// Google Mobile Ads SDK.
+@implementation GADMUnityBaseAdNetworkAdapterProxy
 
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+    self = [super init];
+    
+    if (self) {
+        _connector = connector;
+        _adapter = adapter;
+    }
+    
+    return self;
+}
 
 @end

@@ -11,13 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#import "GADUnityBaseMediationAdapterProxy.h"
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+NS_ASSUME_NONNULL_BEGIN
 
-/// Adapter for communicating with the Unity Ads Network to fetch ads through the
-/// Google Mobile Ads SDK.
-
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
-
+@interface GADMUnityBannerMediationAdapterProxy : GADUnityBaseMediationAdapterProxy <UADSBannerViewDelegate>
+- (instancetype)initWithAd:(id<GADMediationBannerAd>)ad completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
 @end
+
+NS_ASSUME_NONNULL_END

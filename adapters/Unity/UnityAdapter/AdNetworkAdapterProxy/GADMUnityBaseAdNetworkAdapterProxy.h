@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,16 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+NS_ASSUME_NONNULL_BEGIN
 
-/// Returns an NSError with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey values
-/// set to |description|.
-NSError *GADUnityErrorWithDescription(NSString *description);
+@interface GADMUnityBaseAdNetworkAdapterProxy : NSObject
+
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
+
+@property (nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property (nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
+
+@end
+
+NS_ASSUME_NONNULL_END

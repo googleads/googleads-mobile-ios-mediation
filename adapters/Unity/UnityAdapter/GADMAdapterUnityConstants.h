@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,32 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+
+typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
+  /// Invalid server parameters.
+  GADMAdapterUnityErrorInvalidServerParameters = 101,
+  /// Device not supported by UnityAds.
+  GADMAdapterUnityErrorDeviceNotSupported = 102,
+  /// UnityAds finished presenting with error state kUnityAdsFinishStateError.
+  GADMAdapterUnityErrorFinish = 103,
+  /// The Unity ad object is nil after calling its initializer.
+  GADMAdapterUnityErrorAdObjectNil = 104,
+  /// Failed to show Unity Ads due to ad not ready.
+  GADMAdapterUnityErrorShowAdNotReady = 105,
+  /// UnityAds called a placement changed callback with placement state
+  /// kUnityAdsPlacementStateNoFill.
+  GADMAdapterUnityErrorPlacementStateNoFill = 106,
+  /// UnityAds called a placement changed callback with placement state
+  /// kUnityAdsPlacementStateDisabled.
+  GADMAdapterUnityErrorPlacementStateDisabled = 107,
+  /// An ad was already loaded for this placement. UnityAds SDK does not support loading multiple
+  /// ads for the same placement.
+  GADMAdapterUnityErrorAdAlreadyLoaded = 108,
+  /// Banner size mismatch.
+  GADMAdapterUnityErrorSizeMismatch = 109,
+  /// UnityAds returned an initialization error
+  GADMAdapterUnityErrorAdInitializationFailure = 110
+};
 
 /// Unity adapter error domain.
 static NSString *const GADMAdapterUnityErrorDomain = @"com.google.mediation.unity";
@@ -29,7 +55,7 @@ static NSString *const kGADMAdapterUnityGameID = @"gameId";
 static NSString *const kGADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const kGADMAdapterUnityVersion = @"3.7.5.0";
+static NSString *const kGADMAdapterUnityVersion = @"3.7.5.1";
 
 /// Ad mediation network name.
 static NSString *const kGADMAdapterUnityMediationNetworkName = @"AdMob";

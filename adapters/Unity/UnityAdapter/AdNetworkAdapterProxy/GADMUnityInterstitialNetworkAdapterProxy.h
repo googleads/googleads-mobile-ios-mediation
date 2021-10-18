@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,17 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
+#import "GADMUnityBaseAdNetworkAdapterProxy.h"
 
-@interface GADMAdapterUnityRewardedAd : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                      completionHandler:
-                          (GADMediationRewardedLoadCompletionHandler)completionHandler;
-
-- (instancetype)init __unavailable;
-
-- (void)requestRewardedAd;
+@interface GADMUnityInterstitialNetworkAdapterProxy : GADMUnityBaseAdNetworkAdapterProxy <UnityAdsLoadDelegate, UnityAdsShowDelegate>
 
 @end
+
+NS_ASSUME_NONNULL_END
