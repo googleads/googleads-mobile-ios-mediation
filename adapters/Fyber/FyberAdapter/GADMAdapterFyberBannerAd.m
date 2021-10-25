@@ -174,6 +174,7 @@
       
       UIView *view = strongSelf->_viewUnitController.adView;
       
+      // set constraints for rotations || Banner expand support;
       if (view.superview) {
           view.translatesAutoresizingMaskIntoConstraints = NO;
           
