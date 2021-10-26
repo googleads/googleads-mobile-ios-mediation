@@ -1,6 +1,6 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### [Version 8.0.0.0](In progress)
+#### Version 8.0.0.0(In progress)
 - Verified compatibility with Fyber Marketplace SDK version 8.0.0.
 
 Built and tested with:
