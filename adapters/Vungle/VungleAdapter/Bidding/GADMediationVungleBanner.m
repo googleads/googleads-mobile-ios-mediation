@@ -233,6 +233,7 @@
 
 - (void)trackClick {
   [_delegate reportClick];
+  [_delegate willPresentFullScreenView];
 }
 
 - (void)willLeaveApplication {
