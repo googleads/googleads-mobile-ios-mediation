@@ -171,25 +171,45 @@
     }
 
     strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-      
-      UIView *view = strongSelf->_viewUnitController.adView;
-      
-      // set constraints for rotations || Banner expand support;
-      if (view.superview) {
-          view.translatesAutoresizingMaskIntoConstraints = NO;
-          
-          [view.superview addConstraint:
-           [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
-          
-          [view.superview addConstraint:
-           [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
-          
-          [view.superview addConstraint:
-           [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-          
-          [view.superview addConstraint:
-           [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-      }
+
+    UIView *view = strongSelf->_viewUnitController.adView;
+
+    // Set constraints for rotations or banner expand support.
+    if (view.superview) {
+      view.translatesAutoresizingMaskIntoConstraints = NO;
+
+      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:view.superview
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                multiplier:1
+                                                                  constant:0]];
+
+      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:view.superview
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                multiplier:1
+                                                                  constant:0]];
+
+      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:view
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                multiplier:1
+                                                                  constant:0]];
+
+      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:view
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                multiplier:1
+                                                                  constant:0]];
+    }
   }];
 }
 
