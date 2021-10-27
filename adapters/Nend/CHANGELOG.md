@@ -1,5 +1,13 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Version 7.1.0.0 (In progress)
+- Verified compatibility with nend SDK 7.1.0.
+- Now requires minimum iOS version 10.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.12.0.
+- Nend SDK version 7.1.0.
+
 #### [Version 7.0.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.0.6.1.zip)
 - Fixed an issue where the `adDidRecordClick` callback is not forwarded for interstitial ads.
 
