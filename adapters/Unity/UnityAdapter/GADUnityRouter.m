@@ -19,7 +19,7 @@
 
 @interface UnityAdsAdapterInitializationDelegate : NSObject<UnityAdsInitializationDelegate>
 @property(nonatomic, copy) void (^ initializationCompleteBlock)(void);
-@property(nonatomic, copy) void (^ initializationFailedBlock)(int error, NSString *message);
+@property(nonatomic, copy) void (^ initializationFailedBlock)(UnityAdsInitializationError error, NSString *message);
 @end
 
 @implementation UnityAdsAdapterInitializationDelegate
@@ -31,7 +31,7 @@
 
 - (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(nonnull NSString *)message {
     if (self.initializationFailedBlock) {
-        self.initializationFailedBlock(kUnityAdsErrorNotInitialized,message);
+        self.initializationFailedBlock(error, message);
     }
 }
 
@@ -64,13 +64,13 @@
                 complete(nil);
             }
         };
-        initDelegate.initializationFailedBlock = ^(int error, NSString *message) {
+        initDelegate.initializationFailedBlock = ^(UnityAdsInitializationError error, NSString *message) {
             if (complete != nil) {
                 NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
                 complete(adapterError);
             }
         };
-        [UnityAds initialize:gameId testMode:NO enablePerPlacementLoad:YES initializationDelegate:initDelegate];
+        [UnityAds initialize:gameId testMode:NO initializationDelegate:initDelegate];
     });
 }
 
