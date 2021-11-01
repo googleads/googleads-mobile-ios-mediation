@@ -335,8 +335,11 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   NSMutableDictionary *options = nil;
   if (extras) {
     options = [[NSMutableDictionary alloc] init];
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
-                                                      @(extras.muted));
+      
+    if (extras.muteIsSet) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                        @(extras.muted));
+    }
     if (extras.userId) {
       GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
                                                         extras.userId);
@@ -375,8 +378,10 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   NSMutableDictionary *options = nil;
   if (extras) {
     options = [[NSMutableDictionary alloc] init];
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
-                                                      @(extras.muted));
+    if (extras.muteIsSet) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                        @(extras.muted));
+    }
     if (extras.userId) {
       GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
                                                         extras.userId);

@@ -41,4 +41,6 @@
 
 @property(nonatomic, copy, readonly) NSString *_Nonnull UUID;
 
+@property (nonatomic, readonly, assign) BOOL muteIsSet;
+
 @end
