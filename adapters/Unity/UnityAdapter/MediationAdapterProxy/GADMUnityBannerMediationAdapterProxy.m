@@ -16,7 +16,7 @@
 
 @interface GADMUnityBannerMediationAdapterProxy ()
 @property (nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
-@property (nonatomic, assign) id<GADMediationBannerAd> ad;
+@property (nonatomic, weak) id<GADMediationBannerAd> ad;
 @end
 
 @implementation GADMUnityBannerMediationAdapterProxy

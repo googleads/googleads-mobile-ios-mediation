@@ -32,3 +32,6 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
 
 /// Find closest supported ad size from a given ad size.
 GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize);
+
+/// Returns GADVersionNumber created from string
+GADVersionNumber  extractVersionFromString(NSString *_Nonnull string);

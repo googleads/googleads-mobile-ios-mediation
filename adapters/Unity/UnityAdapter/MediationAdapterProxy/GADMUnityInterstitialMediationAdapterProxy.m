@@ -16,7 +16,7 @@
 #import "NSError+Unity.h"
 
 @interface GADMUnityInterstitialMediationAdapterProxy()
-@property (nonatomic, assign) id<GADMediationInterstitialAd> ad;
+@property (nonatomic, weak) id<GADMediationInterstitialAd> ad;
 @property (nonatomic, copy) GADMediationInterstitialLoadCompletionHandler loadCompletionHandler;
 @end
 

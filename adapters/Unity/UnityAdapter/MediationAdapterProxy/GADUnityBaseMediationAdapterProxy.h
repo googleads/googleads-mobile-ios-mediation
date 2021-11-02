@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GADUnityBaseMediationAdapterProxy : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate, UADSBannerViewDelegate>
-@property (nonatomic, assign) id<GADMediationAdEventDelegate> eventDelegate;
+@property (nonatomic, weak) id<GADMediationAdEventDelegate> eventDelegate;
 @end
 
 NS_ASSUME_NONNULL_END

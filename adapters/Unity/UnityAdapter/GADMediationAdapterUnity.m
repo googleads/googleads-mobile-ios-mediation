@@ -50,17 +50,7 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-    GADVersionNumber version = {0};
-    NSString *sdkVersion = [UnityAds getVersion];
-    NSArray<NSString *> *components = [sdkVersion componentsSeparatedByString:@"."];
-    if (components.count == 3) {
-        version.majorVersion = components[0].integerValue;
-        version.minorVersion = components[1].integerValue;
-        version.patchVersion = components[2].integerValue;
-    } else {
-        NSLog(@"Unexpected Unity Ads version string: %@. Returning 0 for adSDKVersion.", sdkVersion);
-    }
-    return version;
+    return extractVersionFromString([UnityAds getVersion]);
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -68,15 +58,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-    GADVersionNumber version = {0};
-    NSString *adapterVersion = kGADMAdapterUnityVersion;
-    NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
-    if (components.count >= 4) {
-        version.majorVersion = components[0].integerValue;
-        version.minorVersion = components[1].integerValue;
-        version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
-    }
-    return version;
+    return extractVersionFromString(kGADMAdapterUnityVersion);
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
@@ -92,7 +74,7 @@
 }
 
 - (void)loadAdWithConfiguration:(GADMediationAdConfiguration*)adConfiguration {
-    [self initializeIfNeeded:adConfiguration];
+    [self initializeWithConfiguration:adConfiguration];
     
     self.placementId = adConfiguration.placementId;
     
@@ -100,7 +82,7 @@
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    [self initializeIfNeeded:adConfiguration];
+    [self initializeWithConfiguration:adConfiguration];
     
     self.placementId = adConfiguration.placementId;
     
@@ -120,10 +102,8 @@
     [UnityAds show:viewController placementId:self.placementId showDelegate:self.adapterProxy];
 }
 
--(void)initializeIfNeeded:(GADMediationAdConfiguration *)adConfiguration {
-    if (![UnityAds isInitialized]) {
-      [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:adConfiguration.gameId withCompletionHandler:nil];
-    }
+-(void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
+    [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:adConfiguration.gameId withCompletionHandler:nil];
 }
 
 #pragma mark GADMediationBannerAd

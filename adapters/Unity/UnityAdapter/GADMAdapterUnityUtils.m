@@ -48,3 +48,15 @@ GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
     return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
+
+GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {
+    GADVersionNumber version = {0};
+    NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
+    if (components.count >= 3) {
+        version.majorVersion = components[0].integerValue;
+        version.minorVersion = components[1].integerValue;
+        NSInteger patch = components[2].integerValue;
+        version.patchVersion = components.count == 4 ? patch * 100 + components[3].integerValue : patch;
+    }
+    return version;
+}

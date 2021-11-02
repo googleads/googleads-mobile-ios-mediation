@@ -34,7 +34,12 @@
         self.initializationFailedBlock(error, message);
     }
 }
+@end
 
+typedef void (^InitCompletionHandler)(NSError*);
+
+@interface GADUnityRouter ()
+@property(nonatomic, strong) NSMutableArray *completionBlocks;
 @end
 
 @implementation GADUnityRouter
@@ -44,13 +49,21 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedRouter = [[GADUnityRouter alloc] init];
+        sharedRouter.completionBlocks = [NSMutableArray array];
     });
     return sharedRouter;
 }
 
-- (void)sdkInitializeWithGameId:(NSString *)gameId withCompletionHandler:(void (^)(NSError *))complete {
-    if ([UnityAds isInitialized] && complete != nil) {
-        complete(nil);
+- (void)sdkInitializeWithGameId:(NSString *)gameId withCompletionHandler:(InitCompletionHandler)complete {
+    if ([UnityAds isInitialized]) {
+        if (complete != nil) {
+            complete(nil);
+        }
+        return;
+    }
+    // If this method was called multiple times from different threads, we want to call all completion handlers once initialization is done.
+    if (complete != nil) {
+        [self.completionBlocks addObject:complete];
     }
     
     static dispatch_once_t unityInitToken;
@@ -60,18 +73,21 @@
         UnityAdsAdapterInitializationDelegate *initDelegate = [[UnityAdsAdapterInitializationDelegate alloc] init];
         
         initDelegate.initializationCompleteBlock = ^{
-            if (complete != nil) {
-                complete(nil);
-            }
+            [[GADUnityRouter sharedRouter] callCompletionBlocks:nil];
         };
         initDelegate.initializationFailedBlock = ^(UnityAdsInitializationError error, NSString *message) {
-            if (complete != nil) {
-                NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
-                complete(adapterError);
-            }
+            NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdInitializationFailure, message);
+            [[GADUnityRouter sharedRouter] callCompletionBlocks:adapterError];
         };
         [UnityAds initialize:gameId testMode:NO initializationDelegate:initDelegate];
     });
+}
+
+- (void)callCompletionBlocks:(NSError *)error {
+    for (InitCompletionHandler block in self.completionBlocks) {
+        block(error);
+    }
+    [self.completionBlocks removeAllObjects];
 }
 
 @end

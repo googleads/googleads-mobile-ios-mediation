@@ -49,8 +49,7 @@
     if (!self.adapter) {
         return;
     }
-    [self.connector adapterWillDismissInterstitial:self.adapter];
-    [self.connector adapterDidDismissInterstitial:self.adapter];
+    [self notifyDismiss];
 }
 
 - (void)unityAdsShowFailed:(nonnull NSString *)placementId withError:(UnityAdsShowError)error withMessage:(nonnull NSString *)message {
@@ -60,8 +59,7 @@
     // Simulate show failure by calling adapterWillPresentInterstitial just before
     // adapterWillDismissInterstitial.
     [self.connector adapterWillPresentInterstitial:self.adapter];
-    [self.connector adapterWillDismissInterstitial:self.adapter];
-    [self.connector adapterDidDismissInterstitial:self.adapter];
+    [self notifyDismiss];
 }
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
@@ -69,6 +67,11 @@
         return;
     }
     [self.connector adapterWillPresentInterstitial:self.adapter];
+}
+
+- (void)notifyDismiss {
+    [self.connector adapterWillDismissInterstitial:self.adapter];
+    [self.connector adapterDidDismissInterstitial:self.adapter];
 }
 
 @end
