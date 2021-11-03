@@ -63,7 +63,9 @@ typedef void (^InitCompletionHandler)(NSError*);
     }
     // If this method was called multiple times from different threads, we want to call all completion handlers once initialization is done.
     if (complete != nil) {
-        [self.completionBlocks addObject:complete];
+        @synchronized (self.completionBlocks) {
+            [self.completionBlocks addObject:complete];
+        }
     }
     
     static dispatch_once_t unityInitToken;
@@ -84,10 +86,12 @@ typedef void (^InitCompletionHandler)(NSError*);
 }
 
 - (void)callCompletionBlocks:(NSError *)error {
-    for (InitCompletionHandler block in self.completionBlocks) {
-        block(error);
+    @synchronized (self.completionBlocks) {
+        for (InitCompletionHandler block in self.completionBlocks) {
+            block(error);
+        }
+        [self.completionBlocks removeAllObjects];
     }
-    [self.completionBlocks removeAllObjects];
 }
 
 @end
