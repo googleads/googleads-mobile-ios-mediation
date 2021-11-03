@@ -1,5 +1,13 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### [Version 6.10.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.10.3.1.zip)
+- Fixed a bug where interstitial callbacks were not invoked after the first playback.
+- Updated the `options` dictionary that is passed into `playAd` method to include the muted property set by the publisher in the extras object.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.12.0.
+- Vungle SDK version 6.10.3
+
 #### [Version 6.10.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.10.3.0.zip)
 - Verified compatibility with Vungle SDK 6.10.3.
 - Now requires minimum iOS version of 10.0.
