@@ -2,8 +2,8 @@
 
 #### Next Version
 - Initial release!
-- Supports banner (includes MREC), interstitial, rewarded and native ads.
+- Supports banner (includes MREC), interstitial and rewarded ads.
 
 Built and tested with:
-- Google Mobile Ads SDK version x.y.z.
-- Snap SDK version x.y.z.
+- Google Mobile Ads SDK version 8.12.0
+- Snap SDK version 2.1.0
