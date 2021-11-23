@@ -2,6 +2,7 @@
 
 #### Version 6.9.0.0 (In progress)
 - Verified compatibility with FAN SDK 6.9.0.
+- For Objective-C apps only, you must now add Swift paths to your target's `Build Settings` to prevent compile errors. See the [developer documentation](https://developers.google.com/admob/ios/mediation/facebook#step_4_additional_code_required) for more details.
 
 Built and tested with
 - Google Mobile Ads SDK version 8.12.0.
