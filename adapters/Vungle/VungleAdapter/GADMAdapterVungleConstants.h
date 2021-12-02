@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-static NSString *const _Nonnull kGADMAdapterVungleVersion = @"6.10.4.0";
+static NSString *const _Nonnull kGADMAdapterVungleVersion = @"6.10.5.0";
 static NSString *const _Nonnull kGADMAdapterVungleApplicationID = @"application_id";
 static NSString *const _Nonnull kGADMAdapterVunglePlacementID = @"placementID";
 static NSString *const _Nonnull kGADMAdapterVungleErrorDomain = @"com.google.mediation.vungle";

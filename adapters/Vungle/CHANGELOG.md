@@ -1,5 +1,12 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### Version 6.10.5.0 (In progress)
+- Verified compatibility with Vungle SDK 6.10.5.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.13.0.
+- Vungle SDK version 6.10.5
+
 #### [Version 6.10.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.10.4.0.zip)
 - Verified compatibility with Vungle SDK 6.10.4.
 - Updated the adapter to respect the mute setting in Vungle's publisher dashboard when the `muteIsSet` boolean in `VungleAdNetworkExtras` is not explicitly set.
