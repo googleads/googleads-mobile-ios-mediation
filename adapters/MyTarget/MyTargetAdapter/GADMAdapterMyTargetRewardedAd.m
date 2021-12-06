@@ -94,7 +94,7 @@ BOOL _isRewardedAdLoaded;
   _isRewardedAdLoaded = NO;
   _rewardedAd = [MTRGRewardedAd rewardedAdWithSlotId:slotId];
   _rewardedAd.delegate = self;
-  // INFO: This is where you can pass customParams if you want to send any.
+  GADMAdapterMyTargetFillCustomParams(_rewardedAd.customParams, _adConfiguration.extras);
   [_rewardedAd load];
 }
 

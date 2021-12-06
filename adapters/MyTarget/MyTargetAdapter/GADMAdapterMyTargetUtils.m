@@ -18,6 +18,8 @@
 
 #import "GADMediationAdapterMyTarget.h"
 
+#import "GADMAdapterMyTargetExtras.h"
+
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
@@ -51,32 +53,16 @@ NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTa
 }
 
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
-                                         id<GADMAdNetworkConnector> _Nonnull connector) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  GADGender userGender = connector.userGender;
-  NSDate *birthday = connector.userBirthday;
-#pragma clang diagnostic pop
-  switch (userGender) {
-    case kGADGenderMale:
-      customParams.gender = MTRGGenderMale;
-      break;
-    case kGADGenderFemale:
-      customParams.gender = MTRGGenderFemale;
-      break;
-    default:
-      customParams.gender = MTRGGenderUnspecified;
-      break;
-  }
+                                         id<GADAdNetworkExtras> _Nullable networkExtras) {
+  if (!networkExtras || ![networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]]) return;
 
-  if (birthday) {
-    NSCalendar *calendar =
-        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear
-                                               fromDate:birthday
-                                                 toDate:[NSDate date]
-                                                options:0];
-    customParams.age = [NSNumber numberWithInteger:components.year];
+  GADMAdapterMyTargetExtras *adapterExtras = (GADMAdapterMyTargetExtras *)networkExtras;
+  NSDictionary<NSString *, NSString *> *parameters = adapterExtras.parameters;
+  if (!parameters) return;
+
+  for (NSString *key in parameters.allKeys) {
+    NSString *value = parameters[key];
+    [customParams setCustomParam:value forKey:key];
   }
 }
 

@@ -48,9 +48,9 @@ NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonn
 NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
                                                                  NSString *_Nonnull description);
 
-/// Sets myTarget's customParams from |connector|.
+/// Sets myTarget's customParams from |networkExtras|.
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
-                                         id<GADMAdNetworkConnector> _Nonnull connector);
+                                         id<GADAdNetworkExtras> _Nullable networkExtras);
 
 /// Gets the myTarget slot ID from the specified |credentials|.
 NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
