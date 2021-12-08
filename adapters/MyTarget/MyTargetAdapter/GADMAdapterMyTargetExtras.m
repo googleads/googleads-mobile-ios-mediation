@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 @implementation GADMAdapterMyTargetExtras {
   NSMutableDictionary<NSString *, NSString *> *_Nullable _parameters;
@@ -28,20 +29,20 @@
 
 - (void)setParameter:(nullable NSString *)parameter forKey:(nonnull NSString *)key {
   if (!key) return;
-  @synchronized (self) {
+  @synchronized(self) {
     if (!_parameters) {
       _parameters = [NSMutableDictionary<NSString *, NSString *> new];
     }
     if (parameter) {
-      [_parameters setValue:parameter.copy forKey:key];
+      GADMAdapterMyTargetMutableDictionarySetObjectForKey(_parameters, key, parameter.copy);
     } else {
-      [_parameters removeObjectForKey:key];
+      GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(_parameters, key);
     }
   }
 }
 
 - (nullable NSDictionary<NSString *, NSString *> *)parameters {
-  @synchronized (self) {
+  @synchronized(self) {
     return (_parameters && _parameters.count > 0) ? _parameters.copy : nil;
   }
 }

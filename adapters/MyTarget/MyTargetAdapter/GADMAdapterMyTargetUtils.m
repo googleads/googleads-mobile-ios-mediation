@@ -28,6 +28,13 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
   }
 }
 
+void GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(
+    NSMutableDictionary *_Nonnull dictionary, id _Nullable key) {
+  if (key) {
+    [dictionary removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
@@ -121,8 +128,7 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
   } else {
     CGFloat width = closestSize.size.width;
     CGFloat height = closestSize.size.height;
-    if (width > 0 &&
-        height >= kGADMAdapterMyTargetBannerHeightMin &&
+    if (width > 0 && height >= kGADMAdapterMyTargetBannerHeightMin &&
         height < kGADMAdapterMyTargetBannerAspectRatioMin * width) {
       // Adaptive
       return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];

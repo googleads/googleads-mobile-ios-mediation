@@ -35,6 +35,10 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value);
 
+/// Safely removes the |object| for |key| in |dictionary| if |key| is not nil.
+void GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(
+    NSMutableDictionary *_Nonnull dictionary, id _Nullable key);
+
 /// Returns an SDK specific NSError with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description);
