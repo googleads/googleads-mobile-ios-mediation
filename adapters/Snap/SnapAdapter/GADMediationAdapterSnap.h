@@ -15,6 +15,9 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMediationAdapterSnap : NSObject <GADRTBAdapter>
+NS_ASSUME_NONNULL_BEGIN
 
+@interface GADMediationAdapterSnap : NSObject <GADRTBAdapter>
 @end
+
+NS_ASSUME_NONNULL_END

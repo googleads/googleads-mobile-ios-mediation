@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Snap mediation network adapter version.
-static NSString *const GADMAdapterSnapVersion = @"2.1.0.0";
+NS_ASSUME_NONNULL_BEGIN
 
-/// Snap mediation network adapter Snap App ID parameter key.
-static NSString *const GADMAdapterSnapAppID = @"snapAppId";
+@interface GADMediationSnapRewarded : NSObject <GADMediationRewardedAd>
 
-/// Snap mediation network adapter Ad Slot ID parameter key.
-static NSString *const GADMAdapterSnapAdSlotID = @"adSlotId";
+- (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+
+@end
+
+NS_ASSUME_NONNULL_END
