@@ -1,9 +1,10 @@
 ## Snap iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 2.1.0.0
 - Initial release!
-- Supports banner (includes MREC), interstitial and rewarded ads.
+- Verified compatibility with Snap Ad Kit SDK 2.1.0.
+- Added bidding support for banner (includes MREC), interstitial and rewarded ad formats.
 
 Built and tested with:
-- Google Mobile Ads SDK version 8.12.0
-- Snap SDK version 2.1.0
+- Google Mobile Ads SDK version 8.13.0
+- Snap Ad Kit SDK version 2.1.0
