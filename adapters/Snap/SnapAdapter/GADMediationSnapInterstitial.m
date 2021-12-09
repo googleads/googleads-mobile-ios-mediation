@@ -22,94 +22,94 @@
 @end
 
 @implementation GADMediationSnapInterstitial {
-    // The completion handler to call when the ad loading succeeds or fails.
-    GADMediationInterstitialLoadCompletionHandler _completionHandler;
-    // An ad event delegate to invoke when ad rendering events occur.
-    __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
-    // The Snap interstitial ad.
-    SAKInterstitial *_interstitial;
+  // The completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _completionHandler;
+  // An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  // The Snap interstitial ad.
+  SAKInterstitial *_interstitial;
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        _interstitial = [[SAKInterstitial alloc] init];
-        _interstitial.delegate = self;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _interstitial = [[SAKInterstitial alloc] init];
+    _interstitial.delegate = self;
+  }
+  return self;
 }
 
-- (void)renderInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    if (!adConfiguration.bidResponse.length) {
-        NSDictionary *userInfo = @{
-            NSLocalizedDescriptionKey: @"No or empty bid response"
-        };
-        NSError *error = [NSError errorWithDomain:GADErrorDomain
-                                             code:GADErrorMediationDataError
-                                         userInfo:userInfo];
-        completionHandler(nil, error);
-        return;
-    }
-    NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
-    if (!slotID.length) {
-      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
-      completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                        code:GADErrorInvalidRequest
-                                                    userInfo:userInfo]);
-      return;
-    }
+- (void)renderInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:
+                               (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse.length) {
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No or empty bid response"};
+    NSError *error = [NSError errorWithDomain:GADErrorDomain
+                                         code:GADErrorMediationDataError
+                                     userInfo:userInfo];
+    completionHandler(nil, error);
+    return;
+  }
+  NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
+  if (!slotID.length) {
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
+    completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                      code:GADErrorInvalidRequest
+                                                  userInfo:userInfo]);
+    return;
+  }
 
-    _completionHandler = [completionHandler copy];
-    NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
-                                                             options:0];
-    [_interstitial loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
+  _completionHandler = [completionHandler copy];
+  NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
+                                                           options:0];
+  [_interstitial loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
 }
 
 #pragma mark - SAKInterstitialDelegate
 
 - (void)interstitialDidLoad:(SAKInterstitial *)ad {
-    _adEventDelegate = _completionHandler(self, nil);
+  _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)interstitial:(SAKInterstitial *)ad didFailWithError:(NSError *)error {
-    _completionHandler(nil, error);
+  _completionHandler(nil, error);
 }
 
 - (void)interstitialDidExpire:(SAKInterstitial *)ad {
-    NSError *error = [NSError errorWithDomain:GADErrorDomain
-                                         code:GADErrorMediationAdapterError
-                                     userInfo:@{ NSLocalizedDescriptionKey: @"Ad expired" }];
-    [_adEventDelegate didFailToPresentWithError:error];
+  NSError *error = [NSError errorWithDomain:GADErrorDomain
+                                       code:GADErrorMediationAdapterError
+                                   userInfo:@{NSLocalizedDescriptionKey : @"Ad expired"}];
+  [_adEventDelegate didFailToPresentWithError:error];
 }
 
 - (void)interstitialWillAppear:(SAKInterstitial *)ad {
-    [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate willPresentFullScreenView];
 }
 
 - (void)interstitialDidAppear:(SAKInterstitial *)ad {
-    // no-op
+  // no-op
 }
 
 - (void)interstitialWillDisappear:(SAKInterstitial *)ad {
-    [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate willDismissFullScreenView];
 }
 
 - (void)interstitialDidDisappear:(SAKInterstitial *)ad {
-    // no-op
+  // no-op
 }
 
 - (void)interstitialDidShowAttachment:(SAKInterstitial *)ad {
-    [_adEventDelegate reportClick];
+  [_adEventDelegate reportClick];
 }
 
 - (void)interstitialDidTrackImpression:(SAKInterstitial *)ad {
-    [_adEventDelegate reportImpression];
+  [_adEventDelegate reportImpression];
 }
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-    [_interstitial presentFromRootViewController:viewController
-                               dismissTransition:viewController.view.bounds];
+  [_interstitial presentFromRootViewController:viewController
+                             dismissTransition:viewController.view.bounds];
 }
 
 @end

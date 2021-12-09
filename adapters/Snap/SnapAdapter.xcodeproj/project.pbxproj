@@ -33,6 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2372FF9A2762A98C00E67278 /* GADMediatonAdapterSnapUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */; };
+		2372FF9B2762A98C00E67278 /* GADMediatonAdapterSnapUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */; };
 		2B60DF1B27618E8E00AB5537 /* GADMediationAdapterSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEF0276186CF00AB5537 /* GADMediationAdapterSnap.m */; };
 		2B60DF1C27618E8E00AB5537 /* GADMediationSnapBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEEC276186CF00AB5537 /* GADMediationSnapBanner.m */; };
 		2B60DF1D27618E8E00AB5537 /* GADMediationSnapInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEF4276186CF00AB5537 /* GADMediationSnapInterstitial.m */; };
@@ -74,6 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediatonAdapterSnapUtils.h; sourceTree = "<group>"; };
+		2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediatonAdapterSnapUtils.m; sourceTree = "<group>"; };
 		2B338D8526D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D8626D96B0600192709 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		2B338D8726D96B0600192709 /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 				2B60DEF4276186CF00AB5537 /* GADMediationSnapInterstitial.m */,
 				2B60DEEE276186CF00AB5537 /* GADMediationSnapRewarded.h */,
 				2B60DEF2276186CF00AB5537 /* GADMediationSnapRewarded.m */,
+				2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */,
+				2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */,
 			);
 			path = SnapAdapter;
 			sourceTree = "<group>";
@@ -190,6 +196,7 @@
 			files = (
 				2B60DF2027618ECC00AB5537 /* GADMediationAdapterSnap.h in Headers */,
 				2B60DF2127618ECC00AB5537 /* GADMediationAdapterSnapConstants.h in Headers */,
+				2372FF9A2762A98C00E67278 /* GADMediatonAdapterSnapUtils.h in Headers */,
 				2B60DF2227618ECC00AB5537 /* GADMediationSnapBanner.h in Headers */,
 				2B60DF2327618ECC00AB5537 /* GADMediationSnapInterstitial.h in Headers */,
 				2B60DF2427618ECC00AB5537 /* GADMediationSnapRewarded.h in Headers */,
@@ -301,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B60DF1B27618E8E00AB5537 /* GADMediationAdapterSnap.m in Sources */,
+				2372FF9B2762A98C00E67278 /* GADMediatonAdapterSnapUtils.m in Sources */,
 				2B60DF1C27618E8E00AB5537 /* GADMediationSnapBanner.m in Sources */,
 				2B60DF1D27618E8E00AB5537 /* GADMediationSnapInterstitial.m in Sources */,
 				2B60DF1E27618E8E00AB5537 /* GADMediationSnapRewarded.m in Sources */,

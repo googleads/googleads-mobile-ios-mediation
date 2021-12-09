@@ -14,20 +14,21 @@
 
 #import "GADMediationAdapterSnap.h"
 
-#import "GADMediationSnapBanner.h"
-#import "GADMediationSnapRewarded.h"
-#import "GADMediationSnapInterstitial.h"
 #import "GADMediationAdapterSnapConstants.h"
+#import "GADMediationSnapBanner.h"
+#import "GADMediationSnapInterstitial.h"
+#import "GADMediationSnapRewarded.h"
+#import "GADMediatonAdapterSnapUtils.h"
 
 #import <SAKSDK/SAKSDK.h>
 
 @implementation GADMediationAdapterSnap {
-    /// Snap Audience Network banner ad wrapper.
-    GADMediationSnapBanner *_banner;
-    /// Snap Audience Network interstitial ad wrapper.
-    GADMediationSnapInterstitial *_interstitial;
-    /// Snap Audience Network rewarded ad wrapper.
-    GADMediationSnapRewarded *_rewarded;
+  /// Snap Audience Network banner ad wrapper.
+  GADMediationSnapBanner *_banner;
+  /// Snap Audience Network interstitial ad wrapper.
+  GADMediationSnapInterstitial *_interstitial;
+  /// Snap Audience Network rewarded ad wrapper.
+  GADMediationSnapRewarded *_rewarded;
 }
 
 + (GADVersionNumber)adapterVersion {
@@ -45,19 +46,19 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-    NSString *sdkVersion = SAKMobileAd.shared.sdkVersion;
-    NSArray<NSString *> *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
-    GADVersionNumber version = {0};
-    if (versionComponents.count == 3) {
-      version.majorVersion = versionComponents[0].integerValue;
-      version.minorVersion = versionComponents[1].integerValue;
-      version.patchVersion = versionComponents[2].integerValue;
-    }
-    return version;
+  NSString *sdkVersion = SAKMobileAd.shared.sdkVersion;
+  NSArray<NSString *> *versionComponents = [sdkVersion componentsSeparatedByString:@"."];
+  GADVersionNumber version = {0};
+  if (versionComponents.count == 3) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion = versionComponents[2].integerValue;
+  }
+  return version;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-    return nil;
+  return nil;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -66,7 +67,7 @@
   for (GADMediationCredentials *credentials in configuration.credentials) {
     NSString *snapAppID = credentials.settings[GADMAdapterSnapAppID];
     if (snapAppID.length) {
-      [snapAppIDs addObject:snapAppID];
+      GADMediationAdapterSnapMutableSetAddObject(snapAppIDs, snapAppID);
     }
   }
   if (!snapAppIDs.count) {
@@ -103,27 +104,30 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    _banner = [[GADMediationSnapBanner alloc] init];
-    [_banner renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  _banner = [[GADMediationSnapBanner alloc] init];
+  [_banner renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    _interstitial = [[GADMediationSnapInterstitial alloc] init];
-    [_interstitial renderInterstitialForAdConfiguration:adConfiguration
-                                      completionHandler:completionHandler];
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitial = [[GADMediationSnapInterstitial alloc] init];
+  [_interstitial renderInterstitialForAdConfiguration:adConfiguration
+                                    completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    _rewarded = [[GADMediationSnapRewarded alloc] init];
-    [_rewarded renderRewardedAdForAdConfiguration:adConfiguration
-                                completionHandler:completionHandler];
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewarded = [[GADMediationSnapRewarded alloc] init];
+  [_rewarded renderRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-    completionHandler(SAKMobileAd.shared.biddingToken, nil);
+  completionHandler(SAKMobileAd.shared.biddingToken, nil);
 }
 
 @end

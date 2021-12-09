@@ -13,13 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMediationSnapInterstitial : NSObject <GADMediationInterstitialAd>
-
-- (void)renderInterstitialForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler;
-
-@end
+/// Safely adds |object| to |set| if |object| is not nil.
+void GADMediationAdapterSnapMutableSetAddObject(NSMutableSet *_Nullable set,
+                                                NSObject *_Nonnull object);

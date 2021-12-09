@@ -19,97 +19,96 @@
 #import <SAKSDK/SAKSDK.h>
 
 static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *valid) {
-    NSArray<NSValue *> *supportedSizes = @[
-      @(GADAdSizeBanner),
-      @(GADAdSizeMediumRectangle),
-    ];
-    GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, supportedSizes);
-    if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
-        *valid = YES;
-        return SAKAdViewFormatBanner;
-    } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
-        *valid = YES;
-        return SAKAdViewFormatMediumRectangle;
-    }
-    *valid = NO;
-    return -1;
+  NSArray<NSValue *> *supportedSizes = @[
+    @(GADAdSizeBanner),
+    @(GADAdSizeMediumRectangle),
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, supportedSizes);
+  if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
+    *valid = YES;
+    return SAKAdViewFormatBanner;
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
+    *valid = YES;
+    return SAKAdViewFormatMediumRectangle;
+  }
+  *valid = NO;
+  return -1;
 }
 
 @interface GADMediationSnapBanner () <SAKAdViewDelegate>
 @end
 
 @implementation GADMediationSnapBanner {
-    // Ad Configuration for the ad to be rendered.
-    GADMediationBannerAdConfiguration *_adConfiguration;
-    // The completion handler to call when the ad loading succeeds or fails.
-    GADMediationBannerLoadCompletionHandler _completionHandler;
-    // An ad event delegate to invoke when ad rendering events occur.
-    __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
-    // The Snap banner ad.
-    SAKAdView *_adView;
+  // Ad Configuration for the ad to be rendered.
+  GADMediationBannerAdConfiguration *_adConfiguration;
+  // The completion handler to call when the ad loading succeeds or fails.
+  GADMediationBannerLoadCompletionHandler _completionHandler;
+  // An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
+  // The Snap banner ad.
+  SAKAdView *_adView;
 }
 
 - (void)renderBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    BOOL isValid = NO;
-    SAKAdViewFormat format = GADSAKAdViewFormatFromAdSize(adConfiguration.adSize, &isValid);
-    if (!isValid) {
-        NSString *size = NSStringFromGADAdSize(adConfiguration.adSize);
-        NSDictionary *userInfo = @{
-            NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Unsupported ad size: %@", size]
-        };
-        completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                          code:GADErrorMediationInvalidAdSize
-                                                      userInfo:userInfo]);
-        return;
-    }
-    NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
-    if (!slotID.length) {
-      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
-      completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                        code:GADErrorInvalidRequest
-                                                    userInfo:userInfo]);
-      return;
-    }
+  BOOL isValid = NO;
+  SAKAdViewFormat format = GADSAKAdViewFormatFromAdSize(adConfiguration.adSize, &isValid);
+  if (!isValid) {
+    NSString *size = NSStringFromGADAdSize(adConfiguration.adSize);
+    NSDictionary *userInfo =
+        @{NSLocalizedDescriptionKey : [NSString stringWithFormat:@"Unsupported ad size: %@", size]};
+    completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                      code:GADErrorMediationInvalidAdSize
+                                                  userInfo:userInfo]);
+    return;
+  }
+  NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
+  if (!slotID.length) {
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
+    completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                      code:GADErrorInvalidRequest
+                                                  userInfo:userInfo]);
+    return;
+  }
 
-    _adConfiguration = adConfiguration;
-    _completionHandler = [completionHandler copy];
+  _adConfiguration = adConfiguration;
+  _completionHandler = [completionHandler copy];
 
-    _adView = [[SAKAdView alloc] initWithFormat:format];
-    [_adView sizeToFit];
-    _adView.delegate = self;
+  _adView = [[SAKAdView alloc] initWithFormat:format];
+  [_adView sizeToFit];
+  _adView.delegate = self;
 
-    NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
-                                                             options:0];
-    [_adView loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
+  NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
+                                                           options:0];
+  [_adView loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
 }
 
 #pragma mark - GADMediationBannerAd
 
 - (UIView *)view {
-    return _adView;
+  return _adView;
 }
 
 #pragma mark - SAKAdViewDelegate
 
 - (UIViewController *)rootViewController {
-    return _adConfiguration.topViewController;
+  return _adConfiguration.topViewController;
 }
 
 - (void)adViewDidLoad:(SAKAdView *)adView {
-    _adEventDelegate = _completionHandler(self, nil);
+  _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)adView:(SAKAdView *)adView didFailWithError:(NSError *)error {
-    _completionHandler(nil, error);
+  _completionHandler(nil, error);
 }
 
 - (void)adViewDidClick:(SAKAdView *)adView {
-    [_adEventDelegate reportClick];
+  [_adEventDelegate reportClick];
 }
 
 - (void)adViewDidTrackImpression:(SAKAdView *)adView {
-    [_adEventDelegate reportImpression];
+  [_adEventDelegate reportImpression];
 }
 
 @end

@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMediatonAdapterSnapUtils.h"
 
-@interface GADMediationSnapInterstitial : NSObject <GADMediationInterstitialAd>
-
-- (void)renderInterstitialForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler;
-
-@end
+void GADMediationAdapterSnapMutableSetAddObject(NSMutableSet *_Nullable set,
+                                                  NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}

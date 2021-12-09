@@ -15,13 +15,10 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMediationSnapBanner : NSObject <GADMediationBannerAd>
 
-- (void)renderBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
+- (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 
 @end
-
-NS_ASSUME_NONNULL_END

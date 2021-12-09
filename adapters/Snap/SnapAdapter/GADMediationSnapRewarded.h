@@ -14,13 +14,11 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMediationSnapRewarded : NSObject <GADMediationRewardedAd>
 
-- (void)renderRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (void)renderRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end
-
-NS_ASSUME_NONNULL_END
