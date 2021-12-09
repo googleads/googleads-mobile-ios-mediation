@@ -31,14 +31,17 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-    NSArray<NSString *> *components = [GADMAdapterSnapVersion componentsSeparatedByString:@"."];
-    GADVersionNumber version = {0};
-    if (components.count == 3) {
-      version.majorVersion = components[0].integerValue;
-      version.minorVersion = components[1].integerValue;
-      version.patchVersion = components[2].integerValue;
-    }
-    return version;
+  NSArray *versionComponents = [GADMAdapterSnapVersion componentsSeparatedByString:@"."];
+
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 4) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    // Adapter versions have 2 patch versions. Multiply the first patch by 100.
+    version.patchVersion =
+        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
+  }
+  return version;
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -59,44 +62,43 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    NSMutableSet<NSString *> *snapAppIds = [[NSMutableSet alloc] init];
-    for (GADMediationCredentials *credentials in configuration.credentials) {
-        NSString *snapAppId = credentials.settings[GADMAdapterSnapAppID];
-        if (snapAppId.length) {
-            [snapAppIds addObject:snapAppId];
-        }
+  NSMutableSet<NSString *> *snapAppIDs = [[NSMutableSet alloc] init];
+  for (GADMediationCredentials *credentials in configuration.credentials) {
+    NSString *snapAppID = credentials.settings[GADMAdapterSnapAppID];
+    if (snapAppID.length) {
+      [snapAppIDs addObject:snapAppID];
     }
-    
-    if (!snapAppIds.count) {
-        NSString *desc = @"Snap Audience Network requires a single snapAppId. "
-                         "No snapAppId were provided.";
-        return completionHandler([NSError errorWithDomain:GADErrorDomain
-                                                     code:GADErrorInvalidRequest
-                                                 userInfo:@{ NSLocalizedDescriptionKey : desc }]);
-    }
-    
-    NSString *snapAppId = [snapAppIds anyObject];
-    if (snapAppIds.count > 1) {
-        NSLog(@"Found the following Snap Application IDs: %@\n"
-              @"Please remove any Snap Application IDs you are not using from the AdMob UI",
-              snapAppIds);
-        NSLog(@"Configuring Snap Audience Network SDK with the Snap Application ID %@", snapAppId);
-    }
-    [self startWithSnapAppId:snapAppId completionHandler:completionHandler];
+  }
+  if (!snapAppIDs.count) {
+    NSString *desc = @"Snap Audience Network requires a single snapAppId. "
+                      "No snapAppId were provided.";
+    return completionHandler([NSError errorWithDomain:GADErrorDomain
+                                                 code:GADErrorInvalidRequest
+                                             userInfo:@{NSLocalizedDescriptionKey : desc}]);
+  }
+  NSString *snapAppID = [snapAppIDs anyObject];
+  if (snapAppIDs.count > 1) {
+    NSLog(@"Found the following Snap Application IDs: %@\n"
+          @"Please remove any Snap Application IDs you are not using from the AdMob UI",
+          snapAppIDs);
+    NSLog(@"Configuring Snap Audience Network SDK with the Snap Application ID %@", snapAppID);
+  }
+  [self startWithSnapAppID:snapAppID completionHandler:completionHandler];
 }
 
-+ (void)startWithSnapAppId:(nonnull NSString *)snapAppId
-          completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    SAKRegisterRequestConfigurationBuilder *builder = [[SAKRegisterRequestConfigurationBuilder alloc] init];
-    [builder withSnapKitAppId:snapAppId];
-    [SAKMobileAd.shared startWithConfiguration:[builder build]
-                                    completion:^(BOOL success, NSError *error) {
-        if (success) {
-            completionHandler(nil);
-        } else {
-            completionHandler(error);
-        }
-    }];
++ (void)startWithSnapAppID:(nonnull NSString *)snapAppID
+         completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  SAKRegisterRequestConfigurationBuilder *builder =
+      [[SAKRegisterRequestConfigurationBuilder alloc] init];
+  [builder withSnapKitAppId:snapAppID];
+  [SAKMobileAd.shared startWithConfiguration:[builder build]
+                                  completion:^(BOOL success, NSError *error) {
+                                    if (success) {
+                                      completionHandler(nil);
+                                    } else {
+                                      completionHandler(error);
+                                    }
+                                  }];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration

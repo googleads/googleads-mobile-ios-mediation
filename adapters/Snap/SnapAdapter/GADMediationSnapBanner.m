@@ -23,7 +23,6 @@ static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *vali
       @(GADAdSizeBanner),
       @(GADAdSizeMediumRectangle),
     ];
-    
     GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, supportedSizes);
     if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
         *valid = YES;
@@ -42,13 +41,10 @@ static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *vali
 @implementation GADMediationSnapBanner {
     // Ad Configuration for the ad to be rendered.
     GADMediationBannerAdConfiguration *_adConfiguration;
-    
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationBannerLoadCompletionHandler _completionHandler;
-    
     // An ad event delegate to invoke when ad rendering events occur.
     __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
-    
     // The Snap banner ad.
     SAKAdView *_adView;
 }
@@ -67,16 +63,13 @@ static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *vali
                                                       userInfo:userInfo]);
         return;
     }
-    
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
-    if (!slotId.length) {
-        NSDictionary *userInfo = @{
-            NSLocalizedDescriptionKey : @"No slotId found"
-        };
-        completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                          code:GADErrorInvalidRequest
-                                                      userInfo:userInfo]);
-        return;
+    NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
+    if (!slotID.length) {
+      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
+      completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                        code:GADErrorInvalidRequest
+                                                    userInfo:userInfo]);
+      return;
     }
 
     _adConfiguration = adConfiguration;
@@ -88,7 +81,7 @@ static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *vali
 
     NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
                                                              options:0];
-    [_adView loadAdWithBidPayload:bidPayload publisherSlotId:slotId];
+    [_adView loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
 }
 
 #pragma mark - GADMediationBannerAd

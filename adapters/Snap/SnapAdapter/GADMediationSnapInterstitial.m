@@ -24,10 +24,8 @@
 @implementation GADMediationSnapInterstitial {
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _completionHandler;
-    
     // An ad event delegate to invoke when ad rendering events occur.
     __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
-
     // The Snap interstitial ad.
     SAKInterstitial *_interstitial;
 }
@@ -53,22 +51,19 @@
         completionHandler(nil, error);
         return;
     }
-    
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
-    if (!slotId.length) {
-        NSDictionary *userInfo = @{
-            NSLocalizedDescriptionKey : @"No slotId found"
-        };
-        completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                          code:GADErrorInvalidRequest
-                                                      userInfo:userInfo]);
-        return;
+    NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
+    if (!slotID.length) {
+      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
+      completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                        code:GADErrorInvalidRequest
+                                                    userInfo:userInfo]);
+      return;
     }
 
     _completionHandler = [completionHandler copy];
     NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
                                                              options:0];
-    [_interstitial loadAdWithBidPayload:bidPayload publisherSlotId:slotId];
+    [_interstitial loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
 }
 
 #pragma mark - SAKInterstitialDelegate

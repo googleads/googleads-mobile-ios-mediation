@@ -24,10 +24,8 @@
 @implementation GADMediationSnapRewarded {
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _completionHandler;
-    
     // An ad event delegate to invoke when ad rendering events occur.
     __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-    
     // The Snap rewarded ad.
     SAKRewardedAd *_rewardedAd;
 }
@@ -51,20 +49,19 @@
         completionHandler(nil, error);
         return;
     }
-    
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
-    if (!slotId.length) {
-        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"No slotId found" };
-        completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
-                                                          code:GADErrorInvalidRequest
-                                                      userInfo:userInfo]);
-        return;
+    NSString *slotID = adConfiguration.credentials.settings[GADMAdapterSnapAdSlotID];
+    if (!slotID.length) {
+      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"No slotId found"};
+      completionHandler(nil, [[NSError alloc] initWithDomain:GADErrorDomain
+                                                        code:GADErrorInvalidRequest
+                                                    userInfo:userInfo]);
+      return;
     }
 
     _completionHandler = [completionHandler copy];
     NSData *bidPayload = [[NSData alloc] initWithBase64EncodedString:adConfiguration.bidResponse
                                                              options:0];
-    [_rewardedAd loadAdWithBidPayload:bidPayload publisherSlotId:slotId];
+    [_rewardedAd loadAdWithBidPayload:bidPayload publisherSlotId:slotID];
 }
 
 #pragma mark - SAKRewardedAdDelegate
