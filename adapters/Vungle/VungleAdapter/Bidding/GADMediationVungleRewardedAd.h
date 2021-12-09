@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,18 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterVungleRewardBasedVideoAd : NSObject
+@interface GADMediationVungleRewardedAd : NSObject <GADMediationRewardedAd>
+
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
+
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a rewarded ad from Vungle.
+- (void)requestRewardedAd;
+
 @end

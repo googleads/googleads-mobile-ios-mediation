@@ -17,6 +17,7 @@
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMediationAdapterVungle.h"
 
 @interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate>
 @end
@@ -30,6 +31,12 @@
 
   /// Indicates whether an interstitial ad is loaded.
   BOOL _isAdLoaded;
+}
+
+// Redirect to the main adapter class for bidding
+// but still implement GADMAdNetworkAdapter for waterfall.
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterVungle class];
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -136,9 +143,14 @@
   }
 }
 
-#pragma mark - VungleRouter delegates
+#pragma mark - GADMAdapterVungleDelegate
 
 @synthesize desiredPlacement;
+
+- (nullable NSString *)bidResponse {
+    // This is the waterfall interstitial section. It won't have a bid response
+    return nil;
+}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {

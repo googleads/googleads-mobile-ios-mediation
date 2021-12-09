@@ -19,7 +19,7 @@
 
 extern const CGSize kVNGBannerShortSize;
 
-@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
+@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate, VungleSDKHBDelegate>
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;
 - (void)initWithAppId:(nonnull NSString *)appId
@@ -37,5 +37,7 @@ extern const CGSize kVNGBannerShortSize;
                                     extras:(nullable VungleAdNetworkExtras *)extras
                             forPlacementID:(nonnull NSString *)placementID;
 - (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
+- (BOOL)isSDKInitialized;
+- (nullable NSString *)getSuperToken;
 
 @end
