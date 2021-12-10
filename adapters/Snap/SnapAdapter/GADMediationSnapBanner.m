@@ -105,6 +105,7 @@ static SAKAdViewFormat GADSAKAdViewFormatFromAdSize(GADAdSize adSize, BOOL *vali
 
 - (void)adViewDidClick:(SAKAdView *)adView {
   [_adEventDelegate reportClick];
+  [_adEventDelegate willPresentFullScreenView];
 }
 
 - (void)adViewDidTrackImpression:(SAKAdView *)adView {
