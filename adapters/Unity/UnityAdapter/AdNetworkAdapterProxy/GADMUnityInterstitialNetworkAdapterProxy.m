@@ -15,7 +15,7 @@
 #import "GADMUnityInterstitialNetworkAdapterProxy.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityConstants.h"
-#import "NSError+Unity.h"
+#import "NSErrorUnity.h"
 
 @implementation GADMUnityInterstitialNetworkAdapterProxy
 

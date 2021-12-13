@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@
 #import "GADMUnityInterstitialMediationAdapterProxy.h"
 #import "GADMUnityRewardedMediationAdapterProxy.h"
 #import "GADMUnityBannerMediationAdapterProxy.h"
-#import "GADMediationConfiguration+Settings.h"
-#import "NSError+Unity.h"
+#import "GADMediationConfigurationSettings.h"
+#import "NSErrorUnity.h"
 
 @interface GADMediationAdapterUnity () <GADMediationRewardedAd, GADMediationInterstitialAd, GADMediationBannerAd>
 @property (nonatomic, strong) NSString *placementId;

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMUnityRewardedMediationAdapterProxy.h"
-#import "NSError+Unity.h"
+#import "NSErrorUnity.h"
 
 @interface GADMUnityRewardedMediationAdapterProxy()
 @property (nonatomic, weak) id<GADMediationRewardedAd> ad;
