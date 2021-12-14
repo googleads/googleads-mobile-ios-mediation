@@ -2,12 +2,11 @@
 
 #### Version 5.14.3.0 (In progress)
 - Verified compatibility with myTarget SDK version 5.14.3.
-- Fixed minor bug in Native adapter (disable images loading)
-- Supported parameters in Extras.
-- Supported Extras in Rewarded ads.
+- Added support for setting parameters in `GADMAdapterMyTargetExtras`.
+- Added support for passing extras in rewarded ads.
 
 Built and tested With:
-- Google Mobile Ads SDK version 8.12.0.
+- Google Mobile Ads SDK version 8.13.0.
 - MyTarget SDK version 5.14.3.
 
 #### [Version 5.14.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.14.2.0.zip)
