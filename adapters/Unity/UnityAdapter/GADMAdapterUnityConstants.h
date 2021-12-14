@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ static NSString *const kGADMAdapterUnityGameID = @"gameId";
 static NSString *const kGADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const kGADMAdapterUnityVersion = @"3.7.5.0";
+static NSString *const kGADMAdapterUnityVersion = @"4.0.0.0";
 
 /// Ad mediation network name.
 static NSString *const kGADMAdapterUnityMediationNetworkName = @"AdMob";

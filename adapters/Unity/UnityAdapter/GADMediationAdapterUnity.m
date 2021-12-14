@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,83 +14,105 @@
 
 #import "GADMediationAdapterUnity.h"
 #import <UnityAds/UnityAds.h>
-#import "GADMAdapterUnity.h"
-#import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnityRewardedAd.h"
 #import "GADMAdapterUnityUtils.h"
+#import "GADUnityRouter.h"
+#import "GADMUnityInterstitialMediationAdapterProxy.h"
+#import "GADMUnityRewardedMediationAdapterProxy.h"
+#import "GADMUnityBannerMediationAdapterProxy.h"
+#import "GADMediationConfiguration+Settings.h"
+#import "NSError+Unity.h"
 
-@interface GADMediationAdapterUnity ()
-
-@property(nonatomic, strong) GADMAdapterUnityRewardedAd *rewardedAd;
-
+@interface GADMediationAdapterUnity () <GADMediationRewardedAd, GADMediationInterstitialAd, GADMediationBannerAd>
+@property (nonatomic, strong) NSString *placementId;
+@property (nonatomic, strong) GADUnityBaseMediationAdapterProxy *adapterProxy;
+@property (nonatomic, strong) UADSBannerView *bannerView;
 @end
 
 @implementation GADMediationAdapterUnity
 
 // Called on Admob->init
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
-    GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
-  }
-
-  if (!gameIDs.count) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters,
-        @"UnityAds mediation configurations did not contain a valid game ID.");
-    completionHandler(error);
-    return;
-  }
-
-  NSString *gameID = [gameIDs anyObject];
-  if (gameIDs.count > 1) {
-    NSLog(@"Found the following game IDs: %@. "
-          @"Please remove any game IDs you are not using from the AdMob UI.",
-          gameIDs);
-    NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
-  }
-
-  [[GADMAdapterUnity alloc] initializeWithGameID:gameID withCompletionHandler:completionHandler];
++ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
+    NSSet *gameIDs = configuration.gameIds;
+    if (!gameIDs.count) {
+        completionHandler([NSError noValidGameId]);
+        return;
+    }
+    
+    NSString *gameID = [gameIDs anyObject];
+    if (gameIDs.count > 1) {
+        NSLog(@"Found the following game IDs: %@. "
+              @"Please remove any game IDs you are not using from the AdMob UI.",
+              gameIDs);
+        NSLog(@"Initializing Unity Ads SDK with the game ID %@.", gameID);
+    }
+    
+    [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:gameID withCompletionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {
-  GADVersionNumber version = {0};
-  NSString *sdkVersion = [UnityAds getVersion];
-  NSArray<NSString *> *components = [sdkVersion componentsSeparatedByString:@"."];
-  if (components.count == 3) {
-    version.majorVersion = components[0].integerValue;
-    version.minorVersion = components[1].integerValue;
-    version.patchVersion = components[2].integerValue;
-  } else {
-    NSLog(@"Unexpected Unity Ads version string: %@. Returning 0 for adSDKVersion.", sdkVersion);
-  }
-  return version;
+    return extractVersionFromString([UnityAds getVersion]);
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return nil;
+    return nil;
 }
 
 + (GADVersionNumber)adapterVersion {
-  GADVersionNumber version = {0};
-  NSString *adapterVersion = kGADMAdapterUnityVersion;
-  NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
-  if (components.count >= 4) {
-    version.majorVersion = components[0].integerValue;
-    version.minorVersion = components[1].integerValue;
-    version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
-  }
-  return version;
+    return extractVersionFromString(kGADMAdapterUnityVersion);
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.rewardedAd = [[GADMAdapterUnityRewardedAd alloc] initWithAdConfiguration:adConfiguration
-                                                              completionHandler:completionHandler];
-  [self.rewardedAd requestRewardedAd];
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    self.adapterProxy = [[GADMUnityRewardedMediationAdapterProxy alloc] initWithAd:self completionHandler:completionHandler];
+    
+    [self loadAdWithConfiguration:adConfiguration];
 }
+
+- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    self.adapterProxy = [[GADMUnityInterstitialMediationAdapterProxy alloc] initWithAd:self completionHandler:completionHandler];
+   
+    [self loadAdWithConfiguration:adConfiguration];
+}
+
+- (void)loadAdWithConfiguration:(GADMediationAdConfiguration*)adConfiguration {
+    [self initializeWithConfiguration:adConfiguration];
+    
+    self.placementId = adConfiguration.placementId;
+    
+    [UnityAds load:self.placementId loadDelegate:self.adapterProxy];
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    [self initializeWithConfiguration:adConfiguration];
+    
+    self.placementId = adConfiguration.placementId;
+    
+    GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adConfiguration.adSize);
+    if (!IsGADAdSizeValid(supportedSize)) {
+        completionHandler(self, [NSError unsupportedBannerGADAdSize:adConfiguration.adSize]);
+        return;
+    }
+    self.adapterProxy = [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self completionHandler:completionHandler];
+
+    self.bannerView = [[UADSBannerView alloc] initWithPlacementId: self.placementId size: supportedSize.size];
+    self.bannerView.delegate = self.adapterProxy;
+    [self.bannerView load];
+}
+
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+    [UnityAds show:viewController placementId:self.placementId showDelegate:self.adapterProxy];
+}
+
+-(void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
+    [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:adConfiguration.gameId withCompletionHandler:nil];
+}
+
+#pragma mark GADMediationBannerAd
+
+- (UIView *)view {
+    return self.bannerView;
+}
+
 
 @end
+
+

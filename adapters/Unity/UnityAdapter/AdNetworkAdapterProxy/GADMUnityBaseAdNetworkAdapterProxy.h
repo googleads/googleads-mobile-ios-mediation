@@ -14,10 +14,15 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+NS_ASSUME_NONNULL_BEGIN
 
-/// Adapter for communicating with the Unity Ads Network to fetch ads through the
-/// Google Mobile Ads SDK.
+@interface GADMUnityBaseAdNetworkAdapterProxy : NSObject
 
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
+- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
+
+@property (nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property (nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
 
 @end
+
+NS_ASSUME_NONNULL_END

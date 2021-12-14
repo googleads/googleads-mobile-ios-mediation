@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,22 +13,13 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
 
-@protocol GADMAdNetworkAdapter;
-@protocol GADMAdNetworkConnector;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface GADMUnityInterstitialAd : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
-
-- (instancetype _Nullable)initWithGADMAdNetworkConnector:
-                              (nonnull id<GADMAdNetworkConnector>)connector
-                                                 adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
-
-/// Loads an interstitial ad from Unity Ads
-- (void)getInterstitial;
-
-/// Presents an interstitial ad using Unity Ads
-- (void)presentInterstitialFromRootViewController:(nonnull UIViewController *)rootViewController;
+@interface GADUnityBaseMediationAdapterProxy : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate, UADSBannerViewDelegate>
+@property (nonatomic, weak) id<GADMediationAdEventDelegate> eventDelegate;
 @end
+
+NS_ASSUME_NONNULL_END

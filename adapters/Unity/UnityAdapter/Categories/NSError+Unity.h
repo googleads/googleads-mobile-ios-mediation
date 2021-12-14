@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADUnityError.h"
-#import "GADMAdapterUnityConstants.h"
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-NSError *GADUnityErrorWithDescription(NSString *description) {
-  description = [description copy];
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain code:0 userInfo:userInfo];
-  return error;
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface NSError (Unity)
++ (NSError *) noValidGameId;
++ (NSError *) unsupportedBannerGADAdSize:(GADAdSize)adSize;
++ (NSError *) adNotAvailablePerPlacement:(NSString*)placementId;
+@end
+
+NS_ASSUME_NONNULL_END

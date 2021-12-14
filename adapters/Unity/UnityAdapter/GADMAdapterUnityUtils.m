@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,31 +15,12 @@
 #import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityConstants.h"
 
-void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
-  if (object) {
-    [set addObject:object];  // Allow pattern.
-  }
-}
-
 void GADMAdapterUnityConfigureMediationService(void) {
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
   [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
   [mediationMetaData setVersion:kGADMAdapterUnityVersion];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
-}
-
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value) {
-  if (value && key) {
-    [mapTable setObject:value forKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
-  if (key) {
-    [mapTable removeObjectForKey:key];  // Allow pattern.
-  }
 }
 
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
@@ -60,4 +41,22 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
                                        code:errorCode
                                    userInfo:userInfo];
   return error;
+}
+
+GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+    NSArray *potentials =
+    @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
+    return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+}
+
+GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {
+    GADVersionNumber version = {0};
+    NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
+    if (components.count >= 3) {
+        version.majorVersion = components[0].integerValue;
+        version.minorVersion = components[1].integerValue;
+        NSInteger patch = components[2].integerValue;
+        version.patchVersion = components.count == 4 ? patch * 100 + components[3].integerValue : patch;
+    }
+    return version;
 }

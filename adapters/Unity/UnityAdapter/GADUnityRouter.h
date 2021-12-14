@@ -13,11 +13,15 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Adapter for communicating with the Unity Ads Network to fetch ads through the
-/// Google Mobile Ads SDK.
+NS_ASSUME_NONNULL_BEGIN
 
-@interface GADMAdapterUnity : NSObject <GADMAdNetworkAdapter>
+@interface GADUnityRouter : NSObject
+
++ (GADUnityRouter *_Nonnull)sharedRouter;
+
+- (void)sdkInitializeWithGameId:(NSString *_Nonnull)gameId withCompletionHandler:(void (^ _Nullable)(NSError *_Nullable))complete;
 
 @end
+
+NS_ASSUME_NONNULL_END
