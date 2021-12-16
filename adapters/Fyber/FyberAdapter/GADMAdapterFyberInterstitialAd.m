@@ -15,8 +15,6 @@
 #import "GADMAdapterFyberInterstitialAd.h"
 
 #import <IASDKCore/IASDKCore.h>
-#import <IASDKMRAID/IASDKMRAID.h>
-#import <IASDKVideo/IASDKVideo.h>
 
 #import <stdatomic.h>
 

@@ -19,4 +19,10 @@
 /// Indicates whether the adapter is in debug mode.
 @property BOOL isDebugMode;
 
+/// Setter for parameters which should be passed to mediated network.
+- (void)setParameter:(nullable NSString *)parameter forKey:(nonnull NSString *)key;
+
+/// Getter for parameters.
+- (nullable NSDictionary<NSString *, NSString *> *)parameters;
+
 @end

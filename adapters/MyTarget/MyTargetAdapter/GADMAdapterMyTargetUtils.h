@@ -35,6 +35,10 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value);
 
+/// Safely removes the |object| for |key| in |dictionary| if |key| is not nil.
+void GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(
+    NSMutableDictionary *_Nonnull dictionary, id _Nullable key);
+
 /// Returns an SDK specific NSError with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description);
@@ -48,9 +52,9 @@ NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonn
 NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
                                                                  NSString *_Nonnull description);
 
-/// Sets myTarget's customParams from |connector|.
+/// Sets myTarget's customParams from |networkExtras|.
 void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
-                                         id<GADMAdNetworkConnector> _Nonnull connector);
+                                         id<GADAdNetworkExtras> _Nullable networkExtras);
 
 /// Gets the myTarget slot ID from the specified |credentials|.
 NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(

@@ -13,21 +13,18 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Adapter version.
-static NSString *const kGADMAdapterIMobileVersion = @"2.2.0.0";
+@interface GADMediationVungleRewardedAd : NSObject <GADMediationRewardedAd>
 
-/// Key of i-mobile publisher ID.
-static NSString *const kGADMAdapterIMobilePublisherIdKey = @"publisherId";
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
 
-/// Key of i-mobile media ID.
-static NSString *const kGADMAdapterIMobileMediaIdKey = @"mid";
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Key of i-mobile spot ID.
-static NSString *const kGADMAdapterIMobileSpotIdKey = @"asid";
+/// Requests a rewarded ad from Vungle.
+- (void)requestRewardedAd;
 
-/// String of call to action.
-static NSString *const kGADMAdapterIMobileCallToAction = @"詳細はこちら";
-
-/// i-mobile adapter error domain.
-static NSString *const kGADMAdapterIMobileErrorDomain = @"com.google.mediation.imobile";
+@end

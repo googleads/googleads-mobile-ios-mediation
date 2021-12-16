@@ -14,14 +14,34 @@
 
 #import "VungleAdNetworkExtras.h"
 
+@interface VungleAdNetworkExtras ()
+
+@property (readwrite, assign) BOOL muteIsSet;
+
+@end
+
 @implementation VungleAdNetworkExtras
+
+@synthesize muted = _muted;
 
 - (nonnull instancetype)init {
   self = [super init];
   if (self) {
     _UUID = [[NSUUID UUID] UUIDString];
+    _muteIsSet = NO;
   }
   return self;
+}
+
+-(BOOL)muted
+{
+    return _muted;
+}
+
+-(void)setMuted:(BOOL)muted
+{
+    _muted = muted;
+    self.muteIsSet = YES;
 }
 
 @end
