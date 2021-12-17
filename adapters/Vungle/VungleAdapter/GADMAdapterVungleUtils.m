@@ -70,10 +70,6 @@ NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
       GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
                                                         vungleAdNetworkExtras.userId);
     }
-    if (vungleAdNetworkExtras.ordinal) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                        @(vungleAdNetworkExtras.ordinal));
-    }
     if (vungleAdNetworkExtras.flexViewAutoDismissSeconds) {
       GADMAdapterVungleMutableDictionarySetObjectForKey(
           options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
