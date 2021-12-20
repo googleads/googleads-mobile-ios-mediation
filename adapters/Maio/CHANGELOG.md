@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Version 1.6.0.0 (In progress)
+#### [Version 1.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.6.0.0.zip)
 - Verified compatibility with maio SDK version 1.6.0 and maioOB SDK version 2.0.0-alpha.
 
 Built and tested with:
