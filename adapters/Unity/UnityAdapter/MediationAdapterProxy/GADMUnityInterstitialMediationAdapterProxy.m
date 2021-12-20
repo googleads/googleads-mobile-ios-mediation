@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMUnityInterstitialMediationAdapterProxy.h"
-#import "NSError+Unity.h"
+#import "NSErrorUnity.h"
 
 @interface GADMUnityInterstitialMediationAdapterProxy()
 @property (nonatomic, weak) id<GADMediationInterstitialAd> ad;
