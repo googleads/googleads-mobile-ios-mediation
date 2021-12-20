@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Version 2.2.0.0 (In progress)
+#### [Version 2.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.2.0.0.zip)
 - Verified compatibility with i-mobile SDK version 2.2.0.
 
 Built and tested with
