@@ -14,7 +14,7 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
-NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.14.3.0";
+NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.14.4.0";
 
 NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";
 
