@@ -16,10 +16,7 @@
 #import <UnityAds/UnityAds.h>
 #import "GADMUnityBaseAdNetworkAdapterProxy.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface GADMUnityInterstitialNetworkAdapterProxy : GADMUnityBaseAdNetworkAdapterProxy <UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface GADMUnityInterstitialNetworkAdapterProxy
+    : GADMUnityBaseAdNetworkAdapterProxy <UnityAdsLoadDelegate, UnityAdsShowDelegate>
 
 @end
-
-NS_ASSUME_NONNULL_END

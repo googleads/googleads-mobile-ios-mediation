@@ -14,28 +14,29 @@
 
 #import "GADMediationConfigurationSettings.h"
 #import "GADMAdapterUnityConstants.h"
+#import "GADMAdapterUnityUtils.h"
 
 @implementation GADMediationAdConfiguration (Settings)
 
-- (NSString *)placementId {
-    return self.credentials.settings[kGADMAdapterUnityPlacementID];
+- (nonnull NSString *)placementId {
+  return self.credentials.settings[kGADMAdapterUnityPlacementID];
 }
 
-- (NSString *)gameId {
-    return self.credentials.settings[kGADMAdapterUnityGameID];
+- (nonnull NSString *)gameId {
+  return self.credentials.settings[kGADMAdapterUnityGameID];
 }
 
 @end
 
 @implementation GADMediationServerConfiguration (Settings)
 
-- (NSSet*)gameIds {
-    NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
-    for (GADMediationCredentials *cred in self.credentials) {
-        NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
-        [gameIDs addObject: gameIDFromSettings];
-    }
-    return gameIDs;
+- (nonnull NSSet *)gameIds {
+  NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
+  for (GADMediationCredentials *cred in self.credentials) {
+    NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
+    GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
+  }
+  return gameIDs;
 }
 
 @end

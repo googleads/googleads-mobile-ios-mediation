@@ -14,14 +14,11 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADUnityRouter : NSObject
 
 + (GADUnityRouter *_Nonnull)sharedRouter;
 
-- (void)sdkInitializeWithGameId:(NSString *_Nonnull)gameId withCompletionHandler:(void (^ _Nullable)(NSError *_Nullable))complete;
+- (void)sdkInitializeWithGameId:(NSString *_Nonnull)gameId
+          withCompletionHandler:(void (^_Nullable)(NSError *_Nullable))complete;
 
 @end
-
-NS_ASSUME_NONNULL_END

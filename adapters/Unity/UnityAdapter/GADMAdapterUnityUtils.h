@@ -13,13 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UnityAds/UnityAds.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <UnityAds/UnityAds.h>
 #import "GADMAdapterUnityConstants.h"
 #import "GADMediationAdapterUnity.h"
 
 /// Configures metadata needed by Unity Ads SDK before initialization.
 void GADMAdapterUnityConfigureMediationService(void);
+
+/// Safely adds |object| to |set| if |object| is not nil.
+void GADMAdapterUnityMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object);
+
+/// Adds |object| to |set| if |object| is not nil.
+void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
@@ -35,4 +42,4 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
 GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize);
 
 /// Returns GADVersionNumber created from string
-GADVersionNumber  extractVersionFromString(NSString *_Nonnull string);
+GADVersionNumber extractVersionFromString(NSString *_Nonnull string);

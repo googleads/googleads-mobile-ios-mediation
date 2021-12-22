@@ -15,50 +15,55 @@
 #import "GADMUnityRewardedMediationAdapterProxy.h"
 #import "NSErrorUnity.h"
 
-@interface GADMUnityRewardedMediationAdapterProxy()
-@property (nonatomic, weak) id<GADMediationRewardedAd> ad;
-@property (nonatomic, copy) GADMediationRewardedLoadCompletionHandler loadCompletionHandler;
+@interface GADMUnityRewardedMediationAdapterProxy ()
+@property(nonatomic, weak) id<GADMediationRewardedAd> ad;
+@property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler loadCompletionHandler;
 @end
 
 @implementation GADMUnityRewardedMediationAdapterProxy
 
-- (instancetype)initWithAd:(id<GADMediationRewardedAd>)ad completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    self = [super init];
-    if (self) {
-        _ad = ad;
-        _loadCompletionHandler = completionHandler;
-    }
-    return self;
+- (nonnull instancetype)initWithAd:(id<GADMediationRewardedAd>)ad
+         completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+  self = [super init];
+  if (self) {
+    _ad = ad;
+    _loadCompletionHandler = completionHandler;
+  }
+  return self;
 }
 
 #pragma mark UnityAdsLoadDelegate
 
-- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId withError:(UnityAdsLoadError)loadError withMessage:(nonnull NSString *)message {
-    self.loadCompletionHandler(self.ad, [NSError adNotAvailablePerPlacement:placementId]);
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId
+                     withError:(UnityAdsLoadError)loadError
+                   withMessage:(nonnull NSString *)message {
+  self.loadCompletionHandler(self.ad, [NSError adNotAvailablePerPlacement:placementId]);
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-    self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
+  self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
 }
 
 #pragma mark UnityAdsShowDelegate
 
+- (void)unityAdsShowComplete:(nonnull NSString *)placementId
+             withFinishState:(UnityAdsShowCompletionState)state {
+  [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didEndVideo];
 
-- (void)unityAdsShowComplete:(nonnull NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
-    [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didEndVideo];
-    
-    if (state == kUnityShowCompletionStateCompleted) {
-      // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward amount of 1. Publishers using this adapter should override the reward on the AdMob front-end.
-      GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:[NSDecimalNumber one]];
-      [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didRewardUserWithReward:reward];
-    }
-    
-    [super unityAdsShowComplete:placementId withFinishState:state];
+  if (state == kUnityShowCompletionStateCompleted) {
+    // Unity Ads doesn't provide a way to set the reward on their front-end. Default to a reward
+    // amount of 1. Publishers using this adapter should override the reward on the AdMob front-end.
+    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
+                                                     rewardAmount:[NSDecimalNumber one]];
+    [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didRewardUserWithReward:reward];
+  }
+
+  [super unityAdsShowComplete:placementId withFinishState:state];
 }
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
-    [super unityAdsShowStart:placementId];
-    [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didStartVideo];
+  [super unityAdsShowStart:placementId];
+  [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didStartVideo];
 }
 
 @end

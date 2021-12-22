@@ -13,10 +13,9 @@
 // limitations under the License.
 #import "GADUnityBaseMediationAdapterProxy.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface GADMUnityBannerMediationAdapterProxy : GADUnityBaseMediationAdapterProxy <UADSBannerViewDelegate>
-- (instancetype)initWithAd:(id<GADMediationBannerAd>)ad completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
+@interface GADMUnityBannerMediationAdapterProxy
+    : GADUnityBaseMediationAdapterProxy <UADSBannerViewDelegate>
+- (nonnull instancetype)initWithAd:(nonnull id<GADMediationBannerAd>)ad
+                 completionHandler:
+                     (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 @end
-
-NS_ASSUME_NONNULL_END

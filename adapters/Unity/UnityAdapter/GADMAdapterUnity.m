@@ -16,81 +16,84 @@
 #import <UnityAds/UnityAds.h>
 
 #import "GADMAdapterUnityUtils.h"
-#import "GADMediationAdapterUnity.h"
-#import "GADMUnityInterstitialNetworkAdapterProxy.h"
 #import "GADMUnityBannerNetworkAdapterProxy.h"
+#import "GADMUnityInterstitialNetworkAdapterProxy.h"
+#import "GADMediationAdapterUnity.h"
 #import "NSErrorUnity.h"
 
 @interface GADMAdapterUnity ()
-@property (nonatomic, weak) id<GADMAdNetworkConnector> connector;
-@property (nonatomic, strong) UADSBannerView *bannerAd;
-@property (nonatomic, strong) GADMUnityBannerNetworkAdapterProxy *bannerAdDelegateProxy;
+@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property(nonatomic, strong) UADSBannerView *bannerAd;
+@property(nonatomic, strong) GADMUnityBannerNetworkAdapterProxy *bannerAdDelegateProxy;
 @end
 
 @implementation GADMAdapterUnity
 
--(NSString *)placementId {
-    return [[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID] ? : @"";
-}
-
-- (GADMUnityInterstitialNetworkAdapterProxy*)interstitialDelegateProxy {
-    return [[GADMUnityInterstitialNetworkAdapterProxy alloc] initWithGADMAdNetworkConnector:self.connector adapter:self];
-}
-
 #pragma mark GADMAdNetworkAdapter
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-    return [GADMediationAdapterUnity class];
+  return [GADMediationAdapterUnity class];
 }
 
 + (NSString *)adapterVersion {
-    return kGADMAdapterUnityVersion;
+  return kGADMAdapterUnityVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-    return nil;
+  return nil;
 }
 
 - (void)stopBeingDelegate {
-    self.bannerAd.delegate = nil;
-    self.bannerAd = nil;
+  self.bannerAd.delegate = nil;
+  self.bannerAd = nil;
 }
 
 #pragma mark Interstitial Methods
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-    if (!connector) {
-        return nil;
-    }
-    self = [super init];
-    if (self) {
-        _connector = connector;
-    }
-    return self;
+  if (!connector) {
+    return nil;
+  }
+  self = [super init];
+  if (self) {
+    _connector = connector;
+  }
+  return self;
 }
 
 - (void)getInterstitial {
-    [UnityAds load:[self placementId] loadDelegate:[self interstitialDelegateProxy]];
+  [UnityAds load:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID] ?: @""
+      loadDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+                       initWithGADMAdNetworkConnector:self.connector
+                                              adapter:self]];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [UnityAds show:rootViewController placementId:[self placementId] showDelegate:[self interstitialDelegateProxy]];
+  [UnityAds show:rootViewController
+       placementId:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID] ?: @""
+      showDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+                       initWithGADMAdNetworkConnector:self.connector
+                                              adapter:self]];
 }
 
 #pragma mark Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-    GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adSize);
-    if (!IsGADAdSizeValid(supportedSize)) {
-        [self.connector adapter:self didFailAd:[NSError unsupportedBannerGADAdSize:adSize]];
-        return;
-    }
+  GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adSize);
+  if (!IsGADAdSizeValid(supportedSize)) {
+    [self.connector adapter:self didFailAd:[NSError unsupportedBannerGADAdSize:adSize]];
+    return;
+  }
 
-    self.bannerAd = [[UADSBannerView alloc] initWithPlacementId:[self placementId] size:supportedSize.size];
-    self.bannerAdDelegateProxy = [[GADMUnityBannerNetworkAdapterProxy alloc] initWithGADMAdNetworkConnector:self.connector adapter:self];
-    self.bannerAd.delegate = self.bannerAdDelegateProxy;
-    [self.bannerAd load];
+  self.bannerAd = [[UADSBannerView alloc]
+      initWithPlacementId:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID]
+                              ?: @""
+                     size:supportedSize.size];
+  self.bannerAdDelegateProxy =
+      [[GADMUnityBannerNetworkAdapterProxy alloc] initWithGADMAdNetworkConnector:self.connector
+                                                                         adapter:self];
+  self.bannerAd.delegate = self.bannerAdDelegateProxy;
+  [self.bannerAd load];
 }
-
 
 @end

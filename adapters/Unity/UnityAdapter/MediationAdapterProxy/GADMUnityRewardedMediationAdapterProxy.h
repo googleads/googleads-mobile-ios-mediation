@@ -14,10 +14,7 @@
 
 #import "GADUnityBaseMediationAdapterProxy.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADMUnityRewardedMediationAdapterProxy : GADUnityBaseMediationAdapterProxy
-- (instancetype)initWithAd:(id<GADMediationRewardedAd>)ad completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (nonnull instancetype)initWithAd:(nonnull id<GADMediationRewardedAd>)ad
+         completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 @end
-
-NS_ASSUME_NONNULL_END

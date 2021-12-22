@@ -14,15 +14,13 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-NS_ASSUME_NONNULL_BEGIN
 
 @interface GADMUnityBaseAdNetworkAdapterProxy : NSObject
 
-- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                       adapter:(nonnull id<GADMAdNetworkAdapter>)adapter;
 
-@property (nonatomic, weak) id<GADMAdNetworkConnector> connector;
-@property (nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
+@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property(nonatomic, weak) id<GADMAdNetworkAdapter> adapter;
 
 @end
-
-NS_ASSUME_NONNULL_END

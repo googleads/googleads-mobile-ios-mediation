@@ -15,29 +15,30 @@
 #import "GADMUnityBannerMediationAdapterProxy.h"
 
 @interface GADMUnityBannerMediationAdapterProxy ()
-@property (nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
-@property (nonatomic, weak) id<GADMediationBannerAd> ad;
+@property(nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
+@property(nonatomic, weak) id<GADMediationBannerAd> ad;
 @end
 
 @implementation GADMUnityBannerMediationAdapterProxy
 
-- (instancetype)initWithAd:(id<GADMediationBannerAd>)ad completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    self = [super init];
-    if (self) {
-        _ad = ad;
-        _loadCompletionHandler = completionHandler;
-    }
-    return self;
+- (nonnull instancetype)initWithAd:(id<GADMediationBannerAd>)ad
+         completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  self = [super init];
+  if (self) {
+    _ad = ad;
+    _loadCompletionHandler = completionHandler;
+  }
+  return self;
 }
 
 #pragma mark UADSBannerViewDelegate
 
-- (void)bannerViewDidLoad: (UADSBannerView *)bannerView {
-    self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
+- (void)bannerViewDidLoad:(UADSBannerView *)bannerView {
+  self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
 }
 
-- (void)bannerViewDidError: (UADSBannerView *)bannerView error: (UADSBannerError *)error {
-    self.loadCompletionHandler(self.ad, error);
+- (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error {
+  self.loadCompletionHandler(self.ad, error);
 }
 
 @end

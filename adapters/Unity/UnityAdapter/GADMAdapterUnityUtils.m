@@ -23,6 +23,19 @@ void GADMAdapterUnityConfigureMediationService(void) {
   [mediationMetaData commit];
 }
 
+void GADMAdapterUnityMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
+  }
+}
+
+void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorCode code,
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =
@@ -44,19 +57,19 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
 }
 
 GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-    NSArray *potentials =
-    @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
-    return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  NSArray *potentials =
+      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 
 GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {
-    GADVersionNumber version = {0};
-    NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
-    if (components.count >= 3) {
-        version.majorVersion = components[0].integerValue;
-        version.minorVersion = components[1].integerValue;
-        NSInteger patch = components[2].integerValue;
-        version.patchVersion = components.count == 4 ? patch * 100 + components[3].integerValue : patch;
-    }
-    return version;
+  GADVersionNumber version = {0};
+  NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
+  if (components.count >= 3) {
+    version.majorVersion = components[0].integerValue;
+    version.minorVersion = components[1].integerValue;
+    NSInteger patch = components[2].integerValue;
+    version.patchVersion = components.count == 4 ? patch * 100 + components[3].integerValue : patch;
+  }
+  return version;
 }

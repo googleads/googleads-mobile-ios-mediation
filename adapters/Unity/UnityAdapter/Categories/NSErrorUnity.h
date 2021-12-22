@@ -15,12 +15,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface NSError (Unity)
-+ (NSError *) noValidGameId;
-+ (NSError *) unsupportedBannerGADAdSize:(GADAdSize)adSize;
-+ (NSError *) adNotAvailablePerPlacement:(NSString*)placementId;
++ (nonnull NSError *)noValidGameId;
++ (nonnull NSError *)unsupportedBannerGADAdSize:(GADAdSize)adSize;
++ (nonnull NSError *)adNotAvailablePerPlacement:(nonnull NSString *)placementId;
 @end
-
-NS_ASSUME_NONNULL_END

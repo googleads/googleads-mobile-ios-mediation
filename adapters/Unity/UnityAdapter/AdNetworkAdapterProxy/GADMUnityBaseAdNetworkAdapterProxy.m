@@ -16,15 +16,16 @@
 
 @implementation GADMUnityBaseAdNetworkAdapterProxy
 
-- (instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
-    self = [super init];
-    
-    if (self) {
-        _connector = connector;
-        _adapter = adapter;
-    }
-    
-    return self;
+- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
+                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
+  self = [super init];
+
+  if (self) {
+    _connector = connector;
+    _adapter = adapter;
+  }
+
+  return self;
 }
 
 @end

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADMUnityInterstitialNetworkAdapterProxy.h"
-#import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityConstants.h"
 #import "NSErrorUnity.h"
 
@@ -21,57 +20,62 @@
 
 #pragma mark UnityAdsLoadDelegate
 
-- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId withError:(UnityAdsLoadError)errorCode withMessage:(nonnull NSString *)message {
-    if (!self.adapter) {
-        return;
-    }
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId
+                     withError:(UnityAdsLoadError)errorCode
+                   withMessage:(nonnull NSString *)message {
+  if (!self.adapter) {
+    return;
+  }
 
-    [self.connector adapter:self.adapter didFailAd:[NSError adNotAvailablePerPlacement:placementId]];
+  [self.connector adapter:self.adapter didFailAd:[NSError adNotAvailablePerPlacement:placementId]];
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapterDidReceiveInterstitial:self.adapter];
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapterDidReceiveInterstitial:self.adapter];
 }
 #pragma mark UnityAdsShowDelegate
 
 - (void)unityAdsShowClick:(nonnull NSString *)placementId {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapterDidGetAdClick:self.adapter];
-    [self.connector adapterWillLeaveApplication:self.adapter];
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapterDidGetAdClick:self.adapter];
+  [self.connector adapterWillLeaveApplication:self.adapter];
 }
 
-- (void)unityAdsShowComplete:(nonnull NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
-    if (!self.adapter) {
-        return;
-    }
-    [self notifyDismiss];
+- (void)unityAdsShowComplete:(nonnull NSString *)placementId
+             withFinishState:(UnityAdsShowCompletionState)state {
+  if (!self.adapter) {
+    return;
+  }
+  [self notifyDismiss];
 }
 
-- (void)unityAdsShowFailed:(nonnull NSString *)placementId withError:(UnityAdsShowError)error withMessage:(nonnull NSString *)message {
-    if (!self.adapter) {
-        return;
-    }
-    // Simulate show failure by calling adapterWillPresentInterstitial just before
-    // adapterWillDismissInterstitial.
-    [self.connector adapterWillPresentInterstitial:self.adapter];
-    [self notifyDismiss];
+- (void)unityAdsShowFailed:(nonnull NSString *)placementId
+                 withError:(UnityAdsShowError)error
+               withMessage:(nonnull NSString *)message {
+  if (!self.adapter) {
+    return;
+  }
+  // Simulate show failure by calling adapterWillPresentInterstitial just before
+  // adapterWillDismissInterstitial.
+  [self.connector adapterWillPresentInterstitial:self.adapter];
+  [self notifyDismiss];
 }
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapterWillPresentInterstitial:self.adapter];
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapterWillPresentInterstitial:self.adapter];
 }
 
 - (void)notifyDismiss {
-    [self.connector adapterWillDismissInterstitial:self.adapter];
-    [self.connector adapterDidDismissInterstitial:self.adapter];
+  [self.connector adapterWillDismissInterstitial:self.adapter];
+  [self.connector adapterDidDismissInterstitial:self.adapter];
 }
 
 @end

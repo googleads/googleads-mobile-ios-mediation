@@ -18,29 +18,29 @@
 
 #pragma mark UADSBannerViewDelegate
 
-- (void)bannerViewDidLoad: (UADSBannerView *)bannerView {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapter:self.adapter didReceiveAdView:bannerView];
+- (void)bannerViewDidLoad:(UADSBannerView *)bannerView {
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapter:self.adapter didReceiveAdView:bannerView];
 }
 
-- (void)bannerViewDidError: (UADSBannerView *)bannerView error: (UADSBannerError *)error {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapter:self.adapter didFailAd:error];
+- (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error {
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapter:self.adapter didFailAd:error];
 }
 
-- (void)bannerViewDidClick: (UADSBannerView *)bannerView {
-    if (!self.adapter) {
-        return;
-    }
-    [self.connector adapterDidGetAdClick:self.adapter];
+- (void)bannerViewDidClick:(UADSBannerView *)bannerView {
+  if (!self.adapter) {
+    return;
+  }
+  [self.connector adapterDidGetAdClick:self.adapter];
 }
 
-- (void)bannerViewDidLeaveApplication: (UADSBannerView *)bannerView {
-    [self.connector adapterWillLeaveApplication:self.adapter];
+- (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView {
+  [self.connector adapterWillLeaveApplication:self.adapter];
 }
 
 @end

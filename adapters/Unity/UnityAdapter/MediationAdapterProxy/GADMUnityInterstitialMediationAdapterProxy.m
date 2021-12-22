@@ -15,30 +15,34 @@
 #import "GADMUnityInterstitialMediationAdapterProxy.h"
 #import "NSErrorUnity.h"
 
-@interface GADMUnityInterstitialMediationAdapterProxy()
-@property (nonatomic, weak) id<GADMediationInterstitialAd> ad;
-@property (nonatomic, copy) GADMediationInterstitialLoadCompletionHandler loadCompletionHandler;
+@interface GADMUnityInterstitialMediationAdapterProxy ()
+@property(nonatomic, weak) id<GADMediationInterstitialAd> ad;
+@property(nonatomic, copy) GADMediationInterstitialLoadCompletionHandler loadCompletionHandler;
 @end
 
 @implementation GADMUnityInterstitialMediationAdapterProxy
 
-- (instancetype)initWithAd:(id<GADMediationInterstitialAd>)ad completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler; {
-    self = [super init];
-    if (self) {
-        _ad = ad;
-        _loadCompletionHandler = completionHandler;
-    }
-    return self;
+- (nonnull instancetype)initWithAd:(id<GADMediationInterstitialAd>)ad
+         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler;
+{
+  self = [super init];
+  if (self) {
+    _ad = ad;
+    _loadCompletionHandler = completionHandler;
+  }
+  return self;
 }
 
 #pragma mark UnityAdsLoadDelegate
 
-- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId withError:(UnityAdsLoadError)loadError withMessage:(nonnull NSString *)message {
-    self.loadCompletionHandler(self.ad, [NSError adNotAvailablePerPlacement:placementId]);
+- (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId
+                     withError:(UnityAdsLoadError)loadError
+                   withMessage:(nonnull NSString *)message {
+  self.loadCompletionHandler(self.ad, [NSError adNotAvailablePerPlacement:placementId]);
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
-    self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
+  self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
 }
 
 @end
