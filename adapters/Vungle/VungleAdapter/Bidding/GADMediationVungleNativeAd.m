@@ -206,7 +206,11 @@
     // Do nothing. Native ads utilize a different set of callbacks.
 }
 
-- (void)didCloseAd {
+- (void)willShowAd {
+    // Do nothing. Native ads utilize a different set of callbacks.
+}
+
+- (void)didShowAd {
     // Do nothing. Native ads utilize a different set of callbacks.
 }
 
@@ -226,12 +230,16 @@
     // Do nothing. Native ads utilize a different set of callbacks.
 }
 
+- (void)didCloseAd {
+    // Do nothing. Native ads utilize a different set of callbacks.
+}
+
 - (void)willLeaveApplication {
     // Do nothing. Native ads utilize a different set of callbacks.
 }
 
-- (void)willShowAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+- (nullable NSString *)bidResponse {
+    return [_adConfiguration bidResponse];
 }
 
 @end

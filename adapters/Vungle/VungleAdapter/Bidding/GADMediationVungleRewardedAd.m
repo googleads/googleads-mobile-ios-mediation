@@ -154,6 +154,10 @@
 - (void)willShowAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate willPresentFullScreenView];
+}
+
+- (void)didShowAd {
+  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
   [strongDelegate didStartVideo];
 }
 
