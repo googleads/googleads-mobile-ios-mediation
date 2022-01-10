@@ -35,6 +35,7 @@
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationNativeAdEventDelegate> _delegate;
     
+  /// The Vungle container for the main ad
   VungleMediaView *_mediaView;
 }
 
@@ -87,6 +88,10 @@
 - (void)loadAd {
   _nativeAd = [[VungleNativeAd alloc] initWithPlacementID:self.desiredPlacement];
   _nativeAd.delegate = self;
+  VungleAdNetworkExtras *networkExtras = [_adConfiguration extras];
+  if (networkExtras.nativeAdOptionPosition != 0) {
+    _nativeAd.adOptionsPosition = networkExtras.nativeAdOptionPosition;
+  }
   [_nativeAd loadAd];
 }
 

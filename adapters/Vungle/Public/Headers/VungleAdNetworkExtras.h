@@ -43,4 +43,6 @@
 
 @property (nonatomic, readonly, assign) BOOL muteIsSet;
 
+@property (nonatomic, assign) NSInteger nativeAdOptionPosition;
+
 @end
