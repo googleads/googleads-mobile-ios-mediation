@@ -142,15 +142,14 @@
   _displayDestinationAgent =
       (MPAdDestinationDisplayAgent *)[MPAdDestinationDisplayAgent agentWithDelegate:self];
   [_displayDestinationAgent
-         displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]
-      skAdNetworkData:nil];
+      displayDestinationForURL:[NSURL URLWithString:kPrivacyIconTapDestinationURL]
+               skAdNetworkData:nil];
 }
 
 #pragma GCC diagnostic ignored "-Wundeclared-selector"
 
 - (void)didRenderInView:(UIView *)view
-       clickableAssetViews:
-           (NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
+       clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
         (NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(UIViewController *)viewController {
@@ -222,7 +221,7 @@
   [view addSubview:_privacyIconImageView];
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(GADNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
   if (_nativeAd) {

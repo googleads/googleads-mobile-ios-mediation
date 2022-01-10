@@ -25,10 +25,10 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
 /// Returns nil if no supported size matches.
 static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner),
-    NSValueFromGADAdSize(kGADAdSizeLargeBanner),
-    NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard),
+    NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLargeBanner),
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard),
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 
@@ -120,7 +120,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   adSize = GADSupportedAdSizeFromRequestedSize(adSize);
 
-  if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+  if (GADAdSizeEqualToSize(adSize, GADAdSizeInvalid)) {
     NSString *errorMsg =
         [NSString stringWithFormat:@"Unable to retrieve supported ad size from GADAdSize: %@",
                                    NSStringFromGADAdSize(adSize)];
@@ -303,16 +303,17 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 - (void)nadInterstitialVideoAdDidClickAd:(nonnull NADInterstitialVideo *)nadInterstitialVideoAd {
+  id<GADMAdNetworkConnector> strongConnector = _connector;
   switch (_interstitialVideoStatus) {
     case InterstitialVideoIsPlaying:
     case InterstitialVideoClickedWhenPlaying:
       _interstitialVideoStatus = InterstitialVideoClickedWhenPlaying;
       break;
     default:
-      [_connector adapterWillLeaveApplication:self];
+      [strongConnector adapterWillLeaveApplication:self];
       break;
   }
-  [_connector adapterDidGetAdClick:self];
+  [strongConnector adapterDidGetAdClick:self];
 }
 
 - (void)nadInterstitialVideoAdDidClickInformation:

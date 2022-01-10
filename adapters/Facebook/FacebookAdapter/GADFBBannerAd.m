@@ -122,7 +122,7 @@ static FBAdSize GADFBAdSizeFromAdSize(GADAdSize gadAdSize, NSError *__autoreleas
   if (!_bannerAd) {
     NSString *description = [NSString
         stringWithFormat:@"%@ failed to initialize.", NSStringFromClass([FBAdView class])];
-    NSError *error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
+    error = GADFBErrorWithCodeAndDescription(GADFBErrorAdObjectNil, description);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }

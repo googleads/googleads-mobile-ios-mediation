@@ -237,7 +237,7 @@
   return 0.0f;
 }
 
-- (void)didRecordClickOnAssetWithName:(GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(GADNativeAssetIdentifier)assetName
                                  view:(UIView *)view
                        viewController:(UIViewController *)viewController {
   [_iMobileNativeAd sendClick];
