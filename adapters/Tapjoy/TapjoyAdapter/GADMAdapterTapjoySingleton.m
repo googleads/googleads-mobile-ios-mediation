@@ -189,10 +189,16 @@
   [delegate requestDidSucceed:placement];
 }
 
-- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nullable NSError *)error {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
+  if (!error) {
+    NSError *nullError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorUnknown, @"Tapjoy SDK placement unknown error.");
+    [delegate requestDidFail:placement error:nullError];
+    return;
+  }
   [delegate requestDidFail:placement error:error];
 }
 
@@ -235,10 +241,15 @@
   [delegate videoDidComplete:placement];
 }
 
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
   id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
       [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
+  if (!errorMsg) {
+    NSString *nullError = @"Tapjoy SDK placement unknown error.";
+    [delegate videoDidFail:placement error:nullError];
+    return;
+  }
   [delegate videoDidFail:placement error:errorMsg];
 }
 
