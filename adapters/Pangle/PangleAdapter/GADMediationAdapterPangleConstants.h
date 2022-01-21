@@ -11,15 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 #import <Foundation/Foundation.h>
 
 /// Pangle mediation network adapter version.
-static NSString *const GADMAdapterPangleVersion = @"x.y.z.p";
+static NSString *const GADMAdapterPangleVersion = @"1.5.0.0";
 
 /// Pangle mediation network adapter Pangle App ID parameter key.
 static NSString *const GADMAdapterPangleAppID = @"appid";
 
 /// Pangle mediation network adapter Ad Placement ID parameter key.
 static NSString *const GADMAdapterPanglePlacementID = @"placementid";
+
+/// Pangle mediation network adapter error domain
+static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.Pangle";
+

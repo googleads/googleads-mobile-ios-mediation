@@ -14,3 +14,4 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <PangleAdapter/GADMediationAdapterPangle.h>

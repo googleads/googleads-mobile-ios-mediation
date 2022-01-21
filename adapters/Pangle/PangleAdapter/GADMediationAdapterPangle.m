@@ -13,36 +13,78 @@
 // limitations under the License.
 
 #import "GADMediationAdapterPangle.h"
-
 #import "GADMediationAdapterPangleConstants.h"
+#import <BUAdSDK/BUAdSDK.h>
+#import "GADPangleRTBBannerRenderer.h"
+#import "GADPangleRTBInterstitialRenderer.h"
+#import "GADPangleRTBRewardedlRenderer.h"
+#import "GADPangleRTBNativeRenderer.h"
+#import "GADMediationAdapterPangleConstants.h"
+#import "GADMAdapterPangleUtils.h"
+
+@interface GADMediationAdapterPangle ()
+
+@property (nonatomic, strong) GADPangleRTBBannerRenderer *bannerRenderer;
+@property (nonatomic, strong) GADPangleRTBInterstitialRenderer *interstitialRenderer;
+@property (nonatomic, strong) GADPangleRTBRewardedlRenderer *rewardedlRenderer;
+@property (nonatomic, strong) GADPangleRTBNativeRenderer *navtiveRenderer;
+
+@end
 
 @implementation GADMediationAdapterPangle
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
-  // TODO: Start signal generation and call completionHandler when the signal generation finishes or fails.
-  completionHandler("", nil);
+    NSString *signals = [BUAdSDKManager mopubBiddingToken];
+    if (completionHandler) {
+        completionHandler(signals,nil);
+    }
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  // TODO: Set up Pangle ad network SDK and perform any necessary prefetching or configuration work.
-  completionHandler(nil);
+    NSMutableSet *appIds = [NSMutableSet new];
+    for (GADMediationCredentials *cred in configuration.credentials) {
+        NSString *appId = cred.settings[GADMAdapterPangleAppID];
+        if (appId && [appId isKindOfClass:[NSString class]] && appId.length) {
+            [appIds addObject:appId];
+        }
+    }
+    
+    if (appIds.count < 1) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorMissingServerParameters, @"pangle mediation configuration did not contain a valid app id");
+        completionHandler(error);
+        return;
+    }
+    
+    NSString *appID = [appIds anyObject];
+    if (appIds.count > 1) {
+        PangleLog(@"found the following app ids:%@. Please remove any app IDs which you are not using", appIds);
+        PangleLog(@"configuring pangle sdk with the app id:%@", appID);
+    }
+    
+    BUAdSDKConfiguration *cog = [BUAdSDKConfiguration configuration];
+    cog.territory = BUAdSDKTerritory_NO_CN;
+    cog.appID = appID;
+    [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
+        completionHandler(error);
+    }];
 }
 
 + (GADVersionNumber)adSDKVersion {
-  // TODO: Populate `versionString` with the ad-network's SDK version in NSString format.
-  NSString *versionString = @"";
-  GADVersionNumber version = {0};
-  NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
-  if (components.count == 3) {
-    version.majorVersion = components[0].integerValue;
-    version.minorVersion = components[1].integerValue;
-    version.patchVersion = components[2].integerValue;
-  } else {
-    NSLog(@"Unexpected ad SDK version string: %@. Returning 0 for adSDKVersion.", versionString);
-  }
-  return version;
+    NSString *versionString = BUAdSDKManager.SDKVersion;
+    NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
+    GADVersionNumber version = {0};
+    if (versionComponents.count == 4) {
+        NSInteger four = [versionComponents[3] integerValue];
+        version.majorVersion = [versionComponents[0] integerValue];
+        version.minorVersion = [versionComponents[1] integerValue];
+        version.patchVersion = [versionComponents[2] integerValue]*100+four;
+        
+    }else {
+        PangleLog(@"Unexpected version string: %@. Returning 0 for adSDKVersion.", versionString);
+    }
+    return version;
 }
 
 + (GADVersionNumber)adapterVersion {
@@ -63,22 +105,30 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  // TODO: Start loading a bidding banner ad.
+    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    self.bannerRenderer = [GADPangleRTBBannerRenderer new];
+    [self.bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  // TODO: Start loading a bidding interstitial ad.
+    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    self.interstitialRenderer = [GADPangleRTBInterstitialRenderer new];
+    [self.interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-  // TODO: Start loading a bidding native ad.
+    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    self.navtiveRenderer = [GADPangleRTBNativeRenderer new];
+    [self.navtiveRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-  // TODO: Start loading a bidding rewarded ad.
+    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    self.rewardedlRenderer = [GADPangleRTBRewardedlRenderer new];
+    [self.rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

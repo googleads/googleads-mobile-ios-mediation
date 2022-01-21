@@ -15,5 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger,GADPangleErrorCode) {
+    // Missing server parameters.
+    GADPangleErrorMissingServerParameters = 1,
+    // Missing server parameters.
+    GADPangleErrorInvalidRequest = 101,
+};
+
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 @end
