@@ -140,22 +140,21 @@
   return YES;
 }
 
-- (CGFloat)mediaContentAspectRatio{
+- (CGFloat)mediaContentAspectRatio {
   return _nativeAd.aspectRatio;
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (void)didRenderInView:(UIView *)view
-       clickableAssetViews:
-           (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+       clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(UIViewController *)viewController {
   NSArray *assets = clickableAssetViews.allValues;
   UIImageView *iconView = nil;
-  if ([clickableAssetViews[GADUnifiedNativeIconAsset] isKindOfClass:[UIImageView class]]) {
-    iconView = (UIImageView *)clickableAssetViews[GADUnifiedNativeIconAsset];
+  if ([clickableAssetViews[GADNativeIconAsset] isKindOfClass:[UIImageView class]]) {
+    iconView = (UIImageView *)clickableAssetViews[GADNativeIconAsset];
   }
 
   [_nativeAd registerViewForInteraction:view

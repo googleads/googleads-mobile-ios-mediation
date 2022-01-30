@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,22 +14,20 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <UnityAds/UnityAds.h>
 
-@interface GADMAdapterUnityBannerAd : NSObject
+@interface GADMediationVungleBanner : NSObject
 
-/// Initializes a new instance with |connector| and |adapter|.
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
 
-/// Init unavailable.
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Loads a banner ad for a given adSize.
-- (void)loadBannerWithSize:(GADAdSize)adSize;
+/// Requests a banner ad from Vungle.
+- (void)requestBannerAd;
 
-/// Stops the receiver from delegating any notifications from Unity Ads.
-- (void)stopBeingDelegate;
+/// Destroy and cleanup Vungle's banner ad.
+- (void)cleanUp;
 
 @end

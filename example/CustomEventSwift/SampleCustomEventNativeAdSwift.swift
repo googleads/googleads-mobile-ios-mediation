@@ -39,25 +39,6 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
     options: [Any],
     rootViewController: UIViewController
   ) {
-    let requestedUnified: Bool =
-      adTypes.contains(where: { $0 as? GADAdLoaderAdType == .unifiedNative })
-
-    // This custom event assumes you have implemented unified native advanced in your app as is done
-    // in this sample. If you have implemented app install and content ad formats in your app,
-    // then instead of the `SampleMediatedNativeAd` implementing the `GADMediatedUnifiedNativeAd`
-    // protocol, you should implement the `GADMediatedNativeAppInstallAd` and
-    // `GADMediatedNativeContentAd` protocols in separate ad classes, then in the ad loader delegate
-    // callback, instantiate and return the relevant ad type to the custom event delegate.
-    if !requestedUnified {
-      let description = "You must request the unified native ad format."
-      let userInfo = [
-        NSLocalizedDescriptionKey: description,
-        NSLocalizedFailureReasonErrorKey: description,
-      ]
-      let error = NSError(domain: "com.google.mediation.sample", code: 0, userInfo: userInfo)
-      delegate?.customEventNativeAd(self, didFailToLoadWithError: error)
-      return
-    }
     let adLoader = SampleNativeAdLoader()
     let sampleRequest = SampleNativeAdRequest()
 
@@ -74,18 +55,18 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
     if let options = options as? [GADAdLoaderOptions] {
       for loaderOptions: GADAdLoaderOptions in options {
         if let imageOptions = loaderOptions as? GADNativeAdImageAdLoaderOptions {
-          switch imageOptions.preferredImageOrientation {
-          case GADNativeAdImageAdLoaderOptionsOrientation.landscape:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
-          case GADNativeAdImageAdLoaderOptionsOrientation.portrait:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
-          default:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
-          }
           sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages
           // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is
           // YES, the adapter should send just the URLs for the images.
           sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading
+        } else if let mediaOptions = loaderOptions as? GADNativeAdMediaAdLoaderOptions {
+          switch mediaOptions.mediaAspectRatio {
+          case GADMediaAspectRatio.landscape:
+            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
+          case GADMediaAspectRatio.portrait:
+            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
+          default: sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
+          }
         } else if let options = loaderOptions as? GADNativeAdViewAdOptions {
           nativeAdViewAdOptions = options
         }
@@ -110,7 +91,7 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
 
 extension SampleCustomEventNativeAdSwift: SampleNativeAdLoaderDelegate {
   func adLoader(_ adLoader: SampleNativeAdLoader, didReceive nativeAd: SampleNativeAd) {
-    let mediatedAd = SampleMediatedUnifiedNativeAdSwift(
+    let mediatedAd = SampleMediatedNativeAdSwift(
       sampleNativeAd: nativeAd, nativeAdViewAdOptions: nativeAdViewAdOptions)
     delegate?.customEventNativeAd(self, didReceive: mediatedAd)
   }

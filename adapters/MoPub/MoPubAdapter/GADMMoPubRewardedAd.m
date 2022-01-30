@@ -139,7 +139,7 @@
   [_adEventDelegate reportClick];
 }
 
-- (void)rewardedWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
   // No equivalent API to call in GoogleMobileAds SDK.
 }
 

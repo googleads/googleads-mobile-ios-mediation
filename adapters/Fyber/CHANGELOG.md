@@ -1,11 +1,60 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### Version 7.8.8.1 (in progress)
+#### [Version 8.1.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.3.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 8.1.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.13.0.
+- Fyber Marketplace SDK version 8.1.3.
+
+#### [Version 8.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.2.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 8.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.13.0.
+- Fyber Marketplace SDK version 8.1.2.
+
+#### [Version 8.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.1.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 8.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.12.0.
+- Fyber Marketplace SDK version 8.1.1.
+
+#### [Version 8.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.0.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 8.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.12.0.
+- Fyber Marketplace SDK version 8.1.0.
+
+#### [Version 8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.0.0.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 8.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.12.0.
+- Fyber Marketplace SDK version 8.0.0.
+
+#### [Version 7.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.9.0.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 7.9.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.11.0.
+- Fyber Marketplace SDK version 7.9.0.
+
+#### [Version 7.8.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.8.9.0.zip)
+- Verified compatibility with Fyber Marketplace SDK version 7.8.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 8.10.0.
+- Fyber Marketplace SDK version 7.8.9.
+
+#### [Version 7.8.8.1](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.8.8.1.zip)
 - Moved ad event `didEndVideo` to rewarded ad callback `IAAdDidReward`.
 
 Built and tested with:
 - Google Mobile Ads SDK version 8.9.0.
-- Fyber Marketplace SDK version 7.8.9.
+- Fyber Marketplace SDK version 7.8.8.
 
 #### [Version 7.8.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-7.8.8.0.zip)
 - Now requires minimum iOS version 10.0.

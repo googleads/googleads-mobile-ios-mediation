@@ -39,21 +39,6 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
                              adTypes:(NSArray *)adTypes
                              options:(NSArray *)options
                   rootViewController:(UIViewController *)rootViewController {
-  BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
-
-  // This custom event assumes you have implemented unified native advanced in your app as is done
-  // in this sample.
-
-  if (!requestedUnified) {
-    NSString *description = @"You must request the unified native ad format.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error =
-        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
-    [self.delegate customEventNativeAd:self didFailToLoadWithError:error];
-    return;
-  }
-
   SampleNativeAdLoader *adLoader = [[SampleNativeAdLoader alloc] init];
   SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
 
@@ -73,24 +58,25 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
     if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       GADNativeAdImageAdLoaderOptions *imageOptions =
           (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-      switch (imageOptions.preferredImageOrientation) {
-        case GADNativeAdImageAdLoaderOptionsOrientationLandscape:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationPortrait:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationAny:
-        default:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
-          break;
-      }
-
       sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
 
       // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
       // should send just the URLs for the images.
       sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    } else if ([loaderOptions isKindOfClass:[GADNativeAdMediaAdLoaderOptions class]]) {
+      GADNativeAdMediaAdLoaderOptions *mediaOptions =
+          (GADNativeAdMediaAdLoaderOptions *)loaderOptions;
+      switch (mediaOptions.mediaAspectRatio) {
+        case GADMediaAspectRatioLandscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
+          break;
+        case GADMediaAspectRatioPortrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
+          break;
+        default:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+          break;
+      }
     } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
       _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
     }

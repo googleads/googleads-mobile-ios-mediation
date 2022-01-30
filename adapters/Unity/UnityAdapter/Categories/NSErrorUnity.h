@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2021 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,8 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterVungleRewardedAd : NSObject <GADMediationRewardedAd>
-
-- (nonnull instancetype)
-    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
-- (nonnull instancetype)init NS_UNAVAILABLE;
-
-- (void)requestRewardedAd;
-
+@interface NSError (Unity)
++ (nonnull NSError *)noValidGameId;
++ (nonnull NSError *)unsupportedBannerGADAdSize:(GADAdSize)adSize;
++ (nonnull NSError *)adNotAvailablePerPlacement:(nonnull NSString *)placementId;
 @end

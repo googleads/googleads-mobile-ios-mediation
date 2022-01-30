@@ -120,14 +120,14 @@
 
 - (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidLoadForAdUnitID:)]) {
     [delegate rewardedAdDidLoadForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidFailToLoadForAdUnitID:error:)]) {
     [self removeDelegateForAdUnitID:adUnitID];
     [delegate rewardedAdDidFailToLoadForAdUnitID:adUnitID error:error];
   }
@@ -135,28 +135,28 @@
 
 - (void)rewardedAdWillPresentForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdWillPresentForAdUnitID:)]) {
     [delegate rewardedAdWillPresentForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdDidPresentForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidPresentForAdUnitID:)]) {
     [delegate rewardedAdDidPresentForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdWillDismissForAdUnitID:)]) {
     [delegate rewardedAdWillDismissForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidDismissForAdUnitID:)]) {
     [self removeDelegateForAdUnitID:adUnitID];
     [delegate rewardedAdDidDismissForAdUnitID:adUnitID];
   }
@@ -164,7 +164,7 @@
 
 - (void)rewardedAdDidExpireForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidExpireForAdUnitID:)]) {
     [self removeDelegateForAdUnitID:adUnitID];
     [delegate rewardedAdDidExpireForAdUnitID:adUnitID];
   }
@@ -172,21 +172,21 @@
 
 - (void)rewardedAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdDidReceiveTapEventForAdUnitID:)]) {
     [delegate rewardedAdDidReceiveTapEventForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdWillLeaveApplicationForAdUnitID:)]) {
     [delegate rewardedAdWillLeaveApplicationForAdUnitID:adUnitID];
   }
 }
 
 - (void)rewardedAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPReward *)reward {
   id<MPRewardedAdsDelegate> delegate = [self getDelegateForAdUnitID:adUnitID];
-  if (delegate) {
+  if ([delegate respondsToSelector:@selector(rewardedAdShouldRewardForAdUnitID:reward:)]) {
     [delegate rewardedAdShouldRewardForAdUnitID:adUnitID reward:reward];
   }
 }

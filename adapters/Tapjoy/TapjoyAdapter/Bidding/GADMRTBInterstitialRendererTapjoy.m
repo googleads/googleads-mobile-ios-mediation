@@ -121,7 +121,13 @@
   }
 }
 
-- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nullable NSError *)error {
+  if (!error) {
+    NSError *nullError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorUnknown, @"Tapjoy SDK placement unknown error.");
+    _renderCompletionHandler(nil, nullError);
+    return;
+  }
   _renderCompletionHandler(nil, error);
 }
 
@@ -154,7 +160,7 @@
   // Do nothing.
 }
 
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
   // Do nothing.
 }
 

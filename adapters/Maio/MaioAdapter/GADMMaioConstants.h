@@ -22,7 +22,7 @@ static NSString *const kGADMMaioErrorDomain = @"com.google.mediation.maio";
 static NSString *const kGADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK";
 
 /// maio mediation network adapter version.
-static NSString *const kGADMMaioAdapterVersion = @"1.5.8.0";
+static NSString *const kGADMMaioAdapterVersion = @"1.6.0.0";
 
 /// maio publisher ID.
 static NSString *const kGADMMaioAdapterPublisherIDKey = @"publisherId";

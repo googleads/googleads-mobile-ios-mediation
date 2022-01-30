@@ -406,8 +406,8 @@
 		009589DD22F105E9006E2408 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -415,8 +415,8 @@
 		009589DE22F105E9006E2408 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -424,16 +424,16 @@
 		7D1B6CA41DC2ACF900D8CABF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 			};
 			name = Debug;
 		};
 		7D1B6CA51DC2ACF900D8CABF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 			};
 			name = Release;
 		};
@@ -475,9 +475,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Debug;
@@ -514,9 +514,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -525,8 +525,8 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -534,8 +534,8 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MIN_OS_MAJOR_VERSION = 9;
-				MIN_OS_MAJOR_VERSION_64_BIT = 9;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

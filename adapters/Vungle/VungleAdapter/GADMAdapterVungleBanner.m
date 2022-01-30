@@ -146,6 +146,11 @@
   return _bannerSize;
 }
 
+- (nullable NSString *)bidResponse {
+    // This is the waterfall banner section. It won't have a bid response.
+    return nil;
+}
+
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
     [_connector adapter:_adapter didFailAd:error];
@@ -212,6 +217,7 @@
 
 - (void)trackClick {
   [_connector adapterDidGetAdClick:_adapter];
+  [_connector adapterWillPresentFullScreenModal:_adapter];
 }
 
 - (void)willLeaveApplication {
