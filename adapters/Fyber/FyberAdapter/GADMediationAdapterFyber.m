@@ -44,7 +44,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  return GADMAdapterFyberVersionFromString(kGADMAdapterFyberVersion);
+  return GADMAdapterFyberVersionFromString(GADMAdapterFyberVersion);
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -60,7 +60,7 @@
 
   NSMutableSet<NSString *> *applicationIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *credential in configuration.credentials) {
-    NSString *appID = credential.settings[kGADMAdapterFyberApplicationID];
+    NSString *appID = credential.settings[GADMAdapterFyberApplicationID];
     if (appID.length) {
       GADMAdapterFyberMutableSetAddObject(applicationIDs, appID);
     }
