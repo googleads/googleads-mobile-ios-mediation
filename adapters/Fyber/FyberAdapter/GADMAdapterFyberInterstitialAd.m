@@ -210,7 +210,10 @@
 }
 
 - (void)IAUnitControllerWillOpenExternalApp:(nullable IAUnitController *)unitController {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   [_delegate willBackgroundApplication];
+#pragma GCC diagnostic pop
 }
 
 @end
