@@ -19,7 +19,7 @@ NSError *_Nonnull GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendErro
                                                              NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterNendErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -29,7 +29,7 @@ NSError *_Nonnull GADMAdapterNendSDKLoadError() {
   NSString *_Nonnull message = @"nend SDK returned a load failure callback.";
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterNendErrorDomain
                                        code:GADMAdapterNendErrorLoadFailureCallback
                                    userInfo:userInfo];
   return error;
@@ -39,7 +39,7 @@ NSError *_Nonnull GADMAdapterNendSDKPresentError() {
   NSString *_Nonnull message = @"nend SDK returned a show failure callback.";
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterNendErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterNendErrorDomain
                                        code:GADMAdapterNendErrorShowFailureCallback
                                    userInfo:userInfo];
   return error;

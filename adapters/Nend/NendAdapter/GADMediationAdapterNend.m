@@ -56,7 +56,7 @@
 
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
-      [kGADMAdapterNendVersion componentsSeparatedByString:@"."];
+      [GADMAdapterNendVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
     version.majorVersion = versionComponents[0].integerValue;

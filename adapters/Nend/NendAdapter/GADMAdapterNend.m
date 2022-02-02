@@ -63,7 +63,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterNendVersion;
+  return GADMAdapterNendVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -86,8 +86,8 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
-  NSInteger spotId = [self getNendAdParam:kGADMAdapterNendSpotID].integerValue;
+  NSString *apiKey = [self getNendAdParam:GADMAdapterNendApiKey];
+  NSInteger spotId = [self getNendAdParam:GADMAdapterNendSpotID].integerValue;
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
@@ -105,7 +105,7 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
     _interstitialVideo = [[NADInterstitialVideo alloc] initWithSpotID:spotId apiKey:apiKey];
     _interstitialVideo.delegate = self;
     _interstitialVideo.userId = extras.userId;
-    _interstitialVideo.mediationName = kGADMAdapterNendMediationName;
+    _interstitialVideo.mediationName = GADMAdapterNendMediationName;
     [_interstitialVideo loadAd];
   } else {
     _interstitial = [NADInterstitial sharedInstance];
@@ -132,8 +132,8 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
 
   _nadView = [[NADView alloc] initWithFrame:CGRectZero];
 
-  NSString *apiKey = [self getNendAdParam:kGADMAdapterNendApiKey];
-  NSInteger spotId = [self getNendAdParam:kGADMAdapterNendSpotID].integerValue;
+  NSString *apiKey = [self getNendAdParam:GADMAdapterNendApiKey];
+  NSInteger spotId = [self getNendAdParam:GADMAdapterNendSpotID].integerValue;
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
