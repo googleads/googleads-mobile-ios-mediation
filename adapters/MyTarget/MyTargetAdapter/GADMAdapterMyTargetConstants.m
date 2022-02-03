@@ -14,32 +14,32 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
-NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.14.4.0";
+NSString *const _Nonnull GADMAdapterMyTargetVersion = @"5.15.0.0";
 
-NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";
+NSString *const _Nonnull GADMAdapterMyTargetSlotIdKey = @"slotId";
 
-NSString *const _Nonnull kGADMAdapterMyTargetAdapterErrorDomain =
+NSString *const _Nonnull GADMAdapterMyTargetAdapterErrorDomain =
     @"com.google.mediation.mytarget";
 
-NSString *const _Nonnull kGADMAdapterMyTargetSDKErrorDomain =
+NSString *const _Nonnull GADMAdapterMyTargetSDKErrorDomain =
     @"com.google.mediation.mytargetSDK";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorSlotId =
+NSString *const _Nonnull GADMAdapterMyTargetErrorSlotId =
     @"Invalid credentials: slotId not found";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorNoAd = @"No ad";
+NSString *const _Nonnull GADMAdapterMyTargetErrorNoAd = @"No ad";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorMediatedAdInvalid =
+NSString *const _Nonnull GADMAdapterMyTargetErrorMediatedAdInvalid =
     @"Some of the Always Included assets are not available for the ad";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorBannersNotSupported =
+NSString *const _Nonnull GADMAdapterMyTargetErrorBannersNotSupported =
     @"Banners are not supported by this adapter";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorInterstitialNotSupported =
+NSString *const _Nonnull GADMAdapterMyTargetErrorInterstitialNotSupported =
     @"Interstitial ads are not supported by this adapter";
 
-NSString *const _Nonnull kGADMAdapterMyTargetErrorInvalidSize = @"Size not supported";
+NSString *const _Nonnull GADMAdapterMyTargetErrorInvalidSize = @"Size not supported";
 
-CGFloat const kGADMAdapterMyTargetBannerHeightMin = 50.0;
+CGFloat const GADMAdapterMyTargetBannerHeightMin = 50.0;
 
-CGFloat const kGADMAdapterMyTargetBannerAspectRatioMin = 0.75;
+CGFloat const GADMAdapterMyTargetBannerAspectRatioMin = 0.75;

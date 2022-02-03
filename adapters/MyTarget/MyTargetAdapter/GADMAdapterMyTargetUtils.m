@@ -38,13 +38,13 @@ void GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(
 NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterMyTargetSDKErrorDomain code:0 userInfo:userInfo];
+  return [NSError errorWithDomain:GADMAdapterMyTargetSDKErrorDomain code:0 userInfo:userInfo];
 }
 
 NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+  return [NSError errorWithDomain:GADMAdapterMyTargetAdapterErrorDomain
                              code:1000
                          userInfo:userInfo];
 }
@@ -53,7 +53,7 @@ NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTa
                                                                  NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterMyTargetAdapterErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -75,7 +75,7 @@ void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams
 
 NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
     NSDictionary<NSString *, id> *_Nullable credentials) {
-  id slotIdValue = credentials[kGADMAdapterMyTargetSlotIdKey];
+  id slotIdValue = credentials[GADMAdapterMyTargetSlotIdKey];
   if (!slotIdValue) {
     return 0;
   }
@@ -115,21 +115,21 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
       [MTRGAdSize adSizeForCurrentOrientationForWidth:gadAdSize.size.width];
   GADAdSize gadAdSizeAdaptive = GADAdSizeFromCGSize(adSizeAdaptive.size);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(gadAdSizeAdaptive)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(gadAdSizeAdaptive)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  if (GADAdSizeEqualToSize(closestSize, kGADAdSizeBanner)) {
+  if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
     return [MTRGAdSize adSize320x50];
-  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeMediumRectangle)) {
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
     return [MTRGAdSize adSize300x250];
-  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
     return [MTRGAdSize adSize728x90];
   } else {
     CGFloat width = closestSize.size.width;
     CGFloat height = closestSize.size.height;
-    if (width > 0 && height >= kGADMAdapterMyTargetBannerHeightMin &&
-        height < kGADMAdapterMyTargetBannerAspectRatioMin * width) {
+    if (width > 0 && height >= GADMAdapterMyTargetBannerHeightMin &&
+        height < GADMAdapterMyTargetBannerAspectRatioMin * width) {
       // Adaptive
       return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
     }
