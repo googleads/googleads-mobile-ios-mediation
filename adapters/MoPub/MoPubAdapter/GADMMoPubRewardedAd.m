@@ -49,7 +49,7 @@
     return delegate;
   };
 
-  _adUnitID = adConfiguration.credentials.settings[kGADMAdapterMoPubPubIdKey];
+  _adUnitID = adConfiguration.credentials.settings[GADMAdapterMoPubPubIdKey];
   if ([_adUnitID length] == 0) {
     NSError *error = GADMoPubErrorWithCodeAndDescription(
         GADMoPubErrorInvalidServerParameters,
