@@ -3,7 +3,6 @@
 #### Version 8.1.3.1 (In progress)
 - Verified compatibility with Google Mobile Ads SDK version 9.0.0.
 - Now requires Google Mobile Ads SDK version 9.0.0 or higher.
-- Now requires minimum iOS version of 11.0.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.0.0.
