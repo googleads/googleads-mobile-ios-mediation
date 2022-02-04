@@ -62,7 +62,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  return extractVersionFromString(kGADMAdapterUnityVersion);
+  return extractVersionFromString(GADMAdapterUnityVersion);
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
