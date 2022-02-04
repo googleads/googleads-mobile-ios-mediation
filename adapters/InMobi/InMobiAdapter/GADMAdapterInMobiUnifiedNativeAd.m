@@ -83,7 +83,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     _shouldDownloadImages = !imageOptions.disableImageLoading;
   }
 
-  NSString *accountID = strongConnector.credentials[kGADMAdapterInMobiAccountID];
+  NSString *accountID = strongConnector.credentials[GADMAdapterInMobiAccountID];
   GADMAdapterInMobiUnifiedNativeAd *__weak weakSelf = self;
   [GADMAdapterInMobiInitializer.sharedInstance
       initializeWithAccountID:accountID
@@ -111,7 +111,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   long long placementId =
-      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+      [strongConnector.credentials[GADMAdapterInMobiPlacementID] longLongValue];
   if (placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,

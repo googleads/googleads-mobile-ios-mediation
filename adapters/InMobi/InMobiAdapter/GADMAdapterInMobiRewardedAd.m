@@ -77,7 +77,7 @@
   };
 
   GADMAdapterInMobiRewardedAd *__weak weakSelf = self;
-  NSString *accountID = _adConfig.credentials.settings[kGADMAdapterInMobiAccountID];
+  NSString *accountID = _adConfig.credentials.settings[GADMAdapterInMobiAccountID];
   [GADMAdapterInMobiInitializer.sharedInstance
       initializeWithAccountID:accountID
             completionHandler:^(NSError *_Nullable error) {
@@ -99,7 +99,7 @@
 - (void)requestRewardedAd {
   // Converting a string to a long long value.
   long long placement =
-      [_adConfig.credentials.settings[kGADMAdapterInMobiPlacementID] longLongValue];
+      [_adConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
 
   // Converting a long long value to a NSNumber so that it can be used as a key to store in a
   // dictionary.
