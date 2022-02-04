@@ -52,7 +52,7 @@
       initWithPlacementIDs:[placementIds allObjects]
           mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
                                                       GADMobileAds.sharedInstance.sdkVersion,
-                                                      kGADMAdapterFacebookVersion]];
+                                                      GADMAdapterFacebookVersion]];
 
   [FBAudienceNetworkAds initializeWithSettings:fbSettings
                              completionHandler:^(FBAdInitResults *_Nonnull results) {
@@ -66,16 +66,16 @@
 }
 
 + (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials {
-  NSString *placementID = credentials.settings[kGADMAdapterFacebookBiddingPubID];
+  NSString *placementID = credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
-    placementID = credentials.settings[kGADMAdapterFacebookPubID];
+    placementID = credentials.settings[GADMAdapterFacebookPubID];
   }
   return placementID;
 }
 
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
-  NSArray<NSString *> *components = [kGADMAdapterFacebookVersion componentsSeparatedByString:@"."];
+  NSArray<NSString *> *components = [GADMAdapterFacebookVersion componentsSeparatedByString:@"."];
   if (components.count == 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;

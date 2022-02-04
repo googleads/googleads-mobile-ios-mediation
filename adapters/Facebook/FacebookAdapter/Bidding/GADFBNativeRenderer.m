@@ -82,7 +82,7 @@
     _isRTBRequest = YES;
   }
 
-  NSString *placementID = adConfiguration.credentials.settings[kGADMAdapterFacebookBiddingPubID];
+  NSString *placementID = adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
     NSError *error =
         GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");

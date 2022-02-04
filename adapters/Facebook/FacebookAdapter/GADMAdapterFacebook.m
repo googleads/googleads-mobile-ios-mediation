@@ -45,7 +45,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterFacebookVersion;
+  return GADMAdapterFacebookVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {

@@ -68,16 +68,6 @@
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
-			remoteInfo = Validate;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -305,7 +295,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				5AD983D522EFAE84000FCD2F /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -413,14 +402,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5AD983D522EFAE84000FCD2F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
-			targetProxy = 5AD983D422EFAE84000FCD2F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5AD983D122EFAE79000FCD2F /* Debug */ = {
