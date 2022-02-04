@@ -73,8 +73,8 @@
     return delegate;
   };
 
-  _placementName = adConfiguration.credentials.settings[kGADMAdapterTapjoyPlacementKey];
-  NSString *sdkKey = adConfiguration.credentials.settings[kGADMAdapterTapjoySdkKey];
+  _placementName = adConfiguration.credentials.settings[GADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = adConfiguration.credentials.settings[GADMAdapterTapjoySdkKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(

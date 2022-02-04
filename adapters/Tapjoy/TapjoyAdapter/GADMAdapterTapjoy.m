@@ -38,7 +38,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterTapjoyVersion;
+  return GADMAdapterTapjoyVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -65,8 +65,8 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSString *sdkKey = strongConnector.credentials[kGADMAdapterTapjoySdkKey];
-  _placementName = strongConnector.credentials[kGADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = strongConnector.credentials[GADMAdapterTapjoySdkKey];
+  _placementName = strongConnector.credentials[GADMAdapterTapjoyPlacementKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(

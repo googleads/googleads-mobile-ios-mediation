@@ -1,5 +1,13 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### Version 12.9.0.1 (In progress)
+- Verified compatibility with Google Mobile Ads SDK version 9.0.0.
+- Now requires Google Mobile Ads SDK version 9.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.0.0.
+- Tapjoy SDK version 12.9.0.
+
 #### [Version 12.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.9.0.0.zip)
 - Verified compatibility with Tapjoy SDK 12.9.0.
 - Now requires minimum iOS version 10.0.
