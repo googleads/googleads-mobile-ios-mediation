@@ -84,7 +84,7 @@
     return;
   }
 
-  NSString *publisherID = _adConfiguration.credentials.settings[kGADMAdapterIMobilePublisherIdKey];
+  NSString *publisherID = _adConfiguration.credentials.settings[GADMAdapterIMobilePublisherIdKey];
   if (!publisherID.length) {
     NSString *errorMessage = @"Missing or invalid Publisher ID.";
     GADMAdapterIMobileLog(@"%@", errorMessage);
@@ -94,7 +94,7 @@
     return;
   }
 
-  NSString *mediaID = _adConfiguration.credentials.settings[kGADMAdapterIMobileMediaIdKey];
+  NSString *mediaID = _adConfiguration.credentials.settings[GADMAdapterIMobileMediaIdKey];
   if (!mediaID.length) {
     NSString *errorMessage = @"Missing or invalid Media ID.";
     GADMAdapterIMobileLog(@"%@", errorMessage);
@@ -104,7 +104,7 @@
     return;
   }
 
-  NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterIMobileSpotIdKey];
+  NSString *spotID = _adConfiguration.credentials.settings[GADMAdapterIMobileSpotIdKey];
   if (!spotID.length) {
     NSString *errorMessage = @"Missing or invalid Spot ID.";
     GADMAdapterIMobileLog(@"%@", errorMessage);
