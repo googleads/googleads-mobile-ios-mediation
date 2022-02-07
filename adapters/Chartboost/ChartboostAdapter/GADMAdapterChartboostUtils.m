@@ -58,13 +58,13 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
     id<GADMAdNetworkConnector> _Nonnull connector) {
   return GADMAdapterChartboostLocationFromString(
-      connector.credentials[kGADMAdapterChartboostAdLocation]);
+      connector.credentials[GADMAdapterChartboostAdLocation]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration) {
   return GADMAdapterChartboostLocationFromString(
-      adConfiguration.credentials.settings[kGADMAdapterChartboostAdLocation]);
+      adConfiguration.credentials.settings[GADMAdapterChartboostAdLocation]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
@@ -80,14 +80,14 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable s
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
                              libraryVersion:GADMobileAds.sharedInstance.sdkVersion
-                             adapterVersion:kGADMAdapterChartboostVersion];
+                             adapterVersion:GADMAdapterChartboostVersion];
 }
 
 NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
     GADMAdapterChartboostErrorCode code, NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterChartboostErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterChartboostErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -98,16 +98,16 @@ NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
   NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  if (GADAdSizeEqualToSize(closestSize, kGADAdSizeBanner)) {
+  if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
     return CHBBannerSizeStandard;
-  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeMediumRectangle)) {
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
     return CHBBannerSizeMedium;
-  } else if (GADAdSizeEqualToSize(closestSize, kGADAdSizeLeaderboard)) {
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
     return CHBBannerSizeLeaderboard;
   }
   if (error) {

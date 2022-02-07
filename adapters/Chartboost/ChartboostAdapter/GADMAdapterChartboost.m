@@ -41,7 +41,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterChartboostVersion;
+  return GADMAdapterChartboostVersion;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {

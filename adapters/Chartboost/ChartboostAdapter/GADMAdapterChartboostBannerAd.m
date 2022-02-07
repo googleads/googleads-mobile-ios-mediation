@@ -56,20 +56,20 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
+  NSString *appID = [strongConnector.credentials[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [strongConnector.credentials[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {

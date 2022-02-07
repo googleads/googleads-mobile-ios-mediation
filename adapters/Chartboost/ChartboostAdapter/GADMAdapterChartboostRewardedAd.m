@@ -71,9 +71,9 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = [_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
+  NSString *appID = [_adConfig.credentials.settings[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [_adConfig.credentials.settings[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
@@ -84,11 +84,11 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     _completionHandler(nil, error);
