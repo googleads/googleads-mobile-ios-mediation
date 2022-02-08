@@ -101,25 +101,25 @@
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == kGADAdSizeBanner.size.height) {
-    if (size.width < kGADAdSizeBanner.size.width) {
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
       return shortBannerSize;
     } else {
-      return kGADAdSizeBanner;
+      return GADAdSizeBanner;
     }
-  } else if (size.height == kGADAdSizeLeaderboard.size.height) {
-    return kGADAdSizeLeaderboard;
-  } else if (size.height == kGADAdSizeMediumRectangle.size.height) {
-    return kGADAdSizeMediumRectangle;
+  } else if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
+  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
+    return GADAdSizeMediumRectangle;
   }
 
-  return kGADAdSizeInvalid;
+  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {
@@ -147,8 +147,8 @@
 }
 
 - (nullable NSString *)bidResponse {
-    // This is the waterfall banner section. It won't have a bid response.
-    return nil;
+  // This is the waterfall banner section. It won't have a bid response.
+  return nil;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {

@@ -44,7 +44,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterVungleVersion;
+  return GADMAdapterVungleVersion;
 }
 
 - (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
