@@ -12,25 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GADMMaioConstants_h
-#define GADMMaioConstants_h
-
 /// maio mediation adapter error domain.
-static NSString *const kGADMMaioErrorDomain = @"com.google.mediation.maio";
+static NSString *const GADMMaioErrorDomain = @"com.google.mediation.maio";
 
 /// maio sdk adapter error domain.
-static NSString *const kGADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK";
+static NSString *const GADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK";
 
 /// maio mediation network adapter version.
-static NSString *const kGADMMaioAdapterVersion = @"1.6.0.0";
+static NSString *const GADMMaioAdapterVersion = @"1.6.0.1";
 
 /// maio publisher ID.
-static NSString *const kGADMMaioAdapterPublisherIDKey = @"publisherId";
+static NSString *const GADMMaioAdapterPublisherIDKey = @"publisherId";
 
 /// maio media ID.
-static NSString *const kGADMMaioAdapterMediaIdKey = @"mediaId";
+static NSString *const GADMMaioAdapterMediaIdKey = @"mediaId";
 
 /// maio zone ID.
-static NSString *const kGADMMaioAdapterZoneIdKey = @"zoneId";
-
-#endif /* GADMMaioConstants_h */
+static NSString *const GADMMaioAdapterZoneIdKey = @"zoneId";
