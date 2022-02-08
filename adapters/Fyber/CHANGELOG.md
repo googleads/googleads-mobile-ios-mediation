@@ -1,6 +1,6 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### Version 8.1.3.1 (In progress)
+#### [Version 8.1.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.3.1.zip)
 - Verified compatibility with Google Mobile Ads SDK version 9.0.0.
 - Now requires Google Mobile Ads SDK version 9.0.0 or higher.
 
