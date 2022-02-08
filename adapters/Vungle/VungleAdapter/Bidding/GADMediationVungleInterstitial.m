@@ -30,12 +30,10 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
-
-  /// Indicates whether an interstitial ad is loaded.
-  BOOL _isAdLoaded;
 }
 
 @synthesize desiredPlacement;
+@synthesize isAdLoaded;
 
 #pragma mark - GADMediationVungleInterstitial Methods
 
@@ -132,11 +130,11 @@
 }
 
 - (void)adAvailable {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+  self.isAdLoaded = YES;
     
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
@@ -149,7 +147,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }

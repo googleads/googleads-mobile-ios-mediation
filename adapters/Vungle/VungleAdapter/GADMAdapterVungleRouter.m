@@ -546,6 +546,14 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
                                              adMarkup:[delegate bidResponse]]) {
     return;
   }
+    
+  // Vungle SDK calls this method for auto-cached placements after playing the ad.
+  // If the next placement fails to download the ad, then the SDK would call this method
+  // with isAdPlayable NO. If the delegate is already loaded, do not remove it from the
+  // tracker because the call is for the next ad.
+  if ([delegate isAdLoaded]) {
+    return;
+  }
 
   // Ad not playable. Return an error.
   if (error) {

@@ -29,9 +29,6 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Indicates whether a banner ad is loaded.
-  BOOL _isAdLoaded;
-
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
 }
@@ -41,6 +38,7 @@
 @synthesize uniquePubRequestID;
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
+@synthesize isAdLoaded;
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -166,11 +164,11 @@
     return;
   }
 
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+  self.isAdLoaded = YES;
   UIView *bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   NSError *bannerViewError =
@@ -188,7 +186,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
