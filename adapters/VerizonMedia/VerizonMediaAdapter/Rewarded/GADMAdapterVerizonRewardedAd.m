@@ -62,7 +62,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   _adConfiguration = adConfig;
 
   NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
@@ -71,7 +71,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
     return;
   }
 
-  _placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  _placementID = credentials[GADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
@@ -110,7 +110,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator.
-  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", GADMAdapterVerizonMediaVersion];
 
   VASAds.sharedInstance.requestMetadata = [builder build];
 }

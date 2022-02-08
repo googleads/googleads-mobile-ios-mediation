@@ -40,8 +40,8 @@
     _connector = connector;
     _adapter = adapter;
     NSDictionary<NSString *, id> *credentials = [connector credentials];
-    _placementID = credentials[kGADMAdapterVerizonMediaPosition];
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    _placementID = credentials[GADMAdapterVerizonMediaPosition];
+    NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
     GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
@@ -71,7 +71,7 @@
   }
 
   NSDictionary<NSString *, id> *credentials = [strongConnector credentials];
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
 
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
@@ -110,7 +110,7 @@
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator
-  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", GADMAdapterVerizonMediaVersion];
 
   // Keywords.
   id<GADMAdNetworkConnector> strongConnector = _connector;
