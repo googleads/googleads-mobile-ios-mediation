@@ -28,9 +28,6 @@
 
   /// Vungle banner ad wrapper.
   GADMAdapterVungleBanner *_bannerAd;
-
-  /// Indicates whether an interstitial ad is loaded.
-  BOOL _isAdLoaded;
 }
 
 // Redirect to the main adapter class for bidding
@@ -146,6 +143,7 @@
 #pragma mark - GADMAdapterVungleDelegate
 
 @synthesize desiredPlacement;
+@synthesize isAdLoaded;
 
 - (nullable NSString *)bidResponse {
     // This is the waterfall interstitial section. It won't have a bid response
@@ -161,17 +159,17 @@
 }
 
 - (void)adAvailable {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+    self.isAdLoaded = YES;
 
   [_connector adapterDidReceiveInterstitial:self];
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }

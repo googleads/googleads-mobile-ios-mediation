@@ -33,9 +33,6 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Indicates whether a banner ad is loaded.
-  BOOL _isAdLoaded;
-
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
 }
@@ -46,6 +43,7 @@
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
 @synthesize view;
+@synthesize isAdLoaded;
 
 - (void)dealloc {
   [self cleanUp];
@@ -187,11 +185,11 @@
 }
 
 - (void)adAvailable {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+  self.isAdLoaded = YES;
   [self loadFrame];
 
   if (_adLoadCompletionHandler) {
@@ -212,7 +210,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
@@ -241,7 +239,6 @@
 
 - (void)trackClick {
   [_delegate reportClick];
-  [_delegate willPresentFullScreenView];
 }
 
 - (void)willLeaveApplication {
