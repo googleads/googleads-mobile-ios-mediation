@@ -29,12 +29,17 @@
     _loadCompletionHandler = completionHandler;
     NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(    GADPangleErrorSlotIdNil, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorSlotIdNil, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
     _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
+    if (![_nativeExpressBannerView respondsToSelector:@selector(setAdMarkup:)]) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
+        _loadCompletionHandler(nil, error);
+        return;
+    }
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
 

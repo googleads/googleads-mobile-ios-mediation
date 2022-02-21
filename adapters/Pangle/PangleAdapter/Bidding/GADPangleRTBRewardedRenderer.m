@@ -34,6 +34,11 @@
     BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
     _rewardedVideoAd = [[BURewardedVideoAd alloc]initWithSlotID:slotId rewardedVideoModel:model];
     _rewardedVideoAd.delegate = self;
+    if (![_rewardedVideoAd respondsToSelector:@selector(setAdMarkup:)]) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
+        _loadCompletionHandler(nil, error);
+        return;
+    }
     [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];
 }
 

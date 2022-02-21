@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
     GADPangleErrorMissingValidAppId = 1000,
     //slot id is nill
     GADPangleErrorSlotIdNil = 1001,
+    // Pangle SDK version is too low
+    GADPangleErrorVersionLow = 1002,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>

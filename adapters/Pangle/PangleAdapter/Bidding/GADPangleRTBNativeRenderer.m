@@ -38,6 +38,11 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];
     
     _nativeAd.delegate = self;
+    if (![_nativeAd respondsToSelector:@selector(setAdMarkup:)]) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
+        _loadCompletionHandler(nil, error);
+        return;
+    }
     [_nativeAd setAdMarkup:adConfiguration.bidResponse];
 }
 
