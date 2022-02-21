@@ -17,25 +17,25 @@
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
-#import "GADPangleRTBRewardedlRenderer.h"
+#import "GADPangleRTBRewardedRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADMAdapterPangleUtils.h"
 
-@interface GADMediationAdapterPangle ()
-
-@property (nonatomic, strong) GADPangleRTBBannerRenderer *bannerRenderer;
-@property (nonatomic, strong) GADPangleRTBInterstitialRenderer *interstitialRenderer;
-@property (nonatomic, strong) GADPangleRTBRewardedlRenderer *rewardedlRenderer;
-@property (nonatomic, strong) GADPangleRTBNativeRenderer *navtiveRenderer;
-
-@end
-
-@implementation GADMediationAdapterPangle
+@implementation GADMediationAdapterPangle {
+    /// pangle Audience Network banner ad wrapper.
+    GADPangleRTBBannerRenderer *_bannerRenderer;
+    /// pangle Audience Network interstitial ad wrapper.
+    GADPangleRTBInterstitialRenderer *_interstitialRenderer;
+    /// pangle Audience Network rewarded ad wrapper.
+    GADPangleRTBRewardedRenderer *_rewardedlRenderer;
+    /// pangle Audience Network native ad wrapper.
+    GADPangleRTBNativeRenderer *_navtiveRenderer;
+}
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
-    NSString *signals = [BUAdSDKManager mopubBiddingToken];
+    NSString *signals = [BUAdSDKManager getBiddingToken:nil];
     if (completionHandler) {
         completionHandler(signals,nil);
     }
@@ -43,7 +43,7 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    NSMutableSet *appIds = [NSMutableSet new];
+    NSMutableSet *appIds = [[NSMutableSet alloc]init];
     for (GADMediationCredentials *cred in configuration.credentials) {
         NSString *appId = cred.settings[GADMAdapterPangleAppID];
         if (appId && [appId isKindOfClass:[NSString class]] && appId.length) {
@@ -52,15 +52,15 @@
     }
     
     if (appIds.count < 1) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorMissingServerParameters, @"pangle mediation configuration did not contain a valid app id");
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorMissingValidAppId, @"Pangle mediation configurations did not contain a valid App ID.");
         completionHandler(error);
         return;
     }
     
     NSString *appID = [appIds anyObject];
     if (appIds.count > 1) {
-        PangleLog(@"found the following app ids:%@. Please remove any app IDs which you are not using", appIds);
-        PangleLog(@"configuring pangle sdk with the app id:%@", appID);
+        PangleLog(@"Found the following App IDs:%@. Please remove any app IDs which you are not using", appIds);
+        PangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
     }
     
     BUAdSDKConfiguration *cog = [BUAdSDKConfiguration configuration];
@@ -106,29 +106,29 @@
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    self.bannerRenderer = [GADPangleRTBBannerRenderer new];
-    [self.bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _bannerRenderer = [[GADPangleRTBBannerRenderer alloc]init];
+    [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    self.interstitialRenderer = [GADPangleRTBInterstitialRenderer new];
-    [self.interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc]init];
+    [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    self.navtiveRenderer = [GADPangleRTBNativeRenderer new];
-    [self.navtiveRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _navtiveRenderer = [[GADPangleRTBNativeRenderer alloc]init];
+    [_navtiveRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    self.rewardedlRenderer = [GADPangleRTBRewardedlRenderer new];
-    [self.rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _rewardedlRenderer = [[GADPangleRTBRewardedRenderer alloc]init];
+    [_rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

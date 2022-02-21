@@ -12,84 +12,64 @@
 
 @interface GADPangleRTBBannerRenderer()<BUNativeExpressBannerViewDelegate>
 
-@property (nonatomic, strong) GADMediationBannerAdConfiguration *adConfig;
-@property (nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
-
-@property (nonatomic, strong) BUNativeExpressBannerView *nativeExpressBannerView;
-
-@property (nonatomic, weak) id<GADMediationBannerAdEventDelegate> delegate;
-
 @end
 
-@implementation GADPangleRTBBannerRenderer
+@implementation GADPangleRTBBannerRenderer {
+    /// The completion handler to call when the ad loading succeeds or fails
+    GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
+    /// The Pangle banner ad.
+    BUNativeExpressBannerView *_nativeExpressBannerView;
+    /// An ad event delegate to invoke when ad rendering events occur.
+    id<GADMediationBannerAdEventDelegate> _delegate;
+}
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-    self.adConfig  = adConfiguration;
-    self.loadCompletionHandler = completionHandler;
-    NSString *slotId = self.adConfig.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
+    _loadCompletionHandler = completionHandler;
+    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidRequest, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
-        self.loadCompletionHandler(nil, error);
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(    GADPangleErrorSlotIdNil, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
+        _loadCompletionHandler(nil, error);
         return;
     }
-    self.nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:self.adConfig.topViewController adSize:self.adConfig.adSize.size];
-    self.nativeExpressBannerView.delegate = self;
-    [self.nativeExpressBannerView setMopubAdMarkUp:adConfiguration.bidResponse];
+    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
+    _nativeExpressBannerView.delegate = self;
+    [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
 
-//MARK:-- GADMediationBannerAd
+#pragma mark -- GADMediationBannerAd
 - (UIView *)view {
-    return self.nativeExpressBannerView;
+    return _nativeExpressBannerView;
 }
 
-//MARK:--BUNativeExpressBannerViewDelegate
+#pragma mark --BUNativeExpressBannerViewDelegate
 - (void)nativeExpressBannerAdViewDidLoad:(BUNativeExpressBannerView *)bannerAdView {
-    if (self.loadCompletionHandler) {
-        self.delegate = self.loadCompletionHandler(self,nil);
+    if (_loadCompletionHandler) {
+        _delegate = _loadCompletionHandler(self,nil);
     }
-    NSLog(@"nativeExpressBannerAdViewDidLoad");
 }
 
 - (void)nativeExpressBannerAdView:(BUNativeExpressBannerView *)bannerAdView didLoadFailWithError:(NSError *)error {
-    NSLog(@"nativeExpressAdFailToLoad with error %@", error.description);
-    if (self.loadCompletionHandler) {
-        self.loadCompletionHandler(nil, error);
+    if (_loadCompletionHandler) {
+        _loadCompletionHandler(nil, error);
     }
 }
 
 - (void)nativeExpressBannerAdViewRenderSuccess:(BUNativeExpressBannerView *)bannerAdView {
-    NSLog(@"nativeExpressBannerAdViewRenderSuccess");
-    [self.delegate reportImpression];
+    id<GADMediationBannerAdEventDelegate> delegate = _delegate;
+    [delegate reportImpression];
 }
 
 - (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView error:(NSError *)error {
-    NSLog(@"nativeExpressBannerAdViewRenderFail");
-    if (self.loadCompletionHandler) {
-        self.loadCompletionHandler(nil, error);
+    if (_loadCompletionHandler) {
+        _loadCompletionHandler(nil, error);
     }
 }
 
-- (void)nativeExpressBannerAdViewWillBecomVisible:(BUNativeExpressBannerView *)bannerAdView {
-    NSLog(@"nativeExpressBannerAdViewWillBecomVisible");
-}
-
 - (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView {
-    [self.delegate reportClick];
-}
-
-- (void)nativeExpressBannerAdView:(BUNativeExpressBannerView *)bannerAdView dislikeWithReason:(NSArray<BUDislikeWords *> *)filterwords {
-    NSLog(@"nativeExpressBannerAdView dislikeWithReason");
-    
-}
-
-- (void)nativeExpressBannerAdViewDidCloseOtherController:(BUNativeExpressBannerView *)bannerAdView interactionType:(BUInteractionType)interactionType {
-    
-}
-
-- (void)nativeExpressBannerAdViewDidRemoved:(BUNativeExpressBannerView *)bannerAdView {
-    
+    id<GADMediationBannerAdEventDelegate> delegate = _delegate;
+    [delegate reportClick];
 }
 
 @end

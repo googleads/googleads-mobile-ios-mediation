@@ -23,6 +23,6 @@ static NSString *const GADMAdapterPangleAppID = @"appid";
 /// Pangle mediation network adapter Ad Placement ID parameter key.
 static NSString *const GADMAdapterPanglePlacementID = @"placementid";
 
-/// Pangle mediation network adapter error domain
+/// Pangle mediation network adapter error domain.
 static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.Pangle";
 

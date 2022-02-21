@@ -12,93 +12,77 @@
 
 @interface GADPangleRTBInterstitialRenderer()<BUFullscreenVideoAdDelegate>
 
-@property (nonatomic, strong) GADMediationInterstitialAdConfiguration *adConfig;
-@property (nonatomic, copy) GADMediationInterstitialLoadCompletionHandler loadCompletionHandler;
-
-@property (nonatomic, strong) BUFullscreenVideoAd *fullScreenAdVideo;
-
-@property (nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> delegate;
-
 @end
 
-@implementation GADPangleRTBInterstitialRenderer
+@implementation GADPangleRTBInterstitialRenderer {
+    /// The completion handler to call when the ad loading succeeds or fails.
+    GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
+    /// The Pangle Interstitial ad.
+    BUFullscreenVideoAd *_fullScreenAdVideo;
+    /// An ad event delegate to invoke when ad rendering events occur.
+    id<GADMediationInterstitialAdEventDelegate> _delegate;
+}
 
 - (void)renderInterstitialForAdConfiguration:
 (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                            completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    self.adConfig  = adConfiguration;
-    self.loadCompletionHandler = completionHandler;
-    NSString *slotId = self.adConfig.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
+    _loadCompletionHandler = completionHandler;
+    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
     if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidRequest, @"placementid cannot be nil.");
-        self.loadCompletionHandler(nil, error);
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorSlotIdNil, @"placementid cannot be nil.");
+        _loadCompletionHandler(nil, error);
         return;
     }
-    self.fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:slotId];
-    self.fullScreenAdVideo.delegate = self;
-    [self.fullScreenAdVideo setMopubAdMarkUp:adConfiguration.bidResponse];
+    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:slotId];
+    _fullScreenAdVideo.delegate = self;
+    [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
 
-//MARK:--GADMediationInterstitialAd
+#pragma mark--GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    [self.fullScreenAdVideo showAdFromRootViewController:viewController];
+    [_fullScreenAdVideo showAdFromRootViewController:viewController];
 }
 
-//MARK:-- BUFullscreenVideoAdDelegate
+#pragma mark-- BUFullscreenVideoAdDelegate
 - (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    if (self.loadCompletionHandler) {
-        self.delegate = self.loadCompletionHandler(self,nil);
+    if (_loadCompletionHandler) {
+        id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+        delegate = _loadCompletionHandler(self,nil);
     }
 }
 
 - (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *_Nullable)error {
-    if (self.loadCompletionHandler) {
-        self.loadCompletionHandler(nil, error);
+    if (_loadCompletionHandler) {
+        _loadCompletionHandler(nil, error);
     }
-}
-
-- (void)fullscreenVideoAdVideoDataDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
 }
 
 - (void)fullscreenVideoAdWillVisible:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
-    [self.delegate willPresentFullScreenView];
-    [self.delegate reportImpression];
-}
-
-- (void)fullscreenVideoAdDidVisible:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
-    
+    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+    [delegate willPresentFullScreenView];
+    [delegate reportImpression];
 }
 
 - (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    [self.delegate reportClick];
+    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+    [delegate reportClick];
 }
 
 - (void)fullscreenVideoAdWillClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
-    [self.delegate willDismissFullScreenView];
+    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+    [delegate willDismissFullScreenView];
 }
 
 - (void)fullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
-    [self.delegate didDismissFullScreenView];
+    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+    [delegate didDismissFullScreenView];
 }
 
 - (void)fullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *_Nullable)error {
-    NSLog(@"%s",__func__);
     if (error) {
-        [self.delegate didFailToPresentWithError:error];
+        id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+        [delegate didFailToPresentWithError:error];
     }
-}
-
-- (void)fullscreenVideoAdDidClickSkip:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    NSLog(@"%s",__func__);
-}
-
-- (void)fullscreenVideoAdCallback:(BUFullscreenVideoAd *)fullscreenVideoAd withType:(BUFullScreenVideoAdType)fullscreenVideoAdType {
-    NSLog(@"%s",__func__);
 }
 
 @end

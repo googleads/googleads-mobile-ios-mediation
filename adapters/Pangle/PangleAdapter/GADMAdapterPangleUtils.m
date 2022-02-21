@@ -15,7 +15,3 @@ NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCod
         NSLocalizedFailureReasonErrorKey : description
     }];
 }
-
-@implementation GADMAdapterPangleUtils
-
-@end
