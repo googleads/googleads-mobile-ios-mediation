@@ -1,5 +1,12 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### Version 7.1.0.2 (In progress)
+- Added support for the arm64 simulator architecture.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.0.0.
+- Nend SDK version 7.1.0.
+
 #### [Version 7.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.1.0.1.zip)
 - Verified compatibility with Google Mobile Ads SDK version 9.0.0.
 - Now requires Google Mobile Ads SDK version 9.0.0 or higher.
