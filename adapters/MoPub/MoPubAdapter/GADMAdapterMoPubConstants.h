@@ -3,7 +3,7 @@
 #define MAXIMUM_MOPUB_PRIVACY_ICON_SIZE 30
 
 /// MoPub mediation network adapter version.
-static NSString *const GADMAdapterMoPubVersion = @"5.18.2.1";
+static NSString *const GADMAdapterMoPubVersion = @"5.18.2.2";
 
 /// Constant for adapter error domain.
 static NSString *const GADMAdapterMoPubErrorDomain = @"com.google.mediation.mopub";
