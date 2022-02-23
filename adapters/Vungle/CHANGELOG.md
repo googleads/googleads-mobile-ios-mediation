@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.10.6.1 (In progress)
+#### [Version 6.10.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.10.6.1.zip)
 - Fixed an issue where the ad delegate was removed if the next ad failed to download. This applies to auto-cached setting placements only.
 - Removed `willPresentFullScreenView` and `adapterWillPresentFullScreenModal` callbacks in banner ads.
 
