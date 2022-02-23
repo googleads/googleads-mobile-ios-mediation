@@ -21,6 +21,8 @@
     BUNativeExpressBannerView *_nativeExpressBannerView;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationBannerAdEventDelegate> _delegate;
+    //record banner size
+    CGSize _bannerSize;
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -33,6 +35,7 @@
         _loadCompletionHandler(nil, error);
         return;
     }
+    _bannerSize = adConfiguration.adSize.size;
     _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
     if (![_nativeExpressBannerView respondsToSelector:@selector(setAdMarkup:)]) {
@@ -53,6 +56,9 @@
     if (_loadCompletionHandler) {
         _delegate = _loadCompletionHandler(self,nil);
     }
+    CGRect frame = bannerAdView.frame;
+    frame.size = _bannerSize;
+    bannerAdView.frame = frame;
 }
 
 - (void)nativeExpressBannerAdView:(BUNativeExpressBannerView *)bannerAdView didLoadFailWithError:(NSError *)error {
