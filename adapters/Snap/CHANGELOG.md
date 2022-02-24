@@ -1,6 +1,6 @@
 ## Snap iOS Mediation Adapter Changelog
 
-#### Version 2.1.0.1 (In progress)
+#### [Version 2.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/snap/SnapAdapter-2.1.0.1.zip)
 - Verified compatibility with Google Mobile Ads SDK version 9.0.0.
 - Now requires Google Mobile Ads SDK version 9.0.0 or higher.
 
