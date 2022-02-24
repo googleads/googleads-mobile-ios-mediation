@@ -1,6 +1,6 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Version 5.15.0.1 (In progress)
+#### [Version 5.15.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.15.0.1.zip)
 - Added support for the arm64 simulator architecture.
 
 Built and tested with:
