@@ -1,6 +1,6 @@
 ## MoPub iOS Mediation Adapter Changelog
 
-#### Version 5.18.2.2 (In progress)
+#### [Version 5.18.2.2](https://dl.google.com/googleadmobadssdk/mediation/ios/mopub/MoPubAdapter-5.18.2.2.zip)
 - Added support for the arm64 simulator architecture.
 
 Built and tested with:
