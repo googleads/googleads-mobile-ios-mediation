@@ -15,13 +15,13 @@
 @end
 
 @implementation GADPangleRTBBannerRenderer {
-    /// The completion handler to call when the ad loading succeeds or fails
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
     /// The Pangle banner ad.
     BUNativeExpressBannerView *_nativeExpressBannerView;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationBannerAdEventDelegate> _delegate;
-    //record banner size
+    /// The requested ad size.
     CGSize _bannerSize;
 }
 
