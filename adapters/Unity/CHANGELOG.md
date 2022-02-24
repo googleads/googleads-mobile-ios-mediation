@@ -1,6 +1,6 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Version 4.0.0.2 (In progress)
+#### [Version 4.0.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.0.0.2.zip)
 - Added support for the arm64 simulator architecture.
 
 Built and tested with:
