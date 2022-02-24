@@ -18,7 +18,6 @@
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
-#import "GADPangleRTBNativeRenderer.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADMAdapterPangleUtils.h"
 
@@ -29,8 +28,6 @@
     GADPangleRTBInterstitialRenderer *_interstitialRenderer;
     /// pangle Audience Network rewarded ad wrapper.
     GADPangleRTBRewardedRenderer *_rewardedlRenderer;
-    /// pangle Audience Network native ad wrapper.
-    GADPangleRTBNativeRenderer *_navtiveRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -115,13 +112,6 @@
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc]init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
-}
-
-- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    _navtiveRenderer = [[GADPangleRTBNativeRenderer alloc]init];
-    [_navtiveRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
