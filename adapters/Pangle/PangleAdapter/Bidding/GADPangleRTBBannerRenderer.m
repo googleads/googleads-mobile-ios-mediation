@@ -31,7 +31,7 @@
     _loadCompletionHandler = completionHandler;
     NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorSlotIdNil, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
@@ -39,19 +39,19 @@
     _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
     if (![_nativeExpressBannerView respondsToSelector:@selector(setAdMarkup:)]) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low,please update Pangle SDK to the latest version.");
         _loadCompletionHandler(nil, error);
         return;
     }
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
 
-#pragma mark -- GADMediationBannerAd
+#pragma mark - GADMediationBannerAd
 - (UIView *)view {
     return _nativeExpressBannerView;
 }
 
-#pragma mark --BUNativeExpressBannerViewDelegate
+#pragma mark - BUNativeExpressBannerViewDelegate
 - (void)nativeExpressBannerAdViewDidLoad:(BUNativeExpressBannerView *)bannerAdView {
     if (_loadCompletionHandler) {
         _delegate = _loadCompletionHandler(self,nil);

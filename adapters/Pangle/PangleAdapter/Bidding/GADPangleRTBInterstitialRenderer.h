@@ -8,8 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADPangleRTBInterstitialRenderer : NSObject<GADMediationInterstitialAd>
 
 /// Asks the receiver to render the ad configuration.
@@ -19,5 +17,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
 

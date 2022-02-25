@@ -16,12 +16,10 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
-    //pangle mediation configuration did not contain a valid app id
-    GADPangleErrorMissingValidAppId = 1000,
-    //slot id is nill
-    GADPangleErrorSlotIdNil = 1001,
+    // Missing server parameters.
+    GADPangleErrorInvalidServerParameters = 101,
     // Pangle SDK version is too low
-    GADPangleErrorVersionLow = 1002,
+    GADPangleErrorVersionLow = 102,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>

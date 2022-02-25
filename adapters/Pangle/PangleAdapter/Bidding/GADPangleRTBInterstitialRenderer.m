@@ -29,7 +29,7 @@
     _loadCompletionHandler = completionHandler;
     NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
     if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorSlotIdNil, @"placementid cannot be nil.");
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, @"placementid cannot be nil,please update Pangle SDK to the latest version.");
         _loadCompletionHandler(nil, error);
         return;
     }

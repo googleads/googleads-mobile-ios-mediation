@@ -49,7 +49,7 @@
     }
     
     if (appIds.count < 1) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorMissingValidAppId, @"Pangle mediation configurations did not contain a valid App ID.");
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, @"Pangle mediation configurations did not contain a valid App ID.");
         completionHandler(error);
         return;
     }
