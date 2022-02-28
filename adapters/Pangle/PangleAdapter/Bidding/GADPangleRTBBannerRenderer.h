@@ -9,7 +9,7 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBBannerRenderer : NSObject<GADMediationBannerAd>
+@interface GADPangleRTBBannerRenderer : NSObject <GADMediationBannerAd>
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration

@@ -10,7 +10,7 @@
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 
-@interface GADPangleRTBBannerRenderer()<BUNativeExpressBannerViewDelegate>
+@interface GADPangleRTBBannerRenderer() <BUNativeExpressBannerViewDelegate>
 
 @end
 
@@ -29,14 +29,14 @@
                      completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
     _loadCompletionHandler = completionHandler;
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
-    if (PangleIsEmptyString(slotId)) {
+    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
+    if (PangleIsEmptyString(placementId)) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
     _bannerSize = adConfiguration.adSize.size;
-    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:slotId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
+    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
     if (![_nativeExpressBannerView respondsToSelector:@selector(setAdMarkup:)]) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low,please update Pangle SDK to the latest version.");

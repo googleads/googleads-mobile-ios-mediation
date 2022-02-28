@@ -10,7 +10,7 @@
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 
-@interface GADPangleRTBInterstitialRenderer()<BUFullscreenVideoAdDelegate>
+@interface GADPangleRTBInterstitialRenderer() <BUFullscreenVideoAdDelegate>
 
 @end
 
@@ -27,13 +27,13 @@
 (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                            completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
     _loadCompletionHandler = completionHandler;
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
-    if (PangleIsEmptyString(slotId)) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, @"placementid cannot be nil,please update Pangle SDK to the latest version.");
+    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
+    if (PangleIsEmptyString(placementId)) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
-    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:slotId];
+    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:placementId];
     _fullScreenAdVideo.delegate = self;
     if (![_fullScreenAdVideo respondsToSelector:@selector(setAdMarkup:)]) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
@@ -43,12 +43,12 @@
     [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
 
-#pragma mark--GADMediationInterstitialAd
+#pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     [_fullScreenAdVideo showAdFromRootViewController:viewController];
 }
 
-#pragma mark-- BUFullscreenVideoAdDelegate
+#pragma mark -  BUFullscreenVideoAdDelegate
 - (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
     if (_loadCompletionHandler) {
         id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;

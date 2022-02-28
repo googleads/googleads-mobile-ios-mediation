@@ -10,7 +10,7 @@
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 
-@interface GADPangleRTBRewardedRenderer()<BURewardedVideoAdDelegate>
+@interface GADPangleRTBRewardedRenderer() <BURewardedVideoAdDelegate>
 
 @end
 
@@ -25,14 +25,14 @@
 
 - (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
     _loadCompletionHandler = completionHandler;
-    NSString *slotId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
-    if (PangleIsEmptyString(slotId)) {
+    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
+    if (PangleIsEmptyString(placementId)) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil,please update Pangle SDK to the latest version.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
     BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
-    _rewardedVideoAd = [[BURewardedVideoAd alloc]initWithSlotID:slotId rewardedVideoModel:model];
+    _rewardedVideoAd = [[BURewardedVideoAd alloc]initWithSlotID:placementId rewardedVideoModel:model];
     _rewardedVideoAd.delegate = self;
     if (![_rewardedVideoAd respondsToSelector:@selector(setAdMarkup:)]) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
@@ -42,12 +42,12 @@
     [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];
 }
 
-#pragma mark GADMediationRewardedAd
+#pragma mark - GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     [_rewardedVideoAd showAdFromRootViewController:viewController];
 }
 
-#pragma mark  BURewardedVideoAdDelegate
+#pragma mark - BURewardedVideoAdDelegate
 - (void)rewardedVideoAdDidLoad:(BURewardedVideoAd *)rewardedVideoAd {
     if (_loadCompletionHandler) {
         _delegate = _loadCompletionHandler(self,nil);

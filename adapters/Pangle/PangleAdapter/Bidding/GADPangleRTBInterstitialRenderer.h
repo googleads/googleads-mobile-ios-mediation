@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBInterstitialRenderer : NSObject<GADMediationInterstitialAd>
+@interface GADPangleRTBInterstitialRenderer : NSObject <GADMediationInterstitialAd>
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfiguration:
