@@ -17,7 +17,7 @@
 @implementation GADPangleRTBInterstitialRenderer {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
-    /// The Pangle Interstitial ad.
+    /// The Pangle interstitial ad.
     BUFullscreenVideoAd *_fullScreenAdVideo;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationInterstitialAdEventDelegate> _delegate;
