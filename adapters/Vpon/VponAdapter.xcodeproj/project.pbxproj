@@ -18,17 +18,6 @@
 			name = ValidateSourceCode;
 			productName = Framework;
 		};
-		45E6350A222F1965006EB5A1 /* FatAdapter */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 45E6350B222F1965006EB5A1 /* Build configuration list for PBXAggregateTarget "FatAdapter" */;
-			buildPhases = (
-				45E63512222F1997006EB5A1 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = FatAdapter;
-			productName = FatAdapter;
-		};
 		45E6350E222F1972006EB5A1 /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 45E6350F222F1972006EB5A1 /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -43,6 +32,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		061F934427CDBB4100D71D2D /* GADVpadnNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 061F933C27CDBB4100D71D2D /* GADVpadnNativeAd.h */; };
+		061F934527CDBB4100D71D2D /* GADVpadnNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F933D27CDBB4100D71D2D /* GADVpadnNativeAd.m */; };
+		061F934627CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F933E27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.m */; };
+		061F934727CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 061F933F27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.h */; };
+		061F934827CDBB4100D71D2D /* GADMAdapterVpon.h in Headers */ = {isa = PBXBuildFile; fileRef = 061F934027CDBB4100D71D2D /* GADMAdapterVpon.h */; };
+		061F934927CDBB4100D71D2D /* GADVpadnDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F934127CDBB4100D71D2D /* GADVpadnDefinition.m */; };
+		061F934A27CDBB4100D71D2D /* GADVpadnDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 061F934227CDBB4100D71D2D /* GADVpadnDefinition.h */; };
+		061F934B27CDBB4100D71D2D /* GADMAdapterVpon.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F934327CDBB4100D71D2D /* GADMAdapterVpon.m */; };
 		45E63509222F1852006EB5A1 /* GADMediationAdapterVpon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E63508222F1851006EB5A1 /* GADMediationAdapterVpon.m */; };
 		45E63516222F1A62006EB5A1 /* GADMediationAdapterVpon.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E63507222F1851006EB5A1 /* GADMediationAdapterVpon.h */; };
 		45E63517222F1A69006EB5A1 /* VponAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 45E634F1222F1503006EB5A1 /* VponAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,13 +69,20 @@
 
 /* Begin PBXFileReference section */
 		00DD26A322F10D960039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		061F933C27CDBB4100D71D2D /* GADVpadnNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADVpadnNativeAd.h; sourceTree = "<group>"; };
+		061F933D27CDBB4100D71D2D /* GADVpadnNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADVpadnNativeAd.m; sourceTree = "<group>"; };
+		061F933E27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADVpadnNativeAdCustomEvent.m; sourceTree = "<group>"; };
+		061F933F27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADVpadnNativeAdCustomEvent.h; sourceTree = "<group>"; };
+		061F934027CDBB4100D71D2D /* GADMAdapterVpon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVpon.h; sourceTree = "<group>"; };
+		061F934127CDBB4100D71D2D /* GADVpadnDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADVpadnDefinition.m; sourceTree = "<group>"; };
+		061F934227CDBB4100D71D2D /* GADVpadnDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADVpadnDefinition.h; sourceTree = "<group>"; };
+		061F934327CDBB4100D71D2D /* GADMAdapterVpon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVpon.m; sourceTree = "<group>"; };
 		45E634EE222F1503006EB5A1 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		45E634F1222F1503006EB5A1 /* VponAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VponAdapter.h; sourceTree = "<group>"; };
 		45E634FA222F1527006EB5A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		45E634FB222F155A006EB5A1 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		45E634FE222F159A006EB5A1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		45E63500222F161D006EB5A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		45E63501222F178A006EB5A1 /* Script_Library.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Library.sh; sourceTree = "<group>"; };
 		45E63502222F17A6006EB5A1 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		45E63504222F17CD006EB5A1 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		45E63505222F17D8006EB5A1 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -124,6 +128,14 @@
 			children = (
 				45E63507222F1851006EB5A1 /* GADMediationAdapterVpon.h */,
 				45E63508222F1851006EB5A1 /* GADMediationAdapterVpon.m */,
+				061F934027CDBB4100D71D2D /* GADMAdapterVpon.h */,
+				061F934327CDBB4100D71D2D /* GADMAdapterVpon.m */,
+				061F934227CDBB4100D71D2D /* GADVpadnDefinition.h */,
+				061F934127CDBB4100D71D2D /* GADVpadnDefinition.m */,
+				061F933C27CDBB4100D71D2D /* GADVpadnNativeAd.h */,
+				061F933D27CDBB4100D71D2D /* GADVpadnNativeAd.m */,
+				061F933F27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.h */,
+				061F933E27CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.m */,
 			);
 			path = VponAdapter;
 			sourceTree = "<group>";
@@ -149,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				45E63500222F161D006EB5A1 /* README.md */,
-				45E63501222F178A006EB5A1 /* Script_Library.sh */,
 				45E63502222F17A6006EB5A1 /* Script_Framework.sh */,
 				00DD26A322F10D960039C1D4 /* Script_Validate.sh */,
 			);
@@ -173,6 +184,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061F934427CDBB4100D71D2D /* GADVpadnNativeAd.h in Headers */,
+				061F934827CDBB4100D71D2D /* GADMAdapterVpon.h in Headers */,
+				061F934A27CDBB4100D71D2D /* GADVpadnDefinition.h in Headers */,
+				061F934727CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.h in Headers */,
 				45E63517222F1A69006EB5A1 /* VponAdapter.h in Headers */,
 				45E63516222F1A62006EB5A1 /* GADMediationAdapterVpon.h in Headers */,
 			);
@@ -218,11 +233,6 @@
 						DevelopmentTeam = CSTR6SUWN9;
 						ProvisioningStyle = Automatic;
 					};
-					45E6350A222F1965006EB5A1 = {
-						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = CSTR6SUWN9;
-						ProvisioningStyle = Automatic;
-					};
 					45E6350E222F1972006EB5A1 = {
 						CreatedOnToolsVersion = 10.0;
 						DevelopmentTeam = CSTR6SUWN9;
@@ -244,7 +254,6 @@
 			projectRoot = "";
 			targets = (
 				45E634ED222F1503006EB5A1 /* Adapter */,
-				45E6350A222F1965006EB5A1 /* FatAdapter */,
 				45E6350E222F1972006EB5A1 /* Framework */,
 				00DD26A422F10DA30039C1D4 /* ValidateSourceCode */,
 			);
@@ -270,23 +279,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
 		};
-		45E63512222F1997006EB5A1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/BuildScript/Script_Library.sh\"\n";
-		};
 		45E63513222F19CD006EB5A1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,6 +303,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061F934527CDBB4100D71D2D /* GADVpadnNativeAd.m in Sources */,
+				061F934B27CDBB4100D71D2D /* GADMAdapterVpon.m in Sources */,
+				061F934927CDBB4100D71D2D /* GADVpadnDefinition.m in Sources */,
+				061F934627CDBB4100D71D2D /* GADVpadnNativeAdCustomEvent.m in Sources */,
 				45E63509222F1852006EB5A1 /* GADMediationAdapterVpon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,30 +478,14 @@
 			};
 			name = Release;
 		};
-		45E6350C222F1965006EB5A1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		45E6350D222F1965006EB5A1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		45E63510222F1972006EB5A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = Adapter;
 			};
 			name = Debug;
 		};
@@ -514,7 +494,8 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CSTR6SUWN9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = Adapter;
 			};
 			name = Release;
 		};
@@ -544,15 +525,6 @@
 			buildConfigurations = (
 				45E634F8222F1503006EB5A1 /* Debug */,
 				45E634F9222F1503006EB5A1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45E6350B222F1965006EB5A1 /* Build configuration list for PBXAggregateTarget "FatAdapter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45E6350C222F1965006EB5A1 /* Debug */,
-				45E6350D222F1965006EB5A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

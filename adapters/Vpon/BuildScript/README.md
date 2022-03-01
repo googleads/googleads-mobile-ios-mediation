@@ -16,9 +16,6 @@ Project Directory->Drop_Framework_And_Headers.
 Project Directory->Drop_Framework_And_Headers.
 
 ## Build Instructions
-- To build a static library, select target scheme (FatAdapter). Edit scheme to
-Release OR Build.
-- Clean and Run/Archive.
 - To build a framework, select target scheme (Framework). Edit scheme to
 Release OR Build.
 - Clean and Run/Archive.
