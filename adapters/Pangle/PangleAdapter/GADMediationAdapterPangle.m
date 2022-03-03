@@ -73,11 +73,9 @@
     NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
     GADVersionNumber version = {0};
     if (versionComponents.count == 4) {
-        NSInteger four = [versionComponents[3] integerValue];
         version.majorVersion = [versionComponents[0] integerValue];
         version.minorVersion = [versionComponents[1] integerValue];
-        version.patchVersion = [versionComponents[2] integerValue]*100+four;
-        
+        version.patchVersion = [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
     }else {
         PangleLog(@"Unexpected version string: %@. Returning 0 for adSDKVersion.", versionString);
     }
