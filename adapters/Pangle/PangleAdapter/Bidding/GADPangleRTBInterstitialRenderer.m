@@ -28,7 +28,7 @@
                            completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
     _loadCompletionHandler = completionHandler;
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
-    if (PangleIsEmptyString(placementId)) {
+    if (!placementId.length) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;

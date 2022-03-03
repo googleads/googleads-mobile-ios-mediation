@@ -8,7 +8,6 @@
 #import "GADMediationAdapterPangle.h"
 
 #define PangleLog(format, args...)    NSLog(@"PangleAdaper | "format,##args)
-#define PangleIsEmptyString(string)   (!string || ![string isKindOfClass:[NSString class]] || string.length == 0)
 
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
                                                                  NSString *_Nonnull description);

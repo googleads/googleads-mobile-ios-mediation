@@ -43,7 +43,7 @@
     NSMutableSet *appIds = [[NSMutableSet alloc]init];
     for (GADMediationCredentials *cred in configuration.credentials) {
         NSString *appId = cred.settings[GADMAdapterPangleAppID];
-        if (appId && [appId isKindOfClass:[NSString class]] && appId.length) {
+        if (appId.length) {
             [appIds addObject:appId];
         }
     }
