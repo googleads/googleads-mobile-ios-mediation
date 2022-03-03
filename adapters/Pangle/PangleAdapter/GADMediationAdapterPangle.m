@@ -22,11 +22,11 @@
 #import "GADMAdapterPangleUtils.h"
 
 @implementation GADMediationAdapterPangle {
-    /// pangle Audience Network banner ad wrapper.
+    /// Pangle banner ad wrapper.
     GADPangleRTBBannerRenderer *_bannerRenderer;
-    /// pangle Audience Network interstitial ad wrapper.
+    /// Pangle interstitial ad wrapper.
     GADPangleRTBInterstitialRenderer *_interstitialRenderer;
-    /// pangle Audience Network rewarded ad wrapper.
+    /// Pangle rewarded ad wrapper.
     GADPangleRTBRewardedRenderer *_rewardedlRenderer;
 }
 

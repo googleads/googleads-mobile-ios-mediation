@@ -14,15 +14,15 @@
 
 #import <Foundation/Foundation.h>
 
-/// Pangle mediation network adapter version.
+/// Pangle adapter version.
 static NSString *const GADMAdapterPangleVersion = @"1.5.0.0";
 
-/// Pangle mediation network adapter Pangle App ID parameter key.
+/// Pangle adapter Pangle App ID parameter key.
 static NSString *const GADMAdapterPangleAppID = @"appid";
 
-/// Pangle mediation network adapter Ad Placement ID parameter key.
+/// Pangle adapter Ad Placement ID parameter key.
 static NSString *const GADMAdapterPanglePlacementID = @"placementid";
 
-/// Pangle mediation network adapter error domain.
+/// Pangle adapter error domain.
 static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.Pangle";
 
