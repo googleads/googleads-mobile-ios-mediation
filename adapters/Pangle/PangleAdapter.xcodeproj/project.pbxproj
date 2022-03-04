@@ -127,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				2BF5FE69279B0C46001EFB81 /* Bidding */,
-				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
 				2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */,
 				2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */,
 				2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */,
@@ -183,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				2B3B8D49277A81E7005BB25B /* PangleAdapter.h */,
+				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
