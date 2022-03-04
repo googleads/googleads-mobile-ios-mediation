@@ -1,6 +1,6 @@
 ## nend iOS Mediation Adapter Changelog
 
-#### Version 7.2.0.0 (In progress)
+#### [Version 7.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.2.0.0.zip)
 - Verified compatibility with nend SDK 7.2.0.
 - Added support for the arm64 simulator architecture.
 
