@@ -11,3 +11,6 @@
 
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
                                                                  NSString *_Nonnull description);
+
+void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set,
+                                          NSObject *_Nonnull object);

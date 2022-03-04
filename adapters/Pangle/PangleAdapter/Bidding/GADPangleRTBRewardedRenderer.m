@@ -9,6 +9,7 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
+#include <stdatomic.h>
 
 @interface GADPangleRTBRewardedRenderer() <BURewardedVideoAdDelegate>
 
@@ -23,8 +24,22 @@
     id<GADMediationRewardedAdEventDelegate> _delegate;
 }
 
-- (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-    _loadCompletionHandler = completionHandler;
+- (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+    _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(_Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+            return nil;
+        }
+        id<GADMediationRewardedAdEventDelegate> delegate = nil;
+        if (originalCompletionHandler) {
+            delegate = originalCompletionHandler(ad, error);
+        }
+        originalCompletionHandler = nil;
+        return delegate;
+    };
+    
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (!placementId.length) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil,please update Pangle SDK to the latest version.",GADMAdapterPanglePlacementID]);
@@ -32,7 +47,7 @@
         return;
     }
     BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
-    _rewardedVideoAd = [[BURewardedVideoAd alloc]initWithSlotID:placementId rewardedVideoModel:model];
+    _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlotID:placementId rewardedVideoModel:model];
     _rewardedVideoAd.delegate = self;
     [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];
 }

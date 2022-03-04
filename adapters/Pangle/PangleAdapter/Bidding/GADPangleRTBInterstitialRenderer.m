@@ -9,6 +9,7 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
+#include <stdatomic.h>
 
 @interface GADPangleRTBInterstitialRenderer() <BUFullscreenVideoAdDelegate>
 
@@ -26,14 +27,27 @@
 - (void)renderInterstitialForAdConfiguration:
 (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                            completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    _loadCompletionHandler = completionHandler;
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block  GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+    _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(_Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+            return nil;
+        }
+        id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+        if (originalCompletionHandler) {
+            delegate = originalCompletionHandler(ad, error);
+        }
+        originalCompletionHandler = nil;
+        return delegate;
+    };
+    
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";\
     if (!placementId.length) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
     }
-    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:placementId];
+    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
     _fullScreenAdVideo.delegate = self;
     [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }

@@ -45,9 +45,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     NSMutableSet *appIds = [[NSMutableSet alloc]init];
     for (GADMediationCredentials *cred in configuration.credentials) {
         NSString *appId = cred.settings[GADMAdapterPangleAppID];
-        if (appId.length) {
-            [appIds addObject:appId];
-        }
+        GADMAdapterPangleMutableSetAddObject(appIds, appId);
     }
     
     if (appIds.count < 1) {
@@ -62,12 +60,12 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
         PangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
     }
     
-    BUAdSDKConfiguration *cog = [BUAdSDKConfiguration configuration];
-    cog.territory = BUAdSDKTerritory_NO_CN;
-    cog.appID = appID;
-    cog.coppa = @(_coppa);
-    cog.GDPR = @(_gdpr);
-    cog.CCPA = @(_ccpa);
+    BUAdSDKConfiguration *sdkConfiguration = [BUAdSDKConfiguration configuration];
+    sdkConfiguration.territory = BUAdSDKTerritory_NO_CN;
+    sdkConfiguration.appID = appID;
+    sdkConfiguration.coppa = @(_coppa);
+    sdkConfiguration.GDPR = @(_gdpr);
+    sdkConfiguration.CCPA = @(_ccpa);
     [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
         completionHandler(error);
     }];
@@ -109,42 +107,48 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    _bannerRenderer = [[GADPangleRTBBannerRenderer alloc]init];
+    _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc]init];
+    _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
     [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    _rewardedlRenderer = [[GADPangleRTBRewardedRenderer alloc]init];
+    _rewardedlRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 + (void)setCoppa:(NSInteger)coppa {
-    _coppa = coppa;
-    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setCoppa:_coppa];
+    if (coppa == 0 || coppa == 1) {
+        _coppa = coppa;
+        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+            [BUAdSDKManager setCoppa:_coppa];
+        }
     }
 }
 
 + (void)setGDPR:(NSInteger)GDPR {
-    _gdpr = GDPR;
-    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setGDPR:_gdpr];
+    if (GDPR == 0 || GDPR == 1) {
+        _gdpr = GDPR;
+        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+            [BUAdSDKManager setGDPR:_gdpr];
+        }
     }
 }
 
 + (void)setCCPA:(NSInteger)CCPA {
-    _ccpa = CCPA;
-    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setCCPA:_ccpa];
+    if (CCPA == 0 || CCPA == 1) {
+        _ccpa = CCPA;
+        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+            [BUAdSDKManager setCCPA:_ccpa];
+        }
     }
 }
 

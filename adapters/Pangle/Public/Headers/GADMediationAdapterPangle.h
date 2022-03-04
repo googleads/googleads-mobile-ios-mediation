@@ -16,21 +16,18 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
-    // Missing server parameters.
+    /// Missing server parameters.
     GADPangleErrorInvalidServerParameters = 101,
-    // Pangle SDK version is too low
-    GADPangleErrorVersionLow = 102,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
-/* Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
- * @params Coppa  0 adult, 1 child
- */
+/// Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
+/// @param coppa  0 adult, 1 child
 + (void)setCoppa:(NSInteger)coppa;
 
 /// Custom set the GDPR of the user,GDPR is the short of General Data Protection Regulation,the interface only works in The European.
-/// @params GDPR 0 close privacy protection, 1 open privacy protection
+/// @param GDPR GDPR 0 close privacy protection, 1 open privacy protection
 + (void)setGDPR:(NSInteger)GDPR;
 
 /// Custom set the CCPA of the user,CCPA is the short of General Data Protection Regulation,the interface only works in USA.

@@ -15,3 +15,10 @@ NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCod
         NSLocalizedFailureReasonErrorKey : description
     }];
 }
+
+void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}

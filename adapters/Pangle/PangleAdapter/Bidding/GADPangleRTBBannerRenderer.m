@@ -9,6 +9,7 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
+#include <stdatomic.h>
 
 @interface GADPangleRTBBannerRenderer() <BUNativeExpressBannerViewDelegate>
 
@@ -26,9 +27,21 @@
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:
-(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-    _loadCompletionHandler = completionHandler;
+                     completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationBannerLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+    _loadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(_Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
+        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+            return nil;
+        }
+        id<GADMediationBannerAdEventDelegate> delegate = nil;
+        if (originalCompletionHandler) {
+            delegate = originalCompletionHandler(ad, error);
+        }
+        originalCompletionHandler = nil;
+        return delegate;
+    };
+    
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (!placementId.length) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
@@ -36,7 +49,7 @@
         return;
     }
     _bannerSize = adConfiguration.adSize.size;
-    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
+    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
