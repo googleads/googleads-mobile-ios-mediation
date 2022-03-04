@@ -24,4 +24,17 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
+/* Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
+ * @params Coppa  0 adult, 1 child
+ */
++ (void)setCoppa:(NSInteger)coppa;
+
+/// Custom set the GDPR of the user,GDPR is the short of General Data Protection Regulation,the interface only works in The European.
+/// @params GDPR 0 close privacy protection, 1 open privacy protection
++ (void)setGDPR:(NSInteger)GDPR;
+
+/// Custom set the CCPA of the user,CCPA is the short of General Data Protection Regulation,the interface only works in USA.
+/// @params CCPA  0: "sale" of personal information is permitted, 1: user has opted out of "sale" of personal information -1: default
++ (void)setCCPA:(NSInteger)CCPA;
+
 @end

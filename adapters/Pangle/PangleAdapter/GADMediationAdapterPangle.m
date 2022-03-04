@@ -21,6 +21,8 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADMAdapterPangleUtils.h"
 
+static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
+
 @implementation GADMediationAdapterPangle {
     /// Pangle banner ad wrapper.
     GADPangleRTBBannerRenderer *_bannerRenderer;
@@ -63,6 +65,9 @@
     BUAdSDKConfiguration *cog = [BUAdSDKConfiguration configuration];
     cog.territory = BUAdSDKTerritory_NO_CN;
     cog.appID = appID;
+    cog.coppa = @(_coppa);
+    cog.GDPR = @(_gdpr);
+    cog.CCPA = @(_ccpa);
     [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
         completionHandler(error);
     }];
@@ -83,14 +88,17 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  GADVersionNumber version = {0};
-  NSArray<NSString *> *components = [GADMAdapterPangleVersion componentsSeparatedByString:@"."];
-  if (components.count == 4) {
-    version.majorVersion = components[0].integerValue;
-    version.minorVersion = components[1].integerValue;
-    version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
-  }
-  return version;
+    GADVersionNumber version = {0};
+    NSArray<NSString *> *components = [GADMAdapterPangleVersion componentsSeparatedByString:@"."];
+    if (components.count >= 4) {
+        version.majorVersion = components[0].integerValue;
+        version.minorVersion = components[1].integerValue;
+        version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
+        if (components.count >= 5) {
+            version.patchVersion = version.patchVersion * 100 + components[4].integerValue;
+        }
+    }
+    return version;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -118,5 +126,27 @@
     _rewardedlRenderer = [[GADPangleRTBRewardedRenderer alloc]init];
     [_rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
+
++ (void)setCoppa:(NSInteger)coppa {
+    _coppa = coppa;
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setCoppa:_coppa];
+    }
+}
+
++ (void)setGDPR:(NSInteger)GDPR {
+    _gdpr = GDPR;
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setGDPR:_gdpr];
+    }
+}
+
++ (void)setCCPA:(NSInteger)CCPA {
+    _ccpa = CCPA;
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setCCPA:_ccpa];
+    }
+}
+
 
 @end

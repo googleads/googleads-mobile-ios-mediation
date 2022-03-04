@@ -38,11 +38,6 @@
     _bannerSize = adConfiguration.adSize.size;
     _nativeExpressBannerView = [[BUNativeExpressBannerView alloc]initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
     _nativeExpressBannerView.delegate = self;
-    if (![_nativeExpressBannerView respondsToSelector:@selector(setAdMarkup:)]) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low,please update Pangle SDK to the latest version.");
-        _loadCompletionHandler(nil, error);
-        return;
-    }
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
 

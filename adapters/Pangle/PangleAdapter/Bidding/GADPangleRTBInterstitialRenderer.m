@@ -35,11 +35,6 @@
     }
     _fullScreenAdVideo = [[BUFullscreenVideoAd alloc]initWithSlotID:placementId];
     _fullScreenAdVideo.delegate = self;
-    if (![_fullScreenAdVideo respondsToSelector:@selector(setAdMarkup:)]) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorVersionLow, @"Pangle SDK version is too low");
-        _loadCompletionHandler(nil, error);
-        return;
-    }
     [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
 
