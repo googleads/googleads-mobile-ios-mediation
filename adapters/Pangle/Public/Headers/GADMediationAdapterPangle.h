@@ -18,6 +18,8 @@
 typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
     /// Missing server parameters.
     GADPangleErrorInvalidServerParameters = 101,
+    /// Banner Size Mismatch.
+    GADPangleErrorBannerSizeMismatch = 102,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>

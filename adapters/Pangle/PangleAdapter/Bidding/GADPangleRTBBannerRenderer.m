@@ -11,6 +11,10 @@
 #import "GADMAdapterPangleUtils.h"
 #include <stdatomic.h>
 
+static CGSize const kPangleBannerAdSize320x50 = (CGSize){320,50};
+static CGSize const kPangleBannerAdSize300x250 = (CGSize){300,250};
+static CGSize const kPangleBannerAdSize728x90 = (CGSize){728,90};
+
 @interface GADPangleRTBBannerRenderer() <BUNativeExpressBannerViewDelegate>
 
 @end
@@ -48,10 +52,41 @@
         _loadCompletionHandler(nil, error);
         return;
     }
-    _bannerSize = adConfiguration.adSize.size;
-    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:adConfiguration.adSize.size];
+    
+    NSError *error = nil;
+    _bannerSize = [self _bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+    if (error) {
+        _loadCompletionHandler(nil, error);
+        return;
+    }
+
+    _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlotID:placementId rootViewController:adConfiguration.topViewController adSize:_bannerSize];
     _nativeExpressBannerView.delegate = self;
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
+}
+
+- (CGSize)_bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+    CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
+    GADAdSize banner50 = GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kPangleBannerAdSize320x50.height));//320*50
+    GADAdSize banner90 = GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kPangleBannerAdSize728x90.height));//728*90
+    GADAdSize banner250 = GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, kPangleBannerAdSize300x250.height));//300*250
+    NSArray *potentials = @[
+        NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(banner250)
+      ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+    CGSize size = CGSizeFromGADAdSize(closestSize);
+    if (size.height == kPangleBannerAdSize320x50.height) {
+        return kPangleBannerAdSize320x50;
+    } else if (size.height == kPangleBannerAdSize728x90.height) {
+        return kPangleBannerAdSize728x90;
+    } else if (size.height == kPangleBannerAdSize300x250.height) {
+        return kPangleBannerAdSize300x250;
+    }
+    
+    if (error) {
+        *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorBannerSizeMismatch, [NSString stringWithFormat:@"Invalid size for Pangle mediation adapter. Size: %@", NSStringFromGADAdSize(gadAdSize)]);
+    }
+    return CGSizeZero;
 }
 
 #pragma mark - GADMediationBannerAd
