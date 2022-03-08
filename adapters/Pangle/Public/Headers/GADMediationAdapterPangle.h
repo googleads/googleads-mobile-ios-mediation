@@ -18,15 +18,15 @@
 typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
     /// Missing server parameters.
     GADPangleErrorInvalidServerParameters = 101,
-    /// Banner Size Mismatch.
+    /// Banner size mismatch.
     GADPangleErrorBannerSizeMismatch = 102,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
 /// Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
-/// @param coppa  0 adult, 1 child
-+ (void)setCoppa:(NSInteger)coppa;
+/// @param COPPA  0 adult, 1 child
++ (void)setCOPPA:(NSInteger)COPPA;
 
 /// Custom set the GDPR of the user,GDPR is the short of General Data Protection Regulation,the interface only works in The European.
 /// @param GDPR GDPR 0 close privacy protection, 1 open privacy protection

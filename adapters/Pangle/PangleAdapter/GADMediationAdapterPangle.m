@@ -29,7 +29,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     /// Pangle interstitial ad wrapper.
     GADPangleRTBInterstitialRenderer *_interstitialRenderer;
     /// Pangle rewarded ad wrapper.
-    GADPangleRTBRewardedRenderer *_rewardedlRenderer;
+    GADPangleRTBRewardedRenderer *_rewardedRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -106,50 +106,56 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
     _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
+    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    [BUAdSDKManager setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    _rewardedlRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
-    [_rewardedlRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
+    [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-+ (void)setCoppa:(NSInteger)coppa {
-    if (coppa == 0 || coppa == 1) {
-        _coppa = coppa;
-        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-            [BUAdSDKManager setCoppa:_coppa];
-        }
++ (void)setCOPPA:(NSInteger)COPPA {
+    if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
+        PangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
+        return;
     }
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setCoppa:COPPA];
+    }
+    _coppa = COPPA;
 }
 
 + (void)setGDPR:(NSInteger)GDPR {
-    if (GDPR == 0 || GDPR == 1) {
-        _gdpr = GDPR;
-        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-            [BUAdSDKManager setGDPR:_gdpr];
-        }
+    if (GDPR != 0 && GDPR != 1 && GDPR != -1) {
+        PangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
+        return;
     }
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setGDPR:GDPR];
+    }
+    _gdpr = GDPR;
 }
 
 + (void)setCCPA:(NSInteger)CCPA {
-    if (CCPA == 0 || CCPA == 1) {
-        _ccpa = CCPA;
-        if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-            [BUAdSDKManager setCCPA:_ccpa];
-        }
+    if (CCPA != 0 && CCPA != 1 && CCPA != -1) {
+        PangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
+        return;
     }
+    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
+        [BUAdSDKManager setCCPA:CCPA];
+    }
+    _ccpa = CCPA;
 }
 
 
