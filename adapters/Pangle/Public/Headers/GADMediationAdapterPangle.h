@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 ///
 /// @param coppa An integer value that indicates whether the app should be treated as
 /// child-directed for purposes of the COPPA.The interface only works in the United States. 0 means false. 1 means true. -1 means
-/// unspecified.
+/// unspecified.Any value outside of -1, 0, or 1 will result in this method being a no-op.
 + (void)setCoppa:(NSInteger)coppa;
 
 /// Set the GDPR setting in Pangle SDK.
