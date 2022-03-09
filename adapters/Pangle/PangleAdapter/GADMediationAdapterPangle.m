@@ -106,21 +106,27 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    if (adConfiguration.childDirectedTreatment) {
+        [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    }
     _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    if (adConfiguration.childDirectedTreatment) {
+        [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    }
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    if (adConfiguration.childDirectedTreatment) {
+        [GADMediationAdapterPangle setCOPPA:adConfiguration.childDirectedTreatment.integerValue];
+    }
     _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
