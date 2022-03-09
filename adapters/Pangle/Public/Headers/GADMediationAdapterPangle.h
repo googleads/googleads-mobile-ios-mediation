@@ -24,8 +24,11 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
-/// Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
-/// @param coppa  0 adult, 1 child
+/// Set the COPPA setting in Pangle SDK.
+///
+/// @param coppa An integer value that indicates whether the app should be treated as
+/// child-directed for purposes of the COPPA.The interface only works in the United States. 0 means false. 1 means true. -1 means
+/// unspecified.
 + (void)setCoppa:(NSInteger)coppa;
 
 /// Set the GDPR setting in Pangle SDK.
