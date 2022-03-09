@@ -67,8 +67,7 @@
 #pragma mark -  BUFullscreenVideoAdDelegate
 - (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
     if (_loadCompletionHandler) {
-        id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-        delegate = _loadCompletionHandler(self,nil);
+        _delegate = _loadCompletionHandler(self,nil);
     }
 }
 
