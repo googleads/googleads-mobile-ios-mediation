@@ -15,7 +15,7 @@
 
 #import "GADMediationAdapterPangle.h"
 
-#define PangleLog(format, args...)    NSLog(@"PangleAdaper | "format,##args)
+#define GADMPangleLog(format, args...) NSLog(@"GADMediationAdapterPangle: " format, ##args)
 
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
                                                                  NSString *_Nonnull description);

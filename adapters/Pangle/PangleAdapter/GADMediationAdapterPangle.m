@@ -56,8 +56,8 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     
     NSString *appID = [appIds anyObject];
     if (appIds.count > 1) {
-        PangleLog(@"Found the following App IDs:%@. Please remove any app IDs which you are not using", appIds);
-        PangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
+        GADMPangleLog(@"Found the following App IDs:%@. Please remove any app IDs which you are not using", appIds);
+        GADMPangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
     }
     
     BUAdSDKConfiguration *sdkConfiguration = [BUAdSDKConfiguration configuration];
@@ -80,7 +80,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
         version.minorVersion = [versionComponents[1] integerValue];
         version.patchVersion = [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
     }else {
-        PangleLog(@"Unexpected version string: %@. Returning 0 for adSDKVersion.", versionString);
+        GADMPangleLog(@"Unexpected version string: %@. Returning 0 for adSDKVersion.", versionString);
     }
     return version;
 }
@@ -128,7 +128,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 + (void)setCoppa:(NSInteger)coppa {
     if (coppa != 0 && coppa != 1 && coppa != -1) {
-        PangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
+        GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
@@ -139,7 +139,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 + (void)setGdpr:(NSInteger)gdpr {
     if (gdpr != 0 && gdpr != 1 && gdpr != -1) {
-        PangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
+        GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
@@ -150,7 +150,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 + (void)setCcpa:(NSInteger)ccpa {
     if (ccpa != 0 && ccpa != 1 && ccpa != -1) {
-        PangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
+        GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
