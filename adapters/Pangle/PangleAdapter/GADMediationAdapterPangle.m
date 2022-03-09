@@ -106,27 +106,22 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    if (adConfiguration.childDirectedTreatment) {
-        [GADMediationAdapterPangle setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    }
+    
+    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    if (adConfiguration.childDirectedTreatment) {
-        [GADMediationAdapterPangle setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    }
+    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    if (adConfiguration.childDirectedTreatment) {
-        [GADMediationAdapterPangle setCoppa:adConfiguration.childDirectedTreatment.integerValue];
-    }
+    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
