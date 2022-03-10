@@ -32,8 +32,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2BF5FE54279B009F001EFB81 /* Adapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE53279B009F001EFB81 /* Adapter.m */; };
-		2BF5FE55279B009F001EFB81 /* Adapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BF5FE52279B009F001EFB81 /* Adapter.h */; };
 		2BF5FE64279B02E9001EFB81 /* PangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BF5FE65279B02F3001EFB81 /* GADMediationAdapterPangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BF5FE66279B02FE001EFB81 /* GADMediationAdapterPangleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */; };
@@ -55,7 +53,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				2BF5FE55279B009F001EFB81 /* Adapter.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +73,6 @@
 		2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterPangle.h; sourceTree = "<group>"; };
 		2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterPangle.m; sourceTree = "<group>"; };
 		2BF5FE50279B009F001EFB81 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BF5FE52279B009F001EFB81 /* Adapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Adapter.h; sourceTree = "<group>"; };
-		2BF5FE53279B009F001EFB81 /* Adapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Adapter.m; sourceTree = "<group>"; };
 		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
 		2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBBannerRenderer.h; sourceTree = "<group>"; };
 		2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBRewardedRenderer.h; sourceTree = "<group>"; };
@@ -110,7 +105,6 @@
 				2B3B8D31277A796F005BB25B /* Configuration */,
 				2B3B8D2E277A7870005BB25B /* BuildScript */,
 				2B3B8D14277A77AA005BB25B /* PangleAdapter */,
-				2BF5FE51279B009F001EFB81 /* Adapter */,
 				2B3B8D13277A77AA005BB25B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -185,15 +179,6 @@
 				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		2BF5FE51279B009F001EFB81 /* Adapter */ = {
-			isa = PBXGroup;
-			children = (
-				2BF5FE52279B009F001EFB81 /* Adapter.h */,
-				2BF5FE53279B009F001EFB81 /* Adapter.m */,
-			);
-			path = Adapter;
 			sourceTree = "<group>";
 		};
 		2BF5FE69279B0C46001EFB81 /* Bidding */ = {
@@ -331,7 +316,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BF5FE54279B009F001EFB81 /* Adapter.m in Sources */,
 				2BF5FE75279B0C61001EFB81 /* GADMAdapterPangleUtils.m in Sources */,
 				2BF5FE68279B0561001EFB81 /* GADMediationAdapterPangle.m in Sources */,
 				2BF5FE7B279B0DA2001EFB81 /* GADPangleRTBBannerRenderer.m in Sources */,
