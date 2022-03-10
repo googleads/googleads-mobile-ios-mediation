@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.3.0.2.0";
+@interface GADPangleRTBInterstitialRenderer : NSObject <GADMediationInterstitialAd>
 
-/// Pangle adapter Pangle App ID parameter key.
-static NSString *const GADMAdapterPangleAppID = @"appid";
+/// Asks the receiver to render the ad configuration.
+- (void)renderInterstitialForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
 
-/// Pangle adapter Ad Placement ID parameter key.
-static NSString *const GADMAdapterPanglePlacementID = @"placementid";
+@end
 
-/// Pangle adapter error domain.
-static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.Pangle";
 

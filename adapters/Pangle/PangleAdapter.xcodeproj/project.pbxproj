@@ -6,20 +6,59 @@
 	objectVersion = 55;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		2BF5FE59279B01B5001EFB81 /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2BF5FE5A279B01B5001EFB81 /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				2BF5FE5D279B01D1001EFB81 /* Framework Script */,
+			);
+			dependencies = (
+			);
+			name = Framework;
+			productName = Framework;
+		};
+		2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2BF5FE5F279B0218001EFB81 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				2BF5FE62279B0232001EFB81 /* Validate Source Code */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = ValidateSourceCode;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		2B3B8D3A277A7D62005BB25B /* Script_Framework.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D37277A7D62005BB25B /* Script_Framework.sh */; };
-		2B3B8D3B277A7D62005BB25B /* Script_Validate.sh in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D38277A7D62005BB25B /* Script_Validate.sh */; };
-		2B3B8D3C277A7D63005BB25B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D39277A7D62005BB25B /* README.md */; };
-		2B3B8D3E277A7D70005BB25B /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D3D277A7D70005BB25B /* CHANGELOG.md */; };
-		2B3B8D42277A7D7A005BB25B /* Adapter.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D3F277A7D7A005BB25B /* Adapter.xcconfig */; };
-		2B3B8D43277A7D7A005BB25B /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D40277A7D7A005BB25B /* Release.xcconfig */; };
-		2B3B8D44277A7D7A005BB25B /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D41277A7D7A005BB25B /* Debug.xcconfig */; };
-		2B3B8D46277A7E31005BB25B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2B3B8D45277A7E31005BB25B /* README.md */; };
-		2B3B8D4D277A833B005BB25B /* GADMediationAdapterPangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */; };
+		2BF5FE64279B02E9001EFB81 /* PangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BF5FE65279B02F3001EFB81 /* GADMediationAdapterPangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BF5FE66279B02FE001EFB81 /* GADMediationAdapterPangleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */; };
+		2BF5FE68279B0561001EFB81 /* GADMediationAdapterPangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */; };
+		2BF5FE74279B0C61001EFB81 /* GADMAdapterPangleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */; };
+		2BF5FE75279B0C61001EFB81 /* GADMAdapterPangleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */; };
+		2BF5FE77279B0D70001EFB81 /* GADPangleRTBBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */; };
+		2BF5FE78279B0D73001EFB81 /* GADPangleRTBRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */; };
+		2BF5FE79279B0D7D001EFB81 /* GADPangleRTBInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */; };
+		2BF5FE7B279B0DA2001EFB81 /* GADPangleRTBBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */; };
+		2BF5FE7C279B0DA6001EFB81 /* GADPangleRTBRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */; };
+		2BF5FE7D279B0DAE001EFB81 /* GADPangleRTBInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2BF5FE4E279B009F001EFB81 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2B3B8D12277A77AA005BB25B /* PangleAdapter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PangleAdapter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B3B8D37277A7D62005BB25B /* Script_Framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		2B3B8D38277A7D62005BB25B /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		2B3B8D39277A7D62005BB25B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -33,10 +72,19 @@
 		2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterPangleConstants.h; sourceTree = "<group>"; };
 		2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterPangle.h; sourceTree = "<group>"; };
 		2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterPangle.m; sourceTree = "<group>"; };
+		2BF5FE50279B009F001EFB81 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
+		2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBBannerRenderer.h; sourceTree = "<group>"; };
+		2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBRewardedRenderer.h; sourceTree = "<group>"; };
+		2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBBannerRenderer.m; sourceTree = "<group>"; };
+		2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBInterstitialRenderer.h; sourceTree = "<group>"; };
+		2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBRewardedRenderer.m; sourceTree = "<group>"; };
+		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
+		2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterPangleUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2B3B8D0F277A77AA005BB25B /* Frameworks */ = {
+		2BF5FE4D279B009F001EFB81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -64,7 +112,7 @@
 		2B3B8D13277A77AA005BB25B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2B3B8D12277A77AA005BB25B /* PangleAdapter.app */,
+				2BF5FE50279B009F001EFB81 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -72,8 +120,10 @@
 		2B3B8D14277A77AA005BB25B /* PangleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
+				2BF5FE69279B0C46001EFB81 /* Bidding */,
 				2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */,
+				2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */,
+				2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */,
 				2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */,
 			);
 			path = PangleAdapter;
@@ -126,29 +176,61 @@
 			isa = PBXGroup;
 			children = (
 				2B3B8D49277A81E7005BB25B /* PangleAdapter.h */,
+				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
 		};
+		2BF5FE69279B0C46001EFB81 /* Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */,
+				2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */,
+				2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */,
+				2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */,
+				2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */,
+				2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */,
+			);
+			path = Bidding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		2BF5FE63279B02D3001EFB81 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BF5FE64279B02E9001EFB81 /* PangleAdapter.h in Headers */,
+				2BF5FE65279B02F3001EFB81 /* GADMediationAdapterPangle.h in Headers */,
+				2BF5FE79279B0D7D001EFB81 /* GADPangleRTBInterstitialRenderer.h in Headers */,
+				2BF5FE66279B02FE001EFB81 /* GADMediationAdapterPangleConstants.h in Headers */,
+				2BF5FE74279B0C61001EFB81 /* GADMAdapterPangleUtils.h in Headers */,
+				2BF5FE77279B0D70001EFB81 /* GADPangleRTBBannerRenderer.h in Headers */,
+				2BF5FE78279B0D73001EFB81 /* GADPangleRTBRewardedRenderer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		2B3B8D11277A77AA005BB25B /* PangleAdapter */ = {
+		2BF5FE4F279B009F001EFB81 /* Adapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2B3B8D2B277A77AD005BB25B /* Build configuration list for PBXNativeTarget "PangleAdapter" */;
+			buildConfigurationList = 2BF5FE56279B009F001EFB81 /* Build configuration list for PBXNativeTarget "Adapter" */;
 			buildPhases = (
-				2B3B8D0E277A77AA005BB25B /* Sources */,
-				2B3B8D0F277A77AA005BB25B /* Frameworks */,
-				2B3B8D10277A77AA005BB25B /* Resources */,
+				2BF5FE63279B02D3001EFB81 /* Headers */,
+				2BF5FE4C279B009F001EFB81 /* Sources */,
+				2BF5FE4D279B009F001EFB81 /* Frameworks */,
+				2BF5FE4E279B009F001EFB81 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = PangleAdapter;
-			productName = PangleAdapter;
-			productReference = 2B3B8D12277A77AA005BB25B /* PangleAdapter.app */;
-			productType = "com.apple.product-type.application";
+			name = Adapter;
+			productName = Adapter;
+			productReference = 2BF5FE50279B009F001EFB81 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -159,8 +241,14 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
-					2B3B8D11277A77AA005BB25B = {
-						CreatedOnToolsVersion = 13.0;
+					2BF5FE4F279B009F001EFB81 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					2BF5FE59279B01B5001EFB81 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					2BF5FE5E279B0218001EFB81 = {
+						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
 			};
@@ -177,35 +265,62 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2B3B8D11277A77AA005BB25B /* PangleAdapter */,
+				2BF5FE4F279B009F001EFB81 /* Adapter */,
+				2BF5FE59279B01B5001EFB81 /* Framework */,
+				2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		2B3B8D10277A77AA005BB25B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* Begin PBXShellScriptBuildPhase section */
+		2BF5FE5D279B01D1001EFB81 /* Framework Script */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B3B8D42277A7D7A005BB25B /* Adapter.xcconfig in Resources */,
-				2B3B8D3C277A7D63005BB25B /* README.md in Resources */,
-				2B3B8D43277A7D7A005BB25B /* Release.xcconfig in Resources */,
-				2B3B8D3B277A7D62005BB25B /* Script_Validate.sh in Resources */,
-				2B3B8D3A277A7D62005BB25B /* Script_Framework.sh in Resources */,
-				2B3B8D3E277A7D70005BB25B /* CHANGELOG.md in Resources */,
-				2B3B8D44277A7D7A005BB25B /* Debug.xcconfig in Resources */,
-				2B3B8D46277A7E31005BB25B /* README.md in Resources */,
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Framework Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
 		};
-/* End PBXResourcesBuildPhase section */
+		2BF5FE62279B0232001EFB81 /* Validate Source Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Validate Source Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2B3B8D0E277A77AA005BB25B /* Sources */ = {
+		2BF5FE4C279B009F001EFB81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B3B8D4D277A833B005BB25B /* GADMediationAdapterPangle.m in Sources */,
+				2BF5FE75279B0C61001EFB81 /* GADMAdapterPangleUtils.m in Sources */,
+				2BF5FE68279B0561001EFB81 /* GADMediationAdapterPangle.m in Sources */,
+				2BF5FE7B279B0DA2001EFB81 /* GADPangleRTBBannerRenderer.m in Sources */,
+				2BF5FE7C279B0DA6001EFB81 /* GADPangleRTBRewardedRenderer.m in Sources */,
+				2BF5FE7D279B0DAE001EFB81 /* GADPangleRTBInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +329,7 @@
 /* Begin XCBuildConfiguration section */
 		2B3B8D29277A77AD005BB25B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B3B8D3F277A7D7A005BB25B /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -263,7 +379,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -273,6 +389,7 @@
 		};
 		2B3B8D2A277A77AD005BB25B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B3B8D3F277A7D7A005BB25B /* Adapter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -316,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -324,55 +441,61 @@
 			};
 			name = Release;
 		};
-		2B3B8D2C277A77AD005BB25B /* Debug */ = {
+		2BF5FE57279B009F001EFB81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PangleAdapter/Info.plist;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.PangleAdapter;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		2B3B8D2D277A77AD005BB25B /* Release */ = {
+		2BF5FE58279B009F001EFB81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PangleAdapter/Info.plist;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.PangleAdapter;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2BF5FE5B279B01B5001EFB81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = Adapter;
+			};
+			name = Debug;
+		};
+		2BF5FE5C279B01B5001EFB81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = Adapter;
+			};
+			name = Release;
+		};
+		2BF5FE60279B0218001EFB81 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2BF5FE61279B0218001EFB81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -388,11 +511,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2B3B8D2B277A77AD005BB25B /* Build configuration list for PBXNativeTarget "PangleAdapter" */ = {
+		2BF5FE56279B009F001EFB81 /* Build configuration list for PBXNativeTarget "Adapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2B3B8D2C277A77AD005BB25B /* Debug */,
-				2B3B8D2D277A77AD005BB25B /* Release */,
+				2BF5FE57279B009F001EFB81 /* Debug */,
+				2BF5FE58279B009F001EFB81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BF5FE5A279B01B5001EFB81 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BF5FE5B279B01B5001EFB81 /* Debug */,
+				2BF5FE5C279B01B5001EFB81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BF5FE5F279B0218001EFB81 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BF5FE60279B0218001EFB81 /* Debug */,
+				2BF5FE61279B0218001EFB81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
