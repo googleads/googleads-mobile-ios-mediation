@@ -1,5 +1,12 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Version 4.8.0.0 (In progress)
+- Verified compatibility with AdColony SDK 4.8.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 9.1.0.
+- AdColony SDK version 4.8.0.
+
 #### [Version 4.7.2.2](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.7.2.2.zip)
 - Added support for the arm64 simulator architecture.
 
