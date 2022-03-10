@@ -27,23 +27,23 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// Set the COPPA setting in Pangle SDK.
 ///
 /// @param COPPA An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA. The interface only works in the United States. 0 means false.
-/// 1 means true. -1 means unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
+/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
+/// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
 + (void)setCOPPA:(NSInteger)COPPA;
 
 /// Set the GDPR setting in Pangle SDK.
 ///
-/// @param gdpr An integer value that indicates whether the user consents the use of personal data to serve
-/// ads under GDPR.The interface only works in The European.  0 means the user consents. 1 means the user
-/// does not consent. -1 means the user hasn't specified. Any value outside of -1, 0, or 1 will result in this
-/// method being a no-op.
-+ (void)setGdpr:(NSInteger)gdpr;
+/// @param GDPR An integer value that indicates whether the user consents the use of personal
+/// data to serve ads under GDPR.  0 means the user consents. 1 means the user does not consent.
+/// -1 means the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method
+/// being a no-op.
++ (void)setGDPR:(NSInteger)GDPR;
 
 /// Set the CCPA setting in Pangle SDK.
 ///
-/// @param ccpa An integer value that indicates whether the user opts in of the "sale" of the "personal information"
-/// under CCPA. The interface only works in USA. 0 means the user opts in. 1 means the user opts out. -1 means
+/// @param CCPA An integer value that indicates whether the user opts in of the "sale" of the
+/// "personal information" under CCPA. 0 means the user opts in. 1 means the user opts out. -1 means
 /// the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
-+ (void)setCcpa:(NSInteger)ccpa;
++ (void)setCCPA:(NSInteger)CCPA;
 
 @end

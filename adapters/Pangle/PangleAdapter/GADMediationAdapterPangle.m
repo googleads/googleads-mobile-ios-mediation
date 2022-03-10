@@ -137,26 +137,26 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     _coppa = COPPA;
 }
 
-+ (void)setGdpr:(NSInteger)gdpr {
-    if (gdpr != 0 && gdpr != 1 && gdpr != -1) {
++ (void)setGDPR:(NSInteger)GDPR {
+    if (GDPR != 0 && GDPR != 1 && GDPR != -1) {
         GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setGDPR:gdpr];
+        [BUAdSDKManager setGDPR:GDPR];
     }
-    _gdpr = gdpr;
+    _gdpr = GDPR;
 }
 
-+ (void)setCcpa:(NSInteger)ccpa {
-    if (ccpa != 0 && ccpa != 1 && ccpa != -1) {
++ (void)setCCPA:(NSInteger)CCPA {
+    if (CCPA != 0 && CCPA != 1 && CCPA != -1) {
         GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setCCPA:ccpa];
+        [BUAdSDKManager setCCPA:CCPA];
     }
-    _ccpa = ccpa;
+    _ccpa = CCPA;
 }
 
 @end
