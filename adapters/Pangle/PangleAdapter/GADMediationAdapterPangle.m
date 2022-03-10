@@ -107,34 +107,34 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     
-    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-+ (void)setCoppa:(NSInteger)coppa {
-    if (coppa != 0 && coppa != 1 && coppa != -1) {
++ (void)setCOPPA:(NSInteger)COPPA {
+    if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
         GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
     if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setCoppa:coppa];
+        [BUAdSDKManager setCoppa:COPPA];
     }
-    _coppa = coppa;
+    _coppa = COPPA;
 }
 
 + (void)setGdpr:(NSInteger)gdpr {
