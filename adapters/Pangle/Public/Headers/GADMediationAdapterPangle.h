@@ -24,12 +24,12 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
-/// Set the COPPA setting in Pangle SDK.
+/// Set the COPPA setting before initialize in Pangle SDK.
 ///
 /// @param COPPA An integer value that indicates whether the app should be treated as
 /// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
 /// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
-+ (void)setCOPPA:(NSInteger)COPPA;
++ (void)setCOPPABeforeInitialize:(NSInteger)COPPA;
 
 /// Set the GDPR setting in Pangle SDK.
 ///

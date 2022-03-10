@@ -21,7 +21,7 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADMAdapterPangleUtils.h"
 
-static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
+static NSInteger _initialCoppa = -1,_gdpr = -1, _ccpa = -1;
 
 @implementation GADMediationAdapterPangle {
     /// Pangle banner ad wrapper.
@@ -61,7 +61,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     BUAdSDKConfiguration *sdkConfiguration = [BUAdSDKConfiguration configuration];
     sdkConfiguration.territory = BUAdSDKTerritory_NO_CN;
     sdkConfiguration.appID = appID;
-    sdkConfiguration.coppa = @(_coppa);
+    sdkConfiguration.coppa = @(_initialCoppa);
     sdkConfiguration.GDPR = @(_gdpr);
     sdkConfiguration.CCPA = @(_ccpa);
     [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
@@ -104,35 +104,31 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [BUAdSDKManager setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
     [_bannerRenderer renderBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [BUAdSDKManager setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
     [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [BUAdSDKManager setCoppa:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-+ (void)setCOPPA:(NSInteger)COPPA {
++ (void)setCOPPABeforeInitialize:(NSInteger)COPPA {
     if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
         GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
         return;
     }
-    if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-        [BUAdSDKManager setCoppa:COPPA];
-    }
-    _coppa = COPPA;
+    _initialCoppa = COPPA;
 }
 
 + (void)setGDPR:(NSInteger)GDPR {
