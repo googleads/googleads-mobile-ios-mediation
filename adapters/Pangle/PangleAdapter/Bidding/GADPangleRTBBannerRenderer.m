@@ -55,13 +55,15 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728,90};
     
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
     if (!placementId.length) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters, [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]);
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters,
+                                                                      [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]
+                                                                      );
         _loadCompletionHandler(nil, error);
         return;
     }
     
     NSError *error = nil;
-    _bannerSize = [self _bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+    _bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
     if (error) {
         _loadCompletionHandler(nil, error);
         return;
@@ -72,7 +74,7 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728,90};
     [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
 
-- (CGSize)_bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+- (CGSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
     CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
     GADAdSize banner50 = GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, pangleBannerAdSize320x50.height));//320*50
     GADAdSize banner90 = GADAdSizeFromCGSize(CGSizeMake(gadAdCGSize.width, pangleBannerAdSize728x90.height));//728*90
@@ -97,7 +99,7 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728,90};
 }
 
 #pragma mark - GADMediationBannerAd
-- (UIView *)view {
+- (nonnull UIView *)view {
     return _nativeExpressBannerView;
 }
 

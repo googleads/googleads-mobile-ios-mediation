@@ -35,14 +35,12 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
     NSString *signals = [BUAdSDKManager getBiddingToken:nil];
-    if (completionHandler) {
-        completionHandler(signals,nil);
-    }
+    completionHandler(signals,nil);
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    NSMutableSet *appIds = [[NSMutableSet alloc]init];
+    NSMutableSet *appIds = [[NSMutableSet alloc] init];
     for (GADMediationCredentials *cred in configuration.credentials) {
         NSString *appId = cred.settings[GADMAdapterPangleAppID];
         GADMAdapterPangleMutableSetAddObject(appIds, appId);
