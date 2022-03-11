@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 4.3.0.4.0 (In progress)
+#### [Version 4.3.0.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.3.0.4.0.zip)
 - Initial release!
 - Added bidding support for banner (includes MREC), interstitial and rewarded ad formats.
 
