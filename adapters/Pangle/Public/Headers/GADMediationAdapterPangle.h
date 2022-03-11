@@ -36,7 +36,8 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 ///
 /// @param CCPA An integer value that indicates whether the user opts in of the "sale" of the
 /// "personal information" under CCPA. 0 means the user opts in. 1 means the user opts out. -1 means
-/// the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
+/// the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method
+/// being a no-op.
 + (void)setCCPA:(NSInteger)CCPA;
 
 @end

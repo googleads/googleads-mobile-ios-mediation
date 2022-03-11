@@ -17,14 +17,15 @@
 
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
                                                                NSString *_Nonnull description) {
-    return [NSError errorWithDomain:GADMAdapterPangleErrorDomain code:code userInfo:@{
-        NSLocalizedDescriptionKey : description,
-        NSLocalizedFailureReasonErrorKey : description
-    }];
+  return [NSError errorWithDomain:GADMAdapterPangleErrorDomain
+                             code:code
+                         userInfo:@{
+                           NSLocalizedDescriptionKey : description,
+                           NSLocalizedFailureReasonErrorKey : description
+                         }];
 }
 
-void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set,
-                                            NSObject *_Nonnull object) {
+void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
   }

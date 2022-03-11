@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #import "GADMediationAdapterPangle.h"
 
 #define GADMPangleLog(format, args...) NSLog(@"GADMediationAdapterPangle: " format, ##args)
 
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
-                                                                 NSString *_Nonnull description);
+                                                               NSString *_Nonnull description);
 
-void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set,
-                                          NSObject *_Nonnull object);
+void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
