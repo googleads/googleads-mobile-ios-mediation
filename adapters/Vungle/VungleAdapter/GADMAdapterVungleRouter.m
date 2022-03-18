@@ -419,6 +419,13 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   return [VungleSDK.sharedSDK currentSuperToken];
 }
 
+- (void)setCOPPAStatus:(NSNumber *)coppa {
+    if (coppa) {
+        [[VungleSDK sharedSDK] updateCOPPAStatus:[coppa boolValue]];
+    }
+}
+
+
 #pragma mark - VungleSDKDelegate methods
 
 - (void)vungleWillShowAdForPlacementID:(nullable NSString *)placementID {

@@ -101,6 +101,7 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
         [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
@@ -117,6 +118,7 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
@@ -125,6 +127,7 @@
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
     _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                 completionHandler:completionHandler];
     [_nativeAd requestAd];
