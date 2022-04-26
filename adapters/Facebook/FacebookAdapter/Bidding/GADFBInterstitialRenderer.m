@@ -37,9 +37,6 @@
   // GMA SDK, not set on the GMA SDK.
   id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 
-  /// Indicates whether this renderer is loading a real-time bidding request.
-  BOOL _isRTBRequest;
-
   /// Indicates whether presentFromViewController: was called on this renderer.
   BOOL _presentCalled;
 }
@@ -65,14 +62,9 @@
     return delegate;
   };
 
-  if (adConfiguration.bidResponse) {
-    _isRTBRequest = YES;
-  }
-
   // -[FBInterstitialAd initWithPlacementID:adSize:rootViewController:] throws an
   // NSInvalidArgumentException if the placement ID is nil.
-  NSString *placementID =
-      adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
+  NSString *placementID = adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
     NSError *error =
         GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
@@ -115,9 +107,7 @@
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
-    if (!_isRTBRequest) {
-      [strongDelegate reportClick];
-    }
+    [strongDelegate reportClick];
     [strongDelegate willBackgroundApplication];
   }
 }

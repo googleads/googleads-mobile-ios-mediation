@@ -40,9 +40,6 @@
   // Facebook Audience Network banner views can have flexible width. Set this property to the
   // desired banner view's size. Set to CGSizeZero if resizing is not desired.
   CGSize _finalBannerSize;
-
-  /// Indicates whether this renderer is loading a real-time bidding request.
-  BOOL _isRTBRequest;
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -66,14 +63,10 @@
   };
 
   _finalBannerSize = adConfiguration.adSize.size;
-  if (adConfiguration.bidResponse) {
-    _isRTBRequest = YES;
-  }
 
   // -[FBAdView initWithPlacementID:adSize:rootViewController:] throws an NSInvalidArgumentException
   // if the placement ID is nil.
-  NSString *placementID =
-      adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
+  NSString *placementID = adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
     NSError *error =
         GADFBErrorWithCodeAndDescription(GADFBErrorInvalidRequest, @"Placement ID cannot be nil.");
@@ -132,9 +125,7 @@
 - (void)adViewDidClick:(FBAdView *)adView {
   id<GADMediationBannerAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
-    if (!_isRTBRequest) {
-      [strongDelegate reportClick];
-    }
+    [strongDelegate reportClick];
     [strongDelegate willBackgroundApplication];
   }
 }

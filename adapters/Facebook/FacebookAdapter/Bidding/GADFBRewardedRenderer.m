@@ -131,7 +131,7 @@
 
 - (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate && !_isRTBRequest) {
+  if (strongDelegate) {
     [strongDelegate reportClick];
   }
 }
@@ -167,8 +167,8 @@
 #pragma mark GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  /// The Facebook Audience Network SDK doesn't have callbacks for a rewarded ad opening or playing.
-  /// Invoke callbacks on the Google Mobile Ads SDK within this method instead.
+  /// The Facebook Audience Network SDK doesn't have callbacks for a rewarded ad opening or
+  /// playing. Invoke callbacks on the Google Mobile Ads SDK within this method instead.
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   _presentCalled = YES;
   if (![_rewardedAd showAdFromRootViewController:viewController]) {

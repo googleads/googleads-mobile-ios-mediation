@@ -52,9 +52,6 @@
 
   /// Facebook media view.
   FBMediaView *_mediaView;
-
-  /// Indicates whether this renderer is loading a real-time bidding request.
-  BOOL _isRTBRequest;
 }
 
 - (void)renderNativeAdForAdConfiguration:
@@ -77,10 +74,6 @@
     originalCompletionHandler = nil;
     return delegate;
   };
-
-  if (adConfiguration.bidResponse) {
-    _isRTBRequest = YES;
-  }
 
   NSString *placementID = adConfiguration.credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
@@ -274,9 +267,7 @@
 }
 
 - (void)nativeAdBaseDidClick:(FBNativeAdBase *)nativeAd {
-  if (!_isRTBRequest) {
-    [_adEventDelegate reportClick];
-  }
+  [_adEventDelegate reportClick];
 }
 
 - (void)nativeAdBase:(FBNativeAdBase *)nativeAd didFailWithError:(NSError *)error {
