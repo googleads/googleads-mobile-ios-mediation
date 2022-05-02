@@ -110,6 +110,9 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -122,6 +125,9 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -134,6 +140,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -146,6 +155,9 @@
             (GADMediationRewardedAdConfiguration *)adConfiguration
                                    completionHandler:(GADMediationRewardedLoadCompletionHandler)
                                                          completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -156,6 +168,9 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }

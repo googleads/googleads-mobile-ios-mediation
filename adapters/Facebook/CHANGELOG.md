@@ -2,6 +2,7 @@
 
 #### Version 6.10.0.0 (In Progress)
 - Verified compatibility with FAN SDK 6.10.0.
+- Added warning messages for waterfall mediation deprecation. See [Meta's blog](https://www.facebook.com/audiencenetwork/resources/blog/audience-network-to-become-bidding-only-beginning-with-ios-in-2021/) for more information.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.3.0.

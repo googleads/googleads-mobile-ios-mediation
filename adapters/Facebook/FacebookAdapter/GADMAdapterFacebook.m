@@ -70,6 +70,7 @@
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
+  NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if ([strongConnector childDirectedTreatment]) {
     GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
@@ -80,6 +81,7 @@
 }
 
 - (void)getInterstitial {
+  NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if ([strongConnector childDirectedTreatment]) {
     GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
@@ -96,6 +98,7 @@
 
 - (void)getNativeAdWithAdTypes:(NSArray *)adTypes options:(NSArray *)options {
   id<GADMAdNetworkConnector> strongConnector = _connector;
+  NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
   if ([strongConnector childDirectedTreatment]) {
     GADMAdapterFacebookSetMixedAudience([strongConnector childDirectedTreatment]);
   }
