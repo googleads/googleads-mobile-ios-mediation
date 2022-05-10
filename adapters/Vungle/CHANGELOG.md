@@ -2,7 +2,6 @@
 
 #### [Version 6.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.0.zip)
 - Verified compatibility with Vungle SDK 6.11.0.
-- Added support for the arm64 simulator architecture.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.4.0.
