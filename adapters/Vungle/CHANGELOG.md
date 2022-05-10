@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.11.0.0 (In progress)
+#### [Version 6.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.0.zip)
 - Verified compatibility with Vungle SDK 6.11.0.
 - Added support for the arm64 simulator architecture.
 
