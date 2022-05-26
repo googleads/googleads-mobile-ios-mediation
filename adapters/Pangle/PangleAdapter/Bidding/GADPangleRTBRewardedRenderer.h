@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADPangleRTBRewardedRenderer : NSObject <GADMediationRewardedAd>
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (void)renderRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end

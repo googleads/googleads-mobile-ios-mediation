@@ -35,7 +35,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterMyTargetVersion;
+  return GADMAdapterMyTargetVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {

@@ -21,7 +21,7 @@
   NSMutableSet *siteIDs = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *siteID = cred.settings[kGADMAdapterVerizonMediaDCN];
+    NSString *siteID = cred.settings[GADMAdapterVerizonMediaDCN];
     GADMAdapterVerizonMutableSetAddObject(siteIDs, siteID);
   }
 
@@ -49,7 +49,7 @@
 
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
-      [kGADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
+      [GADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

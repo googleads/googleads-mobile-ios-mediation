@@ -101,7 +101,8 @@
   }];
 
   if (![_rewardedAd showWithPresentingViewController:viewController]) {
-    NSString *errorMessage = (@"Failed to show ad for zone: %@", _rewardedAd.zoneID);
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"Failed to show ad for zone: %@", _rewardedAd.zoneID];
     GADMAdapterAdColonyLog(@"%@", errorMessage);
     NSError *error =
         GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdColonyErrorShow, errorMessage);

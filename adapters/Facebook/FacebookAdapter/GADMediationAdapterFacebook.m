@@ -52,7 +52,7 @@
       initWithPlacementIDs:[placementIds allObjects]
           mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
                                                       GADMobileAds.sharedInstance.sdkVersion,
-                                                      kGADMAdapterFacebookVersion]];
+                                                      GADMAdapterFacebookVersion]];
 
   [FBAudienceNetworkAds initializeWithSettings:fbSettings
                              completionHandler:^(FBAdInitResults *_Nonnull results) {
@@ -66,16 +66,16 @@
 }
 
 + (NSString *)getPlacementIDFromCredentials:(GADMediationCredentials *)credentials {
-  NSString *placementID = credentials.settings[kGADMAdapterFacebookBiddingPubID];
+  NSString *placementID = credentials.settings[GADMAdapterFacebookBiddingPubID];
   if (!placementID) {
-    placementID = credentials.settings[kGADMAdapterFacebookPubID];
+    placementID = credentials.settings[GADMAdapterFacebookPubID];
   }
   return placementID;
 }
 
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
-  NSArray<NSString *> *components = [kGADMAdapterFacebookVersion componentsSeparatedByString:@"."];
+  NSArray<NSString *> *components = [GADMAdapterFacebookVersion componentsSeparatedByString:@"."];
   if (components.count == 4) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
@@ -110,6 +110,9 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -122,6 +125,9 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -134,6 +140,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -146,6 +155,9 @@
             (GADMediationRewardedAdConfiguration *)adConfiguration
                                    completionHandler:(GADMediationRewardedLoadCompletionHandler)
                                                          completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -156,6 +168,9 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  if (!adConfiguration.bidResponse) {
+    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
+  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }

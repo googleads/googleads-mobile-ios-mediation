@@ -70,8 +70,8 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *spotId = _adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
-  NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
+  NSString *spotId = _adConfiguration.credentials.settings[GADMAdapterNendSpotID];
+  NSString *apiKey = _adConfiguration.credentials.settings[GADMAdapterNendApiKey];
   if (!spotId.length || !apiKey.length) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
@@ -80,7 +80,7 @@
   }
 
   _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotID:spotId.integerValue apiKey:apiKey];
-  _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
+  _rewardedVideo.mediationName = GADMAdapterNendMediationName;
 
   GADMAdapterNendExtras *extras = _adConfiguration.extras;
   if (extras) {

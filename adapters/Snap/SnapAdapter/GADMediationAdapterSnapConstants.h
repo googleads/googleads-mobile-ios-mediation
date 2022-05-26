@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Snap mediation network adapter version.
-static NSString *const GADMAdapterSnapVersion = @"2.1.0.0";
+static NSString *const GADMAdapterSnapVersion = @"2.1.0.1";
 
 /// Snap mediation network adapter Snap App ID parameter key.
 static NSString *const GADMAdapterSnapAppID = @"snapAppId";

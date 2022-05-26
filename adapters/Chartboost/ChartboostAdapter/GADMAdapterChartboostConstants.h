@@ -15,19 +15,19 @@
 #import <Foundation/Foundation.h>
 
 /// Chartboost mediation network adapter version.
-static NSString *const kGADMAdapterChartboostVersion = @"8.5.0.1.0";
+static NSString *const GADMAdapterChartboostVersion = @"8.5.0.2";
 
 /// Chartboost App ID.
-static NSString *const kGADMAdapterChartboostAppID = @"appId";
+static NSString *const GADMAdapterChartboostAppID = @"appId";
 
 /// Chartboost App Signature.
-static NSString *const kGADMAdapterChartboostAppSignature = @"appSignature";
+static NSString *const GADMAdapterChartboostAppSignature = @"appSignature";
 
 /// Chartboost Ad Location.
-static NSString *const kGADMAdapterChartboostAdLocation = @"adLocation";
+static NSString *const GADMAdapterChartboostAdLocation = @"adLocation";
 
 /// Chartboost adapter error domain.
-static NSString *const kGADMAdapterChartboostErrorDomain = @"com.google.mediation.chartboost";
+static NSString *const GADMAdapterChartboostErrorDomain = @"com.google.mediation.chartboost";
 
 /// Minimum OS version.
-static NSString *const kGADMAdapterChartboostMinimumOSVersion = @"10.0";
+static NSString *const GADMAdapterChartboostMinimumOSVersion = @"10.0";

@@ -19,11 +19,11 @@
 @implementation GADMediationAdConfiguration (Settings)
 
 - (nonnull NSString *)placementId {
-  return self.credentials.settings[kGADMAdapterUnityPlacementID];
+  return self.credentials.settings[GADMAdapterUnityPlacementID];
 }
 
 - (nonnull NSString *)gameId {
-  return self.credentials.settings[kGADMAdapterUnityGameID];
+  return self.credentials.settings[GADMAdapterUnityGameID];
 }
 
 @end
@@ -33,7 +33,7 @@
 - (nonnull NSSet *)gameIds {
   NSMutableSet *gameIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in self.credentials) {
-    NSString *gameIDFromSettings = cred.settings[kGADMAdapterUnityGameID];
+    NSString *gameIDFromSettings = cred.settings[GADMAdapterUnityGameID];
     GADMAdapterUnityMutableSetAddObject(gameIDs, gameIDFromSettings);
   }
   return gameIDs;

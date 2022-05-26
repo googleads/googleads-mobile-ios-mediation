@@ -32,11 +32,11 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     completionHandler(error);
@@ -46,8 +46,8 @@
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
-    NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
+    NSString *appID = cred.settings[GADMAdapterChartboostAppID];
+    NSString *appSignature = cred.settings[GADMAdapterChartboostAppSignature];
 
     if (appID.length && appSignature.length) {
       GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
@@ -102,7 +102,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = kGADMAdapterChartboostVersion;
+  NSString *versionString = GADMAdapterChartboostVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};

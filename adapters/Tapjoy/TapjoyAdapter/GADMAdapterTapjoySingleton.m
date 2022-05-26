@@ -124,10 +124,10 @@
 
   [self addDelegate:delegate forPlacementName:placementName];
   TJPlacement *tjPlacement = [TJPlacement placementWithName:placementName
-                                             mediationAgent:kGADMAdapterTapjoyMediationAgent
+                                             mediationAgent:GADMAdapterTapjoyMediationAgent
                                                 mediationId:nil
                                                    delegate:self];
-  tjPlacement.adapterVersion = kGADMAdapterTapjoyVersion;
+  tjPlacement.adapterVersion = GADMAdapterTapjoyVersion;
   tjPlacement.videoDelegate = self;
   if (bidResponse) {
     NSData *data = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];

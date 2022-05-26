@@ -48,6 +48,16 @@
 		2BF5FE7D279B0DAE001EFB81 /* GADPangleRTBInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		236ED88027DAC5C20049657C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		2BF5FE4E279B009F001EFB81 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -104,8 +114,6 @@
 				2B3B8D45277A7E31005BB25B /* README.md */,
 				2B3B8D3D277A7D70005BB25B /* CHANGELOG.md */,
 				2B3B8D35277A79D4005BB25B /* Public */,
-				2B3B8D34277A79A8005BB25B /* Library */,
-				2B3B8D33277A798F005BB25B /* Drop_Framework_And_Headers */,
 				2B3B8D31277A796F005BB25B /* Configuration */,
 				2B3B8D2E277A7870005BB25B /* BuildScript */,
 				2B3B8D14277A77AA005BB25B /* PangleAdapter */,
@@ -151,20 +159,6 @@
 				2B3B8D40277A7D7A005BB25B /* Release.xcconfig */,
 			);
 			path = Configuration;
-			sourceTree = "<group>";
-		};
-		2B3B8D33277A798F005BB25B /* Drop_Framework_And_Headers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Drop_Framework_And_Headers;
-			sourceTree = "<group>";
-		};
-		2B3B8D34277A79A8005BB25B /* Library */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Library;
 			sourceTree = "<group>";
 		};
 		2B3B8D35277A79D4005BB25B /* Public */ = {
@@ -233,6 +227,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				236ED88127DAC5C20049657C /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -333,6 +328,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		236ED88127DAC5C20049657C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
+			targetProxy = 236ED88027DAC5C20049657C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2B3B8D29277A77AD005BB25B /* Debug */ = {

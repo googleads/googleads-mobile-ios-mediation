@@ -99,7 +99,7 @@
 /// and 2) non-personally identifiable categories before they are forwarded to MoPub due to GDPR.
 - (NSString *)getKeywords:(BOOL)intendedForPII
               forAdConfig:(nonnull GADMediationRewardedAdConfiguration *)adConfig {
-  NSString *keywordsBuilder = [NSString stringWithFormat:@"%@", kGADMAdapterMoPubTpValue];
+  NSString *keywordsBuilder = [NSString stringWithFormat:@"%@", GADMAdapterMoPubTpValue];
 
   if (intendedForPII) {
     if ([[MoPub sharedInstance] canCollectPersonalInfo]) {

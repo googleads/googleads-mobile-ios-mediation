@@ -33,9 +33,6 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Indicates whether a banner ad is loaded.
-  BOOL _isAdLoaded;
-
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
 }
@@ -46,27 +43,31 @@
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
 @synthesize view;
+@synthesize isAdLoaded;
 
 - (void)dealloc {
-    [self cleanUp];
+  [self cleanUp];
 }
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration*)adConfiguration
-                              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
     _bannerSize = [self vungleAdSizeForAdSize:[adConfiguration adSize]];
-      
+
     VungleAdNetworkExtras *networkExtras = adConfiguration.extras;
-    self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings networkExtras:networkExtras];
+    self.desiredPlacement =
+        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings
+                                networkExtras:networkExtras];
     self.uniquePubRequestID = [networkExtras.UUID copy];
 
     __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationBannerLoadCompletionHandler origAdLoadHandler = [completionHandler copy];
     /// Ensure the original completion handler is only called once, and is deallocated once called.
-    _adLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
-      id<GADMediationBannerAd> ad, NSError *error) {
+    _adLoadCompletionHandler =
+        ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
       if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
         return nil;
       }
@@ -83,14 +84,18 @@
 
 - (void)requestBannerAd {
   if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@", NSStringFromGADAdSize(_bannerSize)];
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
+                                   NSStringFromGADAdSize(_bannerSize)];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -108,26 +113,26 @@
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == kGADAdSizeBanner.size.height) {
-    if (size.width < kGADAdSizeBanner.size.width) {
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
       return shortBannerSize;
     }
-    return kGADAdSizeBanner;
+    return GADAdSizeBanner;
   }
-  if (size.height == kGADAdSizeLeaderboard.size.height) {
-    return kGADAdSizeLeaderboard;
+  if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
   }
-  if (size.height == kGADAdSizeMediumRectangle.size.height) {
-    return kGADAdSizeMediumRectangle;
+  if (size.height == GADAdSizeMediumRectangle.size.height) {
+    return GADAdSizeMediumRectangle;
   }
 
-  return kGADAdSizeInvalid;
+  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {
@@ -139,7 +144,8 @@
 }
 
 - (void)loadFrame {
-  view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  view = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
 }
 
 - (NSError *)renderAd {
@@ -163,7 +169,7 @@
 #pragma mark - GADMAdapterVungleDelegate delegates
 
 - (NSString *)bidResponse {
-    return [_adConfiguration bidResponse];
+  return [_adConfiguration bidResponse];
 }
 
 - (GADAdSize)bannerAdSize {
@@ -179,13 +185,13 @@
 }
 
 - (void)adAvailable {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+  self.isAdLoaded = YES;
   [self loadFrame];
-    
+
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
   }
@@ -194,7 +200,7 @@
     [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
     return;
   }
-    
+
   self.bannerState = BannerRouterDelegateStateWillPlay;
   NSError *error = [self renderAd];
   if (error) {
@@ -204,7 +210,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
@@ -233,7 +239,6 @@
 
 - (void)trackClick {
   [_delegate reportClick];
-  [_delegate willPresentFullScreenView];
 }
 
 - (void)willLeaveApplication {

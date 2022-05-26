@@ -60,23 +60,23 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterVungleErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterVungleErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
 }
 
 VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
-  if (adSize.height == kGADAdSizeLeaderboard.size.height) {
+  if (adSize.height == GADAdSizeLeaderboard.size.height) {
     return VungleAdSizeBannerLeaderboard;
   }
 
-  if (adSize.height != kGADAdSizeBanner.size.height) {
+  if (adSize.height != GADAdSizeBanner.size.height) {
     return VungleAdSizeUnknown;
   }
 
   // Height is 50.
-  if (adSize.width < kGADAdSizeBanner.size.width) {
+  if (adSize.width < GADAdSizeBanner.size.width) {
     return VungleAdSizeBannerShort;
   }
 
@@ -86,7 +86,7 @@ VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
 @implementation GADMAdapterVungleUtils
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {
-  NSString *appId = serverParameters[kGADMAdapterVungleApplicationID];
+  NSString *appId = serverParameters[GADMAdapterVungleApplicationID];
   if (!appId) {
     NSString *const message = @"Vungle app ID should be specified!";
     NSLog(message);
@@ -97,7 +97,7 @@ VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
 
 + (nullable NSString *)findPlacement:(nullable NSDictionary *)serverParameters
                        networkExtras:(nullable VungleAdNetworkExtras *)networkExtras {
-  NSString *ret = serverParameters[kGADMAdapterVunglePlacementID];
+  NSString *ret = serverParameters[GADMAdapterVunglePlacementID];
   if (networkExtras && networkExtras.playingPlacement) {
     if (ret) {
       NSLog(@"'placementID' had a value in both serverParameters and networkExtras. "

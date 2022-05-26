@@ -95,7 +95,7 @@
   NSString *description = @"maio bidding SDK returned error";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];
 

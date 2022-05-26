@@ -30,12 +30,10 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
-
-  /// Indicates whether the rewarded ad is loaded.
-  BOOL _isAdLoaded;
 }
 
 @synthesize desiredPlacement;
+@synthesize isAdLoaded;
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -132,11 +130,11 @@
 }
 
 - (void)adAvailable {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
+  self.isAdLoaded = YES;
 
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
@@ -170,7 +168,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }

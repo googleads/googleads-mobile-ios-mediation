@@ -16,7 +16,7 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSString *adUnitID;
   if (configuration.credentials.count > 0) {
-    adUnitID = configuration.credentials[0].settings[kGADMAdapterMoPubPubIdKey];
+    adUnitID = configuration.credentials[0].settings[GADMAdapterMoPubPubIdKey];
   }
 
   if (adUnitID) {
@@ -50,7 +50,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSArray *versionComponents = [kGADMAdapterMoPubVersion componentsSeparatedByString:@"."];
+  NSArray *versionComponents = [GADMAdapterMoPubVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];

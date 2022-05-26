@@ -111,17 +111,17 @@
 
       _extraAssets = [[NSMutableDictionary alloc] init];
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAdvertisingLabel,
+          _extraAssets, GADMAdapterMyTargetExtraAssetAdvertisingLabel,
           promoBanner.advertisingLabel);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
+          _extraAssets, GADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
+          _extraAssets, GADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
+          _extraAssets, GADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
       if (promoBanner.votes > 0) {
         GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-            _extraAssets, kGADMAdapterMyTargetExtraAssetVotes,
+            _extraAssets, GADMAdapterMyTargetExtraAssetVotes,
             [NSNumber numberWithUnsignedInteger:promoBanner.votes]);
       }
     }

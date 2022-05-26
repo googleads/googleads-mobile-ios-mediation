@@ -17,8 +17,8 @@
 
 void GADMAdapterUnityConfigureMediationService(void) {
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
-  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData setName:GADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:GADMAdapterUnityVersion];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
 }
@@ -58,7 +58,7 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
 
 GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   NSArray *potentials =
-      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
+      @[ NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard) ];
   return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
 }
 

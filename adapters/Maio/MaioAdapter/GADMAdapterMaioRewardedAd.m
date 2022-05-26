@@ -55,8 +55,8 @@
     return delegate;
   };
 
-  _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaIdKey];
-  _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneIdKey];
+  _mediaId = adConfiguration.credentials.settings[GADMMaioAdapterMediaIdKey];
+  _zoneId = adConfiguration.credentials.settings[GADMMaioAdapterZoneIdKey];
 
   if (!self.mediaId) {
     NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(

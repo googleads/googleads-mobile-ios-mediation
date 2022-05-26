@@ -13,21 +13,21 @@
 // limitations under the License.
 
 // IronSource internal reporting const.
-static NSString *const kGADMAdapterIronSourceMediationName = @"AdMob";
-static NSString *const kGADMAdapterIronSourceAdapterVersion = @"7.1.14.0";
-static NSString *const kGADMIronSourceDefaultInstanceId = @"0";
-static NSString *const kGADMAdapterIronSourceInternalVersion = @"310";
+static NSString *const GADMAdapterIronSourceMediationName = @"AdMob";
+static NSString *const GADMAdapterIronSourceAdapterVersion = @"7.2.1.2.0";
+static NSString *const GADMIronSourceDefaultInstanceId = @"0";
+static NSString *const GADMAdapterIronSourceInternalVersion = @"310";
 
 // IronSource parameters keys.
-static NSString *const kGADMAdapterIronSourceAppKey = @"appKey";
-static NSString *const kGADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
-static NSString *const kGADMAdapterIronSourceInstanceId = @"instanceId";
+static NSString *const GADMAdapterIronSourceAppKey = @"appKey";
+static NSString *const GADMAdapterIronSourceIsTestEnabled = @"isTestEnabled";
+static NSString *const GADMAdapterIronSourceInstanceId = @"instanceId";
 
 // IronSource instance states.
 typedef NSString *InstanceState NS_STRING_ENUM;
-static InstanceState const kInstanceStateLocked = @"LOCKED";
-static InstanceState const kInstanceStateStart = @"START";
-static InstanceState const kInstanceStateCanLoad = @"CANLOAD";
+static InstanceState const GADMAdapterIronSourceInstanceStateLocked = @"LOCKED";
+static InstanceState const GADMAdapterIronSourceInstanceStateStart = @"START";
+static InstanceState const GADMAdapterIronSourceInstanceStateCanLoad = @"CANLOAD";
 
 // IronSource mediation adapter error domain.
-static NSString *const kGADMAdapterIronSourceErrorDomain = @"com.google.mediation.IronSource";
+static NSString *const GADMAdapterIronSourceErrorDomain = @"com.google.mediation.IronSource";

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
@@ -21,8 +20,7 @@
 /// Asks the receiver to render the ad configuration.
 - (void)renderInterstitialForAdConfiguration:
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler;
 
 @end
-
-

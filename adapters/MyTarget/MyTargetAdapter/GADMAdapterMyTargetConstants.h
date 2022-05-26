@@ -16,37 +16,37 @@
 #import <CoreGraphics/CGBase.h>
 
 /// myTarget mediation network adapter version.
-extern NSString *const _Nonnull kGADMAdapterMyTargetVersion;
+extern NSString *const _Nonnull GADMAdapterMyTargetVersion;
 
 /// myTarget mediation network adapter slot ID server parameter key.
-extern NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey;
+extern NSString *const _Nonnull GADMAdapterMyTargetSlotIdKey;
 
 /// Error domain for myTarget adapter specific errors.
-extern NSString *const _Nonnull kGADMAdapterMyTargetAdapterErrorDomain;
+extern NSString *const _Nonnull GADMAdapterMyTargetAdapterErrorDomain;
 
 /// Error domain for myTarget SDK specific errors.
-extern NSString *const _Nonnull kGADMAdapterMyTargetSDKErrorDomain;
+extern NSString *const _Nonnull GADMAdapterMyTargetSDKErrorDomain;
 
 /// Error message for missing myTarget slot ID.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorSlotId;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorSlotId;
 
 /// Error message for myTarget no fills.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorNoAd;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorNoAd;
 
 /// Error message for missing required native ad assets.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorMediatedAdInvalid;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorMediatedAdInvalid;
 
 /// Error message for requesting a banner ad format through the incorrect adapter class.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorBannersNotSupported;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorBannersNotSupported;
 
 /// Error message for requesting an interstitial ad format through the incorrect adapter class.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorInterstitialNotSupported;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorInterstitialNotSupported;
 
 /// Error message for requesting a banner ad with an unsupported ad size.
-extern NSString *const _Nonnull kGADMAdapterMyTargetErrorInvalidSize;
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorInvalidSize;
 
 /// Mininum supported height of myTarget banner.
-extern CGFloat const kGADMAdapterMyTargetBannerHeightMin;
+extern CGFloat const GADMAdapterMyTargetBannerHeightMin;
 
 /// Mininum supported aspect ratio of myTarget banner.
-extern CGFloat const kGADMAdapterMyTargetBannerAspectRatioMin;
+extern CGFloat const GADMAdapterMyTargetBannerAspectRatioMin;

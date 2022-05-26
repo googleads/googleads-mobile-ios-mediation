@@ -56,7 +56,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterMoPubVersion;
+  return GADMAdapterMoPubVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -100,7 +100,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
     genderString = @"m_gender:f";
   }
   NSString *keywordsBuilder =
-      [NSString stringWithFormat:@"%@,%@,%@", kGADMAdapterMoPubTpValue, ageString, genderString];
+      [NSString stringWithFormat:@"%@,%@,%@", GADMAdapterMoPubTpValue, ageString, genderString];
 
   if (intendedForPII) {
     if ([[MoPub sharedInstance] canCollectPersonalInfo]) {
@@ -130,7 +130,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
+  NSString *publisherID = strongConnector.credentials[GADMAdapterMoPubPubIdKey];
 
   dispatch_async(_lockQueue, ^{
     if ([GADMAdapterMoPubInterstitialDelegates objectForKey:publisherID]) {
@@ -202,7 +202,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
+  NSString *publisherID = strongConnector.credentials[GADMAdapterMoPubPubIdKey];
 
   _bannerAd = [[MPAdView alloc] initWithAdUnitId:publisherID];
   _bannerAd.delegate = self;
@@ -306,7 +306,7 @@ static NSMapTable<NSString *, GADMAdapterMoPub *> *GADMAdapterMoPubInterstitialD
   MPNativeAdRendererConfiguration *config =
       [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:settings];
 
-  NSString *publisherID = strongConnector.credentials[kGADMAdapterMoPubPubIdKey];
+  NSString *publisherID = strongConnector.credentials[GADMAdapterMoPubPubIdKey];
   MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:publisherID
                                                          rendererConfigurations:@[ config ]];
 

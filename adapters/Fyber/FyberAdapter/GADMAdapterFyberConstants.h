@@ -13,13 +13,13 @@
 // limitations under the License.
 
 /// Fyber mediation adapter version.
-static NSString* const _Nonnull kGADMAdapterFyberVersion = @"8.1.2.0";
+static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.4.0";
 
 /// Fyber mediation adapter app ID key.
-static NSString* const _Nonnull kGADMAdapterFyberApplicationID = @"applicationId";
+static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";
 
 /// Fyber mediation adapter spot ID key.
-static NSString* const _Nonnull kGADMAdapterFyberSpotID = @"spotId";
+static NSString* const _Nonnull GADMAdapterFyberSpotID = @"spotId";
 
 /// Fyber mediation adapter error domain.
-static NSString* const _Nonnull kGADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";
+static NSString* const _Nonnull GADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";

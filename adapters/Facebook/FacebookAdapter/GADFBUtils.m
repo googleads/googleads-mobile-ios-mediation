@@ -32,7 +32,7 @@ void GADFBConfigureMediationService(void) {
   [FBAdSettings
       setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
                                                      GADMobileAds.sharedInstance.sdkVersion,
-                                                     kGADMAdapterFacebookVersion]];
+                                                     GADMAdapterFacebookVersion]];
 }
 
 void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set,

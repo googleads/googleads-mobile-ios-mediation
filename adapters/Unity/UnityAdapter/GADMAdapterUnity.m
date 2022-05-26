@@ -36,7 +36,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterUnityVersion;
+  return GADMAdapterUnityVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -62,7 +62,7 @@
 }
 
 - (void)getInterstitial {
-  [UnityAds load:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID] ?: @""
+  [UnityAds load:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
       loadDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
                        initWithGADMAdNetworkConnector:self.connector
                                               adapter:self]];
@@ -70,7 +70,7 @@
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [UnityAds show:rootViewController
-       placementId:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID] ?: @""
+       placementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
       showDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
                        initWithGADMAdNetworkConnector:self.connector
                                               adapter:self]];
@@ -86,7 +86,7 @@
   }
 
   self.bannerAd = [[UADSBannerView alloc]
-      initWithPlacementId:[[self.connector credentials] objectForKey:kGADMAdapterUnityPlacementID]
+      initWithPlacementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID]
                               ?: @""
                      size:supportedSize.size];
   self.bannerAdDelegateProxy =

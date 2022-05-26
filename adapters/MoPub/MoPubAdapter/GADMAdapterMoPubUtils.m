@@ -34,6 +34,6 @@ NSError *_Nonnull GADMoPubErrorWithCodeAndDescription(GADMoPubErrorCode code,
                                                       NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterMoPubVersion code:code userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:GADMAdapterMoPubVersion code:code userInfo:userInfo];
   return error;
 }

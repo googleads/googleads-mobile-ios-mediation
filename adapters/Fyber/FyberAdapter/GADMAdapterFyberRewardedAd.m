@@ -94,7 +94,7 @@
 
   GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   GADMAdapterFyberInitializeWithAppId(
-      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID],
+      _adConfiguration.credentials.settings[GADMAdapterFyberApplicationID],
       ^(NSError *_Nullable error) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
         if (!strongSelf) {
@@ -113,7 +113,7 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
+  NSString *spotID = _adConfiguration.credentials.settings[GADMAdapterFyberSpotID];
   if (!spotID.length) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");

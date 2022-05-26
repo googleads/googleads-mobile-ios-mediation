@@ -13,22 +13,22 @@
 // limitations under the License.
 
 #import "GADPangleRTBInterstitialRenderer.h"
-#import "GADMediationAdapterPangleConstants.h"
 #import <BUAdSDK/BUAdSDK.h>
-#import "GADMAdapterPangleUtils.h"
 #include <stdatomic.h>
+#import "GADMAdapterPangleUtils.h"
+#import "GADMediationAdapterPangleConstants.h"
 
-@interface GADPangleRTBInterstitialRenderer() <BUFullscreenVideoAdDelegate>
+@interface GADPangleRTBInterstitialRenderer () <BUFullscreenVideoAdDelegate>
 
 @end
 
 @implementation GADPangleRTBInterstitialRenderer {
-    /// The completion handler to call when the ad loading succeeds or fails.
-    GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
-    /// The Pangle interstitial ad.
-    BUFullscreenVideoAd *_fullScreenAdVideo;
-    /// An ad event delegate to invoke when ad rendering events occur.
-    id<GADMediationInterstitialAdEventDelegate> _delegate;
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
+  /// The Pangle interstitial ad.
+  BUFullscreenVideoAd *_fullScreenAdVideo;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationInterstitialAdEventDelegate> _delegate;
 }
 
 - (void)renderInterstitialForAdConfiguration:
@@ -63,48 +63,50 @@
 
 #pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    [_fullScreenAdVideo showAdFromRootViewController:viewController];
+  [_fullScreenAdVideo showAdFromRootViewController:viewController];
 }
 
 #pragma mark -  BUFullscreenVideoAdDelegate
 - (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    if (_loadCompletionHandler) {
-        _delegate = _loadCompletionHandler(self,nil);
-    }
+  if (_loadCompletionHandler) {
+    _delegate = _loadCompletionHandler(self, nil);
+  }
 }
 
-- (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *_Nullable)error {
-    if (_loadCompletionHandler) {
-        _loadCompletionHandler(nil, error);
-    }
+- (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd
+         didFailWithError:(NSError *_Nullable)error {
+  if (_loadCompletionHandler) {
+    _loadCompletionHandler(nil, error);
+  }
 }
 
 - (void)fullscreenVideoAdWillVisible:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-    [delegate willPresentFullScreenView];
-    [delegate reportImpression];
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  [delegate willPresentFullScreenView];
+  [delegate reportImpression];
 }
 
 - (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-    [delegate reportClick];
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  [delegate reportClick];
 }
 
 - (void)fullscreenVideoAdWillClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-    [delegate willDismissFullScreenView];
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  [delegate willDismissFullScreenView];
 }
 
 - (void)fullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-    [delegate didDismissFullScreenView];
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  [delegate didDismissFullScreenView];
 }
 
-- (void)fullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *_Nullable)error {
-    if (error) {
-        id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-        [delegate didFailToPresentWithError:error];
-    }
+- (void)fullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd
+                      didFailWithError:(NSError *_Nullable)error {
+  if (error) {
+    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+    [delegate didFailToPresentWithError:error];
+  }
 }
 
 @end

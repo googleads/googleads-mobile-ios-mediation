@@ -1,2 +1,0 @@
-- Add adapter files here.
-

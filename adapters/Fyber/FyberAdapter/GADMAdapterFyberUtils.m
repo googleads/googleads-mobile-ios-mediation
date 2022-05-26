@@ -35,7 +35,7 @@ NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(GADMAdapterFyberEr
                                                               NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterFyberErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterFyberErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;

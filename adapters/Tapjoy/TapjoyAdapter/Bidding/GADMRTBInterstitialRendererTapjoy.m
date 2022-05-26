@@ -53,8 +53,8 @@
                         (nonnull GADMediationInterstitialLoadCompletionHandler)handler {
   _renderCompletionHandler = handler;
   _adConfig = adConfig;
-  _placementName = adConfig.credentials.settings[kGADMAdapterTapjoyPlacementKey];
-  NSString *sdkKey = adConfig.credentials.settings[kGADMAdapterTapjoySdkKey];
+  _placementName = adConfig.credentials.settings[GADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = adConfig.credentials.settings[GADMAdapterTapjoySdkKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
