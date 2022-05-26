@@ -27,9 +27,6 @@
 
   /// Vungle interstitial ad wrapper.
   GADMediationVungleInterstitial *_interstitialAd;
-
-  /// Vungle banner ad wrapper.
-  GADMediationVungleBanner *_bannerAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -115,9 +112,10 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
                        (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-  _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
-                                                      completionHandler:completionHandler];
-  [_bannerAd requestBannerAd];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        0,
+        @"Bidding banner ad is not supported in Vungle.");
+    completionHandler(nil, error);
 }
 
 #pragma mark GADRTBAdapter implementation

@@ -75,7 +75,8 @@
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
+  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]
+      && !_adConfiguration.bidResponse.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorAdAlreadyLoaded,
         @"Only a maximum of one ad per placement can be requested from Vungle.");

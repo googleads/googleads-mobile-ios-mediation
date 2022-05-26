@@ -73,14 +73,6 @@
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Vungle.");
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
   if (![[GADMAdapterVungleRouter sharedInstance] isSDKInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
