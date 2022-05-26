@@ -20,6 +20,7 @@
 #import "GADPangleRTBRewardedRenderer.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADMAdapterPangleUtils.h"
+#import "GADPangleRTBNativeRenderer.h"
 
 static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
 
@@ -30,6 +31,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     GADPangleRTBInterstitialRenderer *_interstitialRenderer;
     /// Pangle rewarded ad wrapper.
     GADPangleRTBRewardedRenderer *_rewardedRenderer;
+    GADPangleRTBNativeRenderer *_nativeRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -121,6 +123,13 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
     _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
     [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
+    [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 + (void)setCOPPA:(NSInteger)COPPA {
