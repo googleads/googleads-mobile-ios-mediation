@@ -31,6 +31,7 @@ static NSInteger _coppa = -1,_gdpr = -1, _ccpa = -1;
     GADPangleRTBInterstitialRenderer *_interstitialRenderer;
     /// Pangle rewarded ad wrapper.
     GADPangleRTBRewardedRenderer *_rewardedRenderer;
+    /// Pangle native ad wrapper.
     GADPangleRTBNativeRenderer *_nativeRenderer;
 }
 
