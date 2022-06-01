@@ -1,13 +1,13 @@
 ## Facebook iOS Mediation Adapter Changelog
 
-#### Version 6.11.0.0 (In progress)
+#### [Version 6.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.11.0.0.zip)
 - Verified compatibility with FAN SDK 6.11.0.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.4.0.
 - FAN SDK version 6.11.0.
 
-#### [Version 6.10.0.0] (https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.10.0.0.zip)
+#### [Version 6.10.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.10.0.0.zip)
 - Verified compatibility with FAN SDK 6.10.0.
 - Added warning messages for waterfall mediation deprecation. See [Meta's blog](https://www.facebook.com/audiencenetwork/resources/blog/audience-network-to-become-bidding-only-beginning-with-ios-in-2021/) for more information.
 
