@@ -16,11 +16,9 @@
 
 #import "SampleCustomEventRewarded.h"
 #import "SampleCustomEventConstants.h"
+#import "SampleCustomEventUtils.h"
 
 #include <stdatomic.h>
-
-/// Constant for Sample Ad Network custom event error domain.
-static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
 @interface SampleCustomEventRewarded () <SampleRewardedAdDelegate, GADMediationRewardedAd> {
   /// Handle rewarded ads from Sample SDK.
@@ -30,45 +28,12 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
 
   ///  Delegate for receiving rewarded ad notifications.
-  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
+  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 }
 
 @end
 
 @implementation SampleCustomEventRewarded
-
-#pragma mark GADMediationAdapter implementation
-
-+ (GADVersionNumber)adSDKVersion {
-  NSString *versionString = @"1.0.0";
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
-  GADVersionNumber version = {0};
-  if (versionComponents.count >= 3) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-    version.patchVersion = [versionComponents[2] integerValue];
-  }
-  return version;
-}
-
-+ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return nil;
-}
-
-+ (GADVersionNumber)version {
-  NSString *versionString = @"1.0.0.0";
-  NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
-  GADVersionNumber version = {0};
-  if (versionComponents.count >= 4) {
-    version.majorVersion = [versionComponents[0] integerValue];
-    version.minorVersion = [versionComponents[1] integerValue];
-
-    // Adapter versions have 2 patch versions. Multiply the first patch by 100.
-    version.patchVersion =
-        [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
-  }
-  return version;
-}
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
@@ -96,10 +61,12 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
     return delegate;
   };
 
-  NSString *adUnit = adConfiguration.credentials.settings[@"ad_unit_id"];
+  NSString *adUnit = adConfiguration.credentials.settings[@"parameter"];
   _rewardedAd = [[SampleRewardedAd alloc] initWithAdUnitID:adUnit];
   _rewardedAd.delegate = self;
-  [_rewardedAd fetchAd:[[SampleAdRequest alloc] init]];
+  SampleAdRequest *adRequest = [[SampleAdRequest alloc] init];
+  adRequest.testMode = adConfiguration.isTestRequest;
+  [_rewardedAd fetchAd:adRequest];
 }
 
 #pragma mark GADMediationRewardedAd implementation
@@ -111,33 +78,34 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 #pragma mark SampleRewardedAdDelegate implementation
 
 - (void)rewardedAdDidReceiveAd:(nonnull SampleRewardedAd *)rewardedAd {
-  _delegate = _loadCompletionHandler(self, nil);
+  _adEventDelegate = _loadCompletionHandler(self, nil);
 }
 
 - (void)rewardedAdDidDismiss:(nonnull SampleRewardedAd *)rewardedAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willDismissFullScreenView];
-  [strongDelegate didEndVideo];
-  [strongDelegate didDismissFullScreenView];
+  [_adEventDelegate willDismissFullScreenView];
+  [_adEventDelegate didEndVideo];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)error {
-  [_delegate didFailToPresentWithError:[NSError errorWithDomain:SampleCustomEventErrorDomain
-                                                           code:error
-                                                       userInfo:nil]];
+- (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode {
+  NSError *error = SampleCustomEventErrorWithCodeAndDescription(
+      SampleCustomEventErrorAdLoadFailureCallback,
+      [NSString
+          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %@",
+                           errorCode]);
+  _adEventDelegate = _loadCompletionHandler(nil, error);
 }
 
 - (void)rewardedAdDidPresent:(SampleRewardedAd *)rewardedAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate didStartVideo];
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate didStartVideo];
 }
 
 - (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
   GADAdReward *aReward =
       [[GADAdReward alloc] initWithRewardType:@""
                                  rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
-  [_delegate didRewardUserWithReward:aReward];
+  [_adEventDelegate didRewardUserWithReward:aReward];
 }
 
 @end
