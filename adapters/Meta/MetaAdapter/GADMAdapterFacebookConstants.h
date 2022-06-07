@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Facebook mediation network adapter version.
+/// Meta Audience Network mediation network adapter version.
 static NSString *const GADMAdapterFacebookVersion = @"6.11.1.0";
 
 static NSString *const GADMAdapterFacebookBiddingPubID = @"placement_id";
