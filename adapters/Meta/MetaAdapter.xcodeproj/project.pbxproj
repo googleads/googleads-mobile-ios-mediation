@@ -322,7 +322,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "FacebookAdapter" */;
+			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "MetaAdapter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -567,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "FacebookAdapter" */ = {
+		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "MetaAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DFABB241DA8682C00322E02 /* Debug */,
