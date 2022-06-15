@@ -75,8 +75,8 @@
     return;
   }
 
-  VungleSDK *sdk = [VungleSDK sharedSDK];
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
+  VungleSDK *sdk = VungleSDK.sharedSDK;
+  if ([GADMAdapterVungleRouter.sharedInstance hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorAdAlreadyLoaded,
         @"Only a maximum of one ad per placement can be requested from Vungle.");
@@ -96,14 +96,14 @@
     [strongConnector adapter:self didFailAd:error];
     return;
   }
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+  [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
 - (void)stopBeingDelegate {
   if (_bannerAd) {
     [_bannerAd cleanUp];
   } else {
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+    [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
   }
 
   _connector = nil;
@@ -116,10 +116,10 @@
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   NSError *error = nil;
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
-                                               delegate:self
-                                                 extras:[strongConnector networkExtras]
-                                                  error:&error]) {
+  if (![GADMAdapterVungleRouter.sharedInstance playAd:rootViewController
+                                             delegate:self
+                                               extras:[strongConnector networkExtras]
+                                                error:&error]) {
     // Ad not playable.
     if (error) {
       NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
@@ -133,8 +133,8 @@
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
-                                                       withDelegate:self];
+  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
+                                                     withDelegate:self];
   if (error) {
     [_connector adapter:self didFailAd:error];
   }

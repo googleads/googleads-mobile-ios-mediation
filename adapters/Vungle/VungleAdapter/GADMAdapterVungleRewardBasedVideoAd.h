@@ -13,6 +13,18 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterVungleRewardBasedVideoAd : NSObject
+@interface GADMAdapterVungleRewardBasedVideoAd : NSObject <GADMediationRewardedAd>
+
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;
+
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a rewarded ad from Vungle.
+- (void)requestRewardedAd;
+
 @end

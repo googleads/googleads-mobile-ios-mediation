@@ -56,6 +56,44 @@ void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_
   }
 }
 
+NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
+    VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras) {
+  NSMutableDictionary *options = nil;
+  if (vungleAdNetworkExtras) {
+    options = [[NSMutableDictionary alloc] init];
+
+    if (vungleAdNetworkExtras.muteIsSet) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                        @(vungleAdNetworkExtras.muted));
+    }
+    if (vungleAdNetworkExtras.userId) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                        vungleAdNetworkExtras.userId);
+    }
+    if (vungleAdNetworkExtras.ordinal) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
+                                                        @(vungleAdNetworkExtras.ordinal));
+    }
+    if (vungleAdNetworkExtras.flexViewAutoDismissSeconds) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(
+          options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+          @(vungleAdNetworkExtras.flexViewAutoDismissSeconds));
+    }
+    if (vungleAdNetworkExtras.orientations) {
+      int appOrientation = [vungleAdNetworkExtras.orientations intValue];
+      NSNumber *orientations = @(UIInterfaceOrientationMaskAll);
+      if (appOrientation == 1) {
+        orientations = @(UIInterfaceOrientationMaskLandscape);
+      } else if (appOrientation == 2) {
+        orientations = @(UIInterfaceOrientationMaskPortrait);
+      }
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrientations,
+                                                        orientations);
+    }
+  }
+  return options;
+}
+
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo =

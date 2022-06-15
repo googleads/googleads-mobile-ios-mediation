@@ -14,8 +14,8 @@
 
 #import "GADMediationVungleInterstitial.h"
 #include <stdatomic.h>
+#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
-#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
 @interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate, GADMediationInterstitialAd>
@@ -73,17 +73,9 @@
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Vungle.");
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  if (![[GADMAdapterVungleRouter sharedInstance] isSDKInitialized]) {
+  if (![GADMAdapterVungleBiddingRouter.sharedInstance isSDKInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -94,10 +86,12 @@
 
 - (void)presentFromViewController:(UIViewController *)rootViewController {
   NSError *error = nil;
-  if (![[GADMAdapterVungleRouter sharedInstance] playAd:rootViewController
-                                               delegate:self
-                                                 extras:[_adConfiguration extras]
-                                                  error:&error]) {
+  if (![VungleSDK.sharedSDK
+               playAd:rootViewController
+              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
+          placementID:self.desiredPlacement
+             adMarkup:[self bidResponse]
+                error:&error]) {
     // Ad not playable.
     if (error) {
       [_delegate didFailToPresentWithError:error];
@@ -108,8 +102,7 @@
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
-                                                       withDelegate:self];
+  NSError *error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
   if (error) {
     _adLoadCompletionHandler(nil, error);
   }
@@ -142,7 +135,7 @@
 
   if (!_delegate) {
     // In this case, the request for Vungle has been timed out. Clean up self.
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
   }
 }
 

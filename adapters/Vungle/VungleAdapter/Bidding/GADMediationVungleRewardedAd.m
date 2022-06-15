@@ -14,8 +14,8 @@
 
 #import "GADMediationVungleRewardedAd.h"
 #include <stdatomic.h>
+#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
-#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
 @interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate>
@@ -75,17 +75,9 @@
     return;
   }
 
-  if ([[GADMAdapterVungleRouter sharedInstance] hasDelegateForPlacementID:self.desiredPlacement]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Vungle.");
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  if (![[GADMAdapterVungleRouter sharedInstance] isSDKInitialized]) {
+  if (![[VungleSDK sharedSDK] isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -93,8 +85,9 @@
 }
 
 - (void)loadRewardedAd {
-  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
-                                                       withDelegate:self];
+  NSError *error = nil;
+  error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
+
   if (error) {
     _adLoadCompletionHandler(nil, error);
   }
@@ -102,10 +95,12 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   NSError *error = nil;
-  if (![[GADMAdapterVungleRouter sharedInstance] playAd:viewController
-                                               delegate:self
-                                                 extras:[_adConfiguration extras]
-                                                  error:&error]) {
+  if (![VungleSDK.sharedSDK
+               playAd:viewController
+              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
+          placementID:self.desiredPlacement
+             adMarkup:[self bidResponse]
+                error:&error]) {
     [_delegate didFailToPresentWithError:error];
   }
 }
@@ -142,15 +137,14 @@
 
   if (!_delegate) {
     // In this case, the request for Vungle has been timed out. Clean up self.
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
   }
 }
 
 - (void)didCloseAd {
   [_delegate didDismissFullScreenView];
 
-  GADMediationVungleRewardedAd __weak *weakSelf = self;
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
+  [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
 }
 
 - (void)willCloseAd {
@@ -173,7 +167,7 @@
     return;
   }
   _adLoadCompletionHandler(nil, error);
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+  [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
 }
 
 - (void)trackClick {
