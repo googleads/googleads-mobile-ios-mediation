@@ -1,5 +1,5 @@
-framework module FacebookAdapter {
-  umbrella header "FacebookAdapter.h"
+framework module MetaAdapter {
+  umbrella header "MetaAdapter.h"
 
   export *
   module * { export * }
