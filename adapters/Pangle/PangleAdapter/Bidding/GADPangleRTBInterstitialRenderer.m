@@ -42,23 +42,23 @@
         }
         id<GADMediationInterstitialAdEventDelegate> delegate = nil;
         if (originalCompletionHandler) {
-            delegate = originalCompletionHandler(ad, error);
+          delegate = originalCompletionHandler(ad, error);
         }
         originalCompletionHandler = nil;
         return delegate;
-    };
-    
-    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
-    if (!placementId.length) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters,
-                                                                      [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]
-                                                                      );
+      };
+
+      NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
+      if (!placementId.length) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
+            GADPangleErrorInvalidServerParameters,
+            [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
         _loadCompletionHandler(nil, error);
         return;
-    }
-    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
-    _fullScreenAdVideo.delegate = self;
-    [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
+      }
+      _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
+      _fullScreenAdVideo.delegate = self;
+      [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
 
 #pragma mark - GADMediationInterstitialAd

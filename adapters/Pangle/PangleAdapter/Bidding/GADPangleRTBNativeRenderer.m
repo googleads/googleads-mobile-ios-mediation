@@ -1,9 +1,16 @@
+// Copyright 2022 Google LLC
 //
-//  GADPangleRTBNativeRenderer.m
-//  Adapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by bytedance on 2022/5/25.
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADMediationAdapterPangleConstants.h"
@@ -52,7 +59,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         return;
     }
     
-    BUAdSlot *slot = [[BUAdSlot alloc]init];
+    BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = placementId;
     slot.AdType = BUAdSlotAdTypeFeed;
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];

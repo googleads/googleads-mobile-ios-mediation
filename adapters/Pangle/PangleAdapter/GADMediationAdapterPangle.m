@@ -148,6 +148,11 @@ static NSInteger _gdpr = -1, _ccpa = -1;
     [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
+/// Set the COPPA setting in Pangle SDK.
+///
+/// @param COPPA An integer value that indicates whether the app should be treated as
+/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
+/// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
 + (void)setCOPPA:(NSInteger)COPPA {
   if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
