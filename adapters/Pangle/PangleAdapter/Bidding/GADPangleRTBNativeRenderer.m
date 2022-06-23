@@ -25,8 +25,11 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
     /// The Pangle native ad.
     BUNativeAd *_nativeAd;
+    /// The Pangle related view
+    BUNativeAdRelatedView *_relatedView;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationNativeAdEventDelegate> _delegate;
+
 }
 
 @end
@@ -67,7 +70,22 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     [_nativeAd setAdMarkup:adConfiguration.bidResponse];
 }
 
+- (BUNativeAdRelatedView *)getRelatedView {
+    if (!_relatedView) {
+        _relatedView = [[BUNativeAdRelatedView alloc] init];
+    }
+    return _relatedView;
+}
+
 #pragma mark GADMediationNativeAd
+
+- (UIView *)mediaView {
+    return [self getRelatedView].videoAdView;
+}
+
+- (UIView *)adChoicesView {
+    return [self getRelatedView].logoADImageView;
+}
 
 - (NSString *)headline {
     if (_nativeAd && _nativeAd.data) {
@@ -130,6 +148,8 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }
     
+    [_relatedView refreshData:nativeAd];
+    
     if (_loadCompletionHandler) {
         _delegate = _loadCompletionHandler(self,nil);
     }
@@ -160,6 +180,16 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     NSData *data = [NSData dataWithContentsOfURL:url];
     UIImage *image = [UIImage imageWithData: data];
     return [[GADNativeAdImage alloc] initWithImage:image];
+}
+
+
+- (void)didRenderInView:(nonnull UIView *)view
+       clickableAssetViews:
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+         viewController:(nonnull UIViewController *)viewController {
+    [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
 }
 
 @end
