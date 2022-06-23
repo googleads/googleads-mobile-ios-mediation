@@ -17,6 +17,7 @@
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 
 static CGSize const pangleBannerAdSize320x50 = (CGSize){320, 50};
 static CGSize const pangleBannerAdSize300x250 = (CGSize){300, 250};
@@ -71,11 +72,15 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
     _loadCompletionHandler(nil, error);
     return;
   }
-
-  _nativeExpressBannerView =
-      [[BUNativeExpressBannerView alloc] initWithSlotID:placementId
-                                     rootViewController:adConfiguration.topViewController
-                                                 adSize:_bannerSize];
+    
+  GADPangleNetworkExtras *extras = adConfiguration.extras;
+    
+  BUAdSlot *slot = [BUAdSlot new];
+  slot.ID = placementId;
+  slot.userData = extras.userDataString;
+  _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlot:slot
+                                                            rootViewController:adConfiguration.topViewController
+                                                                        adSize:_bannerSize];
   _nativeExpressBannerView.delegate = self;
   [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }

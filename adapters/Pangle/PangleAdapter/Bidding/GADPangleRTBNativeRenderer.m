@@ -17,6 +17,7 @@
 #import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 #include <stdatomic.h>
+#import "GADPangleNetworkExtras.h"
 
 static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 
@@ -62,9 +63,12 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         return;
     }
     
+    GADPangleNetworkExtras *extras = adConfiguration.extras;
+    
     BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = placementId;
     slot.AdType = BUAdSlotAdTypeFeed;
+    slot.userData = extras.userDataString;
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];
     _nativeAd.delegate = self;
     [_nativeAd setAdMarkup:adConfiguration.bidResponse];

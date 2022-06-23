@@ -17,6 +17,7 @@
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 
 @interface GADPangleRTBInterstitialRenderer () <BUFullscreenVideoAdDelegate>
 
@@ -56,7 +57,14 @@
         _loadCompletionHandler(nil, error);
         return;
       }
-      _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
+    
+      GADPangleNetworkExtras *extras = adConfiguration.extras;
+          
+      BUAdSlot *slot = [BUAdSlot new];
+      slot.ID = placementId;
+      slot.userData = extras.userDataString;
+    
+      _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlot:slot];
       _fullScreenAdVideo.delegate = self;
       [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }

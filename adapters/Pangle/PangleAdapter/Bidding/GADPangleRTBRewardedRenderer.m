@@ -17,6 +17,7 @@
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 
 @interface GADPangleRTBRewardedRenderer () <BURewardedVideoAdDelegate>
 
@@ -61,8 +62,15 @@
     _loadCompletionHandler(nil, error);
     return;
   }
+    
+  GADPangleNetworkExtras *extras = adConfiguration.extras;
+      
+  BUAdSlot *slot = [BUAdSlot new];
+  slot.ID = placementId;
+  slot.userData = extras.userDataString;
+    
   BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
-  _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlotID:placementId
+  _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlot:slot
                                             rewardedVideoModel:model];
   _rewardedVideoAd.delegate = self;
   [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];
