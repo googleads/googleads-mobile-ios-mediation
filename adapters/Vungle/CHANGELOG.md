@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.11.0.1 (In progress)
+#### [Version 6.11.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.1.zip)
 - Added support for loading multiple ads for the same placement ID in bidding interstitial and rewarded ads.
 
 Built and tested with:
