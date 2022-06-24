@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.5.2.3.0";
+static NSString *const GADMAdapterPangleVersion = @"4.5.2.4.0";
 
 /// Pangle adapter Pangle App ID parameter key.
 static NSString *const GADMAdapterPangleAppID = @"appid";
