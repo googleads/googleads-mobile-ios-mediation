@@ -30,7 +30,6 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     BUNativeAdRelatedView *_relatedView;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationNativeAdEventDelegate> _delegate;
-
 }
 
 @end
@@ -70,6 +69,13 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     slot.AdType = BUAdSlotAdTypeFeed;
     slot.userData = extras.userDataString;
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];
+    if (!_nativeAd) {
+        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInitAd,
+                                                                      @"Init ad error, Please check the reason or you could contact Pangle"
+                                                                      );
+        _loadCompletionHandler(nil, error);
+        return;
+    }
     _nativeAd.delegate = self;
     [_nativeAd setAdMarkup:adConfiguration.bidResponse];
 }
@@ -138,17 +144,24 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     return nil;
 }
 
+- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData: data];
+    return [[GADNativeAdImage alloc] initWithImage:image];
+}
+
 #pragma mark BUNativeAdDelegate
 
 - (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view {
-    BUMaterialMeta *data = nativeAd.data;
+    BUMaterialMeta *materialMeta = nativeAd.data;
     // main image of the ad
-    if (data.imageAry && data.imageAry.count && data.imageAry[0].imageURL != nil){
-        _images = @[[self imageWithUrlString:data.imageAry[0].imageURL]];
+    if (materialMeta.imageAry && materialMeta.imageAry.count && materialMeta.imageAry[0].imageURL != nil){
+        _images = @[[self imageWithUrlString:materialMeta.imageAry[0].imageURL]];
     }
     
     // icon image of the ad
-    if (data.icon && data.icon.imageURL != nil){
+    if (materialMeta.icon && materialMeta.icon.imageURL != nil){
         _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }
     
@@ -178,14 +191,6 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 - (void)nativeAd:(BUNativeAd *_Nullable)nativeAd adContainerViewDidRemoved:(UIView *)adContainerView {
     
 }
-
-- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData: data];
-    return [[GADNativeAdImage alloc] initWithImage:image];
-}
-
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
