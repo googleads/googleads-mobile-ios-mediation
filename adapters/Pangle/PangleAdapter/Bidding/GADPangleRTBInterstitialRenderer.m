@@ -49,24 +49,26 @@
         return delegate;
       };
 
-      NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
-      if (!placementId.length) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
-            GADPangleErrorInvalidServerParameters,
-            [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-        _loadCompletionHandler(nil, error);
-        return;
-      }
+    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
+    if (!placementId.length) {
+      NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
+          GADPangleErrorInvalidServerParameters,
+          [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
+      _loadCompletionHandler(nil, error);
+      return;
+    }
     
-      GADPangleNetworkExtras *extras = adConfiguration.extras;
+    GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
           
-      BUAdSlot *slot = [BUAdSlot new];
-      slot.ID = placementId;
-      slot.userData = extras.userDataString;
+    BUAdSlot *slot = [BUAdSlot new];
+    slot.ID = placementId;
+    if (extras && extras.userDataString.length) {
+       slot.userData = extras.userDataString;
+    }
     
-      _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlot:slot];
-      _fullScreenAdVideo.delegate = self;
-      [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
+    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlot:slot];
+    _fullScreenAdVideo.delegate = self;
+    [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
 
 #pragma mark - GADMediationInterstitialAd

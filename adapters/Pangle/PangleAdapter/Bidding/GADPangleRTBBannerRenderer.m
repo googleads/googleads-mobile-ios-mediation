@@ -73,11 +73,13 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
     return;
   }
     
-  GADPangleNetworkExtras *extras = adConfiguration.extras;
+  GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
     
   BUAdSlot *slot = [BUAdSlot new];
   slot.ID = placementId;
-  slot.userData = extras.userDataString;
+  if (extras && extras.userDataString.length) {
+      slot.userData = extras.userDataString;
+  }
   _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlot:slot
                                                             rootViewController:adConfiguration.topViewController
                                                                         adSize:_bannerSize];

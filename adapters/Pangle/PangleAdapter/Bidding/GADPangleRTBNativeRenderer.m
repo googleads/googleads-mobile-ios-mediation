@@ -62,12 +62,14 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         return;
     }
     
-    GADPangleNetworkExtras *extras = adConfiguration.extras;
+    GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
     
     BUAdSlot *slot = [[BUAdSlot alloc] init];
     slot.ID = placementId;
     slot.AdType = BUAdSlotAdTypeFeed;
-    slot.userData = extras.userDataString;
+    if (extras && extras.userDataString.length) {
+        slot.userData = extras.userDataString;
+    }
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];
     if (!_nativeAd) {
         NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInitAd,
@@ -155,12 +157,12 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 
 - (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view {
     BUMaterialMeta *materialMeta = nativeAd.data;
-    // main image of the ad
+    // Set main image of the ad.
     if (materialMeta.imageAry && materialMeta.imageAry.count && materialMeta.imageAry[0].imageURL != nil){
         _images = @[[self imageWithUrlString:materialMeta.imageAry[0].imageURL]];
     }
     
-    // icon image of the ad
+    // Set icon image of the ad.
     if (materialMeta.icon && materialMeta.icon.imageURL != nil){
         _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }

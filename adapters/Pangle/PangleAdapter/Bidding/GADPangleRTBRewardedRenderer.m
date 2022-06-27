@@ -63,11 +63,13 @@
     return;
   }
     
-  GADPangleNetworkExtras *extras = adConfiguration.extras;
+  GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
       
   BUAdSlot *slot = [BUAdSlot new];
   slot.ID = placementId;
-  slot.userData = extras.userDataString;
+  if (extras && extras.userDataString.length) {
+    slot.userData = extras.userDataString;
+  }
     
   BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
   _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlot:slot
