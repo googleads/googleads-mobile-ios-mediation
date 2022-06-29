@@ -20,6 +20,7 @@
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
+#import "GADPangleNetworkExtras.h"
 
 static NSInteger _gdpr = -1, _ccpa = -1;
 
@@ -36,9 +37,11 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
-                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  NSString *signals = [BUAdSDKManager getBiddingToken:nil];
-  completionHandler(signals, nil);
+(nonnull GADRTBSignalCompletionHandler)completionHandler {
+    GADPangleNetworkExtras *extras = [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
+    [BUAdSDKConfiguration configuration].userExtData = extras.userDataString;
+    NSString *signals = [BUAdSDKManager getBiddingToken:nil];
+    completionHandler(signals, nil);
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -105,7 +108,7 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return [GADPangleNetworkExtras class];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration

@@ -63,16 +63,8 @@
     return;
   }
     
-  GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
-      
-  BUAdSlot *slot = [BUAdSlot new];
-  slot.ID = placementId;
-  if (extras && extras.userDataString.length) {
-    slot.userData = extras.userDataString;
-  }
-    
   BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
-  _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlot:slot
+  _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlotID:placementId
                                             rewardedVideoModel:model];
   _rewardedVideoAd.delegate = self;
   [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];

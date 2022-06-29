@@ -58,15 +58,7 @@
       return;
     }
     
-    GADPangleNetworkExtras *extras = [adConfiguration.extras isKindOfClass:[GADPangleNetworkExtras class]] ? adConfiguration.extras : nil;
-          
-    BUAdSlot *slot = [BUAdSlot new];
-    slot.ID = placementId;
-    if (extras && extras.userDataString.length) {
-       slot.userData = extras.userDataString;
-    }
-    
-    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlot:slot];
+    _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
     _fullScreenAdVideo.delegate = self;
     [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
 }
