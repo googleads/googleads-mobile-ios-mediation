@@ -16,4 +16,3 @@ static NSString *const _Nonnull GADMAdapterVungleVersion = @"6.11.0.2";
 static NSString *const _Nonnull GADMAdapterVungleApplicationID = @"application_id";
 static NSString *const _Nonnull GADMAdapterVunglePlacementID = @"placementID";
 static NSString *const _Nonnull GADMAdapterVungleErrorDomain = @"com.google.mediation.vungle";
-static NSString *const _Nonnull kVungleNativeAdOptionsPosition = @"adOptionsPosition";

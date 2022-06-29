@@ -40,6 +40,7 @@
 }
 
 @synthesize desiredPlacement;
+@synthesize isAdLoaded;
 
 - (nonnull instancetype)initNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
@@ -194,9 +195,6 @@
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (isSuccess) {
-    // Native ads are object based. Don't need the Router to manage the delegates except for lazy initialization
-    GADMediationVungleNativeAd __weak *weakSelf = self;
-    [[GADMAdapterVungleRouter sharedInstance] removeDelegate:weakSelf];
     [self loadAd];
   } else {
     _adLoadCompletionHandler(nil, error);
