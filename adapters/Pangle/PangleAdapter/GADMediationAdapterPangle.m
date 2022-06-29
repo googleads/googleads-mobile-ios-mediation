@@ -39,7 +39,9 @@ static NSInteger _gdpr = -1, _ccpa = -1;
                          completionHandler:
 (nonnull GADRTBSignalCompletionHandler)completionHandler {
     GADPangleNetworkExtras *extras = [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
-    [BUAdSDKConfiguration configuration].userExtData = extras.userDataString;
+    if (extras && extras.userDataString.length > 0) {
+        [BUAdSDKConfiguration configuration].userExtData = extras.userDataString;
+    }
     NSString *signals = [BUAdSDKManager getBiddingToken:nil];
     completionHandler(signals, nil);
 }
