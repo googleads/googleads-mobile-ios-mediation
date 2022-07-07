@@ -129,8 +129,8 @@
                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
     [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
     _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
-                                                                completionHandler:completionHandler];
-    [_nativeAd requestAd];
+                                                                 completionHandler:completionHandler];
+    [_nativeAd requestNativeAd];
 }
 
 #pragma mark GADRTBAdapter implementation

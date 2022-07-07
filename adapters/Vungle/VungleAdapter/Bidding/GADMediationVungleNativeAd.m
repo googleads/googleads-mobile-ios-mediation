@@ -68,7 +68,7 @@
   return self;
 }
 
-- (void)requestAd {
+- (void)requestNativeAd {
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                                                   networkExtras:_adConfiguration.extras];
   if (!self.desiredPlacement) {
@@ -90,8 +90,14 @@
   _nativeAd = [[VungleNativeAd alloc] initWithPlacementID:self.desiredPlacement];
   _nativeAd.delegate = self;
   VungleAdNetworkExtras *networkExtras = [_adConfiguration extras];
-  if (networkExtras.nativeAdOptionPosition != 0) {
-    _nativeAd.adOptionsPosition = networkExtras.nativeAdOptionPosition;
+  if (networkExtras.nativeAdOptionPosition == 1) {
+    _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopLeft;
+  } else if (networkExtras.nativeAdOptionPosition == 2) {
+    _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
+  } else if (networkExtras.nativeAdOptionPosition == 3) {
+    _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomLeft;
+  } else if (networkExtras.nativeAdOptionPosition == 4) {
+    _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomRight;
   }
   [_nativeAd loadAd];
 }
@@ -99,7 +105,7 @@
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (nullable NSString *)headline {
-    return _nativeAd.title;
+  return _nativeAd.title;
 }
 
 - (nullable NSArray<GADNativeAdImage *> *)images {
@@ -107,15 +113,18 @@
 }
 
 - (nullable NSString *)body {
-    return _nativeAd.bodyText;
+  return _nativeAd.bodyText;
 }
 
 - (nullable GADNativeAdImage *)icon {
+  if (_nativeAd.iconImage) {
     return [[GADNativeAdImage alloc] initWithImage:_nativeAd.iconImage];
+  }
+  return nil;
 }
 
 - (nullable NSString *)callToAction {
-    return _nativeAd.callToAction;
+  return _nativeAd.callToAction;
 }
 
 - (nullable NSDecimalNumber *)starRating {
@@ -202,47 +211,47 @@
 }
 
 - (void)adAvailable {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willShowAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didShowAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didViewAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)rewardUser {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)trackClick {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willCloseAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didCloseAd {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willLeaveApplication {
-    // Do nothing. Native ads utilize a different set of callbacks.
+    // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (nullable NSString *)bidResponse {
-    return [_adConfiguration bidResponse];
+  return [_adConfiguration bidResponse];
 }
 
 @end

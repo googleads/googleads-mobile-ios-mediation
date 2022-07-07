@@ -20,8 +20,12 @@
 /// Asks the receiver to render the ad configuration.
 - (nonnull instancetype)initNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
+
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
-- (void)requestAd;
+
+/// Requests a native ad from Vungle.
+- (void)requestNativeAd;
 
 @end
 
