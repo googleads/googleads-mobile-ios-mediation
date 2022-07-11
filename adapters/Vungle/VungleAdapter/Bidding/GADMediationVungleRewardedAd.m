@@ -113,7 +113,7 @@
 #pragma mark - GADMAdapterVungleDelegate
 
 - (NSString *)bidResponse {
-    return [_adConfiguration bidResponse];
+    return _adConfiguration.bidResponse;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {

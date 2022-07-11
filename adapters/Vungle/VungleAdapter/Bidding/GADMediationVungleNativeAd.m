@@ -35,7 +35,7 @@
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationNativeAdEventDelegate> _delegate;
     
-  /// The Vungle container for the main ad
+  /// The Vungle container to display the media (image/video).
   VungleMediaView *_mediaView;
 }
 
@@ -89,15 +89,23 @@
 - (void)loadAd {
   _nativeAd = [[VungleNativeAd alloc] initWithPlacementID:self.desiredPlacement];
   _nativeAd.delegate = self;
-  VungleAdNetworkExtras *networkExtras = [_adConfiguration extras];
-  if (networkExtras.nativeAdOptionPosition == 1) {
-    _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopLeft;
-  } else if (networkExtras.nativeAdOptionPosition == 2) {
-    _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
-  } else if (networkExtras.nativeAdOptionPosition == 3) {
-    _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomLeft;
-  } else if (networkExtras.nativeAdOptionPosition == 4) {
-    _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomRight;
+  VungleAdNetworkExtras *networkExtras = _adConfiguration.extras; 
+  switch (networkExtras.nativeAdOptionPosition) {
+    case 1:
+        _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopLeft;
+        break;
+    case 2:
+        _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
+        break;
+    case 3:
+        _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomLeft;
+        break;
+    case 4:
+        _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomRight;
+        break;
+    default:
+        _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
+        break;
   }
   [_nativeAd loadAd];
 }
@@ -251,7 +259,7 @@
 }
 
 - (nullable NSString *)bidResponse {
-  return [_adConfiguration bidResponse];
+  return _adConfiguration.bidResponse;
 }
 
 @end
