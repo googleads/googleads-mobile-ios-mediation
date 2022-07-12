@@ -141,8 +141,9 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 /// Set the COPPA setting in Pangle SDK.
 ///
 /// @param COPPA An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
-/// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
+/// child-directed for purposes of the COPPA. See
+/// https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk
+/// for more information about what values may be provided.
 + (void)setCOPPA:(NSInteger)COPPA {
   if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
@@ -153,6 +154,12 @@ static NSInteger _gdpr = -1, _ccpa = -1;
   }
 }
 
+/// Set the GDPR setting in Pangle SDK.
+///
+/// @param GDPR An integer value that indicates whether the user consents the use of
+/// personal data to serve ads under GDPR. See
+/// https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk
+/// for more information about what values may be provided.
 + (void)setGDPR:(NSInteger)GDPR {
   if (GDPR != 0 && GDPR != 1 && GDPR != -1) {
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
@@ -164,6 +171,12 @@ static NSInteger _gdpr = -1, _ccpa = -1;
   _gdpr = GDPR;
 }
 
+/// Set the CCPA setting in Pangle SDK.
+///
+/// @param CCPA An integer value that indicates whether the user opts in of the "sale" of
+/// the "personal information" under CCPA. See
+/// https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk
+/// for more information about what values may be provided.
 + (void)setCCPA:(NSInteger)CCPA {
   if (CCPA != 0 && CCPA != 1 && CCPA != -1) {
     GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
