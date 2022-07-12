@@ -64,7 +64,7 @@ these in mind when making adapter modifications:
    arrays, or dictionaries. These wrappers perform proper nil checks on
    objects before setting them, to avoid crashes on adding nil to a
    collection. See
-   [GADFBUtils](https://github.com/googleads/googleads-mobile-ios-mediation/blob/master/adapters/Facebook/FacebookAdapter/GADFBUtils.m)
+   [GADFBUtils](https://github.com/googleads/googleads-mobile-ios-mediation/blob/main/adapters/Facebook/FacebookAdapter/GADFBUtils.m)
    for an example implementation.
 
 1. Protect completion handlers by wrapping thme in blocks. Theese wrappers
