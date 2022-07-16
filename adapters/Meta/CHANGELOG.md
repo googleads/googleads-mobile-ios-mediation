@@ -1,5 +1,12 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### Version 6.11.2.0 (In progress)
+- Verified compatibility with FAN SDK 6.11.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.7.0.
+- FAN SDK version 6.11.2.
+
 #### [Version 6.11.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.11.1.0.zip)
 - Verified compatibility with FAN SDK 6.11.1.
 - Adapter logs now refer to the adapter as "Meta Audience Network".
