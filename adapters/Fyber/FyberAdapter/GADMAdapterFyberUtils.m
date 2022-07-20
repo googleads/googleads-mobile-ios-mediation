@@ -77,6 +77,7 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     builder.spotID = spotID;
     builder.timeout = 10;
     builder.userData = extras.userData;
+    builder.muteAudio = extras.muteAudio;
     if (keywords) {
       builder.keywords = keywords;
     }
