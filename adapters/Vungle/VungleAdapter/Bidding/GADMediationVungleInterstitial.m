@@ -37,19 +37,24 @@
 
 #pragma mark - GADMediationVungleInterstitial Methods
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration*)adConfiguration
-                              completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+          completionHandler:
+              (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
-    self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings networkExtras:adConfiguration.extras];
+    self.desiredPlacement =
+        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings
+                                networkExtras:adConfiguration.extras];
 
     __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
-    __block GADMediationInterstitialLoadCompletionHandler origAdLoadHandler = [completionHandler copy];
+    __block GADMediationInterstitialLoadCompletionHandler origAdLoadHandler =
+        [completionHandler copy];
 
     /// Ensure the original completion handler is only called once, and is deallocated once called.
     _adLoadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
-      id<GADMediationInterstitialAd> ad, NSError *error) {
+        id<GADMediationInterstitialAd> ad, NSError *error) {
       if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
         return nil;
       }
@@ -67,8 +72,7 @@
 - (void)requestInterstitialAd {
   if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-      GADMAdapterVungleErrorInvalidServerParameters,
-      @"Placement ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -111,7 +115,7 @@
 #pragma mark - GADMAdapterVungleDelegate
 
 - (NSString *)bidResponse {
-    return _adConfiguration.bidResponse;
+  return _adConfiguration.bidResponse;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
@@ -128,7 +132,7 @@
     return;
   }
   self.isAdLoaded = YES;
-    
+
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
   }

@@ -18,8 +18,10 @@
 @interface GADMediationVungleNativeAd : NSObject
 
 /// Asks the receiver to render the ad configuration.
-- (nonnull instancetype)initNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
-                                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
+- (nonnull instancetype)
+    initNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                 completionHandler:
+                     (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 
 /// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
@@ -28,4 +30,3 @@
 - (void)requestNativeAd;
 
 @end
-

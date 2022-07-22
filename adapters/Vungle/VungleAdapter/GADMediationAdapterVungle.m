@@ -18,8 +18,8 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationVungleInterstitial.h"
-#import "GADMediationVungleRewardedAd.h"
 #import "GADMediationVungleNativeAd.h"
+#import "GADMediationVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
 
 @implementation GADMediationAdapterVungle {
@@ -31,7 +31,7 @@
 
   /// Vungle interstitial ad wrapper.
   GADMediationVungleInterstitial *_interstitialAd;
-    
+
   /// Vungle native ad wrapper
   GADMediationVungleNativeAd *_nativeAd;
 }
@@ -126,11 +126,12 @@
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
-                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
-    _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
-                                                                 completionHandler:completionHandler];
-    [_nativeAd requestNativeAd];
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
+                                                               completionHandler:completionHandler];
+  [_nativeAd requestNativeAd];
 }
 
 #pragma mark GADRTBAdapter implementation

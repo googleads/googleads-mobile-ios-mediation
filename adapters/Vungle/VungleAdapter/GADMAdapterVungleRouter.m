@@ -38,7 +38,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
 
-  /// Vungle's prioritized placementID
+  /// Vungle's prioritized placementID.
   NSString *_prioritizedPlacementID;
 }
 
@@ -71,7 +71,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSString *version = [GADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
-                                                                             withString:@"_"];
+                                                                            withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     [VungleSDK.sharedSDK performSelector:@selector(setPluginName:version:)
@@ -422,11 +422,10 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (void)setCOPPAStatus:(NSNumber *)coppa {
-    if (coppa) {
-        [[VungleSDK sharedSDK] updateCOPPAStatus:[coppa boolValue]];
-    }
+  if (coppa) {
+    [[VungleSDK sharedSDK] updateCOPPAStatus:[coppa boolValue]];
+  }
 }
-
 
 #pragma mark - VungleSDKDelegate methods
 

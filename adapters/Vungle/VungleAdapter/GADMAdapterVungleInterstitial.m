@@ -148,8 +148,8 @@
 @synthesize isAdLoaded;
 
 - (nullable NSString *)bidResponse {
-    // This is the waterfall interstitial section. It won't have a bid response
-    return nil;
+  // This is the waterfall interstitial section. It won't have a bid response.
+  return nil;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
@@ -165,7 +165,7 @@
     // Already invoked an ad load callback.
     return;
   }
-    self.isAdLoaded = YES;
+  self.isAdLoaded = YES;
 
   [_connector adapterDidReceiveInterstitial:self];
 }
