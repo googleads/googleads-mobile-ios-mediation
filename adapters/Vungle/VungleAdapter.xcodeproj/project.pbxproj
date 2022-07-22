@@ -33,6 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		17515A1E276A7C9F0054E84D /* GADMediationVungleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */; };
+		17515A1F276A7C9F0054E84D /* GADMediationVungleNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */; };
 		176AE0D62613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */; };
 		176AE0DB2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 176AE0DA2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m */; };
 		176EA85A26E021EF00B492E0 /* GADMAdapterVungleBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 176EA85826E021EF00B492E0 /* GADMAdapterVungleBanner.h */; };
@@ -93,6 +95,8 @@
 
 /* Begin PBXFileReference section */
 		00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleNativeAd.m; sourceTree = "<group>"; };
+		17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleNativeAd.h; sourceTree = "<group>"; };
 		176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRewardBasedVideoAd.h; sourceTree = "<group>"; };
 		176AE0DA2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleRewardBasedVideoAd.m; sourceTree = "<group>"; };
 		176EA85826E021EF00B492E0 /* GADMAdapterVungleBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleBanner.h; sourceTree = "<group>"; };
@@ -147,6 +151,8 @@
 			children = (
 				2B232438284AAC640005EA80 /* GADMAdapterVungleBiddingRouter.h */,
 				2B232439284AAC640005EA80 /* GADMAdapterVungleBiddingRouter.m */,
+				17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */,
+				17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */,
 				178ADB192612A082007587F0 /* GADMediationVungleInterstitial.h */,
 				178ADB142612A081007587F0 /* GADMediationVungleInterstitial.m */,
 				45BFFB5B22272D4300C96A67 /* GADMediationVungleRewardedAd.h */,
@@ -253,6 +259,7 @@
 				176AE0D62613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
 				407621A223F140B800C18557 /* VungleRouterConfiguration.h in Headers */,
 				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
+				17515A1F276A7C9F0054E84D /* GADMediationVungleNativeAd.h in Headers */,
 				45BFFB5D22272D4300C96A67 /* GADMediationVungleRewardedAd.h in Headers */,
 				2B23243A284AAC640005EA80 /* GADMAdapterVungleBiddingRouter.h in Headers */,
 				4557855B238DE7E700523142 /* GADMAdapterVungleDelegate.h in Headers */,
@@ -363,6 +370,7 @@
 			files = (
 				A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */,
 				178ADB1A2612A082007587F0 /* GADMediationVungleInterstitial.m in Sources */,
+				17515A1E276A7C9F0054E84D /* GADMediationVungleNativeAd.m in Sources */,
 				45BFFB5E22272D4300C96A67 /* GADMediationVungleRewardedAd.m in Sources */,
 				458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */,
 				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,

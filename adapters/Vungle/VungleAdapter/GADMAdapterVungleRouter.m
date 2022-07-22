@@ -258,7 +258,9 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
     }
   } else {
     @synchronized(_delegates) {
-      GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
+      if (delegate && (delegate == [_delegates objectForKey:delegate.desiredPlacement])) {
+        GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
+      }
     }
   }
 }
@@ -419,6 +421,13 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   return [VungleSDK.sharedSDK currentSuperToken];
 }
 
+- (void)setCOPPAStatus:(NSNumber *)coppa {
+    if (coppa) {
+        [[VungleSDK sharedSDK] updateCOPPAStatus:[coppa boolValue]];
+    }
+}
+
+
 #pragma mark - VungleSDKDelegate methods
 
 - (void)vungleWillShowAdForPlacementID:(nullable NSString *)placementID {
@@ -433,7 +442,14 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
-  NSLog(@"Vungle: Did show Ad for placement ID:%@", placementID);
+  if (!placementID.length) {
+    return;
+  }
+
+  id<GADMAdapterVungleDelegate> delegate =
+      [self getDelegateForPlacement:placementID
+          withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate didShowAd];
 }
 
 - (void)vungleAdViewedForPlacement:(NSString *)placementID {

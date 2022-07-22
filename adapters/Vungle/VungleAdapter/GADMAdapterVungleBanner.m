@@ -197,6 +197,10 @@
   self.bannerState = BannerRouterDelegateStatePlaying;
 }
 
+- (void)didShowAd {
+  // Do nothing
+}
+
 - (void)didViewAd {
   // Do nothing.
 }

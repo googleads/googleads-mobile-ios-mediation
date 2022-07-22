@@ -19,6 +19,7 @@
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationVungleInterstitial.h"
 #import "GADMediationVungleRewardedAd.h"
+#import "GADMediationVungleNativeAd.h"
 #import "VungleAdNetworkExtras.h"
 
 @implementation GADMediationAdapterVungle {
@@ -30,6 +31,9 @@
 
   /// Vungle interstitial ad wrapper.
   GADMediationVungleInterstitial *_interstitialAd;
+    
+  /// Vungle native ad wrapper
+  GADMediationVungleNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -97,6 +101,7 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
         [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
@@ -113,10 +118,19 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
   [_interstitialAd requestInterstitialAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+    _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
+                                                                 completionHandler:completionHandler];
+    [_nativeAd requestNativeAd];
 }
 
 #pragma mark GADRTBAdapter implementation

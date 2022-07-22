@@ -155,8 +155,6 @@
 
 - (void)didCloseAd {
   [_delegate didDismissFullScreenView];
-
-  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
 }
 
 - (void)willCloseAd {
@@ -164,9 +162,11 @@
 }
 
 - (void)willShowAd {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate willPresentFullScreenView];
-  [strongDelegate didStartVideo];
+  [_delegate willPresentFullScreenView];
+}
+
+- (void)didShowAd {
+  [_delegate didStartVideo];
 }
 
 - (void)didViewAd {
@@ -179,7 +179,6 @@
     return;
   }
   _adLoadCompletionHandler(nil, error);
-  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
 }
 
 - (void)trackClick {
@@ -187,12 +186,11 @@
 }
 
 - (void)rewardUser {
-  id<GADMediationRewardedAdEventDelegate> strongDelegate = _delegate;
-  [strongDelegate didEndVideo];
+  [_delegate didEndVideo];
   GADAdReward *reward =
       [[GADAdReward alloc] initWithRewardType:@"vungle"
                                  rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-  [strongDelegate didRewardUserWithReward:reward];
+  [_delegate didRewardUserWithReward:reward];
 }
 
 - (void)willLeaveApplication {
