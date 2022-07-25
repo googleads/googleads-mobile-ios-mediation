@@ -28,10 +28,10 @@
 		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
 		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
-		C21DEFA5281B5F6D0086E68D /* SampleCustomEventUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C21DEFA4281B5F6C0086E68D /* SampleCustomEventUtils.m */; };
 		C228E5F12829875E00546905 /* SampleCustomEventUtilsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C228E5F02829875E00546905 /* SampleCustomEventUtilsSwift.swift */; };
 		C22A2A6527F2B62B0080B51B /* SampleCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */; };
 		C2A0569327B72A7B0095E758 /* SampleCustomEventSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0569227B72A7B0095E758 /* SampleCustomEventSwift.swift */; };
+		C2CCE1192865001A00AFD940 /* SampleCustomEventUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */; };
 		EFB9E9B1238F2F9500AF1732 /* SampleCustomEventRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */; };
 /* End PBXBuildFile section */
 
@@ -113,12 +113,12 @@
 		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
 		AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdSourceConfig.h; path = MediationExample/AdSourceConfig.h; sourceTree = SOURCE_ROOT; };
-		C21DEFA3281B5E9B0086E68D /* SampleCustomEventUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventUtils.h; path = CustomEvent/SampleCustomEventUtils.h; sourceTree = "<group>"; };
-		C21DEFA4281B5F6C0086E68D /* SampleCustomEventUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventUtils.m; path = CustomEvent/SampleCustomEventUtils.m; sourceTree = "<group>"; };
 		C228E5F02829875E00546905 /* SampleCustomEventUtilsSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCustomEventUtilsSwift.swift; sourceTree = "<group>"; };
 		C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEvent.m; path = CustomEvent/SampleCustomEvent.m; sourceTree = "<group>"; };
 		C22A2A6627F2B6570080B51B /* SampleCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEvent.h; path = CustomEvent/SampleCustomEvent.h; sourceTree = "<group>"; };
 		C2A0569227B72A7B0095E758 /* SampleCustomEventSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCustomEventSwift.swift; sourceTree = "<group>"; };
+		C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventUtils.m; path = CustomEvent/SampleCustomEventUtils.m; sourceTree = "<group>"; };
+		C2CCE11A2865005100AFD940 /* SampleCustomEventUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventUtils.h; path = CustomEvent/SampleCustomEventUtils.h; sourceTree = "<group>"; };
 		EFB9E9AE238E0DD300AF1732 /* SampleCustomEventRewarded.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventRewarded.h; path = CustomEvent/SampleCustomEventRewarded.h; sourceTree = "<group>"; };
 		EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventRewarded.m; path = CustomEvent/SampleCustomEventRewarded.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,8 +193,8 @@
 				EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */,
 				C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */,
 				C22A2A6627F2B6570080B51B /* SampleCustomEvent.h */,
-				C21DEFA3281B5E9B0086E68D /* SampleCustomEventUtils.h */,
-				C21DEFA4281B5F6C0086E68D /* SampleCustomEventUtils.m */,
+				C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */,
+				C2CCE11A2865005100AFD940 /* SampleCustomEventUtils.h */,
 			);
 			name = CustomEvent;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 				C22A2A6527F2B62B0080B51B /* SampleCustomEvent.m in Sources */,
 				C2A0569327B72A7B0095E758 /* SampleCustomEventSwift.swift in Sources */,
 				4A93FA601C286D8F00479579 /* ViewController.m in Sources */,
-				C21DEFA5281B5F6D0086E68D /* SampleCustomEventUtils.m in Sources */,
+				C2CCE1192865001A00AFD940 /* SampleCustomEventUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

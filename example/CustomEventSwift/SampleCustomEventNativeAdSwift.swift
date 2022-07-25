@@ -55,7 +55,11 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
     return nativeAd?.advertiser
   }
 
-  var extraAssets: [String: Any]?
+  var extraAssets: [String: Any]? {
+    return [
+      SampleCustomEventConstantsSwift.awesomenessKey: nativeAd?.degreeOfAwesomeness ?? ""
+    ]
+  }
 
   var adChoicesView: UIView?
 
@@ -127,10 +131,6 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
 
 extension SampleCustomEventNativeAdSwift: SampleNativeAdLoaderDelegate {
   func adLoader(_ adLoader: SampleNativeAdLoader, didReceive nativeAd: SampleNativeAd) {
-    extraAssets = [
-      SampleCustomEventConstantsSwift.awesomenessKey: nativeAd.degreeOfAwesomeness ?? ""
-    ]
-
     if let image = nativeAd.image {
       images = [GADNativeAdImage(image: image)]
     } else {

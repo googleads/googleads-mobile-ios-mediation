@@ -24,16 +24,32 @@ import SampleAdSDK
 
   fileprivate var nativeAd: SampleCustomEventNativeAdSwift?
 
-  static func adapterVersion() -> GADVersionNumber {
-    return GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+  static func adSDKVersion() -> GADVersionNumber {
+    let versionComponents = String(SampleSDKVersion).components(
+      separatedBy: ".")
+
+    if versionComponents.count >= 3 {
+      let majorVersion = Int(versionComponents[0]) ?? 0
+      let minorVersion = Int(versionComponents[1]) ?? 0
+      let patchVersion = Int(versionComponents[2]) ?? 0
+
+      return GADVersionNumber(
+        majorVersion: majorVersion, minorVersion: minorVersion, patchVersion: patchVersion)
+    }
+
+    return GADVersionNumber()
   }
 
-  static func adSDKVersion() -> GADVersionNumber {
-    let majorVersion = Int(
-      SampleAdSDK.SampleAdSDKVersionNumber.rounded(FloatingPointRoundingRule.down))
-    let minorVersion = Int(
-      SampleAdSDK.SampleAdSDKVersionNumber.truncatingRemainder(dividingBy: 1) * 100)
-    return GADVersionNumber(majorVersion: majorVersion, minorVersion: minorVersion, patchVersion: 0)
+  static func adapterVersion() -> GADVersionNumber {
+    let versionComponents = String(SampleAdSDK.SampleAdSDKVersionNumber).components(
+      separatedBy: ".")
+    var version = GADVersionNumber()
+    if versionComponents.count == 4 {
+      version.majorVersion = Int(versionComponents[0]) ?? 0
+      version.minorVersion = Int(versionComponents[1]) ?? 0
+      version.patchVersion = Int(versionComponents[2]) * 100 + Int(versionComponents[3])
+    }
+    return version
   }
 
   static func networkExtrasClass() -> GADAdNetworkExtras.Type? {

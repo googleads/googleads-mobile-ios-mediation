@@ -34,7 +34,7 @@
 #pragma mark GADMediationAdapter implementation
 
 + (GADVersionNumber)adSDKVersion {
-  NSArray *versionComponents = [SampleAdRequest.SampleSDKVersion componentsSeparatedByString:@"."];
+  NSArray *versionComponents = [SampleSDKVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 3) {
     version.majorVersion = [versionComponents[0] integerValue];
@@ -44,20 +44,20 @@
   return version;
 }
 
-+ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray *versionComponents = [SampleCustomEventAdapterVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
-  if (versionComponents.count >= 4) {
+  if (versionComponents.count == 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
     version.patchVersion =
         [versionComponents[2] integerValue] * 100 + [versionComponents[3] integerValue];
   }
   return version;
+}
+
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
+  return Nil;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
