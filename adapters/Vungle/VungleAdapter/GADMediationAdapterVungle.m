@@ -134,6 +134,20 @@
   [_nativeAd requestNativeAd];
 }
 
+- (void)loadRewardedInterstitialAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                               completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (!adConfiguration.bidResponse) {
+    _waterfallRewardedAd = [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
+                                                           completionHandler:completionHandler];
+    [_waterfallRewardedAd requestRewardedAd];
+    return;
+  }
+  _rewardedAd = [[GADMediationVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
+                                                            completionHandler:completionHandler];
+  [_rewardedAd requestRewardedAd];
+}
+
 #pragma mark GADRTBAdapter implementation
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
