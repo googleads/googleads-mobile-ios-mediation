@@ -25,7 +25,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
     /// The Pangle native ad.
     BUNativeAd *_nativeAd;
-    /// The Pangle related view
+    /// The Pangle related view.
     BUNativeAdRelatedView *_relatedView;
     /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationNativeAdEventDelegate> _delegate;
@@ -34,7 +34,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 @end
 
 @implementation GADPangleRTBNativeRenderer
-@synthesize images = _images,icon = _icon;
+@synthesize images = _images,icon = _icon, mediaView = _mediaView;
 
 - (void)renderNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
@@ -87,7 +87,11 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 #pragma mark GADMediationNativeAd
 
 - (UIView *)mediaView {
-    return [self getRelatedView].videoAdView;
+  if (!_mediaView) {
+    BUVideoAdView *videoView = [self getRelatedView].videoAdView;
+    _mediaView = videoView;
+  }
+  return _mediaView;
 }
 
 - (UIView *)adChoicesView {
@@ -141,11 +145,28 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     return nil;
 }
 
-- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData: data];
-    return [[GADNativeAdImage alloc] initWithImage:image];
+- (void)didUntrackView:(UIView *)view {
+  [_nativeAd unregisterView];
+}
+
+- (BOOL)hasVideoContent {
+  if (_nativeAd && _nativeAd.data &&
+      (_nativeAd.data.imageMode == BUFeedVideoAdModeImage ||
+       _nativeAd.data.imageMode == BUFeedVideoAdModePortrait ||
+       _nativeAd.data.imageMode == BUFeedADModeSquareVideo))
+  {
+    return YES;
+  }
+  return NO;
+}
+
+- (void)didRenderInView:(nonnull UIView *)view
+       clickableAssetViews:
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+         viewController:(nonnull UIViewController *)viewController {
+    [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
 }
 
 #pragma mark BUNativeAdDelegate
@@ -162,7 +183,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }
     
-    [_relatedView refreshData:nativeAd];
+    [[self getRelatedView] refreshData:nativeAd];
     
     if (_loadCompletionHandler) {
         _delegate = _loadCompletionHandler(self,nil);
@@ -176,6 +197,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 }
 
 - (void)nativeAdDidBecomeVisible:(BUNativeAd *)nativeAd {
+    [[self getRelatedView] refreshData:nativeAd];
     id<GADMediationNativeAdEventDelegate> delegate = _delegate;
     [delegate reportImpression];
 }
@@ -185,17 +207,14 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     [delegate reportClick];
 }
 
-- (void)nativeAd:(BUNativeAd *_Nullable)nativeAd adContainerViewDidRemoved:(UIView *)adContainerView {
-    
-}
-
-- (void)didRenderInView:(nonnull UIView *)view
-       clickableAssetViews:
-           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
-    nonclickableAssetViews:
-        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-         viewController:(nonnull UIViewController *)viewController {
-    [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
+- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
+  NSURL *url = [NSURL URLWithString:urlString];
+  NSData *data = [NSData dataWithContentsOfURL:url];
+  if (data) {
+    UIImage *image = [UIImage imageWithData: data];
+    return [[GADNativeAdImage alloc] initWithImage:image];
+  }
+  return nil;
 }
 
 @end
