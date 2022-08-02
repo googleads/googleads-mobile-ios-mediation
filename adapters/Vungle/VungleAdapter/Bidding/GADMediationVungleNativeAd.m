@@ -184,6 +184,14 @@
   [_nativeAd unregisterView];
 }
 
+- (BOOL)handlesUserClicks {
+  return YES;
+}
+
+- (BOOL)handlesUserImpressions {
+  return YES;
+}
+
 #pragma mark - VungleNativeAdDelegate
 
 - (void)nativeAdDidLoad:(VungleNativeAd *)nativeAd {
