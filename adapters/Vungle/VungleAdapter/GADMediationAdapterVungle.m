@@ -21,6 +21,7 @@
 #import "GADMediationVungleNativeAd.h"
 #import "GADMediationVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
+#import "VungleRouterConsent.h"
 
 @implementation GADMediationAdapterVungle {
   /// Vungle rewarded ad wrapper.
@@ -38,11 +39,13 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  // Gather all app ids supplied by the server configuration
   NSMutableSet *applicationIDs = [[NSMutableSet alloc] init];
-
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appID = cred.settings[GADMAdapterVungleApplicationID];
-    GADMAdapterVungleMutableSetAddObject(applicationIDs, appID);
+    if (appID) {
+      [applicationIDs addObject:appID];
+    }
   }
 
   if (!applicationIDs.count) {
@@ -66,7 +69,7 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = VungleSDKVersion;
+  NSString *versionString = Vungle.sdkVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
@@ -101,7 +104,7 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
         [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
@@ -118,7 +121,7 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
@@ -128,7 +131,7 @@
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
   _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [_nativeAd requestNativeAd];

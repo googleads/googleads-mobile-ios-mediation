@@ -13,32 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <VungleSDK/VungleSDK.h>
 #import "GADMediationAdapterVungle.h"
 #import "VungleAdNetworkExtras.h"
-
-/// Safely adds |object| to |set| if |object| is not nil.
-void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
-
-/// Safely sets |value| for |key| in mapTable if |value| is not nil.
-void GADMAdapterVungleMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                              id<NSCopying> _Nullable key, id _Nullable value);
-
-/// Safely removes the |object| for |key| in mapTable if |key| is not nil.
-void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
-
-/// Sets |value| for |key| in |dictionary| if |value| is not nil.
-void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                       id<NSCopying> _Nullable key,
-                                                       id _Nullable value);
-
-/// Safely removes the |object| for |key| in userDefaults if |key| is not nil.
-void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull userDefaults,
-                                                     id _Nullable key);
-
-/// Removes the object for |key| in |dictionary| if |key| is not nil.
-void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                          id<NSCopying> _Nullable key);
+#import "vng_ios_sdk/vng_ios_sdk.h"
 
 /// Return a dictionary of Vungle ad playback options.
 NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
@@ -48,9 +25,6 @@ NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description);
-
-/// Returns a VungleAdSize object from the specified adSize
-VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize);
 
 @interface GADMAdapterVungleUtils : NSObject
 

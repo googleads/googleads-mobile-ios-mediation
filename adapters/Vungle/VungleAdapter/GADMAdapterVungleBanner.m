@@ -16,7 +16,7 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMAdapterVungleBanner () <GADMAdapterVungleDelegate>
+@interface GADMAdapterVungleBanner () <GADMAdapterVungleDelegate, VungleBannerDelegate>
 @end
 
 @implementation GADMAdapterVungleBanner {
@@ -28,17 +28,15 @@
 
   /// The requested ad size.
   GADAdSize _bannerSize;
-
-  /// Indicates whether the banner ad finished presenting.
-  BOOL _didBannerFinishPresenting;
+    
+  /// Vungle Banner instance
+  VungleBanner *_bannerAd;
+    
+  /// UIView that the Vungle Banner mounts onto
+  UIView *_bannerView;
 }
 
 @synthesize desiredPlacement;
-@synthesize bannerState;
-@synthesize uniquePubRequestID;
-@synthesize isRefreshedForBannerAd;
-@synthesize isRequestingBannerAdForRefresh;
-@synthesize isAdLoaded;
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -50,6 +48,13 @@
   return self;
 }
 
+- (void)dealloc {
+  _adapter = nil;
+  _connector = nil;
+  _bannerAd = nil;
+  _bannerView = nil;
+}
+
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   id<GADMAdNetworkAdapter> strongAdapter = _adapter;
@@ -57,7 +62,7 @@
     return;
   }
 
-  _bannerSize = [self vungleAdSizeForAdSize:adSize];
+  _bannerSize = [self filterValidAdSizes:adSize];
   if (!IsGADAdSizeValid(_bannerSize)) {
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
@@ -71,7 +76,6 @@
   VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
-  self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
@@ -79,8 +83,7 @@
     return;
   }
 
-  VungleSDK *sdk = VungleSDK.sharedSDK;
-  if ([sdk isInitialized]) {
+  if ([Vungle isInitialized]) {
     [self loadAd];
     return;
   }
@@ -95,7 +98,8 @@
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
-- (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
+/// Filters the ad size provided to the ones that Vungle supports
+- (GADAdSize)filterValidAdSizes:(GADAdSize)adSize {
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
@@ -116,38 +120,76 @@
   } else if (size.height == GADAdSizeMediumRectangle.size.height) {
     return GADAdSizeMediumRectangle;
   }
-
   return GADAdSizeInvalid;
 }
 
-- (void)loadAd {
-  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
-                                                     withDelegate:self];
-  if (error) {
-    [_connector adapter:_adapter didFailAd:error];
+- (BannerSize)convertGADAdSizeToBannerSize {
+  if (GADAdSizeEqualToSize(_bannerSize, GADAdSizeMediumRectangle)) {
+    return BannerSizeMrec;
   }
+  if (_bannerSize.size.height == GADAdSizeLeaderboard.size.height) {
+    return BannerSizeLeaderboard;
+  }
+  // Height is 50.
+  if (_bannerSize.size.width < GADAdSizeBanner.size.width) {
+    return BannerSizeShort;
+  }
+  return BannerSizeRegular;
 }
 
-- (void)cleanUp {
-  if (_didBannerFinishPresenting) {
-    return;
-  }
-  _didBannerFinishPresenting = YES;
+- (void)loadAd {
+  _bannerAd = [[VungleBanner alloc] initWithPlacementId:self.desiredPlacement size:[self convertGADAdSizeToBannerSize]];
+  _bannerAd.delegate = self;
+  // Pass nil for the payload because this is not bidding
+  [_bannerAd load:nil];
+}
 
-  [GADMAdapterVungleRouter.sharedInstance completeBannerAdViewForPlacementID:self];
-  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
+#pragma mark - VungleBannerDelegate
+
+- (void)bannerAdDidLoad:(VungleBanner *)banner {
+  _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  [_bannerAd presentOn:_bannerView];
+}
+
+- (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error {
+  [_connector adapter:_adapter didFailAd:error];
+}
+
+- (void)bannerAdWillPresent:(VungleBanner *)banner {
+  // No-op.
+}
+
+- (void)bannerAdDidPresent:(VungleBanner *)banner {
+  [_connector adapter:_adapter didReceiveAdView:_bannerView];
+}
+
+- (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error {
+  [_connector adapter:_adapter didFailAd:error];
+}
+
+- (void)bannerAdWillClose:(VungleBanner *)banner {
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
+}
+
+- (void)bannerAdDidClose:(VungleBanner *)banner {
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
+}
+
+- (void)bannerAdDidTrackImpression:(VungleBanner *)banner {
+  // No-op.
+}
+
+- (void)bannerAdDidClick:(VungleBanner *)banner {
+  [_connector adapterDidGetAdClick:_adapter];
+}
+
+- (void)bannerAdWillLeaveApplication:(VungleBanner *)banner {
+  [_connector adapterWillLeaveApplication:_adapter];
 }
 
 #pragma mark - GADMAdapterVungleDelegate delegates
-
-- (GADAdSize)bannerAdSize {
-  return _bannerSize;
-}
-
-- (nullable NSString *)bidResponse {
-  // This is the waterfall banner section. It won't have a bid response.
-  return nil;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -155,78 +197,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (!strongConnector || !strongAdapter) {
-    return;
-  }
-
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-  UIView *bannerView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
-  NSError *bannerViewError =
-      [GADMAdapterVungleRouter.sharedInstance renderBannerAdInView:bannerView
-                                                          delegate:self
-                                                            extras:[strongConnector networkExtras]
-                                                    forPlacementID:self.desiredPlacement];
-  if (bannerViewError) {
-    [strongConnector adapter:strongAdapter didFailAd:bannerViewError];
-    return;
-  }
-
-  self.bannerState = BannerRouterDelegateStateWillPlay;
-  [strongConnector adapter:strongAdapter didReceiveAdView:bannerView];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  [_connector adapter:_adapter didFailAd:error];
-}
-
-- (void)willShowAd {
-  self.bannerState = BannerRouterDelegateStatePlaying;
-}
-
-- (void)didShowAd {
-  // Do nothing
-}
-
-- (void)didViewAd {
-  // Do nothing.
-}
-
-- (void)willCloseAd {
-  self.bannerState = BannerRouterDelegateStateClosing;
-  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
-  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
-}
-
-- (void)didCloseAd {
-  self.bannerState = BannerRouterDelegateStateClosed;
-  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
-  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
-}
-
-- (void)trackClick {
-  [_connector adapterDidGetAdClick:_adapter];
-}
-
-- (void)willLeaveApplication {
-  [_connector adapterWillLeaveApplication:_adapter];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end

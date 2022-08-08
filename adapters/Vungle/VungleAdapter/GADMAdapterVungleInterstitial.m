@@ -18,8 +18,9 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationAdapterVungle.h"
+#import "VungleRouterConsent.h"
 
-@interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate>
+@interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate, VungleInterstitialDelegate>
 @end
 
 @implementation GADMAdapterVungleInterstitial {
@@ -28,7 +29,12 @@
 
   /// Vungle banner ad wrapper.
   GADMAdapterVungleBanner *_bannerAd;
+    
+  /// Vungle interstitial ad instance.
+  VungleInterstitial *_interstitialAd;
 }
+
+@synthesize desiredPlacement;
 
 // Redirect to the main adapter class for bidding
 // but still implement GADMAdNetworkAdapter for waterfall.
@@ -56,7 +62,7 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:strongConnector.childDirectedTreatment];
+  [VungleRouterConsent updateCOPPAStatus:strongConnector.childDirectedTreatment];
   _bannerAd = [[GADMAdapterVungleBanner alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                       adapter:self];
   [_bannerAd getBannerWithSize:adSize];
@@ -66,7 +72,7 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:strongConnector.childDirectedTreatment];
+  [VungleRouterConsent updateCOPPAStatus:strongConnector.childDirectedTreatment];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement.length) {
@@ -77,16 +83,7 @@
     return;
   }
 
-  VungleSDK *sdk = VungleSDK.sharedSDK;
-  if ([GADMAdapterVungleRouter.sharedInstance hasDelegateForPlacementID:self.desiredPlacement]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Vungle.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-
-  if ([sdk isInitialized]) {
+  if ([Vungle isInitialized]) {
     [self loadAd];
     return;
   }
@@ -102,13 +99,9 @@
 }
 
 - (void)stopBeingDelegate {
-  if (_bannerAd) {
-    [_bannerAd cleanUp];
-  } else {
-    [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
-  }
-
+  _bannerAd = nil;
   _connector = nil;
+  _interstitialAd = nil;
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -116,41 +109,60 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  NSError *error = nil;
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (![GADMAdapterVungleRouter.sharedInstance playAd:rootViewController
-                                             delegate:self
-                                               extras:[strongConnector networkExtras]
-                                                error:&error]) {
-    // Ad not playable.
-    if (error) {
-      NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
-    }
-    [strongConnector adapterWillPresentInterstitial:self];
-    [strongConnector adapterDidDismissInterstitial:self];
-    return;
-  }
+  [_interstitialAd presentWith:rootViewController];
 }
 
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
-                                                     withDelegate:self];
-  if (error) {
-    [_connector adapter:self didFailAd:error];
-  }
+  _interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
+  _interstitialAd.delegate = self;
+  [_interstitialAd load:nil];
+}
+
+#pragma mark - VungleInterstitialDelegate
+
+- (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial {
+  [_connector adapterDidReceiveInterstitial:self];
+}
+
+- (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
+  [_connector adapter:self didFailAd:error];
+}
+
+- (void)interstitialAdWillPresent:(VungleInterstitial *)interstitial {
+  [_connector adapterWillPresentInterstitial:self];
+}
+
+- (void)interstitialAdDidPresent:(VungleInterstitial *)interstitial {
+  // No-op.
+}
+
+- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error {
+  [_connector adapter:self didFailAd:error];
+}
+
+- (void)interstitialAdWillClose:(VungleInterstitial *)interstitial {
+  [_connector adapterWillDismissInterstitial:self];
+}
+
+- (void)interstitialAdDidClose:(VungleInterstitial *)interstitial {
+  [_connector adapterDidDismissInterstitial:self];
+}
+
+- (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
+  // No-op.
+}
+
+- (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
+  [_connector adapterDidGetAdClick:self];
+}
+
+- (void)interstitialAdWillLeaveApplication:(VungleInterstitial *)interstitial {
+  [_connector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - GADMAdapterVungleDelegate
-
-@synthesize desiredPlacement;
-@synthesize isAdLoaded;
-
-- (nullable NSString *)bidResponse {
-  // This is the waterfall interstitial section. It won't have a bid response.
-  return nil;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -158,57 +170,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  [_connector adapterDidReceiveInterstitial:self];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-
-  [_connector adapter:self didFailAd:error];
-}
-
-- (void)willShowAd {
-  [_connector adapterWillPresentInterstitial:self];
-}
-
-- (void)didShowAd {
-  // Do nothing.
-}
-
-- (void)didViewAd {
-  // Do nothing.
-}
-
-- (void)willCloseAd {
-  [_connector adapterWillDismissInterstitial:self];
-}
-
-- (void)didCloseAd {
-  [_connector adapterDidDismissInterstitial:self];
-}
-
-- (void)trackClick {
-  [_connector adapterDidGetAdClick:self];
-}
-
-- (void)willLeaveApplication {
-  [_connector adapterWillLeaveApplication:self];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end

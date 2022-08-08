@@ -13,23 +13,24 @@
 // limitations under the License.
 
 #import "VungleRouterConsent.h"
-#import <VungleSDK/VungleSDK.h>
-
-static VungleConsentStatus currentConsentStatus = 0;
+#import "vng_ios_sdk/vng_ios_sdk.h"
 
 @implementation VungleRouterConsent
-+ (BOOL)updateConsentStatus:(VungleConsentStatus)consentStatus {
-  VungleSDK *sdk = VungleSDK.sharedSDK;
-  if (consentStatus > 0) {
-    currentConsentStatus = consentStatus;
-    [sdk updateConsentStatus:consentStatus consentMessageVersion:@""];
-    return YES;
-  }
-  return NO;
+
++ (void)updateGDPRStatus:(BOOL)optIn {
+  [VunglePrivacySettings setGDPRStatus:optIn];
 }
 
-+ (VungleConsentStatus)getConsentStatus {
-  return currentConsentStatus;
++ (void)updateCCPAStatus:(BOOL)optIn {
+  [VunglePrivacySettings setCCPAStatus:optIn];
+}
+
++ (void)updateCOPPAStatus:(BOOL)optIn {
+  [VunglePrivacySettings setCOPPAStatus:optIn];
+}
+
++ (void)updateIDFVStatus:(BOOL)optIn {
+  [VunglePrivacySettings setPublishIdfv:optIn];
 }
 
 @end

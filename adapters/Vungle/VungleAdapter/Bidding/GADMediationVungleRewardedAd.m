@@ -14,11 +14,12 @@
 
 #import "GADMediationVungleRewardedAd.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleDelegate.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate>
+@interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate, VungleRewardedDelegate>
 @end
 
 @implementation GADMediationVungleRewardedAd {
@@ -30,10 +31,12 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
+    
+  /// Vungle rewarded ad instance.
+  VungleRewarded *_rewardedAd;
 }
 
 @synthesize desiredPlacement;
-@synthesize isAdLoaded;
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -75,9 +78,9 @@
     return;
   }
 
-  if (![[VungleSDK sharedSDK] isInitialized]) {
+  if (![Vungle isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
+    [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -85,36 +88,72 @@
 }
 
 - (void)loadRewardedAd {
-  NSError *error = nil;
-  error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
-
-  if (error) {
-    _adLoadCompletionHandler(nil, error);
-  }
+  _rewardedAd = [[VungleRewarded alloc] initWithPlacementId:self.desiredPlacement];
+  _rewardedAd.delegate = self;
+  [_rewardedAd load:_adConfiguration.bidResponse];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  NSError *error = nil;
-  if (![VungleSDK.sharedSDK
-               playAd:viewController
-              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
-          placementID:self.desiredPlacement
-             adMarkup:[self bidResponse]
-                error:&error]) {
-    [_delegate didFailToPresentWithError:error];
-  }
+  [_rewardedAd presentWith:viewController];
 }
 
 - (void)dealloc {
   _adLoadCompletionHandler = nil;
   _adConfiguration = nil;
+  _delegate = nil;
+  _rewardedAd = nil;
+}
+
+#pragma mark - VungleRewardedDelegate
+
+- (void)rewardedAdDidLoad:(VungleRewarded *)rewarded {
+  if (_adLoadCompletionHandler) {
+    _delegate = _adLoadCompletionHandler(self, nil);
+  }
+}
+
+- (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error {
+  _adLoadCompletionHandler(nil, error);
+}
+
+- (void)rewardedAdWillPresent:(VungleRewarded *)rewarded {
+  [_delegate willPresentFullScreenView];
+}
+
+- (void)rewardedAdDidPresent:(VungleRewarded *)rewarded {
+  [_delegate didStartVideo];
+}
+
+- (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error {
+  [_delegate didFailToPresentWithError:error];
+}
+
+- (void)rewardedAdWillClose:(VungleRewarded *)rewarded {
+  [_delegate willDismissFullScreenView];
+}
+
+- (void)rewardedAdDidClose:(VungleRewarded *)rewarded {
+  [_delegate didEndVideo];
+  [_delegate didDismissFullScreenView];
+}
+
+- (void)rewardedAdDidTrackImpression:(VungleRewarded *)rewarded {
+  [_delegate reportImpression];
+}
+
+- (void)rewardedAdDidClick:(VungleRewarded *)rewarded {
+  [_delegate reportClick];
+}
+
+- (void)rewardedAdWillLeaveApplication:(VungleRewarded *)rewarded {
+  // No-op.
+}
+
+- (void)rewardedAdDidRewardUser:(VungleRewarded *)rewarded {
+  [_delegate didRewardUser];
 }
 
 #pragma mark - GADMAdapterVungleDelegate
-
-- (NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -122,64 +161,6 @@
     return;
   }
   [self loadRewardedAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  if (_adLoadCompletionHandler) {
-    _delegate = _adLoadCompletionHandler(self, nil);
-  }
-
-  if (!_delegate) {
-    // In this case, the request for Vungle has been timed out. Clean up self.
-    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
-  }
-}
-
-- (void)didCloseAd {
-  [_delegate didDismissFullScreenView];
-}
-
-- (void)willCloseAd {
-  [_delegate willDismissFullScreenView];
-}
-
-- (void)willShowAd {
-  [_delegate willPresentFullScreenView];
-}
-
-- (void)didShowAd {
-  [_delegate didStartVideo];
-}
-
-- (void)didViewAd {
-  [_delegate reportImpression];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  _adLoadCompletionHandler(nil, error);
-}
-
-- (void)trackClick {
-  [_delegate reportClick];
-}
-
-- (void)rewardUser {
-  [_delegate didEndVideo];
-  [_delegate didRewardUser];
-}
-
-- (void)willLeaveApplication {
-  // Do nothing.
 }
 
 @end

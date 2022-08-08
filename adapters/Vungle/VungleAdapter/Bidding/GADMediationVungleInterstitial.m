@@ -14,11 +14,12 @@
 
 #import "GADMediationVungleInterstitial.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleDelegate.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate, GADMediationInterstitialAd>
+@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate, GADMediationInterstitialAd, VungleInterstitialDelegate>
 @end
 
 @implementation GADMediationVungleInterstitial {
@@ -30,10 +31,12 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
+    
+  /// Vungle interstitial ad instance.
+  VungleInterstitial *_interstitialAd;
 }
 
 @synthesize desiredPlacement;
-@synthesize isAdLoaded;
 
 #pragma mark - GADMediationVungleInterstitial Methods
 
@@ -77,9 +80,9 @@
     return;
   }
 
-  if (![GADMAdapterVungleBiddingRouter.sharedInstance isSDKInitialized]) {
+  if (![Vungle isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
+    [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -89,34 +92,62 @@
 #pragma mark - GADMediationInterstitialAd Methods
 
 - (void)presentFromViewController:(UIViewController *)rootViewController {
-  NSError *error = nil;
-  if (![VungleSDK.sharedSDK
-               playAd:rootViewController
-              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
-          placementID:self.desiredPlacement
-             adMarkup:[self bidResponse]
-                error:&error]) {
-    // Ad not playable.
-    if (error) {
-      [_delegate didFailToPresentWithError:error];
-    }
-  }
+  [_interstitialAd presentWith:rootViewController];
 }
 
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
-  if (error) {
-    _adLoadCompletionHandler(nil, error);
+  _interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
+  _interstitialAd.delegate = self;
+  [_interstitialAd load:_adConfiguration.bidResponse];
+}
+
+#pragma mark - VungleInterstitialDelegate
+
+- (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial {
+  if (_adLoadCompletionHandler) {
+    _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-#pragma mark - GADMAdapterVungleDelegate
-
-- (NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
+- (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
+  _adLoadCompletionHandler(nil, error);
 }
+
+- (void)interstitialAdWillPresent:(VungleInterstitial *)interstitial {
+  [_delegate willPresentFullScreenView];
+}
+
+- (void)interstitialAdDidPresent:(VungleInterstitial *)interstitial {
+  // No-op.
+}
+
+- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error {
+  [_delegate didFailToPresentWithError:error];
+}
+
+- (void)interstitialAdWillClose:(VungleInterstitial *)interstitial {
+  [_delegate willDismissFullScreenView];
+}
+
+- (void)interstitialAdDidClose:(VungleInterstitial *)interstitial {
+  [_delegate didDismissFullScreenView];
+}
+
+- (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
+  // No-op.
+}
+
+- (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
+  [_delegate reportClick];
+}
+
+- (void)interstitialAdWillLeaveApplication:(VungleInterstitial *)interstitial {
+  [_delegate willBackgroundApplication];
+}
+
+#pragma mark - GADMAdapterVungleDelegate
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -124,63 +155,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  if (_adLoadCompletionHandler) {
-    _delegate = _adLoadCompletionHandler(self, nil);
-  }
-
-  if (!_delegate) {
-    // In this case, the request for Vungle has been timed out. Clean up self.
-    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
-  }
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  _adLoadCompletionHandler(nil, error);
-}
-
-- (void)willShowAd {
-  [_delegate willPresentFullScreenView];
-}
-
-- (void)didShowAd {
-  // Do nothing.
-}
-
-- (void)didViewAd {
-  // Do nothing.
-}
-
-- (void)willCloseAd {
-  [_delegate willDismissFullScreenView];
-}
-
-- (void)didCloseAd {
-  [_delegate didDismissFullScreenView];
-}
-
-- (void)trackClick {
-  [_delegate reportClick];
-}
-
-- (void)willLeaveApplication {
-  [_delegate willBackgroundApplication];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end

@@ -14,54 +14,12 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Vungle banner ad state.
-typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
-  BannerRouterDelegateStateRequesting,
-  BannerRouterDelegateStateWillPlay,
-  BannerRouterDelegateStatePlaying,
-  BannerRouterDelegateStateClosing,
-  BannerRouterDelegateStateClosed
-};
-
 /// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
 /// Placement ID used to request an ad from Vungle.
 @property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
-/// Indicates whether the ad has been loaded successfully.
-@property(nonatomic) BOOL isAdLoaded;
-
-/// Bid Response when the ad is instantiated. May be null if bidding is not enabled.
-- (nullable NSString *)bidResponse;
-
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
-- (void)adAvailable;
-- (void)adNotAvailable:(nonnull NSError *)error;
-- (void)willShowAd;
-- (void)didShowAd;
-- (void)didViewAd;
-- (void)willCloseAd;
-- (void)didCloseAd;
-- (void)trackClick;
-- (void)rewardUser;
-- (void)willLeaveApplication;
-
-@optional
-
-// A unique identifier representing the ad request used to load an ad.
-@property(nonatomic, copy, nullable) NSString *uniquePubRequestID;
-
-// Vungle banner ad state.
-@property(nonatomic, assign) BannerRouterDelegateState bannerState;
-
-// Is a refreshed Banner request
-@property(nonatomic, assign) BOOL isRefreshedForBannerAd;
-
-// Is requesting a Banner ad for a refresh request
-@property(nonatomic, assign) BOOL isRequestingBannerAdForRefresh;
-
-// Requested banner ad size.
-- (GADAdSize)bannerAdSize;
 
 @end

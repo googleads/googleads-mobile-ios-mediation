@@ -13,9 +13,19 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-typedef NS_ENUM(NSInteger, VungleConsentStatus);
 
 @interface VungleRouterConsent : NSObject
-+ (BOOL)updateConsentStatus:(VungleConsentStatus)consentStatus;
-+ (VungleConsentStatus)getConsentStatus;
+
+/// Updates the GDPR status in the Vungle SDK
++ (void)updateGDPRStatus:(BOOL)optIn;
+
+/// Updates the CCPA status in the Vungle SDK
++ (void)updateCCPAStatus:(BOOL)optIn;
+
+/// Updates the COPPA status in the Vungle SDK
++ (void)updateCOPPAStatus:(BOOL)optIn;
+
+/// Determines whether the IDFV can be collected or not
++ (void)updateIDFVStatus:(BOOL)optIn;
+
 @end
