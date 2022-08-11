@@ -17,7 +17,7 @@
 
 @interface GADPangleNetworkExtras : NSObject <GADAdNetworkExtras>
 
-/// optional. additional user information
+/// Set additional user information.
 @property (nonatomic, copy) NSString *userDataString;
 
 @end
