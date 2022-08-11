@@ -25,14 +25,14 @@
 static NSInteger _gdpr = -1, _ccpa = -1;
 
 @implementation GADMediationAdapterPangle {
-    /// Pangle banner ad wrapper.
-    GADPangleRTBBannerRenderer *_bannerRenderer;
-    /// Pangle interstitial ad wrapper.
-    GADPangleRTBInterstitialRenderer *_interstitialRenderer;
-    /// Pangle rewarded ad wrapper.
-    GADPangleRTBRewardedRenderer *_rewardedRenderer;
-    /// Pangle native ad wrapper.
-    GADPangleRTBNativeRenderer *_nativeRenderer;
+  /// Pangle banner ad wrapper.
+  GADPangleRTBBannerRenderer *_bannerRenderer;
+  /// Pangle interstitial ad wrapper.
+  GADPangleRTBInterstitialRenderer *_interstitialRenderer;
+  /// Pangle rewarded ad wrapper.
+  GADPangleRTBRewardedRenderer *_rewardedRenderer;
+  /// Pangle native ad wrapper.
+  GADPangleRTBNativeRenderer *_nativeRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
