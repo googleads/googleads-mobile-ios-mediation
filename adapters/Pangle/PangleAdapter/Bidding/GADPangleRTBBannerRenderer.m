@@ -72,10 +72,11 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
     _loadCompletionHandler(nil, error);
     return;
   }
-    
-  _nativeExpressBannerView = [[BUNativeExpressBannerView alloc] initWithSlotID:placementId
-                                                            rootViewController:adConfiguration.topViewController
-                                                                        adSize:_bannerSize];
+ 
+  _nativeExpressBannerView =
+      [[BUNativeExpressBannerView alloc] initWithSlotID:placementId
+                                     rootViewController:adConfiguration.topViewController
+                                                 adSize:_bannerSize];
   _nativeExpressBannerView.delegate = self;
   [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
 }
