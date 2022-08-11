@@ -66,13 +66,6 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     slot.AdType = BUAdSlotAdTypeFeed;
     
     _nativeAd = [[BUNativeAd alloc]initWithSlot:slot];
-    if (!_nativeAd) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInitAd,
-                                                                      @"Init ad error, Please check the reason or you could contact Pangle"
-                                                                      );
-        _loadCompletionHandler(nil, error);
-        return;
-    }
     _nativeAd.delegate = self;
     [_nativeAd setAdMarkup:adConfiguration.bidResponse];
 }
