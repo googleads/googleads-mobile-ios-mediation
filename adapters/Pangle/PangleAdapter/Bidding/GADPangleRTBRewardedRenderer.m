@@ -17,7 +17,6 @@
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
-#import "GADPangleNetworkExtras.h"
 
 @interface GADPangleRTBRewardedRenderer () <BURewardedVideoAdDelegate>
 

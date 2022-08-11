@@ -17,7 +17,6 @@
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
-#import "GADPangleNetworkExtras.h"
 
 static CGSize const pangleBannerAdSize320x50 = (CGSize){320, 50};
 static CGSize const pangleBannerAdSize300x250 = (CGSize){300, 250};
