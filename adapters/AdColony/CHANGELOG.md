@@ -1,5 +1,9 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
 #### [Version 4.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.9.0.0.zip)
 - Verified compatibility with AdColony SDK 4.9.0.
 

@@ -93,10 +93,7 @@
   [zone setReward:^(BOOL success, NSString *_Nonnull name, int amount) {
     GADMAdapterAdColonyRewardedRenderer *strongSelf = weakSelf;
     if (success && strongSelf) {
-      GADAdReward *reward = [[GADAdReward alloc]
-          initWithRewardType:name
-                rewardAmount:(NSDecimalNumber *)[NSDecimalNumber numberWithInt:amount]];
-      [strongSelf->_adEventDelegate didRewardUserWithReward:reward];
+      [strongSelf->_adEventDelegate didRewardUser];
     }
   }];
 
