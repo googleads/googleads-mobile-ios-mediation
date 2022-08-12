@@ -1,5 +1,9 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
 #### [Version 6.11.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.11.2.0.zip)
 - Verified compatibility with FAN SDK 6.11.2.
 

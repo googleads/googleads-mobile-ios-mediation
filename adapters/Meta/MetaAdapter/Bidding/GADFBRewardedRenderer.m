@@ -154,10 +154,8 @@
 - (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd {
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   if (strongDelegate) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                     rewardAmount:[NSDecimalNumber one]];
     [strongDelegate didEndVideo];
-    [strongDelegate didRewardUserWithReward:reward];
+    [strongDelegate didRewardUser];
   }
 }
 
