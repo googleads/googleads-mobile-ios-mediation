@@ -168,11 +168,7 @@
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
   [_adEventDelegate didEndVideo];
-
-  /// Chartboost doesn't provide access to the reward type.
-  NSDecimalNumber *rewardValue = [[NSDecimalNumber alloc] initWithInteger:event.reward];
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:rewardValue];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
