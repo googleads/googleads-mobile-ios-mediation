@@ -162,6 +162,14 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
 }
 
+- (BOOL)handlesUserClicks {
+    return YES;
+}
+
+- (BOOL)handlesUserImpressions {
+    return YES;
+}
+
 #pragma mark BUNativeAdDelegate
 
 - (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view {
