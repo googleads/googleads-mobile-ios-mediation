@@ -32,8 +32,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2B70DC3328643BE100FFE3F2 /* GADPangleNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B70DC3128643BE100FFE3F2 /* GADPangleNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2B70DC3428643BE100FFE3F2 /* GADPangleNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B70DC3228643BE100FFE3F2 /* GADPangleNetworkExtras.m */; };
 		2B7B2F1F283E0480006BA122 /* GADPangleRTBNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B7B2F1D283E0480006BA122 /* GADPangleRTBNativeRenderer.h */; };
 		2B7B2F20283E0480006BA122 /* GADPangleRTBNativeRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7B2F1E283E0480006BA122 /* GADPangleRTBNativeRenderer.m */; };
 		2BF5FE64279B02E9001EFB81 /* PangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,16 +83,14 @@
 		2B3B8D49277A81E7005BB25B /* PangleAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PangleAdapter.h; sourceTree = "<group>"; };
 		2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterPangleConstants.h; sourceTree = "<group>"; };
 		2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterPangle.h; sourceTree = "<group>"; };
-		2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterPangle.m; sourceTree = "<group>"; };
-		2B70DC3128643BE100FFE3F2 /* GADPangleNetworkExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleNetworkExtras.h; sourceTree = "<group>"; };
-		2B70DC3228643BE100FFE3F2 /* GADPangleNetworkExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleNetworkExtras.m; sourceTree = "<group>"; };
+		2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterPangle.m; sourceTree = "<group>"; };
 		2B7B2F1D283E0480006BA122 /* GADPangleRTBNativeRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBNativeRenderer.h; sourceTree = "<group>"; };
 		2B7B2F1E283E0480006BA122 /* GADPangleRTBNativeRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBNativeRenderer.m; sourceTree = "<group>"; };
 		2BF5FE50279B009F001EFB81 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
+		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
 		2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBBannerRenderer.h; sourceTree = "<group>"; };
 		2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBRewardedRenderer.h; sourceTree = "<group>"; };
-		2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBBannerRenderer.m; sourceTree = "<group>"; };
+		2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBBannerRenderer.m; sourceTree = "<group>"; tabWidth = 4; };
 		2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBInterstitialRenderer.h; sourceTree = "<group>"; };
 		2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBRewardedRenderer.m; sourceTree = "<group>"; };
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
@@ -141,7 +137,6 @@
 				2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */,
 				2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */,
 				2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */,
-				2B70DC3228643BE100FFE3F2 /* GADPangleNetworkExtras.m */,
 			);
 			path = PangleAdapter;
 			sourceTree = "<group>";
@@ -180,7 +175,6 @@
 			children = (
 				2B3B8D49277A81E7005BB25B /* PangleAdapter.h */,
 				2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */,
-				2B70DC3128643BE100FFE3F2 /* GADPangleNetworkExtras.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -208,7 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BF5FE64279B02E9001EFB81 /* PangleAdapter.h in Headers */,
-				2B70DC3328643BE100FFE3F2 /* GADPangleNetworkExtras.h in Headers */,
 				2BF5FE65279B02F3001EFB81 /* GADMediationAdapterPangle.h in Headers */,
 				2BF5FE79279B0D7D001EFB81 /* GADPangleRTBInterstitialRenderer.h in Headers */,
 				2B7B2F1F283E0480006BA122 /* GADPangleRTBNativeRenderer.h in Headers */,
@@ -325,7 +318,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B70DC3428643BE100FFE3F2 /* GADPangleNetworkExtras.m in Sources */,
 				2B7B2F20283E0480006BA122 /* GADPangleRTBNativeRenderer.m in Sources */,
 				2BF5FE75279B0C61001EFB81 /* GADMAdapterPangleUtils.m in Sources */,
 				2BF5FE68279B0561001EFB81 /* GADMediationAdapterPangle.m in Sources */,
