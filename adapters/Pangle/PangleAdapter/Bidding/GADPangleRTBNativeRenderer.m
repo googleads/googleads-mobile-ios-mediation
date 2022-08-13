@@ -18,8 +18,6 @@
 #import "GADMAdapterPangleUtils.h"
 #include <stdatomic.h>
 
-static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
-
 @interface GADPangleRTBNativeRenderer()<BUNativeAdDelegate> {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
@@ -132,9 +130,6 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 }
 
 - (NSDictionary<NSString *,id> *)extraAssets {
-    if (_nativeAd) {
-        return @{BUDNativeAdTranslateKey:_nativeAd};
-    }
     return nil;
 }
 
