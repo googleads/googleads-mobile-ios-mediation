@@ -87,10 +87,10 @@
 		2B7B2F1D283E0480006BA122 /* GADPangleRTBNativeRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBNativeRenderer.h; sourceTree = "<group>"; };
 		2B7B2F1E283E0480006BA122 /* GADPangleRTBNativeRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBNativeRenderer.m; sourceTree = "<group>"; };
 		2BF5FE50279B009F001EFB81 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
+		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
 		2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBBannerRenderer.h; sourceTree = "<group>"; };
 		2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBRewardedRenderer.h; sourceTree = "<group>"; };
-		2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBBannerRenderer.m; sourceTree = "<group>"; tabWidth = 4; };
+		2BF5FE6E279B0C46001EFB81 /* GADPangleRTBBannerRenderer.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBBannerRenderer.m; sourceTree = "<group>"; tabWidth = 4; };
 		2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBInterstitialRenderer.h; sourceTree = "<group>"; };
 		2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBRewardedRenderer.m; sourceTree = "<group>"; };
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
