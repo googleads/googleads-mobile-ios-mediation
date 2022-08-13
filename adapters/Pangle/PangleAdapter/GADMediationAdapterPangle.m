@@ -37,8 +37,8 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
 (nonnull GADRTBSignalCompletionHandler)completionHandler {
-    NSString *signals = [BUAdSDKManager getBiddingToken:nil];
-    completionHandler(signals, nil);
+  NSString *signals = [BUAdSDKManager getBiddingToken:nil];
+  completionHandler(signals, nil);
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
