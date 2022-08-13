@@ -104,6 +104,10 @@ static NSInteger _gdpr = -1, _ccpa = -1;
   return version;
 }
 
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
+  return Nil;
+}
+
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
