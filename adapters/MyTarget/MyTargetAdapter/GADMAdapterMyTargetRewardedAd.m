@@ -140,12 +140,7 @@ BOOL _isRewardedAdLoaded;
 - (void)onReward:(nonnull MTRGReward *)reward rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didEndVideo];
-
-  NSString *rewardType = @"";                           // Must not be nil.
-  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // Must not be nil.
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType
-                                                     rewardAmount:rewardAmount];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)onDisplayWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
