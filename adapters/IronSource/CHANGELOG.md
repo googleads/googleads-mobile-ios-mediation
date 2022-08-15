@@ -1,5 +1,9 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
 #### [Version 7.2.3.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.2.3.1.0.zip)
 - Verified compatibility with ironSource SDK version 7.2.3.1.
 
