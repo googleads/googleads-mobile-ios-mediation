@@ -143,10 +143,7 @@
 
 - (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
                didReward:(NADReward *)reward {
-  NSDecimalNumber *amount = [NSDecimalNumber
-      decimalNumberWithDecimal:[NSNumber numberWithInteger:reward.amount].decimalValue];
-  GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:reward.name rewardAmount:amount];
-  [_adEventDelegate didRewardUserWithReward:gadReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
