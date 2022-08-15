@@ -148,9 +148,7 @@
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = self.adEventDelegate;
   [strongAdEventDelegate didEndVideo];
   if (!skipped) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:rewardParam ?: @""
-                                                     rewardAmount:[NSDecimalNumber one]];
-    [strongAdEventDelegate didRewardUserWithReward:reward];
+    [strongAdEventDelegate didRewardUser];
   }
 }
 
