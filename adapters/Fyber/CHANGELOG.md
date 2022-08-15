@@ -2,6 +2,8 @@
 
 #### Next Version
 - Added support for passing `muteAudio` extra in `GADMAdapterFyberExtras` class.
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 
 #### [Version 8.1.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.5.0.zip)
 - Verified compatibility with Fyber Marketplace SDK version 8.1.5.
