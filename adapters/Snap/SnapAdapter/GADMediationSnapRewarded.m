@@ -103,9 +103,7 @@
 }
 
 - (void)rewardedAdDidEarnReward:(SAKRewardedAd *)ad {
-  GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:@""
-                                                   rewardAmount:NSDecimalNumber.one];
-  [_adEventDelegate didRewardUserWithReward:reward];
+  [_adEventDelegate didRewardUser];
 }
 
 #pragma mark - GADMediationRewardedAd
