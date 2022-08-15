@@ -50,7 +50,6 @@
     originalCompletionHandler = nil;
     return delegate;
   };
-
   NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
   if (!placementId.length) {
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(

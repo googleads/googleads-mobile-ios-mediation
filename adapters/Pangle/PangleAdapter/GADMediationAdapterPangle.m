@@ -19,6 +19,7 @@
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
+#import "GADPangleRTBNativeRenderer.h"
 
 static NSInteger _gdpr = -1, _ccpa = -1;
 
@@ -29,11 +30,13 @@ static NSInteger _gdpr = -1, _ccpa = -1;
   GADPangleRTBInterstitialRenderer *_interstitialRenderer;
   /// Pangle rewarded ad wrapper.
   GADPangleRTBRewardedRenderer *_rewardedRenderer;
+  /// Pangle native ad wrapper.
+  GADPangleRTBNativeRenderer *_nativeRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
-                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
+(nonnull GADRTBSignalCompletionHandler)completionHandler {
   NSString *signals = [BUAdSDKManager getBiddingToken:nil];
   completionHandler(signals, nil);
 }
@@ -136,6 +139,13 @@ static NSInteger _gdpr = -1, _ccpa = -1;
   _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
   [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
+}
+
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
+    [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.
