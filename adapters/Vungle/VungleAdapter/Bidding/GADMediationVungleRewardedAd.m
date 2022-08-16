@@ -175,10 +175,7 @@
 
 - (void)rewardUser {
   [_delegate didEndVideo];
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@"vungle"
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-  [_delegate didRewardUserWithReward:reward];
+  [_delegate didRewardUser];
 }
 
 - (void)willLeaveApplication {
