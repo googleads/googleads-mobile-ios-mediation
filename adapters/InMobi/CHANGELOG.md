@@ -1,5 +1,9 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
 #### [Version 10.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.0.7.0.zip)
 - Verified compatibility with InMobi SDK 10.0.7.
 
