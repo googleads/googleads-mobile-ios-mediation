@@ -61,7 +61,7 @@
     _loadCompletionHandler(nil, error);
     return;
   }
-    
+
   BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
   _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlotID:placementId
                                             rewardedVideoModel:model];
