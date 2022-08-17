@@ -38,9 +38,7 @@
     // Intentionally keeping a reference to the delegate because this delegate is returned from the
     // GMA SDK, not set on the GMA SDK.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-    
-#warning 仅测试时使用，正式提交需要删除
-    NSString *_unitId;
+
 }
 
 - (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -131,11 +129,8 @@
 - (void)onVideoAdDismissed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withConverted:(BOOL)converted withRewardInfo:(nullable MTGRewardAdInfo *)rewardInfo {
    
     if (converted) {
-      NSNumber *amount =
-          [NSDecimalNumber numberWithInteger:rewardInfo.rewardAmount];
-      GADAdReward *reward = [[GADAdReward alloc]
-          initWithRewardType:@""
-                rewardAmount:[NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]]];
+        GADAdReward * reward = [[GADAdReward alloc] initWithRewardType:rewardInfo.rewardName
+                                                          rewardAmount:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld",(long)rewardInfo.rewardAmount]]];
       [_adEventDelegate didRewardUserWithReward:reward];
     }
 }
