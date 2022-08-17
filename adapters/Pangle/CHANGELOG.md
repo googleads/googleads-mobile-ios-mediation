@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 4.6.1.8.0 (In progress)
+#### [Version 4.6.1.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.1.8.0.zip)
 - Verified compatibility with Pangle SDK version 4.6.1.8.
 - Added bidding support for native ad format.
 - Updated the adapter to use the `didRewardUser` API.
