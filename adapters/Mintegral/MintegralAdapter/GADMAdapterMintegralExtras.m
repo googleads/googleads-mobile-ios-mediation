@@ -12,19 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMAdapterMintegralExtras.h"
 
-typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
-    /// Missing server parameters.
-    GADMintegralErrorInvalidServerParameters   = 101,
-    //The ad request was successful, but no ad was returned.
-    GADMintegralErrorAdNotFill = 102,
-    // The Mintegral SDK returned NO from its showAd call.
-    GADMintegralErrorAdNotValid  = 103
-};
-           
-@interface GADMediationAdapterMintegral : NSObject <GADRTBAdapter>
+@implementation GADMAdapterMintegralExtras
 
 @end
-

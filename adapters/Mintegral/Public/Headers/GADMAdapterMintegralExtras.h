@@ -15,16 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
-    /// Missing server parameters.
-    GADMintegralErrorInvalidServerParameters   = 101,
-    //The ad request was successful, but no ad was returned.
-    GADMintegralErrorAdNotFill = 102,
-    // The Mintegral SDK returned NO from its showAd call.
-    GADMintegralErrorAdNotValid  = 103
-};
-           
-@interface GADMediationAdapterMintegral : NSObject <GADRTBAdapter>
+
+@interface GADMAdapterMintegralExtras : NSObject <GADAdNetworkExtras>
+
+
+/// Use this to mute for video ads. Must be set on each ad request.
+@property (nonatomic, assign) BOOL playVideoMute;
 
 @end
 

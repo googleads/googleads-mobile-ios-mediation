@@ -4,24 +4,39 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
-NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
-                                                                  NSString *_Nonnull description) {
-  return [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
-                             code:code
-                         userInfo:@{
-                           NSLocalizedDescriptionKey : description,
-                           NSLocalizedFailureReasonErrorKey : description
-                         }];
+@implementation GADMAdapterMintegralUtils
+
++ (BOOL)isEmpty:(NSString *)value {
+    if ([value isKindOfClass:NSString.class] && value.length > 0) {
+        return NO;
+    }else{
+        return YES;
+    }
 }
+
++ (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [UIImage imageWithData: data];
+    return [[GADNativeAdImage alloc] initWithImage:image];
+}
+
+NSError *_Nonnull GADMTGErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
+    NSDictionary *userInfo =@{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+    NSError *error = [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
+                                         code:code
+                                     userInfo:userInfo];
+    return error;
+}
+@end
