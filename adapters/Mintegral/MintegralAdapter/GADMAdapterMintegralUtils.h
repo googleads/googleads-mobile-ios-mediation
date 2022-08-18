@@ -27,6 +27,6 @@
 
 + (GADNativeAdImage *_Nullable)imageWithUrlString:(NSString *_Nonnull)urlString;
 
-NSError *_Nonnull GADMTGErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
 
 @end

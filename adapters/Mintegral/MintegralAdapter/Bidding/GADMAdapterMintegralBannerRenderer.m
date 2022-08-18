@@ -67,14 +67,14 @@ MTGBannerAdViewDelegate>
 
     if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
     
     if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }

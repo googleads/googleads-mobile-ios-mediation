@@ -32,7 +32,7 @@
     return [[GADNativeAdImage alloc] initWithImage:image];
 }
 
-NSError *_Nonnull GADMTGErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
+NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
     NSDictionary *userInfo =@{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
     NSError *error = [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
                                          code:code

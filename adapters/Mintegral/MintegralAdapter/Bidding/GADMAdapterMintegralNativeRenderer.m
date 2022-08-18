@@ -79,14 +79,14 @@ MTGMediaViewDelegate>
     // if the unitId is nil.
     if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
     
     if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
@@ -133,7 +133,7 @@ MTGMediaViewDelegate>
 
     }else{
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorAdNotFill, @"Native ad not fill");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotFill, @"Native ad not fill");
         if (_adLoadCompletionHandler) {
             _adLoadCompletionHandler(nil,error);
         }

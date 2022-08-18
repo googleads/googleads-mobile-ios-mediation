@@ -55,7 +55,7 @@
         appId = configuration.credentials[0].settings[GADMAdapterMintegralAppID];
         appKey = configuration.credentials[0].settings[GADMAdapterMintegralAppKey];
         if ([GADMAdapterMintegralUtils isEmpty:appId]) {
-            error = GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppId is nil");
+            error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppId is nil");
             if (completionHandler) {
                 completionHandler(error);
                 return;
@@ -63,7 +63,7 @@
         }
         
         if ([GADMAdapterMintegralUtils isEmpty:appKey]) {
-            error = GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppKey is nil");
+            error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppKey is nil");
             if (completionHandler) {
                 completionHandler(error);
                 return;
@@ -71,7 +71,7 @@
         }
         
     }else{
-        error = GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"Invalid Server Parameters");
+        error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"Invalid Server Parameters");
         if (completionHandler) {
             completionHandler(error);
             return;
@@ -88,13 +88,13 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = @"";
+  NSString *versionString = [MTGSDK sdkVersion];
   GADVersionNumber version = {0};
-  NSArray<NSString *> *components = [MTGSDKVersion componentsSeparatedByString:@"."];
-  if (components.count == 4) {
+  NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
+  if (components.count == 3) {
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
-    version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
+    version.patchVersion = components[2].integerValue;
   } else {
     NSLog(@"Unexpected ad SDK version string: %@. Returning 0 for adSDKVersion.", versionString);
   }

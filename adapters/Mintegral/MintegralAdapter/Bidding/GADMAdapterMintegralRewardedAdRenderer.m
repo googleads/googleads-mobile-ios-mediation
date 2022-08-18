@@ -67,14 +67,14 @@
     // if the unitId is nil.
     if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
     
     if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
@@ -154,7 +154,7 @@
         [_rewardedAd showVideoWithPlacementId:placementId unitId:unitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
-        GADMTGErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Unable to display ad.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Unable to display ad.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
