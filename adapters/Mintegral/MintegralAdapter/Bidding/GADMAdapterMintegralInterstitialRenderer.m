@@ -29,9 +29,10 @@
     // The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
+    /// Data used to render an interstitial Ad.
     GADMediationInterstitialAdConfiguration *_adConfiguration;
     
-    // The mintegral rewarded ad.
+    // The mintegral interstitial ad.
     MTGNewInterstitialBidAdManager *_interstitialAd;
     // An ad event delegate to invoke when ad rendering events occur.
     // Intentionally keeping a reference to the delegate because this delegate is returned from the

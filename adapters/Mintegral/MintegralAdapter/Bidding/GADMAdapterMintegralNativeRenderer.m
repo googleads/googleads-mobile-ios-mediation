@@ -91,7 +91,7 @@ MTGMediaViewDelegate>
         return;
     }
     
-    
+    _unitId = unitId;
     _nativeManager = [[MTGBidNativeAdManager alloc]initWithPlacementId:placementId unitID:unitId presentingViewController:rootViewController];
     _nativeManager.delegate = self;
     [_nativeManager loadWithBidToken:adConfiguration.bidResponse];
@@ -251,18 +251,6 @@ MTGMediaViewDelegate>
 
     [_nativeManager registerViewForInteraction:view withCampaign:_campaign];
 
-}
-- (void)didRecordImpression {
-    ;
-}
-
-
--(void)didRecordClickOnAssetWithName:(GADNativeAssetIdentifier)assetName view:(UIView *)view viewController:(UIViewController *)viewController{
-    ;
-}
-
-- (void)didUntrackView:(nullable UIView *)view {
-    ;
 }
 
 @end
