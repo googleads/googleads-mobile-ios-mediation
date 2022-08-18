@@ -35,9 +35,19 @@
 /* Begin PBXBuildFile section */
 		23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */; };
 		23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */; };
-		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
+		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */; };
 		23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */; };
+		AD18D66628AE36C5001DF8BA /* GADMAdapterMintegralExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */; };
+		AD18D66728AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */; };
+		AD18D66828AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */; };
+		AD18D66928AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */; };
+		AD18D66A28AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */; };
+		AD18D66B28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */; };
+		AD18D66C28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */; };
+		AD18D66D28AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */; };
+		AD18D66E28AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */; };
+		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,12 +90,22 @@
 		2B338D8626D96B0600192709 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		2B338D8726D96B0600192709 /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		2B338D8A26D96B0600192709 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		2B338D8E26D96B0600192709 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2B338D9126D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D9326D96B0600192709 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		2B338D9426D96B0600192709 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		2B338D9526D96B0600192709 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		2B60DF082761885700AB5537 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD18D65B28AE36A1001DF8BA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
+		AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralInterstitialRenderer.h; sourceTree = "<group>"; };
+		AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralBannerRenderer.h; sourceTree = "<group>"; };
+		AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRewardedAdRenderer.h; sourceTree = "<group>"; };
+		AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralNativeRenderer.m; sourceTree = "<group>"; };
+		AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralBannerRenderer.m; sourceTree = "<group>"; };
+		AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralInterstitialRenderer.m; sourceTree = "<group>"; };
+		AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRewardedAdRenderer.m; sourceTree = "<group>"; };
+		AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralNativeRenderer.h; sourceTree = "<group>"; };
+		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,11 +122,13 @@
 		23D49EE72899F1CB006152D8 /* MintegralAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				AD18D65D28AE36C5001DF8BA /* Bidding */,
+				AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */,
+				23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */,
+				23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */,
 				23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */,
 				23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */,
 				23D49EEC2899F297006152D8 /* GADMediationAdapterMintegralConstants.h */,
-				23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */,
-				23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */,
 			);
 			path = MintegralAdapter;
 			sourceTree = "<group>";
@@ -146,7 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				2B338D8C26D96B0600192709 /* Headers */,
-				2B338D8E26D96B0600192709 /* module.modulemap */,
+				AD18D65B28AE36A1001DF8BA /* module.modulemap */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -155,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				23D49EED2899F455006152D8 /* MintegralAdapter.h */,
+				AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -169,6 +192,21 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		AD18D65D28AE36C5001DF8BA /* Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */,
+				AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */,
+				AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */,
+				AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */,
+				AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */,
+				AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */,
+				AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */,
+				AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */,
+			);
+			path = Bidding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -176,8 +214,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */,
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
+				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
+				AD18D66728AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h in Headers */,
+				AD18D66928AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h in Headers */,
+				AD18D66828AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h in Headers */,
+				AD18D66E28AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h in Headers */,
+				23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */,
 				23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,7 +330,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */,
+				AD18D66B28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m in Sources */,
+				AD18D66628AE36C5001DF8BA /* GADMAdapterMintegralExtras.m in Sources */,
+				AD18D66A28AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m in Sources */,
 				23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */,
+				AD18D66D28AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m in Sources */,
+				AD18D66C28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
