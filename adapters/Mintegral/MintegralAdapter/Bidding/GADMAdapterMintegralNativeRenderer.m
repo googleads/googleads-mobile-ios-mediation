@@ -115,11 +115,11 @@ MTGMediaViewDelegate>
         _campaign = nativeAds.firstObject;
         
         if (![GADMAdapterMintegralUtils isEmpty:_campaign.iconUrl]) {
-            _icon = [GADMAdapterMintegralUtils imageWithUrlString:_campaign.iconUrl];
+            _icon = [self imageWithUrlString:_campaign.iconUrl];
         }
-        
+                
         if (![GADMAdapterMintegralUtils isEmpty:_campaign.imageUrl]) {
-            GADNativeAdImage *image = [GADMAdapterMintegralUtils imageWithUrlString:_campaign.imageUrl];
+            GADNativeAdImage *image = [self imageWithUrlString:_campaign.imageUrl];
             if (image) {
                 _images = @[image];
             }
@@ -251,6 +251,16 @@ MTGMediaViewDelegate>
 
     [_nativeManager registerViewForInteraction:view withCampaign:_campaign];
 
+}
+
+
+- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
+    if ([GADMAdapterMintegralUtils isEmpty:urlString]) {
+        return nil;
+    }
+    
+    NSURL * url = [[NSURL alloc] initWithString:urlString];
+    return [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
 }
 
 @end

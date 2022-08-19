@@ -25,13 +25,6 @@
     }
 }
 
-+ (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData: data];
-    return [[GADNativeAdImage alloc] initWithImage:image];
-}
-
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
     NSDictionary *userInfo =@{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
     NSError *error = [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
