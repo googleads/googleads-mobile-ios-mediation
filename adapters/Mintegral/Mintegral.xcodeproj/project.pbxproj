@@ -35,7 +35,7 @@
 /* Begin PBXBuildFile section */
 		23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */; };
 		23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */; };
-		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
 		23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */; };
 		23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */; };
 		AD18D66628AE36C5001DF8BA /* GADMAdapterMintegralExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */; };
@@ -214,8 +214,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
 				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
+				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
 				AD18D66728AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h in Headers */,
 				AD18D66928AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h in Headers */,
 				AD18D66828AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h in Headers */,
