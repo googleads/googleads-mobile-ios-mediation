@@ -29,28 +29,31 @@ MTGMediaViewDelegate>
 @end
 
 @implementation GADMAdapterMintegralNativeRenderer {
-    // The completion handler to call when the ad loading succeeds or fails.
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
     
     /// Holds the state for impression being logged.
     atomic_flag _impressionLogged;
     
-    //The Mintegral native ad
+    /// The Mintegral native ad.
     MTGBidNativeAdManager *_nativeManager;
     
-    //The Mintegral media view
+    /// The Mintegral media view.
     MTGMediaView *_mediaView;
         
-    // An ad event delegate to invoke when ad rendering events occur.
-    __weak id<GADMediationNativeAdEventDelegate> _adEventDelegate;
+    /// An ad event delegate to invoke when ad rendering events occur.
+    id<GADMediationNativeAdEventDelegate> _adEventDelegate;
 
-    //The mintegral ad unitId
-    NSString *_unitId;
+    /// The Mintegral ad unit ID.
+    NSString *_adUnitId;
     
+    /// The Mintegral native ad data.
     MTGCampaign *_campaign;
     
+    /// Icon image.
     GADNativeAdImage *_icon;
     
+    /// Array of GADNativeAdImage objects.
     NSArray<GADNativeAdImage *> *_images;
 }
 
@@ -72,37 +75,27 @@ MTGMediaViewDelegate>
       return delegate;
     };
     
-    NSString *unitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     UIViewController *rootViewController = adConfiguration.topViewController;
     
-    // if the unitId is nil.
-    if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
+    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID connot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
-    
-    if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
-        NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
-        _adLoadCompletionHandler(nil, error);
-        return;
-    }
-    
-    _unitId = unitId;
-    _nativeManager = [[MTGBidNativeAdManager alloc]initWithPlacementId:placementId unitID:unitId presentingViewController:rootViewController];
+        
+    _adUnitId = adUnitId;
+    _nativeManager = [[MTGBidNativeAdManager alloc]initWithPlacementId:placementId unitID:adUnitId presentingViewController:rootViewController];
     _nativeManager.delegate = self;
     [_nativeManager loadWithBidToken:adConfiguration.bidResponse];
 }
 
 - (MTGMediaView *)createMediaView {
-    
     if (_mediaView) {
         return _mediaView;
     }
-    
     _mediaView= [[MTGMediaView alloc] initWithFrame:CGRectZero];
     _mediaView.delegate = self;
     return _mediaView;
@@ -114,12 +107,12 @@ MTGMediaViewDelegate>
     if ([nativeAds isKindOfClass:NSArray.class] && nativeAds.count > 0) {
         _campaign = nativeAds.firstObject;
         
-        if (![GADMAdapterMintegralUtils isEmpty:_campaign.iconUrl]) {
-            _icon = [self imageWithUrlString:_campaign.iconUrl];
+        if (![GADMAdapterMintegralUtils isStringEmpty:_campaign.iconUrl]) {
+            _icon = [self loadImageWithURLString:_campaign.iconUrl];
         }
                 
-        if (![GADMAdapterMintegralUtils isEmpty:_campaign.imageUrl]) {
-            GADNativeAdImage *image = [self imageWithUrlString:_campaign.imageUrl];
+        if (![GADMAdapterMintegralUtils isStringEmpty:_campaign.imageUrl]) {
+            GADNativeAdImage *image = [self loadImageWithURLString:_campaign.imageUrl];
             if (image) {
                 _images = @[image];
             }
@@ -155,7 +148,7 @@ MTGMediaViewDelegate>
     [_adEventDelegate reportImpression];
 }
 
-#pragma mark -MTGMediaViewDelegate
+#pragma mark - MTGMediaViewDelegate
 - (void)MTGMediaViewWillEnterFullscreen:(MTGMediaView *)mediaView {
     [_adEventDelegate willPresentFullScreenView];
 }
@@ -180,7 +173,7 @@ MTGMediaViewDelegate>
     [_adEventDelegate reportImpression];
 }
 
-#pragma mark -GADMediatedUnifiedNativeAd
+#pragma mark - GADMediatedUnifiedNativeAd
 - (NSString *)headline {
     return _campaign.appName;
 }
@@ -202,22 +195,20 @@ MTGMediaViewDelegate>
 }
 
 - (NSDecimalNumber *)starRating {
-    
     NSString *star = [NSString stringWithFormat:@"%@",[_campaign valueForKey:@"star"]];
     return [NSDecimalNumber decimalNumberWithString:star];
 }
 
 - (NSString *)store {
-    
-    return @"";
+    return nil;
 }
 
 - (NSString *)price {
-    return @"";
+    return nil;
 }
 
 -(NSString *)advertiser{
-    return @"";
+    return nil;
 }
 
 - (NSDictionary *)extraAssets {
@@ -229,7 +220,7 @@ MTGMediaViewDelegate>
 }
 
 -  (UIView *)mediaView{
-    [_mediaView setMediaSourceWithCampaign:_campaign unitId:_unitId];
+    [_mediaView setMediaSourceWithCampaign:_campaign unitId:_adUnitId];
     return _mediaView;
 }
 
@@ -242,7 +233,7 @@ MTGMediaViewDelegate>
     return YES;
 }
 
-#pragma mark - GADMediatedNativeAdDelegate implementation
+#pragma mark - GADMediatedUnifiedNativeAd
 -(void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController{
 
     for (UIView *subView in view.subviews) {
@@ -253,9 +244,8 @@ MTGMediaViewDelegate>
 
 }
 
-
-- (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    if ([GADMAdapterMintegralUtils isEmpty:urlString]) {
+- (GADNativeAdImage *)loadImageWithURLString:(NSString *)urlString {
+    if ([GADMAdapterMintegralUtils isStringEmpty:urlString]) {
         return nil;
     }
     

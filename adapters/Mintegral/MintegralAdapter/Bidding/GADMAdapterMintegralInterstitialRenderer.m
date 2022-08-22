@@ -26,17 +26,16 @@
 
 @implementation GADMAdapterMintegralInterstitialRenderer
 {
-    // The completion handler to call when the ad loading succeeds or fails.
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
     /// Data used to render an interstitial Ad.
     GADMediationInterstitialAdConfiguration *_adConfiguration;
     
-    // The mintegral interstitial ad.
+    /// The Mintegral interstitial ad.
     MTGNewInterstitialBidAdManager *_interstitialAd;
-    // An ad event delegate to invoke when ad rendering events occur.
-    // Intentionally keeping a reference to the delegate because this delegate is returned from the
-    // GMA SDK, not set on the GMA SDK.
+    
+    /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
@@ -60,30 +59,19 @@
         return delegate;
     };
     
-    NSString *unitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     
-    // if the unitId is nil.
-    if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
+    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID connot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
     
-    if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
-        NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
-        _adLoadCompletionHandler(nil, error);
-        return;
-    }
-    
-    _interstitialAd = [[MTGNewInterstitialBidAdManager alloc]initWithPlacementId:placementId unitId:unitId delegate:self];
+    _interstitialAd = [[MTGNewInterstitialBidAdManager alloc]initWithPlacementId:placementId unitId:adUnitId delegate:self];
     [_interstitialAd loadAdWithBidToken:adConfiguration.bidResponse];
 }
-- (void)newInterstitialBidAdLoadSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
-}
-
 
 - (void)newInterstitialBidAdResourceLoadSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
     if (_adLoadCompletionHandler) {
@@ -99,22 +87,12 @@
 }
 
 - (void)newInterstitialBidAdShowSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
-    [_adEventDelegate reportImpression];
     [_adEventDelegate willPresentFullScreenView];
-}
-
-- (void)newInterstitialBidAdShowSuccessWithBidToken:(nonnull NSString * )bidToken adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+    [_adEventDelegate reportImpression];
 }
 
 - (void)newInterstitialBidAdShowFail:(nonnull NSError *)error adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
     [_adEventDelegate didFailToPresentWithError:error];
-}
-
-- (void)newInterstitialBidAdPlayCompleted:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
-
-}
-
-- (void)newInterstitialBidAdEndCardShowSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
 }
 
 - (void)newInterstitialBidAdClicked:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
@@ -127,9 +105,6 @@
 
 - (void)newInterstitialBidAdDidClosed:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
     [_adEventDelegate didDismissFullScreenView];
-}
-
-- (void)newInterstitialBidAdRewarded:(BOOL)rewardedOrNot alertWindowStatus:(MTGNIAlertWindowStatus)alertWindowStatus adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
 }
 
 #pragma mark GADMediationRewardedAd

@@ -17,7 +17,7 @@
 
 @implementation GADMAdapterMintegralUtils
 
-+ (BOOL)isEmpty:(NSString *)value {
++ (BOOL)isStringEmpty:(NSString *)value {
     if ([value isKindOfClass:NSString.class] && value.length > 0) {
         return NO;
     }else{
@@ -32,4 +32,12 @@ NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralEr
                                      userInfo:userInfo];
     return error;
 }
+
+void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
+                                            NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
+}
+
 @end

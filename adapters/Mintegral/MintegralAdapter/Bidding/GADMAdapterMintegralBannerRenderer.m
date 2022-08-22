@@ -30,15 +30,14 @@ MTGBannerAdViewDelegate>
     /// Data used to render an banner ad.
     GADMediationBannerAdConfiguration *_adConfiguration;
     
-    // The completion handler to call when the ad loading succeeds or fails.
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
     
-    // An ad event delegate to invoke when ad rendering events occur.
-    __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
+    /// An ad event delegate to invoke when ad rendering events occur.
+    id<GADMediationBannerAdEventDelegate> _adEventDelegate;
     
-    // The Mintegral banner ad.
+    /// The Mintegral banner ad.
     MTGBannerAdView *_bannerAdView;
-    
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -61,25 +60,18 @@ MTGBannerAdViewDelegate>
         return delegate;
     };
         
-    NSString *unitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     UIViewController *rootViewController = adConfiguration.topViewController;
 
-    if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
+    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID connot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
     
-    if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
-        NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
-        _adLoadCompletionHandler(nil, error);
-        return;
-    }
-    
-    _bannerAdView = [[MTGBannerAdView alloc]initBannerAdViewWithAdSize:adConfiguration.adSize.size placementId:placementId unitId:unitId rootViewController:rootViewController];
+    _bannerAdView = [[MTGBannerAdView alloc]initBannerAdViewWithAdSize:adConfiguration.adSize.size placementId:placementId unitId:adUnitId rootViewController:rootViewController];
     _bannerAdView.delegate = self;
     _bannerAdView.autoRefreshTime = 0;
     [_bannerAdView loadBannerAdWithBidToken:adConfiguration.bidResponse];

@@ -25,16 +25,16 @@
 
 
 @implementation GADMediationAdapterMintegral {
-    //Mintegral Mediation rewarded ad.
+    /// Mintegral rewarded ad.
     GADMAdapterMintegralRewardedAdRenderer * _rewardedAd;
     
-    //Mintegral Mediation banner ad.
-    GADMAdapterMintegralBannerRenderer *_banner;
+    /// Mintegral banner ad.
+    GADMAdapterMintegralBannerRenderer *_bannerAd;
     
-    //Mintegral Mediation interstitial ad.
+    /// Mintegral interstitial ad.
     GADMAdapterMintegralInterstitialRenderer *_interstitialAd;
     
-    //Mintegral Mediation native ad.
+    /// Mintegral native ad.
     GADMAdapterMintegralNativeRenderer *_nativeAd;
 }
 
@@ -47,38 +47,47 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    NSString *appKey  = @"";
-    NSString *appId = @"";
-    NSError *error = nil;
-    if ([configuration.credentials isKindOfClass:NSArray.class] &&
-        configuration.credentials.count > 0) {
-        appId = configuration.credentials[0].settings[GADMAdapterMintegralAppID];
-        appKey = configuration.credentials[0].settings[GADMAdapterMintegralAppKey];
-        if ([GADMAdapterMintegralUtils isEmpty:appId]) {
-            error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppId is nil");
-            if (completionHandler) {
-                completionHandler(error);
-                return;
-            }
-        }
+    
+    NSMutableSet *appIds = [[NSMutableSet alloc] init];
+    NSMutableSet *appKeys = [[NSMutableSet alloc] init];
+    
+    for (GADMediationCredentials *credential in configuration.credentials) {
+        NSString *appId = credential.settings[GADMAdapterMintegralAppID];
+        GADMAdapterMintegralMutableSetAddObject(appIds, appId);
         
-        if ([GADMAdapterMintegralUtils isEmpty:appKey]) {
-            error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"AppKey is nil");
-            if (completionHandler) {
-                completionHandler(error);
-                return;
-            }
-        }
-        
-    }else{
-        error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters,@"Invalid Server Parameters");
-        if (completionHandler) {
-            completionHandler(error);
-            return;
-        }
+        NSString *appKey =credential.settings[GADMAdapterMintegralAppKey];
+        GADMAdapterMintegralMutableSetAddObject(appKeys, appKey);
     }
     
-    // Init MTGSDK
+    if (appIds.count < 1) {
+        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app ID.");
+        completionHandler(error);
+        return;
+    }
+    
+    if (appKeys.count < 1) {
+        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app key.");
+        completionHandler(error);
+        return;
+    }
+    
+    NSString *appId = [appIds anyObject];
+    if (appIds.count > 1) {
+        GADMediationAdapterMintegralLog(
+          @"Found the following App IDs:%@. Please remove any app IDs which you are not using",
+          appIds);
+        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app ID:%@", appId);
+    }
+    
+    NSString *appKey = [appKeys anyObject];
+    if (appKeys.count > 1) {
+        GADMediationAdapterMintegralLog(
+          @"Found the following App keys:%@. Please remove any app keys which you are not using",
+                                        appKeys);
+        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app key:%@", appKey);
+    }
+    
+    // Initialize the Mintergral SDK.
     [GADMediationAdapterMintegral setAdmobChannel];
     [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
     if (completionHandler) {
@@ -144,8 +153,8 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-    _banner = [[GADMAdapterMintegralBannerRenderer alloc]init];
-    [_banner renderBannerForAdConfiguration:adConfiguration
+    _bannerAd = [[GADMAdapterMintegralBannerRenderer alloc]init];
+    [_bannerAd renderBannerForAdConfiguration:adConfiguration
                         completionHandler:completionHandler];
 }
 
@@ -157,9 +166,7 @@
 + (void)setAdmobChannel {
     Class _class = NSClassFromString(@"MTGSDK");
     SEL selector = NSSelectorFromString(@"setChannelFlag:");
-    
     NSString *pluginNumber = @"Y+H6DFttYrPQYcIBiQKwJQKQYrN=";
-    
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     if ([_class respondsToSelector:selector]) {

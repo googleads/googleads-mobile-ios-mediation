@@ -23,8 +23,11 @@
 
 @interface GADMAdapterMintegralUtils : NSObject
 
-+ (BOOL)isEmpty:(NSString *_Nullable)value;
++ (BOOL)isStringEmpty:(NSString *_Nullable)value;
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
 
+
+void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
+                                             NSObject *_Nonnull object);
 @end

@@ -18,12 +18,11 @@
 typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
     /// Missing server parameters.
     GADMintegralErrorInvalidServerParameters   = 101,
-    //The ad request was successful, but no ad was returned.
+    /// The ad request was successful, but no ad was returned.
     GADMintegralErrorAdNotFill = 102,
-    // The Mintegral SDK returned NO from its showAd call.
+    /// The Mintegral SDK failed to show an ad.
     GADMintegralErrorAdNotValid  = 103
 };
-           
 @interface GADMediationAdapterMintegral : NSObject <GADRTBAdapter>
 
 @end

@@ -26,19 +26,17 @@
 @end
 
 @implementation GADMAdapterMintegralRewardedAdRenderer {
-    // The completion handler to call when the ad loading succeeds or fails.
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
     
+    /// Data used to render an rewarded ad.
     GADMediationRewardedAdConfiguration *_adConfiguration;
 
-    // The mintegral rewarded ad.
+    /// The Mintegral rewarded ad.
     MTGBidRewardAdManager *_rewardedAd;
     
-    // An ad event delegate to invoke when ad rendering events occur.
-    // Intentionally keeping a reference to the delegate because this delegate is returned from the
-    // GMA SDK, not set on the GMA SDK.
+    /// An ad event delegate to invoke when ad rendering events occur.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
-
 }
 
 - (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -61,35 +59,23 @@
         return delegate;
     };
     
-    NSString *unitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
 
-    // if the unitId is nil.
-    if ([GADMAdapterMintegralUtils isEmpty:unitId]) {
+    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID connot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
-    
-    if ([GADMAdapterMintegralUtils isEmpty:adConfiguration.bidResponse]) {
-        NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"bid token cannot be nil.");
-        _adLoadCompletionHandler(nil, error);
-        return;
-    }
-    
+        
     _rewardedAd = [MTGBidRewardAdManager sharedInstance];
-    [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:placementId unitId:unitId delegate:self];
+    [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:placementId unitId:adUnitId delegate:self];
 }
 
 
 
 #pragma mark MTGRewardAdLoadDelegate
-- (void)onAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
-    
-}
-
 - (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     
     if (_adLoadCompletionHandler) {
@@ -119,9 +105,6 @@
     [_adEventDelegate didEndVideo];
 }
 
-- (void)onVideoEndCardShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
-}
-
 - (void)onVideoAdClicked:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     [_adEventDelegate reportClick];
 }
@@ -129,9 +112,7 @@
 - (void)onVideoAdDismissed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withConverted:(BOOL)converted withRewardInfo:(nullable MTGRewardAdInfo *)rewardInfo {
    
     if (converted) {
-        GADAdReward * reward = [[GADAdReward alloc] initWithRewardType:rewardInfo.rewardName
-                                                          rewardAmount:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%ld",(long)rewardInfo.rewardAmount]]];
-      [_adEventDelegate didRewardUserWithReward:reward];
+        [_adEventDelegate didRewardUser];
     }
 }
 
@@ -143,15 +124,15 @@
 #pragma mark GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     
-    NSString *unitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
     if (extras) {
         _rewardedAd.playVideoMute = extras.playVideoMute;
     }
     
-    if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:unitId]) {
-        [_rewardedAd showVideoWithPlacementId:placementId unitId:unitId withRewardId:nil userId:nil delegate:self viewController:viewController];
+    if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:adUnitId]) {
+        [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Unable to display ad.");
