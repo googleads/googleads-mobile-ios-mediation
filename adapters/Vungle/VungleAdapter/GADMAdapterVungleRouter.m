@@ -41,10 +41,10 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   dispatch_once(&onceToken, ^{
     NSString *version = [GADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
                                                                             withString:@"_"];
-    [Vungle setIntegrationName:@"admob" version:version];
+    [VungleAds setIntegrationName:@"admob" version:version];
   });
 
-  if ([Vungle isInitialized]) {
+  if ([VungleAds isInitialized]) {
     [delegate initialized:YES error:nil];
     return;
   }
@@ -62,7 +62,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
   _isInitializing = YES;
 
-  [Vungle initWithAppId:appId completion:^(NSError * _Nullable error) {
+  [VungleAds initWithAppId:appId completion:^(NSError * _Nullable error) {
     if (error) {
       self->_isInitializing = NO;
       [delegate initialized:NO error:error];
@@ -73,11 +73,11 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (BOOL)isSDKInitialized {
-  return [Vungle isInitialized];
+  return [VungleAds isInitialized];
 }
 
 - (NSString *)getSuperToken {
-  return [Vungle getBiddingToken];
+  return [VungleAds getBiddingToken];
 }
 
 @end

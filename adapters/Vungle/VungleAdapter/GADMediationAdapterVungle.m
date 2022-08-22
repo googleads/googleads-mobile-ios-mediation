@@ -69,7 +69,7 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = Vungle.sdkVersion;
+  NSString *versionString = VungleAds.sdkVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};

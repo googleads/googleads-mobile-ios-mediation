@@ -83,7 +83,7 @@
     return;
   }
 
-  if ([Vungle isInitialized]) {
+  if ([VungleAds isInitialized]) {
     [self loadAd];
     return;
   }

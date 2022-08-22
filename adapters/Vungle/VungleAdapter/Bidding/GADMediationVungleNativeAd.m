@@ -91,7 +91,7 @@
     return;
   }
 
-  if (![Vungle isInitialized]) {
+  if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
     return;
