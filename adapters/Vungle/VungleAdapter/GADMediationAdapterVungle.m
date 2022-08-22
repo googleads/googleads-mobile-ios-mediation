@@ -136,16 +136,11 @@
 
 - (void)loadRewardedInterstitialAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                                completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
-  if (!adConfiguration.bidResponse) {
-    _waterfallRewardedAd = [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
-                                                           completionHandler:completionHandler];
-    [_waterfallRewardedAd requestRewardedAd];
-    return;
-  }
-  _rewardedAd = [[GADMediationVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
-                                                            completionHandler:completionHandler];
-  [_rewardedAd requestRewardedAd];
+    // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
+    NSLog(@"Vungle adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
+          @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
+          @"Vungle.");
+    [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 #pragma mark GADRTBAdapter implementation
