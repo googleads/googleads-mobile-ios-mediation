@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import "GADPangleRTBInterstitialRenderer.h"
-#import <BUAdSDK/BUAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 
-@interface GADPangleRTBInterstitialRenderer () <BUFullscreenVideoAdDelegate>
+@interface GADPangleRTBInterstitialRenderer () <PAGLInterstitialAdDelegate>
 
 @end
 
@@ -26,89 +27,79 @@
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle interstitial ad.
-  BUFullscreenVideoAd *_fullScreenAdVideo;
+  PAGLInterstitialAd *_interstitialAd;
   /// An ad event delegate to invoke when ad rendering events occur.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
 }
 
 - (void)renderInterstitialForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler {
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
-      [completionHandler copy];
-  _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
-      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return nil;
+(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block  GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
+    _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(_Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+            return nil;
+        }
+        id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+        if (originalCompletionHandler) {
+          delegate = originalCompletionHandler(ad, error);
+        }
+        originalCompletionHandler = nil;
+        return delegate;
+      };
+
+    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
+    if (!placementId.length) {
+      NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
+          GADPangleErrorInvalidServerParameters,
+          [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
+      _loadCompletionHandler(nil, error);
+      return;
     }
-    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
-    if (originalCompletionHandler) {
-      delegate = originalCompletionHandler(ad, error);
+  PAGInterstitialRequest *request = [PAGInterstitialRequest request];
+  request.adString = adConfiguration.bidResponse;
+  __weak typeof(self) weakSelf = self;
+  [PAGLInterstitialAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
+    __strong typeof(weakSelf) strongSelf = weakSelf;
+    
+    if (error) {
+      if (strongSelf->_loadCompletionHandler) {
+        strongSelf->_loadCompletionHandler(nil, error);
+      }
+      return;
     }
-    originalCompletionHandler = nil;
-    return delegate;
-  };
-  NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
-  if (!placementId.length) {
-    NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
-        GADPangleErrorInvalidServerParameters,
-        [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-    _loadCompletionHandler(nil, error);
-    return;
-  }
-  _fullScreenAdVideo = [[BUFullscreenVideoAd alloc] initWithSlotID:placementId];
-  _fullScreenAdVideo.delegate = self;
-  [_fullScreenAdVideo setAdMarkup:adConfiguration.bidResponse];
+    
+    strongSelf->_interstitialAd = interstitialAd;
+    strongSelf->_interstitialAd.delegate = strongSelf;
+    
+    if (strongSelf->_loadCompletionHandler) {
+      strongSelf->_delegate = strongSelf->_loadCompletionHandler(self, nil);
+    }
+  }];
 }
 
 #pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [_fullScreenAdVideo showAdFromRootViewController:viewController];
+  [_interstitialAd presentFromRootViewController:viewController];
 }
 
-#pragma mark -  BUFullscreenVideoAdDelegate
-- (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
-  if (_loadCompletionHandler) {
-    _delegate = _loadCompletionHandler(self, nil);
-  }
-}
-
-- (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd
-         didFailWithError:(NSError *_Nullable)error {
-  if (_loadCompletionHandler) {
-    _loadCompletionHandler(nil, error);
-  }
-}
-
-- (void)fullscreenVideoAdWillVisible:(BUFullscreenVideoAd *)fullscreenVideoAd {
+#pragma mark - PAGLInterstitialAdDelegate
+- (void)adDidShow:(PAGLInterstitialAd *)ad {
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate willPresentFullScreenView];
   [delegate reportImpression];
 }
 
-- (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd {
+- (void)adDidClick:(PAGLInterstitialAd *)ad {
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate reportClick];
 }
 
-- (void)fullscreenVideoAdWillClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
+- (void)adDidDismiss:(PAGLInterstitialAd *)ad {
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate willDismissFullScreenView];
-}
-
-- (void)fullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate didDismissFullScreenView];
-}
-
-- (void)fullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd
-                      didFailWithError:(NSError *_Nullable)error {
-  if (error) {
-    id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
-    [delegate didFailToPresentWithError:error];
-  }
 }
 
 @end
