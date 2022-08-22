@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADMediationAdapterPangle.h"
-#import <BUAdSDK/BUAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleRTBBannerRenderer.h"
@@ -21,8 +20,9 @@
 #import "GADPangleRTBRewardedRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADPangleNetworkExtras.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 
-static NSInteger _gdpr = -1, _ccpa = -1;
+static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
     /// Pangle banner ad wrapper.
@@ -40,9 +40,9 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 (nonnull GADRTBSignalCompletionHandler)completionHandler {
     GADPangleNetworkExtras *extras = [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
     if (extras && extras.userDataString.length > 0) {
-        [BUAdSDKConfiguration configuration].userExtData = extras.userDataString;
+        [PAGConfig shareConfig].userDataString = extras.userDataString;
     }
-    NSString *signals = [BUAdSDKManager getBiddingToken:nil];
+    NSString *signals = [PAGSdk getBiddingToken:nil];
     completionHandler(signals, nil);
 }
 
@@ -69,19 +69,17 @@ static NSInteger _gdpr = -1, _ccpa = -1;
         appIds);
     GADMPangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
   }
-
-  BUAdSDKConfiguration *sdkConfiguration = [BUAdSDKConfiguration configuration];
-  sdkConfiguration.territory = BUAdSDKTerritory_NO_CN;
-  sdkConfiguration.appID = appID;
-  sdkConfiguration.GDPR = @(_gdpr);
-  sdkConfiguration.CCPA = @(_ccpa);
-  [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
+  PAGConfig *config = [PAGConfig shareConfig];
+  config.appID = appID;
+  config.GDPRConsent = _GDPRConsent;
+  config.doNotSell = _doNotSell;
+  [PAGSdk startWithConfig:config completionHandler:^(BOOL success, NSError * _Nonnull error) {
     completionHandler(error);
   }];
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = BUAdSDKManager.SDKVersion;
+  NSString *versionString = PAGSdk.SDKVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count == 4) {
@@ -115,7 +113,7 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
@@ -127,7 +125,7 @@ static NSInteger _gdpr = -1, _ccpa = -1;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
@@ -138,7 +136,7 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
@@ -148,46 +146,48 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment ? adConfiguration.childDirectedTreatment.integerValue : -1)];
+    [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
+                                             ? adConfiguration.childDirectedTreatment.integerValue
+                                             : -1)];
     _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
     [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.
 ///
-/// @param COPPA An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
-/// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
-+ (void)setCOPPA:(NSInteger)COPPA {
-  if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
+/// @param childDirected An integer value that indicates whether the app should be treated as
+/// child-directed for purposes of the COPPA.  0 means user is not a child.
+/// 1 means user is a child. -1 means unspecified.
+/// Any value outside of -1, 0, or 1 will result in this method being a no-op.
++ (void)setChildDirected:(NSInteger)childDirected {
+  if (childDirected != 0 && childDirected != 1 && childDirected != -1) {
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setCoppa:COPPA];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+      PAGConfig.shareConfig.childDirected = childDirected;
   }
 }
-
-+ (void)setGDPR:(NSInteger)GDPR {
-  if (GDPR != 0 && GDPR != 1 && GDPR != -1) {
++ (void)GDPRConsent:(NSInteger)GDPRConsent {
+  if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setGDPR:GDPR];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+      PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
-  _gdpr = GDPR;
+  _GDPRConsent = GDPRConsent;
 }
 
-+ (void)setCCPA:(NSInteger)CCPA {
-  if (CCPA != 0 && CCPA != 1 && CCPA != -1) {
++ (void)doNotSell:(NSInteger)doNotSell {
+  if (doNotSell != 0 && doNotSell != 1 && doNotSell != -1) {
     GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setCCPA:CCPA];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+      PAGConfig.shareConfig.doNotSell = doNotSell;
   }
-  _ccpa = CCPA;
+  _doNotSell = doNotSell;
 }
 
 @end

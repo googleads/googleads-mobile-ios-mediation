@@ -29,17 +29,18 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// Set the GDPR setting in Pangle SDK.
 ///
 /// @param GDPR An integer value that indicates whether the user consents the use of personal
-/// data to serve ads under GDPR.  0 means the user consents. 1 means the user does not consent.
+/// data to serve ads under GDPR.  0 means the user did not consent. 1 means the user provided consent.
 /// -1 means the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method
 /// being a no-op.
-+ (void)setGDPR:(NSInteger)GDPR;
++ (void)GDPRConsent:(NSInteger)GDPRConsent;
 
 /// Set the CCPA setting in Pangle SDK.
 ///
 /// @param CCPA An integer value that indicates whether the user opts in of the "sale" of the
-/// "personal information" under CCPA. 0 means the user opts in. 1 means the user opts out. -1 means
-/// the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method
+/// "personal information" under CCPA. 0 means “sale” of personal information is permitted.
+/// 1 means the user has opted out of “sale” of personal information.
+/// -1 means the user hasn't specified. Any value outside of -1, 0, or 1 will result in this method
 /// being a no-op.
-+ (void)setCCPA:(NSInteger)CCPA;
++ (void)doNotSell:(NSInteger)doNotSell;
 
 @end
