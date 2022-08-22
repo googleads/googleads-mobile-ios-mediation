@@ -73,8 +73,6 @@
     [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:placementId unitId:adUnitId delegate:self];
 }
 
-
-
 #pragma mark MTGRewardAdLoadDelegate
 - (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     
@@ -139,4 +137,5 @@
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
+
 @end

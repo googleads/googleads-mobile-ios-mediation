@@ -27,7 +27,6 @@
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
 
-
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                                              NSObject *_Nonnull object);
 @end

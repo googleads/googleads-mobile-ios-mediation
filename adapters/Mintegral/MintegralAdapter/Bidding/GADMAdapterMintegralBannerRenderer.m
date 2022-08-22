@@ -77,8 +77,6 @@ MTGBannerAdViewDelegate>
     [_bannerAdView loadBannerAdWithBidToken:adConfiguration.bidResponse];
 }
 
-
-
 #pragma mark MTGBannerAdViewDelegate
 - (void)adViewLoadSuccess:(MTGBannerAdView *)adView {
     if (_adLoadCompletionHandler) {
@@ -100,9 +98,6 @@ MTGBannerAdViewDelegate>
     [_adEventDelegate reportClick];
 }
 
-- (void)adViewWillLeaveApplication:(MTGBannerAdView *)adView {
-}
-
 - (void)adViewWillOpenFullScreen:(MTGBannerAdView *)adView {
     [_adEventDelegate willPresentFullScreenView];
 }
@@ -111,13 +106,11 @@ MTGBannerAdViewDelegate>
     [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)adViewClosed:(MTGBannerAdView *)adView {
-}
-
 #pragma mark GADMediationBannerAd
 // Rendered banner ad. Called after the adapter has successfully loaded and ad invoked
 // the GADBannerRenderCompletionHandler.
 - (UIView *)view {
     return _bannerAdView;
 }
+
 @end

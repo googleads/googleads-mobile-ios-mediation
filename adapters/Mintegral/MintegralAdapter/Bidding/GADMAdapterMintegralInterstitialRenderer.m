@@ -24,8 +24,7 @@
 
 @end
 
-@implementation GADMAdapterMintegralInterstitialRenderer
-{
+@implementation GADMAdapterMintegralInterstitialRenderer {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -79,7 +78,6 @@
     }
 }
 
-
 - (void)newInterstitialBidAdLoadFail:(nonnull NSError *)error adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
     if (_adLoadCompletionHandler) {
         _adLoadCompletionHandler(nil, error);
@@ -123,4 +121,5 @@
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
+
 @end

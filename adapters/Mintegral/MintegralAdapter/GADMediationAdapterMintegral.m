@@ -93,7 +93,6 @@
     if (completionHandler) {
         completionHandler(nil);
     }
-    
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -130,8 +129,6 @@
         completionHandler([MTGBiddingSDK buyerUID],nil);
     }
 }
-
-
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
@@ -174,4 +171,5 @@
     }
     #pragma clang diagnostic pop
 }
+
 @end
