@@ -29,12 +29,9 @@ MTGMediaViewDelegate>
 @end
 
 @implementation GADMAdapterMintegralNativeRenderer {
-    /// The completion handler to call when the ad loading succeeds or fails.
+    /// Ad configuration for the ad to be loaded.
     GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
-    
-    /// Holds the state for impression being logged.
-    atomic_flag _impressionLogged;
-    
+        
     /// The Mintegral native ad.
     MTGBidNativeAdManager *_nativeManager;
     
@@ -58,7 +55,6 @@ MTGMediaViewDelegate>
 }
 
 - (void)renderNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    // Store the ad config and completion handler for later use.
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
         [completionHandler copy];

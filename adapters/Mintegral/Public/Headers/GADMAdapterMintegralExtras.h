@@ -19,7 +19,7 @@
 @interface GADMAdapterMintegralExtras : NSObject <GADAdNetworkExtras>
 
 
-/// Use this to mute for video ads. Must be set on each ad request.
+/// Controls whether presented ads will start in a muted state or not.
 @property (nonatomic, assign) BOOL playVideoMute;
 
 @end

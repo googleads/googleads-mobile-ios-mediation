@@ -28,7 +28,7 @@
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
-    /// Data used to render an interstitial Ad.
+    /// Ad configuration for the ad to be loaded.
     GADMediationInterstitialAdConfiguration *_adConfiguration;
     
     /// The Mintegral interstitial ad.
@@ -41,7 +41,6 @@
 - (void)renderInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                  completionHandler{
     _adConfiguration = adConfiguration;
-    // Store the ad config and completion handler for later use.
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
     [completionHandler copy];

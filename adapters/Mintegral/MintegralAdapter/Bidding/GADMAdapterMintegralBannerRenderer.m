@@ -27,7 +27,7 @@ MTGBannerAdViewDelegate>
 @end
 
 @implementation GADMAdapterMintegralBannerRenderer{
-    /// Data used to render an banner ad.
+    /// Ad configuration for the ad to be loaded.
     GADMediationBannerAdConfiguration *_adConfiguration;
     
     /// The completion handler to call when the ad loading succeeds or fails.

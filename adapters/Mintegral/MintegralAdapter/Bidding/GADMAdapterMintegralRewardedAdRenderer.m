@@ -29,7 +29,7 @@
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
     
-    /// Data used to render an rewarded ad.
+    /// Ad configuration for the ad to be loaded.
     GADMediationRewardedAdConfiguration *_adConfiguration;
 
     /// The Mintegral rewarded ad.
@@ -42,7 +42,6 @@
 - (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
     _adConfiguration = adConfiguration;
-    // Store the ad config and completion handler for later use.
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
     [completionHandler copy];
@@ -75,14 +74,12 @@
 
 #pragma mark MTGRewardAdLoadDelegate
 - (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
-    
     if (_adLoadCompletionHandler) {
         _adEventDelegate = _adLoadCompletionHandler(self, nil);
     }
 }
 
 - (void)onVideoAdLoadFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId error:(nonnull NSError *)error {
-    
     if (_adLoadCompletionHandler) {
         _adLoadCompletionHandler(nil, error);
     }
@@ -108,20 +105,18 @@
 }
 
 - (void)onVideoAdDismissed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withConverted:(BOOL)converted withRewardInfo:(nullable MTGRewardAdInfo *)rewardInfo {
-   
+    [_adEventDelegate willDismissFullScreenView];
     if (converted) {
         [_adEventDelegate didRewardUser];
     }
 }
 
 - (void)onVideoAdDidClosed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
-    [_adEventDelegate willDismissFullScreenView];
     [_adEventDelegate didDismissFullScreenView];
 }
 
 #pragma mark GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    
     NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
