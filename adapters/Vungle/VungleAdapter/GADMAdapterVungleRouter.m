@@ -363,10 +363,6 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
       GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
                                                         extras.userId);
     }
-    if (extras.ordinal) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                        @(extras.ordinal));
-    }
     if (extras.flexViewAutoDismissSeconds) {
       GADMAdapterVungleMutableDictionarySetObjectForKey(
           options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,

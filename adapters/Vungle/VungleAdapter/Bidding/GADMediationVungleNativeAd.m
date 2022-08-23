@@ -115,7 +115,7 @@
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
       break;
   }
-  [_nativeAd loadAd];
+  [_nativeAd loadAdWithAdMarkup:[self bidResponse]];
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
