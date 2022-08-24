@@ -90,7 +90,7 @@
     strongSelf->_bannerAd.delegate = strongSelf;
     
     if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(self,nil);
+      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
     }
   }];
 }
