@@ -79,6 +79,7 @@
     
     strongSelf->_nativeAd = nativeAd;
     strongSelf->_nativeAd.delegate = strongSelf;
+      strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
     
     if (strongSelf->_loadCompletionHandler) {
       id<GADMediationNativeAdEventDelegate> delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);

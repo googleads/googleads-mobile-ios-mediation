@@ -85,6 +85,7 @@
     CGRect frame = bannerAd.bannerView.frame;
     frame.size = bannerSize.size;
     bannerAd.bannerView.frame = frame;
+    bannerAd.rootViewController = adConfiguration.topViewController;
     
     strongSelf->_bannerAd = bannerAd;
     strongSelf->_bannerAd.delegate = strongSelf;
