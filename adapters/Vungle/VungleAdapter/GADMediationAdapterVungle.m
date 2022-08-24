@@ -134,13 +134,16 @@
   [_nativeAd requestNativeAd];
 }
 
-- (void)loadRewardedInterstitialAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                               completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-    // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
-    NSLog(@"Vungle adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
-          @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
-          @"Vungle.");
-    [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:
+                                       (nonnull GADMediationRewardedLoadCompletionHandler)
+                                           completionHandler {
+  // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
+  NSLog(@"Vungle adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
+        @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
+        @"Vungle.");
+  [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 #pragma mark GADRTBAdapter implementation
