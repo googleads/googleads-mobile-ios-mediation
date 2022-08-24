@@ -18,8 +18,6 @@
 #include <stdatomic.h>
 #import <PAGAdSDK/PAGAdSDK.h>
 
-static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
-
 @interface GADPangleRTBNativeRenderer()<PAGLNativeAdDelegate> {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
@@ -60,7 +58,7 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
         _loadCompletionHandler(nil, error);
         return;
     }
-  
+   __block PAGNativeADLoadCompletionHandler adLoadCompl
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
   
   PAGNativeRequest *request = [PAGNativeRequest request];
@@ -83,9 +81,11 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
     strongSelf->_nativeAd.delegate = strongSelf;
     
     if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(self, nil);
+      id<GADMediationNativeAdEventDelegate> delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+        strongSelf->_delegate = delegate;
     }
   }];
+    
 }
 
 #pragma mark - GADMediationNativeAd
@@ -152,10 +152,15 @@ static NSString *const BUDNativeAdTranslateKey = @"bu_nativeAd";
 }
 
 - (NSDictionary<NSString *,id> *)extraAssets {
-    if (_nativeAd) {
-        return @{BUDNativeAdTranslateKey:_nativeAd};
-    }
     return nil;
+}
+
+- (void)didUntrackView:(UIView *)view {
+  [_nativeAd unregisterView];
+}
+
+- (BOOL)hasVideoContent {
+    return YES;
 }
 
 - (BOOL)handlesUserClicks {
