@@ -13,13 +13,14 @@
 // limitations under the License.
 
 #import "GADMAdapterVungleRouter.h"
+#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouterConsent.h"
 
 const CGSize kVNGBannerShortSize = {300, 50};
 
-static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
+static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
 @implementation GADMAdapterVungleRouter {
   /// Map table to hold the interstitial or rewarded ad delegates with placement ID as a key.
@@ -31,13 +32,13 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   /// Map table to hold the banner ad delegates with placement ID as a key.
   NSMapTable<NSString *, id<GADMAdapterVungleDelegate>> *_bannerDelegates;
 
-  /// Dictionary to hold the placement ID and uniquePubRequestID for banners are being requested
+  /// Dictionary to hold the key: uniquePubRequestID and value: placement ID for requested banners.
   NSMutableDictionary<NSString *, NSString *> *_bannerRequestingDict;
 
   /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
 
-  /// Vungle's prioritized placementID
+  /// Vungle's prioritized placementID.
   NSString *_prioritizedPlacementID;
 }
 
@@ -53,7 +54,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 - (id)init {
   self = [super init];
   if (self) {
-    [VungleSDK sharedSDK].delegate = self;
+    VungleSDK.sharedSDK.delegate = self;
     _delegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                                        valueOptions:NSPointerFunctionsWeakMemory];
     _initializingDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
@@ -69,16 +70,16 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    NSString *version = [kGADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
-                                                                             withString:@"_"];
+    NSString *version = [GADMAdapterVungleVersion stringByReplacingOccurrencesOfString:@"."
+                                                                            withString:@"_"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-    [[VungleSDK sharedSDK] performSelector:@selector(setPluginName:version:)
-                                withObject:@"admob"
-                                withObject:version];
+    [VungleSDK.sharedSDK performSelector:@selector(setPluginName:version:)
+                              withObject:@"admob"
+                              withObject:version];
 #pragma clang diagnostic pop
   });
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
 
   if (delegate) {
     GADMAdapterVungleMapTableSetObjectForKey(_initializingDelegates, delegate.desiredPlacement,
@@ -94,10 +95,20 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     return;
   }
 
+  if (!appId) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+    [delegate initialized:NO error:error];
+    return;
+  }
+
   _isInitializing = YES;
 
   // Disable refresh functionality for all banners
-  [[VungleSDK sharedSDK] disableBannerRefresh];
+  [sdk disableBannerRefresh];
+
+  // Enable background downloading
+  [VungleSDK enableBackgroundDownload:YES];
 
   // Set init options for priority placement
   NSMutableDictionary *initOptions = [NSMutableDictionary dictionary];
@@ -113,7 +124,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
       // Vungle's MREC ads are a special case where doesn't need to set Banner size
       // since they have fixed size(300x250).
-      if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+      if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
         priorityPlacementAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
       }
     }
@@ -130,7 +141,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (BOOL)isSDKInitialized {
-  return [[VungleSDK sharedSDK] isInitialized];
+  return [VungleSDK.sharedSDK isInitialized];
 }
 
 - (BOOL)isAdCachedForPlacementID:(nonnull NSString *)placementID
@@ -140,13 +151,13 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
     // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
     // as opposed to isAdCachedForPlacementID:withSize:.
-    if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+    if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
       VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
-      return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID withSize:vungleAdSize];
+      return [VungleSDK.sharedSDK isAdCachedForPlacementID:placementID withSize:vungleAdSize];
     }
   }
 
-  return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID];
+  return [VungleSDK.sharedSDK isAdCachedForPlacementID:placementID];
 }
 
 - (BOOL)addDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
@@ -158,7 +169,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
                                                  delegate);
         GADMAdapterVungleMutableDictionarySetObjectForKey(
             _bannerRequestingDict, delegate.desiredPlacement,
-            delegate.uniquePubRequestID ?: kGADMAdapterVungleNullPubRequestID);
+            delegate.uniquePubRequestID ?: GADMAdapterVungleNullPubRequestID);
         return YES;
       } else if ([_bannerDelegates objectForKey:delegate.desiredPlacement]) {
         id<GADMAdapterVungleDelegate> bannerDelegate =
@@ -176,12 +187,13 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
         }
 
         if (!bannerDelegate.uniquePubRequestID) {
-          NSLog(@"Ad already loaded for placement ID: %@, and cannot determine if this is a "
-                @"refresh. Set Vungle extras when making an ad request to support refresh on "
-                @"Vungle banner ads.",
-                bannerDelegate.desiredPlacement);
+          NSLog(
+              @"Vungle: Ad already loaded for placement ID: %@, and cannot determine if this is a "
+              @"refresh. Set Vungle extras when making an ad request to support refresh on "
+              @"Vungle banner ads.",
+              bannerDelegate.desiredPlacement);
         } else {
-          NSLog(@"Ad already loaded for placement ID: %@", bannerDelegate.desiredPlacement);
+          NSLog(@"Vungle: Ad already loaded for placement ID: %@", bannerDelegate.desiredPlacement);
         }
       }
     }
@@ -213,7 +225,6 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 - (nullable id<GADMAdapterVungleDelegate>)getDelegateForPlacement:(nonnull NSString *)placement
                                     withBannerRouterDelegateState:
                                         (BannerRouterDelegateState)bannerState {
-  id<GADMAdapterVungleDelegate> delegate = nil;
   @synchronized(_bannerDelegates) {
     if ([_bannerDelegates objectForKey:placement]) {
       id<GADMAdapterVungleDelegate> bannerDelegate = [_bannerDelegates objectForKey:placement];
@@ -224,11 +235,9 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   }
 
   @synchronized(_delegates) {
-    if ([_delegates objectForKey:placement]) {
-      delegate = [_delegates objectForKey:placement];
-    }
+    return [_delegates objectForKey:placement];
   }
-  return delegate;
+  return nil;
 }
 
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
@@ -239,7 +248,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
       }
       NSString *pubRequestID = [_bannerRequestingDict objectForKey:delegate.desiredPlacement];
       if ([pubRequestID isEqualToString:delegate.uniquePubRequestID] ||
-          ([pubRequestID isEqualToString:kGADMAdapterVungleNullPubRequestID] &&
+          ([pubRequestID isEqualToString:GADMAdapterVungleNullPubRequestID] &&
            !delegate.uniquePubRequestID)) {
         if (!delegate.isRequestingBannerAdForRefresh) {
           GADMAdapterVungleMutableDictionaryRemoveObjectForKey(_bannerRequestingDict,
@@ -249,7 +258,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     }
   } else {
     @synchronized(_delegates) {
-      if (delegate && [_delegates objectForKey:delegate.desiredPlacement]) {
+      if (delegate && (delegate == [_delegates objectForKey:delegate.desiredPlacement])) {
         GADMAdapterVungleMapTableRemoveObjectForKey(_delegates, delegate.desiredPlacement);
       }
     }
@@ -278,18 +287,21 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   id<GADMAdapterVungleDelegate> adapterDelegate = [self getDelegateForPlacement:placement];
   if (adapterDelegate) {
-    return GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError, @"Can't request ad if another request is processing.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorAdAlreadyLoaded,
+        @"Can't request ad because another request is processing.");
+    return error;
   }
 
   BOOL addSuccessed = [self addDelegate:delegate];
   if (!addSuccessed) {
     return GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError,
-        [NSString stringWithFormat:@"Ad already loaded for placement ID: %@", placement]);
+        GADMAdapterVungleErrorMultipleBanners, @"A banner ad type has already been "
+                                               @"instantiated. Multiple banner ads are not "
+                                               @"supported with Vungle iOS SDK.");
   }
 
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
   if ([self isAdCachedForPlacementID:placement withDelegate:delegate]) {
     [delegate adAvailable];
     return nil;
@@ -310,135 +322,81 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 
     // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
     // as opposed to isAdCachedForPlacementID:withSize:.
-    if (!GADAdSizeEqualToSize(adSize, kGADAdSizeMediumRectangle)) {
+    if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
       VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
-      [sdk loadPlacementWithID:placement withSize:vungleAdSize error:&loadError];
+      [sdk loadPlacementWithID:placement
+                      adMarkup:[delegate bidResponse]
+                      withSize:vungleAdSize
+                         error:&loadError];
     } else {
-      [sdk loadPlacementWithID:placement error:&loadError];
+      [sdk loadPlacementWithID:placement adMarkup:[delegate bidResponse] error:&loadError];
     }
   } else {
-    [sdk loadPlacementWithID:placement error:&loadError];
+    [sdk loadPlacementWithID:placement adMarkup:[delegate bidResponse] error:&loadError];
   }
 
-  // For the VungleSDKResetPlacementForDifferentAdSize error, Vungle SDK currently still tries to
-  // cache an ad for the new size. Adapter treats this as not an error for now.
-  // TODO: Remove this error override once Vungle SDK is updated to stop returning this error.
-  if (loadError.code == VungleSDKResetPlacementForDifferentAdSize) {
-    loadError = nil;
-  }
   return loadError;
 }
 
 - (BOOL)playAd:(nonnull UIViewController *)viewController
       delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-        extras:(nullable VungleAdNetworkExtras *)extras {
-  if (!delegate || !delegate.desiredPlacement ||
-      ![[VungleSDK sharedSDK] isAdCachedForPlacementID:delegate.desiredPlacement]) {
-    return false;
-  }
-  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-  NSError *error = nil;
-  BOOL didAdStartPlaying = YES;
-  [VungleSDK sharedSDK].muted = extras.muted;
-  if (extras.userId) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
-                                                      extras.userId);
-  }
-
-  if (extras.ordinal) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                      @(extras.ordinal));
-  }
-
-  if (extras.flexViewAutoDismissSeconds) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(
-        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-        @(extras.flexViewAutoDismissSeconds));
-  }
-
-  if (extras.orientations) {
-    int appOrientation = [extras.orientations intValue];
-    NSNumber *orientations = @(UIInterfaceOrientationMaskAll);
-    if (appOrientation == 1) {
-      orientations = @(UIInterfaceOrientationMaskLandscape);
-    } else if (appOrientation == 2) {
-      orientations = @(UIInterfaceOrientationMaskPortrait);
-    }
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrientations,
-                                                      orientations);
-  }
-
-  if (![[VungleSDK sharedSDK] playAd:viewController
-                             options:options
+        extras:(nullable VungleAdNetworkExtras *)extras
+         error:(NSError *_Nullable __autoreleasing *_Nullable)error {
+  return [VungleSDK.sharedSDK playAd:viewController
+                             options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(extras)
                          placementID:delegate.desiredPlacement
-                               error:&error]) {
-    didAdStartPlaying = NO;
-  }
-
-  if (error) {
-    NSLog(@"Adapter failed to present ad, error %@", [error localizedDescription]);
-    didAdStartPlaying = NO;
-  }
-
-  return didAdStartPlaying;
+                               error:error];
 }
 
-- (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
-                                 delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-                                   extras:(nullable VungleAdNetworkExtras *)extras
-                           forPlacementID:(nonnull NSString *)placementID {
-  NSError *bannerError = nil;
-  NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-  if (extras != nil) {
-    [VungleSDK sharedSDK].muted = extras.muted;
-  } else {
-    [VungleSDK sharedSDK].muted = YES;
-  }
-  if (extras.userId) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
-                                                      extras.userId);
-  }
-  if (extras.ordinal) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrdinal,
-                                                      @(extras.ordinal));
-  }
-  if (extras.flexViewAutoDismissSeconds) {
-    GADMAdapterVungleMutableDictionarySetObjectForKey(
-        options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-        @(extras.flexViewAutoDismissSeconds));
+- (nullable NSError *)renderBannerAdInView:(nonnull UIView *)bannerView
+                                  delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
+                                    extras:(nullable VungleAdNetworkExtras *)extras
+                            forPlacementID:(nonnull NSString *)placementID {
+  NSMutableDictionary *options = nil;
+  if (extras) {
+    options = [[NSMutableDictionary alloc] init];
+    if (extras.muteIsSet) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
+                                                        @(extras.muted));
+    }
+    if (extras.userId) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
+                                                        extras.userId);
+    }
+    if (extras.flexViewAutoDismissSeconds) {
+      GADMAdapterVungleMutableDictionarySetObjectForKey(
+          options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+          @(extras.flexViewAutoDismissSeconds));
+    }
   }
 
-  BOOL success = [[VungleSDK sharedSDK] addAdViewToView:bannerView
-                                            withOptions:options
-                                            placementID:placementID
-                                                  error:&bannerError];
+  NSError *bannerError = nil;
+
+  BOOL success = [VungleSDK.sharedSDK addAdViewToView:bannerView
+                                          withOptions:options
+                                          placementID:placementID
+                                                error:&bannerError];
+
   if (success) {
     // For a refresh banner delegate, if the Banner view is constructed successfully,
     // it will replace the old banner delegate.
     if (delegate.isRefreshedForBannerAd) {
       [self replaceOldBannerDelegateWithDelegate:delegate];
     }
-    return bannerView;
   }
-
-  NSLog(@"Banner loading error: %@", bannerError.localizedDescription);
-  return nil;
+  return bannerError;
 }
 
 - (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate {
   @synchronized(self) {
-    if (!delegate) {
-      return;
-    }
-
-    if (![_bannerDelegates objectForKey:delegate.desiredPlacement]) {
+    if (!delegate || ![delegate respondsToSelector:@selector(bannerAdSize)]) {
       return;
     }
 
     if (delegate.bannerState == BannerRouterDelegateStatePlaying ||
         delegate.bannerState == BannerRouterDelegateStateWillPlay) {
       NSLog(@"Vungle: Triggering an ad completion call for %@", delegate.desiredPlacement);
-      [[VungleSDK sharedSDK] finishDisplayingAd:delegate.desiredPlacement];
+      [VungleSDK.sharedSDK finishDisplayingAd:delegate.desiredPlacement];
     }
   }
 }
@@ -455,6 +413,16 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   _prioritizedPlacementID = nil;
 }
 
+- (NSString *)getSuperToken {
+  return [VungleSDK.sharedSDK currentSuperToken];
+}
+
+- (void)setCOPPAStatus:(NSNumber *)coppa {
+  if (coppa) {
+    [[VungleSDK sharedSDK] updateCOPPAStatus:[coppa boolValue]];
+  }
+}
+
 #pragma mark - VungleSDKDelegate methods
 
 - (void)vungleWillShowAdForPlacementID:(nullable NSString *)placementID {
@@ -469,7 +437,21 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID {
-  NSLog(@"Vungle: Did show Ad for placement ID:%@", placementID);
+  if (!placementID.length) {
+    return;
+  }
+
+  id<GADMAdapterVungleDelegate> delegate =
+      [self getDelegateForPlacement:placementID
+          withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate didShowAd];
+}
+
+- (void)vungleAdViewedForPlacement:(NSString *)placementID {
+  id<GADMAdapterVungleDelegate> delegate =
+      [self getDelegateForPlacement:placementID
+          withBannerRouterDelegateState:BannerRouterDelegateStatePlaying];
+  [delegate didViewAd];
 }
 
 - (void)vungleWillCloseAdForPlacementID:(nonnull NSString *)placementID {
@@ -527,7 +509,15 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
   // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented. These events
   // should be ignored as they aren't related to a load call. Assume an ad is presented if Vungle
   // SDK has an ad cached for this placement.
-  if ([[VungleSDK sharedSDK] isAdCachedForPlacementID:placementID]) {
+  if ([VungleSDK.sharedSDK isAdCachedForPlacementID:placementID]) {
+    return;
+  }
+
+  // Vungle SDK calls this method for auto-cached placements after playing the ad.
+  // If the next placement fails to download the ad, then the SDK would call this method
+  // with isAdPlayable NO. If the delegate is already loaded, do not remove it from the
+  // tracker because the call is for the next ad.
+  if ([delegate isAdLoaded]) {
     return;
   }
 
@@ -536,7 +526,7 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
     NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
   } else {
     error = GADMAdapterVungleErrorWithCodeAndDescription(
-        kGADErrorMediationAdapterError,
+        GADMAdapterVungleErrorAdNotPlayable,
         [NSString stringWithFormat:@"Ad is not available for placementID: %@.", placementID]);
   }
   [delegate adNotAvailable:error];
@@ -544,16 +534,18 @@ static NSString *const _Nonnull kGADMAdapterVungleNullPubRequestID = @"null";
 }
 
 - (void)vungleSDKDidInitialize {
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
   if ([VungleRouterConsent getConsentStatus] > 0) {
     [sdk updateConsentStatus:[VungleRouterConsent getConsentStatus] consentMessageVersion:@""];
   }
 
   [self initialized:YES error:nil];
+  [GADMAdapterVungleBiddingRouter.sharedInstance initialized:YES error:nil];
 }
 
 - (void)vungleSDKFailedToInitializeWithError:(nonnull NSError *)error {
-  [self initialized:false error:error];
+  [self initialized:NO error:error];
+  [GADMAdapterVungleBiddingRouter.sharedInstance initialized:NO error:error];
 }
 
 @end

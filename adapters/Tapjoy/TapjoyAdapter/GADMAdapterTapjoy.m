@@ -38,7 +38,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterTapjoyVersion;
+  return GADMAdapterTapjoyVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -65,8 +65,8 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  NSString *sdkKey = strongConnector.credentials[kGADMAdapterTapjoySdkKey];
-  _placementName = strongConnector.credentials[kGADMAdapterTapjoyPlacementKey];
+  NSString *sdkKey = strongConnector.credentials[GADMAdapterTapjoySdkKey];
+  _placementName = strongConnector.credentials[GADMAdapterTapjoyPlacementKey];
 
   if (!sdkKey.length || !_placementName.length) {
     NSError *adapterError = GADMAdapterTapjoyErrorWithCodeAndDescription(
@@ -134,7 +134,13 @@
   }
 }
 
-- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nonnull NSError *)error {
+- (void)requestDidFail:(nonnull TJPlacement *)placement error:(nullable NSError *)error {
+  if (!error) {
+    NSError *nullError = GADMAdapterTapjoyErrorWithCodeAndDescription(
+        GADMAdapterTapjoyErrorUnknown, @"Tapjoy SDK placement unknown error.");
+    [_interstitialConnector adapter:self didFailAd:nullError];
+    return;
+  }
   [_interstitialConnector adapter:self didFailAd:error];
 }
 
@@ -176,7 +182,7 @@
   // Do nothing.
 }
 
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nonnull NSString *)errorMsg {
+- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
   // Do nothing.
 }
 

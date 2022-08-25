@@ -14,19 +14,6 @@
   GADMAdapterVerizonRewardedAd *_rewardedAd;
 }
 
-- (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-  self = [super initWithGADMAdNetworkConnector:connector];
-  if (self) {
-    NSDictionary<NSString *, id> *credentials = [connector credentials];
-    if (credentials[kGADMAdapterVerizonMediaPosition]) {
-      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
-    }
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
-  }
-  return self;
-}
-
 #pragma mark - GADMediationAdapter
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -34,16 +21,14 @@
   NSMutableSet *siteIDs = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *siteID = cred.settings[kGADMAdapterVerizonMediaDCN];
+    NSString *siteID = cred.settings[GADMAdapterVerizonMediaDCN];
     GADMAdapterVerizonMutableSetAddObject(siteIDs, siteID);
   }
 
   if (!siteIDs.count) {
-    NSString *errorString =
-        @"Verizon media mediation configurations did not contain a valid site ID.";
-    NSError *error = [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                                         code:kGADErrorMediationAdapterError
-                                     userInfo:@{NSLocalizedDescriptionKey : errorString}];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInvalidServerParameters,
+        @"Verizon media mediation configurations did not contain a valid site ID.");
     completionHandler(error);
     return;
   }
@@ -57,14 +42,14 @@
     NSLog(@"Initializing Verizon media SDK with the site ID %@", siteID);
   }
   dispatch_async(dispatch_get_main_queue(), ^{
-    [VASStandardEdition initializeWithSiteId:siteID];
+    [VASAds initializeWithSiteId:siteID];
   });
   completionHandler(nil);
 }
 
-+ (GADVersionNumber)version {
++ (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
-      [kGADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
+      [GADMAdapterVerizonMediaVersion componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

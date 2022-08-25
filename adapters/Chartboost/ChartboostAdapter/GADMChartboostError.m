@@ -13,81 +13,84 @@
 // limitations under the License.
 
 #import "GADMChartboostError.h"
+#import "GADMAdapterChartboostUtils.h"
 
-NSError *GADChartboostErrorWithDescription(NSString *description) {
-  description = [description copy];
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:@"com.google.mediation.chartboost"
-                                       code:0
-                                   userInfo:userInfo];
-  return error;
-}
-
-NSError *adRequestErrorTypeForCBLoadError(CBLoadError error) {
-  NSString *description = nil;
-  switch (error) {
-    case CBLoadErrorInternal:
-      description = @"Internal error.";
+NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
+  NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
+  switch (error.code) {
+    case CHBCacheErrorCodeInternal:
+      suffix = @"CHBCacheErrorCodeInternal";
       break;
-    case CBLoadErrorInternetUnavailable:
-      description = @"Internet unavailable.";
+    case CHBCacheErrorCodeInternetUnavailable:
+      suffix = @"CHBCacheErrorCodeInternetUnavailable";
       break;
-    case CBLoadErrorTooManyConnections:
-      description = @"Too many connections.";
+    case CHBCacheErrorCodeNetworkFailure:
+      suffix = @"CHBCacheErrorCodeNetworkFailure";
       break;
-    case CBLoadErrorWrongOrientation:
-      description = @"Wrong orientation.";
+    case CHBCacheErrorCodeNoAdFound:
+      suffix = @"CHBCacheErrorCodeNoAdFound";
       break;
-    case CBLoadErrorFirstSessionInterstitialsDisabled:
-      description = @"Interstitial disabled.";
+    case CHBCacheErrorCodeSessionNotStarted:
+      suffix = @"CHBCacheErrorCodeSessionNotStarted";
       break;
-    case CBLoadErrorNetworkFailure:
-      description = @"Network failure.";
+    case CHBCacheErrorCodeAssetDownloadFailure:
+      suffix = @"CHBCacheErrorCodeAssetDownloadFailure";
       break;
-    case CBLoadErrorNoAdFound:
-      description = @"No ad found.";
-      break;
-    case CBLoadErrorSessionNotStarted:
-      description = @"Session not started.";
-      break;
-    case CBLoadErrorImpressionAlreadyVisible:
-      description = @"Impression already visible.";
-      break;
-    case CBLoadErrorUserCancellation:
-      description = @"User cancellation.";
-      break;
-    case CBLoadErrorNoLocationFound:
-      description = @"No location found.";
-      break;
-    case CBLoadErrorAssetDownloadFailure:
-      description = @"Error downloading asset.";
-      break;
-    case CBLoadErrorPrefetchingIncomplete:
-      description = @"Video prefetching is not finished.";
-      break;
-    case CBLoadErrorWebViewScriptError:
-      description = @"Web view script error.";
-      break;
-    case CBLoadErrorInternetUnavailableAtShow:
-      description = @"Internet unavailable while presenting.";
-      break;
-    default:
-      description = @"No inventory.";
+    case CHBCacheErrorCodePublisherDisabled:
+      suffix = @"CHBCacheErrorCodePublisherDisabled";
       break;
   }
 
-  return GADChartboostErrorWithDescription(description);
+  NSString *description =
+      [NSString stringWithFormat:@"Chartboost SDK returned a cache error: %@", suffix];
+  return GADMAdapterChartboostErrorWithCodeAndDescription(200 + error.code, description);
 }
 
-NSError *NSErrorForCHBCacheError(CHBCacheError *error) {
-  return GADChartboostErrorWithDescription(error.description);
+NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
+  NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
+  switch (error.code) {
+    case CHBShowErrorCodeInternal:
+      suffix = @"CHBShowErrorCodeInternal";
+      break;
+    case CHBShowErrorCodeSessionNotStarted:
+      suffix = @"CHBShowErrorCodeSessionNotStarted";
+      break;
+    case CHBShowErrorCodeAdAlreadyVisible:
+      suffix = @"CHBShowErrorCodeAdAlreadyVisible";
+      break;
+    case CHBShowErrorCodeInternetUnavailable:
+      suffix = @"CHBShowErrorCodeInternetUnavailable";
+      break;
+    case CHBShowErrorCodePresentationFailure:
+      suffix = @"CHBShowErrorCodePresentationFailure";
+      break;
+    case CHBShowErrorCodeNoCachedAd:
+      suffix = @"CHBShowErrorCodeNoCachedAd";
+      break;
+  }
+  NSString *description =
+      [NSString stringWithFormat:@"Chartboost SDK returned a show error: %@", suffix];
+  return GADMAdapterChartboostErrorWithCodeAndDescription(300 + error.code, description);
 }
 
-NSError *NSErrorForCHBShowError(CHBShowError *error) {
-  return GADChartboostErrorWithDescription(error.description);
-}
+NSError *GADMChartboostErrorForCHBClickError(CHBClickError *error) {
+  NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
+  switch (error.code) {
+    case CHBClickErrorCodeUriInvalid:
+      suffix = @"CHBClickErrorCodeUriInvalid";
 
-NSError *NSErrorForCHBClickError(CHBClickError *error) {
-  return GADChartboostErrorWithDescription(error.description);
+      break;
+    case CHBClickErrorCodeUriUnrecognized:
+      suffix = @"CHBClickErrorCodeUriUnrecognized";
+      break;
+    case CHBClickErrorCodeConfirmationGateFailure:
+      suffix = @"CHBClickErrorCodeConfirmationGateFailure";
+      break;
+    case CHBClickErrorCodeInternal:
+      suffix = @"CHBClickErrorCodeInternal";
+      break;
+  }
+  NSString *description =
+      [NSString stringWithFormat:@"Chartboost SDK returned a click error: %@", suffix];
+  return GADMAdapterChartboostErrorWithCodeAndDescription(400 + error.code, description);
 }

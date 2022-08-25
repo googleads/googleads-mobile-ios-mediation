@@ -26,8 +26,8 @@
 
 @implementation GADMediationAdapterIronSource
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *appKeys = [[NSMutableSet alloc] init];
   NSMutableSet *ironSourceAdUnits = [[NSMutableSet alloc] init];
 
@@ -38,17 +38,14 @@
       GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_REWARDED_VIDEO);
     }
 
-    NSString *appKeyFromSetting = cred.settings[kGADMAdapterIronSourceAppKey];
+    NSString *appKeyFromSetting = cred.settings[GADMAdapterIronSourceAppKey];
     GADMAdapterIronSourceMutableSetAddObject(appKeys, appKeyFromSetting);
   }
 
   if (!appKeys.count) {
-    [GADMAdapterIronSourceUtils
-        onLog:@"IronSource mediation configurations did not contain a valid app key."];
-    NSError *error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"IronSource Adapter failed to initialize"
-              andReason:@"'appKey' parameter is missing"
-          andSuggestion:@"Make sure that 'appKey' server parameter is added"];
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorInvalidServerParameters,
+        @"IronSource mediation configurations did not contain a valid app key.");
     completionHandler(error);
     return;
   }
@@ -92,13 +89,9 @@
   return nil;
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterIronSource adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
-  NSString *adapterVersion = kGADMAdapterIronSourceAdapterVersion;
+  NSString *adapterVersion = GADMAdapterIronSourceAdapterVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
   if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;
@@ -108,13 +101,26 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
-                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _rewardedAd = [[GADMAdapterIronSourceRewardedAd alloc]
       initWithGADMediationRewardedAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
   [_rewardedAd requestRewardedAd];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:
+                                       (nonnull GADMediationRewardedLoadCompletionHandler)
+                                           completionHandler {
+  // IronSource Rewarded Interstitial ads use the same Rewarded Video API.
+  NSLog(@"IronSource adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
+        @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
+        @"IronSource.");
+  [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

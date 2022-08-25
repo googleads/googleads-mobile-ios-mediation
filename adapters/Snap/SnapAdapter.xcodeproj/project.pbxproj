@@ -1,0 +1,570 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		2B60DF1127618CC000AB5537 /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2B60DF1227618CC000AB5537 /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				2B60DF2727618F5E00AB5537 /* ShellScript */,
+			);
+			dependencies = (
+				2B60DF2627618F5200AB5537 /* PBXTargetDependency */,
+			);
+			name = Framework;
+			productName = Framework;
+		};
+		2B60DF1527618CCE00AB5537 /* ValidateSourceCode */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2B60DF1627618CCE00AB5537 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */;
+			buildPhases = (
+				2B60DF2827618FCF00AB5537 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = ValidateSourceCode;
+			productName = ValidateSourceCode;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		2372FF9A2762A98C00E67278 /* GADMediatonAdapterSnapUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */; };
+		2372FF9B2762A98C00E67278 /* GADMediatonAdapterSnapUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */; };
+		2B60DF1B27618E8E00AB5537 /* GADMediationAdapterSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEF0276186CF00AB5537 /* GADMediationAdapterSnap.m */; };
+		2B60DF1C27618E8E00AB5537 /* GADMediationSnapBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEEC276186CF00AB5537 /* GADMediationSnapBanner.m */; };
+		2B60DF1D27618E8E00AB5537 /* GADMediationSnapInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEF4276186CF00AB5537 /* GADMediationSnapInterstitial.m */; };
+		2B60DF1E27618E8E00AB5537 /* GADMediationSnapRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B60DEF2276186CF00AB5537 /* GADMediationSnapRewarded.m */; };
+		2B60DF2027618ECC00AB5537 /* GADMediationAdapterSnap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B60DEF3276186CF00AB5537 /* GADMediationAdapterSnap.h */; };
+		2B60DF2127618ECC00AB5537 /* GADMediationAdapterSnapConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B60DEEF276186CF00AB5537 /* GADMediationAdapterSnapConstants.h */; };
+		2B60DF2227618ECC00AB5537 /* GADMediationSnapBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B60DEED276186CF00AB5537 /* GADMediationSnapBanner.h */; };
+		2B60DF2327618ECC00AB5537 /* GADMediationSnapInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B60DEF1276186CF00AB5537 /* GADMediationSnapInterstitial.h */; };
+		2B60DF2427618ECC00AB5537 /* GADMediationSnapRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B60DEEE276186CF00AB5537 /* GADMediationSnapRewarded.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B60DF1927618E7000AB5537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B60DF1527618CCE00AB5537;
+			remoteInfo = ValidateSourceCode;
+		};
+		2B60DF2527618F5200AB5537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B60DF072761885700AB5537;
+			remoteInfo = Adapter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2B60DF062761885700AB5537 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediatonAdapterSnapUtils.h; sourceTree = "<group>"; };
+		2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediatonAdapterSnapUtils.m; sourceTree = "<group>"; };
+		2B338D8526D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2B338D8626D96B0600192709 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
+		2B338D8726D96B0600192709 /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
+		2B338D8A26D96B0600192709 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		2B338D8D26D96B0600192709 /* SnapAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnapAdapter.h; sourceTree = "<group>"; };
+		2B338D8E26D96B0600192709 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		2B338D9126D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2B338D9326D96B0600192709 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
+		2B338D9426D96B0600192709 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		2B338D9526D96B0600192709 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		2B60DEEC276186CF00AB5537 /* GADMediationSnapBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationSnapBanner.m; sourceTree = "<group>"; };
+		2B60DEED276186CF00AB5537 /* GADMediationSnapBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationSnapBanner.h; sourceTree = "<group>"; };
+		2B60DEEE276186CF00AB5537 /* GADMediationSnapRewarded.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationSnapRewarded.h; sourceTree = "<group>"; };
+		2B60DEEF276186CF00AB5537 /* GADMediationAdapterSnapConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterSnapConstants.h; sourceTree = "<group>"; };
+		2B60DEF0276186CF00AB5537 /* GADMediationAdapterSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterSnap.m; sourceTree = "<group>"; };
+		2B60DEF1276186CF00AB5537 /* GADMediationSnapInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationSnapInterstitial.h; sourceTree = "<group>"; };
+		2B60DEF2276186CF00AB5537 /* GADMediationSnapRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationSnapRewarded.m; sourceTree = "<group>"; };
+		2B60DEF3276186CF00AB5537 /* GADMediationAdapterSnap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterSnap.h; sourceTree = "<group>"; };
+		2B60DEF4276186CF00AB5537 /* GADMediationSnapInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationSnapInterstitial.m; sourceTree = "<group>"; };
+		2B60DF082761885700AB5537 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B60DF052761885700AB5537 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B338D3826D95DDF00192709 = {
+			isa = PBXGroup;
+			children = (
+				2B338D8426D96B0600192709 /* BuildScript */,
+				2B338D8A26D96B0600192709 /* CHANGELOG.md */,
+				2B338D9226D96B0600192709 /* Configuration */,
+				2B338D8B26D96B0600192709 /* Public */,
+				2B338D9126D96B0600192709 /* README.md */,
+				2B338D4326D95DDF00192709 /* SnapAdapter */,
+				2B338D4226D95DDF00192709 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2B338D4226D95DDF00192709 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2B60DF082761885700AB5537 /* libAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2B338D4326D95DDF00192709 /* SnapAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				2B60DEF3276186CF00AB5537 /* GADMediationAdapterSnap.h */,
+				2B60DEF0276186CF00AB5537 /* GADMediationAdapterSnap.m */,
+				2B60DEEF276186CF00AB5537 /* GADMediationAdapterSnapConstants.h */,
+				2B60DEED276186CF00AB5537 /* GADMediationSnapBanner.h */,
+				2B60DEEC276186CF00AB5537 /* GADMediationSnapBanner.m */,
+				2B60DEF1276186CF00AB5537 /* GADMediationSnapInterstitial.h */,
+				2B60DEF4276186CF00AB5537 /* GADMediationSnapInterstitial.m */,
+				2B60DEEE276186CF00AB5537 /* GADMediationSnapRewarded.h */,
+				2B60DEF2276186CF00AB5537 /* GADMediationSnapRewarded.m */,
+				2372FF982762A98C00E67278 /* GADMediatonAdapterSnapUtils.h */,
+				2372FF992762A98C00E67278 /* GADMediatonAdapterSnapUtils.m */,
+			);
+			path = SnapAdapter;
+			sourceTree = "<group>";
+		};
+		2B338D8426D96B0600192709 /* BuildScript */ = {
+			isa = PBXGroup;
+			children = (
+				2B338D8526D96B0600192709 /* README.md */,
+				2B338D8626D96B0600192709 /* Script_Framework.sh */,
+				2B338D8726D96B0600192709 /* Script_Validate.sh */,
+			);
+			path = BuildScript;
+			sourceTree = "<group>";
+		};
+		2B338D8B26D96B0600192709 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				2B338D8C26D96B0600192709 /* Headers */,
+				2B338D8E26D96B0600192709 /* module.modulemap */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		2B338D8C26D96B0600192709 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				2B338D8D26D96B0600192709 /* SnapAdapter.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		2B338D9226D96B0600192709 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				2B338D9326D96B0600192709 /* Adapter.xcconfig */,
+				2B338D9426D96B0600192709 /* Debug.xcconfig */,
+				2B338D9526D96B0600192709 /* Release.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2B60DF1F27618EA100AB5537 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B60DF2027618ECC00AB5537 /* GADMediationAdapterSnap.h in Headers */,
+				2B60DF2127618ECC00AB5537 /* GADMediationAdapterSnapConstants.h in Headers */,
+				2372FF9A2762A98C00E67278 /* GADMediatonAdapterSnapUtils.h in Headers */,
+				2B60DF2227618ECC00AB5537 /* GADMediationSnapBanner.h in Headers */,
+				2B60DF2327618ECC00AB5537 /* GADMediationSnapInterstitial.h in Headers */,
+				2B60DF2427618ECC00AB5537 /* GADMediationSnapRewarded.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2B60DF072761885700AB5537 /* Adapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B60DF0E2761885700AB5537 /* Build configuration list for PBXNativeTarget "Adapter" */;
+			buildPhases = (
+				2B60DF1F27618EA100AB5537 /* Headers */,
+				2B60DF042761885700AB5537 /* Sources */,
+				2B60DF052761885700AB5537 /* Frameworks */,
+				2B60DF062761885700AB5537 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B60DF1A27618E7000AB5537 /* PBXTargetDependency */,
+			);
+			name = Adapter;
+			productName = Adapter;
+			productReference = 2B60DF082761885700AB5537 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B338D3926D95DDF00192709 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = NO;
+				LastUpgradeCheck = 1300;
+				ORGANIZATIONNAME = Google;
+				TargetAttributes = {
+					2B60DF072761885700AB5537 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					2B60DF1127618CC000AB5537 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					2B60DF1527618CCE00AB5537 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+				};
+			};
+			buildConfigurationList = 2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "SnapAdapter" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2B338D3826D95DDF00192709;
+			productRefGroup = 2B338D4226D95DDF00192709 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2B60DF072761885700AB5537 /* Adapter */,
+				2B60DF1127618CC000AB5537 /* Framework */,
+				2B60DF1527618CCE00AB5537 /* ValidateSourceCode */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B60DF2727618F5E00AB5537 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/BuildScript/Script_Framework.sh\"\n";
+		};
+		2B60DF2827618FCF00AB5537 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B60DF042761885700AB5537 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B60DF1B27618E8E00AB5537 /* GADMediationAdapterSnap.m in Sources */,
+				2372FF9B2762A98C00E67278 /* GADMediatonAdapterSnapUtils.m in Sources */,
+				2B60DF1C27618E8E00AB5537 /* GADMediationSnapBanner.m in Sources */,
+				2B60DF1D27618E8E00AB5537 /* GADMediationSnapInterstitial.m in Sources */,
+				2B60DF1E27618E8E00AB5537 /* GADMediationSnapRewarded.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2B60DF1A27618E7000AB5537 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B60DF1527618CCE00AB5537 /* ValidateSourceCode */;
+			targetProxy = 2B60DF1927618E7000AB5537 /* PBXContainerItemProxy */;
+		};
+		2B60DF2627618F5200AB5537 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2B60DF072761885700AB5537 /* Adapter */;
+			targetProxy = 2B60DF2527618F5200AB5537 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2B338D5826D95DE200192709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B338D9326D96B0600192709 /* Adapter.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2B338D5926D95DE200192709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B338D9326D96B0600192709 /* Adapter.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2B60DF0F2761885700AB5537 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Snap;
+				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_NAME = SnapAdapter;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[arch=*]" = 10.0;
+				LIB_NAME = libAdapter;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MINOR_VERSION = 0;
+				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SEPARATE_STRIP = YES;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 x86_64";
+			};
+			name = Debug;
+		};
+		2B60DF102761885700AB5537 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Snap;
+				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_NAME = SnapAdapter;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIB_NAME = libAdapter;
+				MIN_OS_MAJOR_VERSION = 10;
+				MIN_OS_MAJOR_VERSION_64_BIT = 10;
+				MIN_OS_MINOR_VERSION = 0;
+				MIN_OS_MINOR_VERSION_64_BIT = 0;
+				MODULE_MAP_PATH = "$(SRCROOT)/Public";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SEPARATE_STRIP = YES;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 x86_64";
+			};
+			name = Release;
+		};
+		2B60DF1327618CC000AB5537 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		2B60DF1427618CC000AB5537 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		2B60DF1727618CCE00AB5537 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2B60DF1827618CCE00AB5537 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "SnapAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B338D5826D95DE200192709 /* Debug */,
+				2B338D5926D95DE200192709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B60DF0E2761885700AB5537 /* Build configuration list for PBXNativeTarget "Adapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B60DF0F2761885700AB5537 /* Debug */,
+				2B60DF102761885700AB5537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B60DF1227618CC000AB5537 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B60DF1327618CC000AB5537 /* Debug */,
+				2B60DF1427618CC000AB5537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B60DF1627618CCE00AB5537 /* Build configuration list for PBXAggregateTarget "ValidateSourceCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B60DF1727618CCE00AB5537 /* Debug */,
+				2B60DF1827618CCE00AB5537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2B338D3926D95DDF00192709 /* Project object */;
+}

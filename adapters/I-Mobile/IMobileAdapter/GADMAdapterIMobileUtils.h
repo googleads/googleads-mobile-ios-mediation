@@ -15,14 +15,27 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ImobileSdkAds/ImobileSdkAds.h>
 
+#import "GADMediationAdapterIMobile.h"
+
 #define GADMAdapterIMobileLog(format, args...) NSLog(@"IMobileAdapter: " format, ##args)
 
-/// Returns an NSError with provided error code and description.
-NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(NSUInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(GADMAdapterIMobileErrorCode code,
                                                                 NSString *_Nonnull description);
 
-/// Convert i-mobile fail result to AdMob error code.
-GADErrorCode GADMAdapterIMobileAdMobErrorFromIMobileResult(ImobileSdkAdsFailResult iMobileResult);
+/// Returns an i-mobile SDK specific NSError object from the specified |failResult|
+/// and with NSLocalizedDescriptionKey and NSLocalizedFailureReasonErrorKey
+/// values set to |description|.
+NSError *_Nonnull GADMAdapterIMobileErrorWithFailResultAndDescription(
+    ImobileSdkAdsFailResult failResult, NSString *_Nonnull description);
+
+/// Sets |value| for |key| in mapTable if |value| is not nil.
+void GADMAdapterIMobileMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                               id<NSCopying> _Nullable key, id _Nullable value);
+
+/// Removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterIMobileMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
 
 /// Converts ad size from Google Mobile Ads SDK to ad size supported by i-mobile ad network.
 GADAdSize GADMAdapterIMobileAdSizeFromGADAdSize(GADAdSize gadAdSize);

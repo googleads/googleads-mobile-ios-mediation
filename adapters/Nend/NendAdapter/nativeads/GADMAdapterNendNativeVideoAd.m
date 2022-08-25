@@ -6,11 +6,6 @@
 //
 
 #import "GADMAdapterNendNativeVideoAd.h"
-#import "GADMAdapterNendNativeAdLoader.h"
-
-@interface GADMAdapterNendNativeVideoAd () <NADNativeVideoDelegate, NADNativeVideoViewDelegate>
-
-@end
 
 @implementation GADMAdapterNendNativeVideoAd {
   /// nend video ad.
@@ -26,14 +21,16 @@
   NSDecimalNumber *_userRating;
 }
 
-- (nonnull instancetype)initWithVideo:(nonnull NADNativeVideo *)ad {
+- (nonnull instancetype)
+    initWithVideo:(nonnull NADNativeVideo *)ad
+         delegate:(nonnull id<NADNativeVideoDelegate, NADNativeVideoViewDelegate>)delegate {
   self = [super init];
   if (self) {
     _videoAd = ad;
-    _videoAd.delegate = self;
+    _videoAd.delegate = delegate;
 
     _nendMediaView = [[NADNativeVideoView alloc] init];
-    _nendMediaView.delegate = self;
+    _nendMediaView.delegate = delegate;
 
     _mappedIcon = [[GADNativeAdImage alloc] initWithImage:ad.logoImage];
     _userRating = [[NSDecimalNumber alloc] initWithFloat:ad.userRating];
@@ -106,11 +103,17 @@
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  _nendMediaView.frame = view.frame;
+  for (UIView *subview in view.subviews) {
+    if ([subview isKindOfClass:[GADMediaView class]]) {
+      _nendMediaView.bounds = subview.bounds;
+      break;
+    }
+  }
+
   [_videoAd registerInteractionViews:clickableAssetViews.allValues];
   _nendMediaView.videoAd = _videoAd;
 }
@@ -125,59 +128,6 @@
 
 - (BOOL)handlesUserClicks {
   return YES;
-}
-
-#pragma mark - NADNativeVideoDelegate
-- (void)nadNativeVideoDidImpression:(nonnull NADNativeVideo *)ad {
-  // Note : Adapter report click event here,
-  //       but Google-Mobile-Ads-SDK does'n send event to App...
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordImpression:self];
-}
-
-- (void)nadNativeVideoDidClickAd:(nonnull NADNativeVideo *)ad {
-  // Note : Adapter report click event here,
-  //       but Google-Mobile-Ads-SDK does'n send event to App...
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidRecordClick:self];
-
-  // It's OK to reach event to App.
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
-}
-
-- (void)nadNativeVideoDidClickInformation:(nonnull NADNativeVideo *)ad {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdWillLeaveApplication:self];
-}
-
-#pragma mark - NADNativeVideoViewDelegate
-- (void)nadNativeVideoViewDidStartPlay:(nonnull NADNativeVideoView *)videoView {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPlayVideo:self];
-}
-
-- (void)nadNativeVideoViewDidStopPlay:(nonnull NADNativeVideoView *)videoView {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidPauseVideo:self];
-}
-
-- (void)nadNativeVideoViewDidStartFullScreenPlaying:(nonnull NADNativeVideoView *)videoView {
-  // Do nothing here.
-}
-
-- (void)nadNativeVideoViewDidStopFullScreenPlaying:(nonnull NADNativeVideoView *)videoView {
-  // Do nothing here.
-}
-
-- (void)nadNativeVideoViewDidOpenFullScreen:(nonnull NADNativeVideoView *)videoView {
-  // Do nothing here.
-}
-
-- (void)nadNativeVideoViewDidCloseFullScreen:(nonnull NADNativeVideoView *)videoView {
-  // Do nothing here.
-}
-
-- (void)nadNativeVideoViewDidCompletePlay:(nonnull NADNativeVideoView *)videoView {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
-}
-
-- (void)nadNativeVideoViewDidFailToPlay:(nonnull NADNativeVideoView *)videoView {
-  [GADMediatedUnifiedNativeAdNotificationSource mediatedNativeAdDidEndVideoPlayback:self];
 }
 
 @end

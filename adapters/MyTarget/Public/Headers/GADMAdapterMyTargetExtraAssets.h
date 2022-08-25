@@ -15,16 +15,16 @@
 #import <Foundation/Foundation.h>
 
 /// myTarget extra asset key for the advertising label.
-extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetAdvertisingLabel;
+extern NSString *const _Nonnull GADMAdapterMyTargetExtraAssetAdvertisingLabel;
 
 /// myTarget extra asset key for age restrictions.
-extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetAgeRestrictions;
+extern NSString *const _Nonnull GADMAdapterMyTargetExtraAssetAgeRestrictions;
 
 /// myTarget extra asset key for the native ad's app category.
-extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetCategory;
+extern NSString *const _Nonnull GADMAdapterMyTargetExtraAssetCategory;
 
 /// myTarget extra asset key for the native ad's app subcategory.
-extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetSubcategory;
+extern NSString *const _Nonnull GADMAdapterMyTargetExtraAssetSubcategory;
 
 /// myTarget extra asset key for the number of votes.
-extern NSString *const _Nonnull kGADMAdapterMyTargetExtraAssetVotes;
+extern NSString *const _Nonnull GADMAdapterMyTargetExtraAssetVotes;

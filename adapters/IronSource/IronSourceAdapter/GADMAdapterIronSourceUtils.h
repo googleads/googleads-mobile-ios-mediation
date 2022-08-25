@@ -15,6 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/IronSource.h>
+#import "GADMediationAdapterIronSource.h"
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
@@ -24,16 +25,17 @@ void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
 void GADMAdapterIronSourceMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
                                                   id<NSCopying> _Nullable key, id _Nullable value);
 
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
+    GADMAdapterIronSourceErrorCode code, NSString *_Nonnull description);
+
 /// Holds Shared code for IronSource adapters.
 @interface GADMAdapterIronSourceUtils : NSObject
 
 // IronSource Util methods.
-+ (BOOL)isEmpty:(id)value;
-+ (NSError *)createErrorWith:(NSString *)description
-                   andReason:(NSString *)reason
-               andSuggestion:(NSString *)suggestion;
-
-+ (void)onLog:(NSString *)log;
-+ (NSString *)getAdMobSDKVersion;
++ (BOOL)isEmpty:(nullable id)value;
++ (void)onLog:(nonnull NSString *)log;
++ (nonnull NSString *)getAdMobSDKVersion;
 
 @end

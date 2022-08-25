@@ -71,55 +71,67 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = [_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
+  NSString *appID = [_adConfig.credentials.settings[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [_adConfig.credentials.settings[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load rewarded ad from Chartboost: %@", error.localizedDescription);
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorInvalidServerParameters,
+        @"App ID and/or App Signature cannot be nil.");
+    _completionHandler(nil, error);
+    return;
+  }
+
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
+    NSString *logMessage = [NSString
+        stringWithFormat:
+            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
+            GADMAdapterChartboostMinimumOSVersion];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     _completionHandler(nil, error);
     return;
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
   GADMAdapterChartboostRewardedAd *weakSelf = self;
-  [Chartboost
-      startWithAppId:appID
-        appSignature:appSignature
-          completion:^(BOOL success) {
-            GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
-            if (!strongSelf) {
-              return;
-            }
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
+                    GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
+                    if (!strongSelf) {
+                      return;
+                    }
 
-            if (!success) {
-              NSError *error =
-                  GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-              NSLog(@"%@", error.localizedDescription);
-              strongSelf->_completionHandler(nil, error);
-              return;
-            }
+                    if (!success) {
+                      NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+                          GADMAdapterChartboostErrorInitializationFailure,
+                          @"Chartboost SDK initialization failed.");
+                      strongSelf->_completionHandler(nil, error);
+                      return;
+                    }
 
-            GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
-            if (extras) {
-              [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-            }
+                    GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
+                    if (extras) {
+                      [Chartboost setFramework:extras.framework
+                                   withVersion:extras.frameworkVersion];
+                    }
 
-            CHBMediation *mediation = GADMAdapterChartboostMediation();
-            strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
-                                                                  mediation:mediation
-                                                                   delegate:strongSelf];
-            [strongSelf->_rewardedAd cache];
-          }];
+                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
+                                                                          mediation:mediation
+                                                                           delegate:strongSelf];
+                    [strongSelf->_rewardedAd cache];
+                  }];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (!_rewardedAd.isCached) {
-    NSError *showError = GADChartboostErrorWithDescription(@"Rewarded ad not cached.");
-    NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
-    [_adEventDelegate didFailToPresentWithError:showError];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorAdNotCached, @"Rewarded ad not cached.");
+    [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
   [_rewardedAd showFromViewController:viewController];
@@ -129,7 +141,7 @@
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
   if (error) {
-    NSError *loadError = NSErrorForCHBCacheError(error);
+    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
     NSLog(@"Failed to load rewarded ad from Chartboost: %@", loadError.localizedDescription);
     _completionHandler(nil, loadError);
     return;
@@ -140,7 +152,7 @@
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
-    NSError *showError = NSErrorForCHBShowError(error);
+    NSError *showError = GADMChartboostErrorForCHBShowError(error);
     NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
 
     // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
@@ -156,17 +168,13 @@
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
   [_adEventDelegate didEndVideo];
-
-  /// Chartboost doesn't provide access to the reward type.
-  NSDecimalNumber *rewardValue = [[NSDecimalNumber alloc] initWithInteger:event.reward];
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:rewardValue];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
   [_adEventDelegate reportClick];
   if (error) {
-    NSError *clickError = NSErrorForCHBClickError(error);
+    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
     NSLog(@"An error occurred when clicking the Chartboost rewarded ad: %@",
           clickError.localizedDescription);
   }

@@ -14,8 +14,6 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import <IASDKCore/IASDKCore.h>
-#import <IASDKMRAID/IASDKMRAID.h>
-#import <IASDKVideo/IASDKVideo.h>
 
 #include <stdatomic.h>
 
@@ -32,26 +30,28 @@
   /// Ad configuration for the ad to be loaded.
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
-  /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
-  IAFullscreenUnitController *_fullscreenUnitController;
+  /// The completion handler to call when an ad loads successfully or fails.
+  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
 
-  /// Fyber mraid controller to support HTML ads.
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
+  /// GMA SDK, not set on the GMA SDK.
+  id<GADMediationRewardedAdEventDelegate> _delegate;
+
+  /// Fyber Ad Spot to be loaded.
+  IAAdSpot *_adSpot;
+
+  /// Fyber MRAID controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
   /// Fyber video controller to support video ads and to catch video progress events.
   IAVideoContentController *_videoContentController;
 
-  /// Fyber Ad spot to be loaded.
-  IAAdSpot *_adSpot;
+  /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
+  IAFullscreenUnitController *_fullscreenUnitController;
 
   /// View controller to display the Fyber ad.
   __weak UIViewController *_parentViewController;
-
-  /// The completion handler to call when an ad loads successfully or fails.
-  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
-
-  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
 
   /// Flag to indicate whether the Fyber rewarded ad started playing.
   atomic_flag _didStartVideo;
@@ -59,57 +59,74 @@
 
 #pragma mark - Init
 
-- (nonnull instancetype)
-    initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-          completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
-
-    __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
-    __block GADMediationRewardedLoadCompletionHandler originalAdLoadHandler =
-        [completionHandler copy];
-
-    // Ensure the original completion handler is only called once, and is deallocated once called.
-    _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
-        id<GADMediationRewardedAd> rewardedAd, NSError *error) {
-      if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
-        return nil;
-      }
-
-      id<GADMediationRewardedAdEventDelegate> delegate = nil;
-      if (originalAdLoadHandler) {
-        delegate = originalAdLoadHandler(rewardedAd, error);
-      }
-
-      originalAdLoadHandler = nil;
-      return delegate;
-    };
   }
   return self;
 }
 
 #pragma mark - API
 
+- (void)loadRewardedAdWithCompletionHandler:
+    (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalAdLoadHandler =
+      [completionHandler copy];
+
+  // Ensure the original completion handler is only called once, and is deallocated once called.
+  _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      id<GADMediationRewardedAd> rewardedAd, NSError *error) {
+    if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalAdLoadHandler) {
+      delegate = originalAdLoadHandler(rewardedAd, error);
+    }
+
+    originalAdLoadHandler = nil;
+    return delegate;
+  };
+
+  GADMAdapterFyberRewardedAd *__weak weakSelf = self;
+  GADMAdapterFyberInitializeWithAppId(
+      _adConfiguration.credentials.settings[GADMAdapterFyberApplicationID],
+      ^(NSError *_Nullable error) {
+        GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
+
+        if (error) {
+          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+                              error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+          return;
+        }
+
+        [self loadRewardedAd];
+      });
+}
+
 - (void)loadRewardedAd {
-  NSError *initError = nil;
-  BOOL didInitialize = GADMAdapterFyberInitializeWithAppID(
-      _adConfiguration.credentials.settings[kGADMAdapterFyberApplicationID], &initError);
-  if (!didInitialize) {
-    GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", initError.localizedDescription);
-    _loadCompletionHandler(nil, initError);
+  NSString *spotID = _adConfiguration.credentials.settings[GADMAdapterFyberSpotID];
+  if (!spotID.length) {
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
+    _loadCompletionHandler(nil, error);
     return;
   }
 
-  NSString *spotID = _adConfiguration.credentials.settings[kGADMAdapterFyberSpotID];
-  IAAdRequest *request =
-      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
-
-  GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   _MRAIDContentController =
       [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
       }];
 
+  GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   _videoContentController =
       [IAVideoContentController build:^(id<IAVideoContentControllerBuilder> _Nonnull builder) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
@@ -132,6 +149,8 @@
         [builder addSupportedContentController:strongSelf->_MRAIDContentController];
       }];
 
+  IAAdRequest *request =
+      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
     if (!strongSelf) {
@@ -188,10 +207,8 @@
 }
 
 - (void)IAAdDidReward:(nullable IAUnitController *)unitController {
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-  [_delegate didRewardUserWithReward:reward];
+  [_delegate didEndVideo];
+  [_delegate didRewardUser];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {
@@ -208,9 +225,7 @@
 
 #pragma mark - IAVideoContentDelegate
 
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {
-  [_delegate didEndVideo];
-}
+- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {}
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
        videoInterruptedWithError:(nonnull NSError *)error {

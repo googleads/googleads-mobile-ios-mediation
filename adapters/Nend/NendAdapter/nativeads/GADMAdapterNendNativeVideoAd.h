@@ -11,6 +11,8 @@
 
 @interface GADMAdapterNendNativeVideoAd : NSObject <GADMediationNativeAd>
 
-- (nonnull instancetype)initWithVideo:(nonnull NADNativeVideo *)ad;
+- (nonnull instancetype)
+    initWithVideo:(nonnull NADNativeVideo *)ad
+         delegate:(nonnull id<NADNativeVideoDelegate, NADNativeVideoViewDelegate>)delegate;
 
 @end

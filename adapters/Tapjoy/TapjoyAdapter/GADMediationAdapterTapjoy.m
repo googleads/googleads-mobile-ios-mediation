@@ -38,7 +38,7 @@
   NSMutableSet *sdkKeys = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *sdkKeyFromSettings = cred.settings[kGADMAdapterTapjoySdkKey];
+    NSString *sdkKeyFromSettings = cred.settings[GADMAdapterTapjoySdkKey];
     GADMAdapterTapjoyMutableSetAddObject(sdkKeys, sdkKeyFromSettings);
   }
 
@@ -82,13 +82,9 @@
   return [GADMTapjoyExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterTapjoy adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
-      [kGADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
+      [GADMAdapterTapjoyVersion componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {

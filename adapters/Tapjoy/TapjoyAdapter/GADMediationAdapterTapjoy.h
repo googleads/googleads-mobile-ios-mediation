@@ -27,7 +27,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterTapjoyErrorCode) {
   /// An ad is already loaded for this network configuration.
   GADMAdapterTapjoyErrorAdAlreadyLoaded = 105,
   /// Tapjoy SDK placement video related error.
-  GADMAdapterTapjoyErrorPlacementVideo = 106
+  GADMAdapterTapjoyErrorPlacementVideo = 106,
+  /// Tapjoy SDK placement unknown error.
+  GADMAdapterTapjoyErrorUnknown = 107
 };
 
 @interface GADMediationAdapterTapjoy : NSObject <GADRTBAdapter>

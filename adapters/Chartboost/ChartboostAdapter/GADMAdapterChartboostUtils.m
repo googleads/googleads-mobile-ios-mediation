@@ -17,6 +17,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMAdapterChartboostConstants.h"
+#import "GADMChartboostError.h"
 
 #pragma mark - Private utility method prototypes
 
@@ -57,13 +58,13 @@ void GADMAdapterChartboostMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 NSString *_Nonnull GADMAdapterChartboostLocationFromConnector(
     id<GADMAdNetworkConnector> _Nonnull connector) {
   return GADMAdapterChartboostLocationFromString(
-      connector.credentials[kGADMAdapterChartboostAdLocation]);
+      connector.credentials[GADMAdapterChartboostAdLocation]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration) {
   return GADMAdapterChartboostLocationFromString(
-      adConfiguration.credentials.settings[kGADMAdapterChartboostAdLocation]);
+      adConfiguration.credentials.settings[GADMAdapterChartboostAdLocation]);
 }
 
 NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable string) {
@@ -78,6 +79,46 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable s
 
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
   return [[CHBMediation alloc] initWithType:CBMediationAdMob
-                             libraryVersion:[GADRequest sdkVersion]
-                             adapterVersion:kGADMAdapterChartboostVersion];
+                             libraryVersion:GADMobileAds.sharedInstance.sdkVersion
+                             adapterVersion:GADMAdapterChartboostVersion];
+}
+
+NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
+    GADMAdapterChartboostErrorCode code, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:GADMAdapterChartboostErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
+}
+
+#pragma mark - Banner Util Methods
+
+CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  NSArray *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
+    return CHBBannerSizeStandard;
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
+    return CHBBannerSizeMedium;
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
+    return CHBBannerSizeLeaderboard;
+  }
+  if (error) {
+    NSString *description =
+        [NSString stringWithFormat:@"Chartboost's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorBannerSizeMismatch, description);
+  }
+
+  CHBBannerSize chartboostSize = {0};
+  return chartboostSize;
 }

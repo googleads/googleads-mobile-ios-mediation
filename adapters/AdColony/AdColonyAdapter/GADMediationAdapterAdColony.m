@@ -22,14 +22,15 @@
 #import "GADMAdapterAdColonyExtras.h"
 #import "GADMAdapterAdColonyHelper.h"
 #import "GADMAdapterAdColonyInitializer.h"
+#import "GADMAdapterAdColonyRTBBannerRenderer.h"
 #import "GADMAdapterAdColonyRTBInterstitialRenderer.h"
 #import "GADMAdapterAdColonyRewardedRenderer.h"
 
 static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 @implementation GADMediationAdapterAdColony {
-  /// Completion handler for signal generation. Returns either signals or an error object.
-  GADRTBSignalCompletionHandler _signalCompletionHandler;
+  /// AdColony banner ad renderer.
+  GADMAdapterAdColonyRTBBannerRenderer *_bannerRenderer;
 
   /// AdColony interstitial ad renderer.
   GADMAdapterAdColonyRTBInterstitialRenderer *_interstitialRenderer;
@@ -55,7 +56,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
     NSString *zoneID = GADMAdapterAdColonyZoneIDForSettings(cred.settings);
     GADMAdapterAdColonyMutableSetAddObject(zoneIDs, zoneID);
 
-    NSString *appID = cred.settings[kGADMAdapterAdColonyAppIDkey];
+    NSString *appID = cred.settings[GADMAdapterAdColonyAppIDkey];
     GADMAdapterAdColonyMutableSetAddObject(appIDs, appID);
   }
 
@@ -104,12 +105,8 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
   return [GADMAdapterAdColonyExtras class];
 }
 
-+ (GADVersionNumber)version {
-  return [GADMediationAdapterAdColony adapterVersion];
-}
-
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = kGADMAdapterAdColonyVersionString;
+  NSString *versionString = GADMAdapterAdColonyVersionString;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
@@ -124,22 +121,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  // Keep handler, in practice this call may be asynchronous.
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADRTBSignalCompletionHandler originalCompletionHandler = [completionHandler copy];
-  _signalCompletionHandler = ^void(NSString *_Nullable signals, NSError *_Nullable error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return;
-    }
-
-    if (originalCompletionHandler) {
-      originalCompletionHandler(signals, error);
-    }
-    originalCompletionHandler = nil;
-  };
-    
-  NSString *signals = [AdColony collectSignals];
-  _signalCompletionHandler(signals, nil);
+  [AdColony collectSignals:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
@@ -159,4 +141,9 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
                                      completionHandler:completionHandler];
 }
 
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerRenderer = [[GADMAdapterAdColonyRTBBannerRenderer alloc] init];
+  [_bannerRenderer renderBannerForAdConfig:adConfiguration completionHandler:completionHandler];
+}
 @end

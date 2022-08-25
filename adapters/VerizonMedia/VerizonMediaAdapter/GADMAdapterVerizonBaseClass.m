@@ -7,6 +7,7 @@
 #import "GADMAdapterVerizonBaseClass.h"
 #import "GADMAdapterVerizonConstants.h"
 #import "GADMAdapterVerizonNativeAd.h"
+#import "GADMAdapterVerizonUtils.h"
 
 @interface GADMAdapterVerizonBaseClass () <VASInlineAdFactoryDelegate,
                                            VASInterstitialAdFactoryDelegate,
@@ -41,13 +42,19 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterVerizonMediaVersion;
+  return GADMAdapterVerizonMediaVersion;
 }
 
 - (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
   self = [super init];
   if (self) {
     _connector = connector;
+    NSDictionary<NSString *, id> *credentials = [connector credentials];
+    if (credentials[GADMAdapterVerizonMediaPosition]) {
+      self.placementID = credentials[GADMAdapterVerizonMediaPosition];
+    }
+    NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
+    GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
   return self;
@@ -79,10 +86,12 @@
 
   CGSize adSize = [self GADSupportedAdSizeFromRequestedSize:gadSize];
   if (CGSizeEqualToSize(adSize, CGSizeZero)) {
-    [connector adapter:self
-             didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                           code:kGADErrorInvalidRequest
-                                       userInfo:nil]];
+    NSString *description =
+        [NSString stringWithFormat:@"Invalid size for Verizon Media mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(gadSize)];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorBannerSizeMismatch, description);
+    [connector adapter:self didFailAd:error];
     return;
   }
 
@@ -131,17 +140,6 @@
   });
 }
 
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested
-                  numReceived:(NSInteger)numReceived {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
 #pragma mark - VASInterstitialAdDelegate
 
 - (void)interstitialAdDidShow:(nonnull VASInterstitialAd *)interstitialAd {
@@ -164,9 +162,7 @@
 }
 
 - (void)interstitialAdDidLeaveApplication:(nonnull VASInterstitialAd *)interstitialAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+  // Do nothing.
 }
 
 - (void)interstitialAdClicked:(nonnull VASInterstitialAd *)interstitialAd {
@@ -200,17 +196,6 @@
   });
 }
 
-- (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheLoadedNumRequested:(NSInteger)numRequested
-                numReceived:(NSInteger)numReceived {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
-- (void)inlineAdFactory:(nonnull VASInlineAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // The cache mechanism is not used in the AdMob mediation flow.
-}
-
 #pragma mark - VASInlineAdViewDelegate
 
 - (void)inlineAdDidFail:(nonnull VASInlineAdView *)inlineAd
@@ -239,9 +224,7 @@
 }
 
 - (void)inlineAdDidLeaveApplication:(nonnull VASInlineAdView *)inlineAd {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_connector adapterWillLeaveApplication:self];
-  });
+    // Do nothing.
 }
 
 - (nullable UIViewController *)inlineAdPresentingViewController {
@@ -260,19 +243,37 @@
 - (void)inlineAd:(nonnull VASInlineAdView *)inlineAd
            event:(nonnull NSString *)eventId
           source:(nonnull NSString *)source
-       arguments:(nonnull NSDictionary<NSString *,id> *)arguments {
+       arguments:(nonnull NSDictionary<NSString *, id> *)arguments {
   // A generic callback that does currently need an implementation for inline placements.
 }
 
 #pragma mark - common
 
 - (BOOL)prepareAdapterForAdRequest {
-  if (!self.placementID || ![VASAds.sharedInstance isInitialized]) {
-    NSError *error = [NSError
-        errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
-                   code:kGADErrorMediationAdapterError
-               userInfo:@{NSLocalizedDescriptionKey : @"Verizon adapter not properly intialized."}];
-    [_connector adapter:self didFailAd:error];
+  id<GADMAdNetworkConnector> strongConnector = _connector;
+
+  if (!strongConnector) {
+    NSLog(@"Verizon Adapter Error: No GADMAdNetworkConnector found.");
+    return NO;
+  }
+
+  NSDictionary<NSString *, id> *credentials = [strongConnector credentials];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
+
+  BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+  if (!isInitialized) {
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInitialization, @"Verizon SDK failed to initialize.");
+    [strongConnector adapter:self didFailAd:error];
+    return NO;
+  }
+
+  if (!self.placementID) {
+    NSError *error =
+        [NSError errorWithDomain:GADMAdapterVerizonMediaErrorDomain
+                            code:GADErrorMediationAdapterError
+                        userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil."}];
+    [strongConnector adapter:self didFailAd:error];
     return NO;
   }
 
@@ -340,13 +341,15 @@
 }
 
 - (void)setCoppaFromConnector {
-  VASAds.sharedInstance.COPPA = [_connector childDirectedTreatment];
+  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  builder.coppa.applies =  [[_connector childDirectedTreatment] boolValue];
+  VASAds.sharedInstance.dataPrivacy = [builder build];
 }
 
 - (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
   NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   if (IsGADAdSizeValid(closestSize)) {

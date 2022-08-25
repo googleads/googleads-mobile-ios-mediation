@@ -19,22 +19,26 @@
 
 extern const CGSize kVNGBannerShortSize;
 
-@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate>
+@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate, VungleSDKHBDelegate>
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;
 - (void)initWithAppId:(nonnull NSString *)appId
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate;
 - (BOOL)playAd:(nonnull UIViewController *)viewController
       delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-        extras:(nullable VungleAdNetworkExtras *)extras;
+        extras:(nullable VungleAdNetworkExtras *)extras
+         error:(NSError *_Nullable __autoreleasing *_Nullable)error;
 - (nullable NSError *)loadAd:(nonnull NSString *)placement
                 withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID;
-- (nullable UIView *)renderBannerAdInView:(nonnull UIView *)bannerView
-                                 delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-                                   extras:(nullable VungleAdNetworkExtras *)extras
-                           forPlacementID:(nonnull NSString *)placementID;
+- (nullable NSError *)renderBannerAdInView:(nonnull UIView *)bannerView
+                                  delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
+                                    extras:(nullable VungleAdNetworkExtras *)extras
+                            forPlacementID:(nonnull NSString *)placementID;
 - (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
+- (BOOL)isSDKInitialized;
+- (nullable NSString *)getSuperToken;
+- (void)setCOPPAStatus:(nonnull NSNumber *)coppa;
 
 @end

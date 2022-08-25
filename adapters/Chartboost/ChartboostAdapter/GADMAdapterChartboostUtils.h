@@ -19,6 +19,11 @@
 #endif
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMediationAdapterChartboost.h"
+
+#define SYSTEM_VERSION_LESS_THAN(v)                    \
+  ([[[UIDevice currentDevice] systemVersion] compare:v \
+                                             options:NSNumericSearch] == NSOrderedAscending)
 
 /// Sets |value| for |key| in |dictionary| if |value| is not nil.
 void GADMAdapterChartboostMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
@@ -47,3 +52,12 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromAdConfiguration(
 
 /// Creates and returns a Chartboost mediation object.
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
+    GADMAdapterChartboostErrorCode code, NSString *_Nonnull description);
+
+/// Returns the closest CHBBannerSize size from the requested GADAdSize.
+CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);

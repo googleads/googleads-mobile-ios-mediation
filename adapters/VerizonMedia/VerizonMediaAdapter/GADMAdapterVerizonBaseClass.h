@@ -9,7 +9,6 @@
 #import <VerizonAdsInlinePlacement/VerizonAdsInlinePlacement.h>
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
 #import <VerizonAdsNativePlacement/VerizonAdsNativePlacement.h>
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
 @interface GADMAdapterVerizonBaseClass : NSObject <GADMAdNetworkAdapter>
 

@@ -13,9 +13,11 @@
 // limitations under the License.
 
 #import "GADMAdapterMaioRewardedAd.h"
+#import <MaioOB/MaioOB-Swift.h>
+#import <stdatomic.h>
 #import "GADMAdapterMaioAdsManager.h"
+#import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
 @interface GADMAdapterMaioRewardedAd () <MaioDelegate>
 
@@ -31,12 +33,35 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  self.completionHandler = completionHandler;
-  _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaId];
-  _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneId];
+  // Safe handling of completionHandler from CONTRIBUTING.md#best-practices
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  self.completionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
+
+  _mediaId = adConfiguration.credentials.settings[GADMMaioAdapterMediaIdKey];
+  _zoneId = adConfiguration.credentials.settings[GADMMaioAdapterZoneIdKey];
 
   if (!self.mediaId) {
-    NSError *error = [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
+    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+        GADMAdapterMaioErrorInvalidServerParameters,
+        @"maio mediation configurations did not contain a valid media ID.");
     completionHandler(nil, error);
     return;
   }
@@ -86,7 +111,13 @@
   if (!newValue) {
     return;
   }
-  self.adEventDelegate = self.completionHandler(self, nil);
+  id<GADMediationRewardedAdEventDelegate> delegate = self.completionHandler(self, nil);
+  // Maio SDK may call maioDidChangeCanShow multiple times during the lifecycle of the ad. Avoid
+  // overwriting the delegate to nil since the completion handler only returns a non-nil delegate
+  // once.
+  if (delegate) {
+    self.adEventDelegate = delegate;
+  }
 }
 
 /**
@@ -117,9 +148,7 @@
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = self.adEventDelegate;
   [strongAdEventDelegate didEndVideo];
   if (!skipped) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:rewardParam ?: @""
-                                                     rewardAmount:[NSDecimalNumber one]];
-    [strongAdEventDelegate didRewardUserWithReward:reward];
+    [strongAdEventDelegate didRewardUser];
   }
 }
 
@@ -149,9 +178,8 @@
  */
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
   // 再生エラー等、ロードと無関係なエラーは通知しない。
-  NSError *errorWithDescription =
-      [GADMMaioError errorWithDescription:[GADMMaioError stringFromFailReason:reason]];
-  self.completionHandler(nil, errorWithDescription);
+  NSError *error = GADMAdapterMaioSDKErrorForFailReason(reason);
+  self.completionHandler(nil, error);
 }
 
 @end

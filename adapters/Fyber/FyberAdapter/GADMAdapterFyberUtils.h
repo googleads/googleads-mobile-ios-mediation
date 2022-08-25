@@ -15,33 +15,32 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IASDKCore/IASDKCore.h>
+#import "GADMediationAdapterFyber.h"
 
 #define GADMAdapterFyberLog(format, args...) NSLog(@"FyberAdapter: " format, ##args)
+
+// Fyber adapter initialization completion handler.
+typedef void (^GADMAdapterFyberInitCompletionHandler)(NSError *_Nullable error);
+
+/// Safely adds |object| to |array| if |object| is not nil.
+void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object);
 
 /// Safely adds |object| to |set| if |object| is not nil.
 void GADMAdapterFyberMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-/// Creates and returns an NSError with the specified code and description.
-NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(NSInteger code,
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|.
+NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(GADMAdapterFyberErrorCode code,
                                                               NSString *_Nonnull description);
 
 /// Creates and returns a GADVersionNumber from a specified string.
 GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionString);
 
-/// Creates an ad request object for Fyber from a given spot ID and connector.
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndConnector(
-    NSString *_Nonnull spotID, id<GADMAdNetworkConnector> _Nonnull connector);
-
 /// Creates an ad request object for Fyber from a given spot ID and configuration.
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration);
 
-/// Creates an ad request object for Fyber from the specified information.
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotID(NSString *_Nonnull spotID,
-                                                             NSString *_Nullable keywords,
-                                                             CLLocation *_Nullable location);
-
-/// Initializes the Fyber SDK with the given app ID. Returns YES if Fyber is initialized
-/// successfully, otherwise NO and sets |error|.
-BOOL GADMAdapterFyberInitializeWithAppID(NSString *_Nonnull appID,
-                                         NSError *__autoreleasing _Nullable *_Nullable error);
+/// Initialize the Fyber Marketplace SDK with a given application ID and completion handler.
+void GADMAdapterFyberInitializeWithAppId(
+    NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler);

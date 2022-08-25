@@ -17,6 +17,15 @@
 #import "GADMAdapterMyTargetExtraAssets.h"
 #import "GADMAdapterMyTargetUtils.h"
 
+@interface MTRGNativeAd ()
+
+- (void)registerView:(nonnull UIView *)containerView
+      withController:(nonnull UIViewController *)controller
+  withClickableViews:(nullable NSArray<UIView *> *)clickableViews
+     withMediaAdView:(nonnull MTRGMediaAdView *)mediaAdView;
+
+@end
+
 @implementation GADMAdapterMyTargetMediatedUnifiedNativeAd {
   /// myTarget native ad object.
   MTRGNativeAd *_nativeAd;
@@ -102,17 +111,17 @@
 
       _extraAssets = [[NSMutableDictionary alloc] init];
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAdvertisingLabel,
+          _extraAssets, GADMAdapterMyTargetExtraAssetAdvertisingLabel,
           promoBanner.advertisingLabel);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
+          _extraAssets, GADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
+          _extraAssets, GADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
+          _extraAssets, GADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
       if (promoBanner.votes > 0) {
         GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-            _extraAssets, kGADMAdapterMyTargetExtraAssetVotes,
+            _extraAssets, GADMAdapterMyTargetExtraAssetVotes,
             [NSNumber numberWithUnsignedInteger:promoBanner.votes]);
       }
     }
@@ -178,9 +187,9 @@
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
   if (!_nativeAd) {
@@ -190,20 +199,27 @@
   // NOTE: This is a workaround. Subview GADMediaView does not contain mediaView at this moment but
   // it will appear a little bit later.
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self->_nativeAd registerView:view
-                   withController:viewController
-               withClickableViews:clickableAssetViews.allValues];
+    if ([self->_nativeAd respondsToSelector:@selector(registerView:withController:withClickableViews:withMediaAdView:)]) {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues
+                    withMediaAdView:self->_mediaAdView];
+    } else {
+      [self->_nativeAd registerView:view
+                     withController:viewController
+                 withClickableViews:clickableAssetViews.allValues];
+    }
   });
 }
 
 - (void)didRecordImpression {
-  // Do nothing.
+  MTRGLogInfo();
 }
 
-- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
-  // Do nothing.
+  MTRGLogInfo();
 }
 
 - (void)didUntrackView:(nullable UIView *)view {

@@ -42,7 +42,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterMyTargetVersion;
+  return GADMAdapterMyTargetVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -72,10 +72,12 @@
   if (!strongConnector) {
     return;
   }
-
-  [strongConnector adapter:self
-                 didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(
-                               kGADMAdapterMyTargetErrorBannersNotSupported)];
+  NSString *description = [NSString
+      stringWithFormat:
+          @"GADMAdapterMyTargetNative asked to load a banner ad. This should never happen."];
+  NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+      GADMAdapterMyTargetErrorUnsupportedAdFormat, description);
+  [strongConnector adapter:self didFailAd:error];
 }
 
 - (void)getInterstitial {
@@ -84,10 +86,12 @@
   if (!strongConnector) {
     return;
   }
-
-  [strongConnector adapter:self
-                 didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(
-                               kGADMAdapterMyTargetErrorInterstitialNotSupported)];
+  NSString *description = [NSString
+      stringWithFormat:
+          @"GADMAdapterMyTargetNative asked to load an interstitial ad. This should never happen."];
+  NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+      GADMAdapterMyTargetErrorUnsupportedAdFormat, description);
+  [strongConnector adapter:self didFailAd:error];
 }
 
 - (void)stopBeingDelegate {
@@ -109,10 +113,12 @@
   if (!strongConnector) {
     return;
   }
-
-  [strongConnector adapter:self
-                 didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(
-                               kGADMAdapterMyTargetErrorInterstitialNotSupported)];
+  NSString *description = [NSString
+      stringWithFormat:
+          @"GADMAdapterMyTargetNative asked to show an interstitial ad. This should never happen."];
+  NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+      GADMAdapterMyTargetErrorUnsupportedAdFormat, description);
+  [strongConnector adapter:self didFailAd:error];
 }
 
 - (void)getNativeAdWithAdTypes:(nonnull NSArray<GADAdLoaderAdType> *)adTypes
@@ -125,10 +131,9 @@
 
   NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(strongConnector.credentials);
   if (slotId <= 0) {
-    MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
-    [strongConnector
-          adapter:self
-        didFailAd:GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId)];
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorInvalidServerParameters, @"Slot ID cannot be nil.");
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
 
@@ -143,7 +148,7 @@
         (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
     if (imageOptions.disableImageLoading) {
       _autoLoadImages = NO;
-      cachePolicy = cachePolicy & ~MTRGCachePolicyImages;
+      cachePolicy = MTRGCachePolicyVideo;
       break;
     }
   }
@@ -151,7 +156,7 @@
   _nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
   _nativeAd.delegate = self;
   _nativeAd.cachePolicy = cachePolicy;
-  GADMAdapterMyTargetFillCustomParams(_nativeAd.customParams, strongConnector);
+  GADMAdapterMyTargetFillCustomParams(_nativeAd.customParams, strongConnector.networkExtras);
   [_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                   forKey:kMTRGCustomParamsMediationKey];
   [_nativeAd load];
@@ -182,10 +187,10 @@
                                     autoLoadImages:_autoLoadImages
                                        mediaAdView:_mediaAdView];
   if (!_mediatedUnifiedNativeAd) {
-    MTRGLogError(kGADMAdapterMyTargetErrorMediatedAdInvalid);
-    [strongConnector adapter:self
-                   didFailAd:GADMAdapterMyTargetSDKErrorWithDescription(
-                                 kGADMAdapterMyTargetErrorMediatedAdInvalid)];
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorMissingNativeAssets, @"Missing required native ad assets.");
+
+    [strongConnector adapter:self didFailAd:error];
     return;
   }
   [strongConnector adapter:self didReceiveMediatedUnifiedNativeAd:_mediatedUnifiedNativeAd];
@@ -198,7 +203,8 @@
     return;
   }
 
-  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
+  NSError *error =
+      GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorNoFill, reason);
   [strongConnector adapter:self didFailAd:error];
 }
 
@@ -230,8 +236,6 @@
 
 - (void)onLeaveApplicationWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  [GADMediatedUnifiedNativeAdNotificationSource
-      mediatedNativeAdWillLeaveApplication:_mediatedUnifiedNativeAd];
 }
 
 - (void)onVideoPlayWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {

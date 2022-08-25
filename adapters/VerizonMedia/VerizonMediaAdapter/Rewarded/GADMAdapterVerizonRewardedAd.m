@@ -7,11 +7,11 @@
 #import "GADMAdapterVerizonRewardedAd.h"
 
 #import <VerizonAdsInterstitialPlacement/VerizonAdsInterstitialPlacement.h>
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 
+#include <stdatomic.h>
 #import "GADMAdapterVerizonConstants.h"
-#import "GADMVerizonPrivacy_Internal.h"
 #import "GADMAdapterVerizonUtils.h"
+#import "GADMVerizonPrivacy_Internal.h"
 
 NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
@@ -20,14 +20,14 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 @end
 
 @implementation GADMAdapterVerizonRewardedAd {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationRewardedLoadCompletionHandler _rewardedCompletionHandler;
+
   /// Verizon media rewarded ad.
   VASInterstitialAd *_rewardedAd;
 
   /// Placement ID string used to request ads from Verizon Ads SDK.
   NSString *_placementID;
-
-  /// The completion handler to call when the ad loading succeeds or fails.
-  GADMediationRewardedLoadCompletionHandler _rewardedCompletionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
@@ -44,21 +44,38 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfig
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)handler {
+  // Store the ad config and completion handler for later use.
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [handler copy];
+  _rewardedCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+      _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationRewardedAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
   _adConfiguration = adConfig;
-    
+
   NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
-  GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
-    
-  _placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
+  BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
+  if (!isInitialized) {
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInitialization, @"Verizon SDK failed to initialize.");
+    handler(nil, error);
+    return;
+  }
+
+  _placementID = credentials[GADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
-    NSError *error = [NSError
-        errorWithDomain:kGADErrorDomain
-                   code:kGADErrorMediationAdapterError
-               userInfo:@{
-                 NSLocalizedDescriptionKey : @"Verizon adapter was not intialized properly."
-               }];
+    NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
+        GADMAdapterVerizonErrorInvalidServerParameters, @"Placement ID cannot be nil");
     handler(nil, error);
     return;
   }
@@ -93,13 +110,16 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator.
-  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", GADMAdapterVerizonMediaVersion];
 
   VASAds.sharedInstance.requestMetadata = [builder build];
 }
 
 - (void)setCoppaFromAdConfiguration {
-  VASAds.sharedInstance.COPPA = _adConfiguration.childDirectedTreatment;
+  VASDataPrivacyBuilder *builder =
+      [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  builder.coppa.applies = [_adConfiguration.childDirectedTreatment boolValue];
+  VASAds.sharedInstance.dataPrivacy = [builder build];
 }
 
 - (void)dealloc {
@@ -119,7 +139,6 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   dispatch_async(dispatch_get_main_queue(), ^{
     self->_rewardedAd = interstitialAd;
     self->_adEventDelegate = self->_rewardedCompletionHandler(self, nil);
-    self->_rewardedCompletionHandler = nil;
   });
 }
 
@@ -127,24 +146,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
              didFailWithError:(nonnull VASErrorInfo *)errorInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     self->_rewardedCompletionHandler(nil, errorInfo);
-    self->_rewardedCompletionHandler = nil;
   });
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested
-                  numReceived:(NSInteger)numReceived {
-  // Unused.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-    cacheUpdatedWithCacheSize:(NSInteger)cacheSize {
-  // Unused.
-}
-
-- (void)interstitialAdFactory:(nonnull VASInterstitialAdFactory *)adFactory
-      cacheLoadedNumRequested:(NSInteger)numRequested {
-  // Unused.
 }
 
 #pragma mark - VASInterstitialAdDelegate
@@ -187,10 +189,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   if ([eventId isEqualToString:GADMAdapterVerizonVideoCompleteEventId] &&
       !_isVideoCompletionEventCalled) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      GADAdReward *reward =
-          [[GADAdReward alloc] initWithRewardType:@""
-                                     rewardAmount:[[NSDecimalNumber alloc] initWithInteger:1]];
-      [self->_adEventDelegate didRewardUserWithReward:reward];
+      [self->_adEventDelegate didRewardUser];
       self->_isVideoCompletionEventCalled = YES;
     });
   }

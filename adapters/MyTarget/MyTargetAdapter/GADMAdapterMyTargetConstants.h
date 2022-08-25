@@ -12,38 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CGBase.h>
+
 /// myTarget mediation network adapter version.
-static NSString *const _Nonnull kGADMAdapterMyTargetVersion = @"5.7.5.0";
+extern NSString *const _Nonnull GADMAdapterMyTargetVersion;
 
 /// myTarget mediation network adapter slot ID server parameter key.
-static NSString *const _Nonnull kGADMAdapterMyTargetSlotIdKey = @"slotId";
+extern NSString *const _Nonnull GADMAdapterMyTargetSlotIdKey;
 
 /// Error domain for myTarget adapter specific errors.
-static NSString *const _Nonnull kGADMAdapterMyTargetAdapterErrorDomain =
-    @"com.google.mediation.mytarget";
+extern NSString *const _Nonnull GADMAdapterMyTargetAdapterErrorDomain;
 
 /// Error domain for myTarget SDK specific errors.
-static NSString *const _Nonnull kGADMAdapterMyTargetSDKErrorDomain =
-    @"com.google.mediation.mytargetSDK";
+extern NSString *const _Nonnull GADMAdapterMyTargetSDKErrorDomain;
 
 /// Error message for missing myTarget slot ID.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorSlotId =
-    @"Invalid credentials: slotId not found";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorSlotId;
 
 /// Error message for myTarget no fills.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorNoAd = @"No ad";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorNoAd;
 
 /// Error message for missing required native ad assets.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorMediatedAdInvalid =
-    @"Some of the Always Included assets are not available for the ad";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorMediatedAdInvalid;
 
 /// Error message for requesting a banner ad format through the incorrect adapter class.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorBannersNotSupported =
-    @"Banners are not supported by this adapter";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorBannersNotSupported;
 
 /// Error message for requesting an interstitial ad format through the incorrect adapter class.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorInterstitialNotSupported =
-    @"Interstitial ads are not supported by this adapter";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorInterstitialNotSupported;
 
 /// Error message for requesting a banner ad with an unsupported ad size.
-static NSString *const _Nonnull kGADMAdapterMyTargetErrorInvalidSize = @"Size not supported";
+extern NSString *const _Nonnull GADMAdapterMyTargetErrorInvalidSize;
+
+/// Mininum supported height of myTarget banner.
+extern CGFloat const GADMAdapterMyTargetBannerHeightMin;
+
+/// Mininum supported aspect ratio of myTarget banner.
+extern CGFloat const GADMAdapterMyTargetBannerAspectRatioMin;

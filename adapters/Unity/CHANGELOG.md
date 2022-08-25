@@ -1,25 +1,147 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-####  Next Version
-- Added support for Adaptive Banner ads.
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 
-#### Version 3.4.8.0
-- Verified compatibility with unity ads SDK 3.4.8.
+#### [Version 4.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.3.0.0.zip)
+- Verified compatibility with Unity Ads SDK 4.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.8.0.
+- Unity Ads SDK version 4.3.0.
+
+#### [Version 4.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.2.1.0.zip)
+- Verified compatibility with Unity Ads SDK 4.2.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.4.0.
+- Unity Ads SDK version 4.2.1.
+
+#### [Version 4.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.1.0.0.zip)
+- Verified compatibility with Unity Ads SDK 4.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.2.0.
+- Unity Ads SDK version 4.1.0.
+
+#### [Version 4.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.0.1.0.zip)
+- Verified compatibility with Unity Ads SDK 4.0.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.0.0.
+- Unity Ads SDK version 4.0.1.
+
+#### [Version 4.0.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.0.0.2.zip)
+- Added support for the arm64 simulator architecture.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.0.0.
+- Unity Ads SDK version 4.0.0.
+
+#### [Version 4.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.0.0.1.zip)
+- Verified compatibility with Google Mobile Ads SDK version 9.0.0.
+- Now requires Google Mobile Ads SDK version 9.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.0.0.
+- Unity Ads SDK version 4.0.0.
+
+#### [Version 4.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.0.0.0.zip)
+- Verified compatibility with Unity Ads SDK 4.0.0.
+- Now requires minimum iOS version 10.0.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.13.0.
+- Unity Ads SDK version 4.0.0.
+
+#### [Version 3.7.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.7.5.0.zip)
+- Verified compatibility with Unity Ads SDK 3.7.5.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.8.0.
+- Unity Ads SDK version 3.7.5.
+
+#### [Version 3.7.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.7.4.0.zip)
+- Verified compatibility with Unity Ads SDK 3.7.4.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.7.0.
+- Unity Ads SDK version 3.7.4.
+
+#### [Version 3.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.7.2.0.zip)
+- Verified compatibility with Unity Ads SDK 3.7.2.
+- Relaxed dependency to Google Mobile Ads SDK version 8.0.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.5.0.
+- Unity Ads SDK version 3.7.2.
+
+#### [Version 3.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.7.1.0.zip)
+- Verified compatibility with Unity Ads SDK 3.7.1.
+- Now requires Google Mobile Ads SDK version 8.4.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.4.0.
+- Unity Ads SDK version 3.7.1.
+
+#### [Version 3.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.6.2.0.zip)
+- Updated the adapter to use the `.xcframework` format.
+- Verified compatibility with Unity Ads SDK 3.6.2.
+- Now requires Google Mobile Ads SDK version 8.2.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 8.2.0.
+- Unity Ads SDK version 3.6.2.
+
+#### [Version 3.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.6.0.0.zip)
+- Verified compatibility with Unity Ads SDK 3.6.0.
+- Now requires Google Mobile Ads SDK version 7.69.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.69.0.
+- Unity Ads SDK version 3.6.0.
+
+#### [Version 3.5.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.5.1.1.zip)
+- Fixed a crash that sometimes occurred when the Unity Ads SDK finished initializing.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.68.0.
+- Unity Ads SDK version 3.5.1.
+
+#### [Version 3.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.5.1.0.zip)
+- Verified compatibility with Unity Ads SDK 3.5.1.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.68.0.
+- Unity Ads SDK version 3.5.1.
+
+#### [Version 3.5.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.5.0.0.zip)
+- Verified compatibility with Unity Ads SDK 3.5.0.
+- Added support for Adaptive Banner ads.
+- Now requires Google Mobile Ads SDK version 7.68.0 or higher.
+
+Built and tested with
+- Google Mobile Ads SDK version 7.68.0.
+- Unity Ads SDK version 3.5.0.
+
+#### [Version 3.4.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.4.8.0.zip)
+- Verified compatibility with Unity Ads SDK 3.4.8.
 - Now requires Google Mobile Ads SDK version 7.63.0 or higher.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.63.0.
 - Unity Ads SDK version 3.4.8.
 
-#### Version 3.4.6.0
-- Verified compatibility with unity ads SDK 3.4.6.
+#### [Version 3.4.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.4.6.0.zip)
+- Verified compatibility with Unity Ads SDK 3.4.6.
 - Now requires Google Mobile Ads SDK version 7.60.0 or higher.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.60.0.
 - Unity Ads SDK version 3.4.6.
 
-#### Version 3.4.2.2
+#### [Version 3.4.2.2](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-3.4.2.2.zip)
 - Added standardized adapter error codes and messages.
 - Updated the minimum required Google Mobile Ads SDK version to 7.59.0.
 
@@ -36,14 +158,14 @@ Built and tested with
 - Unity Ads SDK version 3.4.2.
 
 #### Version 3.4.2.0
-- Verified compatibility with unity ads SDK 3.4.2.
+- Verified compatibility with Unity Ads SDK 3.4.2.
 
 Built and tested with
 - Google Mobile Ads SDK version 7.55.1.
 - Unity Ads SDK version 3.4.2.
 
 #### Version 3.4.0.0
-- Verified compatibility with unity ads SDK 3.4.0.
+- Verified compatibility with Unity Ads SDK 3.4.0.
 - Now supports loading multiple banner ads at once.
 
 Built and tested with
@@ -51,7 +173,7 @@ Built and tested with
 - Unity Ads SDK version 3.4.0.
 
 #### Version 3.3.0.0
-- Verified compatibility with unity ads SDK 3.3.0.
+- Verified compatibility with Unity Ads SDK 3.3.0.
 - Now supports loading multiple banner ads at once.
 
 Built and tested with

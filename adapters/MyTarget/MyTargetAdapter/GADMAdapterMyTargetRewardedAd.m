@@ -22,7 +22,7 @@
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetUtils.h"
 
-@interface GADMAdapterMyTargetRewardedAd () <MTRGInterstitialAdDelegate>
+@interface GADMAdapterMyTargetRewardedAd () <MTRGRewardedAdDelegate>
 @end
 
 @implementation GADMAdapterMyTargetRewardedAd {
@@ -38,7 +38,7 @@
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// myTarget rewarded ad object.
-  MTRGInterstitialAd *_rewardedAd;
+  MTRGRewardedAd *_rewardedAd;
 }
 
 BOOL _isRewardedAdLoaded;
@@ -85,17 +85,16 @@ BOOL _isRewardedAdLoaded;
 
   NSUInteger slotId = GADMAdapterMyTargetSlotIdFromCredentials(credentials);
   if (slotId <= 0) {
-    MTRGLogError(kGADMAdapterMyTargetErrorSlotId);
-    NSError *error =
-        GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorSlotId);
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorInvalidServerParameters, @"Slot ID cannot be nil.");
     _completionHandler(nil, error);
     return;
   }
 
   _isRewardedAdLoaded = NO;
-  _rewardedAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
+  _rewardedAd = [MTRGRewardedAd rewardedAdWithSlotId:slotId];
   _rewardedAd.delegate = self;
-  // INFO: This is where you can pass customParams if you want to send any.
+  GADMAdapterMyTargetFillCustomParams(_rewardedAd.customParams, _adConfiguration.extras);
   [_rewardedAd load];
 }
 
@@ -103,57 +102,54 @@ BOOL _isRewardedAdLoaded;
   MTRGLogInfo();
 
   if (!_isRewardedAdLoaded || !_rewardedAd) {
-    NSError *error = GADMAdapterMyTargetAdapterErrorWithDescription(kGADMAdapterMyTargetErrorNoAd);
+    NSError *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorAdNotLoaded, @"No Ad loaded.");
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
   [_rewardedAd showWithController:viewController];
 }
 
-#pragma mark - MTRGInterstitialAdDelegate
+#pragma mark - MTRGRewardedAdDelegate
 
-- (void)onLoadWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onLoadWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   _isRewardedAdLoaded = YES;
   _adEventDelegate = _completionHandler(self, nil);
 }
 
 - (void)onNoAdWithReason:(nonnull NSString *)reason
-          interstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+              rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   MTRGLogError(reason);
-  NSError *error = GADMAdapterMyTargetSDKErrorWithDescription(reason);
+  NSError *error =
+      GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorNoFill, reason);
   _completionHandler(nil, error);
 }
 
-- (void)onClickWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onClickWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate reportClick];
 }
 
-- (void)onCloseWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onCloseWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onReward:(nonnull MTRGReward *)reward rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didEndVideo];
-
-  NSString *rewardType = @"";                           // Must not be nil.
-  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // Must not be nil.
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType
-                                                     rewardAmount:rewardAmount];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
-- (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onDisplayWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate willPresentFullScreenView];
   [_adEventDelegate didStartVideo];
 }
 
-- (void)onLeaveApplicationWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
+- (void)onLeaveApplicationWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   // Do nothing. The Google Mobile Ads SDK does not have an equivalent callback.
 }
 

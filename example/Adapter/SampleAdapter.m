@@ -45,9 +45,6 @@
   /// Native ad view options.
   GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
 
-  /// Native ad types requested.
-  NSArray<GADAdLoaderAdType> *_nativeAdTypes;
-
   /// Handles any callback when the sample rewarded ad finishes loading.
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
 
@@ -112,33 +109,6 @@
 
   SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
 
-  // Part of the adapter's job is to examine the ad types and options, and then create a request for
-  // the mediated network's SDK that matches them.
-  //
-  // Care needs to be taken to make sure the adapter respects the publisher's wishes in regard to
-  // native ad formats. For example, if your ad network only provides app install ads, and the
-  // publisher requests content ads alone, the adapter must report an error by calling the
-  // connector's adapter:didFailAd: method with an error code set to kGADErrorInvalidRequest. It
-  // should *not* request an app install ad anyway, and then attempt to map it to the content ad
-  // format.
-  //
-  // In the case where an SDK doesn't distinguish between these ad types, this is not relevant.
-  // For example, the Admob SDK now supports the unified native ad type, which covers both the app
-  // install and content ad ad types.
-  BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
-
-  if (!requestedUnified) {
-    NSString *description = @"You must request a unified native ad.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error = [NSError errorWithDomain:@"com.google.mediation.sample"
-                                         code:0
-                                     userInfo:userInfo];
-    [_connector adapter:self didFailAd:error];
-    return;
-  }
-  _nativeAdTypes = adTypes;
-
   // The Google Mobile Ads SDK requires the image assets to be downloaded automatically unless the
   // publisher specifies otherwise by using the GADNativeAdImageAdLoaderOptions object's
   // disableImageLoading property. If your network doesn't have an option like this and instead only
@@ -155,24 +125,25 @@
     if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       GADNativeAdImageAdLoaderOptions *imageOptions =
           (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-      switch (imageOptions.preferredImageOrientation) {
-        case GADNativeAdImageAdLoaderOptionsOrientationLandscape:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationPortrait:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationAny:
-        default:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
-          break;
-      }
-
       sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
 
       // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
       // should send just the URLs for the images.
       sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    } else if ([loaderOptions isKindOfClass:[GADNativeAdMediaAdLoaderOptions class]]) {
+      GADNativeAdMediaAdLoaderOptions *mediaOptions =
+          (GADNativeAdMediaAdLoaderOptions *)loaderOptions;
+      switch (mediaOptions.mediaAspectRatio) {
+        case GADMediaAspectRatioLandscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
+          break;
+        case GADMediaAspectRatioPortrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
+          break;
+        default:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+          break;
+      }
     } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
       _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
     }
@@ -202,10 +173,6 @@
 
 - (GADNativeAdViewAdOptions *)nativeAdViewAdOptions {
   return _nativeAdViewAdOptions;
-}
-
-- (NSArray<GADAdLoaderAdType> *)adTypes {
-  return _nativeAdTypes;
 }
 
 #pragma mark GADMediationAdapter implementation
@@ -299,7 +266,7 @@
 
 - (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode {
   _loadCompletionHandler(nil, [NSError errorWithDomain:kAdapterErrorDomain
-                                                  code:kGADErrorNoFill
+                                                  code:GADErrorNoFill
                                               userInfo:nil]);
 }
 

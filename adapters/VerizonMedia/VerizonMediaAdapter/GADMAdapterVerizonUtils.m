@@ -16,7 +16,6 @@
 
 #import <VerizonAdsCore/VASAds+Private.h>
 #import <VerizonAdsCore/VASPEXRegistry.h>
-#import <VerizonAdsStandardEdition/VerizonAdsStandardEdition.h>
 #import <VerizonAdsURIExperience/VerizonAdsURIExperience.h>
 
 #import "GADMAdapterVerizonConstants.h"
@@ -31,14 +30,24 @@ void GADMAdapterVerizonMutableSetAddObject(NSMutableSet *_Nullable set, NSObject
 BOOL GADMAdapterVerizonInitializeVASAdsWithSiteID(NSString *_Nullable siteID) {
   if (![VASAds.sharedInstance isInitialized]) {
     if (!siteID.length) {
-      siteID = [NSBundle.mainBundle objectForInfoDictionaryKey:kGADMAdapterVerizonMediaSiteID];
+      siteID = [NSBundle.mainBundle objectForInfoDictionaryKey:GADMAdapterVerizonMediaSiteID];
     }
-    BOOL isInitialized = [VASStandardEdition initializeWithSiteId:siteID];
-    
+    BOOL isInitialized = [VASAds initializeWithSiteId:siteID];
+
     [GADMVerizonPrivacy.sharedInstance updatePrivacyData];
     VASAds.logLevel = VASLogLevelError;
-      
+
     return isInitialized;
   }
   return YES;
+}
+
+NSError *_Nonnull GADMAdapterVerizonErrorWithCodeAndDescription(GADMAdapterVerizonErrorCode code,
+                                                                NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:GADMAdapterVerizonMediaErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
 }

@@ -15,33 +15,32 @@
 #import "GADMAdapterIMobileUtils.h"
 #import "GADMAdapterIMobileConstants.h"
 
-/// Create NSError from descritption.
-NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(NSUInteger code,
+NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(GADMAdapterIMobileErrorCode code,
                                                                 NSString *_Nonnull description) {
-  NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description};
-  return [NSError errorWithDomain:kGADMAdapterIMobileErrorDomain code:code userInfo:userInfo];
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  return [NSError errorWithDomain:GADMAdapterIMobileErrorDomain code:code userInfo:userInfo];
 }
 
-/// Convert i-mobile fail result to AdMob error code.
-GADErrorCode GADMAdapterIMobileAdMobErrorFromIMobileResult(ImobileSdkAdsFailResult iMobileResult) {
-  switch (iMobileResult) {
-    case IMOBILESDKADS_ERROR_PARAM:
-    case IMOBILESDKADS_ERROR_AUTHORITY:
-      return kGADErrorInvalidArgument;
-    case IMOBILESDKADS_ERROR_RESPONSE:
-    case IMOBILESDKADS_ERROR_UNKNOWN:
-      return kGADErrorInternalError;
-    case IMOBILESDKADS_ERROR_NETWORK_NOT_READY:
-    case IMOBILESDKADS_ERROR_NETWORK:
-      return kGADErrorNetworkError;
-    case IMOBILESDKADS_ERROR_AD_NOT_READY:
-    case IMOBILESDKADS_ERROR_NOT_FOUND:
-      return kGADErrorNoFill;
-    case IMOBILESDKADS_ERROR_SHOW_TIMEOUT:
-      return kGADErrorTimeout;
-  }
+NSError *_Nonnull GADMAdapterIMobileErrorWithFailResultAndDescription(
+    ImobileSdkAdsFailResult failResult, NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  return [NSError errorWithDomain:GADMAdapterIMobileErrorDomain code:failResult userInfo:userInfo];
+}
 
-  return kGADErrorMediationAdapterError;
+void GADMAdapterIMobileMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
+                                               id<NSCopying> _Nullable key, id _Nullable value) {
+  if (value && key) {
+    [mapTable setObject:value forKey:key];  // Allow pattern.
+  }
+}
+
+void GADMAdapterIMobileMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
+                                                  id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
 }
 
 GADAdSize GADMAdapterIMobileAdSizeFromGADAdSize(GADAdSize gadAdSize) {

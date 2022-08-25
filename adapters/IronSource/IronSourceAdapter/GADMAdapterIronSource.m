@@ -38,7 +38,8 @@
 
 #pragma mark Admob GADMAdNetworkConnector
 
-- (instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
+- (nullable instancetype)initWithGADMAdNetworkConnector:
+    (nullable id<GADMAdNetworkConnector>)connector {
   if (!connector) {
     return nil;
   }
@@ -46,18 +47,18 @@
   if (self) {
     _interstitialConnector = connector;
     // Default instance ID
-    _instanceID = kGADMIronSourceDefaultInstanceId;
+    _instanceID = GADMIronSourceDefaultInstanceId;
     // Default instance state
-    _instanceState = kInstanceStateStart;
+    _instanceState = GADMAdapterIronSourceInstanceStateStart;
   }
   return self;
 }
 
-+ (NSString *)adapterVersion {
-  return kGADMAdapterIronSourceAdapterVersion;
++ (nonnull NSString *)adapterVersion {
+  return GADMAdapterIronSourceAdapterVersion;
 }
 
-+ (Class<GADAdNetworkExtras>)networkExtrasClass {
++ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return Nil;
 }
 
@@ -71,21 +72,19 @@
   self.isLogEnabled = strongConnector.testMode;
   /* Parse application key */
   NSString *applicationKey = @"";
-  if (credentials[kGADMAdapterIronSourceAppKey]) {
-    applicationKey = credentials[kGADMAdapterIronSourceAppKey];
+  if (credentials[GADMAdapterIronSourceAppKey]) {
+    applicationKey = credentials[GADMAdapterIronSourceAppKey];
   }
 
   /* Parse instance id key */
-  if (credentials[kGADMAdapterIronSourceInstanceId]) {
-    self.instanceID = credentials[kGADMAdapterIronSourceInstanceId];
+  if (credentials[GADMAdapterIronSourceInstanceId]) {
+    self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-    NSError *error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"IronSource Adapter failed to get interstitial"
-              andReason:@"'appKey' parameter is missing"
-          andSuggestion:@"make sure that 'appKey' server parameter is added"];
-
+    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+        GADMAdapterIronSourceErrorInvalidServerParameters,
+        @"'appKey' parameter is missing. Make sure that 'appKey' server parameter is added.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -117,10 +116,9 @@
 
 - (void)showBannersNotSupportedError {
   // IronSource Adapter doesn't support banner ads.
-  NSError *error =
-      [GADMAdapterIronSourceUtils createErrorWith:@"IronSource Adapter doesn't support banner ads"
-                                        andReason:@""
-                                    andSuggestion:@""];
+  NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+      GADMAdapterIronSourceErrorAdFormatNotSupported,
+      @"IronSource Adapter doesn't support banner ads.");
   [_interstitialConnector adapter:self didFailAd:error];
 }
 
@@ -142,24 +140,11 @@
 /// Called after an interstitial has attempted to load but failed. You can learn about the reason by
 /// examining the |error| value.
 - (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
-  NSString *log =
-      [NSString stringWithFormat:
-                    @"IronSource interstitial ad did fail to load with error: %@, for instance: %@",
-                    error.localizedDescription, instanceId];
-  [GADMAdapterIronSourceUtils onLog:log];
-
   // We will notify only changes regarding to the registered instance.
   if (![self.instanceID isEqualToString:instanceId]) {
     return;
   }
 
-  if (!error) {
-    error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"Network load error"
-              andReason:@"IronSource network failed to load"
-          andSuggestion:
-              @"Check that your network configuration are according to the documentation."];
-  }
   [_interstitialConnector adapter:self didFailAd:error];
 }
 
@@ -190,13 +175,6 @@
                                        @"%@, for instance: %@",
                                        error.localizedDescription, instanceId]];
 
-  if (!error) {
-    error = [GADMAdapterIronSourceUtils
-        createErrorWith:@"Interstitial show error"
-              andReason:@"IronSource network failed to show an interstitial ad"
-          andSuggestion:
-              @"Please check that your configurations are according to the documentation."];
-  }
   id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];

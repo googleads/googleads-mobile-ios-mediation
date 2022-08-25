@@ -21,6 +21,7 @@
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendUtils.h"
+#import "GADMediationAdapterNend.h"
 
 @interface GADMAdapterNendRewardedAd () <NADRewardedVideoDelegate>
 
@@ -69,17 +70,17 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *spotId = _adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
-  NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
+  NSString *spotId = _adConfiguration.credentials.settings[GADMAdapterNendSpotID];
+  NSString *apiKey = _adConfiguration.credentials.settings[GADMAdapterNendApiKey];
   if (!spotId.length || !apiKey.length) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"SpotID and apiKey must not be nil");
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
     _completionHandler(nil, error);
     return;
   }
 
   _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotID:spotId.integerValue apiKey:apiKey];
-  _rewardedVideo.mediationName = kGADMAdapterNendMediationName;
+  _rewardedVideo.mediationName = GADMAdapterNendMediationName;
 
   GADMAdapterNendExtras *extras = _adConfiguration.extras;
   if (extras) {
@@ -95,7 +96,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (!_rewardedVideo.isReady) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
-        kGADErrorInternalError, @"The rewarded ad is not ready to be shown.");
+        GADMAdapterNendErrorShowAdNotReady, @"The rewarded ad is not ready to be shown.");
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
@@ -142,15 +143,11 @@
 
 - (void)nadRewardVideoAd:(nonnull NADRewardedVideo *)nadRewardedVideoAd
                didReward:(NADReward *)reward {
-  NSDecimalNumber *amount = [NSDecimalNumber
-      decimalNumberWithDecimal:[NSNumber numberWithInteger:reward.amount].decimalValue];
-  GADAdReward *gadReward = [[GADAdReward alloc] initWithRewardType:reward.name rewardAmount:amount];
-  [_adEventDelegate didRewardUserWithReward:gadReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)nadRewardVideoAdDidFailedToPlay:(nonnull NADRewardedVideo *)nadRewardedVideoAd {
-  NSError *error =
-      GADMAdapterNendErrorWithCodeAndDescription(kGADErrorInternalError, @"No ads to show.");
+  NSError *error = GADMAdapterNendSDKPresentError();
   [_adEventDelegate didFailToPresentWithError:error];
 }
 

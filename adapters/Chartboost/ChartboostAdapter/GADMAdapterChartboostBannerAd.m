@@ -56,54 +56,74 @@
     return;
   }
 
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
+    NSString *logMessage = [NSString
+        stringWithFormat:
+            @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
+            GADMAdapterChartboostMinimumOSVersion];
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
+  NSString *appID = [strongConnector.credentials[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [strongConnector.credentials[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADChartboostErrorWithDescription(@"App ID & App Signature cannot be nil.");
-    NSLog(@"Failed to load banner ad from Chartboost: %@", error.localizedDescription);
+    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+        GADMAdapterChartboostErrorInvalidServerParameters,
+        @"App ID and/or App Signature cannot be nil.");
+    [strongConnector adapter:strongAdapter didFailAd:error];
+    return;
+  }
+
+  // Convert requested size to Chartboost Ad Size.
+  NSError *error = nil;
+  CHBBannerSize chartboostAdSize = GADMAdapterChartboostBannerSizeFromAdSize(adSize, &error);
+  if (error) {
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [Chartboost
-      startWithAppId:appID
-        appSignature:appSignature
-          completion:^(BOOL success) {
-            // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the main
-            // thread.
-            dispatch_async(dispatch_get_main_queue(), ^{
-              GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
-              if (!strongSelf || !strongConnector) {
-                return;
-              }
+  [Chartboost startWithAppId:appID
+                appSignature:appSignature
+                  completion:^(BOOL success) {
+                    // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the
+                    // main thread.
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                      GADMAdapterChartboostBannerAd *strongSelf = weakSelf;
+                      if (!strongSelf || !strongConnector) {
+                        return;
+                      }
 
-              if (!success) {
-                NSError *error =
-                    GADChartboostErrorWithDescription(@"Failed to initialize Chartboost SDK.");
-                NSLog(@"%@", error.localizedDescription);
-                [strongConnector adapter:strongAdapter didFailAd:error];
-                return;
-              }
+                      if (!success) {
+                        NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
+                            GADMAdapterChartboostErrorInitializationFailure,
+                            @"Failed to initialize Chartboost SDK.");
+                        [strongConnector adapter:strongAdapter didFailAd:error];
+                        return;
+                      }
 
-              GADMChartboostExtras *extras = [strongConnector networkExtras];
-              if (extras) {
-                [Chartboost setFramework:extras.framework withVersion:extras.frameworkVersion];
-              }
+                      GADMChartboostExtras *extras = [strongConnector networkExtras];
+                      if (extras) {
+                        [Chartboost setFramework:extras.framework
+                                     withVersion:extras.frameworkVersion];
+                      }
 
-              CHBMediation *mediation = GADMAdapterChartboostMediation();
-              strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:adSize.size
-                                                             location:adLocation
-                                                            mediation:mediation
-                                                             delegate:strongSelf];
-              strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
-              [strongSelf->_bannerAd cache];
-            });
-          }];
+                      CHBMediation *mediation = GADMAdapterChartboostMediation();
+                      strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:chartboostAdSize
+                                                                     location:adLocation
+                                                                    mediation:mediation
+                                                                     delegate:strongSelf];
+                      strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
+                      [strongSelf->_bannerAd cache];
+                    });
+                  }];
 }
 
 #pragma mark - CHBBannerDelegate methods
@@ -116,7 +136,7 @@
   }
 
   if (error) {
-    NSError *loadError = NSErrorForCHBCacheError(error);
+    NSError *loadError = GADMChartboostErrorForCHBCacheError(error);
     NSLog(@"Failed to load banner ad from Chartboost: %@", loadError.localizedDescription);
     [strongConnector adapter:strongAdapter didFailAd:loadError];
     return;
@@ -129,7 +149,7 @@
 
 - (void)didShowAd:(nonnull CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
-    NSError *showError = NSErrorForCHBShowError(error);
+    NSError *showError = GADMChartboostErrorForCHBShowError(error);
     NSLog(@"An error occurred when showing the Chartboost banner ad: %@",
           showError.localizedDescription);
   }
@@ -144,7 +164,7 @@
 
   [strongConnector adapterDidGetAdClick:strongAdapter];
   if (error) {
-    NSError *clickError = NSErrorForCHBClickError(error);
+    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
     NSLog(@"An error occurred when clicking the Chartboost banner ad: %@",
           clickError.localizedDescription);
     return;
@@ -155,7 +175,7 @@
 - (void)didFinishHandlingClick:(nonnull CHBClickEvent *)event
                          error:(nullable CHBClickError *)error {
   if (error) {
-    NSError *clickError = NSErrorForCHBClickError(error);
+    NSError *clickError = GADMChartboostErrorForCHBClickError(error);
     NSLog(@"An error occurred when the Chartboost banner ad was clicked: %@",
           clickError.localizedDescription);
   }

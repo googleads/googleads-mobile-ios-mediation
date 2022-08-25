@@ -15,6 +15,19 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADMAdapterChartboostErrorCode) {
+  /// Missing server parameters.
+  GADMAdapterChartboostErrorInvalidServerParameters = 101,
+  /// The Chartboost SDK returned an initialization error.
+  GADMAdapterChartboostErrorInitializationFailure = 102,
+  /// The Chartboost  Ad is not cached at show time.
+  GADMAdapterChartboostErrorAdNotCached = 103,
+  /// Banner Size Mismatch.
+  GADMAdapterChartboostErrorBannerSizeMismatch = 104,
+  /// Device's OS version is lower than Chartboost SDK's minimum supported OS version.
+  GADMAdapterChartboostErrorMinimumOSVersion = 105
+};
+
 @interface GADMediationAdapterChartboost : NSObject <GADMediationAdapter>
 
 @end

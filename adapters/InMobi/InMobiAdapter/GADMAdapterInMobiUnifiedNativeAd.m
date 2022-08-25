@@ -83,7 +83,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
     _shouldDownloadImages = !imageOptions.disableImageLoading;
   }
 
-  NSString *accountID = strongConnector.credentials[kGADMAdapterInMobiAccountID];
+  NSString *accountID = strongConnector.credentials[GADMAdapterInMobiAccountID];
   GADMAdapterInMobiUnifiedNativeAd *__weak weakSelf = self;
   [GADMAdapterInMobiInitializer.sharedInstance
       initializeWithAccountID:accountID
@@ -111,7 +111,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   long long placementId =
-      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+      [strongConnector.credentials[GADMAdapterInMobiPlacementID] longLongValue];
   if (placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,
@@ -345,6 +345,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return 0;
 }
 
+/// InMobi SDK doesn't have an AdChoices view.
+- (nullable UIView *)adChoicesView {
+  return nil;
+}
+
 - (nullable NSString *)store {
   NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
   if (!landingURL.length) {
@@ -395,7 +400,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return _aspectRatio;
 }
 
-- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
   if (_native) {
@@ -405,11 +410,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  GADUnifiedNativeAdView *adView = (GADUnifiedNativeAdView *)view;
+  GADNativeAdView *adView = (GADNativeAdView *)view;
   GADMediaView *mediaView = adView.mediaView;
   UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
   [mediaView addSubview:primaryView];

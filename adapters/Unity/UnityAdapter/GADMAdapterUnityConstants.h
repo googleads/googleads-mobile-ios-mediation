@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2020 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,15 @@ static NSString *const GADMAdapterUnityErrorDomain = @"com.google.mediation.unit
 static NSString *const GADMAdapterUnitySDKErrorDomain = @"com.google.mediation.unitySDK";
 
 /// Unity Ads game ID.
-static NSString *const kGADMAdapterUnityGameID = @"gameId";
+static NSString *const GADMAdapterUnityGameID = @"gameId";
 
 /// Unity Ads placement ID.
 /// Unity Ads has moved from zoneId to placementId, but to keep backward compatibility, we are still
 /// using zoneId as a value.
-static NSString *const kGADMAdapterUnityPlacementID = @"zoneId";
+static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const kGADMAdapterUnityVersion = @"3.4.8.0";
+static NSString *const GADMAdapterUnityVersion = @"4.3.0.0";
 
 /// Ad mediation network name.
-static NSString *const kGADMAdapterUnityMediationNetworkName = @"AdMob";
+static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";

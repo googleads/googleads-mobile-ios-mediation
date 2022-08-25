@@ -41,4 +41,8 @@
 
 @property(nonatomic, copy, readonly) NSString *_Nonnull UUID;
 
+@property (nonatomic, readonly, assign) BOOL muteIsSet;
+
+@property (nonatomic, assign) NSInteger nativeAdOptionPosition;
+
 @end

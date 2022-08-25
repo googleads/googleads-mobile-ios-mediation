@@ -13,13 +13,13 @@
 // limitations under the License.
 
 /// Adapter version string.
-static NSString *const kGADMAdapterInMobiVersion = @"9.0.7.2";
+static NSString *const GADMAdapterInMobiVersion = @"10.0.7.0";
 
 /// InMobi SDK key.
-static NSString *const kGADMAdapterInMobiAccountID = @"accountid";
+static NSString *const GADMAdapterInMobiAccountID = @"accountid";
 
 /// InMobi placement identifier.
-static NSString *const kGADMAdapterInMobiPlacementID = @"placementid";
+static NSString *const GADMAdapterInMobiPlacementID = @"placementid";
 
 /// InMobi adapter error domain.
-static NSString *const kGADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";
+static NSString *const GADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";

@@ -50,7 +50,9 @@ page.
 # Downloads
 
 For prebuilt versions of these adapters, see our
-[Bintray repository](https://bintray.com/google/mobile-ads-adapters-ios).
+[mediation developer site](https://developers.google.com/admob/ios/mediate#mediation-networks). 
+Select an individual ad network's guide, and look for download links in the
+Changelog. The ad network guides also explain how to include adapters via CocoaPods.
 
 # Documentation
 

@@ -18,41 +18,119 @@
 //
 
 #import "SampleCustomEventNativeAd.h"
-#import "SampleMediatedNativeAd.h"
+#include <stdatomic.h>
+#import "SampleCustomEventConstants.h"
+#import "SampleCustomEventUtils.h"
 
-/// Constant for Sample Ad Network custom event error domain.
-static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
+#import <Foundation/Foundation.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
-@interface SampleCustomEventNativeAd () <SampleNativeAdLoaderDelegate> {
+@interface SampleCustomEventNativeAd () <SampleNativeAdLoaderDelegate, GADMediationNativeAd> {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
+
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationNativeAdEventDelegate> _adEventDelegate;
+
   /// Native ad view options.
   GADNativeAdViewAdOptions *_nativeAdViewAdOptions;
+
+  /// The native ad object
+  SampleNativeAd *_nativeAd;
 }
 
 @end
 
 @implementation SampleCustomEventNativeAd
 
-@synthesize delegate;
+/// Used to store the ad's images. In order to implement the GADMediationNativeAd protocol, we use
+/// this class to return the images property.
+NSArray<GADNativeAdImage *> *_images;
 
-- (void)requestNativeAdWithParameter:(NSString *)serverParameter
-                             request:(GADCustomEventRequest *)request
-                             adTypes:(NSArray *)adTypes
-                             options:(NSArray *)options
-                  rootViewController:(UIViewController *)rootViewController {
-  BOOL requestedUnified = [adTypes containsObject:kGADAdLoaderAdTypeUnifiedNative];
+/// Used to store the ad's icon. In order to implement the GADMediationNativeAd protocol, we use
+/// this class to return the icon property.
+GADNativeAdImage *_icon;
 
-  // This custom event assumes you have implemented unified native advanced in your app as is done
-  // in this sample.
+/// Used to store the ad's ad choices view. In order to implement the GADMediationNativeAd protocol,
+/// we use this class to return the adChoicesView property.
+UIView *_adChoicesView;
 
-  if (!requestedUnified) {
-    NSString *description = @"You must request the unified native ad format.";
-    NSDictionary *userInfo =
-        @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error =
-        [NSError errorWithDomain:@"com.google.mediation.sample" code:0 userInfo:userInfo];
-    [self.delegate customEventNativeAd:self didFailToLoadWithError:error];
-    return;
-  }
+- (nullable NSString *)headline {
+  return _nativeAd.headline;
+}
+
+- (nullable NSArray<GADNativeAdImage *> *)images {
+  return _images;
+}
+
+- (nullable NSString *)body {
+  return _nativeAd.body;
+}
+
+- (nullable GADNativeAdImage *)icon {
+  return _icon;
+}
+
+- (nullable NSString *)callToAction {
+  return _nativeAd.callToAction;
+}
+
+- (nullable NSDecimalNumber *)starRating {
+  return _nativeAd.starRating;
+}
+
+- (nullable NSString *)store {
+  return _nativeAd.store;
+}
+
+- (nullable NSString *)price {
+  return _nativeAd.price;
+}
+
+- (nullable NSString *)advertiser {
+  return _nativeAd.advertiser;
+}
+
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
+  return @{SampleCustomEventExtraKeyAwesomeness : _nativeAd.degreeOfAwesomeness};
+}
+
+- (nullable UIView *)adChoicesView {
+  return _adChoicesView;
+}
+
+- (nullable UIView *)mediaView {
+  return _nativeAd.mediaView;
+}
+
+- (BOOL)hasVideoContent {
+  return self.mediaView != nil;
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+
+  _loadCompletionHandler = ^id<GADMediationNativeAdEventDelegate>(
+      _Nullable id<GADMediationNativeAd> ad, NSError *_Nullable error) {
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationNativeAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
 
   SampleNativeAdLoader *adLoader = [[SampleNativeAdLoader alloc] init];
   SampleNativeAdRequest *sampleRequest = [[SampleNativeAdRequest alloc] init];
@@ -68,29 +146,31 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
   sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
   sampleRequest.shouldRequestMultipleImages = NO;
+  sampleRequest.testMode = adConfiguration.isTestRequest;
 
-  for (GADAdLoaderOptions *loaderOptions in options) {
+  for (GADAdLoaderOptions *loaderOptions in adConfiguration.options) {
     if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       GADNativeAdImageAdLoaderOptions *imageOptions =
           (GADNativeAdImageAdLoaderOptions *)loaderOptions;
-      switch (imageOptions.preferredImageOrientation) {
-        case GADNativeAdImageAdLoaderOptionsOrientationLandscape:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationPortrait:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
-          break;
-        case GADNativeAdImageAdLoaderOptionsOrientationAny:
-        default:
-          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
-          break;
-      }
-
       sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages;
 
       // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is YES, the adapter
       // should send just the URLs for the images.
       sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading;
+    } else if ([loaderOptions isKindOfClass:[GADNativeAdMediaAdLoaderOptions class]]) {
+      GADNativeAdMediaAdLoaderOptions *mediaOptions =
+          (GADNativeAdMediaAdLoaderOptions *)loaderOptions;
+      switch (mediaOptions.mediaAspectRatio) {
+        case GADMediaAspectRatioLandscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationLandscape;
+          break;
+        case GADMediaAspectRatioPortrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationPortrait;
+          break;
+        default:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientationAny;
+          break;
+      }
     } else if ([loaderOptions isKindOfClass:[GADNativeAdViewAdOptions class]]) {
       _nativeAdViewAdOptions = (GADNativeAdViewAdOptions *)loaderOptions;
     }
@@ -98,7 +178,8 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 
   // This custom event uses the server parameter to carry an ad unit ID, which is the most common
   // use case.
-  adLoader.adUnitID = serverParameter;
+  NSString *adUnit = adConfiguration.credentials.settings[@"parameter"];
+  adLoader.adUnitID = adUnit;
   adLoader.delegate = self;
 
   [adLoader fetchAd:sampleRequest];
@@ -117,16 +198,77 @@ static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
 #pragma mark SampleNativeAdLoaderDelegate implementation
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader didReceiveNativeAd:(SampleNativeAd *)nativeAd {
-  SampleMediatedNativeAd *mediatedAd =
-      [[SampleMediatedNativeAd alloc] initWithSampleNativeAd:nativeAd
-                                       nativeAdViewAdOptions:_nativeAdViewAdOptions];
-  [self.delegate customEventNativeAd:self didReceiveMediatedUnifiedNativeAd:mediatedAd];
+  if (nativeAd.image) {
+    _images = @[ [[GADNativeAdImage alloc] initWithImage:nativeAd.image] ];
+  } else {
+    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:nativeAd.imageURL];
+    _images = @[ [[GADNativeAdImage alloc] initWithURL:imageURL scale:nativeAd.imageScale] ];
+  }
+
+  if (nativeAd.icon) {
+    _icon = [[GADNativeAdImage alloc] initWithImage:nativeAd.icon];
+  } else {
+    NSURL *iconURL = [[NSURL alloc] initFileURLWithPath:nativeAd.iconURL];
+    _icon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:nativeAd.iconScale];
+  }
+
+  // The sample SDK provides an AdChoices view (SampleAdInfoView). If your SDK provides image
+  // and clickthrough URLs for its AdChoices icon instead of an actual UIView, the adapter is
+  // responsible for downloading the icon image and creating the AdChoices icon view.
+  _adChoicesView = [[SampleAdInfoView alloc] init];
+  _nativeAd = nativeAd;
+
+  _adEventDelegate = _loadCompletionHandler(self, nil);
 }
 
 - (void)adLoader:(SampleNativeAdLoader *)adLoader
     didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
-  NSError *error = [NSError errorWithDomain:customEventErrorDomain code:errorCode userInfo:nil];
-  [self.delegate customEventNativeAd:self didFailToLoadWithError:error];
+  NSError *error = SampleCustomEventErrorWithCodeAndDescription(
+      SampleCustomEventErrorAdLoadFailureCallback,
+      [NSString
+          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %@",
+                           errorCode]);
+  _adEventDelegate = _loadCompletionHandler(nil, error);
+}
+
+#pragma mark GADMediatedUnifiedNativeAd implementation
+
+// Because the Sample SDK has click and impression tracking via methods on its native ad object
+// which the developer is required to call, there's no need to pass it a reference to the UIView
+// being used to display the native ad. So there's no need to implement
+// mediatedNativeAd:didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews here.
+// If your mediated network does need a reference to the view, this method can be used to provide
+// one.
+// You can also access the clickable and non-clickable views by asset key if the mediation network
+// needs this information.
+- (void)didRenderInView:(UIView *)view
+       clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+            viewController:(UIViewController *)viewController {
+  // This method is called when the native ad view is rendered. Here you would pass the UIView back
+  // to the mediated network's SDK.
+  // Playing video using SampleNativeAd's playVideo method
+  [_nativeAd playVideo];
+}
+
+- (void)didUntrackView:(UIView *)view {
+  // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
+  // Here you would remove any tracking from the view that has mediated native ad.
+}
+
+- (void)didRecordImpression {
+  if (_nativeAd) {
+    [_nativeAd recordImpression];
+  }
+}
+
+- (void)didRecordClickOnAssetWithName:(GADNativeAssetIdentifier)assetName
+                                 view:(UIView *)view
+                       viewController:(UIViewController *)viewController {
+  if (_nativeAd) {
+    [_nativeAd handleClickOnView:view];
+  }
 }
 
 @end

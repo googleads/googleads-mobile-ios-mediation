@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2015 Google, Inc.
 //
-// SampleCustomEventInsterstitial.m
+// SampleCustomEventInterstitial.m
 // Sample Ad Network Custom Event
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,67 +18,109 @@
 //
 
 #import "SampleCustomEventInterstitial.h"
+#include <stdatomic.h>
+#import "SampleCustomEventConstants.h"
+#import "SampleCustomEventUtils.h"
 
-/// Constant for Sample Ad Network custom event error domain.
-static NSString *const customEventErrorDomain = @"com.google.CustomEvent";
+#import <Foundation/Foundation.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
-@interface SampleCustomEventInterstitial () <SampleInterstitialAdDelegate>
+@interface SampleCustomEventInterstitial () <SampleInterstitialAdDelegate,
+                                             GADMediationInterstitialAd> {
+  /// The sample interstitial ad.
+  SampleInterstitial *_interstitialAd;
 
-/// The Sample Ad Network interstitial.
-@property(nonatomic, strong) SampleInterstitial *interstitial;
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
+
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+}
 
 @end
 
 @implementation SampleCustomEventInterstitial
-@synthesize delegate;
 
-#pragma mark GADCustomEventInterstitial implementation
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
 
-- (void)requestInterstitialAdWithParameter:(NSString *)serverParameter
-                                     label:(NSString *)serverLabel
-                                   request:(GADCustomEventRequest *)request {
-  self.interstitial = [[SampleInterstitial alloc] initWithAdUnitID:serverParameter];
-  self.interstitial.delegate = self;
+  _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
+
+  NSString *adUnit = adConfiguration.credentials.settings[@"parameter"];
+  _interstitialAd = [[SampleInterstitial alloc] initWithAdUnitID:adUnit];
+  _interstitialAd.delegate = self;
   SampleAdRequest *adRequest = [[SampleAdRequest alloc] init];
-  adRequest.testMode = request.isTesting;
-  adRequest.keywords = request.userKeywords;
-  [self.interstitial fetchAd:adRequest];
+  adRequest.testMode = adConfiguration.isTestRequest;
+  [_interstitialAd fetchAd:adRequest];
 }
 
-/// Present the interstitial ad as a modal view using the provided view controller.
-- (void)presentFromRootViewController:(UIViewController *)rootViewController {
-  if ([self.interstitial isInterstitialLoaded]) {
-    [self.interstitial show];
+#pragma mark GADMediationInterstitialAd implementation
+
+- (void)presentFromViewController:(UIViewController *)viewController {
+  if ([_interstitialAd isInterstitialLoaded]) {
+    [_interstitialAd show];
+  } else {
+    NSError *error = SampleCustomEventErrorWithCodeAndDescription(
+        SampleCustomEventErrorAdNotLoaded,
+        [NSString stringWithFormat:
+                      @"The interstitial ad failed to present because the ad was not loaded."]);
+    _adEventDelegate = _loadCompletionHandler(self, error);
   }
 }
 
 #pragma mark SampleInterstitialAdDelegate implementation
 
 - (void)interstitialDidLoad:(SampleInterstitial *)interstitial {
-  [self.delegate customEventInterstitialDidReceiveAd:self];
+  _adEventDelegate = _loadCompletionHandler(self, nil);
 }
 
 - (void)interstitial:(SampleInterstitial *)interstitial
     didFailToLoadAdWithErrorCode:(SampleErrorCode)errorCode {
-  NSError *error = [NSError errorWithDomain:customEventErrorDomain code:errorCode userInfo:nil];
-  [self.delegate customEventInterstitial:self didFailAd:error];
+  NSError *error = SampleCustomEventErrorWithCodeAndDescription(
+      SampleCustomEventErrorAdLoadFailureCallback,
+      [NSString
+          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %@",
+                           errorCode]);
+  _adEventDelegate = _loadCompletionHandler(nil, error);
 }
 
 - (void)interstitialWillPresentScreen:(SampleInterstitial *)interstitial {
-  [self.delegate customEventInterstitialWillPresent:self];
+  [_adEventDelegate willPresentFullScreenView];
+  [_adEventDelegate reportImpression];
 }
 
 - (void)interstitialWillDismissScreen:(SampleInterstitial *)interstitial {
-  [self.delegate customEventInterstitialWillDismiss:self];
+  [_adEventDelegate willDismissFullScreenView];
 }
 
 - (void)interstitialDidDismissScreen:(SampleInterstitial *)interstitial {
-  [self.delegate customEventInterstitialDidDismiss:self];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
 - (void)interstitialWillLeaveApplication:(SampleInterstitial *)interstitial {
-  [self.delegate customEventInterstitialWasClicked:self];
-  [self.delegate customEventInterstitialWillLeaveApplication:self];
+  [_adEventDelegate reportClick];
 }
 
 @end

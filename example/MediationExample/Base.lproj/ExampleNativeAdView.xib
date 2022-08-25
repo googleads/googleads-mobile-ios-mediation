@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Bh8-Dc-RmY" customClass="ExampleNativeAdView">
+            <rect key="frame" x="0.0" y="0.0" width="404" height="374"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LNP-UZ-QTS">
+                    <rect key="frame" x="10" y="10" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="iMO-Ad-rFc"/>
+                        <constraint firstAttribute="width" constant="40" id="saz-yV-5dg"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-2P-hRw">
+                    <rect key="frame" x="126.5" y="38.5" width="100" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="nT9-gz-lFo"/>
+                        <constraint firstAttribute="width" constant="100" id="x7d-J5-6uD"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u7E-wE-IMf">
+                    <rect key="frame" x="10" y="58" width="384" height="50.5"/>
+                    <string key="text">Body that is really really long and can take up to two lines or event maybe three if there is a lot of text to include in the ad</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hda-Ug-PYB" customClass="GADMediaView">
+                    <rect key="frame" x="139.5" y="113" width="125" height="190"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="125" id="rit-OI-xCL"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCo-Xo-px8">
+                    <rect key="frame" x="351" y="309.5" width="43" height="32"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="Install">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Store" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="535-ao-Wpn">
+                    <rect key="frame" x="306" y="317" width="35" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Headline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D79-55-6Yx">
+                    <rect key="frame" x="60" y="10" width="344" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YvW-AW-TS7">
+                    <rect key="frame" x="263" y="317" width="33" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2N-Br-VLs">
+                    <rect key="frame" x="186.5" y="339.5" width="31" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advertiser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugI-Xx-RYZ">
+                    <rect key="frame" x="60" y="38.5" width="66.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.98303861469999998" blue="0.92887652860000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="535-ao-Wpn" firstAttribute="top" secondItem="Hda-Ug-PYB" secondAttribute="bottom" constant="14" id="3gm-NU-3I4"/>
+                <constraint firstItem="YvW-AW-TS7" firstAttribute="centerY" secondItem="535-ao-Wpn" secondAttribute="centerY" id="5xC-dh-i9m"/>
+                <constraint firstItem="535-ao-Wpn" firstAttribute="leading" secondItem="YvW-AW-TS7" secondAttribute="trailing" constant="10" id="5xT-tW-Osy"/>
+                <constraint firstItem="xyD-2P-hRw" firstAttribute="leading" secondItem="ugI-Xx-RYZ" secondAttribute="trailing" id="8AZ-wo-Hzt"/>
+                <constraint firstItem="LNP-UZ-QTS" firstAttribute="leading" secondItem="u7E-wE-IMf" secondAttribute="leading" id="8ZB-fn-ueW"/>
+                <constraint firstItem="Hda-Ug-PYB" firstAttribute="centerX" secondItem="Bh8-Dc-RmY" secondAttribute="centerX" id="Bx2-XQ-Ssr"/>
+                <constraint firstItem="u7E-wE-IMf" firstAttribute="top" secondItem="LNP-UZ-QTS" secondAttribute="bottom" constant="8" symbolic="YES" id="E1U-ka-9x2"/>
+                <constraint firstAttribute="centerX" secondItem="w2N-Br-VLs" secondAttribute="centerX" id="Fat-Ub-qsX"/>
+                <constraint firstItem="w2N-Br-VLs" firstAttribute="top" secondItem="oCo-Xo-px8" secondAttribute="bottom" constant="-2" id="Je7-ZP-ZkL"/>
+                <constraint firstItem="Hda-Ug-PYB" firstAttribute="top" secondItem="u7E-wE-IMf" secondAttribute="bottom" constant="4.5" id="NEV-d3-CUC"/>
+                <constraint firstAttribute="bottom" secondItem="w2N-Br-VLs" secondAttribute="bottom" constant="20" symbolic="YES" id="NWy-ru-SNd"/>
+                <constraint firstItem="oCo-Xo-px8" firstAttribute="centerY" secondItem="535-ao-Wpn" secondAttribute="centerY" id="Rew-8u-f5C"/>
+                <constraint firstItem="oCo-Xo-px8" firstAttribute="leading" secondItem="535-ao-Wpn" secondAttribute="trailing" constant="10" id="WKw-NK-6Aj"/>
+                <constraint firstItem="LNP-UZ-QTS" firstAttribute="top" secondItem="D79-55-6Yx" secondAttribute="top" id="XRV-vo-4we"/>
+                <constraint firstAttribute="trailing" secondItem="oCo-Xo-px8" secondAttribute="trailing" constant="10" id="Ycq-Gf-sN6"/>
+                <constraint firstItem="LNP-UZ-QTS" firstAttribute="leading" secondItem="Bh8-Dc-RmY" secondAttribute="leading" constant="10" id="bnx-iR-0bM"/>
+                <constraint firstItem="LNP-UZ-QTS" firstAttribute="top" secondItem="Bh8-Dc-RmY" secondAttribute="top" constant="10" id="dNx-Fh-q7K"/>
+                <constraint firstAttribute="trailing" secondItem="D79-55-6Yx" secondAttribute="trailing" id="dvt-xq-tbG"/>
+                <constraint firstAttribute="trailing" secondItem="u7E-wE-IMf" secondAttribute="trailing" constant="10" id="m8E-uv-3jI"/>
+                <constraint firstItem="YvW-AW-TS7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bh8-Dc-RmY" secondAttribute="leading" id="mYX-0x-G7s"/>
+                <constraint firstItem="ugI-Xx-RYZ" firstAttribute="top" secondItem="D79-55-6Yx" secondAttribute="bottom" constant="8" symbolic="YES" id="ota-Zw-miS"/>
+                <constraint firstItem="ugI-Xx-RYZ" firstAttribute="leading" secondItem="D79-55-6Yx" secondAttribute="leading" id="xpk-0T-Brd"/>
+                <constraint firstItem="xyD-2P-hRw" firstAttribute="centerY" secondItem="ugI-Xx-RYZ" secondAttribute="centerY" id="ynD-27-Sa5"/>
+                <constraint firstItem="D79-55-6Yx" firstAttribute="leading" secondItem="LNP-UZ-QTS" secondAttribute="trailing" constant="10" id="yyE-Nq-VOj"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="advertiserView" destination="ugI-Xx-RYZ" id="cUq-8e-7SX"/>
+                <outlet property="bodyView" destination="u7E-wE-IMf" id="k7I-hz-vIX"/>
+                <outlet property="callToActionView" destination="oCo-Xo-px8" id="Rr7-fm-374"/>
+                <outlet property="degreeOfAwesomenessView" destination="w2N-Br-VLs" id="Dy6-rL-Elu"/>
+                <outlet property="headlineView" destination="D79-55-6Yx" id="XNd-ZR-1Ra"/>
+                <outlet property="iconView" destination="LNP-UZ-QTS" id="6de-cc-ROY"/>
+                <outlet property="mediaView" destination="Hda-Ug-PYB" id="YFn-6z-8wQ"/>
+                <outlet property="priceView" destination="YvW-AW-TS7" id="Fr8-QF-yeG"/>
+                <outlet property="starRatingView" destination="xyD-2P-hRw" id="JzO-tB-4a6"/>
+                <outlet property="storeView" destination="535-ao-Wpn" id="Y6B-L6-Le1"/>
+            </connections>
+            <point key="canvasLocation" x="4" y="-133"/>
+        </view>
+    </objects>
+</document>

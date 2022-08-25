@@ -29,9 +29,6 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Indicates whether a banner ad is loaded.
-  BOOL _isAdLoaded;
-
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
 }
@@ -41,6 +38,7 @@
 @synthesize uniquePubRequestID;
 @synthesize isRefreshedForBannerAd;
 @synthesize isRequestingBannerAdForRefresh;
+@synthesize isAdLoaded;
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -64,8 +62,8 @@
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
                                    NSStringFromGADAdSize(adSize)];
-    NSError *error =
-        GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationInvalidAdSize, errorMessage);
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -75,13 +73,13 @@
                                                   networkExtras:networkExtras];
   self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
   if ([sdk isInitialized]) {
     [self loadAd];
     return;
@@ -89,42 +87,42 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationDataError,
-                                                                  @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+  [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
 - (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeMediumRectangle), NSValueFromGADAdSize(kGADAdSizeBanner),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == kGADAdSizeBanner.size.height) {
-    if (size.width < kGADAdSizeBanner.size.width) {
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
       return shortBannerSize;
     } else {
-      return kGADAdSizeBanner;
+      return GADAdSizeBanner;
     }
-  } else if (size.height == kGADAdSizeLeaderboard.size.height) {
-    return kGADAdSizeLeaderboard;
-  } else if (size.height == kGADAdSizeMediumRectangle.size.height) {
-    return kGADAdSizeMediumRectangle;
+  } else if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
+  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
+    return GADAdSizeMediumRectangle;
   }
 
-  return kGADAdSizeInvalid;
+  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {
-  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
-                                                       withDelegate:self];
+  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
+                                                     withDelegate:self];
   if (error) {
     [_connector adapter:_adapter didFailAd:error];
   }
@@ -136,14 +134,19 @@
   }
   _didBannerFinishPresenting = YES;
 
-  [[GADMAdapterVungleRouter sharedInstance] completeBannerAdViewForPlacementID:self];
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+  [GADMAdapterVungleRouter.sharedInstance completeBannerAdViewForPlacementID:self];
+  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
 }
 
 #pragma mark - GADMAdapterVungleDelegate delegates
 
 - (GADAdSize)bannerAdSize {
   return _bannerSize;
+}
+
+- (nullable NSString *)bidResponse {
+  // This is the waterfall banner section. It won't have a bid response.
+  return nil;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
@@ -161,23 +164,20 @@
     return;
   }
 
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
-  _isAdLoaded = YES;
-
+  self.isAdLoaded = YES;
   UIView *bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
-  bannerView =
-      [[GADMAdapterVungleRouter sharedInstance] renderBannerAdInView:bannerView
-                                                            delegate:self
-                                                              extras:[strongConnector networkExtras]
-                                                      forPlacementID:self.desiredPlacement];
-  if (!bannerView) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(kGADErrorMediationAdapterError,
-                                                                  @"Couldn't create ad view.");
-    [strongConnector adapter:strongAdapter didFailAd:error];
+  NSError *bannerViewError =
+      [GADMAdapterVungleRouter.sharedInstance renderBannerAdInView:bannerView
+                                                          delegate:self
+                                                            extras:[strongConnector networkExtras]
+                                                    forPlacementID:self.desiredPlacement];
+  if (bannerViewError) {
+    [strongConnector adapter:strongAdapter didFailAd:bannerViewError];
     return;
   }
 
@@ -186,7 +186,7 @@
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  if (_isAdLoaded) {
+  if (self.isAdLoaded) {
     // Already invoked an ad load callback.
     return;
   }
@@ -197,12 +197,24 @@
   self.bannerState = BannerRouterDelegateStatePlaying;
 }
 
+- (void)didShowAd {
+  // Do nothing
+}
+
+- (void)didViewAd {
+  // Do nothing.
+}
+
 - (void)willCloseAd {
   self.bannerState = BannerRouterDelegateStateClosing;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
 }
 
 - (void)didCloseAd {
   self.bannerState = BannerRouterDelegateStateClosed;
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
 }
 
 - (void)trackClick {

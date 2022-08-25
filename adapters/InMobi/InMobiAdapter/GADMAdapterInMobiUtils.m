@@ -68,7 +68,7 @@ NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(GADMAdapterInMobi
                                                                NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterInMobiErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterInMobiErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -145,7 +145,7 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromI
 
   GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp", @"c_admob");
   GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp-ver",
-                                                    [GADRequest sdkVersion]);
+                                                    GADMobileAds.sharedInstance.sdkVersion);
 
   return additionalParameters;
 }

@@ -1,16 +1,24 @@
+// Copyright 2020 Google LLC.
 //
-//  GADMMaioInterstitialAdapter.m
-//  GADMMaioAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Copyright © 2017 i-mobile, Inc. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMMaioInterstitialAdapter.h"
-#import "GADMAdapterMaioAdsManager.h"
-#import "GADMMaioConstants.h"
-#import "GADMMaioError.h"
 
-@import Maio;
+#import <Maio/Maio.h>
+
+#import "GADMAdapterMaioAdsManager.h"
+#import "GADMAdapterMaioUtils.h"
+#import "GADMMaioConstants.h"
 
 @interface GADMMaioInterstitialAdapter () <MaioDelegate>
 
@@ -29,7 +37,7 @@
 /// identifies the version of your adapter. For example, "1.0", or simply a date
 /// such as "20110915".
 + (NSString *)adapterVersion {
-  return kGADMMaioAdapterVersion;
+  return GADMMaioAdapterVersion;
 }
 
 /// The extras class that is used to specify additional parameters for a request
@@ -63,9 +71,11 @@
 /// method of the connector.
 - (void)getBannerWithSize:(GADAdSize)adSize {
   // not supported bunner
-  NSString *description = [NSString stringWithFormat:@"%@ is not supported banner.", self.class];
-  [self.interstitialAdConnector adapter:self
-                              didFailAd:[GADMMaioError errorWithDescription:description]];
+  NSString *description =
+      [NSString stringWithFormat:@"%@ does not supported banner.", [self class]];
+  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
+      GADMAdapterMaioErrorAdFormatNotSupported, description);
+  [self.interstitialAdConnector adapter:self didFailAd:error];
 }
 
 /// Asks the adapter to initiate an interstitial ad request. The adapter does
@@ -80,24 +90,32 @@
   if (!param) {
     return;
   }
-  self.mediaId = param[kGADMMaioAdapterMediaId];
-  self.zoneId = param[kGADMMaioAdapterZoneId];
+  self.mediaId = param[GADMMaioAdapterMediaIdKey];
+  self.zoneId = param[GADMMaioAdapterZoneIdKey];
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 
-  // MaioInstance生成時にテストモードかどうかを指定する
+  // maioInstance生成時にテストモードかどうかを指定する
   [adManager setAdTestMode:strongConnector.testMode];
 
   GADMMaioInterstitialAdapter *__weak weakSelf = self;
+  id<GADMAdNetworkConnector> __weak weakConnector = strongConnector;
   [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
+    GADMMaioInterstitialAdapter *strongSelf = weakSelf;
+    id<GADMAdNetworkConnector> strongerConnector = weakConnector;
+
+    if (!strongSelf || !strongerConnector) {
+      return;
+    }
+
     if (error) {
-      [weakSelf.interstitialAdConnector adapter:weakSelf didFailAd:error];
+      [strongerConnector adapter:strongSelf didFailAd:error];
     } else {
       // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
-      [adManager setAdTestMode:weakSelf.interstitialAdConnector.testMode];
-      NSError *error = [adManager loadAdForZoneId:weakSelf.zoneId delegate:weakSelf];
+      [adManager setAdTestMode:strongSelf.interstitialAdConnector.testMode];
+      NSError *error = [adManager loadAdForZoneId:strongSelf.zoneId delegate:strongSelf];
       if (error) {
-        [self.interstitialAdConnector adapter:self didFailAd:error];
+        [strongerConnector adapter:strongSelf didFailAd:error];
       }
     }
   }];
@@ -190,8 +208,13 @@
  *  @param zoneId  広告がクリックされたゾーンの識別子
  */
 - (void)maioDidClickAd:(NSString *)zoneId {
-  [self.interstitialAdConnector adapterDidGetAdClick:self];
-  [self.interstitialAdConnector adapterWillLeaveApplication:self];
+  id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterDidGetAdClick:self];
+  [strongConnector adapterWillLeaveApplication:self];
 }
 
 /**
@@ -200,8 +223,13 @@
  *  @param zoneId  広告が閉じられたゾーンの識別子
  */
 - (void)maioDidCloseAd:(NSString *)zoneId {
-  [self.interstitialAdConnector adapterWillDismissInterstitial:self];
-  [self.interstitialAdConnector adapterDidDismissInterstitial:self];
+  id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
+  if (!strongConnector) {
+    return;
+  }
+
+  [strongConnector adapterWillDismissInterstitial:self];
+  [strongConnector adapterDidDismissInterstitial:self];
 }
 
 /**
@@ -211,8 +239,8 @@
  *  @param reason   エラーの理由を示す列挙値
  */
 - (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-  NSString *error = [GADMMaioError stringFromFailReason:reason];
-  [self.interstitialAdConnector adapter:self didFailAd:[GADMMaioError errorWithDescription:error]];
+  NSError *error = GADMAdapterMaioSDKErrorForFailReason(reason);
+  [self.interstitialAdConnector adapter:self didFailAd:error];
 }
 
 #pragma mark - private methods

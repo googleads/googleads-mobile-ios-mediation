@@ -16,6 +16,10 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 
+#import "GADMediationAdapterMyTarget.h"
+
+#import "GADMAdapterMyTargetExtras.h"
+
 void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
@@ -24,49 +28,54 @@ void GADMAdapterMyTargetMutableDictionarySetObjectForKey(NSMutableDictionary *_N
   }
 }
 
+void GADMAdapterMyTargetMutableDictionaryRemoveObjectForKey(
+    NSMutableDictionary *_Nonnull dictionary, id _Nullable key) {
+  if (key) {
+    [dictionary removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterMyTargetSDKErrorWithDescription(NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterMyTargetSDKErrorDomain code:0 userInfo:userInfo];
+  return [NSError errorWithDomain:GADMAdapterMyTargetSDKErrorDomain code:0 userInfo:userInfo];
 }
 
 NSError *_Nonnull GADMAdapterMyTargetAdapterErrorWithDescription(NSString *_Nonnull description) {
   NSDictionary<NSString *, id> *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterMyTargetAdapterErrorDomain
+  return [NSError errorWithDomain:GADMAdapterMyTargetAdapterErrorDomain
                              code:1000
                          userInfo:userInfo];
 }
 
-void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
-                                         id<GADMAdNetworkConnector> _Nonnull connector) {
-  switch (connector.userGender) {
-    case kGADGenderMale:
-      customParams.gender = MTRGGenderMale;
-      break;
-    case kGADGenderFemale:
-      customParams.gender = MTRGGenderFemale;
-      break;
-    default:
-      customParams.gender = MTRGGenderUnspecified;
-      break;
-  }
+NSError *_Nonnull GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorCode code,
+                                                                 NSString *_Nonnull description) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:GADMAdapterMyTargetAdapterErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
+}
 
-  NSDate *birthday = connector.userBirthday;
-  if (birthday) {
-    NSCalendar *calendar =
-        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear
-                                               fromDate:birthday
-                                                 toDate:[NSDate date]
-                                                options:0];
-    customParams.age = [NSNumber numberWithInteger:components.year];
+void GADMAdapterMyTargetFillCustomParams(MTRGCustomParams *_Nonnull customParams,
+                                         id<GADAdNetworkExtras> _Nullable networkExtras) {
+  if (!networkExtras || ![networkExtras isKindOfClass:[GADMAdapterMyTargetExtras class]]) return;
+
+  GADMAdapterMyTargetExtras *adapterExtras = (GADMAdapterMyTargetExtras *)networkExtras;
+  NSDictionary<NSString *, NSString *> *parameters = adapterExtras.parameters;
+  if (!parameters) return;
+
+  for (NSString *key in parameters.allKeys) {
+    NSString *value = parameters[key];
+    [customParams setCustomParam:value forKey:key];
   }
 }
 
 NSUInteger GADMAdapterMyTargetSlotIdFromCredentials(
     NSDictionary<NSString *, id> *_Nullable credentials) {
-  id slotIdValue = credentials[kGADMAdapterMyTargetSlotIdKey];
+  id slotIdValue = credentials[GADMAdapterMyTargetSlotIdKey];
   if (!slotIdValue) {
     return 0;
   }
@@ -97,6 +106,43 @@ GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
     nativeAdImage = [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
   }
   return nativeAdImage;
+}
+
+MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
+    GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error) {
+  /// Find closest supported ad size from a given ad size.
+  MTRGAdSize *adSizeAdaptive =
+      [MTRGAdSize adSizeForCurrentOrientationForWidth:gadAdSize.size.width];
+  GADAdSize gadAdSizeAdaptive = GADAdSizeFromCGSize(adSizeAdaptive.size);
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(gadAdSizeAdaptive)
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+  if (GADAdSizeEqualToSize(closestSize, GADAdSizeBanner)) {
+    return [MTRGAdSize adSize320x50];
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeMediumRectangle)) {
+    return [MTRGAdSize adSize300x250];
+  } else if (GADAdSizeEqualToSize(closestSize, GADAdSizeLeaderboard)) {
+    return [MTRGAdSize adSize728x90];
+  } else {
+    CGFloat width = closestSize.size.width;
+    CGFloat height = closestSize.size.height;
+    if (width > 0 && height >= GADMAdapterMyTargetBannerHeightMin &&
+        height < GADMAdapterMyTargetBannerAspectRatioMin * width) {
+      // Adaptive
+      return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
+    }
+  }
+  if (error) {
+    NSString *description =
+        [NSString stringWithFormat:@"MyTarget's supported banner sizes are not valid for the "
+                                   @"requested ad size. Requested ad size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)];
+    *error = GADMAdapterMyTargetErrorWithCodeAndDescription(
+        GADMAdapterMyTargetErrorBannerSizeMismatch, description);
+  }
+  return nil;
 }
 
 @implementation GADMAdapterMyTargetUtils
