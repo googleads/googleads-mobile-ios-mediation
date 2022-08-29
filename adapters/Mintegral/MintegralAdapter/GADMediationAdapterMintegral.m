@@ -49,14 +49,14 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
     
     NSMutableSet *appIds = [[NSMutableSet alloc] init];
-    NSMutableSet *apiKeys = [[NSMutableSet alloc] init];
+    NSMutableSet *appKeys = [[NSMutableSet alloc] init];
     
     for (GADMediationCredentials *credential in configuration.credentials) {
         NSString *appId = credential.settings[GADMAdapterMintegralAppID];
         GADMAdapterMintegralMutableSetAddObject(appIds, appId);
         
-        NSString *apiKey =credential.settings[GADMAdapterMintegralAppKey];
-        GADMAdapterMintegralMutableSetAddObject(apiKeys, apiKey);
+        NSString *appKey =credential.settings[GADMAdapterMintegralAppKey];
+        GADMAdapterMintegralMutableSetAddObject(appKeys, appKey);
     }
     
     if (appIds.count < 1) {
@@ -65,8 +65,8 @@
         return;
     }
     
-    if (apiKeys.count < 1) {
-        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid api key.");
+    if (appKeys.count < 1) {
+        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app key.");
         completionHandler(error);
         return;
     }
@@ -79,17 +79,17 @@
         GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app ID:%@", appId);
     }
     
-    NSString *apiKey = [apiKeys anyObject];
-    if (apiKeys.count > 1) {
+    NSString *appKey = [appKeys anyObject];
+    if (appKeys.count > 1) {
         GADMediationAdapterMintegralLog(
           @"Found the following Api keys:%@. Please remove any api keys which you are not using",
-                                        apiKeys);
-        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the api key:%@", apiKey);
+                                        appKeys);
+        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app key:%@", appKey);
     }
     
     // Initialize the Mintergral SDK.
     [GADMediationAdapterMintegral setAdmobChannel];
-    [[MTGSDK sharedInstance] setAppID:appId ApiKey:apiKey];
+    [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
     if (completionHandler) {
         completionHandler(nil);
     }
