@@ -14,16 +14,15 @@
 
 #import "GADMAdapterChartboostBannerAd.h"
 
-#if __has_include(<Chartboost/Chartboost+Mediation.h>)
-#import <Chartboost/Chartboost+Mediation.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost+Mediation.h"
+#import "ChartboostSDK.h"
 #endif
 
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostBannerAd () <CHBBannerDelegate>
 @end
@@ -90,9 +89,9 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [Chartboost startWithAppId:appID
+  [Chartboost startWithAppID:appID
                 appSignature:appSignature
-                  completion:^(BOOL success) {
+                  completion:^(CHBStartError *cbError) {
                     // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the
                     // main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -101,7 +100,7 @@
                         return;
                       }
 
-                      if (!success) {
+                      if (cbError) {
                         NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
                             GADMAdapterChartboostErrorInitializationFailure,
                             @"Failed to initialize Chartboost SDK.");
@@ -109,18 +108,11 @@
                         return;
                       }
 
-                      GADMChartboostExtras *extras = [strongConnector networkExtras];
-                      if (extras) {
-                        [Chartboost setFramework:extras.framework
-                                     withVersion:extras.frameworkVersion];
-                      }
-
                       CHBMediation *mediation = GADMAdapterChartboostMediation();
                       strongSelf->_bannerAd = [[CHBBanner alloc] initWithSize:chartboostAdSize
                                                                      location:adLocation
                                                                     mediation:mediation
                                                                      delegate:strongSelf];
-                      strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
                       [strongSelf->_bannerAd cache];
                     });
                   }];
@@ -169,7 +161,6 @@
           clickError.localizedDescription);
     return;
   }
-  [strongConnector adapterWillLeaveApplication:strongAdapter];
 }
 
 - (void)didFinishHandlingClick:(nonnull CHBClickEvent *)event
