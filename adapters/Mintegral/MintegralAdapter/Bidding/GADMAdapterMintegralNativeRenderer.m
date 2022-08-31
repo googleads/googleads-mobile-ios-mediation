@@ -77,7 +77,7 @@ MTGMediaViewDelegate>
     
     if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID connot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
