@@ -116,9 +116,6 @@
     version.majorVersion = components[0].integerValue;
     version.minorVersion = components[1].integerValue;
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
-    if (components.count >= 5) {
-      version.patchVersion = version.patchVersion * 100 + components[4].integerValue;
-    }
   }
   return version;
 }
