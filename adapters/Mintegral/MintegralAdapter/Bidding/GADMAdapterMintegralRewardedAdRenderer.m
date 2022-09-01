@@ -120,10 +120,7 @@
     NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-    if (extras) {
-        _rewardedAd.playVideoMute = extras.playVideoMute;
-    }
-    
+    _rewardedAd.playVideoMute = extras.playVideoMute;
     if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:adUnitId]) {
         [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{

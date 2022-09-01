@@ -158,6 +158,7 @@
 }
 
 + (void)setAdmobChannel {
+    //This is to call the mintegral ad sdk private method, which is only used to mark the official aggregation channel from admob
     Class _class = NSClassFromString(@"MTGSDK");
     SEL selector = NSSelectorFromString(@"setChannelFlag:");
     NSString *pluginNumber = @"Y+H6DFttYrPQYcIBiQKwJQKQYrN=";

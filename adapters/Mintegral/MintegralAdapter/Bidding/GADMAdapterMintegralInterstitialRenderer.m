@@ -108,10 +108,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-    if (extras) {
-        _interstitialAd.playVideoMute = extras.playVideoMute;
-    }
-    
+    _interstitialAd.playVideoMute = extras.playVideoMute;
     if ([_interstitialAd isAdReady]) {
         [_interstitialAd showFromViewController:viewController];
     }else{
