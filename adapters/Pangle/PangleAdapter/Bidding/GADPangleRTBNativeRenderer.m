@@ -58,7 +58,7 @@
         _loadCompletionHandler(nil, error);
         return;
     }
-   __block PAGNativeADLoadCompletionHandler adLoadCompl
+
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
   
   PAGNativeRequest *request = [PAGNativeRequest request];
