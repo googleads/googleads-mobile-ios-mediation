@@ -47,7 +47,7 @@
 		AD18D66C28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */; };
 		AD18D66D28AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */; };
 		AD18D66E28AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */; };
-		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */;};
+		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,17 +95,17 @@
 		2B338D9426D96B0600192709 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		2B338D9526D96B0600192709 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		2B60DF082761885700AB5537 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD18D65B28AE36A1001DF8BA /* module.modulemap */ = {isa = PBXFileReference;  lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
-		AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralInterstitialRenderer.h; sourceTree = "<group>"; };
-		AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralBannerRenderer.h; sourceTree = "<group>"; };
-		AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRewardedAdRenderer.h; sourceTree = "<group>"; };
-		AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralNativeRenderer.m; sourceTree = "<group>"; };
-		AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralBannerRenderer.m; sourceTree = "<group>"; };
-		AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralInterstitialRenderer.m; sourceTree = "<group>"; };
-		AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRewardedAdRenderer.m; sourceTree = "<group>"; };
-		AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralNativeRenderer.h; sourceTree = "<group>"; };
-		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference;  lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
+		AD18D65B28AE36A1001DF8BA /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		AD18D65C28AE36C5001DF8BA /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
+		AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralInterstitialRenderer.h; sourceTree = "<group>"; };
+		AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralBannerRenderer.h; sourceTree = "<group>"; };
+		AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRewardedAdRenderer.h; sourceTree = "<group>"; };
+		AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralNativeRenderer.m; sourceTree = "<group>"; };
+		AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralBannerRenderer.m; sourceTree = "<group>"; };
+		AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralInterstitialRenderer.m; sourceTree = "<group>"; };
+		AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRewardedAdRenderer.m; sourceTree = "<group>"; };
+		AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralNativeRenderer.h; sourceTree = "<group>"; };
+		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,14 +195,14 @@
 		AD18D65D28AE36C5001DF8BA /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
-				AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */,
 				AD18D65F28AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.h */,
-				AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */,
-				AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */,
 				AD18D66228AE36C5001DF8BA /* GADMAdapterMintegralBannerRenderer.m */,
+				AD18D65E28AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.h */,
 				AD18D66328AE36C5001DF8BA /* GADMAdapterMintegralInterstitialRenderer.m */,
-				AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */,
 				AD18D66528AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.h */,
+				AD18D66128AE36C5001DF8BA /* GADMAdapterMintegralNativeRenderer.m */,
+				AD18D66028AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.h */,
+				AD18D66428AE36C5001DF8BA /* GADMAdapterMintegralRewardedAdRenderer.m */,
 			);
 			path = Bidding;
 			sourceTree = "<group>";

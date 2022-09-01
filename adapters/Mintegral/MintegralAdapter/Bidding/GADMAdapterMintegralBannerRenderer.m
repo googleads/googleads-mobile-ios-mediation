@@ -20,6 +20,12 @@
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 
+
+static CGSize const mintegralBannerAdSize320x50 = (CGSize){320, 50};
+static CGSize const mintegralBannerAdSize320x100 = (CGSize){320, 100};
+static CGSize const mintegralBannerAdSize300x250 = (CGSize){300, 250};
+static CGSize const mintegralBannerAdSize728x90 = (CGSize){728, 90};
+
 @interface GADMAdapterMintegralBannerRenderer ()
 <GADMediationBannerAd,
 MTGBannerAdViewDelegate>
@@ -70,11 +76,52 @@ MTGBannerAdViewDelegate>
         _adLoadCompletionHandler(nil, error);
         return;
     }
-    
-    _bannerAdView = [[MTGBannerAdView alloc]initBannerAdViewWithAdSize:adConfiguration.adSize.size placementId:placementId unitId:adUnitId rootViewController:rootViewController];
+
+    NSError *error = nil;
+    CGSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+    if (error) {
+      _adLoadCompletionHandler(nil, error);
+      return;
+    }
+
+    _bannerAdView = [[MTGBannerAdView alloc]initBannerAdViewWithAdSize:bannerSize placementId:placementId unitId:adUnitId rootViewController:rootViewController];
     _bannerAdView.delegate = self;
     _bannerAdView.autoRefreshTime = 0;
     [_bannerAdView loadBannerAdWithBidToken:adConfiguration.bidResponse];
+}
+
+- (CGSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+    CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
+    GADAdSize banner50 = GADAdSizeFromCGSize(
+                                             CGSizeMake(gadAdCGSize.width, mintegralBannerAdSize320x50.height));  // 320*50
+    GADAdSize banner100 = GADAdSizeFromCGSize(
+                                              CGSizeMake(gadAdCGSize.width, mintegralBannerAdSize320x100.height));  // 320*100
+    GADAdSize banner250 = GADAdSizeFromCGSize(
+                                              CGSizeMake(gadAdCGSize.width, mintegralBannerAdSize300x250.height));  // 300*250
+    GADAdSize banner90 = GADAdSizeFromCGSize(
+                                             CGSizeMake(gadAdCGSize.width, mintegralBannerAdSize728x90.height));  // 728*90
+    NSArray *potentials = @[
+        NSValueFromGADAdSize(banner50),NSValueFromGADAdSize(banner100), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(banner250)
+    ];
+    GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+    CGSize size = CGSizeFromGADAdSize(closestSize);
+    if (size.height == mintegralBannerAdSize320x50.height) {
+        return mintegralBannerAdSize320x50;
+    }else if (size.height == mintegralBannerAdSize320x100.height) {
+        return mintegralBannerAdSize320x100;
+    }else if (size.height == mintegralBannerAdSize300x250.height) {
+        return mintegralBannerAdSize300x250;
+    }else if (size.height == mintegralBannerAdSize728x90.height) {
+        return mintegralBannerAdSize728x90;
+    }
+    
+    if (error) {
+        *error = GADMAdapterMintegralErrorWithCodeAndDescription(
+                                                                 GADMintegtalErrorBannerSizeMismatch,
+                                                                 [NSString stringWithFormat:@"Invalid size for Mintegral mediation adapter. Size: %@",
+                                                                  NSStringFromGADAdSize(gadAdSize)]);
+    }
+    return CGSizeZero;
 }
 
 #pragma mark MTGBannerAdViewDelegate

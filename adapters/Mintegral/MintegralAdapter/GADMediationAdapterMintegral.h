@@ -21,7 +21,9 @@ typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
     /// The ad request was successful, but no ad was returned.
     GADMintegralErrorAdNotFill = 102,
     /// The Mintegral SDK failed to show an ad.
-    GADMintegralErrorAdNotValid  = 103
+    GADMintegralErrorAdNotValid  = 103,
+    /// Banner size mismatch.
+    GADMintegtalErrorBannerSizeMismatch = 104
 };
 @interface GADMediationAdapterMintegral : NSObject <GADRTBAdapter>
 
