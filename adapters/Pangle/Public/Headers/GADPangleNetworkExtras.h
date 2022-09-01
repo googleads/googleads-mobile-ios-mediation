@@ -14,13 +14,9 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GADPangleNetworkExtras : NSObject
 
 /// Set additional user information.
 @property (nonatomic, copy) NSString *userDataString;
 
 @end
-
-NS_ASSUME_NONNULL_END
