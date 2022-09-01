@@ -123,12 +123,9 @@
   [GADMAdapterIronSourceUtils
       onLog:[NSString
                 stringWithFormat:@"IronSource received reward for Instance ID: %@", instanceId]];
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate didEndVideo];
-  [strongDelegate didRewardUserWithReward:reward];
+  [strongDelegate didRewardUser];
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId {

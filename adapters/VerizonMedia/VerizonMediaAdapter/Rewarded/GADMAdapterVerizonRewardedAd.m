@@ -116,7 +116,8 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 }
 
 - (void)setCoppaFromAdConfiguration {
-  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  VASDataPrivacyBuilder *builder =
+      [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
   builder.coppa.applies = [_adConfiguration.childDirectedTreatment boolValue];
   VASAds.sharedInstance.dataPrivacy = [builder build];
 }
@@ -188,10 +189,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   if ([eventId isEqualToString:GADMAdapterVerizonVideoCompleteEventId] &&
       !_isVideoCompletionEventCalled) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      GADAdReward *reward =
-          [[GADAdReward alloc] initWithRewardType:@""
-                                     rewardAmount:[[NSDecimalNumber alloc] initWithInteger:1]];
-      [self->_adEventDelegate didRewardUserWithReward:reward];
+      [self->_adEventDelegate didRewardUser];
       self->_isVideoCompletionEventCalled = YES;
     });
   }

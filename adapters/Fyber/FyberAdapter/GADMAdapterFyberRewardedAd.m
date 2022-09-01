@@ -207,11 +207,8 @@
 }
 
 - (void)IAAdDidReward:(nullable IAUnitController *)unitController {
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-  [_delegate didRewardUserWithReward:reward];
   [_delegate didEndVideo];
+  [_delegate didRewardUser];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {

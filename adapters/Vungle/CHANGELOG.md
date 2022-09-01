@@ -1,5 +1,31 @@
 ## Vungle iOS Mediation Adapter Changelog
 
+#### [Version 6.12.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.12.0.0.zip)
+- Verified compatibility with Vungle SDK 6.12.0.
+- Added waterfall mediation and bidding support for rewarded interstitial ad format.
+- Added bidding support for native ad format.
+- Updated the adapter to use the `didRewardUser` API.
+- Removed the `ordinal` extra in `VungleAdNetworkExtras`.
+- Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.9.0.
+- Vungle SDK version 6.12.0.
+
+#### [Version 6.11.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.2.zip)
+- Added waterfall mediation support for native ad format.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.8.0.
+- Vungle SDK version 6.11.0.
+
+#### [Version 6.11.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.1.zip)
+- Added support for loading multiple ads for the same placement ID in bidding interstitial and rewarded ads.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.6.0.
+- Vungle SDK version 6.11.0
+
 #### [Version 6.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.11.0.0.zip)
 - Verified compatibility with Vungle SDK 6.11.0.
 

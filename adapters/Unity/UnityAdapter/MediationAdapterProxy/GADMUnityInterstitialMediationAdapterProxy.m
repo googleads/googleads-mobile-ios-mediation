@@ -23,8 +23,8 @@
 @implementation GADMUnityInterstitialMediationAdapterProxy
 
 - (nonnull instancetype)initWithAd:(id<GADMediationInterstitialAd>)ad
-         completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler;
-{
+                 completionHandler:
+                     (GADMediationInterstitialLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _ad = ad;

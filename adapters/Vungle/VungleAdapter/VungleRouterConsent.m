@@ -19,7 +19,7 @@ static VungleConsentStatus currentConsentStatus = 0;
 
 @implementation VungleRouterConsent
 + (BOOL)updateConsentStatus:(VungleConsentStatus)consentStatus {
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
   if (consentStatus > 0) {
     currentConsentStatus = consentStatus;
     [sdk updateConsentStatus:consentStatus consentMessageVersion:@""];

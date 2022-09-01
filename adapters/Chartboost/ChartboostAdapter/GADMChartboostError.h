@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if __has_include(<Chartboost/Chartboost.h>)
-#import <Chartboost/Chartboost.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost.h"
+#import "ChartboostSDK.h"
 #endif
 #import <Foundation/Foundation.h>
 

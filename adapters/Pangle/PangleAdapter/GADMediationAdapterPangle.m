@@ -17,8 +17,8 @@
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
-#import "GADPangleRTBRewardedRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
+#import "GADPangleRTBRewardedRenderer.h"
 #import "GADPangleNetworkExtras.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 

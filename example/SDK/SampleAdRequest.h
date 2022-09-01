@@ -27,6 +27,8 @@ typedef NS_ENUM(NSInteger, SampleErrorCode) {
   SampleErrorCodeNoInventory,   ///< No inventory.
 };
 
+extern NSString *const SampleSDKVersion = @"1.0.0";
+
 /// The SampleAdRequest class is used for making an ad request.
 @interface SampleAdRequest : NSObject
 

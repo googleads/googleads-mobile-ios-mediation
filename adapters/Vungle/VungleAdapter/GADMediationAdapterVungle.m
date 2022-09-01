@@ -14,10 +14,11 @@
 
 #import "GADMediationAdapterVungle.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
-#import "GADMediationVungleBanner.h"
 #import "GADMediationVungleInterstitial.h"
+#import "GADMediationVungleNativeAd.h"
 #import "GADMediationVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
 
@@ -25,11 +26,14 @@
   /// Vungle rewarded ad wrapper.
   GADMediationVungleRewardedAd *_rewardedAd;
 
+  /// Vungle waterfall mediation rewarded ad wrapper.
+  GADMAdapterVungleRewardBasedVideoAd *_waterfallRewardedAd;
+
   /// Vungle interstitial ad wrapper.
   GADMediationVungleInterstitial *_interstitialAd;
 
-  /// Vungle banner ad wrapper.
-  GADMediationVungleBanner *_bannerAd;
+  /// Vungle native ad wrapper
+  GADMediationVungleNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -57,7 +61,7 @@
     NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
   }
 
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:applicationID delegate:nil];
+  [GADMAdapterVungleRouter.sharedInstance initWithAppId:applicationID delegate:nil];
   completionHandler(nil);
 }
 
@@ -97,6 +101,14 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (!adConfiguration.bidResponse) {
+    _waterfallRewardedAd =
+        [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
+                                                           completionHandler:completionHandler];
+    [_waterfallRewardedAd requestRewardedAd];
+    return;
+  }
   _rewardedAd = [[GADMediationVungleRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                             completionHandler:completionHandler];
   [_rewardedAd requestRewardedAd];
@@ -106,18 +118,32 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
   [_interstitialAd requestInterstitialAd];
 }
 
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:
-                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-  _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
-                                                      completionHandler:completionHandler];
-  [_bannerAd requestBannerAd];
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
+                                                               completionHandler:completionHandler];
+  [_nativeAd requestNativeAd];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:
+                                       (nonnull GADMediationRewardedLoadCompletionHandler)
+                                           completionHandler {
+  // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
+  NSLog(@"Vungle adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
+        @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
+        @"Vungle.");
+  [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 #pragma mark GADRTBAdapter implementation
@@ -125,7 +151,7 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  completionHandler([[GADMAdapterVungleRouter sharedInstance] getSuperToken], nil);
+  completionHandler([GADMAdapterVungleRouter.sharedInstance getSuperToken], nil);
 }
 
 @end

@@ -19,35 +19,41 @@
 import Foundation
 import GoogleMobileAds
 import SampleAdSDK
+import UIKit
 
-/// Constant for Sample Ad Network custom event error domain.
-private let customEventErrorDomain: String = "com.google.CustomEvent"
-
-@objc class SampleCustomEventBannerSwift: NSObject, GADCustomEventBanner {
+@objc class SampleCustomEventBannerSwift: NSObject, GADMediationBannerAd {
 
   /// The Sample Ad Network banner.
   var bannerAd: SampleBanner?
-  var delegate: GADCustomEventBannerDelegate?
+
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  var delegate: GADMediationBannerAdEventDelegate?
+
+  /// Completion handler called after ad load
+  var completionHandler: GADMediationBannerLoadCompletionHandler?
+
+  var view: UIView {
+    return
+      bannerAd ?? UIView()
+  }
 
   required override init() {
     super.init()
   }
 
-  func requestAd(
-    _ adSize: GADAdSize,
-    parameter serverParameter: String?,
-    label serverLabel: String?,
-    request: GADCustomEventRequest
+  func loadBanner(
+    for adConfiguration: GADMediationBannerAdConfiguration,
+    completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
-
     // Create the bannerView with the appropriate size.
+    let adSize = adConfiguration.adSize
     bannerAd = SampleBanner(
       frame: CGRect(x: 0, y: 0, width: adSize.size.width, height: adSize.size.height))
     bannerAd?.delegate = self
-    bannerAd?.adUnit = serverParameter
+    bannerAd?.adUnit = adConfiguration.credentials.settings["parameter"] as? String
     let adRequest = SampleAdRequest()
-    adRequest.testMode = request.isTesting
-    adRequest.keywords = request.userKeywords as? [String]
+    adRequest.testMode = adConfiguration.isTestRequest
+    self.completionHandler = completionHandler
     bannerAd?.fetchAd(adRequest)
   }
 }
@@ -55,16 +61,21 @@ private let customEventErrorDomain: String = "com.google.CustomEvent"
 extension SampleCustomEventBannerSwift: SampleBannerAdDelegate {
 
   func bannerDidLoad(_ banner: SampleBanner) {
-    delegate?.customEventBanner(self, didReceiveAd: banner)
+    if let handler = completionHandler {
+      delegate = handler(self, nil)
+    }
   }
 
   func banner(_ banner: SampleBanner, didFailToLoadAdWith errorCode: SampleErrorCode) {
-    let error = NSError(domain: customEventErrorDomain, code: errorCode.rawValue, userInfo: nil)
-    delegate?.customEventBanner(self, didFailAd: error)
+    let error = SampleCustomEventUtilsSwift.SampleCustomEventErrorWithCodeAndDescription(
+      code: SampleCustomEventErrorCodeSwift.SampleCustomEventErrorAdLoadFailureCallback,
+      description: "Sample SDK returned an ad load failure callback with error code: \(errorCode)")
+    if let handler = completionHandler {
+      delegate = handler(nil, error)
+    }
   }
 
   func bannerWillLeaveApplication(_ banner: SampleBanner) {
-    delegate?.customEventBannerWasClicked(self)
-    delegate?.customEventBannerWillLeaveApplication(self)
+    delegate?.reportClick()
   }
 }

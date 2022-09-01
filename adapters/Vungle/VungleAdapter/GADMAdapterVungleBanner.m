@@ -79,7 +79,7 @@
     return;
   }
 
-  VungleSDK *sdk = [VungleSDK sharedSDK];
+  VungleSDK *sdk = VungleSDK.sharedSDK;
   if ([sdk isInitialized]) {
     [self loadAd];
     return;
@@ -92,7 +92,7 @@
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
-  [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
+  [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
 - (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
@@ -121,8 +121,8 @@
 }
 
 - (void)loadAd {
-  NSError *error = [[GADMAdapterVungleRouter sharedInstance] loadAd:self.desiredPlacement
-                                                       withDelegate:self];
+  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
+                                                     withDelegate:self];
   if (error) {
     [_connector adapter:_adapter didFailAd:error];
   }
@@ -134,8 +134,8 @@
   }
   _didBannerFinishPresenting = YES;
 
-  [[GADMAdapterVungleRouter sharedInstance] completeBannerAdViewForPlacementID:self];
-  [[GADMAdapterVungleRouter sharedInstance] removeDelegate:self];
+  [GADMAdapterVungleRouter.sharedInstance completeBannerAdViewForPlacementID:self];
+  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
 }
 
 #pragma mark - GADMAdapterVungleDelegate delegates
@@ -172,10 +172,10 @@
   UIView *bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   NSError *bannerViewError =
-      [[GADMAdapterVungleRouter sharedInstance] renderBannerAdInView:bannerView
-                                                            delegate:self
-                                                              extras:[strongConnector networkExtras]
-                                                      forPlacementID:self.desiredPlacement];
+      [GADMAdapterVungleRouter.sharedInstance renderBannerAdInView:bannerView
+                                                          delegate:self
+                                                            extras:[strongConnector networkExtras]
+                                                    forPlacementID:self.desiredPlacement];
   if (bannerViewError) {
     [strongConnector adapter:strongAdapter didFailAd:bannerViewError];
     return;
@@ -195,6 +195,10 @@
 
 - (void)willShowAd {
   self.bannerState = BannerRouterDelegateStatePlaying;
+}
+
+- (void)didShowAd {
+  // Do nothing
 }
 
 - (void)didViewAd {

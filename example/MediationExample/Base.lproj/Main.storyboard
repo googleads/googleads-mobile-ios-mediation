@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rAm-Wo-R20">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20034" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rAm-Wo-R20">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20017"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,14 +19,14 @@
                             <tableViewSection headerTitle="Select Ad Source" id="YJb-Rr-UdG">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="EPD-9q-622" style="IBUITableViewCellStyleDefault" id="zTI-Kt-vZo">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zTI-Kt-vZo" id="4ql-AH-I4c">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.66666666666669" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SampleAdSDK Adapter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EPD-9q-622">
-                                                    <rect key="frame" x="20" y="0.0" width="354.66666666666669" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="357.33333333333331" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -36,14 +36,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="erQ-V6-exu" style="IBUITableViewCellStyleDefault" id="Epk-DD-3tB">
-                                        <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="88.666666030883789" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Epk-DD-3tB" id="u8E-9z-tfa">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.66666666666669" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Objective-C Custom Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="erQ-V6-exu">
-                                                    <rect key="frame" x="20" y="0.0" width="354.66666666666669" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="357.33333333333331" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -53,14 +53,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="XI1-er-efF" style="IBUITableViewCellStyleDefault" id="OlR-NM-Tk0">
-                                        <rect key="frame" x="0.0" y="116" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="132.66666603088379" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OlR-NM-Tk0" id="lPA-gU-Da5">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.66666666666669" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Swift Custom Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XI1-er-efF">
-                                                    <rect key="frame" x="20" y="0.0" width="354.66666666666669" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="357.33333333333331" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -118,10 +118,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="1000"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1tL-6a-E7E" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="583.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="583.66666666666663"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TY-VH-xWf">
-                                                <rect key="frame" x="273" y="16" width="54.333333333333314" height="20.666666666666671"/>
+                                                <rect key="frame" x="273" y="16" width="54" height="20.666666666666671"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -134,7 +134,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="KMQ-bp-xno"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OsW-uQ-1nh">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OsW-uQ-1nh">
                                                 <rect key="frame" x="234" y="124.66666666666669" width="132" height="30"/>
                                                 <state key="normal" title="Show Interstitial Ad">
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -144,27 +144,27 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Native Ad" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lWJ-t3-Qc8">
-                                                <rect key="frame" x="263.33333333333331" y="184.66666666666666" width="73.666666666666686" height="20.666666666666657"/>
+                                                <rect key="frame" x="263" y="184.66666666666666" width="74" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Xk-3s-XIj" userLabel="Custom Event Native Ad View">
-                                                <rect key="frame" x="0.0" y="213.33333333333337" width="600" height="220"/>
+                                                <rect key="frame" x="0.0" y="213.66666666666663" width="600" height="220"/>
                                                 <color key="backgroundColor" red="0.91510811240000001" green="0.91510811240000001" blue="0.91510811240000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="220" id="zgc-SI-rrk"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMQ-nW-gjz">
-                                                <rect key="frame" x="238.66666666666663" y="453" width="123" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMQ-nW-gjz">
+                                                <rect key="frame" x="238.66666666666663" y="453.33333333333331" width="123" height="30"/>
                                                 <state key="normal" title="Refresh Native Ad"/>
                                                 <connections>
                                                     <action selector="refreshNativeAd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Ri-fv-zcR"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSV-wO-csq">
-                                                <rect key="frame" x="233.66666666666663" y="513" width="133" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSV-wO-csq">
+                                                <rect key="frame" x="233.66666666666663" y="513.33333333333337" width="133" height="30"/>
                                                 <state key="normal" title="Show Rewarded Ad"/>
                                                 <connections>
                                                     <action selector="showRewarded:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bs1-fk-x7N"/>

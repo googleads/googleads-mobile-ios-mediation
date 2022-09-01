@@ -20,24 +20,66 @@ import Foundation
 import GoogleMobileAds
 import SampleAdSDK
 
-/// Constant for Sample Ad Network custom event error domain.
-private let customEventErrorDomain: String = "com.google.CustomEvent"
+class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
+  var nativeAd: SampleNativeAd?
 
-class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
-  /// Native ad view options.
-  fileprivate var nativeAdViewAdOptions: GADNativeAdViewAdOptions?
-  var delegate: GADCustomEventNativeAdDelegate?
+  var headline: String? {
+    return nativeAd?.headline
+  }
+
+  var images: [GADNativeAdImage]?
+
+  var body: String? {
+    return nativeAd?.body
+  }
+
+  var icon: GADNativeAdImage?
+
+  var callToAction: String? {
+    return nativeAd?.callToAction
+  }
+
+  var starRating: NSDecimalNumber? {
+    return nativeAd?.starRating
+  }
+
+  var store: String? {
+    return nativeAd?.store
+  }
+
+  var price: String? {
+    return nativeAd?.price
+  }
+
+  var advertiser: String? {
+    return nativeAd?.advertiser
+  }
+
+  var extraAssets: [String: Any]? {
+    return [
+      SampleCustomEventConstantsSwift.awesomenessKey: nativeAd?.degreeOfAwesomeness ?? ""
+    ]
+  }
+
+  var adChoicesView: UIView?
+
+  var mediaView: UIView? {
+    return nativeAd?.mediaView
+  }
+
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  var delegate: GADMediationNativeAdEventDelegate?
+
+  /// Completion handler called after ad load
+  var completionHandler: GADMediationNativeLoadCompletionHandler?
 
   required override init() {
     super.init()
   }
 
-  func request(
-    withParameter serverParameter: String,
-    request: GADCustomEventRequest,
-    adTypes: [Any],
-    options: [Any],
-    rootViewController: UIViewController
+  func loadNativeAd(
+    for adConfiguration: GADMediationNativeAdConfiguration,
+    completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     let adLoader = SampleNativeAdLoader()
     let sampleRequest = SampleNativeAdRequest()
@@ -52,30 +94,28 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
     sampleRequest.shouldDownloadImages = true
     sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
     sampleRequest.shouldRequestMultipleImages = false
-    if let options = options as? [GADAdLoaderOptions] {
-      for loaderOptions: GADAdLoaderOptions in options {
-        if let imageOptions = loaderOptions as? GADNativeAdImageAdLoaderOptions {
-          sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages
-          // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is
-          // YES, the adapter should send just the URLs for the images.
-          sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading
-        } else if let mediaOptions = loaderOptions as? GADNativeAdMediaAdLoaderOptions {
-          switch mediaOptions.mediaAspectRatio {
-          case GADMediaAspectRatio.landscape:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
-          case GADMediaAspectRatio.portrait:
-            sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
-          default: sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
-          }
-        } else if let options = loaderOptions as? GADNativeAdViewAdOptions {
-          nativeAdViewAdOptions = options
+    let options = adConfiguration.options
+    for loaderOptions: GADAdLoaderOptions in options {
+      if let imageOptions = loaderOptions as? GADNativeAdImageAdLoaderOptions {
+        sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages
+        // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is
+        // YES, the adapter should send just the URLs for the images.
+        sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading
+      } else if let mediaOptions = loaderOptions as? GADNativeAdMediaAdLoaderOptions {
+        switch mediaOptions.mediaAspectRatio {
+        case GADMediaAspectRatio.landscape:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
+        case GADMediaAspectRatio.portrait:
+          sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
+        default: sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
         }
       }
     }
     // This custom event uses the server parameter to carry an ad unit ID, which is the most common
     // use case.
-    adLoader.adUnitID = serverParameter
     adLoader.delegate = self
+    adLoader.adUnitID = adConfiguration.credentials.settings["parameter"] as? String
+    self.completionHandler = completionHandler
     adLoader.fetchAd(sampleRequest)
   }
 
@@ -91,13 +131,65 @@ class SampleCustomEventNativeAdSwift: NSObject, GADCustomEventNativeAd {
 
 extension SampleCustomEventNativeAdSwift: SampleNativeAdLoaderDelegate {
   func adLoader(_ adLoader: SampleNativeAdLoader, didReceive nativeAd: SampleNativeAd) {
-    let mediatedAd = SampleMediatedNativeAdSwift(
-      sampleNativeAd: nativeAd, nativeAdViewAdOptions: nativeAdViewAdOptions)
-    delegate?.customEventNativeAd(self, didReceive: mediatedAd)
+    if let image = nativeAd.image {
+      images = [GADNativeAdImage(image: image)]
+    } else {
+      let imageUrl = URL(fileURLWithPath: nativeAd.imageURL)
+      images = [GADNativeAdImage(url: imageUrl, scale: nativeAd.imageScale)]
+    }
+    if let mappedIcon = nativeAd.icon {
+      icon = GADNativeAdImage(image: mappedIcon)
+    } else {
+      let iconURL = URL(fileURLWithPath: nativeAd.iconURL)
+      icon = GADNativeAdImage(url: iconURL, scale: nativeAd.iconScale)
+    }
+
+    adChoicesView = SampleAdInfoView()
+    self.nativeAd = nativeAd
+    if let handler = completionHandler {
+      delegate = handler(self, nil)
+    }
   }
 
   func adLoader(_ adLoader: SampleNativeAdLoader, didFailToLoadAdWith errorCode: SampleErrorCode) {
-    let error = NSError(domain: customEventErrorDomain, code: errorCode.rawValue, userInfo: nil)
-    delegate?.customEventNativeAd(self, didFailToLoadWithError: error)
+    let error = SampleCustomEventUtilsSwift.SampleCustomEventErrorWithCodeAndDescription(
+      code: SampleCustomEventErrorCodeSwift.SampleCustomEventErrorAdLoadFailureCallback,
+      description: "Sample SDK returned an ad load failure callback with error code: \(errorCode)")
+    if let handler = completionHandler {
+      delegate = handler(nil, error)
+    }
+  }
+
+  // Because the Sample SDK has click and impression tracking via methods on its native ad object
+  // which the developer is required to call, there's no need to pass it a reference to the UIView
+  // being used to display the native ad. So there's no need to implement
+  // mediatedNativeAd:didRenderInView:viewController:clickableAssetViews:nonClickableAssetViews here.
+  // If your mediated network does need a reference to the view, this method can be used to provide
+  // one.
+  // You can also access the clickable and non-clickable views by asset key if the mediation network
+  // needs this information.
+  func didRender(
+    in view: UIView, clickableAssetViews: [GADNativeAssetIdentifier: UIView],
+    nonclickableAssetViews: [GADNativeAssetIdentifier: UIView],
+    viewController: UIViewController
+  ) {
+    // This method is called when the native ad view is rendered. Here you would pass the UIView
+    // back to the mediated network's SDK.
+    self.nativeAd?.mediaView.playMedia()
+  }
+
+  func didRecordClickOnAsset(
+    withName assetName: GADNativeAssetIdentifier, view: UIView, viewController: UIViewController
+  ) {
+    self.nativeAd?.handleClick(on: view)
+  }
+
+  func didRecordImpression() {
+    nativeAd?.recordImpression()
+  }
+
+  func didUntrackView(_ view: UIView?) {
+    // This method is called when the mediatedNativeAd is no longer rendered in the provided view.
+    // Here you would remove any tracking from the view that has mediated native ad.
   }
 }

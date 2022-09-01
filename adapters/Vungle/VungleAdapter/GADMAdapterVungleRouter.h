@@ -39,5 +39,6 @@ extern const CGSize kVNGBannerShortSize;
 - (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
 - (BOOL)isSDKInitialized;
 - (nullable NSString *)getSuperToken;
+- (void)setCOPPAStatus:(nonnull NSNumber *)coppa;
 
 @end

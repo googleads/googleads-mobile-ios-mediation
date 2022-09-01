@@ -6,6 +6,4 @@ framework module ChartboostAdapter {
 
   link framework "Foundation"
   link framework "UIKit"
-
-  header "GADMChartboostExtras.h"
 }

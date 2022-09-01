@@ -266,7 +266,7 @@
 
 - (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode {
   _loadCompletionHandler(nil, [NSError errorWithDomain:kAdapterErrorDomain
-                                                  code:kGADErrorNoFill
+                                                  code:GADErrorNoFill
                                               userInfo:nil]);
 }
 

@@ -109,24 +109,24 @@
 }
 
 - (NSString *)headline {
-    if (_nativeAd && _nativeAd.data) {
-        return _nativeAd.data.AdTitle;
-    }
-    return nil;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdTitle;
+  }
+  return nil;
 }
 
 - (NSString *)body {
-    if (_nativeAd && _nativeAd.data) {
-        return _nativeAd.data.AdDescription;
-    }
-    return nil;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdDescription;
+  }
+  return nil;
 }
 
 - (NSString *)callToAction {
-    if (_nativeAd && _nativeAd.data) {
-        return _nativeAd.data.buttonText;
-    }
-    return nil;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.buttonText;
+  }
+  return nil;
 }
 
 - (NSDecimalNumber *)starRating {
@@ -138,22 +138,22 @@
 }
 
 - (NSString *)store {
-    return nil;
+  return nil;
 }
 
 - (NSString *)price {
-    return nil;
+  return nil;
 }
 
 - (NSString *)advertiser {
-    if (_nativeAd && _nativeAd.data) {
-        return _nativeAd.data.AdTitle;
-    }
-    return nil;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdTitle;
+  }
+  return nil;
 }
 
-- (NSDictionary<NSString *,id> *)extraAssets {
-    return nil;
+- (NSDictionary<NSString *, id> *)extraAssets {
+  return nil;
 }
 
 - (void)didUntrackView:(UIView *)view {
@@ -165,11 +165,11 @@
 }
 
 - (BOOL)handlesUserClicks {
-    return YES;
+  return YES;
 }
 
 - (BOOL)handlesUserImpressions {
-    return YES;
+  return YES;
 }
 
 - (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
