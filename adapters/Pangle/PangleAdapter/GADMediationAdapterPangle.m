@@ -156,9 +156,9 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 /// Set the COPPA setting in Pangle SDK.
 ///
 /// @param childDirected An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA.  0 means user is not a child.
-/// 1 means user is a child. -1 means unspecified.
-/// Any value outside of -1, 0, or 1 will result in this method being a no-op.
+/// child-directed for purposes of the COPPA.  See <a
+/// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
+/// Pangle's documentation</a> for more information about what values may be provided.
 + (void)setChildDirected:(NSInteger)childDirected {
   if (childDirected != 0 && childDirected != 1 && childDirected != -1) {
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
