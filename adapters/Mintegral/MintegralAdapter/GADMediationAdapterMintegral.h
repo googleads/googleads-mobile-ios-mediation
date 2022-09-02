@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
     /// Missing server parameters.
     GADMintegralErrorInvalidServerParameters   = 101,
     /// The ad request was successful, but no ad was returned.
-    GADMintegralErrorAdNotFill = 102,
+    GADMintegralErrorAdNotAvailable = 102,
     /// The Mintegral SDK failed to show an ad.
     GADMintegralErrorAdNotValid  = 103,
     /// Banner size mismatch.
