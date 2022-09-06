@@ -33,9 +33,6 @@ MTGBannerAdViewDelegate>
 @end
 
 @implementation GADMAdapterMintegralBannerRenderer{
-    /// Ad configuration for the ad to be loaded.
-    GADMediationBannerAdConfiguration *_adConfiguration;
-    
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -49,7 +46,6 @@ MTGBannerAdViewDelegate>
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler{
-    _adConfiguration = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
     [completionHandler copy];
