@@ -74,7 +74,7 @@ MTGBannerAdViewDelegate>
     }
 
     NSError *error = nil;
-    CGSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+    CGSize bannerSize = [self bannerSizeFromGADAdSize:adConfiguration.adSize error:&error];
     if (error) {
       _adLoadCompletionHandler(nil, error);
       return;
@@ -86,7 +86,7 @@ MTGBannerAdViewDelegate>
     [_bannerAdView loadBannerAdWithBidToken:adConfiguration.bidResponse];
 }
 
-- (CGSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+- (CGSize)bannerSizeFromGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
     CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
     GADAdSize banner50 = GADAdSizeFromCGSize(
                                              CGSizeMake(gadAdCGSize.width, mintegralBannerAdSize320x50.height));  // 320*50
