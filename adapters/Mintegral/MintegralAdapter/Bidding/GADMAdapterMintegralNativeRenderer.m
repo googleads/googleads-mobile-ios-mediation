@@ -122,7 +122,7 @@ MTGMediaViewDelegate>
 
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotAvailable, @"Native ad not available");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotAvailable, @"No native ad returned from Mintegral.");
         if (_adLoadCompletionHandler) {
             _adLoadCompletionHandler(nil,error);
         }
