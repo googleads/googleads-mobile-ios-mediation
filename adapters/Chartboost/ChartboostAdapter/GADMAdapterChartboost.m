@@ -44,7 +44,7 @@
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return nil;
+  return Nil;
 }
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {

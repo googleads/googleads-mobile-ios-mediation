@@ -82,29 +82,27 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostInterstitialAd *__weak weakSelf = self;
-  [Chartboost
-      startWithAppID:appID
-        appSignature:appSignature
-          completion:^(CHBStartError *cbError) {
-            GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
-            if (!strongSelf) {
-              return;
-            }
+  [Chartboost startWithAppID:appID
+                appSignature:appSignature
+                  completion:^(CHBStartError *cbError) {
+                    GADMAdapterChartboostInterstitialAd *strongSelf = weakSelf;
+                    if (!strongSelf) {
+                      return;
+                    }
 
-            if (cbError) {
-              NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                  GADMAdapterChartboostErrorInitializationFailure,
-                  @"Failed to initialize Chartboost SDK.");
-              [strongConnector adapter:strongAdapter didFailAd:error];
-              return;
-            }
+                    if (cbError) {
+                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
+                      [strongConnector adapter:strongAdapter didFailAd:cbError];
+                      return;
+                    }
 
-            CHBMediation *mediation = GADMAdapterChartboostMediation();
-            strongSelf->_interstitialAd = [[CHBInterstitial alloc] initWithLocation:adLocation
-                                                                          mediation:mediation
-                                                                           delegate:strongSelf];
-            [strongSelf->_interstitialAd cache];
-          }];
+                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    strongSelf->_interstitialAd =
+                        [[CHBInterstitial alloc] initWithLocation:adLocation
+                                                        mediation:mediation
+                                                         delegate:strongSelf];
+                    [strongSelf->_interstitialAd cache];
+                  }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {

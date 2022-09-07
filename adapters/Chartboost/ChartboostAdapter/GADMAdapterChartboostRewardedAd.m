@@ -105,10 +105,8 @@
                     }
 
                     if (cbError) {
-                      NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK initialization failed.");
-                      strongSelf->_completionHandler(nil, error);
+                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
+                      strongSelf->_completionHandler(nil, cbError);
                       return;
                     }
 
