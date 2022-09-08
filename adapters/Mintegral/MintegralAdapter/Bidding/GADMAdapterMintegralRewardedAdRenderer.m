@@ -118,7 +118,6 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    
     if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId] ||
         [GADMAdapterMintegralUtils isStringEmpty:placementId]) {
         NSError *error =
@@ -128,6 +127,7 @@
     }
     
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
+    _rewardedAd = MTGBidRewardAdManager.sharedInstance;
     _rewardedAd.playVideoMute = extras.playVideoMute;
     if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:adUnitId]) {
         [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
