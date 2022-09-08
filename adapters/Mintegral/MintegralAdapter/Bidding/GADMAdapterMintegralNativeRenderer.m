@@ -231,13 +231,7 @@ MTGMediaViewDelegate>
 
 #pragma mark - GADMediatedUnifiedNativeAd
 -(void)didRenderInView:(UIView *)view clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)clickableAssetViews nonclickableAssetViews:(NSDictionary<GADNativeAssetIdentifier,UIView *> *)nonclickableAssetViews viewController:(UIViewController *)viewController{
-
-    for (UIView *subView in view.subviews) {
-        subView.userInteractionEnabled = NO;
-    }
-
-    [_nativeManager registerViewForInteraction:view withCampaign:_campaign];
-
+    [_nativeManager registerViewForInteraction:view withClickableViews:clickableAssetViews.allValues withCampaign:_campaign];
 }
 
 - (GADNativeAdImage *)loadImageWithURLString:(NSString *)urlString {
