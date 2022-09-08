@@ -59,10 +59,10 @@
     
     NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    
-    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId]) {
+    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId] ||
+        [GADMAdapterMintegralUtils isStringEmpty:placementId]) {
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID cannot be nil.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
