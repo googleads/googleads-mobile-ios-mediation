@@ -14,13 +14,7 @@
 #import <Foundation/Foundation.h>
 #import "GADMediationAdapterMintegral.h"
 
-
-#if DEBUG
 #define GADMediationAdapterMintegralLog(format, args...) NSLog(@"GADMediationAdapterMintegral: " format, ##args)
-#else
-#define GADMediationAdapterMintegralLog(...)
-#endif
-
 @interface GADMAdapterMintegralUtils : NSObject
 
 + (BOOL)isStringEmpty:(NSString *_Nullable)value;
