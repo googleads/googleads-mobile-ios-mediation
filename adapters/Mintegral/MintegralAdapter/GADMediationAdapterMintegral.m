@@ -20,6 +20,7 @@
 #import "GADMAdapterMintegralInterstitialLoader.h"
 #import "GADMAdapterMintegralNativeLoader.h"
 #import "GADMAdapterMintegralUtils.h"
+
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 
@@ -45,8 +46,8 @@
     return [GADMAdapterMintegralExtras class];
 }
 
-+ (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
-             completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
     
     NSMutableSet *appIds = [[NSMutableSet alloc] init];
     NSMutableSet *appKeys = [[NSMutableSet alloc] init];
@@ -114,33 +115,26 @@
   return version;
 }
 
-- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
-                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
+                         completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
     if (completionHandler) {
         completionHandler([MTGBiddingSDK buyerUID],nil);
     }
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-(GADMediationRewardedLoadCompletionHandler)completionHandler {
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
     _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
     [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                               completionHandler; {
+- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
     _interstitialAd = [[GADMAdapterMintegralInterstitialLoader alloc]init];
     [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
 }
 
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:
-(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     _bannerAd = [[GADMAdapterMintegralBannerLoader alloc]init];
     [_bannerAd loadBannerForAdConfiguration:adConfiguration
                         completionHandler:completionHandler];
