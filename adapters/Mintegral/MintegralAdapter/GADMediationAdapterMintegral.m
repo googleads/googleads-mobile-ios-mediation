@@ -59,14 +59,8 @@
         GADMAdapterMintegralMutableSetAddObject(appKeys, appKey);
     }
     
-    if (appIds.count < 1) {
-        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app ID.");
-        completionHandler(error);
-        return;
-    }
-    
-    if (appKeys.count < 1) {
-        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app key.");
+    if (appIds.count < 1 || appKeys.count < 1) {
+        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid app ID or app Key.");
         completionHandler(error);
         return;
     }
