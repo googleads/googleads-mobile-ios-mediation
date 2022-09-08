@@ -20,9 +20,8 @@
 + (BOOL)isStringEmpty:(NSString *)value {
     if ([value isKindOfClass:NSString.class] && value.length > 0) {
         return NO;
-    }else{
-        return YES;
     }
+    return YES;
 }
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
