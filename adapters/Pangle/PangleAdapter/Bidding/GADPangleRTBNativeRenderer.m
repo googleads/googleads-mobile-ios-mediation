@@ -19,14 +19,14 @@
 #import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBNativeRenderer()<PAGLNativeAdDelegate> {
-    /// The completion handler to call when the ad loading succeeds or fails.
-    GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
-    /// The Pangle native ad.
-    PAGLNativeAd *_nativeAd;
-    /// The Pangle related view
-    PAGLNativeAdRelatedView *_relatedView;
-    /// An ad event delegate to invoke when ad rendering events occur.
-    id<GADMediationNativeAdEventDelegate> _delegate;
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
+  /// The Pangle native ad.
+  PAGLNativeAd *_nativeAd;
+  /// The Pangle related view.
+  PAGLNativeAdRelatedView *_relatedView;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationNativeAdEventDelegate> _delegate;
 }
 
 @end
@@ -34,30 +34,34 @@
 @implementation GADPangleRTBNativeRenderer
 @synthesize icon = _icon;
 
-- (void)renderNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
-                       completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-    __block  GADMediationNativeLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-    _loadCompletionHandler = ^id<GADMediationNativeAdEventDelegate> (_Nullable id<GADMediationNativeAd> ad, NSError *_Nullable error) {
-        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-            return nil;
-        }
-        id<GADMediationNativeAdEventDelegate> delegate = nil;
-        if (originalCompletionHandler) {
-            delegate = originalCompletionHandler(ad, error);
-        }
-        originalCompletionHandler = nil;
-        return delegate;
-    };
-    
-    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
-    if (!placementId.length) {
-        NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorInvalidServerParameters,
-                                                                      [NSString stringWithFormat:@"%@ cannot be nil.",GADMAdapterPanglePlacementID]
-                                                                      );
-        _loadCompletionHandler(nil, error);
-        return;
+- (void)renderNativeAdForAdConfiguration:
+            (nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _loadCompletionHandler = ^id<GADMediationNativeAdEventDelegate>(
+      _Nullable id<GADMediationNativeAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
     }
+    id<GADMediationNativeAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
+  NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
+  if (!placementId.length) {
+    NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
+        GADPangleErrorInvalidServerParameters,
+        [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
+    _loadCompletionHandler(nil, error);
+    return;
+  }
 
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
   
@@ -184,8 +188,8 @@
            (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
         (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
-         viewController:(nonnull UIViewController *)viewController {
-    [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
+            viewController:(nonnull UIViewController *)viewController {
+  [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
 }
 
 #pragma mark - PAGLNativeAdDelegate

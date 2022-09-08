@@ -25,14 +25,14 @@
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
-    /// Pangle banner ad wrapper.
-    GADPangleRTBBannerRenderer *_bannerRenderer;
-    /// Pangle interstitial ad wrapper.
-    GADPangleRTBInterstitialRenderer *_interstitialRenderer;
-    /// Pangle rewarded ad wrapper.
-    GADPangleRTBRewardedRenderer *_rewardedRenderer;
-    /// Pangle native ad wrapper.
-    GADPangleRTBNativeRenderer *_nativeRenderer;
+  /// Pangle banner ad wrapper.
+  GADPangleRTBBannerRenderer *_bannerRenderer;
+  /// Pangle interstitial ad wrapper.
+  GADPangleRTBInterstitialRenderer *_interstitialRenderer;
+  /// Pangle rewarded ad wrapper.
+  GADPangleRTBRewardedRenderer *_rewardedRenderer;
+  /// Pangle native ad wrapper.
+  GADPangleRTBNativeRenderer *_nativeRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -168,7 +168,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
       PAGConfig.shareConfig.childDirected = childDirected;
   }
 }
-+ (void)GDPRConsent:(NSInteger)GDPRConsent {
++ (void)setGDPRConsent:(NSInteger)GDPRConsent {
   if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
     return;
@@ -179,7 +179,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   _GDPRConsent = GDPRConsent;
 }
 
-+ (void)doNotSell:(NSInteger)doNotSell {
++ (void)setDoNotSell:(NSInteger)doNotSell {
   if (doNotSell != 0 && doNotSell != 1 && doNotSell != -1) {
     GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;

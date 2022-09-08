@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// data to serve ads under GDPR. See <a
 /// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
 /// Pangle's documentation</a> for more information about what values may be provided.
-+ (void)GDPRConsent:(NSInteger)GDPRConsent;
++ (void)setGDPRConsent:(NSInteger)GDPRConsent;
 
 /// Set the CCPA setting in Pangle SDK.
 ///
@@ -38,6 +38,6 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// "personal information" under CCPA. See <a
 /// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
 /// Pangle's documentation</a> for more information about what values may be provided.
-+ (void)doNotSell:(NSInteger)doNotSell;
++ (void)setDoNotSell:(NSInteger)doNotSell;
 
 @end
