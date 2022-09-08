@@ -16,7 +16,7 @@
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralRewardedAdRenderer.h"
-#import "GADMAdapterMintegralBannerRenderer.h"
+#import "GADMAdapterMintegralBannerLoader.h"
 #import "GADMAdapterMintegralInterstitialRenderer.h"
 #import "GADMAdapterMintegralNativeRenderer.h"
 #import "GADMAdapterMintegralUtils.h"
@@ -29,7 +29,7 @@
     GADMAdapterMintegralRewardedAdRenderer * _rewardedAd;
     
     /// Mintegral banner ad.
-    GADMAdapterMintegralBannerRenderer *_bannerAd;
+    GADMAdapterMintegralBannerLoader *_bannerAd;
     
     /// Mintegral interstitial ad.
     GADMAdapterMintegralInterstitialRenderer *_interstitialAd;
@@ -141,8 +141,8 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-    _bannerAd = [[GADMAdapterMintegralBannerRenderer alloc]init];
-    [_bannerAd renderBannerForAdConfiguration:adConfiguration
+    _bannerAd = [[GADMAdapterMintegralBannerLoader alloc]init];
+    [_bannerAd loadBannerForAdConfiguration:adConfiguration
                         completionHandler:completionHandler];
 }
 

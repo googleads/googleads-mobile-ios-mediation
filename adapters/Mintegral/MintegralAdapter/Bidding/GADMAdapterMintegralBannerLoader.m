@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralBannerRenderer.h"
+#import "GADMAdapterMintegralBannerLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #include <stdatomic.h>
@@ -26,13 +26,13 @@ static CGSize const mintegralBannerAdSize320x100 = (CGSize){320, 100};
 static CGSize const mintegralBannerAdSize300x250 = (CGSize){300, 250};
 static CGSize const mintegralBannerAdSize728x90 = (CGSize){728, 90};
 
-@interface GADMAdapterMintegralBannerRenderer ()
+@interface GADMAdapterMintegralBannerLoader ()
 <GADMediationBannerAd,
 MTGBannerAdViewDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralBannerRenderer{
+@implementation GADMAdapterMintegralBannerLoader{
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -43,7 +43,7 @@ MTGBannerAdViewDelegate>
     MTGBannerAdView *_bannerAdView;
 }
 
-- (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler{
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
