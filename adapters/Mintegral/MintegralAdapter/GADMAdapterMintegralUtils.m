@@ -17,11 +17,11 @@
 
 @implementation GADMAdapterMintegralUtils
 
-+ (BOOL)isStringEmpty:(NSString *)value {
-    if ([value isKindOfClass:NSString.class] && value.length > 0) {
-        return NO;
++ (BOOL)isStringEmpty:(NSString *_Nullable)aString {
+    if (!aString.length) {
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
