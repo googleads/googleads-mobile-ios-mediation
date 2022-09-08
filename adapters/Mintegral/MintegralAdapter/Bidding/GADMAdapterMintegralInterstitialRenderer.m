@@ -104,7 +104,7 @@
     [_adEventDelegate didDismissFullScreenView];
 }
 
-#pragma mark GADMediationRewardedAd
+#pragma mark GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
@@ -113,7 +113,7 @@
         [_interstitialAd showFromViewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Unable to display ad.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Failed to present interstitial ad from Mintegral.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
