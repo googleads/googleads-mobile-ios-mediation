@@ -17,7 +17,7 @@
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralRewardedAdRenderer.h"
 #import "GADMAdapterMintegralBannerLoader.h"
-#import "GADMAdapterMintegralInterstitialRenderer.h"
+#import "GADMAdapterMintegralInterstitialLoader.h"
 #import "GADMAdapterMintegralNativeRenderer.h"
 #import "GADMAdapterMintegralUtils.h"
 #import <MTGSDK/MTGSDK.h>
@@ -32,7 +32,7 @@
     GADMAdapterMintegralBannerLoader *_bannerAd;
     
     /// Mintegral interstitial ad.
-    GADMAdapterMintegralInterstitialRenderer *_interstitialAd;
+    GADMAdapterMintegralInterstitialLoader *_interstitialAd;
     
     /// Mintegral native ad.
     GADMAdapterMintegralNativeRenderer *_nativeAd;
@@ -133,9 +133,9 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler; {
-    _interstitialAd = [[GADMAdapterMintegralInterstitialRenderer alloc]init];
-    [_interstitialAd renderInterstitialForAdConfiguration:adConfiguration
-                                                          completionHandler:completionHandler];
+    _interstitialAd = [[GADMAdapterMintegralInterstitialLoader alloc]init];
+    [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
 }
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration

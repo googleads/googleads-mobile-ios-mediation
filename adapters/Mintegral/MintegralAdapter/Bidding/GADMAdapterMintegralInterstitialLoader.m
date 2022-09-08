@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralInterstitialRenderer.h"
+#import "GADMAdapterMintegralInterstitialLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
@@ -20,11 +20,11 @@
 #import <MTGSDKNewInterstitial/MTGSDKNewInterstitial.h>
 #import <MTGSDKNewInterstitial/MTGNewInterstitialBidAdManager.h>
 
-@interface GADMAdapterMintegralInterstitialRenderer ()<GADMediationInterstitialAd,MTGNewInterstitialBidAdDelegate>
+@interface GADMAdapterMintegralInterstitialLoader ()<GADMediationInterstitialAd,MTGNewInterstitialBidAdDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralInterstitialRenderer {
+@implementation GADMAdapterMintegralInterstitialLoader {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -38,7 +38,7 @@
     id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
-- (void)renderInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                  completionHandler{
     _adConfiguration = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
