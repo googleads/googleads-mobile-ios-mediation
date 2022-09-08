@@ -33,30 +33,32 @@
 }
 
 - (void)renderInterstitialForAdConfiguration:
-(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-    __block  GADMediationInterstitialLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-    _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(_Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
-        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-            return nil;
-        }
-        id<GADMediationInterstitialAdEventDelegate> delegate = nil;
-        if (originalCompletionHandler) {
-          delegate = originalCompletionHandler(ad, error);
-        }
-        originalCompletionHandler = nil;
-        return delegate;
-      };
-
-    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
-    if (!placementId.length) {
-      NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
-          GADPangleErrorInvalidServerParameters,
-          [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-      _loadCompletionHandler(nil, error);
-      return;
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
     }
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(ad, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+  NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
+  if (!placementId.length) {
+    NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
+        GADPangleErrorInvalidServerParameters,
+        [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
+    _loadCompletionHandler(nil, error);
+    return;
+  }
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse;
   __weak typeof(self) weakSelf = self;
