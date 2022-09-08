@@ -15,11 +15,11 @@
 #import "GADMAdapterMintegralBannerLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
+
 #include <stdatomic.h>
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKBanner/MTGBannerAdView.h>
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
-
 
 static CGSize const mintegralBannerAdSize320x50 = (CGSize){320, 50};
 static CGSize const mintegralBannerAdSize320x100 = (CGSize){320, 100};

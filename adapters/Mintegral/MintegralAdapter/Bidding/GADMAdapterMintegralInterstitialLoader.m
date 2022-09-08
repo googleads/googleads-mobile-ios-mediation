@@ -16,6 +16,7 @@
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
+
 #include <stdatomic.h>
 #import <MTGSDKNewInterstitial/MTGSDKNewInterstitial.h>
 #import <MTGSDKNewInterstitial/MTGNewInterstitialBidAdManager.h>

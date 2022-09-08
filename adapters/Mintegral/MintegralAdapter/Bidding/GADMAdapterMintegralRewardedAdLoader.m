@@ -12,20 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRewardedAdRenderer.h"
+#import "GADMAdapterMintegralRewardedAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
+
 #include <stdatomic.h>
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKReward/MTGRewardAd.h>
 #import <MTGSDKReward/MTGBidRewardAdManager.h>
 
-@interface GADMAdapterMintegralRewardedAdRenderer ()<GADMediationRewardedAd,MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
+@interface GADMAdapterMintegralRewardedAdLoader ()<GADMediationRewardedAd,MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRewardedAdRenderer {
+@implementation GADMAdapterMintegralRewardedAdLoader {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -39,7 +40,7 @@
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 }
 
-- (void)renderRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
     _adConfiguration = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
