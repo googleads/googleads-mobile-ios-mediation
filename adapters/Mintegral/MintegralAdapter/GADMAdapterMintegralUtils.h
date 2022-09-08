@@ -17,8 +17,6 @@
 #define GADMediationAdapterMintegralLog(format, args...) NSLog(@"GADMediationAdapterMintegral: " format, ##args)
 @interface GADMAdapterMintegralUtils : NSObject
 
-+ (BOOL)isStringEmpty:(NSString *_Nullable)aString;
-
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,

@@ -60,14 +60,13 @@
     
     NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId] ||
-        [GADMAdapterMintegralUtils isStringEmpty:placementId]) {
+    if (!adUnitId.length || !placementId.length) {
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
-    
+
     _interstitialAd = [[MTGNewInterstitialBidAdManager alloc]initWithPlacementId:placementId unitId:adUnitId delegate:self];
     [_interstitialAd loadAdWithBidToken:adConfiguration.bidResponse];
 }

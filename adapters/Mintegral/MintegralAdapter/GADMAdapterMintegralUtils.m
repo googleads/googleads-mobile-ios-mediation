@@ -17,13 +17,6 @@
 
 @implementation GADMAdapterMintegralUtils
 
-+ (BOOL)isStringEmpty:(NSString *_Nullable)aString {
-    if (!aString.length) {
-        return YES;
-    }
-    return NO;
-}
-
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
     return [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
                                code:code

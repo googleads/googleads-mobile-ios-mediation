@@ -65,8 +65,7 @@ MTGBannerAdViewDelegate>
     UIViewController *rootViewController = adConfiguration.topViewController;
     NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId] ||
-        [GADMAdapterMintegralUtils isStringEmpty:placementId]) {
+    if (!adUnitId.length || !placementId.length) {
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);

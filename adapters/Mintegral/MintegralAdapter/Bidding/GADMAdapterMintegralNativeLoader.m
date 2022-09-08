@@ -74,13 +74,13 @@ MTGMediaViewDelegate>
     UIViewController *rootViewController = adConfiguration.topViewController;
     NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    if ([GADMAdapterMintegralUtils isStringEmpty:adUnitId] ||
-        [GADMAdapterMintegralUtils isStringEmpty:placementId]) {
+    if (!adUnitId.length || !placementId.length) {
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
         return;
     }
+
         
     _adUnitId = adUnitId;
     _nativeManager = [[MTGBidNativeAdManager alloc]initWithPlacementId:placementId unitID:adUnitId presentingViewController:rootViewController];
@@ -103,15 +103,10 @@ MTGMediaViewDelegate>
     if ([nativeAds isKindOfClass:NSArray.class] && nativeAds.count > 0) {
         _campaign = nativeAds.firstObject;
         
-        if (![GADMAdapterMintegralUtils isStringEmpty:_campaign.iconUrl]) {
-            _icon = [self loadImageWithURLString:_campaign.iconUrl];
-        }
-                
-        if (![GADMAdapterMintegralUtils isStringEmpty:_campaign.imageUrl]) {
-            GADNativeAdImage *image = [self loadImageWithURLString:_campaign.imageUrl];
-            if (image) {
-                _images = @[image];
-            }
+        _icon = [self loadImageWithURLString:_campaign.iconUrl];
+        GADNativeAdImage *image = [self loadImageWithURLString:_campaign.imageUrl];
+        if (image) {
+            _images = @[image];
         }
         
         [self createMediaView];
@@ -235,7 +230,7 @@ MTGMediaViewDelegate>
 }
 
 - (GADNativeAdImage *)loadImageWithURLString:(NSString *)urlString {
-    if ([GADMAdapterMintegralUtils isStringEmpty:urlString]) {
+    if (!urlString.length) {
         return nil;
     }
     
