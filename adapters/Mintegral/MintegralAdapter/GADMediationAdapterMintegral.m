@@ -18,7 +18,7 @@
 #import "GADMAdapterMintegralRewardedAdRenderer.h"
 #import "GADMAdapterMintegralBannerLoader.h"
 #import "GADMAdapterMintegralInterstitialLoader.h"
-#import "GADMAdapterMintegralNativeRenderer.h"
+#import "GADMAdapterMintegralNativeLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKBidding/MTGBiddingSDK.h>
@@ -35,7 +35,7 @@
     GADMAdapterMintegralInterstitialLoader *_interstitialAd;
     
     /// Mintegral native ad.
-    GADMAdapterMintegralNativeRenderer *_nativeAd;
+    GADMAdapterMintegralNativeLoader *_nativeAd;
 }
 
 
@@ -147,8 +147,8 @@
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-    _nativeAd = [[GADMAdapterMintegralNativeRenderer alloc]init];
-    [_nativeAd renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    _nativeAd = [[GADMAdapterMintegralNativeLoader alloc]init];
+    [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 + (void)setAdmobChannel {

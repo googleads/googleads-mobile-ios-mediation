@@ -12,23 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralNativeRenderer.h"
+#import "GADMAdapterMintegralNativeLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
 
+#include <stdatomic.h>
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDK/MTGBidNativeAdManager.h>
-#include <stdatomic.h>
 
-@interface GADMAdapterMintegralNativeRenderer ()
+@interface GADMAdapterMintegralNativeLoader ()
 <MTGBidNativeAdManagerDelegate,
 GADMediationNativeAd,
 MTGMediaViewDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralNativeRenderer {
+@implementation GADMAdapterMintegralNativeLoader {
     /// Ad configuration for the ad to be loaded.
     GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
         
@@ -54,7 +54,7 @@ MTGMediaViewDelegate>
     NSArray<GADNativeAdImage *> *_images;
 }
 
-- (void)renderNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
         [completionHandler copy];
