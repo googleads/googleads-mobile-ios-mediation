@@ -26,11 +26,12 @@
 }
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
-    NSDictionary *userInfo =@{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-    NSError *error = [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
-                                         code:code
-                                     userInfo:userInfo];
-    return error;
+    return [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
+                               code:code
+                           userInfo:@{
+        NSLocalizedDescriptionKey : description,
+        NSLocalizedFailureReasonErrorKey : description
+    }];
 }
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
