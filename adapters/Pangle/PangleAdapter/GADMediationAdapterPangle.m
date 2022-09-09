@@ -114,7 +114,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
@@ -126,7 +126,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
@@ -137,7 +137,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
+  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
   _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
@@ -147,7 +147,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setChildDirected:(adConfiguration.childDirectedTreatment
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                              ? adConfiguration.childDirectedTreatment.integerValue
                                              : -1)];
     _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
@@ -156,19 +156,19 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 /// Set the COPPA setting in Pangle SDK.
 ///
-/// @param childDirected An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA.  See <a
-/// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
-/// Pangle's documentation</a> for more information about what values may be provided.
-+ (void)setChildDirected:(NSInteger)childDirected {
-  if (childDirected != 0 && childDirected != 1 && childDirected != -1) {
+/// @param COPPA An integer value that indicates whether the app should be treated as
+/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
+/// unspecified. Any value outside of -1, 0, or 1 will result in this method being a no-op.
++ (void)setCOPPA:(NSInteger)COPPA {
+  if (COPPA != 0 && COPPA != 1 && COPPA != -1) {
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
   if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
-      PAGConfig.shareConfig.childDirected = childDirected;
+      PAGConfig.shareConfig.childDirected = COPPA;
   }
 }
+
 + (void)setGDPRConsent:(NSInteger)GDPRConsent {
   if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
