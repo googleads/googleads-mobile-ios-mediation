@@ -14,16 +14,27 @@
 
 #import "GADMediationAdapterInMobi.h"
 #import "GADInMobiExtras.h"
-#import "GADMAdapterInMobi.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
 #import "GADMAdapterInMobiRewardedAd.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
+#import "GADMAdapterInMobiInterstitialAd.h"
+#import "GADMAdapterInMobiBannerAd.h"
 
 @implementation GADMediationAdapterInMobi {
-  /// InMobi rewarded ad wrapper.
-  GADMAdapterInMobiRewardedAd *_rewardedAd;
+    /// InMobi rewarded ad wrapper.
+    GADMAdapterInMobiRewardedAd *_rewardedAd;
+    
+    /// InMobi banner ad object.
+    GADMAdapterInMobiBannerAd *_bannerAd;
+    
+    /// InMobi interstitial ad object.
+    GADMAdapterInMobiInterstitialAd *_interstitialAd;
+    
+    /// Google Mobile Ads unified native ad wrapper.
+    GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -95,21 +106,56 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (!_rewardedAd) {
-    NSString *placementIdentifierString =
+- (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:
+(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+    if (!_rewardedAd) {
+        NSString *placementIdentifierString =
         adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
-    NSNumber *placementIdentifier =
+        NSNumber *placementIdentifier =
         [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-    _rewardedAd =
+        _rewardedAd =
         [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
-  }
+    }
+    
+    [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                                completionHandler:completionHandler];
+}
 
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+-(void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+    if(!_bannerAd) {
+        NSString *placementIdentifierString =
+        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
+        NSNumber *placementIdentifier =
+        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+        _bannerAd =
+        [[GADMAdapterInMobiBannerAd alloc] initWithPlacementIdentifier:placementIdentifier];
+    }
+    
+    [_bannerAd loadBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    if (!_interstitialAd) {
+        NSString *placementIdentifierString =
+        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
+        NSNumber *placementIdentifier =
+        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+        _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] initWithPlacementIdentifier:placementIdentifier];
+    }
+    
+    [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    if (!_nativeAd) {
+        NSString *placementIdentifierString =
+        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
+        NSNumber *placementIdentifier =
+        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+        _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] initWithPlacementIdentifier:placementIdentifier];
+    }
+    
+    [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

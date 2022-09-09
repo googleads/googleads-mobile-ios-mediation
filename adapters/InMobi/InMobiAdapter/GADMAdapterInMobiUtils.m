@@ -17,6 +17,8 @@
 /// Sets up additional InMobi targeting information from the specified |extras|.
 void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras);
 
+void GADMAdapterInMobiSetIsAgeRestrcitedUser(NSNumber *_Nullable isRestricted);
+
 /// Sets additional InMobi parameters to |requestParameters| from the specified |extras|.
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
     GADInMobiExtras *_Nullable extras);
@@ -114,25 +116,32 @@ void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) 
 }
 
 void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-  if (connector.userGender == kGADGenderMale) {
-    [IMSdk setGender:kIMSDKGenderMale];
-  } else if (connector.userGender == kGADGenderFemale) {
-    [IMSdk setGender:kIMSDKGenderFemale];
-  }
-
-  if (connector.userBirthday != nil) {
-    NSDateComponents *components = [NSCalendar.currentCalendar
-        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-          fromDate:connector.userBirthday];
-    [IMSdk setYearOfBirth:components.year];
-  }
-
-  GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
+    if (connector.userGender == kGADGenderMale) {
+        [IMSdk setGender:kIMSDKGenderMale];
+    } else if (connector.userGender == kGADGenderFemale) {
+        [IMSdk setGender:kIMSDKGenderFemale];
+    }
+    
+    if (connector.userBirthday != nil) {
+        NSDateComponents *components = [NSCalendar.currentCalendar
+                                        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
+                                        fromDate:connector.userBirthday];
+        [IMSdk setYearOfBirth:components.year];
+    }
+    
+    GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
+    GADMAdapterInMobiSetIsAgeRestrcitedUser(connector.childDirectedTreatment);
 }
 
-void GADMAdapterInMobiSetTargetingFromAdConfiguration(
-    GADMediationAdConfiguration *_Nonnull adConfig) {
-  GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
+void GADMAdapterInMobiSetTargetingFromAdConfiguration( GADMediationAdConfiguration *_Nonnull adConfig) {
+    GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
+    GADMAdapterInMobiSetIsAgeRestrcitedUser(adConfig.childDirectedTreatment);
+}
+
+void GADMAdapterInMobiSetIsAgeRestrcitedUser(NSNumber *_Nullable isRestricted) {
+    if([isRestricted  isEqual: @1]) {
+        [IMSdk setIsAgeRestricted:true];
+    }
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
