@@ -40,6 +40,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 (nonnull GADRTBSignalCompletionHandler)completionHandler {
     GADPangleNetworkExtras *extras = [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
     if (extras && extras.userDataString.length > 0) {
+        // The user data needs to be set for it to be included in the signals.
         [PAGConfig shareConfig].userDataString = extras.userDataString;
     }
     NSString *signals = [PAGSdk getBiddingToken:nil];
