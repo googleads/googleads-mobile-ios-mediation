@@ -8,21 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <InMobiSDK/IMNative.h>
-#import "GADMAdapterInMobi.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @class GADMAdapterInMobiUnifiedNativeAd;
 
-@interface GADMAdapterInMobiUnifiedNativeAd : NSObject <GADMediatedUnifiedNativeAd>
+@interface GADMAdapterInMobiUnifiedNativeAd : NSObject <GADMediationNativeAd>
 
-/// Initializes a new instance with |connector| and |adapter|.
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
-                                               adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
-    NS_DESIGNATED_INITIALIZER;
+/// Initializes a new instance with |Configuration| and |adapter|.
+- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier;
 
-/// Unavailable.
-- (nonnull instancetype)init NS_UNAVAILABLE;
-
-/// Requests a native ad from InMobi.
-- (void)requestNativeAdWithOptions:(nullable NSArray<GADAdLoaderOptions *> *)options;
-
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 @end
