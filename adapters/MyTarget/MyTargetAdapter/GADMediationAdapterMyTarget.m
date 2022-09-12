@@ -54,7 +54,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = kGADMAdapterMyTargetVersion;
+  NSString *versionString = GADMAdapterMyTargetVersion;
   NSArray<NSString *> *components = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (components.count >= 4) {

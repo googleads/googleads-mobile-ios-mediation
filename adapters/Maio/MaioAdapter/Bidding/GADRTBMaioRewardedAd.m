@@ -90,7 +90,7 @@
   NSString *description = @"maio bidding SDK returned error";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMMaioSDKErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];
 
@@ -123,10 +123,7 @@
 }
 
 - (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward {
-  GADAdReward *gReward = [[GADAdReward alloc] initWithRewardType:reward.value
-                                                    rewardAmount:[NSDecimalNumber one]];
-
-  [_adEventDelegate didRewardUserWithReward:gReward];
+  [_adEventDelegate didRewardUser];
 }
 
 @end

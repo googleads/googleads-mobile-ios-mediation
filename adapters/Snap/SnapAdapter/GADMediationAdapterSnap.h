@@ -16,5 +16,4 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface GADMediationAdapterSnap : NSObject <GADRTBAdapter>
-
 @end

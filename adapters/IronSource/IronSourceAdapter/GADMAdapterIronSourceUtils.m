@@ -33,7 +33,7 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
     GADMAdapterIronSourceErrorCode code, NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterIronSourceErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterIronSourceErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;

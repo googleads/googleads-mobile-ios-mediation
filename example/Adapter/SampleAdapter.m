@@ -266,7 +266,7 @@
 
 - (void)rewardedAdDidFailToLoadWithError:(SampleErrorCode)errorCode {
   _loadCompletionHandler(nil, [NSError errorWithDomain:kAdapterErrorDomain
-                                                  code:kGADErrorNoFill
+                                                  code:GADErrorNoFill
                                               userInfo:nil]);
 }
 
@@ -277,10 +277,7 @@
 }
 
 - (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
-  GADAdReward *aReward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
-  [_rewardedAdDelegate didRewardUserWithReward:aReward];
+  [_rewardedAdDelegate didRewardUser];
 }
 
 @end

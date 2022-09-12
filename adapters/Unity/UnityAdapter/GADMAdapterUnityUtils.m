@@ -15,30 +15,24 @@
 #import "GADMAdapterUnityUtils.h"
 #import "GADMAdapterUnityConstants.h"
 
-void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
-  if (object) {
-    [set addObject:object];  // Allow pattern.
-  }
-}
-
 void GADMAdapterUnityConfigureMediationService(void) {
   UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
-  [mediationMetaData setName:kGADMAdapterUnityMediationNetworkName];
-  [mediationMetaData setVersion:kGADMAdapterUnityVersion];
+  [mediationMetaData setName:GADMAdapterUnityMediationNetworkName];
+  [mediationMetaData setVersion:GADMAdapterUnityVersion];
   [mediationMetaData set:@"adapter_version" value:[UnityAds getVersion]];
   [mediationMetaData commit];
 }
 
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value) {
-  if (value && key) {
-    [mapTable setObject:value forKey:key];  // Allow pattern.
+void GADMAdapterUnityMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object) {
+  if (object) {
+    [array addObject:object];  // Allow pattern.
   }
 }
 
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
-  if (key) {
-    [mapTable removeObjectForKey:key];  // Allow pattern.
+void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
   }
 }
 
@@ -60,4 +54,22 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
                                        code:errorCode
                                    userInfo:userInfo];
   return error;
+}
+
+GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  NSArray *potentials =
+      @[ NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard) ];
+  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+}
+
+GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {
+  GADVersionNumber version = {0};
+  NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
+  if (components.count >= 3) {
+    version.majorVersion = components[0].integerValue;
+    version.minorVersion = components[1].integerValue;
+    NSInteger patch = components[2].integerValue;
+    version.patchVersion = components.count == 4 ? patch * 100 + components[3].integerValue : patch;
+  }
+  return version;
 }

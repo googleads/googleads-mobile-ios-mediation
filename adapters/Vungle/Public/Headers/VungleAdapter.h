@@ -15,5 +15,5 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <VungleAdapter/VungleAdNetworkExtras.h>
-#import <VungleAdapter/VungleRouterConsent.h>
+#import "VungleAdNetworkExtras.h"
+#import "VungleRouterConsent.h"

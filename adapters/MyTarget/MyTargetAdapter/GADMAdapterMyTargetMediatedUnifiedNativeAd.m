@@ -111,17 +111,17 @@
 
       _extraAssets = [[NSMutableDictionary alloc] init];
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAdvertisingLabel,
+          _extraAssets, GADMAdapterMyTargetExtraAssetAdvertisingLabel,
           promoBanner.advertisingLabel);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
+          _extraAssets, GADMAdapterMyTargetExtraAssetAgeRestrictions, promoBanner.ageRestrictions);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
+          _extraAssets, GADMAdapterMyTargetExtraAssetCategory, promoBanner.category);
       GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-          _extraAssets, kGADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
+          _extraAssets, GADMAdapterMyTargetExtraAssetSubcategory, promoBanner.subcategory);
       if (promoBanner.votes > 0) {
         GADMAdapterMyTargetMutableDictionarySetObjectForKey(
-            _extraAssets, kGADMAdapterMyTargetExtraAssetVotes,
+            _extraAssets, GADMAdapterMyTargetExtraAssetVotes,
             [NSNumber numberWithUnsignedInteger:promoBanner.votes]);
       }
     }
@@ -187,9 +187,9 @@
 
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
   MTRGLogInfo();
   if (!_nativeAd) {
@@ -213,13 +213,13 @@
 }
 
 - (void)didRecordImpression {
-  // Do nothing.
+  MTRGLogInfo();
 }
 
-- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController {
-  // Do nothing.
+  MTRGLogInfo();
 }
 
 - (void)didUntrackView:(nullable UIView *)view {

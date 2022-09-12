@@ -31,6 +31,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterVungleErrorCode) {
   GADMAdapterVungleErrorAdNotPlayable = 106
 };
 
-@interface GADMediationAdapterVungle : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterVungle : NSObject <GADRTBAdapter>
 
 @end

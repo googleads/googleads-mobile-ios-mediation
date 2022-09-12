@@ -18,7 +18,6 @@
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostInterstitialAd.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 
 @implementation GADMAdapterChartboost {
@@ -41,11 +40,11 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterChartboostVersion;
+  return GADMAdapterChartboostVersion;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADMChartboostExtras class];
+  return Nil;
 }
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {

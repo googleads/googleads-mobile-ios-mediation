@@ -18,6 +18,8 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <SampleAdSDK/SampleAdSDK.h>
 
-@interface SampleCustomEventRewarded : NSObject <GADMediationAdapter>
-
+@interface SampleCustomEventRewarded : NSObject
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler;
 @end

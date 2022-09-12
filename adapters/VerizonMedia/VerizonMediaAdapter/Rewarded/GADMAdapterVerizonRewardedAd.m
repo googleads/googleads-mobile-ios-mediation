@@ -62,7 +62,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   _adConfiguration = adConfig;
 
   NSDictionary<NSString *, id> *credentials = adConfig.credentials.settings;
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
@@ -71,7 +71,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
     return;
   }
 
-  _placementID = credentials[kGADMAdapterVerizonMediaPosition];
+  _placementID = credentials[GADMAdapterVerizonMediaPosition];
 
   if (!_placementID) {
     NSError *error = GADMAdapterVerizonErrorWithCodeAndDescription(
@@ -110,13 +110,14 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   VASRequestMetadataBuilder *builder = [[VASRequestMetadataBuilder alloc] init];
 
   // Mediator.
-  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", kGADMAdapterVerizonMediaVersion];
+  builder.mediator = [NSString stringWithFormat:@"AdMobVAS-%@", GADMAdapterVerizonMediaVersion];
 
   VASAds.sharedInstance.requestMetadata = [builder build];
 }
 
 - (void)setCoppaFromAdConfiguration {
-  VASDataPrivacyBuilder *builder = [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
+  VASDataPrivacyBuilder *builder =
+      [[VASDataPrivacyBuilder alloc] initWithDataPrivacy:VASAds.sharedInstance.dataPrivacy];
   builder.coppa.applies = [_adConfiguration.childDirectedTreatment boolValue];
   VASAds.sharedInstance.dataPrivacy = [builder build];
 }
@@ -188,10 +189,7 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   if ([eventId isEqualToString:GADMAdapterVerizonVideoCompleteEventId] &&
       !_isVideoCompletionEventCalled) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      GADAdReward *reward =
-          [[GADAdReward alloc] initWithRewardType:@""
-                                     rewardAmount:[[NSDecimalNumber alloc] initWithInteger:1]];
-      [self->_adEventDelegate didRewardUserWithReward:reward];
+      [self->_adEventDelegate didRewardUser];
       self->_isVideoCompletionEventCalled = YES;
     });
   }

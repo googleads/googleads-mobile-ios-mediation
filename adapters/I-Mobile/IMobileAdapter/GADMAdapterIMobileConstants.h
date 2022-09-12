@@ -15,19 +15,19 @@
 #import <Foundation/Foundation.h>
 
 /// Adapter version.
-static NSString *const kGADMAdapterIMobileVersion = @"2.1.0.1";
+static NSString *const GADMAdapterIMobileVersion = @"2.2.0.1";
 
 /// Key of i-mobile publisher ID.
-static NSString *const kGADMAdapterIMobilePublisherIdKey = @"publisherId";
+static NSString *const GADMAdapterIMobilePublisherIdKey = @"publisherId";
 
 /// Key of i-mobile media ID.
-static NSString *const kGADMAdapterIMobileMediaIdKey = @"mid";
+static NSString *const GADMAdapterIMobileMediaIdKey = @"mid";
 
 /// Key of i-mobile spot ID.
-static NSString *const kGADMAdapterIMobileSpotIdKey = @"asid";
+static NSString *const GADMAdapterIMobileSpotIdKey = @"asid";
 
 /// String of call to action.
-static NSString *const kGADMAdapterIMobileCallToAction = @"詳細はこちら";
+static NSString *const GADMAdapterIMobileCallToAction = @"詳細はこちら";
 
 /// i-mobile adapter error domain.
-static NSString *const kGADMAdapterIMobileErrorDomain = @"com.google.mediation.imobile";
+static NSString *const GADMAdapterIMobileErrorDomain = @"com.google.mediation.imobile";

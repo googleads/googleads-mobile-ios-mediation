@@ -52,9 +52,9 @@
     _adLoadCompletionHandler = completionHandler;
     _adConfiguration = adConfiguration;
     // Default instance ID
-    self.instanceID = kGADMIronSourceDefaultInstanceId;
+    self.instanceID = GADMIronSourceDefaultInstanceId;
     // Default instance state
-    self.instanceState = kInstanceStateStart;
+    self.instanceState = GADMAdapterIronSourceInstanceStateStart;
   }
   return self;
 }
@@ -64,8 +64,8 @@
 
   /* Parse application key */
   NSString *applicationKey = @"";
-  if (credentials[kGADMAdapterIronSourceAppKey]) {
-    applicationKey = credentials[kGADMAdapterIronSourceAppKey];
+  if (credentials[GADMAdapterIronSourceAppKey]) {
+    applicationKey = credentials[GADMAdapterIronSourceAppKey];
   }
 
   if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
@@ -75,8 +75,8 @@
     _adLoadCompletionHandler(nil, error);
     return;
   }
-  if (credentials[kGADMAdapterIronSourceInstanceId]) {
-    self.instanceID = credentials[kGADMAdapterIronSourceInstanceId];
+  if (credentials[GADMAdapterIronSourceInstanceId]) {
+    self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
   }
 
   [[ISMediationManager sharedManager]
@@ -123,12 +123,9 @@
   [GADMAdapterIronSourceUtils
       onLog:[NSString
                 stringWithFormat:@"IronSource received reward for Instance ID: %@", instanceId]];
-  GADAdReward *reward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber decimalNumberWithString:@"1"]];
   id<GADMediationRewardedAdEventDelegate> strongDelegate = _adEventDelegate;
   [strongDelegate didEndVideo];
-  [strongDelegate didRewardUserWithReward:reward];
+  [strongDelegate didRewardUser];
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId {

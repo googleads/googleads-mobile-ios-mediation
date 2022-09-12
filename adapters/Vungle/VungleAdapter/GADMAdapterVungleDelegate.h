@@ -29,10 +29,17 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 /// Placement ID used to request an ad from Vungle.
 @property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
+/// Indicates whether the ad has been loaded successfully.
+@property(nonatomic) BOOL isAdLoaded;
+
+/// Bid Response when the ad is instantiated. May be null if bidding is not enabled.
+- (nullable NSString *)bidResponse;
+
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error;
 - (void)adAvailable;
 - (void)adNotAvailable:(nonnull NSError *)error;
 - (void)willShowAd;
+- (void)didShowAd;
 - (void)didViewAd;
 - (void)willCloseAd;
 - (void)didCloseAd;

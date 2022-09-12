@@ -94,7 +94,7 @@ BOOL _isRewardedAdLoaded;
   _isRewardedAdLoaded = NO;
   _rewardedAd = [MTRGRewardedAd rewardedAdWithSlotId:slotId];
   _rewardedAd.delegate = self;
-  // INFO: This is where you can pass customParams if you want to send any.
+  GADMAdapterMyTargetFillCustomParams(_rewardedAd.customParams, _adConfiguration.extras);
   [_rewardedAd load];
 }
 
@@ -140,12 +140,7 @@ BOOL _isRewardedAdLoaded;
 - (void)onReward:(nonnull MTRGReward *)reward rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
   [_adEventDelegate didEndVideo];
-
-  NSString *rewardType = @"";                           // Must not be nil.
-  NSDecimalNumber *rewardAmount = NSDecimalNumber.one;  // Must not be nil.
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:rewardType
-                                                     rewardAmount:rewardAmount];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)onDisplayWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {

@@ -21,5 +21,9 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <SampleAdSDK/SampleAdSDK.h>
 
-@interface SampleCustomEventInterstitial : NSObject<GADCustomEventInterstitial>
+@interface SampleCustomEventInterstitial : NSObject
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler;
 @end

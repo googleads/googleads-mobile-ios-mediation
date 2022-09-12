@@ -67,7 +67,7 @@
 
   self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:self.config.nativeAdUnitID
                                      rootViewController:self
-                                                adTypes:@[ kGADAdLoaderAdTypeNative ]
+                                                adTypes:@[ GADAdLoaderAdTypeNative ]
                                                 options:@[ adViewOptions ]];
   self.adLoader.delegate = self;
   [self.adLoader loadRequest:[GADRequest request]];

@@ -55,8 +55,8 @@
     return delegate;
   };
 
-  _mediaId = adConfiguration.credentials.settings[kGADMMaioAdapterMediaIdKey];
-  _zoneId = adConfiguration.credentials.settings[kGADMMaioAdapterZoneIdKey];
+  _mediaId = adConfiguration.credentials.settings[GADMMaioAdapterMediaIdKey];
+  _zoneId = adConfiguration.credentials.settings[GADMMaioAdapterZoneIdKey];
 
   if (!self.mediaId) {
     NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
@@ -148,9 +148,7 @@
   id<GADMediationRewardedAdEventDelegate> strongAdEventDelegate = self.adEventDelegate;
   [strongAdEventDelegate didEndVideo];
   if (!skipped) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:rewardParam ?: @""
-                                                     rewardAmount:[NSDecimalNumber one]];
-    [strongAdEventDelegate didRewardUserWithReward:reward];
+    [strongAdEventDelegate didRewardUser];
   }
 }
 

@@ -14,8 +14,8 @@
 
 #import "GADMAdapterMyTargetExtraAssets.h"
 
-NSString *const kGADMAdapterMyTargetExtraAssetAdvertisingLabel = @"advertisingLabel";
-NSString *const kGADMAdapterMyTargetExtraAssetAgeRestrictions = @"ageRestrictions";
-NSString *const kGADMAdapterMyTargetExtraAssetCategory = @"category";
-NSString *const kGADMAdapterMyTargetExtraAssetSubcategory = @"subcategory";
-NSString *const kGADMAdapterMyTargetExtraAssetVotes = @"votes";
+NSString *const GADMAdapterMyTargetExtraAssetAdvertisingLabel = @"advertisingLabel";
+NSString *const GADMAdapterMyTargetExtraAssetAgeRestrictions = @"ageRestrictions";
+NSString *const GADMAdapterMyTargetExtraAssetCategory = @"category";
+NSString *const GADMAdapterMyTargetExtraAssetSubcategory = @"subcategory";
+NSString *const GADMAdapterMyTargetExtraAssetVotes = @"votes";

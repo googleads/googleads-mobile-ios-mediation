@@ -70,8 +70,8 @@
     return delegate;
   };
 
-  NSString *spotId = _adConfiguration.credentials.settings[kGADMAdapterNendSpotID];
-  NSString *apiKey = _adConfiguration.credentials.settings[kGADMAdapterNendApiKey];
+  NSString *spotId = _adConfiguration.credentials.settings[GADMAdapterNendSpotID];
+  NSString *apiKey = _adConfiguration.credentials.settings[GADMAdapterNendApiKey];
 
   if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId.integerValue]) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
@@ -86,7 +86,7 @@
     _videoLoader = [[NADNativeVideoLoader alloc] initWithSpotID:spotId.integerValue
                                                          apiKey:apiKey
                                                     clickAction:NADNativeVideoClickActionLP];
-    _videoLoader.mediationName = kGADMAdapterNendMediationName;
+    _videoLoader.mediationName = GADMAdapterNendMediationName;
     _videoLoader.userId = extras.userId;
 
     __weak GADMediationAdapterNendNativeAdLoader *weakSelf = self;

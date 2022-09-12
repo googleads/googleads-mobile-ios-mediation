@@ -38,7 +38,7 @@
       GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_REWARDED_VIDEO);
     }
 
-    NSString *appKeyFromSetting = cred.settings[kGADMAdapterIronSourceAppKey];
+    NSString *appKeyFromSetting = cred.settings[GADMAdapterIronSourceAppKey];
     GADMAdapterIronSourceMutableSetAddObject(appKeys, appKeyFromSetting);
   }
 
@@ -91,7 +91,7 @@
 
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
-  NSString *adapterVersion = kGADMAdapterIronSourceAdapterVersion;
+  NSString *adapterVersion = GADMAdapterIronSourceAdapterVersion;
   NSArray<NSString *> *components = [adapterVersion componentsSeparatedByString:@"."];
   if (components.count >= 4) {
     version.majorVersion = components[0].integerValue;

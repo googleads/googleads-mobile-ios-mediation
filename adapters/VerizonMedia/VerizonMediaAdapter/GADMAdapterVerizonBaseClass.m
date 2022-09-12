@@ -42,7 +42,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterVerizonMediaVersion;
+  return GADMAdapterVerizonMediaVersion;
 }
 
 - (id)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
@@ -50,10 +50,10 @@
   if (self) {
     _connector = connector;
     NSDictionary<NSString *, id> *credentials = [connector credentials];
-    if (credentials[kGADMAdapterVerizonMediaPosition]) {
-      self.placementID = credentials[kGADMAdapterVerizonMediaPosition];
+    if (credentials[GADMAdapterVerizonMediaPosition]) {
+      self.placementID = credentials[GADMAdapterVerizonMediaPosition];
     }
-    NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+    NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
     GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   }
 
@@ -258,7 +258,7 @@
   }
 
   NSDictionary<NSString *, id> *credentials = [strongConnector credentials];
-  NSString *siteID = credentials[kGADMAdapterVerizonMediaDCN];
+  NSString *siteID = credentials[GADMAdapterVerizonMediaDCN];
 
   BOOL isInitialized = GADMAdapterVerizonInitializeVASAdsWithSiteID(siteID);
   if (!isInitialized) {
@@ -270,7 +270,7 @@
 
   if (!self.placementID) {
     NSError *error =
-        [NSError errorWithDomain:kGADMAdapterVerizonMediaErrorDomain
+        [NSError errorWithDomain:GADMAdapterVerizonMediaErrorDomain
                             code:GADErrorMediationAdapterError
                         userInfo:@{NSLocalizedDescriptionKey : @"Placement ID cannot be nil."}];
     [strongConnector adapter:self didFailAd:error];
@@ -348,8 +348,8 @@
 
 - (CGSize)GADSupportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
   NSArray *potentials = @[
-    NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(kGADAdSizeLeaderboard)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   if (IsGADAdSizeValid(closestSize)) {

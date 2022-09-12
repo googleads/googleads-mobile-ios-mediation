@@ -37,7 +37,7 @@
   NSMutableSet<NSString *> *accountIDs = [[NSMutableSet alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *accountIDFromSettings = cred.settings[kGADMAdapterInMobiAccountID];
+    NSString *accountIDFromSettings = cred.settings[GADMAdapterInMobiAccountID];
     if (accountIDFromSettings.length) {
       GADMAdapterInMobiMutableSetAddObject(accountIDs, accountIDFromSettings);
     }
@@ -84,7 +84,7 @@
 
 + (GADVersionNumber)adapterVersion {
   NSArray<NSString *> *versionComponents =
-      [kGADMAdapterInMobiVersion componentsSeparatedByString:@"."];
+      [GADMAdapterInMobiVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
     version.majorVersion = versionComponents[0].integerValue;
@@ -101,7 +101,7 @@
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (!_rewardedAd) {
     NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[kGADMAdapterInMobiPlacementID];
+        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
     NSNumber *placementIdentifier =
         [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
     _rewardedAd =
