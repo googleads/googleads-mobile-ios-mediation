@@ -13,16 +13,15 @@
 // limitations under the License.
 
 #import "GADMediationAdapterChartboost.h"
-#if __has_include(<Chartboost/Chartboost.h>)
-#import <Chartboost/Chartboost.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost.h"
+#import "ChartboostSDK.h"
 #endif
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 
 @implementation GADMediationAdapterChartboost {
@@ -32,11 +31,11 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     completionHandler(error);
@@ -46,8 +45,8 @@
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in configuration.credentials) {
-    NSString *appID = cred.settings[kGADMAdapterChartboostAppID];
-    NSString *appSignature = cred.settings[kGADMAdapterChartboostAppSignature];
+    NSString *appID = cred.settings[GADMAdapterChartboostAppID];
+    NSString *appSignature = cred.settings[GADMAdapterChartboostAppSignature];
 
     if (appID.length && appSignature.length) {
       GADMAdapterChartboostMutableDictionarySetObjectForKey(credentials, appID, appSignature);
@@ -71,14 +70,12 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  [Chartboost startWithAppId:appID
+  [Chartboost startWithAppID:appID
                 appSignature:appSignature
-                  completion:^(BOOL success) {
+                  completion:^(CHBStartError *cbError) {
                     NSError *error = nil;
-                    if (!success) {
-                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK initialization failed.");
+                    if (cbError) {
+                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
                     }
                     completionHandler(error);
                   }];
@@ -98,11 +95,11 @@
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADMChartboostExtras class];
+  return nil;
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = kGADMAdapterChartboostVersion;
+  NSString *versionString = GADMAdapterChartboostVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};

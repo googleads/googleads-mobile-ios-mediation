@@ -40,6 +40,10 @@ void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull us
 void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                           id<NSCopying> _Nullable key);
 
+/// Return a dictionary of Vungle ad playback options.
+NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
+    VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras);
+
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,

@@ -13,21 +13,20 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <UnityAds/UnityAds.h>
+#import "GADMAdapterUnityConstants.h"
 #import "GADMediationAdapterUnity.h"
-
-/// Safely adds |object| to |set| if the |object| is not nil.
-void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
 /// Configures metadata needed by Unity Ads SDK before initialization.
 void GADMAdapterUnityConfigureMediationService(void);
 
-/// Safely sets |value| for |key| in mapTable if |key| and |value| are not nil.
-void GADMAdapterUnityMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                             id<NSCopying> _Nullable key, id _Nullable value);
+/// Safely adds |object| to |set| if |object| is not nil.
+void GADMAdapterUnityMutableArrayAddObject(NSMutableArray *_Nullable array,
+                                           NSObject *_Nonnull object);
 
-/// Safely removes the object for |key| in mapTable if |key| is not nil.
-void GADMAdapterUnityMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
+/// Adds |object| to |set| if |object| is not nil.
+void GADMAdapterUnityMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
@@ -38,3 +37,9 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 /// NSLocalizedFailureReasonErrorKey values set to |message|.
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
     UnityAdsShowError errorCode, NSString *_Nonnull message);
+
+/// Find closest supported ad size from a given ad size.
+GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize);
+
+/// Returns GADVersionNumber created from string
+GADVersionNumber extractVersionFromString(NSString *_Nonnull string);

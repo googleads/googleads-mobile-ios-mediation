@@ -23,9 +23,6 @@
 
   /// Indicates whether the user has watched the rewarded ad completely.
   BOOL _fullyWatched;
-
-  /// Reward information for AppLovin ads.
-  GADAdReward *_reward;
 }
 
 #pragma mark - Initialization
@@ -82,8 +79,8 @@
   [GADMAdapterAppLovinUtils log:@"Rewarded ad dismissed"];
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   id<GADMediationRewardedAdEventDelegate> delegate = parentRenderer.delegate;
-  if (_fullyWatched && _reward) {
-    [delegate didRewardUserWithReward:_reward];
+  if (_fullyWatched) {
+    [delegate didRewardUser];
   }
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
@@ -137,8 +134,6 @@
   NSString *currency = response[@"currency"];
 
   [GADMAdapterAppLovinUtils log:@"Rewarded %@ %@", amount, currency];
-
-  _reward = [[GADAdReward alloc] initWithRewardType:currency rewardAmount:amount];
 }
 
 @end

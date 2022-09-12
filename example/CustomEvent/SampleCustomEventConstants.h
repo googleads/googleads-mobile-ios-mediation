@@ -21,3 +21,6 @@ static NSString *const SampleCustomEventExtraKeyAwesomeness = @"DegreeOfAwesomen
 
 /// Sample custom event error domain.
 static NSString *const SampleCustomEventErrorDomain = @"com.google.SampleCustomEvent";
+
+/// Version for the Custom Event Adapter
+static NSString *const SampleCustomEventAdapterVersion = @"1.0.0.0";

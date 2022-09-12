@@ -25,7 +25,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   // 728 x 90
 
   NSArray<NSValue *> *potentialSizeValues =
-      @[ @(kGADAdSizeBanner), @(kGADAdSizeMediumRectangle), @(kGADAdSizeLeaderboard) ];
+      @[ @(GADAdSizeBanner), @(GADAdSizeMediumRectangle), @(GADAdSizeLeaderboard) ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizeValues);
   return CGSizeFromGADAdSize(closestSize);
@@ -50,7 +50,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterInMobiVersion;
+  return GADMAdapterInMobiVersion;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -87,7 +87,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 }
 
 - (void)getInterstitial {
-  NSString *accountID = _connector.credentials[kGADMAdapterInMobiAccountID];
+  NSString *accountID = _connector.credentials[GADMAdapterInMobiAccountID];
   GADMAdapterInMobi *__weak weakSelf = self;
   [GADMAdapterInMobiInitializer.sharedInstance
       initializeWithAccountID:accountID
@@ -114,7 +114,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   }
 
   long long placementId =
-      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+      [strongConnector.credentials[GADMAdapterInMobiPlacementID] longLongValue];
   if (placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,
@@ -145,7 +145,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  NSString *accountID = _connector.credentials[kGADMAdapterInMobiAccountID];
+  NSString *accountID = _connector.credentials[GADMAdapterInMobiAccountID];
   GADMAdapterInMobi *__weak weakSelf = self;
   [GADMAdapterInMobiInitializer.sharedInstance
       initializeWithAccountID:accountID
@@ -172,7 +172,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   }
 
   long long placementId =
-      [strongConnector.credentials[kGADMAdapterInMobiPlacementID] longLongValue];
+      [strongConnector.credentials[GADMAdapterInMobiPlacementID] longLongValue];
   if (placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,

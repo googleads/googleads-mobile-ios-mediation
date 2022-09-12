@@ -24,4 +24,7 @@
 /// Use this to pass keywords
 @property(nonatomic, copy, nullable) NSString *keywords;
 
+/// Controls whether presented ads will start in a muted state or not.
+@property(nonatomic, assign) BOOL muteAudio;
+
 @end

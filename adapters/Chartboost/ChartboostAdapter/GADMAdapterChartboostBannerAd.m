@@ -14,16 +14,15 @@
 
 #import "GADMAdapterChartboostBannerAd.h"
 
-#if __has_include(<Chartboost/Chartboost+Mediation.h>)
-#import <Chartboost/Chartboost+Mediation.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost+Mediation.h"
+#import "ChartboostSDK.h"
 #endif
 
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostBannerAd () <CHBBannerDelegate>
 @end
@@ -56,20 +55,20 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  NSString *appID = [strongConnector.credentials[kGADMAdapterChartboostAppID]
+  NSString *appID = [strongConnector.credentials[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [strongConnector.credentials[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [strongConnector.credentials[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
@@ -90,9 +89,9 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromConnector(strongConnector);
   GADMAdapterChartboostBannerAd *__weak weakSelf = self;
-  [Chartboost startWithAppId:appID
+  [Chartboost startWithAppID:appID
                 appSignature:appSignature
-                  completion:^(BOOL success) {
+                  completion:^(CHBStartError *cbError) {
                     // Chartboost's CHBBanner is a UIView subclass so it is safer to use it on the
                     // main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -101,18 +100,10 @@
                         return;
                       }
 
-                      if (!success) {
-                        NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                            GADMAdapterChartboostErrorInitializationFailure,
-                            @"Failed to initialize Chartboost SDK.");
-                        [strongConnector adapter:strongAdapter didFailAd:error];
+                      if (cbError) {
+                        NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
+                        [strongConnector adapter:strongAdapter didFailAd:cbError];
                         return;
-                      }
-
-                      GADMChartboostExtras *extras = [strongConnector networkExtras];
-                      if (extras) {
-                        [Chartboost setFramework:extras.framework
-                                     withVersion:extras.frameworkVersion];
                       }
 
                       CHBMediation *mediation = GADMAdapterChartboostMediation();
@@ -120,7 +111,6 @@
                                                                      location:adLocation
                                                                     mediation:mediation
                                                                      delegate:strongSelf];
-                      strongSelf->_bannerAd.automaticallyRefreshesContent = NO;
                       [strongSelf->_bannerAd cache];
                     });
                   }];
@@ -169,7 +159,6 @@
           clickError.localizedDescription);
     return;
   }
-  [strongConnector adapterWillLeaveApplication:strongAdapter];
 }
 
 - (void)didFinishHandlingClick:(nonnull CHBClickEvent *)event

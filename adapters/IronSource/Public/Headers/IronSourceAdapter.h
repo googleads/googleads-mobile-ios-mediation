@@ -17,6 +17,5 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <IronSourceAdapter/GADMIronSourceExtras.h>
 
 #endif /* IronSourceAdapter_h */

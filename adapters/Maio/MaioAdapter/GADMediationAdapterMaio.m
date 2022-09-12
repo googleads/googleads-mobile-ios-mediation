@@ -42,13 +42,13 @@
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSMutableSet *publisherIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *credential in configuration.credentials) {
-    NSString *publisherID = credential.settings[kGADMMaioAdapterPublisherIDKey];
+    NSString *publisherID = credential.settings[GADMMaioAdapterPublisherIDKey];
     GADMAdapterMaioMutableSetAddObject(publisherIDs, publisherID);
   }
 
   NSMutableSet *mediaIDs = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *credential in configuration.credentials) {
-    NSString *mediaID = credential.settings[kGADMMaioAdapterMediaIdKey];
+    NSString *mediaID = credential.settings[GADMMaioAdapterMediaIdKey];
     GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
   }
 
@@ -98,7 +98,7 @@
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSArray *versionComponents = [kGADMMaioAdapterVersion componentsSeparatedByString:@"."];
+  NSArray *versionComponents = [GADMMaioAdapterVersion componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count >= 4) {
     version.majorVersion = [versionComponents[0] integerValue];

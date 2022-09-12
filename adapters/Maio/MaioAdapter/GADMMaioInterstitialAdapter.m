@@ -37,7 +37,7 @@
 /// identifies the version of your adapter. For example, "1.0", or simply a date
 /// such as "20110915".
 + (NSString *)adapterVersion {
-  return kGADMMaioAdapterVersion;
+  return GADMMaioAdapterVersion;
 }
 
 /// The extras class that is used to specify additional parameters for a request
@@ -90,8 +90,8 @@
   if (!param) {
     return;
   }
-  self.mediaId = param[kGADMMaioAdapterMediaIdKey];
-  self.zoneId = param[kGADMMaioAdapterZoneIdKey];
+  self.mediaId = param[GADMMaioAdapterMediaIdKey];
+  self.zoneId = param[GADMMaioAdapterZoneIdKey];
   GADMAdapterMaioAdsManager *adManager =
       [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 

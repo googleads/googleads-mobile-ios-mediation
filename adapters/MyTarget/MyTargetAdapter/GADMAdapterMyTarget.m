@@ -35,7 +35,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterMyTargetVersion;
+  return GADMAdapterMyTargetVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -90,7 +90,7 @@
   MTRGLogDebug(@"adSize: %.fx%.f", width, height);
   _adView.delegate = self;
   _adView.viewController = strongConnector.viewControllerForPresentingModalView;
-  GADMAdapterMyTargetFillCustomParams(_adView.customParams, strongConnector);
+  GADMAdapterMyTargetFillCustomParams(_adView.customParams, strongConnector.networkExtras);
   [_adView.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                 forKey:kMTRGCustomParamsMediationKey];
   [_adView load];
@@ -113,7 +113,7 @@
 
   _interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
   _interstitialAd.delegate = self;
-  GADMAdapterMyTargetFillCustomParams(_interstitialAd.customParams, strongConnector);
+  GADMAdapterMyTargetFillCustomParams(_interstitialAd.customParams, strongConnector.networkExtras);
   [_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                         forKey:kMTRGCustomParamsMediationKey];
   [_interstitialAd load];
@@ -203,12 +203,6 @@
 
 - (void)onLeaveApplicationWithAdView:(nonnull MTRGAdView *)adView {
   MTRGLogInfo();
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!strongConnector) {
-    return;
-  }
-
-  [strongConnector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - MTRGInterstitialAdDelegate
@@ -258,7 +252,7 @@
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
-  // Do nothing.
+  MTRGLogInfo();
 }
 
 - (void)onDisplayWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
@@ -273,12 +267,6 @@
 
 - (void)onLeaveApplicationWithInterstitialAd:(nonnull MTRGInterstitialAd *)interstitialAd {
   MTRGLogInfo();
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!strongConnector) {
-    return;
-  }
-
-  [strongConnector adapterWillLeaveApplication:self];
 }
 
 @end

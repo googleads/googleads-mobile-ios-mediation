@@ -16,7 +16,7 @@
 
 @interface VungleAdNetworkExtras ()
 
-@property (readwrite, assign) BOOL muteIsSet;
+@property(readwrite, assign) BOOL muteIsSet;
 
 @end
 
@@ -33,15 +33,13 @@
   return self;
 }
 
--(BOOL)muted
-{
-    return _muted;
+- (BOOL)muted {
+  return _muted;
 }
 
--(void)setMuted:(BOOL)muted
-{
-    _muted = muted;
-    self.muteIsSet = YES;
+- (void)setMuted:(BOOL)muted {
+  _muted = muted;
+  self.muteIsSet = YES;
 }
 
 @end

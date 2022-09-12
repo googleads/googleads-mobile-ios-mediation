@@ -13,16 +13,16 @@
 // limitations under the License.
 
 /// Tapjoy mediation network adapter version.
-static NSString *const _Nonnull kGADMAdapterTapjoyVersion = @"12.8.1.0";
+static NSString *const _Nonnull GADMAdapterTapjoyVersion = @"12.10.0.0";
 
 /// Tapjoy mediation network adapter mediation agent.
-static NSString *const _Nonnull kGADMAdapterTapjoyMediationAgent = @"admob";
+static NSString *const _Nonnull GADMAdapterTapjoyMediationAgent = @"admob";
 
 /// Tapjoy mediation network adapter SDK key.
-static NSString *const _Nonnull kGADMAdapterTapjoySdkKey = @"sdkKey";
+static NSString *const _Nonnull GADMAdapterTapjoySdkKey = @"sdkKey";
 
 /// Tapjoy mediation network adapter placement name key.
-static NSString *const _Nonnull kGADMAdapterTapjoyPlacementKey = @"placementName";
+static NSString *const _Nonnull GADMAdapterTapjoyPlacementKey = @"placementName";
 
 /// Tapjoy mediation network adapter error domain.
-static NSString *const _Nonnull kGADMAdapterTapjoyErrorDomain = @"com.google.mediation.tapjoy";
+static NSString *const _Nonnull GADMAdapterTapjoyErrorDomain = @"com.google.mediation.tapjoy";

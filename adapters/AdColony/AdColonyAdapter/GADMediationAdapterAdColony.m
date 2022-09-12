@@ -56,7 +56,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
     NSString *zoneID = GADMAdapterAdColonyZoneIDForSettings(cred.settings);
     GADMAdapterAdColonyMutableSetAddObject(zoneIDs, zoneID);
 
-    NSString *appID = cred.settings[kGADMAdapterAdColonyAppIDkey];
+    NSString *appID = cred.settings[GADMAdapterAdColonyAppIDkey];
     GADMAdapterAdColonyMutableSetAddObject(appIDs, appID);
   }
 
@@ -106,7 +106,7 @@ static AdColonyAppOptions *GADMAdapterAdColonyAppOptions;
 }
 
 + (GADVersionNumber)adapterVersion {
-  NSString *versionString = kGADMAdapterAdColonyVersionString;
+  NSString *versionString = GADMAdapterAdColonyVersionString;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};

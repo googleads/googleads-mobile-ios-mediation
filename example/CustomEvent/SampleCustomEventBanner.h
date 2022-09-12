@@ -19,6 +19,9 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
-@interface SampleCustomEventBanner : NSObject<GADCustomEventBanner>
+@interface SampleCustomEventBanner : NSObject
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
 @end

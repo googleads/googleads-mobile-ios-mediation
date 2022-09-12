@@ -28,7 +28,7 @@
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterAdColonyVersionString;
+  return GADMAdapterAdColonyVersionString;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {

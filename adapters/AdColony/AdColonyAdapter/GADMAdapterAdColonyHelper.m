@@ -107,7 +107,7 @@
     if (options == nil) {
       options = [AdColonyAdOptions new];
     }
-    [options setOption:kGADMAdapterAdColonyAdMarkupKey withStringValue:adConfig.bidResponse];
+    [options setOption:GADMAdapterAdColonyAdMarkupKey withStringValue:adConfig.bidResponse];
   }
 
   return options;
@@ -142,7 +142,7 @@
 + (void)setupZoneFromSettings:(NSDictionary *)settings
                       options:(AdColonyAppOptions *)options
                      callback:(void (^)(NSString *, NSError *))callback {
-  NSString *appId = settings[kGADMAdapterAdColonyAppIDkey];
+  NSString *appId = settings[GADMAdapterAdColonyAppIDkey];
   NSString *zone = GADMAdapterAdColonyZoneIDForSettings(settings);
 
   [[GADMAdapterAdColonyInitializer sharedInstance] initializeAdColonyWithAppId:appId
@@ -175,7 +175,7 @@ NSError *_Nonnull GADMAdapterAdColonyErrorWithCodeAndDescription(GADMAdapterAdCo
                                                                  NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:kGADMAdapterAdColonyErrorDomain
+  NSError *error = [NSError errorWithDomain:GADMAdapterAdColonyErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -190,9 +190,9 @@ void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
 
 NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
     NSDictionary<NSString *, id> *_Nonnull settings) {
-  NSString *encodedZoneID = settings[kGADMAdapterAdColonyZoneIDBiddingKey];
+  NSString *encodedZoneID = settings[GADMAdapterAdColonyZoneIDBiddingKey];
   if (!encodedZoneID) {
-    encodedZoneID = settings[kGADMAdapterAdColonyZoneIDkey];
+    encodedZoneID = settings[GADMAdapterAdColonyZoneIDkey];
   }
 
   NSArray<NSString *> *zoneIDs = [GADMAdapterAdColonyHelper parseZoneIDs:encodedZoneID];

@@ -19,14 +19,14 @@ NSError *_Nonnull GADMAdapterIMobileErrorWithCodeAndDescription(GADMAdapterIMobi
                                                                 NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterIMobileErrorDomain code:code userInfo:userInfo];
+  return [NSError errorWithDomain:GADMAdapterIMobileErrorDomain code:code userInfo:userInfo];
 }
 
 NSError *_Nonnull GADMAdapterIMobileErrorWithFailResultAndDescription(
     ImobileSdkAdsFailResult failResult, NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterIMobileErrorDomain code:failResult userInfo:userInfo];
+  return [NSError errorWithDomain:GADMAdapterIMobileErrorDomain code:failResult userInfo:userInfo];
 }
 
 void GADMAdapterIMobileMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,

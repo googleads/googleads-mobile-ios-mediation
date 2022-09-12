@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */; };
 		26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462ED1B87BFE900D2C50F /* SampleCustomEventBanner.m */; };
 		26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */; };
 		26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */; };
@@ -24,12 +23,15 @@
 		AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */; };
 		AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */; };
 		AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */; };
-		AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */; };
 		AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; };
 		AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
 		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
+		C228E5F12829875E00546905 /* SampleCustomEventUtilsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C228E5F02829875E00546905 /* SampleCustomEventUtilsSwift.swift */; };
+		C22A2A6527F2B62B0080B51B /* SampleCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */; };
+		C2A0569327B72A7B0095E758 /* SampleCustomEventSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0569227B72A7B0095E758 /* SampleCustomEventSwift.swift */; };
+		C2CCE1192865001A00AFD940 /* SampleCustomEventUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */; };
 		EFB9E9B1238F2F9500AF1732 /* SampleCustomEventRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */; };
 /* End PBXBuildFile section */
 
@@ -80,8 +82,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediatedNativeAd.h; path = CustomEvent/SampleMediatedNativeAd.h; sourceTree = "<group>"; };
-		267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediatedNativeAd.m; path = CustomEvent/SampleMediatedNativeAd.m; sourceTree = "<group>"; };
 		26DB16A81BA8E49700CC3C04 /* SampleCustomEventConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventConstants.h; path = CustomEvent/SampleCustomEventConstants.h; sourceTree = "<group>"; };
 		26E462B21B8693F600D2C50F /* MediationExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediationExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26E462EC1B87BFE900D2C50F /* SampleCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventBanner.h; path = CustomEvent/SampleCustomEventBanner.h; sourceTree = "<group>"; };
@@ -108,12 +108,17 @@
 		AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventBannerSwift.swift; sourceTree = "<group>"; };
 		AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventInterstitialSwift.swift; sourceTree = "<group>"; };
 		AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventNativeAdSwift.swift; sourceTree = "<group>"; };
-		AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleMediatedNativeAdSwift.swift; sourceTree = "<group>"; };
 		AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleAdSDK.xcodeproj; path = SampleAdSDK/SampleAdSDK.xcodeproj; sourceTree = "<group>"; };
 		AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDKAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
 		AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdSourceConfig.h; path = MediationExample/AdSourceConfig.h; sourceTree = SOURCE_ROOT; };
+		C228E5F02829875E00546905 /* SampleCustomEventUtilsSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCustomEventUtilsSwift.swift; sourceTree = "<group>"; };
+		C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEvent.m; path = CustomEvent/SampleCustomEvent.m; sourceTree = "<group>"; };
+		C22A2A6627F2B6570080B51B /* SampleCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEvent.h; path = CustomEvent/SampleCustomEvent.h; sourceTree = "<group>"; };
+		C2A0569227B72A7B0095E758 /* SampleCustomEventSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCustomEventSwift.swift; sourceTree = "<group>"; };
+		C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventUtils.m; path = CustomEvent/SampleCustomEventUtils.m; sourceTree = "<group>"; };
+		C2CCE11A2865005100AFD940 /* SampleCustomEventUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventUtils.h; path = CustomEvent/SampleCustomEventUtils.h; sourceTree = "<group>"; };
 		EFB9E9AE238E0DD300AF1732 /* SampleCustomEventRewarded.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SampleCustomEventRewarded.h; path = CustomEvent/SampleCustomEventRewarded.h; sourceTree = "<group>"; };
 		EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SampleCustomEventRewarded.m; path = CustomEvent/SampleCustomEventRewarded.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +145,7 @@
 				AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */,
 				26E462B31B8693F600D2C50F /* Products */,
 				74DBB23D50D2FE6107613784 /* Frameworks */,
+				AAE34E526612B5CA72DF4882 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,10 +189,12 @@
 				26E462EF1B87BFE900D2C50F /* SampleCustomEventInterstitial.m */,
 				26E463011B890E8800D2C50F /* SampleCustomEventNativeAd.h */,
 				26E463021B890E8800D2C50F /* SampleCustomEventNativeAd.m */,
-				267DA5C71B8BE2F500E6570E /* SampleMediatedNativeAd.h */,
-				267DA5C81B8BE2F500E6570E /* SampleMediatedNativeAd.m */,
 				EFB9E9AE238E0DD300AF1732 /* SampleCustomEventRewarded.h */,
 				EFB9E9B0238F2F9500AF1732 /* SampleCustomEventRewarded.m */,
+				C22A2A6427F2B62B0080B51B /* SampleCustomEvent.m */,
+				C22A2A6627F2B6570080B51B /* SampleCustomEvent.h */,
+				C2CCE1182865001A00AFD940 /* SampleCustomEventUtils.m */,
+				C2CCE11A2865005100AFD940 /* SampleCustomEventUtils.h */,
 			);
 			name = CustomEvent;
 			sourceTree = "<group>";
@@ -209,14 +217,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AAE34E526612B5CA72DF4882 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		AE5DE04A1F3E14FA005C0A1D /* CustomEventSwift */ = {
 			isa = PBXGroup;
 			children = (
 				AE5DE04B1F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift */,
 				AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */,
 				AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */,
-				AE5DE04F1F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift */,
 				AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */,
+				C2A0569227B72A7B0095E758 /* SampleCustomEventSwift.swift */,
+				C228E5F02829875E00546905 /* SampleCustomEventUtilsSwift.swift */,
 			);
 			path = CustomEventSwift;
 			sourceTree = "<group>";
@@ -329,12 +345,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				267DA5C91B8BE2F500E6570E /* SampleMediatedNativeAd.m in Sources */,
 				26E462F01B87BFE900D2C50F /* SampleCustomEventBanner.m in Sources */,
 				AE5DE0511F3E1510005C0A1D /* SampleCustomEventConstantsSwift.swift in Sources */,
 				2B7390D426E0A76000D12EE5 /* ExampleNativeAdView.m in Sources */,
+				C228E5F12829875E00546905 /* SampleCustomEventUtilsSwift.swift in Sources */,
 				EFB9E9B1238F2F9500AF1732 /* SampleCustomEventRewarded.m in Sources */,
-				AE5DE0551F3E1510005C0A1D /* SampleMediatedNativeAdSwift.swift in Sources */,
 				26E462F11B87BFE900D2C50F /* SampleCustomEventInterstitial.m in Sources */,
 				AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */,
 				AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */,
@@ -344,7 +359,10 @@
 				AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */,
 				26E463031B890E8800D2C50F /* SampleCustomEventNativeAd.m in Sources */,
 				4A93FA521C286D8F00479579 /* AppDelegate.m in Sources */,
+				C22A2A6527F2B62B0080B51B /* SampleCustomEvent.m in Sources */,
+				C2A0569327B72A7B0095E758 /* SampleCustomEventSwift.swift in Sources */,
 				4A93FA601C286D8F00479579 /* ViewController.m in Sources */,
+				C2CCE1192865001A00AFD940 /* SampleCustomEventUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +447,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -469,7 +487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -484,7 +502,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -533,7 +551,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

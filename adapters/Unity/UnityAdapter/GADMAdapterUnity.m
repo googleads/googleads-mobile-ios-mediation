@@ -13,77 +13,39 @@
 // limitations under the License.
 
 #import "GADMAdapterUnity.h"
-#import "GADMAdapterUnityBannerAd.h"
-#import "GADMAdapterUnityConstants.h"
-#import "GADMAdapterUnityUtils.h"
-#import "GADMUnityInterstitialAd.h"
-#import "GADMediationAdapterUnity.h"
-#import "GADUnityError.h"
+#import <UnityAds/UnityAds.h>
 
-@interface GADMAdapterUnity () <UnityAdsInitializationDelegate>
+#import "GADMAdapterUnityUtils.h"
+#import "GADMUnityBannerNetworkAdapterProxy.h"
+#import "GADMUnityInterstitialNetworkAdapterProxy.h"
+#import "GADMediationAdapterUnity.h"
+#import "NSErrorUnity.h"
+
+@interface GADMAdapterUnity ()
+@property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
+@property(nonatomic, strong) UADSBannerView *bannerAd;
+@property(nonatomic, strong) GADMUnityBannerNetworkAdapterProxy *bannerAdDelegateProxy;
 @end
 
-@implementation GADMAdapterUnity {
-  /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _networkConnector;
+@implementation GADMAdapterUnity
 
-  /// Completion handler for initializing the Unity Ads SDK.
-  GADMediationAdapterSetUpCompletionBlock _initCompletionHandler;
-
-  /// Game ID of Unity Ads network.
-  NSString *_gameID;
-
-  /// Placement ID of Unity Ads network.
-  NSString *_placementID;
-
-  /// Unity Ads Banner wrapper
-  GADMAdapterUnityBannerAd *_bannerAd;
-
-  /// Unity Ads Interstitial Ad wrapper
-  GADMUnityInterstitialAd *_interstitialAd;
-}
+#pragma mark GADMAdNetworkAdapter
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterUnity class];
 }
 
 + (NSString *)adapterVersion {
-  return kGADMAdapterUnityVersion;
+  return GADMAdapterUnityVersion;
 }
 
 + (Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return nil;
 }
 
 - (void)stopBeingDelegate {
-  if (_bannerAd != nil) {
-    [_bannerAd stopBeingDelegate];
-  }
-}
-
-- (void)initializeWithGameID:(NSString *)gameID
-       withCompletionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  if (![UnityAds isSupported]) {
-    NSString *message = [[NSString alloc] initWithFormat:@"%@ is not supported for this device.",
-                                                         NSStringFromClass([UnityAds class])];
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorAdInitializationFailure, message);
-    completionHandler(error);
-    return;
-  }
-
-  if ([UnityAds isInitialized]) {
-    NSLog(@"Unity Ads initialized successfully");
-    completionHandler(nil);
-    return;
-  }
-
-  // Configure metadata needed by Unity Ads SDK before initialization.
-  GADMAdapterUnityConfigureMediationService();
-
-  // Initializing Unity Ads with |gameID|.
-  _initCompletionHandler = completionHandler;
-  [UnityAds initialize:gameID testMode:NO enablePerPlacementLoad:YES initializationDelegate:self];
+  self.bannerAd.delegate = nil;
+  self.bannerAd = nil;
 }
 
 #pragma mark Interstitial Methods
@@ -94,100 +56,44 @@
   }
   self = [super init];
   if (self) {
-    _networkConnector = connector;
+    _connector = connector;
   }
   return self;
 }
 
 - (void)getInterstitial {
-  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-  if (!strongConnector) return;
-  _gameID = [[[strongConnector credentials] objectForKey:kGADMAdapterUnityGameID] copy];
-  _interstitialAd = [[GADMUnityInterstitialAd alloc] initWithGADMAdNetworkConnector:strongConnector
-                                                                            adapter:self];
-  if (!_interstitialAd) {
-    NSString *description =
-        [NSString stringWithFormat:@"%@ initialization failed!",
-                                   NSStringFromClass([GADMUnityInterstitialAd class])];
-    NSError *error =
-        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-  [_interstitialAd getInterstitial];
+  [UnityAds load:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
+      loadDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+                       initWithGADMAdNetworkConnector:self.connector
+                                              adapter:self]];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
+  [UnityAds show:rootViewController
+       placementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
+      showDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+                       initWithGADMAdNetworkConnector:self.connector
+                                              adapter:self]];
 }
 
 #pragma mark Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  id<GADMAdNetworkConnector> strongConnector = _networkConnector;
-
-  if (!strongConnector) {
-    NSLog(@"Adapter Error: No GADMAdNetworkConnector found.");
-
-    return;
-  }
-  GADAdSize supportedSize = [self supportedAdSizeFromRequestedSize:adSize];
+  GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adSize);
   if (!IsGADAdSizeValid(supportedSize)) {
-    NSString *errorMsg = [NSString
-        stringWithFormat:
-            @"UnityAds supported banner sizes are not a good fit for the requested size: %@",
-            NSStringFromGADAdSize(adSize)];
-    NSError *error =
-        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
-    [strongConnector adapter:self didFailAd:error];
+    [self.connector adapter:self didFailAd:[NSError unsupportedBannerGADAdSize:adSize]];
     return;
   }
-  _gameID = [strongConnector.credentials[kGADMAdapterUnityGameID] copy];
-  _placementID = [strongConnector.credentials[kGADMAdapterUnityPlacementID] copy];
-  if (!_gameID || !_placementID) {
-    NSError *error = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorInvalidServerParameters, @"Game ID and Placement ID cannot be nil.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-  _bannerAd = [[GADMAdapterUnityBannerAd alloc] initWithGADMAdNetworkConnector:strongConnector
-                                                                       adapter:self];
 
-  if (!_bannerAd) {
-    NSString *description =
-        [NSString stringWithFormat:@"%@ initialization failed!",
-                                   NSStringFromClass([GADMAdapterUnityBannerAd class])];
-    NSError *error =
-        GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdObjectNil, description);
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-  [_bannerAd loadBannerWithSize:supportedSize];
-}
-
-/// Find closest supported ad size from a given ad size.
-- (GADAdSize)supportedAdSizeFromRequestedSize:(GADAdSize)gadAdSize {
-  NSArray *potentials =
-      @[ NSValueFromGADAdSize(kGADAdSizeBanner), NSValueFromGADAdSize(kGADAdSizeLeaderboard) ];
-  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-}
-
-#pragma mark UnityAdsInitializationDelegate Methods
-
-- (void)initializationComplete {
-  NSLog(@"Unity Ads initialized successfully");
-  if (_initCompletionHandler) {
-    _initCompletionHandler(nil);
-  }
-}
-
-- (void)initializationFailed:(UnityAdsInitializationError)error
-                 withMessage:(nonnull NSString *)message {
-  if (_initCompletionHandler) {
-    NSError *adapterError = GADMAdapterUnityErrorWithCodeAndDescription(
-        GADMAdapterUnityErrorAdInitializationFailure, message);
-    _initCompletionHandler(adapterError);
-  }
+  self.bannerAd = [[UADSBannerView alloc]
+      initWithPlacementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID]
+                              ?: @""
+                     size:supportedSize.size];
+  self.bannerAdDelegateProxy =
+      [[GADMUnityBannerNetworkAdapterProxy alloc] initWithGADMAdNetworkConnector:self.connector
+                                                                         adapter:self];
+  self.bannerAd.delegate = self.bannerAdDelegateProxy;
+  [self.bannerAd load];
 }
 
 @end

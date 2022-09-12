@@ -14,10 +14,10 @@
 
 #import "GADMAdapterChartboostRewardedAd.h"
 
-#if __has_include(<Chartboost/Chartboost+Mediation.h>)
-#import <Chartboost/Chartboost+Mediation.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost+Mediation.h"
+#import "ChartboostSDK.h"
 #endif
 
 #include <stdatomic.h>
@@ -25,7 +25,6 @@
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 
 @interface GADMAdapterChartboostRewardedAd () <CHBRewardedDelegate>
 @end
@@ -71,9 +70,9 @@
 }
 
 - (void)loadRewardedAd {
-  NSString *appID = [_adConfig.credentials.settings[kGADMAdapterChartboostAppID]
+  NSString *appID = [_adConfig.credentials.settings[GADMAdapterChartboostAppID]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
-  NSString *appSignature = [_adConfig.credentials.settings[kGADMAdapterChartboostAppSignature]
+  NSString *appSignature = [_adConfig.credentials.settings[GADMAdapterChartboostAppSignature]
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
@@ -84,11 +83,11 @@
     return;
   }
 
-  if (SYSTEM_VERSION_LESS_THAN(kGADMAdapterChartboostMinimumOSVersion)) {
+  if (SYSTEM_VERSION_LESS_THAN(GADMAdapterChartboostMinimumOSVersion)) {
     NSString *logMessage = [NSString
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
-            kGADMAdapterChartboostMinimumOSVersion];
+            GADMAdapterChartboostMinimumOSVersion];
     NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
         GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
     _completionHandler(nil, error);
@@ -97,26 +96,18 @@
 
   NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
   GADMAdapterChartboostRewardedAd *weakSelf = self;
-  [Chartboost startWithAppId:appID
+  [Chartboost startWithAppID:appID
                 appSignature:appSignature
-                  completion:^(BOOL success) {
+                  completion:^(CHBStartError *cbError) {
                     GADMAdapterChartboostRewardedAd *strongSelf = weakSelf;
                     if (!strongSelf) {
                       return;
                     }
 
-                    if (!success) {
-                      NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK initialization failed.");
-                      strongSelf->_completionHandler(nil, error);
+                    if (cbError) {
+                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
+                      strongSelf->_completionHandler(nil, cbError);
                       return;
-                    }
-
-                    GADMChartboostExtras *extras = strongSelf->_adConfig.extras;
-                    if (extras) {
-                      [Chartboost setFramework:extras.framework
-                                   withVersion:extras.frameworkVersion];
                     }
 
                     CHBMediation *mediation = GADMAdapterChartboostMediation();
@@ -168,11 +159,7 @@
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
   [_adEventDelegate didEndVideo];
-
-  /// Chartboost doesn't provide access to the reward type.
-  NSDecimalNumber *rewardValue = [[NSDecimalNumber alloc] initWithInteger:event.reward];
-  GADAdReward *adReward = [[GADAdReward alloc] initWithRewardType:@"" rewardAmount:rewardValue];
-  [_adEventDelegate didRewardUserWithReward:adReward];
+  [_adEventDelegate didRewardUser];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {

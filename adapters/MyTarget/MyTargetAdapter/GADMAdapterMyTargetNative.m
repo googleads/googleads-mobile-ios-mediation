@@ -42,7 +42,7 @@
 }
 
 + (nonnull NSString *)adapterVersion {
-  return kGADMAdapterMyTargetVersion;
+  return GADMAdapterMyTargetVersion;
 }
 
 + (nonnull Class<GADAdNetworkExtras>)networkExtrasClass {
@@ -148,7 +148,7 @@
         (GADNativeAdImageAdLoaderOptions *)adLoaderOptions;
     if (imageOptions.disableImageLoading) {
       _autoLoadImages = NO;
-      cachePolicy = cachePolicy & ~MTRGCachePolicyImages;
+      cachePolicy = MTRGCachePolicyVideo;
       break;
     }
   }
@@ -156,7 +156,7 @@
   _nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
   _nativeAd.delegate = self;
   _nativeAd.cachePolicy = cachePolicy;
-  GADMAdapterMyTargetFillCustomParams(_nativeAd.customParams, strongConnector);
+  GADMAdapterMyTargetFillCustomParams(_nativeAd.customParams, strongConnector.networkExtras);
   [_nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob
                                   forKey:kMTRGCustomParamsMediationKey];
   [_nativeAd load];
@@ -236,8 +236,6 @@
 
 - (void)onLeaveApplicationWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-  [GADMediatedUnifiedNativeAdNotificationSource
-      mediatedNativeAdWillLeaveApplication:_mediatedUnifiedNativeAd];
 }
 
 - (void)onVideoPlayWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {

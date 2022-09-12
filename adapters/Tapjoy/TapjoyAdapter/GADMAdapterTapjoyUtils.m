@@ -63,7 +63,7 @@ NSError *_Nonnull GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoy
                                                                NSString *_Nonnull description) {
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  return [NSError errorWithDomain:kGADMAdapterTapjoyErrorDomain code:code userInfo:userInfo];
+  return [NSError errorWithDomain:GADMAdapterTapjoyErrorDomain code:code userInfo:userInfo];
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterTapjoyAuctionDataForResponseData(
