@@ -36,6 +36,8 @@
       GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_INTERSTITIAL);
     } else if (cred.format == GADAdFormatRewarded) {
       GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_REWARDED_VIDEO);
+    } else if (cred.format == GADAdFormatBanner) {
+      GADMAdapterIronSourceMutableSetAddObject(ironSourceAdUnits, IS_BANNER);
     }
 
     NSString *appKeyFromSetting = cred.settings[GADMAdapterIronSourceAppKey];
