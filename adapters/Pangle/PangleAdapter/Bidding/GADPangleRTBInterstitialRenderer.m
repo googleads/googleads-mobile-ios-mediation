@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADPangleRTBInterstitialRenderer.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBInterstitialRenderer () <PAGLInterstitialAdDelegate>
 
@@ -62,23 +62,26 @@
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse;
   __weak typeof(self) weakSelf = self;
-  [PAGLInterstitialAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
-    __strong typeof(weakSelf) strongSelf = weakSelf;
-    
-    if (error) {
-      if (strongSelf->_loadCompletionHandler) {
-        strongSelf->_loadCompletionHandler(nil, error);
-      }
-      return;
-    }
-    
-    strongSelf->_interstitialAd = interstitialAd;
-    strongSelf->_interstitialAd.delegate = strongSelf;
-    
-    if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-    }
-  }];
+  [PAGLInterstitialAd
+       loadAdWithSlotID:placementId
+                request:request
+      completionHandler:^(PAGLInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        if (error) {
+          if (strongSelf->_loadCompletionHandler) {
+            strongSelf->_loadCompletionHandler(nil, error);
+          }
+          return;
+        }
+
+        strongSelf->_interstitialAd = interstitialAd;
+        strongSelf->_interstitialAd.delegate = strongSelf;
+
+        if (strongSelf->_loadCompletionHandler) {
+          strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+        }
+      }];
 }
 
 #pragma mark - GADMediationInterstitialAd

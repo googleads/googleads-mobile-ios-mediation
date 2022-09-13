@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADPangleRTBRewardedRenderer.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBRewardedRenderer () <PAGRewardedAdDelegate>
 
@@ -62,29 +62,29 @@
     _loadCompletionHandler(nil, error);
     return;
   }
-  
+
   PAGRewardedRequest *request = [PAGRewardedRequest request];
   request.adString = adConfiguration.bidResponse;
   __weak typeof(self) weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request
-                completionHandler:^(PAGRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
-    __strong typeof(weakSelf) strongSelf = weakSelf;
-    
-    if (error) {
-      if (strongSelf->_loadCompletionHandler) {
-        strongSelf->_loadCompletionHandler(nil, error);
-      }
-      return;
-    }
-    
-    strongSelf->_rewardedAd = rewardedAd;
-    strongSelf->_rewardedAd.delegate = strongSelf;
-    
-    if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-    }
-  }];
+                completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
+                  __strong typeof(weakSelf) strongSelf = weakSelf;
+
+                  if (error) {
+                    if (strongSelf->_loadCompletionHandler) {
+                      strongSelf->_loadCompletionHandler(nil, error);
+                    }
+                    return;
+                  }
+
+                  strongSelf->_rewardedAd = rewardedAd;
+                  strongSelf->_rewardedAd.delegate = strongSelf;
+
+                  if (strongSelf->_loadCompletionHandler) {
+                    strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+                  }
+                }];
 }
 
 #pragma mark - GADMediationRewardedAd
@@ -111,8 +111,7 @@
 }
 
 - (void)rewardedAd:(PAGRewardedAd *)rewardedAd userDidEarnReward:(PAGRewardModel *)rewardModel {
-  NSNumber *amount =
-      [NSDecimalNumber numberWithInteger:rewardModel.rewardAmount];
+  NSNumber *amount = [NSDecimalNumber numberWithInteger:rewardModel.rewardAmount];
   GADAdReward *reward = [[GADAdReward alloc]
       initWithRewardType:@""
             rewardAmount:[NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]]];

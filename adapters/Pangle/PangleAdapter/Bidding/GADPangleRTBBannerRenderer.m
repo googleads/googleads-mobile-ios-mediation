@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADPangleRTBBannerRenderer.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBBannerRenderer () <PAGBannerAdDelegate>
 
@@ -66,34 +66,33 @@
     _loadCompletionHandler(nil, error);
     return;
   }
-  
+
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
-  
+
   __weak typeof(self) weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId
                         request:request
-              completionHandler:^(PAGBannerAd * _Nullable bannerAd,
-                                  NSError * _Nullable loadError) {
-    __strong typeof(weakSelf) strongSelf = weakSelf;
-    
-    if (loadError) {
-      strongSelf->_loadCompletionHandler(nil,loadError);
-      return;
-    }
-    
-    CGRect frame = bannerAd.bannerView.frame;
-    frame.size = bannerSize.size;
-    bannerAd.bannerView.frame = frame;
-    bannerAd.rootViewController = adConfiguration.topViewController;
-    
-    strongSelf->_bannerAd = bannerAd;
-    strongSelf->_bannerAd.delegate = strongSelf;
-    
-    if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
-    }
-  }];
+              completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+
+                if (loadError) {
+                  strongSelf->_loadCompletionHandler(nil, loadError);
+                  return;
+                }
+
+                CGRect frame = bannerAd.bannerView.frame;
+                frame.size = bannerSize.size;
+                bannerAd.bannerView.frame = frame;
+                bannerAd.rootViewController = adConfiguration.topViewController;
+
+                strongSelf->_bannerAd = bannerAd;
+                strongSelf->_bannerAd.delegate = strongSelf;
+
+                if (strongSelf->_loadCompletionHandler) {
+                  strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+                }
+              }];
 }
 
 - (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {

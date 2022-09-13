@@ -13,12 +13,12 @@
 // limitations under the License.
 
 #import "GADPangleRTBNativeRenderer.h"
-#import "GADMediationAdapterPangleConstants.h"
-#import "GADMAdapterPangleUtils.h"
-#include <stdatomic.h>
 #import <PAGAdSDK/PAGAdSDK.h>
+#include <stdatomic.h>
+#import "GADMAdapterPangleUtils.h"
+#import "GADMediationAdapterPangleConstants.h"
 
-@interface GADPangleRTBNativeRenderer()<PAGLNativeAdDelegate> {
+@interface GADPangleRTBNativeRenderer () <PAGLNativeAdDelegate> {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle native ad.
@@ -64,52 +64,54 @@
   }
 
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
-  
+
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse;
-  
+
   __weak typeof(self) weakSelf = self;
-  [PAGLNativeAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLNativeAd * _Nullable nativeAd, NSError * _Nullable error) {
-    __strong typeof(weakSelf) strongSelf = weakSelf;
-    
-    if (error) {
-      if (strongSelf->_loadCompletionHandler) {
-        strongSelf->_loadCompletionHandler(nil, error);
-      }
-      return;
-    }
-    
-    [strongSelf->_relatedView refreshWithNativeAd:nativeAd];
-    
-    strongSelf->_nativeAd = nativeAd;
-    strongSelf->_nativeAd.delegate = strongSelf;
-      strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
-    
-    if (strongSelf->_loadCompletionHandler) {
-      id<GADMediationNativeAdEventDelegate> delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-        strongSelf->_delegate = delegate;
-    }
-  }];
-    
+  [PAGLNativeAd loadAdWithSlotID:placementId
+                         request:request
+               completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
+                 __strong typeof(weakSelf) strongSelf = weakSelf;
+
+                 if (error) {
+                   if (strongSelf->_loadCompletionHandler) {
+                     strongSelf->_loadCompletionHandler(nil, error);
+                   }
+                   return;
+                 }
+
+                 [strongSelf->_relatedView refreshWithNativeAd:nativeAd];
+
+                 strongSelf->_nativeAd = nativeAd;
+                 strongSelf->_nativeAd.delegate = strongSelf;
+                 strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
+
+                 if (strongSelf->_loadCompletionHandler) {
+                   id<GADMediationNativeAdEventDelegate> delegate =
+                       strongSelf->_loadCompletionHandler(strongSelf, nil);
+                   strongSelf->_delegate = delegate;
+                 }
+               }];
 }
 
 #pragma mark - GADMediationNativeAd
 
 - (GADNativeAdImage *)icon {
   if (!_icon) {
-    if (_nativeAd.data.icon && _nativeAd.data.icon.imageURL != nil){
-     _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
+    if (_nativeAd.data.icon && _nativeAd.data.icon.imageURL != nil) {
+      _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }
   }
   return _icon;
 }
 
 - (UIView *)mediaView {
-    return _relatedView.mediaView;
+  return _relatedView.mediaView;
 }
 
 - (UIView *)adChoicesView {
-    return _relatedView.logoADImageView;
+  return _relatedView.logoADImageView;
 }
 
 - (NSString *)headline {
@@ -134,7 +136,7 @@
 }
 
 - (NSDecimalNumber *)starRating {
-    return nil;
+  return nil;
 }
 
 - (NSArray<GADNativeAdImage *> *)images {
@@ -165,7 +167,7 @@
 }
 
 - (BOOL)hasVideoContent {
-    return YES;
+  return YES;
 }
 
 - (BOOL)handlesUserClicks {
@@ -177,10 +179,10 @@
 }
 
 - (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData: data];
-    return [[GADNativeAdImage alloc] initWithImage:image];
+  NSURL *url = [NSURL URLWithString:urlString];
+  NSData *data = [NSData dataWithContentsOfURL:url];
+  UIImage *image = [UIImage imageWithData:data];
+  return [[GADNativeAdImage alloc] initWithImage:image];
 }
 
 - (void)didRenderInView:(nonnull UIView *)view
