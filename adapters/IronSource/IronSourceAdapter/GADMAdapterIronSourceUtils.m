@@ -69,4 +69,30 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
   return version;
 }
 
++ (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size {
+  GADAdSize banner = GADAdSizeBanner;
+  GADAdSize rectangle = GADAdSizeMediumRectangle;
+  GADAdSize large = GADAdSizeLargeBanner;
+  
+    NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(rectangle), NSValueFromGADAdSize(large) ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
+    return ISBannerSize_BANNER;
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(large), closestCGSize)) {
+    return ISBannerSize_LARGE;
+  }
+    if (CGSizeEqualToSize(CGSizeFromGADAdSize(rectangle), closestCGSize)) {
+      return ISBannerSize_RECTANGLE;
+    }
+
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString
+                  stringWithFormat:@"Unable to retrieve IronSource size from GADAdSize: %@", NSStringFromGADAdSize(size)]];
+
+  return nil;
+}
+
 @end

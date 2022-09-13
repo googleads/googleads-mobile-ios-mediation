@@ -20,10 +20,10 @@
 
 @interface ISMediationManager ()
 
-@property(nonatomic)
-    NSMapTable<NSString *, id<GADMAdapterIronSourceRewardedDelegate>> *rewardedAdapterDelegates;
-@property(nonatomic) NSMapTable<NSString *, id<GADMAdapterIronSourceInterstitialDelegate>>
-    *interstitialAdapterDelegates;
+@property(nonatomic) NSMapTable<NSString *, id<GADMAdapterIronSourceRewardedDelegate>> *rewardedAdapterDelegates;
+@property(nonatomic) NSMapTable<NSString *, id<GADMAdapterIronSourceInterstitialDelegate>> *interstitialAdapterDelegates;
+@property(nonatomic) NSMapTable<NSString *, id<GADMAdapterIronSourceBannerDelegate>> *bannerAdapterDelegates;
+
 
 @end
 
@@ -46,6 +46,9 @@
     self.interstitialAdapterDelegates =
         [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
                               valueOptions:NSPointerFunctionsWeakMemory];
+      self.bannerAdapterDelegates =
+          [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
+                                valueOptions:NSPointerFunctionsWeakMemory];
     [IronSource
         setMediationType:[NSString
                              stringWithFormat:@"%@%@SDK%@", GADMAdapterIronSourceMediationName,
@@ -70,6 +73,13 @@
       [IronSource initISDemandOnly:appKey adUnits:@[ IS_REWARDED_VIDEO ]];
     });
   }
+    if ([adUnits member:IS_BANNER] != nil) {
+      static dispatch_once_t onceTokenBN;
+      dispatch_once(&onceTokenBN, ^{
+          [IronSource setISDemandOnlyBannerDelegate:self];
+          [IronSource initISDemandOnly:appKey adUnits:@[ IS_BANNER ]];
+      });
+    }
 }
 
 - (void)loadRewardedAdWithDelegate:(nonnull id<GADMAdapterIronSourceRewardedDelegate>)delegate
@@ -137,6 +147,35 @@
       onLog:[NSString stringWithFormat:@"ISMediationManager - showInterstitial for instance Id %@",
                                        instanceID]];
   [IronSource showISDemandOnlyInterstitial:viewController instanceId:instanceID];
+}
+
+- (void)loadBannerAdWithDelegate:
+            (nonnull id<GADMAdapterIronSourceBannerDelegate>)delegate
+                      viewController:(nonnull UIViewController *)viewController
+                      instanceID:(nonnull NSString *)instanceID
+                      bannerSize:(nonnull ISBannerSize*)size{
+    id<GADMAdapterIronSourceBannerDelegate> adapterDelegate = delegate;
+    if (adapterDelegate == nil) {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString
+                    stringWithFormat:@"requestBannerAdWithDelegate adapterDelegate is null."]];
+      return;
+    }
+    if ([self canLoadBannerInstance:instanceID]) {
+      [self setBannerDelegate:adapterDelegate toInstanceState:GADMAdapterIronSourceInstanceStateLocked];
+      [self addBannerDelegate:adapterDelegate forInstanceID:instanceID];
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString
+                    stringWithFormat:@"ISMediationManager - loadBanner  for instance Id %@",
+                                     instanceID]];
+    
+      [IronSource loadISDemandOnlyBannerWithInstanceId:instanceID viewController:viewController size:size];
+    } else {
+      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+          GADMAdapterIronSourceErrorAdAlreadyLoaded,
+          @"Instance already loaded. Couldn't load another one in the same time!");
+        [adapterDelegate bannerDidFailToLoadWithError:error instanceId:instanceID];
+    }
 }
 
 #pragma mark ISDemandOnlyRewardedDelegate
@@ -332,6 +371,69 @@
   }
 }
 
+#pragma mark ISDemandOnlyBannerDelegate
+- (void)bannerDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+    id<GADMAdapterIronSourceBannerDelegate> delegate =
+        [self getBannerDelegateForInstanceID:instanceId];
+    if (delegate) {
+      [self setBannerDelegate:delegate toInstanceState:GADMAdapterIronSourceInstanceStateCanLoad];
+      [delegate bannerDidFailToLoadWithError:error instanceId:instanceId];
+    } else {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"ISMediationManager - bannerDidFailToLoadWithError "
+                                           @"adapterDelegate is null."]];
+    }
+}
+
+- (void)bannerDidLoad:(ISDemandOnlyBannerView *)bannerView instanceId:(NSString *)instanceId {
+    id<GADMAdapterIronSourceBannerDelegate> delegate =
+    [self getBannerDelegateForInstanceID:instanceId];
+    if (delegate) {
+      [delegate bannerDidLoad:bannerView instanceId:instanceId];
+    } else {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:
+                              @"ISMediationManager - bannerDidLoad adapterDelegate is null."]];
+    }
+}
+
+- (void)bannerDidShow:(NSString *)instanceId {
+    id<GADMAdapterIronSourceBannerDelegate> delegate =
+    [self getBannerDelegateForInstanceID:instanceId];
+    if (delegate) {
+      [delegate bannerDidShow:instanceId];
+    } else {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:
+                              @"ISMediationManager - bannerDidShow adapterDelegate is null."]];
+    }
+}
+
+- (void)bannerWillLeaveApplication:(NSString *)instanceId {
+    id<GADMAdapterIronSourceBannerDelegate> delegate =
+    [self getBannerDelegateForInstanceID:instanceId];
+    if (delegate) {
+      [delegate bannerWillLeaveApplication:instanceId];
+    } else {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:
+                              @"ISMediationManager - bannerWillLeaveApplication adapterDelegate is null."]];
+    }
+}
+
+- (void)didClickBanner:(NSString *)instanceId {
+    id<GADMAdapterIronSourceBannerDelegate> delegate =
+    [self getBannerDelegateForInstanceID:instanceId];
+    if (delegate) {
+      [delegate didClickBanner:instanceId];
+    } else {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:
+                              @"ISMediationManager - didClickBanner adapterDelegate is null."]];
+    }
+}
+
+
 #pragma Utils methods
 
 - (void)addRewardedDelegate:(id<GADMAdapterIronSourceRewardedDelegate>)adapterDelegate
@@ -364,6 +466,23 @@
   id<GADMAdapterIronSourceInterstitialDelegate> delegate;
   @synchronized(self.interstitialAdapterDelegates) {
     delegate = [self.interstitialAdapterDelegates objectForKey:instanceID];
+  }
+  return delegate;
+}
+
+- (void)addBannerDelegate:(id<GADMAdapterIronSourceBannerDelegate>)adapterDelegate
+                  forInstanceID:(NSString *)instanceID {
+  @synchronized(self.bannerAdapterDelegates) {
+    GADMAdapterIronSourceMapTableSetObjectForKey(self.bannerAdapterDelegates, instanceID,
+                                                 adapterDelegate);
+  }
+}
+
+- (id<GADMAdapterIronSourceBannerDelegate>)getBannerDelegateForInstanceID:
+    (NSString *)instanceID {
+  id<GADMAdapterIronSourceBannerDelegate> delegate;
+  @synchronized(self.bannerAdapterDelegates) {
+    delegate = [self.bannerAdapterDelegates objectForKey:instanceID];
   }
   return delegate;
 }
@@ -440,5 +559,47 @@
       onLog:[NSString stringWithFormat:@"ISMediationManager change state to %@", state]];
   [delegate setState:state];
 }
+
+
+- (BOOL)canLoadBannerInstance:(NSString *)instanceID {
+  if (![self isISBannerAdapterRegistered:instanceID]) {
+    return true;
+  }
+
+  if ([self isRegisteredBannerAdapterCanLoad:instanceID]) {
+    return true;
+  }
+
+  return false;
+}
+
+- (BOOL)isRegisteredBannerAdapterCanLoad:(NSString *)instanceID {
+  id<GADMAdapterIronSourceBannerDelegate> adapterDelegate =
+      [self getBannerDelegateForInstanceID:instanceID];
+  return adapterDelegate == nil ||
+         [[adapterDelegate getState] isEqualToString:GADMAdapterIronSourceInstanceStateCanLoad];
+}
+
+- (BOOL)isISBannerAdapterRegistered:(NSString *)instanceID {
+  return [self getBannerDelegateForInstanceID:instanceID] != nil;
+}
+
+- (void)setBannerDelegate:(id<GADMAdapterIronSourceBannerDelegate>)adapterDelegate
+                toInstanceState:(NSString *)state {
+  id<GADMAdapterIronSourceBannerDelegate> delegate = adapterDelegate;
+
+  if (delegate == nil) {
+    [GADMAdapterIronSourceUtils
+        onLog:[NSString stringWithFormat:@"changeInstanceState - adapterDelegate is nil."]];
+    return;
+  }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"ISMediationManager change state to %@", state]];
+  [delegate setState:state];
+}
+
+
+
+
 
 @end
