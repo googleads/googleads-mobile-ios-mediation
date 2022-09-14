@@ -65,11 +65,11 @@
 
   PAGRewardedRequest *request = [PAGRewardedRequest request];
   request.adString = adConfiguration.bidResponse;
-  __weak typeof(self) weakSelf = self;
+  GADPangleRTBRewardedRenderer *__weak weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request
                 completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
-                  __strong typeof(weakSelf) strongSelf = weakSelf;
+                  GADPangleRTBRewardedRenderer *strongSelf = weakSelf;
 
                   if (error) {
                     if (strongSelf->_loadCompletionHandler) {
@@ -111,13 +111,8 @@
 }
 
 - (void)rewardedAd:(PAGRewardedAd *)rewardedAd userDidEarnReward:(PAGRewardModel *)rewardModel {
-  NSNumber *amount = [NSDecimalNumber numberWithInteger:rewardModel.rewardAmount];
-  GADAdReward *reward = [[GADAdReward alloc]
-      initWithRewardType:@""
-            rewardAmount:[NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]]];
-
   id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
-  [delegate didRewardUserWithReward:reward];
+  [delegate didRewardUser];
 }
 
 @end

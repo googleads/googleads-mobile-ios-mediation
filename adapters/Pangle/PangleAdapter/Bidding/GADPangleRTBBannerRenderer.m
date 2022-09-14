@@ -70,11 +70,11 @@
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
 
-  __weak typeof(self) weakSelf = self;
+  GADPangleRTBBannerRenderer *__weak weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId
                         request:request
               completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
+                GADPangleRTBBannerRenderer *strongSelf = weakSelf;
 
                 if (loadError) {
                   strongSelf->_loadCompletionHandler(nil, loadError);
