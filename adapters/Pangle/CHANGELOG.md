@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 4.6.2.2.0 (In progress)
+#### [Version 4.6.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.2.2.0.zip)
 - Renamed the `setGDPR()` and  `setCCPA()` methods from the `GADMediationAdapterPangle` class to `setGDPRConsent()` and `setDoNotSell` respectively.
 - Verified compatibility with Pangle SDK version 4.6.2.2.
 
