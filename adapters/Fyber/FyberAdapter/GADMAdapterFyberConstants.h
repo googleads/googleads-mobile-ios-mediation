@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Fyber mediation adapter version.
-static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.5.0";
+static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.6.0";
 
 /// Fyber mediation adapter app ID key.
 static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";

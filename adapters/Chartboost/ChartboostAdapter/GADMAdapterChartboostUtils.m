@@ -72,13 +72,13 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable s
       [string stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
   if (!adLocation.length) {
     NSLog(@"Missing or Invalid Chartboost location. Using Chartboost's default location.");
-    return [CBLocationDefault copy];
+    return @"Default";
   }
   return adLocation;
 }
 
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
-  return [[CHBMediation alloc] initWithType:CBMediationAdMob
+  return [[CHBMediation alloc] initWithName:@"AdMob"
                              libraryVersion:GADMobileAds.sharedInstance.sdkVersion
                              adapterVersion:GADMAdapterChartboostVersion];
 }

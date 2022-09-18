@@ -13,16 +13,15 @@
 // limitations under the License.
 
 #import "GADMediationAdapterChartboost.h"
-#if __has_include(<Chartboost/Chartboost.h>)
-#import <Chartboost/Chartboost.h>
+#if __has_include(<ChartboostSDK/ChartboostSDK.h>)
+#import <ChartboostSDK/ChartboostSDK.h>
 #else
-#import "Chartboost.h"
+#import "ChartboostSDK.h"
 #endif
 #import "GADMAdapterChartboostConstants.h"
 #import "GADMAdapterChartboostRewardedAd.h"
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
-#import "GADMChartboostExtras.h"
 #import "GADMediationAdapterChartboost.h"
 
 @implementation GADMediationAdapterChartboost {
@@ -71,14 +70,12 @@
     NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
           appSignature);
   }
-  [Chartboost startWithAppId:appID
+  [Chartboost startWithAppID:appID
                 appSignature:appSignature
-                  completion:^(BOOL success) {
+                  completion:^(CHBStartError *cbError) {
                     NSError *error = nil;
-                    if (!success) {
-                      error = GADMAdapterChartboostErrorWithCodeAndDescription(
-                          GADMAdapterChartboostErrorInitializationFailure,
-                          @"Chartboost SDK initialization failed.");
+                    if (cbError) {
+                      NSLog(@"Failed to initialize Chartboost SDK: %@", cbError);
                     }
                     completionHandler(error);
                   }];
@@ -98,7 +95,7 @@
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return [GADMChartboostExtras class];
+  return nil;
 }
 
 + (GADVersionNumber)adapterVersion {

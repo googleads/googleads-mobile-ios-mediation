@@ -13,15 +13,16 @@
 // limitations under the License.
 
 #import "GADMediationAdapterPangle.h"
-#import <BUAdSDK/BUAdSDK.h>
+#import <PAGAdSDK/PAGAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
 
-static NSInteger _gdpr = -1, _ccpa = -1;
+static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
   /// Pangle banner ad wrapper.
@@ -37,7 +38,13 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  NSString *signals = [BUAdSDKManager getBiddingToken:nil];
+  GADPangleNetworkExtras *extras =
+      [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
+  if (extras && extras.userDataString.length > 0) {
+    // The user data needs to be set for it to be included in the signals.
+    [PAGConfig shareConfig].userDataString = extras.userDataString;
+  }
+  NSString *signals = [PAGSdk getBiddingToken:nil];
   completionHandler(signals, nil);
 }
 
@@ -64,19 +71,18 @@ static NSInteger _gdpr = -1, _ccpa = -1;
         appIds);
     GADMPangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
   }
-
-  BUAdSDKConfiguration *sdkConfiguration = [BUAdSDKConfiguration configuration];
-  sdkConfiguration.territory = BUAdSDKTerritory_NO_CN;
-  sdkConfiguration.appID = appID;
-  sdkConfiguration.GDPR = @(_gdpr);
-  sdkConfiguration.CCPA = @(_ccpa);
-  [BUAdSDKManager startWithAsyncCompletionHandler:^(BOOL success, NSError *error) {
-    completionHandler(error);
-  }];
+  PAGConfig *config = [PAGConfig shareConfig];
+  config.appID = appID;
+  config.GDPRConsent = _GDPRConsent;
+  config.doNotSell = _doNotSell;
+  [PAGSdk startWithConfig:config
+        completionHandler:^(BOOL success, NSError *_Nonnull error) {
+          completionHandler(error);
+        }];
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = BUAdSDKManager.SDKVersion;
+  NSString *versionString = PAGSdk.SDKVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
   if (versionComponents.count == 4) {
@@ -105,7 +111,7 @@ static NSInteger _gdpr = -1, _ccpa = -1;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return [GADPangleNetworkExtras class];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
@@ -162,31 +168,31 @@ static NSInteger _gdpr = -1, _ccpa = -1;
     GADMPangleLog(@"Invalid COPPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setCoppa:COPPA];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+    PAGConfig.shareConfig.childDirected = COPPA;
   }
 }
 
-+ (void)setGDPR:(NSInteger)GDPR {
-  if (GDPR != 0 && GDPR != 1 && GDPR != -1) {
++ (void)setGDPRConsent:(NSInteger)GDPRConsent {
+  if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setGDPR:GDPR];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+    PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
-  _gdpr = GDPR;
+  _GDPRConsent = GDPRConsent;
 }
 
-+ (void)setCCPA:(NSInteger)CCPA {
-  if (CCPA != 0 && CCPA != 1 && CCPA != -1) {
++ (void)setDoNotSell:(NSInteger)doNotSell {
+  if (doNotSell != 0 && doNotSell != 1 && doNotSell != -1) {
     GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (BUAdSDKManager.initializationState == BUAdSDKInitializationStateReady) {
-    [BUAdSDKManager setCCPA:CCPA];
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+    PAGConfig.shareConfig.doNotSell = doNotSell;
   }
-  _ccpa = CCPA;
+  _doNotSell = doNotSell;
 }
 
 @end

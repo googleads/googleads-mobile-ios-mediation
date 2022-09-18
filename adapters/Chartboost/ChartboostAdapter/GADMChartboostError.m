@@ -39,6 +39,9 @@ NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
     case CHBCacheErrorCodePublisherDisabled:
       suffix = @"CHBCacheErrorCodePublisherDisabled";
       break;
+    case CHBCacheErrorCodeServerError:
+      suffix = @"CHBCacheErrorCodeServerError";
+      break;
   }
 
   NSString *description =
@@ -55,9 +58,6 @@ NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
     case CHBShowErrorCodeSessionNotStarted:
       suffix = @"CHBShowErrorCodeSessionNotStarted";
       break;
-    case CHBShowErrorCodeAdAlreadyVisible:
-      suffix = @"CHBShowErrorCodeAdAlreadyVisible";
-      break;
     case CHBShowErrorCodeInternetUnavailable:
       suffix = @"CHBShowErrorCodeInternetUnavailable";
       break;
@@ -66,6 +66,9 @@ NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
       break;
     case CHBShowErrorCodeNoCachedAd:
       suffix = @"CHBShowErrorCodeNoCachedAd";
+      break;
+    case CHBShowErrorCodeNoViewController:
+      suffix = @"CHBShowErrorCodeNoViewController";
       break;
   }
   NSString *description =
@@ -82,9 +85,6 @@ NSError *GADMChartboostErrorForCHBClickError(CHBClickError *error) {
       break;
     case CHBClickErrorCodeUriUnrecognized:
       suffix = @"CHBClickErrorCodeUriUnrecognized";
-      break;
-    case CHBClickErrorCodeConfirmationGateFailure:
-      suffix = @"CHBClickErrorCodeConfirmationGateFailure";
       break;
     case CHBClickErrorCodeInternal:
       suffix = @"CHBClickErrorCodeInternal";
