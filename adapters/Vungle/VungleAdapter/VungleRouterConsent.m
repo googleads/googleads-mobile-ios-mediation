@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "VungleRouterConsent.h"
-#import <VungleAds/VungleAds.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 
 @implementation VungleRouterConsent
 

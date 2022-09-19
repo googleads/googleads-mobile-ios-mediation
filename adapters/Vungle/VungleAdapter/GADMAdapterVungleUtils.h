@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import "GADMediationAdapterVungle.h"
 #import "VungleAdNetworkExtras.h"
-#import <VungleAds/VungleAds.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 
 /// Return a dictionary of Vungle ad playback options.
 NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
