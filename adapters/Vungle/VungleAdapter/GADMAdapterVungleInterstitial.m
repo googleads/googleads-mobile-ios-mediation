@@ -62,7 +62,9 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [VungleRouterConsent updateCOPPAStatus:strongConnector.childDirectedTreatment];
+  if (strongConnector.childDirectedTreatment) {
+    [VungleRouterConsent updateCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  }
   _bannerAd = [[GADMAdapterVungleBanner alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                       adapter:self];
   [_bannerAd getBannerWithSize:adSize];
@@ -72,7 +74,9 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [VungleRouterConsent updateCOPPAStatus:strongConnector.childDirectedTreatment];
+  if (strongConnector.childDirectedTreatment) {
+    [VungleRouterConsent updateCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  }
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement.length) {

@@ -104,7 +104,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
         [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
@@ -121,7 +123,9 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
@@ -131,7 +135,9 @@
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-  [VungleRouterConsent updateCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [_nativeAd requestNativeAd];
