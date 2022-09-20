@@ -21,16 +21,16 @@
 
 @interface GADPangleRTBInterstitialRenderer () <PAGLInterstitialAdDelegate>
 
+/// The completion handler to call when the ad loading succeeds or fails.
+@property (nonatomic, copy) GADMediationInterstitialLoadCompletionHandler loadCompletionHandler;
+/// The Pangle interstitial ad.
+@property (nonatomic, strong) PAGLInterstitialAd *interstitialAd;
+/// An ad event delegate to invoke when ad rendering events occur.
+@property (nonatomic, weak) id<GADMediationInterstitialAdEventDelegate> delegate;
+
 @end
 
-@implementation GADPangleRTBInterstitialRenderer {
-  /// The completion handler to call when the ad loading succeeds or fails.
-  GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
-  /// The Pangle interstitial ad.
-  PAGLInterstitialAd *_interstitialAd;
-  /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationInterstitialAdEventDelegate> _delegate;
-}
+@implementation GADPangleRTBInterstitialRenderer
 
 - (void)renderInterstitialForAdConfiguration:
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
@@ -39,7 +39,7 @@
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
       [completionHandler copy];
-  _loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+  self.loadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
       _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -56,7 +56,7 @@
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
         GADPangleErrorInvalidServerParameters,
         [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-    _loadCompletionHandler(nil, error);
+    self.loadCompletionHandler(nil, error);
     return;
   }
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
@@ -64,42 +64,44 @@
   __weak typeof(self) weakSelf = self;
   [PAGLInterstitialAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
     __strong typeof(weakSelf) strongSelf = weakSelf;
-    
+    if (!strongSelf) {
+       return;
+      }
     if (error) {
-      if (strongSelf->_loadCompletionHandler) {
-        strongSelf->_loadCompletionHandler(nil, error);
+      if (strongSelf.loadCompletionHandler) {
+        strongSelf.loadCompletionHandler(nil, error);
       }
       return;
     }
     
-    strongSelf->_interstitialAd = interstitialAd;
-    strongSelf->_interstitialAd.delegate = strongSelf;
+    strongSelf.interstitialAd = interstitialAd;
+    strongSelf.interstitialAd.delegate = strongSelf;
     
-    if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+    if (strongSelf.loadCompletionHandler) {
+      strongSelf.delegate = strongSelf.loadCompletionHandler(strongSelf, nil);
     }
   }];
 }
 
 #pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [_interstitialAd presentFromRootViewController:viewController];
+  [self.interstitialAd presentFromRootViewController:viewController];
 }
 
 #pragma mark - PAGLInterstitialAdDelegate
 - (void)adDidShow:(PAGLInterstitialAd *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  id<GADMediationInterstitialAdEventDelegate> delegate = self.delegate;
   [delegate willPresentFullScreenView];
   [delegate reportImpression];
 }
 
 - (void)adDidClick:(PAGLInterstitialAd *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  id<GADMediationInterstitialAdEventDelegate> delegate = self.delegate;
   [delegate reportClick];
 }
 
 - (void)adDidDismiss:(PAGLInterstitialAd *)ad {
-  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  id<GADMediationInterstitialAdEventDelegate> delegate = self.delegate;
   [delegate willDismissFullScreenView];
   [delegate didDismissFullScreenView];
 }
