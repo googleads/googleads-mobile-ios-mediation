@@ -21,13 +21,16 @@
 
 @interface GADPangleRTBBannerRenderer () <PAGBannerAdDelegate>
 
-@property (nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
-@property (nonatomic, strong) PAGBannerAd *bannerAd;
-@property (nonatomic, weak) id<GADMediationBannerAdEventDelegate> delegate;
-
 @end
 
-@implementation GADPangleRTBBannerRenderer
+@implementation GADPangleRTBBannerRenderer {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
+  /// The Pangle banner ad.
+  PAGBannerAd *_bannerAd;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationBannerAdEventDelegate> _delegate;
+}
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
@@ -35,7 +38,7 @@
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
       [completionHandler copy];
-  self.loadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
+  _loadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
       _Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -53,30 +56,29 @@
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
         GADPangleErrorInvalidServerParameters,
         [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-    self.loadCompletionHandler(nil, error);
+    _loadCompletionHandler(nil, error);
     return;
   }
 
   NSError *error = nil;
   PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
   if (error) {
-    self.loadCompletionHandler(nil, error);
+    _loadCompletionHandler(nil, error);
     return;
   }
   
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
+  
   __weak typeof(self) weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId
                         request:request
               completionHandler:^(PAGBannerAd * _Nullable bannerAd,
                                   NSError * _Nullable loadError) {
     __strong typeof(weakSelf) strongSelf = weakSelf;
-    if (!strongSelf) {
-       return;
-    }
+    
     if (loadError) {
-      strongSelf.loadCompletionHandler(nil,loadError);
+      strongSelf->_loadCompletionHandler(nil,loadError);
       return;
     }
     
@@ -85,11 +87,11 @@
     bannerAd.bannerView.frame = frame;
     bannerAd.rootViewController = adConfiguration.topViewController;
     
-    strongSelf.bannerAd = bannerAd;
-    strongSelf.bannerAd.delegate = strongSelf;
+    strongSelf->_bannerAd = bannerAd;
+    strongSelf->_bannerAd.delegate = strongSelf;
     
-    if (strongSelf.loadCompletionHandler) {
-      strongSelf.delegate = strongSelf.loadCompletionHandler(strongSelf,nil);
+    if (strongSelf->_loadCompletionHandler) {
+      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
     }
   }];
 }
@@ -126,18 +128,18 @@
 
 #pragma mark - GADMediationBannerAd
 - (nonnull UIView *)view {
-  return self.bannerAd.bannerView;
+  return _bannerAd.bannerView;
 }
 
 #pragma mark - PAGBannerAdDelegate
 
 - (void)adDidShow:(PAGBannerAd *)ad {
-  id<GADMediationBannerAdEventDelegate> delegate = self.delegate;
+  id<GADMediationBannerAdEventDelegate> delegate = _delegate;
   [delegate reportImpression];
 }
 
 - (void)adDidClick:(PAGBannerAd *)ad {
-  id<GADMediationBannerAdEventDelegate> delegate = self.delegate;
+  id<GADMediationBannerAdEventDelegate> delegate = _delegate;
   [delegate reportClick];
 }
 
