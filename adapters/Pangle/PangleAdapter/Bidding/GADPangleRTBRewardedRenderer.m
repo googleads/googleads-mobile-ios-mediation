@@ -21,16 +21,16 @@
 
 @interface GADPangleRTBRewardedRenderer () <PAGRewardedAdDelegate>
 
+/// The completion handler to call when the ad loading succeeds or fails.
+@property (nonatomic, copy) GADMediationRewardedLoadCompletionHandler loadCompletionHandler;
+/// The Pangle rewarded ad.
+@property (nonatomic, strong) PAGRewardedAd *rewardedAd;
+/// An ad event delegate to invoke when ad rendering events occur.
+@property (nonatomic, weak) id<GADMediationRewardedAdEventDelegate> delegate;
+
 @end
 
-@implementation GADPangleRTBRewardedRenderer {
-  /// The completion handler to call when the ad loading succeeds or fails.
-  GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
-  /// The Pangle rewarded ad.
-  PAGRewardedAd *_rewardedAd;
-  /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationRewardedAdEventDelegate> _delegate;
-}
+@implementation GADPangleRTBRewardedRenderer
 
 - (void)renderRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -39,7 +39,7 @@
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
       [completionHandler copy];
-  _loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
+  self.loadCompletionHandler = ^id<GADMediationRewardedAdEventDelegate>(
       _Nullable id<GADMediationRewardedAd> ad, NSError *_Nullable error) {
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -59,7 +59,7 @@
         [NSString
             stringWithFormat:@"%@ cannot be nil,please update Pangle SDK to the latest version.",
                              GADMAdapterPanglePlacementID]);
-    _loadCompletionHandler(nil, error);
+    self.loadCompletionHandler(nil, error);
     return;
   }
   
@@ -70,42 +70,44 @@
                           request:request
                 completionHandler:^(PAGRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
     __strong typeof(weakSelf) strongSelf = weakSelf;
-    
+    if (!strongSelf) {
+       return;
+    }
     if (error) {
-      if (strongSelf->_loadCompletionHandler) {
-        strongSelf->_loadCompletionHandler(nil, error);
+      if (strongSelf.loadCompletionHandler) {
+        strongSelf.loadCompletionHandler(nil, error);
       }
       return;
     }
     
-    strongSelf->_rewardedAd = rewardedAd;
-    strongSelf->_rewardedAd.delegate = strongSelf;
+    strongSelf.rewardedAd = rewardedAd;
+    strongSelf.rewardedAd.delegate = strongSelf;
     
-    if (strongSelf->_loadCompletionHandler) {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+    if (strongSelf.loadCompletionHandler) {
+      strongSelf.delegate = strongSelf.loadCompletionHandler(strongSelf, nil);
     }
   }];
 }
 
 #pragma mark - GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [_rewardedAd presentFromRootViewController:viewController];
+  [self.rewardedAd presentFromRootViewController:viewController];
 }
 
 #pragma mark - PAGRewardedAdDelegate
 - (void)adDidShow:(PAGRewardModel *)ad {
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  id<GADMediationRewardedAdEventDelegate> delegate = self.delegate;
   [delegate willPresentFullScreenView];
   [delegate reportImpression];
 }
 
 - (void)adDidClick:(PAGRewardModel *)ad {
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  id<GADMediationRewardedAdEventDelegate> delegate = self.delegate;
   [delegate reportClick];
 }
 
 - (void)adDidDismiss:(PAGRewardModel *)ad {
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  id<GADMediationRewardedAdEventDelegate> delegate = self.delegate;
   [delegate willDismissFullScreenView];
   [delegate didDismissFullScreenView];
 }
@@ -117,7 +119,7 @@
       initWithRewardType:@""
             rewardAmount:[NSDecimalNumber decimalNumberWithDecimal:[amount decimalValue]]];
 
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  id<GADMediationRewardedAdEventDelegate> delegate = self.delegate;
   [delegate didRewardUserWithReward:reward];
 }
 
