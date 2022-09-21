@@ -13,10 +13,10 @@
 // limitations under the License.
 
 #import "GADPangleRTBNativeRenderer.h"
-#import "GADMediationAdapterPangleConstants.h"
-#import "GADMAdapterPangleUtils.h"
-#include <stdatomic.h>
 #import <PAGAdSDK/PAGAdSDK.h>
+#include <stdatomic.h>
+#import "GADMAdapterPangleUtils.h"
+#import "GADMediationAdapterPangleConstants.h"
 
 @interface GADPangleRTBNativeRenderer()<PAGLNativeAdDelegate>
 
@@ -136,7 +136,7 @@
 }
 
 - (NSDecimalNumber *)starRating {
-    return nil;
+  return nil;
 }
 
 - (NSArray<GADNativeAdImage *> *)images {
@@ -167,7 +167,7 @@
 }
 
 - (BOOL)hasVideoContent {
-    return YES;
+  return YES;
 }
 
 - (BOOL)handlesUserClicks {
@@ -179,10 +179,10 @@
 }
 
 - (GADNativeAdImage *)imageWithUrlString:(NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [UIImage imageWithData: data];
-    return [[GADNativeAdImage alloc] initWithImage:image];
+  NSURL *url = [NSURL URLWithString:urlString];
+  NSData *data = [NSData dataWithContentsOfURL:url];
+  UIImage *image = [UIImage imageWithData:data];
+  return [[GADNativeAdImage alloc] initWithImage:image];
 }
 
 - (void)didRenderInView:(nonnull UIView *)view

@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADPangleRTBRewardedRenderer.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBRewardedRenderer () <PAGRewardedAdDelegate>
 
@@ -62,10 +62,10 @@
     self.loadCompletionHandler(nil, error);
     return;
   }
-  
+
   PAGRewardedRequest *request = [PAGRewardedRequest request];
   request.adString = adConfiguration.bidResponse;
-  __weak typeof(self) weakSelf = self;
+  GADPangleRTBRewardedRenderer *__weak weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request
                 completionHandler:^(PAGRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {

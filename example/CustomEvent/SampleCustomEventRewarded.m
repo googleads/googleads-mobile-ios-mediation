@@ -102,10 +102,7 @@
 }
 
 - (void)rewardedAd:(nonnull SampleRewardedAd *)rewardedAd userDidEarnReward:(NSUInteger)reward {
-  GADAdReward *aReward =
-      [[GADAdReward alloc] initWithRewardType:@""
-                                 rewardAmount:[NSDecimalNumber numberWithUnsignedInt:reward]];
-  [_adEventDelegate didRewardUserWithReward:aReward];
+  [_adEventDelegate didRewardUser];
 }
 
 @end

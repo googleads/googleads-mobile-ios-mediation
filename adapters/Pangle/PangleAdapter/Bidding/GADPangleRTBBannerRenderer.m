@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #import "GADPangleRTBBannerRenderer.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleRTBBannerRenderer () <PAGBannerAdDelegate>
 
@@ -63,7 +63,7 @@
     self.loadCompletionHandler(nil, error);
     return;
   }
-  
+
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
   __weak typeof(self) weakSelf = self;
