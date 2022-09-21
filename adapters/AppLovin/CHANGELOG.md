@@ -6,7 +6,7 @@
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 
 Built and tested with:
-- Google Mobile Ads SDK version 9.10.0.
+- Google Mobile Ads SDK version 9.11.0.
 - AppLovin SDK version 11.4.4.
 
 #### [Version 11.4.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.4.3.0.zip)
