@@ -62,9 +62,9 @@
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse;
 
-  __weak typeof(self) weakSelf = self;
+  GADPangleRTBInterstitialRenderer *__weak weakSelf = self;
   [PAGLInterstitialAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
-    __strong typeof(weakSelf) strongSelf = weakSelf;
+    GADPangleRTBInterstitialRenderer *strongSelf = weakSelf;
     if (!strongSelf) {
        return;
       }
