@@ -68,9 +68,9 @@
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse;
   
-  PAGLNativeAd *__weak weakSelf = self;
+  GADPangleRTBNativeRenderer *__weak weakSelf = self;
   [PAGLNativeAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLNativeAd * _Nullable nativeAd, NSError * _Nullable error) {
-    PAGLNativeAd *strongSelf = weakSelf;
+    GADPangleRTBNativeRenderer *strongSelf = weakSelf;
     if (!strongSelf) {
        return;
       }
