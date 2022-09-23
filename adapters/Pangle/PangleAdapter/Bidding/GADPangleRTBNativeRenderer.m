@@ -26,7 +26,7 @@
   /// The Pangle related view.
   PAGLNativeAdRelatedView *_relatedView;
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationNativeAdEventDelegate> _delegate;
+  __weak id<GADMediationNativeAdEventDelegate> _delegate;
 }
 
 @end
@@ -73,7 +73,9 @@
                          request:request
                completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
                  GADPangleRTBNativeRenderer *strongSelf = weakSelf;
-
+                 if (!strongSelf) {
+                    return;
+                 }
                  if (error) {
                    if (strongSelf->_loadCompletionHandler) {
                      strongSelf->_loadCompletionHandler(nil, error);
