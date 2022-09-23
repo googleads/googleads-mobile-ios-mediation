@@ -18,16 +18,16 @@
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 
-@interface GADPangleRTBNativeRenderer()<PAGLNativeAdDelegate>
-
-/// The completion handler to call when the ad loading succeeds or fails.
-@property (nonatomic, copy) GADMediationNativeLoadCompletionHandler loadCompletionHandler;
-/// The Pangle native ad.
-@property (nonatomic, strong) PAGLNativeAd *nativeAd;
-/// The Pangle related view.
-@property (nonatomic, strong) PAGLNativeAdRelatedView *relatedView;
-/// An ad event delegate to invoke when ad rendering events occur.
-@property (nonatomic, weak) id<GADMediationNativeAdEventDelegate> delegate;
+@interface GADPangleRTBNativeRenderer () <PAGLNativeAdDelegate> {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
+  /// The Pangle native ad.
+  PAGLNativeAd *_nativeAd;
+  /// The Pangle related view.
+  PAGLNativeAdRelatedView *_relatedView;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationNativeAdEventDelegate> _delegate;
+}
 
 @end
 
@@ -41,7 +41,7 @@
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
       [completionHandler copy];
-  self.loadCompletionHandler = ^id<GADMediationNativeAdEventDelegate>(
+  _loadCompletionHandler = ^id<GADMediationNativeAdEventDelegate>(
       _Nullable id<GADMediationNativeAd> ad, NSError *_Nullable error) {
     if (atomic_flag_test_and_set(&completionHandlerCalled)) {
       return nil;
@@ -59,78 +59,80 @@
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
         GADPangleErrorInvalidServerParameters,
         [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
-    self.loadCompletionHandler(nil, error);
+    _loadCompletionHandler(nil, error);
     return;
   }
 
-  self.relatedView = [[PAGLNativeAdRelatedView alloc] init];
-  
+  _relatedView = [[PAGLNativeAdRelatedView alloc] init];
+
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse;
-  
+
   GADPangleRTBNativeRenderer *__weak weakSelf = self;
-  [PAGLNativeAd loadAdWithSlotID:placementId request:request completionHandler:^(PAGLNativeAd * _Nullable nativeAd, NSError * _Nullable error) {
-    GADPangleRTBNativeRenderer *strongSelf = weakSelf;
-    if (!strongSelf) {
-       return;
-      }
-    if (error) {
-      if (strongSelf.loadCompletionHandler) {
-         strongSelf.loadCompletionHandler(nil, error);
-      }
-      return;
-    }
-    
-    [strongSelf.relatedView refreshWithNativeAd:nativeAd];
-    
-    strongSelf.nativeAd = nativeAd;
-    strongSelf.nativeAd.delegate = strongSelf;
-    strongSelf.nativeAd.rootViewController = adConfiguration.topViewController;
-    
-    if (strongSelf.loadCompletionHandler) {
-      id<GADMediationNativeAdEventDelegate> delegate = strongSelf.loadCompletionHandler(strongSelf, nil);
-      strongSelf.delegate = delegate;
-    }
-  }];
-    
+  [PAGLNativeAd loadAdWithSlotID:placementId
+                         request:request
+               completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
+                 GADPangleRTBNativeRenderer *strongSelf = weakSelf;
+                 if (!strongSelf) {
+                    return;
+                 }
+                 if (error) {
+                   if (strongSelf->_loadCompletionHandler) {
+                     strongSelf->_loadCompletionHandler(nil, error);
+                   }
+                   return;
+                 }
+
+                 [strongSelf->_relatedView refreshWithNativeAd:nativeAd];
+
+                 strongSelf->_nativeAd = nativeAd;
+                 strongSelf->_nativeAd.delegate = strongSelf;
+                 strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
+
+                 if (strongSelf->_loadCompletionHandler) {
+                   id<GADMediationNativeAdEventDelegate> delegate =
+                       strongSelf->_loadCompletionHandler(strongSelf, nil);
+                   strongSelf->_delegate = delegate;
+                 }
+               }];
 }
 
 #pragma mark - GADMediationNativeAd
 
 - (GADNativeAdImage *)icon {
   if (!_icon) {
-    if (self.nativeAd.data.icon && self.nativeAd.data.icon.imageURL != nil){
-     _icon = [self imageWithUrlString:self.nativeAd.data.icon.imageURL];
+    if (_nativeAd.data.icon && _nativeAd.data.icon.imageURL != nil) {
+      _icon = [self imageWithUrlString:_nativeAd.data.icon.imageURL];
     }
   }
   return _icon;
 }
 
 - (UIView *)mediaView {
-    return self.relatedView.mediaView;
+  return _relatedView.mediaView;
 }
 
 - (UIView *)adChoicesView {
-    return self.relatedView.logoADImageView;
+  return _relatedView.logoADImageView;
 }
 
 - (NSString *)headline {
-  if (self.nativeAd && self.nativeAd.data) {
-    return self.nativeAd.data.AdTitle;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdTitle;
   }
   return nil;
 }
 
 - (NSString *)body {
-  if (self.nativeAd && self.nativeAd.data) {
-    return self.nativeAd.data.AdDescription;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdDescription;
   }
   return nil;
 }
 
 - (NSString *)callToAction {
-  if (self.nativeAd && self.nativeAd.data) {
-    return self.nativeAd.data.buttonText;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.buttonText;
   }
   return nil;
 }
@@ -152,8 +154,8 @@
 }
 
 - (NSString *)advertiser {
-  if (self.nativeAd && self.nativeAd.data) {
-    return self.nativeAd.data.AdTitle;
+  if (_nativeAd && _nativeAd.data) {
+    return _nativeAd.data.AdTitle;
   }
   return nil;
 }
@@ -163,7 +165,7 @@
 }
 
 - (void)didUntrackView:(UIView *)view {
-  [self.nativeAd unregisterView];
+  [_nativeAd unregisterView];
 }
 
 - (BOOL)hasVideoContent {
@@ -191,18 +193,18 @@
     nonclickableAssetViews:
         (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  [self.nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
+  [_nativeAd registerContainer:view withClickableViews:clickableAssetViews.allValues];
 }
 
 #pragma mark - PAGLNativeAdDelegate
 
 - (void)adDidShow:(PAGLNativeAd *)ad {
-  id<GADMediationNativeAdEventDelegate> delegate = self.delegate;
+  id<GADMediationNativeAdEventDelegate> delegate = _delegate;
   [delegate reportImpression];
 }
 
 - (void)adDidClick:(PAGLNativeAd *)ad {
-  id<GADMediationNativeAdEventDelegate> delegate = self.delegate;
+  id<GADMediationNativeAdEventDelegate> delegate = _delegate;
   [delegate reportClick];
 }
 
