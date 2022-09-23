@@ -74,7 +74,7 @@
                completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
                  GADPangleRTBNativeRenderer *strongSelf = weakSelf;
                  if (!strongSelf) {
-                    return;
+                   return;
                  }
                  if (error) {
                    if (strongSelf->_loadCompletionHandler) {
