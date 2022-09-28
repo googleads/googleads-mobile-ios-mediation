@@ -124,9 +124,9 @@
 
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+    IASDKCore.sharedInstance.mediationType = IAMediationAdMob.new;
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
-    builder.mediationType = [[IAMediationAdMob alloc] init];
 
     GADMAdapterFyberBannerAd *strongSelf = weakSelf;
     if (!strongSelf) {

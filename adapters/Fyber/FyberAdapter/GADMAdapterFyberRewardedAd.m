@@ -151,6 +151,7 @@
 
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+    IASDKCore.sharedInstance.mediationType = IAMediationAdMob.new;
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
     if (!strongSelf) {
@@ -158,7 +159,6 @@
     }
 
     builder.adRequest = request;
-    builder.mediationType = [[IAMediationAdMob alloc] init];
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
