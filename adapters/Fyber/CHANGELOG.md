@@ -7,7 +7,7 @@
 - Verified compatibility with Fyber Marketplace SDK version 8.1.6.
 
 Built and tested with:
-- Google Mobile Ads SDK version 9.10.0.
+- Google Mobile Ads SDK version 9.11.0.
 - Fyber Marketplace SDK version 8.1.6.
 
 #### [Version 8.1.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.5.0.zip)
