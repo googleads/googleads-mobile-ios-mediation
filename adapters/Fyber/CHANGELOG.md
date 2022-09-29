@@ -1,6 +1,6 @@
 ## Fyber iOS Mediation Adapter Changelog
 
-#### Version 8.1.6.0 (In progress)
+#### [Version 8.1.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.6.0.zip)
 - Added support for passing `muteAudio` extra in `GADMAdapterFyberExtras` class.
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
