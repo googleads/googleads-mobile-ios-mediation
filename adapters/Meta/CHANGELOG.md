@@ -1,6 +1,7 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
 #### Next Version
+- Removed waterfall support from adapter.
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 
