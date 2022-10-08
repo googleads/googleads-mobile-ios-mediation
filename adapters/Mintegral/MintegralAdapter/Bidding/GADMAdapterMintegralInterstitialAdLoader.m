@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralInterstitialLoader.h"
+#import "GADMAdapterMintegralInterstitialAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
@@ -21,11 +21,11 @@
 #import <MTGSDKNewInterstitial/MTGSDKNewInterstitial.h>
 #import <MTGSDKNewInterstitial/MTGNewInterstitialBidAdManager.h>
 
-@interface GADMAdapterMintegralInterstitialLoader ()<GADMediationInterstitialAd,MTGNewInterstitialBidAdDelegate>
+@interface GADMAdapterMintegralInterstitialAdLoader ()<MTGNewInterstitialBidAdDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralInterstitialLoader {
+@implementation GADMAdapterMintegralInterstitialAdLoader {
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
     
@@ -35,7 +35,7 @@
     /// The Mintegral interstitial ad.
     MTGNewInterstitialBidAdManager *_interstitialAd;
     
-    /// An ad event delegate to invoke when ad rendering events occur.
+    /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
@@ -113,7 +113,7 @@
         [_interstitialAd showFromViewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Failed to present interstitial ad from Mintegral.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Failed to present interstitial ad from Mintegral.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }

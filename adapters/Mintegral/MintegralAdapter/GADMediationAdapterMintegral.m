@@ -16,9 +16,9 @@
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralRewardedAdLoader.h"
-#import "GADMAdapterMintegralBannerLoader.h"
-#import "GADMAdapterMintegralInterstitialLoader.h"
-#import "GADMAdapterMintegralNativeLoader.h"
+#import "GADMAdapterMintegralBannerAdLoader.h"
+#import "GADMAdapterMintegralInterstitialAdLoader.h"
+#import "GADMAdapterMintegralNativeAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 
 #import <MTGSDK/MTGSDK.h>
@@ -30,13 +30,13 @@
     GADMAdapterMintegralRewardedAdLoader * _rewardedAd;
     
     /// Mintegral banner ad.
-    GADMAdapterMintegralBannerLoader *_bannerAd;
+    GADMAdapterMintegralBannerAdLoader *_bannerAd;
     
     /// Mintegral interstitial ad.
-    GADMAdapterMintegralInterstitialLoader *_interstitialAd;
+    GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
     
     /// Mintegral native ad.
-    GADMAdapterMintegralNativeLoader *_nativeAd;
+    GADMAdapterMintegralNativeAdLoader *_nativeAd;
 }
 
 
@@ -129,19 +129,19 @@
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    _interstitialAd = [[GADMAdapterMintegralInterstitialLoader alloc]init];
+    _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc]init];
     [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    _bannerAd = [[GADMAdapterMintegralBannerLoader alloc]init];
+    _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
     [_bannerAd loadBannerForAdConfiguration:adConfiguration
                         completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-    _nativeAd = [[GADMAdapterMintegralNativeLoader alloc]init];
+    _nativeAd = [[GADMAdapterMintegralNativeAdLoader alloc]init];
     [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralNativeLoader.h"
+#import "GADMAdapterMintegralNativeAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 #import "GADMAdapterMintegralExtras.h"
@@ -21,14 +21,13 @@
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDK/MTGBidNativeAdManager.h>
 
-@interface GADMAdapterMintegralNativeLoader ()
+@interface GADMAdapterMintegralNativeAdLoader ()
 <MTGBidNativeAdManagerDelegate,
-GADMediationNativeAd,
 MTGMediaViewDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralNativeLoader {
+@implementation GADMAdapterMintegralNativeAdLoader {
     /// Ad configuration for the ad to be loaded.
     GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
         
@@ -38,7 +37,7 @@ MTGMediaViewDelegate>
     /// The Mintegral media view.
     MTGMediaView *_mediaView;
         
-    /// An ad event delegate to invoke when ad rendering events occur.
+    /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationNativeAdEventDelegate> _adEventDelegate;
 
     /// The Mintegral ad unit ID.

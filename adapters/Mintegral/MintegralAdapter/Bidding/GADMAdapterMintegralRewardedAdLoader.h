@@ -16,7 +16,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 
-@interface GADMAdapterMintegralRewardedAdLoader : NSObject
+@interface GADMAdapterMintegralRewardedAdLoader : NSObject<GADMediationRewardedAd>
 
 /// Asks the receiver to load the ad configuration.
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration

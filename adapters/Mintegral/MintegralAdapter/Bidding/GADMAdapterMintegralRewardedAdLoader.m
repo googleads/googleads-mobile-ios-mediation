@@ -22,7 +22,7 @@
 #import <MTGSDKReward/MTGRewardAd.h>
 #import <MTGSDKReward/MTGBidRewardAdManager.h>
 
-@interface GADMAdapterMintegralRewardedAdLoader ()<GADMediationRewardedAd,MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
+@interface GADMAdapterMintegralRewardedAdLoader ()<MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
 
 @end
 
@@ -36,7 +36,7 @@
     /// The Mintegral rewarded ad.
     MTGBidRewardAdManager *_rewardedAd;
     
-    /// An ad event delegate to invoke when ad rendering events occur.
+    /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 }
 
@@ -134,7 +134,7 @@
         [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotValid, @"Failed to display rewarded video ad from Mintegral.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Failed to display rewarded video ad from Mintegral.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
