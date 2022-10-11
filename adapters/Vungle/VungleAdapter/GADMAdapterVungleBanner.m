@@ -100,11 +100,17 @@
 
 /// Filters the ad size provided to the ones that Vungle supports
 - (GADAdSize)filterValidAdSizes:(GADAdSize)adSize {
+  // It has to match for MREC, otherwise it would be a banner with flexible size
+  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
+    adSize.size.width == GADAdSizeMediumRectangle.size.width) {
+    return GADAdSizeMediumRectangle;
+  }
+    
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
+    NSValueFromGADAdSize(shortBannerSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
@@ -117,8 +123,6 @@
     }
   } else if (size.height == GADAdSizeLeaderboard.size.height) {
     return GADAdSizeLeaderboard;
-  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
-    return GADAdSizeMediumRectangle;
   }
   return GADAdSizeInvalid;
 }
