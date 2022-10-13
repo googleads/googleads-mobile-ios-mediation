@@ -77,8 +77,7 @@
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -90,8 +89,7 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -156,7 +154,10 @@
 }
 
 - (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error {
-  [_connector adapter:_adapter didFailAd:error];
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code,
+                                                       error.localizedDescription);
+  [_connector adapter:_adapter didFailAd:gadError];
 }
 
 - (void)bannerAdWillPresent:(VungleBanner *)banner {
@@ -168,7 +169,10 @@
 }
 
 - (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error {
-  [_connector adapter:_adapter didFailAd:error];
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
+                                                       error.code,
+                                                       error.localizedDescription);
+  [_connector adapter:_adapter didFailAd:gadError];
 }
 
 - (void)bannerAdWillClose:(VungleBanner *)banner {

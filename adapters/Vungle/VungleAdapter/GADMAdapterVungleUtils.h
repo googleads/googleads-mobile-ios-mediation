@@ -17,14 +17,24 @@
 #import "VungleAdNetworkExtras.h"
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-/// Return a dictionary of Vungle ad playback options.
-NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
-    VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras);
-
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description);
+
+/// Returns an NSError converted from the error object from Vungle SDK into the AdMob error format
+/// The localized description will contain the vungle error code and the description from the Vungle SDK.
+NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
+                                                               NSInteger vungleCode,
+                                                               NSString *_Nonnull description);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid placement id.
+NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription(void);
+
+/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid app id.
+NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription(void);
 
 @interface GADMAdapterVungleUtils : NSObject
 

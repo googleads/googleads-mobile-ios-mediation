@@ -54,8 +54,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   }
 
   if (!appId) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
     [delegate initialized:NO error:error];
     return;
   }

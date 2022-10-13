@@ -81,9 +81,7 @@
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
-                   didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
-                                 GADMAdapterVungleErrorInvalidServerParameters,
-                                 @"Placement ID not specified.")];
+                   didFailAd:GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription()];
     return;
   }
 
@@ -94,8 +92,7 @@
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -131,7 +128,10 @@
 }
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
-  [_connector adapter:self didFailAd:error];
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code,
+                                                       error.localizedDescription);
+  [_connector adapter:self didFailAd:gadError];
 }
 
 - (void)interstitialAdWillPresent:(VungleInterstitial *)interstitial {
@@ -143,7 +143,10 @@
 }
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error {
-  [_connector adapter:self didFailAd:error];
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code,
+                                                       error.localizedDescription);
+  [_connector adapter:self didFailAd:gadError];
 }
 
 - (void)interstitialAdWillClose:(VungleInterstitial *)interstitial {

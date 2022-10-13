@@ -25,6 +25,25 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
   return error;
 }
 
+NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
+                                                               NSInteger vungleCode,
+                                                               NSString *_Nonnull description) {
+  NSString *formattedDescription = [NSString stringWithFormat:@"Code: %ld, Description: %@", (long)vungleCode, description];
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, formattedDescription);
+}
+
+NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription() {
+  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
+  NSString *description = @"Placement ID not specified.";
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
+}
+
+NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription() {
+  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
+  NSString *description = @"Vungle app ID not specified.";
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
+}
+
 @implementation GADMAdapterVungleUtils
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {

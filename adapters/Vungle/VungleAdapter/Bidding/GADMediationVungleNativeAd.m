@@ -85,8 +85,7 @@
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
   if (!self.desiredPlacement) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -224,8 +223,18 @@
   _delegate = _adLoadCompletionHandler(self, nil);
 }
 
-- (void)nativeAd:(VungleNative *)nativeAd didFailWithError:(NSError *)error {
-  _adLoadCompletionHandler(nil, error);
+- (void)nativeAdDidFailToLoad:(VungleNative *)native withError:(NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code,
+                                                       error.localizedDescription);
+  _adLoadCompletionHandler(nil, gadError);
+}
+
+- (void)nativeAdDidFailToPresent:(VungleNative *)native withError:(NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code,
+                                                       error.localizedDescription);
+  [_delegate didFailToPresentWithError:gadError];
 }
 
 - (void)nativeAdDidClick:(VungleNative *)nativeAd {
