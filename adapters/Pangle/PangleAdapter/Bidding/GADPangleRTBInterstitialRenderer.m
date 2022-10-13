@@ -29,7 +29,7 @@
   /// The Pangle interstitial ad.
   PAGLInterstitialAd *_interstitialAd;
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationInterstitialAdEventDelegate> _delegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
 }
 
 - (void)renderInterstitialForAdConfiguration:
@@ -67,7 +67,9 @@
                 request:request
       completionHandler:^(PAGLInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
         GADPangleRTBInterstitialRenderer *strongSelf = weakSelf;
-
+        if (!strongSelf) {
+          return;
+        }
         if (error) {
           if (strongSelf->_loadCompletionHandler) {
             strongSelf->_loadCompletionHandler(nil, error);

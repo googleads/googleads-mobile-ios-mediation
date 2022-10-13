@@ -170,6 +170,11 @@
                                      instanceID]];
     
       [IronSource loadISDemandOnlyBannerWithInstanceId:instanceID viewController:viewController size:size];
+    } else {
+      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+          GADMAdapterIronSourceErrorAdAlreadyLoaded,
+          @"Instance already loaded. Couldn't load another one in the same time!");
+        [adapterDelegate bannerDidFailToLoadWithError:error instanceId:instanceID];
     }
 }
 
