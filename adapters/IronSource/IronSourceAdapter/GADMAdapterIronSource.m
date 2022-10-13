@@ -131,8 +131,6 @@
       [strongConnector adapter:self didFailAd:error];
       return;
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
         UIViewController *viewController = [_connector viewControllerForPresentingModalView];
         if (!viewController) {
                 NSError *error =  @"IronSource interstitial ad did load for instance";
@@ -144,8 +142,6 @@
                                         forAdUnits:[NSSet setWithObject:IS_BANNER]];
         ISBannerSize *size = [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
         [[ISMediationManager sharedManager]loadBannerAdWithDelegate:self viewController:viewController instanceID:_instanceID bannerSize:size];
-    });
-    
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {

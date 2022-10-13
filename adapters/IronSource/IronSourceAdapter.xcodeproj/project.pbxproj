@@ -48,6 +48,7 @@
 		4584562222AEE59B0061764B /* GADMAdapterIronSourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4584561322AEE59B0061764B /* GADMAdapterIronSourceUtils.h */; };
 		4584562322AEE59B0061764B /* GADMAdapterIronSourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584561422AEE59B0061764B /* GADMAdapterIronSourceUtils.m */; };
 		4584562422AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4584561522AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h */; };
+		EF4CC10F28F7F68300894E87 /* GADMAdapterIronSourceBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EF4CC10E28F7F68300894E87 /* GADMAdapterIronSourceBannerDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF4CC10E28F7F68300894E87 /* GADMAdapterIronSourceBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceBannerDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			children = (
 				4584560A22AEE59A0061764B /* GADMAdapterIronSource.h */,
 				4584561222AEE59B0061764B /* GADMAdapterIronSource.m */,
+				EF4CC10E28F7F68300894E87 /* GADMAdapterIronSourceBannerDelegate.h */,
 				4584560D22AEE59A0061764B /* GADMAdapterIronSourceConstants.h */,
 				4584561522AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h */,
 				4584560B22AEE59A0061764B /* GADMAdapterIronSourceRewarded.h */,
@@ -209,6 +212,7 @@
 				4584562222AEE59B0061764B /* GADMAdapterIronSourceUtils.h in Headers */,
 				4584561722AEE59B0061764B /* ISMediationManager.h in Headers */,
 				4584562422AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h in Headers */,
+				EF4CC10F28F7F68300894E87 /* GADMAdapterIronSourceBannerDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
