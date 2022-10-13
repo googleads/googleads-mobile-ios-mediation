@@ -18,7 +18,7 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationAdapterVungle.h"
-#import "VungleRouterConsent.h"
+#import "VungleRouterConsentPrivate.h"
 
 @interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate, VungleInterstitialDelegate>
 @end

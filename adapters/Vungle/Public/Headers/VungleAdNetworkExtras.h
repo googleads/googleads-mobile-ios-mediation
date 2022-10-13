@@ -26,6 +26,24 @@
 
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
-@property (nonatomic, assign) NSInteger nativeAdOptionPosition;
+/*!
+ * @brief NSInteger that will be passed to alter the privacy icon position for native ads.
+ * @discussion Optional. topLeft = 1, topRight = 2, bottomLeft = 3, bottomRight = 4
+ */
+@property(nonatomic, assign) NSInteger nativeAdOptionPosition;
+
+@property(nonatomic, assign) BOOL muted DEPRECATED_ATTRIBUTE;
+
+@property(nonatomic, assign) NSUInteger ordinal DEPRECATED_ATTRIBUTE;
+
+@property(nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds DEPRECATED_ATTRIBUTE;
+
+@property(nonatomic, copy) NSArray<NSString *> *_Nullable allPlacements DEPRECATED_ATTRIBUTE;
+
+@property(nonatomic, copy) NSNumber *_Nullable orientations DEPRECATED_ATTRIBUTE;
+
+@property(nonatomic, copy, readonly) NSString *_Nonnull UUID DEPRECATED_ATTRIBUTE;
+
+@property (nonatomic, readonly, assign) BOOL muteIsSet DEPRECATED_ATTRIBUTE;
 
 @end

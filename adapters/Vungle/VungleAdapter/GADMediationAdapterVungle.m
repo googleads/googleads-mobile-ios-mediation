@@ -21,7 +21,7 @@
 #import "GADMediationVungleNativeAd.h"
 #import "GADMediationVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
-#import "VungleRouterConsent.h"
+#import "VungleRouterConsentPrivate.h"
 
 @implementation GADMediationAdapterVungle {
   /// Vungle rewarded ad wrapper.

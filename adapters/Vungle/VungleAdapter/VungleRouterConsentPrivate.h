@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+#import "VungleRouterConsent.h"
 
-@interface VungleRouterConsent : NSObject
+@interface VungleRouterConsent()
 
-/// Updates the GDPR status in the Vungle SDK
-+ (void)updateGDPRStatus:(BOOL)optIn;
-
-/// Updates the CCPA status in the Vungle SDK
-+ (void)updateCCPAStatus:(BOOL)optIn;
-
-/// Determines whether the IDFV can be collected or not
-+ (void)updateIDFVStatus:(BOOL)optIn;
+/// Updates the COPPA status in the Vungle SDK
++ (void)updateCOPPAStatus:(BOOL)optIn;
 
 @end
