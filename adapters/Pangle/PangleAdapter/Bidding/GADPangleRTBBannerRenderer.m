@@ -29,7 +29,7 @@
   /// The Pangle banner ad.
   PAGBannerAd *_bannerAd;
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationBannerAdEventDelegate> _delegate;
+  __weak id<GADMediationBannerAdEventDelegate> _delegate;
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -75,7 +75,9 @@
                         request:request
               completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
                 GADPangleRTBBannerRenderer *strongSelf = weakSelf;
-
+                if (!strongSelf) {
+                  return;
+                }
                 if (loadError) {
                   strongSelf->_loadCompletionHandler(nil, loadError);
                   return;
