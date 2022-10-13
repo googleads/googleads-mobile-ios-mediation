@@ -151,7 +151,6 @@
 
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
-  IASDKCore.sharedInstance.mediationType = [[IAMediationAdMob alloc] init];
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
     if (!strongSelf) {
@@ -159,6 +158,7 @@
     }
 
     builder.adRequest = request;
+    builder.mediationType = [[IAMediationAdMob alloc] init];
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
@@ -225,8 +225,7 @@
 
 #pragma mark - IAVideoContentDelegate
 
-- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {
-}
+- (void)IAVideoCompleted:(nullable IAVideoContentController *)contentController {}
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
        videoInterruptedWithError:(nonnull NSError *)error {

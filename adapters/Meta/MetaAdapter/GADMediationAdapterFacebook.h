@@ -18,6 +18,8 @@
 typedef NS_ENUM(NSInteger, GADFBErrorCode) {
   /// Missing server parameters.
   GADFBErrorInvalidRequest = 101,
+  /// Banner Size Mismatch.
+  GADFBErrorBannerSizeMismatch = 102,
   /// The Meta Audience Network ad object is nil after calling its initializer.
   GADFBErrorAdObjectNil = 103,
   /// The Meta Audience Network SDK returned NO from its showAd call.

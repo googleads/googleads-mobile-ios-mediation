@@ -1,10 +1,10 @@
-// Copyright 2022 Google LLC
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     https://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,15 +13,18 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import "GADFBNativeAdBase.h"
 
-/// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.7.0.4.0";
+@protocol GADMAdNetworkAdapter;
+@protocol GADMAdNetworkConnector;
 
-/// Pangle adapter Pangle App ID parameter key.
-static NSString *const GADMAdapterPangleAppID = @"appid";
+/// Wrapper for Meta Audience Network native ads.
+@interface GADFBUnifiedNativeAd : GADFBNativeAdBase
 
-/// Pangle adapter Ad Placement ID parameter key.
-static NSString *const GADMAdapterPanglePlacementID = @"placementid";
+/// Starts fetching a native ad from the Meta Audience Network SDK.
+- (void)requestNativeAd;
 
-/// Pangle adapter error domain.
-static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+/// Stops being Meta Audience Network native ad delegate.
+- (void)stopBeingDelegate;
+
+@end

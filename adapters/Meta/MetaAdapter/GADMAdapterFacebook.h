@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Meta Audience Network mediation network adapter version.
-static NSString *const GADMAdapterFacebookVersion = @"6.11.2.0";
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-static NSString *const GADMAdapterFacebookBiddingPubID = @"placement_id";
+/// Adapter for communicating with Meta Audience Network to fetch banner, interstitial,
+/// reward-based video, and native ads.
+@interface GADMAdapterFacebook : NSObject <GADMAdNetworkAdapter>
 
-static NSString *const GADMAdapterFacebookPubID = @"pubid";
-
-static NSString *const GADMAdapterFacebookWaterfallDeprecationMessage =
-    @"Meta Audience Network waterfall ads are being deprecated and will be removed in a future "
-    @"adapter version. Please update to use bidding ads. See https://fb.me/bNFn7qt6Z0sKtF for more "
-    @"information.";
+@end

@@ -131,9 +131,9 @@
 
   IAAdRequest *request =
       GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
-  IASDKCore.sharedInstance.mediationType = [[IAMediationAdMob alloc] init];
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
+    builder.mediationType = [[IAMediationAdMob alloc] init];
 
     GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
     if (!strongSelf) {

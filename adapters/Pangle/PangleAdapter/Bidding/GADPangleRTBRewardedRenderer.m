@@ -29,7 +29,7 @@
   /// The Pangle rewarded ad.
   PAGRewardedAd *_rewardedAd;
   /// An ad event delegate to invoke when ad rendering events occur.
-  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
+  id<GADMediationRewardedAdEventDelegate> _delegate;
 }
 
 - (void)renderRewardedAdForAdConfiguration:
@@ -70,9 +70,7 @@
                           request:request
                 completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
                   GADPangleRTBRewardedRenderer *strongSelf = weakSelf;
-                  if (!strongSelf) {
-                    return;
-                  }
+
                   if (error) {
                     if (strongSelf->_loadCompletionHandler) {
                       strongSelf->_loadCompletionHandler(nil, error);
