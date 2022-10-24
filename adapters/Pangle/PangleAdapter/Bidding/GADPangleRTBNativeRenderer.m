@@ -95,21 +95,27 @@
 
 - (void)loadRequireData {
     NSString *urlString = _nativeAd.data.icon.imageURL;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSURL *url = [NSURL URLWithString:urlString];
+    if (!urlString.length) {
+        if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
+        return;
+    }
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
+        return;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSData *data = [NSData dataWithContentsOfURL:url];
-        GADPangleRTBNativeRenderer *__weak weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            GADPangleRTBNativeRenderer *strongSelf = weakSelf;
-            if (!strongSelf) {
-               return;
+            if (!self) {
+                return;
             }
             GADNativeAdImage *image = [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]];
-            strongSelf->_icon = image;
-            if (strongSelf->_loadCompletionHandler) {
+            self->_icon = image;
+            if (self->_loadCompletionHandler) {
               id<GADMediationNativeAdEventDelegate> delegate =
-                  strongSelf->_loadCompletionHandler(strongSelf, nil);
-              strongSelf->_delegate = delegate;
+                  self->_loadCompletionHandler(self, nil);
+              self->_delegate = delegate;
             }
         });
     });
