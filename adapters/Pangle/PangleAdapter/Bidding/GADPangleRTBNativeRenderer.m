@@ -126,40 +126,40 @@
   return _icon;
 }
 
-- (UIView *)mediaView {
+- (nullable UIView *)mediaView {
   return _relatedView.mediaView;
 }
 
-- (UIView *)adChoicesView {
+- (nullable UIView *)adChoicesView {
   return _relatedView.logoADImageView;
 }
 
-- (NSString *)headline {
+- (nullable NSString *)headline {
   if (_nativeAd && _nativeAd.data) {
     return _nativeAd.data.AdTitle;
   }
   return nil;
 }
 
-- (NSString *)body {
+- (nullable NSString *)body {
   if (_nativeAd && _nativeAd.data) {
     return _nativeAd.data.AdDescription;
   }
   return nil;
 }
 
-- (NSString *)callToAction {
+- (nullable NSString *)callToAction {
   if (_nativeAd && _nativeAd.data) {
     return _nativeAd.data.buttonText;
   }
   return nil;
 }
 
-- (NSDecimalNumber *)starRating {
+- (nullable NSDecimalNumber *)starRating {
   return nil;
 }
 
-- (NSArray<GADNativeAdImage *> *)images {
+- (nullable NSArray<GADNativeAdImage *> *)images {
   return nil;
 }
 
@@ -167,18 +167,18 @@
   return nil;
 }
 
-- (NSString *)price {
+- (nullable NSString *)price {
   return nil;
 }
 
-- (NSString *)advertiser {
+- (nullable NSString *)advertiser {
   if (_nativeAd && _nativeAd.data) {
     return _nativeAd.data.AdTitle;
   }
   return nil;
 }
 
-- (NSDictionary<NSString *, id> *)extraAssets {
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
   return nil;
 }
 
