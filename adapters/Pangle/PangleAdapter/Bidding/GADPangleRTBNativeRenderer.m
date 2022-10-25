@@ -122,6 +122,9 @@
 }
 
 #pragma mark - GADMediationNativeAd
+- (nullable GADNativeAdImage *)icon {
+  return _icon;
+}
 
 - (UIView *)mediaView {
   return _relatedView.mediaView;
