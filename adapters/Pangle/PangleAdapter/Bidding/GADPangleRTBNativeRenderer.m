@@ -104,13 +104,13 @@
         if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
         return;
     }
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSData *data = [NSData dataWithContentsOfURL:url];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!self) {
                 return;
             }
-            GADNativeAdImage *image = [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]];
+            GADNativeAdImage *image = (!error && data) ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]] : nil;
             self->_icon = image;
             if (self->_loadCompletionHandler) {
               id<GADMediationNativeAdEventDelegate> delegate =
@@ -118,7 +118,8 @@
               self->_delegate = delegate;
             }
         });
-    });
+    }];
+    [task resume];
 }
 
 #pragma mark - GADMediationNativeAd
