@@ -28,9 +28,12 @@ MTGMediaViewDelegate>
 @end
 
 @implementation GADMAdapterMintegralNativeAdLoader {
-    /// Ad configuration for the ad to be loaded.
+    /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
         
+    /// Ad configuration for the ad to be loaded.
+    GADMediationNativeAdConfiguration *_adConfiguration;
+    
     /// The Mintegral native ad.
     MTGBidNativeAdManager *_nativeManager;
     
@@ -54,6 +57,7 @@ MTGMediaViewDelegate>
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+    _adConfiguration = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
         [completionHandler copy];
@@ -108,8 +112,12 @@ MTGMediaViewDelegate>
             _images = @[image];
         }
         
-        [self createMediaView];
-        
+        MTGMediaView *mediaView = [self createMediaView];
+        GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
+        if(extras){
+            mediaView.mute = extras.playVideoMute;
+        }
+
         if (_adLoadCompletionHandler) {
             _adEventDelegate = _adLoadCompletionHandler(self,nil);
         }
