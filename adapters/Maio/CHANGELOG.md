@@ -1,8 +1,14 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 1.6.3.0 (In progress)
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+- Verified compatibility with maio SDK version 1.6.3 and maioOB SDK version 2.0.0-alpha.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.12.0.
+- Maio SDK version 1.6.3.
+- MaioOB SDK version 2.0.0-alpha.
 
 #### [Version 1.6.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.6.2.0.zip)
 - Verified compatibility with maio SDK version 1.6.2 and maioOB SDK version 2.0.0-alpha.
@@ -22,7 +28,7 @@ Built and tested with:
 
 #### [Version 1.6.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-1.6.0.1.zip)
 - Verified compatibility with Google Mobile Ads SDK version 9.0.0.
-- Now requires Google Mobile Ads SDK version 9.0.0 or higher
+- Now requires Google Mobile Ads SDK version 9.0.0 or higher.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.0.0.
