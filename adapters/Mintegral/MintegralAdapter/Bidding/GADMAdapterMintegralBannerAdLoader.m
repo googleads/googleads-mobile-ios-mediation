@@ -37,7 +37,7 @@
     MTGBannerAdView *_bannerAdView;
 }
 
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler{
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
@@ -104,7 +104,7 @@
     return CGSizeMake(closestAdSize.size.width, closestAdSize.size.height);
 }
 
-#pragma mark MTGBannerAdViewDelegate
+#pragma mark - MTGBannerAdViewDelegate
 - (void)adViewLoadSuccess:(MTGBannerAdView *)adView {
     if (_adLoadCompletionHandler) {
         _adEventDelegate = _adLoadCompletionHandler(self, nil);
@@ -133,9 +133,7 @@
     [_adEventDelegate didDismissFullScreenView];
 }
 
-#pragma mark GADMediationBannerAd
-// Rendered banner ad. Called after the adapter has successfully loaded and ad invoked
-// the GADBannerRenderCompletionHandler.
+#pragma mark - GADMediationBannerAd
 - (UIView *)view {
     return _bannerAdView;
 }

@@ -83,8 +83,6 @@ MTGMediaViewDelegate>
         _adLoadCompletionHandler(nil, error);
         return;
     }
-
-        
     _adUnitId = adUnitId;
     _nativeManager = [[MTGBidNativeAdManager alloc]initWithPlacementId:placementId unitID:adUnitId presentingViewController:rootViewController];
     _nativeManager.delegate = self;
@@ -115,7 +113,7 @@ MTGMediaViewDelegate>
         MTGMediaView *mediaView = [self createMediaView];
         GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
         if(extras){
-            mediaView.mute = extras.playVideoMute;
+            mediaView.mute = extras.muteVideoAudio;
         }
 
         if (_adLoadCompletionHandler) {
@@ -137,7 +135,6 @@ MTGMediaViewDelegate>
     }
 }
 
-#pragma mark - MTGBidNativeAdManagerDelegate
 - (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
     [_adEventDelegate reportClick];
 }

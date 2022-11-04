@@ -72,7 +72,7 @@
     [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:placementId unitId:adUnitId delegate:self];
 }
 
-#pragma mark MTGRewardAdLoadDelegate
+#pragma mark - MTGRewardAdLoadDelegate
 - (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     if (_adLoadCompletionHandler) {
         _adEventDelegate = _adLoadCompletionHandler(self, nil);
@@ -85,7 +85,7 @@
     }
 }
 
-#pragma mark MTGRewardAdShowDelegate
+#pragma mark - MTGRewardAdShowDelegate
 - (void)onVideoAdShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     [_adEventDelegate willPresentFullScreenView];
     [_adEventDelegate reportImpression];
@@ -115,7 +115,7 @@
     [_adEventDelegate didDismissFullScreenView];
 }
 
-#pragma mark GADMediationRewardedAd
+#pragma mark - GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
     NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
@@ -125,11 +125,9 @@
         [_adEventDelegate didFailToPresentWithError:error];
         return;
     }
-
-    
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
     _rewardedAd = MTGBidRewardAdManager.sharedInstance;
-    _rewardedAd.playVideoMute = extras.playVideoMute;
+    _rewardedAd.playVideoMute = extras.muteVideoAudio;
     if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:adUnitId]) {
         [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{

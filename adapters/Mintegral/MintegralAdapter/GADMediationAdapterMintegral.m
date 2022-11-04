@@ -26,22 +26,20 @@
 
 
 @implementation GADMediationAdapterMintegral {
-    /// Mintegral rewarded ad.
-    GADMAdapterMintegralRewardedAdLoader * _rewardedAd;
-    
     /// Mintegral banner ad.
     GADMAdapterMintegralBannerAdLoader *_bannerAd;
-    
+
     /// Mintegral interstitial ad.
     GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
-    
+
     /// Mintegral native ad.
     GADMAdapterMintegralNativeAdLoader *_nativeAd;
+
+    /// Mintegral rewarded ad.
+    GADMAdapterMintegralRewardedAdLoader * _rewardedAd;
 }
 
-
-#pragma mark GADRTBAdapter
-
+#pragma mark - GADRTBAdapter
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
     return [GADMAdapterMintegralExtras class];
 }
@@ -69,7 +67,7 @@
     NSString *appId = [appIds anyObject];
     if (appIds.count > 1) {
         GADMediationAdapterMintegralLog(
-          @"Found the following App IDs:%@. Please remove any app IDs which you are not using",
+          @"Found the following App IDs:%@. Please remove any app IDs which you are not using.",
           appIds);
         GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app ID:%@", appId);
     }
@@ -77,7 +75,7 @@
     NSString *appKey = [appKeys anyObject];
     if (appKeys.count > 1) {
         GADMediationAdapterMintegralLog(
-          @"Found the following Api keys:%@. Please remove any api keys which you are not using",
+          @"Found the following App keys:%@. Please remove any App Keys which you are not using.",
                                         appKeys);
         GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app key:%@", appKey);
     }
@@ -122,22 +120,16 @@
     }
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
-    [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                completionHandler:completionHandler];
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
+    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration
+                        completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
     _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc]init];
-    [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
+    [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
-}
-
-- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
-    [_bannerAd loadBannerForAdConfiguration:adConfiguration
-                        completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
@@ -145,8 +137,14 @@
     [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
+    [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                                completionHandler:completionHandler];
+}
+
 + (void)setAdmobChannel {
-    //This is to call the mintegral ad sdk private method, which is only used to mark the official aggregation channel from admob
+    // Set up the AdMob aggregation channel for server statistic collection purposes.
     Class _class = NSClassFromString(@"MTGSDK");
     SEL selector = NSSelectorFromString(@"setChannelFlag:");
     NSString *pluginNumber = @"Y+H6DFttYrPQYcIBiQKwJQKQYrN=";

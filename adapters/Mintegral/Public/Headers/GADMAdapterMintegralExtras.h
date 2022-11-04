@@ -20,7 +20,7 @@
 
 
 /// Controls whether presented ads will start in a muted state or not.
-@property (nonatomic, assign) BOOL playVideoMute;
+@property (nonatomic, assign) BOOL muteVideoAudio;
 
 @end
 

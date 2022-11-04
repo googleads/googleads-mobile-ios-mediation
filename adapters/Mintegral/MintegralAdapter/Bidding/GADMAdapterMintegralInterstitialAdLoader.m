@@ -39,7 +39,7 @@
     id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
-- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+- (void)loadInterstitialAdForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                  completionHandler{
     _adConfiguration = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
@@ -71,6 +71,7 @@
     [_interstitialAd loadAdWithBidToken:adConfiguration.bidResponse];
 }
 
+#pragma mark - MTGNewInterstitialBidAdDelegate
 - (void)newInterstitialBidAdResourceLoadSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
     if (_adLoadCompletionHandler) {
         _adEventDelegate = _adLoadCompletionHandler(self, nil);
@@ -104,11 +105,11 @@
     [_adEventDelegate didDismissFullScreenView];
 }
 
-#pragma mark GADMediationInterstitialAd
+#pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
     
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-    _interstitialAd.playVideoMute = extras.playVideoMute;
+    _interstitialAd.playVideoMute = extras.muteVideoAudio;
     if ([_interstitialAd isAdReady]) {
         [_interstitialAd showFromViewController:viewController];
     }else{
