@@ -89,17 +89,17 @@
                  strongSelf->_nativeAd.delegate = strongSelf;
                  strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
       
-                 [strongSelf loadRequireData];
+                 [strongSelf loadRequiredData];
                }];
 }
 
-- (void)loadRequireData {
-    NSString *urlString = _nativeAd.data.icon.imageURL;
-    if (!urlString.length) {
+- (void)loadRequiredData {
+    NSString *URLString = _nativeAd.data.icon.imageURL;
+    if (!URLString.length) {
         if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
         return;
     }
-    NSURL *url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:URLString];
     if (!url) {
         if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
         return;
