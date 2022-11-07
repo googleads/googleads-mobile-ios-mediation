@@ -94,14 +94,21 @@
 }
 
 - (void)loadRequiredData {
+    GADPangleRTBNativeRenderer *__weak weakSelf = self;
+    void (^localBlock)(void) = ^{
+        GADPangleRTBNativeRenderer *strongSelf = weakSelf;
+        if (strongSelf && strongSelf->_loadCompletionHandler) {
+            strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
+        }
+    };
     NSString *URLString = _nativeAd.data.icon.imageURL;
     if (!URLString.length) {
-        if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
+        localBlock();
         return;
     }
     NSURL *url = [NSURL URLWithString:URLString];
     if (!url) {
-        if (_loadCompletionHandler) _delegate = _loadCompletionHandler(self,nil);
+        localBlock();
         return;
     }
     NSURLSession *session = [NSURLSession sharedSession];
@@ -112,11 +119,7 @@
             }
             GADNativeAdImage *image = (!error && data) ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]] : nil;
             self->_icon = image;
-            if (self->_loadCompletionHandler) {
-              id<GADMediationNativeAdEventDelegate> delegate =
-                  self->_loadCompletionHandler(self, nil);
-              self->_delegate = delegate;
-            }
+            localBlock();
         });
     }];
     [task resume];
