@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Fyber mediation adapter version.
+/// DT Exchange mediation adapter version.
 static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.6.0";
 
-/// Fyber mediation adapter app ID key.
+/// DT Exchange mediation adapter app ID key.
 static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";
 
-/// Fyber mediation adapter spot ID key.
+/// DT Exchange mediation adapter spot ID key.
 static NSString* const _Nonnull GADMAdapterFyberSpotID = @"spotId";
 
-/// Fyber mediation adapter error domain.
+/// DT Exchange mediation adapter error domain.
 static NSString* const _Nonnull GADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";

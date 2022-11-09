@@ -16,4 +16,4 @@
 #import <UIKit/UIKit.h>
 
 /// Import all your public header files here.
-#import <FyberAdapter/GADMAdapterFyberExtras.h>
+#import <DTExchangeAdapter/GADMAdapterFyberExtras.h>

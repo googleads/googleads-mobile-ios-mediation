@@ -15,17 +15,17 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterFyberBannerAd : NSObject
+@interface GADMAdapterFyberInterstitialAd : NSObject
 
-/// Dedicated initializer to create a new instance of a banner ad.
+/// Dedicated initializer to create a new instance of an interstitial ad.
 - (nonnull instancetype)initWithAdConfiguration:
-    (nonnull GADMediationBannerAdConfiguration *)adConfiguration;
+    (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration;
 
 /// Unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Loads a banner ad from the Fyber SDK.
-- (void)loadBannerAdWithCompletionHandler:
-    (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+/// Loads an interstitial ad from the DT Exchange SDK.
+- (void)loadInterstitialAdWithCompletionHandler:
+    (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
 
 @end

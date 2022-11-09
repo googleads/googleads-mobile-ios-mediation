@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,18 +15,17 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Rewarded mediation network adapter for Fyber.
-@interface GADMAdapterFyberRewardedAd : NSObject
+@interface GADMAdapterFyberBannerAd : NSObject
 
-/// Dedicated initializer to create a new instance of a rewarded ad.
+/// Dedicated initializer to create a new instance of a banner ad.
 - (nonnull instancetype)initWithAdConfiguration:
-    (nonnull GADMediationRewardedAdConfiguration *)adConfiguration;
+    (nonnull GADMediationBannerAdConfiguration *)adConfiguration;
 
 /// Unavailable.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Loads a rewarded ad from the Fyber SDK.
-- (void)loadRewardedAdWithCompletionHandler:
-    (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+/// Loads a banner ad from the DT Exchange SDK.
+- (void)loadBannerAdWithCompletionHandler:
+    (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 
 @end

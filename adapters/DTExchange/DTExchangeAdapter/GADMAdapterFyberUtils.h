@@ -17,9 +17,9 @@
 #import <IASDKCore/IASDKCore.h>
 #import "GADMediationAdapterFyber.h"
 
-#define GADMAdapterFyberLog(format, args...) NSLog(@"FyberAdapter: " format, ##args)
+#define GADMAdapterFyberLog(format, args...) NSLog(@"DTExchangeAdapter: " format, ##args)
 
-// Fyber adapter initialization completion handler.
+// DT Exchange adapter initialization completion handler.
 typedef void (^GADMAdapterFyberInitCompletionHandler)(NSError *_Nullable error);
 
 /// Safely adds |object| to |array| if |object| is not nil.
@@ -37,10 +37,10 @@ NSError *_Nonnull GADMAdapterFyberErrorWithCodeAndDescription(GADMAdapterFyberEr
 /// Creates and returns a GADVersionNumber from a specified string.
 GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionString);
 
-/// Creates an ad request object for Fyber from a given spot ID and configuration.
+/// Creates an ad request object for DT Exchange from a given spot ID and configuration.
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration);
 
-/// Initialize the Fyber Marketplace SDK with a given application ID and completion handler.
+/// Initialize the DT Exchange SDK with a given application ID and completion handler.
 void GADMAdapterFyberInitializeWithAppId(
     NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler);

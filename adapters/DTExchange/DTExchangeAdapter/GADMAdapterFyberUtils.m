@@ -104,7 +104,7 @@ void GADMAdapterFyberInitializeWithAppId(
     return;
   }
 
-  GADMAdapterFyberLog(@"Initializing Fyber Marketplace SDK with application ID: %@", appID);
+  GADMAdapterFyberLog(@"Initializing DT Exchange SDK with application ID: %@", appID);
   [IASDKCore.sharedInstance initWithAppID:appID
                           completionBlock:^(BOOL success, NSError *_Nullable error) {
                             completionHandler(error);

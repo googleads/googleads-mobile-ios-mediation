@@ -38,22 +38,22 @@
   /// GMA SDK, not set on the GMA SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
 
-  /// Fyber Ad Spot to be loaded.
+  /// DT Exchange Ad Spot to be loaded.
   IAAdSpot *_adSpot;
 
-  /// Fyber MRAID controller to support HTML ads.
+  /// DT Exchange MRAID controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
-  /// Fyber video controller to support video ads and to catch video progress events.
+  /// DT Exchange video controller to support video ads and to catch video progress events.
   IAVideoContentController *_videoContentController;
 
-  /// Fyber fullscreen controller to support fullscreen ads and to catch ad events.
+  /// DT Exchange fullscreen controller to support fullscreen ads and to catch ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
 
-  /// View controller to display the Fyber ad.
+  /// View controller to display the DT Exchange ad.
   __weak UIViewController *_parentViewController;
 
-  /// Flag to indicate whether the Fyber rewarded ad started playing.
+  /// Flag to indicate whether the DT Exchange rewarded ad started playing.
   atomic_flag _didStartVideo;
 }
 
@@ -102,7 +102,7 @@
         }
 
         if (error) {
-          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+          GADMAdapterFyberLog("Failed to initialize DT Exchange SDK: %@",
                               error.localizedDescription);
           strongSelf->_loadCompletionHandler(nil, error);
           return;

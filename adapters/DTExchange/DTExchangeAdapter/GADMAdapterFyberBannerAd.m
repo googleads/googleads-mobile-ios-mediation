@@ -36,13 +36,13 @@
   /// GMA SDK, not set on the GMA SDK.
   id<GADMediationBannerAdEventDelegate> _delegate;
 
-  /// Fyber Ad Spot to be loaded.
+  /// DT Exchange Ad Spot to be loaded.
   IAAdSpot *_adSpot;
 
-  /// Fyber MRAID controller to support HTML ads.
+  /// DT Exchange MRAID controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
-  /// Fyber view controller to catch banner related ad events.
+  /// DT Exchange view controller to catch banner related ad events.
   IAViewUnitController *_viewUnitController;
 }
 
@@ -86,7 +86,7 @@
         }
 
         if (error) {
-          GADMAdapterFyberLog("Failed to initialize Fyber Marketplace SDK: %@",
+          GADMAdapterFyberLog("Failed to initialize DT Exchange SDK: %@",
                               error.localizedDescription);
           strongSelf->_loadCompletionHandler(nil, error);
           return;

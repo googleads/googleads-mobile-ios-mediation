@@ -21,13 +21,13 @@ typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
   GADMAdapterFyberErrorBannerSizeMismatch = 102,
   /// Failed to show ad because ad object has already been used.
   GADMAdapterFyberErrorAdAlreadyUsed = 103,
-  /// Failed to show Fyber Marketplace ads due to ad not been ready.
+  /// Failed to show DT Exchange ads due to ad not been ready.
   GADMAdapterFyberErrorAdNotReady = 104,
-  /// The Fyber SDK returned an initialization error.
+  /// The DT Exchange SDK returned an initialization error.
   GADMAdapterFyberErrorInitializationFailure = 105
 };
 
-/// Mediation network adapter for Fyber.
+/// Mediation network adapter for DT Exchange.
 @interface GADMediationAdapterFyber : NSObject
 
 @end

@@ -1,5 +1,5 @@
-framework module FyberAdapter {
-  umbrella header "FyberAdapter.h"
+framework module DTExchangeAdapter {
+  umbrella header "DTExchangeAdapter.h"
 
   export *
   module * { export * }

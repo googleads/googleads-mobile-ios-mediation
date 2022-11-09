@@ -1,4 +1,7 @@
-## Fyber iOS Mediation Adapter Changelog
+## DT Exchange iOS Mediation Adapter Changelog
+
+#### Next version
+- Adapter is rebranded to "DT Exchange".
 
 #### [Version 8.1.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.6.0.zip)
 - Added support for passing `muteAudio` extra in `GADMAdapterFyberExtras` class.

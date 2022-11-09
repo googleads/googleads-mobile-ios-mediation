@@ -27,13 +27,13 @@
 @end
 
 @implementation GADMediationAdapterFyber {
-  /// Fyber banner ad wrapper.
+  /// DT Exchange banner ad wrapper.
   GADMAdapterFyberBannerAd *_bannerAd;
 
-  /// Fyber interstitial ad wrapper.
+  /// DT Exchange interstitial ad wrapper.
   GADMAdapterFyberInterstitialAd *_interstitialAd;
 
-  /// Fyber rewarded ad wrapper.
+  /// DT Exchange rewarded ad wrapper.
   GADMAdapterFyberRewardedAd *_rewardedAd;
 }
 
@@ -77,10 +77,10 @@
   NSString *applicationID = applicationIDs.allObjects.firstObject;
   if (applicationIDs.count > 1) {
     GADMAdapterFyberLog(
-        @"Fyber supports a single application ID but multiple application IDs were provided. "
+        @"DT Exchange supports a single application ID but multiple application IDs were provided. "
         @"Remove unneeded applications IDs from your mediation configurations. Application IDs: %@",
         applicationIDs);
-    GADMAdapterFyberLog(@"Configuring Fyber Marketplace SDK with application ID: %@.",
+    GADMAdapterFyberLog(@"Configuring DT Exchange SDK with application ID: %@.",
                         applicationID);
   }
 

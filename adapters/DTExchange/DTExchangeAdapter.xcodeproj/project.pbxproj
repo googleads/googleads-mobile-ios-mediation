@@ -32,20 +32,20 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		00756FEE2538DC1800A625E5 /* GADMAdapterFyberBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 00756FEC2538DC1800A625E5 /* GADMAdapterFyberBannerAd.h */; };
-		00756FEF2538DC1800A625E5 /* GADMAdapterFyberBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 00756FED2538DC1800A625E5 /* GADMAdapterFyberBannerAd.m */; };
-		007570012538E44000A625E5 /* GADMAdapterFyberInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 00756FFF2538E44000A625E5 /* GADMAdapterFyberInterstitialAd.h */; };
-		007570022538E44000A625E5 /* GADMAdapterFyberInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 007570002538E44000A625E5 /* GADMAdapterFyberInterstitialAd.m */; };
-		00C43B66237E268400C955A2 /* GADMAdapterFyberUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */; };
-		00C43B67237E268400C955A2 /* GADMAdapterFyberUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */; };
-		00F66C97237E0F230051027D /* GADMAdapterFyberConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */; };
-		00F66C98237E0F230051027D /* GADMAdapterFyberRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */; };
-		00F66C99237E0F230051027D /* GADMAdapterFyberRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */; };
-		235664B7250FE09000414A15 /* GADMAdapterFyberExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 235664B5250FE09000414A15 /* GADMAdapterFyberExtras.m */; };
+		2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; };
 		2376C4DC251044740098BE51 /* GADMAdapterFyberExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */; };
-		4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */; };
-		451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4512777E207D92C100D85E57 /* FyberAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		23A55E1D28EF7559000BBD8A /* GADMAdapterFyberBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1128EF7559000BBD8A /* GADMAdapterFyberBannerAd.h */; };
+		23A55E1E28EF7559000BBD8A /* GADMAdapterFyberBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1228EF7559000BBD8A /* GADMAdapterFyberBannerAd.m */; };
+		23A55E1F28EF7559000BBD8A /* GADMAdapterFyberConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1328EF7559000BBD8A /* GADMAdapterFyberConstants.h */; };
+		23A55E2028EF7559000BBD8A /* GADMAdapterFyberExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1428EF7559000BBD8A /* GADMAdapterFyberExtras.m */; };
+		23A55E2128EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1528EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h */; };
+		23A55E2228EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1628EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m */; };
+		23A55E2328EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1728EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h */; };
+		23A55E2428EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1828EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m */; };
+		23A55E2528EF7559000BBD8A /* GADMAdapterFyberUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1928EF7559000BBD8A /* GADMAdapterFyberUtils.h */; };
+		23A55E2628EF7559000BBD8A /* GADMAdapterFyberUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */; };
+		23A55E2728EF7559000BBD8A /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */; };
+		23A55E2828EF7559000BBD8A /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,22 +71,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00756FEC2538DC1800A625E5 /* GADMAdapterFyberBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberBannerAd.h; sourceTree = "<group>"; };
-		00756FED2538DC1800A625E5 /* GADMAdapterFyberBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberBannerAd.m; sourceTree = "<group>"; };
-		00756FFF2538E44000A625E5 /* GADMAdapterFyberInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberInterstitialAd.h; sourceTree = "<group>"; };
-		007570002538E44000A625E5 /* GADMAdapterFyberInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberInterstitialAd.m; sourceTree = "<group>"; };
-		00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberUtils.h; sourceTree = "<group>"; };
-		00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberUtils.m; sourceTree = "<group>"; };
 		00DD265022F109970039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
-		00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberConstants.h; sourceTree = "<group>"; };
-		00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberRewardedAd.m; sourceTree = "<group>"; };
-		00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberRewardedAd.h; sourceTree = "<group>"; };
-		235664B5250FE09000414A15 /* GADMAdapterFyberExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberExtras.m; sourceTree = "<group>"; };
+		2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTExchangeAdapter.h; sourceTree = "<group>"; };
 		2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberExtras.h; sourceTree = "<group>"; };
-		4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFyber.h; sourceTree = "<group>"; };
-		4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFyber.m; sourceTree = "<group>"; };
+		23A55E1128EF7559000BBD8A /* GADMAdapterFyberBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberBannerAd.h; sourceTree = "<group>"; };
+		23A55E1228EF7559000BBD8A /* GADMAdapterFyberBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberBannerAd.m; sourceTree = "<group>"; };
+		23A55E1328EF7559000BBD8A /* GADMAdapterFyberConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberConstants.h; sourceTree = "<group>"; };
+		23A55E1428EF7559000BBD8A /* GADMAdapterFyberExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberExtras.m; sourceTree = "<group>"; };
+		23A55E1528EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberInterstitialAd.h; sourceTree = "<group>"; };
+		23A55E1628EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberInterstitialAd.m; sourceTree = "<group>"; };
+		23A55E1728EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberRewardedAd.h; sourceTree = "<group>"; };
+		23A55E1828EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberRewardedAd.m; sourceTree = "<group>"; };
+		23A55E1928EF7559000BBD8A /* GADMAdapterFyberUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberUtils.h; sourceTree = "<group>"; };
+		23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberUtils.m; sourceTree = "<group>"; };
+		23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterFyber.h; sourceTree = "<group>"; };
+		23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterFyber.m; sourceTree = "<group>"; };
 		4512777B207D92C100D85E57 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4512777E207D92C100D85E57 /* FyberAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FyberAdapter.h; sourceTree = "<group>"; };
 		4512779E207D973000D85E57 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4512779F207D976300D85E57 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		451277A2207D9C2000D85E57 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
@@ -108,15 +108,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23A55E1028EF7559000BBD8A /* DTExchangeAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				23A55E1128EF7559000BBD8A /* GADMAdapterFyberBannerAd.h */,
+				23A55E1228EF7559000BBD8A /* GADMAdapterFyberBannerAd.m */,
+				23A55E1328EF7559000BBD8A /* GADMAdapterFyberConstants.h */,
+				23A55E1428EF7559000BBD8A /* GADMAdapterFyberExtras.m */,
+				23A55E1528EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h */,
+				23A55E1628EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m */,
+				23A55E1728EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h */,
+				23A55E1828EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m */,
+				23A55E1928EF7559000BBD8A /* GADMAdapterFyberUtils.h */,
+				23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */,
+				23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */,
+				23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */,
+			);
+			path = DTExchangeAdapter;
+			sourceTree = "<group>";
+		};
 		45127772207D92C100D85E57 = {
 			isa = PBXGroup;
 			children = (
-				451277A8207DA32500D85E57 /* Public */,
-				451277A4207D9F3200D85E57 /* Configuration */,
-				451277A0207D981200D85E57 /* BuildScript */,
 				4512779E207D973000D85E57 /* README.md */,
 				4512779F207D976300D85E57 /* CHANGELOG.md */,
-				4512777D207D92C100D85E57 /* FyberAdapter */,
+				23A55E1028EF7559000BBD8A /* DTExchangeAdapter */,
+				451277A8207DA32500D85E57 /* Public */,
+				451277A0207D981200D85E57 /* BuildScript */,
+				451277A4207D9F3200D85E57 /* Configuration */,
 				4512777C207D92C100D85E57 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -127,25 +146,6 @@
 				4512777B207D92C100D85E57 /* libAdapter.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		4512777D207D92C100D85E57 /* FyberAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				00756FEC2538DC1800A625E5 /* GADMAdapterFyberBannerAd.h */,
-				00756FED2538DC1800A625E5 /* GADMAdapterFyberBannerAd.m */,
-				00F66C94237E0F1E0051027D /* GADMAdapterFyberConstants.h */,
-				235664B5250FE09000414A15 /* GADMAdapterFyberExtras.m */,
-				00756FFF2538E44000A625E5 /* GADMAdapterFyberInterstitialAd.h */,
-				007570002538E44000A625E5 /* GADMAdapterFyberInterstitialAd.m */,
-				00F66C96237E0F200051027D /* GADMAdapterFyberRewardedAd.h */,
-				00F66C95237E0F1F0051027D /* GADMAdapterFyberRewardedAd.m */,
-				00C43B64237E268400C955A2 /* GADMAdapterFyberUtils.h */,
-				00C43B65237E268400C955A2 /* GADMAdapterFyberUtils.m */,
-				4502AFEB22FE149300CBA9B3 /* GADMediationAdapterFyber.h */,
-				4502AFEC22FE149300CBA9B3 /* GADMediationAdapterFyber.m */,
-			);
-			path = FyberAdapter;
 			sourceTree = "<group>";
 		};
 		451277A0207D981200D85E57 /* BuildScript */ = {
@@ -180,7 +180,7 @@
 		451277AA207DA40600D85E57 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				4512777E207D92C100D85E57 /* FyberAdapter.h */,
+				2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */,
 				2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */,
 			);
 			path = Headers;
@@ -193,14 +193,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				451277C4207DAD8000D85E57 /* FyberAdapter.h in Headers */,
+				23A55E2528EF7559000BBD8A /* GADMAdapterFyberUtils.h in Headers */,
+				23A55E1F28EF7559000BBD8A /* GADMAdapterFyberConstants.h in Headers */,
+				23A55E2128EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h in Headers */,
+				23A55E1D28EF7559000BBD8A /* GADMAdapterFyberBannerAd.h in Headers */,
+				23A55E2328EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h in Headers */,
+				2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */,
 				2376C4DC251044740098BE51 /* GADMAdapterFyberExtras.h in Headers */,
-				007570012538E44000A625E5 /* GADMAdapterFyberInterstitialAd.h in Headers */,
-				4502AFED22FE149300CBA9B3 /* GADMediationAdapterFyber.h in Headers */,
-				00F66C97237E0F230051027D /* GADMAdapterFyberConstants.h in Headers */,
-				00756FEE2538DC1800A625E5 /* GADMAdapterFyberBannerAd.h in Headers */,
-				00C43B66237E268400C955A2 /* GADMAdapterFyberUtils.h in Headers */,
-				00F66C99237E0F230051027D /* GADMAdapterFyberRewardedAd.h in Headers */,
+				23A55E2728EF7559000BBD8A /* GADMediationAdapterFyber.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +222,7 @@
 				00DE7015237F7CBB007EB8CA /* PBXTargetDependency */,
 			);
 			name = Adapter;
-			productName = FyberAdapter;
+			productName = DTExchangeAdapter;
 			productReference = 4512777B207D92C100D85E57 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -248,7 +248,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 45127776207D92C100D85E57 /* Build configuration list for PBXProject "FyberAdapter" */;
+			buildConfigurationList = 45127776207D92C100D85E57 /* Build configuration list for PBXProject "DTExchangeAdapter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -303,12 +303,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				235664B7250FE09000414A15 /* GADMAdapterFyberExtras.m in Sources */,
-				00F66C98237E0F230051027D /* GADMAdapterFyberRewardedAd.m in Sources */,
-				4502AFEE22FE149300CBA9B3 /* GADMediationAdapterFyber.m in Sources */,
-				00756FEF2538DC1800A625E5 /* GADMAdapterFyberBannerAd.m in Sources */,
-				007570022538E44000A625E5 /* GADMAdapterFyberInterstitialAd.m in Sources */,
-				00C43B67237E268400C955A2 /* GADMAdapterFyberUtils.m in Sources */,
+				23A55E2428EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m in Sources */,
+				23A55E2028EF7559000BBD8A /* GADMAdapterFyberExtras.m in Sources */,
+				23A55E2828EF7559000BBD8A /* GADMediationAdapterFyber.m in Sources */,
+				23A55E2228EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m in Sources */,
+				23A55E2628EF7559000BBD8A /* GADMAdapterFyberUtils.m in Sources */,
+				23A55E1E28EF7559000BBD8A /* GADMAdapterFyberBannerAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,7 +492,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		45127776207D92C100D85E57 /* Build configuration list for PBXProject "FyberAdapter" */ = {
+		45127776207D92C100D85E57 /* Build configuration list for PBXProject "DTExchangeAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				45127782207D92C100D85E57 /* Debug */,

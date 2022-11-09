@@ -36,16 +36,16 @@
   /// GMA SDK, not set on the GMA SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
 
-  /// Fyber Ad Spot to be loaded.
+  /// DT Exchange Ad Spot to be loaded.
   IAAdSpot *_adSpot;
 
-  /// Fyber MRAID controller to support HTML ads.
+  /// DT Exchange MRAID controller to support HTML ads.
   IAMRAIDContentController *_MRAIDContentController;
 
-  /// Fyber video controller to support video ads and to catch video progress events.
+  /// DT Exchange video controller to support video ads and to catch video progress events.
   IAVideoContentController *_videoContentController;
 
-  /// Fyber fullscreen controller to catch interstitial related ad events.
+  /// DT Exchange fullscreen controller to catch interstitial related ad events.
   IAFullscreenUnitController *_fullscreenUnitController;
 }
 
@@ -89,7 +89,7 @@
         }
 
         if (error) {
-          GADMAdapterFyberLog(@"Failed to initialize Fyber Marketplace SDK: %@",
+          GADMAdapterFyberLog(@"Failed to initialize DT Exchange SDK: %@",
                               error.localizedDescription);
           strongSelf->_loadCompletionHandler(nil, error);
           return;
@@ -165,7 +165,8 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_fullscreenUnitController.isPresented) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        GADMAdapterFyberErrorAdAlreadyUsed, @"Fyber Interstitial ad has already been presented.");
+        GADMAdapterFyberErrorAdAlreadyUsed,
+        @"DT Exchange Interstitial ad has already been presented.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
     [_delegate didFailToPresentWithError:error];
     return;
@@ -173,7 +174,7 @@
 
   if (!_fullscreenUnitController.isReady) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        GADMAdapterFyberErrorAdNotReady, @"Fyber Interstitial ad is not ready to show.");
+        GADMAdapterFyberErrorAdNotReady, @"DT Exchange Interstitial ad is not ready to show.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
     [_delegate didFailToPresentWithError:error];
     return;
