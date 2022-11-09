@@ -132,7 +132,7 @@
         [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Failed to display rewarded video ad from Mintegral.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present a rewarded video ad.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }

@@ -114,7 +114,7 @@
         [_interstitialAd showFromViewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Failed to present interstitial ad from Mintegral.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present an interstitial ad.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }
