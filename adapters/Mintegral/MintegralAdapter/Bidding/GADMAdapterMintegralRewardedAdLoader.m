@@ -38,6 +38,12 @@
     
     /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+    
+    /// The Mintegral rewarded Ad Unit ID.
+    NSString *_adUnitId;
+    
+    /// The Mintegral rewarded Ad Placement ID.
+    NSString *_placementId;
 }
 
 - (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -59,9 +65,9 @@
         return delegate;
     };
     
-    NSString *adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
-    NSString *placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    if (!adUnitId.length || !placementId.length) {
+    _adUnitId = adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
+    _placementId = adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
+    if (!_adUnitId.length || !_placementId.length) {
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         _adLoadCompletionHandler(nil, error);
@@ -69,7 +75,7 @@
     }
     
     _rewardedAd = [MTGBidRewardAdManager sharedInstance];
-    [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:placementId unitId:adUnitId delegate:self];
+    [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse placementId:_placementId unitId:_adUnitId delegate:self];
 }
 
 #pragma mark - MTGRewardAdLoadDelegate
@@ -117,9 +123,7 @@
 
 #pragma mark - GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    NSString *adUnitId = _adConfiguration.credentials.settings[GADMAdapterMintegralAdUnitID];
-    NSString *placementId = _adConfiguration.credentials.settings[GADMAdapterMintegralPlacementID];
-    if (!adUnitId.length || !placementId.length) {
+    if (!_adUnitId.length || !_placementId.length) {
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Ad Unit ID or Placement ID cannot be nil.");
         [_adEventDelegate didFailToPresentWithError:error];
@@ -128,8 +132,8 @@
     GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
     _rewardedAd = MTGBidRewardAdManager.sharedInstance;
     _rewardedAd.playVideoMute = extras.muteVideoAudio;
-    if ([_rewardedAd isVideoReadyToPlayWithPlacementId:placementId unitId:adUnitId]) {
-        [_rewardedAd showVideoWithPlacementId:placementId unitId:adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
+    if ([_rewardedAd isVideoReadyToPlayWithPlacementId:_placementId unitId:_adUnitId]) {
+        [_rewardedAd showVideoWithPlacementId:_placementId unitId:_adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present a rewarded video ad.");
