@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// DT Exchange mediation adapter version.
-static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.6.0";
+static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.7.0";
 
 /// DT Exchange mediation adapter app ID key.
 static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";

@@ -1,7 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.1.7.0 (In progress)
+- Verified compatibility with DT Exchange SDK version 8.1.7.
 - Adapter is rebranded to "DT Exchange".
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- DT Exchange SDK version 8.1.7.
 
 #### [Version 8.1.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/fyber/FyberAdapter-8.1.6.0.zip)
 - Added support for passing `muteAudio` extra in `GADMAdapterFyberExtras` class.
