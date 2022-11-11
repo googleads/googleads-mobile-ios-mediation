@@ -54,6 +54,10 @@ MTGMediaViewDelegate>
     
     /// Array of GADNativeAdImage objects.
     NSArray<GADNativeAdImage *> *_images;
+    
+    /// The Mintegral ad choices view.
+    MTGAdChoicesView *_adChoicesView;
+    
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
@@ -98,6 +102,14 @@ MTGMediaViewDelegate>
     return _mediaView;
 }
 
+- (MTGAdChoicesView *)createAdChoicesView {
+    if(_adChoicesView){
+        return _adChoicesView;
+    }
+    _adChoicesView = [[MTGAdChoicesView alloc]initWithFrame:CGRectZero];
+    return _adChoicesView;
+}
+
 #pragma mark - MTGBidNativeAdManagerDelegate
 - (void)nativeAdsLoaded:(nullable NSArray *)nativeAds bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
     
@@ -116,6 +128,9 @@ MTGMediaViewDelegate>
             mediaView.mute = extras.muteVideoAudio;
         }
 
+        MTGAdChoicesView * adChoicesView = [self createAdChoicesView];
+        adChoicesView.campaign = _campaign;
+        
         if (_adLoadCompletionHandler) {
             _adEventDelegate = _adLoadCompletionHandler(self,nil);
         }
@@ -217,6 +232,10 @@ MTGMediaViewDelegate>
 -  (UIView *)mediaView{
     [_mediaView setMediaSourceWithCampaign:_campaign unitId:_adUnitId];
     return _mediaView;
+}
+
+- (UIView *)adChoicesView {
+    return _adChoicesView;
 }
 
 #pragma mark - GADMediationNativeAd
