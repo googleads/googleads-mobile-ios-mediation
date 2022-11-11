@@ -114,9 +114,6 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (!self) {
-                return;
-            }
             GADNativeAdImage *image = (!error && data) ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]] : nil;
             self->_icon = image;
             localBlock();
