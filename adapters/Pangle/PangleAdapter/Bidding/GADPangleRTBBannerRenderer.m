@@ -13,16 +13,13 @@
 // limitations under the License.
 
 #import "GADPangleRTBBannerRenderer.h"
-#import <BUAdSDK/BUAdSDK.h>
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 
-static CGSize const pangleBannerAdSize320x50 = (CGSize){320, 50};
-static CGSize const pangleBannerAdSize300x250 = (CGSize){300, 250};
-static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
-
-@interface GADPangleRTBBannerRenderer () <BUNativeExpressBannerViewDelegate>
+@interface GADPangleRTBBannerRenderer () <PAGBannerAdDelegate>
 
 @end
 
@@ -30,11 +27,9 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle banner ad.
-  BUNativeExpressBannerView *_nativeExpressBannerView;
+  PAGBannerAd *_bannerAd;
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationBannerAdEventDelegate> _delegate;
-  /// The requested ad size.
-  CGSize _bannerSize;
+  __weak id<GADMediationBannerAdEventDelegate> _delegate;
 }
 
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -66,38 +61,61 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
   }
 
   NSError *error = nil;
-  _bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
   if (error) {
     _loadCompletionHandler(nil, error);
     return;
   }
-  _nativeExpressBannerView =
-      [[BUNativeExpressBannerView alloc] initWithSlotID:placementId
-                                     rootViewController:adConfiguration.topViewController
-                                                 adSize:_bannerSize];
-  _nativeExpressBannerView.delegate = self;
-  [_nativeExpressBannerView setAdMarkup:adConfiguration.bidResponse];
+
+  PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
+  request.adString = adConfiguration.bidResponse;
+
+  GADPangleRTBBannerRenderer *__weak weakSelf = self;
+  [PAGBannerAd loadAdWithSlotID:placementId
+                        request:request
+              completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
+                GADPangleRTBBannerRenderer *strongSelf = weakSelf;
+                if (!strongSelf) {
+                  return;
+                }
+                if (loadError) {
+                  strongSelf->_loadCompletionHandler(nil, loadError);
+                  return;
+                }
+
+                CGRect frame = bannerAd.bannerView.frame;
+                frame.size = bannerSize.size;
+                bannerAd.bannerView.frame = frame;
+                bannerAd.rootViewController = adConfiguration.topViewController;
+
+                strongSelf->_bannerAd = bannerAd;
+                strongSelf->_bannerAd.delegate = strongSelf;
+
+                if (strongSelf->_loadCompletionHandler) {
+                  strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+                }
+              }];
 }
 
-- (CGSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
   CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
   GADAdSize banner50 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, pangleBannerAdSize320x50.height));  // 320*50
+      CGSizeMake(gadAdCGSize.width, kPAGBannerSize320x50.size.height));  // 320*50
   GADAdSize banner90 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, pangleBannerAdSize728x90.height));  // 728*90
+      CGSizeMake(gadAdCGSize.width, kPAGBannerSize728x90.size.height));  // 728*90
   GADAdSize banner250 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, pangleBannerAdSize300x250.height));  // 300*250
+      CGSizeMake(gadAdCGSize.width, kPAGBannerSize300x250.size.height));  // 300*250
   NSArray *potentials = @[
     NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(banner250)
   ];
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == pangleBannerAdSize320x50.height) {
-    return pangleBannerAdSize320x50;
-  } else if (size.height == pangleBannerAdSize728x90.height) {
-    return pangleBannerAdSize728x90;
-  } else if (size.height == pangleBannerAdSize300x250.height) {
-    return pangleBannerAdSize300x250;
+  if (size.height == kPAGBannerSize320x50.size.height) {
+    return kPAGBannerSize320x50;
+  } else if (size.height == kPAGBannerSize728x90.size.height) {
+    return kPAGBannerSize728x90;
+  } else if (size.height == kPAGBannerSize300x250.size.height) {
+    return kPAGBannerSize300x250;
   }
 
   if (error) {
@@ -106,44 +124,22 @@ static CGSize const pangleBannerAdSize728x90 = (CGSize){728, 90};
         [NSString stringWithFormat:@"Invalid size for Pangle mediation adapter. Size: %@",
                                    NSStringFromGADAdSize(gadAdSize)]);
   }
-  return CGSizeZero;
+  return (PAGBannerAdSize){CGSizeZero};
 }
 
 #pragma mark - GADMediationBannerAd
 - (nonnull UIView *)view {
-  return _nativeExpressBannerView;
+  return _bannerAd.bannerView;
 }
 
-#pragma mark - BUNativeExpressBannerViewDelegate
-- (void)nativeExpressBannerAdViewDidLoad:(BUNativeExpressBannerView *)bannerAdView {
-  if (_loadCompletionHandler) {
-    _delegate = _loadCompletionHandler(self, nil);
-  }
-  CGRect frame = bannerAdView.frame;
-  frame.size = _bannerSize;
-  bannerAdView.frame = frame;
-}
+#pragma mark - PAGBannerAdDelegate
 
-- (void)nativeExpressBannerAdView:(BUNativeExpressBannerView *)bannerAdView
-             didLoadFailWithError:(NSError *)error {
-  if (_loadCompletionHandler) {
-    _loadCompletionHandler(nil, error);
-  }
-}
-
-- (void)nativeExpressBannerAdViewRenderSuccess:(BUNativeExpressBannerView *)bannerAdView {
+- (void)adDidShow:(PAGBannerAd *)ad {
   id<GADMediationBannerAdEventDelegate> delegate = _delegate;
   [delegate reportImpression];
 }
 
-- (void)nativeExpressBannerAdViewRenderFail:(BUNativeExpressBannerView *)bannerAdView
-                                      error:(NSError *)error {
-  if (_loadCompletionHandler) {
-    _loadCompletionHandler(nil, error);
-  }
-}
-
-- (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView {
+- (void)adDidClick:(PAGBannerAd *)ad {
   id<GADMediationBannerAdEventDelegate> delegate = _delegate;
   [delegate reportClick];
 }

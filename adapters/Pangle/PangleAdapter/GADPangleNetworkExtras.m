@@ -12,16 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+#import "GADPangleNetworkExtras.h"
 
-/// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.8.0.6.0";
+@implementation GADPangleNetworkExtras
 
-/// Pangle adapter Pangle App ID parameter key.
-static NSString *const GADMAdapterPangleAppID = @"appid";
-
-/// Pangle adapter Ad Placement ID parameter key.
-static NSString *const GADMAdapterPanglePlacementID = @"placementid";
-
-/// Pangle adapter error domain.
-static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+@end

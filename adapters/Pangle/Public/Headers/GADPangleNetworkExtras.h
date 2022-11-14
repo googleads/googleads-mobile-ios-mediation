@@ -14,14 +14,9 @@
 
 #import <Foundation/Foundation.h>
 
-/// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.8.0.6.0";
+@interface GADPangleNetworkExtras : NSObject
 
-/// Pangle adapter Pangle App ID parameter key.
-static NSString *const GADMAdapterPangleAppID = @"appid";
+/// Set additional user information.
+@property (nonatomic, copy) NSString *userDataString;
 
-/// Pangle adapter Ad Placement ID parameter key.
-static NSString *const GADMAdapterPanglePlacementID = @"placementid";
-
-/// Pangle adapter error domain.
-static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+@end

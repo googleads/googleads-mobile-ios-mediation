@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Adapter version string.
-static NSString *const _Nonnull GADMAdapterNendVersion = @"7.4.0.0";
+/// DT Exchange mediation adapter version.
+static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.1.7.0";
 
-// Adapter mediation agent.
-static NSString *const _Nonnull GADMAdapterNendMediationName = @"AdMob";
+/// DT Exchange mediation adapter app ID key.
+static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";
 
-// Nend API key.
-static NSString *const _Nonnull GADMAdapterNendApiKey = @"apiKey";
+/// DT Exchange mediation adapter spot ID key.
+static NSString* const _Nonnull GADMAdapterFyberSpotID = @"spotId";
 
-// Nend spot id name.
-static NSString *const _Nonnull GADMAdapterNendSpotID = @"spotId";
-
-// Nend adapter error domain.
-static NSString *const _Nonnull GADMAdapterNendErrorDomain = @"com.google.mediation.nend";
+/// DT Exchange mediation adapter error domain.
+static NSString* const _Nonnull GADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";

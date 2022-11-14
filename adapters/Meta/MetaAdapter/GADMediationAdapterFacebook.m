@@ -21,7 +21,6 @@
 #import "GADFBRewardedInterstitialRenderer.h"
 #import "GADFBRewardedRenderer.h"
 #import "GADFBUtils.h"
-#import "GADMAdapterFacebook.h"
 #import "GADMAdapterFacebookConstants.h"
 
 @implementation GADMediationAdapterFacebook {

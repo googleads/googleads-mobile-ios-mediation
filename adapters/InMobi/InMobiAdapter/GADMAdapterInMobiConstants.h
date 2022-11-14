@@ -14,7 +14,7 @@
 //
 
 /// Adapter version string.
-static NSString *const GADMAdapterInMobiVersion = @"10.0.8.0";
+static NSString *const GADMAdapterInMobiVersion = @"10.1.1.1";
 
 /// InMobi SDK key.
 static NSString *const GADMAdapterInMobiAccountID = @"accountid";

@@ -1,8 +1,20 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Next Version
+#### [Version 4.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.4.1.0.zip)
+- Verified compatibility with Unity Ads SDK 4.4.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Unity Ads SDK version 4.4.1.
+
+#### [Version 4.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.4.0.0.zip)
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+- Verified compatibility with Unity Ads SDK 4.4.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.10.0.
+- Unity Ads SDK version 4.4.0.
 
 #### [Version 4.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.3.0.0.zip)
 - Verified compatibility with Unity Ads SDK 4.3.0.

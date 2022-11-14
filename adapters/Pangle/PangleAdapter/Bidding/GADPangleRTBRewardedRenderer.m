@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #import "GADPangleRTBRewardedRenderer.h"
-#import <BUAdSDK/BUAdSDK.h>
+#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 
-@interface GADPangleRTBRewardedRenderer () <BURewardedVideoAdDelegate>
+@interface GADPangleRTBRewardedRenderer () <PAGRewardedAdDelegate>
 
 @end
 
@@ -26,9 +27,9 @@
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle rewarded ad.
-  BURewardedVideoAd *_rewardedVideoAd;
+  PAGRewardedAd *_rewardedAd;
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationRewardedAdEventDelegate> _delegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
 }
 
 - (void)renderRewardedAdForAdConfiguration:
@@ -62,58 +63,58 @@
     return;
   }
 
-  BURewardedVideoModel *model = [[BURewardedVideoModel alloc] init];
-  _rewardedVideoAd = [[BURewardedVideoAd alloc] initWithSlotID:placementId
-                                            rewardedVideoModel:model];
-  _rewardedVideoAd.delegate = self;
-  [_rewardedVideoAd setAdMarkup:adConfiguration.bidResponse];
+  PAGRewardedRequest *request = [PAGRewardedRequest request];
+  request.adString = adConfiguration.bidResponse;
+  GADPangleRTBRewardedRenderer *__weak weakSelf = self;
+  [PAGRewardedAd loadAdWithSlotID:placementId
+                          request:request
+                completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
+                  GADPangleRTBRewardedRenderer *strongSelf = weakSelf;
+                  if (!strongSelf) {
+                    return;
+                  }
+                  if (error) {
+                    if (strongSelf->_loadCompletionHandler) {
+                      strongSelf->_loadCompletionHandler(nil, error);
+                    }
+                    return;
+                  }
+
+                  strongSelf->_rewardedAd = rewardedAd;
+                  strongSelf->_rewardedAd.delegate = strongSelf;
+
+                  if (strongSelf->_loadCompletionHandler) {
+                    strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+                  }
+                }];
 }
 
 #pragma mark - GADMediationRewardedAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [_rewardedVideoAd showAdFromRootViewController:viewController];
+  [_rewardedAd presentFromRootViewController:viewController];
 }
 
-#pragma mark - BURewardedVideoAdDelegate
-- (void)rewardedVideoAdDidLoad:(BURewardedVideoAd *)rewardedVideoAd {
-  if (_loadCompletionHandler) {
-    _delegate = _loadCompletionHandler(self, nil);
-  }
-}
-
-- (void)rewardedVideoAd:(BURewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
-  if (_loadCompletionHandler) {
-    _loadCompletionHandler(nil, error);
-  }
-}
-
-- (void)rewardedVideoAdDidVisible:(BURewardedVideoAd *)rewardedVideoAd {
+#pragma mark - PAGRewardedAdDelegate
+- (void)adDidShow:(PAGRewardModel *)ad {
   id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
   [delegate willPresentFullScreenView];
   [delegate reportImpression];
 }
 
-- (void)rewardedVideoAdWillClose:(BURewardedVideoAd *)rewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
-  [delegate willDismissFullScreenView];
-}
-
-- (void)rewardedVideoAdDidClose:(BURewardedVideoAd *)rewardedVideoAd {
-  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
-  [delegate didDismissFullScreenView];
-}
-
-- (void)rewardedVideoAdDidClick:(BURewardedVideoAd *)rewardedVideoAd {
+- (void)adDidClick:(PAGRewardModel *)ad {
   id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
   [delegate reportClick];
 }
 
-- (void)rewardedVideoAdServerRewardDidSucceed:(BURewardedVideoAd *)rewardedVideoAd
-                                       verify:(BOOL)verify {
-  if (verify) {
-    id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
-    [delegate didRewardUser];
-  }
+- (void)adDidDismiss:(PAGRewardModel *)ad {
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  [delegate willDismissFullScreenView];
+  [delegate didDismissFullScreenView];
+}
+
+- (void)rewardedAd:(PAGRewardedAd *)rewardedAd userDidEarnReward:(PAGRewardModel *)rewardModel {
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  [delegate didRewardUser];
 }
 
 @end

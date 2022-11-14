@@ -1,5 +1,47 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Version 4.8.0.6.0 (In progress)
+- Verified compatibility with Pangle SDK version 4.8.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- Pangle SDK version 4.8.0.6.
+
+#### [Version 4.7.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.7.
+#### [Version 4.7.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.6.
+
+#### [Version 4.7.0.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.5.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.5.
+
+#### [Version 4.7.0.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.4.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.10.0.
+- Pangle SDK version 4.7.0.4.
+
+#### [Version 4.6.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.2.2.0.zip)
+- Renamed the `setGDPR()` and  `setCCPA()` methods from the `GADMediationAdapterPangle` class to `setGDPRConsent()` and `setDoNotSell` respectively.
+- Verified compatibility with Pangle SDK version 4.6.2.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.10.0.
+- Pangle SDK version 4.6.2.2.
+
 #### [Version 4.6.1.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.1.8.0.zip)
 - Verified compatibility with Pangle SDK version 4.6.1.8.
 - Added bidding support for native ad format.
