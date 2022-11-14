@@ -2,6 +2,7 @@
 
 #### Version 4.8.0.6.0 (In progress)
 - Verified compatibility with Pangle SDK version 4.8.0.6.
+- Fixed an issue where the main thread was blocked when loading native ad icon image.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.13.0.
