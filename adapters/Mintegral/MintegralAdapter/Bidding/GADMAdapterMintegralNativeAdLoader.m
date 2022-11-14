@@ -115,13 +115,7 @@ MTGMediaViewDelegate>
     
     if ([nativeAds isKindOfClass:NSArray.class] && nativeAds.count > 0) {
         _campaign = nativeAds.firstObject;
-        
-        _icon = [self loadImageWithURLString:_campaign.iconUrl];
-        GADNativeAdImage *image = [self loadImageWithURLString:_campaign.imageUrl];
-        if (image) {
-            _images = @[image];
-        }
-        
+
         MTGMediaView *mediaView = [self createMediaView];
         GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
         if(extras){
@@ -131,10 +125,7 @@ MTGMediaViewDelegate>
         MTGAdChoicesView * adChoicesView = [self createAdChoicesView];
         adChoicesView.campaign = _campaign;
         
-        if (_adLoadCompletionHandler) {
-            _adEventDelegate = _adLoadCompletionHandler(self,nil);
-        }
-
+        [self loadRequiredNativeData];
     }else{
         NSError *error =
         GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a native ad.");
@@ -189,7 +180,7 @@ MTGMediaViewDelegate>
 }
 
 - (NSArray *)images {
-    return _images;
+    return nil;
 }
 
 - (NSString *)body {
@@ -252,13 +243,42 @@ MTGMediaViewDelegate>
     [_nativeManager registerViewForInteraction:view withClickableViews:clickableAssetViews.allValues withCampaign:_campaign];
 }
 
-- (GADNativeAdImage *)loadImageWithURLString:(NSString *)urlString {
-    if (!urlString.length) {
-        return nil;
+- (void)loadRequiredNativeData {
+    GADMAdapterMintegralNativeAdLoader *__weak weakSelf = self;
+    void (^localBlock)(void) = ^{
+        GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
+        if (strongSelf && strongSelf->_adLoadCompletionHandler) {
+            strongSelf->_adEventDelegate = strongSelf->_adLoadCompletionHandler(strongSelf, nil);
+        }
+    };
+    NSString *URLString = _campaign.iconUrl;
+    if (!URLString.length) {
+        localBlock();
+        return;
     }
-    
-    NSURL * url = [[NSURL alloc] initWithString:urlString];
-    return [[GADNativeAdImage alloc] initWithURL:url scale:1.0];
+    NSURL *URL = [NSURL URLWithString:URLString];
+    if (!URL) {
+        localBlock();
+        return;
+    }
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task =
+    [session dataTaskWithURL:URL
+           completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
+                               NSError *_Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
+            if (!strongSelf) {
+                return;
+            }
+            GADNativeAdImage *image =
+            (!error && data)
+            ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]]
+            : nil;
+            strongSelf->_icon = image;
+            localBlock();
+        });
+    }];
+    [task resume];
 }
-
 @end
