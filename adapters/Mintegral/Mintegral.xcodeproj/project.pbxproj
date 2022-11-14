@@ -224,7 +224,7 @@
 				2B60DF1A27618E7000AB5537 /* PBXTargetDependency */,
 			);
 			name = Adapter;
-			productName = Adapter;
+			productName = MintegralAdapter;
 			productReference = 2B60DF082761885700AB5537 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
