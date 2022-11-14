@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
@@ -25,7 +26,7 @@ typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
     GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
     /// InMobi native ad returned with missing native assets, or required image assets failed to
     /// download.
-    GADMAdapterInMobiErrorMissingNativeAssets = 104
+    GADMAdapterInMobiErrorMissingNativeAssets = 104,
     /// An ad is not ready.
     GADMAdapterInMobiErrorAdNotReady = 105
 };

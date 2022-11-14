@@ -1,8 +1,16 @@
+// Copyright 2022 Google LLC
 //
-//  GADMAdapterInMobiRTBInterstitialAd.m
-//  IMAdMobAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Bavirisetti.Dinesh on 02/09/22.
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "GADMAdapterInMobiInterstitialAd.h"
@@ -18,25 +26,13 @@
 @implementation GADMAdapterInMobiInterstitialAd {
     id<GADMediationInterstitialAdEventDelegate> _interstitalAdEventDelegate;
     
-    /// Ad Configuration for the nterstitial ad to be rendered.
+    /// Ad Configuration for the interstitial ad to be rendered.
     GADMediationInterstitialAdConfiguration *_interstitialAdConfig;
     
     GADMediationInterstitialLoadCompletionHandler _interstitialRenderCompletionHandler;
     
-    /// InMobi rewarded ad.
+    /// InMobi interstitial ad.
     IMInterstitial *_interstitialAd;
-    
-    /// InMobi Placement identifier.
-    NSNumber *_placementIdentifier;
-}
-
-/// Initializes the Interstitial ad renderer.
-- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier {
-    self = [super init];
-    if (self) {
-        _placementIdentifier = placementIdentifier;
-    }
-    return self;
 }
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
@@ -112,15 +108,16 @@
     if ([_interstitialAd isReady]) {
         [_interstitialAd showFromViewController:viewController
                                   withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+    }  else {
+        NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+            GADMAdapterInMobiErrorAdNotReady,
+            @"[InMobi] Error - Interstitial ad not ready to be present.");
+        [_interstitalAdEventDelegate didFailToPresentWithError:error];
     }
 }
 
 - (void)stopBeingDelegate {
     _interstitialAd.delegate = nil;
-}
-
-- (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-    return [_interstitialAd isReady];
 }
 
 #pragma mark IMAdInterstitialDelegate methods

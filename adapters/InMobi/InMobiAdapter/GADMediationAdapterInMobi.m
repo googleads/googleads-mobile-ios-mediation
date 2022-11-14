@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 #import "GADMediationAdapterInMobi.h"
 #import "GADInMobiExtras.h"
@@ -27,13 +28,13 @@
     /// InMobi rewarded ad wrapper.
     GADMAdapterInMobiRewardedAd *_rewardedAd;
     
-    /// InMobi banner ad object.
+    /// InMobi banner ad wrapper.
     GADMAdapterInMobiBannerAd *_bannerAd;
     
-    /// InMobi interstitial ad object.
+    /// InMobi interstitial ad wrapper.
     GADMAdapterInMobiInterstitialAd *_interstitialAd;
     
-    /// Google Mobile Ads unified native ad wrapper.
+    /// InMobi native ad wrapper.
     GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
 }
 
@@ -123,12 +124,7 @@
 
 -(void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
     if(!_bannerAd) {
-        NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
-        NSNumber *placementIdentifier =
-        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-        _bannerAd =
-        [[GADMAdapterInMobiBannerAd alloc] initWithPlacementIdentifier:placementIdentifier];
+        _bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
     }
     
     [_bannerAd loadBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
@@ -136,11 +132,7 @@
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
     if (!_interstitialAd) {
-        NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
-        NSNumber *placementIdentifier =
-        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-        _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] initWithPlacementIdentifier:placementIdentifier];
+        _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
     }
     
     [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
@@ -148,11 +140,7 @@
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
     if (!_nativeAd) {
-        NSString *placementIdentifierString =
-        adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
-        NSNumber *placementIdentifier =
-        [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-        _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] initWithPlacementIdentifier:placementIdentifier];
+        _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] init];
     }
     
     [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
