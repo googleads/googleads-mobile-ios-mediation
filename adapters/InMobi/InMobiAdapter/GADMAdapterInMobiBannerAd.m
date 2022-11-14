@@ -1,6 +1,17 @@
+// Copyright 2022 Google LLC
 //
-//  GADMAdapterInMobiBannerAd.m
-//  IMAdMobAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 #import "GADMAdapterInMobiBannerAd.h"
 #import <InMobiSDK/IMSdk.h>
@@ -12,13 +23,7 @@
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
 
-/// Find closest supported ad size from a given ad size.
 static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize) {
-    // Supported sizes
-    // 320 x 50
-    // 300 x 250
-    // 728 x 90
-    
     NSArray<NSValue *> *potentialSizeValues =
     @[ @(GADAdSizeBanner), @(GADAdSizeMediumRectangle), @(GADAdSizeLeaderboard) ];
     
@@ -38,16 +43,6 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
     /// InMobi banner ad object.
     IMBanner *_adView;
     
-    /// InMobi Placement identifier.
-    NSNumber *_placementIdentifier;
-}
-
--(instancetype)initWithPlacementIdentifier:(NSNumber *)placementIdentifier {
-    self = [super init];
-    if (self) {
-        _placementIdentifier = placementIdentifier;
-    }
-    return self;
 }
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
@@ -141,7 +136,6 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
     _adView.delegate = nil;
 }
 
-#pragma mark -
 #pragma mark IMBannerDelegate methods
 
 - (void)bannerDidFinishLoading:(nonnull IMBanner *)banner {

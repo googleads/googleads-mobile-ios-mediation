@@ -1,9 +1,16 @@
+// Copyright 2022 Google LLC
 //
-//  GADMAdapterInMobiUnifiedNativeAd.m
-//  InMobiAdapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Niranjan Agrawal on 1/22/16.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "GADMAdapterInMobiUnifiedNativeAd.h"
@@ -29,9 +36,6 @@ static CGFloat const DefaultIconScale = 1.0;
     GADMediationNativeAdConfiguration *_nativeAdConfig;
     
     GADMediationNativeLoadCompletionHandler _nativeRenderCompletionHandler;
-    
-    /// InMobi Placement identifier.
-    NSNumber *_placementIdentifier;
     
     /// InMobi native ad object.
     IMNative *_native;
@@ -62,10 +66,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
     imageCache = [[NSCache alloc] init];
 }
 
-- (nonnull instancetype)initWithPlacementIdentifier:(nonnull NSNumber *)placementIdentifier {
-    self = [super init];
-    if (self) {
-        _placementIdentifier = placementIdentifier;
+- (nonnull instancetype)init {
+    if (self = [super init]) {
         _shouldDownloadImages = YES;
     }
     return self;
@@ -140,7 +142,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)requestNativeAd {
-    long long placementId = [_placementIdentifier longLongValue];
+    long long placementId = [_nativeAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
     
     if (placementId == 0) {
         NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
@@ -328,11 +330,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
 #pragma mark - Helpers
 
 - (BOOL)isValidWithNativeAd:(nonnull IMNative *)native imageURL:(nonnull NSString *)imageURL {
-    if (!native.adTitle.length || !native.adDescription.length || !native.adCtaText.length ||
-        !native.adIcon || !imageURL.length) {
-        return NO;
-    }
-    return YES;
+  if (!native.adTitle.length || !native.adDescription.length || !native.adCtaText.length ||
+      !native.adIcon || !imageURL.length) {
+    return NO;
+  }
+  return YES;
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
