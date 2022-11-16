@@ -15,17 +15,9 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-typedef NS_ENUM(NSInteger, GADMintegralErrorCode) {
-    /// Missing server parameters.
-    GADMintegralErrorInvalidServerParameters   = 101,
-    /// The ad request was successful, but no ad was returned.
-    GADMintegralErrorAdNotAvailable = 102,
-    /// The Mintegral SDK failed to show an ad.
-    GADMintegralErrorAdFailedToShow  = 103,
-    /// Invalid banner size for Mintegral ad.
-    GADMintegtalErrorBannerSizeInValid = 104
-};
-@interface GADMediationAdapterMintegral : NSObject <GADRTBAdapter>
+@interface GADMAdapterMintegralNativeAdLoader : NSObject<GADMediationNativeAd>
 
+/// Asks the receiver to render the ad configuration.
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 @end
 

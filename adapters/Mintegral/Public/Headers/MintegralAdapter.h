@@ -14,4 +14,6 @@
 
 #import <Foundation/Foundation.h>
 #import <MintegralAdapter/GADMediationAdapterMintegral.h>
+#import <MintegralAdapter/GADMAdapterMintegralExtras.h>
 #import <UIKit/UIKit.h>
+

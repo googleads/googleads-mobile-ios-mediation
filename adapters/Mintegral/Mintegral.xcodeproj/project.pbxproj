@@ -33,11 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */; };
-		23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */; };
 		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
-		23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */; };
-		23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */; };
+		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,22 +67,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegral.h; sourceTree = "<group>"; };
-		23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
-		23D49EEC2899F297006152D8 /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
 		23D49EED2899F455006152D8 /* MintegralAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MintegralAdapter.h; sourceTree = "<group>"; };
-		23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralUtils.h; sourceTree = "<group>"; };
-		23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralUtils.m; sourceTree = "<group>"; };
 		2B338D8526D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D8626D96B0600192709 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		2B338D8726D96B0600192709 /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		2B338D8A26D96B0600192709 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		2B338D8E26D96B0600192709 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2B338D9126D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D9326D96B0600192709 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		2B338D9426D96B0600192709 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		2B338D9526D96B0600192709 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		2B60DF082761885700AB5537 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD18D65B28AE36A1001DF8BA /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
+		ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
+		ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
+		ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
+		ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralUtils.h; sourceTree = "<group>"; };
+		ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRewardedAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralNativeAdLoader.m; sourceTree = "<group>"; };
+		ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralBannerAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralInterstitialAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralNativeAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRewardedAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralInterstitialAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralBannerAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegral.h; sourceTree = "<group>"; };
+		ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,22 +106,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		23D49EE72899F1CB006152D8 /* MintegralAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */,
-				23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */,
-				23D49EEC2899F297006152D8 /* GADMediationAdapterMintegralConstants.h */,
-				23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */,
-				23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */,
-			);
-			path = MintegralAdapter;
-			sourceTree = "<group>";
-		};
 		2B338D3826D95DDF00192709 = {
 			isa = PBXGroup;
 			children = (
-				23D49EE72899F1CB006152D8 /* MintegralAdapter */,
+				ADAC24CE28F1260F001269EF /* MintegralAdapter */,
 				2B338D8426D96B0600192709 /* BuildScript */,
 				2B338D8A26D96B0600192709 /* CHANGELOG.md */,
 				2B338D9226D96B0600192709 /* Configuration */,
@@ -146,7 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				2B338D8C26D96B0600192709 /* Headers */,
-				2B338D8E26D96B0600192709 /* module.modulemap */,
+				AD18D65B28AE36A1001DF8BA /* module.modulemap */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -155,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				23D49EED2899F455006152D8 /* MintegralAdapter.h */,
+				AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -169,6 +165,35 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		ADAC24CE28F1260F001269EF /* MintegralAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */,
+				ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */,
+				ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */,
+				ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */,
+				ADAC24D328F1260F001269EF /* Bidding */,
+				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
+				ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */,
+			);
+			path = MintegralAdapter;
+			sourceTree = "<group>";
+		};
+		ADAC24D328F1260F001269EF /* Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */,
+				ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */,
+				ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */,
+				ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */,
+				ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */,
+				ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */,
+				ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */,
+				ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */,
+			);
+			path = Bidding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -176,9 +201,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */,
+				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
-				23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +224,7 @@
 				2B60DF1A27618E7000AB5537 /* PBXTargetDependency */,
 			);
 			name = Adapter;
-			productName = Adapter;
+			productName = MintegralAdapter;
 			productReference = 2B60DF082761885700AB5537 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -286,8 +310,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */,
-				23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
