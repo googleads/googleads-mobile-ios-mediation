@@ -13,79 +13,81 @@
 // limitations under the License.
 
 #import "GADMediationAdapterMintegral.h"
-#import "GADMediationAdapterMintegralConstants.h"
-#import "GADMAdapterMintegralExtras.h"
-#import "GADMAdapterMintegralRewardedAdLoader.h"
 #import "GADMAdapterMintegralBannerAdLoader.h"
+#import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralInterstitialAdLoader.h"
 #import "GADMAdapterMintegralNativeAdLoader.h"
+#import "GADMAdapterMintegralRewardedAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
+#import "GADMediationAdapterMintegralConstants.h"
 
 #import <MTGSDK/MTGSDK.h>
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 
-
 @implementation GADMediationAdapterMintegral {
-    /// Mintegral banner ad.
-    GADMAdapterMintegralBannerAdLoader *_bannerAd;
+  /// Mintegral banner ad.
+  GADMAdapterMintegralBannerAdLoader *_bannerAd;
 
-    /// Mintegral interstitial ad.
-    GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
+  /// Mintegral interstitial ad.
+  GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
 
-    /// Mintegral native ad.
-    GADMAdapterMintegralNativeAdLoader *_nativeAd;
+  /// Mintegral native ad.
+  GADMAdapterMintegralNativeAdLoader *_nativeAd;
 
-    /// Mintegral rewarded ad.
-    GADMAdapterMintegralRewardedAdLoader * _rewardedAd;
+  /// Mintegral rewarded ad.
+  GADMAdapterMintegralRewardedAdLoader *_rewardedAd;
 }
 
 #pragma mark - GADRTBAdapter
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-    return [GADMAdapterMintegralExtras class];
+  return [GADMAdapterMintegralExtras class];
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    
-    NSMutableSet *appIds = [[NSMutableSet alloc] init];
-    NSMutableSet *appKeys = [[NSMutableSet alloc] init];
-    
-    for (GADMediationCredentials *credential in configuration.credentials) {
-        NSString *appId = credential.settings[GADMAdapterMintegralAppID];
-        GADMAdapterMintegralMutableSetAddObject(appIds, appId);
-        
-        NSString *appKey =credential.settings[GADMAdapterMintegralAppKey];
-        GADMAdapterMintegralMutableSetAddObject(appKeys, appKey);
-    }
-    
-    if (appIds.count < 1 || appKeys.count < 1) {
-        NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorInvalidServerParameters, @"Mintegral mediation configurations did not contain a valid App ID or App Key.");
-        completionHandler(error);
-        return;
-    }
-    
-    NSString *appId = [appIds anyObject];
-    if (appIds.count > 1) {
-        GADMediationAdapterMintegralLog(
-          @"Found the following App IDs:%@. Please remove any app IDs which you are not using.",
-          appIds);
-        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app ID:%@", appId);
-    }
-    
-    NSString *appKey = [appKeys anyObject];
-    if (appKeys.count > 1) {
-        GADMediationAdapterMintegralLog(
-          @"Found the following App keys:%@. Please remove any App Keys which you are not using.",
-                                        appKeys);
-        GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app key:%@", appKey);
-    }
-    
-    // Initialize the Mintergral SDK.
-    [GADMediationAdapterMintegral setAdmobChannel];
-    [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
-    if (completionHandler) {
-        completionHandler(nil);
-    }
+  NSMutableSet *appIds = [[NSMutableSet alloc] init];
+  NSMutableSet *appKeys = [[NSMutableSet alloc] init];
+
+  for (GADMediationCredentials *credential in configuration.credentials) {
+    NSString *appId = credential.settings[GADMAdapterMintegralAppID];
+    GADMAdapterMintegralMutableSetAddObject(appIds, appId);
+
+    NSString *appKey = credential.settings[GADMAdapterMintegralAppKey];
+    GADMAdapterMintegralMutableSetAddObject(appKeys, appKey);
+  }
+
+  if (appIds.count < 1 || appKeys.count < 1) {
+    NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
+        GADMintegralErrorInvalidServerParameters,
+        @"Mintegral mediation configurations did not contain a valid App ID or App Key.");
+    completionHandler(error);
+    return;
+  }
+
+  NSString *appId = [appIds anyObject];
+  if (appIds.count > 1) {
+    GADMediationAdapterMintegralLog(
+        @"Found the following App IDs:%@. Please remove any app IDs which you are not using.",
+        appIds);
+    GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app ID:%@", appId);
+  }
+
+  NSString *appKey = [appKeys anyObject];
+  if (appKeys.count > 1) {
+    GADMediationAdapterMintegralLog(
+        @"Found the following App keys:%@. Please remove any App Keys which you are not using.",
+        appKeys);
+    GADMediationAdapterMintegralLog(@"Configuring Mintegral SDK with the app key:%@", appKey);
+  }
+
+  // Initialize the Mintergral SDK.
+  [GADMediationAdapterMintegral setAdMobChannel];
+  [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
+  // Mintegral SDK doesn't verify App ID and App Key when initializing, but will return a failure
+  // callback if loading an ad with the incorrect App ID or App Key.
+  if (completionHandler) {
+    completionHandler(nil);
+  }
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -114,46 +116,53 @@
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
-                         completionHandler:(nonnull GADRTBSignalCompletionHandler)completionHandler {
-    if (completionHandler) {
-        completionHandler([MTGBiddingSDK buyerUID],nil);
-    }
+                         completionHandler:
+                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  if (completionHandler) {
+    completionHandler([MTGBiddingSDK buyerUID], nil);
+  }
 }
 
-- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
-    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration
-                        completionHandler:completionHandler];
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc] init];
+  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc]init];
-    [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc] init];
+  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
 }
 
-- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-    _nativeAd = [[GADMAdapterMintegralNativeAdLoader alloc]init];
-    [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAd = [[GADMAdapterMintegralNativeAdLoader alloc] init];
+  [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
-    [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                completionHandler:completionHandler];
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc] init];
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
-+ (void)setAdmobChannel {
-    // Set up the AdMob aggregation channel for server statistic collection purposes.
-    Class _class = NSClassFromString(@"MTGSDK");
-    SEL selector = NSSelectorFromString(@"setChannelFlag:");
-    NSString *pluginNumber = @"Y+H6DFttYrPQYcIBiQKwJQKQYrN=";
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if ([_class respondsToSelector:selector]) {
-        [_class performSelector:selector withObject:pluginNumber];
-    }
-    #pragma clang diagnostic pop
++ (void)setAdMobChannel {
+  // Set up the AdMob aggregation channel for server statistic collection purposes.
+  Class _class = NSClassFromString(@"MTGSDK");
+  SEL selector = NSSelectorFromString(@"setChannelFlag:");
+  NSString *pluginNumber = @"Y+H6DFttYrPQYcIBiQKwJQKQYrN=";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+  if ([_class respondsToSelector:selector]) {
+    [_class performSelector:selector withObject:pluginNumber];
+  }
+#pragma clang diagnostic pop
 }
 
 @end

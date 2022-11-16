@@ -17,17 +17,18 @@
 
 @implementation GADMAdapterMintegralUtils
 
-NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description) {
-    return [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
-                               code:code
-                           userInfo:@{
-        NSLocalizedDescriptionKey : description,
-        NSLocalizedFailureReasonErrorKey : description
-    }];
+NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
+                                                                  NSString *_Nonnull description) {
+  return [NSError errorWithDomain:GADMAdapterMintegralErrorDomain
+                             code:code
+                         userInfo:@{
+                           NSLocalizedDescriptionKey : description,
+                           NSLocalizedFailureReasonErrorKey : description
+                         }];
 }
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
-                                            NSObject *_Nonnull object) {
+                                             NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
   }

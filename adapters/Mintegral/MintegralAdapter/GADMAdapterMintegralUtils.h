@@ -14,10 +14,12 @@
 #import <Foundation/Foundation.h>
 #import "GADMediationAdapterMintegral.h"
 
-#define GADMediationAdapterMintegralLog(format, args...) NSLog(@"GADMediationAdapterMintegral: " format, ##args)
+#define GADMediationAdapterMintegralLog(format, args...) \
+  NSLog(@"GADMediationAdapterMintegral: " format, ##args)
 @interface GADMAdapterMintegralUtils : NSObject
 
-NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
+                                                                  NSString *_Nonnull description);
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                                              NSObject *_Nonnull object);

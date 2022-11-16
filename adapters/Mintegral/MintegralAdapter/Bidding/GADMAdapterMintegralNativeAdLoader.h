@@ -15,9 +15,10 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterMintegralNativeAdLoader : NSObject<GADMediationNativeAd>
+@interface GADMAdapterMintegralNativeAdLoader : NSObject <GADMediationNativeAd>
 
 /// Asks the receiver to render the ad configuration.
-- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 @end
-

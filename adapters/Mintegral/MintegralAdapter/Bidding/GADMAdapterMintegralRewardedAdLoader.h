@@ -15,11 +15,11 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-
-@interface GADMAdapterMintegralRewardedAdLoader : NSObject<GADMediationRewardedAd>
+@interface GADMAdapterMintegralRewardedAdLoader : NSObject <GADMediationRewardedAd>
 
 /// Asks the receiver to load the ad configuration.
-- (void)loadRewardedAdForAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 @end
-

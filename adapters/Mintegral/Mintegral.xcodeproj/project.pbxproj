@@ -33,8 +33,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
-		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; };
+		23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603AE29256C0D0069B8AB /* GADMAdapterMintegralRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603AF29256C110069B8AB /* GADMAdapterMintegralBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603B029256C150069B8AB /* GADMAdapterMintegralInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603B129256C170069B8AB /* GADMAdapterMintegralNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		23C603B329256C5B0069B8AB /* GADMediationAdapterMintegral.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */; };
+		23C603B429256C5D0069B8AB /* GADMAdapterMintegralExtras.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */; };
+		23C603B529256C600069B8AB /* GADMAdapterMintegralNativeAdLoader.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */; };
+		23C603B629256C630069B8AB /* GADMAdapterMintegralRewardedAdLoader.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */; };
+		23C603B729256C650069B8AB /* GADMAdapterMintegralInterstitialAdLoader.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */; };
+		23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */; };
+		23C603B929256C970069B8AB /* GADMAdapterMintegralBannerAdLoader.m in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */; };
+		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,13 +182,13 @@
 		ADAC24CE28F1260F001269EF /* MintegralAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				ADAC24D328F1260F001269EF /* Bidding */,
 				ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */,
 				ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */,
 				ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */,
 				ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */,
-				ADAC24D328F1260F001269EF /* Bidding */,
-				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
 				ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */,
+				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
 			);
 			path = MintegralAdapter;
 			sourceTree = "<group>";
@@ -182,14 +196,14 @@
 		ADAC24D328F1260F001269EF /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
-				ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */,
-				ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */,
 				ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */,
-				ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */,
-				ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */,
-				ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */,
-				ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */,
 				ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */,
+				ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */,
+				ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */,
+				ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */,
+				ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */,
+				ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */,
+				ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */,
 			);
 			path = Bidding;
 			sourceTree = "<group>";
@@ -201,8 +215,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
+				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
+				23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */,
+				23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */,
+				23C603AE29256C0D0069B8AB /* GADMAdapterMintegralRewardedAdLoader.h in Headers */,
+				23C603AF29256C110069B8AB /* GADMAdapterMintegralBannerAdLoader.h in Headers */,
+				23C603B029256C150069B8AB /* GADMAdapterMintegralInterstitialAdLoader.h in Headers */,
+				23C603B129256C170069B8AB /* GADMAdapterMintegralNativeAdLoader.h in Headers */,
+				23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */,
+				23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Headers */,
+				23C603B729256C650069B8AB /* GADMAdapterMintegralInterstitialAdLoader.m in Headers */,
+				23C603B329256C5B0069B8AB /* GADMediationAdapterMintegral.m in Headers */,
+				23C603B429256C5D0069B8AB /* GADMAdapterMintegralExtras.m in Headers */,
+				23C603B529256C600069B8AB /* GADMAdapterMintegralNativeAdLoader.m in Headers */,
+				23C603B929256C970069B8AB /* GADMAdapterMintegralBannerAdLoader.m in Headers */,
+				23C603B629256C630069B8AB /* GADMAdapterMintegralRewardedAdLoader.m in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
