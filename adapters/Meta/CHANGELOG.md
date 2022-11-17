@@ -34,6 +34,7 @@ Built and tested with:
 
 #### [Version 6.10.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.10.0.0.zip)
 - Verified compatibility with FAN SDK 6.10.0.
+- Added support for forwarding click and impression callbacks in bidding ads.
 - Added warning messages for waterfall mediation deprecation. See [Meta Audience Network's blog](https://www.facebook.com/audiencenetwork/resources/blog/audience-network-to-become-bidding-only-beginning-with-ios-in-2021/) for more information.
 
 Built and tested with:
