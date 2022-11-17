@@ -277,7 +277,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "Mintegral" */;
+			buildConfigurationList = 2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "MintegralAdapter" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -554,7 +554,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "Mintegral" */ = {
+		2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "MintegralAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B338D5826D95DE200192709 /* Debug */,
