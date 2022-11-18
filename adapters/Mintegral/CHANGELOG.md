@@ -1,6 +1,6 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 7.2.6.0 (In progress)
+#### [Version 7.2.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.2.6.0.zip)
 - Initial release!
 - Added bidding support for banner (includes MREC), interstitial, rewarded and native ad formats.
 - Verified compatibility with Mintegral SDK version 7.2.6.0.
