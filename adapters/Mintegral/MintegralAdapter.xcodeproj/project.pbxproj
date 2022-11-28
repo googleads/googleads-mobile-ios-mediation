@@ -33,11 +33,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */; };
-		23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */; };
-		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
-		23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */; };
-		23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */; };
+		23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */; };
+		23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */; };
+		23C603AE29256C0D0069B8AB /* GADMAdapterMintegralRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */; };
+		23C603AF29256C110069B8AB /* GADMAdapterMintegralBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */; };
+		23C603B029256C150069B8AB /* GADMAdapterMintegralInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */; };
+		23C603B129256C170069B8AB /* GADMAdapterMintegralNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */; };
+		23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; };
+		23C603B329256C5B0069B8AB /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */; };
+		23C603B429256C5D0069B8AB /* GADMAdapterMintegralExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */; };
+		23C603B529256C600069B8AB /* GADMAdapterMintegralNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */; };
+		23C603B629256C630069B8AB /* GADMAdapterMintegralRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */; };
+		23C603B729256C650069B8AB /* GADMAdapterMintegralInterstitialAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */; };
+		23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */; };
+		23C603B929256C970069B8AB /* GADMAdapterMintegralBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */; };
+		23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,22 +81,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegral.h; sourceTree = "<group>"; };
-		23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
-		23D49EEC2899F297006152D8 /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
 		23D49EED2899F455006152D8 /* MintegralAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MintegralAdapter.h; sourceTree = "<group>"; };
-		23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralUtils.h; sourceTree = "<group>"; };
-		23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralUtils.m; sourceTree = "<group>"; };
 		2B338D8526D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D8626D96B0600192709 /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		2B338D8726D96B0600192709 /* Script_Validate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		2B338D8A26D96B0600192709 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		2B338D8E26D96B0600192709 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		2B338D9126D96B0600192709 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B338D9326D96B0600192709 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		2B338D9426D96B0600192709 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		2B338D9526D96B0600192709 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		2B60DF082761885700AB5537 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD18D65B28AE36A1001DF8BA /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
+		ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
+		ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
+		ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
+		ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralUtils.h; sourceTree = "<group>"; };
+		ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRewardedAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralNativeAdLoader.m; sourceTree = "<group>"; };
+		ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralBannerAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralInterstitialAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralNativeAdLoader.h; sourceTree = "<group>"; };
+		ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRewardedAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralInterstitialAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralBannerAdLoader.m; sourceTree = "<group>"; };
+		ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegral.h; sourceTree = "<group>"; };
+		ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,22 +120,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		23D49EE72899F1CB006152D8 /* MintegralAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				23D49EE82899F254006152D8 /* GADMediationAdapterMintegral.h */,
-				23D49EE92899F254006152D8 /* GADMediationAdapterMintegral.m */,
-				23D49EEC2899F297006152D8 /* GADMediationAdapterMintegralConstants.h */,
-				23D49EEF289B1DF6006152D8 /* GADMAdapterMintegralUtils.h */,
-				23D49EF0289B1DF6006152D8 /* GADMAdapterMintegralUtils.m */,
-			);
-			path = MintegralAdapter;
-			sourceTree = "<group>";
-		};
 		2B338D3826D95DDF00192709 = {
 			isa = PBXGroup;
 			children = (
-				23D49EE72899F1CB006152D8 /* MintegralAdapter */,
+				ADAC24CE28F1260F001269EF /* MintegralAdapter */,
 				2B338D8426D96B0600192709 /* BuildScript */,
 				2B338D8A26D96B0600192709 /* CHANGELOG.md */,
 				2B338D9226D96B0600192709 /* Configuration */,
@@ -146,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				2B338D8C26D96B0600192709 /* Headers */,
-				2B338D8E26D96B0600192709 /* module.modulemap */,
+				AD18D65B28AE36A1001DF8BA /* module.modulemap */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -155,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				23D49EED2899F455006152D8 /* MintegralAdapter.h */,
+				AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -169,6 +179,35 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		ADAC24CE28F1260F001269EF /* MintegralAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				ADAC24D328F1260F001269EF /* Bidding */,
+				ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */,
+				ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */,
+				ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */,
+				ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */,
+				ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */,
+				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
+			);
+			path = MintegralAdapter;
+			sourceTree = "<group>";
+		};
+		ADAC24D328F1260F001269EF /* Bidding */ = {
+			isa = PBXGroup;
+			children = (
+				ADAC24D628F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.h */,
+				ADAC24DB28F1260F001269EF /* GADMAdapterMintegralBannerAdLoader.m */,
+				ADAC24D728F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.h */,
+				ADAC24DA28F1260F001269EF /* GADMAdapterMintegralInterstitialAdLoader.m */,
+				ADAC24D428F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.h */,
+				ADAC24D928F1260F001269EF /* GADMAdapterMintegralRewardedAdLoader.m */,
+				ADAC24D828F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.h */,
+				ADAC24D528F1260F001269EF /* GADMAdapterMintegralNativeAdLoader.m */,
+			);
+			path = Bidding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -176,9 +215,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EF1289B1DF6006152D8 /* GADMAdapterMintegralUtils.h in Headers */,
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
-				23D49EEA2899F254006152D8 /* GADMediationAdapterMintegral.h in Headers */,
+				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
+				23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */,
+				23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */,
+				23C603AE29256C0D0069B8AB /* GADMAdapterMintegralRewardedAdLoader.h in Headers */,
+				23C603AF29256C110069B8AB /* GADMAdapterMintegralBannerAdLoader.h in Headers */,
+				23C603B029256C150069B8AB /* GADMAdapterMintegralInterstitialAdLoader.h in Headers */,
+				23C603B129256C170069B8AB /* GADMAdapterMintegralNativeAdLoader.h in Headers */,
+				23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +245,7 @@
 				2B60DF1A27618E7000AB5537 /* PBXTargetDependency */,
 			);
 			name = Adapter;
-			productName = Adapter;
+			productName = MintegralAdapter;
 			productReference = 2B60DF082761885700AB5537 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -225,7 +270,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "Mintegral" */;
+			buildConfigurationList = 2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "MintegralAdapter" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -286,8 +331,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D49EF2289B1DF6006152D8 /* GADMAdapterMintegralUtils.m in Sources */,
-				23D49EEB2899F254006152D8 /* GADMediationAdapterMintegral.m in Sources */,
+				23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Sources */,
+				23C603B729256C650069B8AB /* GADMAdapterMintegralInterstitialAdLoader.m in Sources */,
+				23C603B329256C5B0069B8AB /* GADMediationAdapterMintegral.m in Sources */,
+				23C603B429256C5D0069B8AB /* GADMAdapterMintegralExtras.m in Sources */,
+				23C603B529256C600069B8AB /* GADMAdapterMintegralNativeAdLoader.m in Sources */,
+				23C603B929256C970069B8AB /* GADMAdapterMintegralBannerAdLoader.m in Sources */,
+				23C603B629256C630069B8AB /* GADMAdapterMintegralRewardedAdLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +554,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "Mintegral" */ = {
+		2B338D3C26D95DDF00192709 /* Build configuration list for PBXProject "MintegralAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B338D5826D95DE200192709 /* Debug */,

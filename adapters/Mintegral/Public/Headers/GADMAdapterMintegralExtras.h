@@ -13,15 +13,14 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"4.8.0.7.0";
 
-/// Pangle adapter Pangle App ID parameter key.
-static NSString *const GADMAdapterPangleAppID = @"appid";
+@interface GADMAdapterMintegralExtras : NSObject <GADAdNetworkExtras>
 
-/// Pangle adapter Ad Placement ID parameter key.
-static NSString *const GADMAdapterPanglePlacementID = @"placementid";
 
-/// Pangle adapter error domain.
-static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+/// Controls whether presented ads will start in a muted state or not.
+@property (nonatomic, assign) BOOL muteVideoAudio;
+
+@end
+
