@@ -63,3 +63,6 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersF
 /// Creates InMobi request parameters from the specified ad configuration.
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig);
+
+/// Logs with GADMediationAdapterInMobi Prefix.
+void GADMAdapterInMobiLog(NSString *_Nonnull format, ...);

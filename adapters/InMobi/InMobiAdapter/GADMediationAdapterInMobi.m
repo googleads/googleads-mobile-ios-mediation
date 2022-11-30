@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 #import "GADMediationAdapterInMobi.h"
 #import "GADInMobiExtras.h"
@@ -65,10 +64,10 @@
 
   NSString *accountID = [accountIDs anyObject];
   if (accountIDs.count > 1) {
-    NSLog(@"Found the following account IDs: %@. "
+    GADMAdapterInMobiLog(@"Found the following account IDs: %@. "
           @"Please remove any account IDs you are not using from the AdMob UI.",
           accountIDs);
-    NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
+    GADMAdapterInMobiLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
   [GADMAdapterInMobiInitializer.sharedInstance initializeWithAccountID:accountID
@@ -127,7 +126,7 @@
         _bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
     }
     
-    [_bannerAd loadBannerForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {

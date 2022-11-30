@@ -26,7 +26,7 @@
 /// Sets up additional InMobi targeting information from the specified |extras|.
 void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras);
 
-void GADMAdapterInMobiSetIsAgeRestrcitedUser(NSNumber *_Nullable isRestricted);
+void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted);
 
 /// Sets additional InMobi parameters to |requestParameters| from the specified |extras|.
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
@@ -93,7 +93,7 @@ NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
 
   return GADMAdapterInMobiErrorWithCodeAndDescription(
       GADMAdapterInMobiErrorInvalidServerParameters,
-      @"[InMobi] Error - Placement ID not specified.");
+      @"GADMediationAdapterInMobi - Error : Placement ID not specified.");
 }
 
 void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) {
@@ -124,6 +124,15 @@ void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) 
   }
 }
 
+void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
+  va_list arguments;
+  va_start(arguments, format);
+  NSString *log = [[NSString alloc] initWithFormat:format arguments:arguments];
+  va_end(arguments);
+
+  NSLog(@"GADMediationAdapterInMobi - %@", log);
+}
+
 void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
     if (connector.userGender == kGADGenderMale) {
         [IMSdk setGender:kIMSDKGenderMale];
@@ -139,15 +148,15 @@ void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonn
     }
     
     GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
-    GADMAdapterInMobiSetIsAgeRestrcitedUser(connector.childDirectedTreatment);
+    GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
 }
 
 void GADMAdapterInMobiSetTargetingFromAdConfiguration( GADMediationAdConfiguration *_Nonnull adConfig) {
     GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
-    GADMAdapterInMobiSetIsAgeRestrcitedUser(adConfig.childDirectedTreatment);
+    GADMAdapterInMobiSetIsAgeRestricted(adConfig.childDirectedTreatment);
 }
 
-void GADMAdapterInMobiSetIsAgeRestrcitedUser(NSNumber *_Nullable isRestricted) {
+void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted) {
     if([isRestricted  isEqual: @1]) {
         [IMSdk setIsAgeRestricted:true];
     }

@@ -18,5 +18,5 @@
 
 @interface GADMAdapterInMobiBannerAd : NSObject<GADMediationBannerAd, IMBannerDelegate>
 
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 @end

@@ -38,20 +38,20 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
     /// Ad Configuration for the banner ad to be rendered.
     GADMediationBannerAdConfiguration *_bannerAdConfig;
     
-    GADMediationBannerLoadCompletionHandler _bannerRenderCompletionHandler;
+    GADMediationBannerLoadCompletionHandler _bannerAdLoadCompletionHandler;
     
     /// InMobi banner ad object.
     IMBanner *_adView;
     
 }
 
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
     _bannerAdConfig = adConfiguration;
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     
     __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
     [completionHandler copy];
-    _bannerRenderCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(_Nullable id<GADMediationBannerAd> bannerAd, NSError *_Nullable error) {
+    _bannerAdLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(_Nullable id<GADMediationBannerAd> bannerAd, NSError *_Nullable error) {
         if (atomic_flag_test_and_set(&completionHandlerCalled)) {
             return nil;
         }
@@ -65,9 +65,9 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
     
     
     GADMAdapterInMobiBannerAd *__weak weakSelf = self;
-    NSString *accountID = _bannerAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
+    NSString *accountId = _bannerAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
     [GADMAdapterInMobiInitializer.sharedInstance
-     initializeWithAccountID:accountID
+     initializeWithAccountID:accountId
      completionHandler:^(NSError *_Nullable error) {
         GADMAdapterInMobiBannerAd *strongSelf = weakSelf;
         if (!strongSelf) {
@@ -75,39 +75,40 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
         }
         
         if (error) {
-            NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
-            strongSelf->_bannerRenderCompletionHandler(nil, error);
+            GADMAdapterInMobiLog(@"Initialization failed: %@", error.localizedDescription);
+            strongSelf->_bannerAdLoadCompletionHandler(nil, error);
             return;
         }
         [strongSelf requestBannerWithSize:strongSelf->_bannerAdConfig.adSize];
     }];
 }
 
-- (void)requestBannerWithSize:(GADAdSize)adSize {
+- (void)requestBannerWithSize:(GADAdSize)requestedAdSize {
     long long placementId =
     [_bannerAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
     
     if (placementId == 0) {
         NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
                                                                       GADMAdapterInMobiErrorInvalidServerParameters,
-                                                                      @"[InMobi] Error - Placement ID not specified.");
-        _bannerRenderCompletionHandler(nil, error);
+                                                                      @"GADMediationAdapterInMobi - Error : Placement ID not specified.");
+        _bannerAdLoadCompletionHandler(nil, error);
         return;
     }
     
     if (_bannerAdConfig.isTestRequest) {
-        NSLog(@"[InMobi] Please enter your device ID in the InMobi console to recieve test ads from "
+        GADMAdapterInMobiLog(@"Please enter your device ID in the InMobi console to recieve test ads from "
               @"Inmobi");
     }
     
-    CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(adSize);
+    CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(requestedAdSize);
     if (CGSizeEqualToSize(size, CGSizeZero)) {
-        NSString *description =
-        [NSString stringWithFormat:@"Invalid size for InMobi mediation adapter. Size: %@",
-         NSStringFromGADAdSize(adSize)];
+        NSString *errorMessage = [NSString
+                stringWithFormat:
+                    @"The requested banner size: %@ is not supported by InMobi SDK.",
+                    NSStringFromGADAdSize(requestedAdSize)];
         NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-                                                                      GADMAdapterInMobiErrorBannerSizeMismatch, description);
-        _bannerRenderCompletionHandler(nil, error);
+                                                                      GADMAdapterInMobiErrorBannerSizeMismatch, errorMessage);
+        _bannerAdLoadCompletionHandler(nil, error);
         return;
     }
     
@@ -139,51 +140,50 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 #pragma mark IMBannerDelegate methods
 
 - (void)bannerDidFinishLoading:(nonnull IMBanner *)banner {
-    NSLog(@"<<<<<ad request completed>>>>>");
-    _bannerAdEventDelegate = _bannerRenderCompletionHandler(self,nil);
-    [_bannerAdEventDelegate willPresentFullScreenView];
+    GADMAdapterInMobiLog(@"InMobi SDK loaded a banner ad successfully.");
+    _bannerAdEventDelegate = _bannerAdLoadCompletionHandler(self,nil);
 }
 
 - (void)banner:(nonnull IMBanner *)banner didFailToLoadWithError:(nonnull IMRequestStatus *)error {
-    _bannerRenderCompletionHandler(nil, error);
+    GADMAdapterInMobiLog(@"InMobi SDK failed to load banner ad.");
+    _bannerAdLoadCompletionHandler(nil, error);
 }
 
 - (void)banner:(nonnull IMBanner *)banner didInteractWithParams:(nonnull NSDictionary *)params {
-    NSLog(@"<<<< bannerDidInteract >>>>");
+    GADMAdapterInMobiLog(@"InMobi SDK recorded a click on a banner ad.");
     [_bannerAdEventDelegate reportClick];
 }
 
 - (void)userWillLeaveApplicationFromBanner:(nonnull IMBanner *)banner {
-    NSLog(@"<<<< bannerWillLeaveApplication >>>>");
-    [_bannerAdEventDelegate willBackgroundApplication];
+    GADMAdapterInMobiLog(@"InMobi SDK will cause the user to leave the application from a banner ad.");
 }
 
 - (void)bannerWillPresentScreen:(nonnull IMBanner *)banner {
-    NSLog(@"<<<< bannerWillPresentScreen >>>>");
+    GADMAdapterInMobiLog(@"InMobi SDK will present a full screen modal view from a banner ad.");
     [_bannerAdEventDelegate willPresentFullScreenView];
 }
 
 - (void)bannerDidPresentScreen:(nonnull IMBanner *)banner {
-    NSLog(@"InMobi banner did present screen");
+    GADMAdapterInMobiLog(@"InMobi SDK did present a full screen modal view from a banner ad.");
 }
 
 - (void)bannerWillDismissScreen:(nonnull IMBanner *)banner {
-  NSLog(@"<<<< bannerWillDismissScreen >>>>");
+  GADMAdapterInMobiLog(@"InMobi SDK will dismiss a full screen modal view from a banner ad.");
   [_bannerAdEventDelegate willDismissFullScreenView];
 }
 
 - (void)bannerDidDismissScreen:(nonnull IMBanner *)banner {
-    NSLog(@"<<<< bannerDidDismissScreen >>>>");
+    GADMAdapterInMobiLog(@"InMobi SDK did dismiss a full screen modal view from a banner ad.");
     [_bannerAdEventDelegate didDismissFullScreenView];
 }
 
 - (void)banner:(nonnull IMBanner *)banner
 rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
-    NSLog(@"InMobi banner reward action completed with rewards: %@", rewards.description);
+    GADMAdapterInMobiLog(@"InMobi banner reward action completed with rewards: %@", rewards.description);
 }
 
 -(void)bannerAdImpressed:(nonnull IMBanner *)banner {
-    NSLog(@"<<<< bannerAdImpressed >>>>");
+    GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from a banner ad.");
     [_bannerAdEventDelegate reportImpression];
 }
 
