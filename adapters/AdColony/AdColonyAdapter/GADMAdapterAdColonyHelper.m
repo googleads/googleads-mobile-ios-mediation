@@ -83,7 +83,7 @@
 
   GADMAdapterAdColonyExtras *extras = connector.networkExtras;
 
-  if (extras && [connector conformsToProtocol:@protocol(GADMRewardBasedVideoAdNetworkConnector)]) {
+  if (extras) {
     // Popups only apply to rewarded ads.
     options = [self getAdOptionsFromExtras:extras];
   }
