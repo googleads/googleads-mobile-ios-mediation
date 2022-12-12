@@ -74,7 +74,8 @@
   self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters,
+        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or Ad Manager UI.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
