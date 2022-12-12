@@ -57,7 +57,7 @@
     return;
   }
 
-  _bannerSize = [self vungleAdSizeForAdSize:adSize];
+  _bannerSize = GADMAdapterVungleAdSizeForAdSize(adSize);
   if (!IsGADAdSizeValid(_bannerSize)) {
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
@@ -93,31 +93,6 @@
     return;
   }
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
-}
-
-- (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
-  // An array of supported ad sizes.
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
-  ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == GADAdSizeBanner.size.height) {
-    if (size.width < GADAdSizeBanner.size.width) {
-      return shortBannerSize;
-    } else {
-      return GADAdSizeBanner;
-    }
-  } else if (size.height == GADAdSizeLeaderboard.size.height) {
-    return GADAdSizeLeaderboard;
-  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
-    return GADAdSizeMediumRectangle;
-  }
-
-  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {

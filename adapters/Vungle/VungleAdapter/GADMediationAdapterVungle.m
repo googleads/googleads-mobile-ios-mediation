@@ -152,6 +152,7 @@
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];
   [_bannerAd requestBannerAd];

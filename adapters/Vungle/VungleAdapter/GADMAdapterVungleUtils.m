@@ -15,6 +15,8 @@
 #import "GADMAdapterVungleUtils.h"
 #import "GADMAdapterVungleConstants.h"
 
+const CGSize kVNGBannerShortSize = {300, 50};
+
 void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
@@ -115,6 +117,31 @@ VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
   }
 
   return VungleAdSizeBanner;
+}
+
+GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
+  // An array of supported ad sizes.
+  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
+  CGSize size = CGSizeFromGADAdSize(closestSize);
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
+      return shortBannerSize;
+    } else {
+      return GADAdSizeBanner;
+    }
+  } else if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
+  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
+    return GADAdSizeMediumRectangle;
+  }
+
+  return GADAdSizeInvalid;
 }
 
 @implementation GADMAdapterVungleUtils

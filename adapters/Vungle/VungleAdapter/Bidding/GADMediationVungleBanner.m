@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
-    _bannerSize = [self vungleAdSizeForAdSize:[adConfiguration adSize]];
+    _bannerSize = GADMAdapterVungleAdSizeForAdSize([adConfiguration adSize]);
       
     VungleAdNetworkExtras *networkExtras = adConfiguration.extras;
     self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings networkExtras:networkExtras];
@@ -88,14 +88,15 @@
 
 - (void)requestBannerAd {
   if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@", NSStringFromGADAdSize(_bannerSize)];
+    NSString *errorMessage = [NSString stringWithFormat:@"The requested banner size: %@ is not supported by Vungle SDK.", NSStringFromGADAdSize(_bannerSize)];
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorInvalidServerParameters,
+                                                                  @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or Ad Manager UI.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -107,31 +108,6 @@
   }
 
   [self loadAd];
-}
-
-- (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
-  // An array of supported ad sizes.
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
-  ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == GADAdSizeBanner.size.height) {
-    if (size.width < GADAdSizeBanner.size.width) {
-      return shortBannerSize;
-    } else {
-      return GADAdSizeBanner;
-    }
-  } else if (size.height == GADAdSizeLeaderboard.size.height) {
-    return GADAdSizeLeaderboard;
-  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
-    return GADAdSizeMediumRectangle;
-  }
-
-  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {
