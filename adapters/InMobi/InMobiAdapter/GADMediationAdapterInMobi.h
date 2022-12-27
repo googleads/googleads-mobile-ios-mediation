@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,15 +17,17 @@
 #import <InMobiSDK/InMobiSDK.h>
 
 typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
-  /// Missing server parameters.
-  GADMAdapterInMobiErrorInvalidServerParameters = 101,
-  /// Banner Size Mismatch.
-  GADMAdapterInMobiErrorBannerSizeMismatch = 102,
-  /// An ad is already loaded for this network configuration.
-  GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
-  /// InMobi native ad returned with missing native assets, or required image assets failed to
-  /// download.
-  GADMAdapterInMobiErrorMissingNativeAssets = 104
+    /// Missing server parameters.
+    GADMAdapterInMobiErrorInvalidServerParameters = 101,
+    /// Invalid banner size for InMobi ad.
+    GADMAdapterInMobiErrorBannerSizeMismatch = 102,
+    /// An ad is already loaded for this network configuration.
+    GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
+    /// InMobi native ad returned with missing native assets, or required image assets failed to
+    /// download.
+    GADMAdapterInMobiErrorMissingNativeAssets = 104,
+    /// An ad is not ready.
+    GADMAdapterInMobiErrorAdNotReady = 105
 };
 
 @interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>

@@ -13,14 +13,10 @@
 // limitations under the License.
 //
 
-#import "GADMAdapterInMobi.h"
-#import "GADMediationAdapterInMobi.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/IMBanner.h>
 
+@interface GADMAdapterInMobiBannerAd : NSObject<GADMediationBannerAd, IMBannerDelegate>
 
-@implementation GADMAdapterInMobi
-
-+ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-  return [GADMediationAdapterInMobi class];
-}
-
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 @end

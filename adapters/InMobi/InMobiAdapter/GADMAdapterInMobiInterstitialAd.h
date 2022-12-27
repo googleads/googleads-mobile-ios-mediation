@@ -13,14 +13,12 @@
 // limitations under the License.
 //
 
-#import "GADMAdapterInMobi.h"
-#import "GADMediationAdapterInMobi.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/IMInterstitial.h>
 
+@interface GADMAdapterInMobiInterstitialAd : NSObject<GADMediationInterstitialAd, IMInterstitialDelegate>
 
-@implementation GADMAdapterInMobi
-
-+ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-  return [GADMediationAdapterInMobi class];
-}
-
+- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
 @end
+
+
