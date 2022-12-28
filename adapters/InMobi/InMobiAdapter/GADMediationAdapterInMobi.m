@@ -14,27 +14,27 @@
 
 #import "GADMediationAdapterInMobi.h"
 #import "GADInMobiExtras.h"
+#import "GADMAdapterInMobiBannerAd.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
+#import "GADMAdapterInMobiInterstitialAd.h"
 #import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
-#import "GADMAdapterInMobiUnifiedNativeAd.h"
-#import "GADMAdapterInMobiInterstitialAd.h"
-#import "GADMAdapterInMobiBannerAd.h"
 
 @implementation GADMediationAdapterInMobi {
-    /// InMobi rewarded ad wrapper.
-    GADMAdapterInMobiRewardedAd *_rewardedAd;
-    
-    /// InMobi banner ad wrapper.
-    GADMAdapterInMobiBannerAd *_bannerAd;
-    
-    /// InMobi interstitial ad wrapper.
-    GADMAdapterInMobiInterstitialAd *_interstitialAd;
-    
-    /// InMobi native ad wrapper.
-    GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
+  /// InMobi rewarded ad wrapper.
+  GADMAdapterInMobiRewardedAd *_rewardedAd;
+
+  /// InMobi banner ad wrapper.
+  GADMAdapterInMobiBannerAd *_bannerAd;
+
+  /// InMobi interstitial ad wrapper.
+  GADMAdapterInMobiInterstitialAd *_interstitialAd;
+
+  /// InMobi native ad wrapper.
+  GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -65,8 +65,8 @@
   NSString *accountID = [accountIDs anyObject];
   if (accountIDs.count > 1) {
     GADMAdapterInMobiLog(@"Found the following account IDs: %@. "
-          @"Please remove any account IDs you are not using from the AdMob UI.",
-          accountIDs);
+                         @"Please remove any account IDs you are not using from the AdMob UI.",
+                         accountIDs);
     GADMAdapterInMobiLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
@@ -106,43 +106,53 @@
   return version;
 }
 
-- (void)loadRewardedAdForAdConfiguration: (nonnull GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:
-(nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-    if (!_rewardedAd) {
-        NSString *placementIdentifierString =
+- (void)loadRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (!_rewardedAd) {
+    NSString *placementIdentifierString =
         adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
-        NSNumber *placementIdentifier =
+    NSNumber *placementIdentifier =
         [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
-        _rewardedAd =
+    _rewardedAd =
         [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
-    }
-    
-    [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                                completionHandler:completionHandler];
+  }
+
+  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                              completionHandler:completionHandler];
 }
 
--(void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-    if(!_bannerAd) {
-        _bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
-    }
-    
-    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:
+                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (!_bannerAd) {
+    _bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
+  }
+
+  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
-- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    if (!_interstitialAd) {
-        _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
-    }
-    
-    [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadInterstitialForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler {
+  if (!_interstitialAd) {
+    _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
+  }
+
+  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
 }
 
-- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    if (!_nativeAd) {
-        _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] init];
-    }
-    
-    [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  if (!_nativeAd) {
+    _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] init];
+  }
+
+  [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

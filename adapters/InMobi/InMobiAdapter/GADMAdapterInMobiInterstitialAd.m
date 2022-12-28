@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2015 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,158 +24,165 @@
 #import "GADMediationAdapterInMobi.h"
 
 @implementation GADMAdapterInMobiInterstitialAd {
-    id<GADMediationInterstitialAdEventDelegate> _interstitalAdEventDelegate;
-    
-    /// Ad Configuration for the interstitial ad to be rendered.
-    GADMediationInterstitialAdConfiguration *_interstitialAdConfig;
-    
-    GADMediationInterstitialLoadCompletionHandler _interstitialRenderCompletionHandler;
-    
-    /// InMobi interstitial ad.
-    IMInterstitial *_interstitialAd;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  id<GADMediationInterstitialAdEventDelegate> _interstitalAdEventDelegate;
+
+  /// Ad Configuration for the interstitial ad to be rendered.
+  GADMediationInterstitialAdConfiguration *_interstitialAdConfig;
+
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _interstitialRenderCompletionHandler;
+
+  /// InMobi interstitial ad.
+  IMInterstitial *_interstitialAd;
 }
 
-- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    _interstitialAdConfig = adConfiguration;
-    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-    __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
-    [completionHandler copy];
-    _interstitialRenderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
-        if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-            return nil;
-        }
-        id<GADMediationInterstitialAdEventDelegate> delegate = nil;
-        if (originalCompletionHandler) {
-            delegate = originalCompletionHandler(interstitialAd, error);
-        }
-        originalCompletionHandler = nil;
-        return delegate;
-    };
-    
-    GADMAdapterInMobiInterstitialAd *__weak weakSelf = self;
-    NSString *accountID = _interstitialAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
-    [GADMAdapterInMobiInitializer.sharedInstance
-     initializeWithAccountID:accountID
-     completionHandler:^(NSError *_Nullable error) {
-        GADMAdapterInMobiInterstitialAd *strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-        
-        if (error) {
-            GADMAdapterInMobiLog(@"Initialization failed: %@", error.localizedDescription);
-            strongSelf->_interstitialRenderCompletionHandler(nil, error);
-            return;
-        }
-        
-        [strongSelf requestInterstitialAd];
-    }];
+- (void)loadInterstitialAdForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler {
+  _interstitialAdConfig = adConfiguration;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _interstitialRenderCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      delegate = originalCompletionHandler(interstitialAd, error);
+    }
+    originalCompletionHandler = nil;
+    return delegate;
+  };
+
+  GADMAdapterInMobiInterstitialAd *__weak weakSelf = self;
+  NSString *accountID = _interstitialAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
+  [GADMAdapterInMobiInitializer.sharedInstance
+      initializeWithAccountID:accountID
+            completionHandler:^(NSError *_Nullable error) {
+              GADMAdapterInMobiInterstitialAd *strongSelf = weakSelf;
+              if (!strongSelf) {
+                return;
+              }
+
+              if (error) {
+                GADMAdapterInMobiLog(@"Initialization failed: %@", error.localizedDescription);
+                strongSelf->_interstitialRenderCompletionHandler(nil, error);
+                return;
+              }
+
+              [strongSelf requestInterstitialAd];
+            }];
 }
 
 - (void)requestInterstitialAd {
-    long long placementId =
-    [_interstitialAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
-    if (placementId == 0) {
-        NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-                                                                      GADMAdapterInMobiErrorInvalidServerParameters,
-                                                                      @"GADMediationAdapterInMobi - Error : Placement ID not specified.");
-        _interstitialRenderCompletionHandler(nil,error);
-        return;
-    }
-    
-    if ([_interstitialAdConfig isTestRequest]) {
-        GADMAdapterInMobiLog(@"Please enter your device ID in the InMobi console to receive test ads from "
-              @"InMobi");
-    }
-    
-    _interstitialAd = [[IMInterstitial alloc] initWithPlacementId:placementId];
-    
-    GADInMobiExtras *extras =  _interstitialAdConfig.extras;
-    if (extras && extras.keywords) {
-        [_interstitialAd setKeywords:extras.keywords];
-    }
-    
-    GADMAdapterInMobiSetTargetingFromAdConfiguration(_interstitialAdConfig);
-    NSDictionary<NSString *, id> *requestParameters =
-    GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_interstitialAdConfig);
-    [_interstitialAd setExtras:requestParameters];
-    
-    _interstitialAd.delegate = self;
-    [_interstitialAd load];
+  long long placementId =
+      [_interstitialAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
+  if (placementId == 0) {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidServerParameters,
+        @"GADMediationAdapterInMobi - Error : Placement ID not specified.");
+    _interstitialRenderCompletionHandler(nil, error);
+    return;
+  }
+
+  if ([_interstitialAdConfig isTestRequest]) {
+    GADMAdapterInMobiLog(
+        @"Please enter your device ID in the InMobi console to receive test ads from "
+        @"InMobi");
+  }
+
+  _interstitialAd = [[IMInterstitial alloc] initWithPlacementId:placementId];
+
+  GADInMobiExtras *extras = _interstitialAdConfig.extras;
+  if (extras && extras.keywords) {
+    [_interstitialAd setKeywords:extras.keywords];
+  }
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(_interstitialAdConfig);
+  NSDictionary<NSString *, id> *requestParameters =
+      GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_interstitialAdConfig);
+  [_interstitialAd setExtras:requestParameters];
+
+  _interstitialAd.delegate = self;
+  [_interstitialAd load];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-    if ([_interstitialAd isReady]) {
-        [_interstitialAd showFromViewController:viewController
-                                  withAnimation:kIMInterstitialAnimationTypeCoverVertical];
-    }  else {
-        NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-            GADMAdapterInMobiErrorAdNotReady,
-            @"Error - Interstitial ad not ready to be present.");
-        [_interstitalAdEventDelegate didFailToPresentWithError:error];
-    }
+  if ([_interstitialAd isReady]) {
+    [_interstitialAd showFromViewController:viewController
+                              withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+  } else {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorAdNotReady,
+        @"InMobi SDK is not ready to present an interstitial ad.");
+    [_interstitalAdEventDelegate didFailToPresentWithError:error];
+  }
 }
 
 - (void)stopBeingDelegate {
-    _interstitialAd.delegate = nil;
+  _interstitialAd.delegate = nil;
 }
 
 #pragma mark IMAdInterstitialDelegate methods
 
 - (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK loaded an interstitial ad successfully.");
-    _interstitalAdEventDelegate = _interstitialRenderCompletionHandler(self, nil);
+  GADMAdapterInMobiLog(@"InMobi SDK loaded an interstitial ad successfully.");
+  _interstitalAdEventDelegate = _interstitialRenderCompletionHandler(self, nil);
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
-didFailToLoadWithError:(IMRequestStatus *)error {
-    GADMAdapterInMobiLog(@"InMobi SDK failed to load interstitial ad.");
-    _interstitialRenderCompletionHandler(nil, error);
+    didFailToLoadWithError:(IMRequestStatus *)error {
+  GADMAdapterInMobiLog(@"InMobi SDK failed to load interstitial ad.");
+  _interstitialRenderCompletionHandler(nil, error);
 }
 
 - (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK will present a full screen interstitial ad.");
-    [_interstitalAdEventDelegate willPresentFullScreenView];
+  GADMAdapterInMobiLog(@"InMobi SDK will present a full screen interstitial ad.");
+  [_interstitalAdEventDelegate willPresentFullScreenView];
 }
 
 - (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK did present a full screen interstitial ad.");
+  GADMAdapterInMobiLog(@"InMobi SDK did present a full screen interstitial ad.");
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
-didFailToPresentWithError:(IMRequestStatus *)error {
-    GADMAdapterInMobiLog(@"InMobi SDK did fail to present interstitial ad.");
-    [_interstitalAdEventDelegate didFailToPresentWithError:error];
+    didFailToPresentWithError:(IMRequestStatus *)error {
+  GADMAdapterInMobiLog(@"InMobi SDK did fail to present interstitial ad.");
+  [_interstitalAdEventDelegate didFailToPresentWithError:error];
 }
 
 - (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK will dismiss an interstitial ad.");
-    [_interstitalAdEventDelegate willDismissFullScreenView];
+  GADMAdapterInMobiLog(@"InMobi SDK will dismiss an interstitial ad.");
+  [_interstitalAdEventDelegate willDismissFullScreenView];
 }
 
 - (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK did dismiss an interstitial ad.");
-    [_interstitalAdEventDelegate didDismissFullScreenView];
+  GADMAdapterInMobiLog(@"InMobi SDK did dismiss an interstitial ad.");
+  [_interstitalAdEventDelegate didDismissFullScreenView];
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
-didInteractWithParams:(nonnull NSDictionary *)params {
-    GADMAdapterInMobiLog(@"InMobi SDK recorded a click on an interstitial ad.");
-    [_interstitalAdEventDelegate reportClick];
+    didInteractWithParams:(nonnull NSDictionary *)params {
+  GADMAdapterInMobiLog(@"InMobi SDK recorded a click on an interstitial ad.");
+  [_interstitalAdEventDelegate reportClick];
 }
 
 - (void)userWillLeaveApplicationFromInterstitial:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK will cause the user to leave the application from an interstitial ad.");
+  GADMAdapterInMobiLog(
+      @"InMobi SDK will cause the user to leave the application from an interstitial ad.");
 }
 
 - (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi AdServer returned a response for interstitial ad.");
+  GADMAdapterInMobiLog(@"InMobi AdServer returned a response for interstitial ad.");
 }
 
--(void)interstitialAdImpressed:(nonnull IMInterstitial *)interstitial {
-    GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from interstitial ad.");
-    [_interstitalAdEventDelegate reportImpression];
+- (void)interstitialAdImpressed:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from interstitial ad.");
+  [_interstitalAdEventDelegate reportImpression];
 }
 
 @end
-

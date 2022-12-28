@@ -74,7 +74,7 @@
           strongSelf->_initializationState = GADMAdapterInMobiInitStateUninitialized;
         } else {
           GADMAdapterInMobiLog(@"InMobi SDK Initialized successfully.");
-            
+
           strongSelf->_initializationState = GADMAdapterInMobiInitStateInitialized;
         }
 

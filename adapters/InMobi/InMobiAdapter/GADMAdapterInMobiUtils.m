@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,32 +134,33 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
 }
 
 void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-    if (connector.userGender == kGADGenderMale) {
-        [IMSdk setGender:kIMSDKGenderMale];
-    } else if (connector.userGender == kGADGenderFemale) {
-        [IMSdk setGender:kIMSDKGenderFemale];
-    }
-    
-    if (connector.userBirthday != nil) {
-        NSDateComponents *components = [NSCalendar.currentCalendar
-                                        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-                                        fromDate:connector.userBirthday];
-        [IMSdk setYearOfBirth:components.year];
-    }
-    
-    GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
-    GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
+  if (connector.userGender == kGADGenderMale) {
+    [IMSdk setGender:kIMSDKGenderMale];
+  } else if (connector.userGender == kGADGenderFemale) {
+    [IMSdk setGender:kIMSDKGenderFemale];
+  }
+
+  if (connector.userBirthday != nil) {
+    NSDateComponents *components = [NSCalendar.currentCalendar
+        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
+          fromDate:connector.userBirthday];
+    [IMSdk setYearOfBirth:components.year];
+  }
+
+  GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
+  GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
 }
 
-void GADMAdapterInMobiSetTargetingFromAdConfiguration( GADMediationAdConfiguration *_Nonnull adConfig) {
-    GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
-    GADMAdapterInMobiSetIsAgeRestricted(adConfig.childDirectedTreatment);
+void GADMAdapterInMobiSetTargetingFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfig) {
+  GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
+  GADMAdapterInMobiSetIsAgeRestricted(adConfig.childDirectedTreatment);
 }
 
 void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted) {
-    if([isRestricted  isEqual: @1]) {
-        [IMSdk setIsAgeRestricted:true];
-    }
+  if ([isRestricted isEqual:@1]) {
+    [IMSdk setIsAgeRestricted:true];
+  }
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(

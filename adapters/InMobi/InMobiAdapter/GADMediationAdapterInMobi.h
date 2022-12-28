@@ -17,17 +17,17 @@
 #import <InMobiSDK/InMobiSDK.h>
 
 typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
-    /// Missing server parameters.
-    GADMAdapterInMobiErrorInvalidServerParameters = 101,
-    /// Invalid banner size for InMobi ad.
-    GADMAdapterInMobiErrorBannerSizeMismatch = 102,
-    /// An ad is already loaded for this network configuration.
-    GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
-    /// InMobi native ad returned with missing native assets, or required image assets failed to
-    /// download.
-    GADMAdapterInMobiErrorMissingNativeAssets = 104,
-    /// An ad is not ready.
-    GADMAdapterInMobiErrorAdNotReady = 105
+  /// Missing server parameters.
+  GADMAdapterInMobiErrorInvalidServerParameters = 101,
+  /// Invalid banner size for InMobi ad.
+  GADMAdapterInMobiErrorBannerSizeMismatch = 102,
+  /// An InMobi ad is already loaded for this network configuration.
+  GADMAdapterInMobiErrorAdAlreadyLoaded = 103,
+  /// InMobi native ad returned with missing native assets, or required image assets failed to
+  /// download.
+  GADMAdapterInMobiErrorMissingNativeAssets = 104,
+  /// An InMobi ad is not ready to be shown.
+  GADMAdapterInMobiErrorAdNotReady = 105
 };
 
 @interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>

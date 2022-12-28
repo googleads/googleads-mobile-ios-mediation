@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2015 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <InMobiSDK/IMNative.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <InMobiSDK/IMNative.h>
 
 @class GADMAdapterInMobiUnifiedNativeAd;
 
 @interface GADMAdapterInMobiUnifiedNativeAd : NSObject <GADMediationNativeAd>
 
-- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 @end

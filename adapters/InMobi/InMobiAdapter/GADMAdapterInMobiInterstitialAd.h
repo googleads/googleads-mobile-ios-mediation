@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2015 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,11 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/IMInterstitial.h>
 
-@interface GADMAdapterInMobiInterstitialAd : NSObject<GADMediationInterstitialAd, IMInterstitialDelegate>
+@interface GADMAdapterInMobiInterstitialAd
+    : NSObject <GADMediationInterstitialAd, IMInterstitialDelegate>
 
-- (void)loadInterstitialForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+- (void)loadInterstitialAdForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler;
 @end
-
-
