@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,27 @@
 
 #import "GADMediationAdapterInMobi.h"
 #import "GADInMobiExtras.h"
-#import "GADMAdapterInMobi.h"
+#import "GADMAdapterInMobiBannerAd.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
+#import "GADMAdapterInMobiInterstitialAd.h"
 #import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
 
 @implementation GADMediationAdapterInMobi {
   /// InMobi rewarded ad wrapper.
   GADMAdapterInMobiRewardedAd *_rewardedAd;
+
+  /// InMobi banner ad wrapper.
+  GADMAdapterInMobiBannerAd *_bannerAd;
+
+  /// InMobi interstitial ad wrapper.
+  GADMAdapterInMobiInterstitialAd *_interstitialAd;
+
+  /// InMobi native ad wrapper.
+  GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -53,10 +64,10 @@
 
   NSString *accountID = [accountIDs anyObject];
   if (accountIDs.count > 1) {
-    NSLog(@"Found the following account IDs: %@. "
-          @"Please remove any account IDs you are not using from the AdMob UI.",
-          accountIDs);
-    NSLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
+    GADMAdapterInMobiLog(@"Found the following account IDs: %@. "
+                         @"Please remove any account IDs you are not using from the AdMob UI.",
+                         accountIDs);
+    GADMAdapterInMobiLog(@"Initializing InMobi SDK with the account ID: %@", accountID);
   }
 
   [GADMAdapterInMobiInitializer.sharedInstance initializeWithAccountID:accountID
@@ -110,6 +121,38 @@
 
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
+}
+
+- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:
+                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (!_bannerAd) {
+    _bannerAd = [[GADMAdapterInMobiBannerAd alloc] init];
+  }
+
+  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler {
+  if (!_interstitialAd) {
+    _interstitialAd = [[GADMAdapterInMobiInterstitialAd alloc] init];
+  }
+
+  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
+}
+
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  if (!_nativeAd) {
+    _nativeAd = [[GADMAdapterInMobiUnifiedNativeAd alloc] init];
+  }
+
+  [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 @end

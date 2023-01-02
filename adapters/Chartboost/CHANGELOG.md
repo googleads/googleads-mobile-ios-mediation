@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed `GADMChartboostExtras` import in `ChartboostAdapter` header file.
+
 #### [Version 9.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.1.0.0.zip)
 - Verified compatibility with Chartboost SDK version 9.1.0.
 
