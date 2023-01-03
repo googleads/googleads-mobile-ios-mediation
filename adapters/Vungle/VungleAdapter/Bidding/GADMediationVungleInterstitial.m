@@ -161,7 +161,7 @@
 }
 
 - (void)didViewAd {
-  // Do nothing.
+  [_delegate reportImpression];
 }
 
 - (void)willCloseAd {
