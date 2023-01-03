@@ -448,7 +448,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)didUntrackView:(nullable UIView *)view {
   [_native recyclePrimaryView];
-  _native = nil;
 }
 
 @end
