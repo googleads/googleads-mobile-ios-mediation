@@ -140,7 +140,8 @@
 }
 
 - (void)loadAd {
-  _bannerAd = [[VungleBanner alloc] initWithPlacementId:self.desiredPlacement size:[self convertGADAdSizeToBannerSize]];
+  _bannerAd = [[VungleBanner alloc] initWithPlacementId:self.desiredPlacement
+                                                   size:[self convertGADAdSizeToBannerSize]];
   _bannerAd.delegate = self;
   // Pass nil for the payload because this is not bidding
   [_bannerAd load:nil];

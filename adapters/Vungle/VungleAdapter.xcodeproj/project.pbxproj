@@ -34,6 +34,8 @@
 
 /* Begin PBXBuildFile section */
 		1702C20D28F76CB500396ED3 /* VungleRouterConsentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1702C20C28F76CB500396ED3 /* VungleRouterConsentPrivate.h */; };
+		171775BA28FE0232005113F0 /* GADMediationVungleBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 171775B828FE0232005113F0 /* GADMediationVungleBannerAd.h */; };
+		171775BB28FE0232005113F0 /* GADMediationVungleBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 171775B928FE0232005113F0 /* GADMediationVungleBannerAd.m */; };
 		17515A1E276A7C9F0054E84D /* GADMediationVungleNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */; };
 		17515A1F276A7C9F0054E84D /* GADMediationVungleNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */; };
 		176AE0D62613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */; };
@@ -93,6 +95,8 @@
 /* Begin PBXFileReference section */
 		00DD26AB22F10DD20039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		1702C20C28F76CB500396ED3 /* VungleRouterConsentPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VungleRouterConsentPrivate.h; sourceTree = "<group>"; };
+		171775B828FE0232005113F0 /* GADMediationVungleBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleBannerAd.h; sourceTree = "<group>"; };
+		171775B928FE0232005113F0 /* GADMediationVungleBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleBannerAd.m; sourceTree = "<group>"; };
 		17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleNativeAd.m; sourceTree = "<group>"; };
 		17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleNativeAd.h; sourceTree = "<group>"; };
 		176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRewardBasedVideoAd.h; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 		178ADB0626129548007587F0 /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
+				171775B828FE0232005113F0 /* GADMediationVungleBannerAd.h */,
+				171775B928FE0232005113F0 /* GADMediationVungleBannerAd.m */,
 				17515A1D276A7C9F0054E84D /* GADMediationVungleNativeAd.h */,
 				17515A1C276A7C9F0054E84D /* GADMediationVungleNativeAd.m */,
 				178ADB192612A082007587F0 /* GADMediationVungleInterstitial.h */,
@@ -249,6 +255,7 @@
 				178ADB1F2612A082007587F0 /* GADMediationVungleInterstitial.h in Headers */,
 				176AE0D62613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h in Headers */,
 				A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */,
+				171775BA28FE0232005113F0 /* GADMediationVungleBannerAd.h in Headers */,
 				17515A1F276A7C9F0054E84D /* GADMediationVungleNativeAd.h in Headers */,
 				45BFFB5D22272D4300C96A67 /* GADMediationVungleRewardedAd.h in Headers */,
 				4557855B238DE7E700523142 /* GADMAdapterVungleDelegate.h in Headers */,
@@ -363,6 +370,7 @@
 				17515A1E276A7C9F0054E84D /* GADMediationVungleNativeAd.m in Sources */,
 				45BFFB5E22272D4300C96A67 /* GADMediationVungleRewardedAd.m in Sources */,
 				458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */,
+				171775BB28FE0232005113F0 /* GADMediationVungleBannerAd.m in Sources */,
 				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,
 				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
 				4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */,
