@@ -106,13 +106,13 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
       !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
     if ([sdk isAdCachedForPlacementID:delegate.desiredPlacement
                              adMarkup:[delegate bidResponse]
-                             withSize:GADMAdapterVungleAdSizeForCGSize([delegate bannerAdSize].size)]) {
+                             withSize:GADMAdapterVungleAdSizeForCGSize(
+                                          [delegate bannerAdSize].size)]) {
       [delegate adAvailable];
       return nil;
     }
   } else {
-    if ([sdk isAdCachedForPlacementID:delegate.desiredPlacement
-                             adMarkup:[delegate bidResponse]]) {
+    if ([sdk isAdCachedForPlacementID:delegate.desiredPlacement adMarkup:[delegate bidResponse]]) {
       [delegate adAvailable];
       return nil;
     }
@@ -171,7 +171,8 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
       !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
     if ([VungleSDK.sharedSDK isAdCachedForPlacementID:delegate.desiredPlacement
                                              adMarkup:[delegate bidResponse]
-                                             withSize:GADMAdapterVungleAdSizeForCGSize([delegate bannerAdSize].size)]) {
+                                             withSize:GADMAdapterVungleAdSizeForCGSize(
+                                                          [delegate bannerAdSize].size)]) {
       return;
     }
   } else {

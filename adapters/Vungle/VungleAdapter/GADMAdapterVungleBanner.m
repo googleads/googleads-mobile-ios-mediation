@@ -75,7 +75,8 @@
   if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorInvalidServerParameters,
-        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or Ad Manager UI.");
+        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
+        @"Ad Manager UI.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }

@@ -35,7 +35,7 @@
 
   /// Vungle native ad wrapper
   GADMediationVungleNativeAd *_nativeAd;
-    
+
   /// Vungle banner ad wrapper.
   GADMediationVungleBanner *_bannerAd;
 }
@@ -151,7 +151,8 @@
 }
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+                   completionHandler:
+                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];

@@ -14,8 +14,8 @@
 
 #import "GADMediationVungleBanner.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleBiddingRouter.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
 @interface GADMediationVungleBanner () <GADMAdapterVungleDelegate, GADMediationBannerAd>
@@ -39,7 +39,7 @@
 
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
-    
+
   /// UIView to send to Google's view property and for Vungle to mount the ad
   UIView *_bannerView;
 }
@@ -53,25 +53,28 @@
 @synthesize isAdLoaded;
 
 - (void)dealloc {
-    [self cleanUp];
+  [self cleanUp];
 }
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration*)adConfiguration
-                              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
     _bannerSize = GADMAdapterVungleAdSizeForAdSize([adConfiguration adSize]);
-      
+
     VungleAdNetworkExtras *networkExtras = adConfiguration.extras;
-    self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings networkExtras:networkExtras];
+    self.desiredPlacement =
+        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings
+                                networkExtras:networkExtras];
     self.uniquePubRequestID = [networkExtras.UUID copy];
 
     __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationBannerLoadCompletionHandler origAdLoadHandler = [completionHandler copy];
     /// Ensure the original completion handler is only called once, and is deallocated once called.
-    _adLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
-      id<GADMediationBannerAd> ad, NSError *error) {
+    _adLoadCompletionHandler =
+        ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
       if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
         return nil;
       }
@@ -88,15 +91,20 @@
 
 - (void)requestBannerAd {
   if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage = [NSString stringWithFormat:@"The requested banner size: %@ is not supported by Vungle SDK.", NSStringFromGADAdSize(_bannerSize)];
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"The requested banner size: %@ is not supported by Vungle SDK.",
+                                   NSStringFromGADAdSize(_bannerSize)];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorInvalidServerParameters,
-                                                                  @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or Ad Manager UI.");
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorInvalidServerParameters,
+        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
+        @"Ad Manager UI.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -131,9 +139,9 @@
                                                         extras.userId);
     }
     if (extras.flexViewAutoDismissSeconds) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options,
-                                                        VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-                                                        @(extras.flexViewAutoDismissSeconds));
+      GADMAdapterVungleMutableDictionarySetObjectForKey(
+          options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
+          @(extras.flexViewAutoDismissSeconds));
     }
   }
   NSError *bannerError = nil;
@@ -159,7 +167,7 @@
 #pragma mark - GADMAdapterVungleDelegate delegates
 
 - (NSString *)bidResponse {
-    return [_adConfiguration bidResponse];
+  return [_adConfiguration bidResponse];
 }
 
 - (GADAdSize)bannerAdSize {
@@ -180,14 +188,15 @@
     return;
   }
   _isAdLoaded = YES;
-  _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  _bannerView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   self.bannerState = BannerRouterDelegateStateWillPlay;
   NSError *error = [self renderAd];
   if (error) {
     _adLoadCompletionHandler(nil, error);
     return;
   }
-    
+
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
   }
