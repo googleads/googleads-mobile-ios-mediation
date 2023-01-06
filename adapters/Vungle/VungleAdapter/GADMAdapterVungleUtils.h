@@ -52,6 +52,9 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
 /// Returns a VungleAdSize object from the specified adSize
 VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize);
 
+/// Returns a GADAdSize object that is valid for the Vungle SDK
+GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize);
+
 @interface GADMAdapterVungleUtils : NSObject
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters;

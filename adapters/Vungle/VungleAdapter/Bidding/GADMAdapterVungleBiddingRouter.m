@@ -102,18 +102,34 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   }
 
   VungleSDK *sdk = VungleSDK.sharedSDK;
-  if ([VungleSDK.sharedSDK isAdCachedForPlacementID:delegate.desiredPlacement
-                                           adMarkup:[delegate bidResponse]]) {
-    [delegate adAvailable];
-    return nil;
+  if ([delegate respondsToSelector:@selector(bannerAdSize)] &&
+      !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
+    if ([sdk isAdCachedForPlacementID:delegate.desiredPlacement
+                             adMarkup:[delegate bidResponse]
+                             withSize:GADMAdapterVungleAdSizeForCGSize([delegate bannerAdSize].size)]) {
+      [delegate adAvailable];
+      return nil;
+    }
+  } else {
+    if ([sdk isAdCachedForPlacementID:delegate.desiredPlacement
+                             adMarkup:[delegate bidResponse]]) {
+      [delegate adAvailable];
+      return nil;
+    }
   }
 
   NSError *loadError = nil;
-
-  [sdk loadPlacementWithID:delegate.desiredPlacement
-                  adMarkup:[delegate bidResponse]
-                     error:&loadError];
-
+  if ([delegate respondsToSelector:@selector(bannerAdSize)] &&
+      !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
+    [sdk loadPlacementWithID:delegate.desiredPlacement
+                    adMarkup:[delegate bidResponse]
+                    withSize:GADMAdapterVungleAdSizeForCGSize([delegate bannerAdSize].size)
+                       error:&loadError];
+  } else {
+    [sdk loadPlacementWithID:delegate.desiredPlacement
+                    adMarkup:[delegate bidResponse]
+                       error:&loadError];
+  }
   return loadError;
 }
 
@@ -151,8 +167,18 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented. These events
   // should be ignored as they aren't related to a load call. Assume that this method is called with
   // isAdPlayable NO due to an ad being presented if Vungle SDK has an ad cached for this placement.
-  if ([VungleSDK.sharedSDK isAdCachedForPlacementID:placementID adMarkup:[delegate bidResponse]]) {
-    return;
+  if ([delegate respondsToSelector:@selector(bannerAdSize)] &&
+      !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
+    if ([VungleSDK.sharedSDK isAdCachedForPlacementID:delegate.desiredPlacement
+                                             adMarkup:[delegate bidResponse]
+                                             withSize:GADMAdapterVungleAdSizeForCGSize([delegate bannerAdSize].size)]) {
+      return;
+    }
+  } else {
+    if ([VungleSDK.sharedSDK isAdCachedForPlacementID:delegate.desiredPlacement
+                                             adMarkup:[delegate bidResponse]]) {
+      return;
+    }
   }
 
   // Vungle SDK calls this method for auto-cached placements after playing the ad.
