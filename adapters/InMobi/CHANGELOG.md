@@ -1,8 +1,10 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 10.1.2.1 (In progress)
+#### [Version 10.1.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.2.1.zip)
 - Verified compatibility with InMobi SDK 10.1.2.
 - Fixed an issue where the native ads could become blank in scrollable UIs.
+- Updated the adapter to use the new mediation APIs.
+- Added support for forwarding the COPPA value to InMobi SDK.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.14.0.
