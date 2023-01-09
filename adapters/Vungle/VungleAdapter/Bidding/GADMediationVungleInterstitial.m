@@ -141,7 +141,7 @@
 }
 
 - (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
-  // No-op.
+  [_delegate reportImpression];
 }
 
 - (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
