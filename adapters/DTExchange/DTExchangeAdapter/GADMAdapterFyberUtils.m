@@ -57,7 +57,7 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
   return version;
 }
 
-IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
+IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration (
     NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
   CLLocation *location;
   if (adConfiguration.hasUserLocation) {
@@ -77,7 +77,7 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     builder.spotID = spotID;
     builder.timeout = 10;
     builder.userData = extras.userData;
-    builder.muteAudio = extras.muteAudio;
+    IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
     if (keywords) {
       builder.keywords = keywords;
     }
