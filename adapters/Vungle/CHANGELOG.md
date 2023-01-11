@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-####  Version 6.12.1.1 (In progress)
+####  [Version 6.12.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.12.1.1.zip)
 - Verified compatibility with Vungle SDK 6.12.1.
 - Added bidding support for banner ad format.
 
