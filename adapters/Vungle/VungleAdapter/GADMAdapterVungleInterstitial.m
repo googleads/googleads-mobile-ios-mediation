@@ -73,7 +73,8 @@
     [strongConnector adapter:self
                    didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
                                  GADMAdapterVungleErrorInvalidServerParameters,
-                                 @"Placement ID not specified.")];
+                                 @"Missing or invalid Placement ID configured for this ad source "
+                                 @"instance in the AdMob or Ad Manager UI.")];
     return;
   }
 

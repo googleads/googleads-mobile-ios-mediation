@@ -57,7 +57,7 @@
     return;
   }
 
-  _bannerSize = [self vungleAdSizeForAdSize:adSize];
+  _bannerSize = GADMAdapterVungleAdSizeForAdSize(adSize);
   if (!IsGADAdSizeValid(_bannerSize)) {
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
@@ -74,7 +74,9 @@
   self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters,
+        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
+        @"Ad Manager UI.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -93,31 +95,6 @@
     return;
   }
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
-}
-
-- (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
-  // An array of supported ad sizes.
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
-  ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == GADAdSizeBanner.size.height) {
-    if (size.width < GADAdSizeBanner.size.width) {
-      return shortBannerSize;
-    } else {
-      return GADAdSizeBanner;
-    }
-  } else if (size.height == GADAdSizeLeaderboard.size.height) {
-    return GADAdSizeLeaderboard;
-  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
-    return GADAdSizeMediumRectangle;
-  }
-
-  return GADAdSizeInvalid;
 }
 
 - (void)loadAd {

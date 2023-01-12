@@ -18,8 +18,6 @@
 #import "GADMAdapterVungleUtils.h"
 #import "VungleRouterConsent.h"
 
-const CGSize kVNGBannerShortSize = {300, 50};
-
 static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
 @implementation GADMAdapterVungleRouter {

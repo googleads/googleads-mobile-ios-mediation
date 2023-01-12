@@ -34,16 +34,14 @@ createFramework() {
   # Build the static library for the specified sdk and architecture.
   xcodebuild -target Adapter \
   -configuration "${CONFIGURATION}" \
-  -sdk "$1" \
-  -UseModernBuildSystem=YES \
-  ARCHS="$2" \
+  -sdk "${1}" \
+  ARCHS="${2}" \
   BUILD_DIR="${BUILD_DIR}" \
   BUILD_ROOT="${BUILD_ROOT}" \
-  OBJROOT="${OBJROOT}" \
+  OBJROOT="${OBJROOT}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${SYMROOT}" \
-  "${ACTION}" \
-  build
+  "${ACTION}"
 
   # Create framework using lipo.
   lipo -create "${BUILD_DIR}/${CONFIGURATION}-$1/${LIB_NAME}.a" -output "${TEMP_FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
