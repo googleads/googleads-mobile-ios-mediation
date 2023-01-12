@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed use of deprecated gender, birthday and location mediation APIs.
+
 #### [Version 10.1.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.2.1.zip)
 - Verified compatibility with InMobi SDK 10.1.2.
 - Fixed an issue where the native ads could become blank in scrollable UIs.

@@ -99,11 +99,6 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
 
   // COPPA.
   [self setCoppaFromAdConfiguration];
-
-  // Location.
-  if (_adConfiguration.hasUserLocation) {
-    VASAds.sharedInstance.locationEnabled = YES;
-  }
 }
 
 - (void)setUserSettingsFromAdConfiguration {

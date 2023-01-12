@@ -19,23 +19,6 @@
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
   options.userMetadata = [AdColonyUserMetadata new];
 
-  if ([connector userHasLocation]) {
-    options.userMetadata.userLatitude = @([connector userLatitude]);
-    options.userMetadata.userLongitude = @([connector userLongitude]);
-  }
-
-  GADGender gender = [connector userGender];
-  if (gender == kGADGenderMale) {
-    options.userMetadata.userGender = ADCUserMale;
-  } else if (gender == kGADGenderFemale) {
-    options.userMetadata.userGender = ADCUserFemale;
-  }
-
-  NSDate *birthday = [connector userBirthday];
-  if (birthday) {
-    options.userMetadata.userAge = [self getNumberOfYearsSinceDate:birthday];
-  }
-
   [options setMediationNetwork:ADCAdMob];
   [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
 
@@ -46,11 +29,6 @@
     (nonnull GADMediationAdConfiguration *)adConfig {
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
   options.userMetadata = [AdColonyUserMetadata new];
-
-  if ([adConfig hasUserLocation]) {
-    options.userMetadata.userLatitude = @([adConfig userLatitude]);
-    options.userMetadata.userLongitude = @([adConfig userLongitude]);
-  }
 
   // Set mediation network depending upon type of adapter (Legacy/RTB)
   if (adConfig.bidResponse) {

@@ -134,19 +134,6 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
 }
 
 void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-  if (connector.userGender == kGADGenderMale) {
-    [IMSdk setGender:kIMSDKGenderMale];
-  } else if (connector.userGender == kGADGenderFemale) {
-    [IMSdk setGender:kIMSDKGenderFemale];
-  }
-
-  if (connector.userBirthday != nil) {
-    NSDateComponents *components = [NSCalendar.currentCalendar
-        components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
-          fromDate:connector.userBirthday];
-    [IMSdk setYearOfBirth:components.year];
-  }
-
   GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
   GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
 }

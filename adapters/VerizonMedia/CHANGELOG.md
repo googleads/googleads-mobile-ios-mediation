@@ -2,6 +2,7 @@
 
 #### Next Version
 - Updated the adapter to use the `didRewardUser` API.
+- Removed use of deprecated gender, birthday and location mediation APIs.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
 
 #### [Version 1.14.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/verizon/VerizonMediaAdapter-1.14.1.1.zip)

@@ -60,11 +60,6 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
   CLLocation *location;
-  if (adConfiguration.hasUserLocation) {
-    location = [[CLLocation alloc] initWithLatitude:adConfiguration.userLatitude
-                                          longitude:adConfiguration.userLongitude];
-  }
-
   GADMAdapterFyberExtras *extras = adConfiguration.extras;
   NSString *keywords = nil;
 
