@@ -111,7 +111,7 @@
   } else if (size.height == kPAGBannerSize300x250.size.height) {
     return kPAGBannerSize300x250;
   }
-  return kPAGBannerSize300x250;
+  return kPAGBannerSize320x50;
 }
 
 #pragma mark - GADMediationBannerAd
