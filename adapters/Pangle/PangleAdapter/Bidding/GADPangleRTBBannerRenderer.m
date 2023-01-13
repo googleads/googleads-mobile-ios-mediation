@@ -60,13 +60,7 @@
     return;
   }
 
-  NSError *error = nil;
-  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
-  if (error) {
-    _loadCompletionHandler(nil, error);
-    return;
-  }
-
+  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize];
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
 
@@ -97,7 +91,7 @@
               }];
 }
 
-- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
+- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
   CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
   GADAdSize banner50 = GADAdSizeFromCGSize(
       CGSizeMake(gadAdCGSize.width, kPAGBannerSize320x50.size.height));  // 320*50
@@ -117,14 +111,7 @@
   } else if (size.height == kPAGBannerSize300x250.size.height) {
     return kPAGBannerSize300x250;
   }
-
-  if (error) {
-    *error = GADMAdapterPangleErrorWithCodeAndDescription(
-        GADPangleErrorBannerSizeMismatch,
-        [NSString stringWithFormat:@"Invalid size for Pangle mediation adapter. Size: %@",
-                                   NSStringFromGADAdSize(gadAdSize)]);
-  }
-  return (PAGBannerAdSize){CGSizeZero};
+  return kPAGBannerSize300x250;
 }
 
 #pragma mark - GADMediationBannerAd
