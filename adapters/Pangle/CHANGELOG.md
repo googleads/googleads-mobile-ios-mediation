@@ -2,6 +2,7 @@
 
 #### Version 4.9.0.9.0 (In progress)
 - Verified compatibility with Pangle SDK version 4.9.0.9.
+- Now requires minimum iOS version of 12.0.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.14.0.
