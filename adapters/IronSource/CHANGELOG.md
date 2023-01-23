@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Version 7.2.7.0.0 (In progress)
+#### [Version 7.2.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.2.7.0.0.zip)
 - Verified compatibility with ironSource SDK version 7.2.7.0.
 - Added support for arm64 simulator architecture.
 
