@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Version 8.1.9.0 (In progress)
+#### [Version 8.1.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.1.9.0.zip)
 - Removed use of deprecated gender, birthday and location mediation APIs.
 - Verified compatibility with DT Exchange SDK version 8.1.9.
 
