@@ -146,7 +146,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_rewardedAd isReady]) {
-    [_rewardedAd showFromViewController:viewController];
+      [_rewardedAd showFrom:viewController];
   } else {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorAdNotReady, @"InMobi SDK failed to present a rewarded ad.");
@@ -161,8 +161,7 @@
   _adEventDelegate = _renderCompletionHandler(self, nil);
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial
-    didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   GADMAdapterInMobiLog(@"InMobi SDK failed to load rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
@@ -180,8 +179,7 @@
   [_adEventDelegate didStartVideo];
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial
-    didFailToPresentWithError:(nonnull IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial didFailToPresentWithError:(nonnull IMRequestStatus *)error {
   GADMAdapterInMobiLog(@"InMobi SDK did fail to present a rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
@@ -202,8 +200,7 @@
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial
-    didInteractWithParams:(nonnull NSDictionary *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial didInteractWithParams:(nullable NSDictionary<NSString *,id> *)params {
   GADMAdapterInMobiLog(@"InMobi SDK recorded a click on rewarded ad.");
   [_adEventDelegate reportClick];
 }
@@ -214,8 +211,7 @@
   GADMAdapterInMobiLog(@"InMobi AdServer returned a response for rewarded ad.");
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial
-    rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *,id> *)rewards {
   NSString *key = rewards.allKeys.firstObject;
   if (key) {
     GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:key rewardAmount:rewards[key]];

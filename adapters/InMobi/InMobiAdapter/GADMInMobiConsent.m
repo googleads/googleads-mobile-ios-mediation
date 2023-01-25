@@ -14,8 +14,7 @@
 //
 
 #import "GADMInMobiConsent.h"
-
-#import <InMobiSDK/IMSdk.h>
+@import InMobiSDK;
 
 #import "GADMAdapterInMobiInitializer.h"
 

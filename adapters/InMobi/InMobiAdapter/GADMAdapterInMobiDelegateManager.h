@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/IMInterstitialDelegate.h>
+@import InMobiSDK;
 
 /// Manages rewarded ad delegates.
 @interface GADMAdapterInMobiDelegateManager : NSObject

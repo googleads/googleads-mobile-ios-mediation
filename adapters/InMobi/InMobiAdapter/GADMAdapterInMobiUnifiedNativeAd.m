@@ -215,7 +215,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   [_nativeAdEventDelegate reportImpression];
 }
 
-- (void)native:(nonnull IMNative *)native didInteractWithParams:(nonnull NSDictionary *)params {
+- (void)native:(nonnull IMNative *)native didInteractWithParams:(nullable NSDictionary<NSString *,id> *)params {
   GADMAdapterInMobiLog(@"InMobi SDK recorded a click on a native ad.");
   [_nativeAdEventDelegate reportClick];
 }
@@ -229,7 +229,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   GADMAdapterInMobiLog(@"InMobi SDK User did skip playing media from native ad.");
 }
 
-- (void)native:(IMNative *)native adAudioStateChanged:(BOOL)audioStateMuted {
+- (void)native:(nonnull IMNative *)native adAudioStateChanged:(BOOL)audioStateMuted {
   if (audioStateMuted) {
     [_nativeAdEventDelegate didMuteVideo];
     GADMAdapterInMobiLog(@"InMobi SDK audio state changed to mute for native ad.");
