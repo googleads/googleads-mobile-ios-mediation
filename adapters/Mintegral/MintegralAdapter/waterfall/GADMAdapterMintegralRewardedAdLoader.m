@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,10 +39,10 @@
     /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
     
-    /// The Mintegral rewarded Ad Unit ID.
+    /// The Mintegral rewarded ad Unit ID.
     NSString *_adUnitId;
     
-    /// The Mintegral rewarded Ad Placement ID.
+    /// The Mintegral rewarded ad Placement ID.
     NSString *_placementId;
 }
 
@@ -136,7 +136,7 @@
         [_rewardedAd showVideoWithPlacementId:_placementId unitId:_adUnitId withRewardId:nil userId:nil delegate:self viewController:viewController];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present a rewarded video ad.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present a waterfall rewarded video ad.");
         [_adEventDelegate didFailToPresentWithError:error];
     }
 }

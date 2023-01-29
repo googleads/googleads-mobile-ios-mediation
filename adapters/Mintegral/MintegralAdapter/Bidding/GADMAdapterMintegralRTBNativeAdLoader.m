@@ -128,7 +128,7 @@ MTGMediaViewDelegate>
         [self loadRequiredNativeData];
     }else{
         NSError *error =
-        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a native ad.");
+        GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a bidding native ad.");
         if (_adLoadCompletionHandler) {
             _adLoadCompletionHandler(nil,error);
         }
@@ -245,40 +245,16 @@ MTGMediaViewDelegate>
 
 - (void)loadRequiredNativeData {
     GADMAdapterMintegralRTBNativeAdLoader *__weak weakSelf = self;
-    void (^localBlock)(void) = ^{
+    [GADMAdapterMintegralUtils downLoadNativeAdImageWithURLString:_campaign.iconUrl completionHandler:^(GADNativeAdImage * _Nullable nativeAdImage) {
         GADMAdapterMintegralRTBNativeAdLoader *strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
+        strongSelf->_icon = nativeAdImage;
+        
         if (strongSelf && strongSelf->_adLoadCompletionHandler) {
             strongSelf->_adEventDelegate = strongSelf->_adLoadCompletionHandler(strongSelf, nil);
         }
-    };
-    NSString *URLString = _campaign.iconUrl;
-    if (!URLString.length) {
-        localBlock();
-        return;
-    }
-    NSURL *URL = [NSURL URLWithString:URLString];
-    if (!URL) {
-        localBlock();
-        return;
-    }
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task =
-    [session dataTaskWithURL:URL
-           completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
-                               NSError *_Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            GADMAdapterMintegralRTBNativeAdLoader *strongSelf = weakSelf;
-            if (!strongSelf) {
-                return;
-            }
-            GADNativeAdImage *image =
-            (!error && data)
-            ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]]
-            : nil;
-            strongSelf->_icon = image;
-            localBlock();
-        });
     }];
-    [task resume];
 }
 @end

@@ -14,13 +14,17 @@
 #import <Foundation/Foundation.h>
 #import "GADMediationAdapterMintegral.h"
 
-#define GADMediationAdapterMintegralLog(format, args...) \
-  NSLog(@"GADMediationAdapterMintegral: " format, ##args)
+#define GADMediationAdapterMintegralLog(format, args...) NSLog(@"GADMediationAdapterMintegral: " format, ##args)
 @interface GADMAdapterMintegralUtils : NSObject
 
-NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
-                                                                  NSString *_Nonnull description);
+NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code, NSString *_Nonnull description);
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                                              NSObject *_Nonnull object);
+
++ (CGSize)bannerSizeFromAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                                  error:(NSError *_Nullable*_Nullable)errorPtr;
+
++ (void)downLoadNativeAdImageWithURLString:(NSString *_Nonnull)URLString completionHandler:(void(^_Nullable)(GADNativeAdImage * _Nullable nativeAdImage))completionHandler;
+
 @end

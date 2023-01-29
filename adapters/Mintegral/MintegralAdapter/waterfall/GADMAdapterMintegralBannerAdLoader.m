@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@
     }
 
     NSError *error = nil;
-    CGSize bannerSize = [self bannerSizeFromAdConfiguration:adConfiguration error:&error];
+    CGSize bannerSize = [GADMAdapterMintegralUtils bannerSizeFromAdConfiguration:adConfiguration error:&error];
     if (error) {
         _adLoadCompletionHandler(nil, error);
         return;
@@ -77,31 +77,6 @@
     _bannerAdView.delegate = self;
     _bannerAdView.autoRefreshTime = 0;
     [_bannerAdView loadBannerAd];
-}
-
-/// Returns the closest valid banner size by comparing the provided ad size against the valid sizes.
-/// Returns CGSizeZero and sets |error| if the ad configuration contains an invalid ad size.
-- (CGSize)bannerSizeFromAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                                  error:(NSError **)errorPtr {
-    GADAdSize adSize320x50 = GADAdSizeFromCGSize(CGSizeMake(320, 50));
-    GADAdSize adSize320x100 = GADAdSizeFromCGSize(CGSizeMake(320, 100));
-    GADAdSize adSize300x250 = GADAdSizeFromCGSize(CGSizeMake(300, 250));
-    GADAdSize adSize728x90 = GADAdSizeFromCGSize(CGSizeMake(728, 90));
-    NSArray<NSValue *> *possibleSizes = @[ @(adSize320x50), @(adSize320x100),  @(adSize300x250), @(adSize728x90)];
-    
-    GADAdSize requestedSize = adConfiguration.adSize;
-    GADAdSize closestAdSize = GADClosestValidSizeForAdSizes(requestedSize, possibleSizes);
-    
-    if (GADAdSizeEqualToSize(closestAdSize, GADAdSizeInvalid)) {
-        NSString *errorMessage = [NSString
-                                  stringWithFormat:
-                                      @"The requested banner size: %@ is not supported by Mintegral SDK.",
-                                  NSStringFromGADAdSize(requestedSize)];
-        *errorPtr = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegtalErrorBannerSizeInValid, errorMessage);
-        return CGSizeZero;
-    }
-    
-    return CGSizeMake(closestAdSize.size.width, closestAdSize.size.height);
 }
 
 #pragma mark - MTGBannerAdViewDelegate

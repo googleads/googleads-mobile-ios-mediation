@@ -43,16 +43,16 @@
     GADMAdapterMintegralRTBRewardedAdLoader * _rtbRewardedAd;
     
     /// Mintegral waterfall banner ad.
-    GADMAdapterMintegralBannerAdLoader *_bannerAd;
+    GADMAdapterMintegralBannerAdLoader *_waterfallBannerAd;
 
     /// Mintegral waterfall interstitial ad.
-    GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
+    GADMAdapterMintegralInterstitialAdLoader *_waterfallInterstitialAd;
 
     /// Mintegral waterfall native ad.
-    GADMAdapterMintegralNativeAdLoader *_nativeAd;
+    GADMAdapterMintegralNativeAdLoader *_waterfallNativeAd;
 
     /// Mintegral waterfall rewarded ad.
-    GADMAdapterMintegralRewardedAdLoader * _rewardedAd;
+    GADMAdapterMintegralRewardedAdLoader * _waterfallRewardedAd;
 }
 
 #pragma mark - GADRTBAdapter
@@ -137,57 +137,48 @@
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    if([self isBiddingWithAdConfiguration:adConfiguration]){
+    if(adConfiguration.bidResponse){
         _rtbBannerAd = [[GADMAdapterMintegralRTBBannerAdLoader alloc]init];
         [_rtbBannerAd loadRTBBannerAdForAdConfiguration:adConfiguration
                             completionHandler:completionHandler];
     }else{
-        _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
-        [_bannerAd loadBannerAdForAdConfiguration:adConfiguration
+        _waterfallBannerAd = [[GADMAdapterMintegralBannerAdLoader alloc]init];
+        [_waterfallBannerAd loadBannerAdForAdConfiguration:adConfiguration
                             completionHandler:completionHandler];
     }
 }
 
 - (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
-    if([self isBiddingWithAdConfiguration:adConfiguration]){
+    if(adConfiguration.bidResponse){
         _rtbInterstitialAd = [[GADMAdapterMintegralRTBInterstitialAdLoader alloc]init];
         [_rtbInterstitialAd loadRTBInterstitialAdForAdConfiguration:adConfiguration
                                           completionHandler:completionHandler];
     }else{
-        _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc]init];
-        [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
+        _waterfallInterstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc]init];
+        [_waterfallInterstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
                                           completionHandler:completionHandler];
     }
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-    if([self isBiddingWithAdConfiguration:adConfiguration]){
+    if(adConfiguration.bidResponse){
         _rtbNativeAd = [[GADMAdapterMintegralRTBNativeAdLoader alloc]init];
         [_rtbNativeAd loadRTBNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
     }else{
-        _nativeAd = [[GADMAdapterMintegralNativeAdLoader alloc]init];
-        [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+        _waterfallNativeAd = [[GADMAdapterMintegralNativeAdLoader alloc]init];
+        [_waterfallNativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
     }
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
-    if([self isBiddingWithAdConfiguration:adConfiguration]){
+    if(adConfiguration.bidResponse){
         _rtbRewardedAd = [[GADMAdapterMintegralRTBRewardedAdLoader alloc]init];
         [_rtbRewardedAd loadRTBRewardedAdForAdConfiguration:adConfiguration
                                     completionHandler:completionHandler];
     }else{
-        _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
-        [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+        _waterfallRewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc]init];
+        [_waterfallRewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                                     completionHandler:completionHandler];
-    }
-}
-
-- (BOOL)isBiddingWithAdConfiguration:(GADMediationAdConfiguration *)adConfiguration {
-    //If there are bidResponse,it is considered bidding,otherwise it is waterfall.
-    if(adConfiguration.bidResponse && adConfiguration.bidResponse.length > 0){
-        return YES;
-    }else{
-        return NO;
     }
 }
 
