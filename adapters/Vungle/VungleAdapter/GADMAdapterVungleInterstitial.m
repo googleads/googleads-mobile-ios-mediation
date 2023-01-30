@@ -29,7 +29,7 @@
 
   /// Vungle banner ad wrapper.
   GADMAdapterVungleBanner *_bannerAd;
-    
+
   /// Vungle interstitial ad instance.
   VungleInterstitial *_interstitialAd;
 }
@@ -129,8 +129,7 @@
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_connector adapter:self didFailAd:gadError];
 }
 
@@ -142,10 +141,10 @@
   // No-op.
 }
 
-- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error {
+- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial
+                             withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_connector adapter:self didFailAd:gadError];
 }
 

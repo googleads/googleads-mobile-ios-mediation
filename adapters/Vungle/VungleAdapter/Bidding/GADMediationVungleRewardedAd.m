@@ -31,7 +31,7 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
-    
+
   /// Vungle rewarded ad instance.
   VungleRewarded *_rewardedAd;
 }
@@ -113,8 +113,7 @@
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
@@ -128,8 +127,7 @@
 
 - (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 

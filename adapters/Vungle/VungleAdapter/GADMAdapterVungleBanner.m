@@ -28,11 +28,11 @@
 
   /// The requested ad size.
   GADAdSize _bannerSize;
-    
+
   /// Vungle Banner instance
   VungleBanner *_bannerAd;
-    
-  /// UIView that the Vungle Banner mounts onto
+
+  /// UIView for Vungle to mount the ad
   UIView *_bannerView;
 }
 
@@ -100,10 +100,10 @@
 - (GADAdSize)filterValidAdSizes:(GADAdSize)adSize {
   // It has to match for MREC, otherwise it would be a banner with flexible size
   if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
-    adSize.size.width == GADAdSizeMediumRectangle.size.width) {
+      adSize.size.width == GADAdSizeMediumRectangle.size.width) {
     return GADAdSizeMediumRectangle;
   }
-    
+
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
@@ -150,14 +150,14 @@
 #pragma mark - VungleBannerDelegate
 
 - (void)bannerAdDidLoad:(VungleBanner *)banner {
-  _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  _bannerView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   [_bannerAd presentOn:_bannerView];
 }
 
 - (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_connector adapter:_adapter didFailAd:gadError];
 }
 
@@ -171,8 +171,7 @@
 
 - (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_connector adapter:_adapter didFailAd:gadError];
 }
 

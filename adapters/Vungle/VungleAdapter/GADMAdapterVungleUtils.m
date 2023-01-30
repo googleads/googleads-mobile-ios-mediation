@@ -26,15 +26,18 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
 }
 
 NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
-                                                               NSInteger vungleCode,
-                                                               NSString *_Nonnull description) {
-  NSString *formattedDescription = [NSString stringWithFormat:@"Code: %ld, Description: %@", (long)vungleCode, description];
+                                                   NSInteger vungleCode,
+                                                   NSString *_Nonnull description) {
+  NSString *formattedDescription =
+      [NSString stringWithFormat:@"Code: %ld, Description: %@", (long)vungleCode, description];
   return GADMAdapterVungleErrorWithCodeAndDescription(code, formattedDescription);
 }
 
 NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription() {
   GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
-  NSString *description = @"Placement ID not specified.";
+  NSString *description =
+      @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
+      @"Ad Manager UI.";
   return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
 }
 

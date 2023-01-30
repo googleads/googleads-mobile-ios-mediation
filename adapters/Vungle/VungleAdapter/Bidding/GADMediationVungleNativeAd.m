@@ -225,15 +225,13 @@
 
 - (void)nativeAdDidFailToLoad:(VungleNative *)native withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
 - (void)nativeAdDidFailToPresent:(VungleNative *)native withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 

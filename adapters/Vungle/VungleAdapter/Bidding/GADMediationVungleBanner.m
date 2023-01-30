@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,27 +19,29 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleBanner () <GADMAdapterVungleDelegate, GADMediationBannerAd, VungleBannerDelegate>
+@interface GADMediationVungleBanner () <GADMAdapterVungleDelegate,
+                                        GADMediationBannerAd,
+                                        VungleBannerDelegate>
 @end
 
 @implementation GADMediationVungleBanner {
-    /// Ad configuration for the ad to be loaded.
-    GADMediationBannerAdConfiguration *_adConfiguration;
-    
-    /// The completion handler to call when an ad loads successfully or fails.
-    GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
+  /// Ad configuration for the ad to be loaded.
+  GADMediationBannerAdConfiguration *_adConfiguration;
 
-    /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-    id<GADMediationBannerAdEventDelegate> _delegate;
-    
-    /// The requested ad size.
-    GADAdSize _bannerSize;
-    
-    /// Vungle Banner instance
-    VungleBanner *_bannerAd;
-    
-    /// Banner UIView for Google's view property and for Vungle to present on
-    UIView *_bannerView;
+  /// The completion handler to call when an ad loads successfully or fails.
+  GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
+
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationBannerAdEventDelegate> _delegate;
+
+  /// The requested ad size.
+  GADAdSize _bannerSize;
+
+  /// Vungle Banner instance
+  VungleBanner *_bannerAd;
+
+  /// UIView to send to Google's view property and for Vungle to mount the ad
+  UIView *_bannerView;
 }
 
 @synthesize desiredPlacement;
@@ -52,21 +54,24 @@
   _bannerView = nil;
 }
 
-- (nonnull instancetype)initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration*)adConfiguration
-                              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
     _bannerSize = [self vungleAdSizeForAdSize:[adConfiguration adSize]];
 
     VungleAdNetworkExtras *networkExtras = adConfiguration.extras;
-    self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings networkExtras:networkExtras];
+    self.desiredPlacement =
+        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings
+                                networkExtras:networkExtras];
 
     __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationBannerLoadCompletionHandler origAdLoadHandler = [completionHandler copy];
     /// Ensure the original completion handler is only called once, and is deallocated once called.
-    _adLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(
-      id<GADMediationBannerAd> ad, NSError *error) {
+    _adLoadCompletionHandler =
+        ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
       if (atomic_flag_test_and_set(&adLoadHandlerCalled)) {
         return nil;
       }
@@ -83,14 +88,17 @@
 
 - (void)requestBannerAd {
   if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage = [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@", NSStringFromGADAdSize(_bannerSize)];
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"The requested banner size: %@ is not supported by Vungle SDK.",
+                                   NSStringFromGADAdSize(_bannerSize)];
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorInvalidServerParameters, @"Placement ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     _adLoadCompletionHandler(nil, error);
     return;
   }
@@ -112,31 +120,31 @@
 }
 
 - (GADAdSize)vungleAdSizeForAdSize:(GADAdSize)adSize {
-    // It has to match for MREC, otherwise it would be a banner with flexible size
-    if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
+  // It has to match for MREC, otherwise it would be a banner with flexible size
+  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
       adSize.size.width == GADAdSizeMediumRectangle.size.width) {
-      return GADAdSizeMediumRectangle;
-    }
-      
-    // An array of supported ad sizes.
-    GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-    NSArray<NSValue *> *potentials = @[
-      NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
-      NSValueFromGADAdSize(shortBannerSize)
-    ];
+    return GADAdSizeMediumRectangle;
+  }
 
-    GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-    CGSize size = CGSizeFromGADAdSize(closestSize);
-    if (size.height == GADAdSizeBanner.size.height) {
-      if (size.width < GADAdSizeBanner.size.width) {
-        return shortBannerSize;
-      } else {
-        return GADAdSizeBanner;
-      }
-    } else if (size.height == GADAdSizeLeaderboard.size.height) {
-      return GADAdSizeLeaderboard;
+  // An array of supported ad sizes.
+  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
+    NSValueFromGADAdSize(shortBannerSize)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
+  CGSize size = CGSizeFromGADAdSize(closestSize);
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
+      return shortBannerSize;
+    } else {
+      return GADAdSizeBanner;
     }
-    return GADAdSizeInvalid;
+  } else if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
+  }
+  return GADAdSizeInvalid;
 }
 
 - (BannerSize)convertGADAdSizeToBannerSize {
@@ -156,7 +164,8 @@
 #pragma mark - VungleBannerDelegate
 
 - (void)bannerAdDidLoad:(VungleBanner *)banner {
-  _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  _bannerView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
     [_bannerAd presentOn:_bannerView];
@@ -165,8 +174,7 @@
 
 - (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
@@ -180,8 +188,7 @@
 
 - (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 

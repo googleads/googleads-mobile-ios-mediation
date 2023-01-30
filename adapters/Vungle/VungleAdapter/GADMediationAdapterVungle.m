@@ -160,7 +160,8 @@
 }
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+                   completionHandler:
+                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];
   [_bannerAd requestBannerAd];

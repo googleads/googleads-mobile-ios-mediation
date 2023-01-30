@@ -18,7 +18,8 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMAdapterVungleRewardBasedVideoAd () <GADMAdapterVungleDelegate, VungleRewardedDelegate>
+@interface GADMAdapterVungleRewardBasedVideoAd () <GADMAdapterVungleDelegate,
+                                                   VungleRewardedDelegate>
 @end
 
 @implementation GADMAdapterVungleRewardBasedVideoAd {
@@ -30,7 +31,7 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
-    
+
   /// Vungle rewarded ad instance.
   VungleRewarded *_rewardedAd;
 }
@@ -101,13 +102,13 @@
 - (void)loadRewardedAd {
   _rewardedAd = [[VungleRewarded alloc] initWithPlacementId:self.desiredPlacement];
   _rewardedAd.delegate = self;
-    if ([_adConfiguration extras] &&
-        [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
-      VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
-      if (extras && extras.userId) {
-        [_rewardedAd setUserIdWithUserId:extras.userId];
-      }
+  if ([_adConfiguration extras] &&
+      [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
+    VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
+    if (extras && extras.userId) {
+      [_rewardedAd setUserIdWithUserId:extras.userId];
     }
+  }
   [_rewardedAd load:nil];
 }
 
@@ -125,8 +126,7 @@
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
@@ -140,8 +140,7 @@
 
 - (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 
@@ -163,7 +162,7 @@
 }
 
 - (void)rewardedAdWillLeaveApplication:(VungleRewarded *)rewarded {
-    // No-op.
+  // No-op.
 }
 
 - (void)rewardedAdDidRewardUser:(VungleRewarded *)rewarded {

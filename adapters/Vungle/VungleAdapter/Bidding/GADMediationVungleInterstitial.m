@@ -19,7 +19,9 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate, GADMediationInterstitialAd, VungleInterstitialDelegate>
+@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate,
+                                              GADMediationInterstitialAd,
+                                              VungleInterstitialDelegate>
 @end
 
 @implementation GADMediationVungleInterstitial {
@@ -31,7 +33,7 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
-    
+
   /// Vungle interstitial ad instance.
   VungleInterstitial *_interstitialAd;
 }
@@ -112,8 +114,7 @@
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
@@ -125,10 +126,10 @@
   // No-op.
 }
 
-- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial withError:(NSError *)error {
+- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial
+                             withError:(NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code,
-                                                       error.localizedDescription);
+                                                       error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 

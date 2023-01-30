@@ -18,6 +18,7 @@
 #import "VungleRouterConsent.h"
 
 static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
+const CGSize kVNGBannerShortSize = {300, 50};
 
 @implementation GADMAdapterVungleRouter {
   /// Indicates whether the Vungle SDK is initializing.
@@ -51,7 +52,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   }
 
   if (_isInitializing) {
-    @synchronized (_delegates) {
+    @synchronized(_delegates) {
       [_delegates addObject:delegate];
     }
     return;
@@ -64,18 +65,19 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   }
 
   _isInitializing = YES;
-  @synchronized (_delegates) {
+  @synchronized(_delegates) {
     [_delegates addObject:delegate];
   }
-  [VungleAds initWithAppId:appId completion:^(NSError * _Nullable error) {
-    self->_isInitializing = NO;
-    @synchronized (self->_delegates) {
-      for (id<GADMAdapterVungleDelegate> del in self->_delegates) {
-        [del initialized:error == nil error:error];
-      }
-      [self->_delegates removeAllObjects];
-    }
-  }];
+  [VungleAds initWithAppId:appId
+                completion:^(NSError *_Nullable error) {
+                  self->_isInitializing = NO;
+                  @synchronized(self->_delegates) {
+                    for (id<GADMAdapterVungleDelegate> del in self->_delegates) {
+                      [del initialized:error == nil error:error];
+                    }
+                    [self->_delegates removeAllObjects];
+                  }
+                }];
 }
 
 - (BOOL)isSDKInitialized {
