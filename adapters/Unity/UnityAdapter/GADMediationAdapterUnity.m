@@ -28,6 +28,7 @@
 @property(nonatomic, strong) NSString *placementId;
 @property(nonatomic, strong) GADUnityBaseMediationAdapterProxy *adapterProxy;
 @property(nonatomic, strong) UADSBannerView *bannerView;
+@property(nonatomic, strong) NSString *objectId; // Object ID used to track loaded/shown ads.
 @end
 
 @implementation GADMediationAdapterUnity
@@ -89,8 +90,13 @@
   [self initializeWithConfiguration:adConfiguration];
 
   self.placementId = adConfiguration.placementId;
-
-  [UnityAds load:self.placementId loadDelegate:self.adapterProxy];
+  self.objectId = [NSUUID UUID].UUIDString;
+  UADSLoadOptions *loadOptions = [UADSLoadOptions new];
+  loadOptions.objectId = self.objectId;
+  
+  [UnityAds load:self.placementId
+         options:loadOptions
+    loadDelegate:self.adapterProxy];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
@@ -114,7 +120,12 @@
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [UnityAds show:viewController placementId:self.placementId showDelegate:self.adapterProxy];
+  UADSShowOptions *showOptions = [UADSShowOptions new];
+  showOptions.objectId = self.objectId;
+  [UnityAds show:viewController
+     placementId:self.placementId
+         options:showOptions
+    showDelegate:self.adapterProxy];
 }
 
 - (void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
