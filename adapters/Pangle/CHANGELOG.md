@@ -1,5 +1,98 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Version 4.9.0.9.0 (In progress)
+- Verified compatibility with Pangle SDK version 4.9.0.9.
+- Now requires minimum iOS version of 12.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- Pangle SDK version 4.9.0.9.
+
+#### [Version 4.9.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.9.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 4.9.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- Pangle SDK version 4.9.0.8.
+
+#### [Version 4.9.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.9.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 4.9.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- Pangle SDK version 4.9.0.7.
+
+#### [Version 4.9.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.9.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 4.9.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- Pangle SDK version 4.9.0.6.
+
+#### [Version 4.8.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.8.1.0.0.zip)
+- Verified compatibility with Pangle SDK version 4.8.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- Pangle SDK version 4.8.1.0.
+
+#### [Version 4.8.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.8.0.9.0.zip)
+- Verified compatibility with Pangle SDK version 4.8.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- Pangle SDK version 4.8.0.9.
+
+#### [Version 4.8.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.8.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 4.8.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- Pangle SDK version 4.8.0.7.
+
+#### [Version 4.8.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.8.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 4.8.0.6.
+- Fixed an issue where the main thread was blocked when loading native ad icon image.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- Pangle SDK version 4.8.0.6.
+
+#### [Version 4.7.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.7.
+#### [Version 4.7.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.6.
+
+#### [Version 4.7.0.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.5.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Pangle SDK version 4.7.0.5.
+
+#### [Version 4.7.0.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.7.0.4.0.zip)
+- Verified compatibility with Pangle SDK version 4.7.0.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.10.0.
+- Pangle SDK version 4.7.0.4.
+
+#### [Version 4.6.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.2.2.0.zip)
+- Renamed the `setGDPR()` and  `setCCPA()` methods from the `GADMediationAdapterPangle` class to `setGDPRConsent()` and `setDoNotSell` respectively.
+- Verified compatibility with Pangle SDK version 4.6.2.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.10.0.
+- Pangle SDK version 4.6.2.2.
+
 #### [Version 4.6.1.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.6.1.8.0.zip)
 - Verified compatibility with Pangle SDK version 4.6.1.8.
 - Added bidding support for native ad format.

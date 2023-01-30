@@ -36,6 +36,9 @@ NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription(v
 /// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid app id.
 NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription(void);
 
+/// Returns a GADAdSize object that is valid for the Vungle SDK
+GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize);
+
 @interface GADMAdapterVungleUtils : NSObject
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters;

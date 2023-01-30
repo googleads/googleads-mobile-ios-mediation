@@ -13,14 +13,14 @@
 // limitations under the License.
 
 #import "GADMediationAdapterPangle.h"
+#import <PAGAdSDK/PAGAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
+#import "GADPangleNetworkExtras.h"
 #import "GADPangleRTBBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
-#import "GADPangleNetworkExtras.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
@@ -37,14 +37,15 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
-(nonnull GADRTBSignalCompletionHandler)completionHandler {
-    GADPangleNetworkExtras *extras = [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
-    if (extras && extras.userDataString.length > 0) {
-        // The user data needs to be set for it to be included in the signals.
-        [PAGConfig shareConfig].userDataString = extras.userDataString;
-    }
-    NSString *signals = [PAGSdk getBiddingToken:nil];
-    completionHandler(signals, nil);
+                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  GADPangleNetworkExtras *extras =
+      [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
+  if (extras && extras.userDataString.length > 0) {
+    // The user data needs to be set for it to be included in the signals.
+    [PAGConfig shareConfig].userDataString = extras.userDataString;
+  }
+  NSString *signals = [PAGSdk getBiddingToken:nil];
+  completionHandler(signals, nil);
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -74,9 +75,10 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
   config.doNotSell = _doNotSell;
-  [PAGSdk startWithConfig:config completionHandler:^(BOOL success, NSError * _Nonnull error) {
-    completionHandler(error);
-  }];
+  [PAGSdk startWithConfig:config
+        completionHandler:^(BOOL success, NSError *_Nonnull error) {
+          completionHandler(error);
+        }];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -146,12 +148,14 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
-                     completionHandler:(nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
-                                             ? adConfiguration.childDirectedTreatment.integerValue
-                                             : -1)];
-    _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
-    [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+                                           ? adConfiguration.childDirectedTreatment.integerValue
+                                           : -1)];
+  _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
+  [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration
+                                  completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.
@@ -165,7 +169,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     return;
   }
   if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
-      PAGConfig.shareConfig.childDirected = COPPA;
+    PAGConfig.shareConfig.childDirected = COPPA;
   }
 }
 
@@ -175,7 +179,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     return;
   }
   if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
-      PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
+    PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
   _GDPRConsent = GDPRConsent;
 }
@@ -186,7 +190,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     return;
   }
   if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
-      PAGConfig.shareConfig.doNotSell = doNotSell;
+    PAGConfig.shareConfig.doNotSell = doNotSell;
   }
   _doNotSell = doNotSell;
 }

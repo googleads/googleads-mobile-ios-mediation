@@ -1,8 +1,70 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 11.7.0.0 (In progress)
+- Verified compatibility with AppLovin SDK 11.7.0.
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.0.0.
+- AppLovin SDK version 11.7.0.
+
+#### [Version 11.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.6.1.0.zip)
+- Verified compatibility with AppLovin SDK 11.6.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- AppLovin SDK version 11.6.1.
+
+#### [Version 11.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.6.0.0.zip)
+- Verified compatibility with AppLovin SDK 11.6.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- AppLovin SDK version 11.6.0.
+
+#### [Version 11.5.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.5.5.0.zip)
+- Verified compatibility with AppLovin SDK 11.5.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- AppLovin SDK version 11.5.5.
+
+#### [Version 11.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.5.4.0.zip)
+- Verified compatibility with AppLovin SDK 11.5.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.12.0.
+- AppLovin SDK version 11.5.4.
+
+#### [Version 11.5.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.5.3.0.zip)
+- Verified compatibility with AppLovin SDK 11.5.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- AppLovin SDK version 11.5.3.
+
+#### [Version 11.5.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.5.2.0.zip)
+- Verified compatibility with AppLovin SDK 11.5.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- AppLovin SDK version 11.5.2.
+
+#### [Version 11.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.5.1.0.zip)
+- Verified compatibility with AppLovin SDK 11.5.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- AppLovin SDK version 11.5.1.
+
+#### [Version 11.4.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.4.4.0.zip)
+- Verified compatibility with AppLovin SDK 11.4.4.
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- AppLovin SDK version 11.4.4.
 
 #### [Version 11.4.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.4.3.0.zip)
 - Verified compatibility with AppLovin SDK 11.4.3.

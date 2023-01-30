@@ -31,16 +31,14 @@ createFramework() {
   # Build the static library for the specified sdk and architecture.
   xcodebuild -target Adapter \
   -configuration "${CONFIGURATION}" \
-  -sdk "$1" \
-  -UseModernBuildSystem=NO \
-  ARCHS="$2" \
+  -sdk "${1}" \
+  ARCHS="${2}" \
   BUILD_DIR="${BUILD_DIR}" \
   BUILD_ROOT="${BUILD_ROOT}" \
-  OBJROOT="${OBJROOT}" \
+  OBJROOT="${OBJROOT}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${SYMROOT}" \
-  "${ACTION}" \
-  clean build
+  "${ACTION}"
 
   # Create framework using lipo.
   lipo -create "${BUILD_DIR}/${CONFIGURATION}-$1/${LIB_NAME}.a" -output "${TEMP_FRAMEWORK_LOCATION}/${FRAMEWORK_NAME}"
@@ -51,7 +49,7 @@ createFramework() {
 }
 
 createFramework "iphoneos" "armv7 arm64"
-createFramework "iphonesimulator" "x86_64"
+createFramework "iphonesimulator" "arm64 x86_64"
 
 # Create dynamic framework using the frameworks generated above.
 xcodebuild -create-xcframework \

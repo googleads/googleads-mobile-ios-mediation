@@ -99,11 +99,6 @@
 
   // COPPA
   [self setCoppaFromConnector];
-
-  // Location
-  if (_connector.userHasLocation) {
-    VASAds.sharedInstance.locationEnabled = YES;
-  }
 }
 
 - (void)setUserSettingsFromConnector {
