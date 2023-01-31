@@ -1,5 +1,12 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Version 2.3.0.1 (In progress)
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.0.0.
+- i-mobile SDK version 2.3.0.
+
 #### [Version 2.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.0.0.zip)
 - Verified compatibility with i-mobile SDK 2.3.0.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
