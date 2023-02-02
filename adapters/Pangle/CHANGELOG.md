@@ -1,6 +1,7 @@
 ## Pangle iOS Mediation Adapter Changelog
 
 #### Version 4.9.0.9.0 (In progress)
+- Removed support for the `armv7` architecture.
 - Verified compatibility with Pangle SDK version 4.9.0.9.
 - Now requires minimum iOS version of 12.0.
 
