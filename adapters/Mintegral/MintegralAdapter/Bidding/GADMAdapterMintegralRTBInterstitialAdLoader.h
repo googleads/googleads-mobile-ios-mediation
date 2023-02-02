@@ -15,10 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterMintegralRTBInterstitialAdLoader : NSObject<GADMediationInterstitialAd>
+@interface GADMAdapterMintegralRTBInterstitialAdLoader : NSObject <GADMediationInterstitialAd>
 
 /// Asks the receiver to render the ad configuration.
-- (void)loadRTBInterstitialAdForAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler;
+- (void)loadRTBInterstitialAdForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                              completionHandler:
+                                  (nonnull GADMediationInterstitialLoadCompletionHandler)
+                                      completionHandler;
 @end
-

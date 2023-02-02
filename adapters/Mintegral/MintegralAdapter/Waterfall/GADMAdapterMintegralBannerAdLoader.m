@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRTBBannerAdLoader.h"
+#import "GADMAdapterMintegralBannerAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
@@ -21,11 +21,11 @@
 #import <MTGSDKBanner/MTGBannerAdViewDelegate.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralRTBBannerAdLoader () <MTGBannerAdViewDelegate>
+@interface GADMAdapterMintegralBannerAdLoader () <MTGBannerAdViewDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRTBBannerAdLoader {
+@implementation GADMAdapterMintegralBannerAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -36,10 +36,9 @@
   MTGBannerAdView *_bannerAdView;
 }
 
-- (void)loadRTBBannerAdForAdConfiguration:
-            (nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                        completionHandler:
-                            (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
       [completionHandler copy];
@@ -80,7 +79,7 @@
                                                    rootViewController:rootViewController];
   _bannerAdView.delegate = self;
   _bannerAdView.autoRefreshTime = 0;
-  [_bannerAdView loadBannerAdWithBidToken:adConfiguration.bidResponse];
+  [_bannerAdView loadBannerAd];
 }
 
 #pragma mark - MTGBannerAdViewDelegate

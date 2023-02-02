@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRTBRewardedAdLoader.h"
+#import "GADMAdapterMintegralRewardedAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
 #import <MTGSDK/MTGSDK.h>
-#import <MTGSDKReward/MTGBidRewardAdManager.h>
 #import <MTGSDKReward/MTGRewardAd.h>
+#import <MTGSDKReward/MTGRewardAdManager.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralRTBRewardedAdLoader () <MTGRewardAdLoadDelegate,
-                                                       MTGRewardAdShowDelegate>
+@interface GADMAdapterMintegralRewardedAdLoader () <MTGRewardAdLoadDelegate,
+                                                    MTGRewardAdShowDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRTBRewardedAdLoader {
+@implementation GADMAdapterMintegralRewardedAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -35,7 +35,7 @@
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
   /// The Mintegral rewarded ad.
-  MTGBidRewardAdManager *_rewardedAd;
+  MTGRewardAdManager *_rewardedAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
@@ -47,10 +47,10 @@
   NSString *_placementId;
 }
 
-- (void)loadRTBRewardedAdForAdConfiguration:
+- (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                          completionHandler:
-                              (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+                       completionHandler:
+                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
@@ -77,11 +77,8 @@
     return;
   }
 
-  _rewardedAd = [MTGBidRewardAdManager sharedInstance];
-  [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse
-                         placementId:_placementId
-                              unitId:_adUnitId
-                            delegate:self];
+  _rewardedAd = [MTGRewardAdManager sharedInstance];
+  [_rewardedAd loadVideoWithPlacementId:_placementId unitId:_adUnitId delegate:self];
 }
 
 #pragma mark - MTGRewardAdLoadDelegate
@@ -143,7 +140,7 @@
     return;
   }
   GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-  _rewardedAd = MTGBidRewardAdManager.sharedInstance;
+  _rewardedAd = MTGRewardAdManager.sharedInstance;
   _rewardedAd.playVideoMute = extras.muteVideoAudio;
   if ([_rewardedAd isVideoReadyToPlayWithPlacementId:_placementId unitId:_adUnitId]) {
     [_rewardedAd showVideoWithPlacementId:_placementId
@@ -155,7 +152,7 @@
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
         GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a bidding rewarded video ad.");
+        @"Mintegral SDK failed to present a waterfall rewarded video ad.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }

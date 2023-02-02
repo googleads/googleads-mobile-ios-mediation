@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRTBInterstitialAdLoader.h"
+#import "GADMAdapterMintegralInterstitialAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
-#import <MTGSDKNewInterstitial/MTGNewInterstitialBidAdManager.h>
+#import <MTGSDKNewInterstitial/MTGNewInterstitialAdManager.h>
 #import <MTGSDKNewInterstitial/MTGSDKNewInterstitial.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralRTBInterstitialAdLoader () <MTGNewInterstitialBidAdDelegate>
+@interface GADMAdapterMintegralInterstitialAdLoader () <MTGNewInterstitialAdDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRTBInterstitialAdLoader {
+@implementation GADMAdapterMintegralInterstitialAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -33,17 +33,16 @@
   GADMediationInterstitialAdConfiguration *_adConfiguration;
 
   /// The Mintegral interstitial ad.
-  MTGNewInterstitialBidAdManager *_interstitialAd;
+  MTGNewInterstitialAdManager *_interstitialAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
-- (void)loadRTBInterstitialAdForAdConfiguration:
+- (void)loadInterstitialAdForAdConfiguration:
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                              completionHandler:
-                                  (nonnull GADMediationInterstitialLoadCompletionHandler)
-                                      completionHandler {
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler {
   _adConfiguration = adConfiguration;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
@@ -70,48 +69,46 @@
     return;
   }
 
-  _interstitialAd = [[MTGNewInterstitialBidAdManager alloc] initWithPlacementId:placementId
-                                                                         unitId:adUnitId
-                                                                       delegate:self];
-  [_interstitialAd loadAdWithBidToken:adConfiguration.bidResponse];
+  _interstitialAd = [[MTGNewInterstitialAdManager alloc] initWithPlacementId:placementId
+                                                                      unitId:adUnitId
+                                                                    delegate:self];
+  [_interstitialAd loadAd];
 }
 
-#pragma mark - MTGNewInterstitialBidAdDelegate
-- (void)newInterstitialBidAdResourceLoadSuccess:
-    (MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+#pragma mark - MTGNewInterstitialAdDelegate
+- (void)newInterstitialAdResourceLoadSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   if (_adLoadCompletionHandler) {
     _adEventDelegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-- (void)newInterstitialBidAdLoadFail:(nonnull NSError *)error
-                           adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdLoadFail:(nonnull NSError *)error
+                        adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   if (_adLoadCompletionHandler) {
     _adLoadCompletionHandler(nil, error);
   }
 }
 
-- (void)newInterstitialBidAdShowSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdShowSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   [_adEventDelegate willPresentFullScreenView];
   [_adEventDelegate reportImpression];
 }
 
-- (void)newInterstitialBidAdShowFail:(nonnull NSError *)error
-                           adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdShowFail:(nonnull NSError *)error
+                        adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   [_adEventDelegate didFailToPresentWithError:error];
 }
 
-- (void)newInterstitialBidAdClicked:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdClicked:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   [_adEventDelegate reportClick];
 }
 
-- (void)newInterstitialBidAdDismissedWithConverted:(BOOL)converted
-                                         adManager:
-                                             (MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdDismissedWithConverted:(BOOL)converted
+                                      adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   [_adEventDelegate willDismissFullScreenView];
 }
 
-- (void)newInterstitialBidAdDidClosed:(MTGNewInterstitialBidAdManager *_Nonnull)adManager {
+- (void)newInterstitialAdDidClosed:(MTGNewInterstitialAdManager *_Nonnull)adManager {
   [_adEventDelegate didDismissFullScreenView];
 }
 
@@ -124,7 +121,7 @@
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
         GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a bidding interstitial ad.");
+        @"Mintegral SDK failed to present a waterfall interstitial ad.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }

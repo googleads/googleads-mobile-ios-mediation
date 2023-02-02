@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRTBNativeAdLoader.h"
+#import "GADMAdapterMintegralNativeAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
-#import <MTGSDK/MTGBidNativeAdManager.h>
+#import <MTGSDK/MTGNativeAdManager.h>
 #import <MTGSDK/MTGSDK.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralRTBNativeAdLoader () <MTGBidNativeAdManagerDelegate,
-                                                     MTGMediaViewDelegate>
+@interface GADMAdapterMintegralNativeAdLoader () <MTGNativeAdManagerDelegate, MTGMediaViewDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRTBNativeAdLoader {
+@implementation GADMAdapterMintegralNativeAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -34,7 +33,7 @@
   GADMediationNativeAdConfiguration *_adConfiguration;
 
   /// The Mintegral native ad.
-  MTGBidNativeAdManager *_nativeManager;
+  MTGNativeAdManager *_nativeManager;
 
   /// The Mintegral media view.
   MTGMediaView *_mediaView;
@@ -58,10 +57,9 @@
   MTGAdChoicesView *_adChoicesView;
 }
 
-- (void)loadRTBNativeAdForAdConfiguration:
-            (nonnull GADMediationNativeAdConfiguration *)adConfiguration
-                        completionHandler:
-                            (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+- (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationNativeLoadCompletionHandler originalCompletionHandler =
@@ -89,11 +87,15 @@
     return;
   }
   _adUnitId = adUnitId;
-  _nativeManager = [[MTGBidNativeAdManager alloc] initWithPlacementId:placementId
-                                                               unitID:adUnitId
-                                             presentingViewController:rootViewController];
+  _nativeManager = [[MTGNativeAdManager alloc]
+           initWithPlacementId:placementId
+                        unitID:adUnitId
+            supportedTemplates:@[ [MTGTemplate templateWithType:MTGAD_TEMPLATE_BIG_IMAGE adsNum:1] ]
+                autoCacheImage:YES
+                    adCategory:MTGAD_CATEGORY_ALL
+      presentingViewController:rootViewController];
   _nativeManager.delegate = self;
-  [_nativeManager loadWithBidToken:adConfiguration.bidResponse];
+  [_nativeManager loadAds];
 }
 
 - (MTGMediaView *)createMediaView {
@@ -113,9 +115,9 @@
   return _adChoicesView;
 }
 
-#pragma mark - MTGBidNativeAdManagerDelegate
+#pragma mark - MTGNativeAdManagerDelegate
 - (void)nativeAdsLoaded:(nullable NSArray *)nativeAds
-       bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+          nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   if ([nativeAds isKindOfClass:NSArray.class] && nativeAds.count > 0) {
     _campaign = nativeAds.firstObject;
 
@@ -131,7 +133,7 @@
     [self loadRequiredNativeData];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a bidding native ad.");
+        GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a waterfall native ad.");
     if (_adLoadCompletionHandler) {
       _adLoadCompletionHandler(nil, error);
     }
@@ -139,19 +141,19 @@
 }
 
 - (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error
-                      bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+                         nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   if (_adLoadCompletionHandler) {
     _adLoadCompletionHandler(nil, error);
   }
 }
 
 - (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd
-        bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+           nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   [_adEventDelegate reportClick];
 }
 
 - (void)nativeAdImpressionWithType:(MTGAdSourceType)type
-                  bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+                     nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   [_adEventDelegate reportImpression];
 }
 
@@ -256,11 +258,11 @@
 }
 
 - (void)loadRequiredNativeData {
-  GADMAdapterMintegralRTBNativeAdLoader *__weak weakSelf = self;
+  GADMAdapterMintegralNativeAdLoader *__weak weakSelf = self;
   [GADMAdapterMintegralUtils
       downLoadNativeAdImageWithURLString:_campaign.iconUrl
                        completionHandler:^(GADNativeAdImage *_Nullable nativeAdImage) {
-                         GADMAdapterMintegralRTBNativeAdLoader *strongSelf = weakSelf;
+                         GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
                          if (!strongSelf) {
                            return;
                          }
