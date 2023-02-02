@@ -2,6 +2,7 @@
 
 #### Version 4.5.0.1 (In progress)
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+- Added support for forwarding COPPA information to the Unity Ads SDK.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.0.0.

@@ -18,6 +18,8 @@
 #import "GADMAdapterUnityConstants.h"
 #import "GADMediationAdapterUnity.h"
 
+#define GADMUnityLog(format, args...) NSLog(@"GADMediationAdapterUnity: " format, ##args)
+
 /// Configures metadata needed by Unity Ads SDK before initialization.
 void GADMAdapterUnityConfigureMediationService(void);
 
