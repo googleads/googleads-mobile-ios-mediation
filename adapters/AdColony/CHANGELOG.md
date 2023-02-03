@@ -1,5 +1,8 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to pass `childDirectedTreatment` information to the AdColony SDK.
+
 #### Version 4.9.0.1 (In Progress)
 - Updated the adapter to use the `didRewardUser` API.
 - Fixed an issue where UI related API methods are being called on a background thread.
