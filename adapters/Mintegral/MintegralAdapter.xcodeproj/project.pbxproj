@@ -33,6 +33,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2390099729919FA0005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 23CA0A802989E0D60088B4CD /* GADMAdapterMintegralRTBBannerAdLoader.h */; };
+		2390099829919FA0005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 23CA0A822989E0D60088B4CD /* GADMAdapterMintegralRTBInterstitialAdLoader.h */; };
+		2390099929919FA0005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 23CA0A842989E0D60088B4CD /* GADMAdapterMintegralRTBNativeAdLoader.h */; };
+		2390099A29919FA0005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 23CA0A862989E0D60088B4CD /* GADMAdapterMintegralRTBRewardedAdLoader.h */; };
+		2390099B2991A005005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A812989E0D60088B4CD /* GADMAdapterMintegralRTBBannerAdLoader.m */; };
+		2390099C2991A005005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A832989E0D60088B4CD /* GADMAdapterMintegralRTBInterstitialAdLoader.m */; };
+		2390099D2991A005005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A852989E0D60088B4CD /* GADMAdapterMintegralRTBNativeAdLoader.m */; };
+		2390099E2991A005005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A872989E0D60088B4CD /* GADMAdapterMintegralRTBRewardedAdLoader.m */; };
 		23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */; };
 		23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */; };
 		23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; };
@@ -241,6 +249,10 @@
 			files = (
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
 				23CA0A912989E3840088B4CD /* GADMAdapterMintegralBannerAdLoader.h in Headers */,
+				2390099729919FA0005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.h in Headers */,
+				2390099829919FA0005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.h in Headers */,
+				2390099929919FA0005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.h in Headers */,
+				2390099A29919FA0005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.h in Headers */,
 				23CA0A952989E3840088B4CD /* GADMAdapterMintegralNativeAdLoader.h in Headers */,
 				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
 				23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */,
@@ -355,6 +367,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2390099B2991A005005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.m in Sources */,
+				2390099C2991A005005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.m in Sources */,
+				2390099D2991A005005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.m in Sources */,
+				2390099E2991A005005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.m in Sources */,
 				23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Sources */,
 				23CA0A982989E3840088B4CD /* GADMAdapterMintegralRewardedAdLoader.m in Sources */,
 				23CA0A962989E3840088B4CD /* GADMAdapterMintegralNativeAdLoader.m in Sources */,
