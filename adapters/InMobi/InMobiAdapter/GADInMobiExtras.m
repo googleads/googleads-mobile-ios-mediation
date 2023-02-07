@@ -21,7 +21,6 @@
 @synthesize postalCode, areaCode, ageGroup;
 @synthesize keywords, interests;
 @synthesize age, yearOfBirth;
-@synthesize loginId, sessionId;
 @synthesize educationType;
 @synthesize language;
 

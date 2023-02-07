@@ -15,7 +15,6 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/IMNative.h>
 
 @class GADMAdapterInMobiUnifiedNativeAd;
 
