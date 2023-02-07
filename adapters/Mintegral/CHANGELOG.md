@@ -1,6 +1,6 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 7.2.9.1 (In progress)
+#### [Version 7.2.9.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.2.9.1.zip)
 - Added waterfall support for banner (includes MREC), interstitial, rewarded and native ad formats.
 - Requires Google Mobile Ads SDK version 10.0.0 or higher.
 
