@@ -3,7 +3,7 @@
 #### Next Version
 - Updated the adapter to pass `childDirectedTreatment` information to the AdColony SDK.
 
-#### Version 4.9.0.1 (In Progress)
+#### [Version 4.9.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.9.0.1.zip)
 - Updated the adapter to use the `didRewardUser` API.
 - Fixed an issue where UI related API methods are being called on a background thread.
 - Removed use of deprecated gender, birthday and location mediation APIs.
