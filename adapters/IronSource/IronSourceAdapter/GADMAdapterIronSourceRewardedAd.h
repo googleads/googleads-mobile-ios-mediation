@@ -19,11 +19,9 @@
 @interface GADMAdapterIronSourceRewardedAd : NSObject <GADMediationRewardedAd>
 
 /// Initializes a new instance with |adConfiguration| and |completionHandler|.
-- (instancetype)initWithGADMediationRewardedAdConfiguration:
-                    (GADMediationRewardedAdConfiguration *)adConfiguration
-                                          completionHandler:
-                                              (GADMediationRewardedLoadCompletionHandler)
-                                                  completionHandler NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGADMediationRewardedAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                                          completionHandler:(GADMediationRewardedLoadCompletionHandler)
+                                                            completionHandler NS_DESIGNATED_INITIALIZER;
 
 /// Unavailable.
 - (instancetype)init __unavailable;

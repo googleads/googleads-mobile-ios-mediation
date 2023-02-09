@@ -17,12 +17,21 @@
 typedef NS_ENUM(NSInteger, ISInstanceState);
 
 - (void)interstitialDidLoad:(NSString *)instanceId;
-- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId;
+
+- (void)interstitialDidFailToLoadWithError:(NSError *)error
+                                instanceId:(NSString *)instanceId;
+
 - (void)interstitialDidOpen:(NSString *)instanceId;
+
 - (void)interstitialDidClose:(NSString *)instanceId;
-- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId;
+
+- (void)interstitialDidFailToShowWithError:(NSError *)error
+                                instanceId:(NSString *)instanceId;
+
 - (void)didClickInterstitial:(NSString *)instanceId;
+
 - (void)setState:(NSString *)state;
+
 - (NSString *)getState;
 
 @end

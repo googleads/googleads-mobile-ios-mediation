@@ -17,12 +17,16 @@
 #import <IronSource/IronSource.h>
 #import "GADMAdapterIronSourceInterstitialDelegate.h"
 #import "GADMAdapterIronSourceRewardedDelegate.h"
+#import "GADMAdapterIronSourceBannerDelegate.h"
 
 @interface ISMediationManager
-    : NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate>
+    : NSObject <ISDemandOnlyRewardedVideoDelegate, ISDemandOnlyInterstitialDelegate,ISDemandOnlyBannerDelegate>
 
 + (nonnull instancetype)sharedManager;
-- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits;
+
+- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey
+                         forAdUnits:(nonnull NSSet *)adUnits;
+
 - (void)loadRewardedAdWithDelegate:(nonnull id<GADMAdapterIronSourceRewardedDelegate>)delegate
                         instanceID:(nonnull NSString *)instanceID;
 
@@ -36,4 +40,8 @@
 - (void)presentInterstitialAdFromViewController:(nonnull UIViewController *)viewController
                                      instanceID:(nonnull NSString *)instanceID;
 
+- (void)loadBannerAdWithDelegate:(nonnull id<GADMAdapterIronSourceBannerDelegate>)delegate
+                  viewController:(nonnull UIViewController *)viewController
+                      instanceID:(nonnull NSString *)instanceID
+                      bannerSize:(nonnull ISBannerSize*)size;
 @end

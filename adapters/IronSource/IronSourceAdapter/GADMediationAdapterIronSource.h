@@ -25,4 +25,5 @@ typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
 };
 
 @interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
+
 @end
