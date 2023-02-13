@@ -1,11 +1,12 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Version 5.17.2.0 (In progress)
-- Verified compatibility with myTarget SDK version 5.17.2.
+#### Version 5.17.3.0 (In progress)
+- Verified compatibility with myTarget SDK version 5.17.3.
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 
 Built and tested with:
-- Google Mobile Ads SDK version 9.14.0.
-- MyTarget SDK version 5.17.2.
+- Google Mobile Ads SDK version 10.0.0.
+- MyTarget SDK version 5.17.3.
 
 #### [Version 5.16.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.16.0.0.zip)
 - Updated the adapter to use the `didRewardUser` API.

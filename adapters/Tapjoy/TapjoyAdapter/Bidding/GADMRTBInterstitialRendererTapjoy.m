@@ -141,8 +141,7 @@
 }
 
 - (void)didClick:(TJPlacement *)placement {
-  [_delegate reportClick];
-  [_delegate willBackgroundApplication];
+  // Tapjoy SDK doesn't support reporting clicks through this callback.
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {

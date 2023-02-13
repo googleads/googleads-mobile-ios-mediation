@@ -14,7 +14,7 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/IMBanner.h>
+@import InMobiSDK;
 
 @interface GADMAdapterInMobiBannerAd : NSObject <GADMediationBannerAd, IMBannerDelegate>
 

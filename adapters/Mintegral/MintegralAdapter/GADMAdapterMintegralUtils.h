@@ -23,4 +23,13 @@ NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralEr
 
 void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                                              NSObject *_Nonnull object);
+
++ (CGSize)bannerSizeFromAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                                  error:(NSError *_Nullable *_Nullable)errorPtr;
+
++ (void)downLoadNativeAdImageWithURLString:(NSString *_Nonnull)URLString
+                         completionHandler:
+                             (void (^_Nullable)(GADNativeAdImage *_Nullable nativeAdImage))
+                                 completionHandler;
+
 @end

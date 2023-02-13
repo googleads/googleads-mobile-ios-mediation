@@ -17,10 +17,15 @@
 + (nullable AdColonyAppOptions *)getAppOptionsFromConnector:
     (nonnull id<GADMAdNetworkConnector>)connector {
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
-  options.userMetadata = [AdColonyUserMetadata new];
+  options.userMetadata = [[AdColonyUserMetadata alloc] init];
 
   [options setMediationNetwork:ADCAdMob];
   [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
+
+  if ([connector childDirectedTreatment]) {
+    [options setPrivacyFrameworkOfType:ADC_COPPA
+                            isRequired:[connector childDirectedTreatment].boolValue];
+  }
 
   return options;
 }
@@ -28,7 +33,7 @@
 + (nullable AdColonyAppOptions *)getAppOptionsFromAdConfig:
     (nonnull GADMediationAdConfiguration *)adConfig {
   AdColonyAppOptions *options = GADMediationAdapterAdColony.appOptions;
-  options.userMetadata = [AdColonyUserMetadata new];
+  options.userMetadata = [[AdColonyUserMetadata alloc] init];
 
   // Set mediation network depending upon type of adapter (Legacy/RTB)
   if (adConfig.bidResponse) {
@@ -40,18 +45,24 @@
 
   [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
 
+  if (adConfig.childDirectedTreatment) {
+    [options setPrivacyFrameworkOfType:ADC_COPPA
+                            isRequired:adConfig.childDirectedTreatment.boolValue];
+  }
+
   return options;
 }
 
 + (AdColonyAdOptions *)getAdOptionsFromExtras:(GADMAdapterAdColonyExtras *)extras {
   AdColonyAdOptions *options = [AdColonyAdOptions new];
-  options.userMetadata = [AdColonyUserMetadata new];
+  options.userMetadata = [[AdColonyUserMetadata alloc] init];
 
   if (extras && [extras isKindOfClass:[GADMAdapterAdColonyExtras class]]) {
     // Popups only apply to rewarded ads.
     options.showPrePopup = extras.showPrePopup;
     options.showPostPopup = extras.showPostPopup;
   }
+
   return options;
 }
 
@@ -166,19 +177,6 @@ void GADMAdapterAdColonyMutableSetAddObject(NSMutableSet *_Nullable set,
   }
 }
 
-NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
-    NSDictionary<NSString *, id> *_Nonnull settings) {
-  NSString *encodedZoneID = settings[GADMAdapterAdColonyZoneIDBiddingKey];
-  if (!encodedZoneID) {
-    encodedZoneID = settings[GADMAdapterAdColonyZoneIDkey];
-  }
-
-  NSArray<NSString *> *zoneIDs = [GADMAdapterAdColonyHelper parseZoneIDs:encodedZoneID];
-  NSString *zoneID = zoneIDs.firstObject;
-
-  return zoneID;
-}
-
 void GADMAdapterAdColonyMutableArrayAddObject(NSMutableArray *_Nullable array,
                                               NSObject *_Nonnull object) {
   if (object) {
@@ -198,4 +196,17 @@ dispatch_time_t GADMAdapterAdColonyDispatchTimeForInterval(NSTimeInterval interv
     return DISPATCH_TIME_NOW;
   }
   return dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC));  // Allow pattern.
+}
+
+NSString *_Nullable GADMAdapterAdColonyZoneIDForSettings(
+    NSDictionary<NSString *, id> *_Nonnull settings) {
+  NSString *encodedZoneID = settings[GADMAdapterAdColonyZoneIDBiddingKey];
+  if (!encodedZoneID) {
+    encodedZoneID = settings[GADMAdapterAdColonyZoneIDkey];
+  }
+
+  NSArray<NSString *> *zoneIDs = [GADMAdapterAdColonyHelper parseZoneIDs:encodedZoneID];
+  NSString *zoneID = zoneIDs.firstObject;
+
+  return zoneID;
 }

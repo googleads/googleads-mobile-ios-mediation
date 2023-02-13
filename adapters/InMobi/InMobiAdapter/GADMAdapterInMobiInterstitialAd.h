@@ -14,7 +14,7 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/IMInterstitial.h>
+@import InMobiSDK;
 
 @interface GADMAdapterInMobiInterstitialAd
     : NSObject <GADMediationInterstitialAd, IMInterstitialDelegate>

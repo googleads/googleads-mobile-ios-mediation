@@ -153,13 +153,7 @@
 }
 
 - (void)didClick:(nonnull TJPlacement *)placement {
-  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
-  if (!strongConnector) {
-    return;
-  }
-
-  [strongConnector adapterDidGetAdClick:self];
-  [strongConnector adapterWillLeaveApplication:self];
+  // Tapjoy SDK doesn't support reporting clicks through this callback.
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
