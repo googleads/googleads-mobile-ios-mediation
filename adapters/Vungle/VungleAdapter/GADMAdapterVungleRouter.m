@@ -80,12 +80,4 @@ const CGSize kVNGBannerShortSize = {300, 50};
                 }];
 }
 
-- (BOOL)isSDKInitialized {
-  return [VungleAds isInitialized];
-}
-
-- (NSString *)getSuperToken {
-  return [VungleAds getBiddingToken];
-}
-
 @end

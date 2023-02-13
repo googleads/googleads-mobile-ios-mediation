@@ -24,7 +24,7 @@
 /// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-/// Requests a interstitial ad from Vungle.
+/// Requests a banner ad from Vungle.
 - (void)requestBannerAd;
 
 @end

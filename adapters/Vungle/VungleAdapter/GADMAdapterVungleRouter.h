@@ -25,10 +25,4 @@ extern const CGSize kVNGBannerShortSize;
 - (void)initWithAppId:(nonnull NSString *)appId
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate;
 
-/// Queries the Vungle SDK to check if it has been initialized
-- (BOOL)isSDKInitialized;
-
-/// Queries the Vungle SDK for the signals aka Vungle bidding token
-- (nullable NSString *)getSuperToken;
-
 @end

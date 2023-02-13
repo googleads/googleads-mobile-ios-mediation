@@ -60,7 +60,7 @@
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
-    _bannerSize = [self vungleAdSizeForAdSize:[adConfiguration adSize]];
+    _bannerSize = [self vungleAdSizeForAdSize:adConfiguration.adSize];
 
     VungleAdNetworkExtras *networkExtras = adConfiguration.extras;
     self.desiredPlacement =
@@ -103,7 +103,7 @@
     return;
   }
 
-  if (![[GADMAdapterVungleRouter sharedInstance] isSDKInitialized]) {
+  if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
     return;

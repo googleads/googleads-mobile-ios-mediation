@@ -172,7 +172,7 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  completionHandler([GADMAdapterVungleRouter.sharedInstance getSuperToken], nil);
+  completionHandler([VungleAds getBiddingToken], nil);
 }
 
 @end
