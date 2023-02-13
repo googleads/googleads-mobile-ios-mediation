@@ -5,6 +5,7 @@
 - Verified compatibility with Chartboost SDK version 9.2.0.
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 - Removed support for the `armv7` architecture.
+- Now requires minimum iOS version of 11.0.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.0.0.

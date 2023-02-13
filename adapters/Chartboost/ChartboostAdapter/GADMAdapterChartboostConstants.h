@@ -30,4 +30,4 @@ static NSString *const GADMAdapterChartboostAdLocation = @"adLocation";
 static NSString *const GADMAdapterChartboostErrorDomain = @"com.google.mediation.chartboost";
 
 /// Minimum OS version.
-static NSString *const GADMAdapterChartboostMinimumOSVersion = @"10.0";
+static NSString *const GADMAdapterChartboostMinimumOSVersion = @"11.0";
