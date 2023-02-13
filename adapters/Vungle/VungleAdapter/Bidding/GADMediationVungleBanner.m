@@ -170,8 +170,8 @@
   _bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   if (_adLoadCompletionHandler) {
-    _delegate = _adLoadCompletionHandler(self, nil);
     [_bannerAd presentOn:_bannerView];
+    _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
