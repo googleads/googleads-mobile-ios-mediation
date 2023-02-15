@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Version 6.12.0.1 (In progress)
+#### [Version 6.12.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.1.zip)
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 
 Built and tested with:
