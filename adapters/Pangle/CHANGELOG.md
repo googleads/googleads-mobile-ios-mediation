@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 4.9.1.0.0 (In progress)
+#### [Version 4.9.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.9.1.0.0.zip)
 - Removed support for the `armv7` architecture.
 - Verified compatibility with Pangle SDK version 4.9.1.0.
 - Now requires minimum iOS version of 12.0.
