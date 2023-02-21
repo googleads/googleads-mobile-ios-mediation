@@ -1,7 +1,11 @@
 ## AdColony iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 4.9.0.2 (In Progress)
 - Updated the adapter to pass `childDirectedTreatment` information to the AdColony SDK.
+
+Built and tested with
+- Google Mobile Ads SDK version 10.1.0.
+- AdColony SDK version 4.9.0.
 
 #### [Version 4.9.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.9.0.1.zip)
 - Updated the adapter to use the `didRewardUser` API.
