@@ -2,6 +2,7 @@
 
 #### Version 11.7.1.0 (In progress)
 - Verified compatibility with AppLovin SDK 11.7.1.
+- Fixed an issue that bidding rewarded ads fail to load if Zone ID is missing.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.0.0.
