@@ -86,6 +86,12 @@
   _incent.adDisplayDelegate = _appLovinDelegate;
   _incent.adVideoPlaybackDelegate = _appLovinDelegate;
 
+  if (_adConfiguration.bidResponse) {
+    // Load ad.
+    [_SDKk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
+    return;
+  }
+
   _zoneIdentifier = [GADMAdapterAppLovinUtils zoneIdentifierForAdConfiguration:_adConfiguration];
 
   // Unable to resolve a valid zone - error out
@@ -110,12 +116,6 @@
 
   [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", _zoneIdentifier];
 
-  if (_adConfiguration.bidResponse) {
-    // Load ad.
-    [_SDKk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
-    return;
-  }
-
   GADMAdapterAppLovinRewardedRenderer *__weak weakSelf = self;
   [GADMAdapterAppLovinInitializer.sharedInstance
       initializeWithSDKKey:SDKKey
@@ -126,7 +126,7 @@
            }
 
            if (initializationError) {
-             _adLoadCompletionHandler(nil, initializationError);
+             strongSelf->_adLoadCompletionHandler(nil, initializationError);
              return;
            }
 
@@ -138,8 +138,9 @@
            }
            // If custom zone id
            else {
-             [strongSelf->_SDKk.adService loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
-                                                           andNotify:strongSelf->_appLovinDelegate];
+             [strongSelf->_SDKk.adService
+                 loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
+                                   andNotify:strongSelf->_appLovinDelegate];
            }
          }];
 }
