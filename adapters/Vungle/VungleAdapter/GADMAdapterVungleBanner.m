@@ -32,7 +32,7 @@
   /// Vungle banner ad instance.
   VungleBanner *_bannerAd;
 
-  /// UIView for Vungle to mount the ad
+  /// UIView that contains a Vungle banner ad.
   UIView *_bannerView;
 }
 
