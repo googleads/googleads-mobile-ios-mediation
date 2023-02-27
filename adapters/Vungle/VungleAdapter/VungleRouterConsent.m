@@ -25,10 +25,6 @@
   [VunglePrivacySettings setCCPAStatus:optIn];
 }
 
-+ (void)updateCOPPAStatus:(BOOL)optIn {
-  [VunglePrivacySettings setCOPPAStatus:optIn];
-}
-
 + (void)updateIDFVStatus:(BOOL)optIn {
   [VunglePrivacySettings setPublishIdfv:optIn];
 }
