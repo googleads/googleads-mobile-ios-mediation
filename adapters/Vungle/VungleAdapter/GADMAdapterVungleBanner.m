@@ -162,7 +162,7 @@
 }
 
 - (void)bannerAdWillPresent:(VungleBanner *)banner {
-  // No-op.
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)bannerAdDidPresent:(VungleBanner *)banner {
@@ -186,7 +186,7 @@
 }
 
 - (void)bannerAdDidTrackImpression:(VungleBanner *)banner {
-  // No-op.
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)bannerAdDidClick:(VungleBanner *)banner {

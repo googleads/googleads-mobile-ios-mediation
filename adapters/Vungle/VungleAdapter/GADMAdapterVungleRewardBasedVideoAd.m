@@ -162,7 +162,7 @@
 }
 
 - (void)rewardedAdWillLeaveApplication:(VungleRewarded *)rewarded {
-  // No-op.
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)rewardedAdDidRewardUser:(VungleRewarded *)rewarded {

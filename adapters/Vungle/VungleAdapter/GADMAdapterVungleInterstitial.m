@@ -138,7 +138,7 @@
 }
 
 - (void)interstitialAdDidPresent:(VungleInterstitial *)interstitial {
-  // No-op.
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial
@@ -157,7 +157,7 @@
 }
 
 - (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
-  // No-op.
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
