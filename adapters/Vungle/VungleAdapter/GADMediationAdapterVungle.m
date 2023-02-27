@@ -22,7 +22,6 @@
 #import "GADMediationVungleNativeAd.h"
 #import "GADMediationVungleRewardedAd.h"
 #import "VungleAdNetworkExtras.h"
-#import "VungleRouterConsentPrivate.h"
 
 @implementation GADMediationAdapterVungle {
   /// Vungle rewarded ad wrapper.
@@ -109,7 +108,7 @@
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (adConfiguration.childDirectedTreatment) {
-    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
   }
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
@@ -128,7 +127,7 @@
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
   if (adConfiguration.childDirectedTreatment) {
-    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
   }
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
@@ -140,7 +139,7 @@
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
   if (adConfiguration.childDirectedTreatment) {
-    [VungleRouterConsent updateCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
   }
   _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];

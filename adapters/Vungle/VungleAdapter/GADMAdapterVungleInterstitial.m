@@ -18,7 +18,6 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationAdapterVungle.h"
-#import "VungleRouterConsentPrivate.h"
 
 @interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate, VungleInterstitialDelegate>
 @end
@@ -63,7 +62,7 @@
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (strongConnector.childDirectedTreatment) {
-    [VungleRouterConsent updateCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
   }
   _bannerAd = [[GADMAdapterVungleBanner alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                       adapter:self];
@@ -75,7 +74,7 @@
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (strongConnector.childDirectedTreatment) {
-    [VungleRouterConsent updateCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
   }
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
