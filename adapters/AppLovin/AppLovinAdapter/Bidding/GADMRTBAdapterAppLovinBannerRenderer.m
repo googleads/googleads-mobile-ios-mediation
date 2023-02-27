@@ -81,7 +81,7 @@
 
   // Create adview object.
   _adView = [[ALAdView alloc] initWithSdk:_SDK size:appLovinAdSize];
-  [_adView setExtraInfoForKey: @"google_watermark" value: _adConfiguration.watermark];
+  [_adView setExtraInfoForKey:@"google_watermark" value:_adConfiguration.watermark];
 
   GADMAppLovinRTBBannerDelegate *delegate =
       [[GADMAppLovinRTBBannerDelegate alloc] initWithParentRenderer:self];
