@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import "GADMediationAdapterVungle.h"
 #import "VungleAdNetworkExtras.h"
-#import <VungleAdsSDK/VungleAdsSDK.h>
 
 /// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
@@ -23,13 +23,15 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
                                                                NSString *_Nonnull description);
 
 /// Returns a NSError converted from the error object from Vungle SDK into the AdMob error format
-/// The localized description will contain the vungle error code and the description from the Vungle SDK.
+/// The localized description will contain the vungle error code and the description from the Vungle
+/// SDK.
 NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
-                                                               NSInteger vungleCode,
-                                                               NSString *_Nonnull description);
+                                                   NSInteger vungleCode,
+                                                   NSString *_Nonnull description);
 
 /// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
-/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid placement id.
+/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid placement
+/// id.
 NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription(void);
 
 /// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
@@ -38,6 +40,9 @@ NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription(void)
 
 /// Returns a GADAdSize object that is valid for the Vungle SDK
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize);
+
+/// Returns a Vungle BannerSize from the provided GADAdSize
+BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize);
 
 @interface GADMAdapterVungleUtils : NSObject
 

@@ -47,6 +47,49 @@ NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription() {
   return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
 }
 
+const CGSize kVNGBannerShortSize = {300, 50};
+GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
+  // It has to match for MREC, otherwise it would be a banner with flexible size
+  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
+      adSize.size.width == GADAdSizeMediumRectangle.size.width) {
+    return GADAdSizeMediumRectangle;
+  }
+
+  // An array of supported ad sizes.
+  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
+    NSValueFromGADAdSize(shortBannerSize)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
+  CGSize size = CGSizeFromGADAdSize(closestSize);
+  if (size.height == GADAdSizeBanner.size.height) {
+    if (size.width < GADAdSizeBanner.size.width) {
+      return shortBannerSize;
+    } else {
+      return GADAdSizeBanner;
+    }
+  } else if (size.height == GADAdSizeLeaderboard.size.height) {
+    return GADAdSizeLeaderboard;
+  }
+  return GADAdSizeInvalid;
+}
+
+BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
+  if (GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
+    return BannerSizeMrec;
+  }
+  if (adSize.size.height == GADAdSizeLeaderboard.size.height) {
+    return BannerSizeLeaderboard;
+  }
+  // Height is 50.
+  if (adSize.size.width < GADAdSizeBanner.size.width) {
+    return BannerSizeShort;
+  }
+  return BannerSizeRegular;
+}
+
 @implementation GADMAdapterVungleUtils
 
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {

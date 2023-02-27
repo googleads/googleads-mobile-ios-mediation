@@ -15,8 +15,6 @@
 #import <Foundation/Foundation.h>
 #import "GADMAdapterVungleDelegate.h"
 
-extern const CGSize kVNGBannerShortSize;
-
 @interface GADMAdapterVungleRouter : NSObject
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;

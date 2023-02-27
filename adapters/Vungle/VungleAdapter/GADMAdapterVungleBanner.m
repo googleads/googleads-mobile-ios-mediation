@@ -62,7 +62,7 @@
     return;
   }
 
-  _bannerSize = [self filterValidAdSizes:adSize];
+  _bannerSize = GADMAdapterVungleAdSizeForAdSize(adSize);
   if (!IsGADAdSizeValid(_bannerSize)) {
     NSString *errorMessage =
         [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
@@ -96,52 +96,10 @@
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
-/// Filters the ad size provided to the ones that Vungle supports
-- (GADAdSize)filterValidAdSizes:(GADAdSize)adSize {
-  // It has to match for MREC, otherwise it would be a banner with flexible size
-  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
-      adSize.size.width == GADAdSizeMediumRectangle.size.width) {
-    return GADAdSizeMediumRectangle;
-  }
-
-  // An array of supported ad sizes.
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
-    NSValueFromGADAdSize(shortBannerSize)
-  ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == GADAdSizeBanner.size.height) {
-    if (size.width < GADAdSizeBanner.size.width) {
-      return shortBannerSize;
-    } else {
-      return GADAdSizeBanner;
-    }
-  } else if (size.height == GADAdSizeLeaderboard.size.height) {
-    return GADAdSizeLeaderboard;
-  }
-  return GADAdSizeInvalid;
-}
-
-- (BannerSize)convertGADAdSizeToBannerSize {
-  if (GADAdSizeEqualToSize(_bannerSize, GADAdSizeMediumRectangle)) {
-    return BannerSizeMrec;
-  }
-  if (_bannerSize.size.height == GADAdSizeLeaderboard.size.height) {
-    return BannerSizeLeaderboard;
-  }
-  // Height is 50.
-  if (_bannerSize.size.width < GADAdSizeBanner.size.width) {
-    return BannerSizeShort;
-  }
-  return BannerSizeRegular;
-}
-
 - (void)loadAd {
-  _bannerAd = [[VungleBanner alloc] initWithPlacementId:self.desiredPlacement
-                                                   size:[self convertGADAdSizeToBannerSize]];
+  _bannerAd = [[VungleBanner alloc]
+      initWithPlacementId:self.desiredPlacement
+                     size:GADMAdapterVungleConvertGADAdSizeToBannerSize(_bannerSize)];
   _bannerAd.delegate = self;
   // Pass nil for the payload because this is not bidding
   [_bannerAd load:nil];
