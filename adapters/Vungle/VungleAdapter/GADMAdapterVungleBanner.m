@@ -29,7 +29,7 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Vungle Banner instance
+  /// Vungle banner ad instance.
   VungleBanner *_bannerAd;
 
   /// UIView for Vungle to mount the ad
