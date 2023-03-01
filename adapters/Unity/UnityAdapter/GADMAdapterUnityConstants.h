@@ -29,7 +29,7 @@ static NSString *const GADMAdapterUnityGameID = @"gameId";
 static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
 
 /// Ad mediation network adapter version.
-static NSString *const GADMAdapterUnityVersion = @"4.5.0.1";
+static NSString *const GADMAdapterUnityVersion = @"4.6.0.0";
 
 /// Ad mediation network name.
 static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";
