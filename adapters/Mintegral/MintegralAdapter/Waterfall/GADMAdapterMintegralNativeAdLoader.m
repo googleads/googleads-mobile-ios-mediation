@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
-#import <MTGSDK/MTGBidNativeAdManager.h>
+#import <MTGSDK/MTGNativeAdManager.h>
 #import <MTGSDK/MTGSDK.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralNativeAdLoader () <MTGBidNativeAdManagerDelegate,
-                                                  MTGMediaViewDelegate>
+@interface GADMAdapterMintegralNativeAdLoader () <MTGNativeAdManagerDelegate, MTGMediaViewDelegate>
 
 @end
 
@@ -34,7 +33,7 @@
   GADMediationNativeAdConfiguration *_adConfiguration;
 
   /// The Mintegral native ad.
-  MTGBidNativeAdManager *_nativeManager;
+  MTGNativeAdManager *_nativeManager;
 
   /// The Mintegral media view.
   MTGMediaView *_mediaView;
@@ -88,11 +87,15 @@
     return;
   }
   _adUnitId = adUnitId;
-  _nativeManager = [[MTGBidNativeAdManager alloc] initWithPlacementId:placementId
-                                                               unitID:adUnitId
-                                             presentingViewController:rootViewController];
+  _nativeManager = [[MTGNativeAdManager alloc]
+           initWithPlacementId:placementId
+                        unitID:adUnitId
+            supportedTemplates:@[ [MTGTemplate templateWithType:MTGAD_TEMPLATE_BIG_IMAGE adsNum:1] ]
+                autoCacheImage:YES
+                    adCategory:MTGAD_CATEGORY_ALL
+      presentingViewController:rootViewController];
   _nativeManager.delegate = self;
-  [_nativeManager loadWithBidToken:adConfiguration.bidResponse];
+  [_nativeManager loadAds];
 }
 
 - (MTGMediaView *)createMediaView {
@@ -112,9 +115,9 @@
   return _adChoicesView;
 }
 
-#pragma mark - MTGBidNativeAdManagerDelegate
+#pragma mark - MTGNativeAdManagerDelegate
 - (void)nativeAdsLoaded:(nullable NSArray *)nativeAds
-       bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+          nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   if ([nativeAds isKindOfClass:NSArray.class] && nativeAds.count > 0) {
     _campaign = nativeAds.firstObject;
 
@@ -130,66 +133,27 @@
     [self loadRequiredNativeData];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a native ad.");
+        GADMintegralErrorAdNotAvailable, @"Mintegral SDK failed to return a waterfall native ad.");
     if (_adLoadCompletionHandler) {
       _adLoadCompletionHandler(nil, error);
     }
   }
 }
 
-- (void)loadRequiredNativeData {
-  GADMAdapterMintegralNativeAdLoader *__weak weakSelf = self;
-  void (^localBlock)(void) = ^{
-    GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
-    if (strongSelf && strongSelf->_adLoadCompletionHandler) {
-      strongSelf->_adEventDelegate = strongSelf->_adLoadCompletionHandler(strongSelf, nil);
-    }
-  };
-  NSString *URLString = _campaign.iconUrl;
-  if (!URLString.length) {
-    localBlock();
-    return;
-  }
-  NSURL *URL = [NSURL URLWithString:URLString];
-  if (!URL) {
-    localBlock();
-    return;
-  }
-  NSURLSession *session = [NSURLSession sharedSession];
-  NSURLSessionDataTask *task =
-      [session dataTaskWithURL:URL
-             completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
-                                 NSError *_Nullable error) {
-               dispatch_async(dispatch_get_main_queue(), ^{
-                 GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
-                 if (!strongSelf) {
-                   return;
-                 }
-                 GADNativeAdImage *image =
-                     (!error && data)
-                         ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]]
-                         : nil;
-                 strongSelf->_icon = image;
-                 localBlock();
-               });
-             }];
-  [task resume];
-}
-
 - (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error
-                      bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+                         nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   if (_adLoadCompletionHandler) {
     _adLoadCompletionHandler(nil, error);
   }
 }
 
 - (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd
-        bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+           nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   [_adEventDelegate reportClick];
 }
 
 - (void)nativeAdImpressionWithType:(MTGAdSourceType)type
-                  bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+                     nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
   [_adEventDelegate reportImpression];
 }
 
@@ -293,4 +257,21 @@
                                 withCampaign:_campaign];
 }
 
+- (void)loadRequiredNativeData {
+  GADMAdapterMintegralNativeAdLoader *__weak weakSelf = self;
+  [GADMAdapterMintegralUtils
+      downLoadNativeAdImageWithURLString:_campaign.iconUrl
+                       completionHandler:^(GADNativeAdImage *_Nullable nativeAdImage) {
+                         GADMAdapterMintegralNativeAdLoader *strongSelf = weakSelf;
+                         if (!strongSelf) {
+                           return;
+                         }
+                         strongSelf->_icon = nativeAdImage;
+
+                         if (strongSelf && strongSelf->_adLoadCompletionHandler) {
+                           strongSelf->_adEventDelegate =
+                               strongSelf->_adLoadCompletionHandler(strongSelf, nil);
+                         }
+                       }];
+}
 @end

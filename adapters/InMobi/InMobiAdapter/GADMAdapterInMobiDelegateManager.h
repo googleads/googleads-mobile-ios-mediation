@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/IMInterstitialDelegate.h>
+@import InMobiSDK;
 
 /// Manages rewarded ad delegates.
 @interface GADMAdapterInMobiDelegateManager : NSObject

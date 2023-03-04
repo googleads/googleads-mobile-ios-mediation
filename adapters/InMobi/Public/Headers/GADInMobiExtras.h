@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GADExtras.h>
 #import <GoogleMobileAds/GADRequest.h>
-#import <InMobiSDK/IMSdk.h>
+@import InMobiSDK;
 
 @interface GADInMobiExtras : NSObject <GADAdNetworkExtras>
 
@@ -75,17 +75,6 @@ Set InMobi SDK logLevel.
  * Provide the user's location to the SDK for targetting purposes
  */
 - (void)setLocation:(nonnull CLLocation *)location;
-
-#pragma mark Setting User IDs
-/**
- * User ids such as facebook, twitter, etc may be provided to deliver more
- * relevant ids.
- */
-@property(nonatomic, copy, nullable) NSString *loginId;
-/**
- * Useful for maintaining different sessions with same login id.
- */
-@property(nonatomic, copy, nullable) NSString *sessionId;
 
 @property(nonatomic, copy, nullable, readonly) NSString *city;
 @property(nonatomic, copy, nullable, readonly) NSString *state;

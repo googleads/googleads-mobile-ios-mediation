@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     https://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,19 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterMintegralBannerAdLoader : NSObject <GADMediationBannerAd>
+@interface GADMediationVungleBanner : NSObject
 
-/// Asks the receiver to render the ad configuration.
-- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:
-                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+          completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
+
+/// Unavailable.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests a banner ad from Vungle.
+- (void)requestBannerAd;
+
+/// Destroy and cleanup Vungle's banner ad.
+- (void)cleanUp;
 
 @end

@@ -17,6 +17,10 @@
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralInterstitialAdLoader.h"
 #import "GADMAdapterMintegralNativeAdLoader.h"
+#import "GADMAdapterMintegralRTBBannerAdLoader.h"
+#import "GADMAdapterMintegralRTBInterstitialAdLoader.h"
+#import "GADMAdapterMintegralRTBNativeAdLoader.h"
+#import "GADMAdapterMintegralRTBRewardedAdLoader.h"
 #import "GADMAdapterMintegralRewardedAdLoader.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
@@ -25,17 +29,29 @@
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 
 @implementation GADMediationAdapterMintegral {
-  /// Mintegral banner ad.
-  GADMAdapterMintegralBannerAdLoader *_bannerAd;
+  /// Mintegral RTB banner ad.
+  GADMAdapterMintegralRTBBannerAdLoader *_rtbBannerAd;
 
-  /// Mintegral interstitial ad.
-  GADMAdapterMintegralInterstitialAdLoader *_interstitialAd;
+  /// Mintegral RTB interstitial ad.
+  GADMAdapterMintegralRTBInterstitialAdLoader *_rtbInterstitialAd;
 
-  /// Mintegral native ad.
-  GADMAdapterMintegralNativeAdLoader *_nativeAd;
+  /// Mintegral RTB native ad.
+  GADMAdapterMintegralRTBNativeAdLoader *_rtbNativeAd;
 
-  /// Mintegral rewarded ad.
-  GADMAdapterMintegralRewardedAdLoader *_rewardedAd;
+  /// Mintegral RTB rewarded ad.
+  GADMAdapterMintegralRTBRewardedAdLoader *_rtbRewardedAd;
+
+  /// Mintegral waterfall banner ad.
+  GADMAdapterMintegralBannerAdLoader *_waterfallBannerAd;
+
+  /// Mintegral waterfall interstitial ad.
+  GADMAdapterMintegralInterstitialAdLoader *_waterfallInterstitialAd;
+
+  /// Mintegral waterfall native ad.
+  GADMAdapterMintegralNativeAdLoader *_waterfallNativeAd;
+
+  /// Mintegral waterfall rewarded ad.
+  GADMAdapterMintegralRewardedAdLoader *_waterfallRewardedAd;
 }
 
 #pragma mark - GADRTBAdapter
@@ -81,10 +97,8 @@
   }
 
   // Initialize the Mintergral SDK.
-  [GADMediationAdapterMintegral setAdMobChannel];
+  [GADMediationAdapterMintegral setAdmobChannel];
   [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
-  // Mintegral SDK doesn't verify App ID and App Key when initializing, but will return a failure
-  // callback if loading an ad with the incorrect App ID or App Key.
   if (completionHandler) {
     completionHandler(nil);
   }
@@ -125,34 +139,60 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  _bannerAd = [[GADMAdapterMintegralBannerAdLoader alloc] init];
-  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbBannerAd = [[GADMAdapterMintegralRTBBannerAdLoader alloc] init];
+    [_rtbBannerAd loadRTBBannerAdForAdConfiguration:adConfiguration
+                                  completionHandler:completionHandler];
+  } else {
+    _waterfallBannerAd = [[GADMAdapterMintegralBannerAdLoader alloc] init];
+    [_waterfallBannerAd loadBannerAdForAdConfiguration:adConfiguration
+                                     completionHandler:completionHandler];
+  }
 }
 
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  _interstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc] init];
-  [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
-                                      completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbInterstitialAd = [[GADMAdapterMintegralRTBInterstitialAdLoader alloc] init];
+    [_rtbInterstitialAd loadRTBInterstitialAdForAdConfiguration:adConfiguration
+                                              completionHandler:completionHandler];
+  } else {
+    _waterfallInterstitialAd = [[GADMAdapterMintegralInterstitialAdLoader alloc] init];
+    [_waterfallInterstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
+                                                 completionHandler:completionHandler];
+  }
 }
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-  _nativeAd = [[GADMAdapterMintegralNativeAdLoader alloc] init];
-  [_nativeAd loadNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbNativeAd = [[GADMAdapterMintegralRTBNativeAdLoader alloc] init];
+    [_rtbNativeAd loadRTBNativeAdForAdConfiguration:adConfiguration
+                                  completionHandler:completionHandler];
+  } else {
+    _waterfallNativeAd = [[GADMAdapterMintegralNativeAdLoader alloc] init];
+    [_waterfallNativeAd loadNativeAdForAdConfiguration:adConfiguration
+                                     completionHandler:completionHandler];
+  }
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc] init];
-  [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
-                              completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbRewardedAd = [[GADMAdapterMintegralRTBRewardedAdLoader alloc] init];
+    [_rtbRewardedAd loadRTBRewardedAdForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
+  } else {
+    _waterfallRewardedAd = [[GADMAdapterMintegralRewardedAdLoader alloc] init];
+    [_waterfallRewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                                         completionHandler:completionHandler];
+  }
 }
 
-+ (void)setAdMobChannel {
++ (void)setAdmobChannel {
   // Set up the AdMob aggregation channel for server statistic collection purposes.
   Class _class = NSClassFromString(@"MTGSDK");
   SEL selector = NSSelectorFromString(@"setChannelFlag:");

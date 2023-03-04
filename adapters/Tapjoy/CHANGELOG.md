@@ -1,5 +1,14 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### [Version 12.11.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.11.1.0.zip)
+- Verified compatibility with Tapjoy SDK 12.11.1.
+- Removed support for forwarding callbacks to Google Mobile Ads SDK when Tapjoy ads are clicked.
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.0.0.
+- Tapjoy SDK version 12.11.1.
+
 #### [Version 12.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-12.11.0.0.zip)
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralRewardedAdLoader.h"
+#import "GADMAdapterMintegralRTBRewardedAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
@@ -22,12 +22,12 @@
 #import <MTGSDKReward/MTGRewardAd.h>
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralRewardedAdLoader () <MTGRewardAdLoadDelegate,
-                                                    MTGRewardAdShowDelegate>
+@interface GADMAdapterMintegralRTBRewardedAdLoader () <MTGRewardAdLoadDelegate,
+                                                       MTGRewardAdShowDelegate>
 
 @end
 
-@implementation GADMAdapterMintegralRewardedAdLoader {
+@implementation GADMAdapterMintegralRTBRewardedAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -40,17 +40,17 @@
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
-  /// The Mintegral rewarded ad's Ad Unit ID.
+  /// The Mintegral rewarded ad Unit ID.
   NSString *_adUnitId;
 
-  /// The Mintegral rewarded ad's Ad Placement ID.
+  /// The Mintegral rewarded ad Placement ID.
   NSString *_placementId;
 }
 
-- (void)loadRewardedAdForAdConfiguration:
+- (void)loadRTBRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                       completionHandler:
-                           (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+                          completionHandler:
+                              (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler =
@@ -154,7 +154,8 @@
                            viewController:viewController];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdFailedToShow, @"Mintegral SDK failed to present a rewarded video ad.");
+        GADMintegralErrorAdFailedToShow,
+        @"Mintegral SDK failed to present a bidding rewarded video ad.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }

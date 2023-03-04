@@ -25,6 +25,7 @@
 @property(nonatomic, weak) id<GADMAdNetworkConnector> connector;
 @property(nonatomic, strong) UADSBannerView *bannerAd;
 @property(nonatomic, strong) GADMUnityBannerNetworkAdapterProxy *bannerAdDelegateProxy;
+@property(nonatomic, strong) NSString *objectId;
 @end
 
 @implementation GADMAdapterUnity
@@ -62,16 +63,23 @@
 }
 
 - (void)getInterstitial {
+  self.objectId = [NSUUID UUID].UUIDString;
+  UADSLoadOptions *loadOptions = [UADSLoadOptions new];
+  loadOptions.objectId = self.objectId;
   [UnityAds load:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
-      loadDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+         options:loadOptions
+    loadDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
                        initWithGADMAdNetworkConnector:self.connector
                                               adapter:self]];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
+  UADSShowOptions *showOptions = [UADSShowOptions new];
+  showOptions.objectId = self.objectId;
   [UnityAds show:rootViewController
-       placementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
-      showDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
+     placementId:[[self.connector credentials] objectForKey:GADMAdapterUnityPlacementID] ?: @""
+         options:showOptions
+    showDelegate:[[GADMUnityInterstitialNetworkAdapterProxy alloc]
                        initWithGADMAdNetworkConnector:self.connector
                                               adapter:self]];
 }
