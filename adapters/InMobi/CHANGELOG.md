@@ -2,8 +2,9 @@
 
 #### Version 10.5.4.0 (In progress)
 - Verified compatibility with InMobi SDK 10.5.4.
-- Now requires minimum iOS version 11.0.
 - Removed use of deprecated gender, birthday and location mediation APIs.
+- Removed support for the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 
 Built and tested with:
