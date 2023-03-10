@@ -101,26 +101,47 @@ void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) 
     return;
   }
 
+  // The geographic location is preffered over the city-stsate-country.
+  if (extras.location) {
+    [IMSdk setLocation:extras.location];
+  } else if (extras.city && extras.state && extras.country) {
+    [IMSdk setLocationWithCity:extras.city state:extras.state country:extras.country];
+  }
+
   if (extras.postalCode) {
     [IMSdk setPostalCode:extras.postalCode];
   }
+
   if (extras.areaCode) {
     [IMSdk setAreaCode:extras.areaCode];
   }
+
   if (extras.interests) {
     [IMSdk setInterests:extras.interests];
   }
+
   if (extras.age) {
     [IMSdk setAge:extras.age];
   }
+
   if (extras.yearOfBirth) {
     [IMSdk setYearOfBirth:extras.yearOfBirth];
   }
-  if (extras.city && extras.state && extras.country) {
-    [IMSdk setLocationWithCity:extras.city state:extras.state country:extras.country];
-  }
+
   if (extras.language) {
     [IMSdk setLanguage:extras.language];
+  }
+
+  if (extras.educationType) {
+    [IMSdk setEducation:extras.educationType];
+  }
+
+  if (extras.ageGroup) {
+    [IMSdk setAgeGroup:extras.ageGroup];
+  }
+
+  if (extras.logLevel) {
+    [IMSdk setLogLevel:extras.logLevel];
   }
 }
 
