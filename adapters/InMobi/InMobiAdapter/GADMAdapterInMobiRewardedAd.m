@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterInMobiRewardedAd.h"
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #include <stdatomic.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
