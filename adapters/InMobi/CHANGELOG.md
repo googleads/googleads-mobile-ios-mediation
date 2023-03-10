@@ -1,6 +1,6 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 10.5.4.0 (In progress)
+#### [Version 10.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.4.0.zip)
 - Verified compatibility with InMobi SDK 10.5.4.
 - Removed use of deprecated gender, birthday and location mediation APIs.
 - Removed support for the `armv7` architecture.
