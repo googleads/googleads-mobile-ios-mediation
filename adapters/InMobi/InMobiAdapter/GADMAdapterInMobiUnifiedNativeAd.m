@@ -124,8 +124,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
     _shouldDownloadImages = !imageOptions.disableImageLoading;
   }
 
-  NSString *accountID = _nativeAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
-
   [self requestNativeAd];
 }
 
