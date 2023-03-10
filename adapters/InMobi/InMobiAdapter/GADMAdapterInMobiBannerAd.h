@@ -14,11 +14,12 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-@import InMobiSDK;
+#import <InMobiSDK/InMobiSDK-Swift.h>
 
 @interface GADMAdapterInMobiBannerAd : NSObject <GADMediationBannerAd, IMBannerDelegate>
 
 - (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+
 @end
