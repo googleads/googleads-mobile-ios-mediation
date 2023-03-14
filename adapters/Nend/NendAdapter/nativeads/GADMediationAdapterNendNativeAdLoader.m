@@ -93,7 +93,6 @@
                                                          apiKey:apiKey
                                                     clickAction:NADNativeVideoClickActionLP];
     _videoLoader.mediationName = GADMAdapterNendMediationName;
-    _videoLoader.userId = extras.userId;
 
     __weak GADMediationAdapterNendNativeAdLoader *weakSelf = self;
     [_videoLoader loadAdWithCompletionHandler:^(NADNativeVideo *_Nullable nativeAd,

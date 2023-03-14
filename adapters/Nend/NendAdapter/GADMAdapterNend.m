@@ -111,7 +111,6 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   if (_interstitialType == GADMAdapterNendInterstitialTypeVideo) {
     _interstitialVideo = [[NADInterstitialVideo alloc] initWithSpotID:spotId apiKey:apiKey];
     _interstitialVideo.delegate = self;
-    _interstitialVideo.userId = extras.userId;
     _interstitialVideo.mediationName = GADMAdapterNendMediationName;
     [_interstitialVideo loadAd];
   } else {

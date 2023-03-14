@@ -81,12 +81,6 @@
 
   _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotID:spotId.integerValue apiKey:apiKey];
   _rewardedVideo.mediationName = GADMAdapterNendMediationName;
-
-  GADMAdapterNendExtras *extras = _adConfiguration.extras;
-  if (extras) {
-    _rewardedVideo.userId = extras.userId;
-  }
-
   _rewardedVideo.delegate = self;
   [_rewardedVideo loadAd];
 }
