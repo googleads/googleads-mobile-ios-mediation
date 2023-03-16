@@ -84,7 +84,7 @@
   // Create rewarded video object.
   _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:_SDKk];
   [_incent setExtraInfoForKey:@"google_watermark" value:_adConfiguration.watermark];
-    
+
   _incent.adDisplayDelegate = _appLovinDelegate;
   _incent.adVideoPlaybackDelegate = _appLovinDelegate;
 
