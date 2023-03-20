@@ -154,11 +154,6 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
   NSLog(@"GADMediationAdapterInMobi - %@", log);
 }
 
-void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-  GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
-  GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
-}
-
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig) {
   GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
@@ -184,19 +179,6 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromI
                                                     GADMobileAds.sharedInstance.sdkVersion);
 
   return additionalParameters;
-}
-
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromConnector(
-    id<GADMAdNetworkConnector> _Nonnull connector) {
-  NSMutableDictionary<NSString *, id> *requestParameters =
-      [GADMAdapterInMobiAdditonalParametersFromInMobiExtras([connector networkExtras]) mutableCopy];
-
-  if ([connector childDirectedTreatment]) {
-    NSString *coppaString = [[connector childDirectedTreatment] integerValue] ? @"1" : @"0";
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters, @"coppa", coppaString);
-  }
-
-  return requestParameters;
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(

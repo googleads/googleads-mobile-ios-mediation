@@ -49,16 +49,9 @@ NSError *_Nonnull GADMAdapterInMobiErrorWithCodeAndDescription(GADMAdapterInMobi
 NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
     NSNumber *_Nonnull placementIdentifier);
 
-/// Sets up InMobi targetting information from the specified |connector|.
-void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector);
-
 /// Sets up InMobi targetting information from the specified ad configuration.
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig);
-
-/// Creates InMobi request parameters from the specified |connector|.
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromConnector(
-    id<GADMAdNetworkConnector> _Nonnull connector);
 
 /// Creates InMobi request parameters from the specified ad configuration.
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(
