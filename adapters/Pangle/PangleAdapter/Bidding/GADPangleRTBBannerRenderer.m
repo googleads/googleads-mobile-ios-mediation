@@ -111,6 +111,9 @@
   } else if (size.height == kPAGBannerSize300x250.size.height) {
     return kPAGBannerSize300x250;
   }
+  if (gadAdCGSize.width >= kPAGBannerSize728x90.size.width) {
+    return kPAGBannerSize728x90;
+  }
   return kPAGBannerSize320x50;
 }
 
