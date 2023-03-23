@@ -125,7 +125,7 @@
   _interstitialAd.delegate = nil;
 }
 
-#pragma mark IMAdInterstitialDelegate methods
+#pragma mark IMInterstitialDelegate methods
 
 - (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   GADMAdapterInMobiLog(@"InMobi SDK loaded an interstitial ad successfully.");
