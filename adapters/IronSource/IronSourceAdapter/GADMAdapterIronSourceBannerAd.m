@@ -83,7 +83,8 @@
 
 - (void)bannerDidFailToLoadWithError:(NSError *)error
                           instanceId:(NSString *)instanceId {
-    [_adEventDelegate didFailToPresentWithError:error];
+    _adLoadCompletionHandler(nil, error);
+    
 }
 
 - (void)bannerDidLoad:(ISDemandOnlyBannerView *)bannerView
