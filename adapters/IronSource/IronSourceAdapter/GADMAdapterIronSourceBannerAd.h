@@ -11,7 +11,7 @@
 #import <IronSource/IronSource.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 @interface GADMAdapterIronSourceBannerAd : NSObject 
 
@@ -23,9 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Unavailable.
 - (instancetype)init __unavailable;
 
-- (void)renderBannerForAdConfig:(nonnull GADMediationBannerAdConfiguration *)adConfig
-              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
+- (void)renderBannerForAdConfig:(nonnull GADMediationBannerLoadCompletionHandler)handler;
 
 @end
 
-NS_ASSUME_NONNULL_END
+

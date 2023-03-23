@@ -19,7 +19,7 @@
 @property(copy, nonatomic) GADMediationBannerLoadCompletionHandler adLoadCompletionHandler;
 
 // Ad configuration for the ad to be rendered.
-@property(weak, nonatomic) GADMediationAdConfiguration *adConfiguration;
+@property(weak, nonatomic) GADMediationBannerAdConfiguration *adConfiguration;
 
 // An ad event delegate to invoke when ad rendering events occur.
 @property(weak, nonatomic) id<GADMediationBannerAdEventDelegate> adEventDelegate;
@@ -51,10 +51,9 @@
     return self;
 }
 
-- (void)renderBannerForAdConfig:(nonnull GADMediationBannerAdConfiguration *)adConfig
-              completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler {
-    _adConfiguration = adConfig;
-    NSDictionary *credentials = [_adConfiguration.credentials settings];
+- (void)renderBannerForAdConfig:(nonnull GADMediationBannerLoadCompletionHandler)handler {
+    
+    NSDictionary *credentials = _adConfiguration.credentials.settings;
     
     /* Parse application key */
     NSString *applicationKey = @"";
@@ -62,7 +61,7 @@
         applicationKey = credentials[GADMAdapterIronSourceAppKey];
     }
     
-    if ([GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
+    if (!applicationKey) {
         NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
                                                                           GADMAdapterIronSourceErrorInvalidServerParameters,
                                                                           @"'appKey' parameter is missing. Make sure that appKey' server parameter is added.");
@@ -77,15 +76,9 @@
     [[ISMediationManager sharedManager]
      initIronSourceSDKWithAppKey:applicationKey
      forAdUnits:[NSSet setWithObject:IS_BANNER]];
+    ISBannerSize *ISBannerSize = [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:_adConfiguration.adSize];
+    [[ISMediationManager sharedManager]loadBannerAdWithDelegate:self viewController:self instanceID:_instanceID bannerSize:ISBannerSize];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        ISMediationManager *sharedManager = [ISMediationManager sharedManager];
-        [sharedManager initIronSourceSDKWithAppKey:applicationKey
-                                        forAdUnits:[NSSet setWithObject:IS_BANNER]];
-        GADAdSize adSize = adConfig.adSize;
-        ISBannerSize *ISBannerSize = [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
-        [[ISMediationManager sharedManager]loadBannerAdWithDelegate:self viewController:self instanceID:_instanceID bannerSize:ISBannerSize];
-    });
 }
 
 - (void)bannerDidFailToLoadWithError:(NSError *)error

@@ -48,6 +48,8 @@
 		4584562222AEE59B0061764B /* GADMAdapterIronSourceUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4584561322AEE59B0061764B /* GADMAdapterIronSourceUtils.h */; };
 		4584562322AEE59B0061764B /* GADMAdapterIronSourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584561422AEE59B0061764B /* GADMAdapterIronSourceUtils.m */; };
 		4584562422AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4584561522AEE59B0061764B /* GADMAdapterIronSourceInterstitialDelegate.h */; };
+		EFBACB7729CC51E20020833F /* GADMAdapterIronSourceBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = EFBACB7529CC51E20020833F /* GADMAdapterIronSourceBannerAd.h */; };
+		EFBACB7829CC51E20020833F /* GADMAdapterIronSourceBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBACB7629CC51E20020833F /* GADMAdapterIronSourceBannerAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFBACB7529CC51E20020833F /* GADMAdapterIronSourceBannerAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceBannerAd.h; sourceTree = "<group>"; };
+		EFBACB7629CC51E20020833F /* GADMAdapterIronSourceBannerAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceBannerAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,8 @@
 		7D72B8C11DB97C10006EAE11 /* IronSourceAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				EFBACB7529CC51E20020833F /* GADMAdapterIronSourceBannerAd.h */,
+				EFBACB7629CC51E20020833F /* GADMAdapterIronSourceBannerAd.m */,
 				4584560A22AEE59A0061764B /* GADMAdapterIronSource.h */,
 				4584561222AEE59B0061764B /* GADMAdapterIronSource.m */,
 				4584560D22AEE59A0061764B /* GADMAdapterIronSourceConstants.h */,
@@ -199,6 +205,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFBACB7729CC51E20020833F /* GADMAdapterIronSourceBannerAd.h in Headers */,
 				4584561922AEE59B0061764B /* GADMAdapterIronSource.h in Headers */,
 				4584561D22AEE59B0061764B /* GADMAdapterIronSourceRewardedAd.h in Headers */,
 				4584561822AEE59B0061764B /* GADMediationAdapterIronSource.h in Headers */,
@@ -309,6 +316,7 @@
 			files = (
 				4584561F22AEE59B0061764B /* ISMediationManager.m in Sources */,
 				4584561E22AEE59B0061764B /* GADMediationAdapterIronSource.m in Sources */,
+				EFBACB7829CC51E20020833F /* GADMAdapterIronSourceBannerAd.m in Sources */,
 				4584561B22AEE59B0061764B /* GADMAdapterIronSourceRewardedAd.m in Sources */,
 				4584562122AEE59B0061764B /* GADMAdapterIronSource.m in Sources */,
 				4584562022AEE59B0061764B /* GADMAdapterIronSourceRewarded.m in Sources */,

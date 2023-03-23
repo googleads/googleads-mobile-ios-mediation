@@ -138,7 +138,7 @@
                   completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
     _bannerAd = [[GADMAdapterIronSourceBannerAd alloc]
                  initWithGADMediationBannerConfiguration:adConfiguration completionHandler:completionHandler];
-    [_bannerAd renderBannerForAdConfig:adConfiguration completionHandler:completionHandler];
+    [_bannerAd renderBannerForAdConfig:completionHandler];
 }
 
 @end
