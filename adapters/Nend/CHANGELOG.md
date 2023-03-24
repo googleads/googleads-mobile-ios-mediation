@@ -1,6 +1,6 @@
 ## nend iOS Mediation Adapter Changelog
 
-#### Version 8.0.0.0 (In Progress)
+#### [Version 8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-8.0.0.0.zip)
 - Verified compatibility with nend SDK 8.0.0.
 
 Built and tested with:
