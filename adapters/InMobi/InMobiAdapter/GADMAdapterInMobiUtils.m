@@ -16,7 +16,7 @@
 #import "GADMAdapterInMobiUtils.h"
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
@@ -101,26 +101,47 @@ void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras) 
     return;
   }
 
+  // The geographic location is preffered over the city-stsate-country.
+  if (extras.location) {
+    [IMSdk setLocation:extras.location];
+  } else if (extras.city && extras.state && extras.country) {
+    [IMSdk setLocationWithCity:extras.city state:extras.state country:extras.country];
+  }
+
   if (extras.postalCode) {
     [IMSdk setPostalCode:extras.postalCode];
   }
+
   if (extras.areaCode) {
     [IMSdk setAreaCode:extras.areaCode];
   }
+
   if (extras.interests) {
     [IMSdk setInterests:extras.interests];
   }
+
   if (extras.age) {
     [IMSdk setAge:extras.age];
   }
+
   if (extras.yearOfBirth) {
     [IMSdk setYearOfBirth:extras.yearOfBirth];
   }
-  if (extras.city && extras.state && extras.country) {
-    [IMSdk setLocationWithCity:extras.city state:extras.state country:extras.country];
-  }
+
   if (extras.language) {
     [IMSdk setLanguage:extras.language];
+  }
+
+  if (extras.educationType) {
+    [IMSdk setEducation:extras.educationType];
+  }
+
+  if (extras.ageGroup) {
+    [IMSdk setAgeGroup:extras.ageGroup];
+  }
+
+  if (extras.logLevel) {
+    [IMSdk setLogLevel:extras.logLevel];
   }
 }
 
@@ -131,11 +152,6 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
   va_end(arguments);
 
   NSLog(@"GADMediationAdapterInMobi - %@", log);
-}
-
-void GADMAdapterInMobiSetTargetingFromConnector(id<GADMAdNetworkConnector> _Nonnull connector) {
-  GADMAdapterInMobiSetTargetingFromExtras([connector networkExtras]);
-  GADMAdapterInMobiSetIsAgeRestricted(connector.childDirectedTreatment);
 }
 
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
@@ -163,19 +179,6 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromI
                                                     GADMobileAds.sharedInstance.sdkVersion);
 
   return additionalParameters;
-}
-
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromConnector(
-    id<GADMAdNetworkConnector> _Nonnull connector) {
-  NSMutableDictionary<NSString *, id> *requestParameters =
-      [GADMAdapterInMobiAdditonalParametersFromInMobiExtras([connector networkExtras]) mutableCopy];
-
-  if ([connector childDirectedTreatment]) {
-    NSString *coppaString = [[connector childDirectedTreatment] integerValue] ? @"1" : @"0";
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters, @"coppa", coppaString);
-  }
-
-  return requestParameters;
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(

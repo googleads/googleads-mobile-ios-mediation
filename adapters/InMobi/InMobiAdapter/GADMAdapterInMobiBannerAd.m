@@ -150,13 +150,15 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   _bannerAdLoadCompletionHandler(nil, error);
 }
 
-- (void)banner:(nonnull IMBanner *)banner didInteractWithParams:(nullable NSDictionary<NSString *,id> *)params {
+- (void)banner:(nonnull IMBanner *)banner
+    didInteractWithParams:(nullable NSDictionary<NSString *, id> *)params {
   GADMAdapterInMobiLog(@"InMobi SDK recorded a click on a banner ad.");
   [_bannerAdEventDelegate reportClick];
 }
 
 - (void)userWillLeaveApplicationFromBanner:(nonnull IMBanner *)banner {
-  GADMAdapterInMobiLog(@"InMobi SDK will cause the user to leave the application from a banner ad.");
+  GADMAdapterInMobiLog(
+      @"InMobi SDK will cause the user to leave the application from a banner ad.");
 }
 
 - (void)bannerWillPresentScreen:(nonnull IMBanner *)banner {
@@ -178,7 +180,8 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   [_bannerAdEventDelegate didDismissFullScreenView];
 }
 
-- (void)banner:(nonnull IMBanner *)banner rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *,id> *)rewards {
+- (void)banner:(nonnull IMBanner *)banner
+    rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *, id> *)rewards {
   GADMAdapterInMobiLog(@"InMobi banner reward action completed with rewards: %@",
                        rewards.description);
 }

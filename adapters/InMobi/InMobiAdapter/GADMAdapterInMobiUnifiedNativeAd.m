@@ -124,8 +124,6 @@ __attribute__((constructor)) static void initialize_imageCache() {
     _shouldDownloadImages = !imageOptions.disableImageLoading;
   }
 
-  NSString *accountID = _nativeAdConfig.credentials.settings[GADMAdapterInMobiAccountID];
-
   [self requestNativeAd];
 }
 
@@ -215,7 +213,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
   [_nativeAdEventDelegate reportImpression];
 }
 
-- (void)native:(nonnull IMNative *)native didInteractWithParams:(nullable NSDictionary<NSString *,id> *)params {
+- (void)native:(nonnull IMNative *)native
+    didInteractWithParams:(nullable NSDictionary<NSString *, id> *)params {
   GADMAdapterInMobiLog(@"InMobi SDK recorded a click on a native ad.");
   [_nativeAdEventDelegate reportClick];
 }

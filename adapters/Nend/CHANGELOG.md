@@ -1,5 +1,12 @@
 ## nend iOS Mediation Adapter Changelog
 
+#### [Version 8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-8.0.0.0.zip)
+- Verified compatibility with nend SDK 8.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.2.0.
+- Nend SDK version 8.0.0.
+
 #### [Version 7.4.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-7.4.0.1.zip)
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 

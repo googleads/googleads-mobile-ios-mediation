@@ -14,13 +14,13 @@
 //
 
 #import "GADMInMobiConsent.h"
-@import InMobiSDK;
-
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #import "GADMAdapterInMobiInitializer.h"
 
 static NSMutableDictionary<NSString *, NSString *> *consentObj;
 
 @implementation GADMInMobiConsent
+
 + (void)updateGDPRConsent:(nonnull NSDictionary<NSString *, NSString *> *)consent {
   if (GADMAdapterInMobiInitializer.sharedInstance.initializationState !=
       GADMAdapterInMobiInitStateUninitialized) {
@@ -32,4 +32,5 @@ static NSMutableDictionary<NSString *, NSString *> *consentObj;
 + (nullable NSDictionary<NSString *, NSString *> *)consent {
   return consentObj;
 }
+
 @end

@@ -17,36 +17,12 @@
 
 @implementation GADInMobiExtras
 
-@synthesize additionalParameters;
-@synthesize postalCode, areaCode, ageGroup;
-@synthesize keywords, interests;
-@synthesize age, yearOfBirth;
-@synthesize educationType;
-@synthesize language;
-
 - (void)setLocationWithCity:(nullable NSString *)city
                       state:(nullable NSString *)state
                     country:(nullable NSString *)country {
-  _city = city;
-  _state = state;
-  _country = country;
-}
-
-- (void)setLocation:(nonnull CLLocation *)location {
-  _location = location;
-  [IMSdk setLocation:location];
-}
-
-- (void)setEducationType:(IMSDKEducation)newEducationType {
-  [IMSdk setEducation:newEducationType];
-}
-
-- (void)setAgeGroup:(IMSDKAgeGroup)newAgeGroup {
-  [IMSdk setAgeGroup:newAgeGroup];
-}
-
-- (void)setLogLevel:(IMSDKLogLevel)logLevel {
-  [IMSdk setLogLevel:logLevel];
+  _city = [city copy];
+  _state = [state copy];
+  _country = [country copy];
 }
 
 @end

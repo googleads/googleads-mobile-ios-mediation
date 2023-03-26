@@ -28,7 +28,7 @@
 @property(nonatomic, strong) NSString *placementId;
 @property(nonatomic, strong) GADUnityBaseMediationAdapterProxy *adapterProxy;
 @property(nonatomic, strong) UADSBannerView *bannerView;
-@property(nonatomic, strong) NSString *objectId; // Object ID used to track loaded/shown ads.
+@property(nonatomic, strong) NSString *objectId;  // Object ID used to track loaded/shown ads.
 @end
 
 @implementation GADMediationAdapterUnity
@@ -69,6 +69,9 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
+                                          ? adConfiguration.childDirectedTreatment.integerValue
+                                          : -1)];
   self.adapterProxy = [[GADMUnityRewardedMediationAdapterProxy alloc] initWithAd:self
                                                                completionHandler:completionHandler];
 
@@ -79,6 +82,9 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
+                                          ? adConfiguration.childDirectedTreatment.integerValue
+                                          : -1)];
   self.adapterProxy =
       [[GADMUnityInterstitialMediationAdapterProxy alloc] initWithAd:self
                                                    completionHandler:completionHandler];
@@ -93,14 +99,15 @@
   self.objectId = [NSUUID UUID].UUIDString;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   loadOptions.objectId = self.objectId;
-  
-  [UnityAds load:self.placementId
-         options:loadOptions
-    loadDelegate:self.adapterProxy];
+
+  [UnityAds load:self.placementId options:loadOptions loadDelegate:self.adapterProxy];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
+                                          ? adConfiguration.childDirectedTreatment.integerValue
+                                          : -1)];
   [self initializeWithConfiguration:adConfiguration];
 
   self.placementId = adConfiguration.placementId;
@@ -123,14 +130,37 @@
   UADSShowOptions *showOptions = [UADSShowOptions new];
   showOptions.objectId = self.objectId;
   [UnityAds show:viewController
-     placementId:self.placementId
-         options:showOptions
-    showDelegate:self.adapterProxy];
+       placementId:self.placementId
+           options:showOptions
+      showDelegate:self.adapterProxy];
 }
 
 - (void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
   [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:adConfiguration.gameId
                                    withCompletionHandler:nil];
+}
+
+/// Set the COPPA setting in Unity Ads SDK.
+///
+/// @param COPPA An integer value that indicates whether the app should be treated as
+/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
+/// unspecified.
++ (void)setCOPPA:(NSInteger)COPPA {
+  UADSMetaData *userMetaData = [[UADSMetaData alloc] init];
+  if (COPPA == 1 || COPPA == -1) {
+    /// Unity Ads will default to treating users as children when a user-level COPPA designation is
+    /// absent.
+    [userMetaData set:@"user.nonbehavioral" value:@YES];
+    [userMetaData commit];
+    return;
+  } else if (COPPA == 0) {
+    [userMetaData set:@"user.nonbehavioral" value:@NO];
+    [userMetaData commit];
+    return;
+  } else {
+    GADMUnityLog(@"Invalid COPPA value.");
+    return;
+  }
 }
 
 #pragma mark GADMediationBannerAd
