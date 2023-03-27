@@ -28,6 +28,9 @@
 
 @implementation ISMediationManager
 
+//NSMutableArray to handle shown Instances
+static NSMutableArray *shownInstances=nil;
+
 + (nonnull instancetype)sharedManager {
     static ISMediationManager *sharedMyManager = nil;
     static dispatch_once_t onceToken;
@@ -54,6 +57,7 @@
                            stringWithFormat:@"%@%@SDK%@", GADMAdapterIronSourceMediationName,
                            GADMAdapterIronSourceInternalVersion,
                            [GADMAdapterIronSourceUtils getAdMobSDKVersion]]];
+        shownInstances=[NSMutableArray new];
     }
     
     return self;
@@ -166,7 +170,7 @@
         [self setBannerDelegate:adapterDelegate toInstanceState:GADMAdapterIronSourceInstanceStateLocked];
         [self addBannerDelegate:adapterDelegate forInstanceID:instanceID];
         
-        [IronSource destroyISDemandOnlyBannerWithInstanceId:instanceID];
+        
         [GADMAdapterIronSourceUtils
          onLog:[NSString
                 stringWithFormat:@"ISMediationManager - loadBanner  for instance Id %@",instanceID]];
@@ -411,6 +415,15 @@
          onLog:[NSString stringWithFormat:
                 @"ISMediationManager - bannerDidShow adapterDelegate is null."]];
     }
+    
+
+    for (NSString *instanceShown in shownInstances) {
+        if (instanceShown != instanceId) {
+            [IronSource destroyISDemandOnlyBannerWithInstanceId:instanceShown];
+        }
+    }
+    [shownInstances removeAllObjects];
+    [shownInstances addObject:instanceId];
 }
 
 - (void)bannerWillLeaveApplication:(NSString *)instanceId {
