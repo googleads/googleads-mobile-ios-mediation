@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### [Version 7.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.3.0.0.zip)
+#### Version 7.3.0.0.0 (In Progress)
 - Verified compatibility with IronSource SDK version 7.3.0.0.
 
 Built and tested with:
