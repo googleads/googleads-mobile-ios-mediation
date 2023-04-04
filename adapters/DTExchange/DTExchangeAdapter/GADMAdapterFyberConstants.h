@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Foundation/Foundation.h>
+
 /// DT Exchange mediation adapter version.
 static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.2.0.0";
 
