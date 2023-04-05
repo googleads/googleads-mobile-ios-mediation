@@ -216,11 +216,8 @@
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *, id> *)rewards {
-  NSString *key = rewards.allKeys.firstObject;
-  if (key) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:key rewardAmount:rewards[key]];
-    [_adEventDelegate didRewardUserWithReward:reward];
-  }
+  GADMAdapterInMobiLog(@"InMobi SDK rewarded a user for a rewarded ad.");
+  [_adEventDelegate didRewardUser];
   [_adEventDelegate didEndVideo];
 }
 

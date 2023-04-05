@@ -298,8 +298,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
               imageCache:(nonnull NSCache *)imageCache
                 callback:(void (^)(UIImage *))callback {
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-    NSString *cacheKey =
-        [url.absoluteString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *cacheKey = [url.absoluteString
+        stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                               URLHostAllowedCharacterSet]];
     UIImage *cachedImage = [imageCache objectForKey:cacheKey];
     if (!cachedImage) {
       NSData *imageData = [NSData dataWithContentsOfURL:url];

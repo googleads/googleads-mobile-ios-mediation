@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next Version
+- Updated the adapter to use the `didRewardUser` API.
+
 #### [Version 10.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.4.0.zip)
 - Verified compatibility with InMobi SDK 10.5.4.
 - Removed use of deprecated gender, birthday and location mediation APIs.
