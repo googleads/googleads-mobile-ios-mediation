@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Adapter version string.
-static NSString *const _Nonnull GADMAdapterNendVersion = @"8.0.0.0";
+static NSString *const _Nonnull GADMAdapterNendVersion = @"8.0.1.0";
 
 // Adapter mediation agent.
 static NSString *const _Nonnull GADMAdapterNendMediationName = @"AdMob";
