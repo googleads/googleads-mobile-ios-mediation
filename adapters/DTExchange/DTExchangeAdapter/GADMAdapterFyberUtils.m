@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <CoreLocation/CoreLocation.h>
-
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberUtils.h"
@@ -59,26 +57,19 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
-  CLLocation *location;
   GADMAdapterFyberExtras *extras = adConfiguration.extras;
-  NSString *keywords = nil;
+    
+  IASDKCore.sharedInstance.userData = extras.userData;
+  IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
 
   if (extras.keywords) {
-    keywords = extras.keywords;
+    IASDKCore.sharedInstance.keywords = extras.keywords;
   }
 
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;
     builder.spotID = spotID;
     builder.timeout = 10;
-    builder.userData = extras.userData;
-    builder.muteAudio = extras.muteAudio;
-    if (keywords) {
-      builder.keywords = keywords;
-    }
-    if (location) {
-      builder.location = location;
-    }
   }];
 
   return request;
