@@ -61,28 +61,43 @@
   }
 
   _initializationState = GADMAdapterInMobiInitStateInitializing;
-  GADMAdapterInMobiInitializer *__weak weakSelf = self;
-  [IMSdk initWithAccountID:accountID
-         consentDictionary:GADMInMobiConsent.consent
-      andCompletionHandler:^(NSError *_Nullable error) {
-        GADMAdapterInMobiInitializer *strongSelf = weakSelf;
-        if (!strongSelf) {
-          return;
-        }
+    GADMAdapterInMobiInitializer *__weak weakSelf = self;
 
-        if (error) {
-          strongSelf->_initializationState = GADMAdapterInMobiInitStateUninitialized;
-        } else {
-          GADMAdapterInMobiLog(@"InMobi SDK Initialized successfully.");
+    if ([NSThread isMainThread]) {
+        [self initializeInMobiSDK:accountID completionHandler:completionHandler];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf initializeInMobiSDK:accountID completionHandler:completionHandler];
+        });
+    }
+}
 
-          strongSelf->_initializationState = GADMAdapterInMobiInitStateInitialized;
-        }
 
-        for (GADMAdapterInMobiInitCompletionHandler completionHandler in strongSelf
-                 ->_completionHandlers) {
-          completionHandler(error);
-        }
-      }];
+-(void)initializeInMobiSDK:(nonnull NSString *)accountID
+         completionHandler:(nonnull GADMAdapterInMobiInitCompletionHandler)completionHandler {
+    GADMAdapterInMobiInitializer *__weak weakSelf = self;
+    
+    [IMSdk initWithAccountID:accountID
+           consentDictionary:GADMInMobiConsent.consent
+        andCompletionHandler:^(NSError *_Nullable error) {
+          GADMAdapterInMobiInitializer *strongSelf = weakSelf;
+          if (!strongSelf) {
+            return;
+          }
+
+          if (error) {
+            strongSelf->_initializationState = GADMAdapterInMobiInitStateUninitialized;
+          } else {
+            GADMAdapterInMobiLog(@"InMobi SDK Initialized successfully.");
+
+            strongSelf->_initializationState = GADMAdapterInMobiInitStateInitialized;
+          }
+
+          for (GADMAdapterInMobiInitCompletionHandler completionHandler in strongSelf
+                   ->_completionHandlers) {
+            completionHandler(error);
+          }
+        }];
 }
 
 @end
