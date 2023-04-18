@@ -1,6 +1,6 @@
 ## Vungle iOS Mediation Adapter Changelog
 
-#### Version 6.12.3.0 (In Progress)
+#### [Version 6.12.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/vungle/VungleAdapter-6.12.3.0.zip)
 - Verified compatibility with Vungle SDK 6.12.3.
 
 Built and tested with:
