@@ -1,6 +1,7 @@
 ## Pangle iOS Mediation Adapter Changelog
 
 #### Version 5.1.0.7.0 (In Progress)
+- Added support for the arm64 simulator architecture.
 - Verified compatibility with Pangle SDK version 5.1.0.7.
 
 Built and tested with:
