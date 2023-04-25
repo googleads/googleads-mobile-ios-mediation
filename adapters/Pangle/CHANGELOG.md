@@ -1,5 +1,8 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next Version
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
 #### Version 5.1.0.7.0 (In Progress)
 - Added support for the arm64 simulator architecture.
 - Verified compatibility with Pangle SDK version 5.1.0.7.
