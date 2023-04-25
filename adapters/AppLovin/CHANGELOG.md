@@ -1,5 +1,10 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed support of the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
 #### Version 11.9.0.0 (In progress)
 - Verified compatibility with AppLovin SDK 11.9.0.
 
