@@ -6,7 +6,7 @@ Yahoo adapter, simply add `pod 'GoogleMobileAdsMediationYahoo'` to
 your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
-- Xcode 14.0 or higher
+- Xcode 14.1 or higher
 - Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Yahoo Mobile SDK

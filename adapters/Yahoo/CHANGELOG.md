@@ -1,5 +1,8 @@
 ## Yahoo iOS Mediation Adapter Changelog
 
+#### Next Version
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
 #### [Version 1.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/yahoo/YahooAdapter-1.4.0.0.zip)
 - Rebranded Verizon Media adapter to "Yahoo" adapter.
 - Verified compatibility with Yahoo Mobile SDK version 1.4.0.
