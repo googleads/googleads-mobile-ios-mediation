@@ -1,5 +1,10 @@
 ## AdColony iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed support of the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
 #### [Version 4.9.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.9.0.2.zip)
 - Updated the adapter to pass `childDirectedTreatment` information to the AdColony SDK.
 
