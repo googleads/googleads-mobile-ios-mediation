@@ -6,8 +6,8 @@ Vungle adapter, simply add `pod 'GoogleMobileAdsMediationVungle'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
-- Xcode 7.0 or higher
-- Deployment target of 8.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Vungle SDK
 - Vungle Adapter Source Code
