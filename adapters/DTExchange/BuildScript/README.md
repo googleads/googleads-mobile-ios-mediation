@@ -6,8 +6,8 @@ the DT Exchange adapter, simply add `pod 'GoogleMobileAdsMediationFyber'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
-- Xcode 13.2.1 or higher
-- Deployment target of 10.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - DT Exchange SDK
 - DT Exchange Adapter Source Code
