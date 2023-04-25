@@ -7,8 +7,8 @@ use the myTarget adapter, simply add `pod
 install --repo-update`.
 
 ## Prerequisites
--   Xcode 7.0 or higher
--   Deployment target of 7.0 or higher
+-   Xcode 14.1 or higher
+-   Deployment target of 11.0 or higher
 -   Google Mobile Ads SDK
 -   myTarget SDK
 -   myTarget adapter source code
