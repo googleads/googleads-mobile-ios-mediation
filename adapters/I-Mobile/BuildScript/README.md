@@ -4,8 +4,8 @@
 modify and rebuild the i-mobile adapter framework.
 
 ## Prerequisites
-- Xcode 9.0 or higher
-- Deployment target of 6.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - i-mobile SDK
 

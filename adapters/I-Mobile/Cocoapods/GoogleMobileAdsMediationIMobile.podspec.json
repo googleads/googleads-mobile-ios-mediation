@@ -10,18 +10,18 @@
   },
   "authors": "Google Inc.",
   "platforms": {
-    "ios": "10.0"
+    "ios": "11.0"
   },
   "vendored_frameworks": [
     "IMobileAdapter-2.3.1.0/IMobileAdapter.xcframework"
   ],
   "dependencies": {
     "ImobileSdkAds": "2.3.1",
-    "Google-Mobile-Ads-SDK": "~> 10.0"
+    "Google-Mobile-Ads-SDK": "~> 10.4"
   },
   "pod_target_xcconfig": {
     "VALID_ARCHS[sdk=iphonesimulator*]": "arm64 x86_64",
-    "VALID_ARCHS[sdk=iphoneos*]": "arm64 armv7"
+    "VALID_ARCHS[sdk=iphoneos*]": "arm64"
     },
   "preserve_paths": [
     "IMobileAdapter-2.3.1.0/README.md"
