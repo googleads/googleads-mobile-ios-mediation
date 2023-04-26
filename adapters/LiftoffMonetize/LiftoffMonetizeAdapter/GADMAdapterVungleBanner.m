@@ -60,7 +60,7 @@
   _bannerSize = GADMAdapterVungleAdSizeForAdSize(adSize);
   if (!IsGADAdSizeValid(_bannerSize)) {
     NSString *errorMessage =
-        [NSString stringWithFormat:@"Unsupported ad size requested for Vungle. Size: %@",
+        [NSString stringWithFormat:@"Unsupported ad size requested for Liftoff Monetize. Size: %@",
                                    NSStringFromGADAdSize(adSize)];
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
@@ -90,7 +90,7 @@
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters, @"Liftoff Monetize app ID not specified.");
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }

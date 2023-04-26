@@ -167,7 +167,7 @@
 			path = Bidding;
 			sourceTree = "<group>";
 		};
-		7D15756E1EB7FB9200059469 /* VungleAdapter */ = {
+		7D15756E1EB7FB9200059469 /* LiftoffMonetizeAdapter */ = {
 			isa = PBXGroup;
 			children = (
 				178ADB0626129548007587F0 /* Bidding */,
@@ -189,7 +189,7 @@
 				176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				176AE0DA2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m */,
 			);
-			path = VungleAdapter;
+			path = LiftoffMonetizeAdapter;
 			sourceTree = "<group>";
 		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
@@ -237,7 +237,7 @@
 			children = (
 				7DE821BF1DB04B5000AA08CF /* README.md */,
 				7D264FF01DDD1B4E00027720 /* CHANGELOG.md */,
-				7D15756E1EB7FB9200059469 /* VungleAdapter */,
+				7D15756E1EB7FB9200059469 /* LiftoffMonetizeAdapter */,
 				7DC868191DDA8D4400F0F1C4 /* Public */,
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
@@ -319,7 +319,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "VungleAdapter" */;
+			buildConfigurationList = 7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "LiftoffMonetizeAdapter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -556,7 +556,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "VungleAdapter" */ = {
+		7DFABB181DA8682C00322E02 /* Build configuration list for PBXProject "LiftoffMonetizeAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DFABB241DA8682C00322E02 /* Debug */,

@@ -40,7 +40,7 @@ void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull us
 void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
                                                           id<NSCopying> _Nullable key);
 
-/// Return a dictionary of Vungle ad playback options.
+/// Return a dictionary of Liftoff Monetize ad playback options.
 NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
     VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras);
 

@@ -149,7 +149,7 @@ GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
 + (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {
   NSString *appId = serverParameters[GADMAdapterVungleApplicationID];
   if (!appId) {
-    NSString *const message = @"Vungle app ID should be specified!";
+    NSString *const message = @"Liftoff Monetize app ID should be specified!";
     NSLog(message);
     return nil;
   }

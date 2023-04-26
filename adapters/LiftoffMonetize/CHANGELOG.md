@@ -1,6 +1,7 @@
-## Vungle iOS Mediation Adapter Changelog
+## Liftoff Monetize iOS Mediation Adapter Changelog
 
 #### Next Version
+- Rebranded adapter name from Vungle to Liftoff Monetize.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.

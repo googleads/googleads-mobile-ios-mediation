@@ -18,8 +18,8 @@
 typedef NS_ENUM(NSInteger, GADMAdapterVungleErrorCode) {
   /// Missing server parameters.
   GADMAdapterVungleErrorInvalidServerParameters = 101,
-  /// An ad is already loaded for this network configuration. Vungle SDK cannot load a second ad for
-  /// the same placement ID.
+  /// An ad is already loaded for this network configuration. Vungle SDK cannot load
+  /// a second ad for the same placement ID.
   GADMAdapterVungleErrorAdAlreadyLoaded = 102,
   /// Banner Size Mismatch.
   GADMAdapterVungleErrorBannerSizeMismatch = 103,

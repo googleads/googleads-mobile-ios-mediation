@@ -1,8 +1,8 @@
 # Steps to generate universal static library and framework
 
 **Note:** These build scripts are intended only for publishers who want to
-modify and rebuild the Vungle adapter framework. If you just want to use the
-Vungle adapter, simply add `pod 'GoogleMobileAdsMediationVungle'` to
+modify and rebuild the Liftoff Monetize adapter framework. If you just want to use the
+Liftoff Monetize adapter, simply add `pod 'GoogleMobileAdsMediationVungle'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
@@ -10,7 +10,7 @@ your Podfile and run `pod install`.
 - Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Vungle SDK
-- Vungle Adapter Source Code
+- Liftoff Monetize Adapter Source Code
 
 ## Setup Instructions
 - Drop GoogleMobileAds framework to
@@ -19,7 +19,7 @@ your Podfile and run `pod install`.
   Project Directory->Drop_Framework_And_Headers.
 
 ## Build Instructions
-- To build a static library, select target scheme (FatAdapter). Edit scheme to
+- To build a static library, select target scheme (Adapter). Edit scheme to
   Release OR Build.
 - Clean and Run/Archive.
 - To build a framework, select target scheme (Framework). Edit scheme to

@@ -31,13 +31,13 @@
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
 
-  /// The Vungle native ad.
+  /// The Liftoff Monetize native ad.
   VungleNativeAd *_nativeAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationNativeAdEventDelegate> _delegate;
 
-  /// The Vungle container to display the media (image/video).
+  /// The Liftoff Monetize container to display the media (image/video).
   VungleMediaView *_mediaView;
 }
 
@@ -244,43 +244,43 @@
 }
 
 - (void)adAvailable {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)adNotAvailable:(nonnull NSError *)error {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willShowAd {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didShowAd {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didViewAd {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)rewardUser {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)trackClick {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willCloseAd {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)didCloseAd {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (void)willLeaveApplication {
-  // No-op, Vungle native ads utilize callbacks from VungleNativeAdDelegate.
+  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
 }
 
 - (nullable NSString *)bidResponse {

@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMediationVungleRewardedAd.h"
+#import "GADMAdapterVungleRewardBasedVideoAd.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate>
+@interface GADMAdapterVungleRewardBasedVideoAd () <GADMAdapterVungleDelegate>
 @end
 
-@implementation GADMediationVungleRewardedAd {
+@implementation GADMAdapterVungleRewardBasedVideoAd {
   /// Ad configuration for the ad to be loaded.
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
@@ -34,6 +34,12 @@
 
 @synthesize desiredPlacement;
 @synthesize isAdLoaded;
+
+/// TODO(Google): Remove this class once Google's server points to GADMediationAdapterVungle
+/// directly to ask for a rewarded ad.
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterVungle class];
+}
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -77,9 +83,17 @@
     return;
   }
 
-  if (![[VungleSDK sharedSDK] isInitialized]) {
+  if ([GADMAdapterVungleRouter.sharedInstance hasDelegateForPlacementID:self.desiredPlacement]) {
+    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
+        GADMAdapterVungleErrorAdAlreadyLoaded,
+        @"Only a maximum of one ad per placement can be requested from Liftoff Monetize.");
+    _adLoadCompletionHandler(nil, error);
+    return;
+  }
+
+  if (![GADMAdapterVungleRouter.sharedInstance isSDKInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
+    [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -87,9 +101,8 @@
 }
 
 - (void)loadRewardedAd {
-  NSError *error = nil;
-  error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
-
+  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
+                                                     withDelegate:self];
   if (error) {
     _adLoadCompletionHandler(nil, error);
   }
@@ -97,12 +110,10 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   NSError *error = nil;
-  if (![VungleSDK.sharedSDK
-               playAd:viewController
-              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
-          placementID:self.desiredPlacement
-             adMarkup:[self bidResponse]
-                error:&error]) {
+  if (![GADMAdapterVungleRouter.sharedInstance playAd:viewController
+                                             delegate:self
+                                               extras:[_adConfiguration extras]
+                                                error:&error]) {
     [_delegate didFailToPresentWithError:error];
   }
 }
@@ -115,7 +126,8 @@
 #pragma mark - GADMAdapterVungleDelegate
 
 - (NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
+  // This is the waterfall rewarded section. It won't have a bid response.
+  return nil;
 }
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
@@ -138,8 +150,8 @@
   }
 
   if (!_delegate) {
-    // In this case, the request for Vungle has been timed out. Clean up self.
-    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
+    // In this case, the request for Liftoff Monetize has been timed out. Clean up self.
+    [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
   }
 }
 

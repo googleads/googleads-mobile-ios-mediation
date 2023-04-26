@@ -24,19 +24,19 @@
 #import "VungleAdNetworkExtras.h"
 
 @implementation GADMediationAdapterVungle {
-  /// Vungle rewarded ad wrapper.
+  /// Liftoff Monetize rewarded ad wrapper.
   GADMediationVungleRewardedAd *_rewardedAd;
 
-  /// Vungle waterfall mediation rewarded ad wrapper.
+  /// Liftoff Monetize waterfall mediation rewarded ad wrapper.
   GADMAdapterVungleRewardBasedVideoAd *_waterfallRewardedAd;
 
-  /// Vungle interstitial ad wrapper.
+  /// Liftoff Monetize interstitial ad wrapper.
   GADMediationVungleInterstitial *_interstitialAd;
 
-  /// Vungle native ad wrapper
+  /// Liftoff Monetize native ad wrapper.
   GADMediationVungleNativeAd *_nativeAd;
 
-  /// Vungle banner ad wrapper.
+  /// Liftoff Monetize banner ad wrapper.
   GADMediationVungleBanner *_bannerAd;
 }
 
@@ -52,7 +52,7 @@
   if (!applicationIDs.count) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorInvalidServerParameters,
-        @"Vungle mediation configurations did not contain a valid application ID.");
+        @"Liftoff Monetize mediation configurations did not contain a valid application ID.");
     completionHandler(error);
     return;
   }
@@ -144,9 +144,9 @@
                                        (nonnull GADMediationRewardedLoadCompletionHandler)
                                            completionHandler {
   // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
-  NSLog(@"Vungle adapter was asked to load a rewarded interstitial ad. Using the rewarded ad "
-        @"request flow to load the ad to attempt to load a rewarded interstitial ad from "
-        @"Vungle.");
+  NSLog(@"Liftoff Monetize adapter was asked to load a rewarded interstitial ad. Using the "
+        @"rewarded ad request flow to load the ad to attempt to load a rewarded interstitial "
+        @"ad from Liftoff Monetize.");
   [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 

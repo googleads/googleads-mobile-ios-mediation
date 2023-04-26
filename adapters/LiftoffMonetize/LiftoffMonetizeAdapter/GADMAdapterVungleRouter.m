@@ -36,7 +36,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
 
-  /// Vungle's prioritized placementID.
+  /// Liftoff Monetize's prioritized placementID.
   NSString *_prioritizedPlacementID;
 }
 
@@ -95,7 +95,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
   if (!appId) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters, @"Liftoff Monetize app ID not specified.");
     [delegate initialized:NO error:error];
     return;
   }
@@ -120,7 +120,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
     if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
       GADAdSize adSize = [delegate bannerAdSize];
 
-      // Vungle's MREC ads are a special case where doesn't need to set Banner size
+      // Liftoff Monetize's MREC ads are a special case where doesn't need to set Banner size
       // since they have fixed size(300x250).
       if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
         priorityPlacementAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
@@ -147,8 +147,8 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
     GADAdSize adSize = [delegate bannerAdSize];
 
-    // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
-    // as opposed to isAdCachedForPlacementID:withSize:.
+    // Liftoff Monetize's MREC ads are a special case where Liftoff Monetize prefers using
+    // isAdCachedForPlacementID: as opposed to isAdCachedForPlacementID:withSize:.
     if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
       VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
       return [VungleSDK.sharedSDK isAdCachedForPlacementID:placementID withSize:vungleAdSize];
@@ -185,13 +185,13 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
         }
 
         if (!bannerDelegate.uniquePubRequestID) {
-          NSLog(
-              @"Vungle: Ad already loaded for placement ID: %@, and cannot determine if this is a "
-              @"refresh. Set Vungle extras when making an ad request to support refresh on "
-              @"Vungle banner ads.",
-              bannerDelegate.desiredPlacement);
+          NSLog(@"Liftoff Monetize: Ad already loaded for placement ID: %@, and cannot determine "
+                @"if this is a refresh. Set Liftoff Monetize extras when making an ad request to "
+                @"support refresh on Liftoff Monetize banner ads.",
+                bannerDelegate.desiredPlacement);
         } else {
-          NSLog(@"Vungle: Ad already loaded for placement ID: %@", bannerDelegate.desiredPlacement);
+          NSLog(@"Liftoff Monetize: Ad already loaded for placement ID: %@",
+                bannerDelegate.desiredPlacement);
         }
       }
     }
@@ -305,10 +305,10 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
     return nil;
   }
 
-  // Vungle 6.7.0 SDK cannot handle a second loadPlacementWithID: call while the first ad load is in
-  // progress. Work around this behavior by explicitly avoiding calling loadPlacementWithID: on the
-  // first request for this placement, as the priority placement has already started loading at
-  // initialization time.
+  // Vungle 6.7.0 SDK cannot handle a second loadPlacementWithID: call while the first
+  // ad load is in progress. Work around this behavior by explicitly avoiding calling
+  // loadPlacementWithID: on the first request for this placement, as the priority placement has
+  // already started loading at initialization time.
   if ([_prioritizedPlacementID isEqualToString:placement]) {
     return nil;
   }
@@ -318,8 +318,8 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   if ([delegate respondsToSelector:@selector(bannerAdSize)]) {
     GADAdSize adSize = [delegate bannerAdSize];
 
-    // Vungle's MREC ads are a special case where Vungle prefers using isAdCachedForPlacementID:
-    // as opposed to isAdCachedForPlacementID:withSize:.
+    // Liftoff Monetize's MREC ads are a special case where Vungle prefers using
+    // isAdCachedForPlacementID: as opposed to isAdCachedForPlacementID:withSize:.
     if (!GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
       VungleAdSize vungleAdSize = GADMAdapterVungleAdSizeForCGSize(adSize.size);
       [sdk loadPlacementWithID:placement
@@ -393,7 +393,8 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
     if (delegate.bannerState == BannerRouterDelegateStatePlaying ||
         delegate.bannerState == BannerRouterDelegateStateWillPlay) {
-      NSLog(@"Vungle: Triggering an ad completion call for %@", delegate.desiredPlacement);
+      NSLog(@"Liftoff Monetize: Triggering an ad completion call for %@",
+            delegate.desiredPlacement);
       [VungleSDK.sharedSDK finishDisplayingAd:delegate.desiredPlacement];
     }
   }
@@ -504,9 +505,9 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
     return;
   }
 
-  // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented. These events
-  // should be ignored as they aren't related to a load call. Assume an ad is presented if Vungle
-  // SDK has an ad cached for this placement.
+  // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented.
+  // These events should be ignored as they aren't related to a load call. Assume an ad is
+  // presented if Vungle SDK has an ad cached for this placement.
   if ([VungleSDK.sharedSDK isAdCachedForPlacementID:placementID]) {
     return;
   }
@@ -521,7 +522,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
   // Ad not playable. Return an error.
   if (error) {
-    NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
+    NSLog(@"Liftoff Monetize Ad Playability returned an error: %@", error.localizedDescription);
   } else {
     error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorAdNotPlayable,

@@ -60,8 +60,8 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
                                              delegate);
   }
 
-  // Call the init method in GADMAdapterVungleRouter as that class implements the Vungle SDK init
-  // delegates. Need to pass delegate as nil to avoid adding bidding ad delegate to
+  // Call the init method in GADMAdapterVungleRouter as that class implements the Vungle
+  // SDK init delegates. Need to pass delegate as nil to avoid adding bidding ad delegate to
   // GADMAdapterVungleRouter map table.
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appId delegate:nil];
 }
@@ -164,9 +164,10 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
     return;
   }
 
-  // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented. These events
-  // should be ignored as they aren't related to a load call. Assume that this method is called with
-  // isAdPlayable NO due to an ad being presented if Vungle SDK has an ad cached for this placement.
+  // Vungle SDK calls this method with isAdPlayable NO just after an ad is presented.
+  // These events should be ignored as they aren't related to a load call. Assume that this method
+  // is called with isAdPlayable NO due to an ad being presented if Vungle SDK has an ad
+  // cached for this placement.
   if ([delegate respondsToSelector:@selector(bannerAdSize)] &&
       !GADAdSizeEqualToSize([delegate bannerAdSize], GADAdSizeMediumRectangle)) {
     if ([VungleSDK.sharedSDK isAdCachedForPlacementID:delegate.desiredPlacement
@@ -192,7 +193,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
   // Ad not playable. Return an error.
   if (error) {
-    NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
+    NSLog(@"Liftoff Monetize Ad Playability returned an error: %@", error.localizedDescription);
   } else {
     error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorAdNotPlayable,
@@ -210,7 +211,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
 - (void)vungleDidShowAdForPlacementID:(nullable NSString *)placementID
                              adMarkup:(nullable NSString *)adMarkup {
-  NSLog(@"Vungle: Did show Ad for placement ID: %@, markup: %@", placementID, adMarkup);
+  NSLog(@"Liftoff Monetize: Did show Ad for placement ID: %@, markup: %@", placementID, adMarkup);
 }
 
 - (void)vungleAdViewedForPlacementID:(nullable NSString *)placementID

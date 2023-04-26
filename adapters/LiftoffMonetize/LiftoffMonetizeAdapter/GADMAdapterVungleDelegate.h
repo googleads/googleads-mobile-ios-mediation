@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, BannerRouterDelegateState) {
 /// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
-/// Placement ID used to request an ad from Vungle.
+/// Placement ID used to request an ad from Liftoff Monetize.
 @property(nonatomic, copy, nonnull) NSString *desiredPlacement;
 
 /// Indicates whether the ad has been loaded successfully.

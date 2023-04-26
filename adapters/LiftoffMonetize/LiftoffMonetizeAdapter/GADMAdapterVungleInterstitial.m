@@ -26,7 +26,7 @@
   /// Connector from the Google Mobile Ads SDK to receive ad configurations.
   __weak id<GADMAdNetworkConnector> _connector;
 
-  /// Vungle banner ad wrapper.
+  /// Liftoff Monetize banner ad wrapper.
   GADMAdapterVungleBanner *_bannerAd;
 }
 
@@ -82,7 +82,7 @@
   if ([GADMAdapterVungleRouter.sharedInstance hasDelegateForPlacementID:self.desiredPlacement]) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Vungle.");
+        @"Only a maximum of one ad per placement can be requested from Liftoff Monetize.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -95,7 +95,7 @@
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Vungle app ID not specified.");
+        GADMAdapterVungleErrorInvalidServerParameters, @"Liftoff Monetize app ID not specified.");
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -125,7 +125,7 @@
                                                 error:&error]) {
     // Ad not playable.
     if (error) {
-      NSLog(@"Vungle Ad Playability returned an error: %@", error.localizedDescription);
+      NSLog(@"Liftoff Monetize Ad Playability returned an error: %@", error.localizedDescription);
     }
     [strongConnector adapterWillPresentInterstitial:self];
     [strongConnector adapterDidDismissInterstitial:self];

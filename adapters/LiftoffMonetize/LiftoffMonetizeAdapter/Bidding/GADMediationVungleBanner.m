@@ -40,7 +40,7 @@
   /// Indicates whether the banner ad finished presenting.
   BOOL _didBannerFinishPresenting;
 
-  /// UIView to send to Google's view property and for Vungle to mount the ad
+  /// UIView to send to Google's view property and for Liftoff Monetize to mount the ad.
   UIView *_bannerView;
 }
 
@@ -91,9 +91,9 @@
 
 - (void)requestBannerAd {
   if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage =
-        [NSString stringWithFormat:@"The requested banner size: %@ is not supported by Vungle SDK.",
-                                   NSStringFromGADAdSize(_bannerSize)];
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"The requested banner size: %@ is not supported by Liftoff Monetize.",
+                         NSStringFromGADAdSize(_bannerSize)];
     NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
         GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
     _adLoadCompletionHandler(nil, error);
