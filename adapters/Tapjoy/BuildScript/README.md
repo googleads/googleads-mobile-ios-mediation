@@ -6,8 +6,8 @@ Tapjoy adapter, simply add `pod 'GoogleMobileAdsMediationTapjoy'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
-- Xcode 6.0 or higher
-- Deployment target of 6.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Tapjoy SDK
 - Tapjoy Adapter Source Code

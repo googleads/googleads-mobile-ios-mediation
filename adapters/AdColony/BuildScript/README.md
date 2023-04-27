@@ -6,8 +6,8 @@ AdColony adapter, simply add `pod 'GoogleMobileAdsMediationAdColony'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
-- Xcode 7.0 or higher
-- Deployment target of 7.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - AdColony SDK
 - AdColony Adapter Source Code

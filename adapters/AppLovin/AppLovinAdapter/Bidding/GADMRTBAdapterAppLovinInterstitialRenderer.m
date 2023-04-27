@@ -73,6 +73,7 @@
 
   // Create interstitial object.
   _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:_SDK];
+  [_interstitialAd setExtraInfoForKey:@"google_watermark" value:_adConfiguration.watermark];
 
   GADMAppLovinRTBInterstitialDelegate *delegate =
       [[GADMAppLovinRTBInterstitialDelegate alloc] initWithParentRenderer:self];

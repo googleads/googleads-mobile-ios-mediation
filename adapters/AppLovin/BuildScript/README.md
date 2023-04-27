@@ -7,8 +7,8 @@ Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
 
--   Xcode 7.0 or higher
--   Deployment target of 7.0 or higher
+-   Xcode 14.1 or higher
+-   Deployment target of 11.0 or higher
 -   Google Mobile Ads SDK
 -   AppLovin Ad SDK
 -   AppLovin Adapter Source Code

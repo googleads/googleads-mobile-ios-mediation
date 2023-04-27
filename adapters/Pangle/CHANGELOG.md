@@ -1,6 +1,52 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 4.9.1.0.0 (In progress)
+#### Next Version
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
+#### Version 5.1.0.7.0 (In Progress)
+- Added support for the arm64 simulator architecture.
+- Verified compatibility with Pangle SDK version 5.1.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.3.0.
+- Pangle SDK version 5.1.0.7.
+
+#### [Version 5.1.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.1.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 5.1.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.3.0.
+- Pangle SDK version 5.1.0.6.
+
+#### [Version 5.0.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.0.1.0.0.zip)
+- Verified compatibility with Pangle SDK version 5.0.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.2.0.
+- Pangle SDK version 5.0.1.0.
+
+#### [Version 5.0.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.0.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 5.0.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.2.0.
+- Pangle SDK version 5.0.0.8.
+
+#### [Version 5.0.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.0.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 5.0.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.1.0.
+- Pangle SDK version 5.0.0.7.
+
+#### [Version 5.0.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.0.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 5.0.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.1.0.
+- Pangle SDK version 5.0.0.6.
+
+#### [Version 4.9.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-4.9.1.0.0.zip)
 - Removed support for the `armv7` architecture.
 - Verified compatibility with Pangle SDK version 4.9.1.0.
 - Now requires minimum iOS version of 12.0.
