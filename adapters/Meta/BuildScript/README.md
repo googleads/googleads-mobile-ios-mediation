@@ -6,8 +6,8 @@ Meta Audience Network adapter, simply add `pod 'GoogleMobileAdsMediationFacebook
 your Podfile and run `pod install --repo-update`.
 
 ## Prerequisites
-- Xcode 6.0 or higher
-- Deployment target of 6.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Meta Audience Network Audience Network SDK
 - Meta Audience Network Adapter Source Code

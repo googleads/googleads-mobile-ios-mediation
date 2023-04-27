@@ -8,8 +8,8 @@ use the AD_NETWORK_NAME adapter, simply add
 
 ## Prerequisites
 
--   Xcode 7.0 or higher
--   Deployment target of 8.0 or higher
+-   Xcode 14.1 or higher
+-   Deployment target of 11.0 or higher
 -   Google Mobile Ads SDK
 -   ironSource SDK
 -   Mediation Adapter Code

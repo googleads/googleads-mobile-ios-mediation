@@ -6,8 +6,8 @@ Chartboost adapter, simply add `pod 'GoogleMobileAdsMediationChartboost'` to
 your Podfile and run `pod install`.
 
 ## Prerequisites
-- Xcode 6.0 or higher
-- Deployment target of 8.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Chartboost SDK
 - Chartboost Adapter Source Code

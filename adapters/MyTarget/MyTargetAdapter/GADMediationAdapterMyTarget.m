@@ -16,7 +16,6 @@
 
 #import <MyTargetSDK/MyTargetSDK.h>
 
-#import "MyTargetSDK/MyTargetSDK-Swift.h"
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetRewardedAd.h"

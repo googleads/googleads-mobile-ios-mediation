@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,12 +81,6 @@
 
   _rewardedVideo = [[NADRewardedVideo alloc] initWithSpotID:spotId.integerValue apiKey:apiKey];
   _rewardedVideo.mediationName = GADMAdapterNendMediationName;
-
-  GADMAdapterNendExtras *extras = _adConfiguration.extras;
-  if (extras) {
-    _rewardedVideo.userId = extras.userId;
-  }
-
   _rewardedVideo.delegate = self;
   [_rewardedVideo loadAd];
 }

@@ -14,7 +14,7 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-@import InMobiSDK;
+#import <InMobiSDK/InMobiSDK-Swift.h>
 
 @interface GADMAdapterInMobiInterstitialAd
     : NSObject <GADMediationInterstitialAd, IMInterstitialDelegate>
@@ -23,4 +23,5 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                            completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                  completionHandler;
+
 @end

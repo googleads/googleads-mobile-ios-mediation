@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterInMobiRewardedAd.h"
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #include <stdatomic.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
@@ -146,7 +146,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_rewardedAd isReady]) {
-      [_rewardedAd showFrom:viewController];
+    [_rewardedAd showFrom:viewController];
   } else {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorAdNotReady, @"InMobi SDK failed to present a rewarded ad.");
@@ -161,7 +161,8 @@
   _adEventDelegate = _renderCompletionHandler(self, nil);
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToLoadWithError:(nonnull IMRequestStatus *)error {
   GADMAdapterInMobiLog(@"InMobi SDK failed to load rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
@@ -179,7 +180,8 @@
   [_adEventDelegate didStartVideo];
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial didFailToPresentWithError:(nonnull IMRequestStatus *)error {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didFailToPresentWithError:(nonnull IMRequestStatus *)error {
   GADMAdapterInMobiLog(@"InMobi SDK did fail to present a rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
@@ -200,7 +202,8 @@
   [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial didInteractWithParams:(nullable NSDictionary<NSString *,id> *)params {
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    didInteractWithParams:(nullable NSDictionary<NSString *, id> *)params {
   GADMAdapterInMobiLog(@"InMobi SDK recorded a click on rewarded ad.");
   [_adEventDelegate reportClick];
 }
@@ -211,12 +214,10 @@
   GADMAdapterInMobiLog(@"InMobi AdServer returned a response for rewarded ad.");
 }
 
-- (void)interstitial:(nonnull IMInterstitial *)interstitial rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *,id> *)rewards {
-  NSString *key = rewards.allKeys.firstObject;
-  if (key) {
-    GADAdReward *reward = [[GADAdReward alloc] initWithRewardType:key rewardAmount:rewards[key]];
-    [_adEventDelegate didRewardUserWithReward:reward];
-  }
+- (void)interstitial:(nonnull IMInterstitial *)interstitial
+    rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *, id> *)rewards {
+  GADMAdapterInMobiLog(@"InMobi SDK rewarded a user for a rewarded ad.");
+  [_adEventDelegate didRewardUser];
   [_adEventDelegate didEndVideo];
 }
 

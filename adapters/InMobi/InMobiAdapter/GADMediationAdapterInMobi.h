@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 
 typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
   /// Missing server parameters.

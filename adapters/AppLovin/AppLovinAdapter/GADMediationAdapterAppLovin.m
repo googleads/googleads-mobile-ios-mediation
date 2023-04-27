@@ -19,13 +19,9 @@
 #import "GADMAdapterAppLovinInitializer.h"
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMAdapterAppLovinUtils.h"
-#import "GADMRTBAdapterAppLovinBannerRenderer.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
-  /// AppLovin banner ad wrapper.
-  GADMRTBAdapterAppLovinBannerRenderer *_bannerRenderer;
-
   /// AppLovin interstitial ad wrapper.
   GADMRTBAdapterAppLovinInterstitialRenderer *_interstitialRenderer;
 
@@ -173,15 +169,6 @@
 }
 
 #pragma mark - GADMediationAdapter load Ad
-
-- (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                   completionHandler:
-                       (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-  _bannerRenderer =
-      [[GADMRTBAdapterAppLovinBannerRenderer alloc] initWithAdConfiguration:adConfiguration
-                                                          completionHandler:completionHandler];
-  [_bannerRenderer loadAd];
-}
 
 - (void)loadInterstitialForAdConfiguration:
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration

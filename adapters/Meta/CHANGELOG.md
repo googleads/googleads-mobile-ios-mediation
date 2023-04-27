@@ -1,6 +1,11 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Version 6.12.0.1 (In progress)
+#### Next Version
+- Removed support of the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
+#### [Version 6.12.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.1.zip)
 - Now requires Google Mobile Ads SDK version 10.0.0 or higher.
 
 Built and tested with:
