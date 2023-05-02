@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Version 8.2.1.0 (In progress)
+#### [Version 8.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.1.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.2.1.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
