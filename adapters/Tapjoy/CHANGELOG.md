@@ -1,6 +1,6 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
-#### Version 13.0.1.0 (In progress)
+#### [Version 13.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.0.1.0.zip)
 - Verified compatibility with Tapjoy SDK 13.0.1.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
