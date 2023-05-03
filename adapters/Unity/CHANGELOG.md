@@ -1,8 +1,13 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 4.7.0.0 (In Progress)
+- Verified compatibility with Unity Ads SDK 4.7.0.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.4.0.
+- Unity Ads SDK version 4.7.0.
 
 #### [Version 4.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.6.1.0.zip)
 - Verified compatibility with Unity Ads SDK 4.6.1.
