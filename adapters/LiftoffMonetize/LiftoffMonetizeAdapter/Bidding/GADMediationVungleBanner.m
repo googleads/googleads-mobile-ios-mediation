@@ -117,9 +117,6 @@
       initWithPlacementId:self.desiredPlacement
                      size:GADMAdapterVungleConvertGADAdSizeToBannerSize(_bannerSize)];
   _bannerAd.delegate = self;
-  VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
-  [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
-  [_bannerAd setWithExtras:extras];
   [_bannerAd load:_adConfiguration.bidResponse];
 }
 
