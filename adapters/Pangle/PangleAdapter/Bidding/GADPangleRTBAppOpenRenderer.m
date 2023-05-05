@@ -24,7 +24,7 @@
 
 @implementation GADPangleRTBAppOpenRenderer
 
-- (void)loadAppOpenAdForAdConfiguration:
+- (void)renderAppOpenAdForAdConfiguration:
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
                       completionHandler:
 (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
