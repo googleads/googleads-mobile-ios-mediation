@@ -66,7 +66,7 @@
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
 
   PAGNativeRequest *request = [PAGNativeRequest request];
-  request.adString = adConfiguration.bidResponse;
+  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
 
   GADPangleRTBNativeRenderer *__weak weakSelf = self;
   [PAGLNativeAd loadAdWithSlotID:placementId

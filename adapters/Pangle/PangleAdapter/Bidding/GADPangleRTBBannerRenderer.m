@@ -62,7 +62,7 @@
 
   PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize];
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
-  request.adString = adConfiguration.bidResponse;
+  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
 
   GADPangleRTBBannerRenderer *__weak weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId

@@ -60,7 +60,7 @@
     return;
   }
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
-  request.adString = adConfiguration.bidResponse;
+  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
   GADPangleRTBInterstitialRenderer *__weak weakSelf = self;
   [PAGLInterstitialAd
        loadAdWithSlotID:placementId
