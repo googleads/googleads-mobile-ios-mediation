@@ -21,6 +21,7 @@
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
+#import "GADPangleRTBAppOpenRenderer.h"
 
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
@@ -33,6 +34,8 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   GADPangleRTBRewardedRenderer *_rewardedRenderer;
   /// Pangle native ad wrapper.
   GADPangleRTBNativeRenderer *_nativeRenderer;
+  /// Pangle open ad wrapper
+  GADPangleRTBAppOpenRenderer *_openAdRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -156,6 +159,18 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
   [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
+}
+
+- (void)loadAppOpenAdForAdConfiguration:
+            (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+                                             ? adConfiguration.childDirectedTreatment.integerValue
+                                             : -1)];
+    _openAdRenderer = [[GADPangleRTBAppOpenRenderer alloc] init];
+    [_openAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
+                                     completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.
