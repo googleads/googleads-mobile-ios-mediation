@@ -105,54 +105,56 @@
 
 #pragma mark - VungleRewardedDelegate
 
-- (void)rewardedAdDidLoad:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidLoad:(nonnull VungleRewarded *)rewarded {
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-- (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)error {
+- (void)rewardedAdDidFailToLoad:(nonnull VungleRewarded *)rewarded
+                      withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
-- (void)rewardedAdWillPresent:(VungleRewarded *)rewarded {
+- (void)rewardedAdWillPresent:(nonnull VungleRewarded *)rewarded {
   [_delegate willPresentFullScreenView];
 }
 
-- (void)rewardedAdDidPresent:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidPresent:(nonnull VungleRewarded *)rewarded {
   [_delegate didStartVideo];
 }
 
-- (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)error {
+- (void)rewardedAdDidFailToPresent:(nonnull VungleRewarded *)rewarded
+                         withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 
-- (void)rewardedAdWillClose:(VungleRewarded *)rewarded {
+- (void)rewardedAdWillClose:(nonnull VungleRewarded *)rewarded {
   [_delegate willDismissFullScreenView];
 }
 
-- (void)rewardedAdDidClose:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidClose:(nonnull VungleRewarded *)rewarded {
   [_delegate didEndVideo];
   [_delegate didDismissFullScreenView];
 }
 
-- (void)rewardedAdDidTrackImpression:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidTrackImpression:(nonnull VungleRewarded *)rewarded {
   [_delegate reportImpression];
 }
 
-- (void)rewardedAdDidClick:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidClick:(nonnull VungleRewarded *)rewarded {
   [_delegate reportClick];
 }
 
-- (void)rewardedAdWillLeaveApplication:(VungleRewarded *)rewarded {
+- (void)rewardedAdWillLeaveApplication:(nonnull VungleRewarded *)rewarded {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)rewardedAdDidRewardUser:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidRewardUser:(nonnull VungleRewarded *)rewarded {
   [_delegate didRewardUser];
 }
 

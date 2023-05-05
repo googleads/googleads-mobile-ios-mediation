@@ -18,16 +18,16 @@
 typedef NS_ENUM(NSInteger, GADMAdapterVungleErrorCode) {
   /// Missing server parameters.
   GADMAdapterVungleErrorInvalidServerParameters = 101,
-  /// An ad is already loaded for this network configuration. Liftoff Monetize SDK cannot load
+  /// An ad is already loaded for this network configuration. Liftoff Monetize's SDK cannot load
   /// a second ad for the same placement ID.
   GADMAdapterVungleErrorAdAlreadyLoaded = 102,
   /// Banner Size Mismatch.
   GADMAdapterVungleErrorBannerSizeMismatch = 103,
-  /// Liftoff Monetize SDK could not render the banner ad.
+  /// Liftoff Monetize's SDK could not render the banner ad.
   GADMAdapterVungleErrorRenderBannerAd = 104,
-  /// Liftoff Monetize SDK only supports loading 1 banner ad at a time, regardless of placement ID.
+  /// Liftoff Monetize's SDK only supports loading 1 banner ad at a time, regardless of placement ID.
   GADMAdapterVungleErrorMultipleBanners = 105,
-  /// Liftoff Monetize SDK sent a callback saying the ad is not playable.
+  /// Liftoff Monetize's SDK sent a callback saying the ad is not playable.
   GADMAdapterVungleErrorAdNotPlayable = 106
 };
 

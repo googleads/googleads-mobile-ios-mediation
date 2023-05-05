@@ -214,7 +214,7 @@
 
 #pragma mark - VungleNativeAdDelegate
 
-- (void)nativeAdDidLoad:(VungleNative *)nativeAd {
+- (void)nativeAdDidLoad:(nonnull VungleNative *)nativeAd {
   if (_delegate) {
     // Already invoked an ad load callback.
     return;
@@ -224,23 +224,23 @@
   _delegate = _adLoadCompletionHandler(self, nil);
 }
 
-- (void)nativeAdDidFailToLoad:(VungleNative *)native withError:(NSError *)error {
+- (void)nativeAdDidFailToLoad:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
-- (void)nativeAdDidFailToPresent:(VungleNative *)native withError:(NSError *)error {
+- (void)nativeAdDidFailToPresent:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 
-- (void)nativeAdDidClick:(VungleNative *)nativeAd {
+- (void)nativeAdDidClick:(nonnull VungleNative *)nativeAd {
   [_delegate reportClick];
 }
 
-- (void)nativeAdDidTrackImpression:(VungleNative *)nativeAd {
+- (void)nativeAdDidTrackImpression:(nonnull VungleNative *)nativeAd {
   [_delegate reportImpression];
 }
 

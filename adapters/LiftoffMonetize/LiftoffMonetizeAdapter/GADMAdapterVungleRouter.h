@@ -19,7 +19,9 @@
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;
 
-/// Initializes the Liftoff Monetize SDK then makes the load call to the delegate if provided
+/// This adds the delegate to a list and starts the initialization process for Liftoff Monetize's
+/// SDK. When initialization is complete, the delegate list will receive a callback with the result
+/// and begin loading if successful.
 - (void)initWithAppId:(nonnull NSString *)appId
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate;
 
