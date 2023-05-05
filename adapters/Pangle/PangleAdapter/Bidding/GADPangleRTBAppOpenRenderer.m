@@ -31,12 +31,12 @@
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationAppOpenLoadCompletionHandler originalCompletionHandler =
         [completionHandler copy];
-    _loadCompletionHandler = ^id<GADMediationAppOpenLoadCompletionHandler>(
-        _Nullable id<GADMediationAppOpenAd> ad, NSError *_Nullable error) {
+    
+    _loadCompletionHandler = ^id<GADMediationAppOpenAdEventDelegate> _Nullable (_Nullable id<GADMediationAppOpenAd> ad,NSError *_Nullable error) {
       if (atomic_flag_test_and_set(&completionHandlerCalled)) {
         return nil;
       }
-      id<GADMediationAppOpenLoadCompletionHandler> delegate = nil;
+      id<GADMediationAppOpenAdEventDelegate> delegate = nil;
       if (originalCompletionHandler) {
         delegate = originalCompletionHandler(ad, error);
       }
