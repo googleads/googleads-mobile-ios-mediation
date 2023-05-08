@@ -21,13 +21,10 @@
     initWithAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
           completionHandler:(nonnull GADMediationBannerLoadCompletionHandler)handler;
 
-/// Unavailable.
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Requests a banner ad from Liftoff Monetize.
 - (void)requestBannerAd;
-
-/// Destroy and cleanup Liftoff Monetize's banner ad.
-- (void)cleanUp;
 
 @end

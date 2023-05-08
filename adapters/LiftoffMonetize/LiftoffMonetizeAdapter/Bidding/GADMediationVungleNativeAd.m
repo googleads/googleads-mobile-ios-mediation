@@ -13,13 +13,12 @@
 // limitations under the License.
 
 #import "GADMediationVungleNativeAd.h"
-#import <VungleSDK/VungleNativeAd.h>
 #include <stdatomic.h>
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
 @interface GADMediationVungleNativeAd () <GADMediationNativeAd,
-                                          VungleNativeAdDelegate,
+                                          VungleNativeDelegate,
                                           GADMAdapterVungleDelegate>
 
 @end
@@ -32,17 +31,24 @@
   GADMediationNativeLoadCompletionHandler _adLoadCompletionHandler;
 
   /// The Liftoff Monetize native ad.
-  VungleNativeAd *_nativeAd;
+  VungleNative *_nativeAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationNativeAdEventDelegate> _delegate;
 
   /// The Liftoff Monetize container to display the media (image/video).
-  VungleMediaView *_mediaView;
+  MediaView *_mediaView;
 }
 
 @synthesize desiredPlacement;
-@synthesize isAdLoaded;
+
+- (void)dealloc {
+  _adConfiguration = nil;
+  _adLoadCompletionHandler = nil;
+  _delegate = nil;
+  _mediaView = nil;
+  _nativeAd = nil;
+}
 
 - (nonnull instancetype)
     initNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
@@ -79,15 +85,12 @@
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
   if (!self.desiredPlacement) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters,
-        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
-        @"Ad Manager UI.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  if (![[VungleSDK sharedSDK] isInitialized]) {
+  if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
     return;
@@ -97,7 +100,7 @@
 }
 
 - (void)loadAd {
-  _nativeAd = [[VungleNativeAd alloc] initWithPlacementID:self.desiredPlacement];
+  _nativeAd = [[VungleNative alloc] initWithPlacementId:self.desiredPlacement];
   _nativeAd.delegate = self;
   VungleAdNetworkExtras *networkExtras = _adConfiguration.extras;
   switch (networkExtras.nativeAdOptionPosition) {
@@ -117,7 +120,7 @@
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
       break;
   }
-  [_nativeAd loadAdWithAdMarkup:[self bidResponse]];
+  [_nativeAd load:_adConfiguration.bidResponse];
 }
 
 #pragma mark - GADMediatedUnifiedNativeAd
@@ -174,7 +177,8 @@
 }
 
 - (BOOL)hasVideoContent {
-  // Vungle requires to return YES for both video and non-video content to render the media view.
+  // Liftoff Monetize requires to return YES for both video and non-video content to render the
+  // media view.
   return YES;
 }
 
@@ -189,12 +193,11 @@
   if ([clickableAssetViews[GADNativeIconAsset] isKindOfClass:[UIImageView class]]) {
     iconView = (UIImageView *)clickableAssetViews[GADNativeIconAsset];
   }
-
-  [_nativeAd registerViewForInteraction:view
-                              mediaView:_mediaView
-                          iconImageView:iconView
-                         viewController:viewController
-                         clickableViews:assets];
+  [_nativeAd registerViewForInteractionWithView:view
+                                      mediaView:_mediaView
+                                  iconImageView:iconView
+                                 viewController:viewController
+                                 clickableViews:assets];
 }
 
 - (void)didUntrackView:(nullable UIView *)view {
@@ -211,25 +214,33 @@
 
 #pragma mark - VungleNativeAdDelegate
 
-- (void)nativeAdDidLoad:(VungleNativeAd *)nativeAd {
+- (void)nativeAdDidLoad:(nonnull VungleNative *)nativeAd {
   if (_delegate) {
     // Already invoked an ad load callback.
     return;
   }
 
-  _mediaView = [[VungleMediaView alloc] init];
+  _mediaView = [[MediaView alloc] init];
   _delegate = _adLoadCompletionHandler(self, nil);
 }
 
-- (void)nativeAd:(VungleNativeAd *)nativeAd didFailWithError:(NSError *)error {
-  _adLoadCompletionHandler(nil, error);
+- (void)nativeAdDidFailToLoad:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  _adLoadCompletionHandler(nil, gadError);
 }
 
-- (void)nativeAdDidClick:(VungleNativeAd *)nativeAd {
+- (void)nativeAdDidFailToPresent:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_delegate didFailToPresentWithError:gadError];
+}
+
+- (void)nativeAdDidClick:(nonnull VungleNative *)nativeAd {
   [_delegate reportClick];
 }
 
-- (void)nativeAdDidTrackImpression:(VungleNativeAd *)nativeAd {
+- (void)nativeAdDidTrackImpression:(nonnull VungleNative *)nativeAd {
   [_delegate reportImpression];
 }
 
@@ -241,50 +252,6 @@
   } else {
     _adLoadCompletionHandler(nil, error);
   }
-}
-
-- (void)adAvailable {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)willShowAd {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)didShowAd {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)didViewAd {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)rewardUser {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)trackClick {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)willCloseAd {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)didCloseAd {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (void)willLeaveApplication {
-  // No-op, Liftoff Monetize native ads utilize callbacks from VungleNativeAdDelegate.
-}
-
-- (nullable NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
 }
 
 @end

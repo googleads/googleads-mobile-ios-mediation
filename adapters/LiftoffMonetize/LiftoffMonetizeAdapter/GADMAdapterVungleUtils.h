@@ -13,47 +13,36 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <VungleSDK/VungleSDK.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import "GADMediationAdapterVungle.h"
 #import "VungleAdNetworkExtras.h"
 
-/// Safely adds |object| to |set| if |object| is not nil.
-void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
-
-/// Safely sets |value| for |key| in mapTable if |value| is not nil.
-void GADMAdapterVungleMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                              id<NSCopying> _Nullable key, id _Nullable value);
-
-/// Safely removes the |object| for |key| in mapTable if |key| is not nil.
-void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key);
-
-/// Sets |value| for |key| in |dictionary| if |value| is not nil.
-void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                       id<NSCopying> _Nullable key,
-                                                       id _Nullable value);
-
-/// Safely removes the |object| for |key| in userDefaults if |key| is not nil.
-void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull userDefaults,
-                                                     id _Nullable key);
-
-/// Removes the object for |key| in |dictionary| if |key| is not nil.
-void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                          id<NSCopying> _Nullable key);
-
-/// Return a dictionary of Liftoff Monetize ad playback options.
-NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
-    VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras);
-
-/// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
+/// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description);
 
-/// Returns a VungleAdSize object from the specified adSize
-VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize);
+/// Returns a NSError converted from the error object from Liftoff Monetize's SDK into the AdMob error
+/// format The localized description will contain the Liftoff Monetize error code and the
+/// description from the Vungle SDK.
+NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
+                                                   NSInteger vungleCode,
+                                                   NSString *_Nonnull description);
 
-/// Returns a GADAdSize object that is valid for the Vungle SDK
+/// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid placement
+/// id.
+NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription(void);
+
+/// Returns a NSError with code |code| and with NSLocalizedDescriptionKey and
+/// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid app id.
+NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription(void);
+
+/// Returns a GADAdSize object that is valid for Liftoff Monetize's SDK
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize);
+
+/// Returns a Liftoff Monetize BannerSize from the provided GADAdSize
+BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize);
 
 @interface GADMAdapterVungleUtils : NSObject
 

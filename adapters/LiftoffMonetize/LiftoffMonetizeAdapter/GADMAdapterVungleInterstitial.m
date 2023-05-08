@@ -19,7 +19,7 @@
 #import "GADMAdapterVungleUtils.h"
 #import "GADMediationAdapterVungle.h"
 
-@interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate>
+@interface GADMAdapterVungleInterstitial () <GADMAdapterVungleDelegate, VungleInterstitialDelegate>
 @end
 
 @implementation GADMAdapterVungleInterstitial {
@@ -28,7 +28,12 @@
 
   /// Liftoff Monetize banner ad wrapper.
   GADMAdapterVungleBanner *_bannerAd;
+
+  /// Liftoff Monetize interstitial ad instance.
+  VungleInterstitial *_interstitialAd;
 }
+
+@synthesize desiredPlacement;
 
 // Redirect to the main adapter class for bidding
 // but still implement GADMAdNetworkAdapter for waterfall.
@@ -56,7 +61,9 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:strongConnector.childDirectedTreatment];
+  if (strongConnector.childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  }
   _bannerAd = [[GADMAdapterVungleBanner alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                       adapter:self];
   [_bannerAd getBannerWithSize:adSize];
@@ -66,36 +73,25 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:strongConnector.childDirectedTreatment];
+  if (strongConnector.childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  }
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:[strongConnector networkExtras]];
   if (!self.desiredPlacement.length) {
     [strongConnector adapter:self
-                   didFailAd:GADMAdapterVungleErrorWithCodeAndDescription(
-                                 GADMAdapterVungleErrorInvalidServerParameters,
-                                 @"Missing or invalid Placement ID configured for this ad source "
-                                 @"instance in the AdMob or Ad Manager UI.")];
+                   didFailAd:GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription()];
     return;
   }
 
-  VungleSDK *sdk = VungleSDK.sharedSDK;
-  if ([GADMAdapterVungleRouter.sharedInstance hasDelegateForPlacementID:self.desiredPlacement]) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorAdAlreadyLoaded,
-        @"Only a maximum of one ad per placement can be requested from Liftoff Monetize.");
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
-
-  if ([sdk isInitialized]) {
+  if ([VungleAds isInitialized]) {
     [self loadAd];
     return;
   }
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Liftoff Monetize app ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
     [strongConnector adapter:self didFailAd:error];
     return;
   }
@@ -103,13 +99,9 @@
 }
 
 - (void)stopBeingDelegate {
-  if (_bannerAd) {
-    [_bannerAd cleanUp];
-  } else {
-    [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
-  }
-
+  _bannerAd = nil;
   _connector = nil;
+  _interstitialAd = nil;
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
@@ -117,41 +109,66 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  NSError *error = nil;
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (![GADMAdapterVungleRouter.sharedInstance playAd:rootViewController
-                                             delegate:self
-                                               extras:[strongConnector networkExtras]
-                                                error:&error]) {
-    // Ad not playable.
-    if (error) {
-      NSLog(@"Liftoff Monetize Ad Playability returned an error: %@", error.localizedDescription);
-    }
-    [strongConnector adapterWillPresentInterstitial:self];
-    [strongConnector adapterDidDismissInterstitial:self];
-    return;
-  }
+  [_interstitialAd presentWith:rootViewController];
 }
 
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
-                                                     withDelegate:self];
-  if (error) {
-    [_connector adapter:self didFailAd:error];
-  }
+  _interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
+  _interstitialAd.delegate = self;
+  [_interstitialAd load:nil];
+}
+
+#pragma mark - VungleInterstitialDelegate
+
+- (void)interstitialAdDidLoad:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterDidReceiveInterstitial:self];
+}
+
+- (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
+                          withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_connector adapter:self didFailAd:gadError];
+}
+
+- (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterWillPresentInterstitial:self];
+}
+
+- (void)interstitialAdDidPresent:(nonnull VungleInterstitial *)interstitial {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
+                             withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_connector adapter:self didFailAd:gadError];
+}
+
+- (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterWillDismissInterstitial:self];
+}
+
+- (void)interstitialAdDidClose:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterDidDismissInterstitial:self];
+}
+
+- (void)interstitialAdDidTrackImpression:(nonnull VungleInterstitial *)interstitial {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)interstitialAdDidClick:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterDidGetAdClick:self];
+}
+
+- (void)interstitialAdWillLeaveApplication:(nonnull VungleInterstitial *)interstitial {
+  [_connector adapterWillLeaveApplication:self];
 }
 
 #pragma mark - GADMAdapterVungleDelegate
-
-@synthesize desiredPlacement;
-@synthesize isAdLoaded;
-
-- (nullable NSString *)bidResponse {
-  // This is the waterfall interstitial section. It won't have a bid response.
-  return nil;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -159,57 +176,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  [_connector adapterDidReceiveInterstitial:self];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-
-  [_connector adapter:self didFailAd:error];
-}
-
-- (void)willShowAd {
-  [_connector adapterWillPresentInterstitial:self];
-}
-
-- (void)didShowAd {
-  // Do nothing.
-}
-
-- (void)didViewAd {
-  // Do nothing.
-}
-
-- (void)willCloseAd {
-  [_connector adapterWillDismissInterstitial:self];
-}
-
-- (void)didCloseAd {
-  [_connector adapterDidDismissInterstitial:self];
-}
-
-- (void)trackClick {
-  [_connector adapterDidGetAdClick:self];
-}
-
-- (void)willLeaveApplication {
-  [_connector adapterWillLeaveApplication:self];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end

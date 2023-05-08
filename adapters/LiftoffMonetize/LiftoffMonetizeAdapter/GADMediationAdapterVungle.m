@@ -42,11 +42,13 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  // Gather all app ids supplied by the server configuration
   NSMutableSet *applicationIDs = [[NSMutableSet alloc] init];
-
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appID = cred.settings[GADMAdapterVungleApplicationID];
-    GADMAdapterVungleMutableSetAddObject(applicationIDs, appID);
+    if (appID.length) {
+      [applicationIDs addObject:appID];
+    }
   }
 
   if (!applicationIDs.count) {
@@ -62,7 +64,7 @@
     NSLog(@"Found the following application IDs: %@. "
           @"Please remove any application IDs you are not using from the AdMob UI.",
           applicationIDs);
-    NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
+    NSLog(@"Configuring Liftoff Monetize's SDK with the application ID %@.", applicationID);
   }
 
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:applicationID delegate:nil];
@@ -70,7 +72,7 @@
 }
 
 + (GADVersionNumber)adSDKVersion {
-  NSString *versionString = VungleSDKVersion;
+  NSString *versionString = VungleAds.sdkVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
 
   GADVersionNumber version = {0};
@@ -105,7 +107,9 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
         [[GADMAdapterVungleRewardBasedVideoAd alloc] initWithAdConfiguration:adConfiguration
@@ -122,7 +126,9 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
                                                     completionHandler:completionHandler];
@@ -132,7 +138,9 @@
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
+  if (adConfiguration.childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  }
   _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [_nativeAd requestNativeAd];
@@ -143,7 +151,7 @@
                                    completionHandler:
                                        (nonnull GADMediationRewardedLoadCompletionHandler)
                                            completionHandler {
-  // Vungle Rewarded Interstitial ads use the same Rewarded Video API.
+  // Liftoff Monetize Rewarded Interstitial ads use the same Rewarded Video API.
   NSLog(@"Liftoff Monetize adapter was asked to load a rewarded interstitial ad. Using the "
         @"rewarded ad request flow to load the ad to attempt to load a rewarded interstitial "
         @"ad from Liftoff Monetize.");
@@ -153,7 +161,6 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
                        (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-  [[GADMAdapterVungleRouter sharedInstance] setCOPPAStatus:adConfiguration.childDirectedTreatment];
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];
   [_bannerAd requestBannerAd];
@@ -164,7 +171,7 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  completionHandler([GADMAdapterVungleRouter.sharedInstance getSuperToken], nil);
+  completionHandler([VungleAds getBiddingToken], nil);
 }
 
 @end

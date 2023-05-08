@@ -14,11 +14,14 @@
 
 #import "GADMediationVungleInterstitial.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleDelegate.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate, GADMediationInterstitialAd>
+@interface GADMediationVungleInterstitial () <GADMAdapterVungleDelegate,
+                                              GADMediationInterstitialAd,
+                                              VungleInterstitialDelegate>
 @end
 
 @implementation GADMediationVungleInterstitial {
@@ -30,10 +33,12 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _delegate;
+
+  /// Liftoff Monetize interstitial ad instance.
+  VungleInterstitial *_interstitialAd;
 }
 
 @synthesize desiredPlacement;
-@synthesize isAdLoaded;
 
 #pragma mark - GADMediationVungleInterstitial Methods
 
@@ -71,17 +76,14 @@
 
 - (void)requestInterstitialAd {
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters,
-        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
-        @"Ad Manager UI.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  if (![GADMAdapterVungleBiddingRouter.sharedInstance isSDKInitialized]) {
+  if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
+    [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -91,34 +93,68 @@
 #pragma mark - GADMediationInterstitialAd Methods
 
 - (void)presentFromViewController:(UIViewController *)rootViewController {
-  NSError *error = nil;
-  if (![VungleSDK.sharedSDK
-               playAd:rootViewController
-              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
-          placementID:self.desiredPlacement
-             adMarkup:[self bidResponse]
-                error:&error]) {
-    // Ad not playable.
-    if (error) {
-      [_delegate didFailToPresentWithError:error];
-    }
-  }
+  [_interstitialAd presentWith:rootViewController];
 }
 
 #pragma mark - Private methods
 
 - (void)loadAd {
-  NSError *error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
-  if (error) {
-    _adLoadCompletionHandler(nil, error);
+  _interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
+  _interstitialAd.delegate = self;
+  [_interstitialAd load:_adConfiguration.bidResponse];
+}
+
+#pragma mark - VungleInterstitialDelegate
+
+- (void)interstitialAdDidLoad:(nonnull VungleInterstitial *)interstitial {
+  if (_adLoadCompletionHandler) {
+    _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-#pragma mark - GADMAdapterVungleDelegate
-
-- (NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
+- (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
+                          withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  _adLoadCompletionHandler(nil, gadError);
 }
+
+- (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
+  [_delegate willPresentFullScreenView];
+}
+
+- (void)interstitialAdDidPresent:(nonnull VungleInterstitial *)interstitial {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
+                             withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_delegate didFailToPresentWithError:gadError];
+}
+
+- (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {
+  [_delegate willDismissFullScreenView];
+}
+
+- (void)interstitialAdDidClose:(nonnull VungleInterstitial *)interstitial {
+  [_delegate didDismissFullScreenView];
+}
+
+- (void)interstitialAdDidTrackImpression:(nonnull VungleInterstitial *)interstitial {
+  [_delegate reportImpression];
+}
+
+- (void)interstitialAdDidClick:(nonnull VungleInterstitial *)interstitial {
+  [_delegate reportClick];
+}
+
+- (void)interstitialAdWillLeaveApplication:(nonnull VungleInterstitial *)interstitial {
+  [_delegate willBackgroundApplication];
+}
+
+#pragma mark - GADMAdapterVungleDelegate
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -126,63 +162,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  if (_adLoadCompletionHandler) {
-    _delegate = _adLoadCompletionHandler(self, nil);
-  }
-
-  if (!_delegate) {
-    // In this case, the request for Liftoff Monetize has been timed out. Clean up self.
-    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
-  }
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  _adLoadCompletionHandler(nil, error);
-}
-
-- (void)willShowAd {
-  [_delegate willPresentFullScreenView];
-}
-
-- (void)didShowAd {
-  // Do nothing.
-}
-
-- (void)didViewAd {
-  [_delegate reportImpression];
-}
-
-- (void)willCloseAd {
-  [_delegate willDismissFullScreenView];
-}
-
-- (void)didCloseAd {
-  [_delegate didDismissFullScreenView];
-}
-
-- (void)trackClick {
-  [_delegate reportClick];
-}
-
-- (void)willLeaveApplication {
-  [_delegate willBackgroundApplication];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end

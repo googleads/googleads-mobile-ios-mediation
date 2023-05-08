@@ -22,13 +22,10 @@
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter
     NS_DESIGNATED_INITIALIZER;
 
-/// Unavailable.
+/// Constructor is unavailable. Please use initWithGADMAdNetworkConnector:adapter:.
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
 /// Requests a banner ad from Liftoff Monetize with the given adSize.
 - (void)getBannerWithSize:(GADAdSize)adSize;
-
-/// Destroy and cleanup Liftoff Monetize's banner ad.
-- (void)cleanUp;
 
 @end

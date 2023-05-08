@@ -15,83 +15,6 @@
 #import "GADMAdapterVungleUtils.h"
 #import "GADMAdapterVungleConstants.h"
 
-const CGSize kVNGBannerShortSize = {300, 50};
-
-void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
-  if (object) {
-    [set addObject:object];  // Allow pattern.
-  }
-}
-
-void GADMAdapterVungleMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
-                                              id<NSCopying> _Nullable key, id _Nullable value) {
-  if (value && key) {
-    [mapTable setObject:value forKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterVungleMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable, id _Nullable key) {
-  if (key) {
-    [mapTable removeObjectForKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterVungleMutableDictionarySetObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                       id<NSCopying> _Nullable key,
-                                                       id _Nullable value) {
-  if (value && key) {
-    dictionary[key] = value;  // Allow pattern.
-  }
-}
-
-void GADMAdapterVungleUserDefaultsRemoveObjectForKey(NSUserDefaults *_Nonnull userDefaults,
-                                                     id _Nullable key) {
-  if (key) {
-    [userDefaults removeObjectForKey:key];  // Allow pattern.
-  }
-}
-
-void GADMAdapterVungleMutableDictionaryRemoveObjectForKey(NSMutableDictionary *_Nonnull dictionary,
-                                                          id<NSCopying> _Nullable key) {
-  if (key) {
-    [dictionary removeObjectForKey:key];  // Allow pattern.
-  }
-}
-
-NSDictionary *_Nullable GADMAdapterVunglePlaybackOptionsDictionaryForExtras(
-    VungleAdNetworkExtras *_Nullable vungleAdNetworkExtras) {
-  NSMutableDictionary *options = nil;
-  if (vungleAdNetworkExtras) {
-    options = [[NSMutableDictionary alloc] init];
-
-    if (vungleAdNetworkExtras.muteIsSet) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyStartMuted,
-                                                        @(vungleAdNetworkExtras.muted));
-    }
-    if (vungleAdNetworkExtras.userId) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyUser,
-                                                        vungleAdNetworkExtras.userId);
-    }
-    if (vungleAdNetworkExtras.flexViewAutoDismissSeconds) {
-      GADMAdapterVungleMutableDictionarySetObjectForKey(
-          options, VunglePlayAdOptionKeyFlexViewAutoDismissSeconds,
-          @(vungleAdNetworkExtras.flexViewAutoDismissSeconds));
-    }
-    if (vungleAdNetworkExtras.orientations) {
-      int appOrientation = [vungleAdNetworkExtras.orientations intValue];
-      NSNumber *orientations = @(UIInterfaceOrientationMaskAll);
-      if (appOrientation == 1) {
-        orientations = @(UIInterfaceOrientationMaskLandscape);
-      } else if (appOrientation == 2) {
-        orientations = @(UIInterfaceOrientationMaskPortrait);
-      }
-      GADMAdapterVungleMutableDictionarySetObjectForKey(options, VunglePlayAdOptionKeyOrientations,
-                                                        orientations);
-    }
-  }
-  return options;
-}
-
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo =
@@ -102,29 +25,41 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
   return error;
 }
 
-VungleAdSize GADMAdapterVungleAdSizeForCGSize(CGSize adSize) {
-  if (adSize.height == GADAdSizeLeaderboard.size.height) {
-    return VungleAdSizeBannerLeaderboard;
-  }
-
-  if (adSize.height != GADAdSizeBanner.size.height) {
-    return VungleAdSizeUnknown;
-  }
-
-  // Height is 50.
-  if (adSize.width < GADAdSizeBanner.size.width) {
-    return VungleAdSizeBannerShort;
-  }
-
-  return VungleAdSizeBanner;
+NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
+                                                   NSInteger vungleCode,
+                                                   NSString *_Nonnull description) {
+  NSString *formattedDescription =
+      [NSString stringWithFormat:@"Code: %ld, Description: %@", (long)vungleCode, description];
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, formattedDescription);
 }
 
+NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription() {
+  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
+  NSString *description =
+      @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
+      @"Ad Manager UI.";
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
+}
+
+NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription() {
+  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
+  NSString *description = @"Liftoff Monetize app ID not specified.";
+  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
+}
+
+const CGSize kVNGBannerShortSize = {300, 50};
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
+  // It has to match for MREC, otherwise it would be a banner with flexible size
+  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
+      adSize.size.width == GADAdSizeMediumRectangle.size.width) {
+    return GADAdSizeMediumRectangle;
+  }
+
   // An array of supported ad sizes.
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
   NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle), NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard), NSValueFromGADAdSize(shortBannerSize)
+    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
+    NSValueFromGADAdSize(shortBannerSize)
   ];
 
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
@@ -137,11 +72,22 @@ GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
     }
   } else if (size.height == GADAdSizeLeaderboard.size.height) {
     return GADAdSizeLeaderboard;
-  } else if (size.height == GADAdSizeMediumRectangle.size.height) {
-    return GADAdSizeMediumRectangle;
   }
-
   return GADAdSizeInvalid;
+}
+
+BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
+  if (GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
+    return BannerSizeMrec;
+  }
+  if (adSize.size.height == GADAdSizeLeaderboard.size.height) {
+    return BannerSizeLeaderboard;
+  }
+  // Height is 50.
+  if (adSize.size.width < GADAdSizeBanner.size.width) {
+    return BannerSizeShort;
+  }
+  return BannerSizeRegular;
 }
 
 @implementation GADMAdapterVungleUtils

@@ -24,25 +24,12 @@
  */
 @property(nonatomic, copy) NSString *_Nullable userId;
 
-/*!
- * @brief Controls whether presented ads will start in a muted state or not.
- */
-@property(nonatomic, assign) BOOL muted;
-
-@property(nonatomic, assign) NSUInteger ordinal;
-
-@property(nonatomic, assign) NSTimeInterval flexViewAutoDismissSeconds;
-
-@property(nonatomic, copy) NSArray<NSString *> *_Nullable allPlacements;
-
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
-@property(nonatomic, copy) NSNumber *_Nullable orientations;
-
-@property(nonatomic, copy, readonly) NSString *_Nonnull UUID;
-
-@property (nonatomic, readonly, assign) BOOL muteIsSet;
-
-@property (nonatomic, assign) NSInteger nativeAdOptionPosition;
+/*!
+ * @brief NSInteger that will be passed to alter the privacy icon position for native ads.
+ * @discussion Optional. topLeft = 1, topRight = 2, bottomLeft = 3, bottomRight = 4
+ */
+@property(nonatomic, assign) NSInteger nativeAdOptionPosition;
 
 @end

@@ -13,30 +13,16 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <VungleSDK/VungleSDK.h>
 #import "GADMAdapterVungleDelegate.h"
-#import "VungleAdNetworkExtras.h"
 
-@interface GADMAdapterVungleRouter : NSObject <VungleSDKDelegate, VungleSDKHBDelegate>
+@interface GADMAdapterVungleRouter : NSObject
 
 + (nonnull GADMAdapterVungleRouter *)sharedInstance;
+
+/// This adds the delegate to a list and starts the initialization process for Liftoff Monetize's
+/// SDK. When initialization is complete, the delegate list will receive a callback with the result
+/// and begin loading if successful.
 - (void)initWithAppId:(nonnull NSString *)appId
              delegate:(nullable id<GADMAdapterVungleDelegate>)delegate;
-- (BOOL)playAd:(nonnull UIViewController *)viewController
-      delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-        extras:(nullable VungleAdNetworkExtras *)extras
-         error:(NSError *_Nullable __autoreleasing *_Nullable)error;
-- (nullable NSError *)loadAd:(nonnull NSString *)placement
-                withDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
-- (void)removeDelegate:(nonnull id<GADMAdapterVungleDelegate>)delegate;
-- (BOOL)hasDelegateForPlacementID:(nonnull NSString *)placementID;
-- (nullable NSError *)renderBannerAdInView:(nonnull UIView *)bannerView
-                                  delegate:(nonnull id<GADMAdapterVungleDelegate>)delegate
-                                    extras:(nullable VungleAdNetworkExtras *)extras
-                            forPlacementID:(nonnull NSString *)placementID;
-- (void)completeBannerAdViewForPlacementID:(nonnull id<GADMAdapterVungleDelegate>)delegate;
-- (BOOL)isSDKInitialized;
-- (nullable NSString *)getSuperToken;
-- (void)setCOPPAStatus:(nonnull NSNumber *)coppa;
 
 @end

@@ -14,11 +14,12 @@
 
 #import "GADMediationVungleRewardedAd.h"
 #include <stdatomic.h>
-#import "GADMAdapterVungleBiddingRouter.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleDelegate.h"
+#import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate>
+@interface GADMediationVungleRewardedAd () <GADMAdapterVungleDelegate, VungleRewardedDelegate>
 @end
 
 @implementation GADMediationVungleRewardedAd {
@@ -30,10 +31,12 @@
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
   id<GADMediationRewardedAdEventDelegate> _delegate;
+
+  /// Liftoff Monetize rewarded ad instance.
+  VungleRewarded *_rewardedAd;
 }
 
 @synthesize desiredPlacement;
-@synthesize isAdLoaded;
 
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
@@ -69,17 +72,14 @@
       [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
                               networkExtras:_adConfiguration.extras];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters,
-        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
-        @"Ad Manager UI.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  if (![[VungleSDK sharedSDK] isInitialized]) {
+  if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
-    [GADMAdapterVungleBiddingRouter.sharedInstance initWithAppId:appID delegate:self];
+    [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
     return;
   }
 
@@ -87,36 +87,78 @@
 }
 
 - (void)loadRewardedAd {
-  NSError *error = nil;
-  error = [GADMAdapterVungleBiddingRouter.sharedInstance loadAdWithDelegate:self];
-
-  if (error) {
-    _adLoadCompletionHandler(nil, error);
-  }
+  _rewardedAd = [[VungleRewarded alloc] initWithPlacementId:self.desiredPlacement];
+  _rewardedAd.delegate = self;
+  [_rewardedAd load:_adConfiguration.bidResponse];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  NSError *error = nil;
-  if (![VungleSDK.sharedSDK
-               playAd:viewController
-              options:GADMAdapterVunglePlaybackOptionsDictionaryForExtras(_adConfiguration.extras)
-          placementID:self.desiredPlacement
-             adMarkup:[self bidResponse]
-                error:&error]) {
-    [_delegate didFailToPresentWithError:error];
-  }
+  [_rewardedAd presentWith:viewController];
 }
 
 - (void)dealloc {
   _adLoadCompletionHandler = nil;
   _adConfiguration = nil;
+  _delegate = nil;
+  _rewardedAd = nil;
+}
+
+#pragma mark - VungleRewardedDelegate
+
+- (void)rewardedAdDidLoad:(nonnull VungleRewarded *)rewarded {
+  if (_adLoadCompletionHandler) {
+    _delegate = _adLoadCompletionHandler(self, nil);
+  }
+}
+
+- (void)rewardedAdDidFailToLoad:(nonnull VungleRewarded *)rewarded
+                      withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  _adLoadCompletionHandler(nil, gadError);
+}
+
+- (void)rewardedAdWillPresent:(nonnull VungleRewarded *)rewarded {
+  [_delegate willPresentFullScreenView];
+}
+
+- (void)rewardedAdDidPresent:(nonnull VungleRewarded *)rewarded {
+  [_delegate didStartVideo];
+}
+
+- (void)rewardedAdDidFailToPresent:(nonnull VungleRewarded *)rewarded
+                         withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_delegate didFailToPresentWithError:gadError];
+}
+
+- (void)rewardedAdWillClose:(nonnull VungleRewarded *)rewarded {
+  [_delegate willDismissFullScreenView];
+}
+
+- (void)rewardedAdDidClose:(nonnull VungleRewarded *)rewarded {
+  [_delegate didEndVideo];
+  [_delegate didDismissFullScreenView];
+}
+
+- (void)rewardedAdDidTrackImpression:(nonnull VungleRewarded *)rewarded {
+  [_delegate reportImpression];
+}
+
+- (void)rewardedAdDidClick:(nonnull VungleRewarded *)rewarded {
+  [_delegate reportClick];
+}
+
+- (void)rewardedAdWillLeaveApplication:(nonnull VungleRewarded *)rewarded {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)rewardedAdDidRewardUser:(nonnull VungleRewarded *)rewarded {
+  [_delegate didRewardUser];
 }
 
 #pragma mark - GADMAdapterVungleDelegate
-
-- (NSString *)bidResponse {
-  return _adConfiguration.bidResponse;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -124,64 +166,6 @@
     return;
   }
   [self loadRewardedAd];
-}
-
-- (void)adAvailable {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-
-  if (_adLoadCompletionHandler) {
-    _delegate = _adLoadCompletionHandler(self, nil);
-  }
-
-  if (!_delegate) {
-    // In this case, the request for Liftoff Monetize has been timed out. Clean up self.
-    [GADMAdapterVungleBiddingRouter.sharedInstance removeDelegate:self];
-  }
-}
-
-- (void)didCloseAd {
-  [_delegate didDismissFullScreenView];
-}
-
-- (void)willCloseAd {
-  [_delegate willDismissFullScreenView];
-}
-
-- (void)willShowAd {
-  [_delegate willPresentFullScreenView];
-}
-
-- (void)didShowAd {
-  [_delegate didStartVideo];
-}
-
-- (void)didViewAd {
-  [_delegate reportImpression];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  _adLoadCompletionHandler(nil, error);
-}
-
-- (void)trackClick {
-  [_delegate reportClick];
-}
-
-- (void)rewardUser {
-  [_delegate didEndVideo];
-  [_delegate didRewardUser];
-}
-
-- (void)willLeaveApplication {
-  // Do nothing.
 }
 
 @end

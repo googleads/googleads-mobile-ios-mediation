@@ -16,7 +16,7 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
 
-@interface GADMAdapterVungleBanner () <GADMAdapterVungleDelegate>
+@interface GADMAdapterVungleBanner () <GADMAdapterVungleDelegate, VungleBannerDelegate>
 @end
 
 @implementation GADMAdapterVungleBanner {
@@ -29,16 +29,14 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Indicates whether the banner ad finished presenting.
-  BOOL _didBannerFinishPresenting;
+  /// Liftoff Monetize banner ad instance.
+  VungleBanner *_bannerAd;
+
+  /// UIView that contains a Liftoff Monetize banner ad.
+  UIView *_bannerView;
 }
 
 @synthesize desiredPlacement;
-@synthesize bannerState;
-@synthesize uniquePubRequestID;
-@synthesize isRefreshedForBannerAd;
-@synthesize isRequestingBannerAdForRefresh;
-@synthesize isAdLoaded;
 
 - (nonnull instancetype)initWithGADMAdNetworkConnector:(nonnull id<GADMAdNetworkConnector>)connector
                                                adapter:(nonnull id<GADMAdNetworkAdapter>)adapter {
@@ -48,6 +46,13 @@
     _connector = connector;
   }
   return self;
+}
+
+- (void)dealloc {
+  _adapter = nil;
+  _connector = nil;
+  _bannerAd = nil;
+  _bannerView = nil;
 }
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
@@ -71,26 +76,20 @@
   VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
                                                   networkExtras:networkExtras];
-  self.uniquePubRequestID = [networkExtras.UUID copy];
   if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters,
-        @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
-        @"Ad Manager UI.");
+    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
 
-  VungleSDK *sdk = VungleSDK.sharedSDK;
-  if ([sdk isInitialized]) {
+  if ([VungleAds isInitialized]) {
     [self loadAd];
     return;
   }
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
   if (!appID) {
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorInvalidServerParameters, @"Liftoff Monetize app ID not specified.");
+    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
     [strongConnector adapter:strongAdapter didFailAd:error];
     return;
   }
@@ -98,33 +97,65 @@
 }
 
 - (void)loadAd {
-  NSError *error = [GADMAdapterVungleRouter.sharedInstance loadAd:self.desiredPlacement
-                                                     withDelegate:self];
-  if (error) {
-    [_connector adapter:_adapter didFailAd:error];
-  }
+  _bannerAd = [[VungleBanner alloc]
+      initWithPlacementId:self.desiredPlacement
+                     size:GADMAdapterVungleConvertGADAdSizeToBannerSize(_bannerSize)];
+  _bannerAd.delegate = self;
+  // Pass nil for the payload because this is not bidding
+  [_bannerAd load:nil];
 }
 
-- (void)cleanUp {
-  if (_didBannerFinishPresenting) {
-    return;
-  }
-  _didBannerFinishPresenting = YES;
+#pragma mark - VungleBannerDelegate
 
-  [GADMAdapterVungleRouter.sharedInstance completeBannerAdViewForPlacementID:self];
-  [GADMAdapterVungleRouter.sharedInstance removeDelegate:self];
+- (void)bannerAdDidLoad:(nonnull VungleBanner *)banner {
+  _bannerView = [[UIView alloc]
+      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+  [_bannerAd presentOn:_bannerView];
+}
+
+- (void)bannerAdDidFailToLoad:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
+                                                       error.code, error.localizedDescription);
+  [_connector adapter:_adapter didFailAd:gadError];
+}
+
+- (void)bannerAdWillPresent:(nonnull VungleBanner *)banner {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)bannerAdDidPresent:(nonnull VungleBanner *)banner {
+  [_connector adapter:_adapter didReceiveAdView:_bannerView];
+}
+
+- (void)bannerAdDidFailToPresent:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
+  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
+                                                       error.code, error.localizedDescription);
+  [_connector adapter:_adapter didFailAd:gadError];
+}
+
+- (void)bannerAdWillClose:(nonnull VungleBanner *)banner {
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
+}
+
+- (void)bannerAdDidClose:(nonnull VungleBanner *)banner {
+  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
+  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
+}
+
+- (void)bannerAdDidTrackImpression:(nonnull VungleBanner *)banner {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)bannerAdDidClick:(nonnull VungleBanner *)banner {
+  [_connector adapterDidGetAdClick:_adapter];
+}
+
+- (void)bannerAdWillLeaveApplication:(nonnull VungleBanner *)banner {
+  [_connector adapterWillLeaveApplication:_adapter];
 }
 
 #pragma mark - GADMAdapterVungleDelegate delegates
-
-- (GADAdSize)bannerAdSize {
-  return _bannerSize;
-}
-
-- (nullable NSString *)bidResponse {
-  // This is the waterfall banner section. It won't have a bid response.
-  return nil;
-}
 
 - (void)initialized:(BOOL)isSuccess error:(nullable NSError *)error {
   if (!isSuccess) {
@@ -132,78 +163,6 @@
     return;
   }
   [self loadAd];
-}
-
-- (void)adAvailable {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  id<GADMAdNetworkAdapter> strongAdapter = _adapter;
-  if (!strongConnector || !strongAdapter) {
-    return;
-  }
-
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  self.isAdLoaded = YES;
-  UIView *bannerView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
-  NSError *bannerViewError =
-      [GADMAdapterVungleRouter.sharedInstance renderBannerAdInView:bannerView
-                                                          delegate:self
-                                                            extras:[strongConnector networkExtras]
-                                                    forPlacementID:self.desiredPlacement];
-  if (bannerViewError) {
-    [strongConnector adapter:strongAdapter didFailAd:bannerViewError];
-    return;
-  }
-
-  self.bannerState = BannerRouterDelegateStateWillPlay;
-  [strongConnector adapter:strongAdapter didReceiveAdView:bannerView];
-}
-
-- (void)adNotAvailable:(nonnull NSError *)error {
-  if (self.isAdLoaded) {
-    // Already invoked an ad load callback.
-    return;
-  }
-  [_connector adapter:_adapter didFailAd:error];
-}
-
-- (void)willShowAd {
-  self.bannerState = BannerRouterDelegateStatePlaying;
-}
-
-- (void)didShowAd {
-  // Do nothing
-}
-
-- (void)didViewAd {
-  // Do nothing.
-}
-
-- (void)willCloseAd {
-  self.bannerState = BannerRouterDelegateStateClosing;
-  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
-  // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
-}
-
-- (void)didCloseAd {
-  self.bannerState = BannerRouterDelegateStateClosed;
-  // This callback is fired when the banner itself is destroyed/removed, not when the user returns
-  // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
-}
-
-- (void)trackClick {
-  [_connector adapterDidGetAdClick:_adapter];
-}
-
-- (void)willLeaveApplication {
-  [_connector adapterWillLeaveApplication:_adapter];
-}
-
-- (void)rewardUser {
-  // Do nothing.
 }
 
 @end
