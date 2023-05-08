@@ -15,12 +15,11 @@
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleUtils.h"
-#import "VungleRouterConsent.h"
 
 static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
 @implementation GADMAdapterVungleRouter {
-  /// Indicates whether the Liftoff Monetize SDK is initializing.
+  /// Indicates whether the Liftoff Monetize's SDK is initializing.
   BOOL _isInitializing;
 
   /// Set to hold any ad delegates to trigger for initialization.

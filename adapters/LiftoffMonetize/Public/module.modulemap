@@ -9,5 +9,4 @@ framework module VungleAdapter {
 
   // Add any public headers here.
   header "VungleAdNetworkExtras.h"
-  header "VungleRouterConsent.h"
 }

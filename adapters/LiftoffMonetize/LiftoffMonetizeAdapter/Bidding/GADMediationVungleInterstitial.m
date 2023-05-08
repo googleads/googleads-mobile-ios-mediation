@@ -106,50 +106,51 @@
 
 #pragma mark - VungleInterstitialDelegate
 
-- (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidLoad:(nonnull VungleInterstitial *)interstitial {
   if (_adLoadCompletionHandler) {
     _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-- (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
+- (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
+                          withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   _adLoadCompletionHandler(nil, gadError);
 }
 
-- (void)interstitialAdWillPresent:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
   [_delegate willPresentFullScreenView];
 }
 
-- (void)interstitialAdDidPresent:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidPresent:(nonnull VungleInterstitial *)interstitial {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial
-                             withError:(NSError *)error {
+- (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
+                             withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_delegate didFailToPresentWithError:gadError];
 }
 
-- (void)interstitialAdWillClose:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {
   [_delegate willDismissFullScreenView];
 }
 
-- (void)interstitialAdDidClose:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidClose:(nonnull VungleInterstitial *)interstitial {
   [_delegate didDismissFullScreenView];
 }
 
-- (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidTrackImpression:(nonnull VungleInterstitial *)interstitial {
   [_delegate reportImpression];
 }
 
-- (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidClick:(nonnull VungleInterstitial *)interstitial {
   [_delegate reportClick];
 }
 
-- (void)interstitialAdWillLeaveApplication:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillLeaveApplication:(nonnull VungleInterstitial *)interstitial {
   [_delegate willBackgroundApplication];
 }
 

@@ -22,7 +22,7 @@
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description);
 
-/// Returns a NSError converted from the error object from Liftoff Monetize SDK into the AdMob error
+/// Returns a NSError converted from the error object from Liftoff Monetize's SDK into the AdMob error
 /// format The localized description will contain the Liftoff Monetize error code and the
 /// description from the Vungle SDK.
 NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
@@ -38,7 +38,7 @@ NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription(v
 /// NSLocalizedFailureReasonErrorKey values set to |description|, specifically for invalid app id.
 NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription(void);
 
-/// Returns a GADAdSize object that is valid for the Liftoff Monetize SDK
+/// Returns a GADAdSize object that is valid for Liftoff Monetize's SDK
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize);
 
 /// Returns a Liftoff Monetize BannerSize from the provided GADAdSize

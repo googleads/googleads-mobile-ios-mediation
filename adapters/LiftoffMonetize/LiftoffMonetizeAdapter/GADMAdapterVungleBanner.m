@@ -107,51 +107,51 @@
 
 #pragma mark - VungleBannerDelegate
 
-- (void)bannerAdDidLoad:(VungleBanner *)banner {
+- (void)bannerAdDidLoad:(nonnull VungleBanner *)banner {
   _bannerView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
   [_bannerAd presentOn:_bannerView];
 }
 
-- (void)bannerAdDidFailToLoad:(VungleBanner *)banner withError:(NSError *)error {
+- (void)bannerAdDidFailToLoad:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_connector adapter:_adapter didFailAd:gadError];
 }
 
-- (void)bannerAdWillPresent:(VungleBanner *)banner {
+- (void)bannerAdWillPresent:(nonnull VungleBanner *)banner {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)bannerAdDidPresent:(VungleBanner *)banner {
+- (void)bannerAdDidPresent:(nonnull VungleBanner *)banner {
   [_connector adapter:_adapter didReceiveAdView:_bannerView];
 }
 
-- (void)bannerAdDidFailToPresent:(VungleBanner *)banner withError:(NSError *)error {
+- (void)bannerAdDidFailToPresent:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
                                                        error.code, error.localizedDescription);
   [_connector adapter:_adapter didFailAd:gadError];
 }
 
-- (void)bannerAdWillClose:(VungleBanner *)banner {
+- (void)bannerAdWillClose:(nonnull VungleBanner *)banner {
   // This callback is fired when the banner itself is destroyed/removed, not when the user returns
   // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
 }
 
-- (void)bannerAdDidClose:(VungleBanner *)banner {
+- (void)bannerAdDidClose:(nonnull VungleBanner *)banner {
   // This callback is fired when the banner itself is destroyed/removed, not when the user returns
   // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
 }
 
-- (void)bannerAdDidTrackImpression:(VungleBanner *)banner {
+- (void)bannerAdDidTrackImpression:(nonnull VungleBanner *)banner {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)bannerAdDidClick:(VungleBanner *)banner {
+- (void)bannerAdDidClick:(nonnull VungleBanner *)banner {
   [_connector adapterDidGetAdClick:_adapter];
 }
 
-- (void)bannerAdWillLeaveApplication:(VungleBanner *)banner {
+- (void)bannerAdWillLeaveApplication:(nonnull VungleBanner *)banner {
   [_connector adapterWillLeaveApplication:_adapter];
 }
 

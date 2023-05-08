@@ -122,48 +122,49 @@
 
 #pragma mark - VungleInterstitialDelegate
 
-- (void)interstitialAdDidLoad:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidLoad:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterDidReceiveInterstitial:self];
 }
 
-- (void)interstitialAdDidFailToLoad:(VungleInterstitial *)interstitial withError:(NSError *)error {
+- (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
+                          withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_connector adapter:self didFailAd:gadError];
 }
 
-- (void)interstitialAdWillPresent:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterWillPresentInterstitial:self];
 }
 
-- (void)interstitialAdDidPresent:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidPresent:(nonnull VungleInterstitial *)interstitial {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)interstitialAdDidFailToPresent:(VungleInterstitial *)interstitial
-                             withError:(NSError *)error {
+- (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
+                             withError:(nonnull NSError *)error {
   NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
                                                        error.code, error.localizedDescription);
   [_connector adapter:self didFailAd:gadError];
 }
 
-- (void)interstitialAdWillClose:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterWillDismissInterstitial:self];
 }
 
-- (void)interstitialAdDidClose:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidClose:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterDidDismissInterstitial:self];
 }
 
-- (void)interstitialAdDidTrackImpression:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidTrackImpression:(nonnull VungleInterstitial *)interstitial {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)interstitialAdDidClick:(VungleInterstitial *)interstitial {
+- (void)interstitialAdDidClick:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterDidGetAdClick:self];
 }
 
-- (void)interstitialAdWillLeaveApplication:(VungleInterstitial *)interstitial {
+- (void)interstitialAdWillLeaveApplication:(nonnull VungleInterstitial *)interstitial {
   [_connector adapterWillLeaveApplication:self];
 }
 

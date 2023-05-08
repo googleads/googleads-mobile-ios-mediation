@@ -16,4 +16,3 @@
 #import <UIKit/UIKit.h>
 
 #import "VungleAdNetworkExtras.h"
-#import "VungleRouterConsent.h"
