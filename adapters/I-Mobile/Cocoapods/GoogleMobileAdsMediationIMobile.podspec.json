@@ -6,9 +6,9 @@
   "homepage": "https://developers.google.com/admob/ios/mediation/imobile",
   "license": {
     "type": "Apache 2.0",
-    "text": "Copyright 2019 Google Inc."
+    "text": "Copyright 2019 Google LLC"
   },
-  "authors": "Google Inc.",
+  "authors": "Google LLC",
   "platforms": {
     "ios": "11.0"
   },
