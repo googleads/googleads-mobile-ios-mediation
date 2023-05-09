@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Version 2.3.2.0 (In Progress)
+#### [Version 2.3.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.2.0.zip)
 - Verified compatibility with i-mobile SDK 2.3.2.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
