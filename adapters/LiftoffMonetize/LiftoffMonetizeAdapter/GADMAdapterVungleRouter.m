@@ -13,13 +13,14 @@
 // limitations under the License.
 
 #import "GADMAdapterVungleRouter.h"
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleUtils.h"
 
 static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
 @implementation GADMAdapterVungleRouter {
-  /// Indicates whether the Liftoff Monetize's SDK is initializing.
+  /// Indicates whether the Vungle SDK is initializing.
   BOOL _isInitializing;
 
   /// Set to hold any ad delegates to trigger for initialization.
@@ -51,7 +52,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
 
   if (_isInitializing) {
     @synchronized(_delegates) {
-      [_delegates addObject:delegate];
+      GADMAdapterVungleMutableSetAddObject(_delegates, delegate);
     }
     return;
   }
@@ -65,7 +66,7 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
   _isInitializing = YES;
 
   @synchronized(_delegates) {
-    [_delegates addObject:delegate];
+    GADMAdapterVungleMutableSetAddObject(_delegates, delegate);
   }
 
   [VungleAds initWithAppId:appId

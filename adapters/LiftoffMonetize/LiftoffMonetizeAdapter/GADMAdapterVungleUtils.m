@@ -29,7 +29,8 @@ NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode co
                                                    NSInteger vungleCode,
                                                    NSString *_Nonnull description) {
   NSString *formattedDescription =
-      [NSString stringWithFormat:@"Code: %ld, Description: %@", (long)vungleCode, description];
+      [NSString stringWithFormat:@"Vungle SDK returned an error with code: %ld, description: '%@'",
+                                 (long)vungleCode, description];
   return GADMAdapterVungleErrorWithCodeAndDescription(code, formattedDescription);
 }
 
@@ -83,7 +84,9 @@ BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
   if (adSize.size.height == GADAdSizeLeaderboard.size.height) {
     return BannerSizeLeaderboard;
   }
-  // Height is 50.
+
+  // Vungle SDK will try to fit the banner in the view, but the true height of the asset
+  // is 50px since this is the only supported size.
   if (adSize.size.width < GADAdSizeBanner.size.width) {
     return BannerSizeShort;
   }
@@ -115,6 +118,14 @@ BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
   }
 
   return ret;
+}
+
+#pragma mark - Safe Collection utility methods.
+
+void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
+  if (object) {
+    [set addObject:object];  // Allow pattern.
+  }
 }
 
 @end

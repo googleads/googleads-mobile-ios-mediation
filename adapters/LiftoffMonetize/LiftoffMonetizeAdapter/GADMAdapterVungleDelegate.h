@@ -14,7 +14,7 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Delegate for receiving state change messages from the Liftoff Monetize's SDK.
+/// Delegate for receiving state change messages from the Vungle SDK.
 @protocol GADMAdapterVungleDelegate <NSObject>
 
 /// Placement ID used to request an ad from Liftoff Monetize.

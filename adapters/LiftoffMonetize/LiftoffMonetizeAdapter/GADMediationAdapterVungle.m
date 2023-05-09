@@ -47,7 +47,7 @@
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appID = cred.settings[GADMAdapterVungleApplicationID];
     if (appID.length) {
-      [applicationIDs addObject:appID];
+      GADMAdapterVungleMutableSetAddObject(applicationIDs, appID);
     }
   }
 
@@ -64,7 +64,7 @@
     NSLog(@"Found the following application IDs: %@. "
           @"Please remove any application IDs you are not using from the AdMob UI.",
           applicationIDs);
-    NSLog(@"Configuring Liftoff Monetize's SDK with the application ID %@.", applicationID);
+    NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
   }
 
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:applicationID delegate:nil];

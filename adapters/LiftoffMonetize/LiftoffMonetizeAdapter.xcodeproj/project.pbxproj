@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -25,7 +25,6 @@
 				7D1B6CA61DC2AD7700D8CABF /* Framework Script */,
 			);
 			dependencies = (
-				A8435CF61F152C9400AA595E /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -43,8 +42,6 @@
 		176EA85B26E021EF00B492E0 /* GADMAdapterVungleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 176EA85926E021EF00B492E0 /* GADMAdapterVungleBanner.m */; };
 		178ADB1A2612A082007587F0 /* GADMediationVungleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 178ADB142612A081007587F0 /* GADMediationVungleInterstitial.m */; };
 		178ADB1F2612A082007587F0 /* GADMediationVungleInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 178ADB192612A082007587F0 /* GADMediationVungleInterstitial.h */; };
-		4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552392720B6381D0081388F /* VungleRouterConsent.m */; };
-		4552392C20B638270081388F /* VungleRouterConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 4552392B20B638270081388F /* VungleRouterConsent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4557855B238DE7E700523142 /* GADMAdapterVungleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4557855A238DE7E700523142 /* GADMAdapterVungleDelegate.h */; };
 		458F734F2385DFF2006738A0 /* GADMAdapterVungleRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */; };
 		458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */; };
@@ -69,13 +66,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 00DD26AC22F10DDC0039C1D4;
 			remoteInfo = ValidateSourceCode;
-		};
-		A8435CF51F152C9400AA595E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -103,8 +93,6 @@
 		176EA85926E021EF00B492E0 /* GADMAdapterVungleBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleBanner.m; sourceTree = "<group>"; };
 		178ADB142612A081007587F0 /* GADMediationVungleInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleInterstitial.m; sourceTree = "<group>"; };
 		178ADB192612A082007587F0 /* GADMediationVungleInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleInterstitial.h; sourceTree = "<group>"; };
-		4552392720B6381D0081388F /* VungleRouterConsent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VungleRouterConsent.m; sourceTree = "<group>"; };
-		4552392B20B638270081388F /* VungleRouterConsent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleRouterConsent.h; sourceTree = "<group>"; };
 		4557855A238DE7E700523142 /* GADMAdapterVungleDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleDelegate.h; sourceTree = "<group>"; };
 		458F734D2385DFF2006738A0 /* GADMAdapterVungleRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterVungleRouter.h; sourceTree = "<group>"; };
 		458F734E2385DFF2006738A0 /* GADMAdapterVungleRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterVungleRouter.m; sourceTree = "<group>"; };
@@ -174,7 +162,6 @@
 				45BFFB5722272D1000C96A67 /* GADMediationAdapterVungle.h */,
 				45BFFB5822272D1000C96A67 /* GADMediationAdapterVungle.m */,
 				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
-				4552392720B6381D0081388F /* VungleRouterConsent.m */,
 				176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				176AE0DA2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m */,
 			);
@@ -203,7 +190,6 @@
 		7DC8681B1DDA8D4400F0F1C4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				4552392B20B638270081388F /* VungleRouterConsent.h */,
 				7D1575711EB7FBB200059469 /* VungleAdapter.h */,
 				56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */,
 			);
@@ -262,7 +248,6 @@
 				176EA85A26E021EF00B492E0 /* GADMAdapterVungleBanner.h in Headers */,
 				17029F1B29F9F43500128934 /* GADMediationVungleBanner.h in Headers */,
 				4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */,
-				4552392C20B638270081388F /* VungleRouterConsent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +313,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD26AF22F10DDC0039C1D4 /* Validate Source Code */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -369,7 +355,6 @@
 				458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */,
 				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,
 				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
-				4552392A20B6381E0081388F /* VungleRouterConsent.m in Sources */,
 				176AE0DB2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
 				176EA85B26E021EF00B492E0 /* GADMAdapterVungleBanner.m in Sources */,
 				4593F490227CE28A00F57AE5 /* GADMAdapterVungleUtils.m in Sources */,
@@ -383,11 +368,6 @@
 			isa = PBXTargetDependency;
 			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
 			targetProxy = 458F73512385E0A4006738A0 /* PBXContainerItemProxy */;
-		};
-		A8435CF61F152C9400AA595E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7DFABB1C1DA8682C00322E02 /* Adapter */;
-			targetProxy = A8435CF51F152C9400AA595E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -422,7 +402,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -464,7 +443,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -500,10 +478,6 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
-				);
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -511,10 +485,6 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Drop_Framework_And_Headers",
-				);
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

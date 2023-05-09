@@ -13,8 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
-#import <GoogleMobileAds/GADAdNetworkExtras.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface VungleAdNetworkExtras : NSObject<GADAdNetworkExtras>
 
