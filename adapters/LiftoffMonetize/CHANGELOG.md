@@ -1,6 +1,6 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Version 7.0.0 (In Progress)
+#### Version 7.0.0.0 (In Progress)
 - Rebranded adapter name from Vungle to Liftoff Monetize.
 - Verified compatibility with Vungle SDK 7.0.0.
 - Removed support of the `armv7` architecture.
