@@ -4,6 +4,7 @@
 - Rebranded adapter name from Vungle to Liftoff Monetize.
 - Verified compatibility with Vungle SDK 7.0.0.
 - Removed support of the `armv7` architecture.
+- Added support for the `arm64` simulator architecture.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
 

@@ -64,7 +64,7 @@ rsync -av --include="*/" \
   "${SRCROOT}/Drop_Framework_And_Headers/" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator"
 
 createFramework "iphoneos" "arm64"
-createFramework "iphonesimulator" "x86_64"
+createFramework "iphonesimulator" "arm64 x86_64"
 
 # Create dynamic framework using the frameworks generated above.
 xcodebuild -create-xcframework \
