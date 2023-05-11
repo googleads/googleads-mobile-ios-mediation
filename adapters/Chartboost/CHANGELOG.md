@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Version 9.3.0.0 (In Progress)
+#### [Version 9.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.3.0.0.zip)
 - Verified compatibility with Chartboost SDK version 9.3.0.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
