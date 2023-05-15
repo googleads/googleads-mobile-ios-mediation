@@ -34,8 +34,8 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   GADPangleRTBRewardedRenderer *_rewardedRenderer;
   /// Pangle native ad wrapper.
   GADPangleRTBNativeRenderer *_nativeRenderer;
-  /// Pangle open ad wrapper
-  GADPangleRTBAppOpenRenderer *_openAdRenderer;
+  /// Pangle app open ad wrapper
+  GADPangleRTBAppOpenRenderer *_appOpenAdRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -168,8 +168,8 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                              ? adConfiguration.childDirectedTreatment.integerValue
                                              : -1)];
-    _openAdRenderer = [[GADPangleRTBAppOpenRenderer alloc] init];
-    [_openAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
+    _appOpenAdRenderer = [[GADPangleRTBAppOpenRenderer alloc] init];
+    [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
                                      completionHandler:completionHandler];
 }
 
