@@ -140,7 +140,7 @@
 		2B3B8D14277A77AA005BB25B /* PangleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				2BF5FE69279B0C46001EFB81 /* Bidding */,
+				2BF5FE69279B0C46001EFB81 /* Renderer */,
 				2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */,
 				2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */,
 				2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */,
@@ -189,7 +189,7 @@
 			path = Headers;
 			sourceTree = "<group>";
 		};
-		2BF5FE69279B0C46001EFB81 /* Bidding */ = {
+		2BF5FE69279B0C46001EFB81 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
 				2BF5FE6B279B0C46001EFB81 /* GADPangleRTBBannerRenderer.h */,
@@ -203,7 +203,7 @@
 				2BD310D22A04D5DA000BD7B9 /* GADPangleRTBAppOpenRenderer.h */,
 				2BD310D32A04D5DA000BD7B9 /* GADPangleRTBAppOpenRenderer.m */,
 			);
-			path = Bidding;
+			path = Renderer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
