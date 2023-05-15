@@ -60,7 +60,13 @@
     return;
   }
 
-  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize];
+  NSError *error = nil;
+  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
+  if (error) {
+    _loadCompletionHandler(nil, error);
+    return;
+  }
+    
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
 
@@ -91,7 +97,7 @@
               }];
 }
 
-- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
+- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
   CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
   GADAdSize banner50 = GADAdSizeFromCGSize(
       CGSizeMake(gadAdCGSize.width, kPAGBannerSize320x50.size.height));  // 320*50
@@ -111,10 +117,14 @@
   } else if (size.height == kPAGBannerSize300x250.size.height) {
     return kPAGBannerSize300x250;
   }
-  if (gadAdCGSize.width >= kPAGBannerSize728x90.size.width) {
-    return kPAGBannerSize728x90;
+
+  if (error) {
+    *error = GADMAdapterPangleErrorWithCodeAndDescription(
+        GADPangleErrorBannerSizeMismatch,
+        [NSString stringWithFormat:@"Invalid size for Pangle mediation adapter. Size: %@",
+                                   NSStringFromGADAdSize(gadAdSize)]);
   }
-  return kPAGBannerSize320x50;
+  return (PAGBannerAdSize){CGSizeZero};
 }
 
 #pragma mark - GADMediationBannerAd
