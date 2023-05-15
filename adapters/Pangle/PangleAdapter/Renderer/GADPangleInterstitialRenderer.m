@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADPangleRTBInterstitialRenderer.h"
+#import "GADPangleInterstitialRenderer.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
 
-@interface GADPangleRTBInterstitialRenderer () <PAGLInterstitialAdDelegate>
+@interface GADPangleInterstitialRenderer () <PAGLInterstitialAdDelegate>
 
 @end
 
-@implementation GADPangleRTBInterstitialRenderer {
+@implementation GADPangleInterstitialRenderer {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle interstitial ad.
@@ -61,12 +61,12 @@
   }
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
-  GADPangleRTBInterstitialRenderer *__weak weakSelf = self;
+  GADPangleInterstitialRenderer *__weak weakSelf = self;
   [PAGLInterstitialAd
        loadAdWithSlotID:placementId
                 request:request
       completionHandler:^(PAGLInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
-        GADPangleRTBInterstitialRenderer *strongSelf = weakSelf;
+        GADPangleInterstitialRenderer *strongSelf = weakSelf;
         if (!strongSelf) {
            return;
         }
