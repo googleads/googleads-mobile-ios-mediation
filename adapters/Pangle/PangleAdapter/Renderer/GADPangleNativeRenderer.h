@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBNativeRenderer : NSObject <GADMediationNativeAd>
+@interface GADPangleNativeRenderer : NSObject <GADMediationNativeAd>
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderNativeAdForAdConfiguration:

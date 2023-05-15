@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADPangleRTBNativeRenderer.h"
+#import "GADPangleNativeRenderer.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 
-@interface GADPangleRTBNativeRenderer () <PAGLNativeAdDelegate> {
+@interface GADPangleNativeRenderer () <PAGLNativeAdDelegate> {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationNativeLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle native ad.
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation GADPangleRTBNativeRenderer
+@implementation GADPangleNativeRenderer
 @synthesize icon = _icon;
 
 - (void)renderNativeAdForAdConfiguration:
@@ -68,11 +68,11 @@
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
 
-  GADPangleRTBNativeRenderer *__weak weakSelf = self;
+  GADPangleNativeRenderer *__weak weakSelf = self;
   [PAGLNativeAd loadAdWithSlotID:placementId
                          request:request
                completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
-                 GADPangleRTBNativeRenderer *strongSelf = weakSelf;
+                 GADPangleNativeRenderer *strongSelf = weakSelf;
                  if (!strongSelf) {
                     return;
                  }
@@ -94,9 +94,9 @@
 }
 
 - (void)loadRequiredData {
-    GADPangleRTBNativeRenderer *__weak weakSelf = self;
+    GADPangleNativeRenderer *__weak weakSelf = self;
     void (^localBlock)(void) = ^{
-        GADPangleRTBNativeRenderer *strongSelf = weakSelf;
+        GADPangleNativeRenderer *strongSelf = weakSelf;
         if (strongSelf && strongSelf->_loadCompletionHandler) {
             strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
         }
