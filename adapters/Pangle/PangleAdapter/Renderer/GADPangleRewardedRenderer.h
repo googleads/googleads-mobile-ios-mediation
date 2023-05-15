@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBRewardedRenderer : NSObject <GADMediationRewardedAd>
+@interface GADPangleRewardedRenderer : NSObject <GADMediationRewardedAd>
 
 /// Asks the receiver to render the ad configuration.
 - (void)renderRewardedAdForAdConfiguration:

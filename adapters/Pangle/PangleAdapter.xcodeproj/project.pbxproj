@@ -45,10 +45,10 @@
 		2BF5FE74279B0C61001EFB81 /* GADMAdapterPangleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */; };
 		2BF5FE75279B0C61001EFB81 /* GADMAdapterPangleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */; };
 		2BF5FE77279B0D70001EFB81 /* GADPangleBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6B279B0C46001EFB81 /* GADPangleBannerRenderer.h */; };
-		2BF5FE78279B0D73001EFB81 /* GADPangleRTBRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */; };
+		2BF5FE78279B0D73001EFB81 /* GADPangleRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6C279B0C46001EFB81 /* GADPangleRewardedRenderer.h */; };
 		2BF5FE79279B0D7D001EFB81 /* GADPangleRTBInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */; };
 		2BF5FE7B279B0DA2001EFB81 /* GADPangleBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */; };
-		2BF5FE7C279B0DA6001EFB81 /* GADPangleRTBRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */; };
+		2BF5FE7C279B0DA6001EFB81 /* GADPangleRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */; };
 		2BF5FE7D279B0DAE001EFB81 /* GADPangleRTBInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */; };
 /* End PBXBuildFile section */
 
@@ -97,10 +97,10 @@
 		2BF5FE50279B009F001EFB81 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBInterstitialRenderer.m; sourceTree = "<group>"; };
 		2BF5FE6B279B0C46001EFB81 /* GADPangleBannerRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleBannerRenderer.h; sourceTree = "<group>"; };
-		2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBRewardedRenderer.h; sourceTree = "<group>"; };
+		2BF5FE6C279B0C46001EFB81 /* GADPangleRewardedRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRewardedRenderer.h; sourceTree = "<group>"; };
 		2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleBannerRenderer.m; sourceTree = "<group>"; };
 		2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADPangleRTBInterstitialRenderer.h; sourceTree = "<group>"; };
-		2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRTBRewardedRenderer.m; sourceTree = "<group>"; };
+		2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRewardedRenderer.m; sourceTree = "<group>"; };
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
 		2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterPangleUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -194,8 +194,8 @@
 			children = (
 				2BF5FE6B279B0C46001EFB81 /* GADPangleBannerRenderer.h */,
 				2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */,
-				2BF5FE6C279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.h */,
-				2BF5FE71279B0C46001EFB81 /* GADPangleRTBRewardedRenderer.m */,
+				2BF5FE6C279B0C46001EFB81 /* GADPangleRewardedRenderer.h */,
+				2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */,
 				2BF5FE6F279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.h */,
 				2BF5FE6A279B0C46001EFB81 /* GADPangleRTBInterstitialRenderer.m */,
 				2B7B2F1D283E0480006BA122 /* GADPangleRTBNativeRenderer.h */,
@@ -222,7 +222,7 @@
 				2BF5FE66279B02FE001EFB81 /* GADMediationAdapterPangleConstants.h in Headers */,
 				2BF5FE74279B0C61001EFB81 /* GADMAdapterPangleUtils.h in Headers */,
 				2BF5FE77279B0D70001EFB81 /* GADPangleBannerRenderer.h in Headers */,
-				2BF5FE78279B0D73001EFB81 /* GADPangleRTBRewardedRenderer.h in Headers */,
+				2BF5FE78279B0D73001EFB81 /* GADPangleRewardedRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +338,7 @@
 				2BF5FE68279B0561001EFB81 /* GADMediationAdapterPangle.m in Sources */,
 				2BF5FE7B279B0DA2001EFB81 /* GADPangleBannerRenderer.m in Sources */,
 				2BD310D52A04D5DA000BD7B9 /* GADPangleRTBAppOpenRenderer.m in Sources */,
-				2BF5FE7C279B0DA6001EFB81 /* GADPangleRTBRewardedRenderer.m in Sources */,
+				2BF5FE7C279B0DA6001EFB81 /* GADPangleRewardedRenderer.m in Sources */,
 				2BF5FE7D279B0DAE001EFB81 /* GADPangleRTBInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADPangleRTBRewardedRenderer.h"
+#import "GADPangleRewardedRenderer.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
 
-@interface GADPangleRTBRewardedRenderer () <PAGRewardedAdDelegate>
+@interface GADPangleRewardedRenderer () <PAGRewardedAdDelegate>
 
 @end
 
-@implementation GADPangleRTBRewardedRenderer {
+@implementation GADPangleRewardedRenderer {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationRewardedLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle rewarded ad.
@@ -65,11 +65,11 @@
 
   PAGRewardedRequest *request = [PAGRewardedRequest request];
   request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
-  GADPangleRTBRewardedRenderer *__weak weakSelf = self;
+  GADPangleRewardedRenderer *__weak weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request
                 completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
-                  GADPangleRTBRewardedRenderer *strongSelf = weakSelf;
+                  GADPangleRewardedRenderer *strongSelf = weakSelf;
                   if (!strongSelf) {
                      return;
                   }
