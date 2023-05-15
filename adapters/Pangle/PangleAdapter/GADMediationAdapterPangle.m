@@ -17,7 +17,7 @@
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import "GADPangleRTBBannerRenderer.h"
+#import "GADPangleBannerRenderer.h"
 #import "GADPangleRTBInterstitialRenderer.h"
 #import "GADPangleRTBNativeRenderer.h"
 #import "GADPangleRTBRewardedRenderer.h"
@@ -27,7 +27,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
   /// Pangle banner ad wrapper.
-  GADPangleRTBBannerRenderer *_bannerRenderer;
+  GADPangleBannerRenderer *_bannerRenderer;
   /// Pangle interstitial ad wrapper.
   GADPangleRTBInterstitialRenderer *_interstitialRenderer;
   /// Pangle rewarded ad wrapper.
@@ -122,7 +122,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
-  _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
+  _bannerRenderer = [[GADPangleBannerRenderer alloc] init];
   [_bannerRenderer renderBannerForAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
 }
