@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBAppOpenRenderer : NSObject<GADMediationAppOpenAd>
+@interface GADPangleAppOpenRenderer : NSObject<GADMediationAppOpenAd>
 
 - (void)renderAppOpenAdForAdConfiguration:
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration

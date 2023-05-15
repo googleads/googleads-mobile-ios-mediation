@@ -1,17 +1,17 @@
 //
-//  GADPangleRTBAppOpenRenderer.m
+//  GADPangleAppOpenRenderer.m
 //  Adapter
 //
 //  Created by bytedance on 2023/5/5.
 //
 
-#import "GADPangleRTBAppOpenRenderer.h"
+#import "GADPangleAppOpenRenderer.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 
-@interface GADPangleRTBAppOpenRenderer ()<PAGLAppOpenAdDelegate>{
+@interface GADPangleAppOpenRenderer ()<PAGLAppOpenAdDelegate>{
     /// The completion handler to call when the ad loading succeeds or fails.
     GADMediationAppOpenLoadCompletionHandler _loadCompletionHandler;
     /// The Pangle app open ad.
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation GADPangleRTBAppOpenRenderer
+@implementation GADPangleAppOpenRenderer
 
 - (void)renderAppOpenAdForAdConfiguration:
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
@@ -53,11 +53,11 @@
     }
     PAGAppOpenRequest *request = [PAGAppOpenRequest request];
     request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
-    GADPangleRTBAppOpenRenderer *__weak weakSelf = self;
+    GADPangleAppOpenRenderer *__weak weakSelf = self;
     [PAGLAppOpenAd loadAdWithSlotID:placementId
                             request:request
                   completionHandler:^(PAGLAppOpenAd * _Nullable appOpenAd, NSError * _Nullable error) {
-        GADPangleRTBAppOpenRenderer *strongSelf = weakSelf;
+        GADPangleAppOpenRenderer *strongSelf = weakSelf;
         if (!strongSelf) {
            return;
         }

@@ -21,7 +21,7 @@
 #import "GADPangleInterstitialRenderer.h"
 #import "GADPangleNativeRenderer.h"
 #import "GADPangleRewardedRenderer.h"
-#import "GADPangleRTBAppOpenRenderer.h"
+#import "GADPangleAppOpenRenderer.h"
 
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
@@ -35,7 +35,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   /// Pangle native ad wrapper.
   GADPangleNativeRenderer *_nativeRenderer;
   /// Pangle app open ad wrapper
-  GADPangleRTBAppOpenRenderer *_appOpenAdRenderer;
+  GADPangleAppOpenRenderer *_appOpenAdRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -168,7 +168,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                              ? adConfiguration.childDirectedTreatment.integerValue
                                              : -1)];
-    _appOpenAdRenderer = [[GADPangleRTBAppOpenRenderer alloc] init];
+    _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
     [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
                                      completionHandler:completionHandler];
 }
