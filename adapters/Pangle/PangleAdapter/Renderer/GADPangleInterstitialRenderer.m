@@ -68,7 +68,7 @@
       completionHandler:^(PAGLInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
         GADPangleInterstitialRenderer *strongSelf = weakSelf;
         if (!strongSelf) {
-           return;
+          return;
         }
         if (error) {
           if (strongSelf->_loadCompletionHandler) {

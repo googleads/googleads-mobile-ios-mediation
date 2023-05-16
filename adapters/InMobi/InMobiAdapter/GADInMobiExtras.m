@@ -1,44 +1,28 @@
+// Copyright 2015 Google LLC
 //
-//  GADInMobiExtras.m
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Copyright (c) 2015 InMobi. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "GADInMobiExtras.h"
 
 @implementation GADInMobiExtras
 
-@synthesize additionalParameters;
-@synthesize postalCode, areaCode, ageGroup;
-@synthesize keywords, interests;
-@synthesize age, yearOfBirth;
-@synthesize loginId, sessionId;
-@synthesize educationType;
-@synthesize language;
-
 - (void)setLocationWithCity:(nullable NSString *)city
                       state:(nullable NSString *)state
                     country:(nullable NSString *)country {
-  _city = city;
-  _state = state;
-  _country = country;
-}
-
-- (void)setLocation:(nonnull CLLocation *)location {
-  _location = location;
-  [IMSdk setLocation:location];
-}
-
-- (void)setEducationType:(IMSDKEducation)newEducationType {
-  [IMSdk setEducation:newEducationType];
-}
-
-- (void)setAgeGroup:(IMSDKAgeGroup)newAgeGroup {
-  [IMSdk setAgeGroup:newAgeGroup];
-}
-
-- (void)setLogLevel:(IMSDKLogLevel)logLevel {
-  [IMSdk setLogLevel:logLevel];
+  _city = [city copy];
+  _state = [state copy];
+  _country = [country copy];
 }
 
 @end

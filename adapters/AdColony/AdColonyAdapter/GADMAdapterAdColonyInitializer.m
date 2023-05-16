@@ -65,7 +65,9 @@
       }
 
       if (self->_adColonyAdapterInitState == GADMAdapterAdColonyInitStateInitialized) {
-        callback(nil);
+        dispatch_async(dispatch_get_main_queue(), ^{
+          callback(nil);
+        });
       } else if (self->_adColonyAdapterInitState == GADMAdapterAdColonyInitStateInitializing) {
         GADMAdapterAdColonyMutableArrayAddObject(self->_callbacks, callback);
       }
@@ -82,7 +84,9 @@
           @"completion handler to be called prior to loading ads.";
       NSError *error = GADMAdapterAdColonyErrorWithCodeAndDescription(
           GADMAdapterAdColonyErrorConfigureRateLimit, errorString);
-      callback(error);
+      dispatch_async(dispatch_get_main_queue(), ^{
+        callback(error);
+      });
       return;
     }
 

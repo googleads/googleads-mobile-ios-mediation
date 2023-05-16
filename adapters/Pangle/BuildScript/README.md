@@ -4,8 +4,8 @@
 modify and rebuild the Pangle adapter framework.
 
 ## Prerequisites
-- Xcode 12.0 or higher
-- Deployment target of 10.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 12.0 or higher
 - Google Mobile Ads SDK
 - Pangle Framework SDK
 

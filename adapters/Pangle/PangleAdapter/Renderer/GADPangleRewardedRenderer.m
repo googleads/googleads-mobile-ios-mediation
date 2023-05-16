@@ -71,7 +71,7 @@
                 completionHandler:^(PAGRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
                   GADPangleRewardedRenderer *strongSelf = weakSelf;
                   if (!strongSelf) {
-                     return;
+                    return;
                   }
                   if (error) {
                     if (strongSelf->_loadCompletionHandler) {

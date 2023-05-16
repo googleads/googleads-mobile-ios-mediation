@@ -1,8 +1,52 @@
 ## InMobi iOS Mediation Adapter Changelog
 
 #### Next Version
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+- Updated the adapter to use the `didRewardUser` API.
+
+#### [Version 10.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.4.0.zip)
+- Verified compatibility with InMobi SDK 10.5.4.
+- Removed use of deprecated gender, birthday and location mediation APIs.
+- Removed support for the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.2.0.
+- InMobi SDK version 10.5.4.
+
+#### [Version 10.1.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.2.1.zip)
+- Verified compatibility with InMobi SDK 10.1.2.
+- Fixed an issue where the native ads could become blank in scrollable UIs.
+- Updated the adapter to use the new mediation APIs.
+- Added support for forwarding the COPPA value to InMobi SDK.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.14.0.
+- InMobi SDK version 10.1.2.
+
+#### [Version 10.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.2.0.zip)
+- Verified compatibility with InMobi SDK 10.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.13.0.
+- InMobi SDK version 10.1.2.
+
+#### [Version 10.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.1.0.zip)
+- Verified compatibility with InMobi SDK 10.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.12.0.
+- InMobi SDK version 10.1.1.
+
+#### [Version 10.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.0.0.zip)
+- Verified compatibility with InMobi SDK 10.1.0.
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- InMobi SDK version 10.1.0.
 
 #### [Version 10.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.0.7.0.zip)
 - Verified compatibility with InMobi SDK 10.0.7.

@@ -1,23 +1,41 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
 #### Next Version
+- Removed support of the `armv7` architecture.
+- Now requires minimum iOS version 11.0.
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
+#### [Version 6.12.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.1.zip)
+- Now requires Google Mobile Ads SDK version 10.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.0.0.
+- Meta Audience Network SDK version 6.12.0.
+
+#### [Version 6.12.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.0.zip)
+- Removed waterfall support from adapter.
 - Updated the adapter to use the `didRewardUser` API.
 - Now requires Google Mobile Ads SDK version 9.8.0 or higher.
+- Verified compatibility with Meta Audience Network SDK 6.12.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 9.11.0.
+- Meta Audience Network SDK version 6.12.0.
 
 #### [Version 6.11.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.11.2.0.zip)
-- Verified compatibility with FAN SDK 6.11.2.
+- Verified compatibility with Meta Audience Network SDK 6.11.2.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.7.0.
-- FAN SDK version 6.11.2.
+- Meta Audience Network SDK version 6.11.2.
 
 #### [Version 6.11.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.11.1.0.zip)
-- Verified compatibility with FAN SDK 6.11.1.
+- Verified compatibility with Meta Audience Network SDK 6.11.1.
 - Adapter logs now refer to the adapter as "Meta Audience Network".
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.5.0.
-- FAN SDK version 6.11.1.
+- Meta Audience Network SDK version 6.11.1.
 
 #### [Version 6.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.11.0.0.zip)
 - Verified compatibility with FAN SDK 6.11.0.
@@ -28,6 +46,7 @@ Built and tested with:
 
 #### [Version 6.10.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/facebook/FacebookAdapter-6.10.0.0.zip)
 - Verified compatibility with FAN SDK 6.10.0.
+- Added support for forwarding click and impression callbacks in bidding ads.
 - Added warning messages for waterfall mediation deprecation. See [Meta Audience Network's blog](https://www.facebook.com/audiencenetwork/resources/blog/audience-network-to-become-bidding-only-beginning-with-ios-in-2021/) for more information.
 
 Built and tested with:

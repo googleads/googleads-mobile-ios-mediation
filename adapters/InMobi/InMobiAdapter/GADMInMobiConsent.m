@@ -1,20 +1,26 @@
+// Copyright 2018 Google LLC
 //
-//  GADMInMobiConsent.m
-//  Adapter
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Ankit Pandey on 24/05/18.
-//  Copyright © 2018 Google. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import "GADMInMobiConsent.h"
-
-#import <InMobiSDK/IMSdk.h>
-
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #import "GADMAdapterInMobiInitializer.h"
 
 static NSMutableDictionary<NSString *, NSString *> *consentObj;
 
 @implementation GADMInMobiConsent
+
 + (void)updateGDPRConsent:(nonnull NSDictionary<NSString *, NSString *> *)consent {
   if (GADMAdapterInMobiInitializer.sharedInstance.initializationState !=
       GADMAdapterInMobiInitStateUninitialized) {
@@ -26,4 +32,5 @@ static NSMutableDictionary<NSString *, NSString *> *consentObj;
 + (nullable NSDictionary<NSString *, NSString *> *)consent {
   return consentObj;
 }
+
 @end

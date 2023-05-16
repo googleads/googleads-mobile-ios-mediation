@@ -66,7 +66,7 @@
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
 
   PAGNativeRequest *request = [PAGNativeRequest request];
-  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
+  request.adString = adConfiguration.bidResponse;
 
   GADPangleNativeRenderer *__weak weakSelf = self;
   [PAGLNativeAd loadAdWithSlotID:placementId
@@ -74,7 +74,7 @@
                completionHandler:^(PAGLNativeAd *_Nullable nativeAd, NSError *_Nullable error) {
                  GADPangleNativeRenderer *strongSelf = weakSelf;
                  if (!strongSelf) {
-                    return;
+                   return;
                  }
                  if (error) {
                    if (strongSelf->_loadCompletionHandler) {
@@ -88,38 +88,48 @@
                  strongSelf->_nativeAd = nativeAd;
                  strongSelf->_nativeAd.delegate = strongSelf;
                  strongSelf->_nativeAd.rootViewController = adConfiguration.topViewController;
-      
-                 [strongSelf loadRequiredData];
+
+                 [strongSelf loadRequiredNativeData];
                }];
 }
 
-- (void)loadRequiredData {
-    GADPangleNativeRenderer *__weak weakSelf = self;
-    void (^localBlock)(void) = ^{
-        GADPangleNativeRenderer *strongSelf = weakSelf;
-        if (strongSelf && strongSelf->_loadCompletionHandler) {
-            strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf,nil);
-        }
-    };
-    NSString *URLString = _nativeAd.data.icon.imageURL;
-    if (!URLString.length) {
-        localBlock();
-        return;
+- (void)loadRequiredNativeData {
+  GADPangleNativeRenderer *__weak weakSelf = self;
+  void (^localBlock)(void) = ^{
+    GADPangleNativeRenderer *strongSelf = weakSelf;
+    if (strongSelf && strongSelf->_loadCompletionHandler) {
+      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
     }
-    NSURL *url = [NSURL URLWithString:URLString];
-    if (!url) {
-        localBlock();
-        return;
-    }
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            GADNativeAdImage *image = (!error && data) ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]] : nil;
-            self->_icon = image;
-            localBlock();
-        });
-    }];
-    [task resume];
+  };
+  NSString *URLString = _nativeAd.data.icon.imageURL;
+  if (!URLString.length) {
+    localBlock();
+    return;
+  }
+  NSURL *url = [NSURL URLWithString:URLString];
+  if (!url) {
+    localBlock();
+    return;
+  }
+  NSURLSession *session = [NSURLSession sharedSession];
+  NSURLSessionDataTask *task =
+      [session dataTaskWithURL:url
+             completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
+                                 NSError *_Nullable error) {
+               dispatch_async(dispatch_get_main_queue(), ^{
+                 GADPangleNativeRenderer *strongSelf = weakSelf;
+                 if (!strongSelf) {
+                   return;
+                 }
+                 GADNativeAdImage *image =
+                     (!error && data)
+                         ? [[GADNativeAdImage alloc] initWithImage:[UIImage imageWithData:data]]
+                         : nil;
+                 strongSelf->_icon = image;
+                 localBlock();
+               });
+             }];
+  [task resume];
 }
 
 #pragma mark - GADMediationNativeAd

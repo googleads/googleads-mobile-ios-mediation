@@ -1,0 +1,12 @@
+framework module DTExchangeAdapter {
+  umbrella header "DTExchangeAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Add any public headers here.
+  header "GADMAdapterFyberExtras.h"
+}

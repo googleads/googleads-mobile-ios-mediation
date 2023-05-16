@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterInMobiRewardedAd.h"
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #include <stdatomic.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
@@ -87,7 +87,8 @@
               }
 
               if (error) {
-                NSLog(@"[InMobi] Initialization failed: %@", error.localizedDescription);
+                GADMAdapterInMobiLog(@"nMobi SDK failed to initialize with error: %@",
+                                     error.localizedDescription);
                 strongSelf->_renderCompletionHandler(nil, error);
                 return;
               }
@@ -116,8 +117,8 @@
       GADMAdapterInMobiDelegateManager.sharedInstance;
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-        GADMAdapterInMobiErrorAdAlreadyLoaded,
-        @"[InMobi] Error - cannot request multiple ads using same placement ID.");
+        GADMAdapterInMobiErrorAdAlreadyLoaded, @"GADMediationAdapterInMobi - Error : cannot "
+                                               @"request multiple ads using same placement ID.");
     _renderCompletionHandler(nil, error);
     return;
   }
@@ -125,8 +126,9 @@
   [delegateManager addDelegate:self forPlacementIdentifier:_placementIdentifier];
 
   if (_adConfig.isTestRequest) {
-    NSLog(@"[InMobi] Please enter your device ID in the InMobi console to receive test ads from "
-          @"Inmobi");
+    GADMAdapterInMobiLog(
+        @"Please enter your device ID in the InMobi console to receive test ads from "
+        @"InMobi");
   }
 
   GADInMobiExtras *extras = _adConfig.extras;
@@ -144,18 +146,24 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_rewardedAd isReady]) {
-    [_rewardedAd showFromViewController:viewController];
+    [_rewardedAd showFrom:viewController];
+  } else {
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorAdNotReady, @"InMobi SDK failed to present a rewarded ad.");
+    [_adEventDelegate didFailToPresentWithError:error];
   }
 }
 
 #pragma mark IMInterstitialDelegate methods
 
 - (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK loaded a rewarded ad successfully.");
   _adEventDelegate = _renderCompletionHandler(self, nil);
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToLoadWithError:(nonnull IMRequestStatus *)error {
+  GADMAdapterInMobiLog(@"InMobi SDK failed to load rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
@@ -163,16 +171,18 @@
 }
 
 - (void)interstitialWillPresent:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK will present a full screen rewarded ad.");
   [_adEventDelegate willPresentFullScreenView];
 }
 
 - (void)interstitialDidPresent:(nonnull IMInterstitial *)interstitial {
-  [_adEventDelegate reportImpression];
+  GADMAdapterInMobiLog(@"InMobi SDK did present a full screen rewarded ad.");
   [_adEventDelegate didStartVideo];
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     didFailToPresentWithError:(nonnull IMRequestStatus *)error {
+  GADMAdapterInMobiLog(@"InMobi SDK did fail to present a rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
@@ -180,10 +190,12 @@
 }
 
 - (void)interstitialWillDismiss:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK will dismiss a full screen rewarded ad.");
   [_adEventDelegate willDismissFullScreenView];
 }
 
 - (void)interstitialDidDismiss:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK did dismiss a full screen rewarded ad.");
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   [delegateManager removeDelegateForPlacementIdentifier:_placementIdentifier];
@@ -191,19 +203,27 @@
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
-    didInteractWithParams:(nonnull NSDictionary *)params {
+    didInteractWithParams:(nullable NSDictionary<NSString *, id> *)params {
+  GADMAdapterInMobiLog(@"InMobi SDK recorded a click on rewarded ad.");
   [_adEventDelegate reportClick];
 }
 
 - (void)interstitialDidReceiveAd:(nonnull IMInterstitial *)interstitial {
   // No equivalent callback in the Google Mobile Ads SDK.
   // This event indicates that InMobi fetched an ad from the server, but hasn't loaded it yet.
+  GADMAdapterInMobiLog(@"InMobi AdServer returned a response for rewarded ad.");
 }
 
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
-    rewardActionCompletedWithRewards:(nonnull NSDictionary *)rewards {
-  [_adEventDelegate didEndVideo];
+    rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *, id> *)rewards {
+  GADMAdapterInMobiLog(@"InMobi SDK rewarded a user for a rewarded ad.");
   [_adEventDelegate didRewardUser];
+  [_adEventDelegate didEndVideo];
+}
+
+- (void)interstitialAdImpressed:(nonnull IMInterstitial *)interstitial {
+  GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from a rewarded ad.");
+  [_adEventDelegate reportImpression];
 }
 
 @end

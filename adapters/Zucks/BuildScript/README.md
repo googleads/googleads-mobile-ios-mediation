@@ -4,8 +4,8 @@
 modify and rebuild the Zucks adapter framework.
 
 ## Prerequisites
-- Xcode 12.0 or higher
-- Deployment target of 9.0 or higher
+- Xcode 14.1 or higher
+- Deployment target of 11.0 or higher
 - Google Mobile Ads SDK
 - Zucks Framework SDK
 

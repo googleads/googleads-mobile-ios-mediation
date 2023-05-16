@@ -76,7 +76,7 @@
               completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
                 GADPangleBannerRenderer *strongSelf = weakSelf;
                 if (!strongSelf) {
-                   return;
+                  return;
                 }
                 if (loadError) {
                   strongSelf->_loadCompletionHandler(nil, loadError);

@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Adapter version.
-static NSString *const GADMAdapterIMobileVersion = @"2.2.0.1";
+static NSString *const GADMAdapterIMobileVersion = @"2.3.2.0";
 
 /// Key of i-mobile publisher ID.
 static NSString *const GADMAdapterIMobilePublisherIdKey = @"publisherId";

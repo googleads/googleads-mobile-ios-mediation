@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Adapter version string.
-static NSString *const _Nonnull GADMAdapterNendVersion = @"7.4.0.0";
+static NSString *const _Nonnull GADMAdapterNendVersion = @"8.0.1.0";
 
 // Adapter mediation agent.
 static NSString *const _Nonnull GADMAdapterNendMediationName = @"AdMob";

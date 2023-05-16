@@ -215,9 +215,7 @@
 }
 
 - (void)didClick:(TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
-  [delegate didClick:placement];
+  // Tapjoy SDK doesn't support reporting clicks through this callback.
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
