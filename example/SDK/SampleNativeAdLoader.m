@@ -77,9 +77,8 @@
 
   if (randomValue > 50) {
     // Create a fake ad by an advertiser with generic content.
-    newAd.body =
-        @"This is a sample ad, so there's no real content. In the event of a real "
-        @"ad, though, some persuasive text would appear here.";
+    newAd.body = @"This is a sample ad, so there's no real content. In the event of a real "
+                 @"ad, though, some persuasive text would appear here.";
     newAd.callToAction = @"Take Action";
     newAd.headline = @"Sample Content!";
     newAd.advertiser = @"An advertiser";

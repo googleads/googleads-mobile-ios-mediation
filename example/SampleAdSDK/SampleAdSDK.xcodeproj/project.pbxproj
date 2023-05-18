@@ -141,12 +141,12 @@
 		AE50D6681F3BC3D20007AF85 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				4569383D208EBC1C0030CCD1 /* SampleMediaView.h */,
 				EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */,
 				EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */,
 				EFA49FEE235A522C0006917F /* SampleRewardedAd.h */,
 				EFA49FF0235A52620006917F /* SampleRewardedAd.m */,
 				EFA49FF2235A52890006917F /* SampleRewardedAdDelegate.h */,
+				4569383D208EBC1C0030CCD1 /* SampleMediaView.h */,
 				4569383E208EBC1C0030CCD1 /* SampleMediaView.m */,
 				AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */,
 				AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */,
@@ -154,8 +154,8 @@
 				AE50D6511F3BC3D20007AF85 /* SampleBanner.m */,
 				AE50D6521F3BC3D20007AF85 /* SampleBannerAdDelegate.h */,
 				AE50D6531F3BC3D20007AF85 /* SampleInterstitial.h */,
-				AE50D6551F3BC3D20007AF85 /* SampleInterstitialAdDelegate.h */,
 				AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */,
+				AE50D6551F3BC3D20007AF85 /* SampleInterstitialAdDelegate.h */,
 				AE50D65D1F3BC3D20007AF85 /* SampleNativeAdLoader.h */,
 				AE50D65E1F3BC3D20007AF85 /* SampleNativeAdLoader.m */,
 				AE50D65F1F3BC3D20007AF85 /* SampleNativeAdLoaderDelegate.h */,
@@ -432,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -479,7 +479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
@@ -500,6 +500,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -519,6 +520,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";

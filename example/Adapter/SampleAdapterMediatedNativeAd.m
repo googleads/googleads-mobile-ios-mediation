@@ -50,8 +50,8 @@
       _mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:_sampleAd.image] ];
     } else {
       NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:_sampleAd.imageURL];
-      _mappedImages =
-          @[ [[GADNativeAdImage alloc] initWithURL:imageURL scale:_sampleAd.imageScale] ];
+      _mappedImages = @[ [[GADNativeAdImage alloc] initWithURL:imageURL
+                                                         scale:_sampleAd.imageScale] ];
     }
 
     if (_sampleAd.icon) {
@@ -131,8 +131,7 @@
 // provide one. You can also access the clickable and non-clickable views by asset key if the
 // mediation network needs this information.
 - (void)didRenderInView:(UIView *)view
-       clickableAssetViews:
-           (NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
+       clickableAssetViews:(NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
         (NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(UIViewController *)viewController {
