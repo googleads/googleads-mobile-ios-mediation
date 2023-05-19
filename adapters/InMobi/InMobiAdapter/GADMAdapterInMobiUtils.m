@@ -16,7 +16,7 @@
 #import "GADMAdapterInMobiUtils.h"
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <InMobiSDK/InMobiSDK-Swift.h>
+#import <InMobiSDK/InMobiSDK.h>
 
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"

@@ -14,7 +14,7 @@
 //
 
 #import "GADMInMobiConsent.h"
-#import <InMobiSDK/InMobiSDK-Swift.h>
+#import <InMobiSDK/InMobiSDK.h>
 #import "GADMAdapterInMobiInitializer.h"
 
 static NSMutableDictionary<NSString *, NSString *> *consentObj;
