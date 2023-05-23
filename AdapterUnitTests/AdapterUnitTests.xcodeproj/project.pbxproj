@@ -9,29 +9,18 @@
 /* Begin PBXBuildFile section */
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
-		AD6FA0402A16BF98007335D2 /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
+		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F72C407A05BCCD5F1A62755E /* libPods-Default-AdapterUnitTestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA96977A4A11521422EDD532 /* libPods-Default-AdapterUnitTestKit.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		AD6FA0412A16BF98007335D2 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				AD6FA0402A16BF98007335D2 /* XCTest.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6BD0750520912FBFA68A5A99 /* Pods-Default-AdapterUnitTestKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterUnitTestKit.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterUnitTestKit/Pods-Default-AdapterUnitTestKit.release.xcconfig"; sourceTree = "<group>"; };
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdapterUnitTestKit.h; sourceTree = "<group>"; };
 		AD6FA03E2A16BF98007335D2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKAdConfiguration.m; sourceTree = "<group>"; };
+		AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdConfiguration.h; sourceTree = "<group>"; };
 		CA96977A4A11521422EDD532 /* libPods-Default-AdapterUnitTestKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Default-AdapterUnitTestKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB18C6DFAEDD9106F11C6A0 /* Pods-Default-AdapterUnitTestKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterUnitTestKit.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterUnitTestKit/Pods-Default-AdapterUnitTestKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */,
+				AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */,
+				AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */,
 			);
 			path = AdapterUnitTestKit;
 			sourceTree = "<group>";
@@ -101,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */,
+				AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +108,6 @@
 				AD6FA0312A16BF4A007335D2 /* Sources */,
 				AD6FA0322A16BF4A007335D2 /* Frameworks */,
 				AD6FA0332A16BF4A007335D2 /* Resources */,
-				AD6FA0412A16BF98007335D2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -199,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
