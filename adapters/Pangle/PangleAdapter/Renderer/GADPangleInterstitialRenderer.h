@@ -15,12 +15,12 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBRewardedRenderer : NSObject <GADMediationRewardedAd>
+@interface GADPangleInterstitialRenderer : NSObject <GADMediationInterstitialAd>
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderRewardedAdForAdConfiguration:
-            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
-                         completionHandler:
-                             (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
+- (void)renderInterstitialForAdConfiguration:
+            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
+                                                 completionHandler;
 
 @end

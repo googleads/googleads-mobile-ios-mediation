@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADPangleRTBBannerRenderer.h"
+#import "GADPangleBannerRenderer.h"
 #import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
 
-@interface GADPangleRTBBannerRenderer () <PAGBannerAdDelegate>
+@interface GADPangleBannerRenderer () <PAGBannerAdDelegate>
 
 @end
 
-@implementation GADPangleRTBBannerRenderer {
+@implementation GADPangleBannerRenderer {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
   /// The Pangle banner ad.
@@ -66,15 +66,15 @@
     _loadCompletionHandler(nil, error);
     return;
   }
-
+    
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
 
-  GADPangleRTBBannerRenderer *__weak weakSelf = self;
+  GADPangleBannerRenderer *__weak weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId
                         request:request
               completionHandler:^(PAGBannerAd *_Nullable bannerAd, NSError *_Nullable loadError) {
-                GADPangleRTBBannerRenderer *strongSelf = weakSelf;
+                GADPangleBannerRenderer *strongSelf = weakSelf;
                 if (!strongSelf) {
                   return;
                 }

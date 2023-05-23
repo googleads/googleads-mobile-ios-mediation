@@ -17,22 +17,25 @@
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
 #import "GADPangleNetworkExtras.h"
-#import "GADPangleRTBBannerRenderer.h"
-#import "GADPangleRTBInterstitialRenderer.h"
-#import "GADPangleRTBNativeRenderer.h"
-#import "GADPangleRTBRewardedRenderer.h"
+#import "GADPangleBannerRenderer.h"
+#import "GADPangleInterstitialRenderer.h"
+#import "GADPangleNativeRenderer.h"
+#import "GADPangleRewardedRenderer.h"
+#import "GADPangleAppOpenRenderer.h"
 
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
   /// Pangle banner ad wrapper.
-  GADPangleRTBBannerRenderer *_bannerRenderer;
+  GADPangleBannerRenderer *_bannerRenderer;
   /// Pangle interstitial ad wrapper.
-  GADPangleRTBInterstitialRenderer *_interstitialRenderer;
+  GADPangleInterstitialRenderer *_interstitialRenderer;
   /// Pangle rewarded ad wrapper.
-  GADPangleRTBRewardedRenderer *_rewardedRenderer;
+  GADPangleRewardedRenderer *_rewardedRenderer;
   /// Pangle native ad wrapper.
-  GADPangleRTBNativeRenderer *_nativeRenderer;
+  GADPangleNativeRenderer *_nativeRenderer;
+  /// Pangle app open ad wrapper
+  GADPangleAppOpenRenderer *_appOpenAdRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -119,7 +122,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
-  _bannerRenderer = [[GADPangleRTBBannerRenderer alloc] init];
+  _bannerRenderer = [[GADPangleBannerRenderer alloc] init];
   [_bannerRenderer renderBannerForAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
 }
@@ -131,7 +134,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
-  _interstitialRenderer = [[GADPangleRTBInterstitialRenderer alloc] init];
+  _interstitialRenderer = [[GADPangleInterstitialRenderer alloc] init];
   [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration
                                             completionHandler:completionHandler];
 }
@@ -142,7 +145,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
-  _rewardedRenderer = [[GADPangleRTBRewardedRenderer alloc] init];
+  _rewardedRenderer = [[GADPangleRewardedRenderer alloc] init];
   [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
 }
@@ -153,9 +156,21 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
                                            ? adConfiguration.childDirectedTreatment.integerValue
                                            : -1)];
-  _nativeRenderer = [[GADPangleRTBNativeRenderer alloc] init];
+  _nativeRenderer = [[GADPangleNativeRenderer alloc] init];
   [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
+}
+
+- (void)loadAppOpenAdForAdConfiguration:
+            (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
+    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+                                             ? adConfiguration.childDirectedTreatment.integerValue
+                                             : -1)];
+    _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
+    [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
+                                     completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.

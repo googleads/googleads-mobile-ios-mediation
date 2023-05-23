@@ -13,14 +13,14 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleRTBBannerRenderer : NSObject <GADMediationBannerAd>
+@interface GADPangleRewardedRenderer : NSObject <GADMediationRewardedAd>
 
 /// Asks the receiver to render the ad configuration.
-- (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:
-                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+- (void)renderRewardedAdForAdConfiguration:
+            (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 @end
