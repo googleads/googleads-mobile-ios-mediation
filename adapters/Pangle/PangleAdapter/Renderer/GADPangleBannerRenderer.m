@@ -68,7 +68,7 @@
   }
     
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
-  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
+  request.adString = adConfiguration.bidResponse;
 
   GADPangleBannerRenderer *__weak weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId

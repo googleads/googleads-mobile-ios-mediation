@@ -59,7 +59,7 @@
       return;
     }
     PAGAppOpenRequest *request = [PAGAppOpenRequest request];
-    request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
+    request.adString = adConfiguration.bidResponse;
     GADPangleAppOpenRenderer *__weak weakSelf = self;
     [PAGLAppOpenAd loadAdWithSlotID:placementId
                             request:request

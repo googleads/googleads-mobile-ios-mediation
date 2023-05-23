@@ -64,7 +64,7 @@
   }
 
   PAGRewardedRequest *request = [PAGRewardedRequest request];
-  request.adString = adConfiguration.bidResponse.length ? adConfiguration.bidResponse : nil;
+  request.adString = adConfiguration.bidResponse;
   GADPangleRewardedRenderer *__weak weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request
