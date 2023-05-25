@@ -64,7 +64,6 @@
   }
 
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
-
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse;
 
@@ -76,6 +75,7 @@
                  if (!strongSelf) {
                    return;
                  }
+
                  if (error) {
                    if (strongSelf->_loadCompletionHandler) {
                      strongSelf->_loadCompletionHandler(nil, error);
@@ -101,16 +101,19 @@
       strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
     }
   };
+
   NSString *URLString = _nativeAd.data.icon.imageURL;
   if (!URLString.length) {
     localBlock();
     return;
   }
+
   NSURL *url = [NSURL URLWithString:URLString];
   if (!url) {
     localBlock();
     return;
   }
+
   NSURLSession *session = [NSURLSession sharedSession];
   NSURLSessionDataTask *task =
       [session dataTaskWithURL:url
@@ -133,6 +136,7 @@
 }
 
 #pragma mark - GADMediationNativeAd
+
 - (nullable GADNativeAdImage *)icon {
   return _icon;
 }

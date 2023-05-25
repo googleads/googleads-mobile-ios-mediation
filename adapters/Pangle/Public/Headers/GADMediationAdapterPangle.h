@@ -16,10 +16,10 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
-    /// Missing server parameters.
-    GADPangleErrorInvalidServerParameters = 101,
-    /// Banner size mismatch.
-    GADPangleErrorBannerSizeMismatch = 102,
+  /// Missing server parameters.
+  GADPangleErrorInvalidServerParameters = 101,
+  /// Banner size mismatch.
+  GADPangleErrorBannerSizeMismatch = 102,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>

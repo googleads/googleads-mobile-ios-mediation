@@ -15,12 +15,11 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleAppOpenRenderer : NSObject<GADMediationAppOpenAd>
+@interface GADPangleAppOpenRenderer : NSObject <GADMediationAppOpenAd>
 
 - (void)renderAppOpenAdForAdConfiguration:
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
-                      completionHandler:
-(nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler;
+                        completionHandler:
+                            (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler;
 
 @end
-
