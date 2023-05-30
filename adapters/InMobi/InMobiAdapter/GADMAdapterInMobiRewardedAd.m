@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterInMobiRewardedAd.h"
-#import <InMobiSDK/InMobiSDK.h>
+#import <InMobiSDK/InMobiSDK-Swift.h>
 #include <stdatomic.h>
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
@@ -146,8 +146,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_rewardedAd isReady]) {
-    [_rewardedAd showFromViewController:viewController
-                          withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+    [_rewardedAd showFrom:viewController];
   } else {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorAdNotReady, @"InMobi SDK failed to present a rewarded ad.");

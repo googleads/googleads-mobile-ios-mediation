@@ -112,8 +112,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if ([_interstitialAd isReady]) {
-    [_interstitialAd showFromViewController:viewController
-                              withAnimation:kIMInterstitialAnimationTypeCoverVertical];
+    [_interstitialAd showFrom:viewController with:IMInterstitialAnimationTypeCoverVertical];
   } else {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorAdNotReady,
