@@ -1,0 +1,11 @@
+framework module LineAdapter {
+  umbrella header "LineAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  // Import all your public header files here.
+}
