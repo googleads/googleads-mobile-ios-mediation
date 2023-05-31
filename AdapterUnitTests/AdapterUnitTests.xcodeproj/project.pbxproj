@@ -11,18 +11,18 @@
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
 		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F72C407A05BCCD5F1A62755E /* libPods-Default-AdapterUnitTestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA96977A4A11521422EDD532 /* libPods-Default-AdapterUnitTestKit.a */; };
+		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6BD0750520912FBFA68A5A99 /* Pods-Default-AdapterUnitTestKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterUnitTestKit.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterUnitTestKit/Pods-Default-AdapterUnitTestKit.release.xcconfig"; sourceTree = "<group>"; };
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdapterUnitTestKit.h; sourceTree = "<group>"; };
 		AD6FA03E2A16BF98007335D2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKAdConfiguration.m; sourceTree = "<group>"; };
 		AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdConfiguration.h; sourceTree = "<group>"; };
-		CA96977A4A11521422EDD532 /* libPods-Default-AdapterUnitTestKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Default-AdapterUnitTestKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCB18C6DFAEDD9106F11C6A0 /* Pods-Default-AdapterUnitTestKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterUnitTestKit.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterUnitTestKit/Pods-Default-AdapterUnitTestKit.debug.xcconfig"; sourceTree = "<group>"; };
+		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
+		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,7 +31,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */,
-				F72C407A05BCCD5F1A62755E /* libPods-Default-AdapterUnitTestKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +40,6 @@
 		741B548D4E69B25ED7A0D2E4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DCB18C6DFAEDD9106F11C6A0 /* Pods-Default-AdapterUnitTestKit.debug.xcconfig */,
-				6BD0750520912FBFA68A5A99 /* Pods-Default-AdapterUnitTestKit.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -71,6 +68,8 @@
 				AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */,
 				AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */,
 				AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */,
+				AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */,
+				AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */,
 			);
 			path = AdapterUnitTestKit;
 			sourceTree = "<group>";
@@ -79,7 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				AD6FA03E2A16BF98007335D2 /* XCTest.framework */,
-				CA96977A4A11521422EDD532 /* libPods-Default-AdapterUnitTestKit.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -92,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */,
+				AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */,
 				AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,7 +102,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6FA03A2A16BF4A007335D2 /* Build configuration list for PBXNativeTarget "AdapterUnitTestKit" */;
 			buildPhases = (
-				BD13A15C9ED7DBCE3A4BD302 /* [CP] Check Pods Manifest.lock */,
 				AD6FA0302A16BF4A007335D2 /* Headers */,
 				AD6FA0312A16BF4A007335D2 /* Sources */,
 				AD6FA0322A16BF4A007335D2 /* Frameworks */,
@@ -160,36 +158,12 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		BD13A15C9ED7DBCE3A4BD302 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Default-AdapterUnitTestKit-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		AD6FA0312A16BF4A007335D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */,
 				AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,7 +185,6 @@
 		};
 		AD6FA03B2A16BF4A007335D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DCB18C6DFAEDD9106F11C6A0 /* Pods-Default-AdapterUnitTestKit.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -296,7 +269,6 @@
 		};
 		AD6FA03C2A16BF4A007335D2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BD0750520912FBFA68A5A99 /* Pods-Default-AdapterUnitTestKit.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
