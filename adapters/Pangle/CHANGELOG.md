@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 5.2.0.7.0 (In Progress)
+#### [Version 5.2.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.0.7.0.zip)
 - Added waterfall support for app open, banner (includes MREC), interstitial, rewarded and native ad formats.
 - Verified compatibility with Pangle SDK version 5.2.0.7.
 
