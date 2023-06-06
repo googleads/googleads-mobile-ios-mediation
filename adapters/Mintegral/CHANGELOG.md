@@ -1,5 +1,12 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Version 7.3.7.0 (In Progress)
+- Verified compatibility with Mintegral SDK version 7.3.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Mintegral SDK version 7.3.7.
+
 #### [Version 7.3.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.3.6.0.zip)
 - Verified compatibility with Mintegral SDK version 7.3.6.
 - Removed support of the `armv7` architecture.
