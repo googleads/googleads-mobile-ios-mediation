@@ -13,6 +13,17 @@
 		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
+		AD98A5B92A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5BA2A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B82A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m */; };
+		AD98A5BC2A1D5C3500017B8D /* AUTKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5BB2A1D5C3500017B8D /* AUTKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5C52A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5BD2A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5C62A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5BE2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5C72A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5BF2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.m */; };
+		AD98A5C82A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5C02A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.m */; };
+		AD98A5C92A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5C12A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD98A5CA2A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */; };
+		AD98A5CB2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */; };
+		AD98A5CC2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +34,17 @@
 		AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdConfiguration.h; sourceTree = "<group>"; };
 		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
 		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
+		AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdapterSetUpAssertions.h; sourceTree = "<group>"; };
+		AD98A5B82A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKAdapterSetUpAssertions.m; sourceTree = "<group>"; };
+		AD98A5BB2A1D5C3500017B8D /* AUTKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKConstants.h; sourceTree = "<group>"; };
+		AD98A5BD2A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationInterstitialAdLoadAssertions.h; sourceTree = "<group>"; };
+		AD98A5BE2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationRewardedAdLoadAssertions.h; sourceTree = "<group>"; };
+		AD98A5BF2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationBannerAdLoadAssertions.m; sourceTree = "<group>"; };
+		AD98A5C02A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationInterstitialAdLoadAssertions.m; sourceTree = "<group>"; };
+		AD98A5C12A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationNativeAdLoadAssertions.h; sourceTree = "<group>"; };
+		AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationNativeAdLoadAssertions.m; sourceTree = "<group>"; };
+		AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedAdLoadAssertions.m; sourceTree = "<group>"; };
+		AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationBannerAdLoadAssertions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,10 +88,21 @@
 			isa = PBXGroup;
 			children = (
 				AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */,
+				AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */,
+				AD98A5B82A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m */,
 				AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */,
 				AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */,
+				AD98A5BB2A1D5C3500017B8D /* AUTKConstants.h */,
 				AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */,
 				AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */,
+				AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */,
+				AD98A5BF2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.m */,
+				AD98A5BD2A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h */,
+				AD98A5C02A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.m */,
+				AD98A5C12A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.h */,
+				AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */,
+				AD98A5BE2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h */,
+				AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */,
 			);
 			path = AdapterUnitTestKit;
 			sourceTree = "<group>";
@@ -89,6 +122,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD98A5CC2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h in Headers */,
+				AD98A5B92A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h in Headers */,
+				AD98A5C92A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.h in Headers */,
+				AD98A5C62A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h in Headers */,
+				AD98A5C52A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h in Headers */,
+				AD98A5BC2A1D5C3500017B8D /* AUTKConstants.h in Headers */,
 				AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */,
 				AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */,
 				AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */,
@@ -164,7 +203,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */,
+				AD98A5C82A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.m in Sources */,
+				AD98A5CA2A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m in Sources */,
+				AD98A5C72A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.m in Sources */,
+				AD98A5CB2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m in Sources */,
 				AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */,
+				AD98A5BA2A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
