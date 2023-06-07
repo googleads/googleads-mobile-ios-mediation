@@ -1,6 +1,6 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 7.3.7.0 (In Progress)
+#### [Version 7.3.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.3.7.0.zip)
 - Verified compatibility with Mintegral SDK version 7.3.7.
 
 Built and tested with:
