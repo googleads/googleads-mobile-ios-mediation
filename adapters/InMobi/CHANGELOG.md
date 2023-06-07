@@ -1,5 +1,14 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 10.5.5.0 (In progress)
+- Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+- Updated the adapter to use the `didRewardUser` API.
+- Updated the adapter to initialize InMobi SDK on main thread.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.4.0.
+- InMobi SDK version 10.5.5.
+
 #### [Version 10.5.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.4.0.zip)
 - Verified compatibility with InMobi SDK 10.5.4.
 - Removed use of deprecated gender, birthday and location mediation APIs.
@@ -12,7 +21,6 @@ Built and tested with:
 - InMobi SDK version 10.5.4.
 
 Additional notes:
-- For all the adapter versions that are built with InMobi SDK version 10.5.x, they now depend on `InMobiSDK-Swift` instead of `InMobiSDK`.
 - This release was created before [Version 10.1.3.0](https://github.com/googleads/googleads-mobile-ios-mediation/blob/main/adapters/InMobi/CHANGELOG.md#version-10130) so it does not use the `didRewardUser` API.
 
 #### [Version 10.1.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.1.3.0.zip)
