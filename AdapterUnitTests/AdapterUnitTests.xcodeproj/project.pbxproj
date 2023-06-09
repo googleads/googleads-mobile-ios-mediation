@@ -24,7 +24,25 @@
 		AD98A5CA2A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */; };
 		AD98A5CB2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */; };
 		AD98A5CC2A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADADDD4A2A3252CE00FB60E1;
+			remoteInfo = Adapter;
+		};
+		ADADDD502A3252E200FB60E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,6 +63,8 @@
 		AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationNativeAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationBannerAdLoadAssertions.h; sourceTree = "<group>"; };
+		ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LineAdapter.xcodeproj; path = ../adapters/LineAdapter/LineAdapter.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +73,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADADDD3D2A32528C00FB60E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +97,9 @@
 		AD6FA0292A16BEF3007335D2 = {
 			isa = PBXGroup;
 			children = (
+				ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */,
 				AD6FA0372A16BF4A007335D2 /* AdapterUnitTestKit */,
+				ADADDD412A32528C00FB60E1 /* LineAdapterTests */,
 				AD6FA0362A16BF4A007335D2 /* Products */,
 				AD6FA03D2A16BF98007335D2 /* Frameworks */,
 				741B548D4E69B25ED7A0D2E4 /* Pods */,
@@ -80,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */,
+				ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +144,21 @@
 				AD6FA03E2A16BF98007335D2 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ADADDD412A32528C00FB60E1 /* LineAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LineAdapterTests;
+			sourceTree = "<group>";
+		};
+		ADADDD482A3252CE00FB60E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,6 +201,24 @@
 			productReference = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADADDD462A32528C00FB60E1 /* Build configuration list for PBXNativeTarget "LineAdapterTests" */;
+			buildPhases = (
+				ADADDD3C2A32528C00FB60E1 /* Sources */,
+				ADADDD3D2A32528C00FB60E1 /* Frameworks */,
+				ADADDD3E2A32528C00FB60E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADADDD512A3252E200FB60E1 /* PBXTargetDependency */,
+			);
+			name = LineAdapterTests;
+			productName = LineAdapterTests;
+			productReference = ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +229,9 @@
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					AD6FA0342A16BF4A007335D2 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					ADADDD3F2A32528C00FB60E1 = {
 						CreatedOnToolsVersion = 14.1;
 					};
 				};
@@ -180,15 +247,39 @@
 			mainGroup = AD6FA0292A16BEF3007335D2;
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = ADADDD482A3252CE00FB60E1 /* Products */;
+					ProjectRef = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */,
+				ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapter.a;
+			remoteRef = ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		AD6FA0332A16BF4A007335D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADADDD3E2A32528C00FB60E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -212,7 +303,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADADDD3C2A32528C00FB60E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ADADDD512A3252E200FB60E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = ADADDD502A3252E200FB60E1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AD6FA02E2A16BEF3007335D2 /* Debug */ = {
@@ -389,6 +495,151 @@
 			};
 			name = Release;
 		};
+		ADADDD442A32528C00FB60E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleUserMessagingPlatform\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../adapters/LineAdapter/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LineAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ADADDD452A32528C00FB60E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../adapters/LineAdapter/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LineAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -406,6 +657,15 @@
 			buildConfigurations = (
 				AD6FA03B2A16BF4A007335D2 /* Debug */,
 				AD6FA03C2A16BF4A007335D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADADDD462A32528C00FB60E1 /* Build configuration list for PBXNativeTarget "LineAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADADDD442A32528C00FB60E1 /* Debug */,
+				ADADDD452A32528C00FB60E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -3,6 +3,10 @@
 #
 # To download adapters selectively:
 # ADAPTER_TARGETS="TargetName1,TargetName2"
+# pod install
+
+use_frameworks!
+workspace 'AdapterUnitTests'
 
 platform :ios, '11.0'
 
@@ -14,5 +18,21 @@ abstract_target 'Default' do
 
   target 'AdapterUnitTestKit' do
   end
+
+  # LineAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('LineAdapter')
+
+    # Dependencies for LineAdapter static library.
+    target 'Adapter' do
+      project '../adapters/LineAdapter/LineAdapter.xcodeproj'
+    end
+
+    # Dependencies for LineAdapter unit tests.
+    target 'LineAdapterTests' do
+      pod 'OCMock'
+    end
+
+  end
+
 
 end
