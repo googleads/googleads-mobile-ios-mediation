@@ -15,5 +15,10 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADMediationAdapterLineErrorCode) {
+  /// Missing server parameters.
+  GADMediationAdapterLineErrorInvalidServerParameters = 101,
+};
+
 @interface GADMediationAdapterLine : NSObject <GADMediationAdapter>
 @end

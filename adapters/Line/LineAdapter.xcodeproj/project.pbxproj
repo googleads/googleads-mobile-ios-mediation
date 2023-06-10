@@ -35,6 +35,10 @@
 		AD98A64B2A216B1200017B8D /* GADMediationAdapterLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */; };
 		AD98A64D2A216BC500017B8D /* GADMediationAdapterLine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */; };
 		AD98A6502A2171DD00017B8D /* LineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADFAAF002A33C0ED00D92129 /* GADMediationAdapterLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */; };
+		ADFAAF022A33C14300D92129 /* GADMediationAdapterLineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */; };
+		ADFAAF0B2A33E64500D92129 /* GADMediationAdapterLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */; };
+		ADFAAF252A3509C400D92129 /* GADMediationAdapterLineUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +66,11 @@
 		AD98A6432A2164BD00017B8D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLine.h; sourceTree = "<group>"; };
 		AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLine.m; sourceTree = "<group>"; };
-		ADDA42EA2A26B89D0028C878 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAdapter.a; path = "/Volumes/google/src/cloud/hikaruwatanabe/fig_line_adapter/google3/third_party/objective_c/gma_sdk_mediation/adapters/LineAdapter/build/Debug-iphoneos/libAdapter.a"; sourceTree = "<absolute>"; };
+		ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineConstants.h; sourceTree = "<group>"; };
+		ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineConstants.m; sourceTree = "<group>"; };
+		ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineUtils.h; sourceTree = "<group>"; };
+		ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineUtils.m; sourceTree = "<group>"; };
+		ADFAAF362A35118100D92129 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAdapter.a; path = "/Volumes/google/src/cloud/hikaruwatanabe/line_clean_impl/google3/third_party/objective_c/gma_sdk_mediation/adapters/LineAdapter/build/Debug-iphoneos/libAdapter.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +138,10 @@
 			children = (
 				AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */,
 				AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */,
+				ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */,
+				ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */,
+				ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */,
+				ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */,
 			);
 			path = LineAdapter;
 			sourceTree = SOURCE_ROOT;
@@ -141,7 +153,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFAAF252A3509C400D92129 /* GADMediationAdapterLineUtils.h in Headers */,
 				AD98A6502A2171DD00017B8D /* LineAdapter.h in Headers */,
+				ADFAAF002A33C0ED00D92129 /* GADMediationAdapterLineConstants.h in Headers */,
 				AD98A64B2A216B1200017B8D /* GADMediationAdapterLine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,7 +178,7 @@
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADDA42EA2A26B89D0028C878 /* libAdapter.a */;
+			productReference = ADFAAF362A35118100D92129 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -249,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFAAF0B2A33E64500D92129 /* GADMediationAdapterLineUtils.m in Sources */,
 				AD98A64D2A216BC500017B8D /* GADMediationAdapterLine.m in Sources */,
+				ADFAAF022A33C14300D92129 /* GADMediationAdapterLineConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
