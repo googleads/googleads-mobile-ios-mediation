@@ -1,7 +1,7 @@
 #import "AUTKMediationInterstitialAdLoadAssertions.h"
 #import "AUTKConstants.h"
 
-AUTKMediationInterstitialAdEventDelegate *_Nullable AUTKWaitAndAssertLoadInterstitialAd(
+AUTKMediationInterstitialAdEventDelegate *AUTKWaitAndAssertLoadInterstitialAd(
     id<GADMediationAdapter> adapter, GADMediationInterstitialAdConfiguration *configuration) {
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Load an interstitial ad."];
@@ -22,7 +22,8 @@ AUTKMediationInterstitialAdEventDelegate *_Nullable AUTKWaitAndAssertLoadInterst
   [adapter loadInterstitialForAdConfiguration:configuration completionHandler:completionHandler];
   XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
                                                   timeout:AUTKExpectationTimeout];
-  return result == XCTWaiterResultCompleted ? eventDelegate : nil;
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
+  return eventDelegate;
 }
 
 void AUTKWaitAndAssertLoadInterstitialAdFailure(
@@ -42,5 +43,7 @@ void AUTKWaitAndAssertLoadInterstitialAdFailure(
         return [[AUTKMediationInterstitialAdEventDelegate alloc] init];
       };
   [adapter loadInterstitialForAdConfiguration:configuration completionHandler:completionHandler];
-  (void)[XCTWaiter waitForExpectations:@[ expectation ] timeout:AUTKExpectationTimeout];
+  XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
+                                                  timeout:AUTKExpectationTimeout];
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
 }

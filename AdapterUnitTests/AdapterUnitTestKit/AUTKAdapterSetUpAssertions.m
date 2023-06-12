@@ -11,7 +11,9 @@ void AUTKWaitAndAssertAdapterSetUpWithConfiguration(
                        XCTAssertNil(error);
                        [expectation fulfill];
                      }];
-  (void)[XCTWaiter waitForExpectations:@[ expectation ] timeout:AUTKExpectationTimeout];
+  XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
+                                                  timeout:AUTKExpectationTimeout];
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
 }
 
 void AUTKWaitAndAssertAdapterSetUpWithCredentials(Class<GADMediationAdapter> adapterClass,
@@ -40,7 +42,9 @@ void AUTKWaitAndAssertAdapterSetUpFailureWithConfiguration(
                        }
                        [expectation fulfill];
                      }];
-  (void)[XCTWaiter waitForExpectations:@[ expectation ] timeout:AUTKExpectationTimeout];
+  XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
+                                                  timeout:AUTKExpectationTimeout];
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
 }
 
 void AUTKWaitAndAssertAdapterSetUpFailureWithCredentials(Class<GADMediationAdapter> adapterClass,

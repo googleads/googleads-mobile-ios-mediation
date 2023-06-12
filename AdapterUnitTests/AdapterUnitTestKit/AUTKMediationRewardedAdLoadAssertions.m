@@ -1,7 +1,7 @@
 #import "AUTKMediationRewardedAdLoadAssertions.h"
 #import "AUTKConstants.h"
 
-AUTKMediationRewardedAdEventDelegate *_Nullable AUTKWaitAndAssertLoadRewardedAd(
+AUTKMediationRewardedAdEventDelegate *AUTKWaitAndAssertLoadRewardedAd(
     id<GADMediationAdapter> adapter, GADMediationRewardedAdConfiguration *configuration) {
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Load a rewarded ad."];
@@ -22,7 +22,8 @@ AUTKMediationRewardedAdEventDelegate *_Nullable AUTKWaitAndAssertLoadRewardedAd(
   [adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
   XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
                                                   timeout:AUTKExpectationTimeout];
-  return result == XCTWaiterResultCompleted ? eventDelegate : nil;
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
+  return eventDelegate;
 }
 
 void AUTKWaitAndAssertLoadRewardedAdFailure(id<GADMediationAdapter> adapter,
@@ -42,5 +43,7 @@ void AUTKWaitAndAssertLoadRewardedAdFailure(id<GADMediationAdapter> adapter,
         return [[AUTKMediationRewardedAdEventDelegate alloc] init];
       };
   [adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
-  (void)[XCTWaiter waitForExpectations:@[ expectation ] timeout:AUTKExpectationTimeout];
+  XCTWaiterResult result = [XCTWaiter waitForExpectations:@[ expectation ]
+                                                  timeout:AUTKExpectationTimeout];
+  XCTAssertEqual(result, XCTWaiterResultCompleted);
 }

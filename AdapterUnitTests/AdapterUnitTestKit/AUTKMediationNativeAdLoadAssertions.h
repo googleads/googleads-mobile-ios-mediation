@@ -7,7 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// Waits and asserts for a native ad load without any error.
-AUTKMediationNativeAdEventDelegate *_Nullable AUTKWaitAndAssertLoadNativeAd(
+AUTKMediationNativeAdEventDelegate *AUTKWaitAndAssertLoadNativeAd(
     id<GADMediationAdapter> adapter, GADMediationNativeAdConfiguration *configuration);
 
 /// Waits and asserts for a native ad load failure with the expected error.

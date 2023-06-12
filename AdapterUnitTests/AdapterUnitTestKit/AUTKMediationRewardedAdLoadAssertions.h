@@ -7,7 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// Waits and asserts for a rewarded ad load without any error.
-AUTKMediationRewardedAdEventDelegate *_Nullable AUTKWaitAndAssertLoadRewardedAd(
+AUTKMediationRewardedAdEventDelegate *AUTKWaitAndAssertLoadRewardedAd(
     id<GADMediationAdapter> adapter, GADMediationRewardedAdConfiguration *configuration);
 
 /// Waits and asserts for a rewarded ad load failure with the expected error.
