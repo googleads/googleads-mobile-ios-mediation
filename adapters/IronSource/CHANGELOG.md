@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Version 7.3.1.0.0 (In Progress)
+#### [Version 7.3.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.3.1.0.0.zip)
 - Verified compatibility with IronSource SDK version 7.3.1.0.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
