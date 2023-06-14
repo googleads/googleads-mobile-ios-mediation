@@ -62,7 +62,6 @@
 		AD98A6432A2164BD00017B8D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLine.h; sourceTree = "<group>"; };
 		AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLine.m; sourceTree = "<group>"; };
-		ADDA42EA2A26B89D0028C878 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libAdapter.a; path = "/Volumes/google/src/cloud/hikaruwatanabe/fig_line_adapter/google3/third_party/objective_c/gma_sdk_mediation/adapters/LineAdapter/build/Debug-iphoneos/libAdapter.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
