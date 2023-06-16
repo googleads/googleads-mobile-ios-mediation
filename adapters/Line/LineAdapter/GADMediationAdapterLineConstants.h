@@ -12,3 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import <Foundation/Foundation.h>
+
+/// The version of the LINE mediation adapter.
+extern NSString *const GADMediationAdapterLineVersion;
+
+/// The credential key for the application level ID.
+extern NSString *const GADMediationAdapterLineCredentialKeyApplicationID;
+
+/// The credential key for the ad unit level ID.
+extern NSString *const GADMediationAdapterLineCredentialKeyAdUnit;
+
+/// The domain for the LINE mediation adapter.
+extern NSString *const GADMediationAdapterLineErrorDomain;

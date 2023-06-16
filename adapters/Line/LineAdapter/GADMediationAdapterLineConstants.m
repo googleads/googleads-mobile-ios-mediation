@@ -12,3 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "GADMediationAdapterLineConstants.h"
+
+NSString *const GADMediationAdapterLineVersion = @"2.6.20230609.0";
+
+NSString *const GADMediationAdapterLineCredentialKeyApplicationID = @"application_id";
+
+NSString *const GADMediationAdapterLineCredentialKeyAdUnit = @"slot_id";
+
+NSString *const GADMediationAdapterLineErrorDomain = @"com.google.mediation.line";
