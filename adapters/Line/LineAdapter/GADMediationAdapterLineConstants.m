@@ -21,3 +21,5 @@ NSString *const GADMediationAdapterLineCredentialKeyApplicationID = @"applicatio
 NSString *const GADMediationAdapterLineCredentialKeyAdUnit = @"slot_id";
 
 NSString *const GADMediationAdapterLineErrorDomain = @"com.google.mediation.line";
+
+NSString *const GADMediationAdapterFiveAdErrorDomain = @"com.google.mediation.fiveadsdk";

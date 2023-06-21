@@ -25,3 +25,6 @@ extern NSString *const GADMediationAdapterLineCredentialKeyAdUnit;
 
 /// The domain for the LINE mediation adapter.
 extern NSString *const GADMediationAdapterLineErrorDomain;
+
+/// The domain for the FiveAd SDK.
+extern NSString *const GADMediationAdapterFiveAdErrorDomain;

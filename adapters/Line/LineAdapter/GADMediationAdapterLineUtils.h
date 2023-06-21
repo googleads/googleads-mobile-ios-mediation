@@ -14,6 +14,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FiveAd/FiveAd.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMediationAdapterLine.h"
@@ -23,9 +24,16 @@
 NSError *_Nonnull GADMediationAdapterLineErrorWithCodeAndDescription(
     GADMediationAdapterLineErrorCode code, NSString *_Nonnull description);
 
+/// Returns an NSError with Five Ad error code |code|.
+NSError *_Nonnull GADMediationAdapterLineErrorWithFiveAdErrorCode(FADErrorCode code);
+
 /// Logs with GADMediationAdapterLine Prefix.
 void GADMediationAdapterLineLog(NSString *_Nonnull format, ...);
 
 /// Adds |object| to |set| if |object| is not nil.
 void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
                                                 NSObject *_Nonnull object);
+
+/// Returns the slot ID from the ad configuration. It may return nil if it encounters an error.
+NSString *_Nullable GADMediationAdapterLineSlotID(
+    GADMediationAdConfiguration *_Nonnull adConfiguration, NSError *_Nullable *_Nonnull errorPtr);

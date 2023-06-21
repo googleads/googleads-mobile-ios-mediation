@@ -14,6 +14,8 @@
 
 #import "GADMediationAdapterLineUtils.h"
 
+#import <FiveAd/FiveAd.h>
+
 #import "GADMediationAdapterLineConstants.h"
 
 NSError *GADMediationAdapterLineErrorWithCodeAndDescription(GADMediationAdapterLineErrorCode code,
@@ -21,6 +23,16 @@ NSError *GADMediationAdapterLineErrorWithCodeAndDescription(GADMediationAdapterL
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMediationAdapterLineErrorDomain
+                                       code:code
+                                   userInfo:userInfo];
+  return error;
+}
+
+NSError *_Nonnull GADMediationAdapterLineErrorWithFiveAdErrorCode(FADErrorCode code) {
+  NSString *description = @"Five Ad returned with a failure callback.";
+  NSDictionary<NSErrorUserInfoKey, NSString *> *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:GADMediationAdapterFiveAdErrorDomain
                                        code:code
                                    userInfo:userInfo];
   return error;
@@ -42,4 +54,20 @@ void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
   if (object) {
     [set addObject:object];  // Allow pattern.
   }
+}
+
+NSString *_Nullable GADMediationAdapterLineSlotID(
+    GADMediationAdConfiguration *_Nonnull adConfiguration, NSError *_Nullable *_Nonnull errorPtr) {
+  NSString *slotID =
+      adConfiguration.credentials.settings[GADMediationAdapterLineCredentialKeyAdUnit];
+  if (!slotID) {
+    NSString *errorDescription = [NSString
+        stringWithFormat:@"Invalid slot ID was received from the ad configuration. Please verify "
+                         @"the ad unit mapping from the AdMob UI. Slot ID: %@.",
+                         slotID];
+    *errorPtr = GADMediationAdapterLineErrorWithCodeAndDescription(
+        GADMediationAdapterLineErrorInvalidServerParameters, errorDescription);
+    return nil;
+  }
+  return slotID;
 }

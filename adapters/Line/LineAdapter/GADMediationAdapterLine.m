@@ -17,6 +17,7 @@
 #import <FiveAd/FiveAd.h>
 
 #import "GADMediationAdapterLineConstants.h"
+#import "GADMediationAdapterLineInterstitialAdLoader.h"
 #import "GADMediationAdapterLineUtils.h"
 
 /// Returns application ID from the configuration.
@@ -54,7 +55,10 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   return applicationID;
 }
 
-@implementation GADMediationAdapterLine
+@implementation GADMediationAdapterLine {
+  // The interstitial ad loader.
+  GADMediationAdapterLineInterstitialAdLoader *_interstitialAdLoader;
+}
 
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
@@ -112,6 +116,15 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   [FADSettings registerConfig:config];
 
   completionHandler(nil);
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAdLoader = [[GADMediationAdapterLineInterstitialAdLoader alloc] init];
+  [_interstitialAdLoader loadInterstitialAdForAdConfiguration:adConfiguration
+                                            completionHandler:completionHandler];
 }
 
 @end
