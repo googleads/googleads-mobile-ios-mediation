@@ -63,7 +63,7 @@
   return self;
 }
 
-- (void)load {
+- (void)loadAd {
   NSError *error = nil;
   NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
   if (error) {

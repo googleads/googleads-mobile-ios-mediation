@@ -34,6 +34,6 @@
           (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
 
 /// Loads an interstitial ad and then calls the load completion handler provided in the initializer.
-- (void)load;
+- (void)loadAd;
 
 @end
