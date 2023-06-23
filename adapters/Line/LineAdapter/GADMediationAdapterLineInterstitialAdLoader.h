@@ -20,14 +20,20 @@
 @interface GADMediationAdapterLineInterstitialAdLoader
     : NSObject <GADMediationInterstitialAd, FADLoadDelegate, FADAdViewEventListener>
 
-/// Loads an interstitial ad from the FiveAd SDK.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Initializes the interstitial ad loader with the provided configuration and the load completion
+/// handler.
 ///
 /// @param adConfiguration interstitial ad configuration.
 /// @param completionHandler called by the adapter after loading the interstitial ad or encountering
 /// an error.
-- (void)loadInterstitialAdForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler;
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+      loadCompletionHandler:
+          (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler;
+
+/// Loads an interstitial ad and then calls the load completion handler provided in the initializer.
+- (void)load;
 
 @end

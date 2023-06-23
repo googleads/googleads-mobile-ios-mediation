@@ -56,7 +56,7 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 }
 
 @implementation GADMediationAdapterLine {
-  // The interstitial ad loader.
+  /// The interstitial ad loader.
   GADMediationAdapterLineInterstitialAdLoader *_interstitialAdLoader;
 }
 
@@ -122,9 +122,10 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  _interstitialAdLoader = [[GADMediationAdapterLineInterstitialAdLoader alloc] init];
-  [_interstitialAdLoader loadInterstitialAdForAdConfiguration:adConfiguration
-                                            completionHandler:completionHandler];
+  _interstitialAdLoader = [[GADMediationAdapterLineInterstitialAdLoader alloc]
+      initWithAdConfiguration:adConfiguration
+        loadCompletionHandler:completionHandler];
+  [_interstitialAdLoader load];
 }
 
 @end

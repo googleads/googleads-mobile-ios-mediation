@@ -22,39 +22,50 @@
 #import "GADMediationAdapterLineUtils.h"
 
 @implementation GADMediationAdapterLineInterstitialAdLoader {
-  // The completion handler to call when interstitial ad loading succeeds or fails.
+  /// The interstitial ad configuration.
+  GADMediationInterstitialAdConfiguration *_adConfiguration;
+
+  /// The completion handler to call when interstitial ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _interstitialAdLoadCompletionHandler;
 
-  // The ad event delegate which used to reports interstitial related information to the Google
-  // Mobile Ads SDK.
+  /// The ad event delegate which is used to report interstitial related information to the Google
+  /// Mobile Ads SDK.
   id<GADMediationInterstitialAdEventDelegate> _interstitialAdEventDelegate;
 
-  // The interstitial ad.
+  /// The interstitial ad.
   FADInterstitial *_interstitialAd;
 }
 
-- (void)loadInterstitialAdForAdConfiguration:
-            (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
-                           completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
-                                                 completionHandler {
-  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
-      [completionHandler copy];
-  _interstitialAdLoadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
-      id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
-    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-      return nil;
-    }
-    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
-    if (originalCompletionHandler) {
-      delegate = originalCompletionHandler(interstitialAd, error);
-    }
-    originalCompletionHandler = nil;
-    return delegate;
-  };
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
+      loadCompletionHandler:
+          (nonnull GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  self = [super init];
+  if (self) {
+    _adConfiguration = adConfiguration;
 
+    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+    __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+        [completionHandler copy];
+    _interstitialAdLoadCompletionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+        id<GADMediationInterstitialAd> interstitialAd, NSError *error) {
+      if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+        return nil;
+      }
+      id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+      if (originalCompletionHandler) {
+        delegate = originalCompletionHandler(interstitialAd, error);
+      }
+      originalCompletionHandler = nil;
+      return delegate;
+    };
+  }
+  return self;
+}
+
+- (void)load {
   NSError *error = nil;
-  NSString *slotID = GADMediationAdapterLineSlotID(adConfiguration, &error);
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
   if (error) {
     _interstitialAdLoadCompletionHandler(nil, error);
     return;
