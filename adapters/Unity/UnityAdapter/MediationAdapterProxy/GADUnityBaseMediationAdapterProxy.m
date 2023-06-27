@@ -67,4 +67,8 @@
 - (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView {
 }
 
+- (void)bannerViewDidShow:(UADSBannerView *)bannerView {
+  [self.eventDelegate reportImpression];
+}
+
 @end
