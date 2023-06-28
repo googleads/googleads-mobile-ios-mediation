@@ -111,8 +111,19 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
   [config enableSoundByDefault:!mobileAds.applicationMuted];
   [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
+
   // TODO: set GDPR using [config setNeedGdprNonPersonalizedAdsTreatment:]
-  // TODO: set COPPA using [config setNeedChildDirectedTreatment:]
+
+  NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
+  FADNeedChildDirectedTreatment needChildDirectedTreatment =
+      kFADNeedChildDirectedTreatmentUnspecified;
+  if (childDirectedTreatment != nil) {
+    needChildDirectedTreatment = childDirectedTreatment.boolValue
+                                     ? kFADNeedChildDirectedTreatmentTrue
+                                     : kFADNeedChildDirectedTreatmentFalse;
+  }
+  [config setNeedChildDirectedTreatment:needChildDirectedTreatment];
+
   [FADSettings registerConfig:config];
 
   completionHandler(nil);
