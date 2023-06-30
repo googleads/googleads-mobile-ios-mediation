@@ -1,5 +1,12 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Version 5.18.0.0 (In Progress)
+- Verified compatibility with myTarget SDK version 5.18.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- MyTarget SDK version 5.18.0.
+
 #### [Version 5.17.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.17.5.0.zip)
 - Verified compatibility with myTarget SDK version 5.17.5.
 - Removed support of the `armv7` architecture.
