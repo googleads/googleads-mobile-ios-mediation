@@ -12,4 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMediationAdapterLineExtras.h"
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
+@interface GADMediationAdapterLineExtras : NSObject <GADAdNetworkExtras>
+
+/// The width of the native media view.
+@property(nonatomic) CGFloat nativeAdVideoWidth;
+
+@end
