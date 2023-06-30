@@ -18,7 +18,9 @@
 
 #import "GADMediationAdapterLineBannerAdLoader.h"
 #import "GADMediationAdapterLineConstants.h"
+#import "GADMediationAdapterLineExtras.h"
 #import "GADMediationAdapterLineInterstitialAdLoader.h"
+#import "GADMediationAdapterLineNativeAdLoader.h"
 #import "GADMediationAdapterLineRewardedAdLoader.h"
 #import "GADMediationAdapterLineUtils.h"
 
@@ -66,6 +68,9 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 
   /// The rewarded ad loader.
   GADMediationAdapterLineRewardedAdLoader *_rewardedAdLoader;
+
+  /// The native ad loader.
+  GADMediationAdapterLineNativeAdLoader *_nativeAdLoader;
 }
 
 + (GADVersionNumber)adapterVersion {
@@ -94,7 +99,7 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return [GADMediationAdapterLineExtras class];
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -162,6 +167,14 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
       [[GADMediationAdapterLineRewardedAdLoader alloc] initWithAdConfiguration:adConfiguration
                                                          loadCompletionHandler:completionHandler];
   [_rewardedAdLoader loadAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAdLoader =
+      [[GADMediationAdapterLineNativeAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_nativeAdLoader loadAd];
 }
 
 @end
