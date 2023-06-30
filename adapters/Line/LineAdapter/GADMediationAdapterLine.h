@@ -18,6 +18,8 @@
 typedef NS_ENUM(NSInteger, GADMediationAdapterLineErrorCode) {
   /// Missing server parameters.
   GADMediationAdapterLineErrorInvalidServerParameters = 101,
+  /// Loaded banner ad size does not match with the requested banner ad size.
+  GADMediationAdapterLineErrorLoadedBannerSizeMismatch = 102,
 };
 
 @interface GADMediationAdapterLine : NSObject <GADMediationAdapter>

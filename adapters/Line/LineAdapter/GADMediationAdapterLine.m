@@ -16,6 +16,7 @@
 
 #import <FiveAd/FiveAd.h>
 
+#import "GADMediationAdapterLineBannerAdLoader.h"
 #import "GADMediationAdapterLineConstants.h"
 #import "GADMediationAdapterLineInterstitialAdLoader.h"
 #import "GADMediationAdapterLineUtils.h"
@@ -56,6 +57,9 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 }
 
 @implementation GADMediationAdapterLine {
+  /// The banner ad loader.
+  GADMediationAdapterLineBannerAdLoader *_bannerAdLoader;
+
   /// The interstitial ad loader.
   GADMediationAdapterLineInterstitialAdLoader *_interstitialAdLoader;
 }
@@ -127,6 +131,14 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   [FADSettings registerConfig:config];
 
   completionHandler(nil);
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAdLoader =
+      [[GADMediationAdapterLineBannerAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_bannerAdLoader loadAd];
 }
 
 - (void)loadInterstitialForAdConfiguration:
