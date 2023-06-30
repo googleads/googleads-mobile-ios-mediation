@@ -37,6 +37,8 @@
 		AD98A6502A2171DD00017B8D /* LineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADEAFA472A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
 		ADEAFA492A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */; };
+		ADEAFA5B2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */; };
+		ADEAFA5D2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA5C2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h */; };
 		ADFAAF002A33C0ED00D92129 /* GADMediationAdapterLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */; };
 		ADFAAF022A33C14300D92129 /* GADMediationAdapterLineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */; };
 		ADFAAF0B2A33E64500D92129 /* GADMediationAdapterLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */; };
@@ -72,6 +74,8 @@
 		AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLine.m; sourceTree = "<group>"; };
 		ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineBannerAdLoader.h; sourceTree = "<group>"; };
 		ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineBannerAdLoader.m; sourceTree = "<group>"; };
+		ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineRewardedAdLoader.m; sourceTree = "<group>"; };
+		ADEAFA5C2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineRewardedAdLoader.h; sourceTree = "<group>"; };
 		ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineConstants.h; sourceTree = "<group>"; };
 		ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineConstants.m; sourceTree = "<group>"; };
 		ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineUtils.h; sourceTree = "<group>"; };
@@ -154,6 +158,8 @@
 				ADFAAF422A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m */,
 				ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */,
 				ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */,
+				ADEAFA5C2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h */,
+				ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */,
 			);
 			path = LineAdapter;
 			sourceTree = SOURCE_ROOT;
@@ -168,6 +174,7 @@
 				ADFAAF252A3509C400D92129 /* GADMediationAdapterLineUtils.h in Headers */,
 				AD98A6502A2171DD00017B8D /* LineAdapter.h in Headers */,
 				ADFAAF002A33C0ED00D92129 /* GADMediationAdapterLineConstants.h in Headers */,
+				ADEAFA5D2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h in Headers */,
 				ADFAAF412A35141500D92129 /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */,
 				AD98A64B2A216B1200017B8D /* GADMediationAdapterLine.h in Headers */,
 				ADEAFA472A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h in Headers */,
@@ -282,6 +289,7 @@
 				ADEAFA492A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m in Sources */,
 				ADFAAF432A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */,
 				ADFAAF022A33C14300D92129 /* GADMediationAdapterLineConstants.m in Sources */,
+				ADEAFA5B2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
