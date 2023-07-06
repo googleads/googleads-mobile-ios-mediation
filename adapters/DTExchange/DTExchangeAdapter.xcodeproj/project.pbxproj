@@ -32,7 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; };
+		2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2376C4DC251044740098BE51 /* GADMAdapterFyberExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23A55E1D28EF7559000BBD8A /* GADMAdapterFyberBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1128EF7559000BBD8A /* GADMAdapterFyberBannerAd.h */; };
 		23A55E1E28EF7559000BBD8A /* GADMAdapterFyberBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1228EF7559000BBD8A /* GADMAdapterFyberBannerAd.m */; };
@@ -194,11 +194,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				23A55E2528EF7559000BBD8A /* GADMAdapterFyberUtils.h in Headers */,
+				2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */,
 				23A55E1F28EF7559000BBD8A /* GADMAdapterFyberConstants.h in Headers */,
 				23A55E2128EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h in Headers */,
 				23A55E1D28EF7559000BBD8A /* GADMAdapterFyberBannerAd.h in Headers */,
 				23A55E2328EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h in Headers */,
-				2375639D2915C2CF005DDACE /* DTExchangeAdapter.h in Headers */,
 				2376C4DC251044740098BE51 /* GADMAdapterFyberExtras.h in Headers */,
 				23A55E2728EF7559000BBD8A /* GADMediationAdapterFyber.h in Headers */,
 			);
