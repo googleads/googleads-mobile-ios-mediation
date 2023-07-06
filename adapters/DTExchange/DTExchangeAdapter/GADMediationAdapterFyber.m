@@ -14,17 +14,12 @@
 
 #import "GADMediationAdapterFyber.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "GADMAdapterFyberBannerAd.h"
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberInterstitialAd.h"
 #import "GADMAdapterFyberRewardedAd.h"
 #import "GADMAdapterFyberUtils.h"
-
-@interface GADMediationAdapterFyber () <GADMediationAdapter>
-@end
 
 @implementation GADMediationAdapterFyber {
   /// DT Exchange banner ad wrapper.
