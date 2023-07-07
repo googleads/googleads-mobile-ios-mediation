@@ -61,4 +61,4 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersF
 void GADMAdapterInMobiLog(NSString *_Nonnull format, ...);
 
 /// Sets up US PRIVACY STRING
-void GADMAdapterInMobiSetPrivacyCompliance();
+void GADMAdapterInMobiSetPrivacyCompliance(void);
