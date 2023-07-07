@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Adapter version string.
-static NSString *const GADMAdapterInMobiVersion = @"10.5.6.0";
+static NSString *const GADMAdapterInMobiVersion = @"10.5.5.0";
 
 /// InMobi SDK key.
 static NSString *const GADMAdapterInMobiAccountID = @"accountid";
@@ -23,6 +23,3 @@ static NSString *const GADMAdapterInMobiPlacementID = @"placementid";
 
 /// InMobi adapter error domain.
 static NSString *const GADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";
-
-/// NSUserDefault IAB US Privacy Key.
-static NSString *const GADMAdapterInMobiIABUSPrivacyString = @"IABUSPrivacy_String";

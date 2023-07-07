@@ -137,7 +137,6 @@
   }
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_adConfig);
-  GADMAdapterInMobiSetPrivacyCompliance();
   NSDictionary<NSString *, id> *requestParameters =
       GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_adConfig);
   [_rewardedAd setExtras:requestParameters];
