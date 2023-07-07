@@ -16,8 +16,12 @@
 
 #import <FiveAd/FiveAd.h>
 
+#import "GADMediationAdapterLineBannerAdLoader.h"
 #import "GADMediationAdapterLineConstants.h"
+#import "GADMediationAdapterLineExtras.h"
 #import "GADMediationAdapterLineInterstitialAdLoader.h"
+#import "GADMediationAdapterLineNativeAdLoader.h"
+#import "GADMediationAdapterLineRewardedAdLoader.h"
 #import "GADMediationAdapterLineUtils.h"
 
 /// Returns application ID from the configuration.
@@ -56,8 +60,17 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 }
 
 @implementation GADMediationAdapterLine {
+  /// The banner ad loader.
+  GADMediationAdapterLineBannerAdLoader *_bannerAdLoader;
+
   /// The interstitial ad loader.
   GADMediationAdapterLineInterstitialAdLoader *_interstitialAdLoader;
+
+  /// The rewarded ad loader.
+  GADMediationAdapterLineRewardedAdLoader *_rewardedAdLoader;
+
+  /// The native ad loader.
+  GADMediationAdapterLineNativeAdLoader *_nativeAdLoader;
 }
 
 + (GADVersionNumber)adapterVersion {
@@ -86,7 +99,7 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
+  return [GADMediationAdapterLineExtras class];
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -111,11 +124,30 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
   [config enableSoundByDefault:!mobileAds.applicationMuted];
   [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
+
   // TODO: set GDPR using [config setNeedGdprNonPersonalizedAdsTreatment:]
-  // TODO: set COPPA using [config setNeedChildDirectedTreatment:]
+
+  NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
+  FADNeedChildDirectedTreatment needChildDirectedTreatment =
+      kFADNeedChildDirectedTreatmentUnspecified;
+  if (childDirectedTreatment != nil) {
+    needChildDirectedTreatment = childDirectedTreatment.boolValue
+                                     ? kFADNeedChildDirectedTreatmentTrue
+                                     : kFADNeedChildDirectedTreatmentFalse;
+  }
+  [config setNeedChildDirectedTreatment:needChildDirectedTreatment];
+
   [FADSettings registerConfig:config];
 
   completionHandler(nil);
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAdLoader =
+      [[GADMediationAdapterLineBannerAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_bannerAdLoader loadAd];
 }
 
 - (void)loadInterstitialForAdConfiguration:
@@ -126,6 +158,23 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
       initWithAdConfiguration:adConfiguration
         loadCompletionHandler:completionHandler];
   [_interstitialAdLoader loadAd];
+}
+
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedAdLoader =
+      [[GADMediationAdapterLineRewardedAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                         loadCompletionHandler:completionHandler];
+  [_rewardedAdLoader loadAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAdLoader =
+      [[GADMediationAdapterLineNativeAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_nativeAdLoader loadAd];
 }
 
 @end
