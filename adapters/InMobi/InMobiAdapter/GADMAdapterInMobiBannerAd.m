@@ -126,7 +126,6 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   }
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_bannerAdConfig);
-  GADMAdapterInMobiSetPrivacyCompliance();
   NSDictionary<NSString *, id> *requestParameters =
       GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_bannerAdConfig);
   [_adView setExtras:requestParameters];
