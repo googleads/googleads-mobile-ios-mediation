@@ -154,6 +154,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_nativeAdConfig);
+  GADMAdapterInMobiSetPrivacyCompliance();
   NSDictionary<NSString *, id> *requestParameters =
       GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_nativeAdConfig);
   [_native setExtras:requestParameters];
