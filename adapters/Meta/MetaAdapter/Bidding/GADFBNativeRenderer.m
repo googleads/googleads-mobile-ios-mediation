@@ -83,14 +83,9 @@
     return;
   }
 
-  // Create the native ad.
-  if (adConfiguration.bidResponse) {
-    _nativeAd = [FBNativeAdBase nativeAdWithPlacementId:placementID
-                                             bidPayload:adConfiguration.bidResponse
-                                                  error:nil];
-  } else {
-    _nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementID];
-  }
+  _nativeAd = [FBNativeAdBase nativeAdWithPlacementId:placementID
+                                           bidPayload:adConfiguration.bidResponse
+                                                error:nil];
   if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
     ((FBNativeAd *)_nativeAd).delegate = self;
   } else if ([_nativeAd isKindOfClass:[FBNativeBannerAd class]]) {

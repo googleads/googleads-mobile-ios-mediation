@@ -1,6 +1,7 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
 #### Next Version
+- Removed all bidding checks in the adapter.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.

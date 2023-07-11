@@ -18,8 +18,3 @@ static NSString *const GADMAdapterFacebookVersion = @"6.12.0.1";
 static NSString *const GADMAdapterFacebookBiddingPubID = @"placement_id";
 
 static NSString *const GADMAdapterFacebookPubID = @"pubid";
-
-static NSString *const GADMAdapterFacebookWaterfallDeprecationMessage =
-    @"Meta Audience Network waterfall ads are being deprecated and will be removed in a future "
-    @"adapter version. Please update to use bidding ads. See https://fb.me/bNFn7qt6Z0sKtF for more "
-    @"information.";

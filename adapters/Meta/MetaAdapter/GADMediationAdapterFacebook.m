@@ -109,9 +109,6 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  if (!adConfiguration.bidResponse) {
-    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
-  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -124,9 +121,6 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  if (!adConfiguration.bidResponse) {
-    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
-  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
@@ -139,12 +133,10 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (!adConfiguration.bidResponse) {
-    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
-  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
+
   _rewardedAd = [[GADFBRewardedRenderer alloc] init];
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
@@ -154,12 +146,10 @@
             (GADMediationRewardedAdConfiguration *)adConfiguration
                                    completionHandler:(GADMediationRewardedLoadCompletionHandler)
                                                          completionHandler {
-  if (!adConfiguration.bidResponse) {
-    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
-  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
+
   _rewardedInterstitialAd = [[GADFBRewardedInterstitialRenderer alloc] init];
   [_rewardedInterstitialAd loadRewardedAdForAdConfiguration:adConfiguration
                                           completionHandler:completionHandler];
@@ -167,12 +157,10 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
-  if (!adConfiguration.bidResponse) {
-    NSLog(@"%@", GADMAdapterFacebookWaterfallDeprecationMessage);
-  }
   if (adConfiguration.childDirectedTreatment) {
     GADMAdapterFacebookSetMixedAudience(adConfiguration.childDirectedTreatment);
   }
+
   _native = [[GADFBNativeRenderer alloc] init];
   [_native renderNativeAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
