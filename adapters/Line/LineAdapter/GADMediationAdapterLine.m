@@ -125,8 +125,6 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   [config enableSoundByDefault:!mobileAds.applicationMuted];
   [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
 
-  // TODO: set GDPR using [config setNeedGdprNonPersonalizedAdsTreatment:]
-
   NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
   FADNeedChildDirectedTreatment needChildDirectedTreatment =
       kFADNeedChildDirectedTreatmentUnspecified;
