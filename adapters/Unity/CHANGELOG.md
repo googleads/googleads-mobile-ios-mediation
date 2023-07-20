@@ -1,6 +1,6 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Version 4.8.0.0 (In progress)
+#### [Version 4.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.8.0.0.zip)
 - Added support for impression events for banner ads.
 - Verified compatibility with Unity Ads SDK 4.8.0.
 
