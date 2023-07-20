@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterIronSource.h"
+#import "GADMAdapterIronSourceRewarded.h"
 #import "GADMediationAdapterIronSource.h"
 
-@implementation GADMAdapterIronSource
+@implementation GADMAdapterIronSourceRewarded
+
+/// TODO(Google): Remove this class once Google's server points to GADMediationAdapterIronSource
+/// directly to ask for a rewarded ad.
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
     return [GADMediationAdapterIronSource class];
