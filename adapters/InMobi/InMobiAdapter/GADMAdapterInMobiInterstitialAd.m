@@ -102,7 +102,7 @@
   }
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_interstitialAdConfig);
-  GADMAdapterInMobiSetPrivacyCompliance();
+  GADMAdapterInMobiSetUSPrivacyCompliance();
   NSDictionary<NSString *, id> *requestParameters =
       GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_interstitialAdConfig);
   [_interstitialAd setExtras:requestParameters];
