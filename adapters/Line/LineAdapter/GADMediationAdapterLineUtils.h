@@ -37,3 +37,8 @@ void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
 /// Returns the slot ID from the ad configuration. It may return nil if it encounters an error.
 NSString *_Nullable GADMediationAdapterLineSlotID(
     GADMediationAdConfiguration *_Nonnull adConfiguration, NSError *_Nullable *_Nonnull errorPtr);
+
+/// Registers Five Ad SDK with the credentials array. If it was previously registered, then it will
+/// just return.
+NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
+    NSArray<GADMediationCredentials *> *_Nonnull credentialsArray);

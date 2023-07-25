@@ -63,7 +63,12 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
 }
 
 - (void)loadAd {
-  NSError *error = nil;
+  NSError *error = GADMediationAdapterLineRegisterFiveAd(@[ _adConfiguration.credentials ]);
+  if (error) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+
   NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
   if (error) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];

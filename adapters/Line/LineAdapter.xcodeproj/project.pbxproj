@@ -88,9 +88,9 @@
 		ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineConstants.m; sourceTree = "<group>"; };
 		ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineUtils.h; sourceTree = "<group>"; };
 		ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineUtils.m; sourceTree = "<group>"; };
+		ADFAAF3C2A35139000D92129 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFAAF402A35141400D92129 /* GADMediationAdapterLineInterstitialAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineInterstitialAdLoader.h; sourceTree = "<group>"; };
 		ADFAAF422A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineInterstitialAdLoader.m; sourceTree = "<group>"; };
-		ADFAAF3C2A35139000D92129 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

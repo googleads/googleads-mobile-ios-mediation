@@ -24,41 +24,6 @@
 #import "GADMediationAdapterLineRewardedAdLoader.h"
 #import "GADMediationAdapterLineUtils.h"
 
-/// Returns application ID from the configuration.
-static NSString *_Nullable GADMediationAdapterLineApplicationID(
-    GADMediationServerConfiguration *configuration, NSError *_Nullable *_Nonnull errorPtr) {
-  if (!configuration.credentials.count) {
-    *errorPtr = GADMediationAdapterLineErrorWithCodeAndDescription(
-        GADMediationAdapterLineErrorInvalidServerParameters,
-        @"Server configuration did not contain a credential for LINE mediation.");
-    return nil;
-  }
-
-  NSArray<GADMediationCredentials *> *credentialsArray = configuration.credentials;
-  NSMutableSet<NSString *> *applicationIDSet = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *credentials in credentialsArray) {
-    GADMediationAdapterLineMutableSetAddObject(
-        applicationIDSet, credentials.settings[GADMediationAdapterLineCredentialKeyApplicationID]);
-  }
-
-  if (!applicationIDSet.count) {
-    *errorPtr = GADMediationAdapterLineErrorWithCodeAndDescription(
-        GADMediationAdapterLineErrorInvalidServerParameters,
-        @"Server configuration did not contain any application ID for LINE mediation.");
-    return nil;
-  }
-
-  NSString *applicationID = applicationIDSet.anyObject;
-  if (applicationIDSet.count > 1) {
-    GADMediationAdapterLineLog(@"Found multiple application IDs. Please remove unused application "
-                               @"IDs from the AdMob UI. Application IDs: %@",
-                               applicationIDSet);
-    GADMediationAdapterLineLog(@"Initializing FiveAd SDK with the application ID: %@",
-                               applicationID);
-  }
-  return applicationID;
-}
-
 @implementation GADMediationAdapterLine {
   /// The banner ad loader.
   GADMediationAdapterLineBannerAdLoader *_bannerAdLoader;
@@ -105,39 +70,8 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   NSCAssert(completionHandler, @"Completion handler must not be nil.");
-
-  if (FADSettings.isConfigRegistered) {
-    GADMediationAdapterLineLog(@"FiveAd SDK is already registered");
-    completionHandler(nil);
-    return;
-  }
-
-  NSError *error = nil;
-  NSString *applicationID = GADMediationAdapterLineApplicationID(configuration, &error);
-  if (error) {
-    completionHandler(error);
-    return;
-  }
-
-  // Initialize FiveAd SDK.
-  GADMobileAds *mobileAds = GADMobileAds.sharedInstance;
-  FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
-  [config enableSoundByDefault:!mobileAds.applicationMuted];
-  [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
-
-  NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
-  FADNeedChildDirectedTreatment needChildDirectedTreatment =
-      kFADNeedChildDirectedTreatmentUnspecified;
-  if (childDirectedTreatment != nil) {
-    needChildDirectedTreatment = childDirectedTreatment.boolValue
-                                     ? kFADNeedChildDirectedTreatmentTrue
-                                     : kFADNeedChildDirectedTreatmentFalse;
-  }
-  [config setNeedChildDirectedTreatment:needChildDirectedTreatment];
-
-  [FADSettings registerConfig:config];
-
-  completionHandler(nil);
+  NSError *error = GADMediationAdapterLineRegisterFiveAd(configuration.credentials);
+  completionHandler(error);
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
