@@ -64,7 +64,12 @@
 }
 
 - (void)loadAd {
-  NSError *error = nil;
+  NSError *error = GADMediationAdapterLineRegisterFiveAd(@[ _adConfiguration.credentials ]);
+  if (error) {
+    _interstitialAdLoadCompletionHandler(nil, error);
+    return;
+  }
+
   NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
   if (error) {
     _interstitialAdLoadCompletionHandler(nil, error);
