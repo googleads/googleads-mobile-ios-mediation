@@ -24,5 +24,5 @@ static NSString *const GADMAdapterInMobiPlacementID = @"placementid";
 /// InMobi adapter error domain.
 static NSString *const GADMAdapterInMobiErrorDomain = @"com.google.mediation.inmobi";
 
-/// IAB U.S. Privacy string key.
+/// NSUserDefault IAB US Privacy Key.
 static NSString *const GADMAdapterInMobiIABUSPrivacyString = @"IABUSPrivacy_String";
