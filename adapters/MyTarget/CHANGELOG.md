@@ -2,6 +2,7 @@
 
 #### Version 5.19.0.0 (In-progress)
 - Verified compatibility with myTarget SDK version 5.19.0.
+- Now requires minimum iOS version 12.4.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.8.0.
