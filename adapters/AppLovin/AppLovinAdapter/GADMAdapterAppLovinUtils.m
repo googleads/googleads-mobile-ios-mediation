@@ -61,7 +61,7 @@ void GADMAdapterAppLovinMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value;
+    dictionary[key] = value; // Allow pattern.
   }
 }
 
