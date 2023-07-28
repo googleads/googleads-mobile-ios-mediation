@@ -194,7 +194,7 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersF
   return requestParameters;
 }
 
-void GADMAdapterInMobiSetPrivacyCompliance(void) {
+void GADMAdapterInMobiSetUSPrivacyCompliance(void) {
     NSString* usPrivacyString = [[NSUserDefaults standardUserDefaults] stringForKey:GADMAdapterInMobiIABUSPrivacyString];
     [IMPrivacyCompliance setUSPrivacyString:usPrivacyString];
 }
