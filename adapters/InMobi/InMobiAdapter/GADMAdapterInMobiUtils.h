@@ -59,3 +59,6 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersF
 
 /// Logs with GADMediationAdapterInMobi Prefix.
 void GADMAdapterInMobiLog(NSString *_Nonnull format, ...);
+
+/// Forwards U.S. Privacy String set in NSUserDefaults to InMobi SDK.
+void GADMAdapterInMobiSetUSPrivacyCompliance(void);
