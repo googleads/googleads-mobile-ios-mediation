@@ -1,6 +1,6 @@
 ## nend iOS Mediation Adapter Changelog
 
-#### Version 8.1.0.0 (In-progress)
+#### [Version 8.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-8.1.0.0.zip)
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
