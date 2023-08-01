@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Version 6.12.0.2 (In Progress)
+#### [Version 6.12.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.12.0.2.zip)
 - Removed all bidding checks in the adapter.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
