@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// Adapter for communicating with the IronSource Network to fetch nterstitial video ads.
+/// Adapter for communicating with the IronSource Network to fetch interstitial and banner ads.
 @interface GADMAdapterIronSource : NSObject
 
 @end
