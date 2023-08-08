@@ -14,7 +14,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import <GoogleMobileAds/GoogleMobileAds.h>
+
+#import "GADInMobiExtras.h"
+#import "GADMAdapterInMobiConstants.h"
 #import "GADMediationAdapterInMobi.h"
 
 /// Adds |object| to |array| if |object| is not nil.
@@ -53,12 +57,19 @@ NSError *_Nullable GADMAdapterInMobiValidatePlacementIdentifier(
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig);
 
-/// Creates InMobi request parameters from the specified ad configuration.
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(
-    GADMediationAdConfiguration *_Nonnull adConfig);
+/// Creates InMobi request parameters from the specified ad configuration for the mediation
+/// type and the child directed treatment bit.
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
+    GADInMobiExtras *_Nullable extras,
+    GADMAdapterInMobiRequestParametersMediationType _Nonnull mediationType,
+    NSNumber *_Nullable childDirectedTreatment);
 
 /// Logs with GADMediationAdapterInMobi Prefix.
 void GADMAdapterInMobiLog(NSString *_Nonnull format, ...);
 
 /// Forwards U.S. Privacy String set in NSUserDefaults to InMobi SDK.
 void GADMAdapterInMobiSetUSPrivacyCompliance(void);
+
+/// Creates a bid response data from ad configuration.
+NSData *_Nullable GADMAdapterInMobiBidResponseDataFromAdConfigration(
+    GADMediationAdConfiguration *_Nonnull adConfig);

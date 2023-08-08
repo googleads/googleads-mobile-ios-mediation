@@ -13,8 +13,10 @@
 // limitations under the License.
 
 #import "GADMAdapterInMobiRewardedAd.h"
+
 #import <InMobiSDK/InMobiSDK-Swift.h>
 #include <stdatomic.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiDelegateManager.h"
@@ -49,8 +51,8 @@
   self = [super init];
   if (self) {
     _placementIdentifier = placementIdentifier;
-    _rewardedAd = [[IMInterstitial alloc] initWithPlacementId:_placementIdentifier.longLongValue];
-    _rewardedAd.delegate = self;
+    _rewardedAd = [[IMInterstitial alloc] initWithPlacementId:_placementIdentifier.longLongValue
+                                                     delegate:self];
   }
   return self;
 }
@@ -116,7 +118,7 @@
   GADMAdapterInMobiDelegateManager *delegateManager =
       GADMAdapterInMobiDelegateManager.sharedInstance;
   if ([delegateManager containsDelegateForPlacementIdentifier:_placementIdentifier]) {
-    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+    error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorAdAlreadyLoaded, @"GADMediationAdapterInMobi - Error : cannot "
                                                @"request multiple ads using same placement ID.");
     _renderCompletionHandler(nil, error);
@@ -138,11 +140,19 @@
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_adConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
+  NSData *bidResponseData = GADMAdapterInMobiBidResponseDataFromAdConfigration(_adConfig);
+  GADMAdapterInMobiRequestParametersMediationType mediationType =
+      bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
+                      : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
   NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_adConfig);
+      GADMAdapterInMobiRequestParameters(extras, mediationType, _adConfig.childDirectedTreatment);
   [_rewardedAd setExtras:requestParameters];
 
-  [_rewardedAd load];
+  if (bidResponseData) {
+    [_rewardedAd load:bidResponseData];
+  } else {
+    [_rewardedAd load];
+  }
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {

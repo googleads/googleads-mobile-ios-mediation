@@ -21,18 +21,14 @@
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 
-#pragma mark - Internal utility method prototypes
+#pragma mark - Internal Utility Method Prototypes
 
 /// Sets up additional InMobi targeting information from the specified |extras|.
 void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras);
 
 void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted);
 
-/// Sets additional InMobi parameters to |requestParameters| from the specified |extras|.
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
-    GADInMobiExtras *_Nullable extras);
-
-#pragma mark - Public utility methods
+#pragma mark - Public Utility Methods
 
 void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
                                             NSObject *_Nonnull object) {
@@ -166,29 +162,27 @@ void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted) {
   }
 }
 
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiAdditonalParametersFromInMobiExtras(
-    GADInMobiExtras *_Nullable extras) {
-  NSMutableDictionary<NSString *, id> *additionalParameters = [[NSMutableDictionary alloc] init];
+NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
+    GADInMobiExtras *_Nullable extras,
+    GADMAdapterInMobiRequestParametersMediationType _Nonnull mediationType,
+    NSNumber *_Nullable childDirectedTreatment) {
+  NSMutableDictionary<NSString *, id> *requestParameters = [[NSMutableDictionary alloc] init];
 
   if (extras && extras.additionalParameters) {
-    [additionalParameters addEntriesFromDictionary:extras.additionalParameters];
+    [requestParameters addEntriesFromDictionary:extras.additionalParameters];
   }
 
-  GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp", @"c_admob");
-  GADMAdapterInMobiMutableDictionarySetObjectForKey(additionalParameters, @"tp-ver",
+  GADMAdapterInMobiMutableDictionarySetObjectForKey(
+      requestParameters, GADMAdapterInMobiRequestParametersMediationTypeKey, mediationType);
+
+  GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters,
+                                                    GADMAdapterInMobiRequestParametersSDKVersionKey,
                                                     GADMobileAds.sharedInstance.sdkVersion);
 
-  return additionalParameters;
-}
-
-NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(
-    GADMediationAdConfiguration *_Nonnull adConfig) {
-  NSMutableDictionary<NSString *, id> *requestParameters =
-      [GADMAdapterInMobiAdditonalParametersFromInMobiExtras(adConfig.extras) mutableCopy];
-
-  if (adConfig.childDirectedTreatment) {
-    NSString *coppaString = [adConfig.childDirectedTreatment integerValue] ? @"1" : @"0";
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters, @"coppa", coppaString);
+  if (childDirectedTreatment) {
+    NSString *coppaString = [childDirectedTreatment integerValue] ? @"1" : @"0";
+    GADMAdapterInMobiMutableDictionarySetObjectForKey(
+        requestParameters, GADMAdapterInMobiRequestParametersCOPPAKey, coppaString);
   }
 
   return requestParameters;
@@ -197,4 +191,13 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiCreateRequestParametersF
 void GADMAdapterInMobiSetUSPrivacyCompliance(void) {
     NSString* usPrivacyString = [[NSUserDefaults standardUserDefaults] stringForKey:GADMAdapterInMobiIABUSPrivacyString];
     [IMPrivacyCompliance setUSPrivacyString:usPrivacyString];
+}
+
+NSData *_Nullable GADMAdapterInMobiBidResponseDataFromAdConfigration(
+    GADMediationAdConfiguration *_Nonnull adConfig) {
+    NSString *bidResponseString = adConfig.bidResponse;
+    if (!bidResponseString) {
+    return nil;
+    }
+    return [bidResponseString dataUsingEncoding:NSUTF8StringEncoding];
 }

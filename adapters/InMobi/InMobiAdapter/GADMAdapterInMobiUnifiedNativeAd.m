@@ -17,6 +17,7 @@
 
 #import <Foundation/Foundation.h>
 #include <stdatomic.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
@@ -155,11 +156,20 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_nativeAdConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
-  NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_nativeAdConfig);
+
+  NSData *bidResponseData = GADMAdapterInMobiBidResponseDataFromAdConfigration(_nativeAdConfig);
+  GADMAdapterInMobiRequestParametersMediationType mediationType =
+      bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
+                      : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, mediationType, _nativeAdConfig.childDirectedTreatment);
   [_native setExtras:requestParameters];
 
-  [_native load];
+  if (bidResponseData) {
+    [_native load:bidResponseData];
+  } else {
+    [_native load];
+  }
 }
 
 #pragma mark - IMNativeDelegate
@@ -244,7 +254,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (void)setupWithData:(nullable NSData *)data
     shouldDownloadImage:(BOOL)shouldDownloadImage
              imageCache:(nonnull NSCache *)imageCache
-              completed:(void (^)())completed {
+              completed:(void (^)(void))completed {
   if (!data) {
     completed();
     return;

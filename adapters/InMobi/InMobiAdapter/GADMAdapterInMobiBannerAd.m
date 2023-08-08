@@ -14,7 +14,9 @@
 //
 
 #import "GADMAdapterInMobiBannerAd.h"
+
 #include <stdatomic.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
@@ -114,7 +116,8 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   }
 
   _adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
-                                placementId:placementId];
+                                placementId:placementId
+                                   delegate:self];
 
   // Let Mediation do the refresh.
   [_adView shouldAutoRefresh:NO];
@@ -127,12 +130,20 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_bannerAdConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
-  NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_bannerAdConfig);
+
+  NSData *bidResponseData = GADMAdapterInMobiBidResponseDataFromAdConfigration(_bannerAdConfig);
+  GADMAdapterInMobiRequestParametersMediationType mediationType =
+      bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
+                      : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, mediationType, _bannerAdConfig.childDirectedTreatment);
   [_adView setExtras:requestParameters];
 
-  _adView.delegate = self;
-  [_adView load];
+  if (bidResponseData) {
+    [_adView load:bidResponseData];
+  } else {
+    [_adView load];
+  }
 }
 
 - (void)stopBeingDelegate {
