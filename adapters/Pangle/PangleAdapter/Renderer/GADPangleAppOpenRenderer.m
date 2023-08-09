@@ -115,4 +115,9 @@
   [delegate didDismissFullScreenView];
 }
 
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+  id<GADMediationAppOpenAdEventDelegate> delegate = _delegate;
+  [delegate didFailToPresentWithError:error];
+}
+
 @end
