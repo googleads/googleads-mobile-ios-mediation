@@ -4,7 +4,7 @@
 - Verified compatibility with AppLovin SDK 11.11.2.
 
 Built and tested with:
-- Google Mobile Ads SDK version 10.8.0.
+- Google Mobile Ads SDK version 10.9.0.
 - AppLovin SDK version 11.11.2.
 
 #### [Version 11.10.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.10.1.0.zip)
