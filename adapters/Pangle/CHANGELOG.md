@@ -1,5 +1,8 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fix an issue where GADPangleNetworkExtras did not conform to GADAdNetworkExtras protocol.
+
 #### [Version 5.3.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.3.1.2.0.zip)
 - Verified compatibility with Pangle SDK version 5.3.1.2.
 
