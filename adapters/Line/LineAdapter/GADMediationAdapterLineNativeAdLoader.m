@@ -159,10 +159,8 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
         DISPATCH_TIME_NOW, GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds * NSEC_PER_SEC);
     long result = dispatch_group_wait(imageLoadGroup, timeout);
 
-    // It is intended to call the ad load completion handler with the loaded ad even though some of
-    // the image assets could have failed to load.
     if (result != 0) {
-      GADMediationAdapterLineLog(@"The icon and/or the information icon couldn't be loaded.");
+      GADMediationAdapterLineLog(@"Timed out while loading the native ad image assets.");
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -170,6 +168,16 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
       if (!strongSelf) {
         return;
       }
+
+      // Information icon must be loaded successfully to serve the native ad.
+      if (!strongSelf->_informationIconImageView) {
+        NSError *error = GADMediationAdapterLineErrorWithCodeAndDescription(
+            GADMediationAdapterLineErrorInformationIconLoadFailure,
+            @"Failed to load an information icon image asset.");
+        [strongSelf callCompletionHandlerIfNeededWithAd:nil error:error];
+        return;
+      }
+
       [strongSelf callCompletionHandlerIfNeededWithAd:strongSelf error:nil];
     });
   });
