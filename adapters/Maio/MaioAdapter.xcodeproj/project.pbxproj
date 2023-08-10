@@ -32,7 +32,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		008109F6267D49C3001912A0 /* MaioOB.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008109F5267D49C3001912A0 /* MaioOB.xcframework */; };
 		00AC999222E923F300262599 /* GADMAdapterMaioUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 00AC999022E923F300262599 /* GADMAdapterMaioUtils.h */; };
 		00AC999322E923F300262599 /* GADMAdapterMaioUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC999122E923F300262599 /* GADMAdapterMaioUtils.m */; };
 		23D2A84B26A88B5B00188D33 /* GADRTBMaioInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23D2A84726A88B5B00188D33 /* GADRTBMaioInterstitialAd.h */; };
@@ -112,7 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008109F6267D49C3001912A0 /* MaioOB.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
