@@ -14,7 +14,6 @@
 
 #import "GADMediationAdapterMaio.h"
 
-#import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"

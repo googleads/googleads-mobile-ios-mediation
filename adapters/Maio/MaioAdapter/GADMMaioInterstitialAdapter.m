@@ -16,7 +16,6 @@
 
 #import <Maio/Maio-Swift.h>
 
-#import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 

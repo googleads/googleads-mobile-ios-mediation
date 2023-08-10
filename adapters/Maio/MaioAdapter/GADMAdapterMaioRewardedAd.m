@@ -15,7 +15,6 @@
 #import "GADMAdapterMaioRewardedAd.h"
 #import <Maio/Maio-Swift.h>
 #import <stdatomic.h>
-#import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 
