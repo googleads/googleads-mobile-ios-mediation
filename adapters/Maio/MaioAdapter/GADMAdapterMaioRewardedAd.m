@@ -99,15 +99,17 @@
 }
 
 - (void)didOpen:(MaioRewarded *)ad {
-  [self.adEventDelegate willPresentFullScreenView];
-  [self.adEventDelegate reportImpression];
-  [self.adEventDelegate didStartVideo];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = self.adEventDelegate;
+  [adEventDelegate willPresentFullScreenView];
+  [adEventDelegate reportImpression];
+  [adEventDelegate didStartVideo];
 }
 
 - (void)didClose:(MaioRewarded *)ad {
-  [self.adEventDelegate didEndVideo];
-  [self.adEventDelegate willDismissFullScreenView];
-  [self.adEventDelegate didDismissFullScreenView];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = self.adEventDelegate;
+  [adEventDelegate didEndVideo];
+  [adEventDelegate willDismissFullScreenView];
+  [adEventDelegate didDismissFullScreenView];
 }
 
 - (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward {
