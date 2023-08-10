@@ -74,9 +74,55 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [self.rewarded showWithViewContext:viewController callback:self];
-
-  [self.adEventDelegate willPresentFullScreenView];
 }
 
+#pragma mark - MaioRewardedLoadCallback, MaioRewardedShowCallback
+
+- (void)didLoad:(MaioRewarded *)ad {
+  self.adEventDelegate = self.completionHandler(self, nil);
+}
+
+- (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
+  NSString *description = @"maio SDK returned error";
+  NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey: description,
+    NSLocalizedFailureReasonErrorKey: description
+  };
+  NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
+                                       code:errorCode
+                                   userInfo:userInfo];
+
+  NSLog(@"Maiorewarded did fail. error: %@", error);
+
+  if (10000 <= errorCode && errorCode < 20000) {
+    // Fail to load.
+    self.completionHandler(nil, error);
+  } else if (20000 <= errorCode && errorCode < 30000) {
+    // Fail to show.
+    [self.adEventDelegate didFailToPresentWithError:error];
+  } else {
+    // Unknown error code
+
+    // Notify an error when loading.
+    self.completionHandler(nil, error);
+  }
+
+}
+
+- (void)didOpen:(MaioRewarded *)ad {
+  [self.adEventDelegate willPresentFullScreenView];
+  [self.adEventDelegate reportImpression];
+  [self.adEventDelegate didStartVideo];
+}
+
+- (void)didClose:(MaioRewarded *)ad {
+  [self.adEventDelegate didEndVideo];
+  [self.adEventDelegate willDismissFullScreenView];
+  [self.adEventDelegate didDismissFullScreenView];
+}
+
+- (void)didReward:(MaioRewarded *)ad reward:(RewardData *)reward {
+  [self.adEventDelegate didRewardUser];
+}
 
 @end
