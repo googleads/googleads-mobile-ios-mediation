@@ -23,7 +23,6 @@
 
 @property(nonatomic, copy) GADMediationRewardedLoadCompletionHandler completionHandler;
 @property(nonatomic, weak) id<GADMediationRewardedAdEventDelegate> adEventDelegate;
-@property(nonatomic, copy) NSString *mediaId;
 @property(nonatomic, copy) NSString *zoneId;
 
 @property(nonatomic) MaioRewarded *rewarded;
@@ -57,16 +56,7 @@
     return delegate;
   };
 
-  _mediaId = adConfiguration.credentials.settings[GADMMaioAdapterMediaIdKey];
   _zoneId = adConfiguration.credentials.settings[GADMMaioAdapterZoneIdKey];
-
-  if (!self.mediaId) {
-    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
-        GADMAdapterMaioErrorInvalidServerParameters,
-        @"maio mediation configurations did not contain a valid media ID.");
-    completionHandler(nil, error);
-    return;
-  }
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:self.zoneId testMode:adConfiguration.isTestRequest];
   self.rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
