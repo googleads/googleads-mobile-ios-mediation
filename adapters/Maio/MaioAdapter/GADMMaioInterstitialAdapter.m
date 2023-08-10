@@ -23,7 +23,6 @@
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> interstitialAdConnector;
 
-@property(nonatomic, strong) NSString *mediaId;
 @property(nonatomic, strong) NSString *zoneId;
 @property(nonatomic, strong) MaioInterstitial *interstitial;
 
@@ -90,7 +89,6 @@
   if (!param) {
     return;
   }
-  self.mediaId = param[GADMMaioAdapterMediaIdKey];
   self.zoneId = param[GADMMaioAdapterZoneIdKey];
 
   MaioRequest *request = [[MaioRequest alloc] initWithZoneId:self.zoneId
