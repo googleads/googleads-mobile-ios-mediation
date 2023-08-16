@@ -15,39 +15,6 @@
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 
-//@implementation GADMAdapterMaioUtils : NSObject
-/**
- *  MaioFailReason の文字列表記を取得します。
- */
-static NSString *_Nonnull GADMAdapterMaioStringFromFailReason(MaioFailReason failReason) {
-  switch (failReason) {
-    case MaioFailReasonUnknown:
-      return @"MaioFailReasonUnknown";
-    case MaioFailReasonNetworkConnection:
-      return @"MaioFailReasonNetworkConnection";
-    case MaioFailReasonNetworkServer:
-      return @"MaioFailReasonNetworkServer";
-    case MaioFailReasonNetworkClient:
-      return @"MaioFailReasonNetworkClient";
-    case MaioFailReasonSdk:
-      return @"MaioFailReasonSdk";
-    case MaioFailReasonDownloadCancelled:
-      return @"MaioFailReasonDownloadCancelled";
-    case MaioFailReasonAdStockOut:
-      return @"MaioFailReasonAdStockOut";
-    case MaioFailReasonVideoPlayback:
-      return @"MaioFailReasonVideoPlayback";
-    case MaioFailReasonIncorrectMediaId:
-      return @"MaioFailReasonInCorrectMediaId";
-    case MaioFailReasonIncorrectZoneId:
-      return @"MaioFailReasonInCorrectZoneId";
-    case MaioFailReasonNotFoundViewContext:
-      return @"MaioFailReasonNotFoundViewContext";
-  }
-  // Error to indicate that the error is new and has not been supported by the adapter yet.
-  return [NSString stringWithFormat:@"maio SDK failed with reason code: %ld", (long)failReason];
-}
-
 void GADMAdapterMaioMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
@@ -81,15 +48,5 @@ NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErro
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioErrorDomain code:code userInfo:userInfo];
-  return error;
-}
-
-NSError *_Nonnull GADMAdapterMaioSDKErrorForFailReason(MaioFailReason reason) {
-  NSString *description =
-      [NSString stringWithFormat:@"maio SDK returned a load failure callback with reason: %@",
-                                 GADMAdapterMaioStringFromFailReason(reason)];
-  NSDictionary *userInfo =
-      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
-  NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain code:reason userInfo:userInfo];
   return error;
 }

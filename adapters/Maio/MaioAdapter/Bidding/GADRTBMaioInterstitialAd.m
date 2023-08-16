@@ -13,14 +13,9 @@
 // limitations under the License.
 
 #import "GADRTBMaioInterstitialAd.h"
-#import <MaioOB/MaioOB-Swift.h>
+#import <Maio/Maio-Swift.h>
 #import <stdatomic.h>
 #import "GADMMaioConstants.h"
-
-// TODO: Remove these once they are available in maio's SDK.
-#define MaioInterstitial MaioRewarded
-#define MaioInterstitialLoadCallback MaioRewardedLoadCallback
-#define MaioInterstitialShowCallback MaioRewardedShowCallback
 
 @interface GADRTBMaioInterstitialAd () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 @end

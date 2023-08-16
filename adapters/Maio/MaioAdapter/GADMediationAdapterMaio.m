@@ -14,17 +14,15 @@
 
 #import "GADMediationAdapterMaio.h"
 
-#import <Maio/Maio.h>
-#import <MaioOB/MaioOB-Swift.h>
+#import <Maio/Maio-Swift.h>
 
-#import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 #import "GADRTBMaioInterstitialAd.h"
 #import "GADRTBMaioRewardedAd.h"
 
-@interface GADMediationAdapterMaio () <MaioDelegate>
+@interface GADMediationAdapterMaio ()
 @end
 
 @implementation GADMediationAdapterMaio {
@@ -46,38 +44,7 @@
     GADMAdapterMaioMutableSetAddObject(publisherIDs, publisherID);
   }
 
-  NSMutableSet *mediaIDs = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *credential in configuration.credentials) {
-    NSString *mediaID = credential.settings[GADMMaioAdapterMediaIdKey];
-    GADMAdapterMaioMutableSetAddObject(mediaIDs, mediaID);
-  }
-
-  BOOL existsMediaID = mediaIDs.count > 0;
-  BOOL existsPublisherID = publisherIDs.count > 0;
-
-  if (existsMediaID) {
-    NSString *mediaID = [mediaIDs anyObject];
-    if (mediaIDs.count > 1) {
-      NSLog(@"Found the following media IDs: %@. "
-            @"Please remove any media IDs you are not using from the AdMob UI.",
-            mediaIDs);
-      NSLog(@"Initializing maio SDK with the media ID: %@", mediaID);
-    }
-
-    GADMAdapterMaioAdsManager *manager =
-        [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:mediaID];
-    [manager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
-      completionHandler(error);
-    }];
-  } else if (existsPublisherID) {
-    // For bidding integrations, maio SDK does not need to be initialized.
-    completionHandler(nil);
-  } else {
-    NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
-        GADMAdapterMaioErrorInvalidServerParameters,
-        @"maio mediation configurations did not contain a valid media ID.");
-    completionHandler(error);
-  }
+  completionHandler(nil);
 }
 
 + (GADVersionNumber)adSDKVersion {

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADRTBMaioRewardedAd.h"
-#import <MaioOB/MaioOB-Swift.h>
+#import <Maio/Maio-Swift.h>
 #import <stdatomic.h>
 #import "GADMMaioConstants.h"
 

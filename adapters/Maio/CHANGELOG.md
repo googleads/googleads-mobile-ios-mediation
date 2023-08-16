@@ -1,5 +1,9 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 2.0.0.0
+- Verified compatibility with maio SDK version 2.0.0.
+- MaioOB SDK is no longer needed.
+
 #### Next Version
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
