@@ -43,4 +43,7 @@
   [self.connector adapterWillLeaveApplication:self.adapter];
 }
 
+- (void)bannerViewDidShow:(UADSBannerView *)bannerView {
+}
+
 @end

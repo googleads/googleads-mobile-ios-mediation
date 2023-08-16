@@ -15,5 +15,14 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+typedef NS_ENUM(NSInteger, GADMediationAdapterLineErrorCode) {
+  /// Missing server parameters.
+  GADMediationAdapterLineErrorInvalidServerParameters = 101,
+  /// Loaded banner ad size does not match with the requested banner ad size.
+  GADMediationAdapterLineErrorLoadedBannerSizeMismatch = 102,
+  /// Failed to load an information icon image asset.
+  GADMediationAdapterLineErrorInformationIconLoadFailure = 103,
+};
+
 @interface GADMediationAdapterLine : NSObject <GADMediationAdapter>
 @end

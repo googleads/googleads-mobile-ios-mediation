@@ -13,3 +13,6 @@
 // limitations under the License.
 
 #import "GADMediationAdapterLineExtras.h"
+
+@implementation GADMediationAdapterLineExtras
+@end

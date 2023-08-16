@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
   /// Missing server parameters.
@@ -28,6 +29,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
 };
 
 /// Mediation network adapter for DT Exchange.
-@interface GADMediationAdapterFyber : NSObject
+@interface GADMediationAdapterFyber : NSObject <GADMediationAdapter>
 
 @end

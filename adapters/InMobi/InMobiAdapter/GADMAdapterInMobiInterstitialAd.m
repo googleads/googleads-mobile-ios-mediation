@@ -14,7 +14,9 @@
 //
 
 #import "GADMAdapterInMobiInterstitialAd.h"
+
 #include <stdatomic.h>
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiConstants.h"
 #import "GADMAdapterInMobiInitializer.h"
@@ -94,7 +96,7 @@
         @"InMobi");
   }
 
-  _interstitialAd = [[IMInterstitial alloc] initWithPlacementId:placementId];
+  _interstitialAd = [[IMInterstitial alloc] initWithPlacementId:placementId delegate:self];
 
   GADInMobiExtras *extras = _interstitialAdConfig.extras;
   if (extras && extras.keywords) {
@@ -102,12 +104,22 @@
   }
 
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_interstitialAdConfig);
-  NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiCreateRequestParametersFromAdConfiguration(_interstitialAdConfig);
+  GADMAdapterInMobiSetUSPrivacyCompliance();
+
+  NSData *bidResponseData =
+      GADMAdapterInMobiBidResponseDataFromAdConfigration(_interstitialAdConfig);
+  GADMAdapterInMobiRequestParametersMediationType mediationType =
+      bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
+                      : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, mediationType, _interstitialAdConfig.childDirectedTreatment);
   [_interstitialAd setExtras:requestParameters];
 
-  _interstitialAd.delegate = self;
-  [_interstitialAd load];
+  if (bidResponseData) {
+    [_interstitialAd load:bidResponseData];
+  } else {
+    [_interstitialAd load];
+  }
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -125,7 +137,7 @@
   _interstitialAd.delegate = nil;
 }
 
-#pragma mark IMInterstitialDelegate methods
+#pragma mark IMInterstitialDelegate Methods
 
 - (void)interstitialDidFinishLoading:(nonnull IMInterstitial *)interstitial {
   GADMAdapterInMobiLog(@"InMobi SDK loaded an interstitial ad successfully.");

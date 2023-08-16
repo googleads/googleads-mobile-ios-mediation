@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <InMobiSDK/InMobiSDK-Swift.h>
 
@@ -27,9 +28,11 @@ typedef NS_ENUM(NSInteger, GADMAdapterInMobiErrorCode) {
   /// download.
   GADMAdapterInMobiErrorMissingNativeAssets = 104,
   /// An InMobi ad is not ready to be shown.
-  GADMAdapterInMobiErrorAdNotReady = 105
+  GADMAdapterInMobiErrorAdNotReady = 105,
+  /// An empty or nil bid token is returned by InMobi.
+  GADMAdapterInMobiErrorInvalidBidToken = 106
 };
 
-@interface GADMediationAdapterInMobi : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterInMobi : NSObject <GADRTBAdapter>
 
 @end

@@ -14,23 +14,99 @@
 
 #import "GADMediationAdapterLine.h"
 
-@implementation GADMediationAdapterLine
+#import <FiveAd/FiveAd.h>
+
+#import "GADMediationAdapterLineBannerAdLoader.h"
+#import "GADMediationAdapterLineConstants.h"
+#import "GADMediationAdapterLineExtras.h"
+#import "GADMediationAdapterLineInterstitialAdLoader.h"
+#import "GADMediationAdapterLineNativeAdLoader.h"
+#import "GADMediationAdapterLineRewardedAdLoader.h"
+#import "GADMediationAdapterLineUtils.h"
+
+@implementation GADMediationAdapterLine {
+  /// The banner ad loader.
+  GADMediationAdapterLineBannerAdLoader *_bannerAdLoader;
+
+  /// The interstitial ad loader.
+  GADMediationAdapterLineInterstitialAdLoader *_interstitialAdLoader;
+
+  /// The rewarded ad loader.
+  GADMediationAdapterLineRewardedAdLoader *_rewardedAdLoader;
+
+  /// The native ad loader.
+  GADMediationAdapterLineNativeAdLoader *_nativeAdLoader;
+}
 
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
-  // TODO: configure with appropriate adapter version.
+  NSArray<NSString *> *components =
+      [GADMediationAdapterLineVersion componentsSeparatedByString:@"."];
+  if (components.count == 4) {
+    version.majorVersion = components[0].integerValue;
+    version.minorVersion = components[1].integerValue;
+    version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
+  }
   return version;
 }
 
 + (GADVersionNumber)adSDKVersion {
+  NSString *versionString = [FADSettings semanticVersion];
+  NSArray<NSString *> *versionComponents = [versionString componentsSeparatedByString:@"."];
+
   GADVersionNumber version = {0};
-  // TODO: configure with appropriate FiveAd SDK's version.
+  if (versionComponents.count >= 3) {
+    version.majorVersion = versionComponents[0].integerValue;
+    version.minorVersion = versionComponents[1].integerValue;
+    version.patchVersion = versionComponents[2].integerValue;
+  }
   return version;
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  // TODO: return appropriate extra class.
-  return nil;
+  return [GADMediationAdapterLineExtras class];
+}
+
++ (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
+             completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSCAssert(completionHandler, @"Completion handler must not be nil.");
+  NSError *error = GADMediationAdapterLineRegisterFiveAd(configuration.credentials);
+  completionHandler(error);
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAdLoader =
+      [[GADMediationAdapterLineBannerAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_bannerAdLoader loadAd];
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAdLoader = [[GADMediationAdapterLineInterstitialAdLoader alloc]
+      initWithAdConfiguration:adConfiguration
+        loadCompletionHandler:completionHandler];
+  [_interstitialAdLoader loadAd];
+}
+
+- (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
+                       completionHandler:
+                           (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  _rewardedAdLoader =
+      [[GADMediationAdapterLineRewardedAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                         loadCompletionHandler:completionHandler];
+  [_rewardedAdLoader loadAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAdLoader =
+      [[GADMediationAdapterLineNativeAdLoader alloc] initWithAdConfiguration:adConfiguration
+                                                       loadCompletionHandler:completionHandler];
+  [_nativeAdLoader loadAd];
 }
 
 @end

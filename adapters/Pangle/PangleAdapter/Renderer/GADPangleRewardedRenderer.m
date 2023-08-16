@@ -119,4 +119,9 @@
   [delegate didRewardUser];
 }
 
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  [delegate didFailToPresentWithError:error];
+}
+
 @end

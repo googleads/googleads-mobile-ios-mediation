@@ -1,5 +1,26 @@
 ## Tapjoy iOS Mediation Adapter Changelog
 
+#### [Version 13.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.1.2.0.zip)
+- Verified compatibility with Tapjoy SDK 13.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- Tapjoy SDK version 13.1.2.
+
+#### [Version 13.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.1.1.0.zip)
+- Verified compatibility with Tapjoy SDK 13.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- Tapjoy SDK version 13.1.1.
+
+#### [Version 13.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.1.0.0.zip)
+- Verified compatibility with Tapjoy SDK 13.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- Tapjoy SDK version 13.1.0.
+
 #### [Version 13.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.0.1.0.zip)
 - Verified compatibility with Tapjoy SDK 13.0.1.
 - Removed support of the `armv7` architecture.

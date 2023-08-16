@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMediationAdapterInMobi.h"
+
 #import "GADInMobiExtras.h"
 #import "GADMAdapterInMobiBannerAd.h"
 #import "GADMAdapterInMobiConstants.h"
@@ -35,6 +36,33 @@
 
   /// InMobi native ad wrapper.
   GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
+}
+
+- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
+                         completionHandler:
+                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  GADInMobiExtras *extras = params.extras;
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB, childDirectedTreatment);
+  NSString *keywords = nil;
+  if (extras && extras.keywords) {
+    keywords = extras.keywords;
+  }
+
+  NSString *token = [IMSdk getTokenWithExtras:requestParameters andKeywords:keywords];
+
+  if (!token.length) {
+    NSString *errorMessage =
+        [NSString stringWithFormat:@"A nil or empty bid token is returned by InMobi: %@", token];
+    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+        GADMAdapterInMobiErrorInvalidBidToken, errorMessage);
+    completionHandler(nil, error);
+    return;
+  }
+
+  completionHandler(token, nil);
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration

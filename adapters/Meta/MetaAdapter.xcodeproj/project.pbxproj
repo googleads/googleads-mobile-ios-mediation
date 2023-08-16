@@ -142,13 +142,6 @@
 			path = Bidding;
 			sourceTree = "<group>";
 		};
-		564846D51F1936C900D5B552 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7D46CFDE1DB6B76E0050F612 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,7 +191,6 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
-				564846D51F1936C900D5B552 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

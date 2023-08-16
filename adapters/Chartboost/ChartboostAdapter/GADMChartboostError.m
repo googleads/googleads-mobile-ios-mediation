@@ -18,8 +18,8 @@
 NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
   NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
   switch (error.code) {
-    case CHBCacheErrorCodeInternal:
-      suffix = @"CHBCacheErrorCodeInternal";
+    case CHBCacheErrorCodeInternalError:
+      suffix = @"CHBCacheErrorCodeInternalError";
       break;
     case CHBCacheErrorCodeInternetUnavailable:
       suffix = @"CHBCacheErrorCodeInternetUnavailable";
@@ -52,8 +52,8 @@ NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
 NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
   NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
   switch (error.code) {
-    case CHBShowErrorCodeInternal:
-      suffix = @"CHBShowErrorCodeInternal";
+    case CHBShowErrorCodeInternalError:
+      suffix = @"CHBShowErrorCodeInternalError";
       break;
     case CHBShowErrorCodeSessionNotStarted:
       suffix = @"CHBShowErrorCodeSessionNotStarted";
@@ -86,8 +86,8 @@ NSError *GADMChartboostErrorForCHBClickError(CHBClickError *error) {
     case CHBClickErrorCodeUriUnrecognized:
       suffix = @"CHBClickErrorCodeUriUnrecognized";
       break;
-    case CHBClickErrorCodeInternal:
-      suffix = @"CHBClickErrorCodeInternal";
+    case CHBClickErrorCodeInternalError:
+      suffix = @"CHBClickErrorCodeInternalError";
       break;
   }
   NSString *description =

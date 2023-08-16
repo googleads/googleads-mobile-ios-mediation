@@ -38,9 +38,6 @@
   // GMA SDK, not set on the GMA SDK.
   id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
-  /// Indicates whether this renderer is loading a real-time bidding request.
-  BOOL _isRTBRequest;
-
   /// Indicates whether presentFromViewController: was called on this renderer.
   BOOL _presentCalled;
 }
@@ -65,10 +62,6 @@
     originalCompletionHandler = nil;
     return delegate;
   };
-
-  if (adConfiguration.bidResponse) {
-    _isRTBRequest = YES;
-  }
 
   NSString *placementID =
       [GADMediationAdapterFacebook getPlacementIDFromCredentials:adConfiguration.credentials];
@@ -98,16 +91,12 @@
   _rewardedAd.adExperienceConfig = adExperienceConfig;
   NSLog(@"Requesting ad with ad experience type: %@", adExperienceConfig.adExperienceType);
 
-  if (_isRTBRequest) {
-    // Adds a watermark to the ad.
-    FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
-    watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
-    _rewardedAd.extraHint = watermarkHint;
-    // Load ad.
-    [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
-  } else {
-    [_rewardedAd loadAd];
-  }
+  // Adds a watermark to the ad.
+  FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
+  watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
+  _rewardedAd.extraHint = watermarkHint;
+  // Load ad.
+  [_rewardedAd loadAdWithBidPayload:adConfiguration.bidResponse];
 }
 
 - (FBAdExperienceType)adExperienceType {
