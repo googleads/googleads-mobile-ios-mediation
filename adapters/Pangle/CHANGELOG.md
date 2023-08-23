@@ -1,6 +1,6 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 5.4.0.8.0 (In Progress)
+#### [Version 5.4.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.4.0.8.0.zip)
 - Fixed an issue where `GADPangleNetworkExtras` did not conform to `GADAdNetworkExtras` protocol.
 - Implemented `adDidShowFail` protocol method in interstitial, rewarded, and app open ads.
 - Verified compatibility with Pangle SDK version 5.4.0.8.
