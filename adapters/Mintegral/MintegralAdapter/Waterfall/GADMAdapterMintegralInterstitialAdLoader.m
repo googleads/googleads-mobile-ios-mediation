@@ -72,6 +72,7 @@
   _interstitialAd = [[MTGNewInterstitialAdManager alloc] initWithPlacementId:placementId
                                                                       unitId:adUnitId
                                                                     delegate:self];
+  [_interstitialAd setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark"];
   [_interstitialAd loadAd];
 }
 

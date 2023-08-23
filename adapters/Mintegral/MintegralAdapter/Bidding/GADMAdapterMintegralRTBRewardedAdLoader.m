@@ -78,6 +78,7 @@
   }
 
   _rewardedAd = [MTGBidRewardAdManager sharedInstance];
+  [_rewardedAd setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark" unitId:_adUnitId];
   [_rewardedAd loadVideoWithBidToken:_adConfiguration.bidResponse
                          placementId:_placementId
                               unitId:_adUnitId

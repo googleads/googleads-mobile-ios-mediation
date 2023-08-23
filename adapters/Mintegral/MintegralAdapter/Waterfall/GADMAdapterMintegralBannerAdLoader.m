@@ -79,6 +79,7 @@
                                                    rootViewController:rootViewController];
   _bannerAdView.delegate = self;
   _bannerAdView.autoRefreshTime = 0;
+  [_bannerAdView setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark"];
   [_bannerAdView loadBannerAd];
 }
 
