@@ -95,6 +95,7 @@
                     adCategory:MTGAD_CATEGORY_ALL
       presentingViewController:rootViewController];
   _nativeManager.delegate = self;
+  [_nativeManager setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark"];
   [_nativeManager loadAds];
 }
 

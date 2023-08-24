@@ -93,6 +93,7 @@
                                                                unitID:adUnitId
                                              presentingViewController:rootViewController];
   _nativeManager.delegate = self;
+  [_nativeManager setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark"];
   [_nativeManager loadWithBidToken:adConfiguration.bidResponse];
 }
 
