@@ -138,7 +138,7 @@
   if (!strongConnector) {
     return;
   }
-  NSString *description = @"maio SDK returned error";
+  NSString *description = @"maio SDK returned an error";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain

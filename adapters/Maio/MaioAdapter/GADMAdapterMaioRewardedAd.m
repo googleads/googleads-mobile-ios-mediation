@@ -72,7 +72,7 @@
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = @"maio SDK returned error";
+  NSString *description = @"maio SDK returned an error";
   NSDictionary *userInfo = @{
     NSLocalizedDescriptionKey: description,
     NSLocalizedFailureReasonErrorKey: description
