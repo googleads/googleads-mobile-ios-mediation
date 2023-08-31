@@ -160,7 +160,7 @@
 }
 
 - (void)didOpen:(MaioInterstitial *)ad {
-  // NOOP
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)didClose:(MaioInterstitial *)ad {
