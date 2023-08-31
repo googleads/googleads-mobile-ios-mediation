@@ -81,17 +81,18 @@
                                        code:errorCode
                                    userInfo:userInfo];
 
-  NSLog(@"Maiorewarded did fail. error: %@", error);
-
   if (10000 <= errorCode && errorCode < 20000) {
     // Fail to load.
+    NSLog(@"maio rewarded ad failed to load with error code: %@", error);
     self.completionHandler(nil, error);
   } else if (20000 <= errorCode && errorCode < 30000) {
     // Fail to show.
+    NSLog(@"maio rewarded ad failed to show with error code: %@", error);
     [self.adEventDelegate didFailToPresentWithError:error];
   } else {
     // Unknown error code
 
+    NSLog(@"maio rewarded ad received an error with error code: %@", error);
     // Notify an error when loading.
     self.completionHandler(nil, error);
   }

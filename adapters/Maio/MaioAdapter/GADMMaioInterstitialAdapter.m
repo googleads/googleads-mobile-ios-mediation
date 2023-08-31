@@ -145,16 +145,18 @@
                                        code:errorCode
                                    userInfo:userInfo];
 
-  NSLog(@"MaioInterstitial did fail. error: %@", error);
 
   if (10000 <= errorCode && errorCode < 20000) {
     // Fail to load.
+    NSLog(@"maio interstitial ad failed to load with error code: %@", error);
     [strongConnector adapter:self didFailAd:error];
   } else if (20000 <= errorCode && errorCode < 30000) {
     // Fail to Show
+    NSLog(@"maio interstitial ad failed to show with error code: %@", error);
     [strongConnector adapter:self didFailAd:error];
   } else {
     // Unknown error code
+    NSLog(@"maio interstitial ad received an error with error code: %@", error);
     [strongConnector adapter:self didFailAd:error];
   }
 }
