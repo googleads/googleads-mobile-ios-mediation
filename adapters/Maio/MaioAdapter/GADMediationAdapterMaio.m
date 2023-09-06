@@ -38,12 +38,7 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  NSMutableSet *publisherIDs = [[NSMutableSet alloc] init];
-  for (GADMediationCredentials *credential in configuration.credentials) {
-    NSString *publisherID = credential.settings[GADMMaioAdapterPublisherIDKey];
-    GADMAdapterMaioMutableSetAddObject(publisherIDs, publisherID);
-  }
-
+  // maio SDK does not any initialization process for future reference.
   completionHandler(nil);
 }
 
