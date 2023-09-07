@@ -129,6 +129,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   UADSShowOptions *showOptions = [UADSShowOptions new];
   showOptions.objectId = self.objectId;
+  [self.adapterProxy.eventDelegate willPresentFullScreenView];
   [UnityAds show:viewController
        placementId:self.placementId
            options:showOptions

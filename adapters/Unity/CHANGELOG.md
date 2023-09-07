@@ -2,6 +2,7 @@
 
 #### Next version
 - Removed GADMAdNetworkAdapter conformance and dependency from the Unity adapter.
+- Added report impression method invocation in unityAdsShowStart delegate method.
 
 #### [Version 4.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.8.0.0.zip)
 - Added support for impression events for banner ads.
