@@ -475,7 +475,6 @@
 		};
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A31DB7ED230001E48B /* Debug.xcconfig */;
 			buildSettings = {
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(VALID_ARCHS)";
