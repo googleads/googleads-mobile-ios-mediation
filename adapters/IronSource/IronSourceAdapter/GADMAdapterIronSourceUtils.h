@@ -35,7 +35,11 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 // IronSource Util methods.
 + (BOOL)isEmpty:(nullable id)value;
+
 + (void)onLog:(nonnull NSString *)log;
+
 + (nonnull NSString *)getAdMobSDKVersion;
+
++ (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size;
 
 @end
