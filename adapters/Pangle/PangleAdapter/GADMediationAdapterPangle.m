@@ -78,6 +78,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
   config.doNotSell = _doNotSell;
+  config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
         completionHandler:^(BOOL success, NSError *_Nonnull error) {
           completionHandler(error);
