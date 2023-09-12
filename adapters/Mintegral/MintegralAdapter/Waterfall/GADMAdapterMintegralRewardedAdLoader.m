@@ -78,7 +78,6 @@
   }
 
   _rewardedAd = [MTGRewardAdManager sharedInstance];
-  [_rewardedAd setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark" unitId:_adUnitId];
   [_rewardedAd loadVideoWithPlacementId:_placementId unitId:_adUnitId delegate:self];
 }
 
