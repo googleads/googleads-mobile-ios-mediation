@@ -49,7 +49,7 @@
 }
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
-  [self.eventDelegate willPresentFullScreenView];
+  [self.eventDelegate reportImpression];
 }
 
 #pragma mark UADSBannerViewDelegate
