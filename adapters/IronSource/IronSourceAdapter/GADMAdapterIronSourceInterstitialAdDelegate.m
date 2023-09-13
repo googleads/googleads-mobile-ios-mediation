@@ -13,108 +13,139 @@
 // limitations under the License.
 
 #import "GADMAdapterIronSourceInterstitialAdDelegate.h"
-#import "GADMAdapterIronSourceInterstitialAd.h"
-#import "GADMediationAdapterIronSource.h"
-#import "GADMAdapterIronSourceConstants.h"
-#import "GADMAdapterIronSourceUtils.h"
 #import <Foundation/Foundation.h>
+#import "GADMAdapterIronSourceConstants.h"
+#import "GADMAdapterIronSourceInterstitialAd.h"
+#import "GADMAdapterIronSourceUtils.h"
+#import "GADMediationAdapterIronSource.h"
 
 @implementation GADMAdapterIronSourceInterstitialAdDelegate
 
 - (GADMAdapterIronSourceInterstitialAdDelegate *)init {
-    [IronSource setISDemandOnlyInterstitialDelegate:self];
-    return self;
+  [IronSource setISDemandOnlyInterstitialDelegate:self];
+  return self;
 }
 
 #pragma mark - ISDemandOnlyInterstitialDelegate
 
 - (void)didClickInterstitial:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did click for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationInterstitialAdEventDelegate> eventDelegate = [adInstance getInterstitialAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate reportClick];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"IronSource interstitial ad was clicked for Instance ID: %@",
+                                 instanceId]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationInterstitialAdEventDelegate> eventDelegate =
+      [adInstance getInterstitialAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate reportClick];
+  }
 }
 
 - (void)interstitialDidClose:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did close for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationInterstitialAdEventDelegate> eventDelegate = [adInstance getInterstitialAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate willDismissFullScreenView];
-            [eventDelegate didDismissFullScreenView];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad was closed for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationInterstitialAdEventDelegate> eventDelegate =
+      [adInstance getInterstitialAdEventDelegate];
+  if (eventDelegate == nil) {
+    return;
+  }
+
+  [eventDelegate willDismissFullScreenView];
+  [eventDelegate didDismissFullScreenView];
 }
 
-- (void)interstitialDidFailToLoadWithError:(NSError *)error
-                                instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did fail to load for Instance ID: %@ with error: %@",
-            instanceId, error.localizedDescription]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        [adInstance getLoadCompletionHandler](nil, error);
-    }
+- (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:
+                    @"IronSource interstitial ad failed to load for Instance ID: %@ with error: %@",
+                    instanceId, error.localizedDescription]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  [adInstance getLoadCompletionHandler](nil, error);
 }
 
-- (void)interstitialDidFailToShowWithError:(NSError *)error
-                                instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did fail to show for Instance ID: %@ with error: %@",
-            instanceId, error.localizedDescription]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationInterstitialAdEventDelegate> eventDelegate = [adInstance getInterstitialAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate didFailToPresentWithError:error];
-        }
-    }
+- (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:
+                    @"IronSource interstitial ad failed to show for Instance ID: %@ with error: %@",
+                    instanceId, error.localizedDescription]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationInterstitialAdEventDelegate> eventDelegate =
+      [adInstance getInterstitialAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate didFailToPresentWithError:error];
+  }
 }
 
 - (void)interstitialDidLoad:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did load for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        GADMediationInterstitialLoadCompletionHandler loadCompletionHandler = [adInstance getLoadCompletionHandler];
-        if (loadCompletionHandler != nil){
-            [adInstance setInterstitialAdEventDelegate:loadCompletionHandler(adInstance,nil)];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad was loaded for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  GADMediationInterstitialLoadCompletionHandler loadCompletionHandler =
+      [adInstance getLoadCompletionHandler];
+  if (loadCompletionHandler != nil) {
+    [adInstance setInterstitialAdEventDelegate:loadCompletionHandler(adInstance, nil)];
+  }
 }
 
 - (void)interstitialDidOpen:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Interstitial did open for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceInterstitialAd *adInstance = [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationInterstitialAdEventDelegate> eventDelegate = [adInstance getInterstitialAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate willPresentFullScreenView];
-            [eventDelegate reportImpression];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource interstitial ad was opened for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceInterstitialAd *adInstance =
+      [GADMAdapterIronSourceInterstitialAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationInterstitialAdEventDelegate> eventDelegate =
+      [adInstance getInterstitialAdEventDelegate];
+  if (eventDelegate == nil) {
+    return;
+  }
+
+  [eventDelegate willPresentFullScreenView];
+  [eventDelegate reportImpression];
 }
 
 @end

@@ -13,124 +13,156 @@
 // limitations under the License.
 
 #import "GADMAdapterIronSourceRewardedAdDelegate.h"
-#import "GADMAdapterIronSourceRewardedAd.h"
-#import "GADMediationAdapterIronSource.h"
-#import "GADMAdapterIronSourceConstants.h"
-#import "GADMAdapterIronSourceUtils.h"
 #import <Foundation/Foundation.h>
+#import "GADMAdapterIronSourceConstants.h"
+#import "GADMAdapterIronSourceRewardedAd.h"
+#import "GADMAdapterIronSourceUtils.h"
+#import "GADMediationAdapterIronSource.h"
 
 @implementation GADMAdapterIronSourceRewardedAdDelegate
 
 - (GADMAdapterIronSourceRewardedAdDelegate *)init {
-    [IronSource setISDemandOnlyRewardedVideoDelegate:self];
-    return self;
+  [IronSource setISDemandOnlyRewardedVideoDelegate:self];
+  return self;
 }
 
 #pragma mark - ISDemandOnlyRewardedVideoDelegate
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did click for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate reportClick];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource rewarded ad was clicked for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate reportClick];
+  }
 }
 
 - (void)rewardedVideoDidClose:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did close for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate willDismissFullScreenView];
-            [eventDelegate didDismissFullScreenView];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource rewarded ad was closed for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
+  if (eventDelegate == nil) {
+    return;
+  }
+
+  [eventDelegate willDismissFullScreenView];
+  [eventDelegate didDismissFullScreenView];
 }
 
-- (void)rewardedVideoDidFailToLoadWithError:(NSError *)error
-                                 instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did fail to load for Instance ID: %@ with error: %@",
-            instanceId, error.localizedDescription]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        [adInstance getLoadCompletionHandler](nil, error);
-    }
+- (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:
+                    @"IronSource rewarded ad failed to load for Instance ID: %@ with error: %@",
+                    instanceId, error.localizedDescription]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  [adInstance getLoadCompletionHandler](nil, error);
 }
 
-- (void)rewardedVideoDidFailToShowWithError:(NSError *)error
-                                 instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did fail to show for Instance ID: %@ with error: %@",
-            instanceId, error.localizedDescription]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate didFailToPresentWithError:error];
-        }
-    }
+- (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:
+                    @"IronSource rewarded ad failed to show for Instance ID: %@ with error: %@",
+                    instanceId, error.localizedDescription]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate didFailToPresentWithError:error];
+  }
 }
 
 - (void)rewardedVideoDidLoad:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did load for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        GADMediationRewardedLoadCompletionHandler loadCompletionHandler = [adInstance getLoadCompletionHandler];
-        if (loadCompletionHandler != nil){
-            [adInstance setRewardedAdEventDelegate:loadCompletionHandler(adInstance,nil)];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource rewarded ad was loaded for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  GADMediationRewardedLoadCompletionHandler loadCompletionHandler =
+      [adInstance getLoadCompletionHandler];
+  if (loadCompletionHandler != nil) {
+    [adInstance setRewardedAdEventDelegate:loadCompletionHandler(adInstance, nil)];
+  }
 }
 
 - (void)rewardedVideoDidOpen:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"RewardedVideo did open for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate willPresentFullScreenView];
-            [eventDelegate didStartVideo];
-            [eventDelegate reportImpression];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource rewarded ad was opened for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
+  if (eventDelegate == nil) {
+    return;
+  }
+
+  [eventDelegate willPresentFullScreenView];
+  [eventDelegate didStartVideo];
+  [eventDelegate reportImpression];
 }
 
 - (void)rewardedVideoAdRewarded:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString
-            stringWithFormat:@"RewardedVideo received reward for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceRewardedAd *adInstance = [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate didEndVideo];
-            [eventDelegate didRewardUser];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString
+                stringWithFormat:@"IronSource rewarded ad received reward for Instance ID: %@",
+                                 instanceId]];
+
+  GADMAdapterIronSourceRewardedAd *adInstance =
+      [GADMAdapterIronSourceRewardedAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationRewardedAdEventDelegate> eventDelegate = [adInstance getRewardedAdEventDelegate];
+  if (eventDelegate == nil) {
+    return;
+  }
+
+  [eventDelegate didEndVideo];
+  [eventDelegate didRewardUser];
 }
 
 @end

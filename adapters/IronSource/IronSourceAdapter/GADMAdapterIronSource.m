@@ -18,7 +18,7 @@
 @implementation GADMAdapterIronSource
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-    return [GADMediationAdapterIronSource class];
+  return [GADMediationAdapterIronSource class];
 }
 
 @end

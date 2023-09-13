@@ -13,84 +13,102 @@
 // limitations under the License.
 
 #import "GADMAdapterIronSourceBannerAdDelegate.h"
+#import <Foundation/Foundation.h>
 #import "GADMAdapterIronSourceBannerAd.h"
-#import "GADMediationAdapterIronSource.h"
 #import "GADMAdapterIronSourceConstants.h"
 #import "GADMAdapterIronSourceUtils.h"
-#import <Foundation/Foundation.h>
+#import "GADMediationAdapterIronSource.h"
 
 @implementation GADMAdapterIronSourceBannerAdDelegate
 
 - (GADMAdapterIronSourceBannerAdDelegate *)init {
-    return self;
+  return self;
 }
 
 #pragma mark - ISDemandOnlyBannerDelegate
 
 - (void)didClickBanner:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Banner did click for Instance ID: %@",
-            instanceId]];
-    
-    GADMAdapterIronSourceBannerAd *adInstance = [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate reportClick];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource banner ad was clicked for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate reportClick];
+  }
 }
 
-- (void)bannerDidFailToLoadWithError:(NSError *)error
-                          instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Banner did fail to load for Instance ID: %@ with error: %@",
-            instanceId, error.localizedDescription]];
-    
-    GADMAdapterIronSourceBannerAd *adInstance = [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-        id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
-        [adInstance getLoadCompletionHandler](nil, error);
-    }
+- (void)bannerDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:
+                          @"IronSource banner ad failed to load for Instance ID: %@ with error: %@",
+                          instanceId, error.localizedDescription]];
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
+  [adInstance getLoadCompletionHandler](nil, error);
 }
 
-- (void)bannerDidLoad:(ISDemandOnlyBannerView *)bannerView
-           instanceId:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Banner did load for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceBannerAd *adInstance = [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        [adInstance setBannerView:bannerView];
-        [adInstance setBannerAdEventDelegate:([adInstance getLoadCompletionHandler](adInstance, nil))];
-    }
+- (void)bannerDidLoad:(ISDemandOnlyBannerView *)bannerView instanceId:(NSString *)instanceId {
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource banner ad was loaded for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  [adInstance setBannerView:bannerView];
+  [adInstance setBannerAdEventDelegate:([adInstance getLoadCompletionHandler](adInstance, nil))];
 }
 
 - (void)bannerDidShow:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Banner did show for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceBannerAd *adInstance = [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate reportImpression];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"IronSource banner ad was shown for Instance ID: %@",
+                                       instanceId]];
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate reportImpression];
+  }
 }
 
 - (void)bannerWillLeaveApplication:(NSString *)instanceId {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"Banner will leave application for Instance ID: %@", instanceId]];
-    
-    GADMAdapterIronSourceBannerAd *adInstance = [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
-    if (adInstance != nil){
-        id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
-        if (eventDelegate != nil){
-            [eventDelegate willDismissFullScreenView];
-        }
-    }
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:
+                          @"IronSource banner ad will leave the application for Instance ID: %@",
+                          instanceId]];
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:instanceId];
+  if (adInstance == nil) {
+    return;
+  }
+
+  id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
+  if (eventDelegate != nil) {
+    [eventDelegate willDismissFullScreenView];
+  }
 }
 
 @end

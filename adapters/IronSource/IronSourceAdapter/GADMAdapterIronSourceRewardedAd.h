@@ -19,36 +19,38 @@
 @interface GADMAdapterIronSourceRewardedAd : NSObject <GADMediationRewardedAd>
 
 /// Initializes a new instance with adConfiguration and completionHandler.
-- (void)loadRewardedAdForConfiguration:(GADMediationRewardedAdConfiguration *_Nullable)adConfiguration
-                     completionHandler:(GADMediationRewardedLoadCompletionHandler _Nullable )
-completionHandler;
+- (void)loadRewardedAdForConfiguration:
+            (nullable GADMediationRewardedAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nullable GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 #pragma mark - Instance map Access
 
 // Add a delegate to the instance map
-+ (void)setDelegate:(GADMAdapterIronSourceRewardedAd *_Nonnull)delegate forKey:(NSString *_Nonnull)key;
++ (void)setDelegate:(nonnull GADMAdapterIronSourceRewardedAd *)delegate
+             forKey:(nonnull NSString *)key;
 
 // Retrieve a delegate from the instance map
-+ (GADMAdapterIronSourceRewardedAd *_Nonnull)delegateForKey:(NSString *_Nonnull)key;
++ (nonnull GADMAdapterIronSourceRewardedAd *)delegateForKey:(nonnull NSString *)key;
 
 // Remove a delegate from the instance map
-+ (void)removeDelegateForKey:(NSString *_Nonnull)key;
++ (void)removeDelegateForKey:(nonnull NSString *)key;
 
 #pragma mark - Getters and Setters
 
 /// Get the rewarded event delegate for Admob mediation.
-- (id<GADMediationRewardedAdEventDelegate>_Nullable) getRewardedAdEventDelegate;
+- (nullable id<GADMediationRewardedAdEventDelegate>)getRewardedAdEventDelegate;
 
 /// Set the rewarded event delegate for Admob mediation.
-- (void)setRewardedAdEventDelegate:(id<GADMediationRewardedAdEventDelegate>_Nullable)eventDelegate;
+- (void)setRewardedAdEventDelegate:(nullable id<GADMediationRewardedAdEventDelegate>)eventDelegate;
 
 /// Get the rewarded Admob mediation load completion handler.
-- (GADMediationRewardedLoadCompletionHandler _Nullable) getLoadCompletionHandler;
+- (nullable GADMediationRewardedLoadCompletionHandler)getLoadCompletionHandler;
 
 /// Set the ad instance state
-- (void)setState:(NSString *_Nullable)state;
+- (void)setState:(nullable NSString *)state;
 
 /// Get the ad instance state
-- (NSString *_Nullable)getState;
+- (nullable NSString *)getState;
 
 @end

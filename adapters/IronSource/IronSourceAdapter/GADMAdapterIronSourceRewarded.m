@@ -21,7 +21,7 @@
 /// directly to ask for a rewarded ad.
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
-    return [GADMediationAdapterIronSource class];
+  return [GADMediationAdapterIronSource class];
 }
 
 @end

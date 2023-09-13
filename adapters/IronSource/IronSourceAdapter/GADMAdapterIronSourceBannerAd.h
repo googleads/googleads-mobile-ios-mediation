@@ -22,37 +22,38 @@
 /// Asks the receiver to render the ad configuration.
 - (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
-(nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 
 #pragma mark - Instance map Access
 
 // Add a delegate to the instance map
-+ (void)setDelegate:(GADMAdapterIronSourceBannerAd *_Nonnull)delegate forKey:(NSString *_Nonnull)key;
++ (void)setDelegate:(nonnull GADMAdapterIronSourceBannerAd *)delegate
+             forKey:(nonnull NSString *)key;
 
 // Retrieve a delegate from the instance map
-+ (GADMAdapterIronSourceBannerAd *_Nonnull)delegateForKey:(NSString *_Nonnull)key;
++ (nonnull GADMAdapterIronSourceBannerAd *)delegateForKey:(nonnull NSString *)key;
 
 // Remove a delegate from the instance map
-+ (void)removeDelegateForKey:(NSString *_Nonnull)key;
++ (void)removeDelegateForKey:(nonnull NSString *)key;
 
 #pragma mark - Getters and Setters
 
 /// Get the banner event delegate for Admob mediation.
-- (id<GADMediationBannerAdEventDelegate>_Nullable) getBannerAdEventDelegate;
+- (nullable id<GADMediationBannerAdEventDelegate>)getBannerAdEventDelegate;
 
 /// Set the banner event delegate for Admob mediation.
-- (void)setBannerAdEventDelegate:(id<GADMediationBannerAdEventDelegate>_Nullable)eventDelegate;
+- (void)setBannerAdEventDelegate:(nullable id<GADMediationBannerAdEventDelegate>)eventDelegate;
 
 /// Get the banner Admob mediation load completion handler.
-- (GADMediationBannerLoadCompletionHandler _Nullable) getLoadCompletionHandler;
+- (nullable GADMediationBannerLoadCompletionHandler)getLoadCompletionHandler;
 
 /// Get the banner Admob mediation load completion handler.
-- (void)setBannerView:(ISDemandOnlyBannerView *_Nullable)bannerView;
+- (void)setBannerView:(nullable ISDemandOnlyBannerView *)bannerView;
 
 /// Set the ad instance state
-- (void)setState:(NSString *_Nullable)state;
+- (void)setState:(nullable NSString *)state;
 
 /// Get the ad instance state
-- (NSString *_Nullable)getState;
+- (nullable NSString *)getState;
 
 @end

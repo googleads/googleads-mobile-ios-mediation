@@ -19,36 +19,39 @@
 @interface GADMAdapterIronSourceInterstitialAd : NSObject <GADMediationInterstitialAd>
 
 /// Initializes a new instance with adConfiguration and completionHandler.
-- (void)loadInterstitialForAdConfiguration:(GADMediationInterstitialAdConfiguration *_Nullable)adConfiguration
-                         completionHandler:(GADMediationInterstitialLoadCompletionHandler _Nullable )
-completionHandler;
+- (void)loadInterstitialForAdConfiguration:
+            (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler;
 
 #pragma mark - Instance map Access
 
 // Add a delegate to the instance map
-+ (void)setDelegate:(GADMAdapterIronSourceInterstitialAd *_Nonnull)delegate forKey:(NSString *_Nonnull)key;
++ (void)setDelegate:(nonnull GADMAdapterIronSourceInterstitialAd *)delegate
+             forKey:(nonnull NSString *)key;
 
 // Retrieve a delegate from the instance map
-+ (GADMAdapterIronSourceInterstitialAd *_Nonnull)delegateForKey:(NSString *_Nonnull)key;
++ (nonnull GADMAdapterIronSourceInterstitialAd *)delegateForKey:(nonnull NSString *)key;
 
 // Remove a delegate from the instance map
-+ (void)removeDelegateForKey:(NSString *_Nonnull)key;
++ (void)removeDelegateForKey:(nonnull NSString *)key;
 
 #pragma mark - Getters and Setters
 
 /// Get the interstitial event delegate for Admob mediation.
-- (id<GADMediationInterstitialAdEventDelegate>_Nullable) getInterstitialAdEventDelegate;
+- (nullable id<GADMediationInterstitialAdEventDelegate>)getInterstitialAdEventDelegate;
 
 /// Set the interstitial event delegate for Admob mediation.
-- (void)setInterstitialAdEventDelegate:(id<GADMediationInterstitialAdEventDelegate>_Nullable)eventDelegate;
+- (void)setInterstitialAdEventDelegate:
+    (nullable id<GADMediationInterstitialAdEventDelegate>)eventDelegate;
 
 /// Get the interstitial Admob mediation load completion handler.
-- (GADMediationInterstitialLoadCompletionHandler _Nullable) getLoadCompletionHandler;
+- (nullable GADMediationInterstitialLoadCompletionHandler)getLoadCompletionHandler;
 
 /// Set the ad instance state
-- (void)setState:(NSString *_Nullable)state;
+- (void)setState:(nullable NSString *)state;
 
 /// Get the ad instance state
-- (NSString *_Nullable)getState;
+- (nullable NSString *)getState;
 
 @end
