@@ -102,7 +102,12 @@
   if (extras && extras.keywords) {
     [_interstitialAd setKeywords:extras.keywords];
   }
-
+  
+  if (_interstitialAdConfig.watermark != nil) {
+    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_interstitialAdConfig.watermark];
+    [_interstitialAd setWatermarkWith:watermark];
+  }
+    
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_interstitialAdConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
 
