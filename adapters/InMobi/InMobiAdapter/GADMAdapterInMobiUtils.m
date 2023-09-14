@@ -153,7 +153,8 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig) {
   GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
-  GADMAdapterInMobiSetIsAgeRestricted(adConfig.childDirectedTreatment);
+  GADMAdapterInMobiSetIsAgeRestricted(
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
 }
 
 void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted) {

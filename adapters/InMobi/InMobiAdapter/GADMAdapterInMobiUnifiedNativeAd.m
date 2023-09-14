@@ -162,7 +162,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
       bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
                       : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, mediationType, _nativeAdConfig.childDirectedTreatment);
+      extras, mediationType,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
   [_native setExtras:requestParameters];
 
   if (bidResponseData) {

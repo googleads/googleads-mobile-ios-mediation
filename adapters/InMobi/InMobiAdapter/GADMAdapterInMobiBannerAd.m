@@ -136,7 +136,8 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
       bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
                       : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, mediationType, _bannerAdConfig.childDirectedTreatment);
+      extras, mediationType,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
   [_adView setExtras:requestParameters];
 
   if (bidResponseData) {

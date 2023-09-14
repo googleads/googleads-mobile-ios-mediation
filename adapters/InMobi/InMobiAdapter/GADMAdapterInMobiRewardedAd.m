@@ -144,8 +144,9 @@
   GADMAdapterInMobiRequestParametersMediationType mediationType =
       bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
                       : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
-  NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiRequestParameters(extras, mediationType, _adConfig.childDirectedTreatment);
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, mediationType,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
   [_rewardedAd setExtras:requestParameters];
 
   if (bidResponseData) {
