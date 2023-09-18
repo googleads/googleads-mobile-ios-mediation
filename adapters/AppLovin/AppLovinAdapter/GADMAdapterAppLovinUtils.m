@@ -61,7 +61,7 @@ void GADMAdapterAppLovinMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value; // Allow pattern.
+    dictionary[key] = value;  // Allow pattern.
   }
 }
 
@@ -107,13 +107,6 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
     return serverSDKKey;
   }
 
-  // If the SDK key from the credentials is invalid, then attempt to use SDK key from
-  // Info.plist.
-  NSString *infoDictSDKKey = [self infoDictionarySDKKey];
-  if (infoDictSDKKey && [self isValidAppLovinSDKKey:infoDictSDKKey]) {
-    return infoDictSDKKey;
-  }
-
   return nil;
 }
 
@@ -127,10 +120,6 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
 
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey {
   return [SDKKey isKindOfClass:[NSString class]] && ((NSString *)SDKKey).length == kALSDKKeyLength;
-}
-
-+ (nullable NSString *)infoDictionarySDKKey {
-  return NSBundle.mainBundle.infoDictionary[GADMAdapterAppLovinInfoPListSDKKey];
 }
 
 + (nullable NSString *)zoneIdentifierForConnector:(nonnull id<GADMediationAdRequest>)connector {
@@ -167,10 +156,12 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
   GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
   GADAdSize mrec = GADAdSizeFromCGSize(CGSizeMake(300, 250));
   GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
-  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec)];
+  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec) ];
   if (IS_IPAD) {
     // iPad also supports 728x90.
-    potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec), NSValueFromGADAdSize(leaderboard)];
+    potentials = @[
+      NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec), NSValueFromGADAdSize(leaderboard)
+    ];
   }
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
   CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);

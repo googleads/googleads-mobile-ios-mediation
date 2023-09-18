@@ -51,14 +51,6 @@
     }
   }
 
-  // Add SDK key from Info.plist if it exists.
-  if ([GADMAdapterAppLovinUtils infoDictionarySDKKey]) {
-    NSString *SDKKey = [GADMAdapterAppLovinUtils infoDictionarySDKKey];
-    if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:SDKKey]) {
-      GADMAdapterAppLovinMutableSetAddObject(SDKKeys, SDKKey);
-    }
-  }
-
   if (!SDKKeys.count) {
     NSString *errorString = @"No SDK keys are found. Please add valid SDK keys in the AdMob UI.";
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(

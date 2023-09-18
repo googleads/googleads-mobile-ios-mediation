@@ -14,9 +14,6 @@ extern NSString *_Nonnull const GADMAdapterAppLovinErrorDomain;
 /// AppLovin SDK error domain.
 extern NSString *_Nonnull const GADMAdapterAppLovinSDKErrorDomain;
 
-/// AppLovin SDK parameter key in Info.plist file.
-extern NSString *_Nonnull const GADMAdapterAppLovinInfoPListSDKKey;
-
 /// AppLovin adapter version number.
 extern NSString *_Nonnull const GADMAdapterAppLovinAdapterVersion;
 

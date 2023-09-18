@@ -69,9 +69,6 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey);
 /// Returns whether the given string is a valid SDK key or not.
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey;
 
-/// Retrieve the SDK key from the Info.plist, if any.
-+ (nullable NSString *)infoDictionarySDKKey;
-
 /// Retrieves the zone identifier from an appropriate connector object. Returns the default
 /// zone if no zone identifier exists. Returns nil for invalid custom zones.
 + (nullable NSString *)zoneIdentifierForConnector:(nonnull id<GADMediationAdRequest>)connector;
