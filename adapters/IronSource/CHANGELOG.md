@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Version 7.5.0.0.0 (In Progress)
+#### [Version 7.5.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.5.0.0.0.zip)
 - Added waterfall support for banner (includes MREC) ad format.
 - Verified compatibility with IronSource SDK version 7.5.0.0.
 
