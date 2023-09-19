@@ -1,5 +1,12 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 10.5.8.0 (In progress)
+- Verified compatibility with InMobi SDK 10.5.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.10.0.
+- InMobi SDK version 10.5.8.
+
 #### [Version 10.5.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.6.0.zip)
 - Added support to read IAB U.S. Privacy string from NSUserDefaults.
 - Verified compatibility with InMobi SDK 10.5.6.
