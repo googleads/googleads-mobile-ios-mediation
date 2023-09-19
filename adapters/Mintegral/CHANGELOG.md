@@ -1,7 +1,12 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Next version
+#### [Version 7.4.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.4.4.0.zip)
 - Added watermark support for bidding ads.
+- Verified compatibility with Mintegral SDK version 7.4.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.10.0.
+- Mintegral SDK version 7.4.4.
 
 #### [Version 7.4.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.4.3.0.zip)
 - Verified compatibility with Mintegral SDK version 7.4.3.
