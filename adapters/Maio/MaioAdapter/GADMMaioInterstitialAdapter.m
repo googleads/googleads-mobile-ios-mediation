@@ -14,18 +14,17 @@
 
 #import "GADMMaioInterstitialAdapter.h"
 
-#import <Maio/Maio.h>
+#import <Maio/Maio-Swift.h>
 
-#import "GADMAdapterMaioAdsManager.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 
-@interface GADMMaioInterstitialAdapter () <MaioDelegate>
+@interface GADMMaioInterstitialAdapter () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> interstitialAdConnector;
 
-@property(nonatomic, strong) NSString *mediaId;
 @property(nonatomic, strong) NSString *zoneId;
+@property(nonatomic, strong) MaioInterstitial *interstitial;
 
 @end
 
@@ -90,35 +89,11 @@
   if (!param) {
     return;
   }
-  self.mediaId = param[GADMMaioAdapterMediaIdKey];
   self.zoneId = param[GADMMaioAdapterZoneIdKey];
-  GADMAdapterMaioAdsManager *adManager =
-      [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
 
-  // maioInstance生成時にテストモードかどうかを指定する
-  [adManager setAdTestMode:strongConnector.testMode];
-
-  GADMMaioInterstitialAdapter *__weak weakSelf = self;
-  id<GADMAdNetworkConnector> __weak weakConnector = strongConnector;
-  [adManager initializeMaioSDKWithCompletionHandler:^(NSError *error) {
-    GADMMaioInterstitialAdapter *strongSelf = weakSelf;
-    id<GADMAdNetworkConnector> strongerConnector = weakConnector;
-
-    if (!strongSelf || !strongerConnector) {
-      return;
-    }
-
-    if (error) {
-      [strongerConnector adapter:strongSelf didFailAd:error];
-    } else {
-      // 生成済みのinstanceを得た場合、testモードを上書きする必要がある
-      [adManager setAdTestMode:strongSelf.interstitialAdConnector.testMode];
-      NSError *error = [adManager loadAdForZoneId:strongSelf.zoneId delegate:strongSelf];
-      if (error) {
-        [strongerConnector adapter:strongSelf didFailAd:error];
-      }
-    }
-  }];
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:self.zoneId
+                                                    testMode:strongConnector.testMode];
+  self.interstitial = [MaioInterstitial loadAdWithRequest:request callback:self];
 }
 
 /// When called, the adapter must remove itself as a delegate or notification
@@ -148,81 +123,49 @@
 /// and adapterDidDismissInterstitial: when the interstitial is being dismissed.
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   [self.interstitialAdConnector adapterWillPresentInterstitial:self];
-  GADMAdapterMaioAdsManager *adManager =
-      [GADMAdapterMaioAdsManager getMaioAdsManagerByMediaId:self.mediaId];
-  [adManager showAdForZoneId:self.zoneId rootViewController:rootViewController];
+  [self.interstitial showWithViewContext:rootViewController callback:self];
 }
 
-#pragma mark - MaioDelegate
+#pragma mark - MaioInterstitialLoadCallback, MaioInterstitialShowCallback
 
-/**
- *  全てのゾーンの広告表示準備が完了したら呼ばれます。
- */
-- (void)maioDidInitialize {
-  // noop
-}
-
-/**
- *  広告の配信可能状態が変更されたら呼ばれます。
- *
- *  @param zoneId   広告の配信可能状態が変更されたゾーンの識別子
- *  @param newValue 変更後のゾーンの状態。YES なら配信可能
- */
-- (void)maioDidChangeCanShow:(NSString *)zoneId newValue:(BOOL)newValue {
-  if (!newValue) return;
-
+- (void)didLoad:(MaioInterstitial *)ad {
   [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
+
 }
 
-/**
- *  広告が再生される直前に呼ばれます。
- *  最初の再生開始の直前にのみ呼ばれ、リプレイ再生の直前には呼ばれません。
- *
- *  @param zoneId  広告が表示されるゾーンの識別子
- */
-- (void)maioWillStartAd:(NSString *)zoneId {
-  // NOOP
-}
-
-/**
- *  広告の再生が終了したら呼ばれます。
- *  最初の再生終了時にのみ呼ばれ、リプレイ再生の終了時には呼ばれません。
- *
- *  @param zoneId  広告を表示したゾーンの識別子
- *  @param playtime 動画の再生時間（秒）
- *  @param skipped  動画がスキップされていたら YES、それ以外なら NO
- *  @param rewardParam
- * ゾーンがリワード型に設定されている場合、予め管理画面にて設定してある任意の文字列パラメータが渡されます。それ以外の場合は
- * nil
- */
-- (void)maioDidFinishAd:(NSString *)zoneId
-               playtime:(NSInteger)playtime
-                skipped:(BOOL)skipped
-            rewardParam:(NSString *)rewardParam {
-  // NOOP
-}
-
-/**
- *  広告がクリックされ、ストアや外部リンクへ遷移した時に呼ばれます。
- *
- *  @param zoneId  広告がクリックされたゾーンの識別子
- */
-- (void)maioDidClickAd:(NSString *)zoneId {
+- (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode {
   id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
   if (!strongConnector) {
     return;
   }
+  NSString *description = @"maio SDK returned an error";
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
+  NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
+                                       code:errorCode
+                                   userInfo:userInfo];
 
-  [strongConnector adapterDidGetAdClick:self];
-  [strongConnector adapterWillLeaveApplication:self];
+
+  if (10000 <= errorCode && errorCode < 20000) {
+    // Fail to load.
+    NSLog(@"maio interstitial ad failed to load with error code: %@", error);
+    [strongConnector adapter:self didFailAd:error];
+  } else if (20000 <= errorCode && errorCode < 30000) {
+    // Fail to Show
+    NSLog(@"maio interstitial ad failed to show with error code: %@", error);
+    [strongConnector adapter:self didFailAd:error];
+  } else {
+    // Unknown error code
+    NSLog(@"maio interstitial ad received an error with error code: %@", error);
+    [strongConnector adapter:self didFailAd:error];
+  }
 }
 
-/**
- *  広告が閉じられた際に呼ばれます。
- *
- *  @param zoneId  広告が閉じられたゾーンの識別子
- */
-- (void)maioDidCloseAd:(NSString *)zoneId {
+- (void)didOpen:(MaioInterstitial *)ad {
+  // Google Mobile Ads SDK doesn't have a matching event.
+}
+
+- (void)didClose:(MaioInterstitial *)ad {
   id<GADMAdNetworkConnector> strongConnector = self.interstitialAdConnector;
   if (!strongConnector) {
     return;
@@ -230,17 +173,6 @@
 
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
-}
-
-/**
- *  SDK でエラーが生じた際に呼ばれます。
- *
- *  @param zoneId  エラーに関連するゾーンの識別子
- *  @param reason   エラーの理由を示す列挙値
- */
-- (void)maioDidFail:(NSString *)zoneId reason:(MaioFailReason)reason {
-  NSError *error = GADMAdapterMaioSDKErrorForFailReason(reason);
-  [self.interstitialAdConnector adapter:self didFailAd:error];
 }
 
 #pragma mark - private methods
