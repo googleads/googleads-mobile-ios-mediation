@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
 
-@interface GADMMaioInterstitialAdapter () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
+@interface GADMMaioInterstitialAdapter () <MaioInterstitialLoadCallback,
+                                           MaioInterstitialShowCallback>
 
 @property(nonatomic, weak) id<GADMAdNetworkConnector> interstitialAdConnector;
 
@@ -130,7 +131,6 @@
 
 - (void)didLoad:(MaioInterstitial *)ad {
   [self.interstitialAdConnector adapterDidReceiveInterstitial:self];
-
 }
 
 - (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode {
@@ -138,27 +138,25 @@
   if (!strongConnector) {
     return;
   }
-  NSString *description = @"maio SDK returned an error";
+
+  NSString *description = @"maio SDK returned an error.";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];
 
-
   if (10000 <= errorCode && errorCode < 20000) {
     // Fail to load.
     NSLog(@"maio interstitial ad failed to load with error code: %@", error);
-    [strongConnector adapter:self didFailAd:error];
   } else if (20000 <= errorCode && errorCode < 30000) {
     // Fail to Show
     NSLog(@"maio interstitial ad failed to show with error code: %@", error);
-    [strongConnector adapter:self didFailAd:error];
   } else {
     // Unknown error code
     NSLog(@"maio interstitial ad received an error with error code: %@", error);
-    [strongConnector adapter:self didFailAd:error];
   }
+  [strongConnector adapter:self didFailAd:error];
 }
 
 - (void)didOpen:(MaioInterstitial *)ad {

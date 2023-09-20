@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,7 +57,8 @@
 
   _zoneId = adConfiguration.credentials.settings[GADMMaioAdapterZoneIdKey];
 
-  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:self.zoneId testMode:adConfiguration.isTestRequest];
+  MaioRequest *request = [[MaioRequest alloc] initWithZoneId:self.zoneId
+                                                    testMode:adConfiguration.isTestRequest];
   self.rewarded = [MaioRewarded loadAdWithRequest:request callback:self];
 }
 
@@ -72,11 +73,9 @@
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = @"maio SDK returned an error";
-  NSDictionary *userInfo = @{
-    NSLocalizedDescriptionKey: description,
-    NSLocalizedFailureReasonErrorKey: description
-  };
+  NSString *description = @"maio SDK returned an error.";
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
                                        code:errorCode
                                    userInfo:userInfo];
@@ -96,7 +95,6 @@
     // Notify an error when loading.
     self.completionHandler(nil, error);
   }
-
 }
 
 - (void)didOpen:(MaioRewarded *)ad {
