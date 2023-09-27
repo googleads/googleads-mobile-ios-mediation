@@ -128,6 +128,11 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
     [_adView setKeywords:extras.keywords];
   }
 
+  if (_bannerAdConfig.watermark != nil) {
+    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_bannerAdConfig.watermark];
+    [_adView setWatermarkWith:watermark];
+  }
+
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_bannerAdConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
 

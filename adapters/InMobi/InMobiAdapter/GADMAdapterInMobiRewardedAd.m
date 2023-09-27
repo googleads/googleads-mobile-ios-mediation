@@ -138,6 +138,11 @@
     [_rewardedAd setKeywords:extras.keywords];
   }
 
+  if (_adConfig.watermark != nil) {
+    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_adConfig.watermark];
+    [_rewardedAd setWatermarkWith:watermark];
+  }
+    
   GADMAdapterInMobiSetTargetingFromAdConfiguration(_adConfig);
   GADMAdapterInMobiSetUSPrivacyCompliance();
   NSData *bidResponseData = GADMAdapterInMobiBidResponseDataFromAdConfigration(_adConfig);
