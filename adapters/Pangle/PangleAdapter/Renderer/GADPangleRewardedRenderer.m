@@ -65,6 +65,9 @@
 
   PAGRewardedRequest *request = [PAGRewardedRequest request];
   request.adString = adConfiguration.bidResponse;
+  if (adConfiguration.watermark) {
+    request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
+  }
   GADPangleRewardedRenderer *__weak weakSelf = self;
   [PAGRewardedAd loadAdWithSlotID:placementId
                           request:request

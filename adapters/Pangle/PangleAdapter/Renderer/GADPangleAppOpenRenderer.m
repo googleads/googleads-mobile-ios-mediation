@@ -60,6 +60,9 @@
     }
     PAGAppOpenRequest *request = [PAGAppOpenRequest request];
     request.adString = adConfiguration.bidResponse;
+    if (adConfiguration.watermark) {
+      request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
+    }
     GADPangleAppOpenRenderer *__weak weakSelf = self;
     [PAGLAppOpenAd loadAdWithSlotID:placementId
                             request:request

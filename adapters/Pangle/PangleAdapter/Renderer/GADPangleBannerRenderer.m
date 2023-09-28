@@ -69,7 +69,9 @@
     
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
-
+  if (adConfiguration.watermark) {
+    request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
+  }
   GADPangleBannerRenderer *__weak weakSelf = self;
   [PAGBannerAd loadAdWithSlotID:placementId
                         request:request

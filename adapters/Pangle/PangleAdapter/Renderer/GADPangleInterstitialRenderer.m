@@ -61,6 +61,9 @@
   }
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse;
+  if (adConfiguration.watermark) {
+    request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
+  }
   GADPangleInterstitialRenderer *__weak weakSelf = self;
   [PAGLInterstitialAd
        loadAdWithSlotID:placementId
