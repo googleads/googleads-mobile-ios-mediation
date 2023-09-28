@@ -22,6 +22,9 @@
 #import "GADUnityRouter.h"
 #import "NSErrorUnity.h"
 
+
+NSString* const kWatermarkKey = @"watermark";
+
 @interface GADMediationAdapterUnity () <GADMediationRewardedAd,
                                         GADMediationInterstitialAd,
                                         GADMediationBannerAd>
@@ -29,6 +32,7 @@
 @property(nonatomic, strong) GADUnityBaseMediationAdapterProxy *adapterProxy;
 @property(nonatomic, strong) UADSBannerView *bannerView;
 @property(nonatomic, strong) NSString *objectId;  // Object ID used to track loaded/shown ads.
+@property(nonatomic, strong) NSString* watermark;
 @end
 
 @implementation GADMediationAdapterUnity
@@ -97,6 +101,7 @@
 
   self.placementId = adConfiguration.placementId;
   self.objectId = [NSUUID UUID].UUIDString;
+  self.watermark = [adConfiguration.watermark base64EncodedStringWithOptions:0];
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   loadOptions.objectId = self.objectId;
 
@@ -129,6 +134,9 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   UADSShowOptions *showOptions = [UADSShowOptions new];
   showOptions.objectId = self.objectId;
+  if (self.watermark) {
+    [showOptions.dictionary setValue:self.watermark forKey:kWatermarkKey];
+  }
   [self.adapterProxy.eventDelegate willPresentFullScreenView];
   [UnityAds show:viewController
        placementId:self.placementId
