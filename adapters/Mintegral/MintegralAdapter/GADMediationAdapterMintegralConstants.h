@@ -31,3 +31,6 @@ static NSString *const GADMAdapterMintegralPlacementID = @"placement_id";
 
 /// Mintegral adapter error domain.
 static NSString *const GADMAdapterMintegralErrorDomain = @"com.google.mediation.mintegral";
+
+/// App open's count down in seconds.
+static NSUInteger const GADMAdapterMintegralAppOpenSkipCountDownInSeconds = 5;

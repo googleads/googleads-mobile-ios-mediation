@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #import "GADMediationAdapterMintegral.h"
+#import "GADMAdapterMintegralAppOpenAdLoader.h"
 #import "GADMAdapterMintegralBannerAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralInterstitialAdLoader.h"
@@ -40,6 +41,9 @@
 
   /// Mintegral RTB rewarded ad.
   GADMAdapterMintegralRTBRewardedAdLoader *_rtbRewardedAd;
+
+  /// Mintegral waterfall app open ad.
+  GADMAdapterMintegralAppOpenAdLoader *_waterfallAppOpenAd;
 
   /// Mintegral waterfall banner ad.
   GADMAdapterMintegralBannerAdLoader *_waterfallBannerAd;
@@ -134,6 +138,18 @@
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
   if (completionHandler) {
     completionHandler([MTGBiddingSDK buyerUID], nil);
+  }
+}
+
+- (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  if (adConfiguration.bidResponse) {
+    // TODO(hikaruwatanabe): load rtb app open ad.
+  } else {
+    _waterfallAppOpenAd = [[GADMAdapterMintegralAppOpenAdLoader alloc] init];
+    [_waterfallAppOpenAd loadAppOpenAdForAdConfiguration:adConfiguration
+                                       completionHandler:completionHandler];
   }
 }
 
