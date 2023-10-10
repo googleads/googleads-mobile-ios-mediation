@@ -1,5 +1,9 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+- Add support for app open.
+- Update podspec dependency "MintegralAdSDK" to "MintegralAdSDK/All" in order to support app open.
+
 #### [Version 7.4.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.4.4.0.zip)
 - Added watermark support for bidding ads.
 - Verified compatibility with Mintegral SDK version 7.4.4.
