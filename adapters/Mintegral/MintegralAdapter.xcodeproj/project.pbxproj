@@ -59,6 +59,8 @@
 		AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD1E88082AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1E88062AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.m */; };
 		AD1E88092AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1E88072AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.h */; };
+		AD1E88282AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1E88262AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m */; };
+		AD1E88292AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1E88272AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +123,8 @@
 		AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralExtras.h; sourceTree = "<group>"; };
 		AD1E88062AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralAppOpenAdLoader.m; sourceTree = "<group>"; };
 		AD1E88072AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralAppOpenAdLoader.h; sourceTree = "<group>"; };
+		AD1E88262AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralRTBAppOpenAdLoader.m; sourceTree = "<group>"; };
+		AD1E88272AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMintegralRTBAppOpenAdLoader.h; sourceTree = "<group>"; };
 		ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterMintegralConstants.h; sourceTree = "<group>"; };
 		ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterMintegral.m; sourceTree = "<group>"; };
 		ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMintegralExtras.m; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 		23CA0A7F2989E0D60088B4CD /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
+				AD1E88272AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h */,
+				AD1E88262AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m */,
 				23CA0A802989E0D60088B4CD /* GADMAdapterMintegralRTBBannerAdLoader.h */,
 				23CA0A812989E0D60088B4CD /* GADMAdapterMintegralRTBBannerAdLoader.m */,
 				23CA0A822989E0D60088B4CD /* GADMAdapterMintegralRTBInterstitialAdLoader.h */,
@@ -261,6 +267,7 @@
 				2390099A29919FA0005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.h in Headers */,
 				23CA0A952989E3840088B4CD /* GADMAdapterMintegralNativeAdLoader.h in Headers */,
 				AD18D67028AE36E3001DF8BA /* GADMAdapterMintegralExtras.h in Headers */,
+				AD1E88292AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.h in Headers */,
 				23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */,
 				23CA0A972989E3840088B4CD /* GADMAdapterMintegralRewardedAdLoader.h in Headers */,
 				23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */,
@@ -376,6 +383,7 @@
 			files = (
 				2390099B2991A005005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.m in Sources */,
 				2390099C2991A005005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.m in Sources */,
+				AD1E88282AC65AE600FAF1B7 /* GADMAdapterMintegralRTBAppOpenAdLoader.m in Sources */,
 				2390099D2991A005005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.m in Sources */,
 				2390099E2991A005005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.m in Sources */,
 				23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Sources */,

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMAdapterMintegralAppOpenAdLoader.h"
+#import "GADMAdapterMintegralRTBAppOpenAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
@@ -22,10 +22,10 @@
 
 #include <stdatomic.h>
 
-@interface GADMAdapterMintegralAppOpenAdLoader () <MTGSplashADDelegate>
+@interface GADMAdapterMintegralRTBAppOpenAdLoader () <MTGSplashADDelegate>
 @end
 
-@implementation GADMAdapterMintegralAppOpenAdLoader {
+@implementation GADMAdapterMintegralRTBAppOpenAdLoader {
   /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationAppOpenLoadCompletionHandler _adLoadCompletionHandler;
 
@@ -39,10 +39,10 @@
   id<GADMediationAppOpenAdEventDelegate> _adEventDelegate;
 }
 
-- (void)loadAppOpenAdForAdConfiguration:
+- (void)loadRTBAppOpenAdForAdConfiguration:
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
-                      completionHandler:
-                          (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
+                         completionHandler:
+                             (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
   _adConfiguration = adConfiguration;
   __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
   __block GADMediationAppOpenLoadCompletionHandler originalCompletionHandler =
@@ -68,6 +68,7 @@
     _adLoadCompletionHandler(nil, error);
     return;
   }
+  NSString *bidResponse = _adConfiguration.bidResponse;
 
   _splashAd =
       [[MTGSplashAD alloc] initWithPlacementID:placementId
@@ -75,21 +76,21 @@
                                      countdown:GADMAdapterMintegralAppOpenSkipCountDownInSeconds
                                      allowSkip:YES];
   _splashAd.delegate = self;
-  [_splashAd preload];
+  [_splashAd preloadWithBidToken:bidResponse];
 }
 
 #pragma mark - GADMediationAppOpenAd
 
-- (void)presentFromViewController:(UIViewController *)viewController {
-  if (_splashAd.isADReadyToShow) {
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  if (_splashAd.isBiddingADReadyToShow) {
     // TODO(thanvir): keyWindow is deprecated. Use an alternative.
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindow *keyWindow = UIApplication.sharedApplication.keyWindow;
     [_adEventDelegate willPresentFullScreenView];
-    [_splashAd showInKeyWindow:keyWindow customView:nil];
+    [_splashAd showBiddingADInKeyWindow:keyWindow customView:nil];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
         GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a waterfall splash ad. It is not ready.");
+        @"Mintegral SDK failed to present a bidding splash ad. It is not ready.");
     [_adEventDelegate didFailToPresentWithError:error];
   }
 }
