@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /// Tapjoy mediation network adapter version.
-static NSString *const _Nonnull GADMAdapterTapjoyVersion = @"13.1.2.0";
+static NSString *const _Nonnull GADMAdapterTapjoyVersion = @"13.2.1.0";
 
 /// Tapjoy mediation network adapter mediation agent.
 static NSString *const _Nonnull GADMAdapterTapjoyMediationAgent = @"admob";
