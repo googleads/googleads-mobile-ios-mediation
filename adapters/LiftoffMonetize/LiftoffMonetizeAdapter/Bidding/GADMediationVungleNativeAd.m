@@ -82,14 +82,7 @@
 
 - (void)requestNativeAd {
   self.desiredPlacement =
-      [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
-                              networkExtras:_adConfiguration.extras];
-  if (!self.desiredPlacement) {
-    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
+      [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings];
   if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
@@ -228,15 +221,11 @@
 }
 
 - (void)nativeAdDidFailToLoad:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  _adLoadCompletionHandler(nil, gadError);
+  _adLoadCompletionHandler(nil, error);
 }
 
 - (void)nativeAdDidFailToPresent:(nonnull VungleNative *)native withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_delegate didFailToPresentWithError:gadError];
+  [_delegate didFailToPresentWithError:error];
 }
 
 - (void)nativeAdDidClick:(nonnull VungleNative *)nativeAd {

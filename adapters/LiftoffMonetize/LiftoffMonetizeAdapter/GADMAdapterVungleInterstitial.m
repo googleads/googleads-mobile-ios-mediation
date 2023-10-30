@@ -76,25 +76,13 @@
   if (strongConnector.childDirectedTreatment) {
     [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
   }
-  self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
-                                                  networkExtras:[strongConnector networkExtras]];
-  if (!self.desiredPlacement.length) {
-    [strongConnector adapter:self
-                   didFailAd:GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription()];
-    return;
-  }
-
+  self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]];
   if ([VungleAds isInitialized]) {
     [self loadAd];
     return;
   }
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
-  if (!appID) {
-    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
-    [strongConnector adapter:self didFailAd:error];
-    return;
-  }
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
@@ -128,9 +116,7 @@
 
 - (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
                           withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_connector adapter:self didFailAd:gadError];
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
@@ -143,9 +129,7 @@
 
 - (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
                              withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_connector adapter:self didFailAd:gadError];
+  [_connector adapter:self didFailAd:error];
 }
 
 - (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {

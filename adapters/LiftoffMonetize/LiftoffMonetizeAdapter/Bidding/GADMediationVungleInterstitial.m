@@ -50,8 +50,7 @@
   if (self) {
     _adConfiguration = adConfiguration;
     self.desiredPlacement =
-        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings
-                                networkExtras:adConfiguration.extras];
+        [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings];
 
     __block atomic_flag adLoadHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationInterstitialLoadCompletionHandler origAdLoadHandler =
@@ -75,12 +74,6 @@
 }
 
 - (void)requestInterstitialAd {
-  if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
   if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
@@ -117,9 +110,7 @@
 
 - (void)interstitialAdDidFailToLoad:(nonnull VungleInterstitial *)interstitial
                           withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  _adLoadCompletionHandler(nil, gadError);
+  _adLoadCompletionHandler(nil, error);
 }
 
 - (void)interstitialAdWillPresent:(nonnull VungleInterstitial *)interstitial {
@@ -132,9 +123,7 @@
 
 - (void)interstitialAdDidFailToPresent:(nonnull VungleInterstitial *)interstitial
                              withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_delegate didFailToPresentWithError:gadError];
+  [_delegate didFailToPresentWithError:error];
 }
 
 - (void)interstitialAdWillClose:(nonnull VungleInterstitial *)interstitial {

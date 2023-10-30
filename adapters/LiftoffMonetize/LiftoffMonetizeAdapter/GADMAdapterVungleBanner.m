@@ -73,26 +73,13 @@
     return;
   }
 
-  VungleAdNetworkExtras *networkExtras = [strongConnector networkExtras];
-  self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]
-                                                  networkExtras:networkExtras];
-  if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
-
+  self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]];
   if ([VungleAds isInitialized]) {
     [self loadAd];
     return;
   }
 
   NSString *appID = [GADMAdapterVungleUtils findAppID:[strongConnector credentials]];
-  if (!appID) {
-    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
-    [strongConnector adapter:strongAdapter didFailAd:error];
-    return;
-  }
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
 }
 
@@ -114,9 +101,7 @@
 }
 
 - (void)bannerAdDidFailToLoad:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_connector adapter:_adapter didFailAd:gadError];
+  [_connector adapter:_adapter didFailAd:error];
 }
 
 - (void)bannerAdWillPresent:(nonnull VungleBanner *)banner {
@@ -128,9 +113,7 @@
 }
 
 - (void)bannerAdDidFailToPresent:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorRenderBannerAd,
-                                                       error.code, error.localizedDescription);
-  [_connector adapter:_adapter didFailAd:gadError];
+  [_connector adapter:_adapter didFailAd:error];
 }
 
 - (void)bannerAdWillClose:(nonnull VungleBanner *)banner {

@@ -69,14 +69,7 @@
 
 - (void)requestRewardedAd {
   self.desiredPlacement =
-      [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings
-                              networkExtras:_adConfiguration.extras];
-  if (!self.desiredPlacement.length) {
-    NSError *error = GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription();
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
-
+      [GADMAdapterVungleUtils findPlacement:_adConfiguration.credentials.settings];
   if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [GADMAdapterVungleRouter.sharedInstance initWithAppId:appID delegate:self];
@@ -92,6 +85,13 @@
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
   [_rewardedAd setWithExtras:extras];
+    if ([_adConfiguration extras] &&
+        [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
+      VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
+      if (extras && extras.userId) {
+        [_rewardedAd setUserIdWithUserId:extras.userId];
+      }
+    }
   [_rewardedAd load:_adConfiguration.bidResponse];
 }
 
@@ -116,9 +116,7 @@
 
 - (void)rewardedAdDidFailToLoad:(nonnull VungleRewarded *)rewarded
                       withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  _adLoadCompletionHandler(nil, gadError);
+  _adLoadCompletionHandler(nil, error);
 }
 
 - (void)rewardedAdWillPresent:(nonnull VungleRewarded *)rewarded {
@@ -131,9 +129,7 @@
 
 - (void)rewardedAdDidFailToPresent:(nonnull VungleRewarded *)rewarded
                          withError:(nonnull NSError *)error {
-  NSError *gadError = GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorAdNotPlayable,
-                                                       error.code, error.localizedDescription);
-  [_delegate didFailToPresentWithError:gadError];
+  [_delegate didFailToPresentWithError:error];
 }
 
 - (void)rewardedAdWillClose:(nonnull VungleRewarded *)rewarded {
