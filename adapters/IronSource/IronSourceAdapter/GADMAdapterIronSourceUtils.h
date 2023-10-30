@@ -25,6 +25,10 @@ void GADMAdapterIronSourceMutableSetAddObject(NSMutableSet *_Nullable set,
 void GADMAdapterIronSourceMapTableSetObjectForKey(NSMapTable *_Nullable mapTable,
                                                   id<NSCopying> _Nullable key, id _Nullable value);
 
+/// Removes the object for |key| in mapTable if |key| is not nil.
+void GADMAdapterIronSourceMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
+                                                     id _Nullable key);
+
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
@@ -35,7 +39,11 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 // IronSource Util methods.
 + (BOOL)isEmpty:(nullable id)value;
+
 + (void)onLog:(nonnull NSString *)log;
+
 + (nonnull NSString *)getAdMobSDKVersion;
+
++ (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size;
 
 @end

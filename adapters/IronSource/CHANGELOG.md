@@ -1,9 +1,29 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next Version
+#### [Version 7.5.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.5.0.0.0.zip)
+- Added waterfall support for banner (includes MREC) ad format.
+- Verified compatibility with IronSource SDK version 7.5.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.10.0.
+- IronSource SDK version 7.5.0.0.
+
+#### [Version 7.4.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.4.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 7.4.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.9.0.
+- IronSource SDK version 7.4.0.0.
+
+#### [Version 7.3.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.3.1.0.0.zip)
+- Verified compatibility with IronSource SDK version 7.3.1.0.
 - Removed support of the `armv7` architecture.
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.4.0.
+- IronSource SDK version 7.3.1.0.
 
 #### [Version 7.3.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.3.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 7.3.0.0.
@@ -21,7 +41,7 @@ Built and tested with:
 
 #### [Version 7.2.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.2.7.0.0.zip)
 - Verified compatibility with ironSource SDK version 7.2.7.0.
-- Added support for arm64 simulator architecture.
+- Added support for `arm64` simulator architecture.
 
 Built and tested with:
 - Google Mobile Ads SDK version 9.14.0.

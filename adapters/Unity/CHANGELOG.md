@@ -1,5 +1,29 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### [Version 4.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.9.0.0.zip)
+- Removed `GADMAdNetworkAdapter` conformance and dependency from the Unity adapter.
+- Added report impression method invocation in `unityAdsShowStart` delegate method.
+- Verified compatibility with Unity Ads SDK 4.9.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.12.0.
+- Unity Ads SDK version 4.9.0.
+
+#### [Version 4.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.8.0.0.zip)
+- Added support for impression events for banner ads.
+- Verified compatibility with Unity Ads SDK 4.8.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- Unity Ads SDK version 4.8.0.
+
+#### [Version 4.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.7.1.0.zip)
+- Verified compatibility with Unity Ads SDK 4.7.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Unity Ads SDK version 4.7.1.
+
 #### [Version 4.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.7.0.0.zip)
 - Verified compatibility with Unity Ads SDK 4.7.0.
 - Now requires minimum iOS version 11.0.

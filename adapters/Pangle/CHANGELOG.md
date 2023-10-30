@@ -1,5 +1,86 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### [Version 5.5.0.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.5.0.5.0.zip)
+- Verified compatibility with Pangle SDK version 5.5.0.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.11.0.
+- Pangle SDK version 5.5.0.5.
+
+#### [Version 5.4.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.4.1.1.0.zip)
+- Added bidding support for app open ad format.
+- Verified compatibility with Pangle SDK version 5.4.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.10.0.
+- Pangle SDK version 5.4.1.1.
+
+#### [Version 5.4.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.4.0.9.0.zip)
+- Verified compatibility with Pangle SDK version 5.4.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.9.0.
+- Pangle SDK version 5.4.0.9.
+
+#### [Version 5.4.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.4.0.8.0.zip)
+- Fixed an issue where `GADPangleNetworkExtras` did not conform to `GADAdNetworkExtras` protocol.
+- Implemented `adDidShowFail` protocol method in interstitial, rewarded, and app open ads.
+- Verified compatibility with Pangle SDK version 5.4.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.9.0.
+- Pangle SDK version 5.4.0.8.
+
+#### [Version 5.3.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.3.1.2.0.zip)
+- Verified compatibility with Pangle SDK version 5.3.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.8.0.
+- Pangle SDK version 5.3.1.2.
+
+#### [Version 5.3.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.3.1.0.0.zip)
+- Verified compatibility with Pangle SDK version 5.3.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.8.0.
+- Pangle SDK version 5.3.1.0.
+
+#### [Version 5.2.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.1.1.0.zip)
+- Verified compatibility with Pangle SDK version 5.2.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.7.0.
+- Pangle SDK version 5.2.1.1.
+
+#### [Version 5.2.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.0.9.0.zip)
+- Verified compatibility with Pangle SDK version 5.2.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Pangle SDK version 5.2.0.9.
+
+#### [Version 5.2.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 5.2.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Pangle SDK version 5.2.0.8.
+
+#### [Version 5.2.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.0.7.0.zip)
+- Added waterfall support for app open, banner (includes MREC), interstitial, rewarded and native ad formats.
+- Verified compatibility with Pangle SDK version 5.2.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Pangle SDK version 5.2.0.7.
+
+#### [Version 5.2.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.2.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 5.2.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.5.0.
+- Pangle SDK version 5.2.0.6.
+
 #### [Version 5.1.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.1.1.0.0.zip)
 - Verified compatibility with Pangle SDK version 5.1.1.0.
 - Added support for the `arm64` simulator architecture.

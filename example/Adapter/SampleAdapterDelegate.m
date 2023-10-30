@@ -16,9 +16,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+#import "SampleAdapterDelegate.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <SampleAdSDK/SampleAdSDK.h>
-#import "SampleAdapterDelegate.h"
 #import "SampleAdapterConstants.h"
 #import "SampleAdapterMediatedNativeAd.h"
 

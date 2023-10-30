@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Mintegral mediation adapter version.
-static NSString *const GADMAdapterMintegralVersion = @"7.3.5.0";
+static NSString *const GADMAdapterMintegralVersion = @"7.4.7.0";
 
 /// Mintegral mediation adapter Mintegral App ID parameter key.
 static NSString *const GADMAdapterMintegralAppID = @"app_id";
@@ -31,3 +31,6 @@ static NSString *const GADMAdapterMintegralPlacementID = @"placement_id";
 
 /// Mintegral adapter error domain.
 static NSString *const GADMAdapterMintegralErrorDomain = @"com.google.mediation.mintegral";
+
+/// App open's count down in seconds.
+static NSUInteger const GADMAdapterMintegralAppOpenSkipCountDownInSeconds = 5;

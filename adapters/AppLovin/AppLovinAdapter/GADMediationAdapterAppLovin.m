@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,14 +46,6 @@
   // Compile SDK keys from configuration credentials.
   for (GADMediationCredentials *credentials in configuration.credentials) {
     NSString *SDKKey = credentials.settings[GADMAdapterAppLovinSDKKey];
-    if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:SDKKey]) {
-      GADMAdapterAppLovinMutableSetAddObject(SDKKeys, SDKKey);
-    }
-  }
-
-  // Add SDK key from Info.plist if it exists.
-  if ([GADMAdapterAppLovinUtils infoDictionarySDKKey]) {
-    NSString *SDKKey = [GADMAdapterAppLovinUtils infoDictionarySDKKey];
     if ([GADMAdapterAppLovinUtils isValidAppLovinSDKKey:SDKKey]) {
       GADMAdapterAppLovinMutableSetAddObject(SDKKeys, SDKKey);
     }

@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,14 +13,9 @@
 // limitations under the License.
 
 #import "GADRTBMaioInterstitialAd.h"
-#import <MaioOB/MaioOB-Swift.h>
+#import <Maio/Maio-Swift.h>
 #import <stdatomic.h>
 #import "GADMMaioConstants.h"
-
-// TODO: Remove these once they are available in maio's SDK.
-#define MaioInterstitial MaioRewarded
-#define MaioInterstitialLoadCallback MaioRewardedLoadCallback
-#define MaioInterstitialShowCallback MaioRewardedShowCallback
 
 @interface GADRTBMaioInterstitialAd () <MaioInterstitialLoadCallback, MaioInterstitialShowCallback>
 @end
@@ -92,7 +87,7 @@
 }
 
 - (void)didFail:(MaioInterstitial *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = @"maio bidding SDK returned error";
+  NSString *description = @"maio bidding SDK returned error.";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain
@@ -109,7 +104,6 @@
     [_adEventDelegate didFailToPresentWithError:error];
   } else {
     // Unknown error code
-
     // Notify an error when loading.
     _completionHandler(nil, error);
   }

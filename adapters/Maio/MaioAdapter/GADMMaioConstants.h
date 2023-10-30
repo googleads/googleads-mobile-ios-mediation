@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ static NSString *const GADMMaioErrorDomain = @"com.google.mediation.maio";
 static NSString *const GADMMaioSDKErrorDomain = @"com.google.mediation.maioSDK";
 
 /// maio mediation network adapter version.
-static NSString *const GADMMaioAdapterVersion = @"1.6.3.1";
+static NSString *const GADMMaioAdapterVersion = @"2.0.0.0";
 
 /// maio publisher ID.
 static NSString *const GADMMaioAdapterPublisherIDKey = @"publisherId";

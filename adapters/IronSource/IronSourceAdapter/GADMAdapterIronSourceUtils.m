@@ -29,6 +29,13 @@ void GADMAdapterIronSourceMapTableSetObjectForKey(NSMapTable *_Nullable mapTable
   }
 }
 
+void GADMAdapterIronSourceMapTableRemoveObjectForKey(NSMapTable *_Nullable mapTable,
+                                                     id _Nullable key) {
+  if (key) {
+    [mapTable removeObjectForKey:key];  // Allow pattern.
+  }
+}
+
 NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
     GADMAdapterIronSourceErrorCode code, NSString *_Nonnull description) {
   NSDictionary *userInfo =
@@ -66,7 +73,36 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
     NSLog(@"Unable to parse AdMob SDK version.");
     version = @"";
   }
+
   return version;
+}
+
++ (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size {
+  GADAdSize banner = GADAdSizeBanner;
+  GADAdSize rectangle = GADAdSizeMediumRectangle;
+  GADAdSize large = GADAdSizeLargeBanner;
+
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(rectangle), NSValueFromGADAdSize(large)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
+    return ISBannerSize_BANNER;
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(large), closestCGSize)) {
+    return ISBannerSize_LARGE;
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(rectangle), closestCGSize)) {
+    return ISBannerSize_RECTANGLE;
+  }
+
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"Unable to retrieve IronSource size from GADAdSize: %@",
+                                       NSStringFromGADAdSize(size)]];
+
+  return nil;
 }
 
 @end

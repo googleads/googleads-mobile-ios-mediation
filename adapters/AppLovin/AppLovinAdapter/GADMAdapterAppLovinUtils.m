@@ -1,10 +1,16 @@
+// Copyright 2018 Google LLC
 //
-//  GADMAdapterAppLovinUtils.m
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
-//  Created by Thomas So on 1/10/18.
-//
-//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import "GADMAdapterAppLovinUtils.h"
 #import <AppLovinSDK/AppLovinSDK.h>
@@ -61,7 +67,7 @@ void GADMAdapterAppLovinMutableDictionarySetObjectForKey(NSMutableDictionary *_N
                                                          id<NSCopying> _Nullable key,
                                                          id _Nullable value) {
   if (value && key) {
-    dictionary[key] = value;
+    dictionary[key] = value;  // Allow pattern.
   }
 }
 
@@ -107,13 +113,6 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
     return serverSDKKey;
   }
 
-  // If the SDK key from the credentials is invalid, then attempt to use SDK key from
-  // Info.plist.
-  NSString *infoDictSDKKey = [self infoDictionarySDKKey];
-  if (infoDictSDKKey && [self isValidAppLovinSDKKey:infoDictSDKKey]) {
-    return infoDictSDKKey;
-  }
-
   return nil;
 }
 
@@ -127,10 +126,6 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
 
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey {
   return [SDKKey isKindOfClass:[NSString class]] && ((NSString *)SDKKey).length == kALSDKKeyLength;
-}
-
-+ (nullable NSString *)infoDictionarySDKKey {
-  return NSBundle.mainBundle.infoDictionary[GADMAdapterAppLovinInfoPListSDKKey];
 }
 
 + (nullable NSString *)zoneIdentifierForConnector:(nonnull id<GADMediationAdRequest>)connector {
@@ -167,10 +162,12 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
   GADAdSize banner = GADAdSizeFromCGSize(CGSizeMake(320, 50));
   GADAdSize mrec = GADAdSizeFromCGSize(CGSizeMake(300, 250));
   GADAdSize leaderboard = GADAdSizeFromCGSize(CGSizeMake(728, 90));
-  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec)];
+  NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec) ];
   if (IS_IPAD) {
     // iPad also supports 728x90.
-    potentials = @[ NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec), NSValueFromGADAdSize(leaderboard)];
+    potentials = @[
+      NSValueFromGADAdSize(banner), NSValueFromGADAdSize(mrec), NSValueFromGADAdSize(leaderboard)
+    ];
   }
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
   CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);

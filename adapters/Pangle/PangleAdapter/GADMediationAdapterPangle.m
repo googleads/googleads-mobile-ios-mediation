@@ -16,16 +16,18 @@
 #import <PAGAdSDK/PAGAdSDK.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
-#import "GADPangleNetworkExtras.h"
+#import "GADPangleAppOpenRenderer.h"
 #import "GADPangleBannerRenderer.h"
 #import "GADPangleInterstitialRenderer.h"
 #import "GADPangleNativeRenderer.h"
+#import "GADPangleNetworkExtras.h"
 #import "GADPangleRewardedRenderer.h"
-#import "GADPangleAppOpenRenderer.h"
 
 static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 @implementation GADMediationAdapterPangle {
+  /// Pangle app open ad wrapper.
+  GADPangleAppOpenRenderer *_appOpenAdRenderer;
   /// Pangle banner ad wrapper.
   GADPangleBannerRenderer *_bannerRenderer;
   /// Pangle interstitial ad wrapper.
@@ -34,8 +36,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   GADPangleRewardedRenderer *_rewardedRenderer;
   /// Pangle native ad wrapper.
   GADPangleNativeRenderer *_nativeRenderer;
-  /// Pangle app open ad wrapper
-  GADPangleAppOpenRenderer *_appOpenAdRenderer;
 }
 
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
@@ -70,10 +70,11 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   NSString *appID = [appIds anyObject];
   if (appIds.count > 1) {
     GADMPangleLog(
-        @"Found the following App IDs:%@. Please remove any app IDs which you are not using",
+        @"Found the following App IDs: %@. Please remove any app IDs which you are not using.",
         appIds);
-    GADMPangleLog(@"Configuring Pangle SDK with the app ID:%@", appID);
   }
+
+  GADMPangleLog(@"Configuring Pangle SDK with the app ID: %@", appID);
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
@@ -89,6 +90,8 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   NSString *versionString = PAGSdk.SDKVersion;
   NSArray *versionComponents = [versionString componentsSeparatedByString:@"."];
   GADVersionNumber version = {0};
+  // TODO(thanvir): Maybe, change the logic below to return the first four parts of the SDK
+  // version even if it has more than four parts.
   if (versionComponents.count == 4) {
     version.majorVersion = [versionComponents[0] integerValue];
     version.minorVersion = [versionComponents[1] integerValue];
@@ -166,12 +169,12 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
                       completionHandler:
                           (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
-    [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
-                                             ? adConfiguration.childDirectedTreatment.integerValue
-                                             : -1)];
-    _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
-    [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
-                                     completionHandler:completionHandler];
+  [GADMediationAdapterPangle setCOPPA:(adConfiguration.childDirectedTreatment
+                                           ? adConfiguration.childDirectedTreatment.integerValue
+                                           : -1)];
+  _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
+  [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
 }
 
 /// Set the COPPA setting in Pangle SDK.

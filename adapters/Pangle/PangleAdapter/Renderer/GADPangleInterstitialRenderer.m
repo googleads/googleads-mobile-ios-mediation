@@ -51,6 +51,7 @@
     originalCompletionHandler = nil;
     return delegate;
   };
+
   NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
   if (!placementId.length) {
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
@@ -59,11 +60,13 @@
     _loadCompletionHandler(nil, error);
     return;
   }
+
   PAGInterstitialRequest *request = [PAGInterstitialRequest request];
   request.adString = adConfiguration.bidResponse;
   if (adConfiguration.watermark) {
     request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
   }
+    
   GADPangleInterstitialRenderer *__weak weakSelf = self;
   [PAGLInterstitialAd
        loadAdWithSlotID:placementId
@@ -73,6 +76,7 @@
         if (!strongSelf) {
           return;
         }
+
         if (error) {
           if (strongSelf->_loadCompletionHandler) {
             strongSelf->_loadCompletionHandler(nil, error);
@@ -90,11 +94,13 @@
 }
 
 #pragma mark - GADMediationInterstitialAd
+
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [_interstitialAd presentFromRootViewController:viewController];
 }
 
 #pragma mark - PAGLInterstitialAdDelegate
+
 - (void)adDidShow:(PAGLInterstitialAd *)ad {
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate willPresentFullScreenView];
@@ -110,6 +116,11 @@
   id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   [delegate willDismissFullScreenView];
   [delegate didDismissFullScreenView];
+}
+
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
+  [delegate didFailToPresentWithError:error];
 }
 
 @end

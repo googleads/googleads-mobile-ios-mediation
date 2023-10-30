@@ -21,7 +21,7 @@
 
 /// The purpose of the SampleAdapterDataProvider protocol is to allow the adapter delegate to
 /// interact with the sample adapter.
-@protocol SampleAdapterDataProvider<NSObject>
+@protocol SampleAdapterDataProvider <NSObject>
 
 /// Returns native ad view options of GoogleMobileAds network.
 - (GADNativeAdViewAdOptions *)nativeAdViewAdOptions;

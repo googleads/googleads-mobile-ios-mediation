@@ -13,10 +13,12 @@
 // limitations under the License.
 
 #import "GADMediationAdapterMintegral.h"
+#import "GADMAdapterMintegralAppOpenAdLoader.h"
 #import "GADMAdapterMintegralBannerAdLoader.h"
 #import "GADMAdapterMintegralExtras.h"
 #import "GADMAdapterMintegralInterstitialAdLoader.h"
 #import "GADMAdapterMintegralNativeAdLoader.h"
+#import "GADMAdapterMintegralRTBAppOpenAdLoader.h"
 #import "GADMAdapterMintegralRTBBannerAdLoader.h"
 #import "GADMAdapterMintegralRTBInterstitialAdLoader.h"
 #import "GADMAdapterMintegralRTBNativeAdLoader.h"
@@ -29,6 +31,9 @@
 #import <MTGSDKBidding/MTGBiddingSDK.h>
 
 @implementation GADMediationAdapterMintegral {
+  /// Mintegral RTB app open ad.
+  GADMAdapterMintegralRTBAppOpenAdLoader *_rtbAppOpenAd;
+
   /// Mintegral RTB banner ad.
   GADMAdapterMintegralRTBBannerAdLoader *_rtbBannerAd;
 
@@ -40,6 +45,9 @@
 
   /// Mintegral RTB rewarded ad.
   GADMAdapterMintegralRTBRewardedAdLoader *_rtbRewardedAd;
+
+  /// Mintegral waterfall app open ad.
+  GADMAdapterMintegralAppOpenAdLoader *_waterfallAppOpenAd;
 
   /// Mintegral waterfall banner ad.
   GADMAdapterMintegralBannerAdLoader *_waterfallBannerAd;
@@ -134,6 +142,20 @@
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
   if (completionHandler) {
     completionHandler([MTGBiddingSDK buyerUID], nil);
+  }
+}
+
+- (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  if (adConfiguration.bidResponse) {
+    _rtbAppOpenAd = [[GADMAdapterMintegralRTBAppOpenAdLoader alloc] init];
+    [_rtbAppOpenAd loadRTBAppOpenAdForAdConfiguration:adConfiguration
+                                    completionHandler:completionHandler];
+  } else {
+    _waterfallAppOpenAd = [[GADMAdapterMintegralAppOpenAdLoader alloc] init];
+    [_waterfallAppOpenAd loadAppOpenAdForAdConfiguration:adConfiguration
+                                       completionHandler:completionHandler];
   }
 }
 

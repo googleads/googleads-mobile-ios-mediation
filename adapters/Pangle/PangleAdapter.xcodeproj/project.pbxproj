@@ -121,10 +121,10 @@
 			children = (
 				2B3B8D45277A7E31005BB25B /* README.md */,
 				2B3B8D3D277A7D70005BB25B /* CHANGELOG.md */,
+				2B3B8D14277A77AA005BB25B /* PangleAdapter */,
 				2B3B8D35277A79D4005BB25B /* Public */,
 				2B3B8D31277A796F005BB25B /* Configuration */,
 				2B3B8D2E277A7870005BB25B /* BuildScript */,
-				2B3B8D14277A77AA005BB25B /* PangleAdapter */,
 				2B3B8D13277A77AA005BB25B /* Products */,
 			);
 			sourceTree = "<group>";

@@ -66,7 +66,7 @@
     _loadCompletionHandler(nil, error);
     return;
   }
-    
+
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
   if (adConfiguration.watermark) {
@@ -80,6 +80,7 @@
                 if (!strongSelf) {
                   return;
                 }
+
                 if (loadError) {
                   strongSelf->_loadCompletionHandler(nil, loadError);
                   return;
@@ -110,6 +111,7 @@
   NSArray *potentials = @[
     NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(banner250)
   ];
+
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
   CGSize size = CGSizeFromGADAdSize(closestSize);
   if (size.height == kPAGBannerSize320x50.size.height) {
@@ -130,6 +132,7 @@
 }
 
 #pragma mark - GADMediationBannerAd
+
 - (nonnull UIView *)view {
   return _bannerAd.bannerView;
 }

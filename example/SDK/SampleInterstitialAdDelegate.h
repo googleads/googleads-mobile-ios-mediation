@@ -23,7 +23,7 @@
 
 @class SampleInterstitial;
 
-@protocol SampleInterstitialAdDelegate<NSObject>
+@protocol SampleInterstitialAdDelegate <NSObject>
 
 /// Sent when an interstitial ad has loaded.
 - (void)interstitialDidLoad:(SampleInterstitial *)interstitial;

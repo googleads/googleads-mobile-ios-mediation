@@ -19,5 +19,7 @@
 
 #import "SampleAdRequest.h"
 
+NSString *const SampleSDKVersion = @"1.0.0";
+
 @implementation SampleAdRequest
 @end

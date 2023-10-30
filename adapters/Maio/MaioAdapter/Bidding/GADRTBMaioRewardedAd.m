@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC.
+// Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADRTBMaioRewardedAd.h"
-#import <MaioOB/MaioOB-Swift.h>
+#import <Maio/Maio-Swift.h>
 #import <stdatomic.h>
 #import "GADMMaioConstants.h"
 
@@ -87,7 +87,7 @@
 }
 
 - (void)didFail:(MaioRewarded *)ad errorCode:(NSInteger)errorCode {
-  NSString *description = @"maio bidding SDK returned error";
+  NSString *description = @"maio bidding SDK returned error.";
   NSDictionary *userInfo =
       @{NSLocalizedDescriptionKey : description, NSLocalizedFailureReasonErrorKey : description};
   NSError *error = [NSError errorWithDomain:GADMMaioSDKErrorDomain

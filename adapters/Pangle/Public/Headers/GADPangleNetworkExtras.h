@@ -13,10 +13,11 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADPangleNetworkExtras : NSObject
+@interface GADPangleNetworkExtras : NSObject <GADAdNetworkExtras>
 
 /// Set additional user information.
-@property (nonatomic, copy) NSString *userDataString;
+@property(nonatomic, copy) NSString *userDataString;
 
 @end

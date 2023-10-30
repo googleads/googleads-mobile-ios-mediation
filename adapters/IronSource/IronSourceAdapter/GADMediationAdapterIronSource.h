@@ -22,7 +22,12 @@ typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
   GADMAdapterIronSourceErrorAdFormatNotSupported = 102,
   /// An ad is already loaded for this network configuration.
   GADMAdapterIronSourceErrorAdAlreadyLoaded = 103,
+  /// Unsupported ad size requested for IronSource.
+  GADMAdapterIronSourceErrorBannerSizeMismatch = 104
 };
 
 @interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
+
+- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits;
+
 @end

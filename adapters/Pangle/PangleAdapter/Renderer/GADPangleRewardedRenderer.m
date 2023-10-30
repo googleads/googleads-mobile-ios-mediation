@@ -56,9 +56,7 @@
   if (!placementId.length) {
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
         GADPangleErrorInvalidServerParameters,
-        [NSString
-            stringWithFormat:@"%@ cannot be nil,please update Pangle SDK to the latest version.",
-                             GADMAdapterPanglePlacementID]);
+        [NSString stringWithFormat:@"%@ cannot be nil.", GADMAdapterPanglePlacementID]);
     _loadCompletionHandler(nil, error);
     return;
   }
@@ -76,6 +74,7 @@
                   if (!strongSelf) {
                     return;
                   }
+
                   if (error) {
                     if (strongSelf->_loadCompletionHandler) {
                       strongSelf->_loadCompletionHandler(nil, error);
@@ -93,11 +92,13 @@
 }
 
 #pragma mark - GADMediationRewardedAd
+
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   [_rewardedAd presentFromRootViewController:viewController];
 }
 
 #pragma mark - PAGRewardedAdDelegate
+
 - (void)adDidShow:(PAGRewardModel *)ad {
   id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
   [delegate willPresentFullScreenView];
@@ -118,6 +119,11 @@
 - (void)rewardedAd:(PAGRewardedAd *)rewardedAd userDidEarnReward:(PAGRewardModel *)rewardModel {
   id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
   [delegate didRewardUser];
+}
+
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  [delegate didFailToPresentWithError:error];
 }
 
 @end

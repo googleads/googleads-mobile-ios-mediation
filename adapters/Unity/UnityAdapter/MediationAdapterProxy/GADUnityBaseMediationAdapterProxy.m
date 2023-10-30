@@ -49,7 +49,7 @@
 }
 
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
-  [self.eventDelegate willPresentFullScreenView];
+  [self.eventDelegate reportImpression];
 }
 
 #pragma mark UADSBannerViewDelegate
@@ -65,6 +65,10 @@
 }
 
 - (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView {
+}
+
+- (void)bannerViewDidShow:(UADSBannerView *)bannerView {
+  [self.eventDelegate reportImpression];
 }
 
 @end
