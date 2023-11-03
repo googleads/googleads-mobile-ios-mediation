@@ -14,8 +14,6 @@
 
 #import "GADMAdapterUnity.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "GADMediationAdapterUnity.h"
 
 @implementation GADMAdapterUnity
