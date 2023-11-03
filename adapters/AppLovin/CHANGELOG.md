@@ -1,7 +1,12 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next Version
+#### [Version 11.11.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.11.4.0.zip)
+- Verified compatibility with AppLovin SDK 11.11.4.
 - Adapter no longer checks for the AppLovin SDK key from the `Info.plist` file.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.12.0.
+- AppLovin SDK version 11.11.4.
 
 #### [Version 11.11.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.11.3.0.zip)
 - Verified compatibility with AppLovin SDK 11.11.3.
