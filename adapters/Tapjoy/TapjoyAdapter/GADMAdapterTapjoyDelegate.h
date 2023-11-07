@@ -16,7 +16,7 @@
 
 /// The purpose of the GADMAdapterTapjoyDelegate protocol is to allow the singleton to interact
 /// with the adapter.
-@protocol GADMAdapterTapjoyDelegate <NSObject, TJPlacementDelegate, TJPlacementVideoDelegate>
+@protocol GADMAdapterTapjoyDelegate <NSObject, TJPlacementDelegate>
 
 /// Called when an ad fails to load.
 - (void)didFailToLoadWithError:(nonnull NSError *)error;

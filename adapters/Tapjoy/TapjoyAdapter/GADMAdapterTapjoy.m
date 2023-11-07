@@ -1,4 +1,4 @@
-// Copyright 2016-2019 Google LLC
+// Copyright 2016 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -135,13 +135,18 @@
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nullable NSError *)error {
+  id<GADMAdNetworkConnector> strongConnector = _interstitialConnector;
+  if (!strongConnector) {
+    return;
+  }
+
   if (!error) {
     NSError *nullError = GADMAdapterTapjoyErrorWithCodeAndDescription(
         GADMAdapterTapjoyErrorUnknown, @"Tapjoy SDK placement unknown error.");
-    [_interstitialConnector adapter:self didFailAd:nullError];
+    [strongConnector adapter:self didFailAd:nullError];
     return;
   }
-  [_interstitialConnector adapter:self didFailAd:error];
+  [strongConnector adapter:self didFailAd:error];
 }
 
 - (void)contentIsReady:(nonnull TJPlacement *)placement {
@@ -164,20 +169,6 @@
 
   [strongConnector adapterWillDismissInterstitial:self];
   [strongConnector adapterDidDismissInterstitial:self];
-}
-
-#pragma mark - TJPlacementVideoDelegate methods
-
-- (void)videoDidStart:(nonnull TJPlacement *)placement {
-  // Do nothing.
-}
-
-- (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  // Do nothing.
-}
-
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
-  // Do nothing.
 }
 
 #pragma mark - GADMAdapterTapjoyDelegate

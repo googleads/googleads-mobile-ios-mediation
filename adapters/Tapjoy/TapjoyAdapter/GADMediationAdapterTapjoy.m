@@ -52,10 +52,10 @@
 
   NSString *sdkKey = [sdkKeys anyObject];
   if (sdkKeys.count > 1) {
-    NSLog(@"Found the following sdk keys: %@. "
-          @"Please remove any sdk keys you are not using from the AdMob UI.",
+    NSLog(@"Found the following SDK keys: %@. "
+          @"Please remove any SDK keys you are not using from the AdMob UI.",
           sdkKeys);
-    NSLog(@"Initializing Tapjoy SDK with the sdk key: %@", sdkKey);
+    NSLog(@"Initializing Tapjoy SDK with SDK key: %@", sdkKey);
   }
 
   [[GADMAdapterTapjoySingleton sharedInstance] initializeTapjoySDKWithSDKKey:sdkKey

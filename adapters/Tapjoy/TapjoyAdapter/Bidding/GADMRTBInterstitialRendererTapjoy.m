@@ -104,7 +104,7 @@
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if (_interstitialAd.isContentAvailable) {
+  if (_interstitialAd.isContentReady) {
     [_interstitialAd showContentWithViewController:viewController];
   }
 }
@@ -149,17 +149,10 @@
   [_delegate didDismissFullScreenView];
 }
 
-#pragma mark - TJPlacementVideoDelegate methods
-
-- (void)videoDidStart:(nonnull TJPlacement *)placement {
-  // Do nothing.
-}
-
-- (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  // Do nothing.
-}
-
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
+- (void)placement:(nonnull TJPlacement *)placement
+    didRequestReward:(nullable TJActionRequest *)request
+              itemId:(nullable NSString *)itemId
+            quantity:(int)quantity {
   // Do nothing.
 }
 

@@ -131,7 +131,9 @@
 #pragma mark - GADMediationRewardedAd methods
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [_rewardedAd showContentWithViewController:viewController];
+  if (_rewardedAd.isContentReady) {
+    [_rewardedAd showContentWithViewController:viewController];
+  }
 }
 
 #pragma mark - TJPlacementDelegate methods
@@ -174,21 +176,11 @@
   [_adEventDelegate didDismissFullScreenView];
 }
 
-#pragma mark - TJPlacementVideoDelegate methods
-
-- (void)videoDidStart:(nonnull TJPlacement *)placement {
-  [_adEventDelegate didStartVideo];
-}
-
-- (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  [_adEventDelegate didEndVideo];
+- (void)placement:(nonnull TJPlacement *)placement
+    didRequestReward:(nullable TJActionRequest *)request
+              itemId:(nullable NSString *)itemId
+            quantity:(int)quantity {
   [_adEventDelegate didRewardUser];
-}
-
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
-  NSError *adapterError =
-      GADMAdapterTapjoyErrorWithCodeAndDescription(GADMAdapterTapjoyErrorPlacementVideo, errorMsg);
-  [_adEventDelegate didFailToPresentWithError:adapterError];
 }
 
 #pragma mark - GADMAdapterTapjoyDelegate

@@ -123,12 +123,8 @@
   }
 
   [self addDelegate:delegate forPlacementName:placementName];
-  TJPlacement *tjPlacement = [TJPlacement placementWithName:placementName
-                                             mediationAgent:GADMAdapterTapjoyMediationAgent
-                                                mediationId:nil
-                                                   delegate:self];
-  tjPlacement.adapterVersion = GADMAdapterTapjoyVersion;
-  tjPlacement.videoDelegate = self;
+  TJPlacement *tjPlacement = [TJPlacement placementWithName:placementName delegate:self];
+
   if (bidResponse) {
     NSData *data = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary<id, id> *responseData =
@@ -138,17 +134,17 @@
         GADMAdapterTapjoyAuctionDataForResponseData(responseData);
     tjPlacement.auctionData = auctionData;
   }
+
   [tjPlacement requestContent];
   return tjPlacement;
 }
 
-- (nullable TJPlacement *)
-    requestAdForPlacementName:(nonnull NSString *)placementName
-                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate {
+- (nullable TJPlacement *)requestAdForPlacementName:(nonnull NSString *)placementName
+                                           delegate:(nonnull id<TJPlacementDelegate>)delegate {
   return [self requestAdForPlacementName:placementName bidResponse:nil delegate:delegate];
 }
 
-- (void)addDelegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate
+- (void)addDelegate:(nonnull id<TJPlacementDelegate>)delegate
     forPlacementName:(nonnull NSString *)placementName {
   dispatch_async(_lockQueue, ^{
     GADMAdapterTapjoyMapTableSetObjectForKey(self->_adapterDelegates, placementName, delegate);
@@ -173,9 +169,8 @@
   return containsDelegate;
 }
 
-- (nullable id<TJPlacementDelegate, TJPlacementVideoDelegate>)getDelegateForPlacementName:
-    (nonnull NSString *)placementName {
-  __block id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate = nil;
+- (nullable id<TJPlacementDelegate>)getDelegateForPlacementName:(nonnull NSString *)placementName {
+  __block id<TJPlacementDelegate> delegate = nil;
   dispatch_sync(_lockQueue, ^{
     delegate = [self->_adapterDelegates objectForKey:placementName];
   });
@@ -183,15 +178,14 @@
 }
 
 #pragma mark - TJPlacementDelegate methods
+
 - (void)requestDidSucceed:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
   [delegate requestDidSucceed:placement];
 }
 
 - (void)requestDidFail:(nonnull TJPlacement *)placement error:(nullable NSError *)error {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
   if (!error) {
     NSError *nullError = GADMAdapterTapjoyErrorWithCodeAndDescription(
@@ -203,14 +197,12 @@
 }
 
 - (void)contentIsReady:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
   [delegate contentIsReady:placement];
 }
 
 - (void)contentDidAppear:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
   [delegate contentDidAppear:placement];
 }
 
@@ -219,36 +211,17 @@
 }
 
 - (void)contentDidDisappear:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
   [self removeDelegateForPlacementName:placement.placementName];
   [delegate contentDidDisappear:placement];
 }
 
-#pragma mark - Tapjoy Video
-
-- (void)videoDidStart:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
-  [delegate videoDidStart:placement];
-}
-
-- (void)videoDidComplete:(nonnull TJPlacement *)placement {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
-  [delegate videoDidComplete:placement];
-}
-
-- (void)videoDidFail:(nonnull TJPlacement *)placement error:(nullable NSString *)errorMsg {
-  id<TJPlacementDelegate, TJPlacementVideoDelegate> delegate =
-      [self getDelegateForPlacementName:placement.placementName];
-  [self removeDelegateForPlacementName:placement.placementName];
-  if (!errorMsg) {
-    NSString *nullError = @"Tapjoy SDK placement unknown error.";
-    [delegate videoDidFail:placement error:nullError];
-    return;
-  }
-  [delegate videoDidFail:placement error:errorMsg];
+- (void)placement:(nonnull TJPlacement *)placement
+    didRequestReward:(nullable TJActionRequest *)request
+              itemId:(nullable NSString *)itemId
+            quantity:(int)quantity {
+  id<TJPlacementDelegate> delegate = [self getDelegateForPlacementName:placement.placementName];
+  [delegate placement:placement didRequestReward:request itemId:itemId quantity:quantity];
 }
 
 @end

@@ -24,18 +24,16 @@ typedef NS_ENUM(NSUInteger, GADMAdapterTapjoyInitState) {
 
 typedef void (^TapjoyInitCompletionHandler)(NSError *_Nullable error);
 
-@interface GADMAdapterTapjoySingleton : NSObject <TJPlacementDelegate, TJPlacementVideoDelegate>
+@interface GADMAdapterTapjoySingleton : NSObject <TJPlacementDelegate>
 
 + (nonnull instancetype)sharedInstance;
 - (void)initializeTapjoySDKWithSDKKey:(nonnull NSString *)sdkKey
                               options:(nullable NSDictionary<NSString *, NSNumber *> *)options
                     completionHandler:(nullable TapjoyInitCompletionHandler)completionHandler;
-- (nullable TJPlacement *)
-    requestAdForPlacementName:(nonnull NSString *)placementName
-                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
-- (nullable TJPlacement *)
-    requestAdForPlacementName:(nonnull NSString *)placementName
-                  bidResponse:(nullable NSString *)bidResponse
-                     delegate:(nonnull id<TJPlacementDelegate, TJPlacementVideoDelegate>)delegate;
+- (nullable TJPlacement *)requestAdForPlacementName:(nonnull NSString *)placementName
+                                           delegate:(nonnull id<TJPlacementDelegate>)delegate;
+- (nullable TJPlacement *)requestAdForPlacementName:(nonnull NSString *)placementName
+                                        bidResponse:(nullable NSString *)bidResponse
+                                           delegate:(nonnull id<TJPlacementDelegate>)delegate;
 
 @end
