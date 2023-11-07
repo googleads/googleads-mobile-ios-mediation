@@ -66,7 +66,9 @@
   _relatedView = [[PAGLNativeAdRelatedView alloc] init];
   PAGNativeRequest *request = [PAGNativeRequest request];
   request.adString = adConfiguration.bidResponse;
-
+  if (adConfiguration.watermark) {
+    request.extraInfo = @{@"admob_watermark":adConfiguration.watermark?:@""};
+  }
   GADPangleNativeRenderer *__weak weakSelf = self;
   [PAGLNativeAd loadAdWithSlotID:placementId
                          request:request
