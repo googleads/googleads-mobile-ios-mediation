@@ -30,6 +30,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterIMobileErrorCode) {
   GADMAdapterIMobileErrorAdAlreadyLoaded = 106
 };
 
-@interface GADMediationAdapterIMobile : NSObject
+@interface GADMediationAdapterIMobile : NSObject <GADMediationAdapter>
 
 @end

@@ -20,9 +20,6 @@
 #import "GADMAdapterIMobileUnifiedNativeAd.h"
 #import "GADMAdapterIMobileUtils.h"
 
-@interface GADMediationAdapterIMobile () <GADMediationAdapter>
-@end
-
 @implementation GADMediationAdapterIMobile {
   /// i-mobile banner ad wrapper.
   GADMAdapterIMobileBannerAd *_bannerAd;
