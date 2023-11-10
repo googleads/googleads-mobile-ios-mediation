@@ -1,7 +1,12 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next version
+#### [Version 10.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.6.0.0.zip)
+- Verified compatibility with InMobi SDK 10.6.0.
 - Added watermark support for bidding banner, interstitial and rewarded ad formats.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.13.0.
+- InMobi SDK version 10.6.0.
 
 #### [Version 10.5.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.5.8.0.zip)
 - Verified compatibility with InMobi SDK 10.5.8.
