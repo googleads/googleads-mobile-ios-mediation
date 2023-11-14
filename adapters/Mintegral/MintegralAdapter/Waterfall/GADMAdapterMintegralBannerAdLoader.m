@@ -111,6 +111,14 @@
   [_adEventDelegate didDismissFullScreenView];
 }
 
+- (void)adViewWillLeaveApplication:(MTGBannerAdView *)adView {
+  // Do nothing.
+}
+
+- (void)adViewClosed:(MTGBannerAdView *)adView {
+  // Do nothing.
+}
+
 #pragma mark - GADMediationBannerAd
 - (UIView *)view {
   return _bannerAdView;
