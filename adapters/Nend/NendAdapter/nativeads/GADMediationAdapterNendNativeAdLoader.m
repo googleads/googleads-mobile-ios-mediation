@@ -16,7 +16,6 @@
 #import <stdatomic.h>
 
 #import "GADMAdapterNend.h"
-#import "GADMAdapterNendAdUnitMapper.h"
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendNativeAd.h"
@@ -79,9 +78,23 @@
   NSString *spotId = _adConfiguration.credentials.settings[GADMAdapterNendSpotID];
   NSString *apiKey = _adConfiguration.credentials.settings[GADMAdapterNendApiKey];
 
-  if (![GADMAdapterNendAdUnitMapper isValidAPIKey:apiKey spotId:spotId.integerValue]) {
+  if (!spotId || !apiKey) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
+    _completionHandler(nil, error);
+    return;
+  }
+
+  if (![spotId isKindOfClass:[NSString class]] || ![apiKey isKindOfClass:[NSString class]]) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must be a string.");
+    _completionHandler(nil, error);
+    return;
+  }
+
+  if (spotId.integerValue == 0 || !apiKey.length) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must be valid.");
     _completionHandler(nil, error);
     return;
   }

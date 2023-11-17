@@ -72,9 +72,24 @@
 - (void)loadRewardedAd {
   NSString *spotId = _adConfiguration.credentials.settings[GADMAdapterNendSpotID];
   NSString *apiKey = _adConfiguration.credentials.settings[GADMAdapterNendApiKey];
-  if (!spotId.length || !apiKey.length) {
+
+  if (!spotId || !apiKey) {
     NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
         GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must not be nil.");
+    _completionHandler(nil, error);
+    return;
+  }
+
+  if (![spotId isKindOfClass:[NSString class]] || ![apiKey isKindOfClass:[NSString class]]) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must be a string.");
+    _completionHandler(nil, error);
+    return;
+  }
+
+  if (spotId.integerValue == 0 || !apiKey.length) {
+    NSError *error = GADMAdapterNendErrorWithCodeAndDescription(
+        GADMAdapterNendInvalidServerParameters, @"Spot ID and/or API key must be valid.");
     _completionHandler(nil, error);
     return;
   }
