@@ -161,6 +161,8 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
                        (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
+  // TODO(b/312064143): Set COPPA status before loading banner ad similar to how it's done for other
+  // formats.
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];
   [_bannerAd requestBannerAd];
