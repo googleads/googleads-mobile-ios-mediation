@@ -51,7 +51,7 @@
     return delegate;
   };
 
-  NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID] ?: @"";
+  NSString *placementId = adConfiguration.credentials.settings[GADMAdapterPanglePlacementID];
   if (!placementId.length) {
     NSError *error = GADMAdapterPangleErrorWithCodeAndDescription(
         GADPangleErrorInvalidServerParameters,
