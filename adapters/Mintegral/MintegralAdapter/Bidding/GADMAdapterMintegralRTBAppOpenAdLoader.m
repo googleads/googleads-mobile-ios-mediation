@@ -76,6 +76,7 @@
                                      countdown:GADMAdapterMintegralAppOpenSkipCountDownInSeconds
                                      allowSkip:YES];
   _splashAd.delegate = self;
+  [_splashAd setExtraInfo:adConfiguration.watermark forKey:@"admob_watermark"];
   [_splashAd preloadWithBidToken:bidResponse];
 }
 

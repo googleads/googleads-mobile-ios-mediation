@@ -2,6 +2,7 @@
 
 #### Next version
 - Added waterfall support for app open ad format.
+- Set watermark when loading an app open ad.
 
 #### [Version 7.4.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.4.7.0.zip)
 - Updated the podspec file to depend on "MintegralAdSDK/All" instead of "MintegralAdSDK".
