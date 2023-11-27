@@ -85,13 +85,13 @@
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
   [_rewardedAd setWithExtras:extras];
-    if ([_adConfiguration extras] &&
-        [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
-      VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
-      if (extras && extras.userId) {
-        [_rewardedAd setUserIdWithUserId:extras.userId];
-      }
+  if ([_adConfiguration extras] &&
+      [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
+    VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
+    if (extras && extras.userId) {
+      [_rewardedAd setUserIdWithUserId:extras.userId];
     }
+  }
   [_rewardedAd load:_adConfiguration.bidResponse];
 }
 
