@@ -87,9 +87,9 @@
   [_rewardedAd setWithExtras:extras];
   if ([_adConfiguration extras] &&
       [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
-    VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];
-    if (extras && extras.userId) {
-      [_rewardedAd setUserIdWithUserId:extras.userId];
+    VungleAdNetworkExtras *networkExtras = (VungleAdNetworkExtras *)[_adConfiguration extras];
+    if (networkExtras && networkExtras.userId) {
+      [_rewardedAd setUserIdWithUserId:networkExtras.userId];
     }
   }
   [_rewardedAd load:_adConfiguration.bidResponse];
