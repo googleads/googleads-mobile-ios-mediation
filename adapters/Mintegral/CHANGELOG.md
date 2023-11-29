@@ -1,12 +1,12 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
 #### Next version
-- Added waterfall support for app open ad format.
 - Set watermark when loading an app open ad.
 
 #### [Version 7.4.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.4.7.0.zip)
 - Updated the podspec file to depend on "MintegralAdSDK/All" instead of "MintegralAdSDK".
 - Verified compatibility with Mintegral SDK version 7.4.7.
+- Added waterfall support for app open ad format.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.12.0.
