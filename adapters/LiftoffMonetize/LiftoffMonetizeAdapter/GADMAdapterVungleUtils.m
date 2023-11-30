@@ -25,29 +25,6 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
   return error;
 }
 
-NSError *_Nonnull GADMAdapterVungleErrorToGADError(GADMAdapterVungleErrorCode code,
-                                                   NSInteger vungleCode,
-                                                   NSString *_Nonnull description) {
-  NSString *formattedDescription =
-      [NSString stringWithFormat:@"Vungle SDK returned an error with code: %ld, description: '%@'",
-                                 (long)vungleCode, description];
-  return GADMAdapterVungleErrorWithCodeAndDescription(code, formattedDescription);
-}
-
-NSError *_Nonnull GADMAdapterVungleInvalidPlacementErrorWithCodeAndDescription() {
-  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
-  NSString *description =
-      @"Missing or invalid Placement ID configured for this ad source instance in the AdMob or "
-      @"Ad Manager UI.";
-  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
-}
-
-NSError *_Nonnull GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription() {
-  GADMAdapterVungleErrorCode code = GADMAdapterVungleErrorInvalidServerParameters;
-  NSString *description = @"Liftoff Monetize app ID not specified.";
-  return GADMAdapterVungleErrorWithCodeAndDescription(code, description);
-}
-
 const CGSize kVNGBannerShortSize = {300, 50};
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
   // It has to match for MREC, otherwise it would be a banner with flexible size
@@ -95,29 +72,19 @@ BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
 
 @implementation GADMAdapterVungleUtils
 
-+ (nullable NSString *)findAppID:(nullable NSDictionary *)serverParameters {
++ (nonnull NSString *)findAppID:(nullable NSDictionary *)serverParameters {
   NSString *appId = serverParameters[GADMAdapterVungleApplicationID];
   if (!appId) {
     NSString *const message = @"Liftoff Monetize app ID should be specified!";
     NSLog(message);
-    return nil;
+    return @"";
   }
   return appId;
 }
 
-+ (nullable NSString *)findPlacement:(nullable NSDictionary *)serverParameters
-                       networkExtras:(nullable VungleAdNetworkExtras *)networkExtras {
-  NSString *ret = serverParameters[GADMAdapterVunglePlacementID];
-  if (networkExtras && networkExtras.playingPlacement) {
-    if (ret) {
-      NSLog(@"'placementID' had a value in both serverParameters and networkExtras. "
-            @"Used one from serverParameters.");
-    } else {
-      ret = networkExtras.playingPlacement;
-    }
-  }
-
-  return ret;
++ (nonnull NSString *)findPlacement:(nullable NSDictionary *)serverParameters {
+  NSString *placementId = serverParameters[GADMAdapterVunglePlacementID];
+  return placementId ? placementId : @"";
 }
 
 #pragma mark - Safe Collection utility methods.

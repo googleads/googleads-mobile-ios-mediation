@@ -44,31 +44,18 @@ static NSString *const _Nonnull GADMAdapterVungleNullPubRequestID = @"null";
                                                                             withString:@"_"];
     [VungleAds setIntegrationName:@"admob" version:version];
   });
-
   if ([VungleAds isInitialized]) {
     [delegate initialized:YES error:nil];
     return;
   }
-
-  if (_isInitializing) {
-    @synchronized(_delegates) {
-      GADMAdapterVungleMutableSetAddObject(_delegates, delegate);
-    }
-    return;
+  @synchronized(_delegates) {
+    GADMAdapterVungleMutableSetAddObject(_delegates, delegate);
   }
-
-  if (!appId) {
-    NSError *error = GADMAdapterVungleInvalidAppIdErrorWithCodeAndDescription();
-    [delegate initialized:NO error:error];
+  if (_isInitializing) {
     return;
   }
 
   _isInitializing = YES;
-
-  @synchronized(_delegates) {
-    GADMAdapterVungleMutableSetAddObject(_delegates, delegate);
-  }
-
   [VungleAds initWithAppId:appId
                 completion:^(NSError *_Nullable error) {
                   self->_isInitializing = NO;
