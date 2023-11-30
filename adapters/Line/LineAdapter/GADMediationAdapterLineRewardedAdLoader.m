@@ -64,7 +64,7 @@
   _rewardedAd = [[FADVideoReward alloc] initWithSlotId:slotID];
   [_rewardedAd setLoadDelegate:self];
   [_rewardedAd setAdViewEventListener:self];
-  [_rewardedAd enableSound:!GADMobileAds.sharedInstance.applicationMuted];
+  [_rewardedAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a rewarded ad from FiveAd SDK.");
   [_rewardedAd loadAdAsync];
 }

@@ -79,7 +79,7 @@
   _interstitialAd = [[FADInterstitial alloc] initWithSlotId:slotID];
   [_interstitialAd setLoadDelegate:self];
   [_interstitialAd setAdViewEventListener:self];
-  [_interstitialAd enableSound:!GADMobileAds.sharedInstance.applicationMuted];
+  [_interstitialAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading an interstitial ad from FiveAd SDK.");
   [_interstitialAd loadAdAsync];
 }

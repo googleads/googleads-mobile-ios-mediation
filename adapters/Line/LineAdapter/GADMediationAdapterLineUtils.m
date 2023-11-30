@@ -138,3 +138,21 @@ NSString *_Nullable GADMediationAdapterLineSlotID(
   }
   return slotID;
 }
+
+BOOL GADMediationAdapterLineShouldEnableAduio(GADExtras *_Nullable extras) {
+  GADMediationAdapterLineExtras *lineExtras = (GADMediationAdapterLineExtras *)extras;
+  BOOL enableSound = !GADMobileAds.sharedInstance.applicationMuted;
+  if (lineExtras) {
+    switch (lineExtras.adAudio) {
+      case GADMediationAdapterLineAdAudioMuted:
+        enableSound = NO;
+        break;
+      case GADMediationAdapterLineAdAudioUnmuted:
+        enableSound = YES;
+        break;
+      default:
+        break;
+    }
+  }
+  return enableSound;
+}

@@ -18,6 +18,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "GADMediationAdapterLine.h"
+#import "GADMediationAdapterLineExtras.h"
 
 /// Returns an NSError with code |code| and with NSLocalizedDescriptionKey and
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
@@ -42,3 +43,10 @@ NSString *_Nullable GADMediationAdapterLineSlotID(
 /// just return.
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
     NSArray<GADMediationCredentials *> *_Nonnull credentialsArray);
+
+/// Returns whether ad should start with aduio.
+/// - It returns true when the extra's adAudio is GADMediationAdapterLineAdAudioUnmuted.
+/// - It returns false when the extra's adAudio is GADMediationAdapterLineAdAudioMuted.
+/// - If the extras is nil or the the extra's adAudio is GADMediationAdapterLineAdAudioUnset, its
+/// return value depends on GADMobileAds.sharedInstance.applicationMuted.
+BOOL GADMediationAdapterLineShouldEnableAduio(GADExtras *_Nullable extras);

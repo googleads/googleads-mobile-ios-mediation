@@ -89,7 +89,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
                                                       width:_requestedBannerSize.size.width];
   [_bannerAd setLoadDelegate:self];
   [_bannerAd setAdViewEventListener:self];
-  [_bannerAd enableSound:!GADMobileAds.sharedInstance.applicationMuted];
+  [_bannerAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a banner ad from FiveAd SDK.");
   [_bannerAd loadAdAsync];
 }

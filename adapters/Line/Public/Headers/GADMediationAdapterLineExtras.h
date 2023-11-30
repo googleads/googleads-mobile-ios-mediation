@@ -15,9 +15,27 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
+/// The ad audio states.
+typedef NS_ENUM(NSUInteger, GADMediationAdapterLineAdAudio) {
+  /// The unset state.
+  GADMediationAdapterLineAdAudioUnset,
+  /// The muted state.
+  GADMediationAdapterLineAdAudioMuted,
+  /// The unmuted state.
+  GADMediationAdapterLineAdAudioUnmuted
+};
+
 @interface GADMediationAdapterLineExtras : NSObject <GADAdNetworkExtras>
 
 /// The width of the native media view.
 @property(nonatomic) CGFloat nativeAdVideoWidth;
+
+/// The initial audio state for banner, interstitial, and rewarded ad is presented. If this property
+/// is set to GADMediationAdapterLineAdAudioSettingUnset, then the value of
+/// GADMobileAds.sharedInstance.applicationMuted will be respected. The default value is
+/// GADMediationAdapterLineAdAudioSettingUnset.
+///
+/// For native ad, use GADVideoOptions.
+@property(nonatomic) GADMediationAdapterLineAdAudio adAudio;
 
 @end
