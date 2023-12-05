@@ -160,7 +160,7 @@
 }
 
 - (void)bannerAdWillLeaveApplication:(nonnull VungleBanner *)banner {
-  [_delegate willBackgroundApplication];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 #pragma mark - GADMAdapterVungleDelegate
