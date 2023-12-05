@@ -106,11 +106,7 @@
 }
 
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
-  id<GADMediationInterstitialAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate) {
-    [strongDelegate reportClick];
-    [strongDelegate willBackgroundApplication];
-  }
+  [_adEventDelegate reportClick];
 }
 
 - (void)interstitialAdWillClose:(FBInterstitialAd *)interstitialAd {

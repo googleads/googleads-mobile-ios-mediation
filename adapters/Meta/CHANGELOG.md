@@ -1,5 +1,8 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### Next version
+- Removed the deprecated willBackgroundApplication delegate methods from the banner and interstitial renderers.
+
 #### [Version 6.14.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.14.0.0.zip)
 - Verified compatibility with Meta Audience Network SDK 6.14.0.
 

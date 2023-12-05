@@ -123,11 +123,7 @@
 }
 
 - (void)adViewDidClick:(FBAdView *)adView {
-  id<GADMediationBannerAdEventDelegate> strongDelegate = _adEventDelegate;
-  if (strongDelegate) {
-    [strongDelegate reportClick];
-    [strongDelegate willBackgroundApplication];
-  }
+  [_adEventDelegate reportClick];
 }
 
 - (void)adViewWillLogImpression:(FBAdView *)adView {
