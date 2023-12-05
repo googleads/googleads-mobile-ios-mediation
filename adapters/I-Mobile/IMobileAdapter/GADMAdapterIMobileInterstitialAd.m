@@ -144,7 +144,6 @@
 
 - (void)imobileSdkAdsSpotDidClick:(NSString *)spotId {
   [_delegate reportClick];
-  [_delegate willBackgroundApplication];
 }
 
 - (void)imobileSdkAdsSpotDidClose:(NSString *)spotId {
