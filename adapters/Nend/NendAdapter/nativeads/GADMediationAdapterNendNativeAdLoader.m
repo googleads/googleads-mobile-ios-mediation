@@ -221,11 +221,10 @@
 
 - (void)nadNativeDidClickAd:(nonnull NADNative *)ad {
   [_adEventDelegate reportClick];
-  [_adEventDelegate willBackgroundApplication];
 }
 
 - (void)nadNativeDidClickInformation:(nonnull NADNative *)ad {
-  [_adEventDelegate willBackgroundApplication];
+  // Do nothing here.
 }
 
 #pragma mark - NADNativeVideoDelegate
@@ -235,11 +234,10 @@
 
 - (void)nadNativeVideoDidClickAd:(nonnull NADNativeVideo *)ad {
   [_adEventDelegate reportClick];
-  [_adEventDelegate willBackgroundApplication];
 }
 
 - (void)nadNativeVideoDidClickInformation:(nonnull NADNativeVideo *)ad {
-  [_adEventDelegate willBackgroundApplication];
+  // Do nothing here.
 }
 
 #pragma mark - NADNativeVideoViewDelegate
