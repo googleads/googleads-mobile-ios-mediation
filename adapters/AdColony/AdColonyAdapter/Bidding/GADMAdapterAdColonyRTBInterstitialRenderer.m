@@ -141,7 +141,7 @@
 }
 
 - (void)adColonyInterstitialWillLeaveApplication:(nonnull AdColonyInterstitial *)interstitial {
-  [_adEventDelegate willBackgroundApplication];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)adColonyInterstitialDidReceiveClick:(nonnull AdColonyInterstitial *)interstitial {

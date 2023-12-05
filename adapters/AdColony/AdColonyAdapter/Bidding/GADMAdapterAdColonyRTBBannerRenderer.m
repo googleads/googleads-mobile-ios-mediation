@@ -112,7 +112,7 @@
 }
 
 - (void)adColonyAdViewWillLeaveApplication:(nonnull AdColonyAdView *)adView {
-  [_adEventDelegate willBackgroundApplication];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 - (void)adColonyAdViewWillOpen:(nonnull AdColonyAdView *)adView {
