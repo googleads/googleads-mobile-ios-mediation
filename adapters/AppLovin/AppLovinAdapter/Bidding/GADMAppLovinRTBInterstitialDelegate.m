@@ -75,7 +75,6 @@
   [GADMAdapterAppLovinUtils log:@"Interstitial clicked"];
   id<GADMediationInterstitialAdEventDelegate> strongDelegate = _parentRenderer.delegate;
   [strongDelegate reportClick];
-  [strongDelegate willBackgroundApplication];
 }
 
 #pragma mark - Video Playback Delegate
