@@ -211,7 +211,7 @@
 }
 
 - (void)IAUnitControllerWillOpenExternalApp:(nullable IAUnitController *)unitController {
-  [_delegate willBackgroundApplication];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 @end
