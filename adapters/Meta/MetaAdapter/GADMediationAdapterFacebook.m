@@ -47,11 +47,15 @@
     }
   }
 
-  FBAdInitSettings *fbSettings = [[FBAdInitSettings alloc]
-      initWithPlacementIDs:[placementIds allObjects]
-          mediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
-                                                      GADMobileAds.sharedInstance.sdkVersion,
-                                                      GADMAdapterFacebookVersion]];
+  NSString *mediationService =
+      [NSString stringWithFormat:@"GOOGLE_afma-sdk-i-v%ld.%ld.%ld:%@",
+                                 GADMobileAds.sharedInstance.versionNumber.majorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.minorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.patchVersion,
+                                 GADMAdapterFacebookVersion];
+  FBAdInitSettings *fbSettings =
+      [[FBAdInitSettings alloc] initWithPlacementIDs:[placementIds allObjects]
+                                    mediationService:mediationService];
 
   [FBAudienceNetworkAds initializeWithSettings:fbSettings
                              completionHandler:^(FBAdInitResults *_Nonnull results) {

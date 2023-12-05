@@ -29,10 +29,13 @@ NSError *_Nonnull GADFBErrorWithCodeAndDescription(GADFBErrorCode code,
 }
 
 void GADFBConfigureMediationService(void) {
-  [FBAdSettings
-      setMediationService:[NSString stringWithFormat:@"GOOGLE_%@:%@",
-                                                     GADMobileAds.sharedInstance.sdkVersion,
-                                                     GADMAdapterFacebookVersion]];
+  NSString *mediationService =
+      [NSString stringWithFormat:@"GOOGLE_afma-sdk-i-v%ld.%ld.%ld:%@",
+                                 GADMobileAds.sharedInstance.versionNumber.majorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.minorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.patchVersion,
+                                 GADMAdapterFacebookVersion];
+  [FBAdSettings setMediationService:mediationService];
 }
 
 void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set,
