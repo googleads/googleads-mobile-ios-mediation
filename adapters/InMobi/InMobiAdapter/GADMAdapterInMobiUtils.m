@@ -176,9 +176,13 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
   GADMAdapterInMobiMutableDictionarySetObjectForKey(
       requestParameters, GADMAdapterInMobiRequestParametersMediationTypeKey, mediationType);
 
-  GADMAdapterInMobiMutableDictionarySetObjectForKey(requestParameters,
-                                                    GADMAdapterInMobiRequestParametersSDKVersionKey,
-                                                    GADMobileAds.sharedInstance.sdkVersion);
+  NSString *versionString =
+      [NSString stringWithFormat:@"afma-sdk-i-v%ld.%ld.%ld",
+                                 GADMobileAds.sharedInstance.versionNumber.majorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.minorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.patchVersion];
+  GADMAdapterInMobiMutableDictionarySetObjectForKey(
+      requestParameters, GADMAdapterInMobiRequestParametersSDKVersionKey, versionString);
 
   if (childDirectedTreatment) {
     NSString *coppaString = [childDirectedTreatment integerValue] ? @"1" : @"0";
