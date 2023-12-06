@@ -78,8 +78,13 @@ NSString *_Nonnull GADMAdapterChartboostLocationFromString(NSString *_Nullable s
 }
 
 CHBMediation *_Nonnull GADMAdapterChartboostMediation(void) {
+  NSString *versionString =
+      [NSString stringWithFormat:@"afma-sdk-i-v%ld.%ld.%ld",
+                                 GADMobileAds.sharedInstance.versionNumber.majorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.minorVersion,
+                                 GADMobileAds.sharedInstance.versionNumber.patchVersion];
   return [[CHBMediation alloc] initWithName:@"AdMob"
-                             libraryVersion:GADMobileAds.sharedInstance.sdkVersion
+                             libraryVersion:versionString
                              adapterVersion:GADMAdapterChartboostVersion];
 }
 

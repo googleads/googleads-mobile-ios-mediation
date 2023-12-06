@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next version
+- Replaced the deprecated method GADMobileAds.sharedInstance.sdkVersion with GADMobileAds.sharedInstance.versionNumber.
+
 #### [Version 9.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.5.1.0.zip)
 - Verified compatibility with Chartboost SDK version 9.5.1.
 
