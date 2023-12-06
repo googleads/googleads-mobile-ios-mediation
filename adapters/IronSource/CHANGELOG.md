@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Replaced the deprecated method GADMobileAds.sharedInstance.sdkVersion with GADMobileAds.sharedInstance.versionNumber.
+
 #### [Version 7.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.5.1.0.zip)
 - Verified compatibility with IronSource SDK version 7.5.1.
 
