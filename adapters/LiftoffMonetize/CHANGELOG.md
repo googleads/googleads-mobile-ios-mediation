@@ -2,6 +2,7 @@
 
 #### Next version
 - Removed the deprecated willBackgroundApplication delegate methods from the banner and interstitial.
+- Replaced the deprecated childDirectedTreatment method with GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
 
 #### [Version 7.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.1.0.0.zip)
 - Verified compatibility with Vungle SDK 7.1.0.

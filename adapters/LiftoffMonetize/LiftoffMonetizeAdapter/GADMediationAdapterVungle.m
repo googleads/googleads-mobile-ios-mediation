@@ -107,8 +107,10 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (adConfiguration.childDirectedTreatment) {
-    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[childDirectedTreatment boolValue]];
   }
   if (!adConfiguration.bidResponse) {
     _waterfallRewardedAd =
@@ -126,8 +128,10 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  if (adConfiguration.childDirectedTreatment) {
-    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[childDirectedTreatment boolValue]];
   }
   _interstitialAd =
       [[GADMediationVungleInterstitial alloc] initWithAdConfiguration:adConfiguration
@@ -138,8 +142,10 @@
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-  if (adConfiguration.childDirectedTreatment) {
-    [VunglePrivacySettings setCOPPAStatus:[adConfiguration.childDirectedTreatment boolValue]];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[childDirectedTreatment boolValue]];
   }
   _nativeAd = [[GADMediationVungleNativeAd alloc] initNativeAdForAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];

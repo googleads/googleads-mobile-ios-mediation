@@ -61,8 +61,10 @@
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (strongConnector.childDirectedTreatment) {
-    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[childDirectedTreatment boolValue]];
   }
   _bannerAd = [[GADMAdapterVungleBanner alloc] initWithGADMAdNetworkConnector:strongConnector
                                                                       adapter:self];
@@ -73,8 +75,10 @@
 
 - (void)getInterstitial {
   id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (strongConnector.childDirectedTreatment) {
-    [VunglePrivacySettings setCOPPAStatus:[strongConnector.childDirectedTreatment boolValue]];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:[childDirectedTreatment boolValue]];
   }
   self.desiredPlacement = [GADMAdapterVungleUtils findPlacement:[strongConnector credentials]];
   if ([VungleAds isInitialized]) {
@@ -149,7 +153,7 @@
 }
 
 - (void)interstitialAdWillLeaveApplication:(nonnull VungleInterstitial *)interstitial {
-  [_connector adapterWillLeaveApplication:self];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 #pragma mark - GADMAdapterVungleDelegate

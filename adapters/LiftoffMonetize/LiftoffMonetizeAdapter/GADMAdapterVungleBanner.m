@@ -135,7 +135,7 @@
 }
 
 - (void)bannerAdWillLeaveApplication:(nonnull VungleBanner *)banner {
-  [_connector adapterWillLeaveApplication:_adapter];
+  // Google Mobile Ads SDK doesn't have a matching event.
 }
 
 #pragma mark - GADMAdapterVungleDelegate delegates
