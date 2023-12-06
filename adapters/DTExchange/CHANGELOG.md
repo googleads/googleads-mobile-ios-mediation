@@ -3,6 +3,13 @@
 #### Next version
 - Removed the deprecated willBackgroundApplication delegate method from the banner and interstitial ads.
 
+#### [Version 8.2.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.5.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.2.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- DT Exchange SDK version 8.2.5.
+
 #### [Version 8.2.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.4.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.2.4.
 
