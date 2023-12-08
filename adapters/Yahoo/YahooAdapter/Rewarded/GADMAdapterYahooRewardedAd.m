@@ -109,7 +109,9 @@ NSString *const GADMAdapterVerizonVideoCompleteEventId = @"onVideoComplete";
   }
 
   // Forward COPPA value to Yahoo Mobile SDK.
-  if (_adConfiguration.childDirectedTreatment.boolValue) {
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment.boolValue) {
     NSLog(@"[YahooAdapter] Applying COPPA.");
     [YASAds.sharedInstance applyCoppa];
   }
