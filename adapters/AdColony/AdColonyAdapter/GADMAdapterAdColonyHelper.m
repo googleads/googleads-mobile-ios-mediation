@@ -45,9 +45,10 @@
 
   [options setMediationNetworkVersion:[GADMAdapterAdColony adapterVersion]];
 
-  if (adConfig.childDirectedTreatment) {
-    [options setPrivacyFrameworkOfType:ADC_COPPA
-                            isRequired:adConfig.childDirectedTreatment.boolValue];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (childDirectedTreatment) {
+    [options setPrivacyFrameworkOfType:ADC_COPPA isRequired:childDirectedTreatment.boolValue];
   }
 
   return options;

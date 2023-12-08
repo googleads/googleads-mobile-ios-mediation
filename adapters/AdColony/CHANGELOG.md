@@ -5,6 +5,7 @@
 - Now requires minimum iOS version 11.0.
 - Now requires Google Mobile Ads SDK version 10.4.0 or higher.
 - Removed the deprecated willBackgroundApplication delegate method from the banner and interstitial renderers.
+- Replaced the deprecated `childDirectedTreatment` method with `GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment`.
 
 #### [Version 4.9.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/adcolony/AdColonyAdapter-4.9.0.2.zip)
 - Updated the adapter to pass `childDirectedTreatment` information to the AdColony SDK.
