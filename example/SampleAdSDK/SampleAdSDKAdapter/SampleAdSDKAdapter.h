@@ -24,7 +24,5 @@ FOUNDATION_EXPORT const unsigned char SampleAdSDKAdapterVersionString[];
 
 #import <SampleAdSDKAdapter/SampleAdapter.h>
 #import <SampleAdSDKAdapter/SampleAdapterConstants.h>
-#import <SampleAdSDKAdapter/SampleAdapterDelegate.h>
-#import <SampleAdSDKAdapter/SampleAdapterMediatedNativeAd.h>
-#import <SampleAdSDKAdapter/SampleAdapterProtocol.h>
+#import <SampleAdSDKAdapter/SampleAdapterDataProvider.h>
 #import <SampleAdSDKAdapter/SampleExtras.h>

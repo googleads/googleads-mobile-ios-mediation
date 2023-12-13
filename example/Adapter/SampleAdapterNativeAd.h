@@ -1,4 +1,4 @@
-// Copyright 2015 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,17 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-
+#import <SampleAdSDK/SampleAdSDK.h>
 #import "SampleAdapterDataProvider.h"
 
-/// Adapter error codes.
-typedef NS_ENUM(NSInteger, SampleAdapterErrorCode) {
-  /// Missing server parameters.
-  SampleAdapterErrorCodeInvalidServerParameters = 101,
-  /// Ad not ready to be presented.
-  SampleAdapterErrorCodeAdNotReady = 102,
-};
+@interface SampleAdapterNativeAd
+    : NSObject <GADMediationNativeAd, SampleAdapterDataProvider, SampleNativeAdLoaderDelegate>
 
-/// Adapter for communicating with the Sample SDK to fetch banner ads, native ads, rewarded ads, and
-/// interstitial ads.
-@interface SampleAdapter : NSObject <GADMediationAdapter>
+- (nonnull instancetype)init NS_UNAVAILABLE;
+- (nonnull instancetype)initWithAdConfiguration:
+    (nonnull GADMediationNativeAdConfiguration *)adConfiguration NS_DESIGNATED_INITIALIZER;
+
+- (void)renderNativeAdWithCompletionHandler:
+    (nonnull GADMediationNativeLoadCompletionHandler)completionHandler;
 
 @end
