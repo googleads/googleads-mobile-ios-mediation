@@ -1,8 +1,13 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Next version
-- Removed the deprecated willBackgroundApplication delegate methods from the banner and interstitial.
-- Replaced the deprecated childDirectedTreatment method with GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
+#### [Version 7.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.0.0.zip)
+- Verified compatibility with Vungle SDK 7.2.0.
+- Removed the deprecated `willBackgroundApplication` delegate methods from the banner and interstitial ad implementations.
+- Replaced the deprecated `childDirectedTreatment` method with the `GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment` property.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- Vungle SDK version 7.2.0.
 
 #### [Version 7.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.1.0.0.zip)
 - Verified compatibility with Vungle SDK 7.1.0.
