@@ -23,10 +23,14 @@
 #import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
+#import "GADMediationAdapterChartboostInterstitialAd.h"
 
 @implementation GADMediationAdapterChartboost {
   /// Chartboost rewarded ad wrapper.
   GADMAdapterChartboostRewardedAd *_rewardedAd;
+
+  /// Chartboost interstitial ad wrapper.
+  GADMediationAdapterChartboostInterstitialAd *_interstitialAd;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -121,6 +125,17 @@
   _rewardedAd = [[GADMAdapterChartboostRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                                completionHandler:completionHandler];
   [_rewardedAd loadRewardedAd];
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAd = [[GADMediationAdapterChartboostInterstitialAd alloc]
+      initWithAdConfiguration:adConfiguration
+            completionHandler:completionHandler];
+
+  [_interstitialAd loadInterstitialAd];
 }
 
 @end
