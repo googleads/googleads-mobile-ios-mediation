@@ -141,6 +141,10 @@
   _adEventDelegate = _completionHandler(self, nil);
 }
 
+- (void)willShowAd:(CHBShowEvent *)event {
+  [_adEventDelegate willPresentFullScreenView];
+}
+
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
   if (error) {
     NSError *showError = GADMChartboostErrorForCHBShowError(error);
@@ -151,15 +155,16 @@
     [_adEventDelegate didFailToPresentWithError:showError];
     return;
   }
-
-  [_adEventDelegate willPresentFullScreenView];
-  [_adEventDelegate reportImpression];
   [_adEventDelegate didStartVideo];
 }
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
   [_adEventDelegate didEndVideo];
   [_adEventDelegate didRewardUser];
+}
+
+- (void)didRecordImpression:(CHBImpressionEvent *)event {
+  [_adEventDelegate reportImpression];
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(CHBClickError *)error {
