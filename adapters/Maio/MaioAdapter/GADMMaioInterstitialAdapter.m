@@ -31,6 +31,10 @@
 
 @implementation GADMMaioInterstitialAdapter
 
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterMaio class];
+}
+
 #pragma mark - GADMAdNetworkAdapter
 
 /// Returns a version string for the adapter. It can be any string that uniquely

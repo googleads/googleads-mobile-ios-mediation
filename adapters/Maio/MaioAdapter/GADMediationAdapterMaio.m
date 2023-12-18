@@ -16,6 +16,7 @@
 
 #import <Maio/Maio-Swift.h>
 
+#import "GADMAdapterMaioInterstitialAd.h"
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
@@ -28,6 +29,9 @@
 @implementation GADMediationAdapterMaio {
   // maio bidding interstitial ad wrapper.
   GADRTBMaioInterstitialAd *_interstitialRTBAd;
+
+  // maio waterfall interstitial ad wrapper.
+  GADMAdapterMaioInterstitialAd *_interstitialAd;
 
   // maio bidding rewarded ad wrapper.
   GADRTBMaioRewardedAd *_rewardedRTBAd;
@@ -103,11 +107,10 @@
     return;
   }
 
-  // Interstitial waterfall mediation runs through GADMMaioInterstitialAdapter.
-  NSError *error = GADMAdapterMaioErrorWithCodeAndDescription(
-      GADMAdapterMaioErrorAdFormatNotSupported,
-      @"Incompatible call for the interstitial. This logic need bidResponse.");
-  completionHandler(nil, error);
+  _interstitialAd =
+      [[GADMAdapterMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration
+                                                   completionHandler:completionHandler];
+  [_interstitialAd loadInterstitialAd];
 }
 
 @end
