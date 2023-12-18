@@ -34,7 +34,7 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
 
 @implementation GADMAdapterInMobiBannerAd {
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationBannerAdEventDelegate> _bannerAdEventDelegate;
+  __weak id<GADMediationBannerAdEventDelegate> _bannerAdEventDelegate;
 
   /// Ad Configuration for the banner ad to be rendered.
   GADMediationBannerAdConfiguration *_bannerAdConfig;

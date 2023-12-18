@@ -34,7 +34,7 @@
   VungleNative *_nativeAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationNativeAdEventDelegate> _delegate;
+  __weak id<GADMediationNativeAdEventDelegate> _delegate;
 
   /// The Liftoff Monetize container to display the media (image/video).
   MediaView *_mediaView;

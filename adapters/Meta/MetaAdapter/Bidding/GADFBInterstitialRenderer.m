@@ -26,16 +26,14 @@
 @end
 
 @implementation GADFBInterstitialRenderer {
-  // The completion handler to call when the ad loading succeeds or fails.
+  /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
 
-  // The Meta Audience Network interstitial ad.
+  /// The Meta Audience Network interstitial ad.
   FBInterstitialAd *_interstitialAd;
 
-  // An ad event delegate to invoke when ad rendering events occur.
-  // Intentionally keeping a reference to the delegate because this delegate is returned from the
-  // GMA SDK, not set on the GMA SDK.
-  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  /// An ad event delegate to invoke when ad rendering events occur.
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 
   /// Indicates whether presentFromViewController: was called on this renderer.
   BOOL _presentCalled;

@@ -32,7 +32,7 @@
   GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationBannerAdEventDelegate> _delegate;
+  __weak id<GADMediationBannerAdEventDelegate> _delegate;
 
   /// The requested ad size.
   GADAdSize _bannerSize;

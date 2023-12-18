@@ -38,7 +38,7 @@
   MTGRewardAdManager *_rewardedAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// The Mintegral rewarded ad Unit ID.
   NSString *_adUnitId;

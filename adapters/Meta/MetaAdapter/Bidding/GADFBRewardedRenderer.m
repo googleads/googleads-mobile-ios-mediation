@@ -34,9 +34,7 @@
   FBRewardedVideoAd *_rewardedAd;
 
   // An ad event delegate to invoke when ad rendering events occur.
-  // Intentionally keeping a reference to the delegate because this delegate is returned from the
-  // GMA SDK, not set on the GMA SDK.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Indicates whether presentFromViewController: was called on this renderer.
   BOOL _presentCalled;

@@ -37,7 +37,7 @@
   GADMediationBannerLoadCompletionHandler _completionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationBannerAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
 
   /// Chartboost banner ad object
   CHBBanner *_banner;

@@ -25,9 +25,7 @@
   GADMediationInterstitialLoadCompletionHandler _completionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 
   /// Ad configuration of the ad request.
   GADMediationInterstitialAdConfiguration *_adConfiguration;

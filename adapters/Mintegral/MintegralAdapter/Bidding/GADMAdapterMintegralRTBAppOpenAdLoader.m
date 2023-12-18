@@ -36,7 +36,7 @@
   MTGSplashAD *_splashAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationAppOpenAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationAppOpenAdEventDelegate> _adEventDelegate;
 }
 
 - (void)loadRTBAppOpenAdForAdConfiguration:

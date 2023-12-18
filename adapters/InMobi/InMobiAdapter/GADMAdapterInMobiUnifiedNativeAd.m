@@ -32,7 +32,7 @@ static CGFloat const DefaultIconScale = 1.0;
 
 @implementation GADMAdapterInMobiUnifiedNativeAd {
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationNativeAdEventDelegate> _nativeAdEventDelegate;
+  __weak id<GADMediationNativeAdEventDelegate> _nativeAdEventDelegate;
 
   /// Ad Configuration for the native ad to be rendered.
   GADMediationNativeAdConfiguration *_nativeAdConfig;

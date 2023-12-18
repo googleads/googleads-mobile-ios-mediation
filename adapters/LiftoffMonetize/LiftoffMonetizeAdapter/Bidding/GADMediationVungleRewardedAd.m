@@ -30,7 +30,7 @@
   GADMediationRewardedLoadCompletionHandler _adLoadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationRewardedAdEventDelegate> _delegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _delegate;
 
   /// Liftoff Monetize rewarded ad instance.
   VungleRewarded *_rewardedAd;

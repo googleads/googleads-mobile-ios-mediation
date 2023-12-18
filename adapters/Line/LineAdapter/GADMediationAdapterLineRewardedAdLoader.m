@@ -24,7 +24,7 @@
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
   /// The ad event delegate which is used to report rewarded ad events to the Google Mobile Ads SDK.
-  id<GADMediationRewardedAdEventDelegate> _rewardedAdEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _rewardedAdEventDelegate;
 
   /// The rewarded ad.
   FADVideoReward *_rewardedAd;

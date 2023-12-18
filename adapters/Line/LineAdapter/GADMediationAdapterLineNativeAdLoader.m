@@ -29,7 +29,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
 
   /// The ad event delegate which is used to report native ad related information to the Google
   /// Mobile Ads SDK.
-  id<GADMediationNativeAdEventDelegate> _nativeAdEventDelegate;
+  __weak id<GADMediationNativeAdEventDelegate> _nativeAdEventDelegate;
 
   /// The native ad instance.
   FADNative *_nativeAd;

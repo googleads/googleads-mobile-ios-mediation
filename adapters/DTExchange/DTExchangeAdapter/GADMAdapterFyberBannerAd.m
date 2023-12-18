@@ -32,9 +32,7 @@
   GADMediationBannerLoadCompletionHandler _loadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationBannerAdEventDelegate> _delegate;
+  __weak id<GADMediationBannerAdEventDelegate> _delegate;
 
   /// DT Exchange Ad Spot to be loaded.
   IAAdSpot *_adSpot;

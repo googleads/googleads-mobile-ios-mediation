@@ -30,7 +30,7 @@
 
   /// The ad event delegate which is used to report interstitial related information to the Google
   /// Mobile Ads SDK.
-  id<GADMediationInterstitialAdEventDelegate> _interstitialAdEventDelegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _interstitialAdEventDelegate;
 
   /// The interstitial ad.
   FADInterstitial *_interstitialAd;

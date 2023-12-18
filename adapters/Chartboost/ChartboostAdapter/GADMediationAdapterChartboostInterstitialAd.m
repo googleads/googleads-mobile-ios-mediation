@@ -37,7 +37,7 @@
   GADMediationInterstitialLoadCompletionHandler _completionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 
   /// Chartboost interstitial ad object
   CHBInterstitial *_interstitial;

@@ -36,9 +36,7 @@
   GADMediationInterstitialLoadCompletionHandler _renderCompletionHandler;
 
   /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  /// Intentionally keeping a strong reference to the delegate because this is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationInterstitialAdEventDelegate> _delegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
 
   /// Tapjoy interstitial ad object.
   TJPlacement *_interstitialAd;

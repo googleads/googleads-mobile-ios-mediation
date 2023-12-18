@@ -25,20 +25,20 @@
 @end
 
 @implementation GADFBBannerRenderer {
-  // The completion handler to call when the ad loading succeeds or fails.
+  /// The completion handler to call when the ad loading succeeds or fails.
   GADMediationBannerLoadCompletionHandler _adLoadCompletionHandler;
 
-  // Ad Configuration for the ad to be rendered.
+  /// Ad Configuration for the ad to be rendered.
   GADMediationAdConfiguration *_adConfig;
 
-  // The Meta Audience Network banner ad.
+  /// The Meta Audience Network banner ad.
   FBAdView *_adView;
 
-  // An ad event delegate to invoke when ad rendering events occur.
+  /// An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationBannerAdEventDelegate> _adEventDelegate;
 
-  // Meta Audience Network banner views can have flexible width. Set this property to the
-  // desired banner view's size. Set to CGSizeZero if resizing is not desired.
+  /// Meta Audience Network banner views can have flexible width. Set this property to the
+  /// desired banner view's size. Set to CGSizeZero if resizing is not desired.
   CGSize _finalBannerSize;
 }
 

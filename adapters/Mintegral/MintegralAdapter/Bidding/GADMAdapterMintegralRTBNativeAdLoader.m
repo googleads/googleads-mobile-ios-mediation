@@ -40,7 +40,7 @@
   MTGMediaView *_mediaView;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationNativeAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationNativeAdEventDelegate> _adEventDelegate;
 
   /// The Mintegral ad unit ID.
   NSString *_adUnitId;

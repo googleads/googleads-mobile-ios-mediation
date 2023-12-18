@@ -25,9 +25,7 @@
   GADMediationRewardedLoadCompletionHandler _completionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  /// Intentionally keeping a reference to the delegate because this delegate is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Ad configuration of the ad request.
   GADMediationRewardedAdConfiguration *_adConfiguration;

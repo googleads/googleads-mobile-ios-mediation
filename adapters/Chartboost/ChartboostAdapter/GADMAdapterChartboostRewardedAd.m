@@ -37,7 +37,7 @@
   GADMediationRewardedLoadCompletionHandler _completionHandler;
 
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Chartboost rewarded ad object
   CHBRewarded *_rewardedAd;

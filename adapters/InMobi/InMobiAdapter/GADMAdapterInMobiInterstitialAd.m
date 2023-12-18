@@ -26,7 +26,7 @@
 
 @implementation GADMAdapterInMobiInterstitialAd {
   /// An ad event delegate to invoke when ad rendering events occur.
-  id<GADMediationInterstitialAdEventDelegate> _interstitalAdEventDelegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _interstitalAdEventDelegate;
 
   /// Ad Configuration for the interstitial ad to be rendered.
   GADMediationInterstitialAdConfiguration *_interstitialAdConfig;

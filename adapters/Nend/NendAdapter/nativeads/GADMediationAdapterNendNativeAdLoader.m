@@ -36,9 +36,7 @@
   GADMediationNativeAdConfiguration *_adConfiguration;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  /// Intentionally keeping a strong reference to the delegate because this is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationNativeAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationNativeAdEventDelegate> _adEventDelegate;
 
   /// nend native ad loader.
   NADNativeClient *_normalLoader;

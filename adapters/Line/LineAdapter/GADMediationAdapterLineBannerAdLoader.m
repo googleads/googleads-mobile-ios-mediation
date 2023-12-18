@@ -44,7 +44,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
 
   /// The ad event delegate which is used to report banner related information to the Google Mobile
   /// Ads SDK.
-  id<GADMediationBannerAdEventDelegate> _bannerAdEventDelegate;
+  __weak id<GADMediationBannerAdEventDelegate> _bannerAdEventDelegate;
 
   /// The banner ad.
   FADAdViewCustomLayout *_bannerAd;

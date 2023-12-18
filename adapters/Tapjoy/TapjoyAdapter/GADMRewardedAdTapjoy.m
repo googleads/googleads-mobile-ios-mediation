@@ -36,9 +36,7 @@
   GADMediationRewardedLoadCompletionHandler _completionHandler;
 
   /// The ad event delegate to forward ad events to the Google Mobile Ads SDK.
-  /// Intentionally keeping a strong reference to the delegate because this is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// Tapjoy rewarded ad object.
   TJPlacement *_rewardedAd;

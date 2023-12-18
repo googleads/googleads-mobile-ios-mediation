@@ -33,9 +33,7 @@
   GADMediationRewardedAdConfiguration *_adConfiguration;
 
   /// Ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  /// Intentionally keeping a strong reference to the delegate because this is returned from the
-  /// GMA SDK, not set on the GMA SDK.
-  id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationRewardedAdEventDelegate> _adEventDelegate;
 
   /// myTarget rewarded ad object.
   MTRGRewardedAd *_rewardedAd;

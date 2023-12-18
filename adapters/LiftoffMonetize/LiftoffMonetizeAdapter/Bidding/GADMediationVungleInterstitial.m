@@ -32,7 +32,7 @@
   GADMediationInterstitialLoadCompletionHandler _adLoadCompletionHandler;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationInterstitialAdEventDelegate> _delegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _delegate;
 
   /// Liftoff Monetize interstitial ad instance.
   VungleInterstitial *_interstitialAd;

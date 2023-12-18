@@ -36,7 +36,7 @@
   MTGNewInterstitialBidAdManager *_interstitialAd;
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
+  __weak id<GADMediationInterstitialAdEventDelegate> _adEventDelegate;
 }
 
 - (void)loadRTBInterstitialAdForAdConfiguration:
