@@ -53,6 +53,7 @@
 		89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */; };
 		89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */; };
 		89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */; };
+		AD56E09C2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */; };
 		ADA1B1C12B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,8 @@
 		89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetRewarded.m; sourceTree = "<group>"; };
 		89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetNative.h; sourceTree = "<group>"; };
 		89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetNative.m; sourceTree = "<group>"; };
+		AD56E09A2B321B2600F7C166 /* GADMAdapterMyTargetBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetBannerAd.h; sourceTree = "<group>"; };
+		AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetBannerAd.m; sourceTree = "<group>"; };
 		ADA1B1BF2B30D7D400CA4FC8 /* GADMAdapterMyTargetInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetInterstitialAd.h; sourceTree = "<group>"; };
 		ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetInterstitialAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,6 +161,8 @@
 				45D672FA223AEE8400323EC6 /* GADMediationAdapterMyTarget.m */,
 				ADA1B1BF2B30D7D400CA4FC8 /* GADMAdapterMyTargetInterstitialAd.h */,
 				ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */,
+				AD56E09A2B321B2600F7C166 /* GADMAdapterMyTargetBannerAd.h */,
+				AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */,
 			);
 			path = MyTargetAdapter;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */,
 				890FE1152582138400816721 /* GADMAdapterMyTargetConstants.m in Sources */,
 				89D573221F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m in Sources */,
+				AD56E09C2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m in Sources */,
 				89DF93F21F7D17A00027A171 /* GADMAdapterMyTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

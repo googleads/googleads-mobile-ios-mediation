@@ -16,6 +16,7 @@
 
 #import <MyTargetSDK/MyTargetSDK.h>
 
+#import "GADMAdapterMyTargetBannerAd.h"
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetInterstitialAd.h"
@@ -26,6 +27,9 @@
 @end
 
 @implementation GADMediationAdapterMyTarget {
+  /// myTarget banner ad wrapper.
+  GADMAdapterMyTargetBannerAd *_bannerAd;
+
   /// myTarget rewarded ad wrapper.
   GADMAdapterMyTargetRewardedAd *_rewardedAd;
 
@@ -67,6 +71,13 @@
     version.patchVersion = components[2].integerValue * 100 + components[3].integerValue;
   }
   return version;
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAd = [[GADMAdapterMyTargetBannerAd alloc] initWithAdConfiguration:adConfiguration
+                                                         completionHandler:completionHandler];
+  [_bannerAd loadBannerAd];
 }
 
 - (void)loadRewardedAdForAdConfiguration:
