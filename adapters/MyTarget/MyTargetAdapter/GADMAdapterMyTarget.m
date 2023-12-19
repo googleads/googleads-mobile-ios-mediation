@@ -34,6 +34,10 @@
   MTRGInterstitialAd *_interstitialAd;
 }
 
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterMyTarget class];
+}
+
 + (nonnull NSString *)adapterVersion {
   return GADMAdapterMyTargetVersion;
 }

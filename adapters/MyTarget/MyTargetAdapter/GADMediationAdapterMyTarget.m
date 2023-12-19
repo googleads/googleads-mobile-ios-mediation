@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
+#import "GADMAdapterMyTargetInterstitialAd.h"
 #import "GADMAdapterMyTargetRewardedAd.h"
 
 @interface GADMediationAdapterMyTarget ()
@@ -27,6 +28,9 @@
 @implementation GADMediationAdapterMyTarget {
   /// myTarget rewarded ad wrapper.
   GADMAdapterMyTargetRewardedAd *_rewardedAd;
+
+  /// myTarget interstitial ad wrapper.
+  GADMAdapterMyTargetInterstitialAd *_interstitialAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -72,6 +76,16 @@
   _rewardedAd = [[GADMAdapterMyTargetRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                              completionHandler:completionHandler];
   [_rewardedAd loadRewardedAd];
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAd =
+      [[GADMAdapterMyTargetInterstitialAd alloc] initWithAdConfiguration:adConfiguration
+                                                       completionHandler:completionHandler];
+  [_interstitialAd loadInterstitialAd];
 }
 
 @end
