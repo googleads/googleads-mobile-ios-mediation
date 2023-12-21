@@ -20,6 +20,7 @@
 #import "GADMAdapterMyTargetConstants.h"
 #import "GADMAdapterMyTargetExtras.h"
 #import "GADMAdapterMyTargetInterstitialAd.h"
+#import "GADMAdapterMyTargetNativeAd.h"
 #import "GADMAdapterMyTargetRewardedAd.h"
 
 @interface GADMediationAdapterMyTarget ()
@@ -35,6 +36,9 @@
 
   /// myTarget interstitial ad wrapper.
   GADMAdapterMyTargetInterstitialAd *_interstitialAd;
+
+  /// myTarget native ad wrapper.
+  GADMAdapterMyTargetNativeAd *_nativeAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -97,6 +101,13 @@
       [[GADMAdapterMyTargetInterstitialAd alloc] initWithAdConfiguration:adConfiguration
                                                        completionHandler:completionHandler];
   [_interstitialAd loadInterstitialAd];
+}
+
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAd = [[GADMAdapterMyTargetNativeAd alloc] initWithAdConfiguration:adConfiguration
+                                                         completionHandler:completionHandler];
+  [_nativeAd loadNativeAd];
 }
 
 @end

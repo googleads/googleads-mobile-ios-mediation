@@ -41,6 +41,10 @@
   BOOL _autoLoadImages;
 }
 
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterMyTarget class];
+}
+
 + (nonnull NSString *)adapterVersion {
   return GADMAdapterMyTargetVersion;
 }
