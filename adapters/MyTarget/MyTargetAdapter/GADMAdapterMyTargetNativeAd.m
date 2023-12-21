@@ -238,23 +238,32 @@
 }
 
 - (void)onAdShowWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {
-  // TODO: impl
+  MTRGLogInfo();
+
+  [_adEventDelegate reportImpression];
 }
 
 - (void)onAdClickWithNativeAd:(nonnull MTRGNativeAd *)nativeAd {
-  // TODO: impl
+  MTRGLogInfo();
+
+  [_adEventDelegate reportClick];
 }
 
 - (void)onVideoPlayWithNativeAd:(MTRGNativeAd *)nativeAd {
-  // TODO: impl
+  MTRGLogInfo();
+
+  [_adEventDelegate didPlayVideo];
 }
 
 - (void)onVideoPauseWithNativeAd:(MTRGNativeAd *)nativeAd {
-  // TODO: impl
+  MTRGLogInfo();
+
+  [_adEventDelegate didPauseVideo];
 }
 
 - (void)onVideoCompleteWithNativeAd:(MTRGNativeAd *)nativeAd {
-  // TODO: impl
-}
+  MTRGLogInfo();
 
+  [_adEventDelegate didEndVideo];
+}
 @end
