@@ -1,7 +1,12 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
-- Removed the deprecated willBackgroundApplication delegate method from the interstitial delegate.
+#### [Version 12.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.1.0.0.zip)
+- Verified compatibility with AppLovin SDK 12.1.0.
+- Removed the deprecated `willBackgroundApplication` delegate method from the interstitial ad implementation.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- AppLovin SDK version 12.1.0.
 
 #### [Version 11.11.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-11.11.4.0.zip)
 - Verified compatibility with AppLovin SDK 11.11.4.
