@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// DT Exchange mediation adapter version.
-static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.2.5.0";
+static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.2.6.0";
 
 /// DT Exchange mediation adapter app ID key.
 static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";
