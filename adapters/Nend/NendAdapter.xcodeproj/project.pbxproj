@@ -46,6 +46,7 @@
 		4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */; };
 		4F2D7CEA1FCEA8E700BB0E23 /* GADMAdapterNend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */; };
 		4F2D7CEC1FCEA8F800BB0E23 /* GADMAdapterNend.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CEB1FCEA8F800BB0E23 /* GADMAdapterNend.h */; };
+		AD89C4082B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C4072B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m */; };
 		CC7F28DB238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = CC7F28D9238E500B00A8329F /* GADMediationAdapterNendNativeAdLoader.h */; };
 		CC7F28DC238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F28DA238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m */; };
 		CCBCBA552387D7FF008C4C90 /* GADMAdapterNendNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = CCBCBA532387D7FF008C4C90 /* GADMAdapterNendNativeAd.h */; };
@@ -103,6 +104,8 @@
 		7D9552B11DC006E5005DCE8D /* Script_Framework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD89C4062B34BA54002952E2 /* GADMAdapterNendInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendInterstitialAd.h; sourceTree = "<group>"; };
+		AD89C4072B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNendInterstitialAd.m; sourceTree = "<group>"; };
 		CC7F28D9238E500B00A8329F /* GADMediationAdapterNendNativeAdLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterNendNativeAdLoader.h; sourceTree = "<group>"; };
 		CC7F28DA238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterNendNativeAdLoader.m; sourceTree = "<group>"; };
 		CCBCBA532387D7FF008C4C90 /* GADMAdapterNendNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendNativeAd.h; sourceTree = "<group>"; };
@@ -170,6 +173,8 @@
 				23C7C8542436558800DE5CD9 /* GADMAdapterNendUtils.m */,
 				4588B339224C0E9600868387 /* GADMediationAdapterNend.h */,
 				4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */,
+				AD89C4062B34BA54002952E2 /* GADMAdapterNendInterstitialAd.h */,
+				AD89C4072B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m */,
 			);
 			path = NendAdapter;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				4588B33C224C0E9600868387 /* GADMediationAdapterNend.m in Sources */,
 				4588B340224C0EAB00868387 /* GADMAdapterNendRewardedAd.m in Sources */,
 				23C7C8562436558800DE5CD9 /* GADMAdapterNendUtils.m in Sources */,
+				AD89C4082B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m in Sources */,
 				CCBCBA76238BA663008C4C90 /* GADMAdapterNendNativeVideoAd.m in Sources */,
 				4F192F651FB93CCE0052B8DE /* GADMAdapterNendExtras.m in Sources */,
 				CCBCBAA7238CED45008C4C90 /* GADMAdapterNendAdUnitMapper.m in Sources */,

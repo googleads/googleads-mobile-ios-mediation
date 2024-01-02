@@ -80,3 +80,41 @@ NSError *_Nonnull GADMAdapterNendErrorForShowResult(NADInterstitialShowResult re
       [NSString stringWithFormat:@"nend SDK returned failed to show ad with reason: %@", suffix];
   return GADMAdapterNendErrorWithCodeAndDescription(code, description);
 }
+
+NSError *_Nullable GADMAdapterNendValidateSpotID(NSString *_Nullable spotID) {
+  if (!spotID) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"Spot ID must not be nil.");
+  }
+
+  if (![spotID isKindOfClass:[NSString class]]) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"Spot ID must be a string.");
+  }
+
+  if (spotID.integerValue == 0) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"Spot ID must be valid.");
+  }
+
+  return nil;
+}
+
+NSError *_Nullable GADMAdapterNendValidateAPIKey(NSString *_Nullable APIKey) {
+  if (!APIKey) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"API key must not be nil.");
+  }
+
+  if (![APIKey isKindOfClass:[NSString class]]) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"API key must be a string.");
+  }
+
+  if (!APIKey.length) {
+    return GADMAdapterNendErrorWithCodeAndDescription(GADMAdapterNendInvalidServerParameters,
+                                                      @"API key must be valid.");
+  }
+
+  return nil;
+}

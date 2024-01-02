@@ -69,6 +69,10 @@ static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
   InterstitialVideoStatus _interstitialVideoStatus;
 }
 
++ (nonnull Class<GADMediationAdapter>)mainAdapterClass {
+  return [GADMediationAdapterNend class];
+}
+
 + (nonnull NSString *)adapterVersion {
   return GADMAdapterNendVersion;
 }

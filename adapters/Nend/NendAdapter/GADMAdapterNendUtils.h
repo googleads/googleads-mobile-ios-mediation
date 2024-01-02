@@ -31,3 +31,9 @@ NSError *_Nonnull GADMAdapterNendSDKPresentError(void);
 
 /// Returns an NSError for result |result|.
 NSError *_Nonnull GADMAdapterNendErrorForShowResult(NADInterstitialShowResult result);
+
+/// Returns an error if the spot ID is invalid.
+NSError *_Nullable GADMAdapterNendValidateSpotID(NSString *_Nullable spotID);
+
+/// Returns an error if the API key is invalid.
+NSError *_Nullable GADMAdapterNendValidateAPIKey(NSString *_Nullable APIKey);

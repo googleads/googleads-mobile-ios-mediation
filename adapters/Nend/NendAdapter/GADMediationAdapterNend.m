@@ -19,11 +19,15 @@
 #import "GADMAdapterNend.h"
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
+#import "GADMAdapterNendInterstitialAd.h"
 #import "GADMAdapterNendRewardedAd.h"
 #import "GADMAdapterNendUtils.h"
 #import "GADMediationAdapterNendNativeAdLoader.h"
 
 @implementation GADMediationAdapterNend {
+  /// Interstitial ad.
+  GADMAdapterNendInterstitialAd *_interstitialAd;
+
   /// Rewarded ad.
   GADMAdapterNendRewardedAd *_rewardedAd;
 
@@ -69,6 +73,16 @@
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMAdapterNendExtras class];
+}
+
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  _interstitialAd =
+      [[GADMAdapterNendInterstitialAd alloc] initWithAdConfiguration:adConfiguration
+                                                   completionHandler:completionHandler];
+  [_interstitialAd loadInterstitialAd];
 }
 
 - (void)loadRewardedAdForAdConfiguration:
