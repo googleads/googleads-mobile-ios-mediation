@@ -27,9 +27,8 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
 
 const CGSize kVNGBannerShortSize = {300, 50};
 GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
-  // It has to match for MREC, otherwise it would be a banner with flexible size
-  if (adSize.size.height == GADAdSizeMediumRectangle.size.height &&
-      adSize.size.width == GADAdSizeMediumRectangle.size.width) {
+  if (adSize.size.height >= GADAdSizeMediumRectangle.size.height &&
+      adSize.size.width >= GADAdSizeMediumRectangle.size.width) {
     return GADAdSizeMediumRectangle;
   }
 
