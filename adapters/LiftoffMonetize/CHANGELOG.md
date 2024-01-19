@@ -1,5 +1,12 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### [Version 7.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.1.0.zip)
+- Verified compatibility with Vungle SDK 7.2.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- Vungle SDK version 7.2.1.
+
 #### [Version 7.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.0.0.zip)
 - Verified compatibility with Vungle SDK 7.2.0.
 - Removed the deprecated `willBackgroundApplication` delegate methods from the banner and interstitial ad implementations.
