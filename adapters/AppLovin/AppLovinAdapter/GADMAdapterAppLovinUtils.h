@@ -64,6 +64,9 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code);
 /// Returns an error where the instance of the AppLovin SDK for a given SDKKey cannot be found.
 NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey);
 
+/// Returns whether loading multiple ads is enabled.
+BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials);
+
 @interface GADMAdapterAppLovinUtils : NSObject
 
 /// Retrieves the AppLovin SDK key from the specified |credentials| or from Info.plist.

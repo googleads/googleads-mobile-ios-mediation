@@ -52,8 +52,20 @@
 
 - (void)ad:(nonnull ALAd *)ad wasDisplayedIn:(nonnull UIView *)view {
   [GADMAdapterAppLovinUtils log:@"Interstitial displayed"];
-  GADMAdapterAppLovin *parentRenderer = _parentRenderer;
-  [parentRenderer.connector adapterWillPresentInterstitial:parentRenderer];
+  GADMAdapterAppLovin *strongParentRenderer = _parentRenderer;
+  id<GADMAdNetworkConnector> strongConnector = strongParentRenderer.connector;
+  if (!strongParentRenderer && !strongConnector) {
+    return;
+  }
+
+  BOOL isMultipleAdsEnabled =
+      GADMAdapterAppLovinIsMultipleAdsLoadingEnabled([strongConnector credentials]);
+  if (isMultipleAdsEnabled) {
+    [GADMAdapterAppLovinMediationManager.sharedInstance
+        removeInterstitialZoneIdentifier:strongParentRenderer.zoneIdentifier];
+  }
+
+  [strongConnector adapterWillPresentInterstitial:strongParentRenderer];
 }
 
 - (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view {

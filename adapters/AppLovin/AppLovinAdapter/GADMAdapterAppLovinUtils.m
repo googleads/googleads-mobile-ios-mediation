@@ -21,6 +21,12 @@
 static const NSUInteger kALSDKKeyLength = 86;
 static const NSUInteger kALZoneIdentifierLength = 16;
 
+/// A key used to retrieve value on whether multiple ads is enabled from credentials.
+static NSString *const kGADMAdapterAppLovinCredentialsKeyMultipleAds =
+    @"enable_multiple_ads_per_unit";
+/// A value of credentials that represents enabled.
+static NSString *const kGADMAdapterAppLovinMultipleAdsEnabledString = @"true";
+
 void GADMAdapterAppLovinMutableSetAddObject(NSMutableSet *_Nullable set,
                                             NSObject *_Nonnull object) {
   if (object) {
@@ -102,6 +108,11 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
   NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
       GADMAdapterAppLovinErrorNilAppLovinSDK, errorString);
   return error;
+}
+
+BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials) {
+  NSString *isMultipleAdsEnabledString = credentials[kGADMAdapterAppLovinCredentialsKeyMultipleAds];
+  return [kGADMAdapterAppLovinMultipleAdsEnabledString isEqualToString:isMultipleAdsEnabledString];
 }
 
 @implementation GADMAdapterAppLovinUtils
