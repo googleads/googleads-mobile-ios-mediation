@@ -166,6 +166,13 @@
         GADMAdapterAppLovinErrorShow, @"Attempting to show rewarded video before one was loaded");
     [_delegate didFailToPresentWithError:error];
   }
+
+  NSDictionary *settings = _adConfiguration.credentials.settings;
+  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(settings);
+  if (isMultipleAdsEnabled) {
+    [GADMAdapterAppLovinMediationManager.sharedInstance
+        removeRewardedZoneIdentifier:_zoneIdentifier];
+  }
 }
 
 - (void)dealloc {
