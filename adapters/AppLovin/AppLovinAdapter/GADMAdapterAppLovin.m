@@ -168,6 +168,13 @@
   [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@.",
                                 _interstitialAd.adIdNumber, _zoneIdentifier];
   [_interstitial showAd:_interstitialAd];
+
+  BOOL isMultipleAdsEnabled =
+      GADMAdapterAppLovinIsMultipleAdsLoadingEnabled([strongConnector credentials]);
+  if (isMultipleAdsEnabled) {
+    [GADMAdapterAppLovinMediationManager.sharedInstance
+        removeInterstitialZoneIdentifier:_zoneIdentifier];
+  }
 }
 
 #pragma mark - GADMAdNetworkAdapter Protocol Banner Methods
