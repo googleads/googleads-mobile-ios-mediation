@@ -205,6 +205,13 @@
   return _parentViewController;
 }
 
+- (void)IAAdDidExpire:(IAUnitController *)unitController {
+  NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+      GADMAdapterFyberErrorPresentationFailureForAdExpiration,
+      @"DT Exchange rewarded ad couldn't be presented because it was expired.");
+  [_delegate didFailToPresentWithError:error];
+}
+
 - (void)IAAdDidReceiveClick:(nullable IAUnitController *)unitController {
   [_delegate reportClick];
 }

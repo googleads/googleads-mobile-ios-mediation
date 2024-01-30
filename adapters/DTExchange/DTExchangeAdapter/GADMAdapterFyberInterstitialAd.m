@@ -208,6 +208,13 @@
   [_delegate didDismissFullScreenView];
 }
 
+- (void)IAAdDidExpire:(IAUnitController *)unitController {
+  NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+      GADMAdapterFyberErrorPresentationFailureForAdExpiration,
+      @"DT Exchange interstitial ad couldn't be presented because it was expired.");
+  [_delegate didFailToPresentWithError:error];
+}
+
 - (void)IAUnitControllerWillOpenExternalApp:(nullable IAUnitController *)unitController {
   // Google Mobile Ads SDK doesn't have a matching event.
 }

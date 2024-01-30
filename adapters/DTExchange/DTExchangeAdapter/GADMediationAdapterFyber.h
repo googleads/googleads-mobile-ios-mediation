@@ -25,7 +25,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
   /// Failed to show DT Exchange ads due to ad not been ready.
   GADMAdapterFyberErrorAdNotReady = 104,
   /// The DT Exchange SDK returned an initialization error.
-  GADMAdapterFyberErrorInitializationFailure = 105
+  GADMAdapterFyberErrorInitializationFailure = 105,
+  /// The DT Exchange SDK failed to show an ad because the ad has expired.
+  GADMAdapterFyberErrorPresentationFailureForAdExpiration = 106
 };
 
 /// Mediation network adapter for DT Exchange.
