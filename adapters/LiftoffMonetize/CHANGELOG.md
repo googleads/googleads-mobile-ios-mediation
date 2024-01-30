@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the MREC matching to be any size that can fit an MREC instead of being an exact match.
+
 #### [Version 7.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.1.0.zip)
 - Verified compatibility with Vungle SDK 7.2.1.
 
