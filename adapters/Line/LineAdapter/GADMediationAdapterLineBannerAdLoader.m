@@ -88,7 +88,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
   _bannerAd = [[FADAdViewCustomLayout alloc] initWithSlotId:slotID
                                                       width:_requestedBannerSize.size.width];
   [_bannerAd setLoadDelegate:self];
-  [_bannerAd setAdViewEventListener:self];
+  [_bannerAd setEventListener:self];
   [_bannerAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a banner ad from FiveAd SDK.");
   [_bannerAd loadAdAsync];
@@ -138,21 +138,22 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
   [self callCompletionHandlerIfNeededWithAd:nil error:error];
 }
 
-#pragma mark - FADAdViewEventListener
+#pragma mark - FADCustomLayoutEventListener
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad {
-  // Called when the banner ad is clicked by the user.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did click.");
-  [_bannerAdEventDelegate reportClick];
-}
-
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad {
+- (void)fiveCustomLayoutAdDidImpression:(FADAdViewCustomLayout *)ad {
   // Called when the banner ad records a user impression.
   GADMediationAdapterLineLog(@"The FiveAd banner ad did impression.");
   [_bannerAdEventDelegate reportImpression];
 }
 
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode {
+- (void)fiveCustomLayoutAdDidClick:(FADAdViewCustomLayout *)ad {
+  // Called when the banner ad is clicked by the user.
+  GADMediationAdapterLineLog(@"The FiveAd banner ad did click.");
+  [_bannerAdEventDelegate reportClick];
+}
+
+- (void)fiveCustomLayoutAd:(FADAdViewCustomLayout *)ad
+    didFailedToShowAdWithError:(FADErrorCode)errorCode {
   // Called when something goes wrong in the Five Ad SDK.
   GADMediationAdapterLineLog(@"The FiveAd banner ad did fail to show. The FiveAd error code: %ld.",
                              errorCode);
@@ -160,45 +161,25 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
   [_bannerAdEventDelegate didFailToPresentWithError:error];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad {
+- (void)fiveCustomLayoutAdViewDidRemove:(FADAdViewCustomLayout *)ad {
   // Called when the banner ad is closed by user using a close button.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did close.");
+  GADMediationAdapterLineLog(@"The FiveAd banner ad did remove.");
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad {
+- (void)fiveCustomLayoutAdDidPlay:(FADAdViewCustomLayout *)ad {
   // Called if the banner contains a video content and when it starts.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did start.");
+  GADMediationAdapterLineLog(@"The FiveAd banner ad did play.");
 }
 
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad {
+- (void)fiveCustomLayoutAdDidPause:(FADAdViewCustomLayout *)ad {
   // Called if the banner contains a video content and when the app goes background while the video
   // is still playing.
   GADMediationAdapterLineLog(@"The FiveAd banner ad did pause.");
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad {
-  // Called if the banner's video content was paused and when the app comes back to foreground.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did resume.");
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad {
+- (void)fiveCustomLayoutAdDidViewThrough:(FADAdViewCustomLayout *)ad {
   // Called if the banner contains a video content and when the video reaches its end.
   GADMediationAdapterLineLog(@"The FiveAd banner ad did view through.");
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad {
-  // Called if the banner contains a video content and when the video contents gets replayed.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did replay.");
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad {
-  // Called if the banner contains a video content and when it gets stalled for some reason.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did stall.");
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad {
-  // Called when the banner ad's video content recover from stalling.
-  GADMediationAdapterLineLog(@"The FiveAd banner ad did recover.");
 }
 
 @end

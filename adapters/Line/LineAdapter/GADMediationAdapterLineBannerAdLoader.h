@@ -18,7 +18,7 @@
 
 /// A loader that loads a banner ad from FiveAd SDK.
 @interface GADMediationAdapterLineBannerAdLoader
-    : NSObject <GADMediationBannerAd, FADLoadDelegate, FADAdViewEventListener>
+    : NSObject <GADMediationBannerAd, FADLoadDelegate, FADCustomLayoutEventListener>
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
