@@ -100,7 +100,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   GADMediationAdapterLineExtras *extras = (GADMediationAdapterLineExtras *)_adConfiguration.extras;
   _nativeAd = [[FADNative alloc] initWithSlotId:slotID videoViewWidth:extras.nativeAdVideoWidth];
   [_nativeAd setLoadDelegate:self];
-  [_nativeAd setAdViewEventListener:self];
+  [_nativeAd setEventListener:self];
   [_nativeAd enableSound:!GADMobileAds.sharedInstance.applicationMuted];
   GADMediationAdapterLineLog(@"Start loading a native ad from FiveAd SDK.");
   [_nativeAd loadAdAsync];
@@ -293,40 +293,9 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
                      withClickableViews:clickableAssetViews.allValues];
 }
 
-#pragma mark - FADAdViewEventListener
+#pragma mark - FADNativeEventListener
 
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad {
-  // Called when the native ad records a user impression.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did impression.");
-  [_nativeAdEventDelegate reportImpression];
-}
-
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad {
-  // Called when the native ad is clicked by the user.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did click.");
-  [_nativeAdEventDelegate reportClick];
-}
-
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad {
-  // Called if the native ad contains a video content and when it starts.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did start.");
-  [_nativeAdEventDelegate didPlayVideo];
-}
-
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad {
-  // Called if the native ad contains a video content and when the video reaches its end.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did view through.");
-  [_nativeAdEventDelegate didEndVideo];
-}
-
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad {
-  // Called if the native ad contains a video content and when the app goes background while the
-  // video is still playing.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did pause.");
-  [_nativeAdEventDelegate didPauseVideo];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode {
+- (void)fiveNativeAd:(nonnull FADNative *)ad didFailedToShowAdWithError:(FADErrorCode)errorCode {
   // Called when something goes wrong in the Five Ad SDK.
   GADMediationAdapterLineLog(@"The FiveAd native ad did fail to show. The FiveAd error code: %ld.",
                              errorCode);
@@ -334,29 +303,40 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   [_nativeAdEventDelegate didFailToPresentWithError:error];
 }
 
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad {
+- (void)fiveNativeAdDidClick:(nonnull FADNative *)ad {
+  // Called when the native ad is clicked by the user.
+  GADMediationAdapterLineLog(@"The FiveAd native ad did click.");
+  [_nativeAdEventDelegate reportClick];
+}
+
+- (void)fiveNativeAdDidImpression:(nonnull FADNative *)ad {
+  // Called when the native ad records a user impression.
+  GADMediationAdapterLineLog(@"The FiveAd native ad did impression.");
+  [_nativeAdEventDelegate reportImpression];
+}
+
+- (void)fiveNativeAdViewDidRemove:(nonnull FADNative *)ad {
   // Called when the native ad is closed by user using a close button.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did close.");
+  GADMediationAdapterLineLog(@"The FiveAd native ad did remove.");
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad {
-  // Called if the native ad's video content was paused and when the app comes back to foreground.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did resume.");
+- (void)fiveNativeAdDidPlay:(nonnull FADNative *)ad {
+  // Called if the native ad contains a video content and when it starts.
+  GADMediationAdapterLineLog(@"The FiveAd native ad did play.");
+  [_nativeAdEventDelegate didPlayVideo];
 }
 
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad {
-  // Called if the native ad contains a video content and when the video contents gets replayed.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did replay.");
+- (void)fiveNativeAdDidPause:(nonnull FADNative *)ad {
+  // Called if the native ad contains a video content and when the app goes background while the
+  // video is still playing.
+  GADMediationAdapterLineLog(@"The FiveAd native ad did pause.");
+  [_nativeAdEventDelegate didPauseVideo];
 }
 
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad {
-  // Called if the native ad contains a video content and when it gets stalled for some reason.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did stall.");
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad {
-  // Called when the native ad's video content recover from stalling.
-  GADMediationAdapterLineLog(@"The FiveAd native ad did recover.");
+- (void)fiveNativeAdDidViewThrough:(nonnull FADNative *)ad {
+  // Called if the native ad contains a video content and when the video reaches its end.
+  GADMediationAdapterLineLog(@"The FiveAd native ad did view through.");
+  [_nativeAdEventDelegate didEndVideo];
 }
 
 @end
