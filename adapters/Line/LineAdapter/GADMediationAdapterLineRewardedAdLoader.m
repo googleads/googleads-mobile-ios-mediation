@@ -63,7 +63,7 @@
 
   _rewardedAd = [[FADVideoReward alloc] initWithSlotId:slotID];
   [_rewardedAd setLoadDelegate:self];
-  [_rewardedAd setAdViewEventListener:self];
+  [_rewardedAd setEventListener:self];
   [_rewardedAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a rewarded ad from FiveAd SDK.");
   [_rewardedAd loadAdAsync];
@@ -106,33 +106,10 @@
   [self callCompletionHandlerIfNeededWithAd:nil error:error];
 }
 
-#pragma mark - FADAdViewEventListener
+#pragma mark - FADVideoRewardEventListener
 
-- (void)fiveAdDidClick:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad is clicked by the user.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did click.");
-  [_rewardedAdEventDelegate reportClick];
-}
-
-- (void)fiveAdDidImpression:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad records a user impression.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did impression.");
-  [_rewardedAdEventDelegate reportImpression];
-}
-
-- (void)fiveAdDidClose:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad exits full screen. Reward will be also granted if the video has
-  // reached its end at least once.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did close.");
-
-  if (ad.state != kFADStateError) {
-    [_rewardedAdEventDelegate didRewardUser];
-  }
-
-  [_rewardedAdEventDelegate didDismissFullScreenView];
-}
-
-- (void)fiveAd:(id<FADAdInterface>)ad didFailedToShowAdWithError:(FADErrorCode)errorCode {
+- (void)fiveVideoRewardAd:(nonnull FADVideoReward *)ad
+    didFailedToShowAdWithError:(FADErrorCode)errorCode {
   // Called when something goes wrong in the Five Ad SDK.
   GADMediationAdapterLineLog(
       @"The FiveAd rewarded ad did fail to show. The FiveAd error code: %ld.", errorCode);
@@ -140,41 +117,47 @@
   [_rewardedAdEventDelegate didFailToPresentWithError:error];
 }
 
-- (void)fiveAdDidStart:(id<FADAdInterface>)ad {
+- (void)fiveVideoRewardAdDidReward:(nonnull FADVideoReward *)ad {
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did reward.");
+  [_rewardedAdEventDelegate didRewardUser];
+}
+
+- (void)fiveVideoRewardAdDidImpression:(nonnull FADVideoReward *)ad {
+  // Called when the rewarded ad records a user impression.
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did impression.");
+  [_rewardedAdEventDelegate reportImpression];
+}
+
+- (void)fiveVideoRewardAdDidClick:(nonnull FADVideoReward *)ad {
+  // Called when the rewarded ad is clicked by the user.
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did click.");
+  [_rewardedAdEventDelegate reportClick];
+}
+
+- (void)fiveVideoRewardAdFullScreenDidOpen:(nonnull FADVideoReward *)ad {
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did open.");
+}
+
+- (void)fiveVideoRewardAdFullScreenDidClose:(nonnull FADVideoReward *)ad {
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did close.");
+  [_rewardedAdEventDelegate didDismissFullScreenView];
+}
+
+- (void)fiveVideoRewardAdDidPlay:(nonnull FADVideoReward *)ad {
   // Called when the rewarded ad's video starts to play in fullscreen.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did start.");
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did play.");
   [_rewardedAdEventDelegate didStartVideo];
 }
 
-- (void)fiveAdDidViewThrough:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad's video reaches its end.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did view through.");
-  [_rewardedAdEventDelegate didEndVideo];
-}
-
-- (void)fiveAdDidPause:(id<FADAdInterface>)ad {
+- (void)fiveVideoRewardAdDidPause:(nonnull FADVideoReward *)ad {
   // Called when the app goes background while the rewarded ad video is still playing.
   GADMediationAdapterLineLog(@"The FiveAd rewarded ad did pause.");
 }
 
-- (void)fiveAdDidResume:(id<FADAdInterface>)ad {
-  // Called if the rewarded ad video was paused and when the app comes back to foreground.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did resume.");
-}
-
-- (void)fiveAdDidReplay:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad's video gets replayed.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did replay.");
-}
-
-- (void)fiveAdDidStall:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad's video gets stalled for some reason.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did stall.");
-}
-
-- (void)fiveAdDidRecover:(id<FADAdInterface>)ad {
-  // Called when the rewarded ad's video recovers from stalling.
-  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did recover.");
+- (void)fiveVideoRewardAdDidViewThrough:(nonnull FADVideoReward *)ad {
+  // Called when the rewarded ad's video reaches its end.
+  GADMediationAdapterLineLog(@"The FiveAd rewarded ad did view through.");
+  [_rewardedAdEventDelegate didEndVideo];
 }
 
 @end

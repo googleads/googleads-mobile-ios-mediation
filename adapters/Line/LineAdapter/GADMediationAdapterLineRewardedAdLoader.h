@@ -18,7 +18,7 @@
 
 /// A loader that loads a rewarded ad from FiveAd SDK.
 @interface GADMediationAdapterLineRewardedAdLoader
-    : NSObject <GADMediationRewardedAd, FADLoadDelegate, FADAdViewEventListener>
+    : NSObject <GADMediationRewardedAd, FADLoadDelegate, FADVideoRewardEventListener>
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
