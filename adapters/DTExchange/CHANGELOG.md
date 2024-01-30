@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next version
+- Added didFailToPresentWithError callbacks in rewarded ad.
+
 #### [Version 8.2.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.6.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.2.6.
 - Removed the deprecated `willBackgroundApplication` delegate methods from the banner and interstitial ad implementations.

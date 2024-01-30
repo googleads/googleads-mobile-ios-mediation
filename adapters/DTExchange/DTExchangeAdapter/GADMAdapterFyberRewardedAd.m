@@ -179,13 +179,23 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (_fullscreenUnitController.isPresented) {
-    GADMAdapterFyberLog(@"Failed to show rewarded ad, it is already presented");
-  } else if (!_fullscreenUnitController.isReady) {
-    GADMAdapterFyberLog(@"Failed to show rewarded ad, it has already expired");
-  } else {
-    _parentViewController = viewController;
-    [_fullscreenUnitController showAdAnimated:YES completion:nil];
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorAdAlreadyUsed, @"DT Exchange Rewarded ad has already been presented.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
+    [_delegate didFailToPresentWithError:error];
+    return;
   }
+
+  if (!_fullscreenUnitController.isReady) {
+    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+        GADMAdapterFyberErrorAdNotReady, @"DT Exchange Rewarded ad is not ready to show.");
+    GADMAdapterFyberLog(@"%@", error.localizedDescription);
+    [_delegate didFailToPresentWithError:error];
+    return;
+  }
+
+  _parentViewController = viewController;
+  [_fullscreenUnitController showAdAnimated:YES completion:nil];
 }
 
 #pragma mark - IAUnitDelegate
