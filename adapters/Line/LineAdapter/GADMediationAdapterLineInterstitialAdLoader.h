@@ -18,7 +18,7 @@
 
 /// A loader that loads an interstitial ad from FiveAd SDK.
 @interface GADMediationAdapterLineInterstitialAdLoader
-    : NSObject <GADMediationInterstitialAd, FADLoadDelegate, FADAdViewEventListener>
+    : NSObject <GADMediationInterstitialAd, FADLoadDelegate, FADInterstitialEventListener>
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
