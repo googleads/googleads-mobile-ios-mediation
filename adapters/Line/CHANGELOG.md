@@ -1,10 +1,12 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next version
-- Implemented FADCustomLayoutEventListener protocol in banner ad loader and removed FADAdViewEventListener protocol implementation.
-- Implemented FADVideoRewardEventListener protocol in rewarded ad loader and removed FADAdViewEventListener protocol implementation.
-- Implemented FADInterstitialEventListener protocol in interstitial ad loader and removed FADAdViewEventListener protocol implementation.
-- Implemented FADNativeEventListener protocol in native ad loader and removed FADAdViewEventListener protocol implementation.
+#### [Version 2.7.20240126.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.7.20240126.0.zip)
+- Verified compatibility with FiveAd SDK version 2.7.20240126.
+- Updated the adapter implementation with FiveAd SDK new delegate protocols.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- FiveAd SDK version 2.7.20240126.
 
 #### [Version 2.7.20231115.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.7.20231115.0.zip)
 - Verified compatibility with FiveAd SDK version 2.7.20231115.
