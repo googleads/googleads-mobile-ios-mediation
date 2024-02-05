@@ -69,9 +69,11 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
-                                          ? adConfiguration.childDirectedTreatment.integerValue
-                                          : -1)];
+  [GADMediationAdapterUnity
+      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                          .integerValue
+                    : -1)];
   self.adapterProxy = [[GADMUnityRewardedMediationAdapterProxy alloc] initWithAd:self
                                                                completionHandler:completionHandler];
 
@@ -82,9 +84,11 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
-                                          ? adConfiguration.childDirectedTreatment.integerValue
-                                          : -1)];
+  [GADMediationAdapterUnity
+      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                          .integerValue
+                    : -1)];
   self.adapterProxy =
       [[GADMUnityInterstitialMediationAdapterProxy alloc] initWithAd:self
                                                    completionHandler:completionHandler];
@@ -105,9 +109,11 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity setCOPPA:(adConfiguration.childDirectedTreatment
-                                          ? adConfiguration.childDirectedTreatment.integerValue
-                                          : -1)];
+  [GADMediationAdapterUnity
+      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
+                          .integerValue
+                    : -1)];
   [self initializeWithConfiguration:adConfiguration];
 
   self.placementId = adConfiguration.placementId;
