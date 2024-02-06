@@ -17,9 +17,10 @@
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
+#import <MTGSDK/MTGAdChoicesView.h>
 #import <MTGSDK/MTGNativeAdManager.h>
 #import <MTGSDK/MTGSDK.h>
-#import <MTGSDK/MTGAdChoicesView.h>
+
 #include <stdatomic.h>
 
 @interface GADMAdapterMintegralNativeAdLoader () <MTGNativeAdManagerDelegate, MTGMediaViewDelegate>
