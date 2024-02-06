@@ -43,7 +43,7 @@
 		2390099E2991A005005EDC73 /* GADMAdapterMintegralRTBRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A872989E0D60088B4CD /* GADMAdapterMintegralRTBRewardedAdLoader.m */; };
 		23C603AC29256C050069B8AB /* GADMediationAdapterMintegralConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24CF28F1260F001269EF /* GADMediationAdapterMintegralConstants.h */; };
 		23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */; };
-		23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; };
+		23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23C603B329256C5B0069B8AB /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */; };
 		23C603B429256C5D0069B8AB /* GADMAdapterMintegralExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */; };
 		23C603B829256C6B0069B8AB /* GADMAdapterMintegralUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */; };
@@ -222,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				23D49EED2899F455006152D8 /* MintegralAdapter.h */,
+				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
 				AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */,
 			);
 			path = Headers;
@@ -247,7 +248,6 @@
 				ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */,
 				ADAC24D228F1260F001269EF /* GADMAdapterMintegralUtils.h */,
 				ADAC24DD28F1260F001269EF /* GADMAdapterMintegralUtils.m */,
-				ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */,
 			);
 			path = MintegralAdapter;
 			sourceTree = "<group>";
@@ -261,6 +261,7 @@
 			files = (
 				23D49EEE2899F455006152D8 /* MintegralAdapter.h in Headers */,
 				23CA0A912989E3840088B4CD /* GADMAdapterMintegralBannerAdLoader.h in Headers */,
+				23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */,
 				2390099729919FA0005EDC73 /* GADMAdapterMintegralRTBBannerAdLoader.h in Headers */,
 				2390099829919FA0005EDC73 /* GADMAdapterMintegralRTBInterstitialAdLoader.h in Headers */,
 				2390099929919FA0005EDC73 /* GADMAdapterMintegralRTBNativeAdLoader.h in Headers */,
@@ -272,7 +273,6 @@
 				23CA0A972989E3840088B4CD /* GADMAdapterMintegralRewardedAdLoader.h in Headers */,
 				23C603AD29256C090069B8AB /* GADMAdapterMintegralUtils.h in Headers */,
 				AD1E88092AC6567100FAF1B7 /* GADMAdapterMintegralAppOpenAdLoader.h in Headers */,
-				23C603B229256C430069B8AB /* GADMediationAdapterMintegral.h in Headers */,
 				23CA0A932989E3840088B4CD /* GADMAdapterMintegralInterstitialAdLoader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
