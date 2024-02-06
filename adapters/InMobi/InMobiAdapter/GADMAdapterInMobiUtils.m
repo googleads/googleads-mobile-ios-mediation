@@ -194,15 +194,21 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
 }
 
 void GADMAdapterInMobiSetUSPrivacyCompliance(void) {
-    NSString* usPrivacyString = [[NSUserDefaults standardUserDefaults] stringForKey:GADMAdapterInMobiIABUSPrivacyString];
-    [IMPrivacyCompliance setUSPrivacyString:usPrivacyString];
+  if (![GADMAdapterInMobiIABUSPrivacyString isKindOfClass:[NSString class]] ||
+      !GADMAdapterInMobiIABUSPrivacyString.length) {
+    return;
+  }
+  CFStringRef key = (__bridge CFStringRef)GADMAdapterInMobiIABUSPrivacyString;
+  NSString *usPrivacyString = (__bridge_transfer NSString *)CFPreferencesCopyAppValue(
+      key, kCFPreferencesCurrentApplication);
+  [IMPrivacyCompliance setUSPrivacyString:usPrivacyString];
 }
 
 NSData *_Nullable GADMAdapterInMobiBidResponseDataFromAdConfigration(
     GADMediationAdConfiguration *_Nonnull adConfig) {
-    NSString *bidResponseString = adConfig.bidResponse;
-    if (!bidResponseString) {
+  NSString *bidResponseString = adConfig.bidResponse;
+  if (!bidResponseString) {
     return nil;
-    }
-    return [bidResponseString dataUsingEncoding:NSUTF8StringEncoding];
+  }
+  return [bidResponseString dataUsingEncoding:NSUTF8StringEncoding];
 }
