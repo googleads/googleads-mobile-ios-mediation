@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Increased minimum cocoapod iOS version to 12.
+
 #### [Version 7.2.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.1.1.zip)
 - Updated the MREC matching to be any size that can fit an MREC instead of being an exact match.
 
