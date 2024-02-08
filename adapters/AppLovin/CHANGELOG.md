@@ -1,8 +1,12 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Version 12.1.0.1
-- Added the possibility to load interstitial or rewarded ad right after
+#### [Version 12.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.1.0.1.zip)
+- Added the possibility to load an interstitial or rewarded ad right after
 requesting to show them if the server parameters are enabled.
+
+Built and tested with:
+- Google Mobile Ads SDK version 10.14.0.
+- AppLovin SDK version 12.1.0.
 
 #### [Version 12.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.1.0.0.zip)
 - Verified compatibility with AppLovin SDK 12.1.0.
