@@ -3,6 +3,7 @@
 #### Next version
 - Replaced the deprecated method GADMobileAds.sharedInstance.sdkVersion with GADMobileAds.sharedInstance.versionNumber.
 - Replaced the use of NSUserDefaults with CFPreferences functions.
+- Included Info.plist in the frameworks in InMobiAdapter.xcframework.
 
 #### [Version 10.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.6.0.0.zip)
 - Verified compatibility with InMobi SDK 10.6.0.
