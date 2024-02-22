@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Included Info.plist in the frameworks in LiftoffMonetizeAdapter.xcframework.
+
 #### [Version 7.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.2.0.zip)
 - Verified compatibility with Vungle SDK 7.2.2.
 - Now requires minimum iOS version of 12.0.
