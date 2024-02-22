@@ -103,10 +103,18 @@
 		2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRewardedRenderer.m; sourceTree = "<group>"; };
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
 		2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterPangleUtils.m; sourceTree = "<group>"; };
+		AD00C4952B87E246007C85F3 /* PangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2BF5FE4D279B009F001EFB81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD00C4922B87E246007C85F3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -133,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				2BF5FE50279B009F001EFB81 /* libAdapter.a */,
+				AD00C4952B87E246007C85F3 /* PangleAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -226,6 +235,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD00C4902B87E246007C85F3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -248,6 +264,24 @@
 			productReference = 2BF5FE50279B009F001EFB81 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		AD00C4942B87E246007C85F3 /* PangleAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD00C49B2B87E246007C85F3 /* Build configuration list for PBXNativeTarget "PangleAdapter" */;
+			buildPhases = (
+				AD00C4902B87E246007C85F3 /* Headers */,
+				AD00C4912B87E246007C85F3 /* Sources */,
+				AD00C4922B87E246007C85F3 /* Frameworks */,
+				AD00C4932B87E246007C85F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PangleAdapter;
+			productName = PangleAdapter;
+			productReference = AD00C4952B87E246007C85F3 /* PangleAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -265,6 +299,9 @@
 					};
 					2BF5FE5E279B0218001EFB81 = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					AD00C4942B87E246007C85F3 = {
+						CreatedOnToolsVersion = 15.1;
 					};
 				};
 			};
@@ -284,9 +321,20 @@
 				2BF5FE4F279B009F001EFB81 /* Adapter */,
 				2BF5FE59279B01B5001EFB81 /* Framework */,
 				2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */,
+				AD00C4942B87E246007C85F3 /* PangleAdapter */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AD00C4932B87E246007C85F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		2BF5FE5D279B01D1001EFB81 /* Framework Script */ = {
@@ -340,6 +388,13 @@
 				2BD310D52A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.m in Sources */,
 				2BF5FE7C279B0DA6001EFB81 /* GADPangleRewardedRenderer.m in Sources */,
 				2BF5FE7D279B0DAE001EFB81 /* GADPangleInterstitialRenderer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD00C4912B87E246007C85F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +579,88 @@
 			};
 			name = Release;
 		};
+		AD00C4992B87E246007C85F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B3B8D3F277A7D7A005BB25B /* Adapter.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				EXECUTABLE_PREFIX = "";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = "$(inherited)";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.PangleAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AD00C49A2B87E246007C85F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B3B8D3F277A7D7A005BB25B /* Adapter.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				EXECUTABLE_PREFIX = "";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = "$(inherited)";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.PangleAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -559,6 +696,15 @@
 			buildConfigurations = (
 				2BF5FE60279B0218001EFB81 /* Debug */,
 				2BF5FE61279B0218001EFB81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD00C49B2B87E246007C85F3 /* Build configuration list for PBXNativeTarget "PangleAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD00C4992B87E246007C85F3 /* Debug */,
+				AD00C49A2B87E246007C85F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
