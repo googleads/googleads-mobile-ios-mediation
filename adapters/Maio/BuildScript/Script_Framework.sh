@@ -49,6 +49,20 @@ createFramework() {
   # Create Modules directory and copy the module map inside.
   mkdir -p "${TEMP_FRAMEWORK_LOCATION}/Modules"
   /bin/cp -a "${MODULE_MAP_PATH}/module.modulemap" "${TEMP_FRAMEWORK_LOCATION}/Modules/module.modulemap"
+
+  # Static library does not automatically generate an Info.plist file. Create
+  # a fake framework to generate the Info.plist and then copy it into the
+  # static library. Info.plist is required to allow embedding static frameworks
+  # in Xcode 15.
+  TEMP_INFO_PLIST_FRAMEWORK_LOCATION="${BUILD_DIR}/framework"
+  xcodebuild -target MaioAdapter \
+  -configuration "${CONFIGURATION}" \
+  -sdk "${1}" \
+  ARCHS="${2}" \
+  BUILD_DIR="${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}" \
+  "build"
+
+  install -m 0444 "${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
 }
 
 # Remove the device and simulator directories if they exist.

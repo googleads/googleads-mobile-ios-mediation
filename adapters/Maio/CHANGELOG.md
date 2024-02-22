@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Next version
+- Included Info.plist in the frameworks in MaioAdapter.xcframework.
+
 #### [Version 2.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.1.2.0.zip)
 - Verified compatibility with maio SDK version 2.1.2.
 
