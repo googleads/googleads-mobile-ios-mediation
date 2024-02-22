@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next version
+- Included Info.plist in the frameworks in AppLovinAdapter.xcframework.
+
 #### [Version 12.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.1.0.1.zip)
 - Added the possibility to load an interstitial or rewarded ad right after
 requesting to show them if the server parameters are enabled.
