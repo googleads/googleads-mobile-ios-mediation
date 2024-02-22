@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next Version
+- Included Info.plist in the frameworks in UnityAdapter.xcframework.
+
 #### [Version 4.9.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.9.2.0.zip)
 - Verified compatibility with Unity Ads SDK 4.9.2.
 
