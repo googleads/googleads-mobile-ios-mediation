@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+- Included Info.plist in the frameworks in MintegralAdapter.xcframework.
+
 #### [Version 7.5.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.5.6.0.zip)
 - Verified compatibility with Mintegral SDK version 7.5.6.
 - Made `GADMediationAdapterMintegral.h` a public header.
