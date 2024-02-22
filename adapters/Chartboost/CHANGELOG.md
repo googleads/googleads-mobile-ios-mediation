@@ -1,7 +1,7 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Next Version
-- Included Info.plist in the frameworks in DTExchangeAdapter.xcframework.
+#### Next version
+- Included Info.plist in the frameworks in ChartboostAdapter.xcframework.
 
 #### [Version 9.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.6.0.0.zip)
 - Verified compatibility with Chartboost SDK version 9.6.0.
