@@ -2,6 +2,7 @@
 
 #### Next version
 - Removed the deprecated willBackgroundApplication delegate method from the native ad loader.
+- Included Info.plist in the frameworks in NendAdapter.xcframework.
 
 #### [Version 8.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-8.2.0.0.zip)
 - Verified compatibility with nend SDK 8.2.0.
