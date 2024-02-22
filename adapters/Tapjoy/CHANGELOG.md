@@ -2,6 +2,7 @@
 
 #### Next Version
 - Updated adapter to use new Tapjoy SDK APIs.
+- Included Info.plist in the frameworks in TapjoyAdapter.xcframework.
 
 #### [Version 13.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/tapjoy/TapjoyAdapter-13.2.1.0.zip)
 - Verified compatibility with Tapjoy SDK 13.2.1.
