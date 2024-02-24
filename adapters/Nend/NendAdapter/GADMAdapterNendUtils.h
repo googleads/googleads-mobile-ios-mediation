@@ -37,3 +37,7 @@ NSError *_Nullable GADMAdapterNendValidateSpotID(NSString *_Nullable spotID);
 
 /// Returns an error if the API key is invalid.
 NSError *_Nullable GADMAdapterNendValidateAPIKey(NSString *_Nullable APIKey);
+
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize);

@@ -46,6 +46,8 @@
 		4F2D7CE91FCEA8E700BB0E23 /* GADMAdapterNendConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */; };
 		4F2D7CEA1FCEA8E700BB0E23 /* GADMAdapterNend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */; };
 		4F2D7CEC1FCEA8F800BB0E23 /* GADMAdapterNend.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2D7CEB1FCEA8F800BB0E23 /* GADMAdapterNend.h */; };
+		70EC663B2B76BA7900DC376C /* GADMAdapterNendBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 70EC663A2B76BA7900DC376C /* GADMAdapterNendBannerAd.h */; };
+		70EC663D2B76E0C600DC376C /* GADMAdapterNendBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC663C2B76E0C600DC376C /* GADMAdapterNendBannerAd.m */; };
 		AD89C4082B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C4072B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m */; };
 		CC7F28DB238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = CC7F28D9238E500B00A8329F /* GADMediationAdapterNendNativeAdLoader.h */; };
 		CC7F28DC238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F28DA238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m */; };
@@ -98,6 +100,8 @@
 		4F2D7CE71FCEA8E700BB0E23 /* GADMAdapterNendConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendConstants.h; sourceTree = "<group>"; };
 		4F2D7CE81FCEA8E700BB0E23 /* GADMAdapterNend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNend.m; sourceTree = "<group>"; };
 		4F2D7CEB1FCEA8F800BB0E23 /* GADMAdapterNend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNend.h; sourceTree = "<group>"; };
+		70EC663A2B76BA7900DC376C /* GADMAdapterNendBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterNendBannerAd.h; sourceTree = "<group>"; };
+		70EC663C2B76E0C600DC376C /* GADMAdapterNendBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterNendBannerAd.m; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
 		7D6A68A31DB7ED230001E48B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7D6A68A41DB7ED310001E48B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				4588B33A224C0E9600868387 /* GADMediationAdapterNend.m */,
 				AD89C4062B34BA54002952E2 /* GADMAdapterNendInterstitialAd.h */,
 				AD89C4072B34BA9D002952E2 /* GADMAdapterNendInterstitialAd.m */,
+				70EC663A2B76BA7900DC376C /* GADMAdapterNendBannerAd.h */,
+				70EC663C2B76E0C600DC376C /* GADMAdapterNendBannerAd.m */,
 			);
 			path = NendAdapter;
 			sourceTree = "<group>";
@@ -241,6 +247,7 @@
 			files = (
 				4F192F601FB93CC10052B8DE /* GADMAdapterNendExtras.h in Headers */,
 				35F410631FB4D85B000B379C /* NendAdapter.h in Headers */,
+				70EC663B2B76BA7900DC376C /* GADMAdapterNendBannerAd.h in Headers */,
 				CCBCBA552387D7FF008C4C90 /* GADMAdapterNendNativeAd.h in Headers */,
 				CCBCBAA6238CED45008C4C90 /* GADMAdapterNendAdUnitMapper.h in Headers */,
 				4588B33B224C0E9600868387 /* GADMediationAdapterNend.h in Headers */,
@@ -400,6 +407,7 @@
 				CCBCBA562387D7FF008C4C90 /* GADMAdapterNendNativeAd.m in Sources */,
 				CC7F28DC238E500C00A8329F /* GADMediationAdapterNendNativeAdLoader.m in Sources */,
 				4F192F661FB93CCE0052B8DE /* GADMAdapterNendRewarded.m in Sources */,
+				70EC663D2B76E0C600DC376C /* GADMAdapterNendBannerAd.m in Sources */,
 				4F2D7CEA1FCEA8E700BB0E23 /* GADMAdapterNend.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

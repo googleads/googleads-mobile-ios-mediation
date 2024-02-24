@@ -28,20 +28,6 @@ typedef NS_ENUM(NSInteger, InterstitialVideoStatus) {
   InterstitialVideoClickedWhenPlaying,
 };
 
-/// Find closest supported ad size from a given ad size.
-/// Returns nil if no supported size matches.
-static GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeBanner),
-    NSValueFromGADAdSize(GADAdSizeLargeBanner),
-    NSValueFromGADAdSize(GADAdSizeMediumRectangle),
-    NSValueFromGADAdSize(GADAdSizeLeaderboard),
-  ];
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-
-  return closestSize;
-}
-
 @interface GADMAdapterNend () <NADViewDelegate,
                                NADInterstitialClickDelegate,
                                NADInterstitialLoadingDelegate,

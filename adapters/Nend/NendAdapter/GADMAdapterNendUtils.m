@@ -118,3 +118,17 @@ NSError *_Nullable GADMAdapterNendValidateAPIKey(NSString *_Nullable APIKey) {
 
   return nil;
 }
+
+/// Find closest supported ad size from a given ad size.
+/// Returns nil if no supported size matches.
+GADAdSize GADSupportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(GADAdSizeBanner),
+    NSValueFromGADAdSize(GADAdSizeLargeBanner),
+    NSValueFromGADAdSize(GADAdSizeMediumRectangle),
+    NSValueFromGADAdSize(GADAdSizeLeaderboard),
+  ];
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+
+  return closestSize;
+}

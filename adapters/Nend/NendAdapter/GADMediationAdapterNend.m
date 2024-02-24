@@ -17,6 +17,7 @@
 #import <NendAd/NendAd.h>
 
 #import "GADMAdapterNend.h"
+#import "GADMAdapterNendBannerAd.h"
 #import "GADMAdapterNendConstants.h"
 #import "GADMAdapterNendExtras.h"
 #import "GADMAdapterNendInterstitialAd.h"
@@ -25,6 +26,9 @@
 #import "GADMediationAdapterNendNativeAdLoader.h"
 
 @implementation GADMediationAdapterNend {
+  /// Banner ad.
+  GADMAdapterNendBannerAd *_bannerAd;
+
   /// Interstitial ad.
   GADMAdapterNendInterstitialAd *_interstitialAd;
 
@@ -73,6 +77,13 @@
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
   return [GADMAdapterNendExtras class];
+}
+
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  _bannerAd = [[GADMAdapterNendBannerAd alloc] initWithAdConfiguration:adConfiguration
+                                                 loadCompletionHandler:completionHandler];
+  [_bannerAd loadBannerAd];
 }
 
 - (void)loadInterstitialForAdConfiguration:
