@@ -1,6 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
 #### Next version
+- Now requires minimum iOS version 12.0.
+- Now requires Google Mobile Ads SDK version 11.0 or higher.
 - Included Info.plist in the frameworks in LiftoffMonetizeAdapter.xcframework.
 
 #### [Version 7.2.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.2.2.0.zip)

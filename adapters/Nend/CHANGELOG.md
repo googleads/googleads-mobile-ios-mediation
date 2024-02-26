@@ -2,6 +2,8 @@
 
 #### Next version
 - Removed the deprecated willBackgroundApplication delegate method from the native ad loader.
+- Now requires minimum iOS version 12.0.
+- Now requires Google Mobile Ads SDK version 11.0 or higher.
 - Included Info.plist in the frameworks in NendAdapter.xcframework.
 
 #### [Version 8.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/nend/NendAdapter-8.2.0.0.zip)

@@ -3,6 +3,8 @@
 #### Next version
 - Added didFailToPresentWithError callbacks in rewarded ad.
 - Added IAAdDidExpire delegate method in interstitial and rewarded ads.
+- Now requires minimum iOS version 12.0.
+- Now requires Google Mobile Ads SDK version 11.0 or higher.
 
 #### [Version 8.2.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.6.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.2.6.

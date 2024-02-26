@@ -2,7 +2,9 @@
 
 #### Next version
 - Removed the deprecated willBackgroundApplication delegate method from the banner, interstitial, and native ads.
-Included Info.plist in the frameworks in IMobileAdapter.xcframework.
+- Now requires minimum iOS version 12.0.
+- Now requires Google Mobile Ads SDK version 11.0 or higher.
+- Included Info.plist in the frameworks in IMobileAdapter.xcframework.
 
 #### [Version 2.3.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.2.0.zip)
 - Verified compatibility with i-mobile SDK 2.3.2.
