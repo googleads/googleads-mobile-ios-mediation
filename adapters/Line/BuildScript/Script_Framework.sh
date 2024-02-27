@@ -51,12 +51,17 @@ createFramework() {
   # a fake framework to generate the Info.plist and then copy it into the
   # static library. Info.plist is required to allow embedding static frameworks
   # in Xcode 15.
-  TEMP_INFO_PLIST_FRAMEWORK_LOCATION="${BUILD_DIR}/framework"
+  TEMP_INFO_PLIST_FRAMEWORK_LOCATION="${BUILD_DIR}/temp_info_framework"
+  mkdir -p "${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}"
   xcodebuild -target LineAdapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \
   BUILD_DIR="${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}" \
+  BUILD_ROOT="${BUILD_ROOT}" \
+  OBJROOT="${OBJROOT}/${1}" \
+  ONLY_ACTIVE_ARCH=NO \
+  SYMROOT="${SYMROOT}" \
   "build"
 
   install -m 0444 "${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
