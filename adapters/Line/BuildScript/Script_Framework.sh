@@ -51,20 +51,28 @@ createFramework() {
   # a fake framework to generate the Info.plist and then copy it into the
   # static library. Info.plist is required to allow embedding static frameworks
   # in Xcode 15.
-  TEMP_INFO_PLIST_FRAMEWORK_LOCATION="${BUILD_DIR}/temp_info_framework"
-  mkdir -p "${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}"
+  TEMP_FRAMEWORK_BUILD_DIR="${BUILD_DIR}/temp_framework_build_dir"
+  TEMP_FRAMEWORK_ROOT_DIR="${BUILD_DIR}/temp_framework_root_dir"
+  TEMP_FRAMEWORK_OBJROOT_DIR="${BUILD_DIR}/objroot_dir"
+  TEMP_FRAMEWORK_SYMROOT_DIR="${BUILD_DIR}/symroot_dir"
+
+  mkdir -p "${TEMP_FRAMEWORK_BUILD_DIR}"
+  mkdir -p "${TEMP_FRAMEWORK_ROOT_DIR}"
+  mkdir -p "${TEMP_FRAMEWORK_OBJROOT_DIR}"
+  mkdir -p "${TEMP_FRAMEWORK_SYMROOT_DIR}"
+
   xcodebuild -target LineAdapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \
-  BUILD_DIR="${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}" \
-  BUILD_ROOT="${BUILD_ROOT}" \
-  OBJROOT="${OBJROOT}/${1}" \
+  BUILD_DIR="${TEMP_FRAMEWORK_BUILD_DIR}" \
+  BUILD_ROOT="${TEMP_FRAMEWORK_ROOT_DIR}" \
+  OBJROOT="${TEMP_FRAMEWORK_OBJROOT_DIR}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
-  SYMROOT="${SYMROOT}" \
+  SYMROOT="${TEMP_FRAMEWORK_SYMROOT_DIR}" \
   "build"
 
-  install -m 0444 "${TEMP_INFO_PLIST_FRAMEWORK_LOCATION}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
+ install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
 }
 
 createFramework "iphoneos" "arm64"

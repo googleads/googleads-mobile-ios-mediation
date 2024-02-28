@@ -50,17 +50,17 @@ createFramework() {
   # Static library does not automatically generate an Info.plist file. Create
   # a fake framework to generate the Info.plist and then copy it into the
   # static library. Info.plist is needed for static library in xcode 15.
-  TEMP_FRAMEWORK_BUILD_DIR="${BUILD_DIR}/framework_build_dir"
-  TEMP_FRAMEWORK_ROOT_DIR="${BUILD_DIR}/framework_root_dir"
-  TEMP_FRAMEWORK_OBJROOT_DIR="${BUILD_DIR}/framework_objroot_dir"
-  TEMP_FRAMEWORK_SYMROOT_DIR="${BUILD_DIR}/framework_symroot_dir"
+  TEMP_FRAMEWORK_BUILD_DIR="${BUILD_DIR}/temp_framework_build_dir"
+  TEMP_FRAMEWORK_ROOT_DIR="${BUILD_DIR}/temp_framework_root_dir"
+  TEMP_FRAMEWORK_OBJROOT_DIR="${BUILD_DIR}/objroot_dir"
+  TEMP_FRAMEWORK_SYMROOT_DIR="${BUILD_DIR}/symroot_dir"
 
   mkdir -p "${TEMP_FRAMEWORK_BUILD_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_ROOT_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_OBJROOT_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_SYMROOT_DIR}"
 
-  xcodebuild -target "${FRAMEWORK_NAME}" \
+  xcodebuild -target AppLovinAdapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \
@@ -71,7 +71,7 @@ createFramework() {
   SYMROOT="${TEMP_FRAMEWORK_SYMROOT_DIR}" \
   "build"
 
-  install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
+ install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
 }
 
 # Remove the device and simulator directories if they already exist.

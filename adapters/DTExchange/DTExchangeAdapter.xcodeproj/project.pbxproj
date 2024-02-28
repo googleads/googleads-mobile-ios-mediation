@@ -282,7 +282,6 @@
 					};
 					AD00C41C2B8719C7007C85F3 = {
 						CreatedOnToolsVersion = 15.1;
-						DevelopmentTeam = CSTR6SUWN9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -547,7 +546,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -591,7 +590,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CSTR6SUWN9;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
