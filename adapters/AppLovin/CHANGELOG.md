@@ -1,9 +1,14 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
+#### [Version 12.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.2.1.0.zip)
+- Verified compatibility with AppLovin SDK 12.2.1.
 - Now requires minimum iOS version 12.0.
 - Now requires Google Mobile Ads SDK version 11.0 or higher.
-- Included Info.plist in the frameworks in AppLovinAdapter.xcframework.
+- Included `Info.plist` in the frameworks within `AppLovinAdapter.xcframework`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.0.1.
+- AppLovin SDK version 12.2.1.
 
 #### [Version 12.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-12.1.0.1.zip)
 - Added the possibility to load an interstitial or rewarded ad right after
