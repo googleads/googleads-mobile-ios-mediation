@@ -1,11 +1,16 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next version
-- Replaced the deprecated method GADMobileAds.sharedInstance.sdkVersion with GADMobileAds.sharedInstance.versionNumber.
-- Replaced the use of NSUserDefaults with CFPreferences functions.
+#### [Version 10.6.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.6.4.0.zip)
+- Verified compatibility with InMobi SDK 10.6.4.
+- Replaced the deprecated method `GADMobileAds.sharedInstance.sdkVersion` with `GADMobileAds.sharedInstance.versionNumber`.
+- Replaced the use of `NSUserDefaults` with `CFPreferences` functions.
 - Now requires minimum iOS version 12.0.
 - Now requires Google Mobile Ads SDK version 11.0 or higher.
-- Included Info.plist in the frameworks in InMobiAdapter.xcframework.
+- Included `Info.plist` in the frameworks within `InMobiAdapter.xcframework`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.0.1.
+- InMobi SDK version 10.6.4.
 
 #### [Version 10.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.6.0.0.zip)
 - Verified compatibility with InMobi SDK 10.6.0.
