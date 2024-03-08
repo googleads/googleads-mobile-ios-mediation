@@ -1,7 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated import statements for ImobileSdkAds. i-mobile changed its SDK to XCFramework format since v2.3.3.
+#### [Version 2.3.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.3.0.zip)
+- Verified compatibility with i-mobile SDK 2.3.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.1.0.
+- i-mobile SDK version 2.3.3.
 
 #### [Version 2.3.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.2.1.zip)
 - Removed the deprecated `willBackgroundApplication` delegate method from the banner, interstitial, and native ad implementations.
