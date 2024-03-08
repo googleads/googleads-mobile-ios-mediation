@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <ImobileSdkAds/ImobileSdkAds.h>
+#import <ImobileSdkAds.h>
 
 /// Mapper for GADMediatedUnifiedNativeAd.
 @interface GADMAdapterIMobileUnifiedNativeAd : NSObject

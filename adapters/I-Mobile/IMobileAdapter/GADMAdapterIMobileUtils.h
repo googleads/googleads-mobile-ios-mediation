@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <ImobileSdkAds/ImobileSdkAds.h>
+#import <ImobileSdkAds.h>
 
 #import "GADMediationAdapterIMobile.h"
 

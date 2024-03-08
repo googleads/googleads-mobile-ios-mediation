@@ -14,7 +14,7 @@
 
 #import "GADMAdapterIMobileBannerAd.h"
 
-#import <ImobileSdkAds/ImobileSdkAds.h>
+#import <ImobileSdkAds.h>
 
 #import <stdatomic.h>
 
