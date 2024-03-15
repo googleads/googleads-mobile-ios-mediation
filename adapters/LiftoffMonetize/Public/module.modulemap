@@ -1,4 +1,4 @@
-framework module VungleAdapter {
+framework module LiftoffMonetizeAdapter {
   umbrella header "VungleAdapter.h"
 
   export *
