@@ -95,7 +95,13 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
                                          self.instanceID]];
-    [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+
+    NSString *bidResponse = adConfiguration.bidResponse;
+    if(bidResponse) {
+      [IronSource loadISDemandOnlyRewardedVideoWithAdm:self.instanceID adm:bidResponse];
+    } else{
+      [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+    }
   } else {
     NSString *errorMsg =
         [NSString stringWithFormat:

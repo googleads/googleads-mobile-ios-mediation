@@ -1,7 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next version 7.8.0.1
-- Updated ironSource adapter to support bidding.
+#### Next version
+- Updated ironSource adapter to conform to GADRTBAdapter protocol.
+- Added support for bidding rewarded video ad.
 
 #### [Version 7.8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.8.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 7.8.0.0.
