@@ -119,6 +119,11 @@
   return version;
 }
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  completionHandler([IronSource getISDemandOnlyBiddingData], nil);
+}
+
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:

@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
   GADMAdapterIronSourceErrorBannerSizeMismatch = 104
 };
 
-@interface GADMediationAdapterIronSource : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterIronSource : NSObject <GADRTBAdapter>
 
 - (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits;
 
