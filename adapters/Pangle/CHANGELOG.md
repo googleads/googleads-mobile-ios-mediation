@@ -1,5 +1,8 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the signal collection API.
+
 #### [Version 5.8.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-5.8.0.7.0.zip)
 - Verified compatibility with Pangle SDK version 5.8.0.7.
 - Now requires minimum iOS version 12.0.
