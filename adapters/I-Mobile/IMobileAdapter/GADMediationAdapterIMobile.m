@@ -14,6 +14,8 @@
 
 #import "GADMediationAdapterIMobile.h"
 
+#import <ImobileSdkAds.h>
+
 #import "GADMAdapterIMobileBannerAd.h"
 #import "GADMAdapterIMobileConstants.h"
 #import "GADMAdapterIMobileInterstitialAd.h"
@@ -34,8 +36,16 @@
 #pragma mark - GADMediationAdapter
 
 + (GADVersionNumber)adSDKVersion {
-  // i-Mobile SDK doesn't have any API to get the version.
   GADVersionNumber version = {0};
+  NSArray<NSString *> *components =
+      [[ImobileSdkAds getSdkVersion] componentsSeparatedByString:@"."];
+
+  if (components.count >= 3) {
+    version.majorVersion = components[0].integerValue;
+    version.minorVersion = components[1].integerValue;
+    version.patchVersion = components[2].integerValue;
+  }
+
   return version;
 }
 
