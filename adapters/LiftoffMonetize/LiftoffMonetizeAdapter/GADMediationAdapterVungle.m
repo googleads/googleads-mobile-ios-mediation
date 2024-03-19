@@ -17,6 +17,7 @@
 #import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMediationVungleAppOpenAd.h"
 #import "GADMediationVungleBanner.h"
 #import "GADMediationVungleInterstitial.h"
 #import "GADMediationVungleNativeAd.h"
@@ -38,6 +39,9 @@
 
   /// Liftoff Monetize banner ad wrapper.
   GADMediationVungleBanner *_bannerAd;
+
+  /// Liftoff Monetize app open ad wrapper.
+  GADMediationVungleAppOpenAd *_appOpenAd;
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -175,6 +179,20 @@
   _bannerAd = [[GADMediationVungleBanner alloc] initWithAdConfiguration:adConfiguration
                                                       completionHandler:completionHandler];
   [_bannerAd requestBannerAd];
+}
+
+- (void)loadAppOpenAdForAdConfiguration:
+            (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (nonnull GADMediationAppOpenLoadCompletionHandler)loadCompletionHandler {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (tagForChildDirectedTreatment) {
+    [VunglePrivacySettings setCOPPAStatus:tagForChildDirectedTreatment.boolValue];
+  }
+  _appOpenAd = [[GADMediationVungleAppOpenAd alloc] initWithAdConfiguration:adConfiguration
+                                                      loadCompletionHandler:loadCompletionHandler];
+  [_appOpenAd requestAppOpenAd];
 }
 
 #pragma mark GADRTBAdapter implementation

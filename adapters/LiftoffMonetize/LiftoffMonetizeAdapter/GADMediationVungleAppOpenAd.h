@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2024 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-typedef NS_ENUM(NSInteger, GADMAdapterVungleErrorCode) {
-  /// Missing server parameters.
-  GADMAdapterVungleErrorInvalidServerParameters = 101,
-  /// Banner Size Mismatch.
-  GADMAdapterVungleErrorBannerSizeMismatch = 103,
-  /// Liftoff SDK is not ready to play the ad.
-  GADMAdapterVungleErrorCannotPlayAd = 107
-};
+/// Class for loading and showing Liftoff Monetize (fka Vungle) app open ads.
+@interface GADMediationVungleAppOpenAd : NSObject <GADMediationAppOpenAd>
 
-@interface GADMediationAdapterVungle : NSObject <GADRTBAdapter>
+- (nonnull instancetype)
+    initWithAdConfiguration:(nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
+      loadCompletionHandler:(nonnull GADMediationAppOpenLoadCompletionHandler)loadCompletionHandler;
+
+/// Constructor is unavailable. Please use initWithAdConfiguration:completionHandler:.
+- (nonnull instancetype)init NS_UNAVAILABLE;
+
+/// Requests an app open ad from Liftoff Monetize.
+- (void)requestAppOpenAd;
 
 @end

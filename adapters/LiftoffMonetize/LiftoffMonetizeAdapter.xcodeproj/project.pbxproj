@@ -53,6 +53,8 @@
 		45BFFB5D22272D4300C96A67 /* GADMediationVungleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45BFFB5B22272D4300C96A67 /* GADMediationVungleRewardedAd.h */; };
 		45BFFB5E22272D4300C96A67 /* GADMediationVungleRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45BFFB5C22272D4300C96A67 /* GADMediationVungleRewardedAd.m */; };
 		56C4F0F21F29531200BABF7E /* VungleAdNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70C887492B8D51CA00B0703F /* GADMediationVungleAppOpenAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C887472B8D327F00B0703F /* GADMediationVungleAppOpenAd.h */; };
+		70C8874B2B8D534900B0703F /* GADMediationVungleAppOpenAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C8874A2B8D534900B0703F /* GADMediationVungleAppOpenAd.m */; };
 		7D1575721EB7FBB200059469 /* VungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* VungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A85428E01F11853A00C135E7 /* GADMAdapterVungleInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = A85428D81F11853A00C135E7 /* GADMAdapterVungleInterstitial.h */; };
 		A85428E11F11853A00C135E7 /* GADMAdapterVungleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = A85428D91F11853A00C135E7 /* GADMAdapterVungleInterstitial.m */; };
@@ -104,6 +106,8 @@
 		45BFFB5B22272D4300C96A67 /* GADMediationVungleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleRewardedAd.h; sourceTree = "<group>"; };
 		45BFFB5C22272D4300C96A67 /* GADMediationVungleRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleRewardedAd.m; sourceTree = "<group>"; };
 		56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdNetworkExtras.h; sourceTree = "<group>"; };
+		70C887472B8D327F00B0703F /* GADMediationVungleAppOpenAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationVungleAppOpenAd.h; sourceTree = "<group>"; };
+		70C8874A2B8D534900B0703F /* GADMediationVungleAppOpenAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationVungleAppOpenAd.m; sourceTree = "<group>"; };
 		7D1575711EB7FBB200059469 /* VungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VungleAdapter.h; sourceTree = "<group>"; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -172,6 +176,8 @@
 				A85428DD1F11853A00C135E7 /* VungleAdNetworkExtras.m */,
 				176AE0D52613E49000E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.h */,
 				176AE0DA2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m */,
+				70C887472B8D327F00B0703F /* GADMediationVungleAppOpenAd.h */,
+				70C8874A2B8D534900B0703F /* GADMediationVungleAppOpenAd.m */,
 			);
 			path = LiftoffMonetizeAdapter;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 				45BFFB5922272D1000C96A67 /* GADMediationAdapterVungle.h in Headers */,
 				176EA85A26E021EF00B492E0 /* GADMAdapterVungleBanner.h in Headers */,
 				17029F1B29F9F43500128934 /* GADMediationVungleBanner.h in Headers */,
+				70C887492B8D51CA00B0703F /* GADMediationVungleAppOpenAd.h in Headers */,
 				4593F48C227CDC9300F57AE5 /* GADMAdapterVungleConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,6 +409,7 @@
 				45BFFB5E22272D4300C96A67 /* GADMediationVungleRewardedAd.m in Sources */,
 				458F73502385DFF2006738A0 /* GADMAdapterVungleRouter.m in Sources */,
 				45BFFB5A22272D1000C96A67 /* GADMediationAdapterVungle.m in Sources */,
+				70C8874B2B8D534900B0703F /* GADMediationVungleAppOpenAd.m in Sources */,
 				A85428E51F11853A00C135E7 /* VungleAdNetworkExtras.m in Sources */,
 				176AE0DB2613E49C00E19EE8 /* GADMAdapterVungleRewardBasedVideoAd.m in Sources */,
 				176EA85B26E021EF00B492E0 /* GADMAdapterVungleBanner.m in Sources */,
