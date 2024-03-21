@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Chartboost mediation network adapter version.
-static NSString *const GADMAdapterChartboostVersion = @"9.6.0.1";
+static NSString *const GADMAdapterChartboostVersion = @"9.7.0.0";
 
 /// Chartboost App ID.
 static NSString *const GADMAdapterChartboostAppID = @"appId";
