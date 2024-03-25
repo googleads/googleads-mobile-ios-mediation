@@ -2,8 +2,14 @@
 
 #### Next version
 - Updated ironSource adapter to conform to GADRTBAdapter protocol.
-- Added support for bidding rewarded video ad.
-- Added support for bidding interstitial video ad.
+- Added bidding support for interstitial and rewarded ad formats.
+
+#### [Version 7.9.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.9.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 7.9.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.2.0.
+- IronSource SDK version 7.9.0.0.
 
 #### [Version 7.8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.8.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 7.8.0.0.
