@@ -1,5 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### [Version 8.2.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.7.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.2.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.2.0.
+- DT Exchange SDK version 8.2.7.
+
 #### [Version 8.2.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.2.6.1.zip)
 - Added `didFailToPresentWithError` callbacks in rewarded ad.
 - Added `IAAdDidExpire` delegate method in interstitial and rewarded ads.
