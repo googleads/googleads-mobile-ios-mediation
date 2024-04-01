@@ -14,69 +14,14 @@
 
 #import "GADMAdapterChartboost.h"
 
-#import "GADMAdapterChartboostBannerAd.h"
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostInterstitialAd.h"
 #import "GADMChartboostError.h"
 #import "GADMediationAdapterChartboost.h"
 
-@implementation GADMAdapterChartboost {
-  /// Connector from Google Mobile Ads SDK to receive ad configurations.
-  __weak id<GADMAdNetworkConnector> _connector;
-
-  /// Chartboost banner ad wrapper.
-  GADMAdapterChartboostBannerAd *_bannerAd;
-
-  /// Chartboost interstitial ad wrapper.
-  GADMAdapterChartboostInterstitialAd *_interstitialAd;
-}
-
-- (nonnull instancetype)initWithGADMAdNetworkConnector:(id<GADMAdNetworkConnector>)connector {
-  self = [super init];
-  if (self) {
-    _connector = connector;
-  }
-  return self;
-}
-
-+ (nonnull NSString *)adapterVersion {
-  return GADMAdapterChartboostVersion;
-}
-
-+ (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-  return Nil;
-}
+@implementation GADMAdapterChartboost
 
 + (nonnull Class<GADMediationAdapter>)mainAdapterClass {
   return [GADMediationAdapterChartboost class];
-}
-
-- (void)stopBeingDelegate {
-}
-
-#pragma mark Interstitial
-
-- (void)getInterstitial {
-  _interstitialAd =
-      [[GADMAdapterChartboostInterstitialAd alloc] initWithGADMAdNetworkConnector:_connector
-                                                                          adapter:self];
-  [_interstitialAd loadInterstitialAd];
-}
-
-- (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  [_interstitialAd presentInterstitialFromRootViewController:rootViewController];
-}
-
-#pragma mark Banner
-
-- (void)getBannerWithSize:(GADAdSize)adSize {
-  _bannerAd = [[GADMAdapterChartboostBannerAd alloc] initWithGADMAdNetworkConnector:_connector
-                                                                            adapter:self];
-  [_bannerAd getBannerWithSize:adSize];
-}
-
-- (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animType {
-  return YES;
 }
 
 @end
