@@ -1,11 +1,16 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next version
-- Removed the deprecated willBackgroundApplication delegate methods from the banner and interstitial renderers.
-- Replaced the deprecated method GADMobileAds.sharedInstance.sdkVersion with GADMobileAds.sharedInstance.versionNumber.
+#### [Version 6.15.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.15.0.0.zip)
+- Verified compatibility with Meta Audience Network SDK 6.15.0.
 - Now requires minimum iOS version 12.0.
 - Now requires Google Mobile Ads SDK version 11.0 or higher.
-- Included Info.plist in the frameworks in MetaAdapter.xcframework.
+- Included `Info.plist` in the frameworks within `MetaAdapter.xcframework`.
+- Removed the deprecated `willBackgroundApplication` delegate methods from the banner and interstitial renderers.
+- Replaced the deprecated method `GADMobileAds.sharedInstance.sdkVersion` with `GADMobileAds.sharedInstance.versionNumber`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.2.0.
+- Meta Audience Network SDK version 6.15.0.
 
 #### [Version 6.14.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.14.0.0.zip)
 - Verified compatibility with Meta Audience Network SDK 6.14.0.
