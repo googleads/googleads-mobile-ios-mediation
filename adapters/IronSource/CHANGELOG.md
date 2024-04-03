@@ -1,8 +1,13 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated ironSource adapter to conform to GADRTBAdapter protocol.
+#### [Version 7.9.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.9.1.0.0.zip)
+- Verified compatibility with IronSource SDK version 7.9.1.0.
+- Updated ironSource adapter to conform to `GADRTBAdapter` protocol.
 - Added bidding support for interstitial and rewarded ad formats.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.2.0.
+- IronSource SDK version 7.9.1.0.
 
 #### [Version 7.9.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-7.9.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 7.9.0.0.
