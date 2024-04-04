@@ -1,7 +1,12 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next Version
+#### [Version 2.3.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.0.zip)
+- Verified compatibility with i-mobile SDK 2.3.4.
 - Added support to return the i-mobile SDK version in `adSDKVersion`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.2.0.
+- i-mobile SDK version 2.3.4.
 
 #### [Version 2.3.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.3.0.zip)
 - Verified compatibility with i-mobile SDK 2.3.3.
