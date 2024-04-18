@@ -76,6 +76,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   }
 
   _shouldLoadAdImages = YES;
+  BOOL shouldEnableSound = !GADMobileAds.sharedInstance.applicationMuted;
   NSUInteger numberOfImageAdLoaderOptions = 0;
   for (GADAdLoaderOptions *loaderOptions in _adConfiguration.options) {
     if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
@@ -83,6 +84,11 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
           (GADNativeAdImageAdLoaderOptions *)loaderOptions;
       _shouldLoadAdImages = !imageOptions.disableImageLoading;
       numberOfImageAdLoaderOptions += 1;
+    }
+
+    if ([loaderOptions isKindOfClass:[GADVideoOptions class]]) {
+      GADVideoOptions *videoOptions = (GADVideoOptions *)loaderOptions;
+      shouldEnableSound = !videoOptions.startMuted;
     }
   }
 
@@ -101,7 +107,8 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
   _nativeAd = [[FADNative alloc] initWithSlotId:slotID videoViewWidth:extras.nativeAdVideoWidth];
   [_nativeAd setLoadDelegate:self];
   [_nativeAd setEventListener:self];
-  [_nativeAd enableSound:!GADMobileAds.sharedInstance.applicationMuted];
+  [_nativeAd enableSound:shouldEnableSound];
+
   GADMediationAdapterLineLog(@"Start loading a native ad from FiveAd SDK.");
   [_nativeAd loadAdAsync];
 }
