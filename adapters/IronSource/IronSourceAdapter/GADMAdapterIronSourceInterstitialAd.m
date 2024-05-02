@@ -99,6 +99,7 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
         onLog:[NSString stringWithFormat:@"Loading IronSource interstitial ad with Instance ID: %@",
                                          self.instanceID]];
 
+    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
     NSString *bidResponse = adConfiguration.bidResponse;
     if(bidResponse) {
       [IronSource loadISDemandOnlyInterstitialWithAdm:self.instanceID adm:bidResponse];

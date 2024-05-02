@@ -46,4 +46,7 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 + (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size;
 
+/// Sets the watermark using the ad configuration.
++ (void)setWatermarkWithAdConfiguration:(nonnull GADMediationAdConfiguration *)adConfiguration;
+
 @end

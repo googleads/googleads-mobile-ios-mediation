@@ -96,4 +96,12 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
   return nil;
 }
 
++ (void)setWatermarkWithAdConfiguration:(nonnull GADMediationAdConfiguration *)adConfiguration {
+  NSData *watermark = adConfiguration.watermark;
+  if (watermark != nil) {
+    NSString *watermarkString = [watermark base64EncodedStringWithOptions:0];
+    [IronSource setMetaDataWithKey:@"google_water_mark" value:watermarkString];
+  }
+}
+
 @end
