@@ -113,17 +113,19 @@
     return;
   }
 
+  NSString *zoneIdentifier = [_zoneIdentifier copy];
   GADMAdapterAppLovinMediationManager *sharedInstance =
       GADMAdapterAppLovinMediationManager.sharedInstance;
-  if ([sharedInstance containsAndAddRewardedZoneIdentifier:_zoneIdentifier]) {
+  if ([sharedInstance containsAndAddRewardedZoneIdentifier:zoneIdentifier]) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         GADMAdapterAppLovinErrorAdAlreadyLoaded,
-        @"Can't request a second ad for the same zone identifier without showing the first ad.");
+        @"Can't request a second ad for the same zone identifier without showing the "
+        @"first ad.");
     _adLoadCompletionHandler(nil, error);
     return;
   }
 
-  [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", _zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", zoneIdentifier];
 
   GADMAdapterAppLovinRewardedRenderer *__weak weakSelf = self;
   [GADMAdapterAppLovinInitializer.sharedInstance
@@ -131,11 +133,15 @@
          completionHandler:^(NSError *_Nullable initializationError) {
            GADMAdapterAppLovinRewardedRenderer *strongSelf = weakSelf;
            if (!strongSelf) {
+             [GADMAdapterAppLovinMediationManager.sharedInstance
+                 removeRewardedZoneIdentifier:zoneIdentifier];
              return;
            }
 
            if (initializationError) {
              strongSelf->_adLoadCompletionHandler(nil, initializationError);
+             [GADMAdapterAppLovinMediationManager.sharedInstance
+                 removeRewardedZoneIdentifier:zoneIdentifier];
              return;
            }
 
