@@ -43,6 +43,14 @@
 
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   parentRenderer.ad = ad;
+
+  NSDictionary *settings = parentRenderer.settings;
+  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(settings);
+  if (isMultipleAdsEnabled) {
+    [GADMAdapterAppLovinMediationManager.sharedInstance
+        removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
+  }
+
   dispatch_async(dispatch_get_main_queue(), ^{
     if (parentRenderer.adLoadCompletionHandler) {
       parentRenderer.delegate = parentRenderer.adLoadCompletionHandler(parentRenderer, nil);

@@ -32,6 +32,9 @@
 /// The AppLovin zone identifier used to load an ad.
 @property(nonatomic, copy, nullable, readonly) NSString *zoneIdentifier;
 
+/// The AdMob UI settings.
+@property(nonatomic, copy, nonnull, readonly) NSDictionary<NSString *, id> *settings;
+
 - (nonnull instancetype)
     initWithAdConfiguration:(nonnull GADMediationRewardedAdConfiguration *)adConfiguration
           completionHandler:(nonnull GADMediationRewardedLoadCompletionHandler)handler;

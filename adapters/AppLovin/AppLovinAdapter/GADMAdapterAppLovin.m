@@ -148,6 +148,7 @@
            strongSelf->_interstitial = [[ALInterstitialAd alloc] initWithSdk:strongSelf->_SDK];
            strongSelf->_interstitial.adDisplayDelegate = strongSelf->_interstitialDelegate;
            strongSelf->_interstitial.adVideoPlaybackDelegate = strongSelf->_interstitialDelegate;
+           strongSelf->_settings = strongConnector.credentials;
 
            if (strongSelf->_zoneIdentifier.length > 0) {
              [strongSelf->_SDK.adService
@@ -168,13 +169,6 @@
   [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@.",
                                 _interstitialAd.adIdNumber, _zoneIdentifier];
   [_interstitial showAd:_interstitialAd];
-
-  BOOL isMultipleAdsEnabled =
-      GADMAdapterAppLovinIsMultipleAdsLoadingEnabled([strongConnector credentials]);
-  if (isMultipleAdsEnabled) {
-    [GADMAdapterAppLovinMediationManager.sharedInstance
-        removeInterstitialZoneIdentifier:_zoneIdentifier];
-  }
 }
 
 #pragma mark - GADMAdNetworkAdapter Protocol Banner Methods

@@ -48,6 +48,7 @@
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
+    _settings = adConfiguration.credentials.settings;
     // Store the completion handler for later use.
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationRewardedLoadCompletionHandler originalCompletionHandler = [handler copy];
@@ -165,13 +166,6 @@
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
         GADMAdapterAppLovinErrorShow, @"Attempting to show rewarded video before one was loaded");
     [_delegate didFailToPresentWithError:error];
-  }
-
-  NSDictionary *settings = _adConfiguration.credentials.settings;
-  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(settings);
-  if (isMultipleAdsEnabled) {
-    [GADMAdapterAppLovinMediationManager.sharedInstance
-        removeRewardedZoneIdentifier:_zoneIdentifier];
   }
 }
 
