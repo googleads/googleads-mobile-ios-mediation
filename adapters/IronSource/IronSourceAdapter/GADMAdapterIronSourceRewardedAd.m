@@ -165,7 +165,7 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
       return true;
     }
     
-    NSString *currentInstanceState =[adInstance getState];
+    NSString *currentInstanceState = [adInstance getState];
     if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] || [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]){
         return false;
     }
