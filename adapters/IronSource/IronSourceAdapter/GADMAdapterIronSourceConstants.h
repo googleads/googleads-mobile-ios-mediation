@@ -30,6 +30,8 @@ typedef NSString *InstanceState NS_STRING_ENUM;
 static InstanceState const GADMAdapterIronSourceInstanceStateLocked = @"LOCKED";
 static InstanceState const GADMAdapterIronSourceInstanceStateStart = @"START";
 static InstanceState const GADMAdapterIronSourceInstanceStateCanLoad = @"CANLOAD";
+static InstanceState const GADMAdapterIronSourceInstanceStateShowing = @"SHOWING";
+
 
 // IronSource mediation adapter error domain.
 static NSString *const GADMAdapterIronSourceErrorDomain = @"com.google.mediation.IronSource";

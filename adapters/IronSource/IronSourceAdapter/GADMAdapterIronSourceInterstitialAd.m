@@ -158,7 +158,22 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
 #pragma mark - Utils methods
 
 - (BOOL)canLoadInterstitialInstance {
-  return ![[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked];
+    if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
+        return false;
+    }
+    
+    GADMAdapterIronSourceInterstitialAd *adInstance =
+        [GADMAdapterIronSourceInterstitialAd delegateForKey:self.instanceID];
+    if (adInstance == nil) {
+      return true;
+    }
+    
+    NSString *currentInstanceState =[adInstance getState];
+    if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] || [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]){
+        return false;
+    }
+        
+    return true;
 }
 
 #pragma mark - GADMediationInterstitialAd
