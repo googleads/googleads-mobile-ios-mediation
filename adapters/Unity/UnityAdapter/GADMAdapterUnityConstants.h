@@ -33,3 +33,6 @@ static NSString *const GADMAdapterUnityVersion = @"4.11.3.0";
 
 /// Ad mediation network name.
 static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";
+
+/// Watermark key.
+static NSString *const GADMAdapterUnityWatermarkKey = @"watermark";

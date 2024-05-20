@@ -14,6 +14,7 @@
 
 #import "GADMediationAdapterUnity.h"
 #import <UnityAds/UnityAds.h>
+#import "GADMAdapterUnityConstants.h"
 #import "GADMAdapterUnityUtils.h"
 #import "GADMUnityBannerMediationAdapterProxy.h"
 #import "GADMUnityInterstitialMediationAdapterProxy.h"
@@ -29,6 +30,7 @@
 @property(nonatomic, strong) GADUnityBaseMediationAdapterProxy *adapterProxy;
 @property(nonatomic, strong) UADSBannerView *bannerView;
 @property(nonatomic, strong) NSString *objectId;  // Object ID used to track loaded/shown ads.
+@property(nonatomic, strong, nullable) NSData *watermarkForFullScreenAd;
 @end
 
 @implementation GADMediationAdapterUnity
@@ -109,6 +111,7 @@
 
   self.placementId = adConfiguration.placementId;
   self.objectId = [NSUUID UUID].UUIDString;
+  self.watermarkForFullScreenAd = adConfiguration.watermark;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   loadOptions.objectId = self.objectId;
   if (adConfiguration.bidResponse) {
@@ -140,6 +143,11 @@
                                                            size:supportedSize.size];
   self.bannerView.delegate = self.adapterProxy;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
+  NSData *watermark = adConfiguration.watermark;
+  if (watermark != nil) {
+    NSString *watermarkString = [watermark base64EncodedStringWithOptions:0];
+    [loadOptions.dictionary setValue:watermarkString forKey:GADMAdapterUnityWatermarkKey];
+  }
   if (adConfiguration.bidResponse) {
     loadOptions.adMarkup = adConfiguration.bidResponse;
   }
@@ -150,6 +158,11 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   UADSShowOptions *showOptions = [UADSShowOptions new];
   showOptions.objectId = self.objectId;
+  if (self.watermarkForFullScreenAd != nil) {
+    NSString *watermarkString = [self.watermarkForFullScreenAd base64EncodedStringWithOptions:0];
+    [showOptions.dictionary setValue:watermarkString forKey:GADMAdapterUnityWatermarkKey];
+  }
+
   [self.adapterProxy.eventDelegate willPresentFullScreenView];
   [UnityAds show:viewController
        placementId:self.placementId

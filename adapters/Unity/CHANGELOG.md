@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Added bidding support.
+
 #### [Version 4.11.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.11.3.0.zip)
 - Verified compatibility with Unity Ads SDK 4.11.3.
 
