@@ -41,6 +41,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   GADMAdapterUnityErrorAdInitializationFailure = 110
 };
 
-@interface GADMediationAdapterUnity : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterUnity : NSObject <GADRTBAdapter>
 
 @end

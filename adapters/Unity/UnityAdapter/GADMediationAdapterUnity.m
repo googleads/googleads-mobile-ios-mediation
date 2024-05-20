@@ -66,6 +66,14 @@
   return extractVersionFromString(GADMAdapterUnityVersion);
 }
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  [UnityAds getToken:^(NSString *_Nullable token) {
+    NSString *unityToken = token ?: @"";
+    completionHandler(unityToken, nil);
+  }];
+}
+
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
