@@ -111,6 +111,9 @@
   self.objectId = [NSUUID UUID].UUIDString;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   loadOptions.objectId = self.objectId;
+  if (adConfiguration.bidResponse) {
+    loadOptions.adMarkup = adConfiguration.bidResponse;
+  }
 
   [UnityAds load:self.placementId options:loadOptions loadDelegate:self.adapterProxy];
 }
@@ -133,11 +136,15 @@
   }
   self.adapterProxy = [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
                                                              completionHandler:completionHandler];
-
   self.bannerView = [[UADSBannerView alloc] initWithPlacementId:self.placementId
                                                            size:supportedSize.size];
   self.bannerView.delegate = self.adapterProxy;
-  [self.bannerView load];
+  UADSLoadOptions *loadOptions = [UADSLoadOptions new];
+  if (adConfiguration.bidResponse) {
+    loadOptions.adMarkup = adConfiguration.bidResponse;
+  }
+
+  [self.bannerView loadWithOptions:loadOptions];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
