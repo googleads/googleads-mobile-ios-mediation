@@ -24,6 +24,7 @@ Built and tested with:
 #### [Version 7.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.3.0.0.zip)
 - Verified compatibility with Vungle SDK 7.3.0.
 - Fixed an issue where the adapter cannot be imported in Swift.
+- Added waterfall and bidding support for app open ad format.
 
 Built and tested with:
 - Google Mobile Ads SDK version 11.2.0.
