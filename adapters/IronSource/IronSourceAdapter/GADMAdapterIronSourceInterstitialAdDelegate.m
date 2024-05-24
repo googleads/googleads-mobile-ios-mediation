@@ -137,7 +137,7 @@
     return;
   }
 
-  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
+  [adInstance setState:GADMAdapterIronSourceInstanceStateShowing];
   id<GADMediationInterstitialAdEventDelegate> eventDelegate =
       [adInstance getInterstitialAdEventDelegate];
   if (eventDelegate == nil) {
