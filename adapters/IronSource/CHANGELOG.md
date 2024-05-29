@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Added missing callbacks.
+
 #### [Version 8.1.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.1.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.1.0.0.
 
