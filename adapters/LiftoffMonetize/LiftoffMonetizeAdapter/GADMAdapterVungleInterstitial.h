@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface GADMAdapterVungleInterstitial : NSObject <GADMAdNetworkAdapter>
+@interface GADMAdapterVungleInterstitial : NSObject
 @end
