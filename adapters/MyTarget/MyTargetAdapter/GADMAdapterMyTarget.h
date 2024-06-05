@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <Foundation/Foundation.h>
 
-@interface GADMAdapterMyTarget : NSObject <GADMAdNetworkAdapter>
+@interface GADMAdapterMyTarget : NSObject
 
 @end

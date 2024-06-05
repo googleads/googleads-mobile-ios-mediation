@@ -40,8 +40,6 @@
 		890FE1152582138400816721 /* GADMAdapterMyTargetConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */; };
 		892785171F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		892785181F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */; };
-		89BE9EBB20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */; };
-		89BE9EBC20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */; };
 		89D573211F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89D573221F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */; };
 		89DF93EE1F7D17A00027A171 /* GADMAdapterMyTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */; };
@@ -99,8 +97,6 @@
 		890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetConstants.m; sourceTree = "<group>"; };
 		892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetExtraAssets.h; sourceTree = "<group>"; };
 		892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetExtraAssets.m; sourceTree = "<group>"; };
-		89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetMediatedUnifiedNativeAd.h; sourceTree = "<group>"; };
-		89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetMediatedUnifiedNativeAd.m; sourceTree = "<group>"; };
 		89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetExtras.h; sourceTree = "<group>"; };
 		89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetExtras.m; sourceTree = "<group>"; };
 		89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTarget.h; sourceTree = "<group>"; };
@@ -158,8 +154,6 @@
 				890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */,
 				892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */,
 				89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */,
-				89BE9EB920B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h */,
-				89BE9EBA20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m */,
 				89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */,
 				89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */,
 				89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */,
@@ -243,7 +237,6 @@
 				89DF93EE1F7D17A00027A171 /* GADMAdapterMyTarget.h in Headers */,
 				89DF94401F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h in Headers */,
 				89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */,
-				89BE9EBB20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.h in Headers */,
 				45D672FF223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.h in Headers */,
 				45D672FB223AEE8400323EC6 /* GADMediationAdapterMyTarget.h in Headers */,
 				89DF93F01F7D17A00027A171 /* GADMAdapterMyTargetUtils.h in Headers */,
@@ -391,7 +384,6 @@
 				89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */,
 				45D67300223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.m in Sources */,
 				45D672FC223AEE8400323EC6 /* GADMediationAdapterMyTarget.m in Sources */,
-				89BE9EBC20B5669300765D42 /* GADMAdapterMyTargetMediatedUnifiedNativeAd.m in Sources */,
 				89DF94411F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m in Sources */,
 				89DF93EF1F7D17A00027A171 /* GADMAdapterMyTargetUtils.m in Sources */,
 				AD89C37D2B339C54002952E2 /* GADMAdapterMyTargetNativeAd.m in Sources */,
