@@ -1,7 +1,12 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next version
+#### [Version 2.8.20240612.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.8.20240612.0.zip)
 - Added audio control for native ad via GADVideoOptions.
+- Verified compatibility with FiveAd SDK version 2.8.20240612.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.5.0.
+- FiveAd SDK version 2.8.20240612.
 
 #### [Version 2.7.20240411.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.7.20240411.0.zip)
 - Verified compatibility with FiveAd SDK version 2.7.20240411.
