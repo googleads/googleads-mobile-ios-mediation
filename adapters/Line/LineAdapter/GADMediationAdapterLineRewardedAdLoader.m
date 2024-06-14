@@ -55,6 +55,52 @@
     return;
   }
 
+  if (_adConfiguration.bidResponse) {
+    [self loadBiddingAd];
+  } else {
+    [self loadWaterfallAd];
+  }
+}
+
+- (void)loadBiddingAd {
+  __block NSError *error;
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+  NSString *watermarkString =
+      GADMediationAdapterLineWatermarkStringFromAdConfiguration(_adConfiguration);
+  FADBidData *bidData = [[FADBidData alloc] initWithBidResponse:_adConfiguration.bidResponse
+                                                  withWatermark:watermarkString];
+  GADMediationAdapterLineRewardedAdLoader *__weak weakSelf = self;
+  [adLoader loadRewardAdWithBidData:bidData
+                   withLoadCallback:^(FADVideoReward *_Nullable rewardedAd,
+                                      NSError *_Nullable adLoadError) {
+                     GADMediationAdapterLineRewardedAdLoader *strongSelf = weakSelf;
+                     if (!strongSelf) {
+                       return;
+                     }
+
+                     if (adLoadError) {
+                       GADMediationAdapterLineLog(@"FiveAd SDK failed to load a bidding "
+                                                  @"rewarded ad. The FiveAd error code: %ld.",
+                                                  adLoadError.code);
+                       error = GADMediationAdapterLineErrorWithFiveAdErrorCode(adLoadError.code);
+                       [strongSelf callCompletionHandlerIfNeededWithAd:nil error:error];
+                       return;
+                     }
+
+                     [rewardedAd setEventListener:self];
+                     [rewardedAd enableSound:GADMediationAdapterLineShouldEnableAudio(
+                                                 strongSelf->_adConfiguration.extras)];
+                     strongSelf->_rewardedAd = rewardedAd;
+                     [strongSelf callCompletionHandlerIfNeededWithAd:strongSelf error:nil];
+                   }];
+}
+
+- (void)loadWaterfallAd {
+  NSError *error;
   NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
@@ -92,7 +138,7 @@
   [_rewardedAd show];
 }
 
-#pragma mark - FADLoadDelegate
+#pragma mark - FADLoadDelegate (for waterfall rewarded ad)
 
 - (void)fiveAdDidLoad:(id<FADAdInterface>)ad {
   GADMediationAdapterLineLog(@"FiveAd SDK loaded a rewarded ad.");
