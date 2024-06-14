@@ -69,15 +69,10 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
     return;
   }
 
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
-  if (error) {
-    [self callCompletionHandlerIfNeededWithAd:nil error:error];
-    return;
-  }
-
   _shouldLoadAdImages = YES;
   BOOL shouldEnableSound = !GADMobileAds.sharedInstance.applicationMuted;
   NSUInteger numberOfImageAdLoaderOptions = 0;
+  NSUInteger numberOfVideoAdLoaderOptions = 0;
   for (GADAdLoaderOptions *loaderOptions in _adConfiguration.options) {
     if ([loaderOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
       GADNativeAdImageAdLoaderOptions *imageOptions =
@@ -89,6 +84,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
     if ([loaderOptions isKindOfClass:[GADVideoOptions class]]) {
       GADVideoOptions *videoOptions = (GADVideoOptions *)loaderOptions;
       shouldEnableSound = !videoOptions.startMuted;
+      numberOfVideoAdLoaderOptions += 1;
     }
   }
 
@@ -103,14 +99,88 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
     GADMediationAdapterLineLog(multipleAdLoaderOptionsWarningMessage);
   }
 
+  if (numberOfVideoAdLoaderOptions > 1) {
+    NSString *multipleVideoOptionsWarningMessage =
+        [NSString stringWithFormat:@"Multiple video options were found. If multiple video options "
+                                   @"are specified, then the adapter uses the last option found. "
+                                   @"To avoid this behavior, please pass only one video option. %@",
+                                   shouldEnableSound ? @"Sound will be enabled."
+                                                     : @"Sound will be disabled."];
+    GADMediationAdapterLineLog(multipleVideoOptionsWarningMessage);
+  }
+
+  if (_adConfiguration.bidResponse) {
+    [self loadBiddingAdWithSoundEnabled:shouldEnableSound];
+  } else {
+    [self loadWaterfallAdWithSoundEnabled:shouldEnableSound];
+  }
+}
+
+- (void)loadWaterfallAdWithSoundEnabled:(BOOL)soundEnabled {
+  NSError *error;
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
+  if (error) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+
   GADMediationAdapterLineExtras *extras = (GADMediationAdapterLineExtras *)_adConfiguration.extras;
   _nativeAd = [[FADNative alloc] initWithSlotId:slotID videoViewWidth:extras.nativeAdVideoWidth];
   [_nativeAd setLoadDelegate:self];
   [_nativeAd setEventListener:self];
-  [_nativeAd enableSound:shouldEnableSound];
+  [_nativeAd enableSound:soundEnabled];
 
   GADMediationAdapterLineLog(@"Start loading a native ad from FiveAd SDK.");
   [_nativeAd loadAdAsync];
+}
+
+- (void)loadBiddingAdWithSoundEnabled:(BOOL)soundEnabled {
+  __block NSError *error;
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error) {
+    [self callCompletionHandlerIfNeededWithAd:nil error:error];
+    return;
+  }
+
+  NSString *watermarkString =
+      GADMediationAdapterLineWatermarkStringFromAdConfiguration(_adConfiguration);
+  FADBidData *bidData = [[FADBidData alloc] initWithBidResponse:_adConfiguration.bidResponse
+                                                  withWatermark:watermarkString];
+  GADMediationAdapterLineNativeAdLoader *__weak weakSelf = self;
+  GADMediationAdapterLineLog(@"Start loading a native ad from FiveAd SDK.");
+  [adLoader
+      loadNativeAdWithBidData:bidData
+             withLoadCallback:^(FADNative *_Nullable nativeAd, NSError *_Nullable adLoadError) {
+               GADMediationAdapterLineNativeAdLoader *strongSelf = weakSelf;
+               if (!strongSelf) {
+                 return;
+               }
+
+               if (adLoadError) {
+                 GADMediationAdapterLineLog(
+                     @"FiveAd SDK failed to load a bidding native ad. The FiveAd error code: %ld.",
+                     adLoadError.code);
+                 error = GADMediationAdapterLineErrorWithFiveAdErrorCode(adLoadError.code);
+                 [strongSelf callCompletionHandlerIfNeededWithAd:nil error:error];
+                 return;
+               }
+
+               GADMediationAdapterLineExtras *extras = strongSelf->_adConfiguration.extras;
+               if (extras) {
+                 UIView *nativeAdMainView = [nativeAd getAdMainView];
+                 CGSize currentSize = nativeAdMainView.frame.size;
+                 CGRect newFrame = nativeAdMainView.frame;
+                 newFrame.size =
+                     CGSizeMake(extras.nativeAdVideoWidth,
+                                extras.nativeAdVideoWidth * currentSize.height / currentSize.width);
+                 nativeAdMainView.frame = newFrame;
+               }
+
+               [nativeAd setEventListener:strongSelf];
+               [nativeAd enableSound:soundEnabled];
+               strongSelf->_nativeAd = nativeAd;
+               [strongSelf fiveAdDidLoad:strongSelf->_nativeAd];
+             }];
 }
 
 - (void)loadAdImageAssetsAsynchronously {
