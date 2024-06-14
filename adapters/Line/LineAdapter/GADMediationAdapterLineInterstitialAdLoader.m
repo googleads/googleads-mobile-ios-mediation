@@ -70,6 +70,15 @@
     return;
   }
 
+  if (_adConfiguration.bidResponse) {
+    [self loadBiddingAd];
+  } else {
+    [self loadWaterfallAd];
+  }
+}
+
+- (void)loadWaterfallAd {
+  NSError *error;
   NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     _interstitialAdLoadCompletionHandler(nil, error);
@@ -84,6 +93,44 @@
   [_interstitialAd loadAdAsync];
 }
 
+- (void)loadBiddingAd {
+  __block NSError *error;
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error) {
+    _interstitialAdLoadCompletionHandler(nil, error);
+    return;
+  }
+  NSString *watermarkString =
+      GADMediationAdapterLineWatermarkStringFromAdConfiguration(_adConfiguration);
+  FADBidData *bidData = [[FADBidData alloc] initWithBidResponse:_adConfiguration.bidResponse
+                                                  withWatermark:watermarkString];
+  GADMediationAdapterLineInterstitialAdLoader *__weak weakSelf = self;
+  [adLoader
+      loadInterstitialAdWithBidData:bidData
+                   withLoadCallback:^(FADInterstitial *_Nullable interstitialAd,
+                                      NSError *_Nullable adLoadError) {
+                     GADMediationAdapterLineInterstitialAdLoader *strongSelf = weakSelf;
+                     if (!strongSelf) {
+                       return;
+                     }
+
+                     if (adLoadError) {
+                       GADMediationAdapterLineLog(@"FiveAd SDK failed to load a bidding "
+                                                  @"interstitial ad. The FiveAd error code: %ld.",
+                                                  adLoadError.code);
+                       error = GADMediationAdapterLineErrorWithFiveAdErrorCode(adLoadError.code);
+                       strongSelf->_interstitialAdLoadCompletionHandler(nil, error);
+                       return;
+                     }
+
+                     [interstitialAd setEventListener:strongSelf];
+                     [interstitialAd enableSound:GADMediationAdapterLineShouldEnableAudio(
+                                                     strongSelf->_adConfiguration.extras)];
+                     strongSelf->_interstitialAd = interstitialAd;
+                     strongSelf->_interstitialAdLoadCompletionHandler(strongSelf, nil);
+                   }];
+}
+
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -92,7 +139,7 @@
   [_interstitialAd show];
 }
 
-#pragma mark - FADLoadDelegate
+#pragma mark - FADLoadDelegate (for waterfall interstitial ad)
 
 - (void)fiveAdDidLoad:(id<FADAdInterface>)ad {
   GADMediationAdapterLineLog(@"FiveAd SDK loaded an interstitial ad.");
