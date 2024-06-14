@@ -74,6 +74,68 @@
   completionHandler(error);
 }
 
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  __block NSError *error;
+
+  NSArray<GADMediationCredentials *> *credentials = params.configuration.credentials;
+  if (credentials.count == 0) {
+    NSString *errorDescription = @"There is no slot ID associated with this ad unit. Please verify "
+                                 @"the ad unit mapping from the AdMob UI.";
+    GADMediationAdapterLineLog(errorDescription);
+    error = GADMediationAdapterLineErrorWithCodeAndDescription(
+        GADMediationAdapterLineErrorFailedToCollectSignals, errorDescription);
+    completionHandler(nil, error);
+    return;
+  }
+
+  FADAdLoader *adLoader = GADMediationAdapterLineFADAdLoaderForRegisteredConfig(&error);
+  if (error) {
+    completionHandler(nil, error);
+    return;
+  }
+
+  NSString *slotID = GADMediationAdapterLineSlotID(credentials.firstObject, &error);
+
+  if (credentials.count > 1) {
+    GADMediationAdapterLineLog(@"Multiple slot ID associated with this ad unit found. Selected the "
+                               @"first slot ID found: %@",
+                               slotID);
+  }
+
+  GADMediationAdapterLine *__weak weakSelf = self;
+  [adLoader
+      collectSignalWithSlotId:slotID
+           withSignalCallback:^(NSString *_Nullable signal, NSError *_Nullable collectSignalError) {
+             GADMediationAdapterLine *strongSelf = weakSelf;
+             if (!strongSelf) {
+               return;
+             }
+
+             if (collectSignalError) {
+               GADMediationAdapterLineLog(
+                   @"FiveAd failed to collect signals. Error description: %@",
+                   collectSignalError.localizedDescription);
+               error = GADMediationAdapterLineErrorWithFiveAdErrorCode(collectSignalError.code);
+               completionHandler(nil, error);
+               return;
+             }
+
+             if (!signal) {
+               NSString *errorDescription =
+                   [NSString stringWithFormat:
+                                 @"FiveAd failed to collect signals without providing an error."];
+               GADMediationAdapterLineLog(errorDescription);
+               error = GADMediationAdapterLineErrorWithCodeAndDescription(
+                   GADMediationAdapterLineErrorFailedToCollectSignals, errorDescription);
+               completionHandler(nil, error);
+               return;
+             }
+
+             completionHandler(signal, nil);
+           }];
+}
+
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   _bannerAdLoader =

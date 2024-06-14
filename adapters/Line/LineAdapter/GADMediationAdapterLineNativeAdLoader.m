@@ -69,7 +69,7 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
     return;
   }
 
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
     return;

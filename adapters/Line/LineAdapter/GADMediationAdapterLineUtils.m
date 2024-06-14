@@ -53,6 +53,9 @@ static NSString *_Nullable GADMediationAdapterLineApplicationID(
   return applicationID;
 }
 
+/// FADAdLoader object returned from registration.
+static FADAdLoader *_Nullable gAdLoader;
+
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
     NSArray<GADMediationCredentials *> *_Nonnull credentialsArray) {
   if (FADSettings.isConfigRegistered) {
@@ -81,8 +84,30 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
                                      : kFADNeedChildDirectedTreatmentFalse;
   }
   [config setNeedChildDirectedTreatment:needChildDirectedTreatment];
-  [FADSettings registerConfig:config];
+
+  FADAdLoader *adLoader = [FADAdLoader adLoaderForConfig:config outError:&error];
+  if (error) {
+    GADMediationAdapterLineLog(@"There was an error while initializing FADAdLoader: %@",
+                               error.localizedDescription);
+    return GADMediationAdapterLineErrorWithFiveAdErrorCode(error.code);
+  }
+  gAdLoader = adLoader;
+
   return nil;
+}
+
+FADAdLoader *_Nullable GADMediationAdapterLineFADAdLoaderForRegisteredConfig(
+    NSError *_Nullable *_Nullable errorPtr) {
+  if (!gAdLoader) {
+    NSString *errorDescription = @"FiveAd SDK hasn't been registered with FADConfig. It must be "
+                                 @"registered first to initialize an ad loader.";
+    GADMediationAdapterLineLog(errorDescription);
+    *errorPtr = GADMediationAdapterLineErrorWithCodeAndDescription(
+        GADMediationAdapterLineErrorFailedToInitializeAdLoader, errorDescription);
+    return nil;
+  }
+
+  return gAdLoader;
 }
 
 NSError *GADMediationAdapterLineErrorWithCodeAndDescription(GADMediationAdapterLineErrorCode code,
@@ -123,10 +148,9 @@ void GADMediationAdapterLineMutableSetAddObject(NSMutableSet *_Nullable set,
   }
 }
 
-NSString *_Nullable GADMediationAdapterLineSlotID(
-    GADMediationAdConfiguration *_Nonnull adConfiguration, NSError *_Nullable *_Nonnull errorPtr) {
-  NSString *slotID =
-      adConfiguration.credentials.settings[GADMediationAdapterLineCredentialKeyAdUnit];
+NSString *_Nullable GADMediationAdapterLineSlotID(GADMediationCredentials *_Nonnull credentials,
+                                                  NSError *_Nullable *_Nonnull errorPtr) {
+  NSString *slotID = credentials.settings[GADMediationAdapterLineCredentialKeyAdUnit];
   if (!slotID) {
     NSString *errorDescription = [NSString
         stringWithFormat:@"Invalid slot ID was received from the ad configuration. Please verify "
@@ -139,7 +163,7 @@ NSString *_Nullable GADMediationAdapterLineSlotID(
   return slotID;
 }
 
-BOOL GADMediationAdapterLineShouldEnableAduio(GADExtras *_Nullable extras) {
+BOOL GADMediationAdapterLineShouldEnableAudio(GADExtras *_Nullable extras) {
   GADMediationAdapterLineExtras *lineExtras = (GADMediationAdapterLineExtras *)extras;
   BOOL enableSound = !GADMobileAds.sharedInstance.applicationMuted;
   if (lineExtras) {

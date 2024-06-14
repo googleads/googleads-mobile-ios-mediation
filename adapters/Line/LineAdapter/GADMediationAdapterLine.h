@@ -22,7 +22,11 @@ typedef NS_ENUM(NSInteger, GADMediationAdapterLineErrorCode) {
   GADMediationAdapterLineErrorLoadedBannerSizeMismatch = 102,
   /// Failed to load an information icon image asset.
   GADMediationAdapterLineErrorInformationIconLoadFailure = 103,
+  /// Failed to collect signals for bidding.
+  GADMediationAdapterLineErrorFailedToCollectSignals = 104,
+  /// Failed to initialize a FADAdLoader.
+  GADMediationAdapterLineErrorFailedToInitializeAdLoader = 105,
 };
 
-@interface GADMediationAdapterLine : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterLine : NSObject <GADRTBAdapter>
 @end

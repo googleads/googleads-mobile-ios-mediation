@@ -55,7 +55,7 @@
     return;
   }
 
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
     return;
@@ -64,7 +64,7 @@
   _rewardedAd = [[FADVideoReward alloc] initWithSlotId:slotID];
   [_rewardedAd setLoadDelegate:self];
   [_rewardedAd setEventListener:self];
-  [_rewardedAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
+  [_rewardedAd enableSound:GADMediationAdapterLineShouldEnableAudio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a rewarded ad from FiveAd SDK.");
   [_rewardedAd loadAdAsync];
 }

@@ -78,7 +78,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
     return;
   }
 
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     [self callCompletionHandlerIfNeededWithAd:nil error:error];
     return;
@@ -89,7 +89,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
                                                       width:_requestedBannerSize.size.width];
   [_bannerAd setLoadDelegate:self];
   [_bannerAd setEventListener:self];
-  [_bannerAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
+  [_bannerAd enableSound:GADMediationAdapterLineShouldEnableAudio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading a banner ad from FiveAd SDK.");
   [_bannerAd loadAdAsync];
 }

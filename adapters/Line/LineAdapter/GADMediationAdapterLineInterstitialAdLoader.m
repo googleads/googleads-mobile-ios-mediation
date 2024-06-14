@@ -70,7 +70,7 @@
     return;
   }
 
-  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration, &error);
+  NSString *slotID = GADMediationAdapterLineSlotID(_adConfiguration.credentials, &error);
   if (error) {
     _interstitialAdLoadCompletionHandler(nil, error);
     return;
@@ -79,7 +79,7 @@
   _interstitialAd = [[FADInterstitial alloc] initWithSlotId:slotID];
   [_interstitialAd setLoadDelegate:self];
   [_interstitialAd setEventListener:self];
-  [_interstitialAd enableSound:GADMediationAdapterLineShouldEnableAduio(_adConfiguration.extras)];
+  [_interstitialAd enableSound:GADMediationAdapterLineShouldEnableAudio(_adConfiguration.extras)];
   GADMediationAdapterLineLog(@"Start loading an interstitial ad from FiveAd SDK.");
   [_interstitialAd loadAdAsync];
 }
