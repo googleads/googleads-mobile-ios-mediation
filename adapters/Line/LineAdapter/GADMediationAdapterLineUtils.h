@@ -55,3 +55,7 @@ BOOL GADMediationAdapterLineShouldEnableAudio(GADExtras *_Nullable extras);
 /// returns nil.
 FADAdLoader *_Nullable GADMediationAdapterLineFADAdLoaderForRegisteredConfig(
     NSError *_Nullable *_Nullable errorPtr);
+
+/// Watermark string from ad configuraiton.
+NSString *_Nullable GADMediationAdapterLineWatermarkStringFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration);

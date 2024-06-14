@@ -180,3 +180,10 @@ BOOL GADMediationAdapterLineShouldEnableAudio(GADExtras *_Nullable extras) {
   }
   return enableSound;
 }
+
+NSString *_Nullable GADMediationAdapterLineWatermarkStringFromAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration) {
+  NSData *watermark = adConfiguration.watermark;
+  return [[NSString alloc] initWithData:watermark encoding:NSUTF8StringEncoding];
+  ;
+}
