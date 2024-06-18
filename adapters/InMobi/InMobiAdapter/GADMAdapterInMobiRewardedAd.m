@@ -137,7 +137,7 @@
   }
 
   if (_adConfig.watermark != nil) {
-    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_adConfig.watermark];
+    IMWatermark *watermark = [[IMWatermark alloc] initWithWaterMarkImageData:_adConfig.watermark];
     [_rewardedAd setWatermarkWith:watermark];
   }
 

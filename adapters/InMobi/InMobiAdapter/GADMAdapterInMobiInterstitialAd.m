@@ -104,7 +104,7 @@
   }
 
   if (_interstitialAdConfig.watermark != nil) {
-    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_interstitialAdConfig.watermark];
+    IMWatermark *watermark = [[IMWatermark alloc] initWithWaterMarkImageData:_interstitialAdConfig.watermark];
     [_interstitialAd setWatermarkWith:watermark];
   }
 
