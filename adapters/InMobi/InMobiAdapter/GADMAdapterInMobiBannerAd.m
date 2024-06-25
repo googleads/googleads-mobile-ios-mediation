@@ -129,7 +129,8 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
   }
 
   if (_bannerAdConfig.watermark != nil) {
-    IMWatermark *watermark = [[IMWatermark alloc] initWithImageData:_bannerAdConfig.watermark];
+    IMWatermark *watermark =
+        [[IMWatermark alloc] initWithWaterMarkImageData:_bannerAdConfig.watermark];
     [_adView setWatermarkWith:watermark];
   }
 
