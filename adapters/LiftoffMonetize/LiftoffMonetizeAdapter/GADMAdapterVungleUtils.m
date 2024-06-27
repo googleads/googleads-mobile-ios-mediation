@@ -26,7 +26,10 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
 }
 
 const CGSize kVNGBannerShortSize = {300, 50};
-GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
+GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize, NSString *_Nonnull placementId) {
+    if ([VungleAds isInLine:placementId]) {
+        return adSize;
+    }
   if (adSize.size.height >= GADAdSizeMediumRectangle.size.height &&
       adSize.size.width >= GADAdSizeMediumRectangle.size.width) {
     return GADAdSizeMediumRectangle;
@@ -53,20 +56,30 @@ GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
   return GADAdSizeInvalid;
 }
 
-BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
-  if (GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
-    return BannerSizeMrec;
-  }
-  if (adSize.size.height == GADAdSizeLeaderboard.size.height) {
-    return BannerSizeLeaderboard;
-  }
+VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
+    // MREC
+    if (GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
+      return VungleAdSize.VungleAdSizeMREC;
+    }
+    // LeaderBoard
+    if (GADAdSizeEqualToSize(adSize, GADAdSizeLeaderboard)) {
+      return VungleAdSize.VungleAdSizeLeaderboard;
+    }
+    //BannerRegular
+    if (GADAdSizeEqualToSize(adSize, GADAdSizeBanner)) {
+      return VungleAdSize.VungleAdSizeBannerRegular;
+    }
+    //BannerShort
+    GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
+    if (GADAdSizeEqualToSize(adSize, shortBannerSize)) {
+      return VungleAdSize.VungleAdSizeBannerShort;
+    }
+    //Custom size
+    return [VungleAdSize VungleAdSizeFromCGSize:adSize.size];
+}
 
-  // Vungle SDK will try to fit the banner in the view, but the true height of the asset
-  // is 50px since this is the only supported size.
-  if (adSize.size.width < GADAdSizeBanner.size.width) {
-    return BannerSizeShort;
-  }
-  return BannerSizeRegular;
+VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSize adSize, NSString *_Nonnull placementId) {
+    return [VungleAdSize VungleValidAdSizeFromCGSizeWithSize:adSize.size placementId:placementId];
 }
 
 @implementation GADMAdapterVungleUtils
