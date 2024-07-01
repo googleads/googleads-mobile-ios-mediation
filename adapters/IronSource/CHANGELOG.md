@@ -1,5 +1,12 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### [Version 8.1.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.1.1.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.1.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.6.0.
+- IronSource SDK version 8.1.1.0.
+
 #### [Version 8.1.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.1.0.0.1.zip)
 - Fixed missing callbacks for Interstitial and Rewarded ads.
 
