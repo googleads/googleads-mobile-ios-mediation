@@ -139,22 +139,15 @@
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
-  GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-  _rewardedAd = MTGRewardAdManager.sharedInstance;
-  _rewardedAd.playVideoMute = extras.muteVideoAudio;
-  if ([_rewardedAd isVideoReadyToPlayWithPlacementId:_placementId unitId:_adUnitId]) {
+    GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
+    _rewardedAd = MTGRewardAdManager.sharedInstance;
+    _rewardedAd.playVideoMute = extras.muteVideoAudio;
     [_rewardedAd showVideoWithPlacementId:_placementId
                                    unitId:_adUnitId
                              withRewardId:nil
                                    userId:nil
                                  delegate:self
                            viewController:viewController];
-  } else {
-    NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a waterfall rewarded video ad.");
-    [_adEventDelegate didFailToPresentWithError:error];
-  }
 }
 
 @end
