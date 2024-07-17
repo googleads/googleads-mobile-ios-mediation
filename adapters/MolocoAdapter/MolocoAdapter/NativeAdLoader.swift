@@ -2,7 +2,7 @@ import Foundation
 import GoogleMobileAds
 
 /// Loads native ads on Moloco ads SDK.
-final class NativeAdLoader {
+final class NativeAdLoader: NSObject {
 
   /// The native ad configuration.
   private let adConfiguration: GADMediationNativeAdConfiguration

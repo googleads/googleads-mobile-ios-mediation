@@ -2,7 +2,7 @@ import Foundation
 import GoogleMobileAds
 
 /// Loads and presents rewarded ads on Moloco ads SDK.
-final class RewardedAdLoader {
+final class RewardedAdLoader: NSObject {
 
   /// The rewarded ad configuration.
   private let adConfiguration: GADMediationRewardedAdConfiguration

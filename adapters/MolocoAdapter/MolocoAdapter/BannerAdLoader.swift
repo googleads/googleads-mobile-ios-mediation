@@ -2,7 +2,7 @@ import Foundation
 import GoogleMobileAds
 
 /// Loads banner ads on Moloco ads SDK.
-final class BannerAdLoader {
+final class BannerAdLoader: NSObject {
 
   /// The banner ad configuration.
   private let adConfiguration: GADMediationBannerAdConfiguration
