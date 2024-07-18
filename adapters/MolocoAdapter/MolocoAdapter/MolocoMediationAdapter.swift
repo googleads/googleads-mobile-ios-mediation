@@ -35,7 +35,18 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
 
   private static var molocoInitializer: MolocoInitializer = MolocoSdkImpl()
 
-  /// To be used only for testing purpose.
+  private var molocoInterstitialFactory: MolocoInterstitialFactory
+
+  public override init() {
+    molocoInterstitialFactory = MolocoSdkImpl()
+  }
+
+  /// Initializer used only for testing purpose.
+  public init(molocoInterstitialFactory: MolocoInterstitialFactory) {
+    self.molocoInterstitialFactory = molocoInterstitialFactory
+  }
+
+  /// Setter used only for testing purpose.
   public static func setMolocoInitializer(_ fakeMolocoInitializer: MolocoInitializer) {
     molocoInitializer = fakeMolocoInitializer
   }
@@ -127,13 +138,13 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     bannerAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |InterstitialAdLoader| class as well.
   @objc public func loadInterstitial(
     for adConfiguration: GADMediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
     interstitialAdLoader = InterstitialAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler,
+      molocoInterstitialFactory: molocoInterstitialFactory)
     interstitialAdLoader?.loadAd()
   }
 
