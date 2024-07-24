@@ -14,10 +14,18 @@
 
 import Foundation
 
-/// Error codes for different possible errors that can occur in Moloco adapter.
-///
-/// Make sure the adapter error code does not conflict with partner's error code.
-public enum MolocoAdapterErrorCode: Int {
-  case adServingNotSupported = 101
-  case invalidAppID = 102
+/// Contains utility methods for Moloco adapter.
+final class MolocoUtils {
+
+  static func error(
+    code: MolocoAdapterErrorCode, description: String
+  ) -> NSError {
+    let userInfo = ["description": description]
+    return NSError(
+      domain: MolocoConstants.adapterErrorDomain, code: code.rawValue, userInfo: userInfo)
+  }
+
+  static func log(_ logMessage: String) {
+    NSLog("GADMediationAdapterMoloco - \(logMessage)")
+  }
 }

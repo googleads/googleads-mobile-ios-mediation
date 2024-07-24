@@ -14,10 +14,8 @@
 
 import Foundation
 
-/// Error codes for different possible errors that can occur in Moloco adapter.
-///
-/// Make sure the adapter error code does not conflict with partner's error code.
-public enum MolocoAdapterErrorCode: Int {
-  case adServingNotSupported = 101
-  case invalidAppID = 102
+/// Constants used in Moloco adapter.
+public enum MolocoConstants {
+  public static let appIDKey = "app_key"
+  public static let adapterErrorDomain = "com.google.ads.mediation.moloco"
 }

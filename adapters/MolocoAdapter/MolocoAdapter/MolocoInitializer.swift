@@ -13,11 +13,14 @@
 // limitations under the License.
 
 import Foundation
+import MolocoSDK
 
-/// Error codes for different possible errors that can occur in Moloco adapter.
-///
-/// Make sure the adapter error code does not conflict with partner's error code.
-public enum MolocoAdapterErrorCode: Int {
-  case adServingNotSupported = 101
-  case invalidAppID = 102
+/// Protocol for Moloco SDK initialization.
+public protocol MolocoInitializer {
+
+  @available(iOS 13.0, *)
+  func initialize(
+    initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?)
+
+  func isInitialized() -> Bool
 }
