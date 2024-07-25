@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "420C792C-B7C5-44FE-A7A2-2A6101C76BC6",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/MyTargetAdapter\/MyTargetAdapter.xcodeproj",
+          "identifier" : "7DFABB1C1DA8682C00322E02",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD0D6FF22AF7189D002C0B60",
+        "name" : "MyTargetAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

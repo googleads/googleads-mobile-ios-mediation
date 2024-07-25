@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "FA3CCF5C-173B-4172-9EDD-FB3BA309A0D4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/IMobileAdapter\/IMobileAdapter.xcodeproj",
+          "identifier" : "45E634ED222F1503006EB5A1",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD0D72FE2AF81711002C0B60",
+        "name" : "IMobileAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

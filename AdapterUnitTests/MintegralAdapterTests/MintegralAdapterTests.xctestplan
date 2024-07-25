@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "6E7277D2-063F-4ED5-BC3F-26F5DD57669F",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/MintegralAdapter\/MintegralAdapter.xcodeproj",
+          "identifier" : "2B60DF072761885700AB5537",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD01232C2ABCB0D8002BFE6D",
+        "name" : "MintegralAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

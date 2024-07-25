@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "B0F4C041-4214-47F1-B20D-44FEA8F89110",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/IronSourceAdapter\/IronSourceAdapter.xcodeproj",
+          "identifier" : "7DFABB1C1DA8682C00322E02",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD0D6E912AF5917E002C0B60",
+        "name" : "IronSourceAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
