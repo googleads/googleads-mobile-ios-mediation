@@ -120,14 +120,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
   _interstitialAd.playVideoMute = extras.muteVideoAudio;
-  if ([_interstitialAd isAdReady]) {
-    [_interstitialAd showFromViewController:viewController];
-  } else {
-    NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a bidding interstitial ad.");
-    [_adEventDelegate didFailToPresentWithError:error];
-  }
+  [_interstitialAd showFromViewController:viewController];
 }
 
 @end
