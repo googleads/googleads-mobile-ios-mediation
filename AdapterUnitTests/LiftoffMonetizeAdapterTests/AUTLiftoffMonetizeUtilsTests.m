@@ -3,6 +3,8 @@
 
 #import <XCTest/XCTest.h>
 
+static NSString* const kPlacementID = @"12345";
+
 /// This file contains tests for those GADMAdapterVungleUtils functionalities which are not
 /// excercised by the other tests for the Liftoff adapter.
 @interface AUTLiftoffMonetizeUtilsTests : XCTestCase
@@ -11,63 +13,38 @@
 
 @implementation AUTLiftoffMonetizeUtilsTests
 
-- (void)testAdSizeIsMediumeRectangleForMediumRectangle {
-  GADAdSize adSizeForMediumRectangle = GADMAdapterVungleAdSizeForAdSize(GADAdSizeMediumRectangle);
-
-  XCTAssertEqual(adSizeForMediumRectangle.size.height, GADAdSizeMediumRectangle.size.height);
-  XCTAssertEqual(adSizeForMediumRectangle.size.width, GADAdSizeMediumRectangle.size.width);
-}
-
-- (void)testAdSizeIsShortBannerForShortBanner {
-  const CGSize shortBannerCGSize = {300, 50};
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(shortBannerCGSize);
-
-  GADAdSize adSizeForShortBanner = GADMAdapterVungleAdSizeForAdSize(shortBannerSize);
-
-  XCTAssertEqual(adSizeForShortBanner.size.height, shortBannerSize.size.height);
-  XCTAssertEqual(adSizeForShortBanner.size.width, shortBannerSize.size.width);
-}
-
-- (void)testAdSizeIsBannerForBanner {
-  GADAdSize adSizeForBanner = GADMAdapterVungleAdSizeForAdSize(GADAdSizeBanner);
-
-  XCTAssertEqual(adSizeForBanner.size.height, GADAdSizeBanner.size.height);
-  XCTAssertEqual(adSizeForBanner.size.width, GADAdSizeBanner.size.width);
-}
-
-- (void)testAdSizeIsLeaderboardForLeaderboard {
-  GADAdSize adSizeForLeaderboard = GADMAdapterVungleAdSizeForAdSize(GADAdSizeLeaderboard);
-
-  XCTAssertEqual(adSizeForLeaderboard.size.height, GADAdSizeLeaderboard.size.height);
-  XCTAssertEqual(adSizeForLeaderboard.size.width, GADAdSizeLeaderboard.size.width);
-}
-
-- (void)testAdSizeIsInvalidForUnsupportedSize {
-  GADAdSize adSizeForUnsupportedSize = GADMAdapterVungleAdSizeForAdSize(GADAdSizeSkyscraper);
-
-  XCTAssertEqual(adSizeForUnsupportedSize.size.height, GADAdSizeInvalid.size.height);
-  XCTAssertEqual(adSizeForUnsupportedSize.size.width, GADAdSizeInvalid.size.width);
-}
-
 - (void)testLiftoffSizeForMediumRectangleSize {
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSizeMediumRectangle),
-                 BannerSizeMrec);
+  XCTAssertEqual(
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeMediumRectangle, kPlacementID),
+      VungleAdSize.VungleAdSizeMREC);
 }
 
 - (void)testLiftoffSizeForLeaderboardSize {
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSizeLeaderboard),
-                 BannerSizeLeaderboard);
+  XCTAssertEqual(
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeLeaderboard, kPlacementID),
+      VungleAdSize.VungleAdSizeLeaderboard);
 }
 
 - (void)testLiftoffSizeForStandardBannerSize {
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSizeBanner), BannerSizeRegular);
+  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeBanner, kPlacementID),
+                 VungleAdSize.VungleAdSizeBannerRegular);
 }
 
 - (void)testLiftoffSizeForShortBannerSize {
   const CGSize shortBannerCGSize = {300, 50};
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(shortBannerCGSize);
 
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToBannerSize(shortBannerSize), BannerSizeShort);
+  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToVungleAdSize(shortBannerSize, kPlacementID),
+                 VungleAdSize.VungleAdSizeBannerShort);
+}
+
+- (void)testLiftoffReturnsCustomSizeForNonStandardGoogleBannerSize {
+  VungleAdSize* vungleAdSize =
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeSkyscraper, kPlacementID);
+
+  XCTAssertNotNil(vungleAdSize);
+  XCTAssertEqual(vungleAdSize.size.width, GADAdSizeSkyscraper.size.width);
+  XCTAssertEqual(vungleAdSize.size.height, GADAdSizeSkyscraper.size.height);
 }
 
 @end

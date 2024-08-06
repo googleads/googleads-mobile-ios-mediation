@@ -25,48 +25,9 @@ NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungle
   return error;
 }
 
-const CGSize kVNGBannerShortSize = {300, 50};
-GADAdSize GADMAdapterVungleAdSizeForAdSize(GADAdSize adSize) {
-  if (adSize.size.height >= GADAdSizeMediumRectangle.size.height &&
-      adSize.size.width >= GADAdSizeMediumRectangle.size.width) {
-    return GADAdSizeMediumRectangle;
-  }
-
-  // An array of supported ad sizes.
-  GADAdSize shortBannerSize = GADAdSizeFromCGSize(kVNGBannerShortSize);
-  NSArray<NSValue *> *potentials = @[
-    NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard),
-    NSValueFromGADAdSize(shortBannerSize)
-  ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(adSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == GADAdSizeBanner.size.height) {
-    if (size.width < GADAdSizeBanner.size.width) {
-      return shortBannerSize;
-    } else {
-      return GADAdSizeBanner;
-    }
-  } else if (size.height == GADAdSizeLeaderboard.size.height) {
-    return GADAdSizeLeaderboard;
-  }
-  return GADAdSizeInvalid;
-}
-
-BannerSize GADMAdapterVungleConvertGADAdSizeToBannerSize(GADAdSize adSize) {
-  if (GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle)) {
-    return BannerSizeMrec;
-  }
-  if (adSize.size.height == GADAdSizeLeaderboard.size.height) {
-    return BannerSizeLeaderboard;
-  }
-
-  // Vungle SDK will try to fit the banner in the view, but the true height of the asset
-  // is 50px since this is the only supported size.
-  if (adSize.size.width < GADAdSizeBanner.size.width) {
-    return BannerSizeShort;
-  }
-  return BannerSizeRegular;
+VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
+    GADAdSize adSize, NSString *_Nonnull placementId) {
+  return [VungleAdSize VungleValidAdSizeFromCGSizeWithSize:adSize.size placementId:placementId];
 }
 
 @implementation GADMAdapterVungleUtils

@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Added custom size banner ad support.
+
 #### [Version 7.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.0.0.zip)
 - Verified compatibility with Vungle SDK 7.4.0.
 

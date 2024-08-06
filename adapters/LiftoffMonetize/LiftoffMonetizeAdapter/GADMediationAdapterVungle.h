@@ -18,8 +18,6 @@
 typedef NS_ENUM(NSInteger, GADMAdapterVungleErrorCode) {
   /// Missing server parameters.
   GADMAdapterVungleErrorInvalidServerParameters = 101,
-  /// Banner Size Mismatch.
-  GADMAdapterVungleErrorBannerSizeMismatch = 103,
   /// Liftoff SDK is not ready to play the ad.
   GADMAdapterVungleErrorCannotPlayAd = 107
 };

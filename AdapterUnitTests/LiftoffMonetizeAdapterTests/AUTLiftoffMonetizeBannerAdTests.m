@@ -23,11 +23,8 @@ static NSString *const kBidResponse = @"bidResponse";
   /// An adapter instance that is used to test loading of a banner ad.
   GADMediationAdapterVungle *_adapter;
 
-  /// A mock instance of VungleBanner.
+  /// A mock instance of VungleBannerView.
   id _bannerMock;
-
-  /// UIView that's sent to Google's view property and for Liftoff Monetize to mount the ad.
-  UIView *_bannerView;
 }
 
 - (void)setUp {
@@ -35,7 +32,7 @@ static NSString *const kBidResponse = @"bidResponse";
 
   _adapter = [[GADMediationAdapterVungle alloc] init];
 
-  _bannerMock = OCMClassMock([VungleBanner class]);
+  _bannerMock = OCMClassMock([VungleBannerView class]);
   OCMStub([_bannerMock alloc]).andReturn(_bannerMock);
 }
 
@@ -84,8 +81,9 @@ static NSString *const kBidResponse = @"bidResponse";
   configuration.extras = extras;
   configuration.bidResponse = kBidResponse;
   configuration.adSize = GADAdSizeBanner;
-  __block id<VungleBannerDelegate> loadDelegate = nil;
-  OCMExpect([_bannerMock initWithPlacementId:kPlacementID size:BannerSizeRegular])
+  __block id<VungleBannerViewDelegate> loadDelegate = nil;
+  OCMExpect([_bannerMock initWithPlacementId:kPlacementID
+                                vungleAdSize:VungleAdSize.VungleAdSizeBannerRegular])
       .andReturn(_bannerMock);
   OCMExpect([_bannerMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
@@ -98,11 +96,6 @@ static NSString *const kBidResponse = @"bidResponse";
   id vungleAdsExtrasMock = OCMClassMock([VungleAdsExtras class]);
   OCMStub([vungleAdsExtrasMock alloc]).andReturn(vungleAdsExtrasMock);
   OCMExpect([_bannerMock setWithExtras:vungleAdsExtrasMock]);
-  OCMExpect([_bannerMock presentOn:[OCMArg checkWithBlock:^(id value) {
-                           // Capture the UIView on which the banner ad is mounted.
-                           self->_bannerView = value;
-                           return YES;
-                         }]]);
 
   id<GADMediationBannerAdEventDelegate> delegate =
       AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
@@ -138,17 +131,6 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMVerifyAll(vungleRouterMock);
 }
 
-- (void)testLoadBannerFailureWithInvalidBannerSize {
-  AUTKMediationBannerAdConfiguration *configuration =
-      [[AUTKMediationBannerAdConfiguration alloc] init];
-  configuration.adSize = GADAdSizeSkyscraper;
-
-  NSError *expectedError = [NSError errorWithDomain:GADMAdapterVungleErrorDomain
-                                               code:GADMAdapterVungleErrorBannerSizeMismatch
-                                           userInfo:nil];
-  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
-}
-
 - (void)testLoadBannerFailureWhenLiftoffFailsToLoadAd {
   id vungleAdsClassMock = OCMClassMock([VungleAds class]);
   OCMStub([vungleAdsClassMock isInitialized]).andReturn(YES);
@@ -158,9 +140,10 @@ static NSString *const kBidResponse = @"bidResponse";
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.adSize = GADAdSizeBanner;
-  OCMStub([_bannerMock initWithPlacementId:kPlacementID size:BannerSizeRegular])
+  OCMStub([_bannerMock initWithPlacementId:kPlacementID
+                              vungleAdSize:VungleAdSize.VungleAdSizeBannerRegular])
       .andReturn(_bannerMock);
-  __block id<VungleBannerDelegate> loadDelegate = nil;
+  __block id<VungleBannerViewDelegate> loadDelegate = nil;
   OCMStub([_bannerMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
@@ -169,7 +152,7 @@ static NSString *const kBidResponse = @"bidResponse";
                           code:1
                       userInfo:@{NSLocalizedDescriptionKey : @"Banner ad load failed."}];
   OCMStub([_bannerMock load:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate bannerAdDidFailToLoad:self->_bannerMock withError:liftoffError];
+    [loadDelegate bannerAdDidFail:self->_bannerMock withError:liftoffError];
   });
 
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, liftoffError);
@@ -187,7 +170,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdWillPresentDoesNotCrash {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   // The body of this function is empty. This test just tests that this function doesn't crash.
   [vungleBannerDelegate bannerAdWillPresent:_bannerMock];
@@ -195,7 +179,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdDidPresentDoesNotCrash {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   // The body of this function is empty. This test just tests that this function doesn't crash.
   [vungleBannerDelegate bannerAdDidPresent:_bannerMock];
@@ -203,20 +188,20 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdDidFailToPresentInvokesPresentErrorOnDelegate {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   NSError *liftoffError =
       [NSError errorWithDomain:@"liftoff.domain"
                           code:2
                       userInfo:@{NSLocalizedDescriptionKey : @"Banner ad presentation failed."}];
-  [vungleBannerDelegate
-      bannerAdDidFailToPresent:_bannerMock
-                     withError:[NSError errorWithDomain:@"liftoff.domain"
-                                                   code:2
-                                               userInfo:@{
-                                                 NSLocalizedDescriptionKey :
-                                                     @"Banner ad presentation failed."
-                                               }]];
+  [vungleBannerDelegate bannerAdDidFail:_bannerMock
+                              withError:[NSError errorWithDomain:@"liftoff.domain"
+                                                            code:2
+                                                        userInfo:@{
+                                                          NSLocalizedDescriptionKey :
+                                                              @"Banner ad presentation failed."
+                                                        }]];
 
   NSError *presentationError = eventDelegate.didFailToPresentError;
   XCTAssertEqualObjects(presentationError, liftoffError);
@@ -224,7 +209,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdWillCloseDoesNotCrash {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   // The body of this function is empty. This test just tests that this function doesn't crash.
   [vungleBannerDelegate bannerAdWillClose:_bannerMock];
@@ -232,7 +218,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdDidCloseDoesNotCrash {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   // The body of this function is empty. This test just tests that this function doesn't crash.
   [vungleBannerDelegate bannerAdDidClose:_bannerMock];
@@ -240,7 +227,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdDidTrackImpressionInvokesReportImpressionOnDelegate {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 0);
 
   [vungleBannerDelegate bannerAdDidTrackImpression:_bannerMock];
@@ -250,7 +238,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdDidClickInvokesReportClickOnDelegate {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 0);
 
   [vungleBannerDelegate bannerAdDidClick:_bannerMock];
@@ -260,7 +249,8 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testBannerAdWillLeaveApplicationDoesNotCrash {
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
-  id<VungleBannerDelegate> vungleBannerDelegate = (id<VungleBannerDelegate>)eventDelegate.bannerAd;
+  id<VungleBannerViewDelegate> vungleBannerDelegate =
+      (id<VungleBannerViewDelegate>)eventDelegate.bannerAd;
 
   // The body of this function only calls the deprecated function willBackgroundApplication on the
   // delegate. Not testing for that function call since it is deprecated. Just testing that this
@@ -272,7 +262,7 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadBannerAndGetEventDelegate];
   id<GADMediationBannerAd> mediationBannerAd = eventDelegate.bannerAd;
 
-  XCTAssertEqual(mediationBannerAd.view, self->_bannerView);
+  XCTAssertEqual(mediationBannerAd.view, self->_bannerMock);
 }
 
 @end
