@@ -178,6 +178,13 @@
   return YES;
 }
 
+- (CGFloat)mediaContentAspectRatio {
+  if (_nativeAd) {
+    return [_nativeAd getMediaAspectRatio];
+  }
+  return 0.0;
+}
+
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
            (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
