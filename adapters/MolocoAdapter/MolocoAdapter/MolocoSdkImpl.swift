@@ -14,8 +14,8 @@
 
 import MolocoSDK
 
-/// Implementation of MolocoInitializerProtocol that calls corresponding Moloco SDK methods.
-class MolocoSdkImpl: MolocoInitializer {
+/// Implementation of protocols that calls corresponding Moloco SDK methods.
+class MolocoSdkImpl: MolocoInitializer, MolocoInterstitialFactory {
 
   @available(iOS 13.0, *)
   func initialize(
@@ -27,4 +27,12 @@ class MolocoSdkImpl: MolocoInitializer {
   func isInitialized() -> Bool {
     return Moloco.shared.state.isInitialized
   }
+
+  @MainActor @available(iOS 13.0, *)
+  func createInterstitial(for adUnit: String, delegate: (any MolocoSDK.MolocoInterstitialDelegate))
+    -> (any MolocoSDK.MolocoInterstitial)?
+  {
+    Moloco.shared.createInterstitial(for: adUnit, delegate: delegate)
+  }
+
 }
