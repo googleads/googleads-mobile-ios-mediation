@@ -100,17 +100,17 @@
   [_nativeAd setWithExtras:extras];
   VungleAdNetworkExtras *networkExtras = _adConfiguration.extras;
   switch (networkExtras.nativeAdOptionPosition) {
-    case 1:
-      _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopLeft;
-      break;
-    case 2:
+    case GADAdChoicesPositionTopRightCorner:
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
       break;
-    case 3:
-      _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomLeft;
+    case GADAdChoicesPositionTopLeftCorner:
+      _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopLeft;
       break;
-    case 4:
+    case GADAdChoicesPositionBottomRightCorner:
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomRight;
+      break;
+    case GADAdChoicesPositionBottomLeftCorner:
+      _nativeAd.adOptionsPosition = NativeAdOptionsPositionBottomLeft;
       break;
     default:
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;

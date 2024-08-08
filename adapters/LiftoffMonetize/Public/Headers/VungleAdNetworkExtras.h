@@ -26,9 +26,10 @@
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
 /*!
- * @brief NSInteger that will be passed to alter the privacy icon position for native ads.
- * @discussion Optional. topLeft = 1, topRight = 2, bottomLeft = 3, bottomRight = 4
+ * @brief GAAdChoicesPosition enum that will be passed to alter the privacy icon position for
+ * native ads.
+ * @discussion Optional. topRight = 0, topLeft = 1, bottomRight = 2, bottomLeft = 3
  */
-@property(nonatomic, assign) NSInteger nativeAdOptionPosition;
+@property(nonatomic, assign) GADAdChoicesPosition nativeAdOptionPosition;
 
 @end
