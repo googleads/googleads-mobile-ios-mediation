@@ -26,7 +26,7 @@
 @property(nonatomic, copy) NSString *_Nullable playingPlacement;
 
 /*!
- * @brief GAAdChoicesPosition enum that will be passed to alter the privacy icon position for
+ * @brief GADAdChoicesPosition enum that will be passed to alter the privacy icon position for
  * native ads.
  * @discussion Optional. topRight = 0, topLeft = 1, bottomRight = 2, bottomLeft = 3
  */
