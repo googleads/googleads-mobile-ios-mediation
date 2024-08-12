@@ -12,32 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import Foundation
 import MolocoSDK
 
-/// Implementation of MolocoInitializerProtocol that calls corresponding Moloco SDK methods.
-class MolocoSdkImpl: MolocoInitializer {
-
+/// Protocol for a factory of Moloco rewarded ads.
+public protocol MolocoRewardedFactory {
   @available(iOS 13.0, *)
-  func initialize(
-    initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
-  ) {
-    Moloco.shared.initialize(initParams: initParams, completion: completion)
-  }
-
-  func isInitialized() -> Bool {
-    return Moloco.shared.state.isInitialized
-  }
-}
-
-// MARK: - MolocoRewardedFactory
-
-extension MolocoSdkImpl: MolocoRewardedFactory {
-
   func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
     any MolocoSDK.MolocoRewardedInterstitial
-  )? {
-    // TODO(kricheso): Implement.
-    return nil
-  }
-
+  )?
 }
