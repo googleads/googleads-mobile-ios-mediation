@@ -27,6 +27,7 @@
 		70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */; };
 		70E0D7752C47A8C900241981 /* GoogleMobileAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */; };
 		70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */; };
+		856602ED2C642DE70068D786 /* FakeMolocoRewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */; };
 		8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */; };
 		AD0123302ABCB0D8002BFE6D /* AUTMintegralAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD01232F2ABCB0D8002BFE6D /* AUTMintegralAdapterTests.m */; };
 		AD0123362ABCB10B002BFE6D /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0123242ABCB0AE002BFE6D /* libAdapter.a */; };
@@ -538,6 +539,7 @@
 		70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:9T245VHMPL:Moloco, Inc."; lastKnownFileType = wrapper.xcframework; name = MolocoSDK.xcframework; path = Pods/MolocoSDKiOS/MolocoSDK.xcframework; sourceTree = "<group>"; };
 		70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapterTest.swift; sourceTree = "<group>"; };
+		856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewarded.swift; sourceTree = "<group>"; };
 		8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoRewardedAdTest.swift; sourceTree = "<group>"; };
 		AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MintegralAdapter.xcodeproj; path = ../adapters/MintegralAdapter/MintegralAdapter.xcodeproj; sourceTree = "<group>"; };
 		AD01232D2ABCB0D8002BFE6D /* MintegralAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MintegralAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -854,10 +856,19 @@
 		7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				856602C42C642DD60068D786 /* Fakes */,
 				70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */,
 				8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */,
 			);
 			path = MolocoAdapterTests;
+			sourceTree = "<group>";
+		};
+		856602C42C642DD60068D786 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
+			);
+			path = Fakes;
 			sourceTree = "<group>";
 		};
 		A9D6475042796F097447FCB2 /* Pods */ = {
@@ -1986,6 +1997,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
+				856602ED2C642DE70068D786 /* FakeMolocoRewarded.swift in Sources */,
 				8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
