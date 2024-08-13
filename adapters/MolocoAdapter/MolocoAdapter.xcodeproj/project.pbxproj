@@ -32,6 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		706083C72C47CDB100896E93 /* MolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */; };
 		7072CDE82C409510002BF6AE /* MolocoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE72C409510002BF6AE /* MolocoUtils.swift */; };
 		7072CDEA2C40A03B002BF6AE /* MolocoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */; };
 		70E380442C45E862004CCB92 /* MolocoAdapterErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380432C45E862004CCB92 /* MolocoAdapterErrorCode.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInterstitialFactory.swift; sourceTree = "<group>"; };
 		7072CDE72C409510002BF6AE /* MolocoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoUtils.swift; sourceTree = "<group>"; };
 		7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoConstants.swift; sourceTree = "<group>"; };
 		70E380432C45E862004CCB92 /* MolocoAdapterErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoAdapterErrorCode.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				70E380E72C4723FD004CCB92 /* MolocoInitializer.swift */,
 				70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */,
 				8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */,
+				706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */,
 			);
 			path = MolocoAdapter;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				ADFA84BD2C17704300A501AB /* MolocoMediationAdapter.swift in Sources */,
 				70E380442C45E862004CCB92 /* MolocoAdapterErrorCode.swift in Sources */,
 				ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */,
+				706083C72C47CDB100896E93 /* MolocoInterstitialFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

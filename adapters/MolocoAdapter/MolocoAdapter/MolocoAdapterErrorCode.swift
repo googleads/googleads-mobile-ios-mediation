@@ -20,4 +20,5 @@ import Foundation
 public enum MolocoAdapterErrorCode: Int {
   case adServingNotSupported = 101
   case invalidAppID = 102
+  case invalidAdUnitId = 103
 }

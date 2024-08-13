@@ -14,6 +14,9 @@
 		701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		701E23872AAD8CB100BAB0B3 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701E237F2AAD8C8300BAB0B3 /* libAdapter.a */; };
 		701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */; };
+		706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */; };
+		70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */; };
+		70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */; };
 		7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */; };
 		707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */; };
@@ -525,6 +528,9 @@
 		701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PangleAdapter.xcodeproj; path = ../adapters/PangleAdapter/PangleAdapter.xcodeproj; sourceTree = "<group>"; };
 		701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterTests.m; sourceTree = "<group>"; };
+		706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInterstitialAdTest.swift; sourceTree = "<group>"; };
+		70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitial.swift; sourceTree = "<group>"; };
+		70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitialFactory.swift; sourceTree = "<group>"; };
 		7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MolocoAdapter.xcodeproj; path = ../adapters/MolocoAdapter/MolocoAdapter.xcodeproj; sourceTree = "<group>"; };
 		7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MolocoAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
@@ -844,6 +850,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		70608B4E2C51C5FC00896E93 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */,
+				70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */,
+				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
+			);
+			path = Fakes;
+			sourceTree = "<group>";
+		};
 		7072CF532C41F8BD002BF6AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,19 +872,12 @@
 		7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
-				856602C42C642DD60068D786 /* Fakes */,
+				70608B4E2C51C5FC00896E93 /* Fakes */,
 				70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */,
+				706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */,
 				8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */,
 			);
 			path = MolocoAdapterTests;
-			sourceTree = "<group>";
-		};
-		856602C42C642DD60068D786 /* Fakes */ = {
-			isa = PBXGroup;
-			children = (
-				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
-			);
-			path = Fakes;
 			sourceTree = "<group>";
 		};
 		A9D6475042796F097447FCB2 /* Pods */ = {
@@ -1997,6 +2006,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
+				70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */,
+				70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */,
+				706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */,
 				856602ED2C642DE70068D786 /* FakeMolocoRewarded.swift in Sources */,
 				8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */,
 			);

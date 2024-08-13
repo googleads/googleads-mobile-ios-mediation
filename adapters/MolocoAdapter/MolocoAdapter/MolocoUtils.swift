@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import Foundation
+import GoogleMobileAds
 
 /// Contains utility methods for Moloco adapter.
 final class MolocoUtils {
@@ -27,5 +28,11 @@ final class MolocoUtils {
 
   static func log(_ logMessage: String) {
     NSLog("GADMediationAdapterMoloco - \(logMessage)")
+  }
+
+  static func getAdUnitId(from adConfiguration: GADMediationAdConfiguration) -> String? {
+    adConfiguration.isTestRequest
+      ? MolocoConstants.molocoTestAdUnitName
+      : adConfiguration.credentials.settings[MolocoConstants.adUnitIdKey] as? String
   }
 }
