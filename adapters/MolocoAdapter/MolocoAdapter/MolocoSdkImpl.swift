@@ -47,11 +47,11 @@ extension MolocoSdkImpl: MolocoInterstitialFactory {
 
 extension MolocoSdkImpl: MolocoRewardedFactory {
 
+  @MainActor @available(iOS 13.0, *)
   func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
     any MolocoSDK.MolocoRewardedInterstitial
   )? {
-    // TODO(kricheso): Implement.
-    return nil
+    Moloco.shared.createRewarded(for: adUnit, delegate: delegate)
   }
 
 }
