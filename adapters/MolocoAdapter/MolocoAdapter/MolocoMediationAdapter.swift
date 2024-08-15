@@ -71,9 +71,10 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
       return
     }
 
-    let appIDs = configuration.credentials.compactMap {
-      $0.settings[MolocoConstants.appIDKey] as? String
-    }.filter { !$0.isEmpty }
+    let appIDs = Set(
+      configuration.credentials.compactMap {
+        $0.settings[MolocoConstants.appIDKey] as? String
+      }.filter { !$0.isEmpty })
 
     guard let appID = appIDs.first else {
       MolocoUtils.log("Not initializing Moloco SDK because because appId is invalid/missing")

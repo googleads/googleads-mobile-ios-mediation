@@ -31,17 +31,15 @@ final class MolocoMediationAdapterTest: XCTestCase {
   /// A fake implementation of MolocoInitializer protocol that mimics successful initialization.
   class MolocoInitializerThatSucceeds: MolocoInitializer {
 
-    var expectedAppKey: String
-
-    init(expectedAppKey: String) {
-      self.expectedAppKey = expectedAppKey
-    }
+    /// Var to capture the app ID that is used to initialize the Moloco SDK. Used for assertion. It
+    /// is initlialized to a value that is never asserted for.
+    var appIDUsedToInitializeMoloco: String = ""
 
     @available(iOS 13.0, *)
     func initialize(
       initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
     ) {
-      XCTAssertEqual(initParams.appKey, expectedAppKey)
+      appIDUsedToInitializeMoloco = initParams.appKey
       completion?(true, nil)
     }
 
@@ -52,17 +50,18 @@ final class MolocoMediationAdapterTest: XCTestCase {
   }
 
   func testSetUpSuccess() throws {
-    MolocoMediationAdapter.setMolocoInitializer(
-      MolocoInitializerThatSucceeds(expectedAppKey: appKey1))
+    let molocoInitializer = MolocoInitializerThatSucceeds()
+    MolocoMediationAdapter.setMolocoInitializer(molocoInitializer)
     let credentials = AUTKMediationCredentials()
     credentials.settings = [MolocoConstants.appIDKey: appKey1]
 
     AUTKWaitAndAssertAdapterSetUpWithCredentials(MolocoMediationAdapter.self, credentials)
+    XCTAssertEqual(molocoInitializer.appIDUsedToInitializeMoloco, appKey1)
   }
 
   func testSetUpSuccess_evenIfMultipleAppKeysFoundInCredentials() throws {
     MolocoMediationAdapter.setMolocoInitializer(
-      MolocoInitializerThatSucceeds(expectedAppKey: appKey1))
+      MolocoInitializerThatSucceeds())
     let credentials1 = AUTKMediationCredentials()
     credentials1.settings = [MolocoConstants.appIDKey: appKey1]
     let credentials2 = AUTKMediationCredentials()
