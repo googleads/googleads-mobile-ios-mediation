@@ -36,15 +36,18 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// An instance of MolocoSdkImpl. MolocoSdkImpl implements calls to Moloco SDK.
   private static let molocoSdkImpl = MolocoSdkImpl()
 
+  /// Used to initialize the Moloco SDK.
   private static var molocoInitializer: MolocoInitializer = molocoSdkImpl
 
+  /// Used to create Moloco interstitial ads.
   private var molocoInterstitialFactory: MolocoInterstitialFactory = MolocoMediationAdapter
     .molocoSdkImpl
 
+  /// Used to create Moloco rewarded ads.
   private var molocoRewardedFactory: MolocoRewardedFactory = MolocoMediationAdapter.molocoSdkImpl
 
   public override init() {
-    molocoInterstitialFactory = MolocoMediationAdapter.molocoSdkImpl
+    // Conform to GADMediationAdapter protocol.
   }
 
   /// Initializer used only for testing purpose.
