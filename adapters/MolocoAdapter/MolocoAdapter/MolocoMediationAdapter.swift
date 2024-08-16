@@ -38,7 +38,10 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
 
   private static var molocoInitializer: MolocoInitializer = molocoSdkImpl
 
-  private var molocoInterstitialFactory: MolocoInterstitialFactory
+  private var molocoInterstitialFactory: MolocoInterstitialFactory = MolocoMediationAdapter
+    .molocoSdkImpl
+
+  private var molocoRewardedFactory: MolocoRewardedFactory = MolocoMediationAdapter.molocoSdkImpl
 
   public override init() {
     molocoInterstitialFactory = MolocoMediationAdapter.molocoSdkImpl
@@ -47,6 +50,11 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// Initializer used only for testing purpose.
   init(molocoInterstitialFactory: MolocoInterstitialFactory) {
     self.molocoInterstitialFactory = molocoInterstitialFactory
+  }
+
+  /// Initializer used only for testing purpose.
+  init(molocoRewardedFactory: MolocoRewardedFactory) {
+    self.molocoRewardedFactory = molocoRewardedFactory
   }
 
   /// Setter used only for testing purpose.
@@ -138,11 +146,12 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     interstitialAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |RewardedAdLoader| class as well.
+  @MainActor
   @objc public func loadRewardedAd(
     for adConfiguration: GADMediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
+    // TODO(kricheso): Utilize self.molocoRewardedFactory during rewardedAdLoader creation.
     rewardedAdLoader = RewardedAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     rewardedAdLoader?.loadAd()
