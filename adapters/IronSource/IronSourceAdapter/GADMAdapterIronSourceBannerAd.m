@@ -80,57 +80,69 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
             @"Missing or invalid IronSource banner ad Instance ID. Using the default instance ID."];
     self.instanceID = GADMIronSourceDefaultInstanceId;
   }
-
+    
   [[GADMediationAdapterIronSource alloc]
       initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_BANNER]];
-  if (bannerDelegate == nil) {
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"IronSource adapter banner delegate is null."]];
-    return;
-  }
+                       forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+      if (error) {
+          NSLog(@"Failed to initialize IronSource SDK: %@", error);
+          _bannerAdLoadCompletionHandler(nil, error);
+      } else {
+          NSLog(@"IronSource SDK initialized successfully");
+          [self loadBannerAdAfterInit:adConfiguration completionHandler:completionHandler];
+      }
+  }];
+}
 
-  GADAdSize adSize = adConfiguration.adSize;
-  ISBannerSize *ISBannerSize =
-      [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
-  if (ISBannerSize == nil) {
-    NSString *errorMessage = [NSString
-        stringWithFormat:
-            @"Unsupported ad size requested for IronSource. Requested size: %@, Instance ID: %@",
-            NSStringFromGADAdSize(adSize), self.instanceID];
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorBannerSizeMismatch, errorMessage);
-    _bannerAdLoadCompletionHandler(nil, error);
-    return;
-  }
+- (void)loadBannerAdAfterInit:(GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+    if (bannerDelegate == nil) {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"IronSource adapter banner delegate is null."]];
+      return;
+    }
 
-  if ([self canLoadBannerInstance]) {
-    [self setState:GADMAdapterIronSourceInstanceStateLocked];
-    [GADMAdapterIronSourceBannerAd setDelegate:self forKey:self.instanceID];
+    GADAdSize adSize = adConfiguration.adSize;
+    ISBannerSize *ISBannerSize =
+        [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
+    if (ISBannerSize == nil) {
+      NSString *errorMessage = [NSString
+          stringWithFormat:
+              @"Unsupported ad size requested for IronSource. Requested size: %@, Instance ID: %@",
+              NSStringFromGADAdSize(adSize), self.instanceID];
+      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+          GADMAdapterIronSourceErrorBannerSizeMismatch, errorMessage);
+      _bannerAdLoadCompletionHandler(nil, error);
+      return;
+    }
 
-    [IronSource destroyISDemandOnlyBannerWithInstanceId:self.instanceID];
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Banner set IronSource delegate for instance with ID %@.",
-                                         self.instanceID]];
-    // Even though there is a single static delegate, it handles callbacks for all instances.
-    [IronSource setISDemandOnlyBannerDelegate:bannerDelegate forInstanceId:self.instanceID];
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Loading IronSource banner ad with Instance ID: %@",
-                                         self.instanceID]];
-    [IronSource loadISDemandOnlyBannerWithInstanceId:self.instanceID
-                                      viewController:adConfiguration.topViewController
-                                                size:ISBannerSize];
-  } else {
-    NSString *errorMsg =
-        [NSString stringWithFormat:@"IronSource banner ad with Instance ID: '%@' already loaded. "
-                                   @"Cannot load another one at the same time!",
-                                   self.instanceID];
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
-    [GADMAdapterIronSourceUtils onLog:errorMsg];
-    _bannerAdLoadCompletionHandler(nil, error);
-    return;
-  }
+    if ([self canLoadBannerInstance]) {
+      [self setState:GADMAdapterIronSourceInstanceStateLocked];
+      [GADMAdapterIronSourceBannerAd setDelegate:self forKey:self.instanceID];
+
+      [IronSource destroyISDemandOnlyBannerWithInstanceId:self.instanceID];
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"Banner set IronSource delegate for instance with ID %@.",
+                                           self.instanceID]];
+      // Even though there is a single static delegate, it handles callbacks for all instances.
+      [IronSource setISDemandOnlyBannerDelegate:bannerDelegate forInstanceId:self.instanceID];
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"Loading IronSource banner ad with Instance ID: %@",
+                                           self.instanceID]];
+      [IronSource loadISDemandOnlyBannerWithInstanceId:self.instanceID
+                                        viewController:adConfiguration.topViewController
+                                                  size:ISBannerSize];
+    } else {
+      NSString *errorMsg =
+          [NSString stringWithFormat:@"IronSource banner ad with Instance ID: '%@' already loaded. "
+                                     @"Cannot load another one at the same time!",
+                                     self.instanceID];
+      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
+      [GADMAdapterIronSourceUtils onLog:errorMsg];
+      _bannerAdLoadCompletionHandler(nil, error);
+      return;
+    }
 }
 
 #pragma mark - Instance map access

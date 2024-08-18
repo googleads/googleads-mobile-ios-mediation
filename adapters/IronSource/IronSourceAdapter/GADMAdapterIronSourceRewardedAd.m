@@ -79,42 +79,54 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
     self.instanceID = GADMIronSourceDefaultInstanceId;
   }
 
-  [[GADMediationAdapterIronSource alloc]
-      initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO]];
+    [[GADMediationAdapterIronSource alloc]
+        initIronSourceSDKWithAppKey:applicationKey
+                         forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Failed to initialize IronSource SDK: %@", error);
+            _rewardedVideoAdLoadCompletionHandler(nil, error);
+        } else {
+            NSLog(@"IronSource SDK initialized successfully");
+            [self loadRewardedAdAfterInit:adConfiguration completionHandler:completionHandler];
+        }
+    }];
+}
 
-  if (rewardedDelegate == nil) {
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"IronSource adapter rewarded delegate is null."]];
-    return;
-  }
-
-  if ([self canLoadRewardedVideoInstance]) {
-    [self setState:GADMAdapterIronSourceInstanceStateLocked];
-    GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, self.instanceID, self);
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
-                                         self.instanceID]];
-
-    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
-    NSString *bidResponse = adConfiguration.bidResponse;
-    if(bidResponse) {
-      [IronSource loadISDemandOnlyRewardedVideoWithAdm:self.instanceID adm:bidResponse];
-    } else{
-      [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+- (void)loadRewardedAdAfterInit:(GADMediationRewardedAdConfiguration *)adConfiguration
+                  completionHandler:
+(GADMediationRewardedLoadCompletionHandler)completionHandler{
+    if (rewardedDelegate == nil) {
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"IronSource adapter rewarded delegate is null."]];
+      return;
     }
-  } else {
-    NSString *errorMsg =
-        [NSString stringWithFormat:
-                      @"IronSource rewarded ad with Instance ID: '%@' already loaded. Cannot load "
-                      @"another one at the same time!",
-                      self.instanceID];
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
-    [GADMAdapterIronSourceUtils onLog:errorMsg];
-    _rewardedVideoAdLoadCompletionHandler(nil, error);
-    return;
-  }
+
+    if ([self canLoadRewardedVideoInstance]) {
+      [self setState:GADMAdapterIronSourceInstanceStateLocked];
+      GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, self.instanceID, self);
+      [GADMAdapterIronSourceUtils
+          onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
+                                           self.instanceID]];
+
+      [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
+      NSString *bidResponse = adConfiguration.bidResponse;
+      if(bidResponse) {
+        [IronSource loadISDemandOnlyRewardedVideoWithAdm:self.instanceID adm:bidResponse];
+      } else{
+        [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+      }
+    } else {
+      NSString *errorMsg =
+          [NSString stringWithFormat:
+                        @"IronSource rewarded ad with Instance ID: '%@' already loaded. Cannot load "
+                        @"another one at the same time!",
+                        self.instanceID];
+      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
+      [GADMAdapterIronSourceUtils onLog:errorMsg];
+      _rewardedVideoAdLoadCompletionHandler(nil, error);
+      return;
+    }
 }
 
 #pragma mark - Instance map access
