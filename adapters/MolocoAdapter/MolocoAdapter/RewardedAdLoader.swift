@@ -24,16 +24,36 @@ final class RewardedAdLoader: NSObject {
   /// The ad event delegate which is used to report rewarded related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: GADMediationRewardedAdEventDelegate?
 
+  /// The completion handler to call when the rewarded ad loading succeeds or fails.
+  private let loadCompletionHandler: GADMediationRewardedLoadCompletionHandler
+
   init(
     adConfiguration: GADMediationRewardedAdConfiguration,
     loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
     self.adConfiguration = adConfiguration
+    self.loadCompletionHandler = loadCompletionHandler
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |rewardedAdLoadCompletionHandler| after loading an ad.
+    guard #available(iOS 13.0, *) else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adServingNotSupported,
+        description: "Moloco SDK does not support serving ads on iOS 12 and below")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    let molocoAdUnitID = MolocoUtils.getAdUnitId(from: adConfiguration)
+    guard let molocoAdUnitID = molocoAdUnitID else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    // TODO(kricheso): Load the ad.
   }
 
 }
