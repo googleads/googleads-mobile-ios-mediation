@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import MolocoSDK
 
 /// Loads and presents rewarded ads on Moloco ads SDK.
 final class RewardedAdLoader: NSObject {
@@ -69,5 +70,44 @@ extension RewardedAdLoader: GADMediationRewardedAd {
 
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - MolocoRewardedDelegate
+
+extension RewardedAdLoader: MolocoRewardedDelegate {
+
+  func userRewarded(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func rewardedVideoStarted(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func rewardedVideoCompleted(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func didLoad(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func failToLoad(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func didShow(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func failToShow(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func didHide(ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+  func didClick(on ad: any MolocoSDK.MolocoAd) {
+    // TODO: b/360350265 - Add implementation.
+  }
+
+}
