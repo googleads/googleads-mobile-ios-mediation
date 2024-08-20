@@ -21,16 +21,28 @@ final class FakeMolocoInterstitialFactory: MolocoInterstitialFactory {
 
   let loadError: NSError?
 
+  let isReadyToBeShown: Bool
+
+  let showShallSucceed: Bool
+
+  let showError: NSError?
+
   /// Var to capture the ad unit ID that was used to create the Moloco interstitial ad object.
   /// Used for assertion. It is initlialized to a value that is never asserted for.
   var adUnitIDUsedToCreateMolocoAd: String = ""
 
   var fakeMolocoInterstitial: FakeMolocoInterstitial?
 
-  /// loadError object is needed to create FakeMolocoInterstitial. See FakeMolocoInterstitial for
-  /// how loadError is used.
-  init(loadError: NSError?) {
+  /// The parameters passed here are used to create FakeMolocoInterstitial. See FakeMolocoInterstitial for
+  /// how these parameters are used.
+  init(
+    loadError: NSError?, isReadyToBeShown: Bool = false, showShallSucceed: Bool = true,
+    showError: NSError? = nil
+  ) {
     self.loadError = loadError
+    self.isReadyToBeShown = isReadyToBeShown
+    self.showShallSucceed = showShallSucceed
+    self.showError = showError
   }
 
   func createInterstitial(
@@ -38,7 +50,9 @@ final class FakeMolocoInterstitialFactory: MolocoInterstitialFactory {
   ) -> (any MolocoInterstitial)? {
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoInterstitial = FakeMolocoInterstitial(
-      interstitialDelegate: delegate, loadError: loadError)
+      interstitialDelegate: delegate, loadError: loadError, isReadyToBeShown: isReadyToBeShown,
+      showShallSucceed: showShallSucceed,
+      showError: showError)
     return fakeMolocoInterstitial
   }
 

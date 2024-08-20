@@ -98,4 +98,82 @@ final class MolocoInterstitialAdTest: XCTestCase {
 
     AUTKWaitAndAssertLoadInterstitialAdFailure(adapter, mediationAdConfig, loadError)
   }
+
+  func testIntestitialPresentSuccessAndSubsequentLifecycleEvents() {
+    let adapter = MolocoMediationAdapter(
+      molocoInterstitialFactory: FakeMolocoInterstitialFactory(
+        loadError: nil, isReadyToBeShown: true, showShallSucceed: true))
+    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
+
+    adEventDelegate.interstitialAd?.present(from: UIViewController())
+
+    XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 1)
+  }
+
+  func testIntestitialPresentFailure_ifAdIsNotReady() {
+    let adapter = MolocoMediationAdapter(
+      molocoInterstitialFactory: FakeMolocoInterstitialFactory(
+        loadError: nil, isReadyToBeShown: false))
+    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
+
+    adEventDelegate.interstitialAd?.present(from: UIViewController())
+
+    let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
+    XCTAssertEqual(
+      didFailToPresentError?.domain,
+      MolocoConstants.adapterErrorDomain)
+    XCTAssertEqual(
+      didFailToPresentError?.code,
+      MolocoAdapterErrorCode.adNotReadyForShow.rawValue)
+  }
+
+  func testDidFailToPresentIsInvokedWithMolocoError_ifMolocoFailsToShowAdWithError() {
+    let showError = NSError(domain: "moloco_sdk_domain", code: 1003)
+    let adapter = MolocoMediationAdapter(
+      molocoInterstitialFactory: FakeMolocoInterstitialFactory(
+        loadError: nil, isReadyToBeShown: true, showShallSucceed: false, showError: showError))
+    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
+
+    adEventDelegate.interstitialAd?.present(from: UIViewController())
+
+    let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
+    XCTAssertEqual(didFailToPresentError?.domain, "moloco_sdk_domain")
+    XCTAssertEqual(didFailToPresentError?.code, 1003)
+  }
+
+  func testDidFailToPresentIsInvokedWithAdapterError_ifMolocoFailsToShowAdButWithNoError() {
+    let adapter = MolocoMediationAdapter(
+      molocoInterstitialFactory: FakeMolocoInterstitialFactory(
+        loadError: nil, isReadyToBeShown: true, showShallSucceed: false, showError: nil))
+    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
+
+    adEventDelegate.interstitialAd?.present(from: UIViewController())
+
+    let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
+    XCTAssertEqual(didFailToPresentError?.domain, MolocoConstants.adapterErrorDomain)
+    XCTAssertEqual(didFailToPresentError?.code, MolocoAdapterErrorCode.adFailedToShow.rawValue)
+  }
 }

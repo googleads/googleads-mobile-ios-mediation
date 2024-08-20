@@ -2,4 +2,4 @@
 
 #### Next version
 - Added adapter setUp code.
-- Added interstitial ad load code.
+- Added interstitial ad load and show code.

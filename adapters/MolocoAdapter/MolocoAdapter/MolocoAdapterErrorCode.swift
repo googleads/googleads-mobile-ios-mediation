@@ -21,4 +21,6 @@ public enum MolocoAdapterErrorCode: Int {
   case adServingNotSupported = 101
   case invalidAppID = 102
   case invalidAdUnitId = 103
+  case adNotReadyForShow = 104
+  case adFailedToShow = 105
 }

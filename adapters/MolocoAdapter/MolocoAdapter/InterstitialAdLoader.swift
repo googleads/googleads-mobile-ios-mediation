@@ -72,9 +72,16 @@ final class InterstitialAdLoader: NSObject {
 
 extension InterstitialAdLoader: GADMediationInterstitialAd {
 
+  @MainActor
   func present(from viewController: UIViewController) {
-    eventDelegate?.willPresentFullScreenView()
-    // TODO: implement
+    guard let interstitialAd, interstitialAd.isReady else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adNotReadyForShow, description: "Ad is not ready to be shown")
+      eventDelegate?.didFailToPresentWithError(error)
+      return
+    }
+    self.eventDelegate?.willPresentFullScreenView()
+    interstitialAd.show(from: viewController)
   }
 
 }
@@ -91,19 +98,23 @@ extension InterstitialAdLoader: MolocoInterstitialDelegate {
   }
 
   func didShow(ad: any MolocoSDK.MolocoAd) {
-    // TODO: implement
+    eventDelegate?.reportImpression()
   }
 
   func failToShow(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
-    // TODO: implement
+    let showError =
+      error
+      ?? MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+    eventDelegate?.didFailToPresentWithError(showError)
   }
 
   func didHide(ad: any MolocoSDK.MolocoAd) {
-    // TODO: implement
+    eventDelegate?.didDismissFullScreenView()
   }
 
   func didClick(on ad: any MolocoSDK.MolocoAd) {
-    // TODO: implement
+    eventDelegate?.reportClick()
   }
 
 }
