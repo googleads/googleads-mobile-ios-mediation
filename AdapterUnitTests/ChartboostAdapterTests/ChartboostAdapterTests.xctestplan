@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "2A2F8E5A-104A-4F21-B8B7-B29CB9C4E45B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/ChartboostAdapter\/ChartboostAdapter.xcodeproj",
+          "identifier" : "7DFABB1C1DA8682C00322E02",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD0D6E182AF56C4C002C0B60",
+        "name" : "ChartboostAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

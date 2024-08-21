@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "18D2FAD3-7DBD-4F83-8B2C-CAB7B1D102D5",
+      "name" : "DTExchangeAdapterTests",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/DTExchangeAdapter\/DTExchangeAdapter.xcodeproj",
+          "identifier" : "4512777A207D92C100D85E57",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADF28D5D2A4F7C6B0073F909",
+        "name" : "DTExchangeAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

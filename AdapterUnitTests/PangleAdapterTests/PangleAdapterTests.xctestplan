@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "29114CF4-5FDF-4DF3-9E15-47D7E11B81EA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/PangleAdapter\/PangleAdapter.xcodeproj",
+          "identifier" : "2BF5FE4F279B009F001EFB81",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "701E23682AAD8ADD00BAB0B3",
+        "name" : "PangleAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "593881CA-EA2F-488F-86AE-6DD1D8492A84",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/MaioAdapter\/MaioAdapter.xcodeproj",
+          "identifier" : "7DFABB1C1DA8682C00322E02",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD0D6F4F2AF6E23E002C0B60",
+        "name" : "MaioAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "EB1BCC76-2276-437F-8EE0-FA3C6B1612EA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/adapters\/UnityAdapter\/UnityAdapter.xcodeproj",
+          "identifier" : "7DFABB1C1DA8682C00322E02",
+          "name" : "Adapter"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD45ED322A78111F001B29D8",
+        "name" : "UnityAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

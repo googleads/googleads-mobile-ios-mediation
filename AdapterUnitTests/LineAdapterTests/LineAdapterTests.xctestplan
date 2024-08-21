@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "D7FE2017-EEFF-471C-8EB3-D2A6BDDED63B",
+      "name" : "LineAdapterTests",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADADDD3F2A32528C00FB60E1",
+        "name" : "LineAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

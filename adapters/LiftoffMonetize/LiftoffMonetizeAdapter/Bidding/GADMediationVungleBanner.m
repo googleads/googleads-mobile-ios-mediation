@@ -21,7 +21,7 @@
 
 @interface GADMediationVungleBanner () <GADMAdapterVungleDelegate,
                                         GADMediationBannerAd,
-                                        VungleBannerDelegate>
+                                        VungleBannerViewDelegate>
 @end
 
 @implementation GADMediationVungleBanner {
@@ -37,11 +37,8 @@
   /// The requested ad size.
   GADAdSize _bannerSize;
 
-  /// Liftoff Monetize banner ad instance.
-  VungleBanner *_bannerAd;
-
-  /// UIView to send to Google's view property and for Liftoff Monetize to mount the ad.
-  UIView *_bannerView;
+  /// Liftoff Monetize bannerView ad instance.
+  VungleBannerView *_bannerAdView;
 }
 
 @synthesize desiredPlacement;
@@ -49,9 +46,8 @@
 - (void)dealloc {
   _adConfiguration = nil;
   _adLoadCompletionHandler = nil;
-  _bannerAd = nil;
+  _bannerAdView = nil;
   _delegate = nil;
-  _bannerView = nil;
 }
 
 - (nonnull instancetype)
@@ -60,7 +56,7 @@
   self = [super init];
   if (self) {
     _adConfiguration = adConfiguration;
-    _bannerSize = GADMAdapterVungleAdSizeForAdSize(adConfiguration.adSize);
+    _bannerSize = adConfiguration.adSize;
 
     self.desiredPlacement =
         [GADMAdapterVungleUtils findPlacement:adConfiguration.credentials.settings];
@@ -85,15 +81,6 @@
 }
 
 - (void)requestBannerAd {
-  if (!IsGADAdSizeValid(_bannerSize)) {
-    NSString *errorMessage = [NSString
-        stringWithFormat:@"The requested banner size: %@ is not supported by Liftoff Monetize.",
-                         NSStringFromGADAdSize(_bannerSize)];
-    NSError *error = GADMAdapterVungleErrorWithCodeAndDescription(
-        GADMAdapterVungleErrorBannerSizeMismatch, errorMessage);
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
   if (![VungleAds isInitialized]) {
     NSString *appID = [GADMAdapterVungleUtils findAppID:_adConfiguration.credentials.settings];
     [[GADMAdapterVungleRouter sharedInstance] initWithAppId:appID delegate:self];
@@ -104,62 +91,60 @@
 }
 
 - (void)loadAd {
-  _bannerAd = [[VungleBanner alloc]
-      initWithPlacementId:self.desiredPlacement
-                     size:GADMAdapterVungleConvertGADAdSizeToBannerSize(_bannerSize)];
-  _bannerAd.delegate = self;
+  _bannerAdView =
+      [[VungleBannerView alloc] initWithPlacementId:self.desiredPlacement
+                                       vungleAdSize:GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
+                                                        _bannerSize, self.desiredPlacement)];
+  _bannerAdView.delegate = self;
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
-  [_bannerAd setWithExtras:extras];
-  [_bannerAd load:_adConfiguration.bidResponse];
+  [_bannerAdView setWithExtras:extras];
+  [_bannerAdView load:_adConfiguration.bidResponse];
 }
 
-#pragma mark - VungleBannerDelegate
+#pragma mark - VungleBannerViewDelegate
 
-- (void)bannerAdDidLoad:(nonnull VungleBanner *)banner {
-  _bannerView = [[UIView alloc]
-      initWithFrame:CGRectMake(0, 0, _bannerSize.size.width, _bannerSize.size.height)];
+- (void)bannerAdDidLoad:(VungleBannerView *)bannerView {
   if (_adLoadCompletionHandler) {
-    [_bannerAd presentOn:_bannerView];
     _delegate = _adLoadCompletionHandler(self, nil);
   }
 }
 
-- (void)bannerAdDidFailToLoad:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
-  _adLoadCompletionHandler(nil, error);
+- (void)bannerAdDidFail:(VungleBannerView *)bannerView withError:(NSError *)withError {
+  if (_delegate != nil) {
+    [_delegate didFailToPresentWithError:withError];
+    return;
+  }
+  _adLoadCompletionHandler(nil, withError);
 }
 
-- (void)bannerAdWillPresent:(nonnull VungleBanner *)banner {
+- (void)bannerAdWillPresent:(VungleBannerView *)bannerView {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)bannerAdDidPresent:(nonnull VungleBanner *)banner {
+- (void)bannerAdDidPresent:(VungleBannerView *)bannerView {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
-- (void)bannerAdDidFailToPresent:(nonnull VungleBanner *)banner withError:(nonnull NSError *)error {
-  [_delegate didFailToPresentWithError:error];
-}
-
-- (void)bannerAdWillClose:(nonnull VungleBanner *)banner {
+- (void)bannerAdWillClose:(VungleBannerView *)bannerView {
   // This callback is fired when the banner itself is destroyed/removed, not when the user returns
   // to the app screen after clicking on an ad. Do not map to adViewWillDismissScreen:.
 }
 
-- (void)bannerAdDidClose:(nonnull VungleBanner *)banner {
+- (void)bannerAdDidClose:(VungleBannerView *)bannerView {
   // This callback is fired when the banner itself is destroyed/removed, not when the user returns
   // to the app screen after clicking on an ad. Do not map to adViewDidDismissScreen:.
 }
 
-- (void)bannerAdDidTrackImpression:(nonnull VungleBanner *)banner {
+- (void)bannerAdDidTrackImpression:(VungleBannerView *)bannerView {
   [_delegate reportImpression];
 }
 
-- (void)bannerAdDidClick:(nonnull VungleBanner *)banner {
+- (void)bannerAdDidClick:(VungleBannerView *)bannerView {
   [_delegate reportClick];
 }
 
-- (void)bannerAdWillLeaveApplication:(nonnull VungleBanner *)banner {
+- (void)bannerAdWillLeaveApplication:(VungleBannerView *)bannerView {
   // Google Mobile Ads SDK doesn't have a matching event.
 }
 
@@ -176,7 +161,7 @@
 #pragma mark GADMediationBannerAd
 
 - (UIView *)view {
-  return _bannerView;
+  return _bannerAdView;
 }
 
 @end
