@@ -154,9 +154,9 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     for adConfiguration: GADMediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
-    // TODO(kricheso): Utilize self.molocoRewardedFactory during rewardedAdLoader creation.
     rewardedAdLoader = RewardedAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler,
+      molocoRewardedFactory: molocoRewardedFactory)
     rewardedAdLoader?.loadAd()
   }
 
