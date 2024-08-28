@@ -22,7 +22,8 @@
 - (void)loadInterstitialForAdConfiguration:
             (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
-                                               completionHandler;
+                                               completionHandler
+isIronSourceInitieted:(BOOL)ironSourceInitieted;
 
 #pragma mark - Instance map Access
 

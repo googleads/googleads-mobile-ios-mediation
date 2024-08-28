@@ -54,9 +54,10 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
 #pragma mark - Load functionality
 
 - (void)loadInterstitialForAdConfiguration:
-(GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:
-(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+            (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler
+                     isIronSourceInitieted:(BOOL)ironSourceInitieted {
     _interstitalAdLoadCompletionHandler = completionHandler;
     // Default instance state
     self.instanceState = GADMAdapterIronSourceInstanceStateStart;
@@ -81,21 +82,23 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
          @"Using the default instance ID."];
         self.instanceID = GADMIronSourceDefaultInstanceId;
     }
-    
-    [[GADMediationAdapterIronSource alloc]
-     initIronSourceSDKWithAppKey:applicationKey
-     forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
-        if (error) {
-            [GADMAdapterIronSourceUtils
-             onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
-            _interstitalAdLoadCompletionHandler(nil, error);
-        } else {
-            [GADMAdapterIronSourceUtils
-             onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
-            [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
-        }
-    }];
-    
+    if (ironSourceInitieted == YES){
+        [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
+    } else {
+        [[GADMediationAdapterIronSource alloc]
+         initIronSourceSDKWithAppKey:applicationKey
+         forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                [GADMAdapterIronSourceUtils
+                 onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
+                completionHandler(nil, error);
+            } else {
+                [GADMAdapterIronSourceUtils
+                 onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
+                [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
+            }
+        }];
+    }
 }
 
 - (void) loadInterstitialAdAfterInit:(GADMediationInterstitialAdConfiguration *)adConfiguration

@@ -29,6 +29,8 @@
 
 @implementation GADMediationAdapterIronSource
 
+static BOOL isIronSourceInitiated = false;
+
 #pragma mark GADMediation Adapter implementation
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -133,7 +135,7 @@
         [_rtbRvAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler ];
     } else {
         _rewardedAd = [GADMAdapterIronSourceRewardedAd alloc];
-        [_rewardedAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler];
+        [_rewardedAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler isIronSourceInitiated:isIronSourceInitiated];
     }
 }
 
@@ -160,7 +162,7 @@ completionHandler {
     } else {
         _interstitialAd = [GADMAdapterIronSourceInterstitialAd alloc];
         [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
-                                          completionHandler:completionHandler];
+                                          completionHandler:completionHandler isIronSourceInitieted:isIronSourceInitiated];
     }
 }
 
@@ -192,11 +194,9 @@ completionHandler {
         }
         [GADMAdapterIronSourceUtils
             onLog:[NSString stringWithFormat:@"iAds SDK initialized"]];
+        isIronSourceInitiated = YES;
         completionHandler(nil);
     }];
 }
-
-
-
 
 @end
