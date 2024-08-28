@@ -23,7 +23,7 @@
 
 // The completion handler to call when the ad loading succeeds or fails.
 @property(copy, nonatomic)
-    GADMediationInterstitialLoadCompletionHandler interstitalAdLoadCompletionHandler;
+GADMediationInterstitialLoadCompletionHandler interstitalAdLoadCompletionHandler;
 
 // An ad event delegate to invoke when ad rendering events occur.
 @property(weak, nonatomic) id<GADMediationInterstitialAdEventDelegate> interstitialAdEventDelegate;
@@ -41,168 +41,178 @@
 #pragma mark InstanceMap and Delegate initialization
 // The class-level instance mapping from instance id to object reference
 static NSMapTable<NSString *, GADMAdapterIronSourceInterstitialAd *> *interstitialAdapterDelegates =
-    nil;
+nil;
 // The class-level delegate handling callbacks for all instances
 static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
 
 + (void)initialize {
-  interstitialAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
-                                                       valueOptions:NSPointerFunctionsWeakMemory];
-  interstitialDelegate = [[GADMAdapterIronSourceInterstitialAdDelegate alloc] init];
+    interstitialAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
+                                                         valueOptions:NSPointerFunctionsWeakMemory];
+    interstitialDelegate = [[GADMAdapterIronSourceInterstitialAdDelegate alloc] init];
 }
 
 #pragma mark - Load functionality
 
 - (void)loadInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
+(GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
-                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  _interstitalAdLoadCompletionHandler = completionHandler;
-  // Default instance state
-  self.instanceState = GADMAdapterIronSourceInstanceStateStart;
-
-  NSDictionary *credentials = [adConfiguration.credentials settings];
-  NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-    applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  } else {
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorInvalidServerParameters,
-        @"Missing or invalid IronSource application key.");
-
-    _interstitalAdLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  if (credentials[GADMAdapterIronSourceInstanceId]) {
-    self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
-  } else {
-    [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource interstitial ad Instance ID. "
-                                      @"Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
-  }
-
-  [[GADMediationAdapterIronSource alloc]
-      initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_INTERSTITIAL]];
-
-  if (interstitialDelegate == nil) {
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"IronSource adapter interstitial delegate is null."]];
-    return;
-  }
-  if ([self canLoadInterstitialInstance]) {
-    [self setState:GADMAdapterIronSourceInstanceStateLocked];
-    GADMAdapterIronSourceMapTableSetObjectForKey(interstitialAdapterDelegates, self.instanceID,
-                                                 self);
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Loading IronSource interstitial ad with Instance ID: %@",
-                                         self.instanceID]];
-
-    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
-    NSString *bidResponse = adConfiguration.bidResponse;
-    if(bidResponse) {
-      [IronSource loadISDemandOnlyInterstitialWithAdm:self.instanceID adm:bidResponse];
-    } else{
-      [IronSource loadISDemandOnlyInterstitial:self.instanceID];
+(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    _interstitalAdLoadCompletionHandler = completionHandler;
+    // Default instance state
+    self.instanceState = GADMAdapterIronSourceInstanceStateStart;
+    
+    NSDictionary *credentials = [adConfiguration.credentials settings];
+    NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
+        applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    } else {
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorInvalidServerParameters,
+                                                                          @"Missing or invalid IronSource application key.");
+        
+        _interstitalAdLoadCompletionHandler(nil, error);
+        return;
     }
-  } else {
-    NSString *errorMsg = [NSString
-        stringWithFormat:
-            @"IronSource intestitial ad with Instance ID: '%@' already loaded. Cannot load "
-            @"another one at the same time!",
-            self.instanceID];
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
-    [GADMAdapterIronSourceUtils onLog:errorMsg];
-    _interstitalAdLoadCompletionHandler(nil, error);
-    return;
-  }
+    
+    if (credentials[GADMAdapterIronSourceInstanceId]) {
+        self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
+    } else {
+        [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource interstitial ad Instance ID. "
+         @"Using the default instance ID."];
+        self.instanceID = GADMIronSourceDefaultInstanceId;
+    }
+    
+    [[GADMediationAdapterIronSource alloc]
+     initIronSourceSDKWithAppKey:applicationKey
+     forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
+            _interstitalAdLoadCompletionHandler(nil, error);
+        } else {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
+            [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
+        }
+    }];
+    
+}
+
+- (void) loadInterstitialAdAfterInit:(GADMediationInterstitialAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationInterstitialLoadCompletionHandler)completionHandler {
+    
+    if (interstitialDelegate == nil) {
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"IronSource adapter interstitial delegate is null."]];
+        return;
+    }
+    if ([self canLoadInterstitialInstance]) {
+        [self setState:GADMAdapterIronSourceInstanceStateLocked];
+        GADMAdapterIronSourceMapTableSetObjectForKey(interstitialAdapterDelegates, self.instanceID,
+                                                     self);
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"Loading IronSource interstitial ad with Instance ID: %@",
+                self.instanceID]];
+        
+        [IronSource loadISDemandOnlyInterstitial:self.instanceID];
+        
+    } else {
+        NSString *errorMsg = [NSString
+                              stringWithFormat:
+                                  @"IronSource intestitial ad with Instance ID: '%@' already loaded. Cannot load "
+                              @"another one at the same time!",
+                              self.instanceID];
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
+        [GADMAdapterIronSourceUtils onLog:errorMsg];
+        _interstitalAdLoadCompletionHandler(nil, error);
+        return;
+    }
 }
 
 #pragma mark - Instance map access
 
 + (void)setDelegate:(GADMAdapterIronSourceInterstitialAd *)delegate forKey:(NSString *)key {
-  @synchronized(interstitialAdapterDelegates) {
-    GADMAdapterIronSourceMapTableSetObjectForKey(interstitialAdapterDelegates, key, delegate);
-  }
+    @synchronized(interstitialAdapterDelegates) {
+        GADMAdapterIronSourceMapTableSetObjectForKey(interstitialAdapterDelegates, key, delegate);
+    }
 }
 
 + (GADMAdapterIronSourceInterstitialAd *)delegateForKey:(NSString *)key {
-  GADMAdapterIronSourceInterstitialAd *delegate;
-  @synchronized(interstitialAdapterDelegates) {
-    delegate = [interstitialAdapterDelegates objectForKey:key];
-  }
-  return delegate;
+    GADMAdapterIronSourceInterstitialAd *delegate;
+    @synchronized(interstitialAdapterDelegates) {
+        delegate = [interstitialAdapterDelegates objectForKey:key];
+    }
+    return delegate;
 }
 
 + (void)removeDelegateForKey:(NSString *)key {
-  GADMAdapterIronSourceMapTableRemoveObjectForKey(interstitialAdapterDelegates, key);
+    GADMAdapterIronSourceMapTableRemoveObjectForKey(interstitialAdapterDelegates, key);
 }
 
 #pragma mark - Getters and Setters
 
 - (id<GADMediationInterstitialAdEventDelegate>)getInterstitialAdEventDelegate {
-  return _interstitialAdEventDelegate;
+    return _interstitialAdEventDelegate;
 }
 
 - (void)setInterstitialAdEventDelegate:
-    (nullable id<GADMediationInterstitialAdEventDelegate>)eventDelegate {
-  _interstitialAdEventDelegate = eventDelegate;
+(nullable id<GADMediationInterstitialAdEventDelegate>)eventDelegate {
+    _interstitialAdEventDelegate = eventDelegate;
 }
 
 - (GADMediationInterstitialLoadCompletionHandler)getLoadCompletionHandler {
-  return _interstitalAdLoadCompletionHandler;
+    return _interstitalAdLoadCompletionHandler;
 }
 
 #pragma mark - Utils methods
 
 - (BOOL)canLoadInterstitialInstance {
-  if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
-    return false;
-  }
-
-  GADMAdapterIronSourceInterstitialAd *adInstance =
-      [GADMAdapterIronSourceInterstitialAd delegateForKey:self.instanceID];
-  if (adInstance == nil) {
+    if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
+        return false;
+    }
+    
+    GADMAdapterIronSourceInterstitialAd *adInstance =
+    [GADMAdapterIronSourceInterstitialAd delegateForKey:self.instanceID];
+    if (adInstance == nil) {
+        return true;
+    }
+    
+    NSString *currentInstanceState = [adInstance getState];
+    if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] ||
+        [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]) {
+        return false;
+    }
+    
     return true;
-  }
-
-  NSString *currentInstanceState = [adInstance getState];
-  if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] ||
-      [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]) {
-    return false;
-  }
-
-  return true;
 }
 
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString stringWithFormat:@"Showing IronSource interstitial ad for Instance ID: %@",
-                                       self.instanceID]];
-  [IronSource showISDemandOnlyInterstitial:viewController instanceId:self.instanceID];
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString stringWithFormat:@"Showing IronSource interstitial ad for Instance ID: %@",
+            self.instanceID]];
+    [IronSource showISDemandOnlyInterstitial:viewController instanceId:self.instanceID];
 }
 
 #pragma mark - Interstitial State
 
 - (NSString *)getState {
-  return self.instanceState;
+    return self.instanceState;
 }
 
 - (void)setState:(NSString *)state {
-  if (state == self.instanceState) {
-    return;
-  }
-
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString
-                stringWithFormat:
-                    @"Interstitial instance with ID: %@ changing from oldState=%@ to newState=%@",
-                    self.instanceID, self.instanceState, state]];
-  self.instanceState = state;
+    if (state == self.instanceState) {
+        return;
+    }
+    
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString
+            stringWithFormat:
+                @"Interstitial instance with ID: %@ changing from oldState=%@ to newState=%@",
+            self.instanceID, self.instanceState, state]];
+    self.instanceState = state;
 }
 
 @end

@@ -23,7 +23,7 @@
 
 // The completion handler to call when the ad loading succeeds or fails.
 @property(copy, nonatomic)
-    GADMediationRewardedLoadCompletionHandler rewardedVideoAdLoadCompletionHandler;
+GADMediationRewardedLoadCompletionHandler rewardedVideoAdLoadCompletionHandler;
 
 // An ad event delegate to invoke when ad rendering events occur.
 @property(weak, nonatomic) id<GADMediationRewardedAdEventDelegate> rewardedVideoAdEventDelegate;
@@ -45,161 +45,169 @@ static NSMapTable<NSString *, GADMAdapterIronSourceRewardedAd *> *rewardedAdapte
 static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
 
 + (void)initialize {
-  rewardedAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
-                                                   valueOptions:NSPointerFunctionsWeakMemory];
-  rewardedDelegate = [[GADMAdapterIronSourceRewardedAdDelegate alloc] init];
+    rewardedAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
+                                                     valueOptions:NSPointerFunctionsWeakMemory];
+    rewardedDelegate = [[GADMAdapterIronSourceRewardedAdDelegate alloc] init];
 }
 
 #pragma mark - Load functionality
 
 - (void)loadRewardedAdForConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                      completionHandler:
-                         (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedVideoAdLoadCompletionHandler = completionHandler;
-  // Default instance state
-  self.instanceState = GADMAdapterIronSourceInstanceStateStart;
-
-  NSDictionary *credentials = [adConfiguration.credentials settings];
-  NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-    applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  } else {
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorInvalidServerParameters,
-        @"Missing or invalid IronSource application key.");
-    _rewardedVideoAdLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  if (credentials[GADMAdapterIronSourceInstanceId]) {
-    self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
-  } else {
-    [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource rewarded ad Instance ID. "
-                                      @"Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
-  }
-
-  [[GADMediationAdapterIronSource alloc]
-      initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO]];
-
-  if (rewardedDelegate == nil) {
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"IronSource adapter rewarded delegate is null."]];
-    return;
-  }
-
-  if ([self canLoadRewardedVideoInstance]) {
-    [self setState:GADMAdapterIronSourceInstanceStateLocked];
-    GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, self.instanceID, self);
-    [GADMAdapterIronSourceUtils
-        onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
-                                         self.instanceID]];
-
-    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
-    NSString *bidResponse = adConfiguration.bidResponse;
-    if(bidResponse) {
-      [IronSource loadISDemandOnlyRewardedVideoWithAdm:self.instanceID adm:bidResponse];
-    } else{
-      [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    _rewardedVideoAdLoadCompletionHandler = completionHandler;
+    // Default instance state
+    self.instanceState = GADMAdapterIronSourceInstanceStateStart;
+    
+    NSDictionary *credentials = [adConfiguration.credentials settings];
+    NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
+        applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    } else {
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorInvalidServerParameters,
+                                                                          @"Missing or invalid IronSource application key.");
+        _rewardedVideoAdLoadCompletionHandler(nil, error);
+        return;
     }
-  } else {
-    NSString *errorMsg =
+    
+    if (credentials[GADMAdapterIronSourceInstanceId]) {
+        self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
+    } else {
+        [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource rewarded ad Instance ID. "
+         @"Using the default instance ID."];
+        self.instanceID = GADMIronSourceDefaultInstanceId;
+    }
+    
+    [[GADMediationAdapterIronSource alloc]
+     initIronSourceSDKWithAppKey:applicationKey
+     forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
+            _rewardedVideoAdLoadCompletionHandler(nil, error);
+        } else {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
+            [self loadRewardedAdAfterInit:adConfiguration completionHandler:completionHandler];
+        }
+    }];
+}
+
+- (void)loadRewardedAdAfterInit:(GADMediationRewardedAdConfiguration *)adConfiguration
+              completionHandler:
+(GADMediationRewardedLoadCompletionHandler)completionHandler{
+    if (rewardedDelegate == nil) {
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"IronSource adapter rewarded delegate is null."]];
+        return;
+    }
+    
+    if ([self canLoadRewardedVideoInstance]) {
+        [self setState:GADMAdapterIronSourceInstanceStateLocked];
+        GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, self.instanceID, self);
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
+                self.instanceID]];
+        
+        [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
+    } else {
+        NSString *errorMsg =
         [NSString stringWithFormat:
-                      @"IronSource rewarded ad with Instance ID: '%@' already loaded. Cannot load "
-                      @"another one at the same time!",
-                      self.instanceID];
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
-    [GADMAdapterIronSourceUtils onLog:errorMsg];
-    _rewardedVideoAdLoadCompletionHandler(nil, error);
-    return;
-  }
+         @"IronSource rewarded ad with Instance ID: '%@' already loaded. Cannot load "
+         @"another one at the same time!",
+         self.instanceID];
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
+        [GADMAdapterIronSourceUtils onLog:errorMsg];
+        _rewardedVideoAdLoadCompletionHandler(nil, error);
+        return;
+    }
 }
 
 #pragma mark - Instance map access
 
 + (void)setDelegate:(GADMAdapterIronSourceRewardedAd *)delegate forKey:(NSString *)instanceID {
-  @synchronized(rewardedAdapterDelegates) {
-    GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, instanceID, delegate);
-  }
+    @synchronized(rewardedAdapterDelegates) {
+        GADMAdapterIronSourceMapTableSetObjectForKey(rewardedAdapterDelegates, instanceID, delegate);
+    }
 }
 
 + (GADMAdapterIronSourceRewardedAd *)delegateForKey:(NSString *)key {
-  GADMAdapterIronSourceRewardedAd *delegate;
-  @synchronized(rewardedAdapterDelegates) {
-    delegate = [rewardedAdapterDelegates objectForKey:key];
-  }
-
-  return delegate;
+    GADMAdapterIronSourceRewardedAd *delegate;
+    @synchronized(rewardedAdapterDelegates) {
+        delegate = [rewardedAdapterDelegates objectForKey:key];
+    }
+    
+    return delegate;
 }
 
 + (void)removeDelegateForKey:(NSString *)key {
-  GADMAdapterIronSourceMapTableRemoveObjectForKey(rewardedAdapterDelegates, key);
+    GADMAdapterIronSourceMapTableRemoveObjectForKey(rewardedAdapterDelegates, key);
 }
 
 #pragma mark - Getters and Setters
 
 - (id<GADMediationRewardedAdEventDelegate>)getRewardedAdEventDelegate {
-  return _rewardedVideoAdEventDelegate;
+    return _rewardedVideoAdEventDelegate;
 }
 
 - (void)setRewardedAdEventDelegate:(nullable id<GADMediationRewardedAdEventDelegate>)eventDelegate {
-  _rewardedVideoAdEventDelegate = eventDelegate;
+    _rewardedVideoAdEventDelegate = eventDelegate;
 }
 
 - (GADMediationRewardedLoadCompletionHandler)getLoadCompletionHandler {
-  return _rewardedVideoAdLoadCompletionHandler;
+    return _rewardedVideoAdLoadCompletionHandler;
 }
 
 #pragma mark - Utils methods
 
 - (BOOL)canLoadRewardedVideoInstance {
-  if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
-    return false;
-  }
-
-  GADMAdapterIronSourceRewardedAd *adInstance =
-      [GADMAdapterIronSourceRewardedAd delegateForKey:self.instanceID];
-  if (adInstance == nil) {
+    if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
+        return false;
+    }
+    
+    GADMAdapterIronSourceRewardedAd *adInstance =
+    [GADMAdapterIronSourceRewardedAd delegateForKey:self.instanceID];
+    if (adInstance == nil) {
+        return true;
+    }
+    
+    NSString *currentInstanceState = [adInstance getState];
+    if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] ||
+        [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]) {
+        return false;
+    }
+    
     return true;
-  }
-
-  NSString *currentInstanceState = [adInstance getState];
-  if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] ||
-      [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]) {
-    return false;
-  }
-
-  return true;
 }
 
 #pragma mark - GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString stringWithFormat:@"Showing IronSource rewarded ad for Instance ID: %@",
-                                       self.instanceID]];
-  [IronSource showISDemandOnlyRewardedVideo:viewController instanceId:self.instanceID];
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString stringWithFormat:@"Showing IronSource rewarded ad for Instance ID: %@",
+            self.instanceID]];
+    [IronSource showISDemandOnlyRewardedVideo:viewController instanceId:self.instanceID];
 }
 
 #pragma mark - Rewarded State
 
 - (NSString *)getState {
-  return self.instanceState;
+    return self.instanceState;
 }
 
 - (void)setState:(NSString *)state {
-  if (state == self.instanceState) {
-    return;
-  }
-
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString
-                stringWithFormat:
-                    @"RewardedVideo instance with ID %@: changing from oldState=%@ to newState=%@",
-                    self.instanceID, self.instanceState, state]];
-  self.instanceState = state;
+    if (state == self.instanceState) {
+        return;
+    }
+    
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString
+            stringWithFormat:
+                @"RewardedVideo instance with ID %@: changing from oldState=%@ to newState=%@",
+            self.instanceID, self.instanceState, state]];
+    self.instanceState = state;
 }
 
 @end
