@@ -170,7 +170,7 @@ completionHandler {
                    completionHandler:
 (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
     _bannerAd = [GADMAdapterIronSourceBannerAd alloc];
-    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler isIronSourceInitiated:isIronSourceInitiated];
 }
 
 #pragma mark - Initialize IronSource SDK

@@ -22,7 +22,8 @@
 /// Asks the receiver to render the ad configuration.
 - (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
-                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler
+                 isIronSourceInitiated:(BOOL)ironSourceInitiated;
 
 #pragma mark - Instance map Access
 
