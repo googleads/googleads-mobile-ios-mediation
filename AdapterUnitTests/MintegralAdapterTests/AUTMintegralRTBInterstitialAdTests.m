@@ -129,7 +129,6 @@ static NSString *const kBidResponse = @"bidResponse";
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader newInterstitialBidAdShowSuccess:self->_interstitialAdMock];
       });
-  OCMStub([_interstitialAdMock isAdReady]).andReturn(YES);
   AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAd];
   // Assert the initial values of the counts before they are verified after the "Act" steps.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
@@ -149,15 +148,6 @@ static NSString *const kBidResponse = @"bidResponse";
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
-- (void)testShowFailureForAdNotReadyToShow {
-  OCMStub([_interstitialAdMock isAdReady]).andReturn(NO);
-  AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAd];
-
-  [_adLoader presentFromViewController:[[UIViewController alloc] init]];
-
-  XCTAssertEqual(eventDelegate.didFailToPresentError.code, GADMintegralErrorAdFailedToShow);
-}
-
 - (void)testShowFailureForAdShowFail {
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
                                                       code:GADMintegralErrorAdFailedToShow
@@ -168,7 +158,6 @@ static NSString *const kBidResponse = @"bidResponse";
         [self->_adLoader newInterstitialBidAdShowFail:expectedError
                                             adManager:self->_interstitialAdMock];
       });
-  OCMStub([_interstitialAdMock isAdReady]).andReturn(YES);
   AUTKMediationInterstitialAdEventDelegate *eventDelegate = [self loadAd];
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
 
