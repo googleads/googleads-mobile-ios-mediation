@@ -28,16 +28,24 @@ final class RewardedAdLoader: NSObject {
   /// The completion handler to call when the rewarded ad loading succeeds or fails.
   private let loadCompletionHandler: GADMediationRewardedLoadCompletionHandler
 
+  /// The factory class used to create rewarded ads.
+  private let molocoRewardedFactory: MolocoRewardedFactory
+
+  /// The rewarded ad.
+  private var rewardedAd: MolocoRewardedInterstitial?
+
   init(
     adConfiguration: GADMediationRewardedAdConfiguration,
-    loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler
+    loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler,
+    molocoRewardedFactory: MolocoRewardedFactory
   ) {
     self.adConfiguration = adConfiguration
     self.loadCompletionHandler = loadCompletionHandler
+    self.molocoRewardedFactory = molocoRewardedFactory
     super.init()
   }
 
-  func loadAd() {
+  @MainActor func loadAd() {
     guard #available(iOS 13.0, *) else {
       let error = MolocoUtils.error(
         code: MolocoAdapterErrorCode.adServingNotSupported,
@@ -47,14 +55,15 @@ final class RewardedAdLoader: NSObject {
     }
 
     let molocoAdUnitID = MolocoUtils.getAdUnitId(from: adConfiguration)
-    guard let molocoAdUnitID = molocoAdUnitID else {
+    guard let molocoAdUnitID else {
       let error = MolocoUtils.error(
         code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
       _ = loadCompletionHandler(nil, error)
       return
     }
 
-    // TODO(kricheso): Load the ad.
+    self.rewardedAd = self.molocoRewardedFactory.createRewarded(for: molocoAdUnitID, delegate: self)
+    self.rewardedAd?.load(bidResponse: self.adConfiguration.bidResponse ?? "")
   }
 
 }
@@ -87,11 +96,11 @@ extension RewardedAdLoader: MolocoRewardedDelegate {
   }
 
   func didLoad(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate = loadCompletionHandler(self, nil)
   }
 
   func failToLoad(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
-    // TODO: b/360350265 - Add implementation.
+    _ = loadCompletionHandler(nil, error)
   }
 
   func didShow(ad: any MolocoSDK.MolocoAd) {
