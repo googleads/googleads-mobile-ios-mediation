@@ -47,180 +47,177 @@ static NSMapTable<NSString *, GADMAdapterIronSourceBannerAd *> *bannerAdapterDel
 static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
 
 + (void)initialize {
-  bannerAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
-                                                 valueOptions:NSPointerFunctionsWeakMemory];
-  bannerDelegate = [[GADMAdapterIronSourceBannerAdDelegate alloc] init];
+    bannerAdapterDelegates = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsCopyIn
+                                                   valueOptions:NSPointerFunctionsWeakMemory];
+    bannerDelegate = [[GADMAdapterIronSourceBannerAdDelegate alloc] init];
 }
 
 #pragma mark - Load functionality
 
 - (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
-                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler
-                 isIronSourceInitiated:(BOOL)ironSourceInitiated {
-  _bannerAdLoadCompletionHandler = completionHandler;
-  // Default instance state
-  self.instanceState = GADMAdapterIronSourceInstanceStateStart;
-
-  NSDictionary *credentials = [adConfiguration.credentials settings];
-  NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-    applicationKey = credentials[GADMAdapterIronSourceAppKey];
-  } else {
-    NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-        GADMAdapterIronSourceErrorInvalidServerParameters,
-        @"Missing or invalid IronSource application key.");
-    _bannerAdLoadCompletionHandler(nil, error);
-    return;
-  }
-
-  if (credentials[GADMAdapterIronSourceInstanceId]) {
-    self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
-  } else {
-    [GADMAdapterIronSourceUtils
-        onLog:
-            @"Missing or invalid IronSource banner ad Instance ID. Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
-  }
+(nonnull GADMediationBannerLoadCompletionHandler)completionHandler{
+    _bannerAdLoadCompletionHandler = completionHandler;
+    // Default instance state
+    self.instanceState = GADMAdapterIronSourceInstanceStateStart;
     
-    if (ironSourceInitiated == YES){
-        [self loadBannerAdAfterInit:adConfiguration completionHandler:completionHandler];
-    }else {
-        [[GADMediationAdapterIronSource alloc]
-            initIronSourceSDKWithAppKey:applicationKey
-                             forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
-            if (error) {
-                [GADMAdapterIronSourceUtils
-                 onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
-                _bannerAdLoadCompletionHandler(nil, error);
-            } else {
-                [GADMAdapterIronSourceUtils
-                 onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
-                [self loadBannerAdAfterInit:adConfiguration completionHandler:completionHandler];
-            }
-        }];
+    NSDictionary *credentials = [adConfiguration.credentials settings];
+    NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
+        applicationKey = credentials[GADMAdapterIronSourceAppKey];
+    } else {
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorInvalidServerParameters,
+                                                                          @"Missing or invalid IronSource application key.");
+        _bannerAdLoadCompletionHandler(nil, error);
+        return;
     }
-
-
+    
+    if (credentials[GADMAdapterIronSourceInstanceId]) {
+        self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
+    } else {
+        [GADMAdapterIronSourceUtils
+         onLog:
+             @"Missing or invalid IronSource banner ad Instance ID. Using the default instance ID."];
+        self.instanceID = GADMIronSourceDefaultInstanceId;
+    }
+    
+    
+    [[GADMediationAdapterIronSource alloc]
+     initIronSourceSDKWithAppKey:applicationKey
+     forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
+            _bannerAdLoadCompletionHandler(nil, error);
+        } else {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
+            [self loadBannerAdAfterInit:adConfiguration completionHandler:completionHandler];
+        }
+    }];
+    
+    
+    
 }
 
 - (void)loadBannerAdAfterInit:(GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+            completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     if (bannerDelegate == nil) {
-      [GADMAdapterIronSourceUtils
-          onLog:[NSString stringWithFormat:@"IronSource adapter banner delegate is null."]];
-      return;
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"IronSource adapter banner delegate is null."]];
+        return;
     }
-
+    
     GADAdSize adSize = adConfiguration.adSize;
     ISBannerSize *ISBannerSize =
-        [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
+    [GADMAdapterIronSourceUtils ironSourceAdSizeFromRequestedSize:adSize];
     if (ISBannerSize == nil) {
-      NSString *errorMessage = [NSString
-          stringWithFormat:
-              @"Unsupported ad size requested for IronSource. Requested size: %@, Instance ID: %@",
-              NSStringFromGADAdSize(adSize), self.instanceID];
-      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-          GADMAdapterIronSourceErrorBannerSizeMismatch, errorMessage);
-      _bannerAdLoadCompletionHandler(nil, error);
-      return;
+        NSString *errorMessage = [NSString
+                                  stringWithFormat:
+                                      @"Unsupported ad size requested for IronSource. Requested size: %@, Instance ID: %@",
+                                  NSStringFromGADAdSize(adSize), self.instanceID];
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorBannerSizeMismatch, errorMessage);
+        _bannerAdLoadCompletionHandler(nil, error);
+        return;
     }
-
+    
     if ([self canLoadBannerInstance]) {
-      [self setState:GADMAdapterIronSourceInstanceStateLocked];
-      [GADMAdapterIronSourceBannerAd setDelegate:self forKey:self.instanceID];
-
-      [IronSource destroyISDemandOnlyBannerWithInstanceId:self.instanceID];
-      [GADMAdapterIronSourceUtils
-          onLog:[NSString stringWithFormat:@"Banner set IronSource delegate for instance with ID %@.",
-                                           self.instanceID]];
-      // Even though there is a single static delegate, it handles callbacks for all instances.
-      [IronSource setISDemandOnlyBannerDelegate:bannerDelegate forInstanceId:self.instanceID];
-      [GADMAdapterIronSourceUtils
-          onLog:[NSString stringWithFormat:@"Loading IronSource banner ad with Instance ID: %@",
-                                           self.instanceID]];
-      [IronSource loadISDemandOnlyBannerWithInstanceId:self.instanceID
-                                        viewController:adConfiguration.topViewController
-                                                  size:ISBannerSize];
+        [self setState:GADMAdapterIronSourceInstanceStateLocked];
+        [GADMAdapterIronSourceBannerAd setDelegate:self forKey:self.instanceID];
+        
+        [IronSource destroyISDemandOnlyBannerWithInstanceId:self.instanceID];
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"Banner set IronSource delegate for instance with ID %@.",
+                self.instanceID]];
+        // Even though there is a single static delegate, it handles callbacks for all instances.
+        [IronSource setISDemandOnlyBannerDelegate:bannerDelegate forInstanceId:self.instanceID];
+        [GADMAdapterIronSourceUtils
+         onLog:[NSString stringWithFormat:@"Loading IronSource banner ad with Instance ID: %@",
+                self.instanceID]];
+        [IronSource loadISDemandOnlyBannerWithInstanceId:self.instanceID
+                                          viewController:adConfiguration.topViewController
+                                                    size:ISBannerSize];
     } else {
-      NSString *errorMsg =
-          [NSString stringWithFormat:@"IronSource banner ad with Instance ID: '%@' already loaded. "
-                                     @"Cannot load another one at the same time!",
-                                     self.instanceID];
-      NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
-      [GADMAdapterIronSourceUtils onLog:errorMsg];
-      _bannerAdLoadCompletionHandler(nil, error);
-      return;
+        NSString *errorMsg =
+        [NSString stringWithFormat:@"IronSource banner ad with Instance ID: '%@' already loaded. "
+         @"Cannot load another one at the same time!",
+         self.instanceID];
+        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
+                                                                          GADMAdapterIronSourceErrorAdAlreadyLoaded, errorMsg);
+        [GADMAdapterIronSourceUtils onLog:errorMsg];
+        _bannerAdLoadCompletionHandler(nil, error);
+        return;
     }
 }
 
 #pragma mark - Instance map access
 
 + (void)setDelegate:(GADMAdapterIronSourceBannerAd *)delegate forKey:(NSString *)key {
-  @synchronized(bannerAdapterDelegates) {
-    GADMAdapterIronSourceMapTableSetObjectForKey(bannerAdapterDelegates, key, delegate);
-  }
+    @synchronized(bannerAdapterDelegates) {
+        GADMAdapterIronSourceMapTableSetObjectForKey(bannerAdapterDelegates, key, delegate);
+    }
 }
 
 + (GADMAdapterIronSourceBannerAd *)delegateForKey:(NSString *)key {
-  GADMAdapterIronSourceBannerAd *delegate;
-  @synchronized(bannerAdapterDelegates) {
-    delegate = [bannerAdapterDelegates objectForKey:key];
-  }
-  return delegate;
+    GADMAdapterIronSourceBannerAd *delegate;
+    @synchronized(bannerAdapterDelegates) {
+        delegate = [bannerAdapterDelegates objectForKey:key];
+    }
+    return delegate;
 }
 
 + (void)removeDelegateForKey:(NSString *)key {
-  GADMAdapterIronSourceMapTableRemoveObjectForKey(bannerAdapterDelegates, key);
+    GADMAdapterIronSourceMapTableRemoveObjectForKey(bannerAdapterDelegates, key);
 }
 
 #pragma mark - Getters and Setters
 
 - (id<GADMediationBannerAdEventDelegate>)getBannerAdEventDelegate {
-  return _bannerAdEventDelegate;
+    return _bannerAdEventDelegate;
 }
 
 - (void)setBannerAdEventDelegate:(nullable id<GADMediationBannerAdEventDelegate>)eventDelegate {
-  _bannerAdEventDelegate = eventDelegate;
+    _bannerAdEventDelegate = eventDelegate;
 }
 
 - (GADMediationBannerLoadCompletionHandler)getLoadCompletionHandler {
-  return _bannerAdLoadCompletionHandler;
+    return _bannerAdLoadCompletionHandler;
 }
 
 - (void)setBannerView:(nullable ISDemandOnlyBannerView *)bannerView {
-  _iSDemandOnlyBannerView = bannerView;
+    _iSDemandOnlyBannerView = bannerView;
 }
 
 #pragma mark - Utils methods
 
 - (BOOL)canLoadBannerInstance {
-  return ![[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked];
+    return ![[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked];
 }
 
 #pragma mark - GADMediationBannerAd
 
 - (UIView *)view {
-  return _iSDemandOnlyBannerView;
+    return _iSDemandOnlyBannerView;
 }
 
 #pragma mark - Banner State
 
 - (NSString *)getState {
-  return self.instanceState;
+    return self.instanceState;
 }
 
 - (void)setState:(NSString *)state {
-  if (state == self.instanceState) {
-    return;
-  }
-
-  [GADMAdapterIronSourceUtils
-      onLog:[NSString stringWithFormat:
-                          @"Banner instance with ID: %@ changing from oldState=%@ to newState=%@",
-                          self.instanceID, self.instanceState, state]];
-  self.instanceState = state;
+    if (state == self.instanceState) {
+        return;
+    }
+    
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString stringWithFormat:
+            @"Banner instance with ID: %@ changing from oldState=%@ to newState=%@",
+            self.instanceID, self.instanceState, state]];
+    self.instanceState = state;
 }
 
 @end

@@ -21,9 +21,7 @@
 /// Initializes a new instance with adConfiguration and completionHandler.
 - (void)loadInterstitialForAdConfiguration:
             (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
-                                               completionHandler
-isIronSourceInitieted:(BOOL)ironSourceInitieted;
+                         completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)completionHandler;
 
 #pragma mark - Instance map Access
 

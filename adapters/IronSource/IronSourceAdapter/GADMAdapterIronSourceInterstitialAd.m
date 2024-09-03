@@ -56,8 +56,7 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
 - (void)loadInterstitialForAdConfiguration:
             (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
-                                               completionHandler
-                     isIronSourceInitieted:(BOOL)ironSourceInitieted {
+                                               completionHandler {
     _interstitalAdLoadCompletionHandler = completionHandler;
     // Default instance state
     self.instanceState = GADMAdapterIronSourceInstanceStateStart;
@@ -82,12 +81,9 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
          @"Using the default instance ID."];
         self.instanceID = GADMIronSourceDefaultInstanceId;
     }
-    if (ironSourceInitieted == YES){
-        [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
-    } else {
         [[GADMediationAdapterIronSource alloc]
          initIronSourceSDKWithAppKey:applicationKey
-         forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
+         forAdUnits:[NSSet setWithObject:IS_INTERSTITIAL] completionHandler:^(NSError * _Nullable error) {
             if (error) {
                 [GADMAdapterIronSourceUtils
                  onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
@@ -98,7 +94,7 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
                 [self loadInterstitialAdAfterInit:adConfiguration completionHandler:completionHandler];
             }
         }];
-    }
+    
 }
 
 - (void) loadInterstitialAdAfterInit:(GADMediationInterstitialAdConfiguration *)adConfiguration

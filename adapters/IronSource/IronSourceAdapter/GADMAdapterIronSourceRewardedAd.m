@@ -54,8 +54,7 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
 
 - (void)loadRewardedAdForConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                      completionHandler:
-(GADMediationRewardedLoadCompletionHandler)completionHandler
-isIronSourceInitiated:(BOOL)ironSourceInitiated {
+(GADMediationRewardedLoadCompletionHandler)completionHandler{
     _rewardedVideoAdLoadCompletionHandler = completionHandler;
     // Default instance state
     self.instanceState = GADMAdapterIronSourceInstanceStateStart;
@@ -80,23 +79,21 @@ isIronSourceInitiated:(BOOL)ironSourceInitiated {
         self.instanceID = GADMIronSourceDefaultInstanceId;
     }
     
-    if (ironSourceInitiated == YES){
-        [self loadRewardedAdAfterInit:adConfiguration completionHandler:completionHandler];
-    } else {
-        [[GADMediationAdapterIronSource alloc]
-         initIronSourceSDKWithAppKey:applicationKey
-         forAdUnits:[NSSet setWithObject:IS_BANNER] completionHandler:^(NSError * _Nullable error) {
-            if (error) {
-                [GADMAdapterIronSourceUtils
-                 onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
-                completionHandler(nil, error);
-            } else {
-                [GADMAdapterIronSourceUtils
-                 onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
-                [self loadRewardedAdAfterInit:adConfiguration completionHandler:completionHandler];
-            }
-        }];
-    }
+    
+    [[GADMediationAdapterIronSource alloc]
+     initIronSourceSDKWithAppKey:applicationKey
+     forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO] completionHandler:^(NSError * _Nullable error) {
+        if (error) {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
+            completionHandler(nil, error);
+        } else {
+            [GADMAdapterIronSourceUtils
+             onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
+            [self loadRewardedAdAfterInit:adConfiguration completionHandler:completionHandler];
+        }
+    }];
+    
 }
 
 - (void)loadRewardedAdAfterInit:(GADMediationRewardedAdConfiguration *)adConfiguration

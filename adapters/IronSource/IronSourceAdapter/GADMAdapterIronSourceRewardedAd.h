@@ -22,8 +22,7 @@
 - (void)loadRewardedAdForConfiguration:
             (nullable GADMediationRewardedAdConfiguration *)adConfiguration
                      completionHandler:
-                         (nullable GADMediationRewardedLoadCompletionHandler)completionHandler
-isIronSourceInitiated:(BOOL)ironSourceInitiated;
+                         (nullable GADMediationRewardedLoadCompletionHandler)completionHandler;
 
 #pragma mark - Instance map Access
 
