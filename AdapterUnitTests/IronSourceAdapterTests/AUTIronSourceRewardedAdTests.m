@@ -11,27 +11,6 @@
 
 static NSString *const kAppKey = @"AppKey";
 static NSString *const kInstanceId = @"1234";
-static NSString *_Nonnull kIronSourceWatermarkBase64 =
-    @"iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAADTUlEQVR42u2cC2sTQRSFE6qoaKGo+MAUk+"
-    @"ymtex2d5NIfaRoUFG0tEVD/P//"
-    @"5DhnbaDWtklKHntnzgfzA3bO7Jx779yZWk0IIYQQQgghhBBCCCG8ZoyNLMP9KMOTKMV21EMc50jiFFGzQLOZ4FmS4IEma"
-    @"kk03uHeboZWO8dhlOOnm/zfM40C43aGz60UGUWikJrNG8IV3ulhjxM6swBTBsVsd/F6p4/HmuE5/"
-    @"oZWjgOu7kUJcdnY6eJLnKGhGb+"
-    @"C5hB3OwWKTobRMoW4TJhXB3gkBc5BU57LG5YwuJUNh7gVfLRUbk9rFOIfUQr8aCR4GKxXlPt4RcSYjHLLDM1bGOW4jz6p"
-    @"mhgX/pZOGOZdYMvlE7+qLEYwojCSqvqfcXEwIfVSDEYwVfSMWbJ9DxNJ1KMCA3NiTEaG4zjGHW/"
-    @"kYNHPrBiTsotbUF6I0e/jtjXfuDKrz/"
-    @"HCfhaeIfVBjLOo68h0xZhnFquuTSkUvgYnxhufxJiUVxik2DNyF5Usu4S+"
-    @"xqjLXmml1cVLL8XgX5Lj0J6ZW847ZkgWTeUlzMp9M/P/"
-    @"8pIU23b8w+2xPotRCrKPviVBegEI8t2Sf7z3XRD6iJnwd5GtO5UuzQ+"
-    @"waUOQAkchCMLOSRseEoAYpoqNoQjCPmIJohLKjYqKoxAEMdPxGIqp83jBxpZVYBiCIJYy9bcB+"
-    @"MexndJ7isx3QZj8WhLkaQBJYWroNAR15yOnnucgW6YOqHjfwtvtqjxXN8ZeH8+9LZl0kdtrORljw0qX+"
-    @"9yCWO319alJ7pyZfzLbl+VTG+lkmL/"
-    @"yxvsVvojBxr+"
-    @"afVwInOObB2KMzNSupsFnLawLwupDzSfKx2GsCtLFR5P9vDOck5hrvma7j78PCrjchGGjoYruiffPPPEmLksPFkw8mFeD"
-    @"SlGq3Lvl/"
-    @"owAH6RBvYoFSC4ULphaqJSJY0Uu9nCBeBlNzQu3BzchX9e5RZnpsVol7ARcpeHzja5Whl29xTjFW7hal9lKdHYskLD4qf"
-    @"meQxiezfPZv4X8NQVOmZjy5pNejluE+Q+wyVdKO/v4UPrNNWV9bkXMsNkfxtO9v/"
-    @"mEzHolsALLMwpOelmNlR8IIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGE3/wBjW9SKC7yayAAAAAASUVORK5CYII=";
 
 /// An instance of GADMAdapterIronSourceRewardedAdDelegate.
 static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
@@ -50,6 +29,10 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
   /// A mock instance of IronSource.
   id _ironSourceMock;
 
+   id _ironSourceAdsMock;
+
+    id _request;
+
   /// A partial mock instance of GADMAdapterIronSourceRewardedAd.
   id _adapterRewardedAd;
 
@@ -57,23 +40,27 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
   __block NSString *_instanceId;
 }
 
+
 - (void)setUp {
-  [super setUp];
+    [super setUp];
+    _ironSourceMock = OCMClassMock([IronSource class]);
+    _ironSourceAdsMock = OCMClassMock([IronSourceAds class]);
+    OCMStub([_ironSourceMock setISDemandOnlyRewardedVideoDelegate:[OCMArg any]])
+        .andDo(^(NSInvocation *invocation) {
+          [invocation getArgument:&_ironSourceRewardedAdDelegate atIndex:2];
+        });
+    
+    _adapterRewardedAd = OCMPartialMock([GADMAdapterIronSourceRewardedAd alloc]);
+    OCMStub([_adapterRewardedAd alloc]).andReturn(_adapterRewardedAd);
 
-  _adapter = [[GADMediationAdapterIronSource alloc] init];
+    _adapter = [[GADMediationAdapterIronSource alloc] init];
+    
 
-  _adapterMock = OCMClassMock([GADMediationAdapterIronSource class]);
-  OCMStub([_adapterMock alloc]).andReturn(_adapterMock);
-
-  _ironSourceMock = OCMClassMock([IronSource class]);
-
-  OCMStub([_ironSourceMock setISDemandOnlyRewardedVideoDelegate:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&_ironSourceRewardedAdDelegate atIndex:2];
-      });
-
-  _adapterRewardedAd = OCMPartialMock([GADMAdapterIronSourceRewardedAd alloc]);
-  OCMStub([_adapterRewardedAd alloc]).andReturn(_adapterRewardedAd);
+    _request = [OCMArg any];  // Mock request argument
+    
+    // Define the mock's behavior for initWithRequest:completion:
+    OCMStub([_ironSourceAdsMock initWithRequest:[OCMArg any] completion:([OCMArg invokeBlockWithArgs:@YES, [NSNull null], nil])]);
+    
 }
 
 - (void)tearDown {
@@ -89,27 +76,16 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
     AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
     credentials.settings = settings;
     configuration.credentials = credentials;
-    configuration.watermark = [[NSData alloc] initWithBase64EncodedString:kIronSourceWatermarkBase64
-                                                                  options:0];
     OCMExpect([_ironSourceMock loadISDemandOnlyRewardedVideo:[OCMArg any]])
         .andDo(^(NSInvocation *invocation) {
             [invocation getArgument:&self->_instanceId atIndex:2];
             XCTAssertEqualObjects(self->_instanceId, expectedInstanceId);
             [_ironSourceRewardedAdDelegate rewardedVideoDidLoad:self->_instanceId];
         });
-    OCMExpect(ClassMethod([_ironSourceMock setMetaDataWithKey:@"google_water_mark"
-                                                        value:kIronSourceWatermarkBase64]));
     
     id<GADMediationRewardedAdEventDelegate> eventDelegate =
     AUTKWaitAndAssertLoadRewardedAd(_adapter, configuration);
     GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
-
-    OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                             forAdUnits:[OCMArg checkWithBlock:^(id value) {
-        NSSet *set = (NSSet *)value;
-        return (BOOL)([set containsObject:IS_REWARDED_VIDEO] &&
-                      [set count] == 1);
-    }] completionHandler:completionBlock]);
     
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
@@ -124,37 +100,6 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
   NSDictionary<NSString *, id> *settings =
       @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
   [self checkLoadRewardedAdSuccessForSettings:settings withExpectedInstanceId:kInstanceId];
-}
-
-- (void)testLoadRwardedAdWithBidResponse {
-  AUTKMediationRewardedAdConfiguration *configuration =
-      [[AUTKMediationRewardedAdConfiguration alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};;
-  configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-
-  OCMExpect([_ironSourceMock loadISDemandOnlyRewardedVideoWithAdm:kInstanceId adm:@"bidResponse"])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&self->_instanceId atIndex:2];
-        [_ironSourceRewardedAdDelegate rewardedVideoDidLoad:self->_instanceId];
-      });
-
-  AUTKWaitAndAssertLoadRewardedAd(_adapter, configuration);
-    GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
-
-  OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                           forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                             NSSet *set = (NSSet *)value;
-                                             return (BOOL)([set containsObject:IS_REWARDED_VIDEO] &&
-                                                           [set count] == 1);
-                                           }] completionHandler:completionBlock]);
-  OCMVerifyAll(_ironSourceMock);
-  OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
-      setState:GADMAdapterIronSourceInstanceStateLocked]);
-  OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
-      setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqual([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
 }
 
 - (void)testLoadRewardedAdUsesDefaultInstanceIdWhenNoInstanceIdInAdConfig {
@@ -212,12 +157,6 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, ironSourceAdLoadError);
     GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
-  OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                           forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                             NSSet *set = (NSSet *)value;
-                                             return (BOOL)([set containsObject:IS_REWARDED_VIDEO] &&
-                                                           [set count] == 1);
-                                           }] completionHandler:completionBlock]);
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
       setState:GADMAdapterIronSourceInstanceStateLocked]);

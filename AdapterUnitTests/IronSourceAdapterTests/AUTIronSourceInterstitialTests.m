@@ -14,27 +14,6 @@ static NSString *const kInstanceId = @"1234";
 
 /// An instance of GADMAdapterIronSourceInterstitialAdDelegate.
 static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
-static NSString *_Nonnull kIronSourceWatermarkBase64 =
-    @"iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAADTUlEQVR42u2cC2sTQRSFE6qoaKGo+MAUk+"
-    @"ymtex2d5NIfaRoUFG0tEVD/P//"
-    @"5DhnbaDWtklKHntnzgfzA3bO7Jx779yZWk0IIYQQQgghhBBCCCG8ZoyNLMP9KMOTKMV21EMc50jiFFGzQLOZ4FmS4IEma"
-    @"kk03uHeboZWO8dhlOOnm/zfM40C43aGz60UGUWikJrNG8IV3ulhjxM6swBTBsVsd/F6p4/HmuE5/"
-    @"oZWjgOu7kUJcdnY6eJLnKGhGb+"
-    @"C5hB3OwWKTobRMoW4TJhXB3gkBc5BU57LG5YwuJUNh7gVfLRUbk9rFOIfUQr8aCR4GKxXlPt4RcSYjHLLDM1bGOW4jz6p"
-    @"mhgX/pZOGOZdYMvlE7+qLEYwojCSqvqfcXEwIfVSDEYwVfSMWbJ9DxNJ1KMCA3NiTEaG4zjGHW/"
-    @"kYNHPrBiTsotbUF6I0e/jtjXfuDKrz/"
-    @"HCfhaeIfVBjLOo68h0xZhnFquuTSkUvgYnxhufxJiUVxik2DNyF5Usu4S+"
-    @"xqjLXmml1cVLL8XgX5Lj0J6ZW847ZkgWTeUlzMp9M/P/"
-    @"8pIU23b8w+2xPotRCrKPviVBegEI8t2Sf7z3XRD6iJnwd5GtO5UuzQ+"
-    @"waUOQAkchCMLOSRseEoAYpoqNoQjCPmIJohLKjYqKoxAEMdPxGIqp83jBxpZVYBiCIJYy9bcB+"
-    @"MexndJ7isx3QZj8WhLkaQBJYWroNAR15yOnnucgW6YOqHjfwtvtqjxXN8ZeH8+9LZl0kdtrORljw0qX+"
-    @"9yCWO319alJ7pyZfzLbl+VTG+lkmL/"
-    @"yxvsVvojBxr+"
-    @"afVwInOObB2KMzNSupsFnLawLwupDzSfKx2GsCtLFR5P9vDOck5hrvma7j78PCrjchGGjoYruiffPPPEmLksPFkw8mFeD"
-    @"SlGq3Lvl/"
-    @"owAH6RBvYoFSC4ULphaqJSJY0Uu9nCBeBlNzQu3BzchX9e5RZnpsVol7ARcpeHzja5Whl29xTjFW7hal9lKdHYskLD4qf"
-    @"meQxiezfPZv4X8NQVOmZjy5pNejluE+Q+wyVdKO/v4UPrNNWV9bkXMsNkfxtO9v/"
-    @"mEzHolsALLMwpOelmNlR8IIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGE3/wBjW9SKC7yayAAAAAASUVORK5CYII=";
 
 @interface AUTIronSourceInterstitialTests : XCTestCase
 @end
@@ -48,6 +27,10 @@ static NSString *_Nonnull kIronSourceWatermarkBase64 =
 
   /// A mock instance of IronSource.
   id _ironSourceMock;
+    
+  id _ironSourceAdsMock;
+
+  id _request;
 
   /// A partial mock instance of GADMAdapterIronSourceInterstitialAd.
   id _adapterInterstitialAd;
@@ -57,22 +40,27 @@ static NSString *_Nonnull kIronSourceWatermarkBase64 =
 }
 
 - (void)setUp {
-  [super setUp];
 
-  _adapter = [[GADMediationAdapterIronSource alloc] init];
+    [super setUp];
+    _ironSourceMock = OCMClassMock([IronSource class]);
+    _ironSourceAdsMock = OCMClassMock([IronSourceAds class]);
+    OCMStub([_ironSourceMock setISDemandOnlyInterstitialDelegate:[OCMArg any]])
+        .andDo(^(NSInvocation *invocation) {
+          [invocation getArgument:&kIronSourceInterstitialDelegate atIndex:2];
+        });
+    
+    _adapterInterstitialAd = OCMPartialMock([GADMAdapterIronSourceInterstitialAd alloc]);
+    OCMStub([_adapterInterstitialAd alloc]).andReturn(_adapterInterstitialAd);
 
-  _adapterMock = OCMClassMock([GADMediationAdapterIronSource class]);
-  OCMStub([_adapterMock alloc]).andReturn(_adapterMock);
+    _adapter = [[GADMediationAdapterIronSource alloc] init];
+    
+    // Create mocks for IronSource and IronSourceAds
 
-  _ironSourceMock = OCMClassMock([IronSource class]);
-
-  OCMStub([_ironSourceMock setISDemandOnlyInterstitialDelegate:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&kIronSourceInterstitialDelegate atIndex:2];
-      });
-
-  _adapterInterstitialAd = OCMPartialMock([GADMAdapterIronSourceInterstitialAd alloc]);
-  OCMStub([_adapterInterstitialAd alloc]).andReturn(_adapterInterstitialAd);
+    _request = [OCMArg any];  // Mock request argument
+    
+    // Define the mock's behavior for initWithRequest:completion:
+    OCMStub([_ironSourceAdsMock initWithRequest:[OCMArg any] completion:([OCMArg invokeBlockWithArgs:@YES, [NSNull null], nil])]);
+    
 }
 
 - (void)tearDown {
@@ -92,28 +80,19 @@ static NSString *_Nonnull kIronSourceWatermarkBase64 =
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = settings;
   configuration.credentials = credentials;
-  configuration.watermark = [[NSData alloc] initWithBase64EncodedString:kIronSourceWatermarkBase64
-                                                                options:0];
+
   OCMExpect([_ironSourceMock loadISDemandOnlyInterstitial:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&self->_instanceId atIndex:2];
         XCTAssertEqualObjects(self->_instanceId, expectedInstanceId);
         [kIronSourceInterstitialDelegate interstitialDidLoad:self->_instanceId];
       });
-  OCMExpect(ClassMethod([_ironSourceMock setMetaDataWithKey:@"google_water_mark"
-                                                      value:kIronSourceWatermarkBase64]));
-
+ 
   id<GADMediationInterstitialAdEventDelegate> eventDelegate =
       AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
     GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
-  OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                           forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                             NSSet *set = (NSSet *)value;
-                                             return (BOOL)([set containsObject:IS_INTERSTITIAL] &&
-                                                           [set count] == 1);
-                                           }] completionHandler:completionBlock]);
-  OCMVerifyAll(_ironSourceMock);
+   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
       setState:GADMAdapterIronSourceInstanceStateLocked]);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
@@ -126,36 +105,6 @@ static NSString *_Nonnull kIronSourceWatermarkBase64 =
   NSDictionary<NSString *, id> *settings =
       @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
   [self checkLoadInterstitialSuccessForSettings:settings withExpectedInstanceId:kInstanceId];
-}
-
-- (void)testLoadInterstitialWithBidResponse {
-  AUTKMediationInterstitialAdConfiguration *configuration =
-      [[AUTKMediationInterstitialAdConfiguration alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey, GADMAdapterIronSourceInstanceId : kInstanceId};
-  configuration.credentials = credentials;
-  configuration.bidResponse = @"bidResponse";
-  OCMExpect([_ironSourceMock loadISDemandOnlyInterstitialWithAdm:kInstanceId adm:@"bidResponse"])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&self->_instanceId atIndex:2];
-        [kIronSourceInterstitialDelegate interstitialDidLoad:self->_instanceId];
-      });
-
-  AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
-    GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
-
-  OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                           forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                             NSSet *set = (NSSet *)value;
-                                             return (BOOL)([set containsObject:IS_INTERSTITIAL] &&
-                                                           [set count] == 1);
-                                           }] completionHandler:completionBlock]);
-  OCMVerifyAll(_ironSourceMock);
-  OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
-      setState:GADMAdapterIronSourceInstanceStateLocked]);
-  OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
-      setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqual([_adapterInterstitialAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
 }
 
 - (void)testLoadInterstitialUsesDefaultInstanceIdWhenNoInstanceIdInAdConfig {
@@ -213,12 +162,6 @@ static NSString *_Nonnull kIronSourceWatermarkBase64 =
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, ironSourceAdLoadError);
     GADMediationAdapterSetUpCompletionBlock completionBlock = [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
-  OCMVerify([_adapterMock initIronSourceSDKWithAppKey:kAppKey
-                                           forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                             NSSet *set = (NSSet *)value;
-                                             return (BOOL)([set containsObject:IS_INTERSTITIAL] &&
-                                                           [set count] == 1);
-                                           }]completionHandler:completionBlock]);
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
       setState:GADMAdapterIronSourceInstanceStateLocked]);

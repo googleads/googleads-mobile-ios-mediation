@@ -24,7 +24,10 @@ static NSString *const AUTIronSourceBannerTestsInstanceId = @"1234";
 
   /// A mock instance of IronSource.
   id _ironSourceMock;
+    id _ironSourceAdsMock;
+    id _request;
 
+    
   /// A banner ad delegate.
   GADMAdapterIronSourceBannerAdDelegate *_bannerAdDelegate;
 
@@ -36,13 +39,26 @@ static NSString *const AUTIronSourceBannerTestsInstanceId = @"1234";
 }
 
 - (void)setUp {
-  [super setUp];
-
-  _adapter = [[GADMediationAdapterIronSource alloc] init];
-
-  _ironSourceMock = OCMClassMock([IronSource class]);
-  OCMStub(ClassMethod([_ironSourceMock initISDemandOnly:OCMOCK_ANY adUnits:@[ IS_BANNER ]]));
+    [super setUp];
+    _adapter = [[GADMediationAdapterIronSource alloc] init];
+    
+    // Create mocks for IronSource and IronSourceAds
+    _ironSourceMock = OCMClassMock([IronSource class]);
+    _ironSourceAdsMock = OCMClassMock([IronSourceAds class]);
+    _request = [OCMArg any];
+    
+    // Define the mock's behavior for initWithRequest:completion:
+    OCMStub([_ironSourceAdsMock initWithRequest:[OCMArg any] completion:([OCMArg invokeBlockWithArgs:@YES, [NSNull null], nil])]);
 }
+
+- (void)tearDown {
+    // Clean up to avoid interference with other tests
+    [_ironSourceMock stopMocking];
+    [_ironSourceAdsMock stopMocking];
+    
+    [super tearDown];
+}
+
 
 - (void)setUpIronSourceMethods {
   __block id<ISDemandOnlyBannerDelegate> loadDelegate = nil;
