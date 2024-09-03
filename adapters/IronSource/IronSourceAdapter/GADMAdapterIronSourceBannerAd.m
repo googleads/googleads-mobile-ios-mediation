@@ -89,7 +89,7 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
         if (error) {
             [GADMAdapterIronSourceUtils
              onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@", error]];
-            _bannerAdLoadCompletionHandler(nil, error);
+            completionHandler(nil, error);
         } else {
             [GADMAdapterIronSourceUtils
              onLog:[NSString stringWithFormat:@"IronSource SDK initialized successfully"]];
