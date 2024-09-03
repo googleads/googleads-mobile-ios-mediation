@@ -9,10 +9,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/IronSource.h>
 
-#ifndef GADMAdapterIronSourceRtbRewardedAd_h
-#define GADMAdapterIronSourceRtbRewardedAd_h
-
-
 @interface GADMAdapterIronSourceRtbRewardedAd : NSObject <GADMediationRewardedAd,ISARewardedAdDelegate, ISARewardedAdLoaderDelegate>
 
 @property(nonatomic, copy) NSString *instanceID;
@@ -26,7 +22,4 @@
                      completionHandler:
 (GADMediationRewardedLoadCompletionHandler)completionHandler;
 
-
-
 @end
-#endif /* GADMAdapterIronSourceRtbRewardedAd_h */
