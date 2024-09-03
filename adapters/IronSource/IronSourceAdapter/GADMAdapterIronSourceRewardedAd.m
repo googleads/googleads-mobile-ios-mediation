@@ -76,7 +76,7 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
     } else {
         [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource rewarded ad Instance ID. "
          @"Using the default instance ID."];
-        self.instanceID = GADMIronSourceDefaultInstanceId;
+        self.instanceID = GADMIronSourceDefaultNonRtbInstanceId;
     }
     
     

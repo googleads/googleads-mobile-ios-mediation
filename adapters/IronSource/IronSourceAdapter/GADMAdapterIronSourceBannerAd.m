@@ -79,7 +79,7 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
         [GADMAdapterIronSourceUtils
          onLog:
              @"Missing or invalid IronSource banner ad Instance ID. Using the default instance ID."];
-        self.instanceID = GADMIronSourceDefaultInstanceId;
+        self.instanceID = GADMIronSourceDefaultNonRtbInstanceId;
     }
     
     

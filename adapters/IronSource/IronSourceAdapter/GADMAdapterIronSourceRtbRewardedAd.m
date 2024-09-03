@@ -44,7 +44,7 @@
     } else {
         [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource interstitial ad Instance ID. "
          @"Using the default instance ID."];
-        self.instanceID = GADMIronSourceDefaultInstanceId;
+        self.instanceID = GADMIronSourceDefaultRtbInstanceId;
     }
     
     NSString *bidResponse = adConfiguration.bidResponse;
