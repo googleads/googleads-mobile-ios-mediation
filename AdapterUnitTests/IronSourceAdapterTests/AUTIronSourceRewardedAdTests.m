@@ -92,7 +92,7 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
       setState:GADMAdapterIronSourceInstanceStateLocked]);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
       setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqual([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
+  XCTAssertEqualObjects([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
   return eventDelegate;
 }
 
@@ -105,7 +105,7 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
 - (void)testLoadRewardedAdUsesDefaultInstanceIdWhenNoInstanceIdInAdConfig {
   NSDictionary<NSString *, id> *settings = @{GADMAdapterIronSourceAppKey : kAppKey};
   [self checkLoadRewardedAdSuccessForSettings:settings
-                       withExpectedInstanceId:GADMIronSourceDefaultInstanceId];
+                       withExpectedInstanceId:GADMIronSourceDefaultNonRtbInstanceId];
 }
 
 - (void)testLoadFailureWithEmptyAppKey {
@@ -162,7 +162,7 @@ withExpectedInstanceId:(NSString *)expectedInstanceId {
       setState:GADMAdapterIronSourceInstanceStateLocked]);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
       setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqual([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
+    XCTAssertEqualObjects([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
 }
 
 - (AUTKMediationRewardedAdEventDelegate *)loadRewardedAdAndGetEventDelegate {

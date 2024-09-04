@@ -159,7 +159,7 @@ static NSString *const AUTIronSourceBannerTestsInstanceId = @"1234";
   AUTKMediationBannerAdEventDelegate *delegate =
       AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
-  XCTAssertEqualObjects(self->_instanceID, GADMIronSourceDefaultInstanceId);
+  XCTAssertEqualObjects(self->_instanceID, GADMIronSourceDefaultNonRtbInstanceId);
 }
 
 - (void)testLoadFailureWhenIronSourceAdLoadFails {

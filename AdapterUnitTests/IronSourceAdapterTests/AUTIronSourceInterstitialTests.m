@@ -97,7 +97,7 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
       setState:GADMAdapterIronSourceInstanceStateLocked]);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
       setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqual([_adapterInterstitialAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
+  XCTAssertEqualObjects([_adapterInterstitialAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
   return eventDelegate;
 }
 
@@ -110,7 +110,7 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
 - (void)testLoadInterstitialUsesDefaultInstanceIdWhenNoInstanceIdInAdConfig {
   NSDictionary<NSString *, id> *settings = @{GADMAdapterIronSourceAppKey : kAppKey};
   [self checkLoadInterstitialSuccessForSettings:settings
-                         withExpectedInstanceId:GADMIronSourceDefaultInstanceId];
+                         withExpectedInstanceId:GADMIronSourceDefaultNonRtbInstanceId];
 }
 
 - (void)testLoadFailureWithEmptyAppKey {
