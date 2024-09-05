@@ -22,6 +22,9 @@ final class FakeMolocoRewarded {
   /// The load error that occured.
   let loadError: Error?
 
+  /// The show error that occured.
+  let showError: Error?
+
   /// Var to capture the bid response that was used to load the ad on Moloco SDK. Used for
   /// assertion. It is initlialized to a value that is never asserted for.
   var bidResponseUsedToLoadMolocoAd: String = "nil"
@@ -33,10 +36,14 @@ final class FakeMolocoRewarded {
 
   /// If loadError is nil, this fake mimics load success. If loadError is not nil, this fake mimics
   /// load failure.
-  init(rewardedDelegate: any MolocoSDK.MolocoRewardedDelegate, loadError: Error?) {
+  init(
+    rewardedDelegate: any MolocoSDK.MolocoRewardedDelegate, loadError: Error?,
+    isReadyToBeShown: Bool = true, showError: Error?
+  ) {
     self.rewardedDelegate = rewardedDelegate
+    self.isReady = isReadyToBeShown
     self.loadError = loadError
-    self.isReady = false
+    self.showError = showError
   }
 
 }
@@ -46,7 +53,14 @@ final class FakeMolocoRewarded {
 extension FakeMolocoRewarded: MolocoSDK.MolocoRewardedInterstitial {
 
   func show(from viewController: UIViewController) {
-    // No-op.
+    guard let rewardedDelegate else { return }
+    if !isReady || showError != nil {
+      rewardedDelegate.failToShow(ad: self, with: showError)
+      return
+    }
+
+    // Simulate show and the subsequent ad lifecycle events.
+    rewardedDelegate.didShow(ad: self)
   }
 
   func show(from viewController: UIViewController, muted: Bool) {

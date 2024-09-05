@@ -23,8 +23,6 @@ final class FakeMolocoRewardedFactory {
 
   let isReadyToBeShown: Bool
 
-  let showShallSucceed: Bool
-
   let showError: Error?
 
   /// Var to capture the ad unit ID that was used to create the Moloco interstitial ad object.
@@ -36,12 +34,10 @@ final class FakeMolocoRewardedFactory {
   /// The parameters passed here are used to create FakeMolocoRewarded. See FakeMolocoRewarded for
   /// how these parameters are used.
   init(
-    loadError: Error?, isReadyToBeShown: Bool = false, showShallSucceed: Bool = true,
-    showError: Error? = nil
+    loadError: Error?, isReadyToBeShown: Bool = true, showError: Error? = nil
   ) {
     self.loadError = loadError
     self.isReadyToBeShown = isReadyToBeShown
-    self.showShallSucceed = showShallSucceed
     self.showError = showError
   }
 
@@ -55,7 +51,9 @@ extension FakeMolocoRewardedFactory: MolocoRewardedFactory {
     any MolocoSDK.MolocoRewardedInterstitial
   )? {
     adUnitIDUsedToCreateMolocoAd = adUnit
-    fakeMolocoRewarded = FakeMolocoRewarded(rewardedDelegate: delegate, loadError: loadError)
+    fakeMolocoRewarded = FakeMolocoRewarded(
+      rewardedDelegate: delegate, loadError: loadError, isReadyToBeShown: isReadyToBeShown,
+      showError: showError)
     return fakeMolocoRewarded
   }
 

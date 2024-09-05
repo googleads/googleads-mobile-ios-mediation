@@ -72,9 +72,16 @@ final class RewardedAdLoader: NSObject {
 
 extension RewardedAdLoader: GADMediationRewardedAd {
 
+  @MainActor
   func present(from viewController: UIViewController) {
+    guard let rewardedAd, rewardedAd.isReady else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adNotReadyForShow, description: "Ad is not ready to be shown")
+      eventDelegate?.didFailToPresentWithError(error)
+      return
+    }
     eventDelegate?.willPresentFullScreenView()
-    // TODO: implement
+    rewardedAd.show(from: viewController)
   }
 
 }
@@ -104,11 +111,15 @@ extension RewardedAdLoader: MolocoRewardedDelegate {
   }
 
   func didShow(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.reportImpression()
   }
 
   func failToShow(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
-    // TODO: b/360350265 - Add implementation.
+    let showError =
+      error
+      ?? MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+    eventDelegate?.didFailToPresentWithError(showError)
   }
 
   func didHide(ad: any MolocoSDK.MolocoAd) {
