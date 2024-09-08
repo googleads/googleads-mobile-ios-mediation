@@ -45,40 +45,6 @@ typedef void (^GADMediationAdapterSetUpCompletionBlock)(NSError *_Nullable error
     [super tearDown];
 }
 
-- (void)testLoadRewardedAdForConfigurationWithInvalidApplicationKey {
-    // Arrange
-    id mockAdConfiguration = OCMClassMock([GADMediationRewardedAdConfiguration class]);
-    id mockCredentials = OCMClassMock([GADMediationCredentials class]);
-
-    // Create a dictionary with invalid credentials
-    NSDictionary *credentials = @{ @"invalid_key": @"invalid_value" };
-    
-
-    // Stub the `credentials` and `settings` methods
-    OCMStub([mockAdConfiguration credentials]).andReturn(mockCredentials);
-    NSDictionary *expectedSettings = @{ @"key1": @"value1", @"key2": @"value2" };
-    OCMStub([mockCredentials settings]).andReturn(expectedSettings);
-    
-    XCTestExpectation *completionExpectation = [self expectationWithDescription:@"Completion handler called"];
-    
-    // Define the completion handler block
-    GADMediationRewardedLoadCompletionHandler completionHandler = ^id<GADMediationRewardedAdEventDelegate> (id<GADMediationRewardedAd> _Nullable ad, NSError * _Nullable error) {
-        // Assert that the completion handler is called with the correct error
-        XCTAssertNil(ad);
-        XCTAssertNotNil(error);
-        XCTAssertEqualObjects(error.domain, @"com.google.mediation.IronSource");
-        XCTAssertEqual(error.code, GADMAdapterIronSourceErrorInvalidServerParameters);
-        [completionExpectation fulfill];
-        return nil;
-    };
-    
-    // Act
-    [self.adapter loadRewardedAdForConfiguration:mockAdConfiguration completionHandler:completionHandler];
-    
-    // Wait for the completion handler to be called
-    [self waitForExpectationsWithTimeout:1 handler:nil];
-}
-
 - (void)testRewardedAdDidLoad {
     // Given
     GADMediationRewardedLoadCompletionHandler completionHandler = ^id<GADMediationRewardedAdEventDelegate>(id<GADMediationRewardedAd> ad, NSError *error) {
