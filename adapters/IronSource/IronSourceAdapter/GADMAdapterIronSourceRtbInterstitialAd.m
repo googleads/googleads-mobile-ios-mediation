@@ -29,9 +29,6 @@
 
 @interface GADMAdapterIronSourceRtbInterstitialAd ()
 
-// An ad event delegate to invoke when ad rendering events occur.
-@property(weak, nonatomic) id<GADMediationInterstitialAdEventDelegate> interstitialAdEventDelegate;
-
 /// Holds the ID of the ad instance to be presented.
 @property(nonatomic, copy) NSString *instanceID;
 

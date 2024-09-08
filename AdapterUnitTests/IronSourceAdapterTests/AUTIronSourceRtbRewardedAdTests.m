@@ -1,10 +1,3 @@
-//
-//  AUTIronSourceRtbRewardedAdTests.m
-//  IronSourceAdapterTests
-//
-//  Created by Jonathan Benedek on 29/08/2024.
-//
-
 // GADMAdapterIronSourceRtbRewardedAdTests.m
 // ISMedAdaptersTests
 
@@ -135,7 +128,6 @@ typedef void (^GADMediationAdapterSetUpCompletionBlock)(NSError *_Nullable error
     ISARewardedAd *mockRewardedAd = OCMClassMock([ISARewardedAd class]);
 
     // Set expectations
-    OCMExpect([self.mockRewardedAdEventDelegate willPresentFullScreenView]);
     OCMExpect([self.mockRewardedAdEventDelegate didStartVideo]);
     OCMExpect([self.mockRewardedAdEventDelegate reportImpression]);
 

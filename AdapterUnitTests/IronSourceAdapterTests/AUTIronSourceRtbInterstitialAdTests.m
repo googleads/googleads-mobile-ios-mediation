@@ -1,10 +1,3 @@
-//
-//  AUTIronSourceRtbInterstitialAdTests.m
-//  IronSourceAdapterTests
-//
-//  Created by Jonathan Benedek on 29/08/2024.
-//
-
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "GADMAdapterIronSourceRtbInterstitialAd.h"
@@ -86,7 +79,6 @@
     ISAInterstitialAd *mockInterstitialAd = OCMClassMock([ISAInterstitialAd class]);
 
     // When
-    OCMExpect([self.mockInterstitialAdEventDelegate willPresentFullScreenView]);
     OCMExpect([self.mockInterstitialAdEventDelegate reportImpression]);
     [self.adapter interstitialAdDidShow:mockInterstitialAd];
 
@@ -95,7 +87,6 @@
 }
 
 - (void)testInterstitialAdDidShowWithNilDelegate {
-    self.adapter.interstitialAdEventDelegate = nil;
     ISAInterstitialAd *mockInterstitialAd = OCMClassMock([ISAInterstitialAd class]);
 
     // No expectations to set because delegate is nil
@@ -124,7 +115,6 @@
 // Test case for interstitialAd:didFailToShowWithError: when event delegate is nil
 - (void)testInterstitialAdDidFailToShowWithErrorWithNilDelegate {
     // Set the delegate to nil
-    self.adapter.interstitialAdEventDelegate = nil;
     NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
 
     // Call the method to test

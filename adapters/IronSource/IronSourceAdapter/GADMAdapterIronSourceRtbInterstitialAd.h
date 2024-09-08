@@ -22,6 +22,7 @@
 @property(copy, nonatomic)
 GADMediationInterstitialLoadCompletionHandler _Nullable interstitalAdLoadCompletionHandler;
 @property (nonatomic, strong) ISAInterstitialAd * _Nullable biddingISAInterstitialAd;
+@property(weak, nonatomic) id<GADMediationInterstitialAdEventDelegate> _Nullable interstitialAdEventDelegate;
 
 /// Initializes a new instance with adConfiguration and completionHandler.
 - (void)loadInterstitialForAdConfiguration:
