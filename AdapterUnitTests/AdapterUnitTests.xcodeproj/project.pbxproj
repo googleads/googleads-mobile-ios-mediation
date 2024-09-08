@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
+		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */; };
 		44B303462AB232D700652006 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ACFB072AB11D4B00035A73 /* libAdapter.a */; };
 		44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -148,6 +150,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		15AA9EC22C8706B1000F577E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 150C06C32C7F4111001B1F21;
+			remoteInfo = IronSourceAdapterTests;
+		};
 		44ACFB062AB11D4B00035A73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
@@ -522,6 +531,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AUTIronSourceRtbRewardedAdTests.m; path = "../../../google-jonny-test/googleads-mobile-ios-mediation/AdapterUnitTests/IronSourceAdapterTests/AUTIronSourceRtbRewardedAdTests.m"; sourceTree = "<group>"; };
+		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AUTIronSourceRtbInterstitialAdTests.m; path = "../../../google-jonny-test/googleads-mobile-ios-mediation/AdapterUnitTests/IronSourceAdapterTests/AUTIronSourceRtbInterstitialAdTests.m"; sourceTree = "<group>"; };
 		44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppLovinAdapter.xcodeproj; path = ../adapters/AppLovinAdapter/AppLovinAdapter.xcodeproj; sourceTree = "<group>"; };
 		44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLovinAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinAdapterTests.m; sourceTree = "<group>"; };
@@ -944,6 +955,7 @@
 			children = (
 				AD0D6E852AF59116002C0B60 /* libAdapter.a */,
 				AD00C4EA2B88225F007C85F3 /* IronSourceAdapter.framework */,
+				15AA9EC32C8706B1000F577E /* IronSourceAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -951,6 +963,8 @@
 		AD0D6E932AF5917E002C0B60 /* IronSourceAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */,
+				15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */,
 				AD0D6EC32AF59944002C0B60 /* IronSourceAdapterTests.xctestplan */,
 				AD0D6EA92AF59517002C0B60 /* AUTIronSourceAdapterTests.m */,
 				AD0D6EBD2AF596A3002C0B60 /* AUTIronSourceBannerTests.m */,
@@ -1678,6 +1692,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		15AA9EC32C8706B1000F577E /* IronSourceAdapterTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = IronSourceAdapterTests.xctest;
+			remoteRef = 15AA9EC22C8706B1000F577E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		44ACFB072AB11D4B00035A73 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2055,8 +2076,10 @@
 				AD0D6EAA2AF59517002C0B60 /* AUTIronSourceAdapterTests.m in Sources */,
 				AD0D6EBE2AF596A3002C0B60 /* AUTIronSourceBannerTests.m in Sources */,
 				AD0D6EC22AF5985B002C0B60 /* AUTIronSourceRewardedAdTests.m in Sources */,
+				15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */,
 				AD0D6EC02AF597EE002C0B60 /* AUTIronSourceInterstitialTests.m in Sources */,
 				70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */,
+				15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,10 +1,10 @@
-// Copyright 2023 Google LLC
+// Copyright 2024 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     https://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,6 @@
 @property (nonatomic, strong) GADMediationInterstitialLoadCompletionHandler delegate;
 @property (nonatomic, strong) id<GADMediationInterstitialAdEventDelegate>  gadIsDelegate;
 
-
-
-- (instancetype)initWithParentAdapter:(GADMAdapterIronSourceRtbInterstitialAd *)parentAdapter andNotify:(GADMediationInterstitialLoadCompletionHandler)delegate;
 @end
 
 @interface GADMAdapterIronSourceRtbInterstitialAd ()
@@ -43,12 +40,7 @@
 
 @end
 
-
 @implementation GADMAdapterIronSourceRtbInterstitialAd
-
-#pragma mark InstanceMap and Delegate initialization
-// The class-level delegate handling callbacks for all instances
-
 
 #pragma mark - Load functionality
 
@@ -59,18 +51,6 @@
     _interstitalAdLoadCompletionHandler = completionHandler;
     
     NSDictionary *credentials = [adConfiguration.credentials settings];
-    NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
-    
-    if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-        applicationKey = credentials[GADMAdapterIronSourceAppKey];
-    } else {
-        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-                                                                          GADMAdapterIronSourceErrorInvalidServerParameters,
-                                                                          @"Missing or invalid IronSource application key.");
-        
-        _interstitalAdLoadCompletionHandler(nil, error);
-        return;
-    }
     
     if (credentials[GADMAdapterIronSourceInstanceId]) {
         self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
@@ -110,19 +90,11 @@
     }
     
     [self.biddingISAInterstitialAd setDelegate:self];
-    [self.biddingISAInterstitialAd showFromViewController:viewController ];
+    [self.biddingISAInterstitialAd showFromViewController:viewController];
+    [interstitialDelegate willPresentFullScreenView];
 }
 
-
-- (void)interstitialAd:(nonnull ISAInterstitialAd *)interstitialAd didFailToShowWithError:(nonnull NSError *)error {
-    [GADMAdapterIronSourceUtils
-     onLog:[NSString stringWithFormat:@"%@ with error= %@", NSStringFromSelector(_cmd), error.localizedDescription]];
-    id<GADMediationInterstitialAdEventDelegate> interstitialDelegate = self.interstitialAdEventDelegate;
-    if (!interstitialDelegate){
-        return;
-    }
-    [interstitialDelegate didFailToPresentWithError:error];
-}
+#pragma mark - ISAInterstitialAdLoaderDelegate
 
 - (void)interstitialAdDidLoad:(nonnull ISAInterstitialAd *)interstitialAd {
     [GADMAdapterIronSourceUtils
@@ -149,6 +121,18 @@
     
 }
 
+#pragma mark - ISAInterstitialAdDelegate
+
+- (void)interstitialAd:(nonnull ISAInterstitialAd *)interstitialAd didFailToShowWithError:(nonnull NSError *)error {
+    [GADMAdapterIronSourceUtils
+     onLog:[NSString stringWithFormat:@"%@ with error= %@", NSStringFromSelector(_cmd), error.localizedDescription]];
+    id<GADMediationInterstitialAdEventDelegate> interstitialDelegate = self.interstitialAdEventDelegate;
+    if (!interstitialDelegate){
+        return;
+    }
+    [interstitialDelegate didFailToPresentWithError:error];
+}
+
 - (void)interstitialAdDidShow:(nonnull ISAInterstitialAd *)interstitialAd {
     [GADMAdapterIronSourceUtils
      onLog:[NSString stringWithFormat:@"%@ instanceId= %@ adId= %@", NSStringFromSelector(_cmd),
@@ -158,7 +142,6 @@
     if (!interstitialDelegate){
         return;
     }
-    [interstitialDelegate willPresentFullScreenView];
     [interstitialDelegate reportImpression];
     
 }
@@ -188,6 +171,5 @@
     [interstitialDelegate willDismissFullScreenView];
     [interstitialDelegate didDismissFullScreenView];
 }
-
 
 @end

@@ -1,18 +1,20 @@
+// Copyright 2024 Google Inc.
 //
-//  GADMAdapterIronSourceRtbInterstitialAd.h
-//  ISMedAdapters
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Jonathan Benedek on 12/08/2024.
-//  Copyright © 2024 ironSource Ltd. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/IronSource.h>
-
-#ifndef GADMAdapterIronSourceRtbInterstitialAd_h
-#define GADMAdapterIronSourceRtbInterstitialAd_h
-
 
 /// Adapter for communicating with the IronSource Network to fetch interstitial ads.
 @interface GADMAdapterIronSourceRtbInterstitialAd : NSObject <GADMediationInterstitialAd,ISAInterstitialAdDelegate, ISAInterstitialAdLoaderDelegate>
@@ -27,19 +29,4 @@ GADMediationInterstitialLoadCompletionHandler _Nullable interstitalAdLoadComplet
                          completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler;
 
-#pragma mark - Instance map Access
-
-// Retrieve a delegate from the instance map
-//+ (nonnull GADMAdapterIronSourceInterstitialAd *)delegateForKey:(nonnull NSString *)key;
-
-
-#pragma mark - Getters and Setters
-
-
-/// Set the interstitial event delegate for Admob mediation.
-- (void)setInterstitialAdEventDelegate:
-    (nullable id<GADMediationInterstitialAdEventDelegate>)eventDelegate;
-
 @end
-
-#endif /* GADMAdapterIronSourceRtbInterstitialAd_h */

@@ -33,8 +33,8 @@ typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
 };
 
 @interface GADMediationAdapterIronSource : NSObject <GADRTBAdapter>
-@property (nonatomic, strong) GADMAdapterIronSourceRtbInterstitialAd * _Nullable rtbIsAd;
-@property (nonatomic, strong) GADMAdapterIronSourceRtbRewardedAd * _Nullable rtbRvAd;
+@property (nonatomic, strong) GADMAdapterIronSourceRtbInterstitialAd * _Nullable rtbInterstitialAd;
+@property (nonatomic, strong) GADMAdapterIronSourceRtbRewardedAd * _Nullable rtbRewardedAd;
 
 - (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler;
 

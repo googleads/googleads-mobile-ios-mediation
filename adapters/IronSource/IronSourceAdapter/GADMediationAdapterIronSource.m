@@ -130,8 +130,8 @@
                        completionHandler:
 (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
     if (adConfiguration.bidResponse){
-        _rtbRvAd = [GADMAdapterIronSourceRtbRewardedAd alloc];
-        [_rtbRvAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler ];
+        _rtbRewardedAd = [GADMAdapterIronSourceRtbRewardedAd alloc];
+        [_rtbRewardedAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler ];
     } else {
         _rewardedAd = [GADMAdapterIronSourceRewardedAd alloc];
         [_rewardedAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler];
@@ -155,8 +155,8 @@ completionHandler {
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
 completionHandler {
     if (adConfiguration.bidResponse){
-        self.rtbIsAd = [GADMAdapterIronSourceRtbInterstitialAd alloc];
-        [self.rtbIsAd loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler ];
+        self.rtbInterstitialAd = [GADMAdapterIronSourceRtbInterstitialAd alloc];
+        [self.rtbInterstitialAd loadInterstitialForAdConfiguration:adConfiguration completionHandler:completionHandler ];
         
     } else {
         _interstitialAd = [GADMAdapterIronSourceInterstitialAd alloc];

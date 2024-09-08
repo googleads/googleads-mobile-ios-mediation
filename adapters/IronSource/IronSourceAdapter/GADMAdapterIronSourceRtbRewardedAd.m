@@ -1,10 +1,16 @@
+// Copyright 2024 Google Inc.
 //
-//  GADMAdapterIronSourceRtbRewardedAd.m
-//  ISMedAdapters
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  Created by Jonathan Benedek on 13/08/2024.
-//  Copyright © 2024 ironSource Ltd. All rights reserved.
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #import <Foundation/Foundation.h>
 
@@ -26,18 +32,6 @@
     _rewardedAdLoadCompletionHandler = completionHandler;
     
     NSDictionary *credentials = [adConfiguration.credentials settings];
-    NSString *applicationKey = credentials[GADMAdapterIronSourceAppKey];
-    
-    if (applicationKey != nil && ![GADMAdapterIronSourceUtils isEmpty:applicationKey]) {
-        applicationKey = credentials[GADMAdapterIronSourceAppKey];
-    } else {
-        NSError *error = GADMAdapterIronSourceErrorWithCodeAndDescription(
-                                                                          GADMAdapterIronSourceErrorInvalidServerParameters,
-                                                                          @"Missing or invalid IronSource application key.");
-        
-        _rewardedAdLoadCompletionHandler(nil, error);
-        return;
-    }
     
     if (credentials[GADMAdapterIronSourceInstanceId]) {
         self.instanceID = credentials[GADMAdapterIronSourceInstanceId];
@@ -74,7 +68,11 @@
     
     [self.biddingISARewardedAd setDelegate:self];
     [self.biddingISARewardedAd showFromViewController:viewController ];
+    [rewardedDelegate willPresentFullScreenView];
 }
+
+#pragma mark - ISARewardedAdLoaderDelegate
+
 
 - (void)rewardedAdDidLoad:(nonnull ISARewardedAd *)rewardedAd {
     [GADMAdapterIronSourceUtils
@@ -98,6 +96,8 @@
     self.rewardedAdLoadCompletionHandler(nil, error);
 }
 
+#pragma mark - ISARewardedAdDelegate
+
 - (void)rewardedAdDidShow:(nonnull ISARewardedAd *)rewardedAd {
     [GADMAdapterIronSourceUtils
      onLog:[NSString stringWithFormat:@"%@ instanceId= %@ adId= %@", NSStringFromSelector(_cmd),
@@ -108,7 +108,6 @@
         return;
     }
     
-    [rewardedDelegate willPresentFullScreenView];
     [rewardedDelegate didStartVideo];
     [rewardedDelegate reportImpression];
 }
