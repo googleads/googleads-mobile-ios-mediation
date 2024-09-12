@@ -3,6 +3,12 @@
 #### [Next version]
 - Remove the check before show if it is ready.
 
+#### [Version 7.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.1.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.8.0.
+- Mintegral SDK version 7.7.1.
 
 #### [Version 7.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.0.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.0.

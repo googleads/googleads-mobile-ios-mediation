@@ -1,5 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### [Version 8.3.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.2.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.3.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.8.0.
+- DT Exchange SDK version 8.3.2.
+
 #### [Version 8.3.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.1.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.3.1.
 

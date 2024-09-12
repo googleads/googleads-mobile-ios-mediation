@@ -83,4 +83,62 @@ final class MolocoRewardedAdTest: XCTestCase {
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, mediationAdConfig, loadError)
   }
 
+  func testRewardedShowTriggersImpression() {
+    let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil)
+    let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
+    let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Constants.bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
+
+    adEventDelegate.rewardedAd?.present(from: UIViewController())
+
+    XCTAssertNil(adEventDelegate.didFailToPresentError)
+    XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
+  }
+
+  func testRewardedShowFailurePopulatesPresentError() {
+    let showError = NSError(domain: "moloco_sdk_domain", code: 1003)
+    let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil, showError: showError)
+    let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
+    let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Constants.bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
+
+    adEventDelegate.rewardedAd?.present(from: UIViewController())
+
+    XCTAssertNotNil(adEventDelegate.didFailToPresentError)
+    let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
+    XCTAssertEqual(didFailToPresentError?.domain, "moloco_sdk_domain")
+    XCTAssertEqual(didFailToPresentError?.code, 1003)
+    XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
+  }
+
+  func testRewardedShowFailureWhenNotReady() {
+    let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil, isReadyToBeShown: false)
+    let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
+    let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Constants.bidResponse
+    let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
+
+    adEventDelegate.rewardedAd?.present(from: UIViewController())
+
+    XCTAssertNotNil(adEventDelegate.didFailToPresentError)
+    let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
+    XCTAssertEqual(didFailToPresentError?.domain, MolocoConstants.adapterErrorDomain)
+    XCTAssertEqual(didFailToPresentError?.code, MolocoAdapterErrorCode.adNotReadyForShow.rawValue)
+    XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
+  }
+
 }
