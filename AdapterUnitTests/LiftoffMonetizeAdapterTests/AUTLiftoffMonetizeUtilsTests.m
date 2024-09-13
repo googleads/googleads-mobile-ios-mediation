@@ -14,28 +14,42 @@ static NSString* const kPlacementID = @"12345";
 @implementation AUTLiftoffMonetizeUtilsTests
 
 - (void)testLiftoffSizeForMediumRectangleSize {
-  XCTAssertEqual(
-      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeMediumRectangle, kPlacementID),
-      VungleAdSize.VungleAdSizeMREC);
+    VungleAdSize* vungleAdSize =
+        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeMediumRectangle, kPlacementID);
+
+    XCTAssertNotNil(vungleAdSize);
+    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeMREC.size.width);
+    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeMREC.size.height);
 }
 
 - (void)testLiftoffSizeForLeaderboardSize {
-  XCTAssertEqual(
-      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeLeaderboard, kPlacementID),
-      VungleAdSize.VungleAdSizeLeaderboard);
+    VungleAdSize* vungleAdSize =
+        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeLeaderboard, kPlacementID);
+
+    XCTAssertNotNil(vungleAdSize);
+    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeLeaderboard.size.width);
+    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeLeaderboard.size.height);
 }
 
 - (void)testLiftoffSizeForStandardBannerSize {
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeBanner, kPlacementID),
-                 VungleAdSize.VungleAdSizeBannerRegular);
+    VungleAdSize* vungleAdSize =
+        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeBanner, kPlacementID);
+
+    XCTAssertNotNil(vungleAdSize);
+    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerRegular.size.width);
+    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerRegular.size.height);
 }
 
 - (void)testLiftoffSizeForShortBannerSize {
   const CGSize shortBannerCGSize = {300, 50};
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(shortBannerCGSize);
+    
+    VungleAdSize* vungleAdSize =
+        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(shortBannerSize, kPlacementID);
 
-  XCTAssertEqual(GADMAdapterVungleConvertGADAdSizeToVungleAdSize(shortBannerSize, kPlacementID),
-                 VungleAdSize.VungleAdSizeBannerShort);
+    XCTAssertNotNil(vungleAdSize);
+    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerShort.size.width);
+    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerShort.size.height);
 }
 
 - (void)testLiftoffReturnsCustomSizeForNonStandardGoogleBannerSize {
