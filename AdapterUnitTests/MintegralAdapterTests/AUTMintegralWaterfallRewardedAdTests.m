@@ -125,8 +125,6 @@ static NSString *const kUnitID = @"67890";
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader onVideoAdShowSuccess:kPlacementID unitId:kUnitID];
       });
-  OCMStub([_rewardedAdMock isVideoReadyToPlayWithPlacementId:kPlacementID unitId:kUnitID])
-      .andReturn(YES);
   AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAd];
   // Assert the initial values of the counts before they are verified after the "Act" steps.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
@@ -158,8 +156,6 @@ static NSString *const kUnitID = @"67890";
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader onVideoAdShowSuccess:kPlacementID unitId:kUnitID];
       });
-  OCMStub([_rewardedAdMock isVideoReadyToPlayWithPlacementId:kPlacementID unitId:kUnitID])
-      .andReturn(YES);
   AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAd];
   // Assert the initial values of the counts before they are verified after the "Act" steps.
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
@@ -180,16 +176,6 @@ static NSString *const kUnitID = @"67890";
   XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
-- (void)testShowFailureForAdNotReadyToShow {
-  OCMStub([_rewardedAdMock isVideoReadyToPlayWithPlacementId:kPlacementID unitId:kUnitID])
-      .andReturn(NO);
-  AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAd];
-
-  [_adLoader presentFromViewController:[[UIViewController alloc] init]];
-
-  XCTAssertEqual(eventDelegate.didFailToPresentError.code, GADMintegralErrorAdFailedToShow);
-}
-
 - (void)testShowFailure {
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
                                                       code:GADMintegralErrorAdFailedToShow
@@ -204,8 +190,6 @@ static NSString *const kUnitID = @"67890";
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader onVideoAdShowFailed:kPlacementID unitId:kUnitID withError:expectedError];
       });
-  OCMStub([_rewardedAdMock isVideoReadyToPlayWithPlacementId:kPlacementID unitId:kUnitID])
-      .andReturn(YES);
   AUTKMediationRewardedAdEventDelegate *eventDelegate = [self loadAd];
   XCTAssertEqual(eventDelegate.willPresentFullScreenViewInvokeCount, 0);
 

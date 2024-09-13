@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### [Next version]
+- Removed the isAdReady check before interstitial/rewarded ads are shown.
+
 #### [Version 7.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.1.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.1.
 

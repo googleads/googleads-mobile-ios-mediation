@@ -114,16 +114,9 @@
 
 #pragma mark - GADMediationInterstitialAd
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
-  _interstitialAd.playVideoMute = extras.muteVideoAudio;
-  if ([_interstitialAd isAdReady]) {
+    GADMAdapterMintegralExtras *extras = _adConfiguration.extras;
+    _interstitialAd.playVideoMute = extras.muteVideoAudio;
     [_interstitialAd showFromViewController:viewController];
-  } else {
-    NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
-        GADMintegralErrorAdFailedToShow,
-        @"Mintegral SDK failed to present a waterfall interstitial ad.");
-    [_adEventDelegate didFailToPresentWithError:error];
-  }
 }
 
 @end
