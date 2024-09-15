@@ -62,10 +62,6 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
   IASDKCore.sharedInstance.userData = extras.userData;
   IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
 
-  if (extras.keywords) {
-    IASDKCore.sharedInstance.keywords = extras.keywords;
-  }
-
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;
     builder.spotID = spotID;
