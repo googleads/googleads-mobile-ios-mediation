@@ -105,6 +105,8 @@ static NSString *const kAppKey2 = @"AppKey_2";
   rewardedCredentials.format = GADAdFormatRewarded;
   AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
   bannerCredentials.format = GADAdFormatBanner;
+  GADMediationAdapterSetUpCompletionBlock completionBlock =
+      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
   OCMExpect([_adapter initIronSourceSDKWithAppKey:kAppKey1
                                        forAdUnits:[OCMArg checkWithBlock:^(id value) {
                                          NSSet *set = (NSSet *)value;
@@ -112,7 +114,8 @@ static NSString *const kAppKey2 = @"AppKey_2";
                                                        [set containsObject:IS_INTERSTITIAL] &&
                                                        [set containsObject:IS_REWARDED_VIDEO] &&
                                                        [set containsObject:IS_BANNER]);
-                                       }]])
+                                       }]
+                                completionHandler:completionBlock])
       .andDo(nil);
 
   AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
@@ -131,10 +134,13 @@ static NSString *const kAppKey2 = @"AppKey_2";
   rewardedCredentials.format = GADAdFormatRewarded;
   AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
   bannerCredentials.format = GADAdFormatBanner;
+  GADMediationAdapterSetUpCompletionBlock completionBlock =
+      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
   OCMExpect([_adapter initIronSourceSDKWithAppKey:[OCMArg checkWithBlock:^(id value) {
                         return ([@[ kAppKey1, kAppKey2 ] containsObject:value]);
                       }]
-                                       forAdUnits:[OCMArg any]])
+                                       forAdUnits:[OCMArg any]
+                                completionHandler:completionBlock])
       .andDo(nil);
 
   AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(

@@ -54,8 +54,9 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
 
 #pragma mark - Load functionality
 
-- (void)loadBannerAdForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
-                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+- (void)loadBannerAdForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
   _bannerAdLoadCompletionHandler = completionHandler;
   // Default instance state
   self.instanceState = GADMAdapterIronSourceInstanceStateStart;
@@ -78,12 +79,30 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
     [GADMAdapterIronSourceUtils
         onLog:
             @"Missing or invalid IronSource banner ad Instance ID. Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
+    self.instanceID = GADMIronSourceDefaultNonRtbInstanceId;
   }
 
   [[GADMediationAdapterIronSource alloc]
       initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_BANNER]];
+                       forAdUnits:[NSSet setWithObject:IS_BANNER]
+                completionHandler:^(NSError *_Nullable error) {
+                  if (error) {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@",
+                                                         error]];
+                    completionHandler(nil, error);
+                  } else {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString
+                                  stringWithFormat:@"IronSource SDK initialized successfully"]];
+                    [self loadBannerAdAfterInit:adConfiguration
+                              completionHandler:completionHandler];
+                  }
+                }];
+}
+
+- (void)loadBannerAdAfterInit:(GADMediationBannerAdConfiguration *)adConfiguration
+            completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   if (bannerDelegate == nil) {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"IronSource adapter banner delegate is null."]];

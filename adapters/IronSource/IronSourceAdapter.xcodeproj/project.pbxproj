@@ -32,7 +32,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		150C06BB2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */; };
+		150C06BC2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
+		150C06BD2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */; };
+		150C06BE2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */; };
 		35F410631FB4D85B000B379C /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F410611FB4D85B000B379C /* IronSourceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70AEE77C2C950A3600D22A43 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */; };
+		70AEE77D2C950A3D00D22A43 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
 		EF11BA9A2AA9F12F00E24BBD /* GADMAdapterIronSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EF11BA852AA9F12F00E24BBD /* GADMAdapterIronSource.m */; };
 		EF11BA9B2AA9F12F00E24BBD /* GADMAdapterIronSourceRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = EF11BA862AA9F12F00E24BBD /* GADMAdapterIronSourceRewarded.m */; };
 		EF11BA9C2AA9F12F00E24BBD /* GADMAdapterIronSourceRewardedAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EF11BA872AA9F12F00E24BBD /* GADMAdapterIronSourceRewardedAdDelegate.h */; };
@@ -81,6 +87,10 @@
 /* Begin PBXFileReference section */
 		00DD266322F10AA90039C1D4 /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		00DD26BF22F10EB80039C1D4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRtbInterstitialAd.m; sourceTree = "<group>"; };
+		150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRtbRewardedAd.m; sourceTree = "<group>"; };
+		150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRtbInterstitialAd.h; sourceTree = "<group>"; };
+		150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRtbRewardedAd.h; sourceTree = "<group>"; };
 		350BFE00202D074F00C76B52 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		350BFE01202D074F00C76B52 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		35F410611FB4D85B000B379C /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IronSourceAdapter.h; sourceTree = "<group>"; };
@@ -174,6 +184,10 @@
 				EF11BA922AA9F12F00E24BBD /* GADMAdapterIronSourceInterstitialAdDelegate.h */,
 				EF11BA962AA9F12F00E24BBD /* GADMAdapterIronSourceInterstitialAdDelegate.m */,
 				EF11BA972AA9F12F00E24BBD /* GADMAdapterIronSourceRewarded.h */,
+				150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */,
+				150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */,
+				150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */,
+				150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */,
 				EF11BA862AA9F12F00E24BBD /* GADMAdapterIronSourceRewarded.m */,
 				EF11BA8B2AA9F12F00E24BBD /* GADMAdapterIronSourceRewardedAd.h */,
 				EF11BA942AA9F12F00E24BBD /* GADMAdapterIronSourceRewardedAd.m */,
@@ -245,6 +259,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150C06BE2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */,
+				150C06BD2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +392,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70AEE77D2C950A3D00D22A43 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */,
+				70AEE77C2C950A3600D22A43 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */,
 				EF11BAA52AA9F12F00E24BBD /* GADMAdapterIronSourceBannerAd.m in Sources */,
 				EF11BAA32AA9F12F00E24BBD /* GADMediationAdapterIronSource.m in Sources */,
 				EF11BAA92AA9F12F00E24BBD /* GADMAdapterIronSourceRewardedAd.m in Sources */,
@@ -393,6 +411,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150C06BB2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */,
+				150C06BC2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

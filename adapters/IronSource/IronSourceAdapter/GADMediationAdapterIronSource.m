@@ -80,8 +80,8 @@
 
   // Initiailize the IronSource SDK
   [[GADMediationAdapterIronSource alloc] initIronSourceSDKWithAppKey:appKey
-                                                          forAdUnits:ironSourceAdUnits];
-  completionHandler(nil);
+                                                          forAdUnits:ironSourceAdUnits
+                                                   completionHandler:completionHandler];
 }
 
 + (GADVersionNumber)adSDKVersion {
@@ -128,8 +128,15 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  _rewardedAd = [GADMAdapterIronSourceRewardedAd alloc];
-  [_rewardedAd loadRewardedAdForConfiguration:adConfiguration completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbRewardedAd = [GADMAdapterIronSourceRtbRewardedAd alloc];
+    [_rtbRewardedAd loadRewardedAdForConfiguration:adConfiguration
+                                 completionHandler:completionHandler];
+  } else {
+    _rewardedAd = [GADMAdapterIronSourceRewardedAd alloc];
+    [_rewardedAd loadRewardedAdForConfiguration:adConfiguration
+                              completionHandler:completionHandler];
+  }
 }
 
 - (void)loadRewardedInterstitialAdForAdConfiguration:
@@ -148,9 +155,16 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  _interstitialAd = [GADMAdapterIronSourceInterstitialAd alloc];
-  [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
-                                    completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    self.rtbInterstitialAd = [GADMAdapterIronSourceRtbInterstitialAd alloc];
+    [self.rtbInterstitialAd loadInterstitialForAdConfiguration:adConfiguration
+                                             completionHandler:completionHandler];
+
+  } else {
+    _interstitialAd = [GADMAdapterIronSourceInterstitialAd alloc];
+    [_interstitialAd loadInterstitialForAdConfiguration:adConfiguration
+                                      completionHandler:completionHandler];
+  }
 }
 
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
@@ -162,25 +176,29 @@
 
 #pragma mark - Initialize IronSource SDK
 
-- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey forAdUnits:(nonnull NSSet *)adUnits {
-  if ([adUnits member:IS_INTERSTITIAL] != nil) {
-    static dispatch_once_t onceTokenIS;
-    dispatch_once(&onceTokenIS, ^{
-      [IronSource initISDemandOnly:appKey adUnits:@[ IS_INTERSTITIAL ]];
-    });
-  }
-  if ([adUnits member:IS_REWARDED_VIDEO] != nil) {
-    static dispatch_once_t onceTokenRV;
-    dispatch_once(&onceTokenRV, ^{
-      [IronSource initISDemandOnly:appKey adUnits:@[ IS_REWARDED_VIDEO ]];
-    });
-  }
-  if ([adUnits member:IS_BANNER] != nil) {
-    static dispatch_once_t onceTokenBN;
-    dispatch_once(&onceTokenBN, ^{
-      [IronSource initISDemandOnly:appKey adUnits:@[ IS_BANNER ]];
-    });
-  }
+- (void)initIronSourceSDKWithAppKey:(nonnull NSString *)appKey
+                         forAdUnits:(nonnull NSSet *)adUnits
+                  completionHandler:
+                      (nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  NSArray<ISAAdFormat *> *adunitToInit =
+      [GADMAdapterIronSourceUtils adFormatsToInitializeForAdUnits:adUnits];
+  ISAInitRequestBuilder *requestBuilder =
+      [[[ISAInitRequestBuilder alloc] initWithAppKey:appKey] withLegacyAdFormats:adunitToInit];
+  ISAInitRequest *request = [requestBuilder build];
+
+  [IronSourceAds
+      initWithRequest:request
+           completion:^(BOOL success, NSError *_Nullable error) {
+             if (!success || error) {
+               [GADMAdapterIronSourceUtils
+                   onLog:[NSString stringWithFormat:@"iAds init failed with error reason: %@",
+                                                    error.localizedDescription]];
+               completionHandler(error);
+               return;
+             }
+             [GADMAdapterIronSourceUtils onLog:[NSString stringWithFormat:@"iAds SDK initialized"]];
+             completionHandler(nil);
+           }];
 }
 
 @end

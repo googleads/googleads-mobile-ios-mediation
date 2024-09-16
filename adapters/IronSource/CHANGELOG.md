@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated to use the new IronSource SDK APIs for bidding.
+
 #### [Version 8.3.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.3.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.3.0.0.
 

@@ -76,13 +76,30 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
   } else {
     [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource rewarded ad Instance ID. "
                                       @"Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
+    self.instanceID = GADMIronSourceDefaultNonRtbInstanceId;
   }
 
   [[GADMediationAdapterIronSource alloc]
       initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO]];
+                       forAdUnits:[NSSet setWithObject:IS_REWARDED_VIDEO]
+                completionHandler:^(NSError *_Nullable error) {
+                  if (error) {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@",
+                                                         error]];
+                    completionHandler(nil, error);
+                  } else {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString
+                                  stringWithFormat:@"IronSource SDK initialized successfully"]];
+                    [self loadRewardedAdAfterInit:adConfiguration
+                                completionHandler:completionHandler];
+                  }
+                }];
+}
 
+- (void)loadRewardedAdAfterInit:(GADMediationRewardedAdConfiguration *)adConfiguration
+              completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
   if (rewardedDelegate == nil) {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"IronSource adapter rewarded delegate is null."]];
@@ -96,13 +113,7 @@ static GADMAdapterIronSourceRewardedAdDelegate *rewardedDelegate = nil;
         onLog:[NSString stringWithFormat:@"Loading IronSource rewarded ad with Instance ID: %@",
                                          self.instanceID]];
 
-    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
-    NSString *bidResponse = adConfiguration.bidResponse;
-    if(bidResponse) {
-      [IronSource loadISDemandOnlyRewardedVideoWithAdm:self.instanceID adm:bidResponse];
-    } else{
-      [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
-    }
+    [IronSource loadISDemandOnlyRewardedVideo:self.instanceID];
   } else {
     NSString *errorMsg =
         [NSString stringWithFormat:

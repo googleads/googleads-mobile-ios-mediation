@@ -96,12 +96,43 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
   return nil;
 }
 
-+ (void)setWatermarkWithAdConfiguration:(nonnull GADMediationAdConfiguration *)adConfiguration {
-  NSData *watermark = adConfiguration.watermark;
-  if (watermark != nil) {
-    NSString *watermarkString = [watermark base64EncodedStringWithOptions:0];
-    [IronSource setMetaDataWithKey:@"google_water_mark" value:watermarkString];
++ (NSArray<ISAAdFormat *> *_Nullable)adFormatsToInitializeForAdUnits:(nonnull NSSet *)adUnits {
+  NSMutableArray<ISAAdFormat *> *adFormatsToInitialize = [NSMutableArray array];
+
+  if ([adUnits member:IS_INTERSTITIAL] != nil) {
+    ISAAdFormat *interstitial =
+        [[ISAAdFormat alloc] initWithAdFormatType:ISAAdFormatTypeInterstitial];
+    [adFormatsToInitialize
+        addObject:interstitial];  // Allow pattern. interstitial is definitely not nil.
   }
+
+  if ([adUnits member:IS_REWARDED_VIDEO] != nil) {
+    ISAAdFormat *rewarded = [[ISAAdFormat alloc] initWithAdFormatType:ISAAdFormatTypeRewarded];
+    [adFormatsToInitialize addObject:rewarded];  // Allow pattern. rewarded is definitely not nil.
+  }
+
+  if ([adUnits member:IS_BANNER] != nil) {
+    ISAAdFormat *banner = [[ISAAdFormat alloc] initWithAdFormatType:ISAAdFormatTypeBanner];
+    [adFormatsToInitialize addObject:banner];  // Allow pattern. banner is definitely not nil.
+  }
+
+  return [adFormatsToInitialize copy];
+}
+
++ (nonnull NSMutableDictionary<NSString *, NSString *> *)getExtraParamsWithWatermark:
+    (nullable NSData *)watermarkData {
+  NSMutableDictionary<NSString *, NSString *> *extraParams = [[NSMutableDictionary alloc] init];
+
+  if (watermarkData != nil) {
+    NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+    if (watermarkString) {
+      [extraParams
+          setObject:watermarkString  // Allow pattern. watermarkString is definitely not nil.
+             forKey:GADMAdapterIronSourceWatermark];  // Allow pattern. The key is definitly not nil
+                                                      // here.
+    }
+  }
+  return extraParams;
 }
 
 @end

@@ -54,9 +54,9 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
 #pragma mark - Load functionality
 
 - (void)loadInterstitialForAdConfiguration:
-            (GADMediationInterstitialAdConfiguration *)adConfiguration
-                         completionHandler:
-                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+            (nullable GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:(nullable GADMediationInterstitialLoadCompletionHandler)
+                                               completionHandler {
   _interstitalAdLoadCompletionHandler = completionHandler;
   // Default instance state
   self.instanceState = GADMAdapterIronSourceInstanceStateStart;
@@ -79,13 +79,30 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
   } else {
     [GADMAdapterIronSourceUtils onLog:@"Missing or invalid IronSource interstitial ad Instance ID. "
                                       @"Using the default instance ID."];
-    self.instanceID = GADMIronSourceDefaultInstanceId;
+    self.instanceID = GADMIronSourceDefaultNonRtbInstanceId;
   }
-
   [[GADMediationAdapterIronSource alloc]
       initIronSourceSDKWithAppKey:applicationKey
-                       forAdUnits:[NSSet setWithObject:IS_INTERSTITIAL]];
+                       forAdUnits:[NSSet setWithObject:IS_INTERSTITIAL]
+                completionHandler:^(NSError *_Nullable error) {
+                  if (error) {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString stringWithFormat:@"Failed to initialize IronSource SDK: %@",
+                                                         error]];
+                    completionHandler(nil, error);
+                  } else {
+                    [GADMAdapterIronSourceUtils
+                        onLog:[NSString
+                                  stringWithFormat:@"IronSource SDK initialized successfully"]];
+                    [self loadInterstitialAdAfterInit:adConfiguration
+                                    completionHandler:completionHandler];
+                  }
+                }];
+}
 
+- (void)loadInterstitialAdAfterInit:(GADMediationInterstitialAdConfiguration *)adConfiguration
+                  completionHandler:
+                      (GADMediationInterstitialLoadCompletionHandler)completionHandler {
   if (interstitialDelegate == nil) {
     [GADMAdapterIronSourceUtils
         onLog:[NSString stringWithFormat:@"IronSource adapter interstitial delegate is null."]];
@@ -99,13 +116,8 @@ static GADMAdapterIronSourceInterstitialAdDelegate *interstitialDelegate = nil;
         onLog:[NSString stringWithFormat:@"Loading IronSource interstitial ad with Instance ID: %@",
                                          self.instanceID]];
 
-    [GADMAdapterIronSourceUtils setWatermarkWithAdConfiguration:adConfiguration];
-    NSString *bidResponse = adConfiguration.bidResponse;
-    if(bidResponse) {
-      [IronSource loadISDemandOnlyInterstitialWithAdm:self.instanceID adm:bidResponse];
-    } else{
-      [IronSource loadISDemandOnlyInterstitial:self.instanceID];
-    }
+    [IronSource loadISDemandOnlyInterstitial:self.instanceID];
+
   } else {
     NSString *errorMsg = [NSString
         stringWithFormat:
