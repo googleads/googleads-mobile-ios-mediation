@@ -58,13 +58,9 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
   GADMAdapterFyberExtras *extras = adConfiguration.extras;
-    
+
   IASDKCore.sharedInstance.userData = extras.userData;
   IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
-
-  if (extras.keywords) {
-    IASDKCore.sharedInstance.keywords = extras.keywords;
-  }
 
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;

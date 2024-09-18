@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next Version
+- Removed deprecated usage of keywords.
+
 #### [Version 8.3.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.2.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.3.2.
 
