@@ -24,11 +24,11 @@ abstract_target 'Default' do
   # LineAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('LineAdapter')
 
-    pod 'GoogleMobileAdsMediationLine', :path => '../adapters/LineAdapter/CocoaPods/GoogleMobileAdsMediationLine.podspec.json'
+    pod 'GoogleMobileAdsMediationLine', :path => '../adapters/Line/CocoaPods/GoogleMobileAdsMediationLine.podspec.json'
 
     # Dependencies for LineAdapter static library.
     target 'Adapter' do
-      project '../adapters/LineAdapter/LineAdapter.xcodeproj'
+      project '../adapters/Line/LineAdapter.xcodeproj'
     end
 
     # Dependencies for LineAdapter unit tests.
@@ -41,11 +41,11 @@ abstract_target 'Default' do
   # DTExchangeAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('DTExchangeAdapter')
 
-    pod 'GoogleMobileAdsMediationFyber', :path => '../adapters/DTExchangeAdapter/CocoaPods/GoogleMobileAdsMediationFyber.podspec.json'
+    pod 'GoogleMobileAdsMediationFyber', :path => '../adapters/DTExchange/CocoaPods/GoogleMobileAdsMediationFyber.podspec.json'
 
     # Dependencies for DTExchangeAdapter static library.
     target 'Adapter' do
-      project '../adapters/DTExchangeAdapter/DTExchangeAdapter.xcodeproj'
+      project '../adapters/DTExchange/DTExchangeAdapter.xcodeproj'
     end
 
     # Dependencies for DTExchangeAdapter unit tests.
@@ -58,11 +58,11 @@ abstract_target 'Default' do
   # UnityAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('UnityAdapter')
 
-    pod 'GoogleMobileAdsMediationUnity', :path => '../adapters/UnityAdapter/CocoaPods/GoogleMobileAdsMediationUnity.podspec.json'
+    pod 'GoogleMobileAdsMediationUnity', :path => '../adapters/Unity/CocoaPods/GoogleMobileAdsMediationUnity.podspec.json'
 
     # Dependencies for DTExchangeAdapter static library.
     target 'Adapter' do
-      project '../adapters/UnityAdapter/UnityAdapter.xcodeproj'
+      project '../adapters/Unity/UnityAdapter.xcodeproj'
     end
 
     # Dependencies for DTExchangeAdapter unit tests.
@@ -75,11 +75,11 @@ abstract_target 'Default' do
   # AppLovinAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('AppLovinAdapter')
 
-    pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovinAdapter/CocoaPods/GoogleMobileAdsMediationAppLovin.podspec.json'
+    pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovin/CocoaPods/GoogleMobileAdsMediationAppLovin.podspec.json'
 
     # Dependencies for AppLovinAdapter static library.
     target 'Adapter' do
-      project '../adapters/AppLovinAdapter/AppLovinAdapter.xcodeproj'
+      project '../adapters/AppLovin/AppLovinAdapter.xcodeproj'
     end
 
     # Dependencies for AppLovinAdapter unit tests.
@@ -92,11 +92,11 @@ abstract_target 'Default' do
   # PangleAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('PangleAdapter')
 
-    pod 'GoogleMobileAdsMediationPangle', :path => '../adapters/PangleAdapter/CocoaPods/GoogleMobileAdsMediationPangle.podspec.json'
+    pod 'GoogleMobileAdsMediationPangle', :path => '../adapters/Pangle/CocoaPods/GoogleMobileAdsMediationPangle.podspec.json'
 
     # Dependencies for PangleAdapter static library.
     target 'Adapter' do
-      project '../adapters/PangleAdapter/PangleAdapter.xcodeproj'
+      project '../adapters/Pangle/PangleAdapter.xcodeproj'
     end
 
     # Dependencies for PangleAdapter unit tests.
@@ -126,11 +126,11 @@ abstract_target 'Default' do
   # ChartboostAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('ChartboostAdapter')
 
-    pod 'GoogleMobileAdsMediationChartboost', :path => '../adapters/ChartboostAdapter/CocoaPods/GoogleMobileAdsMediationChartboost.podspec.json'
+    pod 'GoogleMobileAdsMediationChartboost', :path => '../adapters/Chartboost/CocoaPods/GoogleMobileAdsMediationChartboost.podspec.json'
 
     # Dependencies for ChartboostAdapter static library.
     target 'Adapter' do
-      project '../adapters/ChartboostAdapter/ChartboostAdapter.xcodeproj'
+      project '../adapters/Chartboost/ChartboostAdapter.xcodeproj'
     end
 
     # Dependencies for ChartboostAdapter unit tests.
@@ -143,11 +143,11 @@ abstract_target 'Default' do
   # IronSourceAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('IronSourceAdapter')
 
-    pod 'GoogleMobileAdsMediationIronSource', :path => '../adapters/IronSourceAdapter/CocoaPods/GoogleMobileAdsMediationIronSource.podspec.json'
+    pod 'GoogleMobileAdsMediationIronSource', :path => '../adapters/IronSource/CocoaPods/GoogleMobileAdsMediationIronSource.podspec.json'
 
     # Dependencies for IronSourceAdapter static library.
     target 'Adapter' do
-      project '../adapters/IronSourceAdapter/IronSourceAdapter.xcodeproj'
+      project '../adapters/IronSource/IronSourceAdapter.xcodeproj'
     end
 
     # Dependencies for IronSourceAdapter unit tests.
@@ -160,11 +160,11 @@ abstract_target 'Default' do
   # LiftoffMonetizeAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('LiftoffMonetizeAdapter')
 
-    pod 'GoogleMobileAdsMediationVungle', :path => '../adapters/LiftoffMonetizeAdapter/CocoaPods/GoogleMobileAdsMediationVungle.podspec.json'
+    pod 'GoogleMobileAdsMediationVungle', :path => '../adapters/LiftoffMonetize/CocoaPods/GoogleMobileAdsMediationVungle.podspec.json'
 
     # Dependencies for LiftoffMonetizeAdapter static library.
     target 'Adapter' do
-      project '../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter.xcodeproj'
+      project '../adapters/LiftoffMonetize/LiftoffMonetizeAdapter.xcodeproj'
     end
 
     # Dependencies for LiftoffMonetizeAdapter unit tests.
@@ -177,11 +177,11 @@ abstract_target 'Default' do
   # MaioAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MaioAdapter')
 
-    pod 'GoogleMobileAdsMediationMaio', :path => '../adapters/MaioAdapter/CocoaPods/GoogleMobileAdsMediationMaio.podspec.json'
+    pod 'GoogleMobileAdsMediationMaio', :path => '../adapters/Maio/CocoaPods/GoogleMobileAdsMediationMaio.podspec.json'
 
     # Dependencies for MaioAdapter static library.
     target 'Adapter' do
-      project '../adapters/MaioAdapter/MaioAdapter.xcodeproj'
+      project '../adapters/Maio/MaioAdapter.xcodeproj'
     end
 
     # Dependencies for MaioAdapter unit tests.
@@ -194,11 +194,11 @@ abstract_target 'Default' do
   # MyTargetAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MyTargetAdapter')
 
-    pod 'GoogleMobileAdsMediationMyTarget', :path => '../adapters/MyTargetAdapter/CocoaPods/GoogleMobileAdsMediationMyTarget.podspec.json'
+    pod 'GoogleMobileAdsMediationMyTarget', :path => '../adapters/MyTarget/CocoaPods/GoogleMobileAdsMediationMyTarget.podspec.json'
 
     # Dependencies for MyTargetAdapter static library.
     target 'Adapter' do
-      project '../adapters/MyTargetAdapter/MyTargetAdapter.xcodeproj'
+      project '../adapters/MyTarget/MyTargetAdapter.xcodeproj'
     end
 
     # Dependencies for MyTargetAdapter unit tests.
@@ -211,11 +211,11 @@ abstract_target 'Default' do
   # IMobileAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('IMobileAdapter')
 
-    pod 'GoogleMobileAdsMediationIMobile', :path => '../adapters/IMobileAdapter/CocoaPods/GoogleMobileAdsMediationIMobile.podspec.json'
+    pod 'GoogleMobileAdsMediationIMobile', :path => '../adapters/I-Mobile/CocoaPods/GoogleMobileAdsMediationIMobile.podspec.json'
 
     # Dependencies for IMobileAdapter static library.
     target 'Adapter' do
-      project '../adapters/IMobileAdapter/IMobileAdapter.xcodeproj'
+      project '../adapters/I-Mobile/IMobileAdapter.xcodeproj'
     end
 
     # Dependencies for IMobileAdapter unit tests.
