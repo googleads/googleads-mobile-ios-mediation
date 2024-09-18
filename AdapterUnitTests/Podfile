@@ -109,11 +109,11 @@ abstract_target 'Default' do
   # MintegralAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MintegralAdapter')
 
-    pod 'GoogleMobileAdsMediationMintegral', :path => '../adapters/MintegralAdapter/CocoaPods/GoogleMobileAdsMediationMintegral.podspec.json'
+    pod 'GoogleMobileAdsMediationMintegral', :path => '../adapters/Mintegral/CocoaPods/GoogleMobileAdsMediationMintegral.podspec.json'
 
     # Dependencies for MintegralAdapter static library.
     target 'Adapter' do
-      project '../adapters/MintegralAdapter/MintegralAdapter.xcodeproj'
+      project '../adapters/Mintegral/MintegralAdapter.xcodeproj'
     end
 
     # Dependencies for MintegralAdapter unit tests.
