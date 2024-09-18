@@ -136,8 +136,7 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterVunglePlacementID : kPlacementID};
   VungleAdNetworkExtras *extras = [[VungleAdNetworkExtras alloc] init];
-  // 1 means topLeft.
-  extras.nativeAdOptionPosition = 1;
+  extras.nativeAdOptionPosition = GADAdChoicesPositionTopLeftCorner;
 
   [self loadNativeAdAndAssertLoadSuccessWithCredentials:credentials
                                               andExtras:extras
@@ -150,8 +149,7 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterVunglePlacementID : kPlacementID};
   VungleAdNetworkExtras *extras = [[VungleAdNetworkExtras alloc] init];
-  // 2 means topRight.
-  extras.nativeAdOptionPosition = 2;
+  extras.nativeAdOptionPosition = GADAdChoicesPositionTopRightCorner;
 
   [self loadNativeAdAndAssertLoadSuccessWithCredentials:credentials
                                               andExtras:extras
@@ -164,8 +162,7 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterVunglePlacementID : kPlacementID};
   VungleAdNetworkExtras *extras = [[VungleAdNetworkExtras alloc] init];
-  // 3 means bottomLeft.
-  extras.nativeAdOptionPosition = 3;
+  extras.nativeAdOptionPosition = GADAdChoicesPositionBottomLeftCorner;
 
   [self loadNativeAdAndAssertLoadSuccessWithCredentials:credentials
                                               andExtras:extras
@@ -178,8 +175,7 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterVunglePlacementID : kPlacementID};
   VungleAdNetworkExtras *extras = [[VungleAdNetworkExtras alloc] init];
-  // 4 means bottomRight.
-  extras.nativeAdOptionPosition = 4;
+  extras.nativeAdOptionPosition = GADAdChoicesPositionBottomRightCorner;
 
   [self loadNativeAdAndAssertLoadSuccessWithCredentials:credentials
                                               andExtras:extras
