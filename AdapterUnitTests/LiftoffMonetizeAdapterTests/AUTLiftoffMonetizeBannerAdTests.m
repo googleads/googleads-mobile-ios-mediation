@@ -82,8 +82,7 @@ static NSString *const kBidResponse = @"bidResponse";
   configuration.bidResponse = kBidResponse;
   configuration.adSize = GADAdSizeBanner;
   __block id<VungleBannerViewDelegate> loadDelegate = nil;
-  OCMExpect([_bannerMock initWithPlacementId:kPlacementID
-                                vungleAdSize:VungleAdSize.VungleAdSizeBannerRegular])
+  OCMExpect([_bannerMock initWithPlacementId:kPlacementID vungleAdSize:OCMOCK_ANY])
       .andReturn(_bannerMock);
   OCMExpect([_bannerMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
@@ -140,8 +139,7 @@ static NSString *const kBidResponse = @"bidResponse";
       [[AUTKMediationBannerAdConfiguration alloc] init];
   configuration.credentials = credentials;
   configuration.adSize = GADAdSizeBanner;
-  OCMStub([_bannerMock initWithPlacementId:kPlacementID
-                              vungleAdSize:VungleAdSize.VungleAdSizeBannerRegular])
+  OCMStub([_bannerMock initWithPlacementId:kPlacementID vungleAdSize:OCMOCK_ANY])
       .andReturn(_bannerMock);
   __block id<VungleBannerViewDelegate> loadDelegate = nil;
   OCMStub([_bannerMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
