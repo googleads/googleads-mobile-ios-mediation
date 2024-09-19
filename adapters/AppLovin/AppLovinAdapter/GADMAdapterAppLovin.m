@@ -166,8 +166,7 @@
   GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
   _SDK.settings.muted = networkExtras.muteAudio;
 
-  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad: %@ for zone: %@.",
-                                _interstitialAd.adIdNumber, _zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Showing interstitial ad for zone: %@.", _zoneIdentifier];
   [_interstitial showAd:_interstitialAd];
 }
 
