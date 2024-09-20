@@ -87,9 +87,6 @@
   [GADMAdapterAppLovinUtils log:@"Rewarded ad dismissed"];
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   id<GADMediationRewardedAdEventDelegate> delegate = parentRenderer.delegate;
-  if (_fullyWatched) {
-    [delegate didRewardUser];
-  }
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
 
@@ -138,6 +135,8 @@
 
 - (void)rewardValidationRequestForAd:(nonnull ALAd *)ad
               didSucceedWithResponse:(nonnull NSDictionary *)response {
+  [_parentRenderer.delegate didRewardUser];
+
   NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithString:response[@"amount"]];
   NSString *currency = response[@"currency"];
 

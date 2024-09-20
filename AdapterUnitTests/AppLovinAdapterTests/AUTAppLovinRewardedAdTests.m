@@ -216,6 +216,10 @@
   AUTKMediationRewardedAdEventDelegate *delegate = [self loadAd];
   [self->_adLoader videoPlaybackEndedInAd:OCMOCK_ANY atPlaybackPercent:@98.0f fullyWatched:YES];
   [self->_adLoader ad:OCMOCK_ANY wasHiddenIn:OCMOCK_ANY];
+  NSDictionary<NSString *, NSString *> *successResponse =
+      @{@"currency" : @"reward", @"amount" : @"20"};
+
+  [self->_adLoader rewardValidationRequestForAd:OCMOCK_ANY didSucceedWithResponse:successResponse];
   XCTAssertTrue(delegate.didRewardUserInvokeCount == 1);
 }
 
@@ -231,9 +235,6 @@
   // but verify invoking them does not crash the running app.
   [self loadAd];
 
-  NSDictionary<NSString *, NSString *> *successResponse =
-      @{@"currency" : @"reward", @"amount" : @"20"};
-  [self->_adLoader rewardValidationRequestForAd:OCMOCK_ANY didSucceedWithResponse:successResponse];
   [self->_adLoader rewardValidationRequestForAd:OCMOCK_ANY didFailWithError:9001];
 
   NSDictionary<NSString *, NSString *> *quotaResponse = @{@"response" : @"unknown"};
