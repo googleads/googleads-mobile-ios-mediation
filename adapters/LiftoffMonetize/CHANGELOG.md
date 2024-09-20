@@ -1,11 +1,13 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Next version
-- VungleAdNetworkExtras.nativeAdOptionPosition has been updated to align with
-GADAdChoicesPosition. Use GADAdChoicesPosition enum values when specifying the
-privacy icon position (Google documentation reference [here](https://developers.google.com/admob/ios/api/reference/Enums/GADAdChoicesPosition)).
-- Optimization in SDK initialization.
-- Added native ads aspect ratio support.
+#### [Version 7.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.1.0.zip)
+- Verified compatibility with Vungle SDK 7.4.1.
+- Updated `VungleAdNetworkExtras.nativeAdOptionPosition` to use the values from `GADAdChoicesPosition` to specify the AdChoices icon position.
+- Added aspect ratio support to native ad format.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- Vungle SDK version 7.4.1.
 
 #### [Version 7.4.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.0.1.zip)
 - Added support for custom banner ad sizes for bidding and waterfall.
