@@ -123,11 +123,11 @@ extension RewardedAdLoader: MolocoRewardedDelegate {
   }
 
   func didHide(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.didDismissFullScreenView()
   }
 
   func didClick(on ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.reportClick()
   }
 
 }

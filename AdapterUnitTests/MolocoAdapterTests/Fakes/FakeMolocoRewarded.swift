@@ -61,6 +61,8 @@ extension FakeMolocoRewarded: MolocoSDK.MolocoRewardedInterstitial {
 
     // Simulate show and the subsequent ad lifecycle events.
     rewardedDelegate.didShow(ad: self)
+    rewardedDelegate.didClick(on: self)
+    rewardedDelegate.didHide(ad: self)
   }
 
   func show(from viewController: UIViewController, muted: Bool) {

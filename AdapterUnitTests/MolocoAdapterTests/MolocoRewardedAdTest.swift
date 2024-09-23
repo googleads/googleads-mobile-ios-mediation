@@ -83,7 +83,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, mediationAdConfig, loadError)
   }
 
-  func testRewardedShowTriggersImpression() {
+  func testRewardedShowTriggersImpressionAndSubsequentLifecycleEvents() {
     let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil)
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
@@ -98,6 +98,8 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertNil(adEventDelegate.didFailToPresentError)
     XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 1)
   }
 
   func testRewardedShowFailurePopulatesPresentError() {
@@ -119,6 +121,8 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertEqual(didFailToPresentError?.code, 1003)
     XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 0)
   }
 
   func testRewardedShowFailureWhenNotReady() {
@@ -139,6 +143,8 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertEqual(didFailToPresentError?.code, MolocoAdapterErrorCode.adNotReadyForShow.rawValue)
     XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 0)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 0)
   }
 
 }
