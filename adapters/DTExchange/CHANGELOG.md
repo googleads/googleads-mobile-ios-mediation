@@ -2,6 +2,7 @@
 
 #### Next Version
 - Removed deprecated usage of keywords.
+- Removed didFailToPresentWithError call from within videoInterruptedWithError callback. Fixes a bug which was causing the ad to disappear and a blank screen to be shown.
 
 #### [Version 8.3.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.2.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.3.2.

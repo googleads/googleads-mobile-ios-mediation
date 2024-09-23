@@ -244,7 +244,13 @@
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController
        videoInterruptedWithError:(nonnull NSError *)error {
-  [_delegate didFailToPresentWithError:error];
+  // This callback is called when the ad is already presented and is buffering in the middle of the
+  // video. There is no corresponding callback on GADMediationRewardedAdEventDelegate.
+  //
+  // Note: It's not accurate to call didFailToPresentWithError on
+  // GADMediationRewardedAdEventDelegate here. Calling didFailToPresentWithError makes the ad
+  // disappear and a blank screen is shown, without any possibility to close the ad, so the user has
+  // to kill the app.
 }
 
 - (void)IAVideoContentController:(nullable IAVideoContentController *)contentController

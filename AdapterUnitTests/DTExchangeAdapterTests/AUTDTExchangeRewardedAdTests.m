@@ -385,8 +385,7 @@ static NSString *const kDTExchangeSpotID = @"67890";
   id<IAVideoContentDelegate> contentDelegate = (id<IAVideoContentDelegate>)eventDelegate.rewardedAd;
   [contentDelegate IAVideoContentController:nil videoInterruptedWithError:expectedError];
 
-  XCTAssertEqual(eventDelegate.didFailToPresentError.code, expectedError.code);
-  XCTAssertEqualObjects(eventDelegate.didFailToPresentError.domain, expectedError.domain);
+  XCTAssertNil(eventDelegate.didFailToPresentError);
 }
 
 - (void)testVideoStarted {
