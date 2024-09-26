@@ -86,6 +86,11 @@
     return;
   }
 
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    [strongConnector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
+    return;
+  }
+
   NSString *SDKKey =
       [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:[strongConnector credentials]];
   if (!SDKKey) {
@@ -176,6 +181,11 @@
   id<GADMAdNetworkConnector> strongConnector = _connector;
   if (!strongConnector) {
     [GADMAdapterAppLovinUtils log:@"No GADMAdNetworkConnector found."];
+    return;
+  }
+
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    [strongConnector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
     return;
   }
 

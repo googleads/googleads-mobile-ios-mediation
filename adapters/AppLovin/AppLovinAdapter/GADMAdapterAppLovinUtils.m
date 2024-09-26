@@ -110,6 +110,14 @@ NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
   return error;
 }
 
+NSError *_Nonnull GADMAdapterAppLovinChildUserError() {
+  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+      GADMAdapterAppLovinErrorChildUser, @"GADMobileAds.sharedInstance.requestConfiguration "
+                                         @"indicates the user is a child. AppLovin SDK 13.0.0 or "
+                                         @"higher does not support child users.");
+  return error;
+}
+
 BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials) {
   NSString *isMultipleAdsEnabledString = credentials[kGADMAdapterAppLovinCredentialsKeyMultipleAds];
   return [kGADMAdapterAppLovinMultipleAdsEnabledString isEqualToString:isMultipleAdsEnabledString];
@@ -205,6 +213,12 @@ BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable cred
   NSString *message = [[NSString alloc] initWithFormat:format arguments:valist];
   va_end(valist);
   NSLog(@"AppLovinAdapter: %@", message);  // Allow pattern.
+}
+
++ (BOOL)isChildUser {
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+         [requestConfiguration.tagForUnderAgeOfConsent boolValue];
 }
 
 @end

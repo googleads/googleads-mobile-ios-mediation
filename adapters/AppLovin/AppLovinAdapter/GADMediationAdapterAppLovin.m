@@ -40,6 +40,11 @@
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    completionHandler(GADMAdapterAppLovinChildUserError());
+    return;
+  }
+
   // Compile all the SDK keys that should be initialized.
   NSMutableSet<NSString *> *SDKKeys = [NSMutableSet set];
 
@@ -123,6 +128,11 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    return;
+  }
+
   [GADMAdapterAppLovinUtils log:@"AppLovin adapter collecting signals."];
   // Check if supported ad format.
   if (params.configuration.credentials.firstObject.format == GADAdFormatNative) {
@@ -166,6 +176,11 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    return;
+  }
+
   _interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
       initWithAdConfiguration:adConfiguration
             completionHandler:completionHandler];
@@ -176,6 +191,11 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    return;
+  }
+
   _rewardedRenderer =
       [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];

@@ -15,6 +15,14 @@
 
 @implementation AUTAppLovinAdapterTests
 
+- (void)tearDown {
+  // Reset child-directed and under-age tags.
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  [super tearDown];
+}
+
 - (void)testAdapterVersion {
   GADVersionNumber version = [GADMediationAdapterAppLovin adapterVersion];
 
@@ -85,6 +93,28 @@
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials2);
 
   OCMVerify(times(2), [appLovinSdkMock initializeSdkWithCompletionHandler:OCMArg.any]);
+}
+
+- (void)testSetUpFailureIfUserIsTaggedAsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
+                                                      credentials, expectedError);
+}
+
+- (void)testSetUpFailureIfUserIsTaggedAsUnderAge {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
+                                                      credentials, expectedError);
 }
 
 - (void)testSetUpFailureWithInvalidSdkKey {
@@ -203,6 +233,40 @@
                          [signalsExpectation fulfill];
                        }];
 
+  [self waitForExpectations:@[ signalsExpectation ]];
+}
+
+- (void)testCollectSignalsFailureIfUserIsTaggedAsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
+  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertTrue(error.description.length > 0);
+                         XCTAssertEqual(error.code, GADMAdapterAppLovinErrorChildUser);
+                         [signalsExpectation fulfill];
+                       }];
+  [self waitForExpectations:@[ signalsExpectation ]];
+}
+
+- (void)testCollectSignalsFailureIfUserIsTaggedAsUnderAge {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
+  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertTrue(error.description.length > 0);
+                         XCTAssertEqual(error.code, GADMAdapterAppLovinErrorChildUser);
+                         [signalsExpectation fulfill];
+                       }];
   [self waitForExpectations:@[ signalsExpectation ]];
 }
 

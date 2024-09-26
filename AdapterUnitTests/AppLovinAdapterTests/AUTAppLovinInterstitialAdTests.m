@@ -47,6 +47,14 @@
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
 }
 
+- (void)tearDown {
+  // Reset child-directed and under-age tags.
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAd {
   NSData *watermarkData = [@"abc" dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -90,6 +98,28 @@
 
 - (void)testLoadInterstitialAd {
   [self loadAd];
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsUnderAge {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
 #pragma mark - Ad Lifecycle events

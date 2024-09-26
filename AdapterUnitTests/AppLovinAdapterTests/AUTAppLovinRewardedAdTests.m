@@ -46,6 +46,14 @@
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
 }
 
+- (void)tearDown {
+  // Reset child-directed and under-age tags.
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationRewardedAdEventDelegate *)loadAd {
   NSData *watermarkData = [@"abc" dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -133,6 +141,28 @@
                                                       code:GADMAdapterAppLovinErrorAdAlreadyLoaded
                                                   userInfo:nil];
   AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  AUTKMediationRewardedAdConfiguration *config =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsUnderAge {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationRewardedAdConfiguration *config =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
 }
 
 - (void)testMultipleAdsEnabled {
