@@ -121,6 +121,7 @@ Built and tested with:
 
 #### [Version 7.5.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.5.3.0.zip)
 - Verified compatibility with Mintegral SDK version 7.5.3.
+- Added bidding support for app open ad format.
 
 Built and tested with:
 - Google Mobile Ads SDK version 10.14.0.
