@@ -46,6 +46,9 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// Used to create Moloco rewarded ads.
   private var molocoRewardedFactory: MolocoRewardedFactory = MolocoMediationAdapter.molocoSdkImpl
 
+  /// Used to create Moloco banner ads.
+  private var molocoBannerFactory: MolocoBannerFactory = MolocoMediationAdapter.molocoSdkImpl
+
   public override init() {
     // Conform to GADMediationAdapter protocol.
   }
@@ -58,6 +61,11 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// Initializer used only for testing purpose.
   init(molocoRewardedFactory: MolocoRewardedFactory) {
     self.molocoRewardedFactory = molocoRewardedFactory
+  }
+
+  /// Initializer used only for testing purpose.
+  init(molocoBannerFactory: MolocoBannerFactory) {
+    self.molocoBannerFactory = molocoBannerFactory
   }
 
   /// Setter used only for testing purpose.
@@ -128,13 +136,14 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   //
   //}
 
-  // TODO: Remove if not needed. If removed, then remove the |BannerAdLoader| class as well.
+  @MainActor
   @objc public func loadBanner(
     for adConfiguration: GADMediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
     bannerAdLoader = BannerAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      adConfiguration: adConfiguration, molocoBannerFactory: molocoBannerFactory,
+      loadCompletionHandler: completionHandler)
     bannerAdLoader?.loadAd()
   }
 

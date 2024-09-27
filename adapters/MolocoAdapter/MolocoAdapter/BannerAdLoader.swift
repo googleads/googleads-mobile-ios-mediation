@@ -25,16 +25,26 @@ final class BannerAdLoader: NSObject {
   /// The ad event delegate which is used to report banner related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: GADMediationBannerAdEventDelegate?
 
+  /// The completion handler to call when the rewarded ad loading succeeds or fails.
+  private let loadCompletionHandler: GADMediationBannerLoadCompletionHandler
+
+  /// The factory class used to create banner ads.
+  private let molocoBannerFactory: MolocoBannerFactory
+
   init(
     adConfiguration: GADMediationBannerAdConfiguration,
+    molocoBannerFactory: MolocoBannerFactory,
     loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
     self.adConfiguration = adConfiguration
+    self.loadCompletionHandler = loadCompletionHandler
+    self.molocoBannerFactory = molocoBannerFactory
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |bannerAdLoadCompletionHandler| after loading an ad.
+    // TODO: implement and make sure to call |loadCompletionHandler| after loading an ad with
+    // |molocoBannerFactory|.
   }
 
 }

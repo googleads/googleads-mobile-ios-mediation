@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import MolocoSDK
+import UIKit
 
 /// Implementation of protocols that calls corresponding Moloco SDK methods.
 class MolocoSdkImpl: MolocoInitializer {
@@ -34,7 +35,8 @@ class MolocoSdkImpl: MolocoInitializer {
 
 extension MolocoSdkImpl: MolocoInterstitialFactory {
 
-  @MainActor @available(iOS 13.0, *)
+  @MainActor
+  @available(iOS 13.0, *)
   func createInterstitial(for adUnit: String, delegate: any MolocoSDK.MolocoInterstitialDelegate)
     -> (any MolocoSDK.MolocoInterstitial)?
   {
@@ -47,11 +49,28 @@ extension MolocoSdkImpl: MolocoInterstitialFactory {
 
 extension MolocoSdkImpl: MolocoRewardedFactory {
 
-  @MainActor @available(iOS 13.0, *)
+  @MainActor
+  @available(iOS 13.0, *)
   func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
     any MolocoSDK.MolocoRewardedInterstitial
   )? {
     Moloco.shared.createRewarded(for: adUnit, delegate: delegate)
+  }
+
+}
+
+// MARK: - MolocoBannerFactory
+
+extension MolocoSdkImpl: MolocoBannerFactory {
+
+  @MainActor
+  @available(iOS 13.0, *)
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
+    guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+      return nil
+    }
+    return Moloco.shared.createBanner(
+      for: adUnit, viewController: rootViewController, delegate: delegate)
   }
 
 }

@@ -14,7 +14,9 @@ final class MolocoBannerAdTest: XCTestCase {
   func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
     let adConfiguration = GADMediationBannerAdConfiguration()
-    let bannerLoader = BannerAdLoader(adConfiguration: adConfiguration) { ad, error in
+    let bannerLoader = BannerAdLoader(
+      adConfiguration: adConfiguration, molocoBannerFactory: molocoBannerFactory
+    ) { ad, error in
       return nil
     }
     let banner = molocoBannerFactory.createBanner(for: Constants.adUnitID, delegate: bannerLoader)
