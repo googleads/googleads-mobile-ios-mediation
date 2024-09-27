@@ -17,8 +17,34 @@ import GoogleMobileAds
 import MolocoSDK
 
 /// A fake implementation of MolocoBanner.
-final class FakeMolocoBanner {
+final class FakeMolocoBanner: UIView {
 
-  // TODO: b/368608855 - Add Implementation.
+  // MolocoSDK.MolocoAd properties.
+  var isReady: Bool
+
+  init() {
+    isReady = true
+    super.init(frame: CGRect.zero)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+}
+
+// MARK: - MolocoSDK.MolocoAd
+
+extension FakeMolocoBanner: MolocoAd {
+
+  func destroy() {
+    // No-op.
+  }
+
+  @MainActor
+  @objc
+  func load(bidResponse: String) {
+    // TODO: b/368608855 - Add Implementation.
+  }
 
 }

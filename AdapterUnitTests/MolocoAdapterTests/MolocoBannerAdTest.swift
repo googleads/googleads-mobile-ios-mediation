@@ -6,6 +6,22 @@ import XCTest
 
 final class MolocoBannerAdTest: XCTestCase {
 
-  // TODO: b/368608855 - Add tests.
+  private enum Constants {
+    /// An ad unit ID used in testing.
+    static let adUnitID = "12345"
+  }
+
+  func testFakeBannerFactory() throws {
+    let molocoBannerFactory = FakeMolocoBannerFactory()
+    let adConfiguration = GADMediationBannerAdConfiguration()
+    let bannerLoader = BannerAdLoader(adConfiguration: adConfiguration) { ad, error in
+      return nil
+    }
+    let banner = molocoBannerFactory.createBanner(for: Constants.adUnitID, delegate: bannerLoader)
+    let fakeMolocoBanner = try XCTUnwrap(banner as? FakeMolocoBanner)
+
+    XCTAssertTrue(fakeMolocoBanner.isReady)
+    XCTAssertEqual(fakeMolocoBanner.frame, CGRect.zero)
+  }
 
 }

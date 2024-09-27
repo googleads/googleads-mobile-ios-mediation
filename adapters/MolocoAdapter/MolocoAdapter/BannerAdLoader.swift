@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import MolocoSDK
 
 /// Loads banner ads on Moloco ads SDK.
 final class BannerAdLoader: NSObject {
@@ -47,5 +48,32 @@ extension BannerAdLoader: GADMediationBannerAd {
   }
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - MolocoBannerDelegate
+
+extension BannerAdLoader: MolocoBannerDelegate {
+
+  func didLoad(ad: MolocoAd) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+  func failToLoad(ad: MolocoAd, with error: Error?) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+  func didShow(ad: MolocoAd) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+  func failToShow(ad: MolocoAd, with error: Error?) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+  func didHide(ad: MolocoAd) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+  func didClick(on ad: MolocoAd) {
+    // TODO: b/368608855 - Add Implementation.
+  }
+
+}

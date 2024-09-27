@@ -39,6 +39,7 @@
 		70E380E82C4723FD004CCB92 /* MolocoInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380E72C4723FD004CCB92 /* MolocoInitializer.swift */; };
 		70E380EA2C472410004CCB92 /* MolocoSdkImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */; };
 		8566027F2C63F6FF0068D786 /* MolocoRewardedFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */; };
+		85AD79622CA5D967007358CE /* MolocoBannerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */; };
 		ADFA84BD2C17704300A501AB /* MolocoMediationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* MolocoMediationAdapter.swift */; };
 		ADFA84C12C17704300A501AB /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
@@ -66,6 +67,7 @@
 		70E380E72C4723FD004CCB92 /* MolocoInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInitializer.swift; sourceTree = "<group>"; };
 		70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoSdkImpl.swift; sourceTree = "<group>"; };
 		8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MolocoRewardedFactory.swift; sourceTree = "<group>"; };
+		85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoBannerFactory.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMolocoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* MolocoMediationAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A92C17704300A501AB /* BannerAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAdLoader.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				70E380432C45E862004CCB92 /* MolocoAdapterErrorCode.swift */,
 				70E380E72C4723FD004CCB92 /* MolocoInitializer.swift */,
 				70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */,
+				85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */,
 				8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */,
 				706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */,
 			);
@@ -300,6 +303,7 @@
 				7072CDE82C409510002BF6AE /* MolocoUtils.swift in Sources */,
 				70E380EA2C472410004CCB92 /* MolocoSdkImpl.swift in Sources */,
 				ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */,
+				85AD79622CA5D967007358CE /* MolocoBannerFactory.swift in Sources */,
 				ADFA84BD2C17704300A501AB /* MolocoMediationAdapter.swift in Sources */,
 				70E380442C45E862004CCB92 /* MolocoAdapterErrorCode.swift in Sources */,
 				ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */,

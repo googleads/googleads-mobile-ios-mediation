@@ -13,25 +13,12 @@
 // limitations under the License.
 
 import Foundation
-import MolocoAdapter
 import MolocoSDK
 
-/// A fake implementation of MolocoBannerFactory that creates a FakeBannerRewarded.
-final class FakeMolocoBannerFactory {
+/// Protocol for a factory of Moloco banner ads.
+public protocol MolocoBannerFactory {
 
-  var fakeMolocoBanner: FakeMolocoBanner?
-
-  // TODO: b/368608855 - Add Implementation.
-
-}
-
-// MARK: - MolocoBannerFactory
-
-extension FakeMolocoBannerFactory: MolocoBannerFactory {
-
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
-    let fakeMolocoBanner = FakeMolocoBanner()
-    return fakeMolocoBanner
-  }
+  @available(iOS 13.0, *)
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd?
 
 }
