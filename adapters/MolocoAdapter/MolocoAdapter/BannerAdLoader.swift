@@ -31,6 +31,9 @@ final class BannerAdLoader: NSObject {
   /// The factory class used to create banner ads.
   private let molocoBannerFactory: MolocoBannerFactory
 
+  /// The MolocoBannerAdView. MolocoBannerAdView type on iOS 13+, otherwise nil.
+  private var bannerAdView: AnyObject?
+
   init(
     adConfiguration: GADMediationBannerAdConfiguration,
     molocoBannerFactory: MolocoBannerFactory,
@@ -42,9 +45,27 @@ final class BannerAdLoader: NSObject {
     super.init()
   }
 
+  @MainActor
   func loadAd() {
-    // TODO: implement and make sure to call |loadCompletionHandler| after loading an ad with
-    // |molocoBannerFactory|.
+    guard #available(iOS 13.0, *) else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adServingNotSupported,
+        description: "Moloco SDK does not support serving ads on iOS 12 and below")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    let molocoAdUnitID = MolocoUtils.getAdUnitId(from: adConfiguration)
+    guard let molocoAdUnitID else {
+      let error = MolocoUtils.error(
+        code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    let banner = self.molocoBannerFactory.createBanner(for: molocoAdUnitID, delegate: self)
+    self.bannerAdView = banner
+    banner?.load(bidResponse: self.adConfiguration.bidResponse ?? "")
   }
 
 }
@@ -63,7 +84,7 @@ extension BannerAdLoader: GADMediationBannerAd {
 extension BannerAdLoader: MolocoBannerDelegate {
 
   func didLoad(ad: MolocoAd) {
-    // TODO: b/368608855 - Add Implementation.
+    eventDelegate = loadCompletionHandler(self, nil)
   }
 
   func failToLoad(ad: MolocoAd, with error: Error?) {
