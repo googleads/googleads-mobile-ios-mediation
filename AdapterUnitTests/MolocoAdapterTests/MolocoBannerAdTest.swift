@@ -24,6 +24,7 @@ final class MolocoBannerAdTest: XCTestCase {
 
     XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Constants.adUnitID)
     XCTAssertTrue(fakeMolocoBanner.isReady)
+    XCTAssertNotNil(fakeMolocoBanner.bannerDelegate)
     XCTAssertEqual(fakeMolocoBanner.frame, CGRect.zero)
   }
 

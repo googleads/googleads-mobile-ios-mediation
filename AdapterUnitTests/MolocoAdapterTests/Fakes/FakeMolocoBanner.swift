@@ -19,11 +19,14 @@ import MolocoSDK
 /// A fake implementation of MolocoBanner.
 final class FakeMolocoBanner: UIView {
 
+  var bannerDelegate: MolocoBannerDelegate?
+
   // MolocoSDK.MolocoAd properties.
   var isReady: Bool
 
-  init() {
+  init(bannerDelegate: MolocoBannerDelegate) {
     isReady = true
+    self.bannerDelegate = bannerDelegate
     super.init(frame: CGRect.zero)
   }
 
