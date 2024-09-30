@@ -100,6 +100,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.didStartVideoInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.didRewardUserInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.didEndVideoInvokeCount, 1)
   }
 
   func testRewardedShowFailurePopulatesPresentError() {
@@ -123,6 +126,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
     XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didStartVideoInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didRewardUserInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didEndVideoInvokeCount, 0)
   }
 
   func testRewardedShowFailureWhenNotReady() {
@@ -145,6 +151,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
     XCTAssertEqual(adEventDelegate.didDismissFullScreenViewInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didStartVideoInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didRewardUserInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.didEndVideoInvokeCount, 0)
   }
 
 }

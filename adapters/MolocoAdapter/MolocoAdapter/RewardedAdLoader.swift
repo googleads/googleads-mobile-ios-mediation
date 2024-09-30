@@ -91,15 +91,15 @@ extension RewardedAdLoader: GADMediationRewardedAd {
 extension RewardedAdLoader: MolocoRewardedDelegate {
 
   func userRewarded(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.didRewardUser()
   }
 
   func rewardedVideoStarted(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.didStartVideo()
   }
 
   func rewardedVideoCompleted(ad: any MolocoSDK.MolocoAd) {
-    // TODO: b/360350265 - Add implementation.
+    eventDelegate?.didEndVideo()
   }
 
   func didLoad(ad: any MolocoSDK.MolocoAd) {

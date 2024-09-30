@@ -63,6 +63,9 @@ extension FakeMolocoRewarded: MolocoSDK.MolocoRewardedInterstitial {
     rewardedDelegate.didShow(ad: self)
     rewardedDelegate.didClick(on: self)
     rewardedDelegate.didHide(ad: self)
+    rewardedDelegate.rewardedVideoStarted(ad: self)
+    rewardedDelegate.userRewarded(ad: self)
+    rewardedDelegate.rewardedVideoCompleted(ad: self)
   }
 
   func show(from viewController: UIViewController, muted: Bool) {
