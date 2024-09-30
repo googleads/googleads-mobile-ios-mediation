@@ -22,6 +22,7 @@ final class MolocoBannerAdTest: XCTestCase {
     let banner = molocoBannerFactory.createBanner(for: Constants.adUnitID, delegate: bannerLoader)
     let fakeMolocoBanner = try XCTUnwrap(banner as? FakeMolocoBanner)
 
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Constants.adUnitID)
     XCTAssertTrue(fakeMolocoBanner.isReady)
     XCTAssertEqual(fakeMolocoBanner.frame, CGRect.zero)
   }

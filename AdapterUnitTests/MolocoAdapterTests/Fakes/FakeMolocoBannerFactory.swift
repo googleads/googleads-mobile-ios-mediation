@@ -21,7 +21,9 @@ final class FakeMolocoBannerFactory {
 
   var fakeMolocoBanner: FakeMolocoBanner?
 
-  // TODO: b/368608855 - Add Implementation.
+  /// Var to capture the ad unit ID that was used to create the Moloco banner ad object.
+  /// Used for assertion. It is initlialized to a value that is never asserted for.
+  var adUnitIDUsedToCreateMolocoAd: String = ""
 
 }
 
@@ -30,6 +32,7 @@ final class FakeMolocoBannerFactory {
 extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
+    adUnitIDUsedToCreateMolocoAd = adUnit
     let fakeMolocoBanner = FakeMolocoBanner()
     return fakeMolocoBanner
   }
