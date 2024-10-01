@@ -6,26 +6,24 @@ import XCTest
 
 final class MolocoRewardedAdTest: XCTestCase {
 
-  private enum Constants {
-    /// An ad unit ID used in testing.
-    static let adUnitID = "12345"
-    /// A bid response received by the adapter to load the ad.
-    static let bidResponse = "bid_response"
-  }
+  /// An ad unit ID used in testing.
+  static let testAdUnitID = "12345"
+  /// A bid response received by the adapter to load the ad.
+  static let testBidResponse = "bid_response"
 
   func testRewardedLoadSuccess() {
     let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil)
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
 
     AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
-    XCTAssertEqual(molocoRewardedFactory.adUnitIDUsedToCreateMolocoAd, Constants.adUnitID)
+    XCTAssertEqual(molocoRewardedFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
     XCTAssertEqual(
-      molocoRewardedFactory.fakeMolocoRewarded?.bidResponseUsedToLoadMolocoAd, Constants.bidResponse
+      molocoRewardedFactory.fakeMolocoRewarded?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
   }
 
@@ -34,7 +32,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
 
     AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
@@ -46,9 +44,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
     mediationAdConfig.isTestRequest = true
 
     AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
@@ -62,7 +60,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
 
     let expectedError = NSError(
       domain: MolocoConstants.adapterErrorDomain,
@@ -76,9 +74,9 @@ final class MolocoRewardedAdTest: XCTestCase {
       molocoRewardedFactory: FakeMolocoRewardedFactory(loadError: loadError))
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
 
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, mediationAdConfig, loadError)
   }
@@ -88,9 +86,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())
@@ -111,9 +109,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())
@@ -136,9 +134,9 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
     let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: Constants.adUnitID]
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Constants.bidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())

@@ -7,9 +7,9 @@ import XCTest
 final class MolocoBannerAdTest: XCTestCase {
 
   /// An ad unit ID used in testing.
-  let testAdUnitID = "12345"
+  static let testAdUnitID = "12345"
   /// A bid response received by the adapter to load the ad.
-  let testBidResponse = "bid_response"
+  static let testBidResponse = "bid_response"
 
   func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
@@ -19,10 +19,10 @@ final class MolocoBannerAdTest: XCTestCase {
     ) { ad, error in
       return nil
     }
-    let banner = molocoBannerFactory.createBanner(for: testAdUnitID, delegate: bannerLoader)
+    let banner = molocoBannerFactory.createBanner(for: Self.testAdUnitID, delegate: bannerLoader)
     let fakeMolocoBanner = try XCTUnwrap(banner as? FakeMolocoBanner)
 
-    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, testAdUnitID)
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
     XCTAssertTrue(fakeMolocoBanner.isReady)
     XCTAssertNotNil(fakeMolocoBanner.bannerDelegate)
     XCTAssertEqual(fakeMolocoBanner.frame, CGRect.zero)
@@ -38,7 +38,7 @@ final class MolocoBannerAdTest: XCTestCase {
     let mediationAdConfig = AUTKMediationBannerAdConfiguration()
     let credentials = AUTKMediationCredentials()
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = testBidResponse
+    mediationAdConfig.bidResponse = Self.testBidResponse
 
     let expectedError = NSError(
       domain: MolocoConstants.adapterErrorDomain,
