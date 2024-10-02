@@ -21,6 +21,9 @@ final class FakeMolocoBanner: UIView {
 
   var bannerDelegate: MolocoBannerDelegate?
 
+  /// The error that should occur during banner ad loading.
+  let loadError: Error?
+
   /// Var to capture the bid response that was used to load the ad on Moloco SDK. Used for
   /// assertion. It is initlialized to a value that is never asserted for.
   var bidResponseUsedToLoadMolocoAd: String = ""
@@ -28,9 +31,10 @@ final class FakeMolocoBanner: UIView {
   // MolocoSDK.MolocoAd properties.
   var isReady: Bool
 
-  init(bannerDelegate: MolocoBannerDelegate) {
+  init(bannerDelegate: MolocoBannerDelegate, loadError: Error?) {
     isReady = true
     self.bannerDelegate = bannerDelegate
+    self.loadError = loadError
     super.init(frame: CGRect.zero)
   }
 
@@ -52,6 +56,10 @@ extension FakeMolocoBanner: MolocoAd {
   @objc
   func load(bidResponse: String) {
     bidResponseUsedToLoadMolocoAd = bidResponse
+    if let loadError {
+      bannerDelegate?.failToLoad(ad: self, with: loadError)
+      return
+    }
     bannerDelegate?.didLoad(ad: self)
   }
 

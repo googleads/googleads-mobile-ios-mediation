@@ -25,6 +25,15 @@ final class FakeMolocoBannerFactory {
   /// Used for assertion. It is initlialized to a value that is never asserted for.
   var adUnitIDUsedToCreateMolocoAd: String = ""
 
+  /// The error that should occur during banner ad loading.
+  let loadError: Error?
+
+  /// The parameters passed here are used to create FakeMolocoBanner. See FakeMolocoBanner for
+  /// how these parameters are used.
+  init(loadError: Error? = nil) {
+    self.loadError = loadError
+  }
+
 }
 
 // MARK: - MolocoBannerFactory
@@ -33,7 +42,7 @@ extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
     adUnitIDUsedToCreateMolocoAd = adUnit
-    fakeMolocoBanner = FakeMolocoBanner(bannerDelegate: delegate)
+    fakeMolocoBanner = FakeMolocoBanner(bannerDelegate: delegate, loadError: loadError)
     return fakeMolocoBanner
   }
 

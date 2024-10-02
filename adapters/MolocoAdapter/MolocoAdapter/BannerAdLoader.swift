@@ -88,7 +88,7 @@ extension BannerAdLoader: MolocoBannerDelegate {
   }
 
   func failToLoad(ad: MolocoAd, with error: Error?) {
-    // TODO: b/368608855 - Add Implementation.
+    _ = loadCompletionHandler(nil, error)
   }
 
   func didShow(ad: MolocoAd) {

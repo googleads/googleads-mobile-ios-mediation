@@ -44,6 +44,19 @@ final class MolocoBannerAdTest: XCTestCase {
     )
   }
 
+  func testBannerLoadFailure() {
+    let loadError = NSError(domain: "moloco_sdk_domain", code: 1002)
+    let molocoBannerFactory = FakeMolocoBannerFactory(loadError: loadError)
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    AUTKWaitAndAssertLoadBannerAdFailure(adapter, mediationAdConfig, loadError)
+  }
+
   func testBannerLoadFailure_ifAdUnitIdIsMissing() {
     let molocoBannerFactory = FakeMolocoBannerFactory()
     let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
