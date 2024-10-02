@@ -29,7 +29,19 @@ final class MolocoBannerAdTest: XCTestCase {
   }
 
   func testBannerLoadSuccess() {
-    // TODO: b/368608855 - Assert a successful load after submitting required banner adapter CLs.
+    let molocoBannerFactory = FakeMolocoBannerFactory()
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
+    XCTAssertEqual(
+      molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
+    )
   }
 
   func testBannerLoadFailure_ifAdUnitIdIsMissing() {

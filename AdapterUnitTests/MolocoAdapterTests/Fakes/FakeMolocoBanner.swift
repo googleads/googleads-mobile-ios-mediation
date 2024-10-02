@@ -21,6 +21,10 @@ final class FakeMolocoBanner: UIView {
 
   var bannerDelegate: MolocoBannerDelegate?
 
+  /// Var to capture the bid response that was used to load the ad on Moloco SDK. Used for
+  /// assertion. It is initlialized to a value that is never asserted for.
+  var bidResponseUsedToLoadMolocoAd: String = ""
+
   // MolocoSDK.MolocoAd properties.
   var isReady: Bool
 
@@ -47,7 +51,8 @@ extension FakeMolocoBanner: MolocoAd {
   @MainActor
   @objc
   func load(bidResponse: String) {
-    // TODO: b/368608855 - Add Implementation.
+    bidResponseUsedToLoadMolocoAd = bidResponse
+    bannerDelegate?.didLoad(ad: self)
   }
 
 }

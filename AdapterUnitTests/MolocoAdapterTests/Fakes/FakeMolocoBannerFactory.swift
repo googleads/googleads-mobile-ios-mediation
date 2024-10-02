@@ -33,7 +33,7 @@ extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
     adUnitIDUsedToCreateMolocoAd = adUnit
-    let fakeMolocoBanner = FakeMolocoBanner(bannerDelegate: delegate)
+    fakeMolocoBanner = FakeMolocoBanner(bannerDelegate: delegate)
     return fakeMolocoBanner
   }
 
