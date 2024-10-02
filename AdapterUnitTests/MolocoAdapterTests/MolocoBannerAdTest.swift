@@ -84,10 +84,11 @@ final class MolocoBannerAdTest: XCTestCase {
 
     XCTAssertNil(adEventDelegate.didFailToPresentError)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
   }
 
-  func testBannerLoadFailureDoesNotTriggerLifecycleEvents() {
-    // TODO: b/354003773 - Fail to load a banner ad and assert the lifecycle events are not invoked.
+  func testBannerShowFailureDoesNotTriggerLifecycleEvents() {
+    // TODO: b/354003773 - Fail to show a banner ad and assert the lifecycle events are not invoked.
   }
 
 }

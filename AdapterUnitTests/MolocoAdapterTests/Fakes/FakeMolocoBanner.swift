@@ -63,6 +63,7 @@ extension FakeMolocoBanner: MolocoAd {
 
     // Simulate load and the subsequent ad lifecycle events.
     bannerDelegate?.didLoad(ad: self)
+    bannerDelegate?.didShow(ad: self)
     bannerDelegate?.didClick(on: self)
   }
 
