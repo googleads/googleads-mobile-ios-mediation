@@ -60,7 +60,10 @@ extension FakeMolocoBanner: MolocoAd {
       bannerDelegate?.failToLoad(ad: self, with: loadError)
       return
     }
+
+    // Simulate load and the subsequent ad lifecycle events.
     bannerDelegate?.didLoad(ad: self)
+    bannerDelegate?.didClick(on: self)
   }
 
 }

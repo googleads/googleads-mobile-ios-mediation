@@ -71,4 +71,23 @@ final class MolocoBannerAdTest: XCTestCase {
     AUTKWaitAndAssertLoadBannerAdFailure(adapter, mediationAdConfig, expectedError)
   }
 
+  func testBannerLoadTriggersExpectedLifecycleEvents() {
+    let molocoBannerFactory = FakeMolocoBannerFactory()
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    let adEventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
+
+    XCTAssertNil(adEventDelegate.didFailToPresentError)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
+  }
+
+  func testBannerLoadFailureDoesNotTriggerLifecycleEvents() {
+    // TODO: b/354003773 - Fail to load a banner ad and assert the lifecycle events are not invoked.
+  }
+
 }

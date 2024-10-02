@@ -104,7 +104,7 @@ extension BannerAdLoader: MolocoBannerDelegate {
   }
 
   func didClick(on ad: MolocoAd) {
-    // TODO: b/368608855 - Add Implementation.
+    eventDelegate?.reportClick()
   }
 
 }
