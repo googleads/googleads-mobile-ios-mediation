@@ -100,7 +100,7 @@ extension BannerAdLoader: MolocoBannerDelegate {
   }
 
   func didHide(ad: MolocoAd) {
-    // TODO: b/368608855 - Add Implementation.
+    MolocoUtils.log("The Moloco banner ad did hide.")
   }
 
   func didClick(on ad: MolocoAd) {
