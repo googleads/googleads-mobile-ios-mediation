@@ -96,7 +96,11 @@ extension BannerAdLoader: MolocoBannerDelegate {
   }
 
   func failToShow(ad: MolocoAd, with error: Error?) {
-    // TODO: b/368608855 - Add Implementation.
+    let showError =
+      error
+      ?? MolocoUtils.error(
+        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+    eventDelegate?.didFailToPresentWithError(showError)
   }
 
   func didHide(ad: MolocoAd) {

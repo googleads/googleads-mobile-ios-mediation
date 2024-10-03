@@ -28,10 +28,19 @@ final class FakeMolocoBannerFactory {
   /// The error that should occur during banner ad loading.
   let loadError: Error?
 
-  /// The parameters passed here are used to create FakeMolocoBanner. See FakeMolocoBanner for
-  /// how these parameters are used.
-  init(loadError: Error? = nil) {
+  /// Whether the banner ad fails to show.
+  let shouldFailToShow: Bool
+
+  /// The specified error that occurs during banner ad presentation.
+  let showError: Error?
+
+  /// The parameters passed here are used to create FakeMolocoBanner.
+  ///
+  /// See FakeMolocoBanner for how these parameters are used.
+  init(loadError: Error? = nil, shouldFailToShow: Bool = false, showError: Error? = nil) {
     self.loadError = loadError
+    self.shouldFailToShow = shouldFailToShow
+    self.showError = showError
   }
 
 }
@@ -42,7 +51,9 @@ extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
     adUnitIDUsedToCreateMolocoAd = adUnit
-    fakeMolocoBanner = FakeMolocoBanner(bannerDelegate: delegate, loadError: loadError)
+    fakeMolocoBanner = FakeMolocoBanner(
+      bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
+      showError: showError)
     return fakeMolocoBanner
   }
 

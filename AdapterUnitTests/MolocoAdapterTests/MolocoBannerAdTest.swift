@@ -91,4 +91,45 @@ final class MolocoBannerAdTest: XCTestCase {
     // TODO: b/354003773 - Fail to show a banner ad and assert the lifecycle events are not invoked.
   }
 
+  func testBannerShowFailureWithError() throws {
+    let showError = NSError(domain: "moloco_sdk_domain", code: 1002)
+    let molocoBannerFactory = FakeMolocoBannerFactory(showError: showError)
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    let adEventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
+    let didFailToPresentError = try XCTUnwrap(adEventDelegate.didFailToPresentError as? NSError)
+
+    XCTAssertEqual(didFailToPresentError.domain, "moloco_sdk_domain")
+    XCTAssertEqual(didFailToPresentError.code, 1002)
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
+    XCTAssertEqual(
+      molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
+    )
+  }
+
+  func testBannerShowFailureWithDefaultError() throws {
+    let molocoBannerFactory = FakeMolocoBannerFactory(shouldFailToShow: true)
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    let adEventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
+    let didFailToPresentError = try XCTUnwrap(adEventDelegate.didFailToPresentError as? NSError)
+
+    XCTAssertEqual(didFailToPresentError.domain, MolocoConstants.adapterErrorDomain)
+    XCTAssertEqual(didFailToPresentError.code, MolocoAdapterErrorCode.adFailedToShow.rawValue)
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
+    XCTAssertEqual(
+      molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
+    )
+  }
+
 }
