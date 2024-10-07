@@ -1,5 +1,8 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated CFBundleShortVersionString to have three components instead of four.
+
 #### [Version 2.8.20240827.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.8.20240827.0.zip)
 - Verified compatibility with FiveAd SDK version 2.8.20240827.
 
