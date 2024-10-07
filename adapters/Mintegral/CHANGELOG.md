@@ -2,6 +2,7 @@
 
 #### [Next version]
 - Removed the isAdReady check before interstitial/rewarded ads are shown.
+- Updated CFBundleShortVersionString to have three components instead of four.
 
 #### [Version 7.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.2.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.2.
