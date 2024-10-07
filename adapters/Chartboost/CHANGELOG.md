@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated CFBundleShortVersionString to have three components instead of four.
+
 #### [Version 9.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.7.0.0.zip)
 - Verified compatibility with Chartboost SDK version 9.7.0.
 
