@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated CFBundleShortVersionString to have three components instead of four.
+
 #### [Version 7.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.1.0.zip)
 - Verified compatibility with Vungle SDK 7.4.1.
 - Updated `VungleAdNetworkExtras.nativeAdOptionPosition` to use the values from `GADAdChoicesPosition` to specify the AdChoices icon position.
