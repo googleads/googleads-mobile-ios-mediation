@@ -71,7 +71,7 @@ final class MolocoBannerAdTest: XCTestCase {
     AUTKWaitAndAssertLoadBannerAdFailure(adapter, mediationAdConfig, expectedError)
   }
 
-  func testBannerLoadTriggersExpectedLifecycleEvents() {
+  func testBannerLoadTriggersExpectedLifecycleEvents() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
     let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
     let mediationAdConfig = AUTKMediationBannerAdConfiguration()
@@ -83,12 +83,10 @@ final class MolocoBannerAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
 
     XCTAssertNil(adEventDelegate.didFailToPresentError)
+    let bannerAd = try XCTUnwrap(adEventDelegate.bannerAd)
+    XCTAssertEqual(bannerAd.view, molocoBannerFactory.fakeMolocoBanner)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
-  }
-
-  func testBannerShowFailureDoesNotTriggerLifecycleEvents() {
-    // TODO: b/354003773 - Fail to show a banner ad and assert the lifecycle events are not invoked.
   }
 
   func testBannerShowFailureWithError() throws {
@@ -110,6 +108,11 @@ final class MolocoBannerAdTest: XCTestCase {
     XCTAssertEqual(
       molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
+    XCTAssertNotNil(adEventDelegate.didFailToPresentError)
+    let bannerAd = try XCTUnwrap(adEventDelegate.bannerAd)
+    XCTAssertEqual(bannerAd.view, molocoBannerFactory.fakeMolocoBanner)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
   }
 
   func testBannerShowFailureWithDefaultError() throws {
@@ -130,6 +133,24 @@ final class MolocoBannerAdTest: XCTestCase {
     XCTAssertEqual(
       molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
+    XCTAssertNotNil(adEventDelegate.didFailToPresentError)
+    let bannerAd = try XCTUnwrap(adEventDelegate.bannerAd)
+    XCTAssertEqual(bannerAd.view, molocoBannerFactory.fakeMolocoBanner)
+    XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 0)
+    XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 0)
+  }
+
+  func testViewWhenAdDidNotLoad() throws {
+    let adEventDelegate = AUTKMediationBannerAdEventDelegate()
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    let molocoBannerFactory = FakeMolocoBannerFactory(shouldFailToShow: true)
+    adEventDelegate.bannerAd = BannerAdLoader(
+      adConfiguration: mediationAdConfig, molocoBannerFactory: molocoBannerFactory,
+      loadCompletionHandler: { _, _ in nil })
+
+    let bannerAd = try XCTUnwrap(adEventDelegate.bannerAd)
+    XCTAssertNotEqual(bannerAd.view, molocoBannerFactory.fakeMolocoBanner)
+    XCTAssertFalse(bannerAd.view is FakeMolocoBanner)
   }
 
 }

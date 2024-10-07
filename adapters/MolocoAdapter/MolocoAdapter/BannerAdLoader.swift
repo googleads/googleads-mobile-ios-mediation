@@ -31,6 +31,7 @@ final class BannerAdLoader: NSObject {
   /// The factory class used to create banner ads.
   private let molocoBannerFactory: MolocoBannerFactory
 
+  // TODO: b/371450897 - Change type to UIView.
   /// The MolocoBannerAdView. MolocoBannerAdView type on iOS 13+, otherwise nil.
   private var bannerAdView: AnyObject?
 
@@ -74,8 +75,17 @@ final class BannerAdLoader: NSObject {
 
 extension BannerAdLoader: GADMediationBannerAd {
   var view: UIView {
-    // TODO: implement
-    return UIView()
+    guard #available(iOS 13.0, *) else {
+      MolocoUtils.log(
+        "The Moloco banner ad are only supported on iOS 13+. Returning a default UIView.")
+      return UIView()
+    }
+    // TODO: b/371450897 - Change the type to UIView and guard against nil instead.
+    guard let bannerAdView = (bannerAdView as? UIView) else {
+      MolocoUtils.log("The Moloco banner ad has not been loaded yet. Returning a default UIView.")
+      return UIView()
+    }
+    return bannerAdView
   }
 }
 
