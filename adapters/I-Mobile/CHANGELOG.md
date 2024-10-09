@@ -1,7 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 2.3.4.1](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.1.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- i-mobile SDK version 2.3.4.
 
 #### [Version 2.3.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.0.zip)
 - Verified compatibility with i-mobile SDK 2.3.4.
