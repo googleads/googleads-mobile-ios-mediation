@@ -1,7 +1,11 @@
 ## myTarget iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 5.21.9.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.21.9.1.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- MyTarget SDK version 5.21.9.
 
 #### [Version 5.21.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.21.9.0.zip)
 - Verified compatibility with myTarget SDK version 5.21.9.
