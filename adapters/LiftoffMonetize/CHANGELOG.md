@@ -1,7 +1,11 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 7.4.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.1.1.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- Vungle SDK version 7.4.1.
 
 #### [Version 7.4.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.1.0.zip)
 - Verified compatibility with Vungle SDK 7.4.1.
