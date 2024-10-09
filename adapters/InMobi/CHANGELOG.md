@@ -1,7 +1,11 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 10.7.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.7.5.1.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- InMobi SDK version 10.7.5.
 
 #### [Version 10.7.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.7.5.0.zip)
 - Verified compatibility with InMobi SDK 10.7.5.
