@@ -1,7 +1,11 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 4.12.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.12.3.1.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- Unity Ads SDK version 4.12.3.
 
 #### [Version 4.12.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.12.3.0.zip)
 - Verified compatibility with Unity Ads SDK 4.12.3.
