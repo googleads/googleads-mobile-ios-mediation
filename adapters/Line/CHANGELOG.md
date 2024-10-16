@@ -9,6 +9,7 @@ Built and tested with:
 
 #### [Version 2.8.20240827.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.8.20240827.0.zip)
 - Verified compatibility with FiveAd SDK version 2.8.20240827.
+- Added bidding support for banner, interstitial, rewarded, and native ad formats.
 
 Built and tested with:
 - Google Mobile Ads SDK version 11.8.0.
