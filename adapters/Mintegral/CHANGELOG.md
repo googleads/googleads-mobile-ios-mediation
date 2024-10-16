@@ -1,5 +1,12 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.3.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- Mintegral SDK version 7.7.3.
+
 #### [Version 7.7.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.2.1.zip)
 - Adapter no longer checks if interstitial and rewarded ads are ready before they are shown.
 - Updated `CFBundleShortVersionString` to have three components instead of four.
