@@ -27,7 +27,7 @@ final class MolocoUtils {
   }
 
   static func log(_ logMessage: String) {
-    NSLog("GADMediationAdapterMoloco - \(logMessage)")
+    print("GADMediationAdapterMoloco - \(logMessage)")
   }
 
   static func getAdUnitId(from adConfiguration: GADMediationAdConfiguration) -> String? {

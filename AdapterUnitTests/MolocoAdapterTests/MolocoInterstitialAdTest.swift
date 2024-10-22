@@ -43,19 +43,6 @@ final class MolocoInterstitialAdTest: XCTestCase {
       bidResponse)
   }
 
-  func testInterstitialLoad_loadsWithEmptyBidResponse_ifBidResponseIsMissing() {
-    let molocoInterstitialFactory = FakeMolocoInterstitialFactory(loadError: nil)
-    let adapter = MolocoMediationAdapter(molocoInterstitialFactory: molocoInterstitialFactory)
-    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
-    let credentials = AUTKMediationCredentials()
-    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
-    mediationAdConfig.credentials = credentials
-
-    AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
-    XCTAssertEqual(
-      molocoInterstitialFactory.getCreatedMolocoInterstital()?.bidResponseUsedToLoadMolocoAd, "")
-  }
-
   func testInterstitialLoad_loadsWithTestAdUnitForTestRequest() {
     let molocoInterstitialFactory = FakeMolocoInterstitialFactory(loadError: nil)
     let adapter = MolocoMediationAdapter(
@@ -70,6 +57,20 @@ final class MolocoInterstitialAdTest: XCTestCase {
     AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
     XCTAssertEqual(
       molocoInterstitialFactory.adUnitIDUsedToCreateMolocoAd, MolocoConstants.molocoTestAdUnitName)
+  }
+
+  func testInterstitialLoadFailure_ifBidResponseIsMissing() {
+    let molocoInterstitialFactory = FakeMolocoInterstitialFactory(loadError: nil)
+    let adapter = MolocoMediationAdapter(molocoInterstitialFactory: molocoInterstitialFactory)
+    let mediationAdConfig = AUTKMediationInterstitialAdConfiguration()
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: adUnitID]
+    mediationAdConfig.credentials = credentials
+
+    let expectedError = NSError(
+      domain: MolocoConstants.adapterErrorDomain,
+      code: MolocoAdapterErrorCode.nilBidResponse.rawValue)
+    AUTKWaitAndAssertLoadInterstitialAdFailure(adapter, mediationAdConfig, expectedError)
   }
 
   func testInterstitialLoadFailure_ifAdUnitIdIsMissing() {

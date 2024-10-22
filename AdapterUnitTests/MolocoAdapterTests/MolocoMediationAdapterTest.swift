@@ -37,7 +37,7 @@ final class MolocoMediationAdapterTest: XCTestCase {
 
     @available(iOS 13.0, *)
     func initialize(
-      initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
+      initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?
     ) {
       appIDUsedToInitializeMoloco = initParams.appKey
       completion?(true, nil)
@@ -78,7 +78,7 @@ final class MolocoMediationAdapterTest: XCTestCase {
 
     @available(iOS 13.0, *)
     func initialize(
-      initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
+      initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?
     ) {
       completion?(true, nil)
     }
@@ -101,7 +101,7 @@ final class MolocoMediationAdapterTest: XCTestCase {
 
     @available(iOS 13.0, *)
     func initialize(
-      initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
+      initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?
     ) {
       let initializationError = NSError.init(domain: "moloco_sdk_domain", code: 1001)
       completion?(false, initializationError)

@@ -20,7 +20,8 @@ public protocol MolocoInitializer {
 
   @available(iOS 13.0, *)
   func initialize(
-    initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?)
+    initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?)
 
   func isInitialized() -> Bool
+
 }

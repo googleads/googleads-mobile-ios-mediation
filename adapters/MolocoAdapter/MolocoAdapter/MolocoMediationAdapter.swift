@@ -80,7 +80,7 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     guard #available(iOS 13.0, *) else {
       completionHandler(
         MolocoUtils.error(
-          code: MolocoAdapterErrorCode.adServingNotSupported,
+          code: .adServingNotSupported,
           description: "Moloco SDK does not support serving ads on iOS 12 and below"))
       return
     }
@@ -99,7 +99,7 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
       MolocoUtils.log("Not initializing Moloco SDK because because appId is invalid/missing")
       completionHandler(
         MolocoUtils.error(
-          code: MolocoAdapterErrorCode.invalidAppID, description: "Missing/Invalid App ID"))
+          code: .invalidAppID, description: "Missing/Invalid App ID"))
       return
     }
 
@@ -117,7 +117,7 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     }
   }
 
-  @objc public static func networkExtrasClass() -> (any GADAdNetworkExtras.Type)? {
+  @objc public static func networkExtrasClass() -> GADAdNetworkExtras.Type? {
     return nil
   }
 
@@ -136,7 +136,6 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   //
   //}
 
-  @MainActor
   @objc public func loadBanner(
     for adConfiguration: GADMediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
@@ -147,7 +146,6 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     bannerAdLoader?.loadAd()
   }
 
-  @MainActor
   @objc public func loadInterstitial(
     for adConfiguration: GADMediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
@@ -158,7 +156,6 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     interstitialAdLoader?.loadAd()
   }
 
-  @MainActor
   @objc public func loadRewardedAd(
     for adConfiguration: GADMediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler

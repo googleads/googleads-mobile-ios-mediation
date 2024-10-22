@@ -27,7 +27,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     )
   }
 
-  func testRewardedLoad_loadsWithEmptyBidResponse_ifBidResponseIsMissing() {
+  func testRewardedLoadFailure_ifBidResponseIsMissing() {
     let molocoRewardedFactory = FakeMolocoRewardedFactory(loadError: nil)
     let adapter = MolocoMediationAdapter(molocoRewardedFactory: molocoRewardedFactory)
     let mediationAdConfig = AUTKMediationRewardedAdConfiguration()
@@ -35,8 +35,10 @@ final class MolocoRewardedAdTest: XCTestCase {
     credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
 
-    AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
-    XCTAssertEqual(molocoRewardedFactory.fakeMolocoRewarded?.bidResponseUsedToLoadMolocoAd, "")
+    let expectedError = NSError(
+      domain: MolocoConstants.adapterErrorDomain,
+      code: MolocoAdapterErrorCode.nilBidResponse.rawValue)
+    AUTKWaitAndAssertLoadRewardedAdFailure(adapter, mediationAdConfig, expectedError)
   }
 
   func testRewardedLoad_loadsWithTestAdUnitForTestRequest() {
@@ -46,12 +48,12 @@ final class MolocoRewardedAdTest: XCTestCase {
     let credentials = AUTKMediationCredentials()
     credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
     mediationAdConfig.credentials = credentials
-    mediationAdConfig.bidResponse = Self.testBidResponse
     mediationAdConfig.isTestRequest = true
 
-    AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
-    XCTAssertEqual(
-      molocoRewardedFactory.adUnitIDUsedToCreateMolocoAd, MolocoConstants.molocoTestAdUnitName)
+    let expectedError = NSError(
+      domain: MolocoConstants.adapterErrorDomain,
+      code: MolocoAdapterErrorCode.nilBidResponse.rawValue)
+    AUTKWaitAndAssertLoadRewardedAdFailure(adapter, mediationAdConfig, expectedError)
   }
 
   func testRewardedLoadFailure_ifAdUnitIdIsMissing() {

@@ -45,10 +45,10 @@ final class RewardedAdLoader: NSObject {
     super.init()
   }
 
-  @MainActor func loadAd() {
+  func loadAd() {
     guard #available(iOS 13.0, *) else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adServingNotSupported,
+        code: .adServingNotSupported,
         description: "Moloco SDK does not support serving ads on iOS 12 and below")
       _ = loadCompletionHandler(nil, error)
       return
@@ -57,13 +57,21 @@ final class RewardedAdLoader: NSObject {
     let molocoAdUnitID = MolocoUtils.getAdUnitId(from: adConfiguration)
     guard let molocoAdUnitID else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
+        code: .invalidAdUnitId, description: "Missing required parameter")
       _ = loadCompletionHandler(nil, error)
       return
     }
 
-    self.rewardedAd = self.molocoRewardedFactory.createRewarded(for: molocoAdUnitID, delegate: self)
-    self.rewardedAd?.load(bidResponse: self.adConfiguration.bidResponse ?? "")
+    guard let bidResponse = adConfiguration.bidResponse else {
+      let error = MolocoUtils.error(code: .nilBidResponse, description: "Nil bid response.")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    rewardedAd = molocoRewardedFactory.createRewarded(for: molocoAdUnitID, delegate: self)
+    DispatchQueue.main.async { [weak self] in
+      self?.rewardedAd?.load(bidResponse: bidResponse)
+    }
   }
 
 }
@@ -76,7 +84,7 @@ extension RewardedAdLoader: GADMediationRewardedAd {
   func present(from viewController: UIViewController) {
     guard let rewardedAd, rewardedAd.isReady else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adNotReadyForShow, description: "Ad is not ready to be shown")
+        code: .adNotReadyForShow, description: "Ad is not ready to be shown")
       eventDelegate?.didFailToPresentWithError(error)
       return
     }
@@ -118,7 +126,7 @@ extension RewardedAdLoader: MolocoRewardedDelegate {
     let showError =
       error
       ?? MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+        code: .adFailedToShow, description: "Ad failed to show")
     eventDelegate?.didFailToPresentWithError(showError)
   }
 

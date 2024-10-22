@@ -46,11 +46,10 @@ final class BannerAdLoader: NSObject {
     super.init()
   }
 
-  @MainActor
   func loadAd() {
     guard #available(iOS 13.0, *) else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adServingNotSupported,
+        code: .adServingNotSupported,
         description: "Moloco SDK does not support serving ads on iOS 12 and below")
       _ = loadCompletionHandler(nil, error)
       return
@@ -59,14 +58,21 @@ final class BannerAdLoader: NSObject {
     let molocoAdUnitID = MolocoUtils.getAdUnitId(from: adConfiguration)
     guard let molocoAdUnitID else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
+        code: .invalidAdUnitId, description: "Missing required parameter")
       _ = loadCompletionHandler(nil, error)
       return
     }
 
-    let banner = self.molocoBannerFactory.createBanner(for: molocoAdUnitID, delegate: self)
-    self.bannerAdView = banner
-    banner?.load(bidResponse: self.adConfiguration.bidResponse ?? "")
+    guard let bidResponse = adConfiguration.bidResponse else {
+      let error = MolocoUtils.error(code: .nilBidResponse, description: "Nil bid response.")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    bannerAdView = molocoBannerFactory.createBanner(for: molocoAdUnitID, delegate: self)
+    DispatchQueue.main.async { [weak self] in
+      self?.bannerAdView?.load(bidResponse: bidResponse)
+    }
   }
 
 }
@@ -74,6 +80,7 @@ final class BannerAdLoader: NSObject {
 // MARK: - GADMediationBannerAd
 
 extension BannerAdLoader: GADMediationBannerAd {
+
   var view: UIView {
     guard #available(iOS 13.0, *) else {
       MolocoUtils.log(
@@ -87,6 +94,7 @@ extension BannerAdLoader: GADMediationBannerAd {
     }
     return bannerAdView
   }
+
 }
 
 // MARK: - MolocoBannerDelegate
@@ -109,7 +117,7 @@ extension BannerAdLoader: MolocoBannerDelegate {
     let showError =
       error
       ?? MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+        code: .adFailedToShow, description: "Ad failed to show")
     eventDelegate?.didFailToPresentWithError(showError)
   }
 

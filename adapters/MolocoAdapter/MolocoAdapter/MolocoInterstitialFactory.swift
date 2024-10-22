@@ -5,6 +5,7 @@ import MolocoSDK
 public protocol MolocoInterstitialFactory {
 
   @available(iOS 13.0, *)
-  func createInterstitial(for adUnit: String, delegate: any MolocoSDK.MolocoInterstitialDelegate)
-    -> (any MolocoSDK.MolocoInterstitial)?
+  func createInterstitial(for adUnit: String, delegate: MolocoInterstitialDelegate)
+    -> MolocoInterstitial?
+
 }

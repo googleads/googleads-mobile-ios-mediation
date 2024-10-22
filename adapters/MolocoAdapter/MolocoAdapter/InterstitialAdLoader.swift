@@ -43,11 +43,10 @@ final class InterstitialAdLoader: NSObject {
     super.init()
   }
 
-  @MainActor
   func loadAd() {
     guard #available(iOS 13.0, *) else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adServingNotSupported,
+        code: .adServingNotSupported,
         description: "Moloco SDK does not support serving ads on iOS 12 and below")
       _ = loadCompletionHandler(nil, error)
       return
@@ -56,14 +55,22 @@ final class InterstitialAdLoader: NSObject {
     let molocoAdUnitId = MolocoUtils.getAdUnitId(from: adConfiguration)
     guard let molocoAdUnitId = molocoAdUnitId else {
       let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.invalidAdUnitId, description: "Missing required parameter")
+        code: .invalidAdUnitId, description: "Missing required parameter")
       _ = loadCompletionHandler(nil, error)
       return
     }
 
-    self.interstitialAd = self.molocoInterstitialFactory.createInterstitial(
+    guard let bidResponse = adConfiguration.bidResponse else {
+      let error = MolocoUtils.error(code: .nilBidResponse, description: "Nil bid response.")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    interstitialAd = molocoInterstitialFactory.createInterstitial(
       for: molocoAdUnitId, delegate: self)
-    self.interstitialAd?.load(bidResponse: self.adConfiguration.bidResponse ?? "")
+    DispatchQueue.main.async { [weak self] in
+      self?.interstitialAd?.load(bidResponse: bidResponse)
+    }
   }
 
 }
@@ -80,7 +87,7 @@ extension InterstitialAdLoader: GADMediationInterstitialAd {
       eventDelegate?.didFailToPresentWithError(error)
       return
     }
-    self.eventDelegate?.willPresentFullScreenView()
+    eventDelegate?.willPresentFullScreenView()
     interstitialAd.show(from: viewController)
   }
 
@@ -105,7 +112,7 @@ extension InterstitialAdLoader: MolocoInterstitialDelegate {
     let showError =
       error
       ?? MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adFailedToShow, description: "Ad failed to show")
+        code: .adFailedToShow, description: "Ad failed to show")
     eventDelegate?.didFailToPresentWithError(showError)
   }
 

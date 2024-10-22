@@ -17,8 +17,9 @@ import MolocoSDK
 
 /// Protocol for a factory of Moloco rewarded ads.
 public protocol MolocoRewardedFactory {
+
   @available(iOS 13.0, *)
-  func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
-    any MolocoSDK.MolocoRewardedInterstitial
-  )?
+  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate)
+    -> MolocoRewardedInterstitial?
+
 }

@@ -20,7 +20,7 @@ class MolocoSdkImpl: MolocoInitializer {
 
   @available(iOS 13.0, *)
   func initialize(
-    initParams: MolocoSDK.MolocoInitParams, completion: ((Bool, (any Error)?) -> Void)?
+    initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?
   ) {
     Moloco.shared.initialize(initParams: initParams, completion: completion)
   }
@@ -37,8 +37,8 @@ extension MolocoSdkImpl: MolocoInterstitialFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createInterstitial(for adUnit: String, delegate: any MolocoSDK.MolocoInterstitialDelegate)
-    -> (any MolocoSDK.MolocoInterstitial)?
+  func createInterstitial(for adUnit: String, delegate: MolocoInterstitialDelegate)
+    -> MolocoInterstitial?
   {
     Moloco.shared.createInterstitial(for: adUnit, delegate: delegate)
   }
@@ -51,9 +51,9 @@ extension MolocoSdkImpl: MolocoRewardedFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
-    any MolocoSDK.MolocoRewardedInterstitial
-  )? {
+  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate)
+    -> MolocoRewardedInterstitial?
+  {
     Moloco.shared.createRewarded(for: adUnit, delegate: delegate)
   }
 
