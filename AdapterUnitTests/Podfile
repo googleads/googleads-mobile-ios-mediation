@@ -5,6 +5,8 @@
 # export ADAPTER_TARGETS="TargetName1,TargetName2"
 # pod install
 
+project 'AdapterUnitTests.xcodeproj'
+
 use_frameworks!
 workspace 'AdapterUnitTests'
 
