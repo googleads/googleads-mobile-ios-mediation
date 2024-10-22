@@ -1,7 +1,11 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated CFBundleShortVersionString to have three components instead of four.
+#### [Version 13.0.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.0.2.zip)
+- Updated `CFBundleShortVersionString` to have three components instead of four.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.10.0.
+- AppLovin SDK version 13.0.0.
 
 #### [Version 13.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.0.1.zip)
 - Disabled AppLovin mediation automatically for apps that declare either of the
