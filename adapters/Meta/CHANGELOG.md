@@ -1,5 +1,12 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### [Version 6.16.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.16.0.0.zip)
+- Verified compatibility with Meta Audience Network SDK 6.16.0.
+`
+Built and tested with:
+- Google Mobile Ads SDK version 11.11.0.
+- Meta Audience Network SDK version 6.16.0.
+
 #### [Version 6.15.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.15.2.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 
