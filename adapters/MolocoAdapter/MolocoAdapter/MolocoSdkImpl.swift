@@ -74,3 +74,12 @@ extension MolocoSdkImpl: MolocoBannerFactory {
   }
 
 }
+
+// MARK: - MolocoBidTokenGetter
+
+extension MolocoSdkImpl: MolocoBidTokenGetter {
+
+  func getBidToken(completion: @escaping (String?, (any Error)?) -> Void) {
+    Moloco.shared.getBidToken(completion: completion)
+  }
+}

@@ -1,5 +1,4 @@
 ## Moloco iOS Mediation Adapter Changelog
 
 #### Next version
-- Added adapter setUp code.
-- Added interstitial ad load and show code.
+- First version. Has bidding support for banner, interstitial and rewarded formats.

@@ -17,9 +17,8 @@ import MolocoSDK
 import OSLog
 
 /// Adapter for Google Mobile Ads SDK to render ads on Moloco ads SDK.
-// TODO: if the adapter supports bidding, it must conforms to GADRTBAdapter instead of GADMediationAdapter.
 @objc(GADMediationAdapterMoloco)
-public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRTBAdapter */ {
+public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
@@ -49,6 +48,8 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// Used to create Moloco banner ads.
   private var molocoBannerFactory: MolocoBannerFactory = MolocoMediationAdapter.molocoSdkImpl
 
+  private var molocoBidTokenGetter: MolocoBidTokenGetter = MolocoMediationAdapter.molocoSdkImpl
+
   public override init() {
     // Conform to GADMediationAdapter protocol.
   }
@@ -66,6 +67,11 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
   /// Initializer used only for testing purpose.
   init(molocoBannerFactory: MolocoBannerFactory) {
     self.molocoBannerFactory = molocoBannerFactory
+  }
+
+  /// Initializer used only for testing purpose.
+  init(molocoBidTokenGetter: MolocoBidTokenGetter) {
+    self.molocoBidTokenGetter = molocoBidTokenGetter
   }
 
   /// Setter used only for testing purpose.
@@ -131,10 +137,17 @@ public final class MolocoMediationAdapter: NSObject, GADMediationAdapter /*GADRT
     return GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
   }
 
-  // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
-  //@objc func collectSignals(for params: GADRTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler) {
-  //
-  //}
+  @objc public func collectSignals(
+    for params: GADRTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
+  ) {
+    molocoBidTokenGetter.getBidToken { bidToken, error in
+      if error != nil {
+        completionHandler(nil, error)
+      } else {
+        completionHandler(bidToken, nil)
+      }
+    }
+  }
 
   @objc public func loadBanner(
     for adConfiguration: GADMediationBannerAdConfiguration,

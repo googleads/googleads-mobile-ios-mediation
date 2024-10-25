@@ -24,6 +24,7 @@
 		707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */; };
 		707FFE2C2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */; };
 		707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */; };
+		70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */; };
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70C886582B80304E00B0703F /* AUTNendBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C886572B80304E00B0703F /* AUTNendBannerAdTests.m */; };
@@ -544,6 +545,7 @@
 		707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeUtilsTests.m; sourceTree = "<group>"; };
 		707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRouterTests.m; sourceTree = "<group>"; };
+		70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoBidTokenGetter.swift; sourceTree = "<group>"; };
 		70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceUtilsTests.m; sourceTree = "<group>"; };
 		70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -871,6 +873,7 @@
 				70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */,
 				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
 				8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */,
+				70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -2023,6 +2026,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */,
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
 				70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */,
 				85A57D732CA4B663009FC260 /* FakeMolocoBannerFactory.swift in Sources */,

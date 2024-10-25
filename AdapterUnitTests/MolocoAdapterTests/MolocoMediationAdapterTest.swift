@@ -136,4 +136,37 @@ final class MolocoMediationAdapterTest: XCTestCase {
       MolocoMediationAdapter.self, mediationServerConfig, expectedError)
   }
 
+  func testCollectSignalsSuccess_ifMolocoReturnsBidToken() {
+    let expectedBidToken = "a sample bid token"
+    let molocoBidTokenGetter = FakeMolocoBidTokenGetter(bidToken: expectedBidToken)
+    let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
+    let successExpectation = XCTestExpectation()
+    let requestParameters = GADRTBRequestParameters()
+
+    adapter.collectSignals(for: requestParameters) { bidToken, error in
+      XCTAssertEqual(bidToken, expectedBidToken)
+      XCTAssertNil(error)
+      successExpectation.fulfill()
+    }
+    let result = XCTWaiter.wait(for: [successExpectation], timeout: AUTKExpectationTimeout)
+    XCTAssertEqual(result, XCTWaiter.Result.completed)
+  }
+
+  func testCollectSignalsFailure_ifMolocoFailsToReturnBidToken() {
+    let expectedError = NSError.init(domain: "moloco_sdk_domain", code: 1010)
+    let molocoBidTokenGetter = FakeMolocoBidTokenGetter(error: expectedError)
+    let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
+    let failureExpectation = XCTestExpectation()
+    let requestParameters = GADRTBRequestParameters()
+
+    adapter.collectSignals(for: requestParameters) { bidToken, error in
+      XCTAssertNil(bidToken)
+      let error = error as NSError?
+      XCTAssertEqual(error?.domain, "moloco_sdk_domain")
+      XCTAssertEqual(error?.code, 1010)
+      failureExpectation.fulfill()
+    }
+    let result = XCTWaiter.wait(for: [failureExpectation], timeout: AUTKExpectationTimeout)
+    XCTAssertEqual(result, XCTWaiter.Result.completed)
+  }
 }
