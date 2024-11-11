@@ -85,7 +85,9 @@
 }
 
 - (void)labelTap:(UIGestureRecognizer *)tapGesture {
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.google.com"]];
+  [UIApplication.sharedApplication openURL:[NSURL URLWithString:@"https://www.google.com"]
+                                   options:@{}
+                         completionHandler:nil];
   [self.delegate bannerWillLeaveApplication:self];
 }
 

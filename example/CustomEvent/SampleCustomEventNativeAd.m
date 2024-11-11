@@ -226,12 +226,12 @@ UIView *_adChoicesView;
   NSError *error = SampleCustomEventErrorWithCodeAndDescription(
       SampleCustomEventErrorAdLoadFailureCallback,
       [NSString
-          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %@",
+          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %ld",
                            errorCode]);
   _adEventDelegate = _loadCompletionHandler(nil, error);
 }
 
-#pragma mark GADMediatedUnifiedNativeAd implementation
+#pragma mark GADMediationNativeAd implementation
 
 // Because the Sample SDK has click and impression tracking via methods on its native ad object
 // which the developer is required to call, there's no need to pass it a reference to the UIView
