@@ -117,6 +117,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
   GADMediationAdapterLineBannerAdLoader *__weak weakSelf = self;
   [adLoader
       loadBannerAdWithBidData:bidData
+             withInitialWidth:_requestedBannerSize.size.width
              withLoadCallback:^(FADAdViewCustomLayout *_Nullable customLayout,
                                 NSError *_Nullable adLoadError) {
                GADMediationAdapterLineBannerAdLoader *strongSelf = weakSelf;
@@ -132,19 +133,6 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
                  [strongSelf callCompletionHandlerIfNeededWithAd:nil error:error];
                  return;
                }
-
-               error = GADMediationAdapterLineVerifyLoadedBannerSize(
-                   customLayout, strongSelf->_requestedBannerSize);
-               if (error) {
-                 [self callCompletionHandlerIfNeededWithAd:nil error:error];
-                 return;
-               }
-
-               CGSize adSize = strongSelf->_requestedBannerSize.size;
-               CGRect adFrame = CGRectMake(0, 0, adSize.width, adSize.height);
-               customLayout.frame = adFrame;
-               [customLayout invalidateIntrinsicContentSize];
-               [customLayout layoutIfNeeded];
 
                [customLayout setEventListener:strongSelf];
                [customLayout enableSound:GADMediationAdapterLineShouldEnableAudio(

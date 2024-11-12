@@ -1,5 +1,8 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the bidding banner ad load API with Five ad's newer version.
+
 #### [Version 2.8.20240827.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.8.20240827.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

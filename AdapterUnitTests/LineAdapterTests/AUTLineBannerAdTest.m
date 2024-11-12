@@ -133,11 +133,13 @@ static NSString *const AUTLineTestSlotID = @"12345";
                                            }]
                                                     outError:[OCMArg anyObjectRef]]))
       .andReturn(adLoaderClassMock);
-  OCMExpect([adLoaderClassMock loadBannerAdWithBidData:bidData withLoadCallback:OCMOCK_ANY])
+  OCMExpect([adLoaderClassMock loadBannerAdWithBidData:bidData
+                                      withInitialWidth:GADAdSizeBanner.size.width
+                                      withLoadCallback:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(FADAdViewCustomLayout *_Nullable customLayout,
                                                       NSError *_Nullable adLoadError);
-        [invocation getArgument:&completionHandler atIndex:3];
+        [invocation getArgument:&completionHandler atIndex:4];
         id bannerView = [[FakeFADAdViewCustomLayout alloc]
             initWithFrame:CGRectMake(0, 0, requestedAdSize.size.width,
                                      requestedAdSize.size.height)];
