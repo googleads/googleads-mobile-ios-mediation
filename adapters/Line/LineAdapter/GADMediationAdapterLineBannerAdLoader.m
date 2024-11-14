@@ -138,6 +138,20 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
                [customLayout enableSound:GADMediationAdapterLineShouldEnableAudio(
                                              strongSelf->_adConfiguration.extras)];
                strongSelf->_bannerAd = customLayout;
+
+               CGSize requestedAdSize = strongSelf->_requestedBannerSize.size;
+               CGSize customLayoutSize = customLayout.frame.size;
+               double widthDiff = fabs(requestedAdSize.width - customLayoutSize.width);
+               double heightDiff = fabs(requestedAdSize.height - customLayoutSize.height);
+               if (widthDiff >= 1.0 || heightDiff >= 1.0) {
+                 GADMediationAdapterLineLog(
+                     @"The loaded banner ad has a different size than the requested ad size. "
+                     @"Ensure the slot ID used to request the ad has the same aspect ratio as the "
+                     @"actual size configured for the slot ID. The requested ad size: %@. The "
+                     @"actual banner ad size: %@.",
+                     NSStringFromCGSize(requestedAdSize), NSStringFromCGSize(customLayoutSize));
+               }
+
                [strongSelf callCompletionHandlerIfNeededWithAd:strongSelf error:nil];
              }];
 }
