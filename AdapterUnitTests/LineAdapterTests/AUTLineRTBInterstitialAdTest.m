@@ -12,10 +12,10 @@
 
 static NSString *const kTestSlotID = @"12345";
 
-@interface AUTLineInterstitialAdTest : XCTestCase
+@interface AUTLineRTBInterstitialAdTest : XCTestCase
 @end
 
-@implementation AUTLineInterstitialAdTest {
+@implementation AUTLineRTBInterstitialAdTest {
   /// An adapter instance that is used to test loading an interstitial ad.
   GADMediationAdapterLine *_adapter;
 
@@ -29,8 +29,6 @@ static NSString *const kTestSlotID = @"12345";
   _adapter = [[GADMediationAdapterLine alloc] init];
 
   _interstitialMock = OCMClassMock([FADInterstitial class]);
-  OCMStub([_interstitialMock alloc]).andReturn(_interstitialMock);
-  OCMStub([_interstitialMock initWithSlotId:kTestSlotID]).andReturn(_interstitialMock);
 
   id configClassMock = OCMClassMock([FADSettings class]);
   OCMStub([configClassMock registerConfig:OCMOCK_ANY]);
@@ -39,55 +37,6 @@ static NSString *const kTestSlotID = @"12345";
 - (nonnull id<GADMediationInterstitialAdEventDelegate>)
     loadInterstitialAdWithExtra:(nullable GADMediationAdapterLineExtras *)extras
              expectSoundEnabled:(BOOL)soundEnabled {
-  // Mock FiveAd SDK.
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_interstitialMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-  OCMExpect([_interstitialMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    [loadDelegate fiveAdDidLoad:self->_interstitialMock];
-  });
-  OCMExpect([_interstitialMock enableSound:soundEnabled]);
-
-  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
-  OCMExpect(ClassMethod([adLoaderClassMock adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                             FADConfig *config = (FADConfig *)obj;
-                                             XCTAssertTrue([config.appId isEqualToString:@"123"]);
-                                             return YES;
-                                           }]
-                                                    outError:[OCMArg anyObjectRef]]));
-
-  // Test loading an interstitial ad.
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings = @{
-    GADMediationAdapterLineCredentialKeyApplicationID : @"123",
-    GADMediationAdapterLineCredentialKeyAdUnit : kTestSlotID
-  };
-  AUTKMediationInterstitialAdConfiguration *configuration =
-      [[AUTKMediationInterstitialAdConfiguration alloc] init];
-  configuration.credentials = credentials;
-  configuration.extras = extras;
-  id<GADMediationInterstitialAdEventDelegate> delegate =
-      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
-  XCTAssertNotNil(delegate);
-  OCMVerifyAll(_interstitialMock);
-  OCMVerifyAll(adLoaderClassMock);
-
-  return delegate;
-}
-
-- (void)testLoadInterstitialAd {
-  [self loadInterstitialAdWithExtra:nil
-                 expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
-}
-
-- (void)testLoadBiddingInterstitialAd {
-  // Mock FiveAd SDK.
-  __block id<FADLoadDelegate> loadDelegate = nil;
-  OCMStub([_interstitialMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&loadDelegate atIndex:2];
-  });
-
   NSString *bidResponse = @"bidResponse";
   NSString *watermark = @"watermark";
   NSData *watermarkData = [watermark dataUsingEncoding:NSUTF8StringEncoding];
@@ -123,11 +72,19 @@ static NSString *const kTestSlotID = @"12345";
   configuration.credentials = credentials;
   configuration.watermark = watermarkData;
   configuration.bidResponse = bidResponse;
+  configuration.extras = extras;
+  OCMExpect([_interstitialMock enableSound:soundEnabled]);
   id<GADMediationInterstitialAdEventDelegate> delegate =
       AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
   XCTAssertNotNil(delegate);
   OCMVerifyAll(_interstitialMock);
   OCMVerifyAll(adLoaderClassMock);
+  return delegate;
+}
+
+- (void)testLoadInterstitialAd {
+  [self loadInterstitialAdWithExtra:nil
+                 expectSoundEnabled:!GADMobileAds.sharedInstance.applicationMuted];
 }
 
 - (void)testLoadInterstitialAdAudioUnset {

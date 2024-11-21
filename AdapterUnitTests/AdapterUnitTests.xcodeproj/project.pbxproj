@@ -21,6 +21,8 @@
 		70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */; };
 		7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */; };
+		707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */; };
+		707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */; };
 		707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */; };
 		707FFE2C2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */; };
 		707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */; };
@@ -140,7 +142,6 @@
 		ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */; };
 		ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */; };
 		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
-		ADEAFA3B2A3669D60036464A /* AUTLineInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */; };
 		ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */; };
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
 		ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */; };
@@ -542,6 +543,8 @@
 		70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitialFactory.swift; sourceTree = "<group>"; };
 		7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MolocoAdapter.xcodeproj; path = ../adapters/MolocoAdapter/MolocoAdapter.xcodeproj; sourceTree = "<group>"; };
 		7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MolocoAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineWaterfallInterstitialAdTest.m; sourceTree = "<group>"; };
+		707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRTBInterstitialAdTest.m; sourceTree = "<group>"; };
 		707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeUtilsTests.m; sourceTree = "<group>"; };
 		707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRouterTests.m; sourceTree = "<group>"; };
@@ -668,7 +671,6 @@
 		ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LineAdapter.xcodeproj; path = ../adapters/LineAdapter/LineAdapter.xcodeproj; sourceTree = "<group>"; };
 		ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LineAdapterTests.xctestplan; sourceTree = "<group>"; };
 		ADD6B4B32A57804000F5D318 /* DTExchangeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = DTExchangeAdapterTests.xctestplan; sourceTree = "<group>"; };
-		ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineInterstitialAdTest.m; sourceTree = "<group>"; };
 		ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineBannerAdTest.m; sourceTree = "<group>"; };
 		ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRewardedAdTest.m; sourceTree = "<group>"; };
 		ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTExchangeAdapter.xcodeproj; path = ../adapters/DTExchangeAdapter/DTExchangeAdapter.xcodeproj; sourceTree = "<group>"; };
@@ -1207,10 +1209,11 @@
 			children = (
 				ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */,
 				ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */,
-				ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */,
 				ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */,
 				ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */,
 				ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */,
+				707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */,
+				707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */,
 			);
 			path = LineAdapterTests;
 			sourceTree = "<group>";
@@ -2178,9 +2181,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */,
+				707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */,
 				ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */,
 				ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */,
-				ADEAFA3B2A3669D60036464A /* AUTLineInterstitialAdTest.m in Sources */,
 				ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */,
 				ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */,
 			);

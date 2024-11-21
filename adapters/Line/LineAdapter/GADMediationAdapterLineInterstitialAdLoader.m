@@ -127,7 +127,8 @@
                      [interstitialAd enableSound:GADMediationAdapterLineShouldEnableAudio(
                                                      strongSelf->_adConfiguration.extras)];
                      strongSelf->_interstitialAd = interstitialAd;
-                     strongSelf->_interstitialAdLoadCompletionHandler(strongSelf, nil);
+                     strongSelf->_interstitialAdEventDelegate =
+                         strongSelf->_interstitialAdLoadCompletionHandler(strongSelf, nil);
                    }];
 }
 

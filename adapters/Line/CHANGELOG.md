@@ -1,5 +1,9 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the bidding banner ad load API with Five ad's newer version.
+- Fixed RTB interstitial ad event delegation (so that ad events are correctly forwarded to GMA SDK).
+
 #### [Version 2.9.20241106.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.0.zip)
 - Verified compatibility with FiveAd SDK version 2.9.20241106.
 
