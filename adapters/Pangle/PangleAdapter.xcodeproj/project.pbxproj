@@ -50,6 +50,24 @@
 		2BF5FE7B279B0DA2001EFB81 /* GADPangleBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */; };
 		2BF5FE7C279B0DA6001EFB81 /* GADPangleRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */; };
 		2BF5FE7D279B0DAE001EFB81 /* GADPangleInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleInterstitialRenderer.m */; };
+		ADA6BA822CF14715009C8FDA /* PangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA832CF14715009C8FDA /* GADPangleNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBF274A28B34599005D689F /* GADPangleNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA842CF14715009C8FDA /* GADPangleAppOpenRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BD310D22A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.h */; };
+		ADA6BA852CF14715009C8FDA /* GADMediationAdapterPangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA862CF14715009C8FDA /* GADPangleInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6F279B0C46001EFB81 /* GADPangleInterstitialRenderer.h */; };
+		ADA6BA872CF14715009C8FDA /* GADPangleNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B7B2F1D283E0480006BA122 /* GADPangleNativeRenderer.h */; };
+		ADA6BA882CF14715009C8FDA /* GADMediationAdapterPangleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D4A277A833B005BB25B /* GADMediationAdapterPangleConstants.h */; };
+		ADA6BA892CF14715009C8FDA /* GADMAdapterPangleUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */; };
+		ADA6BA8A2CF14715009C8FDA /* GADPangleBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6B279B0C46001EFB81 /* GADPangleBannerRenderer.h */; };
+		ADA6BA8B2CF14715009C8FDA /* GADPangleRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BF5FE6C279B0C46001EFB81 /* GADPangleRewardedRenderer.h */; };
+		ADA6BA8D2CF14715009C8FDA /* GADPangleNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF274B28B34599005D689F /* GADPangleNetworkExtras.m */; };
+		ADA6BA8E2CF14715009C8FDA /* GADPangleNativeRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B7B2F1E283E0480006BA122 /* GADPangleNativeRenderer.m */; };
+		ADA6BA8F2CF14715009C8FDA /* GADMAdapterPangleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */; };
+		ADA6BA902CF14715009C8FDA /* GADMediationAdapterPangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3B8D4C277A833B005BB25B /* GADMediationAdapterPangle.m */; };
+		ADA6BA912CF14715009C8FDA /* GADPangleBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */; };
+		ADA6BA922CF14715009C8FDA /* GADPangleAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD310D32A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.m */; };
+		ADA6BA932CF14715009C8FDA /* GADPangleRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */; };
+		ADA6BA942CF14715009C8FDA /* GADPangleInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleInterstitialRenderer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,10 +78,26 @@
 			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
 			remoteInfo = ValidateSourceCode;
 		};
+		ADA6BA802CF14715009C8FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
+			remoteInfo = ValidateSourceCode;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		2BF5FE4E279B009F001EFB81 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA962CF14715009C8FDA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -104,6 +138,7 @@
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
 		2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterPangleUtils.m; sourceTree = "<group>"; };
 		AD00C4952B87E246007C85F3 /* PangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPangleAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +150,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD00C4922B87E246007C85F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA952CF14715009C8FDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -142,6 +184,7 @@
 			children = (
 				2BF5FE50279B009F001EFB81 /* libAdapter.a */,
 				AD00C4952B87E246007C85F3 /* PangleAdapter.framework */,
+				ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -242,6 +285,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADA6BA812CF14715009C8FDA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6BA822CF14715009C8FDA /* PangleAdapter.h in Headers */,
+				ADA6BA832CF14715009C8FDA /* GADPangleNetworkExtras.h in Headers */,
+				ADA6BA842CF14715009C8FDA /* GADPangleAppOpenRenderer.h in Headers */,
+				ADA6BA852CF14715009C8FDA /* GADMediationAdapterPangle.h in Headers */,
+				ADA6BA862CF14715009C8FDA /* GADPangleInterstitialRenderer.h in Headers */,
+				ADA6BA872CF14715009C8FDA /* GADPangleNativeRenderer.h in Headers */,
+				ADA6BA882CF14715009C8FDA /* GADMediationAdapterPangleConstants.h in Headers */,
+				ADA6BA892CF14715009C8FDA /* GADMAdapterPangleUtils.h in Headers */,
+				ADA6BA8A2CF14715009C8FDA /* GADPangleBannerRenderer.h in Headers */,
+				ADA6BA8B2CF14715009C8FDA /* GADPangleRewardedRenderer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -281,6 +341,25 @@
 			productName = PangleAdapter;
 			productReference = AD00C4952B87E246007C85F3 /* PangleAdapter.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		ADA6BA7E2CF14715009C8FDA /* StaticPangleAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADA6BA972CF14715009C8FDA /* Build configuration list for PBXNativeTarget "StaticPangleAdapter" */;
+			buildPhases = (
+				ADA6BA812CF14715009C8FDA /* Headers */,
+				ADA6BA8C2CF14715009C8FDA /* Sources */,
+				ADA6BA952CF14715009C8FDA /* Frameworks */,
+				ADA6BA962CF14715009C8FDA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADA6BA7F2CF14715009C8FDA /* PBXTargetDependency */,
+			);
+			name = StaticPangleAdapter;
+			productName = Adapter;
+			productReference = ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -322,6 +401,7 @@
 				2BF5FE59279B01B5001EFB81 /* Framework */,
 				2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */,
 				AD00C4942B87E246007C85F3 /* PangleAdapter */,
+				ADA6BA7E2CF14715009C8FDA /* StaticPangleAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -398,6 +478,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADA6BA8C2CF14715009C8FDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6BA8D2CF14715009C8FDA /* GADPangleNetworkExtras.m in Sources */,
+				ADA6BA8E2CF14715009C8FDA /* GADPangleNativeRenderer.m in Sources */,
+				ADA6BA8F2CF14715009C8FDA /* GADMAdapterPangleUtils.m in Sources */,
+				ADA6BA902CF14715009C8FDA /* GADMediationAdapterPangle.m in Sources */,
+				ADA6BA912CF14715009C8FDA /* GADPangleBannerRenderer.m in Sources */,
+				ADA6BA922CF14715009C8FDA /* GADPangleAppOpenRenderer.m in Sources */,
+				ADA6BA932CF14715009C8FDA /* GADPangleRewardedRenderer.m in Sources */,
+				ADA6BA942CF14715009C8FDA /* GADPangleInterstitialRenderer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -405,6 +500,11 @@
 			isa = PBXTargetDependency;
 			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
 			targetProxy = 236ED88027DAC5C20049657C /* PBXContainerItemProxy */;
+		};
+		ADA6BA7F2CF14715009C8FDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
+			targetProxy = ADA6BA802CF14715009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -665,6 +765,30 @@
 			};
 			name = Release;
 		};
+		ADA6BA982CF14715009C8FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ADA6BA992CF14715009C8FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -709,6 +833,15 @@
 			buildConfigurations = (
 				AD00C4992B87E246007C85F3 /* Debug */,
 				AD00C49A2B87E246007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADA6BA972CF14715009C8FDA /* Build configuration list for PBXNativeTarget "StaticPangleAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADA6BA982CF14715009C8FDA /* Debug */,
+				ADA6BA992CF14715009C8FDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

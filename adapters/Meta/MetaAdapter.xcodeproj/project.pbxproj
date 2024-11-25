@@ -52,10 +52,39 @@
 		7DC8682E1DDA8D4400F0F1C4 /* MetaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA052CF146E5009C8FDA /* GADFBExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD412837196A001FA761 /* GADFBExtraAssets.m */; };
+		ADA6BA062CF146E5009C8FDA /* GADFBUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD4C2837196A001FA761 /* GADFBUtils.m */; };
+		ADA6BA072CF146E5009C8FDA /* GADFBNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD482837196A001FA761 /* GADFBNetworkExtras.m */; };
+		ADA6BA082CF146E5009C8FDA /* GADFBRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD3C2837196A001FA761 /* GADFBRewardedRenderer.m */; };
+		ADA6BA092CF146E5009C8FDA /* GADFBBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD342837196A001FA761 /* GADFBBannerRenderer.m */; };
+		ADA6BA0A2CF146E5009C8FDA /* GADFBNativeRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD382837196A001FA761 /* GADFBNativeRenderer.m */; };
+		ADA6BA0B2CF146E5009C8FDA /* GADFBRewardedInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD3A2837196A001FA761 /* GADFBRewardedInterstitialRenderer.m */; };
+		ADA6BA0C2CF146E5009C8FDA /* GADMediationAdapterFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD512837196A001FA761 /* GADMediationAdapterFacebook.m */; };
+		ADA6BA0D2CF146E5009C8FDA /* GADFBInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD362837196A001FA761 /* GADFBInterstitialRenderer.m */; };
+		ADA6BA112CF146E5009C8FDA /* GADMediationAdapterFacebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD502837196A001FA761 /* GADMediationAdapterFacebook.h */; };
+		ADA6BA122CF146E5009C8FDA /* GADMAdapterFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD4F2837196A001FA761 /* GADMAdapterFacebookConstants.h */; };
+		ADA6BA132CF146E5009C8FDA /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA142CF146E5009C8FDA /* GADFBBannerRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD332837196A001FA761 /* GADFBBannerRenderer.h */; };
+		ADA6BA152CF146E5009C8FDA /* GADFBRewardedInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD392837196A001FA761 /* GADFBRewardedInterstitialRenderer.h */; };
+		ADA6BA162CF146E5009C8FDA /* GADFBInterstitialRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD352837196A001FA761 /* GADFBInterstitialRenderer.h */; };
+		ADA6BA172CF146E5009C8FDA /* GADFBUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD4B2837196A001FA761 /* GADFBUtils.h */; };
+		ADA6BA182CF146E5009C8FDA /* GADFBRewardedRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD3B2837196A001FA761 /* GADFBRewardedRenderer.h */; };
+		ADA6BA192CF146E5009C8FDA /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA1A2CF146E5009C8FDA /* MetaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6BA1B2CF146E5009C8FDA /* GADFBNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD372837196A001FA761 /* GADFBNativeRenderer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA0F2CF146E5009C8FDA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -98,6 +127,7 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMetaAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +139,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD00C4622B87D61A007C85F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA0E2CF146E5009C8FDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,6 +244,7 @@
 			children = (
 				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
 				AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */,
+				ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,6 +274,24 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA102CF146E5009C8FDA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6BA112CF146E5009C8FDA /* GADMediationAdapterFacebook.h in Headers */,
+				ADA6BA122CF146E5009C8FDA /* GADMAdapterFacebookConstants.h in Headers */,
+				ADA6BA132CF146E5009C8FDA /* GADFBNetworkExtras.h in Headers */,
+				ADA6BA142CF146E5009C8FDA /* GADFBBannerRenderer.h in Headers */,
+				ADA6BA152CF146E5009C8FDA /* GADFBRewardedInterstitialRenderer.h in Headers */,
+				ADA6BA162CF146E5009C8FDA /* GADFBInterstitialRenderer.h in Headers */,
+				ADA6BA172CF146E5009C8FDA /* GADFBUtils.h in Headers */,
+				ADA6BA182CF146E5009C8FDA /* GADFBRewardedRenderer.h in Headers */,
+				ADA6BA192CF146E5009C8FDA /* GADFBExtraAssets.h in Headers */,
+				ADA6BA1A2CF146E5009C8FDA /* MetaAdapter.h in Headers */,
+				ADA6BA1B2CF146E5009C8FDA /* GADFBNativeRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +333,24 @@
 			productName = MetaAdapter;
 			productReference = AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		ADA6BA032CF146E5009C8FDA /* StaticMetaAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "StaticMetaAdapter" */;
+			buildPhases = (
+				ADA6BA042CF146E5009C8FDA /* Sources */,
+				ADA6BA0E2CF146E5009C8FDA /* Frameworks */,
+				ADA6BA0F2CF146E5009C8FDA /* CopyFiles */,
+				ADA6BA102CF146E5009C8FDA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StaticMetaAdapter;
+			productName = Adapter;
+			productReference = ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -320,6 +394,7 @@
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
 				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 				AD00C4642B87D61A007C85F3 /* MetaAdapter */,
+				ADA6BA032CF146E5009C8FDA /* StaticMetaAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -390,6 +465,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6BA042CF146E5009C8FDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6BA052CF146E5009C8FDA /* GADFBExtraAssets.m in Sources */,
+				ADA6BA062CF146E5009C8FDA /* GADFBUtils.m in Sources */,
+				ADA6BA072CF146E5009C8FDA /* GADFBNetworkExtras.m in Sources */,
+				ADA6BA082CF146E5009C8FDA /* GADFBRewardedRenderer.m in Sources */,
+				ADA6BA092CF146E5009C8FDA /* GADFBBannerRenderer.m in Sources */,
+				ADA6BA0A2CF146E5009C8FDA /* GADFBNativeRenderer.m in Sources */,
+				ADA6BA0B2CF146E5009C8FDA /* GADFBRewardedInterstitialRenderer.m in Sources */,
+				ADA6BA0C2CF146E5009C8FDA /* GADMediationAdapterFacebook.m in Sources */,
+				ADA6BA0D2CF146E5009C8FDA /* GADFBInterstitialRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +732,22 @@
 			};
 			name = Release;
 		};
+		ADA6BA1D2CF146E5009C8FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ADA6BA1E2CF146E5009C8FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -685,6 +792,15 @@
 			buildConfigurations = (
 				AD00C4692B87D61A007C85F3 /* Debug */,
 				AD00C46A2B87D61A007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "StaticMetaAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADA6BA1D2CF146E5009C8FDA /* Debug */,
+				ADA6BA1E2CF146E5009C8FDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
