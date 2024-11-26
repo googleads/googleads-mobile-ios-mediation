@@ -29,7 +29,6 @@
 
 @implementation GADMediationAdapterIronSource
 
-
 #pragma mark GADMediation Adapter implementation
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -187,8 +186,7 @@ completionHandler {
     ISAInitRequest *request = [requestBuilder build];
     
     [IronSourceAds initWithRequest: request completion:^(BOOL success, NSError *_Nullable error) {
-        if ( !success || error )
-        {
+        if ( !success || error ) {
             [GADMAdapterIronSourceUtils
                 onLog:[NSString stringWithFormat:@"iAds init failed with error reason: %@",
                        error.localizedDescription]];
