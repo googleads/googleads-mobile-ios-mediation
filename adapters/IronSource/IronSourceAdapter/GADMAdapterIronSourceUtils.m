@@ -140,20 +140,17 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 {
     NSMutableArray<ISAAdFormat *> *adFormatsToInitialize = [NSMutableArray array];
     
-    if ([adUnits member:IS_INTERSTITIAL] != nil)
-    {
+    if ([adUnits member:IS_INTERSTITIAL] != nil) {
         ISAAdFormat *interstitial = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeInterstitial];
         [adFormatsToInitialize addObject: interstitial];    // Allow pattern. interstitial is definitely not nil.
     }
     
-    if ([adUnits member:IS_REWARDED_VIDEO] != nil)
-    {
+    if ([adUnits member:IS_REWARDED_VIDEO] != nil) {
         ISAAdFormat *rewarded = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeRewarded];
         [adFormatsToInitialize addObject: rewarded];    // Allow pattern. rewarded is definitely not nil.
     }
     
-    if ([adUnits member:IS_BANNER] != nil)
-    {
+    if ([adUnits member:IS_BANNER] != nil) {
         ISAAdFormat *banner = [[ISAAdFormat alloc] initWithAdFormatType: ISAAdFormatTypeBanner];
         [adFormatsToInitialize addObject: banner];  // Allow pattern. banner is definitely not nil.
     }
@@ -166,7 +163,7 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
     
     if (watermarkData != nil) {
         NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
-        if (watermarkString){
+        if (watermarkString) {
             [extraParams setObject:watermarkString forKey:GADMAdapterIronSourceWatermark]; // Allow pattern. The key is definitly not nil
             // here.
         }
