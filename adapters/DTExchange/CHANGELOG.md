@@ -1,5 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### [Version 8.3.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.3.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.3.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- DT Exchange SDK version 8.3.3.
+
 #### [Version 8.3.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.2.1.zip)
 - Removed deprecated usage of keywords.
 - Fixed a bug which was causing interstitial and rewarded ads to disappear and a blank screen to be shown.
