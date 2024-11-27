@@ -169,4 +169,48 @@ final class MolocoMediationAdapterTest: XCTestCase {
     let result = XCTWaiter.wait(for: [failureExpectation], timeout: AUTKExpectationTimeout)
     XCTAssertEqual(result, XCTWaiter.Result.completed)
   }
+
+  func testAdSDKVersion_succeeds() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.21.430")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 3)
+    XCTAssertEqual(adSDKVersion.minorVersion, 21)
+    XCTAssertEqual(adSDKVersion.patchVersion, 430)
+  }
+
+  func testAdSDKVersion_lessThanThreePartsInVersion_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.21")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
+
+  func testAdSDKVersion_unparsableVersionString_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "a.b.c")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
+
+  func testAdSDKVersion_partiallyUnparsableVersionString_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.abc.1")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
 }

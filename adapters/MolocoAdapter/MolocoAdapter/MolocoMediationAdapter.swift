@@ -50,6 +50,8 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
 
   private var molocoBidTokenGetter: MolocoBidTokenGetter = MolocoMediationAdapter.molocoSdkImpl
 
+  private static var molocoSdkVersionProvider: MolocoSdkVersionProviding = molocoSdkImpl
+
   public override init() {
     // Conform to GADMediationAdapter protocol.
   }
@@ -77,6 +79,13 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   /// Setter used only for testing purpose.
   static func setMolocoInitializer(_ fakeMolocoInitializer: MolocoInitializer) {
     molocoInitializer = fakeMolocoInitializer
+  }
+
+  /// Setter used only for testing purpose.
+  static func setMolocoSdkVersionProvider(
+    _ molocoSdkVersionProvider: MolocoSdkVersionProviding
+  ) {
+    self.molocoSdkVersionProvider = molocoSdkVersionProvider
   }
 
   @objc public static func setUpWith(
@@ -133,8 +142,29 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public static func adSDKVersion() -> GADVersionNumber {
-    // TODO: implement
-    return GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    let adSDKVersionString = molocoSdkVersionProvider.sdkVersion()
+
+    var adSDKVersion = GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+
+    let adSDKVersionParts = adSDKVersionString.split(separator: ".")
+
+    // Note: Checking for ">= 3" here and not just "== 3" because we don't want version reporting
+    // to break if Moloco SDK decides to add an extra part to their version.
+    if adSDKVersionParts.count >= 3 {
+      if let majorVersion = Int(adSDKVersionParts[0]), let minorVersion = Int(adSDKVersionParts[1]),
+        let patchVersion = Int(adSDKVersionParts[2])
+      {
+        adSDKVersion.majorVersion = majorVersion
+        adSDKVersion.minorVersion = minorVersion
+        adSDKVersion.patchVersion = patchVersion
+      } else {
+        MolocoUtils.log("Moloco SDK version is not parsable")
+      }
+    } else {
+      MolocoUtils.log("Moloco SDK version is not in the expected format of major.minor.patch")
+    }
+
+    return adSDKVersion
   }
 
   @objc public func collectSignals(

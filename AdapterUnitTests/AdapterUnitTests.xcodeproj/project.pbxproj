@@ -16,6 +16,7 @@
 		701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		701E23872AAD8CB100BAB0B3 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701E237F2AAD8C8300BAB0B3 /* libAdapter.a */; };
 		701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */; };
+		703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */; };
 		706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */; };
 		70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */; };
 		70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */; };
@@ -196,6 +197,97 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
+		};
+		703877452CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9142CF145F8009C8FDA;
+			remoteInfo = StaticAppLovinAdapter;
+		};
+		7038774B2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B92D2CF14610009C8FDA;
+			remoteInfo = StaticChartboostAdapter;
+		};
+		703877512CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9462CF14624009C8FDA;
+			remoteInfo = StaticDTExchangeAdapter;
+		};
+		703877572CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9612CF14634009C8FDA;
+			remoteInfo = StaticIMobileAdapter;
+		};
+		7038775D2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9A82CF14649009C8FDA;
+			remoteInfo = StaticIronSourceAdapter;
+		};
+		703877632CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9CC2CF14655009C8FDA;
+			remoteInfo = StaticLiftoffMonetizeAdapter;
+		};
+		703877692CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9E62CF146CD009C8FDA;
+			remoteInfo = StaticLineAdapter;
+		};
+		7038776F2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA022CF146D9009C8FDA;
+			remoteInfo = StaticMaioAdapter;
+		};
+		703877752CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA462CF146F0009C8FDA;
+			remoteInfo = StaticMintegralAdapter;
+		};
+		7038777B2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA5C2CF146FE009C8FDA;
+			remoteInfo = StaticMolocoAdapter;
+		};
+		703877812CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA7D2CF14709009C8FDA;
+			remoteInfo = StaticMyTargetAdapter;
+		};
+		703877872CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA9A2CF14715009C8FDA;
+			remoteInfo = StaticPangleAdapter;
+		};
+		7038778D2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BABB2CF1471F009C8FDA;
+			remoteInfo = StaticUnityAdapter;
 		};
 		7072CF592C41F8BD002BF6AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -538,6 +630,7 @@
 		701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PangleAdapter.xcodeproj; path = ../adapters/PangleAdapter/PangleAdapter.xcodeproj; sourceTree = "<group>"; };
 		701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterTests.m; sourceTree = "<group>"; };
+		703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoSdkVersionProvider.swift; sourceTree = "<group>"; };
 		706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInterstitialAdTest.swift; sourceTree = "<group>"; };
 		70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitial.swift; sourceTree = "<group>"; };
 		70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitialFactory.swift; sourceTree = "<group>"; };
@@ -827,6 +920,7 @@
 			children = (
 				44ACFB072AB11D4B00035A73 /* libAdapter.a */,
 				AD00C4D62B88225F007C85F3 /* AppLovinAdapter.framework */,
+				703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -862,6 +956,7 @@
 			children = (
 				701E237F2AAD8C8300BAB0B3 /* libAdapter.a */,
 				AD00C50D2B88225F007C85F3 /* PangleAdapter.framework */,
+				703877882CF65449000C09EE /* libStaticPangleAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -876,6 +971,7 @@
 				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
 				8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */,
 				70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */,
+				703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -885,6 +981,7 @@
 			children = (
 				7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */,
 				7072CF5C2C41F8BD002BF6AE /* MolocoAdapterFramework.framework */,
+				7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -913,6 +1010,7 @@
 			children = (
 				AD0123242ABCB0AE002BFE6D /* libAdapter.a */,
 				AD00C4FE2B88225F007C85F3 /* MintegralAdapter.framework */,
+				703877762CF65449000C09EE /* libStaticMintegralAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -941,6 +1039,7 @@
 			children = (
 				AD0D6E0A2AF56C37002C0B60 /* libAdapter.a */,
 				AD00C4DB2B88225F007C85F3 /* ChartboostAdapter.framework */,
+				7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -962,6 +1061,7 @@
 			children = (
 				AD0D6E852AF59116002C0B60 /* libAdapter.a */,
 				AD00C4EA2B88225F007C85F3 /* IronSourceAdapter.framework */,
+				7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -987,6 +1087,7 @@
 			children = (
 				AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */,
 				AD00C4EF2B88225F007C85F3 /* LiftoffMonetizeAdapter.framework */,
+				703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1014,6 +1115,7 @@
 			children = (
 				AD0D6F452AF6E222002C0B60 /* libAdapter.a */,
 				AD00C4F92B88225F007C85F3 /* MaioAdapter.framework */,
+				703877702CF65449000C09EE /* libStaticMaioAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1034,6 +1136,7 @@
 			children = (
 				AD0D6FEA2AF71844002C0B60 /* libAdapter.a */,
 				AD00C5032B88225F007C85F3 /* MyTargetAdapter.framework */,
+				703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1069,6 +1172,7 @@
 			children = (
 				AD0D72E42AF81700002C0B60 /* libAdapter.a */,
 				AD00C4E52B88225F007C85F3 /* IMobileAdapter.framework */,
+				703877582CF65449000C09EE /* libStaticIMobileAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1104,6 +1208,7 @@
 			children = (
 				AD45ED452A78116C001B29D8 /* libAdapter.a */,
 				AD00C5172B88225F007C85F3 /* UnityAdapter.framework */,
+				7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1223,6 +1328,7 @@
 			children = (
 				ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */,
 				AD00C4F42B88225F007C85F3 /* LineAdapter.framework */,
+				7038776A2CF65449000C09EE /* libStaticLineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1232,6 +1338,7 @@
 			children = (
 				ADF28D572A4F7C3D0073F909 /* libAdapter.a */,
 				AD00C4E02B88225F007C85F3 /* DTExchangeAdapter.framework */,
+				703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1713,6 +1820,97 @@
 			remoteRef = 701E237E2AAD8C8300BAB0B3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticAppLovinAdapter.a;
+			remoteRef = 703877452CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticChartboostAdapter.a;
+			remoteRef = 7038774B2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticDTExchangeAdapter.a;
+			remoteRef = 703877512CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877582CF65449000C09EE /* libStaticIMobileAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticIMobileAdapter.a;
+			remoteRef = 703877572CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticIronSourceAdapter.a;
+			remoteRef = 7038775D2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticLiftoffMonetizeAdapter.a;
+			remoteRef = 703877632CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038776A2CF65449000C09EE /* libStaticLineAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticLineAdapter.a;
+			remoteRef = 703877692CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877702CF65449000C09EE /* libStaticMaioAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMaioAdapter.a;
+			remoteRef = 7038776F2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877762CF65449000C09EE /* libStaticMintegralAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMintegralAdapter.a;
+			remoteRef = 703877752CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMolocoAdapter.a;
+			remoteRef = 7038777B2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMyTargetAdapter.a;
+			remoteRef = 703877812CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877882CF65449000C09EE /* libStaticPangleAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticPangleAdapter.a;
+			remoteRef = 703877872CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticUnityAdapter.a;
+			remoteRef = 7038778D2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2033,6 +2231,7 @@
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
 				70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */,
 				85A57D732CA4B663009FC260 /* FakeMolocoBannerFactory.swift in Sources */,
+				703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */,
 				8526681E2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift in Sources */,
 				70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */,
 				706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */,

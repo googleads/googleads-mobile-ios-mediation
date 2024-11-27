@@ -28,7 +28,6 @@ class MolocoSdkImpl: MolocoInitializer {
   func isInitialized() -> Bool {
     return Moloco.shared.state.isInitialized
   }
-
 }
 
 // MARK: - MolocoInterstitialFactory
@@ -81,5 +80,13 @@ extension MolocoSdkImpl: MolocoBidTokenGetter {
 
   func getBidToken(completion: @escaping (String?, (any Error)?) -> Void) {
     Moloco.shared.getBidToken(completion: completion)
+  }
+}
+
+// MARK: - MolocoSdkVersionProviding
+
+extension MolocoSdkImpl: MolocoSdkVersionProviding {
+  func sdkVersion() -> String {
+    return Moloco.shared.sdkVersion
   }
 }
