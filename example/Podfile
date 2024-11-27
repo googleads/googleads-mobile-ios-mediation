@@ -7,10 +7,6 @@ target 'SampleAdSDK' do
   project 'SampleAdSDK/SampleAdSDK.xcodeproj'
   pod 'Google-Mobile-Ads-SDK', '~> 11.12'
 
-  target 'SampleAdSDKAdapter' do
-    inherit! :search_paths
-  end
-
   target 'MediationExample' do
     project 'MediationExample.xcodeproj'
     inherit! :search_paths

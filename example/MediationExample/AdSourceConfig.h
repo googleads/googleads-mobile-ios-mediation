@@ -20,7 +20,6 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, AdSourceType) {
-  AdSourceTypeAdapter,
   AdSourceTypeCustomEventObjC,
   AdSourceTypeCustomEventSwift,
 };

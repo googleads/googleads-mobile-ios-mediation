@@ -20,8 +20,7 @@
 #import "ViewController.h"
 
 typedef enum : NSUInteger {
-  CellIndexSampleAdSDK = 0,
-  CellIndexObjC,
+  CellIndexObjC = 0,
   CellIndexSwift,
 } CellIndex;
 
@@ -38,9 +37,6 @@ typedef enum : NSUInteger {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.row) {
-    case CellIndexSampleAdSDK:
-      [self launchViewControllerOfType:AdSourceTypeAdapter];
-      break;
     case CellIndexObjC:
       [self launchViewControllerOfType:AdSourceTypeCustomEventObjC];
       break;
