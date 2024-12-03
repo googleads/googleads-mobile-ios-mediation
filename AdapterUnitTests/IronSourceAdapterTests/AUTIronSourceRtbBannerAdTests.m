@@ -1,16 +1,25 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+#import "GADMAdapterIronSourceRtbBannerAd.h"
 #import "GADMAdapterIronSourceUtils.h"
 #import "GADMAdapterIronSourceConstants.h"
 #import <IronSource/IronSource.h>
+#import "GADMediationAdapterIronSource.h"
+#import "GADMAdapterIronSourceBannerAd.h"
 
 @interface AUTIronSourceRtbBannerAdTests : XCTestCase
 
-@property(nonatomic, strong) id mockAdConfiguration;
 @property(nonatomic, strong) GADMAdapterIronSourceRtbBannerAd *adapter;
-@property(nonatomic, strong) id mockBannerAdEventDelegate;
+@property(nonatomic, strong) GADMediationBannerAdConfiguration *mockAdConfiguration;
 @property(nonatomic, strong) id mockBannerAd;
-@property (nonatomic, copy) GADMediationBannerLoadCompletionHandler BannerAdLoadCompletionHandler;
+@property(nonatomic, strong) id mockBannerAdEventDelegate;
+@property(nonatomic, strong) id mockCredentials;
+@property(nonatomic, strong) id mockISABannerAdLoader;
+
+// Properties for GADMediationAdapterIronSource tests
+@property(nonatomic, strong) GADMediationAdapterIronSource *mediationAdapter;
+@property(nonatomic, strong) id mockRtbBannerAd;
+
 @end
 
 @implementation AUTIronSourceRtbBannerAdTests
@@ -18,113 +27,191 @@
 - (void)setUp {
     [super setUp];
     self.adapter = [[GADMAdapterIronSourceRtbBannerAd alloc] init];
-    // Create a mock for the GADMediationBannerAdEventDelegate protocol
-    self.mockBannerAdEventDelegate = OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
-    //self.adapter.bannerAdEventDelegate = self.mockBannerAdEventDelegate;
+    self.mockAdConfiguration = OCMClassMock([GADMediationBannerAdConfiguration class]);
     self.mockBannerAd = OCMClassMock([ISABannerAdView class]);
+    self.mockBannerAdEventDelegate = OCMProtocolMock(@protocol(GADMediationBannerAdEventDelegate));
+    self.mockCredentials = OCMClassMock([GADMediationCredentials class]);
+    self.mockISABannerAdLoader = OCMClassMock([ISABannerAdLoader class]);
+    
+    // Setup for GADMediationAdapterIronSource tests
+    self.mediationAdapter = [[GADMediationAdapterIronSource alloc] init];
+    self.mockRtbBannerAd = OCMClassMock([GADMAdapterIronSourceRtbBannerAd class]);
+}
 
+- (void)tearDown {
+    [super tearDown];
+}
+
+- (void)testLoadBannerAdWithCustomInstanceId {
+    // Given
+    NSString *customInstanceId = @"customInstanceId";
+    OCMStub([self.mockAdConfiguration credentials]).andReturn(self.mockCredentials);
+    OCMStub([self.mockCredentials settings]).andReturn(@{GADMAdapterIronSourceInstanceId: customInstanceId});
+    
+    // When
+    [self.adapter loadBannerAdForConfiguration:self.mockAdConfiguration completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        return nil;
+    }];
+    
+    // Then
+    XCTAssertEqualObjects(self.adapter.instanceID, customInstanceId);
+}
+
+- (void)testLoadBannerAdWithDefaultInstanceId {
+    // Given
+    OCMStub([self.mockAdConfiguration credentials]).andReturn(self.mockCredentials);
+    OCMStub([self.mockCredentials settings]).andReturn(@{});
+    
+    // When
+    [self.adapter loadBannerAdForConfiguration:self.mockAdConfiguration completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        return nil;
+    }];
+    
+    // Then
+    XCTAssertEqualObjects(self.adapter.instanceID, GADMIronSourceDefaultRtbInstanceId);
+}
+
+- (void)testLoadBannerAdCallsISABannerAdLoader {
+    // Given
+    OCMStub([self.mockAdConfiguration credentials]).andReturn(self.mockCredentials);
+    OCMStub([self.mockCredentials settings]).andReturn(@{});
+    
+    // When
+    [self.adapter loadBannerAdForConfiguration:self.mockAdConfiguration completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        return nil;
+    }];
+    
+    // Then
+    OCMVerify([self.mockISABannerAdLoader loadAdWithAdRequest:[OCMArg any] delegate:[OCMArg any]]);
 }
 
 - (void)testBannerAdDidLoad {
     // Given
     __block BOOL completionHandlerCalled = NO;
-    GADMediationBannerLoadCompletionHandler completionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
-        XCTAssertNotNil(ad);
-        XCTAssertNil(error);
+    __weak typeof(self) weakSelf = self;
+    self.adapter.bannerAdLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
         completionHandlerCalled = YES;
-        return self.mockBannerAdEventDelegate;
+        return weakSelf.mockBannerAdEventDelegate;
     };
     
-    self.adapter.bannerAdLoadCompletionHandler = completionHandler;
-    OCMExpect([self.mockBannerAd setDelegate:self.adapter]);
-
     // When
     [self.adapter bannerAdDidLoad:self.mockBannerAd];
     
     // Then
-    XCTAssertTrue(completionHandlerCalled, @"Completion handler should be called");
-    XCTAssertEqual(self.adapter.bannerAdEventDelegate, self.mockBannerAdEventDelegate, @"Banner ad event delegate should be set correctly");
-    XCTAssertEqual(self.adapter.view, self.mockBannerAd, @"The Banner ad should be set correctly.");
-    OCMVerifyAll(self.mockBannerAd);
+    XCTAssertTrue(completionHandlerCalled);
+    XCTAssertEqual(self.adapter.biddingISABannerAd, self.mockBannerAd);
+    XCTAssertNotNil(self.adapter.bannerAdEventDelegate);
 }
 
-- (void)testBannerAdDidLoadWithoutLoadCompletionHandler {
-    // When
-    [self.adapter bannerAdDidLoad:self.mockBannerAd];
-    
-    // Then
-    XCTAssertNil(self.adapter.biddingISABannerAd, @"The Banner ad should remain nil");
-    XCTAssertNil(self.adapter.bannerAdEventDelegate, @"Banner ad event delegate should remain nil");
-}
-
-// Test case for rewardedAdDidFailToLoadWithError when completion handler is set
-- (void)testBannerAdDidFailToLoadWithError {
+- (void)testBannerAdDidFailToLoad {
     // Given
-    NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
-
-    GADMediationBannerLoadCompletionHandler mockCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
-        // Then
+    NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
+    __block BOOL completionHandlerCalled = NO;
+    self.adapter.bannerAdLoadCompletionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        completionHandlerCalled = YES;
         XCTAssertNil(ad);
-        XCTAssertEqualObjects(error, testError);
+        XCTAssertEqual(error, testError);
         return nil;
     };
-
-    self.adapter.bannerAdLoadCompletionHandler = mockCompletionHandler;
-
+    
     // When
     [self.adapter bannerAdDidFailToLoadWithError:testError];
+    
+    // Then
+    XCTAssertTrue(completionHandlerCalled);
 }
 
-- (void)testBannerAdDidShow {
+- (void)testBannerAdViewDidShow {
     // Given
-    GADMediationBannerLoadCompletionHandler completionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
-        XCTAssertNotNil(ad);
-        XCTAssertNil(error);
-        return self.mockBannerAdEventDelegate;
-    };
-    self.adapter.bannerAdLoadCompletionHandler = completionHandler;
-    [self.adapter bannerAdDidLoad:self.mockBannerAd];
+    self.adapter.bannerAdEventDelegate = self.mockBannerAdEventDelegate;
     
     // When
     [self.adapter bannerAdViewDidShow:self.mockBannerAd];
-
+    
     // Then
-    OCMExpect([self.adapter.bannerAdEventDelegate reportImpression]);
+    OCMVerify([self.mockBannerAdEventDelegate reportImpression]);
 }
 
-- (void)testBannerAdDidShowWithNilDelegate {
-    // When
-    [self.adapter bannerAdViewDidShow:self.mockBannerAd];
-
-    // Then
-    XCTAssertTrue(true);
-}
-
-- (void)testBannerAdDidClick {
+- (void)testBannerAdViewDidClick {
     // Given
-    GADMediationBannerLoadCompletionHandler completionHandler = ^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
-        XCTAssertNotNil(ad);
-        XCTAssertNil(error);
-        return self.mockBannerAdEventDelegate;
-    };
-    
-    self.adapter.bannerAdLoadCompletionHandler = completionHandler;
-    
-    [self.adapter bannerAdDidLoad:self.mockBannerAd];
+    self.adapter.bannerAdEventDelegate = self.mockBannerAdEventDelegate;
     
     // When
     [self.adapter bannerAdViewDidClick:self.mockBannerAd];
-
+    
     // Then
-    OCMExpect([self.adapter.bannerAdEventDelegate reportClick]);
+    OCMVerify([self.mockBannerAdEventDelegate reportClick]);
 }
 
-- (void)testBannerAdDidClicWithNilDelegate {
+- (void)testView {
+    // Given
+    self.adapter.biddingISABannerAd = self.mockBannerAd;
+    
     // When
-    [self.adapter bannerAdViewDidClick:self.mockBannerAd];
-
+    UIView *returnedView = [self.adapter view];
+    
     // Then
-    XCTAssertTrue(true);
+    XCTAssertEqual(returnedView, self.mockBannerAd);
+}
+
+// Tests for GADMediationAdapterIronSource
+- (void)testLoadBannerWithBidResponse {
+    // Given
+    OCMStub([self.mockAdConfiguration bidResponse]).andReturn(@"bidResponse");
+    id mockRtbBannerAd = OCMClassMock([GADMAdapterIronSourceRtbBannerAd class]);
+    OCMStub([mockRtbBannerAd alloc]).andReturn(mockRtbBannerAd);
+    
+    // Expect
+    OCMExpect([mockRtbBannerAd loadBannerAdForConfiguration:self.mockAdConfiguration
+                                          completionHandler:[OCMArg any]]);
+    
+    // When
+    [self.mediationAdapter loadBannerForAdConfiguration:self.mockAdConfiguration
+                                     completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        return nil;
+    }];
+    
+    // Then
+    OCMVerifyAll(mockRtbBannerAd);
+    XCTAssertNotNil(self.mediationAdapter.rtbBannerAd);
+}
+
+- (void)testLoadBannerWithoutBidResponse {
+    // Given
+    OCMStub([self.mockAdConfiguration bidResponse]).andReturn(nil);
+    id mockBannerAd = OCMClassMock([GADMAdapterIronSourceBannerAd class]);
+    OCMStub([mockBannerAd alloc]).andReturn(mockBannerAd);
+    
+    // Expect
+    OCMExpect([mockBannerAd loadBannerAdForAdConfiguration:self.mockAdConfiguration
+                                         completionHandler:[OCMArg any]]);
+    
+    // When
+    [self.mediationAdapter loadBannerForAdConfiguration:self.mockAdConfiguration
+                                     completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        return nil;
+    }];
+    
+    // Then
+    OCMVerifyAll(mockBannerAd);
+    XCTAssertNil(self.mediationAdapter.rtbBannerAd);
+}
+
+- (void)testLoadBannerCompletionHandlerCalled {
+    // Given
+    OCMStub([self.mockAdConfiguration bidResponse]).andReturn(nil);
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler called"];
+    
+    // When
+    [self.mediationAdapter loadBannerForAdConfiguration:self.mockAdConfiguration
+                                     completionHandler:^id<GADMediationBannerAdEventDelegate>(id<GADMediationBannerAd> ad, NSError *error) {
+        [expectation fulfill];
+        return nil;
+    }];
+    
+    // Then
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
 }
 
 @end
