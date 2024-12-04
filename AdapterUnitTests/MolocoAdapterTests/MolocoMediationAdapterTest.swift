@@ -170,6 +170,17 @@ final class MolocoMediationAdapterTest: XCTestCase {
     XCTAssertEqual(result, XCTWaiter.Result.completed)
   }
 
+  func testAdapterVersion() {
+    let adapterVersion = MolocoMediationAdapter.adapterVersion()
+
+    XCTAssertGreaterThan(adapterVersion.majorVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.majorVersion, 99)
+    XCTAssertGreaterThanOrEqual(adapterVersion.minorVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.minorVersion, 99)
+    XCTAssertGreaterThanOrEqual(adapterVersion.patchVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.patchVersion, 9999)
+  }
+
   func testAdSDKVersion_succeeds() {
     let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.21.430")
     MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)

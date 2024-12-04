@@ -137,8 +137,30 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public static func adapterVersion() -> GADVersionNumber {
-    // TODO: implement
-    return GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    var adapterVersion = GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+
+    let adapterVersionParts = MolocoConstants.adapterVersion.split(separator: ".")
+
+    // Adapter version has four parts: major.minor.patch.micro
+    if adapterVersionParts.count == 4 {
+      if let majorVersion = Int(adapterVersionParts[0]),
+        let minorVersion = Int(adapterVersionParts[1]),
+        let patchVersion = Int(adapterVersionParts[2]),
+        let microVersion = Int(adapterVersionParts[3])
+      {
+        adapterVersion.majorVersion = majorVersion
+        adapterVersion.minorVersion = minorVersion
+        // GADVersionNumber doesn't have a micro version. So, we will include the adapter's micro
+        // version into GADVersionNumber's patch version.
+        adapterVersion.patchVersion = patchVersion * 100 + microVersion
+      } else {
+        MolocoUtils.log("Adapter version is not parsable")
+      }
+    } else {
+      MolocoUtils.log("Adapter version is not in the expected format of major.minor.patch.micro")
+    }
+
+    return adapterVersion
   }
 
   @objc public static func adSDKVersion() -> GADVersionNumber {
