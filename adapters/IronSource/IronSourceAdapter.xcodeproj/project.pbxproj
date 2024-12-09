@@ -36,7 +36,9 @@
 		150C06BC2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
 		150C06BD2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */; };
 		150C06BE2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */; };
+		15CC4C652CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */; };
 		35F410631FB4D85B000B379C /* IronSourceAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 35F410611FB4D85B000B379C /* IronSourceAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70387D4C2D03EF13000C09EE /* GADMAdapterIronSourceRtbBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */; };
 		70AEE77C2C950A3600D22A43 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */; };
 		70AEE77D2C950A3D00D22A43 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
 		ADA6B98A2CF14649009C8FDA /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
@@ -131,6 +133,8 @@
 		150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRtbRewardedAd.m; sourceTree = "<group>"; };
 		150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRtbInterstitialAd.h; sourceTree = "<group>"; };
 		150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRtbRewardedAd.h; sourceTree = "<group>"; };
+		15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterIronSourceRtbBannerAd.m; sourceTree = "<group>"; };
+		15CC4C662CF5E20700567229 /* GADMAdapterIronSourceRtbBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterIronSourceRtbBannerAd.h; sourceTree = "<group>"; };
 		350BFE00202D074F00C76B52 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		350BFE01202D074F00C76B52 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		35F410611FB4D85B000B379C /* IronSourceAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IronSourceAdapter.h; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 				EF11BA992AA9F12F00E24BBD /* GADMAdapterIronSourceUtils.m */,
 				EF11BA882AA9F12F00E24BBD /* GADMediationAdapterIronSource.h */,
 				EF11BA8E2AA9F12F00E24BBD /* GADMediationAdapterIronSource.m */,
+				15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */,
+				15CC4C662CF5E20700567229 /* GADMAdapterIronSourceRtbBannerAd.h */,
 			);
 			path = IronSourceAdapter;
 			sourceTree = "<group>";
@@ -480,6 +486,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70387D4C2D03EF13000C09EE /* GADMAdapterIronSourceRtbBannerAd.m in Sources */,
 				70AEE77D2C950A3D00D22A43 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */,
 				70AEE77C2C950A3600D22A43 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */,
 				EF11BAA52AA9F12F00E24BBD /* GADMAdapterIronSourceBannerAd.m in Sources */,
@@ -499,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15CC4C652CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m in Sources */,
 				150C06BB2C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */,
 				150C06BC2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */,
 			);

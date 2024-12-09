@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Add bidding support for banner format.
+
 #### [Version 8.5.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.5.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.5.0.0.
 

@@ -62,10 +62,19 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 }
 
 + (nonnull NSString *)getAdMobSDKVersion {
-  return [NSString stringWithFormat:@"v%ld%ld%ld",
+  return [NSString stringWithFormat:@"%ld%ld%ld",
                                     GADMobileAds.sharedInstance.versionNumber.majorVersion,
                                     GADMobileAds.sharedInstance.versionNumber.minorVersion,
                                     GADMobileAds.sharedInstance.versionNumber.patchVersion];
+}
+
++ (nonnull NSString *)getMediationType {
+  NSString *AdapterVersionWithoutDots =
+      [GADMAdapterIronSourceAdapterVersion stringByReplacingOccurrencesOfString:@"."
+                                                                     withString:@""];
+  return [NSString stringWithFormat:@"%@%@%@%@%@%@", GADMAdapterIronSourceMediationName,
+                                    AdapterVersionWithoutDots, @"SDK", [self getAdMobSDKVersion],
+                                    @"iAds", GADMAdapterIronSourceInternalVersion];
 }
 
 + (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size {
@@ -94,6 +103,34 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
                                        NSStringFromGADAdSize(size)]];
 
   return nil;
+}
+
++ (nonnull ISAAdSize *)iAdsSizeFromRequestedSize:(GADAdSize)size {
+  GADAdSize banner = GADAdSizeBanner;
+  GADAdSize rectangle = GADAdSizeMediumRectangle;
+  GADAdSize large = GADAdSizeLargeBanner;
+
+  NSArray<NSValue *> *potentials = @[
+    NSValueFromGADAdSize(banner), NSValueFromGADAdSize(rectangle), NSValueFromGADAdSize(large)
+  ];
+
+  GADAdSize closestSize = GADClosestValidSizeForAdSizes(size, potentials);
+  CGSize closestCGSize = CGSizeFromGADAdSize(closestSize);
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(banner), closestCGSize)) {
+    return [ISAAdSize banner];
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(large), closestCGSize)) {
+    return [ISAAdSize large];
+  }
+  if (CGSizeEqualToSize(CGSizeFromGADAdSize(rectangle), closestCGSize)) {
+    return [ISAAdSize mediumRectangle];
+  }
+
+  [GADMAdapterIronSourceUtils
+      onLog:[NSString stringWithFormat:@"Unable to retrieve IronSource size from GADAdSize: %@",
+                                       NSStringFromGADAdSize(size)]];
+
+  return [ISAAdSize banner];
 }
 
 + (NSArray<ISAAdFormat *> *_Nullable)adFormatsToInitializeForAdUnits:(nonnull NSSet *)adUnits {

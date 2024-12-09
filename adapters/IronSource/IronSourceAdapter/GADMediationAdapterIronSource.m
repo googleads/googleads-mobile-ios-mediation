@@ -73,10 +73,7 @@
   }
 
   // Report the mediation type to IronSource
-  [IronSource
-      setMediationType:[NSString stringWithFormat:@"%@%@SDK%@", GADMAdapterIronSourceMediationName,
-                                                  GADMAdapterIronSourceInternalVersion,
-                                                  [GADMAdapterIronSourceUtils getAdMobSDKVersion]]];
+  [IronSource setMediationType:[GADMAdapterIronSourceUtils getMediationType]];
 
   // Initiailize the IronSource SDK
   [[GADMediationAdapterIronSource alloc] initIronSourceSDKWithAppKey:appKey
@@ -170,8 +167,14 @@
 - (void)loadBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:
                        (nonnull GADMediationBannerLoadCompletionHandler)completionHandler {
-  _bannerAd = [GADMAdapterIronSourceBannerAd alloc];
-  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  if (adConfiguration.bidResponse) {
+    _rtbBannerAd = [GADMAdapterIronSourceRtbBannerAd alloc];
+    [self.rtbBannerAd loadBannerAdForConfiguration:adConfiguration
+                                 completionHandler:completionHandler];
+  } else {
+    _bannerAd = [GADMAdapterIronSourceBannerAd alloc];
+    [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
+  }
 }
 
 #pragma mark - Initialize IronSource SDK
