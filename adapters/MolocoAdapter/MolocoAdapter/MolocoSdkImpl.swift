@@ -90,3 +90,11 @@ extension MolocoSdkImpl: MolocoSdkVersionProviding {
     return Moloco.shared.sdkVersion
   }
 }
+
+// MARK: - MolocoAgeRestrictedSetter
+
+extension MolocoSdkImpl: MolocoAgeRestrictedSetter {
+  func setIsAgeRestrictedUser(isAgeRestrictedUser: Bool) {
+    MolocoPrivacySettings.isAgeRestrictedUser = isAgeRestrictedUser
+  }
+}

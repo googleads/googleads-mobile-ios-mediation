@@ -33,6 +33,7 @@
 
 /* Begin PBXBuildFile section */
 		703876C92CF52724000C09EE /* MolocoSdkVersionProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */; };
+		70387DD22D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */; };
 		706083C72C47CDB100896E93 /* MolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */; };
 		7072CDE82C409510002BF6AE /* MolocoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE72C409510002BF6AE /* MolocoUtils.swift */; };
 		7072CDEA2C40A03B002BF6AE /* MolocoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoSdkVersionProviding.swift; sourceTree = "<group>"; };
+		70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoAgeRestrictedSetter.swift; sourceTree = "<group>"; };
 		706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInterstitialFactory.swift; sourceTree = "<group>"; };
 		7072CDE72C409510002BF6AE /* MolocoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoUtils.swift; sourceTree = "<group>"; };
 		7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoConstants.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */,
 				70A1FA362CC343D300BC54D0 /* MolocoBidTokenGetter.swift */,
 				703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */,
+				70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */,
 			);
 			path = MolocoAdapter;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70387DD22D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift in Sources */,
 				7072CDEA2C40A03B002BF6AE /* MolocoConstants.swift in Sources */,
 				70E380E82C4723FD004CCB92 /* MolocoInitializer.swift in Sources */,
 				8566027F2C63F6FF0068D786 /* MolocoRewardedFactory.swift in Sources */,

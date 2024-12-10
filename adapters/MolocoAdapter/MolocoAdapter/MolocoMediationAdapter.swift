@@ -52,6 +52,8 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
 
   private static var molocoSdkVersionProvider: MolocoSdkVersionProviding = molocoSdkImpl
 
+  private static var molocoAgeRestrictedSetter: MolocoAgeRestrictedSetter = molocoSdkImpl
+
   public override init() {
     // Conform to GADMediationAdapter protocol.
   }
@@ -74,6 +76,11 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   /// Initializer used only for testing purpose.
   init(molocoBidTokenGetter: MolocoBidTokenGetter) {
     self.molocoBidTokenGetter = molocoBidTokenGetter
+  }
+
+  /// Setter used only for testing purpose.
+  static func setMolocoAgeRestrictedSetter(_ molocoAgeRestrictedSetter: MolocoAgeRestrictedSetter) {
+    self.molocoAgeRestrictedSetter = molocoAgeRestrictedSetter
   }
 
   /// Setter used only for testing purpose.
@@ -105,6 +112,14 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
       return
     }
 
+    // Set age-restricted-user bit before initializing Moloco SDK.
+    // Note: If isAgeRestrictedUser() returns nil, it means the adapter doesn't know whether the
+    // user is age-restricted or not. In that case, we don't set age-restricted-user bit on Moloco
+    // SDK.
+    if let isAgeRestrictedUser = isAgeRestrictedUser() {
+      molocoAgeRestrictedSetter.setIsAgeRestrictedUser(isAgeRestrictedUser: isAgeRestrictedUser)
+    }
+
     let appIDs = Set(
       configuration.credentials.compactMap {
         $0.settings[MolocoConstants.appIDKey] as? String
@@ -132,7 +147,21 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
     }
   }
 
-  @objc public static func networkExtrasClass() -> GADAdNetworkExtras.Type? {
+  /// Returns a boolean indicating whether the user is age-restricted or not. nil if not known.
+  static func isAgeRestrictedUser() -> Bool? {
+    let tagForChildDirectedTreatment = GADMobileAds.sharedInstance().requestConfiguration
+      .tagForChildDirectedTreatment
+    let tagForUnderAgeOfConsent = GADMobileAds.sharedInstance().requestConfiguration
+      .tagForUnderAgeOfConsent
+    // Check that either one of the bits is set. Else, return nil.
+    guard tagForChildDirectedTreatment != nil || tagForUnderAgeOfConsent != nil else {
+      return nil
+    }
+    return tagForChildDirectedTreatment?.boolValue == true
+      || tagForUnderAgeOfConsent?.boolValue == true
+  }
+
+  @objc public static func networkExtrasClass() -> (any GADAdNetworkExtras.Type)? {
     return nil
   }
 
