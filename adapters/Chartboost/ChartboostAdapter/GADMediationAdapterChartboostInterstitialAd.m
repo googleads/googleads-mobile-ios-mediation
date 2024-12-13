@@ -168,8 +168,13 @@
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event {
-  [_adEventDelegate willDismissFullScreenView];
-  [_adEventDelegate didDismissFullScreenView];
+  id<GADMediationInterstitialAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willDismissFullScreenView];
+  [adEventDelegate didDismissFullScreenView];
 }
 
 - (void)didRecordImpression:(CHBImpressionEvent *)event {

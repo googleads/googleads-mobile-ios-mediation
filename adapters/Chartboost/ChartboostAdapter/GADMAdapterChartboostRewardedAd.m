@@ -146,21 +146,28 @@
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
   if (error) {
     NSError *showError = GADMChartboostErrorForCHBShowError(error);
     NSLog(@"Failed to show rewarded ad from Chartboost: %@", showError.localizedDescription);
-
-    // If the ad has been shown, Chartboost will proceed to dismiss it and the rest is handled in
-    // -didDismissAd:
-    [_adEventDelegate didFailToPresentWithError:showError];
+    [adEventDelegate didFailToPresentWithError:showError];
     return;
   }
-  [_adEventDelegate didStartVideo];
+  [adEventDelegate didStartVideo];
 }
 
 - (void)didEarnReward:(CHBRewardEvent *)event {
-  [_adEventDelegate didEndVideo];
-  [_adEventDelegate didRewardUser];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate didEndVideo];
+  [adEventDelegate didRewardUser];
 }
 
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
@@ -177,8 +184,13 @@
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event {
-  [_adEventDelegate willDismissFullScreenView];
-  [_adEventDelegate didDismissFullScreenView];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willDismissFullScreenView];
+  [adEventDelegate didDismissFullScreenView];
 }
 
 @end
