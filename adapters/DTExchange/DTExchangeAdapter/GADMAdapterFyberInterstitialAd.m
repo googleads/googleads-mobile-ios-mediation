@@ -161,12 +161,13 @@
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   if (_fullscreenUnitController.isPresented) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorAdAlreadyUsed,
         @"DT Exchange Interstitial ad has already been presented.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    [_delegate didFailToPresentWithError:error];
+    [delegate didFailToPresentWithError:error];
     return;
   }
 
@@ -174,7 +175,7 @@
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorAdNotReady, @"DT Exchange Interstitial ad is not ready to show.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    [_delegate didFailToPresentWithError:error];
+    [delegate didFailToPresentWithError:error];
     return;
   }
 
