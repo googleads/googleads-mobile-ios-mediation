@@ -130,16 +130,24 @@
     completionHandler(nil, error);
     return;
   }
-  NSString *signal = ALSdk.shared.adService.bidToken;
 
-  if (signal.length > 0) {
-    [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", signal];
-    completionHandler(signal, nil);
-  } else {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
-    completionHandler(nil, error);
-  }
+  [ALSdk.shared.adService collectBidTokenWithCompletion:^(NSString *_Nullable bidToken,
+                                                          NSString *_Nullable errorMessage) {
+    if (errorMessage) {
+      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+          GADMAdapterAppLovinErrorFailedToReturnBidToken, errorMessage);
+      completionHandler(nil, error);
+      return;
+    }
+    if (bidToken.length > 0) {
+      [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", bidToken];
+      completionHandler(bidToken, nil);
+    } else {
+      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+          GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
+      completionHandler(nil, error);
+    }
+  }];
 }
 
 #pragma mark - GADMediationAdapter load Ad

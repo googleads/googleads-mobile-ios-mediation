@@ -49,8 +49,10 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorChildUser = 112,
 
   /// AppLovin SDK shared instance hasn't been initialized.
-  GADMAdapterAppLovinErrorAppLovinSDKNotInitialized = 113
+  GADMAdapterAppLovinErrorAppLovinSDKNotInitialized = 113,
 
+  /// AppLovin SDK fails to return bid token with an error message.
+  GADMAdapterAppLovinErrorFailedToReturnBidToken = 114
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>

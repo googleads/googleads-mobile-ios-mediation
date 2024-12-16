@@ -3,6 +3,7 @@
 #### Next Version
 - Replaced the deprecated AppLovin SDK's initialization APIs with its new APIs.
 - Prevented multiple initializations of AppLovin SDK when multiple AppLovin SDK keys are provided.
+- Replaced the deprecated AppLovin SDK's bid token collection API with its new one.
 
 #### [Version 13.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.1.0.zip)
 - Verified compatibility with AppLovin SDK 13.0.1.

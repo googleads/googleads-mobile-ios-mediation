@@ -170,10 +170,17 @@
 - (void)testCollectSignalsForRequestParametersSuccess {
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
-  id adServiceMock = OCMClassMock([ALAdService class]);
+  ALAdService *adServiceMock = OCMClassMock([ALAdService class]);
   OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
   OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
-  OCMStub([adServiceMock bidToken]).andReturn(@"token");
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(@"token", nil);
+      });
 
   XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
 
@@ -201,13 +208,62 @@
   [self waitForExpectations:@[ signalsExpectation ]];
 }
 
+- (void)testCollectSignalsFailToReturnBidToken {
+  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
+  id appLovinSdkMock = OCMClassMock([ALSdk class]);
+  id adServiceMock = OCMClassMock([ALAdService class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
+  OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  NSString *errorMessage = @"no token";
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(nil, errorMessage);
+      });
+
+  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
+
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+  AUTKRTBMediationSignalsConfiguration *configuration =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  parameters.configuration = configuration;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  // AppLovin expects an SDK Key of 86 characters
+  NSString *sdkKey =
+      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+  credentials.settings = @{@"sdkKey" : sdkKey};
+
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertEqualObjects(error.localizedFailureReason, errorMessage);
+                         XCTAssertEqual(error.code, GADMAdapterAppLovinErrorFailedToReturnBidToken);
+                         [signalsExpectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ signalsExpectation ]];
+}
+
 - (void)testCollectSignalsForRequestParametersEmptyToken {
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
   id adServiceMock = OCMClassMock([ALAdService class]);
   OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
   OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
-  OCMStub([adServiceMock bidToken]).andReturn(@"");
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(@"", nil);
+      });
 
   XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
 
