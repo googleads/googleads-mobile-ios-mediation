@@ -102,14 +102,6 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   return error;
 };
 
-NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
-  NSString *errorString = [NSString
-      stringWithFormat:@"Unable to retrieve AppLovin SDK instance with SDK Key: %@", SDKKey];
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      GADMAdapterAppLovinErrorNilAppLovinSDK, errorString);
-  return error;
-}
-
 NSError *_Nonnull GADMAdapterAppLovinChildUserError() {
   NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
       GADMAdapterAppLovinErrorChildUser, @"GADMobileAds.sharedInstance.requestConfiguration "
@@ -133,14 +125,6 @@ BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable cred
   }
 
   return nil;
-}
-
-+ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)SDKKey {
-  ALSdk *SDK = [ALSdk sharedWithKey:SDKKey settings:GADMediationAdapterAppLovin.SDKSettings];
-  [SDK setPluginVersion:GADMAdapterAppLovinAdapterVersion];
-  SDK.mediationProvider = ALMediationProviderAdMob;
-
-  return SDK;
 }
 
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey {

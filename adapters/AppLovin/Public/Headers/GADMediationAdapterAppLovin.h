@@ -33,9 +33,7 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorEmptyBidToken = 107,
   /// Unsupported ad format.
   GADMAdapterAppLovinErrorUnsupportedAdFormat = 108,
-  // Error codes 109 and 110 were previous removed.
-  /// Unable to retrieve instance of the AppLovin SDK.
-  GADMAdapterAppLovinErrorNilAppLovinSDK = 111,
+  // Error codes 109, 110, and 111 were previous removed.
 
   /// User is a child.
   ///
@@ -48,12 +46,13 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   /// href="https://developers.applovin.com/en/max/android/overview/privacy/#children">Prohibition
   /// on Children's Data or Using the Services for Children or Apps Exclusively Targeted to
   /// Children</a>.
-  GADMAdapterAppLovinErrorChildUser = 112
+  GADMAdapterAppLovinErrorChildUser = 112,
+
+  /// AppLovin SDK shared instance hasn't been initialized.
+  GADMAdapterAppLovinErrorAppLovinSDKNotInitialized = 113
 
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>
-
-@property(class, nonatomic, strong, readonly) ALSdkSettings *SDKSettings;
 
 @end

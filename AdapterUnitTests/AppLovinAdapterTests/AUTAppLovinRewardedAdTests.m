@@ -38,12 +38,10 @@
   _rewardedAdMock = OCMClassMock([ALIncentivizedInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
 
-  OCMStub(ClassMethod([_appLovinSdkMock sharedWithKey:sdkKey
-                                             settings:GADMediationAdapterAppLovin.SDKSettings]))
-      .andReturn(_appLovinSdkMock);
   OCMStub([_rewardedAdMock alloc]).andReturn(_rewardedAdMock);
   OCMStub([_rewardedAdMock initWithSdk:_appLovinSdkMock]).andReturn(_rewardedAdMock);
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
+  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 }
 
 - (void)tearDown {
@@ -124,10 +122,10 @@
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader adService:self->_serviceMock didLoadAd:adMock];
       });
-  OCMStub([_appLovinSdkMock initializeSdkWithCompletionHandler:OCMOCK_ANY])
+  OCMStub([_appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
-        [invocation getArgument:&completionHandler atIndex:2];
+        [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(nil);
       });
 
@@ -190,10 +188,10 @@
       .andDo(^(NSInvocation *invocation) {
         [self->_adLoader adService:self->_serviceMock didLoadAd:adMock];
       });
-  OCMStub([_appLovinSdkMock initializeSdkWithCompletionHandler:OCMOCK_ANY])
+  OCMStub([_appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
-        [invocation getArgument:&completionHandler atIndex:2];
+        [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(nil);
       });
 

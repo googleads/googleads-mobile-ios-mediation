@@ -27,9 +27,6 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @implementation GADMAdapterAppLovin {
-  /// Instance of the AppLovin SDK.
-  ALSdk *_SDK;
-
   /// AppLovin interstitial object used to request an ad.
   ALInterstitialAd *_interstitial;
 
@@ -80,96 +77,64 @@
 #pragma mark - GADMAdNetworkAdapter Protocol Interstitial Methods
 
 - (void)getInterstitial {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!strongConnector) {
-    [GADMAdapterAppLovinUtils log:@"No GADMAdNetworkConnector found."];
-    return;
-  }
 
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    [strongConnector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
+    [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
     return;
   }
 
-  NSString *SDKKey =
-      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:[strongConnector credentials]];
-  if (!SDKKey) {
+  if (!ALSdk.shared) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
-    [strongConnector adapter:self didFailAd:error];
+        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
+        @"Failed to retrieve ALSdk shared instance. ");
+    [_connector adapter:self didFailAd:error];
     return;
   }
 
-  GADMAdapterAppLovin *__weak weakSelf = self;
-  [GADMAdapterAppLovinInitializer.sharedInstance
-      initializeWithSDKKey:SDKKey
-         completionHandler:^(NSError *_Nullable initializationError) {
-           GADMAdapterAppLovin *strongSelf = weakSelf;
-           if (!strongSelf) {
-             return;
-           }
-
-           if (initializationError) {
-             [strongConnector adapter:strongSelf didFailAd:initializationError];
-             return;
-           }
-
-           strongSelf->_SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-           if (!strongSelf->_SDK) {
-             NSError *nilSDKError = GADMAdapterAppLovinNilSDKError(SDKKey);
-             [strongConnector adapter:strongSelf didFailAd:nilSDKError];
-             return;
-           }
-
-           strongSelf->_zoneIdentifier =
-               [GADMAdapterAppLovinUtils zoneIdentifierForConnector:strongConnector];
-           // Unable to resolve a valid zone - error out
-           if (!strongSelf->_zoneIdentifier) {
-             NSString *errorString =
-                 @"Invalid custom zone entered. Please double-check your credentials.";
-             NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-                 GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
-             [strongConnector adapter:strongSelf didFailAd:zoneIdentifierError];
-             return;
-           }
+  _zoneIdentifier = [GADMAdapterAppLovinUtils zoneIdentifierForConnector:_connector];
+  // Unable to resolve a valid zone - error out
+  if (!_zoneIdentifier) {
+    NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
+    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    [_connector adapter:self didFailAd:zoneIdentifierError];
+    return;
+  }
 
            [GADMAdapterAppLovinUtils
                log:@"Requesting interstitial for zone: %@", self.zoneIdentifier];
 
            GADMAdapterAppLovinMediationManager *sharedManager =
                GADMAdapterAppLovinMediationManager.sharedInstance;
-           if ([sharedManager
-                   containsAndAddInterstitialZoneIdentifier:strongSelf->_zoneIdentifier]) {
+           if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
              NSError *adAlreadyLoadedError = GADMAdapterAppLovinErrorWithCodeAndDescription(
                  GADMAdapterAppLovinErrorAdAlreadyLoaded,
                  @"Can't request a second ad for the same zone identifier without showing "
                  @"the first ad.");
-             [strongConnector adapter:strongSelf didFailAd:adAlreadyLoadedError];
+             [_connector adapter:self didFailAd:adAlreadyLoadedError];
              return;
            }
 
-           strongSelf->_interstitialDelegate =
-               [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:strongSelf];
-           strongSelf->_interstitial = [[ALInterstitialAd alloc] initWithSdk:strongSelf->_SDK];
-           strongSelf->_interstitial.adDisplayDelegate = strongSelf->_interstitialDelegate;
-           strongSelf->_interstitial.adVideoPlaybackDelegate = strongSelf->_interstitialDelegate;
-           strongSelf->_settings = strongConnector.credentials;
+           _interstitialDelegate =
+               [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:self];
+           _interstitial = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
+           _interstitial.adDisplayDelegate = _interstitialDelegate;
+           _interstitial.adVideoPlaybackDelegate = _interstitialDelegate;
+           _settings = _connector.credentials;
 
-           if (strongSelf->_zoneIdentifier.length > 0) {
-             [strongSelf->_SDK.adService
-                 loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
-                                   andNotify:strongSelf->_interstitialDelegate];
+           if (_zoneIdentifier.length > 0) {
+             [ALSdk.shared.adService loadNextAdForZoneIdentifier:_zoneIdentifier
+                                                       andNotify:_interstitialDelegate];
            } else {
-             [strongSelf->_SDK.adService loadNextAd:ALAdSize.interstitial
-                                          andNotify:strongSelf->_interstitialDelegate];
+             [ALSdk.shared.adService loadNextAd:ALAdSize.interstitial
+                                      andNotify:_interstitialDelegate];
            }
-         }];
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
   id<GADMAdNetworkConnector> strongConnector = _connector;
   GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
-  _SDK.settings.muted = networkExtras.muteAudio;
+  ALSdk.shared.settings.muted = networkExtras.muteAudio;
 
   [GADMAdapterAppLovinUtils log:@"Showing interstitial ad for zone: %@.", _zoneIdentifier];
   [_interstitial showAd:_interstitialAd];
@@ -178,99 +143,61 @@
 #pragma mark - GADMAdNetworkAdapter Protocol Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  if (!strongConnector) {
-    [GADMAdapterAppLovinUtils log:@"No GADMAdNetworkConnector found."];
-    return;
-  }
-
   if ([GADMAdapterAppLovinUtils isChildUser]) {
-    [strongConnector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
+    [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
     return;
   }
 
-  NSString *SDKKey =
-      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:[strongConnector credentials]];
-  if (!SDKKey) {
+  if (!ALSdk.shared) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
-    [strongConnector adapter:self didFailAd:error];
+        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
+        @"Failed to retrieve ALSdk shared instance. ");
+    [_connector adapter:self didFailAd:error];
     return;
   }
 
-  GADMAdapterAppLovin *__weak weakSelf = self;
-  [GADMAdapterAppLovinInitializer.sharedInstance
-      initializeWithSDKKey:SDKKey
-         completionHandler:^(NSError *_Nullable initializationError) {
-           GADMAdapterAppLovin *strongSelf = weakSelf;
-           if (!strongSelf) {
-             return;
-           }
+  _zoneIdentifier = [GADMAdapterAppLovinUtils zoneIdentifierForConnector:_connector];
 
-           if (initializationError) {
-             [strongConnector adapter:strongSelf didFailAd:initializationError];
-             return;
-           }
+  // Unable to resolve a valid zone - error out.
+  if (!_zoneIdentifier) {
+    NSString *errorString = @"Invalid custom zone entered. Please double-check your credentials.";
+    NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
+    [_connector adapter:self didFailAd:zoneIdentifierError];
+    return;
+  }
 
-           strongSelf->_SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-           if (!strongSelf->_SDK) {
-             NSError *nilSDKError = GADMAdapterAppLovinNilSDKError(SDKKey);
-             [strongConnector adapter:strongSelf didFailAd:nilSDKError];
-             return;
-           }
+  [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@.",
+                                NSStringFromGADAdSize(adSize), _zoneIdentifier];
 
-           strongSelf->_zoneIdentifier =
-               [GADMAdapterAppLovinUtils zoneIdentifierForConnector:strongConnector];
+  // Convert requested size to AppLovin Ad Size.
+  ALAdSize *appLovinAdSize = [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
 
-           // Unable to resolve a valid zone - error out.
-           if (!strongSelf->_zoneIdentifier) {
-             NSString *errorString =
-                 @"Invalid custom zone entered. Please double-check your credentials.";
-             NSError *zoneIdentifierError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-                 GADMAdapterAppLovinErrorInvalidServerParameters, errorString);
-             [strongConnector adapter:strongSelf didFailAd:zoneIdentifierError];
-             return;
-           }
+  if (!appLovinAdSize) {
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Adapter requested to display a banner ad of unsupported size: %@",
+                         appLovinAdSize];
+    NSError *adSizeError = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
+    [_connector adapter:self didFailAd:adSizeError];
+    return;
+  }
 
-           [GADMAdapterAppLovinUtils log:@"Requesting banner of size %@ for zone: %@.",
-                                         NSStringFromGADAdSize(adSize),
-                                         strongSelf->_zoneIdentifier];
+  _adView = [[ALAdView alloc] initWithSdk:ALSdk.shared size:appLovinAdSize];
 
-           // Convert requested size to AppLovin Ad Size.
-           ALAdSize *appLovinAdSize =
-               [GADMAdapterAppLovinUtils appLovinAdSizeFromRequestedSize:adSize];
+  CGSize size = CGSizeFromGADAdSize(adSize);
+  _adView.frame = CGRectMake(0, 0, size.width, size.height);
 
-           if (!appLovinAdSize) {
-             NSString *errorMessage =
-                 [NSString stringWithFormat:
-                               @"Adapter requested to display a banner ad of unsupported size: %@",
-                               appLovinAdSize];
-             NSError *adSizeError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-                 GADMAdapterAppLovinErrorBannerSizeMismatch, errorMessage);
-             [strongConnector adapter:strongSelf didFailAd:adSizeError];
-             return;
-           }
+  _bannerDelegate = [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter:self];
+  _adView.adLoadDelegate = _bannerDelegate;
+  _adView.adDisplayDelegate = _bannerDelegate;
+  _adView.adEventDelegate = _bannerDelegate;
 
-           strongSelf->_adView = [[ALAdView alloc] initWithSdk:strongSelf->_SDK
-                                                          size:appLovinAdSize];
-
-           CGSize size = CGSizeFromGADAdSize(adSize);
-           strongSelf->_adView.frame = CGRectMake(0, 0, size.width, size.height);
-
-           strongSelf->_bannerDelegate =
-               [[GADMAdapterAppLovinBannerDelegate alloc] initWithParentAdapter:strongSelf];
-           strongSelf->_adView.adLoadDelegate = strongSelf->_bannerDelegate;
-           strongSelf->_adView.adDisplayDelegate = strongSelf->_bannerDelegate;
-           strongSelf->_adView.adEventDelegate = strongSelf->_bannerDelegate;
-
-           if (strongSelf->_zoneIdentifier.length) {
-             [strongSelf->_SDK.adService loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
-                                                           andNotify:strongSelf->_bannerDelegate];
-           } else {
-             [strongSelf->_SDK.adService loadNextAd:appLovinAdSize
-                                          andNotify:strongSelf->_bannerDelegate];
-           }
-         }];
+  if (_zoneIdentifier.length) {
+    [ALSdk.shared.adService loadNextAdForZoneIdentifier:_zoneIdentifier andNotify:_bannerDelegate];
+  } else {
+    [ALSdk.shared.adService loadNextAd:appLovinAdSize andNotify:_bannerDelegate];
+  }
 }
 
 - (BOOL)isBannerAnimationOK:(GADMBannerAnimationType)animationType {

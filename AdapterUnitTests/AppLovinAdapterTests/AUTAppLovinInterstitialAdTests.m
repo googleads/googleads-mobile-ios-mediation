@@ -39,12 +39,10 @@
   _interstitialAdMock = OCMClassMock([ALInterstitialAd class]);
   _serviceMock = OCMClassMock([ALAdService class]);
 
-  OCMStub(ClassMethod([_appLovinSdkMock sharedWithKey:sdkKey
-                                             settings:GADMediationAdapterAppLovin.SDKSettings]))
-      .andReturn(_appLovinSdkMock);
   OCMStub([_interstitialAdMock alloc]).andReturn(_interstitialAdMock);
   OCMStub([_interstitialAdMock initWithSdk:_appLovinSdkMock]).andReturn(_interstitialAdMock);
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
+  OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
 }
 
 - (void)tearDown {
