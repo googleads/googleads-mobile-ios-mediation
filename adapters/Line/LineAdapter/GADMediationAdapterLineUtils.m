@@ -58,11 +58,6 @@ static FADAdLoader *_Nullable gAdLoader;
 
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
     NSArray<GADMediationCredentials *> *_Nonnull credentialsArray) {
-  if (FADSettings.isConfigRegistered) {
-    GADMediationAdapterLineLog(@"FiveAd SDK is already registered");
-    return nil;
-  }
-
   NSError *error = nil;
   NSString *applicationID = GADMediationAdapterLineApplicationID(credentialsArray, &error);
   if (error) {
