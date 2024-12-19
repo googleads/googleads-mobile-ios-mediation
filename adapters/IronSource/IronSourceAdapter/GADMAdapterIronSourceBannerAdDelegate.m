@@ -57,7 +57,6 @@
   }
 
   [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
-  id<GADMediationBannerAdEventDelegate> eventDelegate = [adInstance getBannerAdEventDelegate];
   [adInstance getLoadCompletionHandler](nil, error);
 }
 
