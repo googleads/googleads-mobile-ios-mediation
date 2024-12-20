@@ -184,9 +184,6 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
 }
 
 - (void)loadAdImageAssetsAsynchronously {
-  NSAssert(_nativeAd.state == kFADStateLoaded,
-           @"The native ad images cannot be loaded because the native ad hasn't been loaded yet.");
-
   dispatch_group_t imageLoadGroup = dispatch_group_create();
   __weak __typeof__(self) weakSelf = self;
 

@@ -174,11 +174,12 @@ static NSString *const kTestSlotID = @"12345";
 
   // Mock FiveAd SDK.
   FADInterstitial *interstitialAd = (FADInterstitial *)_interstitialMock;
-  OCMExpect([interstitialAd show]);
+  UIViewController *viewController = [[UIViewController alloc] init];
+  OCMExpect([interstitialAd showWithViewController:viewController]);
 
   // Test ad present.
   id<GADMediationInterstitialAd> mediationInterstitialAd = delegate.interstitialAd;
-  [mediationInterstitialAd presentFromViewController:[[UIViewController alloc] init]];
+  [mediationInterstitialAd presentFromViewController:viewController];
   XCTAssertEqual(delegate.willPresentFullScreenViewInvokeCount, 1);
   OCMVerifyAll(_interstitialMock);
 }

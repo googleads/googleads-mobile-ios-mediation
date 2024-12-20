@@ -2,6 +2,8 @@
 
 #### Next version
 - Removed logic that checked whether the FAD SDK was registered in the adapter setup.
+- Updated the interstitial and rewarded ads' "show" API with new "showWithViewController:" API.
+- Removed native ad state check before downloading native ad assets, because it is deprecated and there is no replacement.
 
 #### [Version 2.9.20241106.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.1.zip)
 - Updated the adapter to use the latest ad load API for bidding banner ads.

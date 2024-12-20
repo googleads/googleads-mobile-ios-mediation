@@ -225,11 +225,12 @@ static NSString *const AUTLineTestSlotID = @"12345";
 
   // Mock FiveAd SDK.
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
-  OCMExpect([rewardedAd show]);
+  UIViewController *viewController = [[UIViewController alloc] init];
+  OCMExpect([rewardedAd showWithViewController:viewController]);
 
   // Test ad present.
   id<GADMediationRewardedAd> mediationRewardedAd = delegate.rewardedAd;
-  [mediationRewardedAd presentFromViewController:[[UIViewController alloc] init]];
+  [mediationRewardedAd presentFromViewController:viewController];
   XCTAssertEqual(delegate.willPresentFullScreenViewInvokeCount, 1);
   OCMVerifyAll(_rewardedMock);
 }
@@ -255,7 +256,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
 - (void)testRewarded {
   // Mock FiveAd SDK.
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
-  OCMStub([rewardedAd state]).andReturn(kFADStateClosed);
 
   // Test that a reward is granted when the user closes the loaded ad after finishing watching it.
   AUTKMediationRewardedAdEventDelegate *delegate =
@@ -270,7 +270,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
 - (void)testAdClose {
   // Mock FiveAd SDK.
   FADVideoReward *rewardedAd = (FADVideoReward *)_rewardedMock;
-  OCMStub([rewardedAd state]).andReturn(kFADStateClosed);
 
   // Test that a reward is granted when the user closes the loaded ad after finishing watching it.
   AUTKMediationRewardedAdEventDelegate *delegate =
