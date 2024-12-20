@@ -71,6 +71,7 @@
     return;
   }
 
+  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
   [adInstance setBannerView:bannerView];
   [adInstance setBannerAdEventDelegate:([adInstance getLoadCompletionHandler](adInstance, nil))];
 }

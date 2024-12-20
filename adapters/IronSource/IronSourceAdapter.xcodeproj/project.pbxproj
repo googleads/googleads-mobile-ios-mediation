@@ -41,6 +41,13 @@
 		70387D4C2D03EF13000C09EE /* GADMAdapterIronSourceRtbBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */; };
 		70AEE77C2C950A3600D22A43 /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */; };
 		70AEE77D2C950A3D00D22A43 /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
+		AD26F04B2D14D93700E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C642CF5E1FF00567229 /* GADMAdapterIronSourceRtbBannerAd.m */; };
+		AD26F04C2D14D94F00E8B4B0 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */; };
+		AD26F04D2D14D95300E8B4B0 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */; };
+		AD26F04E2D14D95700E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 15CC4C662CF5E20700567229 /* GADMAdapterIronSourceRtbBannerAd.h */; };
+		AD26F04F2D14D95E00E8B4B0 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06B92C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.h */; };
+		AD26F0502D14D96100E8B4B0 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 150C06BA2C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.h */; };
+		AD26F0512D14D96600E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 15CC4C662CF5E20700567229 /* GADMAdapterIronSourceRtbBannerAd.h */; };
 		ADA6B98A2CF14649009C8FDA /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B82C7F114D001B1F21 /* GADMAdapterIronSourceRtbRewardedAd.m */; };
 		ADA6B98B2CF14649009C8FDA /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C06B72C7F114D001B1F21 /* GADMAdapterIronSourceRtbInterstitialAd.m */; };
 		ADA6B98C2CF14649009C8FDA /* GADMAdapterIronSourceBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = EF11BA902AA9F12F00E24BBD /* GADMAdapterIronSourceBannerAd.m */; };
@@ -296,6 +303,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF11BA9E2AA9F12F00E24BBD /* GADMAdapterIronSourceConstants.h in Headers */,
+				AD26F0512D14D96600E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.h in Headers */,
+				AD26F0502D14D96100E8B4B0 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */,
+				AD26F04F2D14D95E00E8B4B0 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */,
 				EF11BA9D2AA9F12F00E24BBD /* GADMediationAdapterIronSource.h in Headers */,
 				EF11BAAC2AA9F12F00E24BBD /* GADMAdapterIronSourceRewarded.h in Headers */,
 				EF11BAA82AA9F12F00E24BBD /* GADMAdapterIronSourceUtils.h in Headers */,
@@ -324,6 +334,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA6B9992CF14649009C8FDA /* GADMAdapterIronSourceConstants.h in Headers */,
+				AD26F04E2D14D95700E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.h in Headers */,
+				AD26F04D2D14D95300E8B4B0 /* GADMAdapterIronSourceRtbRewardedAd.h in Headers */,
+				AD26F04C2D14D94F00E8B4B0 /* GADMAdapterIronSourceRtbInterstitialAd.h in Headers */,
 				ADA6B99A2CF14649009C8FDA /* GADMediationAdapterIronSource.h in Headers */,
 				ADA6B99B2CF14649009C8FDA /* GADMAdapterIronSourceRewarded.h in Headers */,
 				ADA6B99C2CF14649009C8FDA /* GADMAdapterIronSourceUtils.h in Headers */,
@@ -516,6 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD26F04B2D14D93700E8B4B0 /* GADMAdapterIronSourceRtbBannerAd.m in Sources */,
 				ADA6B98A2CF14649009C8FDA /* GADMAdapterIronSourceRtbRewardedAd.m in Sources */,
 				ADA6B98B2CF14649009C8FDA /* GADMAdapterIronSourceRtbInterstitialAd.m in Sources */,
 				ADA6B98C2CF14649009C8FDA /* GADMAdapterIronSourceBannerAd.m in Sources */,
