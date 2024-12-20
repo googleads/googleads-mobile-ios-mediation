@@ -140,8 +140,12 @@
 }
 
 - (void)rewardedAdDidClose:(nonnull VungleRewarded *)rewarded {
-  [_delegate didEndVideo];
-  [_delegate didDismissFullScreenView];
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  if (!delegate) {
+    return;
+  }
+  [delegate didEndVideo];
+  [delegate didDismissFullScreenView];
 }
 
 - (void)rewardedAdDidTrackImpression:(nonnull VungleRewarded *)rewarded {
