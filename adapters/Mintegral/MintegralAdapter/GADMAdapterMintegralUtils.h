@@ -11,12 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "GADMediationAdapterMintegral.h"
 
 #define GADMediationAdapterMintegralLog(format, args...) \
   NSLog(@"GADMediationAdapterMintegral: " format, ##args)
 @interface GADMAdapterMintegralUtils : NSObject
+
+UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void);
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
                                                                   NSString *_Nonnull description);

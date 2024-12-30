@@ -102,9 +102,14 @@
 
 #pragma mark - MTGRewardAdShowDelegate
 - (void)onVideoAdShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
-  [_adEventDelegate willPresentFullScreenView];
-  [_adEventDelegate reportImpression];
-  [_adEventDelegate didStartVideo];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willPresentFullScreenView];
+  [adEventDelegate reportImpression];
+  [adEventDelegate didStartVideo];
 }
 
 - (void)onVideoAdShowFailed:(nullable NSString *)placementId
@@ -125,9 +130,14 @@
                     unitId:(nullable NSString *)unitId
              withConverted:(BOOL)converted
             withRewardInfo:(nullable MTGRewardAdInfo *)rewardInfo {
-  [_adEventDelegate willDismissFullScreenView];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willDismissFullScreenView];
   if (converted) {
-    [_adEventDelegate didRewardUser];
+    [adEventDelegate didRewardUser];
   }
 }
 

@@ -34,6 +34,24 @@ void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
   }
 }
 
+UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
+  if (@available(iOS 13.0, *)) {
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+      if ([scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene *windowScene = (UIWindowScene *)scene;
+        for (UIWindow *window in windowScene.windows) {
+          if (window.isKeyWindow) {
+            return window;
+          }
+        }
+      }
+    }
+    return nil;
+  }
+
+  return UIApplication.sharedApplication.keyWindow;
+}
+
 /// Returns the closest valid banner size by comparing the provided ad size against the valid sizes.
 /// Returns CGSizeZero and sets |error| if the ad configuration contains an invalid ad size.
 + (CGSize)bannerSizeFromAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration

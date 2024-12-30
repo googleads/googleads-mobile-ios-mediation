@@ -1,5 +1,9 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next Version
+- Added a util function to retrieve key window.
+- Updated MintegralAdapter to follow Google's Objective-C best practices.
+
 #### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.3.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.3.
 
