@@ -1,5 +1,9 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Next version
+- Replaced deprecated "onNoAdWithReason:rewardedAd:" with "onLoadFailedWithError:rewardedAd:".
+- Updated the adapter to follow Google's Objective-C best practices.
+
 #### [Version 5.23.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.23.0.0.zip)
 - Verified compatibility with myTarget SDK version 5.23.0.
 

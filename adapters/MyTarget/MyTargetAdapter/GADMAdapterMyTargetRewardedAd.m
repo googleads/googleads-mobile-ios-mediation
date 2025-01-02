@@ -116,13 +116,13 @@ BOOL _isRewardedAdLoaded;
   _adEventDelegate = _completionHandler(self, nil);
 }
 
-- (void)onNoAdWithReason:(nonnull NSString *)reason
-              rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
+- (void)onLoadFailedWithError:(nonnull NSError *)error
+                   rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
-  MTRGLogError(reason);
-  NSError *error =
-      GADMAdapterMyTargetErrorWithCodeAndDescription(GADMAdapterMyTargetErrorNoFill, reason);
-  _completionHandler(nil, error);
+  MTRGLogError(error.localizedDescription);
+  NSError *adapterError = GADMAdapterMyTargetErrorWithCodeAndDescription(
+      GADMAdapterMyTargetErrorNoFill, error.localizedDescription);
+  _completionHandler(nil, adapterError);
 }
 
 - (void)onClickWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
@@ -137,14 +137,24 @@ BOOL _isRewardedAdLoaded;
 
 - (void)onReward:(nonnull MTRGReward *)reward rewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
-  [_adEventDelegate didEndVideo];
-  [_adEventDelegate didRewardUser];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate didEndVideo];
+  [adEventDelegate didRewardUser];
 }
 
 - (void)onDisplayWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
   MTRGLogInfo();
-  [_adEventDelegate willPresentFullScreenView];
-  [_adEventDelegate didStartVideo];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willPresentFullScreenView];
+  [adEventDelegate didStartVideo];
 }
 
 - (void)onLeaveApplicationWithRewardedAd:(nonnull MTRGRewardedAd *)rewardedAd {
