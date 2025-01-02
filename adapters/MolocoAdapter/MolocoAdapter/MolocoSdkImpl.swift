@@ -63,7 +63,7 @@ extension MolocoSdkImpl: MolocoBannerFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> (UIView & MolocoAd)? {
     guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
       return nil
     }
