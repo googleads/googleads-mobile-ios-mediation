@@ -113,7 +113,7 @@
   };
   NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
                                        code:GADMAdapterUnityErrorPlacementStateNoFill
-                                   userInfo:nil];
+                                   userInfo:userInfo];
 
   AUTKWaitAndAssertLoadRewardedAdFailure(self.adapter, configuration, error);
 }

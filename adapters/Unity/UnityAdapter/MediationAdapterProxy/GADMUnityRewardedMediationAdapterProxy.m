@@ -48,10 +48,12 @@
 
 - (void)unityAdsShowComplete:(nonnull NSString *)placementId
              withFinishState:(UnityAdsShowCompletionState)state {
-  [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didEndVideo];
+  id<GADMediationRewardedAdEventDelegate> eventDelegate =
+      (id<GADMediationRewardedAdEventDelegate>)self.eventDelegate;
 
+  [eventDelegate didEndVideo];
   if (state == kUnityShowCompletionStateCompleted) {
-    [(id<GADMediationRewardedAdEventDelegate>)self.eventDelegate didRewardUser];
+    [eventDelegate didRewardUser];
   }
 
   [super unityAdsShowComplete:placementId withFinishState:state];
