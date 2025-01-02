@@ -66,10 +66,12 @@ final class InterstitialAdLoader: NSObject {
       return
     }
 
-    interstitialAd = molocoInterstitialFactory.createInterstitial(
-      for: molocoAdUnitId, delegate: self)
     DispatchQueue.main.async { [weak self] in
-      self?.interstitialAd?.load(bidResponse: bidResponse)
+      guard let self else { return }
+
+      self.interstitialAd = self.molocoInterstitialFactory.createInterstitial(
+        for: molocoAdUnitId, delegate: self)
+      self.interstitialAd?.load(bidResponse: bidResponse)
     }
   }
 
@@ -79,16 +81,21 @@ final class InterstitialAdLoader: NSObject {
 
 extension InterstitialAdLoader: GADMediationInterstitialAd {
 
-  @MainActor
   func present(from viewController: UIViewController) {
-    guard let interstitialAd, interstitialAd.isReady else {
-      let error = MolocoUtils.error(
-        code: MolocoAdapterErrorCode.adNotReadyForShow, description: "Ad is not ready to be shown")
-      eventDelegate?.didFailToPresentWithError(error)
-      return
+    DispatchQueue.main.async { [weak self] in
+      guard let self else { return }
+
+      guard let interstitialAd = self.interstitialAd, interstitialAd.isReady else {
+        let error = MolocoUtils.error(
+          code: MolocoAdapterErrorCode.adNotReadyForShow, description: "Ad is not ready to be shown"
+        )
+        self.eventDelegate?.didFailToPresentWithError(error)
+        return
+      }
+
+      self.eventDelegate?.willPresentFullScreenView()
+      interstitialAd.show(from: viewController)
     }
-    eventDelegate?.willPresentFullScreenView()
-    interstitialAd.show(from: viewController)
   }
 
 }

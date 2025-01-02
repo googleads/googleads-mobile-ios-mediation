@@ -112,6 +112,7 @@ final class MolocoInterstitialAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
 
     adEventDelegate.interstitialAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
@@ -131,6 +132,7 @@ final class MolocoInterstitialAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
 
     adEventDelegate.interstitialAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
     XCTAssertEqual(
@@ -154,6 +156,7 @@ final class MolocoInterstitialAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
 
     adEventDelegate.interstitialAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
     XCTAssertEqual(didFailToPresentError?.domain, "moloco_sdk_domain")
@@ -172,6 +175,7 @@ final class MolocoInterstitialAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, mediationAdConfig)
 
     adEventDelegate.interstitialAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
     XCTAssertEqual(didFailToPresentError?.domain, MolocoConstants.adapterErrorDomain)

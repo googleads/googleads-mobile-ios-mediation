@@ -35,4 +35,21 @@ final class MolocoUtils {
       ? MolocoConstants.molocoTestAdUnitName
       : adConfiguration.credentials.settings[MolocoConstants.adUnitIdKey] as? String
   }
+
+  static func keyWindow() -> UIWindow? {
+    if #available(iOS 13.0, *) {
+      for scene in UIApplication.shared.connectedScenes {
+        if let windowScene = scene as? UIWindowScene {
+          for window in windowScene.windows {
+            if window.isKeyWindow {
+              return window
+            }
+          }
+        }
+      }
+      return nil
+    }
+
+    return UIApplication.shared.keyWindow
+  }
 }

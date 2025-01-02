@@ -34,7 +34,6 @@ class MolocoSdkImpl: MolocoInitializer {
 
 extension MolocoSdkImpl: MolocoInterstitialFactory {
 
-  @MainActor
   @available(iOS 13.0, *)
   func createInterstitial(for adUnit: String, delegate: MolocoInterstitialDelegate)
     -> MolocoInterstitial?
@@ -65,7 +64,7 @@ extension MolocoSdkImpl: MolocoBannerFactory {
   @MainActor
   @available(iOS 13.0, *)
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
-    guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+    guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
       return nil
     }
     return Moloco.shared.createBanner(

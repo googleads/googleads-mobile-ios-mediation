@@ -18,6 +18,7 @@ import MolocoSDK
 /// Protocol for a factory of Moloco banner ads.
 public protocol MolocoBannerFactory {
 
+  @MainActor
   @available(iOS 13.0, *)
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd?
 

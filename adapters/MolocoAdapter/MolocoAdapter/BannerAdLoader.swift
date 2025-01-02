@@ -69,9 +69,11 @@ final class BannerAdLoader: NSObject {
       return
     }
 
-    bannerAdView = molocoBannerFactory.createBanner(for: molocoAdUnitID, delegate: self)
     DispatchQueue.main.async { [weak self] in
-      self?.bannerAdView?.load(bidResponse: bidResponse)
+      guard let self else { return }
+
+      self.bannerAdView = self.molocoBannerFactory.createBanner(for: molocoAdUnitID, delegate: self)
+      self.bannerAdView?.load(bidResponse: bidResponse)
     }
   }
 
