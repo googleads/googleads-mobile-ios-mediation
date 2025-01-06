@@ -18,10 +18,12 @@ import Foundation
 ///
 /// Make sure the adapter error code does not conflict with partner's error code.
 public enum MolocoAdapterErrorCode: Int {
+  /// Ad serving not support for the device type.
   case adServingNotSupported = 101
   case invalidAppID = 102
   case invalidAdUnitId = 103
   case adNotReadyForShow = 104
   case adFailedToShow = 105
+  /// Rendering data not available to render the ad.
   case nilBidResponse = 106
 }
