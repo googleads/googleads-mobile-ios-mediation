@@ -68,6 +68,9 @@
 		ADA6BA922CF14715009C8FDA /* GADPangleAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD310D32A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.m */; };
 		ADA6BA932CF14715009C8FDA /* GADPangleRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */; };
 		ADA6BA942CF14715009C8FDA /* GADPangleInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleInterstitialRenderer.m */; };
+		ADD347D72D2B43CA0019419D /* PangleAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; };
+		ADD347D82D2B43CA0019419D /* GADMediationAdapterPangle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B3B8D4B277A833B005BB25B /* GADMediationAdapterPangle.h */; };
+		ADD347D92D2B43CA0019419D /* GADPangleNetworkExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2BBF274A28B34599005D689F /* GADPangleNetworkExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +106,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347D72D2B43CA0019419D /* PangleAdapter.h in CopyFiles */,
+				ADD347D82D2B43CA0019419D /* GADMediationAdapterPangle.h in CopyFiles */,
+				ADD347D92D2B43CA0019419D /* GADPangleNetworkExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

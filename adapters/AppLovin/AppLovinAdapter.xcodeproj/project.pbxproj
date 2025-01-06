@@ -89,6 +89,9 @@
 		ADA6B90E2CF145F8009C8FDA /* GADMAdapterAppLovinInitializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C843B22686BB5B00B351BE /* GADMAdapterAppLovinInitializer.h */; };
 		ADA6B90F2CF145F8009C8FDA /* GADMAppLovinRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 23FB830326A7474700ECBBE0 /* GADMAppLovinRewardedDelegate.h */; };
 		ADA6B9102CF145F8009C8FDA /* GADMAdapterAppLovinMediationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 457F4D7F233555CE0047E30A /* GADMAdapterAppLovinMediationManager.h */; };
+		ADD347942D2B2C230019419D /* GADMAdapterAppLovinExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; };
+		ADD347952D2B2C230019419D /* GADMediationAdapterAppLovin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BFFBCB2228ADE100C96A67 /* GADMediationAdapterAppLovin.h */; };
+		ADD347962D2B2C230019419D /* AppLovinAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 359ADF9F1EFDBDA600E2DBFE /* AppLovinAdapter.h */; };
 		B3F32F721F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F32F711F4CDF09006FD441 /* GADMAdapterAppLovinExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -125,6 +128,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347942D2B2C230019419D /* GADMAdapterAppLovinExtras.h in CopyFiles */,
+				ADD347952D2B2C230019419D /* GADMediationAdapterAppLovin.h in CopyFiles */,
+				ADD347962D2B2C230019419D /* AppLovinAdapter.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

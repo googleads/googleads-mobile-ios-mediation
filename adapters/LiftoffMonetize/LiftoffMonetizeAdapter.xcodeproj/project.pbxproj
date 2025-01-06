@@ -82,6 +82,8 @@
 		ADA6B9C62CF14655009C8FDA /* GADMediationVungleBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 17029F1929F9F43500128934 /* GADMediationVungleBanner.h */; };
 		ADA6B9C72CF14655009C8FDA /* GADMediationVungleAppOpenAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C887472B8D327F00B0703F /* GADMediationVungleAppOpenAd.h */; };
 		ADA6B9C82CF14655009C8FDA /* GADMAdapterVungleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4593F48B227CDC9300F57AE5 /* GADMAdapterVungleConstants.h */; };
+		ADD347CA2D2B42810019419D /* VungleAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D1575711EB7FBB200059469 /* VungleAdapter.h */; };
+		ADD347CB2D2B42810019419D /* VungleAdNetworkExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 56C4F0F11F29531200BABF7E /* VungleAdNetworkExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347CA2D2B42810019419D /* VungleAdapter.h in CopyFiles */,
+				ADD347CB2D2B42810019419D /* VungleAdNetworkExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

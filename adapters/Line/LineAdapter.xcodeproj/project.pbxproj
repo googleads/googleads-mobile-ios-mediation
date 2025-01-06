@@ -56,6 +56,8 @@
 		ADA6B9E02CF146CD009C8FDA /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF402A35141400D92129 /* GADMediationAdapterLineInterstitialAdLoader.h */; };
 		ADA6B9E12CF146CD009C8FDA /* GADMediationAdapterLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */; };
 		ADA6B9E22CF146CD009C8FDA /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
+		ADD347CC2D2B42DD0019419D /* LineAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; };
+		ADD347CD2D2B42DD0019419D /* GADMediationAdapterLineExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */; };
 		ADEAFA472A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
 		ADEAFA492A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */; };
 		ADEAFA5B2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */; };
@@ -84,6 +86,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347CC2D2B42DD0019419D /* LineAdapter.h in CopyFiles */,
+				ADD347CD2D2B42DD0019419D /* GADMediationAdapterLineExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

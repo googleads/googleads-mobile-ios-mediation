@@ -89,6 +89,9 @@
 		ADA6BA3E2CF146F0009C8FDA /* GADMediationAdapterMintegral.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D028F1260F001269EF /* GADMediationAdapterMintegral.m */; };
 		ADA6BA3F2CF146F0009C8FDA /* GADMAdapterMintegralBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA0A8A2989E3840088B4CD /* GADMAdapterMintegralBannerAdLoader.m */; };
 		ADA6BA402CF146F0009C8FDA /* GADMAdapterMintegralExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC24D128F1260F001269EF /* GADMAdapterMintegralExtras.m */; };
+		ADD347D12D2B43420019419D /* MintegralAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23D49EED2899F455006152D8 /* MintegralAdapter.h */; };
+		ADD347D22D2B43420019419D /* GADMediationAdapterMintegral.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADAC24DC28F1260F001269EF /* GADMediationAdapterMintegral.h */; };
+		ADD347D32D2B43420019419D /* GADMAdapterMintegralExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD18D66F28AE36E3001DF8BA /* GADMAdapterMintegralExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +134,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347D12D2B43420019419D /* MintegralAdapter.h in CopyFiles */,
+				ADD347D22D2B43420019419D /* GADMediationAdapterMintegral.h in CopyFiles */,
+				ADD347D32D2B43420019419D /* GADMAdapterMintegralExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

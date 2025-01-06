@@ -60,6 +60,8 @@
 		ADA6B9402CF14624009C8FDA /* GADMAdapterFyberRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1728EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h */; };
 		ADA6B9412CF14624009C8FDA /* GADMAdapterFyberExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6B9422CF14624009C8FDA /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */; };
+		ADD347C52D2B414C0019419D /* DTExchangeAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; };
+		ADD347C62D2B414C0019419D /* GADMAdapterFyberExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +97,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347C52D2B414C0019419D /* DTExchangeAdapter.h in CopyFiles */,
+				ADD347C62D2B414C0019419D /* GADMAdapterFyberExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

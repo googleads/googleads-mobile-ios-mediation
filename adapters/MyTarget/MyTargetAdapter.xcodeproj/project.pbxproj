@@ -76,6 +76,9 @@
 		ADA6BA772CF14709009C8FDA /* GADMAdapterMyTargetUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */; };
 		ADA6BA782CF14709009C8FDA /* MyTargetAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D233F401DC407F400762177 /* MyTargetAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6BA792CF14709009C8FDA /* GADMAdapterMyTargetExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADD347D42D2B439E0019419D /* MyTargetAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D233F401DC407F400762177 /* MyTargetAdapter.h */; };
+		ADD347D52D2B439E0019419D /* GADMAdapterMyTargetExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */; };
+		ADD347D62D2B439E0019419D /* GADMAdapterMyTargetExtraAssets.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +114,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347D42D2B439E0019419D /* MyTargetAdapter.h in CopyFiles */,
+				ADD347D52D2B439E0019419D /* GADMAdapterMyTargetExtras.h in CopyFiles */,
+				ADD347D62D2B439E0019419D /* GADMAdapterMyTargetExtraAssets.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

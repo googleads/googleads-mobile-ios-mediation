@@ -72,6 +72,9 @@
 		ADA6BA192CF146E5009C8FDA /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6BA1A2CF146E5009C8FDA /* MetaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA6BA1B2CF146E5009C8FDA /* GADFBNativeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 234AFD372837196A001FA761 /* GADFBNativeRenderer.h */; };
+		ADD347CE2D2B43010019419D /* MetaAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; };
+		ADD347CF2D2B43010019419D /* GADFBExtraAssets.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; };
+		ADD347D02D2B43010019419D /* GADFBNetworkExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,6 +93,9 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				ADD347CE2D2B43010019419D /* MetaAdapter.h in CopyFiles */,
+				ADD347CF2D2B43010019419D /* GADFBExtraAssets.h in CopyFiles */,
+				ADD347D02D2B43010019419D /* GADFBNetworkExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
