@@ -18,6 +18,7 @@
 @interface GADMAdapterAppLovinExtras : NSObject<GADAdNetworkExtras>
 
 /// Use this to mute audio for video ads. Must be set on each ad request.
-@property(nonatomic, assign) BOOL muteAudio;
+@property(nonatomic, assign) BOOL muteAudio __deprecated_msg(
+    "The `muteAudio` property is deprecated, use GADMobileAds.sharedInstance.applicationMuted instead.");
 
 @end

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterAppLovinRewardedRenderer.h"
-#include <stdatomic.h>
+
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInitializer.h"
@@ -21,6 +21,9 @@
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
+
+#include <GoogleMobileAds/GoogleMobileAds.h>
+#include <stdatomic.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -74,6 +77,7 @@
     _adLoadCompletionHandler(nil, error);
     return;
   }
+  ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
 
   _appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
 
@@ -131,10 +135,6 @@
 }
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-  // Update mute state.
-  GADMAdapterAppLovinExtras *networkExtras = _adConfiguration.extras;
-  ALSdk.shared.settings.muted = networkExtras.muteAudio;
-
   if (_ad) {
     [GADMAdapterAppLovinUtils log:@"Showing rewarded video for zone: %@", _zoneIdentifier];
     [_incent showAd:_ad andNotify:_appLovinDelegate];

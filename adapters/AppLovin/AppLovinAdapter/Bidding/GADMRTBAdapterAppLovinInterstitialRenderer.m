@@ -16,12 +16,12 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
+#import "GADMAppLovinRTBInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AppLovinSDK/AppLovinSDK.h>
+#include <GoogleMobileAds/GoogleMobileAds.h>
 #include <stdatomic.h>
-
-#import "GADMAppLovinRTBInterstitialDelegate.h"
 
 @implementation GADMRTBAdapterAppLovinInterstitialRenderer {
   /// Data used to render an interstitial ad.
@@ -65,6 +65,7 @@
     _adLoadCompletionHandler(nil, error);
     return;
   }
+  ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
 
   // Create interstitial object.
   _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
@@ -82,10 +83,6 @@
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-  // Update mute state
-  GADMAdapterAppLovinExtras *extras = _adConfiguration.extras;
-  ALSdk.shared.settings.muted = extras.muteAudio;
-
   [_interstitialAd showAd:_ad];
 }
 

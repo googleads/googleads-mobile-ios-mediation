@@ -117,6 +117,7 @@
 
            _interstitialDelegate =
                [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:self];
+           ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
            _interstitial = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
            _interstitial.adDisplayDelegate = _interstitialDelegate;
            _interstitial.adVideoPlaybackDelegate = _interstitialDelegate;
@@ -132,10 +133,6 @@
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
-  id<GADMAdNetworkConnector> strongConnector = _connector;
-  GADMAdapterAppLovinExtras *networkExtras = strongConnector.networkExtras;
-  ALSdk.shared.settings.muted = networkExtras.muteAudio;
-
   [GADMAdapterAppLovinUtils log:@"Showing interstitial ad for zone: %@.", _zoneIdentifier];
   [_interstitial showAd:_interstitialAd];
 }
