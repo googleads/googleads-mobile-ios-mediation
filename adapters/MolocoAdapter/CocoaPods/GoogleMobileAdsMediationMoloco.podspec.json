@@ -26,5 +26,6 @@
   "source": {
     "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Moloco/MolocoAdapter-3.5.0.0.zip"
   },
-  "static_framework": true
+  "static_framework": true,
+  "swift_versions": "5.0"
 }
