@@ -230,11 +230,11 @@ abstract_target 'Default' do
   # MolocoAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MolocoAdapter')
 
-    pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/MolocoAdapter/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
+    pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/Moloco/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
 
     # Dependencies for MolocoAdapter static library.
     target 'Adapter' do
-      project '../adapters/MolocoAdapter/MolocoAdapter.xcodeproj'
+      project '../adapters/Moloco/MolocoAdapter.xcodeproj'
     end
 
   end
