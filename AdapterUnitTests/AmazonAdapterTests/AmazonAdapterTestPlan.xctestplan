@@ -16,7 +16,7 @@
       "parallelizable" : false,
       "target" : {
         "containerPath" : "container:AdapterUnitTests.xcodeproj",
-        "identifier" : "AD8FE2902D39E8E700B4728A",
+        "identifier" : "AD8FE9162D3B314B00B4728A",
         "name" : "AmazonAdapterTests"
       }
     }

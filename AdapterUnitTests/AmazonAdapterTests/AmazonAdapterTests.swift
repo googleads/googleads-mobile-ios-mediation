@@ -120,3 +120,240 @@ struct AmazonAdapterSetUpTests {
   }
 
 }
+
+@Suite("Amazon adapter signals collection")
+struct AmazonAdapterCollectSignalsTests {
+
+  let apsClient: FakeApsClient
+
+  init() {
+    apsClient = FakeApsClient()
+    AmazonBidLoadingAdapter.setApsClient(apsClient: apsClient)
+  }
+
+  @Test("Successful signals collection with valid bidding request parameters")
+  func collectSignals_succeeds() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+        #expect(requestDataDict!["ad_id"] != nil)
+        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
+        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Successful signals collection with valid bidding request parameters")
+  func collectSignals_succeedsWithMultiple() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+        #expect(requestDataDict!["ad_id"] != nil)
+        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
+        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
+        #expect(requestDataDict!["adapter_error"] == nil)
+        #expect(requestDataDict!["third_party_sdk_error"] == nil)
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Successful signals collection with multiple slot IDs.")
+  func collectSignals_succeedsWithMultipleUniqueSlotIds() async {
+    let credentials1 = AUTKMediationCredentials()
+    credentials1.settings = ["slot_id": "testid1"]
+    let credentials2 = AUTKMediationCredentials()
+    credentials2.settings = ["slot_id": "testid2"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials1, credentials2]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+        #expect(requestDataDict!["ad_id"] != nil)
+        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
+        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
+        #expect(requestDataDict!["adapter_error"] == nil)
+        #expect(requestDataDict!["third_party_sdk_error"] == nil)
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Unsuccessful signals collection for unsupported ad format")
+  func collectSignals_fails_whenRequestIsForUnsupportedAdFormat() async {
+    let credentials1 = AUTKMediationCredentials()
+    credentials1.settings = ["slot_id": "testid1"]
+    let credentials2 = AUTKMediationCredentials()
+    credentials2.settings = ["slot_id": "testid2"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials1, credentials2]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = GADAdSizeInvalid.size
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+        #expect(requestDataDict!["ad_id"] == nil)
+        #expect(requestDataDict!["width"] == nil)
+        #expect(requestDataDict!["height"] == nil)
+        #expect(requestDataDict!["adapter_error"] as? String == "UNSUPPORTED_AD_FORMAT")
+        #expect(requestDataDict!["third_party_sdk_error"] == nil)
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Unsuccessful signals collection for missing a slot id")
+  func collectSignals_fails_whenRequestParametersDoesNotContainASlotId() async {
+    let credentials = AUTKMediationCredentials()
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+        #expect(requestDataDict!["ad_id"] == nil)
+        #expect(requestDataDict!["width"] == nil)
+        #expect(requestDataDict!["height"] == nil)
+        #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
+        #expect(requestDataDict!["third_party_sdk_error"] == nil)
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Unsuccessful signals collection for containing an empty slot id")
+  func collectSignals_fails_whenRequestParametersContainsAnEmptySlotId() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": ""]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+        #expect(requestDataDict!["ad_id"] == nil)
+        #expect(requestDataDict!["width"] == nil)
+        #expect(requestDataDict!["height"] == nil)
+        #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
+        #expect(requestDataDict!["third_party_sdk_error"] == nil)
+        signalsLoaded()
+      }
+    }
+  }
+
+  @Test("Unsuccessful signals collection for APS failing load an APS ad")
+  func collectSignals_fails_whenApsSdkFailsToLoadAnApsAd() async {
+    apsClient.signalsCollectionShouldSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      adapter.collectSignals(for: requestParams) { signals, error in
+        #expect(signals != nil)
+        #expect(error == nil)
+        let requestDataDict = signals?.toJsonDictionary()
+        #expect(requestDataDict != nil)
+        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+        #expect(requestDataDict!["ad_id"] == nil)
+        #expect(requestDataDict!["width"] == nil)
+        #expect(requestDataDict!["height"] == nil)
+        #expect(requestDataDict!["adapter_error"] as? String == "3P_SDK_ERROR")
+        #expect(requestDataDict!["third_party_sdk_error"] as? String == "12345")
+        signalsLoaded()
+      }
+    }
+  }
+
+}
+
+extension String {
+
+  fileprivate func toJsonDictionary() -> [String: Any]? {
+    if let jsonData = self.data(using: .utf8) {
+      do {
+        let dictionary = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+        return dictionary
+      } catch {
+        print("Error converting JSON string to dictionary: \(error)")
+        return nil
+      }
+    } else {
+      print("Invalid JSON string")
+      return nil
+    }
+  }
+
+}
