@@ -126,6 +126,10 @@
 		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */; };
 		AD89C41A2B34D88E002952E2 /* AUTNendInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */; };
+		AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */; };
+		AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */; };
+		AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */; };
 		AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */; };
 		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
@@ -579,6 +583,41 @@
 			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
 			remoteInfo = Adapter;
 		};
+		AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD8FE28C2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = AmazonAdapterFramework;
+		};
+		AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD97CBC32D35E82F00525E2F;
+			remoteInfo = StaticAmazonAdapter;
+		};
+		AD8FE91E2D3B316300B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD8FE9222D3B317200B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
 		ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
@@ -747,6 +786,12 @@
 		AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdConfiguration.h; sourceTree = "<group>"; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
 		AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTNendInterstitialAdTests.m; sourceTree = "<group>"; };
+		AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonAdapter.xcodeproj; path = ../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AmazonAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterTests.swift; sourceTree = "<group>"; };
+		AD8FE4642D3A00FA00B4728A /* DTBiOSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DTBiOSSDK.xcframework; path = "Pods/AmazonPublisherServicesSDK/APS_iOS_SDK-4.9.7/DTBiOSSDK.xcframework"; sourceTree = "<group>"; };
+		AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeApsClient.swift; sourceTree = "<group>"; };
+		AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmazonAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinUtilsTests.m; sourceTree = "<group>"; };
 		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
 		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
@@ -897,6 +942,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8FE9142D3B314B00B4728A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */,
+				AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,6 +1279,7 @@
 		AD6FA0292A16BEF3007335D2 = {
 			isa = PBXGroup;
 			children = (
+				AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */,
 				7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */,
 				44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */,
 				AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */,
@@ -1239,6 +1294,7 @@
 				701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */,
 				AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */,
 				AD6FA0372A16BF4A007335D2 /* AdapterUnitTestKit */,
+				AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */,
 				44ACFB132AB129D000035A73 /* AppLovinAdapterTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
@@ -1277,6 +1333,7 @@
 				AD0D70E82AF8043D002C0B60 /* NendAdapterTests.xctest */,
 				AD0D72FF2AF81711002C0B60 /* IMobileAdapterTests.xctest */,
 				7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */,
+				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1312,10 +1369,31 @@
 			children = (
 				70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */,
 				70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */,
+				AD8FE4642D3A00FA00B4728A /* DTBiOSSDK.xcframework */,
 				AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */,
 				AD6FA03E2A16BF98007335D2 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD8FE2832D39E8C900B4728A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */,
+				AD8FE28D2D39E8C900B4728A /* AmazonAdapterFramework.framework */,
+				AD8FE28F2D39E8C900B4728A /* libStaticAmazonAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */,
+				AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */,
+				AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */,
+			);
+			path = AmazonAdapterTests;
 			sourceTree = "<group>";
 		};
 		ADADDD412A32528C00FB60E1 /* LineAdapterTests */ = {
@@ -1632,6 +1710,25 @@
 			productReference = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD8FE91B2D3B314C00B4728A /* Build configuration list for PBXNativeTarget "AmazonAdapterTests" */;
+			buildPhases = (
+				AD8FE9132D3B314B00B4728A /* Sources */,
+				AD8FE9142D3B314B00B4728A /* Frameworks */,
+				AD8FE9152D3B314B00B4728A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD8FE9232D3B317200B4728A /* PBXTargetDependency */,
+				AD8FE91F2D3B316300B4728A /* PBXTargetDependency */,
+			);
+			name = AmazonAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADADDD462A32528C00FB60E1 /* Build configuration list for PBXNativeTarget "LineAdapterTests" */;
@@ -1677,6 +1774,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					44ACFB112AB129D000035A73 = {
@@ -1720,6 +1818,10 @@
 						CreatedOnToolsVersion = 14.1;
 						LastSwiftMigration = 1530;
 					};
+					AD8FE9162D3B314B00B4728A = {
+						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
+					};
 					ADADDD3F2A32528C00FB60E1 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -1740,6 +1842,10 @@
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = AD8FE2832D39E8C900B4728A /* Products */;
+					ProjectRef = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+				},
 				{
 					ProductGroup = 44ACFB012AB11D4B00035A73 /* Products */;
 					ProjectRef = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
@@ -1810,6 +1916,7 @@
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD0D72FE2AF81711002C0B60 /* IMobileAdapterTests */,
 				7072CF602C41F9A1002BF6AE /* MolocoAdapterTests */,
+				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2074,6 +2181,27 @@
 			remoteRef = AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAmazonAdapter.a;
+			remoteRef = AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8FE28D2D39E8C900B4728A /* AmazonAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AmazonAdapterFramework.framework;
+			remoteRef = AD8FE28C2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8FE28F2D39E8C900B4728A /* libStaticAmazonAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticAmazonAdapter.a;
+			remoteRef = AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2185,6 +2313,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD6FA0332A16BF4A007335D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8FE9152D3B314B00B4728A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2388,6 +2523,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD8FE9132D3B314B00B4728A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */,
+				AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADADDD3C2A32528C00FB60E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2529,6 +2673,16 @@
 			isa = PBXTargetDependency;
 			name = Adapter;
 			targetProxy = AD45EDCA2A784AA1001B29D8 /* PBXContainerItemProxy */;
+		};
+		AD8FE91F2D3B316300B4728A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD8FE91E2D3B316300B4728A /* PBXContainerItemProxy */;
+		};
+		AD8FE9232D3B317200B4728A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD8FE9222D3B317200B4728A /* PBXContainerItemProxy */;
 		};
 		ADADDD512A3252E200FB60E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2911,6 +3065,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2995,6 +3150,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -4490,6 +4646,152 @@
 			};
 			name = Release;
 		};
+		AD8FE91C2D3B314C00B4728A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AmazonAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD8FE91D2D3B314C00B4728A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AmazonAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		ADADDD442A32528C00FB60E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4902,6 +5204,15 @@
 			buildConfigurations = (
 				AD6FA03B2A16BF4A007335D2 /* Debug */,
 				AD6FA03C2A16BF4A007335D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD8FE91B2D3B314C00B4728A /* Build configuration list for PBXNativeTarget "AmazonAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD8FE91C2D3B314C00B4728A /* Debug */,
+				AD8FE91D2D3B314C00B4728A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "D3565925-B527-4FE6-B3C4-780BD9A92D2E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD8FE2902D39E8E700B4728A",
+        "name" : "AmazonAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

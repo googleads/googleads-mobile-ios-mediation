@@ -238,4 +238,20 @@ abstract_target 'Default' do
     end
 
   end
+
+  # AmazonAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('AmazonAdapter')
+
+    pod 'GoogleMobileAdsMediationAmazon', :path => '../adapters/prerelease/AmazonAdapter/CocoaPods/GoogleMobileAdsMediationAmazon.podspec.json'
+
+    # Dependencies for AmazonAdapter static library.
+    target 'Adapter' do
+      project '../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj'
+    end
+
+    target 'AmazonAdapterTests' do
+    end
+
+  end
+
 end
