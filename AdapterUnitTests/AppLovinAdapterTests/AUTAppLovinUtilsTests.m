@@ -7,22 +7,8 @@
 
 @implementation AUTAppLovinUtilsTests
 
-- (void)testMultipleAdsNil {
-  XCTAssertFalse(GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(nil));
-}
-
-- (void)testMultipleAdsNotSpecified {
-  XCTAssertFalse(GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(@{}));
-}
-
-- (void)testMultipleAdsDisabled {
-  XCTAssertFalse(GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(
-      @{@"enable_multiple_ads_per_unit" : @"false"}));
-}
-
 - (void)testMultipleAdsEnabled {
-  XCTAssertTrue(
-      GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(@{@"enable_multiple_ads_per_unit" : @"true"}));
+  XCTAssertTrue(GADMAdapterAppLovinIsMultipleAdsLoadingEnabled());
 }
 
 @end

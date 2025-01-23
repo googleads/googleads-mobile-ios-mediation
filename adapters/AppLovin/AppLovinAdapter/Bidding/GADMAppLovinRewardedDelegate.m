@@ -44,8 +44,7 @@
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   parentRenderer.ad = ad;
 
-  NSDictionary *settings = parentRenderer.settings;
-  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(settings);
+  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled();
   if (isMultipleAdsEnabled) {
     [GADMAdapterAppLovinMediationManager.sharedInstance
         removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];

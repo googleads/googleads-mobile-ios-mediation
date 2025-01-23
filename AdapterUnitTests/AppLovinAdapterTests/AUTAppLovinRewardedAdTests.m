@@ -97,50 +97,6 @@
   [self loadAd];
 }
 
-- (void)testMultipleAdsDisabled {
-  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
-  AUTKMediationRewardedAdConfiguration *config =
-      [[AUTKMediationRewardedAdConfiguration alloc] init];
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  config.credentials = credentials;
-
-  // AppLovin expects an SDK Key of 86 characters
-  NSString *sdkKey =
-      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
-  // AppLovin expects a zone ID of 16 characters
-  NSString *zoneID = @"1234567890123456";
-  credentials.settings =
-      @{@"sdkKey" : sdkKey, @"zone_id" : zoneID, @"enable_multiple_ads_per_unit" : @"false"};
-
-  id adMock = OCMClassMock([ALAd class]);
-  OCMStub([_serviceMock loadNextAdForZoneIdentifier:zoneID
-                                          andNotify:[OCMArg checkWithBlock:^BOOL(id obj) {
-                                            self->_adLoader = obj;
-                                            return [obj
-                                                isKindOfClass:[GADMAppLovinRewardedDelegate class]];
-                                          }]])
-      .andDo(^(NSInvocation *invocation) {
-        [self->_adLoader adService:self->_serviceMock didLoadAd:adMock];
-      });
-  OCMStub([_appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
-        [invocation getArgument:&completionHandler atIndex:3];
-        completionHandler(nil);
-      });
-
-  AUTKMediationRewardedAdEventDelegate *eventDelegate =
-      AUTKWaitAndAssertLoadRewardedAd(adapter, config);
-  XCTAssertNotNil(eventDelegate);
-
-  // Load should fail after displaying an ad.
-  [eventDelegate.rewardedAd presentFromViewController:[[UIViewController alloc] init]];
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
-                                                      code:GADMAdapterAppLovinErrorAdAlreadyLoaded
-                                                  userInfo:nil];
-  AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError);
-}
-
 - (void)testLoadFailureIfUserIsTaggedAsChild {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   AUTKMediationRewardedAdConfiguration *config =
@@ -175,8 +131,7 @@
       @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
   // AppLovin expects a zone ID of 16 characters
   NSString *zoneID = @"1234567890123456";
-  credentials.settings =
-      @{@"sdkKey" : sdkKey, @"zone_id" : zoneID, @"enable_multiple_ads_per_unit" : @"true"};
+  credentials.settings = @{@"sdkKey" : sdkKey, @"zone_id" : zoneID};
 
   id adMock = OCMClassMock([ALAd class]);
   OCMStub([_serviceMock loadNextAdForZoneIdentifier:zoneID

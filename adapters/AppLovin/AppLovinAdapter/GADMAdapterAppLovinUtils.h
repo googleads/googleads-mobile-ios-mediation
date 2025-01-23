@@ -65,7 +65,7 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code);
 NSError *_Nonnull GADMAdapterAppLovinChildUserError(void);
 
 /// Returns whether loading multiple ads is enabled.
-BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials);
+BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(void);
 
 @interface GADMAdapterAppLovinUtils : NSObject
 
