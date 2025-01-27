@@ -1,11 +1,14 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next Version
-- Replaced the deprecated AppLovin SDK's initialization APIs with its new APIs.
+#### [Version 13.0.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.1.1.zip)
+- Replaced the deprecated AppLovin SDK's initialization and bid token collection APIs with its new APIs.
 - Prevented multiple initializations of AppLovin SDK when multiple AppLovin SDK keys are provided.
-- Replaced the deprecated AppLovin SDK's bid token collection API with its new one.
 - Deprecated the `muteAudio` property, use `GADMobileAds.sharedInstance.applicationMuted` instead.
 - Enabled loading of a second ad for an ad unit after the first ad for that ad unit has loaded even if the first ad hasn't been shown yet.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- AppLovin SDK version 13.0.1.
 
 #### [Version 13.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.1.0.zip)
 - Verified compatibility with AppLovin SDK 13.0.1.
