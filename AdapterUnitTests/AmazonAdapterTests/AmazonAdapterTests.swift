@@ -8,7 +8,8 @@ import Testing
 struct AmazonAdapterInformationTests {
 
   init() {
-    AmazonBidLoadingAdapter.setApsClient(apsClient: FakeApsClient())
+    FakeApsClient.resetTestFlags()
+    setenv("FAKE_APS_CLIENT_CLASS_NAME", "AmazonAdapterTests.FakeApsClient", 1)
   }
 
   @Test("Adapter version validation")
@@ -37,11 +38,9 @@ struct AmazonAdapterInformationTests {
 @Suite("Amazon adapter setup")
 struct AmazonAdapterSetUpTests {
 
-  let apsClient: FakeApsClient
-
   init() {
-    apsClient = FakeApsClient()
-    AmazonBidLoadingAdapter.setApsClient(apsClient: apsClient)
+    FakeApsClient.resetTestFlags()
+    setenv("FAKE_APS_CLIENT_CLASS_NAME", "AmazonAdapterTests.FakeApsClient", 1)
   }
 
   @Test("Successful adapter setup with one App ID.")
@@ -124,11 +123,9 @@ struct AmazonAdapterSetUpTests {
 @Suite("Amazon adapter signals collection")
 struct AmazonAdapterCollectSignalsTests {
 
-  let apsClient: FakeApsClient
-
   init() {
-    apsClient = FakeApsClient()
-    AmazonBidLoadingAdapter.setApsClient(apsClient: apsClient)
+    FakeApsClient.resetTestFlags()
+    setenv("FAKE_APS_CLIENT_CLASS_NAME", "AmazonAdapterTests.FakeApsClient", 1)
   }
 
   @Test("Successful signals collection with valid bidding request parameters")
