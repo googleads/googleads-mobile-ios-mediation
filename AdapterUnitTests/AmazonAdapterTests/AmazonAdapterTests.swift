@@ -105,7 +105,7 @@ struct AmazonAdapterSetUpTests {
 
   @Test("Unsuccessful adpater setup for a APS SDK init error")
   func setUp_failsWithApsSdkError_whenApsSdkInitializationCompletesWithError() {
-    apsClient.initializeShouldSucceed = false
+    FakeApsClient.initializeShouldSucceed = false
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["app_id": "testid"]
     let serverConfiguration = AUTKMediationServerConfiguration()
@@ -308,7 +308,7 @@ struct AmazonAdapterCollectSignalsTests {
 
   @Test("Unsuccessful signals collection for APS failing load an APS ad")
   func collectSignals_fails_whenApsSdkFailsToLoadAnApsAd() async {
-    apsClient.signalsCollectionShouldSucceed = false
+    FakeApsClient.signalsCollectionShouldSucceed = false
 
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["slot_id": "testid"]

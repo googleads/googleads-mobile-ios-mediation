@@ -150,6 +150,7 @@
 		ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */; };
 		ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */; };
 		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
+		ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */; };
 		ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */; };
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
 		ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */; };
@@ -813,6 +814,7 @@
 		ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoTestUtils.swift; sourceTree = "<group>"; };
 		ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LineAdapter.xcodeproj; path = ../adapters/LineAdapter/LineAdapter.xcodeproj; sourceTree = "<group>"; };
+		ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterBannerTests.swift; sourceTree = "<group>"; };
 		ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LineAdapterTests.xctestplan; sourceTree = "<group>"; };
 		ADD6B4B32A57804000F5D318 /* DTExchangeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = DTExchangeAdapterTests.xctestplan; sourceTree = "<group>"; };
 		ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineBannerAdTest.m; sourceTree = "<group>"; };
@@ -1389,6 +1391,7 @@
 		AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */,
 				AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */,
 				AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */,
 				AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */,
@@ -2529,6 +2532,7 @@
 			files = (
 				AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */,
 				AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */,
+				ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
