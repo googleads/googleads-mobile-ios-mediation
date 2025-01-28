@@ -64,6 +64,8 @@
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
 		ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		F04223732D494E59005D2513 /* MolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */; };
+		F04223742D494E59005D2513 /* MolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -115,6 +117,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* MolocoAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MolocoAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,7 @@
 				70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */,
 				85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */,
 				8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */,
+				F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */,
 				706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */,
 				70A1FA362CC343D300BC54D0 /* MolocoBidTokenGetter.swift */,
 				703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */,
@@ -365,6 +369,7 @@
 				ADA6BA4D2CF146FE009C8FDA /* BannerAdLoader.swift in Sources */,
 				ADA6BA4E2CF146FE009C8FDA /* MolocoUtils.swift in Sources */,
 				ADA6BA4F2CF146FE009C8FDA /* MolocoSdkImpl.swift in Sources */,
+				F04223742D494E59005D2513 /* MolocoNativeFactory.swift in Sources */,
 				ADA6BA502CF146FE009C8FDA /* RewardedAdLoader.swift in Sources */,
 				ADA6BA512CF146FE009C8FDA /* MolocoBannerFactory.swift in Sources */,
 				ADA6BA522CF146FE009C8FDA /* MolocoBidTokenGetter.swift in Sources */,
@@ -388,6 +393,7 @@
 				7072CDE82C409510002BF6AE /* MolocoUtils.swift in Sources */,
 				70E380EA2C472410004CCB92 /* MolocoSdkImpl.swift in Sources */,
 				ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */,
+				F04223732D494E59005D2513 /* MolocoNativeFactory.swift in Sources */,
 				85AD79622CA5D967007358CE /* MolocoBannerFactory.swift in Sources */,
 				70A1FA372CC343D300BC54D0 /* MolocoBidTokenGetter.swift in Sources */,
 				ADFA84BD2C17704300A501AB /* MolocoMediationAdapter.swift in Sources */,
