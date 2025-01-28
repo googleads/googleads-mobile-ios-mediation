@@ -73,6 +73,19 @@ extension MolocoSdkImpl: MolocoBannerFactory {
 
 }
 
+extension MolocoSdkImpl: MolocoNativeFactory {
+
+  @MainActor
+  @available(iOS 13.0, *)
+  func createNativeAd(for adUnit: String, delegate: MolocoNativeAdDelegate) -> MolocoNativeAd? {
+    guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
+      return nil
+    }
+
+    return Moloco.shared.createNativeAd(for: adUnit, delegate: delegate)
+  }
+  
+}
 // MARK: - MolocoBidTokenGetter
 
 extension MolocoSdkImpl: MolocoBidTokenGetter {

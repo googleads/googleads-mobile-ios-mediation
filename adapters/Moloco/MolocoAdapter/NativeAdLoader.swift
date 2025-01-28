@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import MolocoSDK
 
 /// Loads native ads on Moloco ads SDK.
 final class NativeAdLoader: NSObject {
@@ -21,51 +22,151 @@ final class NativeAdLoader: NSObject {
   /// The native ad configuration.
   private let adConfiguration: MediationNativeAdConfiguration
 
+  /// The completion handler to call when native ad loading succeeds or fails.
+  private let loadCompletionHandler: GADMediationNativeLoadCompletionHandler
+
   /// The ad event delegate which is used to report native related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: MediationNativeAdEventDelegate?
 
+  private let molocoNativeFactory: MolocoNativeFactory?
+
+  private var nativeAd: MolocoNativeAd?
+
   init(
-    adConfiguration: MediationNativeAdConfiguration,
-    loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler
+    adConfiguration: GADMediationNativeAdConfiguration,
+    loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler,
+    molocoNativeFactory: MolocoNativeFactory
   ) {
     self.adConfiguration = adConfiguration
+    self.loadCompletionHandler = loadCompletionHandler
+    self.molocoNativeFactory = molocoNativeFactory
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |nativeAdLoadCompletionHandler| after loading an ad.
+    guard #available(iOS 13.0, *) else {
+      let error = MolocoUtils.error(
+        code: .adServingNotSupported,
+        description: "Moloco SDK does not support serving ads on iOS 12 and below")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    let molocoAdUnitId = MolocoUtils.getAdUnitId(from: adConfiguration)
+    guard let molocoAdUnitId = molocoAdUnitId else {
+      let error = MolocoUtils.error(
+        code: .invalidAdUnitId, description: "Missing required parameter")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    guard let bidResponse = adConfiguration.bidResponse else {
+      let error = MolocoUtils.error(code: .nilBidResponse, description: "Nil bid response.")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
+
+    DispatchQueue.main.async { [weak self] in
+      guard let self else { return }
+
+      self.nativeAd = self.molocoNativeFactory?.createNativeAd(
+        for: molocoAdUnitId, delegate: self)
+      guard self.nativeAd != nil else {
+        let error = MolocoUtils.error(code: .invalidAdUnitId, description: "Ad not loaded.")
+        _ = loadCompletionHandler(nil, error)
+        return
+      }
+      self.nativeAd?.load(bidResponse: bidResponse)
+    }
+
   }
 
 }
 
-// MARK: - MediationNativeAd
+// MARK: - MolocoNativeAdDelegate
 
-extension NativeAdLoader: MediationNativeAd {
+extension NativeAdLoader: MolocoNativeAdDelegate {
+  func didLoad(ad: any MolocoSDK.MolocoAd) {
 
-  // TODO: implement computed properties and methods below. Implement more optional methods from |MediationNativeAd|, if needed.
+    guard ad.isReady else {
+      let error = MolocoUtils.error(code: .adNotReadyForShow, description: "Ad not ready to show.")
+      _ = loadCompletionHandler(nil, error)
+      return
+    }
 
-  var headline: String? {
-    return nil
+    eventDelegate = loadCompletionHandler(self, nil)
   }
 
-  var images: [NativeAdImage]? {
-    return nil
+  func failToLoad(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
+    _ = loadCompletionHandler(nil, error)
+  }
+
+  func didShow(ad: any MolocoSDK.MolocoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func failToShow(ad: any MolocoSDK.MolocoAd, with error: (any Error)?) {
+    let showError =
+      error
+      ?? MolocoUtils.error(
+        code: .adFailedToShow, description: "Ad failed to show")
+    eventDelegate?.didFailToPresentWithError(showError)
+  }
+
+  func didHide(ad: any MolocoSDK.MolocoAd) {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func didClick(on ad: any MolocoSDK.MolocoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func didHandleClick(ad: any MolocoAd) {
+    eventDelegate?.reportClick()
+  }
+  
+  func didHandleImpression(ad: any MolocoAd) {
+    eventDelegate?.reportImpression()
+  }
+  
+}
+
+// MARK: - GADMediationNativeAd
+
+extension NativeAdLoader: GADMediationNativeAd {
+
+  var headline: String? {
+    return self.nativeAd?.assets?.title
+  }
+
+  var images: [GADNativeAdImage]? {
+    guard let mainImage = self.nativeAd?.assets?.mainImage else {
+      return nil
+    }
+    return [GADNativeAdImage(image: mainImage)]
+  }
+
+  var mediaView: UIView? {
+    guard let assets = self.nativeAd?.assets else {
+      return nil
+    }
+    return assets.videoView ?? UIImageView(image: assets.mainImage)
   }
 
   var body: String? {
-    return nil
+    return self.nativeAd?.assets?.description
   }
 
-  var icon: NativeAdImage? {
-    return nil
+  var icon: GADNativeAdImage? {
+    return self.nativeAd?.assets?.appIcon.map { .init(image: $0) }
   }
 
   var callToAction: String? {
-    return nil
+    return self.nativeAd?.assets?.ctaTitle
   }
 
   var starRating: NSDecimalNumber? {
-    return nil
+    return self.nativeAd?.assets?.rating as? NSDecimalNumber
   }
 
   var store: String? {
@@ -77,7 +178,7 @@ extension NativeAdLoader: MediationNativeAd {
   }
 
   var advertiser: String? {
-    return nil
+    return self.nativeAd?.assets?.sponsorText
   }
 
   var extraAssets: [String: Any]? {
@@ -85,21 +186,27 @@ extension NativeAdLoader: MediationNativeAd {
   }
 
   var hasVideoContent: Bool {
-    // TODO: implement
-    return true
+    return (self.nativeAd?.assets?.videoView != nil)
   }
 
   func handlesUserClicks() -> Bool {
-    // TODO: implement
-    return true
+    return false
   }
 
   func handlesUserImpressions() -> Bool {
-    // TODO: implement
-    return true
+    return false
   }
 
-}
+  func didRecordImpression() {
+    nativeAd?.handleImpression()
+  }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+  func didRecordClickOnAsset(
+    withName assetName: GADNativeAssetIdentifier,
+    view: UIView,
+    viewController: UIViewController
+  ) {
+    nativeAd?.handleClick()
+  }
+  
+}
