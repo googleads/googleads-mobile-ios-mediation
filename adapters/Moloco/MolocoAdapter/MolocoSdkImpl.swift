@@ -86,7 +86,23 @@ extension MolocoSdkImpl: MolocoBidTokenGetter {
 
 extension MolocoSdkImpl: MolocoSdkVersionProviding {
   func sdkVersion() -> String {
-    return Moloco.shared.sdkVersion
+    // Moloco.shared.sdkVersion needs to be accessed from the main thread.
+    if Thread.isMainThread {
+      return Moloco.shared.sdkVersion
+    }
+
+    // DispatchQueue.main.sync cannot be used because it can cause deadlock if
+    // Moloco.shared.sdkVersion is accessed elsewhere. Use semaphore as a work
+    // around.
+    let semaphore = DispatchSemaphore(value: 0)
+    var sdkVersion = ""
+    DispatchQueue.main.async {
+      sdkVersion = Moloco.shared.sdkVersion
+      semaphore.signal()
+    }
+
+    semaphore.wait()
+    return sdkVersion
   }
 }
 
