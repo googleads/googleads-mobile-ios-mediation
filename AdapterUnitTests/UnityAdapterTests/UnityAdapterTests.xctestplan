@@ -24,7 +24,7 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:AdapterUnitTests.xcodeproj",
-        "identifier" : "AD45ED322A78111F001B29D8",
+        "identifier" : "AD45EDBD2A784A3A001B29D8",
         "name" : "UnityAdapterTests"
       }
     }

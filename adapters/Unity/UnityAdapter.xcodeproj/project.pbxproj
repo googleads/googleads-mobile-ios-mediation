@@ -227,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				7DA7825A1DDA681E000C088E /* UnityAdapter.h */,
+				419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -243,7 +244,6 @@
 				419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */,
 				419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */,
 				419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */,
-				419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */,
 				419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */,
 			);
 			path = UnityAdapter;

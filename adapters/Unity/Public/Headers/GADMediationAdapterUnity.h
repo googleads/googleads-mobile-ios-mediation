@@ -43,4 +43,8 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
 
 @interface GADMediationAdapterUnity : NSObject <GADRTBAdapter>
 
+/// Indicates whether UnityAds SDK should be initialized in test mode.
+/// Must be set prior to initializing the Google Mobile Ads SDK.
+@property(class, nonatomic, assign) BOOL testMode;
+
 @end

@@ -87,7 +87,9 @@ typedef void (^InitCompletionHandler)(NSError *);
               GADMAdapterUnityErrorAdInitializationFailure, message);
           [[GADUnityRouter sharedRouter] callCompletionBlocks:adapterError];
         };
-    [UnityAds initialize:gameId testMode:NO initializationDelegate:initDelegate];
+    [UnityAds initialize:gameId
+                      testMode:GADMediationAdapterUnity.testMode
+        initializationDelegate:initDelegate];
   });
 }
 

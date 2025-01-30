@@ -35,6 +35,8 @@
 
 @implementation GADMediationAdapterUnity
 
+static BOOL _isTestMode = NO;
+
 // Called on Admob->init
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -175,6 +177,8 @@
                                    withCompletionHandler:nil];
 }
 
+#pragma mark Utility Methods
+
 /// Set the COPPA setting in Unity Ads SDK.
 ///
 /// @param COPPA An integer value that indicates whether the app should be treated as
@@ -196,6 +200,15 @@
     GADMUnityLog(@"Invalid COPPA value.");
     return;
   }
+}
+
++ (BOOL)testMode {
+  return _isTestMode;
+}
+
++ (void)setTestMode:(BOOL)testMode {
+  GADMUnityLog(@"Updating test mode flag to `%@`", (testMode ? @"YES" : @"NO"));
+  _isTestMode = testMode;
 }
 
 #pragma mark GADMediationBannerAd
