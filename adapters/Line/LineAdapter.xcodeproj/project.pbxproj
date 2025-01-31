@@ -197,6 +197,7 @@
 		AD98A6412A2164BD00017B8D /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */,
 				AD98A6422A2164BD00017B8D /* LineAdapter.h */,
 				ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */,
 			);
@@ -206,7 +207,6 @@
 		AD98A6452A21666D00017B8D /* LineAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */,
 				AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */,
 				ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */,
 				ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */,

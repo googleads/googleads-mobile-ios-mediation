@@ -132,10 +132,6 @@
 }
 
 - (void)testTestModeEnabled {
-  // Mock GoogleMobileAds SDK.
-  id requestConfigurationMock = OCMPartialMock(GADMobileAds.sharedInstance.requestConfiguration);
-  OCMStub([requestConfigurationMock testDeviceIdentifiers]).andReturn(@[ @"abc" ]);
-
   // Mock FiveAd SDK.
   NSString *applicationID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -146,7 +142,8 @@
                                            }]
                                                     outError:[OCMArg anyObjectRef]]));
 
-  // Test.
+  [GADMediationAdapterLine setTestMode:YES];
+
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
@@ -154,10 +151,6 @@
 }
 
 - (void)testTestModeDisabled {
-  // Mock GoogleMobileAds SDK.
-  id requestConfigurationMock = OCMPartialMock(GADMobileAds.sharedInstance.requestConfiguration);
-  OCMStub([requestConfigurationMock testDeviceIdentifiers]).andReturn(@[]);
-
   // Mock FiveAd SDK.
   NSString *applicationID = @"12345";
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -168,7 +161,8 @@
                                            }]
                                                     outError:[OCMArg anyObjectRef]]));
 
-  // Test.
+  [GADMediationAdapterLine setTestMode:NO];
+
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);

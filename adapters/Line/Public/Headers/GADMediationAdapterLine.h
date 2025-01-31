@@ -29,4 +29,11 @@ typedef NS_ENUM(NSInteger, GADMediationAdapterLineErrorCode) {
 };
 
 @interface GADMediationAdapterLine : NSObject <GADRTBAdapter>
+
+/// Indicates whether LINE SDK should be initialized in test mode.
+/// Must be set prior to initializing the Google Mobile Ads SDK.
+///
+/// Make sure to set this to false before publishing your app.
+@property(class, nonatomic, assign) BOOL testMode;
+
 @end

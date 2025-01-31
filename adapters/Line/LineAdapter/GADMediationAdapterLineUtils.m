@@ -68,7 +68,7 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
   GADMobileAds *mobileAds = GADMobileAds.sharedInstance;
   FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
   [config enableSoundByDefault:!mobileAds.applicationMuted];
-  [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
+  [config setIsTest:GADMediationAdapterLine.testMode];
 
   NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
   FADNeedChildDirectedTreatment needChildDirectedTreatment =
