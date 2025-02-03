@@ -20,10 +20,10 @@ import MolocoSDK
 final class BannerAdLoader: NSObject {
 
   /// The banner ad configuration.
-  private let adConfiguration: GADMediationBannerAdConfiguration
+  private let adConfiguration: MediationBannerAdConfiguration
 
   /// The ad event delegate which is used to report banner related information to the Google Mobile Ads SDK.
-  private weak var eventDelegate: GADMediationBannerAdEventDelegate?
+  private weak var eventDelegate: MediationBannerAdEventDelegate?
 
   /// The completion handler to call when the rewarded ad loading succeeds or fails.
   private let loadCompletionHandler: GADMediationBannerLoadCompletionHandler
@@ -35,7 +35,7 @@ final class BannerAdLoader: NSObject {
   private var bannerAdView: (UIView & MolocoAd)?
 
   init(
-    adConfiguration: GADMediationBannerAdConfiguration,
+    adConfiguration: MediationBannerAdConfiguration,
     molocoBannerFactory: MolocoBannerFactory,
     loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
@@ -78,9 +78,9 @@ final class BannerAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationBannerAd
+// MARK: - MediationBannerAd
 
-extension BannerAdLoader: GADMediationBannerAd {
+extension BannerAdLoader: MediationBannerAd {
 
   var view: UIView {
     guard #available(iOS 13.0, *) else {

@@ -17,8 +17,8 @@ import MolocoSDK
 import OSLog
 
 /// Adapter for Google Mobile Ads SDK to render ads on Moloco ads SDK.
-@objc(GADMediationAdapterMoloco)
-public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
+@objc(MediationAdapterMoloco)
+public final class MolocoMediationAdapter: NSObject, RTBAdapter {
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
@@ -55,7 +55,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   private static var molocoAgeRestrictedSetter: MolocoAgeRestrictedSetter = molocoSdkImpl
 
   public override init() {
-    // Conform to GADMediationAdapter protocol.
+    // Conform to MediationAdapter protocol.
   }
 
   /// Initializer used only for testing purpose.
@@ -95,8 +95,8 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
     self.molocoSdkVersionProvider = molocoSdkVersionProvider
   }
 
-  @objc public static func setUpWith(
-    _ configuration: GADMediationServerConfiguration,
+  @objc public static func setUp(
+    with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
     guard #available(iOS 13.0, *) else {
@@ -149,9 +149,9 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
 
   /// Returns a boolean indicating whether the user is age-restricted or not. nil if not known.
   static func isAgeRestrictedUser() -> Bool? {
-    let tagForChildDirectedTreatment = GADMobileAds.sharedInstance().requestConfiguration
+    let tagForChildDirectedTreatment = MobileAds.shared.requestConfiguration
       .tagForChildDirectedTreatment
-    let tagForUnderAgeOfConsent = GADMobileAds.sharedInstance().requestConfiguration
+    let tagForUnderAgeOfConsent = MobileAds.shared.requestConfiguration
       .tagForUnderAgeOfConsent
     // Check that either one of the bits is set. Else, return nil.
     guard tagForChildDirectedTreatment != nil || tagForUnderAgeOfConsent != nil else {
@@ -161,12 +161,12 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
       || tagForUnderAgeOfConsent?.boolValue == true
   }
 
-  @objc public static func networkExtrasClass() -> (any GADAdNetworkExtras.Type)? {
+  @objc public static func networkExtrasClass() -> AdNetworkExtras.Type? {
     return nil
   }
 
-  @objc public static func adapterVersion() -> GADVersionNumber {
-    var adapterVersion = GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+  @objc public static func adapterVersion() -> VersionNumber {
+    var adapterVersion = VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
 
     let adapterVersionParts = MolocoConstants.adapterVersion.split(separator: ".")
 
@@ -179,8 +179,8 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
       {
         adapterVersion.majorVersion = majorVersion
         adapterVersion.minorVersion = minorVersion
-        // GADVersionNumber doesn't have a micro version. So, we will include the adapter's micro
-        // version into GADVersionNumber's patch version.
+        // VersionNumber doesn't have a micro version. So, we will include the adapter's micro
+        // version into VersionNumber's patch version.
         adapterVersion.patchVersion = patchVersion * 100 + microVersion
       } else {
         MolocoUtils.log("Adapter version is not parsable")
@@ -192,10 +192,10 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
     return adapterVersion
   }
 
-  @objc public static func adSDKVersion() -> GADVersionNumber {
+  @objc public static func adSDKVersion() -> VersionNumber {
     let adSDKVersionString = molocoSdkVersionProvider.sdkVersion()
 
-    var adSDKVersion = GADVersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    var adSDKVersion = VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
 
     let adSDKVersionParts = adSDKVersionString.split(separator: ".")
 
@@ -219,7 +219,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public func collectSignals(
-    for params: GADRTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
+    for params: RTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
     molocoBidTokenGetter.getBidToken { bidToken, error in
       if error != nil {
@@ -231,7 +231,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public func loadBanner(
-    for adConfiguration: GADMediationBannerAdConfiguration,
+    for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
     bannerAdLoader = BannerAdLoader(
@@ -241,7 +241,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public func loadInterstitial(
-    for adConfiguration: GADMediationInterstitialAdConfiguration,
+    for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
     interstitialAdLoader = InterstitialAdLoader(
@@ -251,7 +251,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
   }
 
   @objc public func loadRewardedAd(
-    for adConfiguration: GADMediationRewardedAdConfiguration,
+    for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
     rewardedAdLoader = RewardedAdLoader(
@@ -262,7 +262,7 @@ public final class MolocoMediationAdapter: NSObject, GADRTBAdapter {
 
   // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
   @objc public func loadNativeAd(
-    for adConfiguration: GADMediationNativeAdConfiguration,
+    for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     nativeAdLoader = NativeAdLoader(

@@ -20,20 +20,20 @@ import MolocoSDK
 final class InterstitialAdLoader: NSObject {
 
   /// The interstitial ad configuration.
-  private let adConfiguration: GADMediationInterstitialAdConfiguration
+  private let adConfiguration: MediationInterstitialAdConfiguration
 
   /// The completion handler to call when interstitial ad loading succeeds or fails.
   private let loadCompletionHandler: GADMediationInterstitialLoadCompletionHandler
 
   /// The ad event delegate which is used to report interstitial related information to the Google Mobile Ads SDK.
-  private weak var eventDelegate: GADMediationInterstitialAdEventDelegate?
+  private weak var eventDelegate: MediationInterstitialAdEventDelegate?
 
   private let molocoInterstitialFactory: MolocoInterstitialFactory
 
   private var interstitialAd: MolocoInterstitial?
 
   init(
-    adConfiguration: GADMediationInterstitialAdConfiguration,
+    adConfiguration: MediationInterstitialAdConfiguration,
     loadCompletionHandler: @escaping GADMediationInterstitialLoadCompletionHandler,
     molocoInterstitialFactory: MolocoInterstitialFactory
   ) {
@@ -77,9 +77,9 @@ final class InterstitialAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationInterstitialAd
+// MARK: - MediationInterstitialAd
 
-extension InterstitialAdLoader: GADMediationInterstitialAd {
+extension InterstitialAdLoader: MediationInterstitialAd {
 
   func present(from viewController: UIViewController) {
     DispatchQueue.main.async { [weak self] in

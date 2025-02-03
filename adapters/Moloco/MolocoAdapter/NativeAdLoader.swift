@@ -19,13 +19,13 @@ import GoogleMobileAds
 final class NativeAdLoader: NSObject {
 
   /// The native ad configuration.
-  private let adConfiguration: GADMediationNativeAdConfiguration
+  private let adConfiguration: MediationNativeAdConfiguration
 
   /// The ad event delegate which is used to report native related information to the Google Mobile Ads SDK.
-  private weak var eventDelegate: GADMediationNativeAdEventDelegate?
+  private weak var eventDelegate: MediationNativeAdEventDelegate?
 
   init(
-    adConfiguration: GADMediationNativeAdConfiguration,
+    adConfiguration: MediationNativeAdConfiguration,
     loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     self.adConfiguration = adConfiguration
@@ -38,17 +38,17 @@ final class NativeAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationNativeAd
+// MARK: - MediationNativeAd
 
-extension NativeAdLoader: GADMediationNativeAd {
+extension NativeAdLoader: MediationNativeAd {
 
-  // TODO: implement computed properties and methods below. Implement more optional methods from |GADMediationNativeAd|, if needed.
+  // TODO: implement computed properties and methods below. Implement more optional methods from |MediationNativeAd|, if needed.
 
   var headline: String? {
     return nil
   }
 
-  var images: [GADNativeAdImage]? {
+  var images: [NativeAdImage]? {
     return nil
   }
 
@@ -56,7 +56,7 @@ extension NativeAdLoader: GADMediationNativeAd {
     return nil
   }
 
-  var icon: GADNativeAdImage? {
+  var icon: NativeAdImage? {
     return nil
   }
 

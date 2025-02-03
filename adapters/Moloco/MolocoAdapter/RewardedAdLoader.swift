@@ -20,10 +20,10 @@ import MolocoSDK
 final class RewardedAdLoader: NSObject {
 
   /// The rewarded ad configuration.
-  private let adConfiguration: GADMediationRewardedAdConfiguration
+  private let adConfiguration: MediationRewardedAdConfiguration
 
   /// The ad event delegate which is used to report rewarded related information to the Google Mobile Ads SDK.
-  private weak var eventDelegate: GADMediationRewardedAdEventDelegate?
+  private weak var eventDelegate: MediationRewardedAdEventDelegate?
 
   /// The completion handler to call when the rewarded ad loading succeeds or fails.
   private let loadCompletionHandler: GADMediationRewardedLoadCompletionHandler
@@ -35,7 +35,7 @@ final class RewardedAdLoader: NSObject {
   private var rewardedAd: MolocoRewardedInterstitial?
 
   init(
-    adConfiguration: GADMediationRewardedAdConfiguration,
+    adConfiguration: MediationRewardedAdConfiguration,
     loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler,
     molocoRewardedFactory: MolocoRewardedFactory
   ) {
@@ -79,9 +79,9 @@ final class RewardedAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationRewardedAd
+// MARK: - MediationRewardedAd
 
-extension RewardedAdLoader: GADMediationRewardedAd {
+extension RewardedAdLoader: MediationRewardedAd {
 
   func present(from viewController: UIViewController) {
     DispatchQueue.main.async { [weak self] in

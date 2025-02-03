@@ -3,6 +3,7 @@
 #### Next version
 
 - Updated the adapter to retrieve the Moloco SDK version from the main thread.
+- Updated the adapter to be compatible with the GMA SDK version 12.0.0+.
 
 #### [Version 3.5.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.5.0.0.zip)
 

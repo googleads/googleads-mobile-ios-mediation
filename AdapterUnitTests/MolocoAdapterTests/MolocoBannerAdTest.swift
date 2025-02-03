@@ -13,7 +13,7 @@ final class MolocoBannerAdTest: XCTestCase {
 
   @MainActor func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
-    let adConfiguration = GADMediationBannerAdConfiguration()
+    let adConfiguration = MediationBannerAdConfiguration()
     let bannerLoader = BannerAdLoader(
       adConfiguration: adConfiguration, molocoBannerFactory: molocoBannerFactory
     ) { ad, error in

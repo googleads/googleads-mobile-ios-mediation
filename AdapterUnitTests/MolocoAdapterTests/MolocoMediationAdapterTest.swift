@@ -30,9 +30,9 @@ final class MolocoMediationAdapterTest: XCTestCase {
 
   override func tearDown() {
     // Unset child and under-age tags after every test.
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForChildDirectedTreatment = nil
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForUnderAgeOfConsent = nil
   }
 
@@ -149,7 +149,7 @@ final class MolocoMediationAdapterTest: XCTestCase {
     let molocoBidTokenGetter = FakeMolocoBidTokenGetter(bidToken: expectedBidToken)
     let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
     let successExpectation = XCTestExpectation()
-    let requestParameters = GADRTBRequestParameters()
+    let requestParameters = RTBRequestParameters()
 
     adapter.collectSignals(for: requestParameters) { bidToken, error in
       XCTAssertEqual(bidToken, expectedBidToken)
@@ -165,7 +165,7 @@ final class MolocoMediationAdapterTest: XCTestCase {
     let molocoBidTokenGetter = FakeMolocoBidTokenGetter(error: expectedError)
     let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
     let failureExpectation = XCTestExpectation()
-    let requestParameters = GADRTBRequestParameters()
+    let requestParameters = RTBRequestParameters()
 
     adapter.collectSignals(for: requestParameters) { bidToken, error in
       XCTAssertNil(bidToken)
@@ -234,21 +234,21 @@ final class MolocoMediationAdapterTest: XCTestCase {
   }
 
   func test_setUp_ifChildTagIsTrue_setsAgeRestrictedUserTrue() {
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForChildDirectedTreatment = true
 
-    MolocoMediationAdapter.setUpWith(
-      AUTKMediationServerConfiguration(), completionHandler: { error in })
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
 
     XCTAssertTrue(MolocoPrivacySettings.isAgeRestrictedUser)
   }
 
   func test_setUp_ifUserIsUnderAgeOfConsent_setsAgeRestrictedUserTrue() {
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForUnderAgeOfConsent = true
 
-    MolocoMediationAdapter.setUpWith(
-      AUTKMediationServerConfiguration(), completionHandler: { error in })
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
 
     XCTAssertTrue(MolocoPrivacySettings.isAgeRestrictedUser)
   }
@@ -257,20 +257,20 @@ final class MolocoMediationAdapterTest: XCTestCase {
     let molocoAgeRestrictedSetter = FakeMolocoAgeRestrictedSetter()
     MolocoMediationAdapter.setMolocoAgeRestrictedSetter(molocoAgeRestrictedSetter)
 
-    MolocoMediationAdapter.setUpWith(
-      AUTKMediationServerConfiguration(), completionHandler: { error in })
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
 
     XCTAssertFalse(molocoAgeRestrictedSetter.setIsAgeRestrictedUserWasCalled)
   }
 
   func test_setUp_ifBothChildTagAndUnderAgeTagAreFalse_setsAgeRestrictedUserFalse() {
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForChildDirectedTreatment = false
-    GADMobileAds.sharedInstance().requestConfiguration
+    MobileAds.shared.requestConfiguration
       .tagForUnderAgeOfConsent = false
 
-    MolocoMediationAdapter.setUpWith(
-      AUTKMediationServerConfiguration(), completionHandler: { error in })
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
 
     XCTAssertFalse(MolocoPrivacySettings.isAgeRestrictedUser)
   }
