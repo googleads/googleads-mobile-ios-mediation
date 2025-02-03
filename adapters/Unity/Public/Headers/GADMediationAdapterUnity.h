@@ -26,9 +26,14 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   GADMAdapterUnityErrorAdObjectNil = 104,
   /// Failed to show Unity Ads due to ad not ready.
   GADMAdapterUnityErrorShowAdNotReady = 105,
+
   /// UnityAds called a placement changed callback with placement state
   /// kUnityAdsPlacementStateNoFill.
-  GADMAdapterUnityErrorPlacementStateNoFill = 106,
+  ///
+  /// Not logged anymore since we directly log Unity SDK's error code. But, still left as a comment
+  /// for reference.
+  // GADMAdapterUnityErrorPlacementStateNoFill = 106,
+
   /// UnityAds called a placement changed callback with placement state
   /// kUnityAdsPlacementStateDisabled.
   GADMAdapterUnityErrorPlacementStateDisabled = 107,

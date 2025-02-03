@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMUnityInterstitialMediationAdapterProxy.h"
-#import "NSErrorUnity.h"
+#import "GADMAdapterUnityUtils.h"
 
 @interface GADMUnityInterstitialMediationAdapterProxy ()
 @property(nonatomic, weak) id<GADMediationInterstitialAd> ad;
@@ -38,7 +38,8 @@
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId
                      withError:(UnityAdsLoadError)loadError
                    withMessage:(nonnull NSString *)message {
-  self.loadCompletionHandler(self.ad, [NSError adNotAvailablePerPlacement:placementId]);
+  self.loadCompletionHandler(
+      self.ad, GADMAdapterUnitySDKErrorWithUnityAdsLoadErrorAndMessage(loadError, message));
 }
 
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {

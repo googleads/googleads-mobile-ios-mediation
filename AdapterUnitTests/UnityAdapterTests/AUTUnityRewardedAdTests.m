@@ -105,15 +105,9 @@
       [[AUTKMediationRewardedAdConfiguration alloc] init];
   configuration.credentials = credentials;
 
-  NSString *errorDescription =
-      [NSString stringWithFormat:@"No ad available for the placement ID: %@", AUTUnityPlacementID];
-  NSDictionary *userInfo = @{
-    NSLocalizedDescriptionKey : errorDescription,
-    NSLocalizedFailureReasonErrorKey : errorDescription
-  };
-  NSError *error = [NSError errorWithDomain:GADMAdapterUnityErrorDomain
-                                       code:GADMAdapterUnityErrorPlacementStateNoFill
-                                   userInfo:userInfo];
+  NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
+                                       code:kUnityAdsLoadErrorNoFill
+                                   userInfo:nil];
 
   AUTKWaitAndAssertLoadRewardedAdFailure(self.adapter, configuration, error);
 }

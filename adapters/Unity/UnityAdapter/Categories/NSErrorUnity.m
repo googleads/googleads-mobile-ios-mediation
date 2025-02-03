@@ -31,10 +31,4 @@
   return GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
 }
 
-+ (nonnull NSError *)adNotAvailablePerPlacement:(NSString *)placementId {
-  NSString *errorMsg =
-      [NSString stringWithFormat:@"No ad available for the placement ID: %@", placementId];
-  return GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorPlacementStateNoFill,
-                                                     errorMsg);
-}
 @end
