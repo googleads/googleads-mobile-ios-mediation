@@ -50,7 +50,7 @@ struct AmazonAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    AmazonBidLoadingAdapter.setUpWith(serverConfiguration) { error in
+    AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       #expect(error == nil)
     }
   }
@@ -64,7 +64,7 @@ struct AmazonAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials1, credentials2]
 
-    AmazonBidLoadingAdapter.setUpWith(serverConfiguration) { error in
+    AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       #expect(error == nil)
     }
   }
@@ -79,7 +79,7 @@ struct AmazonAdapterSetUpTests {
     AmazonBidLoadingAdapterExtras.gdprRegionTestMode = true
     AmazonBidLoadingAdapterExtras.skAdNetworkTestMode = true
 
-    AmazonBidLoadingAdapter.setUpWith(serverConfiguration) { error in
+    AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       #expect(error == nil)
     }
   }
@@ -91,7 +91,7 @@ struct AmazonAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    AmazonBidLoadingAdapter.setUpWith(serverConfiguration) { error in
+    AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       let error = try! #require(error as NSError?)
       #expect(error.domain == AmazonBidLoadingAdapterError.domain)
       #expect(
@@ -110,7 +110,7 @@ struct AmazonAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    AmazonBidLoadingAdapter.setUpWith(serverConfiguration) { error in
+    AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       let error = try! #require(error as NSError?)
       #expect(error.domain == AmazonBidLoadingAdapterConstants.apsSdkErrorDomain)
       #expect(error.localizedDescription.count > 0)
@@ -137,7 +137,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -164,7 +164,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -195,7 +195,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -225,8 +225,8 @@ struct AmazonAdapterCollectSignalsTests {
     configurations.credentials = [credentials1, credentials2]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
-    let expectedSize = GADAdSizeInvalid.size
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    let expectedSize = AdSizeInvalid.size
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -254,7 +254,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -283,7 +283,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -314,7 +314,7 @@ struct AmazonAdapterCollectSignalsTests {
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
     let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = GADAdSize(size: expectedSize, flags: 0)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
