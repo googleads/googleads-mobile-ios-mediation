@@ -172,7 +172,7 @@
 - (void)testMuted {
   // Mock GoogleMobileAds SDK.
   id adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
-  OCMStub([adsMock applicationMuted]).andReturn(YES);
+  OCMStub([adsMock isApplicationMuted]).andReturn(YES);
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
@@ -195,7 +195,7 @@
 - (void)testNotMuted {
   // Mock GoogleMobileAds SDK.
   id adsMock = OCMPartialMock(GADMobileAds.sharedInstance);
-  OCMStub([adsMock applicationMuted]).andReturn(NO);
+  OCMStub([adsMock isApplicationMuted]).andReturn(NO);
 
   // Mock FiveAd SDK.
   id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
