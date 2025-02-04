@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Adapter version string.
-static NSString *const GADMAdapterInMobiVersion = @"10.8.0.0";
+static NSString *const GADMAdapterInMobiVersion = @"10.8.0.1";
 
 /// InMobi SDK key.
 static NSString *const GADMAdapterInMobiAccountID = @"accountid";
