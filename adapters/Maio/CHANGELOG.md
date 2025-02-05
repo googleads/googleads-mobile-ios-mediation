@@ -1,5 +1,12 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### [Version 2.1.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.1.6.0.zip)
+- Verified compatibility with maio SDK version 2.1.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Maio SDK version 2.1.6.
+
 #### [Version 2.1.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.1.5.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 
