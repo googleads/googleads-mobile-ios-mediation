@@ -3,6 +3,13 @@
 #### Next version
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 
+#### [Version 8.3.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.5.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.3.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- DT Exchange SDK version 8.3.5.
+
 #### [Version 8.3.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.4.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.3.4.
 
