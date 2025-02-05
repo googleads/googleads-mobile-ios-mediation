@@ -17,7 +17,7 @@ import MolocoSDK
 import OSLog
 
 /// Adapter for Google Mobile Ads SDK to render ads on Moloco ads SDK.
-@objc(MediationAdapterMoloco)
+@objc(GADMediationAdapterMoloco)
 public final class MolocoMediationAdapter: NSObject, RTBAdapter {
 
   /// The banner ad loader.
