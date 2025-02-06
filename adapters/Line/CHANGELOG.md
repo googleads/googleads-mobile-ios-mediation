@@ -1,11 +1,14 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next version
-- Removed logic that checked whether the FAD SDK was registered in the adapter setup.
-- Updated the interstitial and rewarded ads' "show" API with new "showWithViewController:" API.
-- Removed native ad state check before downloading native ad assets, because it is deprecated and there is no replacement.
-- Fixed how test mode is set on the LINE SDK.
+#### [Version 2.9.20241106.2](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.2.zip)
+- Added the `GADMediationAdapterLine.testMode` property to indicate whether the FiveAd SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
+- Removed the check for FiveAd SDK initialization state before initializing the FiveAd SDK.
+- Removed the deprecated native ad state check before downloading native ad assets.
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- FiveAd SDK version 2.9.20241106.
 
 #### [Version 2.9.20241106.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.1.zip)
 - Updated the adapter to use the latest ad load API for bidding banner ads.
