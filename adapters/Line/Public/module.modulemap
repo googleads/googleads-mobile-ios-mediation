@@ -8,5 +8,6 @@ framework module LineAdapter {
   link framework "UIKit"
 
   // Import all your public header files here.
+  header "GADMediationAdapterLine.h"
   header "GADMediationAdapterLineExtras.h"
 }

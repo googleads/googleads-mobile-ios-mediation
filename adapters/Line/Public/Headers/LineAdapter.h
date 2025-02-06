@@ -15,4 +15,5 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "GADMediationAdapterLine.h"
 #import "GADMediationAdapterLineExtras.h"

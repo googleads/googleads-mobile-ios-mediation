@@ -1,5 +1,8 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next Version
+- Fixed an issue where `GADMediationAdapterLine.h` was not a public header.
+
 #### [Version 2.9.20241106.2](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.2.zip)
 - Added the `GADMediationAdapterLine.testMode` property to indicate whether the FiveAd SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
 - Removed the check for FiveAd SDK initialization state before initializing the FiveAd SDK.
