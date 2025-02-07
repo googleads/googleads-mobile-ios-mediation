@@ -1,6 +1,10 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
 #### Next Version
+- Added `GADMediationAdapterUnity.testMode` property to indicate whether Unity Ads SDK should be initialized in test mode.
+  - This flag should be set prior to initializing the Google Mobile Ads SDK.
+- Updated to report Unity SDK's error code when ad load fails.
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 - Added the `GADMediationAdapterUnity.testMode` property to indicate whether the Unity Ads SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
 - Updated to report the Unity Ads SDK's error code when an ad fails to load.
 
