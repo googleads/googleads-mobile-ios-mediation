@@ -47,6 +47,8 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     // The user data needs to be set for it to be included in the signals.
     [PAGConfig shareConfig].userDataString = extras.userDataString;
   }
+  PAGBiddingRequest *request = [PAGBiddingRequest new];
+  request.adxID = @"207";
   [PAGSdk getBiddingToken:nil completion:^(NSString * _Nonnull biddingToken) {
     completionHandler(biddingToken, nil);
   }];
