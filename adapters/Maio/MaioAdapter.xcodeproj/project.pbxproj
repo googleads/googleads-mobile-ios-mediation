@@ -751,7 +751,6 @@
 		};
 		ADA6BA012CF146D9009C8FDA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
