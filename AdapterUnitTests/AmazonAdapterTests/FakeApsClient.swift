@@ -41,7 +41,7 @@ class FakeApsClient: NSObject, APSClient {
   }
 
   func loadAndCacheApsAd(
-    with slotId: String, adSize: CGSize,
+    with slotId: String, clientAdFormat: APSClientAdFormat, adSize: CGSize,
     completion: @escaping (AmazonBidLoadingAdapterRequestData?, NSError?) -> Void
   ) {
     if Self.signalsCollectionShouldSucceed {

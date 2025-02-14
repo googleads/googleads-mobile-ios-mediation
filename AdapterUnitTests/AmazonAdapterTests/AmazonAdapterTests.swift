@@ -219,8 +219,10 @@ struct AmazonAdapterCollectSignalsTests {
   func collectSignals_fails_whenRequestIsForUnsupportedAdFormat() async {
     let credentials1 = AUTKMediationCredentials()
     credentials1.settings = ["slot_id": "testid1"]
+    credentials1.format = .native
     let credentials2 = AUTKMediationCredentials()
     credentials2.settings = ["slot_id": "testid2"]
+    credentials2.format = .native
     let configurations = AUTKRTBMediationSignalsConfiguration()
     configurations.credentials = [credentials1, credentials2]
     let requestParams = AUTKRTBRequestParameters()
