@@ -96,43 +96,29 @@
 }
 
 - (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
-  CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
+  CGSize size = CGSizeFromGADAdSize(gadAdSize);
   
   PAGBannerAdSize pagBanner50 = kPAGBannerSize320x50;
   PAGBannerAdSize pagBanner90 = kPAGBannerSize728x90;
   PAGBannerAdSize pagBanner250 = kPAGBannerSize300x250;
-  PAGBannerAdSize pagAnchored = PAGCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(gadAdCGSize.width);
-    
-  GADAdSize banner50 = GADAdSizeFromCGSize(
-      CGSizeMake(pagBanner50.size.width, pagBanner50.size.height));  // 320*50
-  GADAdSize banner90 = GADAdSizeFromCGSize(
-      CGSizeMake(pagBanner90.size.width, pagBanner90.size.height));  // 728*90
-  GADAdSize banner250 = GADAdSizeFromCGSize(
-      CGSizeMake(pagBanner250.size.width, pagBanner250.size.height));  // 300*250
-  GADAdSize bannerAnchored = GADAdSizeFromCGSize(pagAnchored.size);
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(banner50),
-    NSValueFromGADAdSize(banner90),
-    NSValueFromGADAdSize(banner250),
-    NSValueFromGADAdSize(bannerAnchored)
-  ];
 
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
   if (size.width == pagBanner50.size.width && size.height == pagBanner50.size.height) {
     return pagBanner50;
   } else if (size.width == pagBanner90.size.width && size.height == pagBanner90.size.height) {
     return pagBanner90;
   } else if (size.width == pagBanner250.size.width && size.height == pagBanner250.size.height) {
     return pagBanner250;
-  } else if (size.width == pagAnchored.size.width && size.height == pagAnchored.size.height) {
+  }
+
+  PAGBannerAdSize pagAnchored = PAGCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(size.width);
+  if (size.width == pagAnchored.size.width && size.height == pagAnchored.size.height) {
     return pagAnchored;
   }
-    
+
   if (gadAdSize.size.height > 0) {
-        return PAGInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(gadAdCGSize.width,gadAdCGSize.height);
+    return PAGInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(size.width,size.height);
   }
-    return PAGCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(gadAdCGSize.width);
+    return PAGCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(size.width);
 }
 
 #pragma mark - GADMediationBannerAd
