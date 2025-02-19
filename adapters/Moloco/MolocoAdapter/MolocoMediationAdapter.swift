@@ -67,6 +67,11 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
   }
 
   /// Initializer used only for testing purpose.
+  init(molocoNativeFactory: MolocoNativeFactory) {
+    self.molocoNativeFactory = molocoNativeFactory
+  }
+
+  /// Initializer used only for testing purpose.
   init(molocoRewardedFactory: MolocoRewardedFactory) {
     self.molocoRewardedFactory = molocoRewardedFactory
   }
