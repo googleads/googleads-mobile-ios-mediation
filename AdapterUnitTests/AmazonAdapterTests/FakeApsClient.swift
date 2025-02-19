@@ -10,8 +10,8 @@ class FakeApsClient: NSObject, APSClient {
     return delegate as? APSClientBannerDelegate
   }
 
-  private var interstitialDelegate: APSClientInterstitialDelegate? {
-    return delegate as? APSClientInterstitialDelegate
+  private var fullScreenAdDelegate: APSClientFullScreenAdDelegate? {
+    return delegate as? APSClientFullScreenAdDelegate
   }
 
   var bannerAdView: UIView {
@@ -103,10 +103,11 @@ class FakeApsClient: NSObject, APSClient {
 
   func presentFullScreenAd(from viewController: UIViewController) {
     if Self.showShouldSucceed {
-      interstitialDelegate?.willPresentAd()
-      interstitialDelegate?.didDismissAd()
+      fullScreenAdDelegate?.willPresentAd()
+      fullScreenAdDelegate?.didDismissAd()
+      fullScreenAdDelegate?.didCompleteAdVideoPlayback()
     } else {
-      interstitialDelegate?.failedToPresent(
+      fullScreenAdDelegate?.failedToPresent(
         withError: NSError(
           domain: "com.fake.aps", code: 12345,
           userInfo: [NSLocalizedDescriptionKey: "Simulated error."]))
