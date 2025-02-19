@@ -120,6 +120,7 @@
 		AD45EED62A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45EED52A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m */; };
 		AD56E0AE2B32259400F7C166 /* AUTMyTargetBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */; };
 		AD5B32302B9ACB560055FA17 /* ImobileSdkAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */; };
+		AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */; };
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
@@ -694,7 +695,7 @@
 		70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRTBRewardedAdTests.m; sourceTree = "<group>"; };
 		70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeWaterfallRewardedAdTests.m; sourceTree = "<group>"; };
 		70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MolocoSDK.xcframework; path = Pods/MolocoSDKiOS/MolocoSDK.xcframework; sourceTree = "<group>"; };
-		70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
+		70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapterTest.swift; sourceTree = "<group>"; };
 		8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewardedFactory.swift; sourceTree = "<group>"; };
 		856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewarded.swift; sourceTree = "<group>"; };
@@ -780,6 +781,7 @@
 		AD45EED52A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityBannerAdTests.m; sourceTree = "<group>"; };
 		AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetBannerAdTests.m; sourceTree = "<group>"; };
 		AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ImobileSdkAds.xcframework; path = Pods/ImobileSdkAds/ImobileSdkAds.xcframework; sourceTree = "<group>"; };
+		AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterInterstitialTests.swift; sourceTree = "<group>"; };
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdapterUnitTestKit.h; sourceTree = "<group>"; };
 		AD6FA03E2A16BF98007335D2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1391,6 +1393,7 @@
 		AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */,
 				ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */,
 				AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */,
 				AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */,
@@ -2531,6 +2534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */,
+				AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */,
 				AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */,
 				ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */,
 			);

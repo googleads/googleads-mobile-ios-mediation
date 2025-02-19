@@ -4,10 +4,19 @@ import UIKit
 
 class FakeApsClient: NSObject, APSClient {
 
+  var delegate: APSClientDelegate?
+
+  private var bannerDelegate: APSClientBannerDelegate? {
+    return delegate as? APSClientBannerDelegate
+  }
+
+  private var interstitialDelegate: APSClientInterstitialDelegate? {
+    return delegate as? APSClientInterstitialDelegate
+  }
+
   var bannerAdView: UIView {
     return DispatchQueue.main.sync { UIView() }
   }
-  var bannerDelegate: APSClientBannerDelegate?
 
   static var fetchShouldSucceed = true
   static var initializeShouldSucceed = true
@@ -15,6 +24,7 @@ class FakeApsClient: NSObject, APSClient {
   static var sdkVersion = "aps-ios-4.9.7"
   static var triggerImpressionAfterAdLoad = false
   static var triggerAdClickAfterAdLoad = false
+  static var showShouldSucceed = true
 
   static func resetTestFlags() {
     fetchShouldSucceed = true
@@ -23,6 +33,7 @@ class FakeApsClient: NSObject, APSClient {
     sdkVersion = "aps-ios-4.9.7"
     triggerImpressionAfterAdLoad = false
     triggerAdClickAfterAdLoad = false
+    showShouldSucceed = true
   }
 
   func initialize(with appId: String, completion: @escaping (NSError?) -> Void) {
@@ -58,19 +69,47 @@ class FakeApsClient: NSObject, APSClient {
     }
   }
 
-  func fetchBannerAd(for adId: String, width: CGFloat, height: CGFloat) {
+  func fetchAd(for adId: String) {
     if Self.fetchShouldSucceed {
-      bannerDelegate?.fetchedAd()
+      delegate?.fetchedAd()
     } else {
-      bannerDelegate?.failedToFetchAd(withError: NSError(domain: "com.fake.aps", code: 12345))
+      delegate?.failedToFetchAd(withError: NSError(domain: "com.fake.aps", code: 12345))
     }
 
     if Self.triggerImpressionAfterAdLoad {
-      bannerDelegate?.adImpressionFired()
+      delegate?.adImpressionFired()
     }
 
     if Self.triggerAdClickAfterAdLoad {
-      bannerDelegate?.adClicked()
+      delegate?.adClicked()
+    }
+  }
+
+  func fetchAd(for adId: String, width: CGFloat, height: CGFloat) {
+    if Self.fetchShouldSucceed {
+      delegate?.fetchedAd()
+    } else {
+      delegate?.failedToFetchAd(withError: NSError(domain: "com.fake.aps", code: 12345))
+    }
+
+    if Self.triggerImpressionAfterAdLoad {
+      delegate?.adImpressionFired()
+    }
+
+    if Self.triggerAdClickAfterAdLoad {
+      delegate?.adClicked()
+    }
+  }
+
+  func presentFullScreenAd(from viewController: UIViewController) {
+    if Self.showShouldSucceed {
+      interstitialDelegate?.willPresentAd()
+      interstitialDelegate?.didDismissAd()
+    } else {
+      interstitialDelegate?.failedToPresent(
+        withError: NSError(
+          domain: "com.fake.aps", code: 12345,
+          userInfo: [NSLocalizedDescriptionKey: "Simulated error."]))
     }
   }
 
