@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Now minimum iOS version supported is 13.0.
+
 #### [Version 8.6.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.6.1.0.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 
