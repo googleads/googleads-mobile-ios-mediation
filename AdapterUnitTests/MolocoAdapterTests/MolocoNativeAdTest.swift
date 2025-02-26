@@ -95,7 +95,7 @@ final class MolocoNativeAdTest: XCTestCase {
     MolocoTestUtils.flushMainThread(self)
     XCTAssertNotNil(adEventDelegate)
     adEventDelegate.nativeAd?.didRecordImpression?()
-    adEventDelegate.nativeAd?.didRecordClickOnAsset?(withName: .bodyAsset, view: UIView(), viewController: UIViewController())
+    adEventDelegate.nativeAd?.didRecordClickOnAsset?(with: .bodyAsset, view: UIView(), viewController: UIViewController())
     
     XCTAssertNil(adEventDelegate.didFailToPresentError)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)

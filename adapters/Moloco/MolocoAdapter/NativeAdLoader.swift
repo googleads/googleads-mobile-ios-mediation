@@ -33,7 +33,7 @@ final class NativeAdLoader: NSObject {
   private var nativeAd: MolocoNativeAd?
 
   init(
-    adConfiguration: GADMediationNativeAdConfiguration,
+    adConfiguration: MediationNativeAdConfiguration,
     loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler,
     molocoNativeFactory: MolocoNativeFactory
   ) {
@@ -133,17 +133,17 @@ extension NativeAdLoader: MolocoNativeAdDelegate {
 
 // MARK: - GADMediationNativeAd
 
-extension NativeAdLoader: GADMediationNativeAd {
+extension NativeAdLoader: MediationNativeAd {
 
   var headline: String? {
     return self.nativeAd?.assets?.title
   }
 
-  var images: [GADNativeAdImage]? {
+  var images: [NativeAdImage]? {
     guard let mainImage = self.nativeAd?.assets?.mainImage else {
       return nil
     }
-    return [GADNativeAdImage(image: mainImage)]
+    return [NativeAdImage(image: mainImage)]
   }
 
   var mediaView: UIView? {
@@ -157,7 +157,7 @@ extension NativeAdLoader: GADMediationNativeAd {
     return self.nativeAd?.assets?.description
   }
 
-  var icon: GADNativeAdImage? {
+  var icon: NativeAdImage? {
     return self.nativeAd?.assets?.appIcon.map { .init(image: $0) }
   }
 
@@ -202,7 +202,7 @@ extension NativeAdLoader: GADMediationNativeAd {
   }
 
   func didRecordClickOnAsset(
-    withName assetName: GADNativeAssetIdentifier,
+    with assetName: GADNativeAssetIdentifier,
     view: UIView,
     viewController: UIViewController
   ) {
