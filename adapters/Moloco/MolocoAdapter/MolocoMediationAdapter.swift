@@ -45,6 +45,9 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
   /// Used to create Moloco rewarded ads.
   private var molocoRewardedFactory: MolocoRewardedFactory = MolocoMediationAdapter.molocoSdkImpl
 
+  /// Used to create Moloco native ads.
+  private var molocoNativeFactory: MolocoNativeFactory = MolocoMediationAdapter.molocoSdkImpl
+
   /// Used to create Moloco banner ads.
   private var molocoBannerFactory: MolocoBannerFactory = MolocoMediationAdapter.molocoSdkImpl
 
@@ -61,6 +64,11 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
   /// Initializer used only for testing purpose.
   init(molocoInterstitialFactory: MolocoInterstitialFactory) {
     self.molocoInterstitialFactory = molocoInterstitialFactory
+  }
+
+  /// Initializer used only for testing purpose.
+  init(molocoNativeFactory: MolocoNativeFactory) {
+    self.molocoNativeFactory = molocoNativeFactory
   }
 
   /// Initializer used only for testing purpose.
@@ -260,13 +268,13 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
     rewardedAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
   @objc public func loadNativeAd(
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     nativeAdLoader = NativeAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler,
+      molocoNativeFactory: molocoNativeFactory)
     nativeAdLoader?.loadAd()
   }
 

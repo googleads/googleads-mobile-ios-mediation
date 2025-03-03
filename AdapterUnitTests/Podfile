@@ -14,7 +14,7 @@ platform :ios, '16.0'
 
 install! 'cocoapods', :deterministic_uuids => false
 
-adapter_targets = ENV['ADAPTER_TARGETS']&.split(',') || []
+adapter_targets = ENV['ADAPTER_TARGETS']&.split(',') || ['MolocoAdapter']
 
 abstract_target 'Default' do
 

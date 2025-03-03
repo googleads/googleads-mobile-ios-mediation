@@ -163,6 +163,9 @@
 		ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */; };
 		ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADFAAF142A33F36500D92129 /* AUTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF132A33F36500D92129 /* AUTKConstants.m */; };
+		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
+		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
+		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -830,6 +833,9 @@
 		ADF3B9B82AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinRewardedAdTests.m; sourceTree = "<group>"; };
 		ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineAdapterTest.m; sourceTree = "<group>"; };
 		ADFAAF132A33F36500D92129 /* AUTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKConstants.m; sourceTree = "<group>"; };
+		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
+		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
+		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1034,6 +1040,8 @@
 				85A57D722CA4B663009FC260 /* FakeMolocoBannerFactory.swift */,
 				70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */,
 				70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */,
+				F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */,
+				F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */,
 				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
 				8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */,
 				70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */,
@@ -1061,6 +1069,7 @@
 				85A57D6E2CA4B640009FC260 /* MolocoBannerAdTest.swift */,
 				70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */,
 				706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */,
+				F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */,
 				8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */,
 			);
 			path = MolocoAdapterTests;
@@ -2384,8 +2393,11 @@
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
 				70387DD42D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift in Sources */,
 				70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */,
+				F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */,
 				85A57D732CA4B663009FC260 /* FakeMolocoBannerFactory.swift in Sources */,
 				703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */,
+				F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */,
+				F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */,
 				8526681E2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift in Sources */,
 				70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */,
 				ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */,
