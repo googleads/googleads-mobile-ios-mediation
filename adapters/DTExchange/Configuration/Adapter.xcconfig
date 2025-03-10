@@ -57,3 +57,4 @@ DEAD_CODE_STRIPPING = YES
 /// Use modules, but link frameworks explicitly.
 CLANG_ENABLE_MODULES = YES
 CLANG_MODULES_AUTOLINK = NO
+OTHER_CFLAGS = -fobjc-arc -fstack-protector-all

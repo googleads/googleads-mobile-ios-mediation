@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 10.8.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.0.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 

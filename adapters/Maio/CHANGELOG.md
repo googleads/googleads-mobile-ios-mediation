@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 2.1.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.1.6.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 

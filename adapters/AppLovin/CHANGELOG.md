@@ -1,5 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 13.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.1.0.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 

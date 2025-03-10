@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 7.4.4.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.4.4.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
 

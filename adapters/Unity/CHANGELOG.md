@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 4.13.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.13.2.0.zip)
 - Verified compatibility with Unity Ads SDK 4.13.2.
 

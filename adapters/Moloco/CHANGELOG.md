@@ -2,6 +2,7 @@
 
 #### Next version
 - Implemented a native ad.
+- Enable -fobjc-arc and -fstack-protector-all.
 
 #### [Version 3.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.7.1.0.zip)
 - Verified compatibility with Moloco SDK version 3.7.1.

@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 8.7.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.7.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.7.0.0.
 - Now requires minimum iOS version of `13.0`.

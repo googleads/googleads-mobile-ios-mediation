@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 7.7.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.7.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.7.
 

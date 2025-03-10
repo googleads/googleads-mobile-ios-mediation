@@ -1,5 +1,8 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
 #### [Version 5.26.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.26.0.0.zip)
 - Verified compatibility with myTarget SDK version 5.26.0.
 
