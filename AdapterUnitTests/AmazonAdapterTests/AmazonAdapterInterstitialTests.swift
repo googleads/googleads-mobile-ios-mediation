@@ -68,7 +68,7 @@ final class AmazonAdapterLoadInterstitialTests {
   func loadInterstitial_fails_whenConfigurationContainsBidResponseWithoutAdId() {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadInterstitial(for: config) { interstitial, error in

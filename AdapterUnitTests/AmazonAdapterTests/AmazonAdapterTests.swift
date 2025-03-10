@@ -141,16 +141,19 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
-        #expect(requestDataDict!["ad_id"] != nil)
-        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
-        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
+          #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -168,18 +171,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
-        #expect(requestDataDict!["ad_id"] != nil)
-        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
-        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
-        #expect(requestDataDict!["adapter_error"] == nil)
-        #expect(requestDataDict!["third_party_sdk_error"] == nil)
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
+          #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
+          #expect(requestDataDict!["adapter_error"] == nil)
+          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -199,18 +205,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
-        #expect(requestDataDict!["ad_id"] != nil)
-        #expect(requestDataDict!["width"] as? String == String(Int(expectedSize.width)))
-        #expect(requestDataDict!["height"] as? String == String(Int(expectedSize.height)))
-        #expect(requestDataDict!["adapter_error"] == nil)
-        #expect(requestDataDict!["third_party_sdk_error"] == nil)
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
+          #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
+          #expect(requestDataDict!["adapter_error"] == nil)
+          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -232,18 +241,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
-        #expect(requestDataDict!["ad_id"] == nil)
-        #expect(requestDataDict!["width"] == nil)
-        #expect(requestDataDict!["height"] == nil)
-        #expect(requestDataDict!["adapter_error"] as? String == "UNSUPPORTED_AD_FORMAT")
-        #expect(requestDataDict!["third_party_sdk_error"] == nil)
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+          #expect(requestDataDict!["ad_id"] == nil)
+          #expect(requestDataDict!["width"] == nil)
+          #expect(requestDataDict!["height"] == nil)
+          #expect(requestDataDict!["adapter_error"] as? String == "UNSUPPORTED_AD_FORMAT")
+          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -260,18 +272,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
-        #expect(requestDataDict!["ad_id"] == nil)
-        #expect(requestDataDict!["width"] == nil)
-        #expect(requestDataDict!["height"] == nil)
-        #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
-        #expect(requestDataDict!["third_party_sdk_error"] == nil)
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+          #expect(requestDataDict!["ad_id"] == nil)
+          #expect(requestDataDict!["width"] == nil)
+          #expect(requestDataDict!["height"] == nil)
+          #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
+          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -289,18 +304,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
-        #expect(requestDataDict!["ad_id"] == nil)
-        #expect(requestDataDict!["width"] == nil)
-        #expect(requestDataDict!["height"] == nil)
-        #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
-        #expect(requestDataDict!["third_party_sdk_error"] == nil)
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+          #expect(requestDataDict!["ad_id"] == nil)
+          #expect(requestDataDict!["width"] == nil)
+          #expect(requestDataDict!["height"] == nil)
+          #expect(requestDataDict!["adapter_error"] as? String == "MISSING_SLOT_ID")
+          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }
@@ -320,18 +338,21 @@ struct AmazonAdapterCollectSignalsTests {
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
-      adapter.collectSignals(for: requestParams) { signals, error in
-        #expect(signals != nil)
-        #expect(error == nil)
-        let requestDataDict = signals?.toJsonDictionary()
-        #expect(requestDataDict != nil)
-        #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
-        #expect(requestDataDict!["ad_id"] == nil)
-        #expect(requestDataDict!["width"] == nil)
-        #expect(requestDataDict!["height"] == nil)
-        #expect(requestDataDict!["adapter_error"] as? String == "3P_SDK_ERROR")
-        #expect(requestDataDict!["third_party_sdk_error"] as? String == "12345")
-        signalsLoaded()
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] == nil)
+          #expect(requestDataDict!["ad_id"] == nil)
+          #expect(requestDataDict!["width"] == nil)
+          #expect(requestDataDict!["height"] == nil)
+          #expect(requestDataDict!["adapter_error"] as? String == "3P_SDK_ERROR")
+          #expect(requestDataDict!["third_party_sdk_error"] as? String == "12345")
+          signalsLoaded()
+          continuation.resume()
+        }
       }
     }
   }

@@ -19,7 +19,7 @@ final class AmazonAdapterLoadBannerTests {
   func loadBanner_succeeds() {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadBanner(for: config) { banner, error in
@@ -68,7 +68,7 @@ final class AmazonAdapterLoadBannerTests {
   func loadBanner_fails_whenConfigurationContainsBidResponseWithoutAdId() {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadBanner(for: config) { banner, error in
@@ -87,7 +87,7 @@ final class AmazonAdapterLoadBannerTests {
 
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadBanner(for: config) { banner, error in
@@ -117,7 +117,7 @@ struct AmazonAdapterBannerEventTests {
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadBanner(for: config) { banner, error in
@@ -136,7 +136,7 @@ struct AmazonAdapterBannerEventTests {
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
-      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: "100", height: "100")]
+      winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
     adapter.loadBanner(for: config) { banner, error in

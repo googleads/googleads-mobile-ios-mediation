@@ -59,7 +59,7 @@ class FakeApsClient: NSObject, APSClient {
       completion(
         AmazonBidLoadingAdapterRequestData(
           winningBidPriceEncoded: "winningBidPriceEncoded", adId: "adId",
-          width: String(Int(adSize.width)), height: String(Int(adSize.height))), nil)
+          width: Int(adSize.width), height: Int(adSize.height)), nil)
     } else {
       completion(
         nil,
