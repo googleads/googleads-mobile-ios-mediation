@@ -11,7 +11,7 @@ final class MolocoNativeAdTest: XCTestCase {
   /// A bid response received by the adapter to load the ad.
   static let testBidResponse = "bid_response"
 
-  func testNativeLoadSuccess() {
+  func loadNativeAd() -> AUTKMediationNativeAdEventDelegate {
     let molocoNativeFactory = FakeMolocoNativeFactory(loadError: nil)
     let adapter = MolocoMediationAdapter(molocoNativeFactory: molocoNativeFactory)
     let mediationAdConfig = AUTKMediationNativeAdConfiguration()
@@ -20,11 +20,16 @@ final class MolocoNativeAdTest: XCTestCase {
     mediationAdConfig.credentials = credentials
     mediationAdConfig.bidResponse = Self.testBidResponse
 
-    AUTKWaitAndAssertLoadNativeAd(adapter, mediationAdConfig)
+    let nativeAdEventDelegate =   AUTKWaitAndAssertLoadNativeAd(adapter, mediationAdConfig)
     XCTAssertEqual(molocoNativeFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
     XCTAssertEqual(
       molocoNativeFactory.fakeMolocoNative?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
+    return nativeAdEventDelegate
+  }
+  
+  func testNativeLoadSuccess() {
+    XCTAssertNotNil(loadNativeAd())
   }
 
   func testNativeLoadFailure_ifBidResponseIsMissing() {
@@ -101,6 +106,58 @@ final class MolocoNativeAdTest: XCTestCase {
     XCTAssertNil(adEventDelegate.didFailToPresentError)
     XCTAssertEqual(adEventDelegate.reportImpressionInvokeCount, 1)
     XCTAssertEqual(adEventDelegate.reportClickInvokeCount, 1)
+  }
+
+  func testIcon() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertTrue(nativeAd?.icon is NativeAdImage)
+  }
+
+  func testMediaView() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertTrue(nativeAd?.mediaView is UIView)
+  }
+
+  func testHeadline() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertEqual(nativeAd?.headline, FakeAssetValues.title)
+  }
+
+  func testBody() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertEqual(nativeAd?.body, FakeAssetValues.description)
+  }
+
+  func testCallToAction() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertEqual(nativeAd?.callToAction, FakeAssetValues.ctaTitle)
+  }
+
+  func testAdvertiser() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertEqual(nativeAd?.advertiser, FakeAssetValues.sponsorText)
+  }
+
+  func testStarRating() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+    XCTAssertEqual(nativeAd?.starRating?.doubleValue, FakeAssetValues.rating)
+  }
+
+  func testUnusedNativeAdMetaData() {
+    let eventDelegate = loadNativeAd()
+    let nativeAd = eventDelegate.nativeAd;
+
+    XCTAssertNil(nativeAd?.adChoicesView)
+    XCTAssertNil(nativeAd?.extraAssets)
+    XCTAssertNil(nativeAd?.price)
+    XCTAssertNil(nativeAd?.store)
   }
 
 }
