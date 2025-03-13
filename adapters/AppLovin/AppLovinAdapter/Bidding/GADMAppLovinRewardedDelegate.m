@@ -20,9 +20,6 @@
 @implementation GADMAppLovinRewardedDelegate {
   /// AppLovin rewarded ad renderer to which the events are delegated.
   __weak GADMAdapterAppLovinRewardedRenderer *_parentRenderer;
-
-  /// Indicates whether the user has watched the rewarded ad completely.
-  BOOL _fullyWatched;
 }
 
 #pragma mark - Initialization
@@ -86,9 +83,6 @@
   [GADMAdapterAppLovinUtils log:@"Rewarded ad dismissed"];
   GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
   id<GADMediationRewardedAdEventDelegate> delegate = parentRenderer.delegate;
-  if (_fullyWatched) {
-    [delegate didRewardUser];
-  }
   [GADMAdapterAppLovinMediationManager.sharedInstance
       removeRewardedZoneIdentifier:parentRenderer.zoneIdentifier];
 
@@ -109,10 +103,10 @@
   [GADMAdapterAppLovinUtils log:@"Rewarded ad playback ended at playback percent: %lu%%",
                                 (unsigned long)percentPlayed.unsignedIntegerValue];
 
-  GADMAdapterAppLovinRewardedRenderer *parentRenderer = _parentRenderer;
-  _fullyWatched = wasFullyWatched;
-  if (_fullyWatched) {
-    [parentRenderer.delegate didEndVideo];
+  id<GADMediationRewardedAdEventDelegate> delegate = _parentRenderer.delegate;
+  if (wasFullyWatched) {
+    [delegate didRewardUser];
+    [delegate didEndVideo];
   }
 }
 
