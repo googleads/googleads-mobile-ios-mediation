@@ -1,4 +1,5 @@
 import AdapterUnitTestKit
+import DTBiOSSDK
 import GoogleMobileAds
 import Testing
 
@@ -75,9 +76,11 @@ struct AmazonAdapterSetUpTests {
     credentials.settings = ["app_id": "test_id"]
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
-    AmazonBidLoadingAdapterExtras.testMode = true
-    AmazonBidLoadingAdapterExtras.gdprRegionTestMode = true
-    AmazonBidLoadingAdapterExtras.skAdNetworkTestMode = true
+    let initConfig = APSInitConfig()
+    initConfig.testMode = true
+    initConfig.gdprRegionTestMode = true
+    initConfig.skAdNetworkTestMode = true
+    AmazonBidLoadingAdapterExtras.apsInitConfig = initConfig
 
     AmazonBidLoadingAdapter.setUp(with: serverConfiguration) { error in
       #expect(error == nil)
