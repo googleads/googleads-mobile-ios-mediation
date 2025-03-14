@@ -161,6 +161,41 @@ struct AmazonAdapterCollectSignalsTests {
     }
   }
 
+  @Test("Successful signals collection with a custom target dictionary.")
+  func collectSignals_succeedsWithCustomTarget() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 100, height: 100)
+    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
+    let extras = AmazonBidLoadingAdapterExtras()
+    extras.customTarget = ["test_key": "test_value"]
+    requestParams.extras = extras
+    let expectedCustomTarget = ["test_key": "test_value"]
+    FakeApsClient.customTarget = expectedCustomTarget
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
+          #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
+          signalsLoaded()
+          continuation.resume()
+        }
+      }
+    }
+  }
+
   @Test("Successful signals collection with valid bidding request parameters")
   func collectSignals_succeedsWithMultiple() async {
     let credentials = AUTKMediationCredentials()

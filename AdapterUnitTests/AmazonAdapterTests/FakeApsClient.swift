@@ -25,6 +25,7 @@ class FakeApsClient: NSObject, APSClient {
   static var triggerImpressionAfterAdLoad = false
   static var triggerAdClickAfterAdLoad = false
   static var showShouldSucceed = true
+  static var customTarget: [String: String]?
 
   static func resetTestFlags() {
     fetchShouldSucceed = true
@@ -34,6 +35,7 @@ class FakeApsClient: NSObject, APSClient {
     triggerImpressionAfterAdLoad = false
     triggerAdClickAfterAdLoad = false
     showShouldSucceed = true
+    customTarget = nil
   }
 
   func initialize(with appId: String, completion: @escaping (NSError?) -> Void) {
@@ -53,8 +55,15 @@ class FakeApsClient: NSObject, APSClient {
 
   func loadAndCacheApsAd(
     with slotId: String, clientAdFormat: APSClientAdFormat, adSize: CGSize,
+    customTarget: [String: String]?,
     completion: @escaping (AmazonBidLoadingAdapterRequestData?, NSError?) -> Void
   ) {
+
+    assert(
+      FakeApsClient.customTarget == customTarget,
+      "Inconsistent custom target. Expected: \(String(describing: FakeApsClient.customTarget)) but received: \(String(describing: customTarget))"
+    )
+
     if Self.signalsCollectionShouldSucceed {
       completion(
         AmazonBidLoadingAdapterRequestData(
