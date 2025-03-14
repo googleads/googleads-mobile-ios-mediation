@@ -15,6 +15,8 @@
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
+#import <MTGSDK/MTGSDK.h>
+
 @implementation GADMAdapterMintegralUtils
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
@@ -107,6 +109,18 @@ UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
                });
              }];
   [task resume];
+}
+
++ (void)setCoppaUsingRequestConfiguration {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (!tagForChildDirectedTreatment) {
+    [[MTGSDK sharedInstance] setCoppa:MTGBoolUnknown];
+    return;
+  }
+
+  [[MTGSDK sharedInstance]
+      setCoppa:tagForChildDirectedTreatment.boolValue ? MTGBoolYes : MTGBoolNo];
 }
 
 @end

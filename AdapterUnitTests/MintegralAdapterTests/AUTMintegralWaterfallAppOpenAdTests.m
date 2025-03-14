@@ -39,6 +39,11 @@ static NSString *const kUnitID = @"67890";
       .andReturn(_splashAdMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationAppOpenAdEventDelegate *)loadWaterfallAppOpenAd {
   OCMStub([_splashAdMock setDelegate:[OCMArg checkWithBlock:^BOOL(id obj) {
                            self->_adLoader = obj;
@@ -60,6 +65,19 @@ static NSString *const kUnitID = @"67890";
 
 - (void)testLoadWaterfallAppOpenAd {
   [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testLoadWaterfallAppOpenAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadWaterfallAppOpenAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testLoadWaterfallAppOpenAdFailureForMissingPlacementID {

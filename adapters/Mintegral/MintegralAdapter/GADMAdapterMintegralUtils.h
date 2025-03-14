@@ -34,4 +34,12 @@ void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                              (void (^_Nullable)(GADNativeAdImage *_Nullable nativeAdImage))
                                  completionHandler;
 
+/// Set MTGSDK's COPPA setting using
+/// GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
+///
+/// If tagForChildDirectedTreatment is nil, then set it to MTGBoolUnknown.
+/// If tagForChildDirectedTreatment is YES, then set it to MTGBoolYes.
+/// If tagForChildDirectedTreatment is NO, then set it to MTGBoolNo.
++ (void)setCoppaUsingRequestConfiguration;
+
 @end

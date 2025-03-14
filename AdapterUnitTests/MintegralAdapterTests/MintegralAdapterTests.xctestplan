@@ -21,7 +21,7 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:AdapterUnitTests.xcodeproj",
         "identifier" : "AD01232C2ABCB0D8002BFE6D",

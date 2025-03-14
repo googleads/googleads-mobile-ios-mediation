@@ -48,6 +48,11 @@ static NSString *const kUnitID = @"67890";
       .andDo(block);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationRewardedAdEventDelegate *)loadAd {
   [self stubLoadWithAndDoBlock:^(NSInvocation *invocation) {
     [self->_adLoader onVideoAdLoadSuccess:kPlacementID unitId:kUnitID];
@@ -68,6 +73,19 @@ static NSString *const kUnitID = @"67890";
 
 - (void)testloadAd {
   [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testloadAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testloadAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testloadAdFailureForMissingPlacementID {
