@@ -32,7 +32,7 @@ final class FakeMolocoNativeAd {
   // MolocoSDK.MolocoNativeAd properties.
   var nativeDelegate: (any MolocoSDK.MolocoNativeAdDelegate)?
   var isReady: Bool
-  var nativeAssets: MolocoNativeAdAssests? = nil
+  var nativeAssets: MolocoNativeAdAssests?
 
   /// If loadError is nil, this fake mimics load success. If loadError is not nil, this fake mimics
   /// load failure.
@@ -91,6 +91,7 @@ extension FakeMolocoNativeAd: MolocoSDK.MolocoNativeAd {
   func load(bidResponse: String) {
     bidResponseUsedToLoadMolocoAd = bidResponse
     guard let loadError else {
+      self.nativeAssets = FakeMolocoNativeAdAssests()
       nativeDelegate?.didLoad(ad: self)
       return
     }

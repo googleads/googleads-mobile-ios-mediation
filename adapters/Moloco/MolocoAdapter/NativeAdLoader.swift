@@ -166,7 +166,10 @@ extension NativeAdLoader: MediationNativeAd {
   }
 
   var starRating: NSDecimalNumber? {
-    return self.nativeAd?.assets?.rating as? NSDecimalNumber
+    if let rating: Double = self.nativeAd?.assets?.rating {
+      return NSDecimalNumber(value: rating)
+    }
+    return nil
   }
 
   var store: String? {

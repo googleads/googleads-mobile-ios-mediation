@@ -166,6 +166,7 @@
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
+		F0F0A7732D820B910004BE2E /* FakeMolocoNativeAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -836,6 +837,7 @@
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
 		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
 		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
+		F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAssets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1041,6 +1043,7 @@
 				70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */,
 				70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */,
 				F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */,
+				F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */,
 				F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */,
 				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
 				8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */,
@@ -2402,6 +2405,7 @@
 				70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */,
 				ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */,
 				706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */,
+				F0F0A7732D820B910004BE2E /* FakeMolocoNativeAssets.swift in Sources */,
 				856602ED2C642DE70068D786 /* FakeMolocoRewarded.swift in Sources */,
 				85A57D712CA4B65E009FC260 /* FakeMolocoBanner.swift in Sources */,
 				8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */,
