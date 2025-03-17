@@ -57,6 +57,9 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
 
   /// The completion handler that needs to be called upon finishing loading an ad.
   GADMediationBannerLoadCompletionHandler _bannerAdLoadCompletionHandler;
+
+  /// Indicates whether the loader is loading a bidding ad.
+  BOOL _isBiddingAd;
 }
 
 - (nonnull instancetype)
@@ -68,6 +71,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
     _requestedBannerSize = adConfiguration.adSize;
     _isCompletionHandlerCalled = NO;
     _bannerAdLoadCompletionHandler = [completionHandler copy];
+    _isBiddingAd = _adConfiguration.bidResponse;
   }
   return self;
 }
@@ -79,7 +83,7 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
     return;
   }
 
-  if (_adConfiguration.bidResponse) {
+  if (_isBiddingAd) {
     [self loadBiddingAd];
   } else {
     [self loadWaterfallAd];
@@ -180,16 +184,18 @@ static NSError *_Nullable GADMediationAdapterLineVerifyLoadedBannerSize(
 #pragma mark - FADLoadDelegate (for waterfall banner ad)
 
 - (void)fiveAdDidLoad:(id<FADAdInterface>)ad {
-  GADMediationAdapterLineLog(@"FiveAd SDK loaded a waterfall banner ad.");
-
-  // Since the FiveAd SDK does not allow the caller to specify the height at the request point, the
-  // loaded banner's size must be verified against the requested ad size.
-  FADAdViewCustomLayout *bannerAd = (FADAdViewCustomLayout *)ad;
-  NSError *error = GADMediationAdapterLineVerifyLoadedBannerSize(bannerAd, _requestedBannerSize);
-  if (error) {
-    [self callCompletionHandlerIfNeededWithAd:nil error:error];
-    return;
+  if (!_isBiddingAd) {
+    // Since the FiveAd SDK does not allow the caller to specify the height at the request point,
+    // the loaded banner's size must be verified against the requested ad size.
+    FADAdViewCustomLayout *bannerAd = (FADAdViewCustomLayout *)ad;
+    NSError *error = GADMediationAdapterLineVerifyLoadedBannerSize(bannerAd, _requestedBannerSize);
+    if (error) {
+      [self callCompletionHandlerIfNeededWithAd:nil error:error];
+      return;
+    }
   }
+
+  GADMediationAdapterLineLog(@"FiveAd SDK loaded a banner ad.");
   [self callCompletionHandlerIfNeededWithAd:self error:nil];
 }
 

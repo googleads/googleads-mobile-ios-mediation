@@ -206,7 +206,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
   OCMVerifyAll(_bannerMock);
 }
 
-- (void)testLoadBannerAdFailureForLoadedBannerSizeMismatch {
+- (void)testLoadWaterfallBannerAdFailureForLoadedBannerSizeMismatch {
   // Mock FiveAd SDK.
   OCMStub([_bannerMock initWithSlotId:AUTLineTestSlotID width:GADAdSizeBanner.size.width])
       .andReturn(_bannerMock);
