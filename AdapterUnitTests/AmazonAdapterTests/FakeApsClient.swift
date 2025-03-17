@@ -71,7 +71,13 @@ class FakeApsClient: NSObject, APSClient {
 
   func fetchAd(for adId: String) {
     if Self.fetchShouldSucceed {
-      delegate?.fetchedAd()
+      if let bannerDelegate {
+        DispatchQueue.main.async {
+          bannerDelegate.fetchedBannerAdView(UIView())
+        }
+      } else if let fullScreenAdDelegate {
+        fullScreenAdDelegate.fetchedFullScreenAd()
+      }
     } else {
       delegate?.failedToFetchAd(withError: NSError(domain: "com.fake.aps", code: 12345))
     }
@@ -86,18 +92,31 @@ class FakeApsClient: NSObject, APSClient {
   }
 
   func fetchAd(for adId: String, width: CGFloat, height: CGFloat) {
+
     if Self.fetchShouldSucceed {
-      delegate?.fetchedAd()
+      if let bannerDelegate {
+        DispatchQueue.main.async {
+          bannerDelegate.fetchedBannerAdView(UIView())
+          if Self.triggerImpressionAfterAdLoad {
+            self.delegate?.adImpressionFired()
+          }
+
+          if Self.triggerAdClickAfterAdLoad {
+            self.delegate?.adClicked()
+          }
+        }
+      } else if let fullScreenAdDelegate {
+        fullScreenAdDelegate.fetchedFullScreenAd()
+      }
     } else {
       delegate?.failedToFetchAd(withError: NSError(domain: "com.fake.aps", code: 12345))
-    }
+      if Self.triggerImpressionAfterAdLoad {
+        delegate?.adImpressionFired()
+      }
 
-    if Self.triggerImpressionAfterAdLoad {
-      delegate?.adImpressionFired()
-    }
-
-    if Self.triggerAdClickAfterAdLoad {
-      delegate?.adClicked()
+      if Self.triggerAdClickAfterAdLoad {
+        delegate?.adClicked()
+      }
     }
   }
 

@@ -16,73 +16,86 @@ final class AmazonAdapterLoadBannerTests {
   }
 
   @Test("Successful banner load")
-  func loadBanner_succeeds() {
+  func loadBanner_succeeds() async {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
       winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
-    adapter.loadBanner(for: config) { banner, error in
-      #expect(banner != nil)
-      #expect(banner?.view is UIView)
-      #expect(error == nil)
-      return AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, error in
+        #expect(banner != nil)
+        #expect(banner?.view is UIView)
+        #expect(error == nil)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
     }
   }
 
   @Test("Unsuccessful banner load because bid response is missing")
-  func loadBanner_fails_whenConfigurationDoesNotContainBidResponse() {
+  func loadBanner_fails_whenConfigurationDoesNotContainBidResponse() async {
     let config = AUTKMediationBannerAdConfiguration()
     let adapter = AmazonBidLoadingAdapter()
-    adapter.loadBanner(for: config) { banner, error in
-      #expect(banner == nil)
-      let error = error as? NSError
-      #expect(error != nil)
-      #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
-      #expect(
-        error!.code
-          == AmazonBidLoadingAdapterError.Category.bannerAdConfigurationsMissingBidResponse.rawValue
-      )
-      return AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, error in
+        #expect(banner == nil)
+        let error = error as? NSError
+        #expect(error != nil)
+        #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
+        #expect(
+          error!.code
+            == AmazonBidLoadingAdapterError.Category.bannerAdConfigurationsMissingBidResponse
+            .rawValue
+        )
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
     }
   }
 
   @Test("Unsuccessful banner load because bid response is invalid json")
-  func loadBanner_fails_whenConfigurationContainsInvalidBidResponse() {
+  func loadBanner_fails_whenConfigurationContainsInvalidBidResponse() async {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = "Invalid"
     let adapter = AmazonBidLoadingAdapter()
-    adapter.loadBanner(for: config) { banner, error in
-      #expect(banner == nil)
-      let error = error as? NSError
-      #expect(error != nil)
-      #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
-      #expect(
-        error!.code
-          == AmazonBidLoadingAdapterError.Category.responseDataJsonStringDecodingFailure.rawValue)
-      return AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, error in
+        #expect(banner == nil)
+        let error = error as? NSError
+        #expect(error != nil)
+        #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
+        #expect(
+          error!.code
+            == AmazonBidLoadingAdapterError.Category.responseDataJsonStringDecodingFailure.rawValue)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
     }
   }
 
   @Test("Unsuccessful banner load because bid response does not contain an ad ID")
-  func loadBanner_fails_whenConfigurationContainsBidResponseWithoutAdId() {
+  func loadBanner_fails_whenConfigurationContainsBidResponseWithoutAdId() async {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = try! AmazonBidLoadingAdapterResponseData(
       winners: [AmazonBidLoadingAdapterRequestData(width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
-    adapter.loadBanner(for: config) { banner, error in
-      #expect(banner == nil)
-      let error = error as? NSError
-      #expect(error != nil)
-      #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
-      #expect(error!.code == AmazonBidLoadingAdapterError.Category.invalidBidResponse.rawValue)
-      return AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, error in
+        #expect(banner == nil)
+        let error = error as? NSError
+        #expect(error != nil)
+        #expect(error!.domain == AmazonBidLoadingAdapterError.domain)
+        #expect(error!.code == AmazonBidLoadingAdapterError.Category.invalidBidResponse.rawValue)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
     }
   }
 
   @Test("Unsuccessful banner load because APS fails to fetch")
-  func loadBanner_fails_whenApsSdkFailsToFetchAd() {
+  func loadBanner_fails_whenApsSdkFailsToFetchAd() async {
     FakeApsClient.fetchShouldSucceed = false
 
     let config = AUTKMediationBannerAdConfiguration()
@@ -90,13 +103,16 @@ final class AmazonAdapterLoadBannerTests {
       winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
-    adapter.loadBanner(for: config) { banner, error in
-      #expect(banner == nil)
-      let error = error as? NSError
-      #expect(error != nil)
-      #expect(error!.domain == "com.fake.aps")
-      #expect(error!.code == 12345)
-      return AUTKMediationBannerAdEventDelegate()
+    await withCheckedContinuation { continuation in
+      adapter.loadBanner(for: config) { banner, error in
+        #expect(banner == nil)
+        let error = error as? NSError
+        #expect(error != nil)
+        #expect(error!.domain == "com.fake.aps")
+        #expect(error!.code == 12345)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
     }
   }
 
@@ -120,13 +136,19 @@ struct AmazonAdapterBannerEventTests {
       winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
+
     adapter.loadBanner(for: config) { banner, error in
       #expect(banner != nil)
       #expect(error == nil)
       #expect(eventDelegate.reportImpressionInvokeCount == 0)
       return eventDelegate
     }
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+
+    await withCheckedContinuation { continuation in
+      while eventDelegate.reportImpressionInvokeCount == 0 {}
+      #expect(eventDelegate.reportImpressionInvokeCount == 1)
+      continuation.resume()
+    }
   }
 
   @Test("Report ad click")
@@ -139,13 +161,19 @@ struct AmazonAdapterBannerEventTests {
       winners: [AmazonBidLoadingAdapterRequestData(adId: "id", width: 100, height: 100)]
     ).jsonStringEncode()
     let adapter = AmazonBidLoadingAdapter()
+
     adapter.loadBanner(for: config) { banner, error in
       #expect(banner != nil)
       #expect(error == nil)
       #expect(eventDelegate.reportClickInvokeCount == 0)
       return eventDelegate
     }
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+
+    await withCheckedContinuation { continuation in
+      while eventDelegate.reportClickInvokeCount == 0 {}
+      #expect(eventDelegate.reportClickInvokeCount == 1)
+      continuation.resume()
+    }
   }
 
 }
