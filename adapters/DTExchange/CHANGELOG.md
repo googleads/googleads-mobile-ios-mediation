@@ -1,7 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
-- Enable -fobjc-arc and -fstack-protector-all.
+#### [Version 8.3.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.6.0.zip)
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with DT Exchange SDK version 8.3.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- DT Exchange SDK version 8.3.6.
 
 #### [Version 8.3.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.5.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
