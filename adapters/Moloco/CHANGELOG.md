@@ -2,6 +2,7 @@
 
 #### Next version
 - Enable -fobjc-arc and -fstack-protector-all.
+- Fixed a bug in the star rating computation.
 
 #### [Version 3.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.7.2.0.zip)
 - Verified compatibility with Moloco SDK version 3.7.2.
