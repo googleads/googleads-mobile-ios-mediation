@@ -32,12 +32,4 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// Pangle's documentation</a> for more information about what values may be provided.
 + (void)setGDPRConsent:(NSInteger)GDPRConsent;
 
-/// Set the CCPA setting in Pangle SDK.
-///
-/// @param doNotSell  An integer value that indicates whether the user opts in of the "sale" of the
-/// "personal information" under CCPA. See <a
-/// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
-/// Pangle's documentation</a> for more information about what values may be provided.
-+ (void)setDoNotSell:(NSInteger)doNotSell;
-
 @end

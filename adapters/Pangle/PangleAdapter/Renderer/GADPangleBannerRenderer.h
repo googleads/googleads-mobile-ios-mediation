@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <PAGAdSDK/PAGAdSDK.h>
 
 @interface GADPangleBannerRenderer : NSObject <GADMediationBannerAd>
 
@@ -22,5 +22,8 @@
 - (void)renderBannerForAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
+
+
++ (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize;
 
 @end

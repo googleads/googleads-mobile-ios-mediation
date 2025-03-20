@@ -47,9 +47,13 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     // The user data needs to be set for it to be included in the signals.
     [PAGConfig shareConfig].userDataString = extras.userDataString;
   }
+
   PAGBiddingRequest *request = [PAGBiddingRequest new];
   request.adxID = @"207";
-  [PAGSdk getBiddingToken:nil completion:^(NSString * _Nonnull biddingToken) {
+  if (params.configuration.credentials.firstObject.format == GADAdFormatBanner) {
+    request.bannerSize = [GADPangleBannerRenderer bannerSizeFormGADAdSize:params.adSize];
+  }
+  [PAGSdk getBiddingTokenWithRequest:request completion:^(NSString * _Nonnull biddingToken) {
     completionHandler(biddingToken, nil);
   }];
 }
@@ -81,7 +85,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
-  config.doNotSell = _doNotSell;
+  config.adxID = @"207";
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
         completionHandler:^(BOOL success, NSError *_Nonnull error) {
@@ -126,7 +130,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA];
   _bannerRenderer = [[GADPangleBannerRenderer alloc] init];
   [_bannerRenderer renderBannerForAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
@@ -136,7 +139,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA];
   _interstitialRenderer = [[GADPangleInterstitialRenderer alloc] init];
   [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration
                                             completionHandler:completionHandler];
@@ -145,7 +147,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA];
   _rewardedRenderer = [[GADPangleRewardedRenderer alloc] init];
   [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
@@ -154,7 +155,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA];
   _nativeRenderer = [[GADPangleNativeRenderer alloc] init];
   [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
@@ -164,23 +164,9 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
                       completionHandler:
                           (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterPangle setCOPPA];
   _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
   [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
-}
-
-/// Set the COPPA setting in Pangle SDK.
-+ (void)setCOPPA {
-  NSNumber *tagForChildDirectedTreatment =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
-  if (!tagForChildDirectedTreatment) {
-    PAGConfig.shareConfig.childDirected = PAGChildDirectedTypeDefault;
-  } else if ([tagForChildDirectedTreatment boolValue] == YES) {
-    PAGConfig.shareConfig.childDirected = PAGChildDirectedTypeChild;
-  } else if ([tagForChildDirectedTreatment boolValue] == NO) {
-    PAGConfig.shareConfig.childDirected = PAGChildDirectedTypeNonChild;
-  }
 }
 
 + (void)setGDPRConsent:(NSInteger)GDPRConsent {
@@ -192,17 +178,6 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
   _GDPRConsent = GDPRConsent;
-}
-
-+ (void)setDoNotSell:(NSInteger)doNotSell {
-  if (doNotSell != 0 && doNotSell != 1 && doNotSell != -1) {
-    GADMPangleLog(@"Invalid CCPA value. Pangle SDK only accepts -1, 0 or 1.");
-    return;
-  }
-  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
-    PAGConfig.shareConfig.doNotSell = doNotSell;
-  }
-  _doNotSell = doNotSell;
 }
 
 @end

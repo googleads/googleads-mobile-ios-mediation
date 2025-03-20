@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADPangleBannerRenderer.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
@@ -60,7 +59,7 @@
     return;
   }
 
-  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize];
+  PAGBannerAdSize bannerSize = [GADPangleBannerRenderer bannerSizeFormGADAdSize:adConfiguration.adSize];
 
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
@@ -95,7 +94,7 @@
               }];
 }
 
-- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
++ (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
   CGSize size = CGSizeFromGADAdSize(gadAdSize);
   
   PAGBannerAdSize pagBanner50 = kPAGBannerSize320x50;
