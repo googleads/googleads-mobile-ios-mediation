@@ -31,6 +31,6 @@ typedef NS_ENUM(NSInteger, GADMAdapterFyberErrorCode) {
 };
 
 /// Mediation network adapter for DT Exchange.
-@interface GADMediationAdapterFyber : NSObject <GADMediationAdapter>
+@interface GADMediationAdapterFyber : NSObject <GADRTBAdapter>
 
 @end
