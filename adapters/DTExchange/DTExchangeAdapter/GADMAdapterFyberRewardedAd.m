@@ -159,20 +159,27 @@
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
-  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
-                                   NSError *_Nullable error) {
-    GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
+  IAAdSpotAdResponseBlock completionCallback =
+      ^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error) {
+        GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
 
-    if (error) {
-      GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", error.localizedDescription);
-      strongSelf->_loadCompletionHandler(nil, error);
-    } else {
-      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-    }
-  }];
+        if (error) {
+          GADMAdapterFyberLog(@"Failed to load rewarded ad: %@", error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+        } else {
+          strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+        }
+      };
+
+  NSString *bidResponse = _adConfiguration.bidResponse;
+  if (bidResponse) {
+    [_adSpot loadAdWithMarkup:bidResponse withCompletion:completionCallback];
+  } else {
+    [_adSpot fetchAdWithCompletion:completionCallback];
+  }
 }
 
 #pragma mark - GADMediationRewardedAd

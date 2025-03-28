@@ -75,13 +75,18 @@
         @"DT Exchange supports a single application ID but multiple application IDs were provided. "
         @"Remove unneeded applications IDs from your mediation configurations. Application IDs: %@",
         applicationIDs);
-    GADMAdapterFyberLog(@"Configuring DT Exchange SDK with application ID: %@.",
-                        applicationID);
+    GADMAdapterFyberLog(@"Configuring DT Exchange SDK with application ID: %@.", applicationID);
   }
 
   GADMAdapterFyberInitializeWithAppId(applicationID, ^(NSError *_Nullable error) {
     completionHandler(error);
   });
+}
+
+- (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
+                         completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
+  // DTExchange expects empty and nil signals as success as well.
+  completionHandler(FMPBiddingManager.sharedInstance.biddingToken, nil);
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
