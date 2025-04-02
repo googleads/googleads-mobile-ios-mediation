@@ -16,6 +16,8 @@
 @interface GADMUnityBannerMediationAdapterProxy
     : GADUnityBaseMediationAdapterProxy <UADSBannerViewDelegate>
 - (nonnull instancetype)initWithAd:(nonnull id<GADMediationBannerAd>)ad
+                   requestedAdSize:(GADAdSize)requestedAdSize
+                        forBidding:(BOOL)bidding
                  completionHandler:
                      (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 @end

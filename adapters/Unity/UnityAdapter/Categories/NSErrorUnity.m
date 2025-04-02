@@ -23,12 +23,4 @@
       @"UnityAds mediation configurations did not contain a valid game ID.");
 }
 
-+ (nonnull NSError *)unsupportedBannerGADAdSize:(GADAdSize)adSize {
-  NSString *errorMsg = [NSString
-      stringWithFormat:
-          @"UnityAds supported banner sizes are not a good fit for the requested size: %@",
-          NSStringFromGADAdSize(adSize)];
-  return GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
-}
-
 @end

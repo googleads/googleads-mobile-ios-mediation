@@ -133,16 +133,13 @@ static BOOL _isTestMode = NO;
   [self initializeWithConfiguration:adConfiguration];
 
   self.placementId = adConfiguration.placementId;
-
-  GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adConfiguration.adSize);
-  if (!IsGADAdSizeValid(supportedSize)) {
-    completionHandler(self, [NSError unsupportedBannerGADAdSize:adConfiguration.adSize]);
-    return;
-  }
-  self.adapterProxy = [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
-                                                             completionHandler:completionHandler];
+  self.adapterProxy =
+      [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
+                                               requestedAdSize:adConfiguration.adSize
+                                                    forBidding:adConfiguration.bidResponse != nil
+                                             completionHandler:completionHandler];
   self.bannerView = [[UADSBannerView alloc] initWithPlacementId:self.placementId
-                                                           size:supportedSize.size];
+                                                           size:adConfiguration.adSize.size];
   self.bannerView.delegate = self.adapterProxy;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   NSData *watermark = adConfiguration.watermark;

@@ -13,20 +13,27 @@
 // limitations under the License.
 
 #import "GADMUnityBannerMediationAdapterProxy.h"
+#import "GADMAdapterUnityUtils.h"
 
 @interface GADMUnityBannerMediationAdapterProxy ()
 @property(nonatomic, copy) GADMediationBannerLoadCompletionHandler loadCompletionHandler;
 @property(nonatomic, weak) id<GADMediationBannerAd> ad;
+@property(nonatomic) GADAdSize requestedAdSize;
+@property(nonatomic) BOOL isBidding;
 @end
 
 @implementation GADMUnityBannerMediationAdapterProxy
 
 - (nonnull instancetype)initWithAd:(id<GADMediationBannerAd>)ad
-         completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+                   requestedAdSize:(GADAdSize)requestedAdSize
+                        forBidding:(BOOL)bidding
+                 completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
   self = [super init];
   if (self) {
     _ad = ad;
+    _requestedAdSize = requestedAdSize;
     _loadCompletionHandler = completionHandler;
+    _isBidding = bidding;
   }
   return self;
 }
@@ -34,7 +41,24 @@
 #pragma mark UADSBannerViewDelegate
 
 - (void)bannerViewDidLoad:(UADSBannerView *)bannerView {
-  self.eventDelegate = self.loadCompletionHandler(self.ad, nil);
+  id<GADMediationBannerAd> ad = self.ad;
+  // Verify the ad size only for waterfall.
+  if (!_isBidding) {
+    GADAdSize supportedSize = GADClosestValidSizeForAdSizes(
+        GADAdSizeFromCGSize(bannerView.size), @[ NSValueFromGADAdSize(_requestedAdSize) ]);
+    if (!IsGADAdSizeValid(supportedSize)) {
+      NSString *errorMsg = [NSString
+          stringWithFormat:@"The banner ad returend by Unity does not match with the requested "
+                           @"size. The requested ad size: %@. The Unity ad size: %@",
+                           NSStringFromGADAdSize(_requestedAdSize),
+                           NSStringFromCGSize(bannerView.size)];
+      NSError *error =
+          GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
+      self.loadCompletionHandler(ad, error);
+      return;
+    }
+  }
+  self.eventDelegate = self.loadCompletionHandler(ad, nil);
 }
 
 - (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error {

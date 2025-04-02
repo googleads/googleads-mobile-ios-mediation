@@ -17,5 +17,4 @@
 
 @interface NSError (Unity)
 + (nonnull NSError *)noValidGameId;
-+ (nonnull NSError *)unsupportedBannerGADAdSize:(GADAdSize)adSize;
 @end
