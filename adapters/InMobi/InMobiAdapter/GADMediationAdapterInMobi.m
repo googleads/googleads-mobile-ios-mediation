@@ -12,18 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GADMediationAdapterInMobi.h"
-
-#import "GADInMobiExtras.h"
-#import "GADMAdapterInMobiBannerAd.h"
-#import "GADMAdapterInMobiConstants.h"
-#import "GADMAdapterInMobiInitializer.h"
-#import "GADMAdapterInMobiInterstitialAd.h"
-#import "GADMAdapterInMobiRewardedAd.h"
-#import "GADMAdapterInMobiUnifiedNativeAd.h"
-#import "GADMAdapterInMobiUtils.h"
-#import "GADMInMobiConsent.h"
-
 @implementation GADMediationAdapterInMobi {
   /// InMobi rewarded ad wrapper.
   GADMAdapterInMobiRewardedAd *_rewardedAd;
@@ -33,6 +21,9 @@
 
   /// InMobi interstitial ad wrapper.
   GADMAdapterInMobiInterstitialAd *_interstitialAd;
+    
+  /// InMobi interstitial rewarded ad wrapper.
+  GADMAdapterInMobiRewardedAd *_interstitialRewardedAd;
 
   /// InMobi native ad wrapper.
   GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
@@ -171,6 +162,20 @@
 
   [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    if (!_interstitialRewardedAd) {
+      NSString *placementIdentifierString =
+          adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
+      NSNumber *placementIdentifier =
+          [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+        _interstitialRewardedAd =
+          [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
+    }
+
+    [_interstitialRewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                                completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
