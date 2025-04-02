@@ -12,6 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "GADMediationAdapterInMobi.h"
+
+#import "GADInMobiExtras.h"
+#import "GADMAdapterInMobiBannerAd.h"
+#import "GADMAdapterInMobiConstants.h"
+#import "GADMAdapterInMobiInitializer.h"
+#import "GADMAdapterInMobiInterstitialAd.h"
+#import "GADMAdapterInMobiRewardedAd.h"
+#import "GADMAdapterInMobiUnifiedNativeAd.h"
+#import "GADMAdapterInMobiUtils.h"
+#import "GADMInMobiConsent.h"
+
 @implementation GADMediationAdapterInMobi {
   /// InMobi rewarded ad wrapper.
   GADMAdapterInMobiRewardedAd *_rewardedAd;
