@@ -254,4 +254,19 @@ abstract_target 'Default' do
 
   end
 
+  # PubMaticAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('PubMaticAdapter')
+
+    pod 'GoogleMobileAdsMediationPubMatic', :path => '../adapters/PubMatic/CocoaPods/GoogleMobileAdsMediationPubMatic.podspec.json'
+
+    # Dependencies for PubMaticAdapter static library.
+    target 'Adapter' do
+      project '../adapters/PubMatic/PubMaticAdapter.xcodeproj'
+    end
+
+    target 'PubMaticAdapterTests' do
+    end
+
+  end
+
 end

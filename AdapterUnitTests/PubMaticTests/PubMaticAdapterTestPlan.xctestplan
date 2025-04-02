@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "E80C7376-3A4D-4756-8101-FAAD52428A6D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD76A9DC2D93126D00F40CD4",
+        "name" : "PubMaticAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
