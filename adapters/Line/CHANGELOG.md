@@ -1,9 +1,14 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next Version
+#### [Version 2.9.20241106.3](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.3.zip)
 - Fixed an issue where `GADMediationAdapterLine.h` was not a public header.
-- Enable -fobjc-arc and -fstack-protector-all.
-- Removed the banner ad size verification for bidding after successful loading. Still checks the banner ad size for waterfall.
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Removed the banner ad size verification for bidding after successful loading.
+  - Waterfall banner ads will continue to check for banner ad sizes upon successful loading.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- FiveAd SDK version 2.9.20241106.
 
 #### [Version 2.9.20241106.2](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.2.zip)
 - Added the `GADMediationAdapterLine.testMode` property to indicate whether the FiveAd SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
