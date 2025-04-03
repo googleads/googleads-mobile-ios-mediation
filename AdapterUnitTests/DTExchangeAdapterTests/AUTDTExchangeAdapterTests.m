@@ -116,4 +116,18 @@
   XCTAssertEqual([GADMediationAdapterFyber networkExtrasClass], [GADMAdapterFyberExtras class]);
 }
 
+- (void)testSignalCollection {
+  id mockBiddingManager = OCMClassMock([FMPBiddingManager class]);
+  OCMStub([mockBiddingManager sharedInstance]).andReturn(mockBiddingManager);
+  NSString *fakeToken = @"fake_bidding_token";
+  OCMStub([mockBiddingManager biddingToken]).andReturn(fakeToken);
+
+  GADMediationAdapterFyber *adapter = [[GADMediationAdapterFyber alloc] init];
+  [adapter
+      collectSignalsForRequestParameters:[[AUTKRTBRequestParameters alloc] init]
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertEqualObjects(signals, fakeToken);
+                       }];
+}
+
 @end

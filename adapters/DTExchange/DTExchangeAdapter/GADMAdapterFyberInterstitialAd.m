@@ -141,21 +141,28 @@
     [builder addSupportedUnitController:strongSelf->_fullscreenUnitController];
   }];
 
-  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
-                                   NSError *_Nullable error) {
-    GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
+  IAAdSpotAdResponseBlock completionCallback =
+      ^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error) {
+        GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
 
-    if (error) {
-      GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", error.localizedDescription);
-      strongSelf->_loadCompletionHandler(nil, error);
-      return;
-    }
+        if (error) {
+          GADMAdapterFyberLog(@"Failed to load interstitial ad: %@", error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+          return;
+        }
 
-    strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-  }];
+        strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+      };
+
+  NSString *bidResponse = _adConfiguration.bidResponse;
+  if (bidResponse) {
+    [_adSpot loadAdWithMarkup:bidResponse withCompletion:completionCallback];
+  } else {
+    [_adSpot fetchAdWithCompletion:completionCallback];
+  }
 }
 
 #pragma mark - GADMediationInterstitialAd

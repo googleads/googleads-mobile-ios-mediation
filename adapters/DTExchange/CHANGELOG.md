@@ -1,5 +1,10 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next version
+- Added bidding banner.
+- Added bidding interstitial.
+- Added bidding rewarded.
+
 #### [Version 8.3.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.6.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
 - Verified compatibility with DT Exchange SDK version 8.3.6.
