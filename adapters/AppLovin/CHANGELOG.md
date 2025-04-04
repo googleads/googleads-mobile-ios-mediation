@@ -1,8 +1,13 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
-- Enable -fobjc-arc and -fstack-protector-all.
-- Updated reward logic: rewards are now granted upon rewarded ad video completion, not closure.
+#### [Version 13.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.2.0.0.zip)
+- Rewards are now granted upon completion of rewarded video ads.
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with AppLovin SDK 13.2.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- AppLovin SDK version 13.2.0.
 
 #### [Version 13.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.1.0.1.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
