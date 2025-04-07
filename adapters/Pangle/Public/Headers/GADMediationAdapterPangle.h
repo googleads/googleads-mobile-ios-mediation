@@ -32,4 +32,7 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
 /// Pangle's documentation</a> for more information about what values may be provided.
 + (void)setGDPRConsent:(NSInteger)GDPRConsent;
 
+/// Set whether the user consents to be served Personalized Ads.
++ (void)setPAConsent:(NSInteger)PAConsent;
+
 @end

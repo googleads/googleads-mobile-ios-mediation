@@ -59,7 +59,7 @@
     return;
   }
 
-  PAGBannerAdSize bannerSize = [GADPangleBannerRenderer bannerSizeFormGADAdSize:adConfiguration.adSize];
+  PAGBannerAdSize bannerSize = [GADPangleBannerRenderer bannerSizeFromGADAdSize:adConfiguration.adSize];
 
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
@@ -94,7 +94,7 @@
               }];
 }
 
-+ (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize {
++ (PAGBannerAdSize)bannerSizeFromGADAdSize:(GADAdSize)gadAdSize {
   CGSize size = CGSizeFromGADAdSize(gadAdSize);
   
   PAGBannerAdSize pagBanner50 = kPAGBannerSize320x50;

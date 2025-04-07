@@ -23,7 +23,7 @@
 #import "GADPangleNetworkExtras.h"
 #import "GADPangleRewardedRenderer.h"
 
-static NSInteger _GDPRConsent = -1, _doNotSell = -1;
+static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 
 @implementation GADMediationAdapterPangle {
   /// Pangle app open ad wrapper.
@@ -85,6 +85,7 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
+  config.PAConsent = _PAConsent;
   config.adxID = @"207";
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
@@ -178,6 +179,17 @@ static NSInteger _GDPRConsent = -1, _doNotSell = -1;
     PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
   _GDPRConsent = GDPRConsent;
+}
+
++ (void)setPAConsent:(NSInteger)PAConsent {
+    if (PAConsent != 0 && PAConsent != 1) {
+      GADMPangleLog(@"Invalid PAConsent value. Pangle SDK only accepts 0 or 1.");
+      return;
+    }
+    if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+        PAGConfig.shareConfig.PAConsent = PAConsent;
+    }
+    _PAConsent = PAConsent;
 }
 
 @end
