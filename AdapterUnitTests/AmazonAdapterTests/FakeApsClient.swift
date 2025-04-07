@@ -1,3 +1,4 @@
+import DTBiOSSDK
 import UIKit
 
 @testable import AmazonAdapter
@@ -52,7 +53,7 @@ class FakeApsClient: NSObject, APSClient {
   }
 
   func loadAndCacheApsAd(
-    with slotId: String, clientAdFormat: APSClientAdFormat, adSize: CGSize,
+    with slotId: String, adFormat: APSAdFormat, adSize: CGSize,
     completion: @escaping (AmazonBidLoadingAdapterRequestData?, NSError?) -> Void
   ) {
     if Self.signalsCollectionShouldSucceed {

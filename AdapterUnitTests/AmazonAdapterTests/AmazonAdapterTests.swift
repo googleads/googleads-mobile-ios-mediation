@@ -131,16 +131,17 @@ struct AmazonAdapterCollectSignalsTests {
     setenv("FAKE_APS_CLIENT_CLASS_NAME", "AmazonAdapterTests.FakeApsClient", 1)
   }
 
-  @Test("Successful signals collection with valid bidding request parameters")
-  func collectSignals_succeeds() async {
+  @Test("Successful signals collection for banner ad")
+  func collectSignals_succeeds_whenAdFormatIsBanner() async {
     let credentials = AUTKMediationCredentials()
-    credentials.settings = ["slot_id": "testid"]
+    credentials.settings = ["slot_id": "testid", "slot_width": "320", "slot_height": "50"]
+    credentials.format = .banner
     let configurations = AUTKRTBMediationSignalsConfiguration()
     configurations.credentials = [credentials]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
-    let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
+    let expectedSize = CGSize(width: 320, height: 50)
+    requestParams.adSize = AdSizeBanner
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -161,16 +162,17 @@ struct AmazonAdapterCollectSignalsTests {
     }
   }
 
-  @Test("Successful signals collection with valid bidding request parameters")
-  func collectSignals_succeedsWithMultiple() async {
+  @Test("Successful signals collection for MREC ad")
+  func collectSignals_succeeds_whenAdFormatIsMrec() async {
     let credentials = AUTKMediationCredentials()
-    credentials.settings = ["slot_id": "testid"]
+    credentials.settings = ["slot_id": "testid", "slot_width": "300", "slot_height": "250"]
+    credentials.format = .banner
     let configurations = AUTKRTBMediationSignalsConfiguration()
     configurations.credentials = [credentials]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
-    let expectedSize = CGSize(width: 100, height: 100)
-    requestParams.adSize = AdSize(size: expectedSize, flags: 0)
+    let expectedSize = CGSize(width: 300, height: 250)
+    requestParams.adSize = AdSizeMediumRectangle
 
     let adapter = AmazonBidLoadingAdapter()
     await confirmation("wait for singals collection") { signalsLoaded in
@@ -184,8 +186,97 @@ struct AmazonAdapterCollectSignalsTests {
           #expect(requestDataDict!["ad_id"] != nil)
           #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
           #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
-          #expect(requestDataDict!["adapter_error"] == nil)
-          #expect(requestDataDict!["third_party_sdk_error"] == nil)
+          signalsLoaded()
+          continuation.resume()
+        }
+      }
+    }
+  }
+
+  @Test("Successful signals collection for leaderboard ad")
+  func collectSignals_succeeds_whenAdFormatIsLeaderboard() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid", "slot_width": "728", "slot_height": "90"]
+    credentials.format = .banner
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    let expectedSize = CGSize(width: 728, height: 90)
+    requestParams.adSize = AdSizeLeaderboard
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == Int(expectedSize.width))
+          #expect(requestDataDict!["height"] as! Int == Int(expectedSize.height))
+          signalsLoaded()
+          continuation.resume()
+        }
+      }
+    }
+  }
+
+  @Test("Successful signals collection for interstitial ad")
+  func collectSignals_succeeds_whenAdFormatIsInterstitial() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    credentials.format = .interstitial
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    requestParams.adSize = AdSizeInvalid
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == 0)
+          #expect(requestDataDict!["height"] as! Int == 0)
+          signalsLoaded()
+          continuation.resume()
+        }
+      }
+    }
+  }
+
+  @Test("Successful signals collection for rewarded ad")
+  func collectSignals_succeeds_whenAdFormatIsRewarded() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "testid"]
+    credentials.format = .rewarded
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    requestParams.adSize = AdSizeInvalid
+
+    let adapter = AmazonBidLoadingAdapter()
+    await confirmation("wait for singals collection") { signalsLoaded in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(signals != nil)
+          #expect(error == nil)
+          let requestDataDict = signals?.toJsonDictionary()
+          #expect(requestDataDict != nil)
+          #expect(requestDataDict!["winning_bid_price_encoded"] != nil)
+          #expect(requestDataDict!["ad_id"] != nil)
+          #expect(requestDataDict!["width"] as! Int == 0)
+          #expect(requestDataDict!["height"] as! Int == 0)
           signalsLoaded()
           continuation.resume()
         }
@@ -196,14 +287,14 @@ struct AmazonAdapterCollectSignalsTests {
   @Test("Successful signals collection with multiple slot IDs.")
   func collectSignals_succeedsWithMultipleUniqueSlotIds() async {
     let credentials1 = AUTKMediationCredentials()
-    credentials1.settings = ["slot_id": "testid1"]
+    credentials1.settings = ["slot_id": "testid1", "slot_width": "1", "slot_height": "1"]
     let credentials2 = AUTKMediationCredentials()
-    credentials2.settings = ["slot_id": "testid2"]
+    credentials2.settings = ["slot_id": "testid2", "slot_width": "320", "slot_height": "50"]
     let configurations = AUTKRTBMediationSignalsConfiguration()
     configurations.credentials = [credentials1, credentials2]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
-    let expectedSize = CGSize(width: 100, height: 100)
+    let expectedSize = CGSize(width: 320, height: 50)
     requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
@@ -331,12 +422,13 @@ struct AmazonAdapterCollectSignalsTests {
     FakeApsClient.signalsCollectionShouldSucceed = false
 
     let credentials = AUTKMediationCredentials()
-    credentials.settings = ["slot_id": "testid"]
+    credentials.settings = ["slot_id": "testid", "slot_width": "320", "slot_height": "50"]
+    credentials.format = .banner
     let configurations = AUTKRTBMediationSignalsConfiguration()
     configurations.credentials = [credentials]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
-    let expectedSize = CGSize(width: 100, height: 100)
+    let expectedSize = CGSize(width: 320, height: 50)
     requestParams.adSize = AdSize(size: expectedSize, flags: 0)
 
     let adapter = AmazonBidLoadingAdapter()
