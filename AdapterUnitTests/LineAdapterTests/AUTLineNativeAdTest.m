@@ -49,7 +49,6 @@ static CGFloat const AUTLineTestVideoWidth = 123;
     XCTAssertTrue([eventListener conformsToProtocol:@protocol(FADNativeEventListener)]);
   });
   OCMStub([_nativeMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
-    OCMStub([self->_nativeMock state]).andReturn(kFADStateLoaded);
     [loadDelegate fiveAdDidLoad:self->_nativeMock];
   });
 }

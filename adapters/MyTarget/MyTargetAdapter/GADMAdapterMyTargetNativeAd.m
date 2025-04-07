@@ -316,22 +316,18 @@
   [_adEventDelegate reportClick];
 }
 
-- (void)onVideoPlayWithNativeAd:(MTRGNativeAd *)nativeAd {
+- (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-
-  [_adEventDelegate didPlayVideo];
 }
 
-- (void)onVideoPauseWithNativeAd:(MTRGNativeAd *)nativeAd {
+- (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
 
-  [_adEventDelegate didPauseVideo];
+  [_adEventDelegate didDismissFullScreenView];
 }
 
-- (void)onVideoCompleteWithNativeAd:(MTRGNativeAd *)nativeAd {
+- (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd {
   MTRGLogInfo();
-
-  [_adEventDelegate didEndVideo];
 }
 
 @end

@@ -58,11 +58,6 @@ static FADAdLoader *_Nullable gAdLoader;
 
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
     NSArray<GADMediationCredentials *> *_Nonnull credentialsArray) {
-  if (FADSettings.isConfigRegistered) {
-    GADMediationAdapterLineLog(@"FiveAd SDK is already registered");
-    return nil;
-  }
-
   NSError *error = nil;
   NSString *applicationID = GADMediationAdapterLineApplicationID(credentialsArray, &error);
   if (error) {
@@ -73,7 +68,7 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
   GADMobileAds *mobileAds = GADMobileAds.sharedInstance;
   FADConfig *config = [[FADConfig alloc] initWithAppId:applicationID];
   [config enableSoundByDefault:!mobileAds.applicationMuted];
-  [config setIsTest:mobileAds.requestConfiguration.testDeviceIdentifiers.count];
+  [config setIsTest:GADMediationAdapterLine.testMode];
 
   NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
   FADNeedChildDirectedTreatment needChildDirectedTreatment =

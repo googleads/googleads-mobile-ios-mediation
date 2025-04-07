@@ -1,5 +1,45 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### [Version 13.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.2.0.0.zip)
+- Rewards are now granted upon completion of rewarded video ads.
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with AppLovin SDK 13.2.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- AppLovin SDK version 13.2.0.
+
+#### [Version 13.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.1.0.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- AppLovin SDK version 13.1.0.
+
+#### [Version 13.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.1.0.0.zip)
+- Verified compatibility with AppLovin SDK 13.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- AppLovin SDK version 13.1.0.
+
+#### [Version 13.0.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.1.1.zip)
+- Replaced the deprecated AppLovin SDK's initialization and bid token collection APIs with its new APIs.
+- Prevented multiple initializations of AppLovin SDK when multiple AppLovin SDK keys are provided.
+- Deprecated the `muteAudio` property, use `GADMobileAds.sharedInstance.applicationMuted` instead.
+- Enabled loading of a second ad for an ad unit after the first ad for that ad unit has loaded even if the first ad hasn't been shown yet.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- AppLovin SDK version 13.0.1.
+
+#### [Version 13.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.1.0.zip)
+- Verified compatibility with AppLovin SDK 13.0.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.11.0.
+- AppLovin SDK version 13.0.1.
+
 #### [Version 13.0.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.0.0.2.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

@@ -127,7 +127,8 @@
                      [interstitialAd enableSound:GADMediationAdapterLineShouldEnableAudio(
                                                      strongSelf->_adConfiguration.extras)];
                      strongSelf->_interstitialAd = interstitialAd;
-                     strongSelf->_interstitialAdLoadCompletionHandler(strongSelf, nil);
+                     strongSelf->_interstitialAdEventDelegate =
+                         strongSelf->_interstitialAdLoadCompletionHandler(strongSelf, nil);
                    }];
 }
 
@@ -136,7 +137,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   GADMediationAdapterLineLog(@"FiveAd SDK will present the interstitial ad.");
   [_interstitialAdEventDelegate willPresentFullScreenView];
-  [_interstitialAd show];
+  [_interstitialAd showWithViewController:viewController];
 }
 
 #pragma mark - FADLoadDelegate (for waterfall interstitial ad)

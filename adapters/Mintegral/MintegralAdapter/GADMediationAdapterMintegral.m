@@ -140,6 +140,7 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (completionHandler) {
     completionHandler([MTGBiddingSDK buyerUID], nil);
   }
@@ -148,6 +149,7 @@
 - (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
                       completionHandler:
                           (GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (adConfiguration.bidResponse) {
     _rtbAppOpenAd = [[GADMAdapterMintegralRTBAppOpenAdLoader alloc] init];
     [_rtbAppOpenAd loadRTBAppOpenAdForAdConfiguration:adConfiguration
@@ -161,6 +163,7 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (adConfiguration.bidResponse) {
     _rtbBannerAd = [[GADMAdapterMintegralRTBBannerAdLoader alloc] init];
     [_rtbBannerAd loadRTBBannerAdForAdConfiguration:adConfiguration
@@ -176,6 +179,7 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (adConfiguration.bidResponse) {
     _rtbInterstitialAd = [[GADMAdapterMintegralRTBInterstitialAdLoader alloc] init];
     [_rtbInterstitialAd loadRTBInterstitialAdForAdConfiguration:adConfiguration
@@ -189,6 +193,7 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (adConfiguration.bidResponse) {
     _rtbNativeAd = [[GADMAdapterMintegralRTBNativeAdLoader alloc] init];
     [_rtbNativeAd loadRTBNativeAdForAdConfiguration:adConfiguration
@@ -203,6 +208,7 @@
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   if (adConfiguration.bidResponse) {
     _rtbRewardedAd = [[GADMAdapterMintegralRTBRewardedAdLoader alloc] init];
     [_rtbRewardedAd loadRTBRewardedAdForAdConfiguration:adConfiguration

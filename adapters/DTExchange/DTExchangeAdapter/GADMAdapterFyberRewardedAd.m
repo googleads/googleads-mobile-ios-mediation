@@ -178,11 +178,12 @@
 #pragma mark - GADMediationRewardedAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
   if (_fullscreenUnitController.isPresented) {
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorAdAlreadyUsed, @"DT Exchange Rewarded ad has already been presented.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    [_delegate didFailToPresentWithError:error];
+    [delegate didFailToPresentWithError:error];
     return;
   }
 
@@ -190,7 +191,7 @@
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorAdNotReady, @"DT Exchange Rewarded ad is not ready to show.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    [_delegate didFailToPresentWithError:error];
+    [delegate didFailToPresentWithError:error];
     return;
   }
 
@@ -221,8 +222,12 @@
 }
 
 - (void)IAAdDidReward:(nullable IAUnitController *)unitController {
-  [_delegate didEndVideo];
-  [_delegate didRewardUser];
+  id<GADMediationRewardedAdEventDelegate> delegate = _delegate;
+  if (!delegate) {
+    return;
+  }
+  [delegate didEndVideo];
+  [delegate didRewardUser];
 }
 
 - (void)IAUnitControllerWillPresentFullscreen:(nullable IAUnitController *)unitController {

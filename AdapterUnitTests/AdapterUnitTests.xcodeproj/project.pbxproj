@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
+		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
 		44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */; };
 		44B303462AB232D700652006 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ACFB072AB11D4B00035A73 /* libAdapter.a */; };
 		44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -16,14 +17,19 @@
 		701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		701E23872AAD8CB100BAB0B3 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701E237F2AAD8C8300BAB0B3 /* libAdapter.a */; };
 		701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */; };
+		703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */; };
+		70387DD42D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD32D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift */; };
 		706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */; };
 		70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */; };
 		70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */; };
 		7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */; };
+		707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */; };
+		707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */; };
 		707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */; };
 		707FFE2C2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */; };
 		707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */; };
+		70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */; };
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70C886582B80304E00B0703F /* AUTNendBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C886572B80304E00B0703F /* AUTNendBannerAdTests.m */; };
@@ -114,12 +120,22 @@
 		AD45EED62A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45EED52A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m */; };
 		AD56E0AE2B32259400F7C166 /* AUTMyTargetBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */; };
 		AD5B32302B9ACB560055FA17 /* ImobileSdkAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */; };
+		AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */; };
+		AD5E06602D5EDBB900380B70 /* AmazonAdapterRewardedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */; };
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
 		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD76A9F42D9312C300F40CD4 /* libPubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */; };
+		AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */; };
+		AD76AADB2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */; };
 		AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */; };
 		AD89C41A2B34D88E002952E2 /* AUTNendInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */; };
+		AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */; };
+		AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */; };
+		AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */; };
 		AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */; };
 		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
@@ -138,8 +154,9 @@
 		ADA1AFCF2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */; };
 		ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */; };
 		ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */; };
+		ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */; };
 		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
-		ADEAFA3B2A3669D60036464A /* AUTLineInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */; };
+		ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */; };
 		ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */; };
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
 		ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */; };
@@ -150,6 +167,10 @@
 		ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */; };
 		ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADFAAF142A33F36500D92129 /* AUTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF132A33F36500D92129 /* AUTKConstants.m */; };
+		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
+		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
+		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
+		F0F0A7732D820B910004BE2E /* FakeMolocoNativeAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,6 +215,97 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
+		};
+		703877452CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9142CF145F8009C8FDA;
+			remoteInfo = StaticAppLovinAdapter;
+		};
+		7038774B2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B92D2CF14610009C8FDA;
+			remoteInfo = StaticChartboostAdapter;
+		};
+		703877512CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9462CF14624009C8FDA;
+			remoteInfo = StaticDTExchangeAdapter;
+		};
+		703877572CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9612CF14634009C8FDA;
+			remoteInfo = StaticIMobileAdapter;
+		};
+		7038775D2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9A82CF14649009C8FDA;
+			remoteInfo = StaticIronSourceAdapter;
+		};
+		703877632CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9CC2CF14655009C8FDA;
+			remoteInfo = StaticLiftoffMonetizeAdapter;
+		};
+		703877692CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9E62CF146CD009C8FDA;
+			remoteInfo = StaticLineAdapter;
+		};
+		7038776F2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA022CF146D9009C8FDA;
+			remoteInfo = StaticMaioAdapter;
+		};
+		703877752CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA462CF146F0009C8FDA;
+			remoteInfo = StaticMintegralAdapter;
+		};
+		7038777B2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA5C2CF146FE009C8FDA;
+			remoteInfo = StaticMolocoAdapter;
+		};
+		703877812CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA7D2CF14709009C8FDA;
+			remoteInfo = StaticMyTargetAdapter;
+		};
+		703877872CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BA9A2CF14715009C8FDA;
+			remoteInfo = StaticPangleAdapter;
+		};
+		7038778D2CF65449000C09EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6BABB2CF1471F009C8FDA;
+			remoteInfo = StaticUnityAdapter;
 		};
 		7072CF592C41F8BD002BF6AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -482,6 +594,76 @@
 			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
 			remoteInfo = Adapter;
 		};
+		AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD76A9CA2D93117B00F40CD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = PubMaticAdapterFramework;
+		};
+		AD76A9E02D93126D00F40CD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD76A9F02D93126D00F40CD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD76A9DB2D9311C500F40CD4;
+			remoteInfo = StaticPubmaticAdapter;
+		};
+		AD76A9F22D9312A100F40CD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD8FE28C2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = AmazonAdapterFramework;
+		};
+		AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD97CBC32D35E82F00525E2F;
+			remoteInfo = StaticAmazonAdapter;
+		};
+		AD8FE91E2D3B316300B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD8FE9222D3B317200B4728A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
 		ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
@@ -529,6 +711,7 @@
 /* Begin PBXFileReference section */
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
+		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
 		44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppLovinAdapter.xcodeproj; path = ../adapters/AppLovinAdapter/AppLovinAdapter.xcodeproj; sourceTree = "<group>"; };
 		44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLovinAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinAdapterTests.m; sourceTree = "<group>"; };
@@ -536,21 +719,26 @@
 		701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PangleAdapter.xcodeproj; path = ../adapters/PangleAdapter/PangleAdapter.xcodeproj; sourceTree = "<group>"; };
 		701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterTests.m; sourceTree = "<group>"; };
+		703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoSdkVersionProvider.swift; sourceTree = "<group>"; };
+		70387DD32D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoAgeRestrictedSetter.swift; sourceTree = "<group>"; };
 		706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoInterstitialAdTest.swift; sourceTree = "<group>"; };
 		70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitial.swift; sourceTree = "<group>"; };
 		70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoInterstitialFactory.swift; sourceTree = "<group>"; };
 		7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MolocoAdapter.xcodeproj; path = ../adapters/MolocoAdapter/MolocoAdapter.xcodeproj; sourceTree = "<group>"; };
 		7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MolocoAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineWaterfallInterstitialAdTest.m; sourceTree = "<group>"; };
+		707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRTBInterstitialAdTest.m; sourceTree = "<group>"; };
 		707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		707FFE2B2B13D676006A1283 /* AUTLiftoffMonetizeUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeUtilsTests.m; sourceTree = "<group>"; };
 		707FFE6F2B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRouterTests.m; sourceTree = "<group>"; };
+		70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoBidTokenGetter.swift; sourceTree = "<group>"; };
 		70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRewardedInterstitialAdTest.m; sourceTree = "<group>"; };
 		70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceUtilsTests.m; sourceTree = "<group>"; };
 		70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterTests.xctestplan; sourceTree = "<group>"; };
 		70C886572B80304E00B0703F /* AUTNendBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTNendBannerAdTests.m; sourceTree = "<group>"; };
 		70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeRTBRewardedAdTests.m; sourceTree = "<group>"; };
 		70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeWaterfallRewardedAdTests.m; sourceTree = "<group>"; };
-		70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:9T245VHMPL:Moloco, Inc."; lastKnownFileType = wrapper.xcframework; name = MolocoSDK.xcframework; path = Pods/MolocoSDKiOS/MolocoSDK.xcframework; sourceTree = "<group>"; };
+		70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MolocoSDK.xcframework; path = Pods/MolocoSDKiOS/MolocoSDK.xcframework; sourceTree = "<group>"; };
 		70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
 		70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapterTest.swift; sourceTree = "<group>"; };
 		8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewardedFactory.swift; sourceTree = "<group>"; };
@@ -637,13 +825,25 @@
 		AD45EED52A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityBannerAdTests.m; sourceTree = "<group>"; };
 		AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetBannerAdTests.m; sourceTree = "<group>"; };
 		AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ImobileSdkAds.xcframework; path = Pods/ImobileSdkAds/ImobileSdkAds.xcframework; sourceTree = "<group>"; };
+		AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterInterstitialTests.swift; sourceTree = "<group>"; };
+		AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterRewardedTests.swift; sourceTree = "<group>"; };
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdapterUnitTestKit.h; sourceTree = "<group>"; };
 		AD6FA03E2A16BF98007335D2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKAdConfiguration.m; sourceTree = "<group>"; };
 		AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdConfiguration.h; sourceTree = "<group>"; };
+		AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PubMaticAdapter.xcodeproj; path = ../adapters/PubMaticAdapter/PubMaticAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubMaticAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterTests.swift; sourceTree = "<group>"; };
+		AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PubMaticAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
 		AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTNendInterstitialAdTests.m; sourceTree = "<group>"; };
+		AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonAdapter.xcodeproj; path = ../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AmazonAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterTests.swift; sourceTree = "<group>"; };
+		AD8FE4642D3A00FA00B4728A /* DTBiOSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DTBiOSSDK.xcframework; path = "Pods/AmazonPublisherServicesSDK/APS_iOS_SDK-4.9.7/DTBiOSSDK.xcframework"; sourceTree = "<group>"; };
+		AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeApsClient.swift; sourceTree = "<group>"; };
+		AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmazonAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinUtilsTests.m; sourceTree = "<group>"; };
 		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
 		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
@@ -662,11 +862,12 @@
 		ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostBannerAdTests.m; sourceTree = "<group>"; };
 		ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetInterstitialAdTests.m; sourceTree = "<group>"; };
 		ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineNativeAdTest.m; sourceTree = "<group>"; };
+		ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoTestUtils.swift; sourceTree = "<group>"; };
 		ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LineAdapter.xcodeproj; path = ../adapters/LineAdapter/LineAdapter.xcodeproj; sourceTree = "<group>"; };
+		ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterBannerTests.swift; sourceTree = "<group>"; };
 		ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LineAdapterTests.xctestplan; sourceTree = "<group>"; };
 		ADD6B4B32A57804000F5D318 /* DTExchangeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = DTExchangeAdapterTests.xctestplan; sourceTree = "<group>"; };
-		ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineInterstitialAdTest.m; sourceTree = "<group>"; };
 		ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineBannerAdTest.m; sourceTree = "<group>"; };
 		ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRewardedAdTest.m; sourceTree = "<group>"; };
 		ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTExchangeAdapter.xcodeproj; path = ../adapters/DTExchangeAdapter/DTExchangeAdapter.xcodeproj; sourceTree = "<group>"; };
@@ -676,6 +877,10 @@
 		ADF3B9B82AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinRewardedAdTests.m; sourceTree = "<group>"; };
 		ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineAdapterTest.m; sourceTree = "<group>"; };
 		ADFAAF132A33F36500D92129 /* AUTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKConstants.m; sourceTree = "<group>"; };
+		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
+		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
+		F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeAdTest.swift; sourceTree = "<group>"; };
+		F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAssets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -797,6 +1002,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD76A9E72D93126D00F40CD4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD76A9F42D9312C300F40CD4 /* libPubMaticAdapter.a in Frameworks */,
+				AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8FE9142D3B314B00B4728A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */,
+				AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADADDD3D2A32528C00FB60E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -823,6 +1046,7 @@
 			children = (
 				44ACFB072AB11D4B00035A73 /* libAdapter.a */,
 				AD00C4D62B88225F007C85F3 /* AppLovinAdapter.framework */,
+				703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -858,6 +1082,7 @@
 			children = (
 				701E237F2AAD8C8300BAB0B3 /* libAdapter.a */,
 				AD00C50D2B88225F007C85F3 /* PangleAdapter.framework */,
+				703877882CF65449000C09EE /* libStaticPangleAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -869,8 +1094,14 @@
 				85A57D722CA4B663009FC260 /* FakeMolocoBannerFactory.swift */,
 				70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */,
 				70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */,
+				F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */,
+				F0F0A7722D820B910004BE2E /* FakeMolocoNativeAssets.swift */,
+				F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */,
 				856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */,
 				8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */,
+				70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */,
+				703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */,
+				70387DD32D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -880,6 +1111,7 @@
 			children = (
 				7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */,
 				7072CF5C2C41F8BD002BF6AE /* MolocoAdapterFramework.framework */,
+				7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -887,10 +1119,12 @@
 		7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */,
 				70608B4E2C51C5FC00896E93 /* Fakes */,
 				85A57D6E2CA4B640009FC260 /* MolocoBannerAdTest.swift */,
 				70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */,
 				706083C42C47CAAA00896E93 /* MolocoInterstitialAdTest.swift */,
+				F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */,
 				8595C0C32C59A82B00B46FD2 /* MolocoRewardedAdTest.swift */,
 			);
 			path = MolocoAdapterTests;
@@ -908,6 +1142,7 @@
 			children = (
 				AD0123242ABCB0AE002BFE6D /* libAdapter.a */,
 				AD00C4FE2B88225F007C85F3 /* MintegralAdapter.framework */,
+				703877762CF65449000C09EE /* libStaticMintegralAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -936,6 +1171,7 @@
 			children = (
 				AD0D6E0A2AF56C37002C0B60 /* libAdapter.a */,
 				AD00C4DB2B88225F007C85F3 /* ChartboostAdapter.framework */,
+				7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -957,6 +1193,7 @@
 			children = (
 				AD0D6E852AF59116002C0B60 /* libAdapter.a */,
 				AD00C4EA2B88225F007C85F3 /* IronSourceAdapter.framework */,
+				7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -973,6 +1210,7 @@
 				AD0D6EC12AF5985B002C0B60 /* AUTIronSourceRewardedAdTests.m */,
 				70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */,
 				70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */,
+				15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */,
 			);
 			path = IronSourceAdapterTests;
 			sourceTree = "<group>";
@@ -982,6 +1220,7 @@
 			children = (
 				AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */,
 				AD00C4EF2B88225F007C85F3 /* LiftoffMonetizeAdapter.framework */,
+				703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1009,6 +1248,7 @@
 			children = (
 				AD0D6F452AF6E222002C0B60 /* libAdapter.a */,
 				AD00C4F92B88225F007C85F3 /* MaioAdapter.framework */,
+				703877702CF65449000C09EE /* libStaticMaioAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1029,6 +1269,7 @@
 			children = (
 				AD0D6FEA2AF71844002C0B60 /* libAdapter.a */,
 				AD00C5032B88225F007C85F3 /* MyTargetAdapter.framework */,
+				703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1064,6 +1305,7 @@
 			children = (
 				AD0D72E42AF81700002C0B60 /* libAdapter.a */,
 				AD00C4E52B88225F007C85F3 /* IMobileAdapter.framework */,
+				703877582CF65449000C09EE /* libStaticIMobileAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1099,6 +1341,7 @@
 			children = (
 				AD45ED452A78116C001B29D8 /* libAdapter.a */,
 				AD00C5172B88225F007C85F3 /* UnityAdapter.framework */,
+				7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1106,7 +1349,7 @@
 		AD6FA0292A16BEF3007335D2 = {
 			isa = PBXGroup;
 			children = (
-				7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */,
+				AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */,
 				44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */,
 				AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */,
 				ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */,
@@ -1116,14 +1359,16 @@
 				ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */,
 				AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */,
 				AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */,
+				7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */,
 				AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */,
 				701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */,
+				AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */,
 				AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */,
 				AD6FA0372A16BF4A007335D2 /* AdapterUnitTestKit */,
+				AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */,
 				44ACFB132AB129D000035A73 /* AppLovinAdapterTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
-				7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */,
 				AD6FA03D2A16BF98007335D2 /* Frameworks */,
 				AD0D73002AF81711002C0B60 /* IMobileAdapterTests */,
 				AD0D6E932AF5917E002C0B60 /* IronSourceAdapterTests */,
@@ -1131,12 +1376,14 @@
 				ADADDD412A32528C00FB60E1 /* LineAdapterTests */,
 				AD0D6F512AF6E23E002C0B60 /* MaioAdapterTests */,
 				AD01232E2ABCB0D8002BFE6D /* MintegralAdapterTests */,
+				7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */,
 				AD0D6FF42AF7189D002C0B60 /* MyTargetAdapterTests */,
 				AD0D70E92AF8043D002C0B60 /* NendAdapterTests */,
 				701E236A2AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				A9D6475042796F097447FCB2 /* Pods */,
 				AD6FA0362A16BF4A007335D2 /* Products */,
 				AD45ED342A78111F001B29D8 /* UnityAdapterTests */,
+				AD76AA412D9313E400F40CD4 /* PubMaticTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1158,6 +1405,8 @@
 				AD0D70E82AF8043D002C0B60 /* NendAdapterTests.xctest */,
 				AD0D72FF2AF81711002C0B60 /* IMobileAdapterTests.xctest */,
 				7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */,
+				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
+				AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1193,10 +1442,53 @@
 			children = (
 				70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */,
 				70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */,
+				AD8FE4642D3A00FA00B4728A /* DTBiOSSDK.xcframework */,
 				AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */,
 				AD6FA03E2A16BF98007335D2 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD76A9C22D93117B00F40CD4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */,
+				AD76A9CB2D93117B00F40CD4 /* PubMaticAdapterFramework.framework */,
+				AD76A9F12D93126D00F40CD4 /* libStaticPubmaticAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD76AA412D9313E400F40CD4 /* PubMaticTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */,
+				AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */,
+			);
+			path = PubMaticTests;
+			sourceTree = "<group>";
+		};
+		AD8FE2832D39E8C900B4728A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */,
+				AD8FE28D2D39E8C900B4728A /* AmazonAdapterFramework.framework */,
+				AD8FE28F2D39E8C900B4728A /* libStaticAmazonAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */,
+				ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */,
+				AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */,
+				AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */,
+				AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */,
+				AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */,
+			);
+			path = AmazonAdapterTests;
 			sourceTree = "<group>";
 		};
 		ADADDD412A32528C00FB60E1 /* LineAdapterTests */ = {
@@ -1204,10 +1496,11 @@
 			children = (
 				ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */,
 				ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */,
-				ADEAFA3A2A3669D60036464A /* AUTLineInterstitialAdTest.m */,
 				ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */,
 				ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */,
 				ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */,
+				707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */,
+				707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */,
 			);
 			path = LineAdapterTests;
 			sourceTree = "<group>";
@@ -1217,6 +1510,7 @@
 			children = (
 				ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */,
 				AD00C4F42B88225F007C85F3 /* LineAdapter.framework */,
+				7038776A2CF65449000C09EE /* libStaticLineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1226,6 +1520,7 @@
 			children = (
 				ADF28D572A4F7C3D0073F909 /* libAdapter.a */,
 				AD00C4E02B88225F007C85F3 /* DTExchangeAdapter.framework */,
+				703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1510,6 +1805,44 @@
 			productReference = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD76A9EB2D93126D00F40CD4 /* Build configuration list for PBXNativeTarget "PubMaticAdapterTests" */;
+			buildPhases = (
+				AD76A9E12D93126D00F40CD4 /* Sources */,
+				AD76A9E72D93126D00F40CD4 /* Frameworks */,
+				AD76A9EA2D93126D00F40CD4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD76A9F32D9312A100F40CD4 /* PBXTargetDependency */,
+				AD76A9DF2D93126D00F40CD4 /* PBXTargetDependency */,
+			);
+			name = PubMaticAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD8FE91B2D3B314C00B4728A /* Build configuration list for PBXNativeTarget "AmazonAdapterTests" */;
+			buildPhases = (
+				AD8FE9132D3B314B00B4728A /* Sources */,
+				AD8FE9142D3B314B00B4728A /* Frameworks */,
+				AD8FE9152D3B314B00B4728A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD8FE9232D3B317200B4728A /* PBXTargetDependency */,
+				AD8FE91F2D3B316300B4728A /* PBXTargetDependency */,
+			);
+			name = AmazonAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADADDD462A32528C00FB60E1 /* Build configuration list for PBXNativeTarget "LineAdapterTests" */;
@@ -1555,6 +1888,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					44ACFB112AB129D000035A73 = {
@@ -1598,6 +1932,10 @@
 						CreatedOnToolsVersion = 14.1;
 						LastSwiftMigration = 1530;
 					};
+					AD8FE9162D3B314B00B4728A = {
+						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
+					};
 					ADADDD3F2A32528C00FB60E1 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -1618,6 +1956,10 @@
 			productRefGroup = AD6FA0362A16BF4A007335D2 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = AD8FE2832D39E8C900B4728A /* Products */;
+					ProjectRef = AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */;
+				},
 				{
 					ProductGroup = 44ACFB012AB11D4B00035A73 /* Products */;
 					ProjectRef = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
@@ -1667,6 +2009,10 @@
 					ProjectRef = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
 				},
 				{
+					ProductGroup = AD76A9C22D93117B00F40CD4 /* Products */;
+					ProjectRef = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD45ED3F2A78116C001B29D8 /* Products */;
 					ProjectRef = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
 				},
@@ -1688,6 +2034,8 @@
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD0D72FE2AF81711002C0B60 /* IMobileAdapterTests */,
 				7072CF602C41F9A1002BF6AE /* MolocoAdapterTests */,
+				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
+				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1705,6 +2053,97 @@
 			fileType = archive.ar;
 			path = libAdapter.a;
 			remoteRef = 701E237E2AAD8C8300BAB0B3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticAppLovinAdapter.a;
+			remoteRef = 703877452CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticChartboostAdapter.a;
+			remoteRef = 7038774B2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticDTExchangeAdapter.a;
+			remoteRef = 703877512CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877582CF65449000C09EE /* libStaticIMobileAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticIMobileAdapter.a;
+			remoteRef = 703877572CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticIronSourceAdapter.a;
+			remoteRef = 7038775D2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticLiftoffMonetizeAdapter.a;
+			remoteRef = 703877632CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038776A2CF65449000C09EE /* libStaticLineAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticLineAdapter.a;
+			remoteRef = 703877692CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877702CF65449000C09EE /* libStaticMaioAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMaioAdapter.a;
+			remoteRef = 7038776F2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877762CF65449000C09EE /* libStaticMintegralAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMintegralAdapter.a;
+			remoteRef = 703877752CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMolocoAdapter.a;
+			remoteRef = 7038777B2CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMyTargetAdapter.a;
+			remoteRef = 703877812CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		703877882CF65449000C09EE /* libStaticPangleAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticPangleAdapter.a;
+			remoteRef = 703877872CF65449000C09EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticUnityAdapter.a;
+			remoteRef = 7038778D2CF65449000C09EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */ = {
@@ -1861,6 +2300,48 @@
 			remoteRef = AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPubMaticAdapter.a;
+			remoteRef = AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD76A9CB2D93117B00F40CD4 /* PubMaticAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PubMaticAdapterFramework.framework;
+			remoteRef = AD76A9CA2D93117B00F40CD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD76A9F12D93126D00F40CD4 /* libStaticPubmaticAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticPubmaticAdapter.a;
+			remoteRef = AD76A9F02D93126D00F40CD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8FE28B2D39E8C900B4728A /* libAmazonAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAmazonAdapter.a;
+			remoteRef = AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8FE28D2D39E8C900B4728A /* AmazonAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AmazonAdapterFramework.framework;
+			remoteRef = AD8FE28C2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD8FE28F2D39E8C900B4728A /* libStaticAmazonAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticAmazonAdapter.a;
+			remoteRef = AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1978,6 +2459,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD76A9EA2D93126D00F40CD4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD76AADB2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8FE9152D3B314B00B4728A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADADDD3E2A32528C00FB60E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2023,12 +2519,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */,
 				70E380B02C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift in Sources */,
+				70387DD42D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift in Sources */,
 				70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */,
+				F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */,
 				85A57D732CA4B663009FC260 /* FakeMolocoBannerFactory.swift in Sources */,
+				703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */,
+				F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */,
+				F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */,
 				8526681E2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift in Sources */,
 				70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */,
+				ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */,
 				706083C52C47CAAA00896E93 /* MolocoInterstitialAdTest.swift in Sources */,
+				F0F0A7732D820B910004BE2E /* FakeMolocoNativeAssets.swift in Sources */,
 				856602ED2C642DE70068D786 /* FakeMolocoRewarded.swift in Sources */,
 				85A57D712CA4B65E009FC260 /* FakeMolocoBanner.swift in Sources */,
 				8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */,
@@ -2069,6 +2573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */,
 				70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */,
 				AD0D6EAA2AF59517002C0B60 /* AUTIronSourceAdapterTests.m in Sources */,
 				AD0D6EBE2AF596A3002C0B60 /* AUTIronSourceBannerTests.m in Sources */,
@@ -2170,13 +2675,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD76A9E12D93126D00F40CD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD8FE9132D3B314B00B4728A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */,
+				AD5E06602D5EDBB900380B70 /* AmazonAdapterRewardedTests.swift in Sources */,
+				AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */,
+				AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */,
+				ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADADDD3C2A32528C00FB60E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */,
+				707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */,
 				ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */,
 				ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */,
-				ADEAFA3B2A3669D60036464A /* AUTLineInterstitialAdTest.m in Sources */,
 				ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */,
 				ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */,
 			);
@@ -2310,6 +2836,26 @@
 			isa = PBXTargetDependency;
 			name = Adapter;
 			targetProxy = AD45EDCA2A784AA1001B29D8 /* PBXContainerItemProxy */;
+		};
+		AD76A9DF2D93126D00F40CD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD76A9E02D93126D00F40CD4 /* PBXContainerItemProxy */;
+		};
+		AD76A9F32D9312A100F40CD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD76A9F22D9312A100F40CD4 /* PBXContainerItemProxy */;
+		};
+		AD8FE91F2D3B316300B4728A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD8FE91E2D3B316300B4728A /* PBXContainerItemProxy */;
+		};
+		AD8FE9232D3B317200B4728A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD8FE9222D3B317200B4728A /* PBXContainerItemProxy */;
 		};
 		ADADDD512A3252E200FB60E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2692,6 +3238,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2776,6 +3323,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -4009,7 +4557,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/../adapters/UnityAdapter/UnityAdapter",
-					"${SRCROOT}/../adapters/DTExchangeAdapter/Public/Headers",
+					"${SRCROOT}/../adapters/UnityAdapter/Public/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -4076,7 +4624,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/../adapters/UnityAdapter/UnityAdapter",
-					"${SRCROOT}/../adapters/DTExchangeAdapter/Public/Headers",
+					"${SRCROOT}/../adapters/UnityAdapter/Public/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -4268,6 +4816,298 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AD76A9EC2D93126D00F40CD4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD76A9ED2D93126D00F40CD4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		AD8FE91C2D3B314C00B4728A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AmazonAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD8FE91D2D3B314C00B4728A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.AmazonAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -4683,6 +5523,24 @@
 			buildConfigurations = (
 				AD6FA03B2A16BF4A007335D2 /* Debug */,
 				AD6FA03C2A16BF4A007335D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD76A9EB2D93126D00F40CD4 /* Build configuration list for PBXNativeTarget "PubMaticAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD76A9EC2D93126D00F40CD4 /* Debug */,
+				AD76A9ED2D93126D00F40CD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD8FE91B2D3B314C00B4728A /* Build configuration list for PBXNativeTarget "AmazonAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD8FE91C2D3B314C00B4728A /* Debug */,
+				AD8FE91D2D3B314C00B4728A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

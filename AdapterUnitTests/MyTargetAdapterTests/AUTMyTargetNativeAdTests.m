@@ -458,23 +458,22 @@ static NSUInteger AUTSlotID = 12345;
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);
 }
 
-- (void)testOnVideoPlayWithNativeAd {
+- (void)testOnShowModalWithNativeAd {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
-  AUTKMediationNativeAdEventDelegate *eventDelegate =
-      [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:nativeAd
-                        shouldLoadImage:YES
-                              imageData:imageDataMock];
-  [nativeAd.delegate onVideoPlayWithNativeAd:nativeAd];
-
-  XCTAssertEqual(eventDelegate.didPlayVideoInvokeCount, 1);
+  [self loadNativeAdWithPromoBanner:promoBanner
+                           nativeAd:nativeAd
+                    shouldLoadImage:YES
+                          imageData:imageDataMock];
+  [nativeAd.delegate onShowModalWithNativeAd:nativeAd];
+  // GMA SDK does not have equivalent callback. Make sure calling into the
+  // delegate method does not crash.
 }
 
-- (void)testOnVideoPauseWithNativeAd {
+- (void)testOnDismissModalWithNativeAd {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
@@ -485,25 +484,24 @@ static NSUInteger AUTSlotID = 12345;
                                nativeAd:nativeAd
                         shouldLoadImage:YES
                               imageData:imageDataMock];
-  [nativeAd.delegate onVideoPauseWithNativeAd:nativeAd];
+  [nativeAd.delegate onDismissModalWithNativeAd:nativeAd];
 
-  XCTAssertEqual(eventDelegate.didPauseVideoInvokeCount, 1);
+  XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1);
 }
 
-- (void)testOnVideoCompleteWithNativeAd {
+- (void)testOnLeaveApplicationWithNativeAd {
   MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
   MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
   MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
 
-  AUTKMediationNativeAdEventDelegate *eventDelegate =
-      [self loadNativeAdWithPromoBanner:promoBanner
-                               nativeAd:nativeAd
-                        shouldLoadImage:YES
-                              imageData:imageDataMock];
-  [nativeAd.delegate onVideoCompleteWithNativeAd:nativeAd];
-
-  XCTAssertEqual(eventDelegate.didEndVideoInvokeCount, 1);
+  [self loadNativeAdWithPromoBanner:promoBanner
+                           nativeAd:nativeAd
+                    shouldLoadImage:YES
+                          imageData:imageDataMock];
+  [nativeAd.delegate onLeaveApplicationWithNativeAd:nativeAd];
+  // GMA SDK does not have equivalent callback. Make sure calling into the
+  // delegate method does not crash.
 }
 
 - (void)testMediaView {

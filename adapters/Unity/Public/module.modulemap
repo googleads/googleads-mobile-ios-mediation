@@ -6,4 +6,6 @@ framework module UnityAdapter {
 
   link framework "Foundation"
   link framework "UIKit"
+
+  header "GADMediationAdapterUnity.h"
 }

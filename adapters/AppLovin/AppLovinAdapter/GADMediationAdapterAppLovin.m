@@ -29,15 +29,6 @@
   GADMAdapterAppLovinRewardedRenderer *_rewardedRenderer;
 }
 
-+ (ALSdkSettings *)SDKSettings {
-  static ALSdkSettings *GADMAdapterAppLovinSDKSettings;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    GADMAdapterAppLovinSDKSettings = [[ALSdkSettings alloc] init];
-  });
-  return GADMAdapterAppLovinSDKSettings;
-}
-
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
@@ -64,31 +55,20 @@
     return;
   }
 
+  NSString *SDKKey = [SDKKeys anyObject];
+  if (SDKKeys.count > 1) {
+    [GADMAdapterAppLovinUtils log:@"More than one SDK key was found. The adapter will use %@ to "
+                                  @"initialize the AppLovin SDK.",
+                                  SDKKey];
+  }
+
   [GADMAdapterAppLovinUtils
       log:@"Found %lu SDK keys. Please remove any SDK keys you are not using from the AdMob UI.",
           (unsigned long)SDKKeys.count];
-
-  // Initialize SDKs based on SDK keys.
-  dispatch_group_t group = dispatch_group_create();
-  for (NSString *SDKKey in SDKKeys) {
-    dispatch_group_enter(group);
-    [GADMAdapterAppLovinInitializer.sharedInstance
-        initializeWithSDKKey:SDKKey
-           completionHandler:^(NSError *_Nullable error) {
-             if (error) {
-               NSString *errorMessage =
-                   [NSString stringWithFormat:
-                                 @"Failed to initialize AppLovin SDK with SDK Key: %@, Error: %@",
-                                 SDKKey, error.localizedDescription];
-               [GADMAdapterAppLovinUtils log:errorMessage];
-             }
-             dispatch_group_leave(group);
-           }];
-  }
-  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-    [GADMAdapterAppLovinUtils log:@"All SDKs completed initialization."];
-    completionHandler(nil);
-  });
+  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                     completionHandler:^(void) {
+                                       completionHandler(nil);
+                                     }];
 }
 
 + (GADVersionNumber)adapterVersion {
@@ -143,31 +123,31 @@
     return;
   }
 
-  NSString *SDKKey = [GADMAdapterAppLovinUtils
-      retrieveSDKKeyFromCredentials:params.configuration.credentials.firstObject.settings];
-  if (!SDKKey) {
+  if (!ALSdk.shared) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
+        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
+        @"Failed to retrieve ALSdk shared instance.");
     completionHandler(nil, error);
     return;
   }
 
-  ALSdk *SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-  if (!SDK) {
-    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
-    completionHandler(nil, error);
-    return;
-  }
-  NSString *signal = SDK.adService.bidToken;
-
-  if (signal.length > 0) {
-    [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", signal];
-    completionHandler(signal, nil);
-  } else {
-    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
-    completionHandler(nil, error);
-  }
+  [ALSdk.shared.adService collectBidTokenWithCompletion:^(NSString *_Nullable bidToken,
+                                                          NSString *_Nullable errorMessage) {
+    if (errorMessage) {
+      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+          GADMAdapterAppLovinErrorFailedToReturnBidToken, errorMessage);
+      completionHandler(nil, error);
+      return;
+    }
+    if (bidToken.length > 0) {
+      [GADMAdapterAppLovinUtils log:@"Generated bid token %@.", bidToken];
+      completionHandler(bidToken, nil);
+    } else {
+      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+          GADMAdapterAppLovinErrorEmptyBidToken, @"Bid token is empty.");
+      completionHandler(nil, error);
+    }
+  }];
 }
 
 #pragma mark - GADMediationAdapter load Ad

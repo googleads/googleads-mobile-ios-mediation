@@ -81,16 +81,16 @@
 #pragma mark - GADMediationAppOpenAd
 
 - (void)presentFromViewController:(UIViewController *)viewController {
+  id<GADMediationAppOpenAdEventDelegate> adEventDelegate = _adEventDelegate;
   if (_splashAd.isADReadyToShow) {
-    // TODO(thanvir): keyWindow is deprecated. Use an alternative.
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    [_adEventDelegate willPresentFullScreenView];
+    UIWindow *keyWindow = GADMAdapterMintegralKeyWindow();
+    [adEventDelegate willPresentFullScreenView];
     [_splashAd showInKeyWindow:keyWindow customView:nil];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
         GADMintegralErrorAdFailedToShow,
         @"Mintegral SDK failed to present a waterfall splash ad. It is not ready.");
-    [_adEventDelegate didFailToPresentWithError:error];
+    [adEventDelegate didFailToPresentWithError:error];
   }
 }
 

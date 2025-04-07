@@ -232,8 +232,12 @@
 - (void)interstitial:(nonnull IMInterstitial *)interstitial
     rewardActionCompletedWithRewards:(nonnull NSDictionary<NSString *, id> *)rewards {
   GADMAdapterInMobiLog(@"InMobi SDK rewarded a user for a rewarded ad.");
-  [_adEventDelegate didRewardUser];
-  [_adEventDelegate didEndVideo];
+  id<GADMediationRewardedAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+  [adEventDelegate didRewardUser];
+  [adEventDelegate didEndVideo];
 }
 
 - (void)interstitialAdImpressed:(nonnull IMInterstitial *)interstitial {

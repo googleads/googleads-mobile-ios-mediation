@@ -108,13 +108,21 @@
 }
 
 - (void)didOpen:(MaioInterstitial *)ad {
-  [_adEventDelegate willPresentFullScreenView];
-  [_adEventDelegate reportImpression];
+  id<GADMediationInterstitialAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if(!adEventDelegate) {
+    return;
+  }
+  [adEventDelegate willPresentFullScreenView];
+  [adEventDelegate reportImpression];
 }
 
 - (void)didClose:(MaioInterstitial *)ad {
-  [_adEventDelegate willDismissFullScreenView];
-  [_adEventDelegate didDismissFullScreenView];
+  id<GADMediationInterstitialAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if(!adEventDelegate) {
+    return;
+  }
+  [adEventDelegate willDismissFullScreenView];
+  [adEventDelegate didDismissFullScreenView];
 }
 
 @end

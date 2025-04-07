@@ -135,7 +135,7 @@
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   GADMediationAdapterLineLog(@"FiveAd SDK will present the rewarded ad.");
   [_rewardedAdEventDelegate willPresentFullScreenView];
-  [_rewardedAd show];
+  [_rewardedAd showWithViewController:viewController];
 }
 
 #pragma mark - FADLoadDelegate (for waterfall rewarded ad)

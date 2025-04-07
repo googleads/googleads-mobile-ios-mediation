@@ -94,6 +94,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     XCTAssertNil(adEventDelegate.didFailToPresentError)
     XCTAssertEqual(adEventDelegate.willPresentFullScreenViewInvokeCount, 1)
@@ -117,6 +118,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     XCTAssertNotNil(adEventDelegate.didFailToPresentError)
     let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)
@@ -142,6 +144,7 @@ final class MolocoRewardedAdTest: XCTestCase {
     let adEventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, mediationAdConfig)
 
     adEventDelegate.rewardedAd?.present(from: UIViewController())
+    MolocoTestUtils.flushMainThread(self)
 
     XCTAssertNotNil(adEventDelegate.didFailToPresentError)
     let didFailToPresentError = (adEventDelegate.didFailToPresentError as? NSError)

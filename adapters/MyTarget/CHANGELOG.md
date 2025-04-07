@@ -1,5 +1,77 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### [Version 5.28.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.28.0.0.zip)
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with myTarget SDK version 5.28.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- MyTarget SDK version 5.28.0.
+
+#### [Version 5.27.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.27.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.27.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.1.0.
+- MyTarget SDK version 5.27.0.
+
+#### [Version 5.26.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.26.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.26.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.1.0.
+- MyTarget SDK version 5.26.0.
+
+#### [Version 5.25.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.25.1.0.zip)
+- Verified compatibility with myTarget SDK version 5.25.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- MyTarget SDK version 5.25.1.
+
+#### [Version 5.25.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.25.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.25.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- MyTarget SDK version 5.25.0.
+
+#### [Version 5.24.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.24.1.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- MyTarget SDK version 5.24.1.
+
+#### [Version 5.24.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.24.1.0.zip)
+- Verified compatibility with myTarget SDK version 5.24.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- MyTarget SDK version 5.24.1.
+
+#### [Version 5.24.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.24.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.24.0.
+- Updated the adapter to follow Google's Objective-C best practices.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- MyTarget SDK version 5.24.0.
+
+#### [Version 5.23.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.23.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.23.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- MyTarget SDK version 5.23.0.
+
+#### [Version 5.22.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.22.0.0.zip)
+- Verified compatibility with myTarget SDK version 5.22.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- MyTarget SDK version 5.22.0.
+
 #### [Version 5.21.9.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.21.9.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

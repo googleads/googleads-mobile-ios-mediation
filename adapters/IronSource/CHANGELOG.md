@@ -1,5 +1,58 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
+#### [Version 8.7.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.7.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.7.0.0.
+- Now requires minimum iOS version of `13.0`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- IronSource SDK version 8.7.0.0.
+
+#### [Version 8.6.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.6.1.0.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- IronSource SDK version 8.6.1.0.
+
+#### [Version 8.6.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.6.1.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.6.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- IronSource SDK version 8.6.1.0.
+
+#### [Version 8.6.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.6.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.6.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- IronSource SDK version 8.6.0.0.
+
+#### [Version 8.5.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.5.1.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.5.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- IronSource SDK version 8.5.1.0.
+
+#### [Version 8.5.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.5.0.0.1.zip)
+- Added bidding support for banner ad format.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- IronSource SDK version 8.5.0.0.
+
+#### [Version 8.5.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.5.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.5.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- IronSource SDK version 8.5.0.0.
+
 #### [Version 8.4.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.4.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.4.0.0.
 

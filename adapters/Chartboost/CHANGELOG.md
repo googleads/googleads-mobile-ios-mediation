@@ -1,5 +1,29 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+
+#### [Version 9.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.8.1.0.zip)
+- Verified compatibility with Chartboost SDK version 9.8.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Chartboost SDK version 9.8.1.
+
+#### [Version 9.8.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.8.0.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Chartboost SDK version 9.8.0.
+
+#### [Version 9.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.8.0.0.zip)
+- Verified compatibility with Chartboost SDK version 9.8.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.11.0.
+- Chartboost SDK version 9.8.0.
+
 #### [Version 9.7.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.7.0.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

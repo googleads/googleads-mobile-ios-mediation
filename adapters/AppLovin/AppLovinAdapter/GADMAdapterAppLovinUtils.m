@@ -21,12 +21,6 @@
 static const NSUInteger kALSDKKeyLength = 86;
 static const NSUInteger kALZoneIdentifierLength = 16;
 
-/// A key used to retrieve value on whether multiple ads is enabled from credentials.
-static NSString *const kGADMAdapterAppLovinCredentialsKeyMultipleAds =
-    @"enable_multiple_ads_per_unit";
-/// A value of credentials that represents enabled.
-static NSString *const kGADMAdapterAppLovinMultipleAdsEnabledString = @"true";
-
 void GADMAdapterAppLovinMutableSetAddObject(NSMutableSet *_Nullable set,
                                             NSObject *_Nonnull object) {
   if (object) {
@@ -102,14 +96,6 @@ NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code) {
   return error;
 };
 
-NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey) {
-  NSString *errorString = [NSString
-      stringWithFormat:@"Unable to retrieve AppLovin SDK instance with SDK Key: %@", SDKKey];
-  NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-      GADMAdapterAppLovinErrorNilAppLovinSDK, errorString);
-  return error;
-}
-
 NSError *_Nonnull GADMAdapterAppLovinChildUserError() {
   NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
       GADMAdapterAppLovinErrorChildUser, @"GADMobileAds.sharedInstance.requestConfiguration "
@@ -118,10 +104,11 @@ NSError *_Nonnull GADMAdapterAppLovinChildUserError() {
   return error;
 }
 
-BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials) {
-  NSString *isMultipleAdsEnabledString = credentials[kGADMAdapterAppLovinCredentialsKeyMultipleAds];
-  return [kGADMAdapterAppLovinMultipleAdsEnabledString isEqualToString:isMultipleAdsEnabledString];
-}
+/// Always set to true.
+///
+/// TODO: Remove the code branches for the case where this is false since this is
+/// always true now.
+BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled() { return true; }
 
 @implementation GADMAdapterAppLovinUtils
 
@@ -133,14 +120,6 @@ BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable cred
   }
 
   return nil;
-}
-
-+ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)SDKKey {
-  ALSdk *SDK = [ALSdk sharedWithKey:SDKKey settings:GADMediationAdapterAppLovin.SDKSettings];
-  [SDK setPluginVersion:GADMAdapterAppLovinAdapterVersion];
-  SDK.mediationProvider = ALMediationProviderAdMob;
-
-  return SDK;
 }
 
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey {

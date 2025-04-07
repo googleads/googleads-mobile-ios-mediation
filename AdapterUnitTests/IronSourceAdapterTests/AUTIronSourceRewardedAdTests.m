@@ -49,6 +49,7 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
         [invocation getArgument:&_ironSourceRewardedAdDelegate atIndex:2];
       });
 
+  [GADMAdapterIronSourceRewardedAd initialize];
   _adapterRewardedAd = OCMPartialMock([GADMAdapterIronSourceRewardedAd alloc]);
   OCMStub([_adapterRewardedAd alloc]).andReturn(_adapterRewardedAd);
 
@@ -84,8 +85,7 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
 
   id<GADMediationRewardedAdEventDelegate> eventDelegate =
       AUTKWaitAndAssertLoadRewardedAd(_adapter, configuration);
-  GADMediationAdapterSetUpCompletionBlock completionBlock =
-      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
+  [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
@@ -155,8 +155,7 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
       });
 
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, configuration, ironSourceAdLoadError);
-  GADMediationAdapterSetUpCompletionBlock completionBlock =
-      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
+  [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd

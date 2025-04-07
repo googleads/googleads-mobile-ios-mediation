@@ -52,6 +52,11 @@ static NSString *const kBidResponse = @"bidResponse";
                          }]]);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationBannerAdEventDelegate *)loadAdWithSize:(CGSize)size {
   // All banners must have refresh disabled.
   OCMExpect([_bannerAdMock setAutoRefreshTime:0]);
@@ -84,6 +89,19 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testLoadBannerSuccess {
   [self loadAdWithSize:CGSizeMake(320, 50)];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testLoadBannerSuccessWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadAdWithSize:CGSizeMake(320, 50)];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadBannerSuccessWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAdWithSize:CGSizeMake(320, 50)];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testBannerDelegateCallbacks {

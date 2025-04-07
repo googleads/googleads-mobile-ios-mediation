@@ -23,18 +23,4 @@
       @"UnityAds mediation configurations did not contain a valid game ID.");
 }
 
-+ (nonnull NSError *)unsupportedBannerGADAdSize:(GADAdSize)adSize {
-  NSString *errorMsg = [NSString
-      stringWithFormat:
-          @"UnityAds supported banner sizes are not a good fit for the requested size: %@",
-          NSStringFromGADAdSize(adSize)];
-  return GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorSizeMismatch, errorMsg);
-}
-
-+ (nonnull NSError *)adNotAvailablePerPlacement:(NSString *)placementId {
-  NSString *errorMsg =
-      [NSString stringWithFormat:@"No ad available for the placement ID: %@", placementId];
-  return GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorPlacementStateNoFill,
-                                                     errorMsg);
-}
 @end

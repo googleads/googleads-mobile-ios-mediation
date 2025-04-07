@@ -15,6 +15,8 @@
 #import "GADMAdapterMintegralUtils.h"
 #import "GADMediationAdapterMintegralConstants.h"
 
+#import <MTGSDK/MTGSDK.h>
+
 @implementation GADMAdapterMintegralUtils
 
 NSError *_Nonnull GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegralErrorCode code,
@@ -32,6 +34,24 @@ void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
   if (object) {
     [set addObject:object];  // Allow pattern.
   }
+}
+
+UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
+  if (@available(iOS 13.0, *)) {
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+      if ([scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene *windowScene = (UIWindowScene *)scene;
+        for (UIWindow *window in windowScene.windows) {
+          if (window.isKeyWindow) {
+            return window;
+          }
+        }
+      }
+    }
+    return nil;
+  }
+
+  return UIApplication.sharedApplication.keyWindow;
 }
 
 /// Returns the closest valid banner size by comparing the provided ad size against the valid sizes.
@@ -89,6 +109,18 @@ void GADMAdapterMintegralMutableSetAddObject(NSMutableSet *_Nullable set,
                });
              }];
   [task resume];
+}
+
++ (void)setCoppaUsingRequestConfiguration {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (!tagForChildDirectedTreatment) {
+    [[MTGSDK sharedInstance] setCoppa:MTGBoolUnknown];
+    return;
+  }
+
+  [[MTGSDK sharedInstance]
+      setCoppa:tagForChildDirectedTreatment.boolValue ? MTGBoolYes : MTGBoolNo];
 }
 
 @end

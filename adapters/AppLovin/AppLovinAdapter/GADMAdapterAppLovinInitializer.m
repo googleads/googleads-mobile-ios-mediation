@@ -14,86 +14,31 @@
 
 #import "GADMAdapterAppLovinInitializer.h"
 
+#import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMediationAdapterAppLovin.h"
 
-@implementation GADMAdapterAppLovinInitializer {
-  /// AppLovin SDK initialization states.
-  NSMutableDictionary<NSString *, NSNumber *> *_initState;
+@implementation GADMAdapterAppLovinInitializer
 
-  /// AppLovin SDK completion handlers.
-  NSMutableDictionary<NSString *, NSMutableArray<GADMAdapterAppLovinInitCompletionHandler> *>
-      *_completionHandlers;
-}
-
-+ (nonnull GADMAdapterAppLovinInitializer *)sharedInstance {
-  static dispatch_once_t onceToken;
-  static GADMAdapterAppLovinInitializer *instance;
-  dispatch_once(&onceToken, ^{
-    instance = [[GADMAdapterAppLovinInitializer alloc] init];
-  });
-  return instance;
-}
-
-- (nonnull instancetype)init {
-  self = [super init];
-  if (self) {
-    _initState = [[NSMutableDictionary alloc] init];
-    _completionHandlers = [[NSMutableDictionary alloc] init];
-  }
-  return self;
-}
-
-- (void)initializeWithSDKKey:(nonnull NSString *)SDKKey
++ (void)initializeWithSDKKey:(nonnull NSString *)SDKKey
            completionHandler:(nonnull GADMAdapterAppLovinInitCompletionHandler)completionHandler {
-  // Initial values.
-  if (!_initState[SDKKey]) {
-    GADMAdapterAppLovinMutableDictionarySetObjectForKey(
-        _initState, SDKKey, @(GADMAdapterAppLovinInitStateUninitialized));
-    GADMAdapterAppLovinMutableDictionarySetObjectForKey(_completionHandlers, SDKKey,
-                                                        [[NSMutableArray alloc] init]);
-  }
-
-  GADMAdapterAppLovinInitState initState = _initState[SDKKey].intValue;
-  switch (initState) {
-    case GADMAdapterAppLovinInitStateInitialized:
-      completionHandler(nil);
-      return;
-    case GADMAdapterAppLovinInitStateInitializing:
-      GADMAdapterAppLovinMutableArrayAddObject(_completionHandlers[SDKKey], completionHandler);
-      return;
-    case GADMAdapterAppLovinInitStateUninitialized:
-    default:
-      GADMAdapterAppLovinMutableArrayAddObject(_completionHandlers[SDKKey], completionHandler);
-      break;
-  }
-
-  ALSdk *SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-  if (!SDK) {
-    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
-    completionHandler(error);
+  if ([[ALSdk shared] isInitialized]) {
+    completionHandler();
     return;
   }
 
-  GADMAdapterAppLovinInitializer *__weak weakSelf = self;
-  [SDK initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
-    GADMAdapterAppLovinInitializer *strongSelf = weakSelf;
-    if (!strongSelf) {
-      [GADMAdapterAppLovinUtils log:@"Could not invoke AppLovin SDK's completion handler."];
-      return;
-    }
+  ALSdkInitializationConfiguration *config = [ALSdkInitializationConfiguration
+      configurationWithSdkKey:SDKKey
+                 builderBlock:^(ALSdkInitializationConfigurationBuilder *_Nonnull builder) {
+                   builder.mediationProvider = ALMediationProviderAdMob;
+                   builder.pluginVersion = GADMAdapterAppLovinAdapterVersion;
+                 }];
 
-    // AppLovin currently has no method to check if initialization returned a failure.
-    // Assume it is always a success.
-    GADMAdapterAppLovinMutableDictionarySetObjectForKey(strongSelf->_initState, SDKKey,
-                                                        @(GADMAdapterAppLovinInitStateInitialized));
-
-    for (GADMAdapterAppLovinInitCompletionHandler handler in strongSelf
-             ->_completionHandlers[SDKKey]) {
-      handler(nil);
-    }
-    [strongSelf->_completionHandlers[SDKKey] removeAllObjects];
-  }];
+  [[ALSdk shared] initializeWithConfiguration:config
+                            completionHandler:^(ALSdkConfiguration *_Nonnull configuration) {
+                              [GADMAdapterAppLovinUtils log:@"Finished initializing ALSDK."];
+                              completionHandler();
+                            }];
 }
 
 @end

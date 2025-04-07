@@ -83,16 +83,16 @@
 #pragma mark - GADMediationAppOpenAd
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  id<GADMediationAppOpenAdEventDelegate> adEventDelegate = _adEventDelegate;
   if (_splashAd.isBiddingADReadyToShow) {
-    // TODO(thanvir): keyWindow is deprecated. Use an alternative.
-    UIWindow *keyWindow = UIApplication.sharedApplication.keyWindow;
-    [_adEventDelegate willPresentFullScreenView];
+    UIWindow *keyWindow = GADMAdapterMintegralKeyWindow();
+    [adEventDelegate willPresentFullScreenView];
     [_splashAd showBiddingADInKeyWindow:keyWindow customView:nil];
   } else {
     NSError *error = GADMAdapterMintegralErrorWithCodeAndDescription(
         GADMintegralErrorAdFailedToShow,
         @"Mintegral SDK failed to present a bidding splash ad. It is not ready.");
-    [_adEventDelegate didFailToPresentWithError:error];
+    [adEventDelegate didFailToPresentWithError:error];
   }
 }
 

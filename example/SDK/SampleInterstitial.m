@@ -91,8 +91,10 @@
                                [strongSelf.delegate interstitialWillDismissScreen:strongSelf];
                                [strongSelf.delegate interstitialDidDismissScreen:strongSelf];
                                [strongSelf.delegate interstitialWillLeaveApplication:strongSelf];
-                               [[UIApplication sharedApplication]
-                                   openURL:[NSURL URLWithString:@"https://www.google.com"]];
+                               [UIApplication.sharedApplication
+                                             openURL:[NSURL URLWithString:@"https://www.google.com"]
+                                             options:@{}
+                                   completionHandler:nil];
                              }];
   [alert addAction:close];
   [alert addAction:click];

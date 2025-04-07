@@ -36,6 +36,11 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMStub([_rewardedAdMock sharedInstance]).andReturn(_rewardedAdMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (void)stubLoadWithAndDoBlock:(void (^)(NSInvocation *))block {
   OCMStub([_rewardedAdMock
               loadVideoWithBidToken:kBidResponse
@@ -76,6 +81,19 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testloadAd {
   [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testloadAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testloadAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testloadAdFailureForMissingPlacementID {

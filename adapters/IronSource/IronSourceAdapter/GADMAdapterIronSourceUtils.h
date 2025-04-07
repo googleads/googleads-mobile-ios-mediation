@@ -46,9 +46,12 @@ NSError *_Nonnull GADMAdapterIronSourceErrorWithCodeAndDescription(
 
 + (nullable ISBannerSize *)ironSourceAdSizeFromRequestedSize:(GADAdSize)size;
 
++ (nonnull ISAAdSize *)iAdsSizeFromRequestedSize:(GADAdSize)size;
+
 + (NSArray<ISAAdFormat *> *_Nullable)adFormatsToInitializeForAdUnits:(nonnull NSSet *)adUnits;
 
 + (nonnull NSMutableDictionary<NSString *, NSString *> *)getExtraParamsWithWatermark:
     (nullable NSData *)watermarkData;
 
++ (nonnull NSString *)getMediationType;
 @end

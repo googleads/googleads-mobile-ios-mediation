@@ -14,7 +14,7 @@ platform :ios, '16.0'
 
 install! 'cocoapods', :deterministic_uuids => false
 
-adapter_targets = ENV['ADAPTER_TARGETS']&.split(',') || []
+adapter_targets = ENV['ADAPTER_TARGETS']&.split(',') || ['MolocoAdapter']
 
 abstract_target 'Default' do
 
@@ -230,12 +230,43 @@ abstract_target 'Default' do
   # MolocoAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('MolocoAdapter')
 
-    pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/MolocoAdapter/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
+    pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/Moloco/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
 
     # Dependencies for MolocoAdapter static library.
     target 'Adapter' do
-      project '../adapters/MolocoAdapter/MolocoAdapter.xcodeproj'
+      project '../adapters/Moloco/MolocoAdapter.xcodeproj'
     end
 
   end
+
+  # AmazonAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('AmazonAdapter')
+
+    pod 'GoogleMobileAdsMediationAmazon', :path => '../adapters/prerelease/AmazonAdapter/CocoaPods/GoogleMobileAdsMediationAmazon.podspec.json'
+
+    # Dependencies for AmazonAdapter static library.
+    target 'Adapter' do
+      project '../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj'
+    end
+
+    target 'AmazonAdapterTests' do
+    end
+
+  end
+
+  # PubMaticAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('PubMaticAdapter')
+
+    pod 'GoogleMobileAdsMediationPubMatic', :path => '../adapters/PubMatic/CocoaPods/GoogleMobileAdsMediationPubMatic.podspec.json'
+
+    # Dependencies for PubMaticAdapter static library.
+    target 'Adapter' do
+      project '../adapters/PubMatic/PubMaticAdapter.xcodeproj'
+    end
+
+    target 'PubMaticAdapterTests' do
+    end
+
+  end
+
 end

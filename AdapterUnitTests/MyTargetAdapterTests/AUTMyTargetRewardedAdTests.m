@@ -44,8 +44,14 @@ AUTKMediationRewardedAdEventDelegate *_Nonnull AUTLoadRewardedAd(
 
 void AUTFailToLoadRewardedAd(MTRGRewardedAd *_Nonnull rewardedAd) {
   MTRGRewardedAd *rewardedAdMock = OCMPartialMock(rewardedAd);
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMyTargetAdapterErrorDomain
+                                                      code:GADMAdapterMyTargetErrorNoFill
+                                                  userInfo:@{
+                                                    NSLocalizedDescriptionKey : @"foobar",
+                                                    NSLocalizedFailureReasonErrorKey : @"foobar",
+                                                  }];
   OCMStub([rewardedAdMock load]).andDo(^(NSInvocation *invocation) {
-    [rewardedAdMock.delegate onNoAdWithReason:@"foobar" rewardedAd:rewardedAdMock];
+    [rewardedAdMock.delegate onLoadFailedWithError:expectedError rewardedAd:rewardedAdMock];
   });
   id rewardedAdClassMock = OCMClassMock([MTRGRewardedAd class]);
   OCMStub([rewardedAdClassMock rewardedAdWithSlotId:AUTSlotID]).andReturn(rewardedAdMock);
@@ -57,12 +63,6 @@ void AUTFailToLoadRewardedAd(MTRGRewardedAd *_Nonnull rewardedAd) {
     GADMAdapterMyTargetSlotIdKey : @(AUTSlotID),
   };
   rewardedAdConfiguration.credentials = credentials;
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMyTargetAdapterErrorDomain
-                                                      code:GADMAdapterMyTargetErrorNoFill
-                                                  userInfo:@{
-                                                    NSLocalizedDescriptionKey : @"foobar",
-                                                    NSLocalizedFailureReasonErrorKey : @"foobar",
-                                                  }];
   AUTKWaitAndAssertLoadRewardedAdFailure(adapter, rewardedAdConfiguration, expectedError);
 }
 

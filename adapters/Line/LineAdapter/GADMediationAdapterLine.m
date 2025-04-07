@@ -38,6 +38,16 @@
   GADMediationAdapterLineNativeAdLoader *_nativeAdLoader;
 }
 
+static BOOL _isTestMode = NO;
+
++ (BOOL)testMode {
+  return _isTestMode;
+}
+
++ (void)setTestMode:(BOOL)testMode {
+  _isTestMode = testMode;
+}
+
 + (GADVersionNumber)adapterVersion {
   GADVersionNumber version = {0};
   NSArray<NSString *> *components =

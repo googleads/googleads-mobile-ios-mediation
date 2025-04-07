@@ -136,7 +136,9 @@
 
 /// Handles the tap on ad, and tells the delegate that ad gets clicked.
 - (void)handleTap:(UITapGestureRecognizer *)recognizer {
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.google.com"]];
+  [UIApplication.sharedApplication openURL:[NSURL URLWithString:@"https://www.google.com"]
+                                   options:@{}
+                         completionHandler:nil];
 }
 
 @end

@@ -16,19 +16,16 @@
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinUtils.h"
+#import "GADMAppLovinRTBInterstitialDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
 
 #import <AppLovinSDK/AppLovinSDK.h>
+#include <GoogleMobileAds/GoogleMobileAds.h>
 #include <stdatomic.h>
-
-#import "GADMAppLovinRTBInterstitialDelegate.h"
 
 @implementation GADMRTBAdapterAppLovinInterstitialRenderer {
   /// Data used to render an interstitial ad.
   GADMediationInterstitialAdConfiguration *_adConfiguration;
-
-  /// Instance of the AppLovin SDK.
-  ALSdk *_SDK;
 
   /// AppLovin interstitial object used to load an ad.
   ALInterstitialAd *_interstitialAd;
@@ -61,24 +58,17 @@
 }
 
 - (void)loadAd {
-  NSString *SDKKey = [GADMAdapterAppLovinUtils
-      retrieveSDKKeyFromCredentials:_adConfiguration.credentials.settings];
-  if (!SDKKey) {
+  if (!ALSdk.shared) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
+        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
+        @"Failed to retrieve ALSdk shared instance. ");
     _adLoadCompletionHandler(nil, error);
     return;
   }
-
-  _SDK = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-  if (!_SDK) {
-    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
+  ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
 
   // Create interstitial object.
-  _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:_SDK];
+  _interstitialAd = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
   [_interstitialAd setExtraInfoForKey:@"google_watermark" value:_adConfiguration.watermark];
 
   GADMAppLovinRTBInterstitialDelegate *delegate =
@@ -87,16 +77,12 @@
   _interstitialAd.adVideoPlaybackDelegate = delegate;
 
   // Load ad.
-  [_SDK.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
+  [ALSdk.shared.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:delegate];
 }
 
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-  // Update mute state
-  GADMAdapterAppLovinExtras *extras = _adConfiguration.extras;
-  _SDK.settings.muted = extras.muteAudio;
-
   [_interstitialAd showAd:_ad];
 }
 

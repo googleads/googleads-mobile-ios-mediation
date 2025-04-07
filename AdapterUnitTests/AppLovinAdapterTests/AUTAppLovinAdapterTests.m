@@ -50,13 +50,25 @@
   NSString *testSdkKey =
       @"21345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
-  OCMExpect([appLovinSdkMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
-  OCMStub(ClassMethod([appLovinSdkMock sharedWithKey:testSdkKey settings:OCMArg.any]))
-      .andReturn(appLovinSdkMock);
-  OCMStub([appLovinSdkMock initializeSdkWithCompletionHandler:OCMArg.any])
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
+
+  id configMock = OCMClassMock([ALSdkInitializationConfiguration class]);
+  ALSdkInitializationConfigurationBuilder *builderMock =
+      OCMClassMock([ALSdkInitializationConfigurationBuilder class]);
+  OCMExpect([builderMock setMediationProvider:ALMediationProviderAdMob]);
+  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
+  OCMStub(ClassMethod([configMock configurationWithSdkKey:testSdkKey builderBlock:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^block)(ALSdkInitializationConfigurationBuilder *builder);
+        [invocation getArgument:&block atIndex:3];
+        block(builderMock);
+      })
+      .andReturn(configMock);
+
+  OCMStub([appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
-        [invocation getArgument:&completionHandler atIndex:2];
+        [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(nil);
       });
 
@@ -64,6 +76,7 @@
   credentials.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials);
   OCMVerifyAll(appLovinSdkMock);
+  OCMVerifyAll(builderMock);
 }
 
 - (void)testSetUpWithMultipleSdkKeys {
@@ -75,13 +88,29 @@
       @"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345";
 
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
-  OCMExpect([appLovinSdkMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
-  OCMStub(ClassMethod([appLovinSdkMock sharedWithKey:OCMArg.any settings:OCMArg.any]))
-      .andReturn(appLovinSdkMock);
-  OCMStub([appLovinSdkMock initializeSdkWithCompletionHandler:OCMArg.any])
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
+
+  id configMock = OCMClassMock([ALSdkInitializationConfiguration class]);
+  ALSdkInitializationConfigurationBuilder *builderMock =
+      OCMClassMock([ALSdkInitializationConfigurationBuilder class]);
+  OCMExpect([builderMock setMediationProvider:ALMediationProviderAdMob]);
+  OCMExpect([builderMock setPluginVersion:GADMAdapterAppLovinAdapterVersion]);
+  OCMStub(ClassMethod([configMock configurationWithSdkKey:[OCMArg checkWithBlock:^BOOL(id obj) {
+                                    return [testSdkKey1 isEqualToString:obj] ||
+                                           [testSdkKey2 isEqualToString:obj];
+                                  }]
+                                             builderBlock:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^block)(ALSdkInitializationConfigurationBuilder *builder);
+        [invocation getArgument:&block atIndex:3];
+        block(builderMock);
+      })
+      .andReturn(configMock);
+
+  OCMStub([appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
-        [invocation getArgument:&completionHandler atIndex:2];
+        [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(nil);
       });
 
@@ -92,7 +121,8 @@
   credentials2.settings = @{GADMAdapterAppLovinSDKKey : testSdkKey2};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterAppLovin class], credentials2);
 
-  OCMVerify(times(2), [appLovinSdkMock initializeSdkWithCompletionHandler:OCMArg.any]);
+  OCMVerify(times(2), [appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY
+                                                 completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testSetUpFailureIfUserIsTaggedAsChild {
@@ -140,9 +170,17 @@
 - (void)testCollectSignalsForRequestParametersSuccess {
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
-  id adServiceMock = OCMClassMock([ALAdService class]);
+  ALAdService *adServiceMock = OCMClassMock([ALAdService class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
   OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
-  OCMStub([adServiceMock bidToken]).andReturn(@"token");
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(@"token", nil);
+      });
 
   XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
 
@@ -158,10 +196,6 @@
       @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
 
   credentials.settings = @{@"sdkKey" : sdkKey};
-
-  OCMStub(ClassMethod([appLovinSdkMock sharedWithKey:sdkKey
-                                            settings:GADMediationAdapterAppLovin.SDKSettings]))
-      .andReturn(appLovinSdkMock);
 
   [adapter
       collectSignalsForRequestParameters:parameters
@@ -174,12 +208,21 @@
   [self waitForExpectations:@[ signalsExpectation ]];
 }
 
-- (void)testCollectSignalsForRequestParametersEmptyToken {
+- (void)testCollectSignalsFailToReturnBidToken {
   GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
   id appLovinSdkMock = OCMClassMock([ALSdk class]);
   id adServiceMock = OCMClassMock([ALAdService class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
   OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
-  OCMStub([adServiceMock bidToken]).andReturn(@"");
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  NSString *errorMessage = @"no token";
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(nil, errorMessage);
+      });
 
   XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
 
@@ -195,9 +238,46 @@
       @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
   credentials.settings = @{@"sdkKey" : sdkKey};
 
-  OCMStub(ClassMethod([appLovinSdkMock sharedWithKey:sdkKey
-                                            settings:GADMediationAdapterAppLovin.SDKSettings]))
-      .andReturn(appLovinSdkMock);
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertEqualObjects(error.localizedFailureReason, errorMessage);
+                         XCTAssertEqual(error.code, GADMAdapterAppLovinErrorFailedToReturnBidToken);
+                         [signalsExpectation fulfill];
+                       }];
+
+  [self waitForExpectations:@[ signalsExpectation ]];
+}
+
+- (void)testCollectSignalsForRequestParametersEmptyToken {
+  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
+  id appLovinSdkMock = OCMClassMock([ALSdk class]);
+  id adServiceMock = OCMClassMock([ALAdService class]);
+  OCMStub(ClassMethod([appLovinSdkMock shared])).andReturn(appLovinSdkMock);
+  OCMStub([appLovinSdkMock adService]).andReturn(adServiceMock);
+  OCMStub([appLovinSdkMock isInitialized]).andReturn(YES);
+  OCMStub([adServiceMock collectBidTokenWithCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable bidToken,
+                                                      NSString *_Nullable errorMessage);
+        [invocation getArgument:&completionHandler atIndex:2];
+        completionHandler(@"", nil);
+      });
+
+  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
+
+  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
+  AUTKRTBMediationSignalsConfiguration *configuration =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  parameters.configuration = configuration;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  configuration.credentials = @[ credentials ];
+
+  // AppLovin expects an SDK Key of 86 characters
+  NSString *sdkKey =
+      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+  credentials.settings = @{@"sdkKey" : sdkKey};
 
   [adapter
       collectSignalsForRequestParameters:parameters
@@ -267,61 +347,6 @@
                          XCTAssertEqual(error.code, GADMAdapterAppLovinErrorChildUser);
                          [signalsExpectation fulfill];
                        }];
-  [self waitForExpectations:@[ signalsExpectation ]];
-}
-
-- (void)testCollectSignalsNilSdkKey {
-  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
-
-  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
-
-  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
-  AUTKRTBMediationSignalsConfiguration *configuration =
-      [[AUTKRTBMediationSignalsConfiguration alloc] init];
-  parameters.configuration = configuration;
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  configuration.credentials = @[ credentials ];
-  credentials.settings = @{};
-
-  [adapter
-      collectSignalsForRequestParameters:parameters
-                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
-                         XCTAssertNil(signals);
-                         XCTAssertTrue(error.description.length > 0);
-                         XCTAssertEqual(error.code,
-                                        GADMAdapterAppLovinErrorInvalidServerParameters);
-                         [signalsExpectation fulfill];
-                       }];
-
-  [self waitForExpectations:@[ signalsExpectation ]];
-}
-
-- (void)testCollectSignalsInvalidSdkKey {
-  GADMediationAdapterAppLovin *adapter = [[GADMediationAdapterAppLovin alloc] init];
-
-  XCTestExpectation *signalsExpectation = [[XCTestExpectation alloc] init];
-
-  AUTKRTBRequestParameters *parameters = [[AUTKRTBRequestParameters alloc] init];
-  AUTKRTBMediationSignalsConfiguration *configuration =
-      [[AUTKRTBMediationSignalsConfiguration alloc] init];
-  parameters.configuration = configuration;
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  configuration.credentials = @[ credentials ];
-
-  NSString *sdkKey = @"123";
-
-  credentials.settings = @{@"sdkKey" : sdkKey};
-
-  [adapter
-      collectSignalsForRequestParameters:parameters
-                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
-                         XCTAssertNil(signals);
-                         XCTAssertTrue(error.description.length > 0);
-                         XCTAssertEqual(error.code,
-                                        GADMAdapterAppLovinErrorInvalidServerParameters);
-                         [signalsExpectation fulfill];
-                       }];
-
   [self waitForExpectations:@[ signalsExpectation ]];
 }
 

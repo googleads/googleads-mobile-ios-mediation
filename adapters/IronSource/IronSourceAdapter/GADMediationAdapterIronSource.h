@@ -15,6 +15,7 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import "GADMAdapterIronSourceRtbBannerAd.h"
 #import "GADMAdapterIronSourceRtbInterstitialAd.h"
 #import "GADMAdapterIronSourceRtbRewardedAd.h"
 
@@ -33,6 +34,7 @@ typedef NS_ENUM(NSInteger, GADMAdapterIronSourceErrorCode) {
 };
 
 @interface GADMediationAdapterIronSource : NSObject <GADRTBAdapter>
+@property(nonatomic, strong) GADMAdapterIronSourceRtbBannerAd *_Nullable rtbBannerAd;
 @property(nonatomic, strong) GADMAdapterIronSourceRtbInterstitialAd *_Nullable rtbInterstitialAd;
 @property(nonatomic, strong) GADMAdapterIronSourceRtbRewardedAd *_Nullable rtbRewardedAd;
 

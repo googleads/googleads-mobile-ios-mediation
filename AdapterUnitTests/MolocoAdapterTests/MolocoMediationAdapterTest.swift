@@ -28,6 +28,14 @@ final class MolocoMediationAdapterTest: XCTestCase {
   /// Another test app key used in the tests.
   let appKey2 = "app_key_6789"
 
+  override func tearDown() {
+    // Unset child and under-age tags after every test.
+    MobileAds.shared.requestConfiguration
+      .tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration
+      .tagForUnderAgeOfConsent = nil
+  }
+
   /// A fake implementation of MolocoInitializer protocol that mimics successful initialization.
   class MolocoInitializerThatSucceeds: MolocoInitializer {
 
@@ -136,4 +144,134 @@ final class MolocoMediationAdapterTest: XCTestCase {
       MolocoMediationAdapter.self, mediationServerConfig, expectedError)
   }
 
+  func testCollectSignalsSuccess_ifMolocoReturnsBidToken() {
+    let expectedBidToken = "a sample bid token"
+    let molocoBidTokenGetter = FakeMolocoBidTokenGetter(bidToken: expectedBidToken)
+    let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
+    let successExpectation = XCTestExpectation()
+    let requestParameters = RTBRequestParameters()
+
+    adapter.collectSignals(for: requestParameters) { bidToken, error in
+      XCTAssertEqual(bidToken, expectedBidToken)
+      XCTAssertNil(error)
+      successExpectation.fulfill()
+    }
+    let result = XCTWaiter.wait(for: [successExpectation], timeout: AUTKExpectationTimeout)
+    XCTAssertEqual(result, XCTWaiter.Result.completed)
+  }
+
+  func testCollectSignalsFailure_ifMolocoFailsToReturnBidToken() {
+    let expectedError = NSError.init(domain: "moloco_sdk_domain", code: 1010)
+    let molocoBidTokenGetter = FakeMolocoBidTokenGetter(error: expectedError)
+    let adapter = MolocoMediationAdapter(molocoBidTokenGetter: molocoBidTokenGetter)
+    let failureExpectation = XCTestExpectation()
+    let requestParameters = RTBRequestParameters()
+
+    adapter.collectSignals(for: requestParameters) { bidToken, error in
+      XCTAssertNil(bidToken)
+      let error = error as NSError?
+      XCTAssertEqual(error?.domain, "moloco_sdk_domain")
+      XCTAssertEqual(error?.code, 1010)
+      failureExpectation.fulfill()
+    }
+    let result = XCTWaiter.wait(for: [failureExpectation], timeout: AUTKExpectationTimeout)
+    XCTAssertEqual(result, XCTWaiter.Result.completed)
+  }
+
+  func testAdapterVersion() {
+    let adapterVersion = MolocoMediationAdapter.adapterVersion()
+
+    XCTAssertGreaterThan(adapterVersion.majorVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.majorVersion, 99)
+    XCTAssertGreaterThanOrEqual(adapterVersion.minorVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.minorVersion, 99)
+    XCTAssertGreaterThanOrEqual(adapterVersion.patchVersion, 0)
+    XCTAssertLessThanOrEqual(adapterVersion.patchVersion, 9999)
+  }
+
+  func testAdSDKVersion_succeeds() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.21.430")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 3)
+    XCTAssertEqual(adSDKVersion.minorVersion, 21)
+    XCTAssertEqual(adSDKVersion.patchVersion, 430)
+  }
+
+  func testAdSDKVersion_lessThanThreePartsInVersion_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.21")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
+
+  func testAdSDKVersion_unparsableVersionString_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "a.b.c")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
+
+  func testAdSDKVersion_partiallyUnparsableVersionString_returnsZeros() {
+    let molocoSdkVersionProviding = FakeMolocoSdkVersionProvider(sdkVersion: "3.abc.1")
+    MolocoMediationAdapter.setMolocoSdkVersionProvider(molocoSdkVersionProviding)
+
+    let adSDKVersion = MolocoMediationAdapter.adSDKVersion()
+
+    XCTAssertEqual(adSDKVersion.majorVersion, 0)
+    XCTAssertEqual(adSDKVersion.minorVersion, 0)
+    XCTAssertEqual(adSDKVersion.patchVersion, 0)
+  }
+
+  func test_setUp_ifChildTagIsTrue_setsAgeRestrictedUserTrue() {
+    MobileAds.shared.requestConfiguration
+      .tagForChildDirectedTreatment = true
+
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
+
+    XCTAssertTrue(MolocoPrivacySettings.isAgeRestrictedUser)
+  }
+
+  func test_setUp_ifUserIsUnderAgeOfConsent_setsAgeRestrictedUserTrue() {
+    MobileAds.shared.requestConfiguration
+      .tagForUnderAgeOfConsent = true
+
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
+
+    XCTAssertTrue(MolocoPrivacySettings.isAgeRestrictedUser)
+  }
+
+  func test_setUp_ifNeitherChildTagNorUnderAgeTagIsSet_doesNotSetAgeRestrictedUser() {
+    let molocoAgeRestrictedSetter = FakeMolocoAgeRestrictedSetter()
+    MolocoMediationAdapter.setMolocoAgeRestrictedSetter(molocoAgeRestrictedSetter)
+
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
+
+    XCTAssertFalse(molocoAgeRestrictedSetter.setIsAgeRestrictedUserWasCalled)
+  }
+
+  func test_setUp_ifBothChildTagAndUnderAgeTagAreFalse_setsAgeRestrictedUserFalse() {
+    MobileAds.shared.requestConfiguration
+      .tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration
+      .tagForUnderAgeOfConsent = false
+
+    MolocoMediationAdapter.setUp(
+      with: AUTKMediationServerConfiguration(), completionHandler: { error in })
+
+    XCTAssertFalse(MolocoPrivacySettings.isAgeRestrictedUser)
+  }
 }

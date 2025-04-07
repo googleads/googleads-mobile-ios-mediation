@@ -15,6 +15,7 @@
 import Foundation
 import MolocoAdapter
 import MolocoSDK
+import UIKit
 
 /// A fake implementation of MolocoBannerFactory that creates a FakeBannerRewarded.
 final class FakeMolocoBannerFactory {
@@ -49,7 +50,7 @@ final class FakeMolocoBannerFactory {
 
 extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> MolocoAd? {
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> (UIView & MolocoAd)? {
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoBanner = FakeMolocoBanner(
       bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,

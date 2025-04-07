@@ -1,5 +1,67 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- For bidding, the adapter no longer checks the banner ad size.
+- For waterfall, the adapter now checks whether the loaded Unity Ads banner ad aspect ratio matches with the requested banner ad size.
+
+#### [Version 4.14.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.14.1.0.zip)
+- Verified compatibility with Unity Ads SDK 4.14.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- Unity Ads SDK version 4.14.1.
+
+#### [Version 4.14.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.14.0.0.zip)
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with Unity Ads SDK 4.14.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- Unity Ads SDK version 4.14.0.
+
+#### [Version 4.13.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.13.2.0.zip)
+- Verified compatibility with Unity Ads SDK 4.13.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.1.0.
+- Unity Ads SDK version 4.13.2.
+
+#### [Version 4.13.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.13.1.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Unity Ads SDK version 4.13.1.
+
+#### [Version 4.13.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.13.1.0.zip)
+- Added the `GADMediationAdapterUnity.testMode` property to indicate whether the Unity Ads SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
+- Updated to report the Unity Ads SDK's error code when an ad fails to load.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Unity Ads SDK version 4.13.1.
+
+#### [Version 4.13.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.13.0.0.zip)
+- Verified compatibility with Unity Ads SDK 4.13.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Unity Ads SDK version 4.13.0.
+
+#### [Version 4.12.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.12.5.0.zip)
+- Verified compatibility with Unity Ads SDK 4.12.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- Unity Ads SDK version 4.12.5.
+
+#### [Version 4.12.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.12.4.0.zip)
+- Verified compatibility with Unity Ads SDK 4.12.4.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- Unity Ads SDK version 4.12.4.
+
 #### [Version 4.12.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.12.3.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

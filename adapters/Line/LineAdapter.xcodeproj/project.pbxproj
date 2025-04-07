@@ -39,6 +39,25 @@
 		ADA4F5AD2A43C3F100B2236A /* GADMediationAdapterLineNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADA4F5AC2A43C3F100B2236A /* GADMediationAdapterLineNativeAdLoader.h */; };
 		ADA4F5AF2A43C40C00B2236A /* GADMediationAdapterLineNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5AE2A43C40C00B2236A /* GADMediationAdapterLineNativeAdLoader.m */; };
 		ADA4F5B12A43C43A00B2236A /* GADMediationAdapterLineExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5B02A43C43A00B2236A /* GADMediationAdapterLineExtras.m */; };
+		ADA6B9CF2CF146CD009C8FDA /* GADMediationAdapterLineExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5B02A43C43A00B2236A /* GADMediationAdapterLineExtras.m */; };
+		ADA6B9D02CF146CD009C8FDA /* GADMediationAdapterLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */; };
+		ADA6B9D12CF146CD009C8FDA /* GADMediationAdapterLine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */; };
+		ADA6B9D22CF146CD009C8FDA /* GADMediationAdapterLineBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */; };
+		ADA6B9D32CF146CD009C8FDA /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF422A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m */; };
+		ADA6B9D42CF146CD009C8FDA /* GADMediationAdapterLineNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5AE2A43C40C00B2236A /* GADMediationAdapterLineNativeAdLoader.m */; };
+		ADA6B9D52CF146CD009C8FDA /* GADMediationAdapterLineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */; };
+		ADA6B9D62CF146CD009C8FDA /* GADMediationAdapterLineRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */; };
+		ADA6B9DA2CF146CD009C8FDA /* GADMediationAdapterLineUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */; };
+		ADA6B9DB2CF146CD009C8FDA /* GADMediationAdapterLineExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6B9DC2CF146CD009C8FDA /* GADMediationAdapterLineNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADA4F5AC2A43C3F100B2236A /* GADMediationAdapterLineNativeAdLoader.h */; };
+		ADA6B9DD2CF146CD009C8FDA /* LineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADA6B9DE2CF146CD009C8FDA /* GADMediationAdapterLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */; };
+		ADA6B9DF2CF146CD009C8FDA /* GADMediationAdapterLineRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA5C2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h */; };
+		ADA6B9E02CF146CD009C8FDA /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF402A35141400D92129 /* GADMediationAdapterLineInterstitialAdLoader.h */; };
+		ADA6B9E12CF146CD009C8FDA /* GADMediationAdapterLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */; };
+		ADA6B9E22CF146CD009C8FDA /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
+		ADD347CC2D2B42DD0019419D /* LineAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; };
+		ADD347CD2D2B42DD0019419D /* GADMediationAdapterLineExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */; };
 		ADEAFA472A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
 		ADEAFA492A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */; };
 		ADEAFA5B2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */; };
@@ -58,6 +77,17 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6B9D82CF146CD009C8FDA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				ADD347CC2D2B42DD0019419D /* LineAdapter.h in CopyFiles */,
+				ADD347CD2D2B42DD0019419D /* GADMediationAdapterLineExtras.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +111,7 @@
 		ADA4F5AC2A43C3F100B2236A /* GADMediationAdapterLineNativeAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineNativeAdLoader.h; sourceTree = "<group>"; };
 		ADA4F5AE2A43C40C00B2236A /* GADMediationAdapterLineNativeAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineNativeAdLoader.m; sourceTree = "<group>"; };
 		ADA4F5B02A43C43A00B2236A /* GADMediationAdapterLineExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineExtras.m; sourceTree = "<group>"; };
+		ADA6B9E62CF146CD009C8FDA /* libStaticLineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticLineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC499962B07E9DC003BC0CD /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterLineBannerAdLoader.h; sourceTree = "<group>"; };
 		ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterLineBannerAdLoader.m; sourceTree = "<group>"; };
@@ -109,6 +140,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADA6B9D72CF146CD009C8FDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -123,6 +161,7 @@
 				AD98A6402A2164BD00017B8D /* Public */,
 				ADC499962B07E9DC003BC0CD /* libAdapter.a */,
 				AD00C3F82B8691E2007C85F3 /* LineAdapter.framework */,
+				ADA6B9E62CF146CD009C8FDA /* libStaticLineAdapter.a */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,6 +197,7 @@
 		AD98A6412A2164BD00017B8D /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */,
 				AD98A6422A2164BD00017B8D /* LineAdapter.h */,
 				ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */,
 			);
@@ -167,7 +207,6 @@
 		AD98A6452A21666D00017B8D /* LineAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */,
 				AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */,
 				ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */,
 				ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */,
@@ -212,6 +251,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADA6B9D92CF146CD009C8FDA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6B9DA2CF146CD009C8FDA /* GADMediationAdapterLineUtils.h in Headers */,
+				ADA6B9DB2CF146CD009C8FDA /* GADMediationAdapterLineExtras.h in Headers */,
+				ADA6B9DC2CF146CD009C8FDA /* GADMediationAdapterLineNativeAdLoader.h in Headers */,
+				ADA6B9DD2CF146CD009C8FDA /* LineAdapter.h in Headers */,
+				ADA6B9DE2CF146CD009C8FDA /* GADMediationAdapterLineConstants.h in Headers */,
+				ADA6B9DF2CF146CD009C8FDA /* GADMediationAdapterLineRewardedAdLoader.h in Headers */,
+				ADA6B9E02CF146CD009C8FDA /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */,
+				ADA6B9E12CF146CD009C8FDA /* GADMediationAdapterLine.h in Headers */,
+				ADA6B9E22CF146CD009C8FDA /* GADMediationAdapterLineBannerAdLoader.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -250,6 +305,24 @@
 			productName = LineAdapter;
 			productReference = AD00C3F82B8691E2007C85F3 /* LineAdapter.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		ADA6B9CD2CF146CD009C8FDA /* StaticLineAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADA6B9E32CF146CD009C8FDA /* Build configuration list for PBXNativeTarget "StaticLineAdapter" */;
+			buildPhases = (
+				ADA6B9CE2CF146CD009C8FDA /* Sources */,
+				ADA6B9D72CF146CD009C8FDA /* Frameworks */,
+				ADA6B9D82CF146CD009C8FDA /* CopyFiles */,
+				ADA6B9D92CF146CD009C8FDA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StaticLineAdapter;
+			productName = Adapter;
+			productReference = ADA6B9E62CF146CD009C8FDA /* libStaticLineAdapter.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -293,6 +366,7 @@
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
 				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 				AD00C3F72B8691E2007C85F3 /* LineAdapter */,
+				ADA6B9CD2CF146CD009C8FDA /* StaticLineAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -362,6 +436,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA6B9CE2CF146CD009C8FDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA6B9CF2CF146CD009C8FDA /* GADMediationAdapterLineExtras.m in Sources */,
+				ADA6B9D02CF146CD009C8FDA /* GADMediationAdapterLineUtils.m in Sources */,
+				ADA6B9D12CF146CD009C8FDA /* GADMediationAdapterLine.m in Sources */,
+				ADA6B9D22CF146CD009C8FDA /* GADMediationAdapterLineBannerAdLoader.m in Sources */,
+				ADA6B9D32CF146CD009C8FDA /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */,
+				ADA6B9D42CF146CD009C8FDA /* GADMediationAdapterLineNativeAdLoader.m in Sources */,
+				ADA6B9D52CF146CD009C8FDA /* GADMediationAdapterLineConstants.m in Sources */,
+				ADA6B9D62CF146CD009C8FDA /* GADMediationAdapterLineRewardedAdLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +714,22 @@
 			};
 			name = Release;
 		};
+		ADA6B9E42CF146CD009C8FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ADA6B9E52CF146CD009C8FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -669,6 +774,15 @@
 			buildConfigurations = (
 				AD00C3FC2B8691E2007C85F3 /* Debug */,
 				AD00C3FD2B8691E2007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADA6B9E32CF146CD009C8FDA /* Build configuration list for PBXNativeTarget "StaticLineAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADA6B9E42CF146CD009C8FDA /* Debug */,
+				ADA6B9E52CF146CD009C8FDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

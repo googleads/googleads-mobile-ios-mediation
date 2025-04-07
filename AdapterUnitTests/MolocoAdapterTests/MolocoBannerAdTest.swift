@@ -11,9 +11,9 @@ final class MolocoBannerAdTest: XCTestCase {
   /// A bid response received by the adapter to load the ad.
   static let testBidResponse = "bid_response"
 
-  func testFakeBannerFactory() throws {
+  @MainActor func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
-    let adConfiguration = GADMediationBannerAdConfiguration()
+    let adConfiguration = MediationBannerAdConfiguration()
     let bannerLoader = BannerAdLoader(
       adConfiguration: adConfiguration, molocoBannerFactory: molocoBannerFactory
     ) { ad, error in

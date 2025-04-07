@@ -39,6 +39,7 @@ static NSString *const AUTIronSourceBannerTestsInstanceId = @"1234";
 
 - (void)setUp {
   [super setUp];
+  [GADMAdapterIronSourceBannerAd initialize];
   _adapter = [[GADMediationAdapterIronSource alloc] init];
 
   // Create mocks for IronSource and IronSourceAds

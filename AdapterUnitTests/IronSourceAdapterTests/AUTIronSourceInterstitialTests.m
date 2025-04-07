@@ -51,6 +51,7 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
   _adapterInterstitialAd = OCMPartialMock([GADMAdapterIronSourceInterstitialAd alloc]);
   OCMStub([_adapterInterstitialAd alloc]).andReturn(_adapterInterstitialAd);
 
+  [GADMAdapterIronSourceInterstitialAd initialize];
   _adapter = [[GADMediationAdapterIronSource alloc] init];
 
   // Create mocks for IronSource and IronSourceAds
@@ -90,8 +91,7 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
 
   id<GADMediationInterstitialAdEventDelegate> eventDelegate =
       AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
-  GADMediationAdapterSetUpCompletionBlock completionBlock =
-      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
+  [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
@@ -162,8 +162,7 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
       });
 
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, configuration, ironSourceAdLoadError);
-  GADMediationAdapterSetUpCompletionBlock completionBlock =
-      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
+  [OCMArg invokeBlockWithArgs:[NSNull null], nil];
 
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd

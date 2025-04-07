@@ -91,7 +91,7 @@
   NSError *error = SampleCustomEventErrorWithCodeAndDescription(
       SampleCustomEventErrorAdLoadFailureCallback,
       [NSString
-          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %@",
+          stringWithFormat:@"Sample SDK returned an ad load failure callback with error code: %ld",
                            errorCode]);
   _adEventDelegate = _loadCompletionHandler(nil, error);
 }

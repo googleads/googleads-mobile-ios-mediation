@@ -15,23 +15,13 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <Foundation/Foundation.h>
 
-/// AppLovin SDK initialization state.
-typedef NS_ENUM(NSInteger, GADMAdapterAppLovinInitState) {
-  GADMAdapterAppLovinInitStateUninitialized,  /// AppLovin SDK is not initialized.
-  GADMAdapterAppLovinInitStateInitializing,   /// AppLovin SDK is initializing.
-  GADMAdapterAppLovinInitStateInitialized     /// AppLovin SDK is initialized.
-};
-
 /// AppLovin adapter initialization completion handler.
-typedef void (^GADMAdapterAppLovinInitCompletionHandler)(NSError *_Nullable error);
+typedef void (^GADMAdapterAppLovinInitCompletionHandler)(void);
 
 @interface GADMAdapterAppLovinInitializer : NSObject
 
-/// The shared GADMAdapterAppLovinInitializer instance.
-@property(class, atomic, readonly, nonnull) GADMAdapterAppLovinInitializer *sharedInstance;
-
 /// Initializes the AppLovin SDK with the provided SDKKey.
-- (void)initializeWithSDKKey:(nonnull NSString *)SDKKey
++ (void)initializeWithSDKKey:(nonnull NSString *)SDKKey
            completionHandler:(nonnull GADMAdapterAppLovinInitCompletionHandler)completionHandler;
 
 @end

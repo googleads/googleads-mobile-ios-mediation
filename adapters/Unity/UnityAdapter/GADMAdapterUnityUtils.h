@@ -40,8 +40,10 @@ NSError *_Nonnull GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityEr
 NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
     UnityAdsShowError errorCode, NSString *_Nonnull message);
 
-/// Find closest supported ad size from a given ad size.
-GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize);
+/// Returns an NSError with Unity Ads SDK load error |loadError| and with NSLocalizedDescriptionKey
+/// and NSLocalizedFailureReasonErrorKey values set to |message|.
+NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsLoadErrorAndMessage(
+    UnityAdsLoadError loadError, NSString *_Nonnull message);
 
 /// Returns GADVersionNumber created from string
 GADVersionNumber extractVersionFromString(NSString *_Nonnull string);

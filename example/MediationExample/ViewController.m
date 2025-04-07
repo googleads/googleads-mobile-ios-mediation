@@ -21,7 +21,6 @@
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <SampleAdSDK/SampleAdSDK.h>
-#import <SampleAdSDKAdapter/SampleAdSDKAdapter.h>
 
 #import "ExampleNativeAdView.h"
 
@@ -110,10 +109,6 @@
 
 - (void)requestRewarded {
   GADRequest *request = [GADRequest request];
-  SampleExtras *extras = [[SampleExtras alloc] init];
-  extras.enableDebugLogging = YES;
-  extras.muteAudio = YES;
-  [request registerAdNetworkExtras:extras];
   [GADRewardedAd
    loadWithAdUnitID:self.config.rewardedAdUnitID
    request:request

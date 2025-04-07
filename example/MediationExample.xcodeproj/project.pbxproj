@@ -25,8 +25,6 @@
 		AE5DE0521F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04C1F3E1510005C0A1D /* SampleCustomEventBannerSwift.swift */; };
 		AE5DE0531F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */; };
 		AE5DE0541F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */; };
-		AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; };
-		AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */; };
 		AEDDCB2F1F4501BA00BFB33C /* AdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */; };
@@ -42,20 +40,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = AE50D6711F3BC46B0007AF85;
 			remoteInfo = SampleAdSDK;
-		};
-		AE776FC9201AA7990096DF82 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AEABBAE81F606493003BB4D2;
-			remoteInfo = SampleAdSDKAdapter;
-		};
-		EFA49FF6235A6E480006917F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AEABBAE71F606493003BB4D2;
-			remoteInfo = SampleAdSDKAdapter;
 		};
 		EFA49FF8235A6E660006917F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -73,7 +57,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AEABBB131F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Embed Frameworks */,
 				AEC0D12D1F3BC782005B3813 /* SampleAdSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -112,7 +95,6 @@
 		AE5DE04D1F3E1510005C0A1D /* SampleCustomEventInterstitialSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventInterstitialSwift.swift; sourceTree = "<group>"; };
 		AE5DE04E1F3E1510005C0A1D /* SampleCustomEventNativeAdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleCustomEventNativeAdSwift.swift; sourceTree = "<group>"; };
 		AE776FC2201AA7990096DF82 /* SampleAdSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleAdSDK.xcodeproj; path = SampleAdSDK/SampleAdSDK.xcodeproj; sourceTree = "<group>"; };
-		AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDKAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEDDCB2E1F4501B900BFB33C /* AdSourceConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdSourceConfig.m; path = MediationExample/AdSourceConfig.m; sourceTree = SOURCE_ROOT; };
 		AEDDCB301F4501D000BFB33C /* AdSourceConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdSourceConfig.h; path = MediationExample/AdSourceConfig.h; sourceTree = SOURCE_ROOT; };
@@ -128,7 +110,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEABBB121F6067BC003BB4D2 /* SampleAdSDKAdapter.framework in Frameworks */,
 				AEC0D12E1F3BC7B9005B3813 /* SampleAdSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,7 +192,6 @@
 		74DBB23D50D2FE6107613784 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AEABBB111F6067BC003BB4D2 /* SampleAdSDKAdapter.framework */,
 				AEC0D12C1F3BC782005B3813 /* SampleAdSDK.framework */,
 			);
 			name = Frameworks;
@@ -241,7 +221,6 @@
 			isa = PBXGroup;
 			children = (
 				AE776FC8201AA7990096DF82 /* SampleAdSDK.framework */,
-				AE776FCA201AA7990096DF82 /* SampleAdSDKAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -262,7 +241,6 @@
 			);
 			dependencies = (
 				EFA49FF9235A6E660006917F /* PBXTargetDependency */,
-				EFA49FF7235A6E480006917F /* PBXTargetDependency */,
 			);
 			name = MediationExample;
 			productName = MediationAdapterExample;
@@ -317,13 +295,6 @@
 			remoteRef = AE776FC7201AA7990096DF82 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AE776FCA201AA7990096DF82 /* SampleAdSDKAdapter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SampleAdSDKAdapter.framework;
-			remoteRef = AE776FC9201AA7990096DF82 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -369,11 +340,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EFA49FF7235A6E480006917F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SampleAdSDKAdapter;
-			targetProxy = EFA49FF6235A6E480006917F /* PBXContainerItemProxy */;
-		};
 		EFA49FF9235A6E660006917F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SampleAdSDK;
@@ -447,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -487,7 +453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -502,7 +468,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -551,7 +516,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/MediationExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

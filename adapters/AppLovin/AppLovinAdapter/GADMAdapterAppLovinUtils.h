@@ -61,22 +61,16 @@ NSError *_Nonnull GADMAdapterAppLovinErrorWithCodeAndDescription(GADMAdapterAppL
 /// Returns an NSError with the provided error code.
 NSError *_Nonnull GADMAdapterAppLovinSDKErrorWithCode(NSInteger code);
 
-/// Returns an error where the instance of the AppLovin SDK for a given SDKKey cannot be found.
-NSError *_Nonnull GADMAdapterAppLovinNilSDKError(NSString *_Nonnull SDKKey);
-
 /// Returns an error indicating the AppLovin SDK does not support child users.
 NSError *_Nonnull GADMAdapterAppLovinChildUserError(void);
 
 /// Returns whether loading multiple ads is enabled.
-BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(NSDictionary *_Nullable credentials);
+BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(void);
 
 @interface GADMAdapterAppLovinUtils : NSObject
 
 /// Retrieves the AppLovin SDK key from the specified |credentials| or from Info.plist.
 + (nullable NSString *)retrieveSDKKeyFromCredentials:(nonnull NSDictionary *)credentials;
-
-/// Retrieve an instance of the AppLovin SDK with the provided SDK key.
-+ (nullable ALSdk *)retrieveSDKFromSDKKey:(nonnull NSString *)SDKKey;
 
 /// Returns whether the given string is a valid SDK key or not.
 + (BOOL)isValidAppLovinSDKKey:(nonnull NSString *)SDKKey;

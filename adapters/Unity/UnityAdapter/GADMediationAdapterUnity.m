@@ -35,6 +35,8 @@
 
 @implementation GADMediationAdapterUnity
 
+static BOOL _isTestMode = NO;
+
 // Called on Admob->init
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
@@ -131,16 +133,13 @@
   [self initializeWithConfiguration:adConfiguration];
 
   self.placementId = adConfiguration.placementId;
-
-  GADAdSize supportedSize = supportedAdSizeFromRequestedSize(adConfiguration.adSize);
-  if (!IsGADAdSizeValid(supportedSize)) {
-    completionHandler(self, [NSError unsupportedBannerGADAdSize:adConfiguration.adSize]);
-    return;
-  }
-  self.adapterProxy = [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
-                                                             completionHandler:completionHandler];
+  self.adapterProxy =
+      [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
+                                               requestedAdSize:adConfiguration.adSize
+                                                    forBidding:adConfiguration.bidResponse != nil
+                                             completionHandler:completionHandler];
   self.bannerView = [[UADSBannerView alloc] initWithPlacementId:self.placementId
-                                                           size:supportedSize.size];
+                                                           size:adConfiguration.adSize.size];
   self.bannerView.delegate = self.adapterProxy;
   UADSLoadOptions *loadOptions = [UADSLoadOptions new];
   NSData *watermark = adConfiguration.watermark;
@@ -175,6 +174,8 @@
                                    withCompletionHandler:nil];
 }
 
+#pragma mark Utility Methods
+
 /// Set the COPPA setting in Unity Ads SDK.
 ///
 /// @param COPPA An integer value that indicates whether the app should be treated as
@@ -196,6 +197,15 @@
     GADMUnityLog(@"Invalid COPPA value.");
     return;
   }
+}
+
++ (BOOL)testMode {
+  return _isTestMode;
+}
+
++ (void)setTestMode:(BOOL)testMode {
+  GADMUnityLog(@"Updating test mode flag to `%@`", (testMode ? @"YES" : @"NO"));
+  _isTestMode = testMode;
 }
 
 #pragma mark GADMediationBannerAd

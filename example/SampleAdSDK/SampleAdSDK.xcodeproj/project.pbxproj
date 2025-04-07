@@ -7,18 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		005A556C2B1E74B70054C5A3 /* SampleAdapterBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 005A556A2B1E74B70054C5A3 /* SampleAdapterBannerAd.h */; };
-		005A556D2B1E74B70054C5A3 /* SampleAdapterBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 005A556B2B1E74B70054C5A3 /* SampleAdapterBannerAd.m */; };
-		005A55702B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 005A556E2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.h */; };
-		005A55712B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 005A556F2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.m */; };
-		005A55742B1E7EA00054C5A3 /* SampleAdapterRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 005A55722B1E7EA00054C5A3 /* SampleAdapterRewardedAd.h */; };
-		005A55752B1E7EA00054C5A3 /* SampleAdapterRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 005A55732B1E7EA00054C5A3 /* SampleAdapterRewardedAd.m */; };
-		005A55782B1E81B20054C5A3 /* SampleAdapterNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 005A55762B1E81B20054C5A3 /* SampleAdapterNativeAd.h */; };
-		005A55792B1E81B20054C5A3 /* SampleAdapterNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 005A55772B1E81B20054C5A3 /* SampleAdapterNativeAd.m */; };
-		367D956B7084458339DB3389 /* libPods-SampleAdSDKAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9748B370FCD055FA786116 /* libPods-SampleAdSDKAdapter.a */; };
 		4569383F208EBC1C0030CCD1 /* SampleMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4569383D208EBC1C0030CCD1 /* SampleMediaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45693840208EBC1C0030CCD1 /* SampleMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4569383E208EBC1C0030CCD1 /* SampleMediaView.m */; };
-		7EDBC58F22678226CEEB7442 /* libPods-SampleAdSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C3D63CA7F1CCCB8976560F /* libPods-SampleAdSDK.a */; };
 		AE50D67D1F3BC49C0007AF85 /* SampleAdRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */; };
 		AE50D67E1F3BC49C0007AF85 /* SampleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6511F3BC3D20007AF85 /* SampleBanner.m */; };
 		AE50D67F1F3BC49C0007AF85 /* SampleInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AE50D6541F3BC3D20007AF85 /* SampleInterstitial.m */; };
@@ -36,15 +26,8 @@
 		AE50D69A1F3BC4B40007AF85 /* SampleNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6621F3BC3D20007AF85 /* SampleNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D69B1F3BC4B40007AF85 /* SampleNativeAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6641F3BC3D20007AF85 /* SampleNativeAdRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE50D69C1F3BC4B40007AF85 /* SampleAdInfoView.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6661F3BC3D20007AF85 /* SampleAdInfoView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBAEA1F606494003BB4D2 /* SampleAdSDKAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB061F606689003BB4D2 /* SampleAdapterConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */; };
-		AEABBB0A1F606689003BB4D2 /* SampleAdapterDataProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB001F606688003BB4D2 /* SampleAdapterDataProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AEABBB031F606689003BB4D2 /* SampleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEC0D11D1F3BC63F005B3813 /* SampleAdSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EF6F362D23CE8E16002BA090 /* SampleExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F362923CE8D62002BA090 /* SampleExtras.m */; };
-		EF6F363123CE981D002BA090 /* SampleExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = EF6F363023CE981D002BA090 /* SampleExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EF6F363223CE9A93002BA090 /* SampleAdSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */; };
+		B5ED6CEC5963BFB83AE34C41 /* libPods-SampleAdSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77265C4535BB629235B07C02 /* libPods-SampleAdSDK.a */; };
 		EFA49FEB235A51B10006917F /* SampleRewardedAdController.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFA49FED235A51EC0006917F /* SampleRewardedAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */; };
 		EFA49FEF235A522C0006917F /* SampleRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FEE235A522C0006917F /* SampleRewardedAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,33 +35,13 @@
 		EFA49FF3235A528A0006917F /* SampleRewardedAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA49FF2235A52890006917F /* SampleRewardedAdDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		AEABBAFA1F60651F003BB4D2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE50D62E1F3BC3820007AF85 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AE50D6701F3BC46B0007AF85;
-			remoteInfo = SampleAdSDK;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		005A556A2B1E74B70054C5A3 /* SampleAdapterBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterBannerAd.h; sourceTree = "<group>"; };
-		005A556B2B1E74B70054C5A3 /* SampleAdapterBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterBannerAd.m; sourceTree = "<group>"; };
-		005A556E2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterInterstitialAd.h; sourceTree = "<group>"; };
-		005A556F2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterInterstitialAd.m; sourceTree = "<group>"; };
-		005A55722B1E7EA00054C5A3 /* SampleAdapterRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterRewardedAd.h; sourceTree = "<group>"; };
-		005A55732B1E7EA00054C5A3 /* SampleAdapterRewardedAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterRewardedAd.m; sourceTree = "<group>"; };
-		005A55762B1E81B20054C5A3 /* SampleAdapterNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdapterNativeAd.h; sourceTree = "<group>"; };
-		005A55772B1E81B20054C5A3 /* SampleAdapterNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleAdapterNativeAd.m; sourceTree = "<group>"; };
-		0501CF93E3DA86F76ECCFA04 /* Pods-SampleAdSDKAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDKAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SampleAdSDKAdapter/Pods-SampleAdSDKAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		454134AC11198AD3DBF7F452 /* Pods-SampleAdSDKAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDKAdapter.release.xcconfig"; path = "Target Support Files/Pods-SampleAdSDKAdapter/Pods-SampleAdSDKAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		2973B8DB0AA438A78E3E88E8 /* Pods-SampleAdSDKAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDKAdapter.release.xcconfig"; path = "Target Support Files/Pods-SampleAdSDKAdapter/Pods-SampleAdSDKAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		4569383D208EBC1C0030CCD1 /* SampleMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMediaView.h; sourceTree = "<group>"; };
 		4569383E208EBC1C0030CCD1 /* SampleMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleMediaView.m; sourceTree = "<group>"; };
-		48C3D63CA7F1CCCB8976560F /* libPods-SampleAdSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleAdSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A9748B370FCD055FA786116 /* libPods-SampleAdSDKAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleAdSDKAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		90AF573FEE123F326E64FE80 /* Pods-SampleAdSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDK.debug.xcconfig"; path = "Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK.debug.xcconfig"; sourceTree = "<group>"; };
-		AC65DC3D98C3CE590D7F06D7 /* Pods-SampleAdSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDK.release.xcconfig"; path = "Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK.release.xcconfig"; sourceTree = "<group>"; };
+		567D0693DC9180C993D0EF60 /* Pods-SampleAdSDKAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDKAdapter.debug.xcconfig"; path = "Target Support Files/Pods-SampleAdSDKAdapter/Pods-SampleAdSDKAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		77265C4535BB629235B07C02 /* libPods-SampleAdSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleAdSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADA79B2C2D943B2A3B5D5CA0 /* libPods-SampleAdSDKAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleAdSDKAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE50D64E1F3BC3D20007AF85 /* SampleAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdRequest.h; sourceTree = "<group>"; };
 		AE50D64F1F3BC3D20007AF85 /* SampleAdRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdRequest.m; sourceTree = "<group>"; };
 		AE50D6501F3BC3D20007AF85 /* SampleBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleBanner.h; sourceTree = "<group>"; };
@@ -99,16 +62,9 @@
 		AE50D6691F3BC3D20007AF85 /* SampleAdSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdSDK.h; sourceTree = "<group>"; };
 		AE50D66A1F3BC3D20007AF85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE50D6711F3BC46B0007AF85 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEABBAE81F606493003BB4D2 /* SampleAdSDKAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SampleAdSDKAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEABBAEA1F606494003BB4D2 /* SampleAdSDKAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleAdSDKAdapter.h; sourceTree = "<group>"; };
-		AEABBAEB1F606494003BB4D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterConstants.h; sourceTree = "<group>"; };
-		AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAdapter.m; sourceTree = "<group>"; };
-		AEABBB001F606688003BB4D2 /* SampleAdapterDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapterDataProvider.h; sourceTree = "<group>"; };
-		AEABBB031F606689003BB4D2 /* SampleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAdapter.h; sourceTree = "<group>"; };
 		AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SampleAdSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF6F362923CE8D62002BA090 /* SampleExtras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleExtras.m; sourceTree = "<group>"; };
-		EF6F363023CE981D002BA090 /* SampleExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleExtras.h; sourceTree = "<group>"; };
+		BC0BB928D6220B7DCB0241BC /* Pods-SampleAdSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDK.release.xcconfig"; path = "Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK.release.xcconfig"; sourceTree = "<group>"; };
+		E23966F008C194A447D18D68 /* Pods-SampleAdSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleAdSDK.debug.xcconfig"; path = "Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		EFA49FEA235A51B10006917F /* SampleRewardedAdController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAdController.h; sourceTree = "<group>"; };
 		EFA49FEC235A51EC0006917F /* SampleRewardedAdController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleRewardedAdController.m; sourceTree = "<group>"; };
 		EFA49FEE235A522C0006917F /* SampleRewardedAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleRewardedAd.h; sourceTree = "<group>"; };
@@ -121,42 +77,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EDBC58F22678226CEEB7442 /* libPods-SampleAdSDK.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AEABBAE41F606493003BB4D2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EF6F363223CE9A93002BA090 /* SampleAdSDK.framework in Frameworks */,
-				367D956B7084458339DB3389 /* libPods-SampleAdSDKAdapter.a in Frameworks */,
+				B5ED6CEC5963BFB83AE34C41 /* libPods-SampleAdSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5D8D13191FB295799638EA8B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				90AF573FEE123F326E64FE80 /* Pods-SampleAdSDK.debug.xcconfig */,
-				AC65DC3D98C3CE590D7F06D7 /* Pods-SampleAdSDK.release.xcconfig */,
-				0501CF93E3DA86F76ECCFA04 /* Pods-SampleAdSDKAdapter.debug.xcconfig */,
-				454134AC11198AD3DBF7F452 /* Pods-SampleAdSDKAdapter.release.xcconfig */,
-			);
-			name = Pods;
-			path = ../Pods;
-			sourceTree = "<group>";
-		};
 		AE50D62D1F3BC3820007AF85 = {
 			isa = PBXGroup;
 			children = (
 				AE50D66B1F3BC3D20007AF85 /* SampleAdSDK */,
-				AEABBAE91F606493003BB4D2 /* SampleAdSDKAdapter */,
 				AE50D6381F3BC3820007AF85 /* Products */,
 				E0B04B2B95D1EB64175F3B1E /* Frameworks */,
-				5D8D13191FB295799638EA8B /* Pods */,
+				F4D8FD7679D14C7E59736655 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				AE50D6711F3BC46B0007AF85 /* SampleAdSDK.framework */,
-				AEABBAE81F606493003BB4D2 /* SampleAdSDKAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,46 +144,26 @@
 			name = SampleAdSDK;
 			sourceTree = SOURCE_ROOT;
 		};
-		AEABBAE91F606493003BB4D2 /* SampleAdSDKAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				AEABBB101F60670A003BB4D2 /* Adapter */,
-				AEABBAEA1F606494003BB4D2 /* SampleAdSDKAdapter.h */,
-				AEABBAEB1F606494003BB4D2 /* Info.plist */,
-			);
-			path = SampleAdSDKAdapter;
-			sourceTree = "<group>";
-		};
-		AEABBB101F60670A003BB4D2 /* Adapter */ = {
-			isa = PBXGroup;
-			children = (
-				EF6F363023CE981D002BA090 /* SampleExtras.h */,
-				EF6F362923CE8D62002BA090 /* SampleExtras.m */,
-				AEABBB031F606689003BB4D2 /* SampleAdapter.h */,
-				AEABBAFF1F606688003BB4D2 /* SampleAdapter.m */,
-				005A556A2B1E74B70054C5A3 /* SampleAdapterBannerAd.h */,
-				005A556B2B1E74B70054C5A3 /* SampleAdapterBannerAd.m */,
-				AEABBAFC1F606688003BB4D2 /* SampleAdapterConstants.h */,
-				AEABBB001F606688003BB4D2 /* SampleAdapterDataProvider.h */,
-				005A556E2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.h */,
-				005A556F2B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.m */,
-				005A55762B1E81B20054C5A3 /* SampleAdapterNativeAd.h */,
-				005A55772B1E81B20054C5A3 /* SampleAdapterNativeAd.m */,
-				005A55722B1E7EA00054C5A3 /* SampleAdapterRewardedAd.h */,
-				005A55732B1E7EA00054C5A3 /* SampleAdapterRewardedAd.m */,
-			);
-			name = Adapter;
-			path = ../../Adapter;
-			sourceTree = "<group>";
-		};
 		E0B04B2B95D1EB64175F3B1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				AEC0D1261F3BC734005B3813 /* SampleAdSDK.framework */,
-				48C3D63CA7F1CCCB8976560F /* libPods-SampleAdSDK.a */,
-				8A9748B370FCD055FA786116 /* libPods-SampleAdSDKAdapter.a */,
+				77265C4535BB629235B07C02 /* libPods-SampleAdSDK.a */,
+				ADA79B2C2D943B2A3B5D5CA0 /* libPods-SampleAdSDKAdapter.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4D8FD7679D14C7E59736655 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E23966F008C194A447D18D68 /* Pods-SampleAdSDK.debug.xcconfig */,
+				BC0BB928D6220B7DCB0241BC /* Pods-SampleAdSDK.release.xcconfig */,
+				567D0693DC9180C993D0EF60 /* Pods-SampleAdSDKAdapter.debug.xcconfig */,
+				2973B8DB0AA438A78E3E88E8 /* Pods-SampleAdSDKAdapter.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,22 +191,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AEABBAE51F606493003BB4D2 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AEABBB061F606689003BB4D2 /* SampleAdapterConstants.h in Headers */,
-				005A55782B1E81B20054C5A3 /* SampleAdapterNativeAd.h in Headers */,
-				AEABBB0D1F606689003BB4D2 /* SampleAdapter.h in Headers */,
-				005A556C2B1E74B70054C5A3 /* SampleAdapterBannerAd.h in Headers */,
-				AEABBB0A1F606689003BB4D2 /* SampleAdapterDataProvider.h in Headers */,
-				AEABBAEC1F606494003BB4D2 /* SampleAdSDKAdapter.h in Headers */,
-				005A55702B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.h in Headers */,
-				EF6F363123CE981D002BA090 /* SampleExtras.h in Headers */,
-				005A55742B1E7EA00054C5A3 /* SampleAdapterRewardedAd.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -301,11 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AE50D6761F3BC46B0007AF85 /* Build configuration list for PBXNativeTarget "SampleAdSDK" */;
 			buildPhases = (
-				ABCBEF68594906D81EE6B711 /* [CP] Check Pods Manifest.lock */,
+				197B9681D89FEFA0DC686440 /* [CP] Check Pods Manifest.lock */,
 				AE50D66C1F3BC46B0007AF85 /* Sources */,
 				AE50D66D1F3BC46B0007AF85 /* Frameworks */,
 				AE50D66E1F3BC46B0007AF85 /* Headers */,
 				AE50D66F1F3BC46B0007AF85 /* Resources */,
+				15D13C0D27C4FD4557671954 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,26 +212,6 @@
 			name = SampleAdSDK;
 			productName = SampleAdSDK;
 			productReference = AE50D6711F3BC46B0007AF85 /* SampleAdSDK.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		AEABBAE71F606493003BB4D2 /* SampleAdSDKAdapter */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AEABBAEF1F606494003BB4D2 /* Build configuration list for PBXNativeTarget "SampleAdSDKAdapter" */;
-			buildPhases = (
-				94763BAE4735D58D2B4D8099 /* [CP] Check Pods Manifest.lock */,
-				AEABBAE31F606493003BB4D2 /* Sources */,
-				AEABBAE41F606493003BB4D2 /* Frameworks */,
-				AEABBAE51F606493003BB4D2 /* Headers */,
-				AEABBAE61F606493003BB4D2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AEABBAFB1F60651F003BB4D2 /* PBXTargetDependency */,
-			);
-			name = SampleAdSDKAdapter;
-			productName = SampleAdSDKAdapter;
-			productReference = AEABBAE81F606493003BB4D2 /* SampleAdSDKAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -349,9 +227,6 @@
 						CreatedOnToolsVersion = 8.3.3;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
-					};
-					AEABBAE71F606493003BB4D2 = {
-						CreatedOnToolsVersion = 9.0;
 					};
 				};
 			};
@@ -369,7 +244,6 @@
 			projectRoot = "";
 			targets = (
 				AE50D6701F3BC46B0007AF85 /* SampleAdSDK */,
-				AEABBAE71F606493003BB4D2 /* SampleAdSDKAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -382,39 +256,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AEABBAE61F606493003BB4D2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		94763BAE4735D58D2B4D8099 /* [CP] Check Pods Manifest.lock */ = {
+		15D13C0D27C4FD4557671954 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK/GoogleMobileAdsResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUserMessagingPlatform/UserMessagingPlatformResources.bundle",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SampleAdSDKAdapter-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMobileAdsResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UserMessagingPlatformResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SampleAdSDK/Pods-SampleAdSDK-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ABCBEF68594906D81EE6B711 /* [CP] Check Pods Manifest.lock */ = {
+		197B9681D89FEFA0DC686440 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -456,28 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AEABBAE31F606493003BB4D2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				005A55712B1E7A6D0054C5A3 /* SampleAdapterInterstitialAd.m in Sources */,
-				005A55792B1E81B20054C5A3 /* SampleAdapterNativeAd.m in Sources */,
-				005A556D2B1E74B70054C5A3 /* SampleAdapterBannerAd.m in Sources */,
-				EF6F362D23CE8E16002BA090 /* SampleExtras.m in Sources */,
-				AEABBB091F606689003BB4D2 /* SampleAdapter.m in Sources */,
-				005A55752B1E7EA00054C5A3 /* SampleAdapterRewardedAd.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AEABBAFB1F60651F003BB4D2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AE50D6701F3BC46B0007AF85 /* SampleAdSDK */;
-			targetProxy = AEABBAFA1F60651F003BB4D2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AE50D63D1F3BC3820007AF85 /* Debug */ = {
@@ -522,7 +366,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -569,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
@@ -582,7 +426,7 @@
 		};
 		AE50D6771F3BC46B0007AF85 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90AF573FEE123F326E64FE80 /* Pods-SampleAdSDK.debug.xcconfig */;
+			baseConfigurationReference = E23966F008C194A447D18D68 /* Pods-SampleAdSDK.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -591,7 +435,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -603,7 +446,7 @@
 		};
 		AE50D6781F3BC46B0007AF85 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC65DC3D98C3CE590D7F06D7 /* Pods-SampleAdSDK.release.xcconfig */;
+			baseConfigurationReference = BC0BB928D6220B7DCB0241BC /* Pods-SampleAdSDK.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -612,69 +455,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		AEABBAED1F606494003BB4D2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0501CF93E3DA86F76ECCFA04 /* Pods-SampleAdSDKAdapter.debug.xcconfig */;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SampleAdSDKAdapter/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDKAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		AEABBAEE1F606494003BB4D2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 454134AC11198AD3DBF7F452 /* Pods-SampleAdSDKAdapter.release.xcconfig */;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = SampleAdSDKAdapter/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.admob.SampleAdSDKAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -695,15 +481,6 @@
 			buildConfigurations = (
 				AE50D6771F3BC46B0007AF85 /* Debug */,
 				AE50D6781F3BC46B0007AF85 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AEABBAEF1F606494003BB4D2 /* Build configuration list for PBXNativeTarget "SampleAdSDKAdapter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AEABBAED1F606494003BB4D2 /* Debug */,
-				AEABBAEE1F606494003BB4D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -111,11 +111,17 @@
 }
 
 - (void)bannerAdDidFail:(VungleBannerView *)bannerView withError:(NSError *)withError {
-  if (_delegate != nil) {
-    [_delegate didFailToPresentWithError:withError];
+  id<GADMediationBannerAdEventDelegate> delegate = _delegate;
+  if (delegate != nil) {
+    [delegate didFailToPresentWithError:withError];
     return;
   }
-  _adLoadCompletionHandler(nil, withError);
+
+  // If the delegate is nil, it means that load hasn't succeeded yet; hence,
+  // this error is associated with loading a banner ad.
+  if (_adLoadCompletionHandler) {
+    _adLoadCompletionHandler(nil, withError);
+  }
 }
 
 - (void)bannerAdWillPresent:(VungleBannerView *)bannerView {

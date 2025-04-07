@@ -90,8 +90,13 @@
 }
 
 - (void)newInterstitialAdShowSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager {
-  [_adEventDelegate willPresentFullScreenView];
-  [_adEventDelegate reportImpression];
+  id<GADMediationInterstitialAdEventDelegate> adEventDelegate = _adEventDelegate;
+  if (!adEventDelegate) {
+    return;
+  }
+
+  [adEventDelegate willPresentFullScreenView];
+  [adEventDelegate reportImpression];
 }
 
 - (void)newInterstitialAdShowFail:(nonnull NSError *)error

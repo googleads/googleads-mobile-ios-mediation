@@ -46,6 +46,11 @@ static NSString *const kBidResponse = @"bidResponse";
       .andReturn(_interstitialAdMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationInterstitialAdEventDelegate *)loadAd {
   NSData *watermarkData = [@"abc" dataUsingEncoding:NSUTF8StringEncoding];
   // Must pass through the enigma watermark.
@@ -73,6 +78,19 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testloadAd {
   [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testloadAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testloadAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testloadAdFailureForMissingPlacementID {

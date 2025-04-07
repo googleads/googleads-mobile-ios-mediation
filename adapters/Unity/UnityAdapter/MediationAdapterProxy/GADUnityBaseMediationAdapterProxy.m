@@ -36,8 +36,9 @@
 
 - (void)unityAdsShowComplete:(nonnull NSString *)placementId
              withFinishState:(UnityAdsShowCompletionState)state {
-  [self.eventDelegate willDismissFullScreenView];
-  [self.eventDelegate didDismissFullScreenView];
+  id<GADMediationAdEventDelegate> delegate = self.eventDelegate;
+  [delegate willDismissFullScreenView];
+  [delegate didDismissFullScreenView];
 }
 
 - (void)unityAdsShowFailed:(nonnull NSString *)placementId

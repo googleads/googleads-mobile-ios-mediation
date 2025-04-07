@@ -114,16 +114,17 @@
 #pragma mark - GADMediationInterstitialAd
 
 - (void)presentFromViewController:(UIViewController *)viewController {
+  id<GADMediationInterstitialAdEventDelegate> delegate = _delegate;
   BOOL didPresent = [ImobileSdkAds showBySpotID:_spotID];
   if (!didPresent) {
     NSString *errorMessage = @"Spot ID not registered.";
     GADMAdapterIMobileLog(@"%@", errorMessage);
     NSError *error = GADMAdapterIMobileErrorWithCodeAndDescription(
         GADMAdapterIMobileErrorAdNotPresented, errorMessage);
-    [_delegate didFailToPresentWithError:error];
+    [delegate didFailToPresentWithError:error];
     return;
   }
-  [_delegate willPresentFullScreenView];
+  [delegate willPresentFullScreenView];
 }
 
 #pragma mark - IMobileSdkAdsDelegate

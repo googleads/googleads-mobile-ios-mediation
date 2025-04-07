@@ -56,10 +56,14 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsShowErrorAndMessage(
   return error;
 }
 
-GADAdSize supportedAdSizeFromRequestedSize(GADAdSize gadAdSize) {
-  NSArray *potentials =
-      @[ NSValueFromGADAdSize(GADAdSizeBanner), NSValueFromGADAdSize(GADAdSizeLeaderboard) ];
-  return GADClosestValidSizeForAdSizes(gadAdSize, potentials);
+NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsLoadErrorAndMessage(
+    UnityAdsLoadError loadError, NSString *_Nonnull message) {
+  NSDictionary *userInfo =
+      @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey : message};
+  NSError *error = [NSError errorWithDomain:GADMAdapterUnitySDKErrorDomain
+                                       code:loadError
+                                   userInfo:userInfo];
+  return error;
 }
 
 GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {

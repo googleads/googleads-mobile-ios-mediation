@@ -36,8 +36,7 @@
 - (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad {
   GADMAdapterAppLovin *parentRenderer = _parentRenderer;
 
-  NSDictionary *settings = parentRenderer.settings;
-  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled(settings);
+  BOOL isMultipleAdsEnabled = GADMAdapterAppLovinIsMultipleAdsLoadingEnabled();
   if (isMultipleAdsEnabled) {
     [GADMAdapterAppLovinMediationManager.sharedInstance
         removeInterstitialZoneIdentifier:parentRenderer.zoneIdentifier];

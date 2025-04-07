@@ -1,5 +1,45 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+- Enable -fobjc-arc and -fstack-protector-all.
+- Added support for COPPA flag.
+
+#### [Version 7.7.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.7.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Mintegral SDK version 7.7.7.
+
+#### [Version 7.7.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.6.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Mintegral SDK version 7.7.6.
+
+#### [Version 7.7.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.5.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Mintegral SDK version 7.7.5.
+
+#### [Version 7.7.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.5.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.5.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Mintegral SDK version 7.7.5.
+
+#### [Version 7.7.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.4.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.4.
+- Updated the adapter to follow Google's Objective-C best practices.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Mintegral SDK version 7.7.4.
+
 #### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.3.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.3.
 

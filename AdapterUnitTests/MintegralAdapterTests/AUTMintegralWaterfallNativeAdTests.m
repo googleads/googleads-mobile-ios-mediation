@@ -71,6 +71,11 @@ static NSString *const kUnitID = @"67890";
                          }]]);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
+}
+
 - (nonnull AUTKMediationNativeAdEventDelegate *)loadAd {
   OCMStub([_nativeAdMock loadAds]).andDo(^(NSInvocation *invocation) {
     [self->_adLoader nativeAdsLoaded:@[ self->_campaign ] nativeManager:self->_nativeAdMock];
@@ -92,6 +97,51 @@ static NSString *const kUnitID = @"67890";
 
 - (void)testLoadAd {
   [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 
   XCTAssertEqualObjects([_adLoader headline], @"test app");
   XCTAssertEqualObjects([_adLoader body], @"app desc");

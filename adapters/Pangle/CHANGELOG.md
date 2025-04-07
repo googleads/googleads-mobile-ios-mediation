@@ -1,5 +1,104 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### [Version 6.5.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.5.0.9.0.zip)
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Verified compatibility with Pangle SDK version 6.5.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- Pangle SDK version 6.5.0.9.
+
+#### [Version 6.5.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.5.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 6.5.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Pangle SDK version 6.5.0.8.
+
+#### [Version 6.4.1.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.1.2.1.zip)
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- Pangle SDK version 6.4.1.2.
+
+#### [Version 6.4.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.1.2.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.1.2.
+
+#### [Version 6.4.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.1.1.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.1.1.
+
+#### [Version 6.4.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.1.0.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.1.0.
+
+#### [Version 6.4.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.0.9.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.0.9.
+
+#### [Version 6.4.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.0.8.
+
+#### [Version 6.4.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.0.7.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.0.7.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.0.7.
+
+#### [Version 6.4.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.4.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 6.4.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.13.0.
+- Pangle SDK version 6.4.0.6.
+
+#### [Version 6.3.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.3.1.0.0.zip)
+- Verified compatibility with Pangle SDK version 6.3.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- Pangle SDK version 6.3.1.0.
+
+#### [Version 6.3.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.3.0.9.0.zip)
+- Verified compatibility with Pangle SDK version 6.3.0.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- Pangle SDK version 6.3.0.9.
+
+#### [Version 6.3.0.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.3.0.8.0.zip)
+- Verified compatibility with Pangle SDK version 6.3.0.8.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.11.0.
+- Pangle SDK version 6.3.0.8.
+
+#### [Version 6.3.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.3.0.6.0.zip)
+- Verified compatibility with Pangle SDK version 6.3.0.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.11.0.
+- Pangle SDK version 6.3.0.6.
+
 #### [Version 6.2.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.2.0.9.0.zip)
 - Verified compatibility with Pangle SDK version 6.2.0.9.
 

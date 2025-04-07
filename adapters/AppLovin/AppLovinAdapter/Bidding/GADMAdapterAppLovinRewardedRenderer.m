@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMAdapterAppLovinRewardedRenderer.h"
-#include <stdatomic.h>
+
 #import "GADMAdapterAppLovinConstant.h"
 #import "GADMAdapterAppLovinExtras.h"
 #import "GADMAdapterAppLovinInitializer.h"
@@ -21,6 +21,9 @@
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMAppLovinRewardedDelegate.h"
 #import "GADMediationAdapterAppLovin.h"
+
+#include <GoogleMobileAds/GoogleMobileAds.h>
+#include <stdatomic.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -31,9 +34,6 @@
 
   /// Delegate to get notified by the AppLovin SDK of rewarded presentation events.
   GADMAppLovinRewardedDelegate *_appLovinDelegate;
-
-  /// Instance of the AppLovin SDK.
-  ALSdk *_SDKk;
 
   /// AppLovin incentivized interstitial object used to load an ad.
   ALIncentivizedInterstitialAd *_incent;
@@ -70,26 +70,19 @@
 }
 
 - (void)requestRewardedAd {
-  NSString *SDKKey = [GADMAdapterAppLovinUtils
-      retrieveSDKKeyFromCredentials:_adConfiguration.credentials.settings];
-  if (!SDKKey) {
+  if (!ALSdk.shared) {
     NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
-        GADMAdapterAppLovinErrorInvalidServerParameters, @"Invalid server parameters.");
+        GADMAdapterAppLovinErrorAppLovinSDKNotInitialized,
+        @"Failed to retrieve ALSdk shared instance. ");
     _adLoadCompletionHandler(nil, error);
     return;
   }
-
-  _SDKk = [GADMAdapterAppLovinUtils retrieveSDKFromSDKKey:SDKKey];
-  if (!_SDKk) {
-    NSError *error = GADMAdapterAppLovinNilSDKError(SDKKey);
-    _adLoadCompletionHandler(nil, error);
-    return;
-  }
+  ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
 
   _appLovinDelegate = [[GADMAppLovinRewardedDelegate alloc] initWithParentRenderer:self];
 
   // Create rewarded video object.
-  _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:_SDKk];
+  _incent = [[ALIncentivizedInterstitialAd alloc] initWithSdk:ALSdk.shared];
   [_incent setExtraInfoForKey:@"google_watermark" value:_adConfiguration.watermark];
 
   _incent.adDisplayDelegate = _appLovinDelegate;
@@ -97,7 +90,8 @@
 
   if (_adConfiguration.bidResponse) {
     // Load ad.
-    [_SDKk.adService loadNextAdForAdToken:_adConfiguration.bidResponse andNotify:_appLovinDelegate];
+    [ALSdk.shared.adService loadNextAdForAdToken:_adConfiguration.bidResponse
+                                       andNotify:_appLovinDelegate];
     return;
   }
 
@@ -127,44 +121,20 @@
 
   [GADMAdapterAppLovinUtils log:@"Requesting rewarded ad for zone: %@", zoneIdentifier];
 
-  GADMAdapterAppLovinRewardedRenderer *__weak weakSelf = self;
-  [GADMAdapterAppLovinInitializer.sharedInstance
-      initializeWithSDKKey:SDKKey
-         completionHandler:^(NSError *_Nullable initializationError) {
-           GADMAdapterAppLovinRewardedRenderer *strongSelf = weakSelf;
-           if (!strongSelf) {
-             [GADMAdapterAppLovinMediationManager.sharedInstance
-                 removeRewardedZoneIdentifier:zoneIdentifier];
-             return;
-           }
-
-           if (initializationError) {
-             strongSelf->_adLoadCompletionHandler(nil, initializationError);
-             [GADMAdapterAppLovinMediationManager.sharedInstance
-                 removeRewardedZoneIdentifier:zoneIdentifier];
-             return;
-           }
-
            // If this is a default Zone, create the incentivized ad normally.
-           if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:strongSelf->_zoneIdentifier]) {
-             // Loading an ad for default zone must be done through zone-agnostic
-             // `ALIncentivizedInterstitialAd` instance
-             [strongSelf->_incent preloadAndNotify:strongSelf->_appLovinDelegate];
-           }
-           // If custom zone id
-           else {
-             [strongSelf->_SDKk.adService
-                 loadNextAdForZoneIdentifier:strongSelf->_zoneIdentifier
-                                   andNotify:strongSelf->_appLovinDelegate];
-           }
-         }];
+  if ([GADMAdapterAppLovinDefaultZoneIdentifier isEqual:_zoneIdentifier]) {
+    // Loading an ad for default zone must be done through zone-agnostic
+    // `ALIncentivizedInterstitialAd` instance
+    [_incent preloadAndNotify:_appLovinDelegate];
+  }
+  // If custom zone id
+  else {
+    [ALSdk.shared.adService loadNextAdForZoneIdentifier:_zoneIdentifier
+                                              andNotify:_appLovinDelegate];
+  }
 }
 
 - (void)presentFromViewController:(UIViewController *)viewController {
-  // Update mute state.
-  GADMAdapterAppLovinExtras *networkExtras = _adConfiguration.extras;
-  _SDKk.settings.muted = networkExtras.muteAudio;
-
   if (_ad) {
     [GADMAdapterAppLovinUtils log:@"Showing rewarded video for zone: %@", _zoneIdentifier];
     [_incent showAd:_ad andNotify:_appLovinDelegate];

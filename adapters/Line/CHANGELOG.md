@@ -1,5 +1,40 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### [Version 2.9.20241106.3](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.3.zip)
+- Fixed an issue where `GADMediationAdapterLine.h` was not a public header.
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
+- Removed the banner ad size verification for bidding after successful loading.
+  - Waterfall banner ads will continue to check for banner ad sizes upon successful loading.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- FiveAd SDK version 2.9.20241106.
+
+#### [Version 2.9.20241106.2](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.2.zip)
+- Added the `GADMediationAdapterLine.testMode` property to indicate whether the FiveAd SDK should be initialized in test mode. This flag must be set before initializing the Google Mobile Ads SDK.
+- Removed the check for FiveAd SDK initialization state before initializing the FiveAd SDK.
+- Removed the deprecated native ad state check before downloading native ad assets.
+- Now requires Google Mobile Ads SDK version 12.0.0 or higher.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- FiveAd SDK version 2.9.20241106.
+
+#### [Version 2.9.20241106.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.1.zip)
+- Updated the adapter to use the latest ad load API for bidding banner ads.
+- Fixed an issue preventing ad events from forwarding correctly for bidding interstitial ads.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- FiveAd SDK version 2.9.20241106.
+
+#### [Version 2.9.20241106.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.0.zip)
+- Verified compatibility with FiveAd SDK version 2.9.20241106.
+
+Built and tested with:
+- Google Mobile Ads SDK version 11.12.0.
+- FiveAd SDK version 2.9.20241106.
+
 #### [Version 2.8.20240827.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.8.20240827.1.zip)
 - Updated `CFBundleShortVersionString` to have three components instead of four.
 

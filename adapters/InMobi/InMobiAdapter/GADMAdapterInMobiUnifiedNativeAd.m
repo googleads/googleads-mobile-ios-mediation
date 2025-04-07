@@ -221,8 +221,12 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 - (void)nativeAdImpressed:(nonnull IMNative *)native {
   GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from a native ad.");
-  [_nativeAdEventDelegate didPlayVideo];
-  [_nativeAdEventDelegate reportImpression];
+  id<GADMediationNativeAdEventDelegate> nativeAdEventDelegate = _nativeAdEventDelegate;
+  if (!nativeAdEventDelegate) {
+    return;
+  }
+  [nativeAdEventDelegate didPlayVideo];
+  [nativeAdEventDelegate reportImpression];
 }
 
 - (void)native:(nonnull IMNative *)native
@@ -241,11 +245,16 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (void)native:(nonnull IMNative *)native adAudioStateChanged:(BOOL)audioStateMuted {
+  id<GADMediationNativeAdEventDelegate> nativeAdEventDelegate = _nativeAdEventDelegate;
+  if (!nativeAdEventDelegate) {
+    return;
+  }
+
   if (audioStateMuted) {
-    [_nativeAdEventDelegate didMuteVideo];
+    [nativeAdEventDelegate didMuteVideo];
     GADMAdapterInMobiLog(@"InMobi SDK audio state changed to mute for native ad.");
   } else {
-    [_nativeAdEventDelegate didUnmuteVideo];
+    [nativeAdEventDelegate didUnmuteVideo];
     GADMAdapterInMobiLog(@"InMobi SDK audio state changed to unmute for native ad.");
   }
 }

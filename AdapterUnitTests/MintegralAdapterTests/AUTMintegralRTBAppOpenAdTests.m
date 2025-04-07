@@ -43,6 +43,8 @@ static NSString *const kBidResponse = @"bidResponse";
 - (void)tearDown {
   // Reset _adLoader after each test.
   _adLoader = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  [super tearDown];
 }
 
 - (nonnull AUTKMediationAppOpenAdEventDelegate *)loadRTBAppOpenAd {
@@ -74,6 +76,19 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testLoadRTBAppOpenAd {
   [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testLoadRTBAppOpenAdWithCOPPAEnabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadRTBAppOpenAdWithCOPPADisabled {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }
 
 - (void)testLoadRTBAppOpenAdFailureForMissingPlacementID {
