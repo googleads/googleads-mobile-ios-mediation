@@ -1,8 +1,12 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
-#### Next version
+#### [Version 4.14.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.14.1.1.zip)
 - For bidding, the adapter no longer checks the banner ad size.
 - For waterfall, the adapter now checks whether the loaded Unity Ads banner ad aspect ratio matches with the requested banner ad size.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.2.0.
+- Unity Ads SDK version 4.14.1.
 
 #### [Version 4.14.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.14.1.0.zip)
 - Verified compatibility with Unity Ads SDK 4.14.1.
