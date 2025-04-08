@@ -171,8 +171,44 @@ static NSString *const kDTExchangeSpotID = @"67890";
   return eventDelegate;
 }
 
-- (void)testLoad {
+- (void)testLoadWaterfallInterstitial {
   [self loadAd];
+}
+
+- (void)testLoadBiddingInterstitial {
+  NSString *bidResponse = @"test_response";
+  OCMStub([_IASDKCoreMock initWithAppID:kDTExchangeAppID
+                        completionBlock:OCMOCK_ANY
+                        completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(YES, nil);
+      });
+  OCMExpect([_IAAdRequestBuilderMock setSpotID:kDTExchangeSpotID]);
+  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(
+            IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil, nil, nil);
+      });
+
+  GADMAdapterFyberExtras *extras = [[GADMAdapterFyberExtras alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMAdapterFyberApplicationID : kDTExchangeAppID,
+    GADMAdapterFyberSpotID : kDTExchangeSpotID
+  };
+  AUTKMediationInterstitialAdConfiguration *configuration =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+  configuration.bidResponse = bidResponse;
+  configuration.extras = extras;
+  configuration.topViewController = [[UIViewController alloc] init];
+  AUTKMediationInterstitialAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadInterstitialAd(_adapter, configuration);
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadFailureForInitFailure {
