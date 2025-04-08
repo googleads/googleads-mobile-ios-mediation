@@ -193,7 +193,23 @@ static GADMAdapterIronSourceBannerAdDelegate *bannerDelegate = nil;
 #pragma mark - Utils methods
 
 - (BOOL)canLoadBannerInstance {
-  return ![[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked];
+  if ([[self getState] isEqualToString:GADMAdapterIronSourceInstanceStateLocked]) {
+    return false;
+  }
+
+  GADMAdapterIronSourceBannerAd *adInstance =
+      [GADMAdapterIronSourceBannerAd delegateForKey:self.instanceID];
+  if (adInstance == nil) {
+    return true;
+  }
+
+  NSString *currentInstanceState = [adInstance getState];
+  if ([currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateLocked] ||
+      [currentInstanceState isEqualToString:GADMAdapterIronSourceInstanceStateShowing]) {
+    return false;
+  }
+
+  return true;
 }
 
 #pragma mark - GADMediationBannerAd

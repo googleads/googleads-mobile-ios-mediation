@@ -90,9 +90,7 @@ static id<ISDemandOnlyRewardedVideoDelegate> _ironSourceRewardedAdDelegate;
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
       setState:GADMAdapterIronSourceInstanceStateLocked]);
-  OCMVerify([(GADMAdapterIronSourceRewardedAd *)_adapterRewardedAd
-      setState:GADMAdapterIronSourceInstanceStateCanLoad]);
-  XCTAssertEqualObjects([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateCanLoad);
+  XCTAssertEqualObjects([_adapterRewardedAd getState], GADMAdapterIronSourceInstanceStateLocked);
   return eventDelegate;
 }
 

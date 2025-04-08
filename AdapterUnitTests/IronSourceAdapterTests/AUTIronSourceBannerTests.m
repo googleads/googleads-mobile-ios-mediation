@@ -107,7 +107,9 @@ static NSString *const AUTIronSourceBannerTestsInstanceId = @"1234";
 }
 
 - (void)testLoadBannerAd {
-  [self loadBannerAd];
+  AUTKMediationBannerAdEventDelegate *delegate = [self loadBannerAd];
+  GADMAdapterIronSourceBannerAd *bannerAd = (GADMAdapterIronSourceBannerAd *)delegate.bannerAd;
+  XCTAssertEqualObjects([bannerAd getState], GADMAdapterIronSourceInstanceStateLocked);
 }
 
 - (void)testLoadFailureWithoutAppKey {

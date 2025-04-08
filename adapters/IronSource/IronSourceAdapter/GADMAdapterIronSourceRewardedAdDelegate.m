@@ -114,7 +114,6 @@
     return;
   }
 
-  [adInstance setState:GADMAdapterIronSourceInstanceStateCanLoad];
   GADMediationRewardedLoadCompletionHandler loadCompletionHandler =
       [adInstance getLoadCompletionHandler];
   if (loadCompletionHandler != nil) {

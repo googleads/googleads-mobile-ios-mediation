@@ -96,10 +96,8 @@ static id<ISDemandOnlyInterstitialDelegate> kIronSourceInterstitialDelegate;
   OCMVerifyAll(_ironSourceMock);
   OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
       setState:GADMAdapterIronSourceInstanceStateLocked]);
-  OCMVerify([(GADMAdapterIronSourceInterstitialAd *)_adapterInterstitialAd
-      setState:GADMAdapterIronSourceInstanceStateCanLoad]);
   XCTAssertEqualObjects([_adapterInterstitialAd getState],
-                        GADMAdapterIronSourceInstanceStateCanLoad);
+                        GADMAdapterIronSourceInstanceStateLocked);
   return eventDelegate;
 }
 

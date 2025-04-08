@@ -2,6 +2,7 @@
 
 #### Next version
 - Enable -fobjc-arc and -fstack-protector-all.
+- Updated the adapter to prevent loading subsequent waterfall ads unless previously loaded ads associated with the ad units have been consumed or deallocated.
 
 #### [Version 8.7.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.7.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.7.0.0.
