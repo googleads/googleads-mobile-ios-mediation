@@ -134,81 +134,91 @@
     [builder addSupportedUnitController:strongSelf->_viewUnitController];
   }];
 
-  [_adSpot fetchAdWithCompletion:^(IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel,
-                                   NSError *_Nullable error) {
-    GADMAdapterFyberBannerAd *strongSelf = weakSelf;
-    if (!strongSelf) {
-      return;
-    }
-
-    if (error) {
-      GADMAdapterFyberLog(@"Failed to load banner ad: %@", error.localizedDescription);
-      strongSelf->_loadCompletionHandler(nil, error);
-      return;
-    }
-
-    // Verify the loaded ad size with the requested ad size.
-    GADAdSize loadedAdSize =
-        GADAdSizeFromCGSize(CGSizeMake(strongSelf->_viewUnitController.adView.frame.size.width,
-                                       strongSelf->_viewUnitController.adView.frame.size.height));
-    NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(loadedAdSize) ];
-    GADAdSize closestSize =
-        GADClosestValidSizeForAdSizes(strongSelf->_adConfiguration.adSize, potentials);
-    if (!IsGADAdSizeValid(closestSize)) {
-      NSString *errorMessage =
-          [NSString stringWithFormat:@"The loaded ad size did not match the requested ad size. "
-                                     @"Requested ad size: %@. Loaded size: %@.",
-                                     NSStringFromGADAdSize(strongSelf->_adConfiguration.adSize),
-                                     NSStringFromGADAdSize(loadedAdSize)];
-      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-          GADMAdapterFyberErrorBannerSizeMismatch, errorMessage);
-      GADMAdapterFyberLog(@"%@", error.localizedDescription);
-      strongSelf->_loadCompletionHandler(nil, error);
-
-      return;
-    }
-
-    strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
-
-    UIView *view = strongSelf->_viewUnitController.adView;
-
+  NSString *bidResponse = _adConfiguration.bidResponse;
+  IAAdSpotAdResponseBlock completionCallback = ^(
+      IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error) {
     // Set constraints for rotations or banner expand support.
-    if (view.superview) {
-      view.translatesAutoresizingMaskIntoConstraints = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      GADMAdapterFyberBannerAd *strongSelf = weakSelf;
+      if (!strongSelf) {
+        return;
+      }
 
-      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:view.superview
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                multiplier:1
-                                                                  constant:0]];
+      if (error) {
+        GADMAdapterFyberLog(@"Failed to load banner ad: %@", error.localizedDescription);
+        strongSelf->_loadCompletionHandler(nil, error);
+        return;
+      }
 
-      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:view.superview
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1
-                                                                  constant:0]];
+      // For waterfall, verify the loaded ad size with the requested ad size.
+      if (!bidResponse) {
+        GADAdSize loadedAdSize = GADAdSizeFromCGSize(
+            CGSizeMake(strongSelf->_viewUnitController.adView.frame.size.width,
+                       strongSelf->_viewUnitController.adView.frame.size.height));
+        NSArray<NSValue *> *potentials = @[ NSValueFromGADAdSize(loadedAdSize) ];
+        GADAdSize closestSize =
+            GADClosestValidSizeForAdSizes(strongSelf->_adConfiguration.adSize, potentials);
+        if (!IsGADAdSizeValid(closestSize)) {
+          NSString *errorMessage =
+              [NSString stringWithFormat:@"The loaded ad size did not match the requested ad size. "
+                                         @"Requested ad size: %@. Loaded size: %@.",
+                                         NSStringFromGADAdSize(strongSelf->_adConfiguration.adSize),
+                                         NSStringFromGADAdSize(loadedAdSize)];
+          NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+              GADMAdapterFyberErrorBannerSizeMismatch, errorMessage);
+          GADMAdapterFyberLog(@"%@", error.localizedDescription);
+          strongSelf->_loadCompletionHandler(nil, error);
+          return;
+        }
+      }
 
-      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:view
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:1
-                                                                  constant:0]];
+      strongSelf->_delegate = strongSelf->_loadCompletionHandler(strongSelf, nil);
+      UIView *view = strongSelf->_viewUnitController.adView;
+      if (view.superview) {
+        view.translatesAutoresizingMaskIntoConstraints = NO;
 
-      [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:view
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1
-                                                                  constant:0]];
-    }
-  }];
+        [view.superview
+            addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                       attribute:NSLayoutAttributeCenterX
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                       attribute:NSLayoutAttributeCenterX
+                                                      multiplier:1
+                                                        constant:0]];
+
+        [view.superview
+            addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                       attribute:NSLayoutAttributeCenterY
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:view.superview
+                                                       attribute:NSLayoutAttributeCenterY
+                                                      multiplier:1
+                                                        constant:0]];
+
+        [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:view
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                  multiplier:1
+                                                                    constant:0]];
+
+        [view.superview addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:view
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                  multiplier:1
+                                                                    constant:0]];
+      }
+    });
+  };
+
+  if (bidResponse) {
+    [_adSpot loadAdWithMarkup:bidResponse withCompletion:completionCallback];
+  } else {
+    [_adSpot fetchAdWithCompletion:completionCallback];
+  }
 }
 
 #pragma mark - GADMediationBannerAd
