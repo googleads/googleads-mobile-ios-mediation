@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import AdapterUnitTestKit
 import Testing
 
 @testable import GoogleBidMachineAdapter
@@ -21,6 +22,10 @@ final class BidMachineAdapterTests {
 
   init() {
     BidMachineClientFactory.debugClient = FakeBidMachineClient()
+  }
+
+  deinit {
+    BidMachineAdapterExtras.isTestMode = false
   }
 
   @Test("Adapter version validation")
@@ -39,4 +44,96 @@ final class BidMachineAdapterTests {
     #expect(adSdkVersion.patchVersion >= 0)
   }
 
+  @Test("Adapter extra validation")
+  func adapterExtra_validates() {
+    #expect(BidMachineAdapter.networkExtrasClass() == BidMachineAdapterExtras.self)
+    #expect(BidMachineAdapterExtras.isTestMode == false)
+  }
+
+}
+
+@Suite("BidMachine adapter set up")
+final class BidMachineAdapterInitTests {
+
+  let client: FakeBidMachineClient
+
+  init() {
+    client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+  }
+
+  deinit {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    BidMachineAdapterExtras.isTestMode = false
+  }
+
+  @Test("Set up succeeds with the test mode off and coppa undefined")
+  func setUp_succeeds_whenTestModeOffAndCOPPAUndefined() {
+    BidMachineAdapterExtras.isTestMode = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    BidMachineAdapter.setUp(with: serverConfiguration) { error in
+      #expect(error == nil)
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isTestMode == false)
+    #expect(client.isCOPPA == nil)
+  }
+
+  @Test("Set up succeeds with the test mode on and coppa undefined")
+  func setUp_succeeds_whenTestModeOnAndCOPPAUndefined() {
+    BidMachineAdapterExtras.isTestMode = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    BidMachineAdapter.setUp(with: serverConfiguration) { error in
+      #expect(error == nil)
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isTestMode == true)
+    #expect(client.isCOPPA == nil)
+  }
+
+  @Test("Set up succeeds with the test mode on and coppa is set to false")
+  func setUp_succeeds_whenTestModeOnAndCOPPAFalse() {
+    BidMachineAdapterExtras.isTestMode = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    BidMachineAdapter.setUp(with: serverConfiguration) { error in
+      #expect(error == nil)
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isTestMode == true)
+    #expect(client.isCOPPA == false)
+  }
+
+  @Test("Set up succeeds with the test mode on and coppa is set to true")
+  func setUp_succeeds_whenTestModeOnAndCOPPATrue() {
+    BidMachineAdapterExtras.isTestMode = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    BidMachineAdapter.setUp(with: serverConfiguration) { error in
+      #expect(error == nil)
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isTestMode == true)
+    #expect(client.isCOPPA == true)
+  }
 }

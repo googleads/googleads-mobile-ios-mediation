@@ -19,8 +19,18 @@ import UIKit
 
 final class FakeBidMachineClient: NSObject, BidMachineClient {
 
+  var sourceId: String?
+  var isTestMode: Bool?
+  var isCOPPA: Bool?
+
   func version() -> String {
     return BidMachineSdk.sdkVersion
+  }
+
+  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?) {
+    self.sourceId = sourceId
+    self.isTestMode = isTestMode
+    self.isCOPPA = isCOPPA
   }
 
 }

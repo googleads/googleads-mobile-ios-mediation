@@ -40,12 +40,32 @@ protocol BidMachineClient: NSObject {
   /// Returns a version string of BidMachine SDK.
   func version() -> String
 
+  /// Initializes the BidMachine SDK.
+  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?)
+
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
 
   func version() -> String {
     return BidMachineSdk.sdkVersion
+  }
+
+  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?) {
+    BidMachineSdk.shared.populate {
+      $0.withTestMode(isTestMode)
+        .withBidLoggingMode(isTestMode)
+        .withEventLoggingMode(isTestMode)
+        .withLoggingMode(isTestMode)
+    }
+
+    if let isCOPPA {
+      BidMachineSdk.shared.regulationInfo.populate {
+        $0.withCOPPA(isCOPPA)
+      }
+    }
+
+    BidMachineSdk.shared.initializeSdk(sourceId)
   }
 
 }

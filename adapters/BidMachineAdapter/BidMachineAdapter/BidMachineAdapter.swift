@@ -37,8 +37,18 @@ final class BidMachineAdapter: NSObject, MediationAdapter /*RTBAdapter */ {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
-    // TODO: implement
-    completionHandler(nil)
+    do {
+      let sourceId = try Util.sourceId(from: configuration)
+      let isTestMode = BidMachineAdapterExtras.isTestMode
+      var isCOPPA: Bool?
+      if let coppa = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
+        isCOPPA = coppa.boolValue
+      }
+      BidMachineClientFactory.createClient().initialize(
+        with: sourceId, isTestMode: isTestMode, isCOPPA: isCOPPA)
+    } catch {
+      completionHandler(error.toNSError())
+    }
   }
 
   @objc static func networkExtrasClass() -> (any AdNetworkExtras.Type)? {
