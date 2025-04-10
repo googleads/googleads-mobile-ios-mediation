@@ -49,7 +49,7 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
   }
 
   PAGBiddingRequest *request = [PAGBiddingRequest new];
-  request.adxID = @"207";
+  request.adxID = GADMAdapterPangleAdxID;
   if (params.configuration.credentials.firstObject.format == GADAdFormatBanner) {
     request.bannerSize = [GADPangleBannerRenderer bannerSizeFormGADAdSize:params.adSize];
   }
@@ -86,7 +86,7 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
   config.PAConsent = _PAConsent;
-  config.adxID = @"207";
+  config.adxID = GADMAdapterPangleAdxID;
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
         completionHandler:^(BOOL success, NSError *_Nonnull error) {

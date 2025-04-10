@@ -25,3 +25,6 @@ static NSString *const GADMAdapterPanglePlacementID = @"placementid";
 
 /// Pangle adapter error domain.
 static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+
+/// the mediation ID.
+static NSString *const GADMAdapterPangleAdxID = @"207";
