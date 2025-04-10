@@ -30,6 +30,9 @@ public final class BidMachineAdapterError: Error {
     /// Bid Machine SDK returned non-banner ad to the banner ad's BidMachineAdProtocol didLoadAd
     /// delegate method. Should never happen.
     case bidMachineReturnedNonBannerAd = 104
+
+    /// Fullscreen ad is not ready for presentation.
+    case adNotReadyForPresentation = 105
   }
 
   public static let domain = "com.google.mediation.bidmachine"

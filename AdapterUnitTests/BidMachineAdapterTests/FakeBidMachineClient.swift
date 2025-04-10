@@ -24,12 +24,14 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
     .banner, .interstitial, .rewarded, .native,
   ]
 
+  var delegate: BidMachineAdDelegate?
   var sourceId: String?
   var isTestMode: Bool?
   var isCOPPA: Bool?
   var shouldBidMachineSucceedCreatingRequestConfig = true
   var shouldBidMachineSucceedCreatingAd = true
   var shouldBidMachineSucceedLoadingAd = true
+  var shouldBidMachineSucceedPresenting = true
 
   func version() -> String {
     return BidMachineSdk.sdkVersion
@@ -72,6 +74,45 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
         NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
+  func loadRTBInterstitialAd(
+    with bidResponse: String, delegate: any BidMachine.BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    let fakeInterstitialAd =
+      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    completionHandler(nil)
+    if shouldBidMachineSucceedLoadingAd {
+      delegate.didLoadAd(fakeInterstitialAd)
+      self.delegate = delegate
+    } else {
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
+  func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
+    throws(BidMachineAdapterError)
+  {
+    let fakeAd = OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
+    if shouldBidMachineSucceedPresenting {
+      delegate?.willPresentScreen?(fakeAd)
+      delegate?.didDismissAd?(fakeAd)
+    } else {
+      delegate?.didFailPresentAd?(fakeAd, NSError(domain: "com.test.domain", code: 12345))
     }
   }
 
