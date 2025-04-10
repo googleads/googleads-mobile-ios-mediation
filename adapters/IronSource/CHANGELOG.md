@@ -1,8 +1,13 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next version
-- Enable -fobjc-arc and -fstack-protector-all.
+#### [Version 8.8.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.8.0.0.0.zip)
+- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
 - Updated the adapter to prevent loading subsequent waterfall ads unless previously loaded ads associated with the ad units have been consumed or deallocated.
+- Verified compatibility with IronSource SDK version 8.8.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- IronSource SDK version 8.7.0.0.
 
 #### [Version 8.7.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.7.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.7.0.0.
