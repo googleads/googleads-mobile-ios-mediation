@@ -24,14 +24,6 @@
 #import "GADMInMobiConsent.h"
 #import "GADMediationAdapterInMobi.h"
 
-static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize) {
-  NSArray<NSValue *> *potentialSizeValues =
-      @[ @(GADAdSizeBanner), @(GADAdSizeMediumRectangle), @(GADAdSizeLeaderboard) ];
-
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizeValues);
-  return CGSizeFromGADAdSize(closestSize);
-}
-
 @implementation GADMAdapterInMobiBannerAd {
   /// An ad event delegate to invoke when ad rendering events occur.
   __weak id<GADMediationBannerAdEventDelegate> _bannerAdEventDelegate;
@@ -104,8 +96,8 @@ static CGSize GADMAdapterInMobiSupportedAdSizeFromGADAdSize(GADAdSize gadAdSize)
         @"Inmobi");
   }
 
-  CGSize size = GADMAdapterInMobiSupportedAdSizeFromGADAdSize(requestedAdSize);
-  if (CGSizeEqualToSize(size, CGSizeZero)) {
+  CGSize size = requestedAdSize.size;
+  if (size.width == 0 || size.height == 0) {
     NSString *errorMessage =
         [NSString stringWithFormat:@"The requested banner size: %@ is not supported by InMobi SDK.",
                                    NSStringFromGADAdSize(requestedAdSize)];
