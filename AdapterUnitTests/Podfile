@@ -280,6 +280,7 @@ abstract_target 'Default' do
     end
 
     target 'BidMachineAdapterTests' do
+      pod 'OCMock'
     end
 
   end

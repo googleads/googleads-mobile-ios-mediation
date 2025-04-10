@@ -111,6 +111,7 @@
 		AD1E880B2AC657DF00FAF1B7 /* AUTMintegralWaterfallAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1E880A2AC657DF00FAF1B7 /* AUTMintegralWaterfallAppOpenAdTests.m */; };
 		AD1E88392AC65B5200FAF1B7 /* AUTMintegralRTBAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1E88382AC65B5200FAF1B7 /* AUTMintegralRTBAppOpenAdTests.m */; };
 		AD2750B12ABCFD320065166C /* MintegralAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD2750B02ABCFD320065166C /* MintegralAdapterTests.xctestplan */; };
+		AD317BFD2DA0713C007B3FA8 /* BidMachineBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */; };
 		AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */; };
 		AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; platformFilter = ios; };
 		AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD45ED452A78116C001B29D8 /* libAdapter.a */; };
@@ -867,6 +868,8 @@
 		AD1E880A2AC657DF00FAF1B7 /* AUTMintegralWaterfallAppOpenAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMintegralWaterfallAppOpenAdTests.m; sourceTree = "<group>"; };
 		AD1E88382AC65B5200FAF1B7 /* AUTMintegralRTBAppOpenAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTMintegralRTBAppOpenAdTests.m; sourceTree = "<group>"; };
 		AD2750B02ABCFD320065166C /* MintegralAdapterTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MintegralAdapterTests.xctestplan; sourceTree = "<group>"; };
+		AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineBannerAdTests.swift; sourceTree = "<group>"; };
+		AD317C552DA07B9A007B3FA8 /* BidMachineAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BidMachineAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityAdapterTests.m; sourceTree = "<group>"; };
 		AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UnityAdapter.xcodeproj; path = ../adapters/UnityAdapter/UnityAdapter.xcodeproj; sourceTree = "<group>"; };
 		AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnityAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -1576,9 +1579,11 @@
 		ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */,
 				ADA2FBFD2D9F8C5A005D9ECA /* FakeBidMachineClient.swift */,
 				ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */,
 				ADA2FBFE2D9F8D7A005D9ECA /* BidMachineAdapterTestPlan.xctestplan */,
+				AD317C552DA07B9A007B3FA8 /* BidMachineAdapterTests-Bridging-Header.h */,
 			);
 			path = BidMachineAdapterTests;
 			sourceTree = "<group>";
@@ -2870,6 +2875,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD317BFD2DA0713C007B3FA8 /* BidMachineBannerAdTests.swift in Sources */,
 				ADA2FBFF2D9F8DC8005D9ECA /* FakeBidMachineClient.swift in Sources */,
 				ADA2FC002D9F8DC8005D9ECA /* BidMachineAdapterTests.swift in Sources */,
 			);
@@ -5371,6 +5377,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/BidMachineAdapterTests/BidMachineAdapterTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5441,6 +5448,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/BidMachineAdapterTests/BidMachineAdapterTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.0;

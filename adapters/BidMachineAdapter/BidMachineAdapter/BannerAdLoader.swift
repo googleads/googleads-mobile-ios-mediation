@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BidMachine
 import Foundation
 import GoogleMobileAds
 
@@ -62,6 +63,19 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       return
     }
 
+    do {
+      try client.loadRTBBannerAd(with: bidResponse, delegate: self) {
+        [weak self] error in
+        guard let self else { return }
+        guard error == nil else {
+          self.handleLoadedAd(nil, error: error)
+          return
+        }
+      }
+    } catch {
+      handleLoadedAd(nil, error: error)
+    }
+
   }
 
   private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
@@ -70,6 +84,43 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       eventDelegate = adLoadCompletionHandler(ad, error)
       self.adLoadCompletionHandler = nil
     }
+  }
+
+}
+
+// MARK: - BidMachineAdDelegate
+
+extension BannerAdLoader: BidMachineAdDelegate {
+
+  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+    guard let bannerAd = ad as? UIView else {
+      // Technically, should never get here.
+      handleLoadedAd(
+        nil,
+        error: BidMachineAdapterError(
+          errorCode: .bidMachineReturnedNonBannerAd,
+          description: "Received non-banner ad in the banner's didLoadAd delegate method."))
+      return
+    }
+
+    view = bannerAd
+    handleLoadedAd(self, error: nil)
+  }
+
+  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+    handleLoadedAd(nil, error: error)
+  }
+
+  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportImpression()
+  }
+
+  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportClick()
+  }
+
+  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error)
   }
 
 }

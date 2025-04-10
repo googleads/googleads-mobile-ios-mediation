@@ -27,6 +27,9 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   var sourceId: String?
   var isTestMode: Bool?
   var isCOPPA: Bool?
+  var shouldBidMachineSucceedCreatingRequestConfig = true
+  var shouldBidMachineSucceedCreatingAd = true
+  var shouldBidMachineSucceedLoadingAd = true
 
   func version() -> String {
     return BidMachineSdk.sdkVersion
@@ -48,4 +51,53 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
     completionHandler("Test signals")
   }
 
+  func loadRTBBannerAd(
+    with bidResponse: String,
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    completionHandler(nil)
+    if shouldBidMachineSucceedLoadingAd {
+      delegate.didLoadAd(MockView())
+    } else {
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
+}
+
+final class MockView: UIView, BidMachineAdProtocol {
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  init() {
+    super.init(frame: .zero)
+  }
+
+  var auctionInfo: any BidMachine.BidMachineAuctionResponseProtocol {
+    return OCMockObject.mock(for: BidMachineAuctionResponseProtocol.self)
+      as! BidMachineAuctionResponseProtocol
+  }
+  var requestInfo: any BidMachine.BidMachineRequestInfoProtocol {
+    return OCMockObject.mock(for: BidMachineRequestInfoProtocol.self)
+      as! BidMachineRequestInfoProtocol
+  }
+  var controller: UIViewController?
+  var delegate: (any BidMachine.BidMachineAdDelegate)?
+  var canShow: Bool = true
+  func loadAd() {
+  }
 }

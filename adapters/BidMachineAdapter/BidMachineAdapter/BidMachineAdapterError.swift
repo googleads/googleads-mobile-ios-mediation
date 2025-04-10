@@ -26,6 +26,10 @@ public final class BidMachineAdapterError: Error {
 
     /// Invalid ad configuration for loading an ad.
     case invalidAdConfiguration = 103
+
+    /// Bid Machine SDK returned non-banner ad to the banner ad's BidMachineAdProtocol didLoadAd
+    /// delegate method. Should never happen.
+    case bidMachineReturnedNonBannerAd = 104
   }
 
   public static let domain = "com.google.mediation.bidmachine"

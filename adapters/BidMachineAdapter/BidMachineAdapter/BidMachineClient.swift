@@ -48,6 +48,11 @@ protocol BidMachineClient: NSObject {
   func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
     throws(BidMachineAdapterError)
 
+  /// Loads a RTB banner ad.
+  func loadRTBBannerAd(
+    with bidResponse: String, delegate: BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void) throws
+
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
@@ -81,6 +86,32 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       completionHandler(signals)
     }
   }
+
+  func loadRTBBannerAd(
+    with bidResponse: String, delegate: BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    let config = try BidMachineSdk.shared.requestConfiguration(.banner)
+    config.populate {
+      $0.withPayload(bidResponse)
+    }
+
+    BidMachineSdk.shared.banner(config) { bidMachineBanner, error in
+      guard let bidMachineBanner, error == nil else {
+        completionHandler(error as? NSError)
+        return
+      }
+
+      completionHandler(nil)
+      nonisolated(unsafe) let delegate = delegate
+      DispatchQueue.main.async {
+        bidMachineBanner.delegate = delegate
+        bidMachineBanner.controller = Util.rootViewController()
+        bidMachineBanner.loadAd()
+      }
+    }
+  }
+
 }
 
 extension AdFormat {

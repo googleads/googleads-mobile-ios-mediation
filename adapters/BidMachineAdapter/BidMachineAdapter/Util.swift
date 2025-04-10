@@ -84,4 +84,25 @@ final class Util {
     return adFormat
   }
 
+  /// Retrieves the root view controller of the current key window. If it is not available, returns
+  /// nil.
+  @MainActor static func rootViewController() -> UIViewController? {
+    var viewController: UIViewController?
+    // If failed to find the closest view controller, then find the app's root
+    // view controller
+    if #available(iOS 13.0, *) {
+      let activeScene =
+        UIApplication.shared.connectedScenes
+        .filter { $0.activationState == .foregroundActive }
+        .first(where: { $0 is UIWindowScene }) as? UIWindowScene
+
+      let keyWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
+      viewController = keyWindow?.rootViewController
+    } else {
+      viewController = UIApplication.shared.keyWindow?.rootViewController
+    }
+
+    return viewController
+  }
+
 }
