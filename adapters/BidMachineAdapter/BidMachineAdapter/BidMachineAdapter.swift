@@ -14,12 +14,14 @@
 
 import GoogleMobileAds
 
-// TODO: if the adapter supports bidding, it must conforms to GADRTBAdapter instead of
-// GADMediationAdapter.
 @objc(GADMediationAdapterBidMachine)
-final class BidMachineAdapter: NSObject, MediationAdapter /*RTBAdapter */ {
+final class BidMachineAdapter: NSObject, RTBAdapter {
 
   private static let adapterVersionString = "3.2.1.0"
+
+  private static let supportedFormats: [AdFormat] = [
+    .banner, .interstitial, .rewarded, .native,
+  ]
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
@@ -84,13 +86,19 @@ final class BidMachineAdapter: NSObject, MediationAdapter /*RTBAdapter */ {
     )
   }
 
-  // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
-  //  @objc func collectSignals(
-  //    for params: RTBRequestParameters,
-  //   completionHandler: @escaping GADRTBSignalCompletionHandler
-  //  ) {
-  //
-  //  }
+  @objc func collectSignals(
+    for params: RTBRequestParameters,
+    completionHandler: @escaping GADRTBSignalCompletionHandler
+  ) {
+    do throws(BidMachineAdapterError) {
+      let format = try Util.adFormat(from: params)
+      try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
+        completionHandler(signals, nil)
+      }
+    } catch {
+      completionHandler(nil, error.toNSError())
+    }
+  }
 
   @objc
   func loadBanner(

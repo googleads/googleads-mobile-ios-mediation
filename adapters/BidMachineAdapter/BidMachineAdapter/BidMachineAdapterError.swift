@@ -20,8 +20,8 @@ public final class BidMachineAdapterError: Error {
     /// Server configuration missing a required publisher ID.
     case serverConfigurationMissingPublisherId = 101
 
-    /// The bidding signal collection request failed because multiple formats, no format, or an
-    /// unsupported format was specified in the request parameters.
+    /// The bidding signal collection request failed because the RTB parameters do not contains ad format
+    /// or specified format is not supported.
     case invalidRTBRequestParameters = 102
 
     /// Invalid ad configuration for loading an ad.

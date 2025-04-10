@@ -19,7 +19,6 @@ final class Util {
 
   private enum MediationConfigurationSettingKey: String {
     case sourceId = "source_id"
-    case placementId = "placement_id"
   }
 
   /// Prints the message with `BidMachineAdapter` prefix.
@@ -66,10 +65,9 @@ final class Util {
     return sourceId
   }
 
-  /// Retrieves an ad format from the provided mediation signals configuration.
+  /// Retrieves an ad format from the provided RTB parameters.
   ///
-  /// - Throws: BidMachineAdapterError.invalidRTBRequestParameters if the configuration
-  /// contains no ad format.
+  /// - Throws: BidMachineAdapterError.invalidRTBRequestParameters if the parameters contain no ad format.
   /// - Returns: An ad format from the configuration.
   static func adFormat(
     from params: RTBRequestParameters

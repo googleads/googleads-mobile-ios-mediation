@@ -137,3 +137,122 @@ final class BidMachineAdapterInitTests {
     #expect(client.isCOPPA == true)
   }
 }
+
+@Suite("BidMachine adapter signals collection")
+final class BidMachineAdapterSignalsCollectionTests {
+
+  init() {
+    BidMachineClientFactory.debugClient = FakeBidMachineClient()
+  }
+
+  @Test("The adapter collects signals for a banner ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsBanner() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter collects signals for an interstitial ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsInterstitial() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .interstitial
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter collects signals for a rewarded ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsRewarded() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .rewarded
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter collects signals for a native ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsNative() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .native
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter fails to collect signals for an app open ad request.")
+  func signalCollection_fails_whenRequestFormatIsAppOpen() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .appOpen
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error != nil)
+          #expect(signals == nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+}

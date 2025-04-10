@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import BidMachine
+import GoogleMobileAds
 import UIKit
 
 /// Factory that creates Client.
@@ -43,6 +44,10 @@ protocol BidMachineClient: NSObject {
   /// Initializes the BidMachine SDK.
   func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?)
 
+  /// Collects the signals  for the specified ad format.
+  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+    throws(BidMachineAdapterError)
+
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
@@ -66,6 +71,31 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
 
     BidMachineSdk.shared.initializeSdk(sourceId)
+  }
+
+  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+    throws(BidMachineAdapterError)
+  {
+    let placementFormat = try adFormat.toPlacementFormat()
+    BidMachineSdk.shared.token(with: placementFormat) { signals in
+      completionHandler(signals)
+    }
+  }
+}
+
+extension AdFormat {
+
+  fileprivate func toPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
+    switch self {
+    case .banner: return .banner
+    case .interstitial: return .interstitial
+    case .rewarded: return .rewarded
+    case .native: return .native
+    default:
+      throw BidMachineAdapterError(
+        errorCode: .invalidRTBRequestParameters,
+        description: "Unsupported ad format. Provided format: \(self).")
+    }
   }
 
 }

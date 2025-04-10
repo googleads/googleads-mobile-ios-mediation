@@ -13,11 +13,16 @@
 // limitations under the License.
 
 import BidMachine
+import GoogleMobileAds
 import UIKit
 
 @testable import GoogleBidMachineAdapter
 
 final class FakeBidMachineClient: NSObject, BidMachineClient {
+
+  private static let supportedFormats: [AdFormat] = [
+    .banner, .interstitial, .rewarded, .native,
+  ]
 
   var sourceId: String?
   var isTestMode: Bool?
@@ -31,6 +36,16 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
     self.sourceId = sourceId
     self.isTestMode = isTestMode
     self.isCOPPA = isCOPPA
+  }
+
+  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+    throws(BidMachineAdapterError)
+  {
+    if !Self.supportedFormats.contains(adFormat) {
+      throw BidMachineAdapterError(
+        errorCode: .invalidRTBRequestParameters, description: "test description.")
+    }
+    completionHandler("Test signals")
   }
 
 }
