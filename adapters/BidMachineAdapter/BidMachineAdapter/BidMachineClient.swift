@@ -62,6 +62,14 @@ protocol BidMachineClient: NSObject {
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
 
+  /// Loads a RTB rewarded ad.
+  func loadRTBRewardedAd(
+    with bidResponse: String, delegate: BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void) throws
+
+  /// Presents the loaded rewarded ad.
+  func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
+    throws(BidMachineAdapterError)
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
@@ -141,6 +149,26 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
   }
 
+  func loadRTBRewardedAd(
+    with bidResponse: String, delegate: BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    let config = try BidMachineSdk.shared.requestConfiguration(.rewarded)
+    config.populate {
+      $0.withPayload(bidResponse)
+    }
+
+    BidMachineSdk.shared.rewarded(config) { rewardedAd, error in
+      guard let rewardedAd, error == nil else {
+        completionHandler(error as? NSError)
+        return
+      }
+
+      rewardedAd.delegate = delegate
+      rewardedAd.loadAd()
+    }
+  }
+
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
   {
@@ -151,6 +179,18 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
     interstitialAd.controller = viewController
     interstitialAd.presentAd()
+  }
+
+  func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
+    throws(BidMachineAdapterError)
+  {
+    guard let rewardedAd, rewardedAd.canShow else {
+      throw BidMachineAdapterError(
+        errorCode: .adNotReadyForPresentation,
+        description: "RTB rewarded ad is not ready for presentation.")
+    }
+    rewardedAd.controller = viewController
+    rewardedAd.presentAd()
   }
 
 }

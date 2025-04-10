@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BidMachine
 import Foundation
 import GoogleMobileAds
 
@@ -35,6 +36,8 @@ final class RewardedAdLoader: NSObject {
 
   private let client: BidMachineClient
 
+  private var rewardedAd: BidMachineRewarded?
+
   init(
     adConfiguration: MediationRewardedAdConfiguration,
     loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler
@@ -57,6 +60,18 @@ final class RewardedAdLoader: NSObject {
         ).toNSError())
       return
     }
+    do {
+      try client.loadRTBRewardedAd(with: bidResponse, delegate: self) {
+        [weak self] error in
+        guard let self else { return }
+        guard error == nil else {
+          self.handleLoadedAd(nil, error: error)
+          return
+        }
+      }
+    } catch {
+      handleLoadedAd(nil, error: error as NSError)
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
@@ -74,6 +89,50 @@ final class RewardedAdLoader: NSObject {
 extension RewardedAdLoader: MediationRewardedAd {
 
   func present(from viewController: UIViewController) {
+    do {
+      try client.present(rewardedAd, from: viewController)
+    } catch {
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    }
+  }
+
+}
+
+// MARK: - BidMachineAdDelegate
+
+extension RewardedAdLoader: BidMachineAdDelegate {
+
+  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+    rewardedAd = ad as? BidMachineRewarded
+    handleLoadedAd(self, error: nil)
+  }
+
+  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportImpression()
+  }
+
+  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportClick()
+  }
+
+  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func didDismissAd(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error)
+  }
+
+  func didReceiveReward(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.didRewardUser()
   }
 
 }

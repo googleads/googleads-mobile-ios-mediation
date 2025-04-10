@@ -116,6 +116,43 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
     }
   }
 
+  func loadRTBRewardedAd(
+    with bidResponse: String, delegate: any BidMachine.BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    if shouldBidMachineSucceedLoadingAd {
+      completionHandler(nil)
+      delegate.didLoadAd(OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
+      self.delegate = delegate
+    } else {
+      completionHandler(nil)
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
+  func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
+    throws(GoogleBidMachineAdapter.BidMachineAdapterError)
+  {
+    let fakeAd = OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded
+    if shouldBidMachineSucceedPresenting {
+      delegate?.willPresentScreen?(fakeAd)
+      delegate?.didDismissAd?(fakeAd)
+    } else {
+      delegate?.didFailPresentAd?(fakeAd, NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
 }
 
 final class MockView: UIView, BidMachineAdProtocol {
