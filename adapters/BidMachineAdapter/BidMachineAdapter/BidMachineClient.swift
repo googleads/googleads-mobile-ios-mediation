@@ -70,6 +70,11 @@ protocol BidMachineClient: NSObject {
   /// Presents the loaded rewarded ad.
   func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
+
+  /// Loads a RTB native ad.
+  func loadRTBNativeAd(
+    with bidResponse: String, delegate: BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void) throws
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
@@ -191,6 +196,28 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
     rewardedAd.controller = viewController
     rewardedAd.presentAd()
+  }
+
+  func loadRTBNativeAd(
+    with bidResponse: String,
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    let config = try BidMachineSdk.shared.requestConfiguration(.native)
+    config.populate {
+      $0.withPayload(bidResponse)
+    }
+
+    BidMachineSdk.shared.native(config) { nativeAd, error in
+      guard let nativeAd, error == nil else {
+        completionHandler(error as? NSError)
+        return
+      }
+
+      completionHandler(nil)
+      nativeAd.delegate = delegate
+      nativeAd.loadAd()
+    }
   }
 
 }

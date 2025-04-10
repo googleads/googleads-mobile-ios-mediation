@@ -32,6 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AD3181D52DA49074007B3FA8 /* NaitveAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D42DA4906F007B3FA8 /* NaitveAdProxy.swift */; };
 		ADA2F7CE2D9DBB7D005D9ECA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
 		ADA2F7D32D9DBF0C005D9ECA /* BidMachineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */; };
 		ADFA84BD2C17704300A501AB /* BidMachineAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* BidMachineAdapter.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD3181D42DA4906F007B3FA8 /* NaitveAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaitveAdProxy.swift; sourceTree = "<group>"; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineClient.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 		ADFA84AD2C17704300A501AB /* BidMachineAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				AD3181D42DA4906F007B3FA8 /* NaitveAdProxy.swift */,
 				ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */,
 				ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */,
 				ADFA84A52C17704300A501AB /* BidMachineAdapter.swift */,
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD3181D52DA49074007B3FA8 /* NaitveAdProxy.swift in Sources */,
 				ADFA84BE2C17704300A501AB /* BidMachineAdapterError.swift in Sources */,
 				ADA2F7CE2D9DBB7D005D9ECA /* Util.swift in Sources */,
 				ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */,
@@ -402,7 +406,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -476,7 +480,7 @@
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

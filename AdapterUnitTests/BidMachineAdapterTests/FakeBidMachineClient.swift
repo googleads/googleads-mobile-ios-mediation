@@ -153,6 +153,32 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
     }
   }
 
+  func loadRTBNativeAd(
+    with bidResponse: String,
+    delegate: any BidMachine.BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    if shouldBidMachineSucceedLoadingAd {
+      completionHandler(nil)
+      delegate.didLoadAd(OCMockObject.mock(for: BidMachineNative.self) as! BidMachineNative)
+      self.delegate = delegate
+    } else {
+      completionHandler(nil)
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
 }
 
 final class MockView: UIView, BidMachineAdProtocol {

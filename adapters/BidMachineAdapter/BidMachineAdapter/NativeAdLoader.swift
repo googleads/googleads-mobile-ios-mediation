@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BidMachine
 import Foundation
 import GoogleMobileAds
 
@@ -35,6 +36,8 @@ final class NativeAdLoader: NSObject {
 
   private let client: BidMachineClient
 
+  private var nativeAdProxy: NativeAdProxy?
+
   init(
     adConfiguration: MediationNativeAdConfiguration,
     loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler
@@ -48,7 +51,28 @@ final class NativeAdLoader: NSObject {
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |nativeAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: BidMachineAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+
+    do {
+      try client.loadRTBNativeAd(with: bidResponse, delegate: self) {
+        [weak self] error in
+        guard let self else { return }
+        guard error == nil else {
+          self.handleLoadedAd(nil, error: error)
+          return
+        }
+      }
+    } catch {
+      handleLoadedAd(nil, error: error as NSError)
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationNativeAd?, error: NSError?) {
@@ -61,69 +85,44 @@ final class NativeAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationNativeAd
+// MARK: - BidMachineAdDelegate
 
-extension NativeAdLoader: MediationNativeAd {
+extension NativeAdLoader: BidMachineAdDelegate {
 
-  // TODO: implement computed properties and methods below. Implement more optional methods from
-  // |GADMediationNativeAd|, if needed.
+  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+    // BidMachine native ad's image assets come in string URLs. The adapter
+    // needs to download them before notifying Google Mobile Ads SDK.
+    do {
+      nativeAdProxy = try NativeAdProxyFactory.createProxy(with: ad)
+      nativeAdProxy?.downLoadImageAssets(completionHandler: { [weak self] error in
+        guard let self else { return }
 
-  var headline: String? {
-    return nil
+        guard error == nil else {
+          self.handleLoadedAd(nil, error: error!.toNSError())
+          return
+        }
+
+        self.handleLoadedAd(self.nativeAdProxy, error: nil)
+      })
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
-  var images: [NativeAdImage]? {
-    return nil
+  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+    handleLoadedAd(nil, error: error as NSError)
   }
 
-  var body: String? {
-    return nil
+  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportImpression()
   }
 
-  var icon: NativeAdImage? {
-    return nil
+  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportClick()
   }
 
-  var callToAction: String? {
-    return nil
-  }
-
-  var starRating: NSDecimalNumber? {
-    return nil
-  }
-
-  var store: String? {
-    return nil
-  }
-
-  var price: String? {
-    return nil
-  }
-
-  var advertiser: String? {
-    return nil
-  }
-
-  var extraAssets: [String: Any]? {
-    return nil
-  }
-
-  var hasVideoContent: Bool {
-    // TODO: implement
-    return true
-  }
-
-  func handlesUserClicks() -> Bool {
-    // TODO: implement
-    return true
-  }
-
-  func handlesUserImpressions() -> Bool {
-    // TODO: implement
-    return true
+  func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error)
   }
 
 }
-
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.

@@ -33,6 +33,13 @@ public final class BidMachineAdapterError: Error {
 
     /// Fullscreen ad is not ready for presentation.
     case adNotReadyForPresentation = 105
+
+    /// Bid Machine SDK returned non-native ad to the native ad's BidMachineAdProtocol didLoadAd
+    /// delegate method. Should never happen.
+    case bidMachineReturnedNonNativeAd = 106
+
+    /// Failed to load one of the native ad image sources.
+    case failedToLoadNativeAdImageSource = 107
   }
 
   public static let domain = "com.google.mediation.bidmachine"

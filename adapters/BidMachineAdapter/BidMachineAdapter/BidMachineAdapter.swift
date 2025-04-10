@@ -135,7 +135,6 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     rewardedAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
   @objc
   func loadNativeAd(
     for adConfiguration: MediationNativeAdConfiguration,
