@@ -153,6 +153,10 @@
 		ADA1AF642B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AF632B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m */; };
 		ADA1AFCF2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */; };
 		ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */; };
+		ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		ADA2FAFB2D9F777D005D9ECA /* libGoogleBidMachineAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */; };
+		ADA2FBFF2D9F8DC8005D9ECA /* FakeBidMachineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2FBFD2D9F8C5A005D9ECA /* FakeBidMachineClient.swift */; };
+		ADA2FC002D9F8DC8005D9ECA /* BidMachineAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */; };
 		ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */; };
 		ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */; };
 		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
@@ -664,6 +668,55 @@
 			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
 			remoteInfo = Adapter;
 		};
+		ADA2FAD52D9F770B005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		ADA2FAD72D9F770B005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = PubMaticAdapterFramework;
+		};
+		ADA2FAD92D9F770B005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD76A9DB2D9311C500F40CD4;
+			remoteInfo = StaticPubmaticAdapter;
+		};
+		ADA2FADF2D9F7715005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		ADA2FAF52D9F776C005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		ADA2FAF72D9F776C005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = BidMachineAdapterFramework;
+		};
+		ADA2FAF92D9F7776005D9ECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
 		ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
@@ -861,6 +914,12 @@
 		ADA1AF632B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostInterstitialAdTests.m; sourceTree = "<group>"; };
 		ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostBannerAdTests.m; sourceTree = "<group>"; };
 		ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetInterstitialAdTests.m; sourceTree = "<group>"; };
+		ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PubMaticAdapter.xcodeproj; path = ../adapters/PubMaticAdapter/PubMaticAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BidMachineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BidMachineAdapter.xcodeproj; path = ../adapters/BidMachineAdapter/BidMachineAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineAdapterTests.swift; sourceTree = "<group>"; };
+		ADA2FBFD2D9F8C5A005D9ECA /* FakeBidMachineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBidMachineClient.swift; sourceTree = "<group>"; };
+		ADA2FBFE2D9F8D7A005D9ECA /* BidMachineAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BidMachineAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
 		ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineNativeAdTest.m; sourceTree = "<group>"; };
 		ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoTestUtils.swift; sourceTree = "<group>"; };
 		ADADDD402A32528C00FB60E1 /* LineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1017,6 +1076,15 @@
 			files = (
 				AD8FE9252D3B318600B4728A /* libAmazonAdapter.a in Frameworks */,
 				AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA2FAE22D9F7715005D9ECA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA2FAFB2D9F777D005D9ECA /* libGoogleBidMachineAdapter.a in Frameworks */,
+				ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1351,6 +1419,7 @@
 			children = (
 				AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */,
 				44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */,
+				ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */,
 				AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */,
 				ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */,
 				AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */,
@@ -1362,11 +1431,13 @@
 				7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */,
 				AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */,
 				701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */,
+				ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */,
 				AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */,
 				AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */,
 				AD6FA0372A16BF4A007335D2 /* AdapterUnitTestKit */,
 				AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */,
 				44ACFB132AB129D000035A73 /* AppLovinAdapterTests */,
+				ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
 				AD6FA03D2A16BF98007335D2 /* Frameworks */,
@@ -1382,8 +1453,8 @@
 				701E236A2AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				A9D6475042796F097447FCB2 /* Pods */,
 				AD6FA0362A16BF4A007335D2 /* Products */,
-				AD45ED342A78111F001B29D8 /* UnityAdapterTests */,
 				AD76AA412D9313E400F40CD4 /* PubMaticTests */,
+				AD45ED342A78111F001B29D8 /* UnityAdapterTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1407,6 +1478,7 @@
 				7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */,
 				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
 				AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */,
+				ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1489,6 +1561,35 @@
 				AD8FE3452D39F8C400B4728A /* AmazonAdapterTestPlan.xctestplan */,
 			);
 			path = AmazonAdapterTests;
+			sourceTree = "<group>";
+		};
+		ADA2FACE2D9F770A005D9ECA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADA2FAD62D9F770B005D9ECA /* libPubMaticAdapter.a */,
+				ADA2FAD82D9F770B005D9ECA /* PubMaticAdapterFramework.framework */,
+				ADA2FADA2D9F770B005D9ECA /* libStaticPubmaticAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADA2FBFD2D9F8C5A005D9ECA /* FakeBidMachineClient.swift */,
+				ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */,
+				ADA2FBFE2D9F8D7A005D9ECA /* BidMachineAdapterTestPlan.xctestplan */,
+			);
+			path = BidMachineAdapterTests;
+			sourceTree = "<group>";
+		};
+		ADA2FAEF2D9F776C005D9ECA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */,
+				ADA2FAF82D9F776C005D9ECA /* BidMachineAdapterFramework.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		ADADDD412A32528C00FB60E1 /* LineAdapterTests */ = {
@@ -1843,6 +1944,25 @@
 			productReference = AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADA2FAE72D9F7715005D9ECA /* Build configuration list for PBXNativeTarget "BidMachineAdapterTests" */;
+			buildPhases = (
+				ADA2FAE02D9F7715005D9ECA /* Sources */,
+				ADA2FAE22D9F7715005D9ECA /* Frameworks */,
+				ADA2FAE52D9F7715005D9ECA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADA2FAFA2D9F7776005D9ECA /* PBXTargetDependency */,
+				ADA2FADE2D9F7715005D9ECA /* PBXTargetDependency */,
+			);
+			name = BidMachineAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADADDD462A32528C00FB60E1 /* Build configuration list for PBXNativeTarget "LineAdapterTests" */;
@@ -1965,6 +2085,10 @@
 					ProjectRef = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
 				},
 				{
+					ProductGroup = ADA2FAEF2D9F776C005D9ECA /* Products */;
+					ProjectRef = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD0D6E002AF56C36002C0B60 /* Products */;
 					ProjectRef = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
 				},
@@ -2013,6 +2137,10 @@
 					ProjectRef = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
 				},
 				{
+					ProductGroup = ADA2FACE2D9F770A005D9ECA /* Products */;
+					ProjectRef = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD45ED3F2A78116C001B29D8 /* Products */;
 					ProjectRef = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
 				},
@@ -2036,6 +2164,7 @@
 				7072CF602C41F9A1002BF6AE /* MolocoAdapterTests */,
 				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
 				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
+				ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2342,6 +2471,41 @@
 			remoteRef = AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ADA2FAD62D9F770B005D9ECA /* libPubMaticAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPubMaticAdapter.a;
+			remoteRef = ADA2FAD52D9F770B005D9ECA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADA2FAD82D9F770B005D9ECA /* PubMaticAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PubMaticAdapterFramework.framework;
+			remoteRef = ADA2FAD72D9F770B005D9ECA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADA2FADA2D9F770B005D9ECA /* libStaticPubmaticAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticPubmaticAdapter.a;
+			remoteRef = ADA2FAD92D9F770B005D9ECA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGoogleBidMachineAdapter.a;
+			remoteRef = ADA2FAF52D9F776C005D9ECA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADA2FAF82D9F776C005D9ECA /* BidMachineAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BidMachineAdapterFramework.framework;
+			remoteRef = ADA2FAF72D9F776C005D9ECA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2468,6 +2632,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD8FE9152D3B314B00B4728A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADA2FAE52D9F7715005D9ECA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2695,6 +2866,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADA2FAE02D9F7715005D9ECA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADA2FBFF2D9F8DC8005D9ECA /* FakeBidMachineClient.swift in Sources */,
+				ADA2FC002D9F8DC8005D9ECA /* BidMachineAdapterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADADDD3C2A32528C00FB60E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2856,6 +3036,16 @@
 			isa = PBXTargetDependency;
 			name = Adapter;
 			targetProxy = AD8FE9222D3B317200B4728A /* PBXContainerItemProxy */;
+		};
+		ADA2FADE2D9F7715005D9ECA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = ADA2FADF2D9F7715005D9ECA /* PBXContainerItemProxy */;
+		};
+		ADA2FAFA2D9F7776005D9ECA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = ADA2FAF92D9F7776005D9ECA /* PBXContainerItemProxy */;
 		};
 		ADADDD512A3252E200FB60E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5111,6 +5301,152 @@
 			};
 			name = Release;
 		};
+		ADA2FAE82D9F7715005D9ECA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		ADA2FAE92D9F7715005D9ECA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		ADADDD442A32528C00FB60E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5541,6 +5877,15 @@
 			buildConfigurations = (
 				AD8FE91C2D3B314C00B4728A /* Debug */,
 				AD8FE91D2D3B314C00B4728A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADA2FAE72D9F7715005D9ECA /* Build configuration list for PBXNativeTarget "BidMachineAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADA2FAE82D9F7715005D9ECA /* Debug */,
+				ADA2FAE92D9F7715005D9ECA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "3B266F1E-38FD-4691-AAEC-61EA58365DF9",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADA2FADB2D9F7715005D9ECA",
+        "name" : "BidMachineAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
