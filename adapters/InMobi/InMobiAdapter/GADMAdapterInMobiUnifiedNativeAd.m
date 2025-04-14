@@ -173,6 +173,10 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 }
 
+- (BOOL)handlesUserImpressions {
+    return YES;
+}
+
 #pragma mark - IMNativeDelegate
 
 - (void)nativeDidFinishLoading:(nonnull IMNative *)native {

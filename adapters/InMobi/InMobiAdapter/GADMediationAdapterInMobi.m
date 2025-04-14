@@ -33,6 +33,9 @@
 
   /// InMobi interstitial ad wrapper.
   GADMAdapterInMobiInterstitialAd *_interstitialAd;
+    
+  /// InMobi interstitial rewarded ad wrapper.
+  GADMAdapterInMobiRewardedAd *_interstitialRewardedAd;
 
   /// InMobi native ad wrapper.
   GADMAdapterInMobiUnifiedNativeAd *_nativeAd;
@@ -171,6 +174,20 @@
 
   [_interstitialAd loadInterstitialAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration completionHandler:(GADMediationRewardedLoadCompletionHandler)completionHandler {
+    if (!_interstitialRewardedAd) {
+      NSString *placementIdentifierString =
+          adConfiguration.credentials.settings[GADMAdapterInMobiPlacementID];
+      NSNumber *placementIdentifier =
+          [NSNumber numberWithLongLong:placementIdentifierString.longLongValue];
+        _interstitialRewardedAd =
+          [[GADMAdapterInMobiRewardedAd alloc] initWithPlacementIdentifier:placementIdentifier];
+    }
+
+    [_interstitialRewardedAd loadRewardedAdForAdConfiguration:adConfiguration
+                                completionHandler:completionHandler];
 }
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
