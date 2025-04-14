@@ -1,5 +1,9 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### [Version 7.1.0.8.0]
+- Added adaptive banner style.
+- V71 SDK upgrade removes the CCPA flag. The CCPA flag is replaced by the new PA consent field in the current version.
+
 #### [Version 6.5.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.5.0.9.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
 - Verified compatibility with Pangle SDK version 6.5.0.9.
