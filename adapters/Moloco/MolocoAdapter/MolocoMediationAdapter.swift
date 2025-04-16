@@ -150,7 +150,7 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
     MolocoUtils.log("Initializing Moloco SDK with app ID [\(appID)]")
 
     // Initialize Moloco SDK
-    molocoInitializer.initialize(initParams: .init(appKey: appID)) { done, err in
+    molocoInitializer.initialize(initParams: .init(appKey: appID, mediator: .adMob)) { done, err in
       done ? completionHandler(nil) : completionHandler(err)
     }
   }

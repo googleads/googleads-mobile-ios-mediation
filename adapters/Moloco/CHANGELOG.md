@@ -1,5 +1,8 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Next version
+- Sets mediation platform name when initializing Moloco SDK.
+
 #### [Version 3.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.8.0.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
 - Fixed an issue with obtaining the star rating for native ads.
