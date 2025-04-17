@@ -41,6 +41,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   GADPangleNetworkExtras *extras =
       [params.extras isKindOfClass:[GADPangleNetworkExtras class]] ? params.extras : nil;
   if (extras && extras.userDataString.length > 0) {
@@ -60,6 +64,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(GADMAdapterPangleChildUserError());
+      return;
+  }
   NSMutableSet *appIds = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appId = cred.settings[GADMAdapterPangleAppID];
@@ -131,6 +139,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   _bannerRenderer = [[GADPangleBannerRenderer alloc] init];
   [_bannerRenderer renderBannerForAdConfiguration:adConfiguration
                                 completionHandler:completionHandler];
@@ -140,6 +152,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   _interstitialRenderer = [[GADPangleInterstitialRenderer alloc] init];
   [_interstitialRenderer renderInterstitialForAdConfiguration:adConfiguration
                                             completionHandler:completionHandler];
@@ -148,6 +164,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   _rewardedRenderer = [[GADPangleRewardedRenderer alloc] init];
   [_rewardedRenderer renderRewardedAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
@@ -156,6 +176,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
                          (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   _nativeRenderer = [[GADPangleNativeRenderer alloc] init];
   [_nativeRenderer renderNativeAdForAdConfiguration:adConfiguration
                                   completionHandler:completionHandler];
@@ -165,6 +189,10 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
             (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
                       completionHandler:
                           (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterPangleUtils isChildUser]) {
+      completionHandler(nil,GADMAdapterPangleChildUserError());
+      return;
+  }
   _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
   [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
@@ -175,7 +203,7 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
     GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
     return;
   }
-  if (PAGSdk.initializationState == PAGSDKInitializationStateReady) {
+  if (PAGSdk.initializationState == PAGSDKInitializationStateReady && ![GADMAdapterPangleUtils isChildUser]) {
     PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
   }
   _GDPRConsent = GDPRConsent;

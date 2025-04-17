@@ -19,4 +19,12 @@
 NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCode code,
                                                                NSString *_Nonnull description);
 
+NSError *_Nonnull GADMAdapterPangleChildUserError(void);
+
 void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
+
+@interface GADMAdapterPangleUtils : NSObject
+
++ (BOOL)isChildUser;
+
+@end

@@ -20,6 +20,15 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
   GADPangleErrorInvalidServerParameters = 101,
   /// Banner size mismatch.
   GADPangleErrorBannerSizeMismatch = 102,
+  /// User is a child.
+  ///
+  /// Do not call Pangle SDK if the user is a child. Adapter will respond with this error code
+  /// if adapter is requested to initialize, load ad or collect signals when user is a child.
+  ///
+  /// Starting with Pangle SDK V71, Pangle no longer supports child user flags and you may
+  /// not initialize or use the Pangle SDK in connection with a "child" as defined under
+  /// applicable laws.
+  GADPangleErrorChildUser = 103,
 };
 
 @interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
