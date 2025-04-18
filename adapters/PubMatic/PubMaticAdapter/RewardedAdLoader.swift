@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import OpenWrapSDK
 
 final class RewardedAdLoader: NSObject {
 
@@ -32,6 +33,9 @@ final class RewardedAdLoader: NSObject {
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
 
+  /// OpenWrapSDKClient used to manage a rewarded ad.
+  private let client: OpenWrapSDKClient
+
   init(
     adConfiguration: MediationRewardedAdConfiguration,
     loadCompletionHandler: @escaping GADMediationRewardedLoadCompletionHandler
@@ -40,14 +44,25 @@ final class RewardedAdLoader: NSObject {
     self.adLoadCompletionHandler = loadCompletionHandler
     self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationRewardedAdLoadCompletionQueue")
+    self.client = OpenWrapSDKClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |rewardedAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
+    else {
+      handleLoadedAd(
+        nil,
+        error: PubMaticAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is invalid."
+        ).toNSError())
+      return
+    }
+    client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self, watermarkData: watermark)
   }
 
-  private func handleLoadedAd(_ ad: MediationRewardedAd, error: Error) {
+  private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
     adLoadCompletionQueue.sync {
       guard let adLoadCompletionHandler else { return }
       eventDelegate = adLoadCompletionHandler(ad, error)
@@ -62,11 +77,49 @@ final class RewardedAdLoader: NSObject {
 extension RewardedAdLoader: MediationRewardedAd {
 
   func present(from viewController: UIViewController) {
-    eventDelegate?.willPresentFullScreenView()
-    // TODO: implement
+    do {
+      try client.presentRewardedAd(from: viewController)
+    } catch let error {
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    }
   }
 
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - POBRewardedAdDelegate
+
+extension RewardedAdLoader: POBRewardedAdDelegate {
+
+  func rewardedAdDidReceive(_ rewardedAd: POBRewardedAd) {
+    handleLoadedAd(self, error: nil)
+  }
+
+  func rewardedAd(_ rewardedAd: POBRewardedAd, didFailToReceiveAdWithError error: any Error) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func rewardedAdWillPresent(_ rewardedAd: POBRewardedAd) {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func rewardedAd(_ rewardedAd: POBRewardedAd, didFailToShowAdWithError error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error as NSError)
+  }
+
+  func rewardedAdDidRecordImpression(_ rewardedAd: POBRewardedAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func rewardedAdDidClick(_ rewardedAd: POBRewardedAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func rewardedAdDidDismiss(_ rewardedAd: POBRewardedAd) {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func rewardedAd(_ rewardedAd: POBRewardedAd, shouldReward reward: POBReward) {
+    eventDelegate?.didRewardUser()
+  }
+
+}

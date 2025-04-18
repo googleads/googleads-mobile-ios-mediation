@@ -13,9 +13,12 @@
 // limitations under the License.
 
 @preconcurrency import GoogleMobileAds
+import OpenWrapSDK
 
 @objc(GADMediationAdapterPubMatic)
 final class PubMaticAdapter: NSObject, RTBAdapter {
+
+  private static let adapterVersionString = "4.4.0.0"
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
@@ -33,8 +36,19 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
-    // TODO: implement
-    completionHandler(nil)
+    do {
+      let client = OpenWrapSDKClientFactory.createClient()
+      client.enableCOPPA(
+        MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue ?? false)
+      client.setUp(
+        publisherId: try Util.publisherId(from: configuration),
+        profileIds: Util.profileIds(from: configuration)
+      ) { error in
+        completionHandler(error)
+      }
+    } catch {
+      completionHandler(error.toNSError())
+    }
   }
 
   @objc static func networkExtrasClass() -> (any AdNetworkExtras.Type)? {
@@ -42,23 +56,54 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   }
 
   @objc static func adapterVersion() -> VersionNumber {
-    // TODO: implement
-    return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    let adapterVersion = Self.adapterVersionString.components(separatedBy: ".").compactMap {
+      Int($0)
+    }
+    guard adapterVersion.count == 4 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adapterVersion[0],
+      minorVersion: adapterVersion[1],
+      patchVersion: adapterVersion[2] * 100 + adapterVersion[3]
+    )
   }
 
   @objc static func adSDKVersion() -> VersionNumber {
-    // TODO: implement
-    return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    let adSDKVersion = OpenWrapSDKClientFactory.createClient().version().components(
+      separatedBy: "."
+    )
+    .compactMap { Int($0) }
+    guard adSDKVersion.count == 3 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adSDKVersion[0],
+      minorVersion: adSDKVersion[1],
+      patchVersion: adSDKVersion[2]
+    )
   }
 
-  // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
   @objc func collectSignals(
-    for params: RTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
+    for params: RTBRequestParameters,
+    completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-
+    do throws(PubMaticAdapterError) {
+      let adFormat = try Util.adFormat(from: params)
+      guard let clientAdFormat = adFormat.toPOBAdFormat() else {
+        throw PubMaticAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description:
+            "Failed to collect signals because the request's format is not supported. Ad format: \(adFormat)"
+        )
+      }
+      completionHandler(
+        OpenWrapSDKClientFactory.createClient().collectSignals(for: clientAdFormat), nil)
+    } catch {
+      completionHandler(nil, error.toNSError())
+    }
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |BannerAdLoader| class as well.
   @objc
   func loadBanner(
     for adConfiguration: MediationBannerAdConfiguration,
@@ -74,8 +119,8 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     }
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |InterstitialAdLoader| class as well.
-  @objc func loadInterstitial(
+  @objc
+  func loadInterstitial(
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
@@ -84,8 +129,8 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     interstitialAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |RewardedAdLoader| class as well.
-  @objc func loadRewardedAd(
+  @objc
+  func loadRewardedAd(
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
@@ -95,13 +140,30 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   }
 
   // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
-  @objc func loadNativeAd(
+  @objc
+  func loadNativeAd(
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     nativeAdLoader = NativeAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     nativeAdLoader?.loadAd()
+  }
+
+}
+
+extension AdFormat {
+
+  /// Converts the Google Mobile Ads' ad format to the POBAdFormat. Returns nil if the format is not
+  /// supported.
+  fileprivate func toPOBAdFormat() -> POBAdFormat? {
+    switch self {
+    case .banner: return .banner
+    case .interstitial: return .interstitial
+    case .rewarded: return .rewarded
+    case .native: return .native
+    default: return nil
+    }
   }
 
 }
