@@ -28,6 +28,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
 
   var COPPAEnabled = false
   weak var interstitialDelegate: POBInterstitialDelegate?
+  weak var rewardedAdDelegate: POBRewardedAdDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -66,6 +67,19 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     }
   }
 
+  func loadRtbRewardedAd(
+    bidResponse: String, delegate: any POBRewardedAdDelegate, watermarkData: Data
+  ) {
+    rewardedAdDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.rewardedAdDidReceive?(POBRewardedAd())
+    } else {
+      delegate.rewardedAd?(
+        POBRewardedAd(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {
     if shouldPresentFullScreenAdSucceed {
       interstitialDelegate?.interstitialWillPresentAd?(POBInterstitial())
@@ -73,6 +87,17 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     } else {
       interstitialDelegate?.interstitial?(
         POBInterstitial(),
+        didFailToShowAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
+  func presentRewardedAd(from viewController: UIViewController) throws(PubMaticAdapterError) {
+    if shouldPresentFullScreenAdSucceed {
+      rewardedAdDelegate?.rewardedAdWillPresent?(POBRewardedAd())
+      rewardedAdDelegate?.rewardedAdDidRecordImpression?(POBRewardedAd())
+    } else {
+      rewardedAdDelegate?.rewardedAd?(
+        POBRewardedAd(),
         didFailToShowAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
     }
   }

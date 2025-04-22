@@ -57,14 +57,21 @@ protocol OpenWrapSDKClient: NSObject {
   func loadRtbInterstitial(
     bidResponse: String, delegate: POBInterstitialDelegate, watermarkData: Data)
 
+  /// Load a rewarded ad.
+  func loadRtbRewardedAd(bidResponse: String, delegate: POBRewardedAdDelegate, watermarkData: Data)
+
   /// Present a POBInterstitial ad.
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError)
+
+  /// Present a POBRewardedAd ad.
+  func presentRewardedAd(from viewController: UIViewController) throws(PubMaticAdapterError)
 
 }
 
 final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
 
   var interstitial: POBInterstitial?
+  var rewardedAd: POBRewardedAd?
 
   func version() -> String {
     return OpenWrapSDK.version()
@@ -101,6 +108,15 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     interstitial?.loadAd(withResponse: bidResponse, for: .adMob)
   }
 
+  func loadRtbRewardedAd(
+    bidResponse: String, delegate: any POBRewardedAdDelegate, watermarkData: Data
+  ) {
+    rewardedAd = POBRewardedAd()
+    rewardedAd?.delegate = delegate
+    rewardedAd?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
+    rewardedAd?.load(withResponse: bidResponse, for: .adMob)
+  }
+
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {
     guard let interstitial, interstitial.isReady else {
       throw PubMaticAdapterError(
@@ -108,5 +124,14 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
         description: "Interstitial ad is not ready for presentation.")
     }
     interstitial.show(from: viewController)
+  }
+
+  func presentRewardedAd(from viewController: UIViewController) throws(PubMaticAdapterError) {
+    guard let rewardedAd, rewardedAd.isReady else {
+      throw PubMaticAdapterError(
+        errorCode: .rewardedAdNotReadyForPresentation,
+        description: "Rewarded ad is not ready for presentation.")
+    }
+    rewardedAd.show(from: viewController)
   }
 }

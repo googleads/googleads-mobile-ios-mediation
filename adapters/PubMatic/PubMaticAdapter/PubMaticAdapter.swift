@@ -130,7 +130,6 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     interstitialAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |RewardedAdLoader| class as well.
   @objc
   func loadRewardedAd(
     for adConfiguration: MediationRewardedAdConfiguration,
