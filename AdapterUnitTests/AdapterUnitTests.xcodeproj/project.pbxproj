@@ -135,6 +135,7 @@
 		AD76A9F42D9312C300F40CD4 /* libPubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */; };
 		AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */; };
 		AD76AADB2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */; };
+		AD76AC022D93C61700F40CD4 /* FakeOpenWrapSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76AC012D93C60D00F40CD4 /* FakeOpenWrapSDKClient.swift */; };
 		AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */; };
 		AD89C41A2B34D88E002952E2 /* AUTNendInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */; };
 		AD8FE9242D3B317800B4728A /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -900,6 +901,7 @@
 		AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubMaticAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterTests.swift; sourceTree = "<group>"; };
 		AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PubMaticAdapterTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD76AC012D93C60D00F40CD4 /* FakeOpenWrapSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeOpenWrapSDKClient.swift; sourceTree = "<group>"; };
 		AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetNativeAdTests.m; sourceTree = "<group>"; };
 		AD89C4192B34D88E002952E2 /* AUTNendInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTNendInterstitialAdTests.m; sourceTree = "<group>"; };
 		AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonAdapter.xcodeproj; path = ../adapters/prerelease/AmazonAdapter/AmazonAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -1545,6 +1547,7 @@
 		AD76AA412D9313E400F40CD4 /* PubMaticTests */ = {
 			isa = PBXGroup;
 			children = (
+				AD76AC012D93C60D00F40CD4 /* FakeOpenWrapSDKClient.swift */,
 				AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */,
 				AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */,
 			);
@@ -2867,6 +2870,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD76AC022D93C61700F40CD4 /* FakeOpenWrapSDKClient.swift in Sources */,
 				AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

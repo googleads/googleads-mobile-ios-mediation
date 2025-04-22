@@ -9,10 +9,12 @@
     }
   ],
   "defaultOptions" : {
+    "testExecutionOrdering" : "random",
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:AdapterUnitTests.xcodeproj",
         "identifier" : "AD76A9DC2D93126D00F40CD4",

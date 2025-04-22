@@ -12,11 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import GoogleMobileAds
 import Testing
 
 @testable import PubMaticAdapter
 
 @Suite("PubMatic adapter information")
 struct PubMaticInformationTests {
+
+  init() {
+    OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
+  }
+
+  @Test("Adapter version validation")
+  func adapterVersion_validates() {
+    let adapterVersion = PubMaticAdapter.adapterVersion()
+    #expect(adapterVersion.majorVersion > 0)
+    #expect(adapterVersion.minorVersion >= 0)
+    #expect(adapterVersion.patchVersion >= 0)
+  }
+
+  @Test("Ad SDK version validation")
+  func adSdkVersion_validates() {
+    let adSdkVersion = PubMaticAdapter.adSDKVersion()
+    #expect(adSdkVersion.majorVersion > 0)
+    #expect(adSdkVersion.minorVersion >= 0)
+    #expect(adSdkVersion.patchVersion >= 0)
+  }
+
+  @Test("Extra class validation.")
+  func extrasClass_validates() {
+    #expect(PubMaticAdapter.networkExtrasClass() == PubMaticAdapterExtras.self)
+  }
 
 }
