@@ -35,8 +35,19 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
-    // TODO: implement
-    completionHandler(nil)
+    do {
+      let client = OpenWrapSDKClientFactory.createClient()
+      client.enableCOPPA(
+        MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue ?? false)
+      client.setUp(
+        publisherId: try Util.publisherId(from: configuration),
+        profileIds: Util.profileIds(from: configuration)
+      ) { error in
+        completionHandler(error)
+      }
+    } catch {
+      completionHandler(error.toNSError())
+    }
   }
 
   @objc static func networkExtrasClass() -> (any AdNetworkExtras.Type)? {
@@ -72,7 +83,6 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     )
   }
 
-  // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
   @objc func collectSignals(
     for params: RTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {

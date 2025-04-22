@@ -37,8 +37,17 @@ struct OpenWrapSDKClientFactory {
 /// A client for interacting with OpenWrapSDK.
 protocol OpenWrapSDKClient {
 
+  /// Enable the OpenWrapSDK's COPPA configuration based on the provided boolean value. It enables if
+  /// the passed boolean value is true. Otherwise disable the COPPA configuration.
+  func enableCOPPA(_ enable: Bool)
+
   /// Returns a version of OpenWrapSDK.
   func version() -> String
+
+  /// Set up the OpenWrapSDK using the publisher ID and the profile IDs.
+  func setUp(
+    publisherId: String, profileIds: [NSNumber], completionHandler: @escaping ((any Error)?) -> Void
+  )
 
 }
 
@@ -48,4 +57,18 @@ struct OpenWrapSDKClientImpl: OpenWrapSDKClient {
     return OpenWrapSDK.version()
   }
 
+  func setUp(
+    publisherId: String,
+    profileIds: [NSNumber],
+    completionHandler: @escaping ((any Error)?) -> Void
+  ) {
+    let config = OpenWrapSDKConfig(publisherId: publisherId, andProfileIds: profileIds)
+    OpenWrapSDK.initialize(with: config) { _, error in
+      completionHandler(error)
+    }
+  }
+
+  func enableCOPPA(_ enable: Bool) {
+    OpenWrapSDK.setCoppaEnabled(enable)
+  }
 }

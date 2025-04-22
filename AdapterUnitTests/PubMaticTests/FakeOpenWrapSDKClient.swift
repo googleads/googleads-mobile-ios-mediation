@@ -16,10 +16,41 @@ import UIKit
 
 @testable import PubMaticAdapter
 
-struct FakeOpenWrapSDKClient: OpenWrapSDKClient {
+final class FakeOpenWrapSDKClient: OpenWrapSDKClient {
+
+  init() {
+    Self.resetFlags()
+  }
+
+  // MARK: - Test flags
+  static var shouldSetUpSucceed = true
+
+  static func resetFlags() {
+    shouldSetUpSucceed = true
+  }
+
+  // MARK: - OpenWrapSDKClient
+
+  var COPPAEnabled = false
 
   func version() -> String {
     return "1.2.3"
+  }
+
+  func setUp(
+    publisherId: String,
+    profileIds: [NSNumber],
+    completionHandler: @escaping ((any Error)?) -> Void
+  ) {
+    if Self.shouldSetUpSucceed {
+      completionHandler(nil)
+    } else {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345, userInfo: [:]))
+    }
+  }
+
+  func enableCOPPA(_ enable: Bool) {
+    COPPAEnabled = enable
   }
 
 }

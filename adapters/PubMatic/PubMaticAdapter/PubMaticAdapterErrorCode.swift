@@ -17,8 +17,8 @@ import Foundation
 public struct PubMaticAdapterError: Error {
 
   public enum ErrorCode: Int, Sendable {
-    /// Missing server parameters.
-    case invalidServerParameters = 101
+    /// Server configuration missing a required publisher ID.
+    case serverConfigurationMissingPublisherId = 101
   }
 
   public static let domain = "com.google.mediation.pubmatic"

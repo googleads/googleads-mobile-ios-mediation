@@ -12,16 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import AdapterUnitTestKit
 import GoogleMobileAds
 import Testing
 
 @testable import PubMaticAdapter
 
 @Suite("PubMatic adapter information")
-struct PubMaticInformationTests {
+final class PubMaticInformationTests {
 
   init() {
     OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+  }
+
+  deinit {
+    OpenWrapSDKClientFactory.debugClient = nil
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
   }
 
   @Test("Adapter version validation")
@@ -43,6 +50,135 @@ struct PubMaticInformationTests {
   @Test("Extra class validation.")
   func extrasClass_validates() {
     #expect(PubMaticAdapter.networkExtrasClass() == PubMaticAdapterExtras.self)
+  }
+
+}
+
+@Suite("PubMatic adapter set up")
+final class PubMaticAdapterSetUpTests {
+
+  init() {
+    OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
+  }
+
+  deinit {
+    OpenWrapSDKClientFactory.debugClient = nil
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+  }
+
+  @Test("Adapter set up successfully")
+  func setUp_succeeds() async {
+    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "test_profile_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == false)
+  }
+
+  @Test("Adapter set up successfully with COPPA disabled ")
+  func setUp_succeedsWithCOPPADisabled() async {
+    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == false)
+  }
+
+  @Test("Adapter set up successfully with COPPA enabled")
+  func setUp_succeedsWithCOPPAEnabled() async {
+    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test("Adapter set up fails for missing a publisher ID")
+  func setUp_fails_whenPublisherIDIsMissing() async {
+    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          let error = error as? NSError
+          #expect(error != nil)
+          #expect(
+            error?.code
+              == PubMaticAdapterError.ErrorCode.serverConfigurationMissingPublisherId.rawValue)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+  }
+
+  @Test("Adapter set up fails when OpenWrapSDK's set up function completes with an error")
+  func setUp_fails_whenOpenWrapSDKSetUpFails() async {
+    FakeOpenWrapSDKClient.shouldSetUpSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error != nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
   }
 
 }
