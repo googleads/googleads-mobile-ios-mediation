@@ -53,6 +53,10 @@ protocol OpenWrapSDKClient: NSObject {
   /// Collect signals for bidding.
   func collectSignals(for adFormat: POBAdFormat) -> String
 
+  /// Load a banner ad.
+  @MainActor func loadRtbBannerView(
+    bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data)
+
   /// Load an interstitial ad.
   func loadRtbInterstitial(
     bidResponse: String, delegate: POBInterstitialDelegate, watermarkData: Data)
@@ -70,6 +74,7 @@ protocol OpenWrapSDKClient: NSObject {
 
 final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
 
+  var bannerView: POBBannerView?
   var interstitial: POBInterstitial?
   var rewardedAd: POBRewardedAd?
 
@@ -95,6 +100,16 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
   func collectSignals(for adFormat: POBAdFormat) -> String {
     let config = POBSignalConfig(adFormat: adFormat)
     return POBSignalGenerator.generateSignal(for: .adMob, andConfig: config)
+  }
+
+  @MainActor
+  func loadRtbBannerView(bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data)
+  {
+    bannerView = POBBannerView()
+    bannerView?.delegate = delegate
+    bannerView?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
+    bannerView?.pauseAutoRefresh()
+    bannerView?.loadAd(withResponse: bidResponse, for: .adMob)
   }
 
   func loadRtbInterstitial(

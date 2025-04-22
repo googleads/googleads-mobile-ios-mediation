@@ -14,8 +14,9 @@
 
 import Foundation
 import GoogleMobileAds
+import OpenWrapSDK
 
-final class BannerAdLoader: NSObject, MediationBannerAd {
+final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
   /// The banner ad configuration.
   private let adConfiguration: MediationBannerAdConfiguration
@@ -32,6 +33,9 @@ final class BannerAdLoader: NSObject, MediationBannerAd {
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
 
+  /// OpenWrapSDKClient used to manage a banner ad.
+  private let client: OpenWrapSDKClient
+
   var view: UIView
 
   @MainActor
@@ -44,14 +48,29 @@ final class BannerAdLoader: NSObject, MediationBannerAd {
     self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationBannerAdLoadCompletionQueue")
     self.view = UIView()
+    self.client = OpenWrapSDKClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |adLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
+    else {
+      handleLoadedAd(
+        nil,
+        error: PubMaticAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is invalid."
+        ).toNSError())
+      return
+    }
+    DispatchQueue.main.async { [weak self] in
+      guard let self else { return }
+      self.client.loadRtbBannerView(
+        bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+    }
   }
 
-  private func handleLoadedAd(_ ad: MediationBannerAd, error: Error) {
+  private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
     adLoadCompletionQueue.sync {
       guard let adLoadCompletionHandler else { return }
       eventDelegate = adLoadCompletionHandler(ad, error)
@@ -61,5 +80,60 @@ final class BannerAdLoader: NSObject, MediationBannerAd {
 
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - POBBannerViewDelegate
+
+extension BannerAdLoader: @preconcurrency POBBannerViewDelegate {
+
+  @MainActor func bannerViewPresentationController() -> UIViewController {
+    var responder: UIResponder? = view
+    // Try to find the nearest UIViewController which this banner is attached.
+    while responder != nil {
+      responder = responder?.next
+      if let viewController = responder as? UIViewController {
+        return viewController
+      }
+    }
+
+    var viewController: UIViewController?
+    // If failed to find the closest view controller, then find the app's root
+    // view controller
+    if #available(iOS 13.0, *) {
+      let activeScene =
+        UIApplication.shared.connectedScenes
+        .filter { $0.activationState == .foregroundActive }
+        .first(where: { $0 is UIWindowScene }) as? UIWindowScene
+
+      let keyWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
+      viewController = keyWindow?.rootViewController
+    } else {
+      viewController = UIApplication.shared.keyWindow?.rootViewController
+    }
+
+    if viewController == nil {
+      Util.log("Failed to find the view controller for the banner view presentation.")
+    }
+
+    return viewController ?? UIViewController()
+  }
+
+  func bannerViewDidReceiveAd(_ bannerView: POBBannerView) {
+    DispatchQueue.main.async { [weak self] in
+      guard let self else { return }
+      self.view = bannerView
+      self.handleLoadedAd(self, error: nil)
+    }
+  }
+
+  func bannerView(_ bannerView: POBBannerView, didFailToReceiveAdWithError error: any Error) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func bannerViewDidRecordImpression(_ bannerView: POBBannerView) {
+    eventDelegate?.reportImpression()
+  }
+
+  func bannerViewDidClickAd(_ bannerView: POBBannerView) {
+    eventDelegate?.reportClick()
+  }
+
+}

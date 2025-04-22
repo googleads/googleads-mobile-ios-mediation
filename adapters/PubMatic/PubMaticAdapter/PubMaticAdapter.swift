@@ -90,7 +90,7 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   ) {
     do throws(PubMaticAdapterError) {
       let adFormat = try Util.adFormat(from: params)
-      guard let clientAdFormat = adFormat.toPOBAdFormat() else {
+      guard let clientAdFormat = adFormat.toPOBAdFormat(with: params.adSize) else {
         throw PubMaticAdapterError(
           errorCode: .invalidRTBRequestParameters,
           description:
@@ -104,7 +104,6 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     }
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |BannerAdLoader| class as well.
   @objc
   func loadBanner(
     for adConfiguration: MediationBannerAdConfiguration,
@@ -157,9 +156,14 @@ extension AdFormat {
 
   /// Converts the Google Mobile Ads' ad format to the POBAdFormat. Returns nil if the format is not
   /// supported.
-  fileprivate func toPOBAdFormat() -> POBAdFormat? {
+  fileprivate func toPOBAdFormat(with bannerSize: AdSize?) -> POBAdFormat? {
+
     switch self {
-    case .banner: return .banner
+    case .banner:
+      if let bannerSize, bannerSize.size == AdSizeMediumRectangle.size {
+        return .MREC
+      }
+      return .banner
     case .interstitial: return .interstitial
     case .rewarded: return .rewarded
     case .native: return .native

@@ -27,6 +27,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   // MARK: - OpenWrapSDKClient
 
   var COPPAEnabled = false
+  weak var bannerViewDelegate: POBBannerViewDelegate?
   weak var interstitialDelegate: POBInterstitialDelegate?
   weak var rewardedAdDelegate: POBRewardedAdDelegate?
 
@@ -52,6 +53,19 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
 
   func collectSignals(for adFormat: POBAdFormat) -> String {
     return "test signals"
+  }
+
+  @MainActor func loadRtbBannerView(
+    bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data
+  ) {
+    bannerViewDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.bannerViewDidReceiveAd?(POBBannerView())
+    } else {
+      delegate.bannerView?(
+        POBBannerView(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
   }
 
   func loadRtbInterstitial(
