@@ -33,7 +33,7 @@
 
 /* Begin PBXBuildFile section */
 		AD76A9782D93104000F40CD4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76A9772D93103400F40CD4 /* Util.swift */; };
-		AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterErrorCode.swift */; };
+		AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */; };
 		AD76A9CF2D9311C500F40CD4 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
 		AD76A9D02D9311C500F40CD4 /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
 		AD76A9D12D9311C500F40CD4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76A9772D93103400F40CD4 /* Util.swift */; };
@@ -44,7 +44,7 @@
 		AD76ABFF2D93BCD600F40CD4 /* OpenWrapSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */; };
 		AD76AC002D93BCD600F40CD4 /* OpenWrapSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */; };
 		ADFA84BD2C17704300A501AB /* PubMaticAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */; };
-		ADFA84BE2C17704300A501AB /* PubMaticAdapterErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterErrorCode.swift */; };
+		ADFA84BE2C17704300A501AB /* PubMaticAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */; };
 		ADFA84BF2C17704300A501AB /* PubMaticAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */; };
 		ADFA84C12C17704300A501AB /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
@@ -79,7 +79,7 @@
 		AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWrapSDKClient.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapter.swift; sourceTree = "<group>"; };
-		ADFA84A62C17704300A501AB /* PubMaticAdapterErrorCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterErrorCode.swift; sourceTree = "<group>"; };
+		ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterExtras.swift; sourceTree = "<group>"; };
 		ADFA84A92C17704300A501AB /* BannerAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAdLoader.swift; sourceTree = "<group>"; };
 		ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdLoader.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 				AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */,
 				AD76A9772D93103400F40CD4 /* Util.swift */,
 				ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */,
-				ADFA84A62C17704300A501AB /* PubMaticAdapterErrorCode.swift */,
+				ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */,
 				ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */,
 				ADFA84A92C17704300A501AB /* BannerAdLoader.swift */,
 				ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */,
@@ -328,7 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterErrorCode.swift in Sources */,
+				AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterError.swift in Sources */,
 				AD76A9CF2D9311C500F40CD4 /* NativeAdLoader.swift in Sources */,
 				AD76A9D02D9311C500F40CD4 /* BannerAdLoader.swift in Sources */,
 				AD76AC002D93BCD600F40CD4 /* OpenWrapSDKClient.swift in Sources */,
@@ -344,7 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADFA84BE2C17704300A501AB /* PubMaticAdapterErrorCode.swift in Sources */,
+				ADFA84BE2C17704300A501AB /* PubMaticAdapterError.swift in Sources */,
 				ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */,
 				ADFA84C12C17704300A501AB /* BannerAdLoader.swift in Sources */,
 				AD76ABFF2D93BCD600F40CD4 /* OpenWrapSDKClient.swift in Sources */,

@@ -177,6 +177,7 @@
 		ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */; };
 		ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADFAAF142A33F36500D92129 /* AUTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF132A33F36500D92129 /* AUTKConstants.m */; };
+		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -924,6 +925,7 @@
 		AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationNativeAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD98A5C42A1D5C3F00017B8D /* AUTKMediationBannerAdLoadAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationBannerAdLoadAssertions.h; sourceTree = "<group>"; };
+		ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticInterstitialTests.swift; sourceTree = "<group>"; };
 		ADA1AF632B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostInterstitialAdTests.m; sourceTree = "<group>"; };
 		ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostBannerAdTests.m; sourceTree = "<group>"; };
 		ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetInterstitialAdTests.m; sourceTree = "<group>"; };
@@ -1547,6 +1549,7 @@
 		AD76AA412D9313E400F40CD4 /* PubMaticTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */,
 				AD76AC012D93C60D00F40CD4 /* FakeOpenWrapSDKClient.swift */,
 				AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */,
 				AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */,
@@ -2870,6 +2873,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */,
 				AD76AC022D93C61700F40CD4 /* FakeOpenWrapSDKClient.swift in Sources */,
 				AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */,
 			);

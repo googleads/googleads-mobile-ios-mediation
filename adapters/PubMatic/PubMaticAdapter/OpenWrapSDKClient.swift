@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import OpenWrapSDK
+import UIKit
 
 /// Factory that creates OpenWrapSDKClient.
 struct OpenWrapSDKClientFactory {
@@ -35,7 +36,7 @@ struct OpenWrapSDKClientFactory {
 }
 
 /// A client for interacting with OpenWrapSDK.
-protocol OpenWrapSDKClient {
+protocol OpenWrapSDKClient: NSObject {
 
   /// Enable the OpenWrapSDK's COPPA configuration based on the provided boolean value. It enables if
   /// the passed boolean value is true. Otherwise disable the COPPA configuration.
@@ -52,9 +53,18 @@ protocol OpenWrapSDKClient {
   /// Collect signals for bidding.
   func collectSignals(for adFormat: POBAdFormat) -> String
 
+  /// Load an interstitial ad.
+  func loadRtbInterstitial(
+    bidResponse: String, delegate: POBInterstitialDelegate, watermarkData: Data)
+
+  /// Present a POBInterstitial ad.
+  func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError)
+
 }
 
-struct OpenWrapSDKClientImpl: OpenWrapSDKClient {
+final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
+
+  var interstitial: POBInterstitial?
 
   func version() -> String {
     return OpenWrapSDK.version()
@@ -80,4 +90,23 @@ struct OpenWrapSDKClientImpl: OpenWrapSDKClient {
     return POBSignalGenerator.generateSignal(for: .adMob, andConfig: config)
   }
 
+  func loadRtbInterstitial(
+    bidResponse: String,
+    delegate: any POBInterstitialDelegate,
+    watermarkData: Data
+  ) {
+    interstitial = POBInterstitial()
+    interstitial?.delegate = delegate
+    interstitial?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
+    interstitial?.loadAd(withResponse: bidResponse, for: .adMob)
+  }
+
+  func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {
+    guard let interstitial, interstitial.isReady else {
+      throw PubMaticAdapterError(
+        errorCode: .interstitialAdNotReadyForPresentation,
+        description: "Interstitial ad is not ready for presentation.")
+    }
+    interstitial.show(from: viewController)
+  }
 }

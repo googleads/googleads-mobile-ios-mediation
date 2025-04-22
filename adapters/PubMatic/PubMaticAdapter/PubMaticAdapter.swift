@@ -120,8 +120,8 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     }
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |InterstitialAdLoader| class as well.
-  @objc func loadInterstitial(
+  @objc
+  func loadInterstitial(
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
@@ -131,7 +131,8 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   }
 
   // TODO: Remove if not needed. If removed, then remove the |RewardedAdLoader| class as well.
-  @objc func loadRewardedAd(
+  @objc
+  func loadRewardedAd(
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
@@ -141,7 +142,8 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   }
 
   // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
-  @objc func loadNativeAd(
+  @objc
+  func loadNativeAd(
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {

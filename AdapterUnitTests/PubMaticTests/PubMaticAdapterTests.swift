@@ -57,8 +57,11 @@ final class PubMaticInformationTests {
 @Suite("PubMatic adapter set up")
 final class PubMaticAdapterSetUpTests {
 
+  private var debugClient: FakeOpenWrapSDKClient
+
   init() {
-    OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
+    debugClient = FakeOpenWrapSDKClient()
+    OpenWrapSDKClientFactory.debugClient = debugClient
   }
 
   deinit {
@@ -68,7 +71,7 @@ final class PubMaticAdapterSetUpTests {
 
   @Test("Adapter set up successfully")
   func setUp_succeeds() async {
-    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    debugClient.shouldSetUpSucceed = true
 
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "test_profile_id"]
@@ -91,7 +94,7 @@ final class PubMaticAdapterSetUpTests {
 
   @Test("Adapter set up successfully with COPPA disabled ")
   func setUp_succeedsWithCOPPADisabled() async {
-    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    debugClient.shouldSetUpSucceed = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
 
     let credentials = AUTKMediationCredentials()
@@ -115,7 +118,7 @@ final class PubMaticAdapterSetUpTests {
 
   @Test("Adapter set up successfully with COPPA enabled")
   func setUp_succeedsWithCOPPAEnabled() async {
-    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    debugClient.shouldSetUpSucceed = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
 
     let credentials = AUTKMediationCredentials()
@@ -139,7 +142,7 @@ final class PubMaticAdapterSetUpTests {
 
   @Test("Adapter set up fails for missing a publisher ID")
   func setUp_fails_whenPublisherIDIsMissing() async {
-    FakeOpenWrapSDKClient.shouldSetUpSucceed = true
+    debugClient.shouldSetUpSucceed = true
 
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["profile_id": "123"]
@@ -163,7 +166,7 @@ final class PubMaticAdapterSetUpTests {
 
   @Test("Adapter set up fails when OpenWrapSDK's set up function completes with an error")
   func setUp_fails_whenOpenWrapSDKSetUpFails() async {
-    FakeOpenWrapSDKClient.shouldSetUpSucceed = false
+    debugClient.shouldSetUpSucceed = false
 
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
@@ -188,10 +191,6 @@ final class PubMaticAdapterSignalCollectionTests {
 
   init() {
     OpenWrapSDKClientFactory.debugClient = FakeOpenWrapSDKClient()
-  }
-
-  deinit {
-    OpenWrapSDKClientFactory.debugClient = nil
   }
 
   @Test("The adapter collects signals for a banner request successfully.")

@@ -17,22 +17,17 @@ import UIKit
 
 @testable import PubMaticAdapter
 
-final class FakeOpenWrapSDKClient: OpenWrapSDKClient {
-
-  init() {
-    Self.resetFlags()
-  }
+final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
 
   // MARK: - Test flags
-  static var shouldSetUpSucceed = true
-
-  static func resetFlags() {
-    shouldSetUpSucceed = true
-  }
+  var shouldSetUpSucceed = true
+  var shouldAdLoadSucceed = true
+  var shouldPresentFullScreenAdSucceed = true
 
   // MARK: - OpenWrapSDKClient
 
   var COPPAEnabled = false
+  weak var interstitialDelegate: POBInterstitialDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -43,7 +38,7 @@ final class FakeOpenWrapSDKClient: OpenWrapSDKClient {
     profileIds: [NSNumber],
     completionHandler: @escaping ((any Error)?) -> Void
   ) {
-    if Self.shouldSetUpSucceed {
+    if self.shouldSetUpSucceed {
       completionHandler(nil)
     } else {
       completionHandler(NSError(domain: "com.test.domain", code: 12345, userInfo: [:]))
@@ -56,6 +51,30 @@ final class FakeOpenWrapSDKClient: OpenWrapSDKClient {
 
   func collectSignals(for adFormat: POBAdFormat) -> String {
     return "test signals"
+  }
+
+  func loadRtbInterstitial(
+    bidResponse: String, delegate: any POBInterstitialDelegate, watermarkData: Data
+  ) {
+    interstitialDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.interstitialDidReceiveAd?(POBInterstitial())
+    } else {
+      delegate.interstitial?(
+        POBInterstitial(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
+  func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {
+    if shouldPresentFullScreenAdSucceed {
+      interstitialDelegate?.interstitialWillPresentAd?(POBInterstitial())
+      interstitialDelegate?.interstitialDidRecordImpression?(POBInterstitial())
+    } else {
+      interstitialDelegate?.interstitial?(
+        POBInterstitial(),
+        didFailToShowAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
   }
 
 }

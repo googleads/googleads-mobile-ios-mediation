@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import OpenWrapSDK
 
 final class InterstitialAdLoader: NSObject {
 
@@ -23,14 +24,14 @@ final class InterstitialAdLoader: NSObject {
   /// The ad event delegate which is used to report interstitial related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: MediationInterstitialAdEventDelegate?
 
-  /// The completion handler that needs to be called upon finishing loading an ad.
-  private var interstitialAdLoadCompletionHandler: ((MediationInterstitialAd?, NSError?) -> Void)?
-
   /// The queue for processing an ad load completion.
   private let adLoadCompletionQueue: DispatchQueue
 
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
+
+  /// OpenWrapSDKClient used to manage an interstitial ad.
+  private let client: OpenWrapSDKClient
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
@@ -40,14 +41,26 @@ final class InterstitialAdLoader: NSObject {
     self.adLoadCompletionHandler = loadCompletionHandler
     self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationInterstitialAdLoadCompletionQueue")
+    self.client = OpenWrapSDKClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |interstitialAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
+    else {
+      handleLoadedAd(
+        nil,
+        error: PubMaticAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is invalid."
+        ).toNSError())
+      return
+    }
+    client.loadRtbInterstitial(
+      bidResponse: bidResponse, delegate: self, watermarkData: watermark)
   }
 
-  private func handleLoadedAd(_ ad: MediationInterstitialAd, error: Error) {
+  private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
     adLoadCompletionQueue.sync {
       guard let adLoadCompletionHandler else { return }
       eventDelegate = adLoadCompletionHandler(ad, error)
@@ -62,11 +75,45 @@ final class InterstitialAdLoader: NSObject {
 extension InterstitialAdLoader: MediationInterstitialAd {
 
   func present(from viewController: UIViewController) {
-    eventDelegate?.willPresentFullScreenView()
-    // TODO: implement
+    do {
+      try client.presentInterstitial(from: viewController)
+    } catch let error {
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
+    }
   }
 
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - POBInterstitialDelegate
+
+extension InterstitialAdLoader: POBInterstitialDelegate {
+
+  func interstitialDidReceiveAd(_ interstitial: POBInterstitial) {
+    handleLoadedAd(self, error: nil)
+  }
+
+  func interstitial(_ interstitial: POBInterstitial, didFailToReceiveAdWithError error: any Error) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func interstitialWillPresentAd(_ interstitial: POBInterstitial) {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func interstitial(_ interstitial: POBInterstitial, didFailToShowAdWithError error: any Error) {
+    eventDelegate?.didFailToPresentWithError(error as NSError)
+  }
+
+  func interstitialDidRecordImpression(_ interstitial: POBInterstitial) {
+    eventDelegate?.reportImpression()
+  }
+
+  func interstitialDidClickAd(_ interstitial: POBInterstitial) {
+    eventDelegate?.reportClick()
+  }
+
+  func interstitialDidDismissAd(_ interstitial: POBInterstitial) {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+}
