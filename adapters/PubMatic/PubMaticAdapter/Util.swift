@@ -83,4 +83,24 @@ struct Util {
     return profileIds
   }
 
+  /// Retrieves an ad format from the provided mediation signals configuration.
+  ///
+  /// - Throws: PubMaticAdapterError.unsupportedBiddingAdFormat if the configuration
+  /// contains no ad format.
+  /// - Returns: An ad format from the configuration.
+  static func adFormat(
+    from params: RTBRequestParameters
+  ) throws(PubMaticAdapterError) -> AdFormat {
+    // Returns the first ad format found because the other crendentials should
+    // have the same ad format.
+    guard let adFormat = params.configuration.credentials.first?.format else {
+      throw PubMaticAdapterError(
+        errorCode: .invalidRTBRequestParameters,
+        description:
+          "Failed to collect signals because the configuration is missing the crendentials.")
+    }
+
+    return adFormat
+  }
+
 }

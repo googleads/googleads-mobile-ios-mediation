@@ -13,6 +13,7 @@
 // limitations under the License.
 
 @preconcurrency import GoogleMobileAds
+import OpenWrapSDK
 
 @objc(GADMediationAdapterPubMatic)
 final class PubMaticAdapter: NSObject, RTBAdapter {
@@ -84,9 +85,23 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   }
 
   @objc func collectSignals(
-    for params: RTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
+    for params: RTBRequestParameters,
+    completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-
+    do throws(PubMaticAdapterError) {
+      let adFormat = try Util.adFormat(from: params)
+      guard let clientAdFormat = adFormat.toPOBAdFormat() else {
+        throw PubMaticAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description:
+            "Failed to collect signals because the request's format is not supported. Ad format: \(adFormat)"
+        )
+      }
+      completionHandler(
+        OpenWrapSDKClientFactory.createClient().collectSignals(for: clientAdFormat), nil)
+    } catch {
+      completionHandler(nil, error.toNSError())
+    }
   }
 
   // TODO: Remove if not needed. If removed, then remove the |BannerAdLoader| class as well.
@@ -133,6 +148,22 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
     nativeAdLoader = NativeAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     nativeAdLoader?.loadAd()
+  }
+
+}
+
+extension AdFormat {
+
+  /// Converts the Google Mobile Ads' ad format to the POBAdFormat. Returns nil if the format is not
+  /// supported.
+  fileprivate func toPOBAdFormat() -> POBAdFormat? {
+    switch self {
+    case .banner: return .banner
+    case .interstitial: return .interstitial
+    case .rewarded: return .rewarded
+    case .native: return .native
+    default: return nil
+    }
   }
 
 }

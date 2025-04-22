@@ -19,6 +19,10 @@ public struct PubMaticAdapterError: Error {
   public enum ErrorCode: Int, Sendable {
     /// Server configuration missing a required publisher ID.
     case serverConfigurationMissingPublisherId = 101
+
+    /// The bidding signal collection request failed because multiple formats, no format, or an unsupported
+    /// format was specified in the request parameters.
+    case invalidRTBRequestParameters = 102
   }
 
   public static let domain = "com.google.mediation.pubmatic"

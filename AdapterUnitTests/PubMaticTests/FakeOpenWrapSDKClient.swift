@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import OpenWrapSDK
 import UIKit
 
 @testable import PubMaticAdapter
@@ -51,6 +52,10 @@ final class FakeOpenWrapSDKClient: OpenWrapSDKClient {
 
   func enableCOPPA(_ enable: Bool) {
     COPPAEnabled = enable
+  }
+
+  func collectSignals(for adFormat: POBAdFormat) -> String {
+    return "test signals"
   }
 
 }

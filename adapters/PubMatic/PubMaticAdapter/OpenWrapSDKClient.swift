@@ -49,6 +49,9 @@ protocol OpenWrapSDKClient {
     publisherId: String, profileIds: [NSNumber], completionHandler: @escaping ((any Error)?) -> Void
   )
 
+  /// Collect signals for bidding.
+  func collectSignals(for adFormat: POBAdFormat) -> String
+
 }
 
 struct OpenWrapSDKClientImpl: OpenWrapSDKClient {
@@ -71,4 +74,10 @@ struct OpenWrapSDKClientImpl: OpenWrapSDKClient {
   func enableCOPPA(_ enable: Bool) {
     OpenWrapSDK.setCoppaEnabled(enable)
   }
+
+  func collectSignals(for adFormat: POBAdFormat) -> String {
+    let config = POBSignalConfig(adFormat: adFormat)
+    return POBSignalGenerator.generateSignal(for: .adMob, andConfig: config)
+  }
+
 }
