@@ -272,11 +272,11 @@ abstract_target 'Default' do
   # BidMachine and its test target.
   if adapter_targets.empty? || adapter_targets.include?('BidMachineAdapter')
 
-    pod 'GoogleMobileAdsMediationBidMachine', :path => '../adapters/BidMachineAdapter/CocoaPods/GoogleMobileAdsMediationBidMachine.podspec.json'
+    pod 'GoogleMobileAdsMediationBidMachine', :path => '../adapters/BidMachine/CocoaPods/GoogleMobileAdsMediationBidMachine.podspec.json'
 
     # Dependencies for BidMachine static library.
     target 'Adapter' do
-      project '../adapters/BidMachineAdapter/BidMachineAdapter.xcodeproj'
+      project '../adapters/BidMachine/BidMachineAdapter.xcodeproj'
     end
 
     target 'BidMachineAdapterTests' do
