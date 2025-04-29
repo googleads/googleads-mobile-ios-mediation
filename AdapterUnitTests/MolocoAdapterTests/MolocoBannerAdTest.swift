@@ -46,6 +46,26 @@ final class MolocoBannerAdTest: XCTestCase {
     XCTAssertEqual(
       molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
     )
+    XCTAssertEqual(
+      molocoBannerFactory.bannerApiUsed, FakeMolocoBannerFactory.BannerApiUsed.regularBanner)
+  }
+
+  func testMRECLoadSuccess() {
+    let molocoBannerFactory = FakeMolocoBannerFactory()
+    let adapter = MolocoMediationAdapter(molocoBannerFactory: molocoBannerFactory)
+    let mediationAdConfig = AUTKMediationBannerAdConfiguration()
+    mediationAdConfig.adSize = AdSizeMediumRectangle
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [MolocoConstants.adUnitIdKey: Self.testAdUnitID]
+    mediationAdConfig.credentials = credentials
+    mediationAdConfig.bidResponse = Self.testBidResponse
+
+    AUTKWaitAndAssertLoadBannerAd(adapter, mediationAdConfig)
+    XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)
+    XCTAssertEqual(
+      molocoBannerFactory.fakeMolocoBanner?.bidResponseUsedToLoadMolocoAd, Self.testBidResponse
+    )
+    XCTAssertEqual(molocoBannerFactory.bannerApiUsed, FakeMolocoBannerFactory.BannerApiUsed.MREC)
   }
 
   func testBannerLoadFailure() {

@@ -20,7 +20,14 @@ import UIKit
 /// A fake implementation of MolocoBannerFactory that creates a FakeBannerRewarded.
 final class FakeMolocoBannerFactory {
 
+  enum BannerApiUsed {
+    case regularBanner
+    case MREC
+  }
+
   var fakeMolocoBanner: FakeMolocoBanner?
+
+  var bannerApiUsed: BannerApiUsed?
 
   /// Var to capture the ad unit ID that was used to create the Moloco banner ad object.
   /// Used for assertion. It is initlialized to a value that is never asserted for.
@@ -53,6 +60,7 @@ extension FakeMolocoBannerFactory: MolocoBannerFactory {
   func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
     UIView & MolocoAd
   )? {
+    bannerApiUsed = BannerApiUsed.regularBanner
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoBanner = FakeMolocoBanner(
       bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
@@ -60,4 +68,14 @@ extension FakeMolocoBannerFactory: MolocoBannerFactory {
     return fakeMolocoBanner
   }
 
+  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )? {
+    bannerApiUsed = BannerApiUsed.MREC
+    adUnitIDUsedToCreateMolocoAd = adUnit
+    fakeMolocoBanner = FakeMolocoBanner(
+      bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
+      showError: showError)
+    return fakeMolocoBanner
+  }
 }

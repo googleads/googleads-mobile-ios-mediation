@@ -71,8 +71,13 @@ final class BannerAdLoader: NSObject {
     DispatchQueue.main.async { [weak self] in
       guard let self else { return }
 
-      self.bannerAdView = self.molocoBannerFactory.createBanner(
-        for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
+      if isAdSizeEqualToSize(size1: adConfiguration.adSize, size2: AdSizeMediumRectangle) {
+        self.bannerAdView = self.molocoBannerFactory.createMREC(
+          for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
+      } else {
+        self.bannerAdView = self.molocoBannerFactory.createBanner(
+          for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
+      }
       self.bannerAdView?.load(bidResponse: bidResponse)
     }
   }

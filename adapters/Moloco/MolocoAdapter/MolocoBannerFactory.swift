@@ -25,4 +25,10 @@ public protocol MolocoBannerFactory {
     UIView & MolocoAd
   )?
 
+  @MainActor
+  @available(iOS 13.0, *)
+  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )?
+
 }

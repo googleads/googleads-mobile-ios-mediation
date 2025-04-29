@@ -76,6 +76,19 @@ extension MolocoSdkImpl: MolocoBannerFactory {
       watermarkData: watermarkData)
   }
 
+  @MainActor
+  @available(iOS 13.0, *)
+  func createMREC(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )? {
+    guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
+      return nil
+    }
+    return Moloco.shared.createMREC(
+      for: adUnit, viewController: rootViewController, delegate: delegate,
+      watermarkData: watermarkData)
+  }
+
 }
 
 extension MolocoSdkImpl: MolocoNativeFactory {
