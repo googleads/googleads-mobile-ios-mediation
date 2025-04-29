@@ -24,6 +24,6 @@
                          (nonnull GADMediationBannerLoadCompletionHandler)completionHandler;
 
 
-+ (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize;
++ (PAGBannerAdSize)bannerSizeFromGADAdSize:(GADAdSize)gadAdSize;
 
 @end

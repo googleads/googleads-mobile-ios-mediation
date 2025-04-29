@@ -76,7 +76,6 @@ static NSString *const kApplicationID = @"12345";
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setAppID:kApplicationID]);
   OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
-  OCMExpect([_configMock setDoNotSell:PAGDoNotSellTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -102,7 +101,6 @@ static NSString *const kApplicationID = @"12345";
                                 [applicationID2 isEqualToString:value];
                        }]]);
   OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
-  OCMExpect([_configMock setDoNotSell:PAGDoNotSellTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -139,6 +137,7 @@ static NSString *const kApplicationID = @"12345";
 }
 
 - (void)testCollectSignals {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   NSString *expectedUserDataString = @"userString";
   GADPangleNetworkExtras *extras = [[GADPangleNetworkExtras alloc] init];
   [extras setUserDataString:expectedUserDataString];
@@ -146,7 +145,7 @@ static NSString *const kApplicationID = @"12345";
   [parameters setValue:extras forKey:@"extras"];
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setUserDataString:expectedUserDataString]);
-  NSString *expectedToken = @"token";
+  NSString *expectedToken = @"";
   OCMStub([_sdkMock getBiddingToken:OCMOCK_ANY completion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(NSString *bidderToken);
@@ -164,29 +163,6 @@ static NSString *const kApplicationID = @"12345";
                          [expectation fulfill];
                        }];
   [self waitForExpectations:@[ expectation ]];
-}
-
-- (void)testForUnspecifiedChildDirectedTreatment {
-  OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeDefault]);
-
-  [GADMediationAdapterPangle setCOPPA];
-}
-
-- (void)testForChildDirectedTreatment {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeChild]);
-
-  [GADMediationAdapterPangle setCOPPA];
-}
-
-- (void)testForNoChildDirectedTreatment {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeNonChild]);
-
-  [GADMediationAdapterPangle setCOPPA];
 }
 
 @end

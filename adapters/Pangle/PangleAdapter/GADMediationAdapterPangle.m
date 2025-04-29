@@ -55,7 +55,7 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
   PAGBiddingRequest *request = [PAGBiddingRequest new];
   request.adxID = GADMAdapterPangleAdxID;
   if (params.configuration.credentials.firstObject.format == GADAdFormatBanner) {
-    request.bannerSize = [GADPangleBannerRenderer bannerSizeFormGADAdSize:params.adSize];
+    request.bannerSize = [GADPangleBannerRenderer bannerSizeFromGADAdSize:params.adSize];
   }
   [PAGSdk getBiddingTokenWithRequest:request completion:^(NSString * _Nonnull biddingToken) {
     completionHandler(biddingToken, nil);

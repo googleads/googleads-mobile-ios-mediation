@@ -134,22 +134,19 @@
 }
 
 - (void)testLoadAd {
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeDefault]);
-
   [self loadAdWithPlacementID:@"12345"];
 }
 
 - (void)testLoadAdForChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeChild]);
-
-  [self loadAdWithPlacementID:@"12345"];
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
 }
 
 - (void)testLoadAdForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeNonChild]);
-
   [self loadAdWithPlacementID:@"12345"];
 }
 
