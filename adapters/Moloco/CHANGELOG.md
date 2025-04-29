@@ -1,9 +1,16 @@
 ## Moloco iOS Mediation Adapter Changelog
 
-#### Next version
-- Sets mediation platform name when initializing Moloco SDK.
+#### Next Version
 - Sets watermark data when creating ad objects.
 - Fixed implementation for loading MREC ads.
+
+#### [Version 3.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.9.0.0.zip)
+- Mediation platform name is now set when initializing the Moloco SDK.
+- Verified compatibility with Moloco SDK version 3.9.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.3.0.
+- Moloco SDK version 3.9.0.
 
 #### [Version 3.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.8.0.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
