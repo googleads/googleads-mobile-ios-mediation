@@ -25,8 +25,25 @@ NSError *_Nonnull GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorCod
                          }];
 }
 
+NSError *_Nonnull GADMAdapterPangleChildUserError(void) {
+  NSString *errorMsg = @"GADMobileAds.sharedInstance.requestConfiguration indicates the user is a "
+                       @"child. Pangle SDK V71 or higher does not support child users.";
+  return GADMAdapterPangleErrorWithCodeAndDescription(GADPangleErrorChildUser, errorMsg);
+  ;
+}
+
 void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {
   if (object) {
     [set addObject:object];  // Allow pattern.
   }
 }
+
+@implementation GADMAdapterPangleUtils
+
++ (BOOL)isChildUser {
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+         [requestConfiguration.tagForUnderAgeOfConsent boolValue];
+}
+
+@end

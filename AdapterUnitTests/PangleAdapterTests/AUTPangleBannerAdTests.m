@@ -110,14 +110,11 @@
 
 - (void)testLoadAdWithSize320x50 {
   OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeDefault]);
-
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
 }
 
 - (void)testLoadAdWithSize320x50ForChildAudience {
-  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeChild]);
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
 
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
@@ -125,7 +122,6 @@
 
 - (void)testLoadAdWithSize320x50ForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
-  OCMExpect([_configMock setChildDirected:PAGChildDirectedTypeNonChild]);
   OCMExpect(ClassMethod([_request requestWithBannerSize:kPAGBannerSize320x50])).andReturn(_request);
 
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeBanner];
@@ -142,13 +138,6 @@
       .andReturn(_request);
 
   [self loadAdWithPlacementID:@"ID" adSize:GADAdSizeMediumRectangle];
-}
-
-- (void)testLoadFailureWithUnsupportedAdSize {
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
-                                                      code:GADPangleErrorBannerSizeMismatch
-                                                  userInfo:nil];
-  [self loadAdFailureWithPlacementID:@"ID" adSize:GADAdSizeSkyscraper expectedError:expectedError];
 }
 
 - (void)testLoadFailureWithEmptyPlacementID {

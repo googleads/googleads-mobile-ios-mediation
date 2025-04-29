@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #import "GADPangleBannerRenderer.h"
-#import <PAGAdSDK/PAGAdSDK.h>
 #include <stdatomic.h>
 #import "GADMAdapterPangleUtils.h"
 #import "GADMediationAdapterPangleConstants.h"
@@ -60,12 +59,8 @@
     return;
   }
 
-  NSError *error = nil;
-  PAGBannerAdSize bannerSize = [self bannerSizeFormGADAdSize:adConfiguration.adSize error:&error];
-  if (error) {
-    _loadCompletionHandler(nil, error);
-    return;
-  }
+  PAGBannerAdSize bannerSize =
+      [GADPangleBannerRenderer bannerSizeFromGADAdSize:adConfiguration.adSize];
 
   PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:bannerSize];
   request.adString = adConfiguration.bidResponse;
@@ -87,7 +82,7 @@
                 }
 
                 CGRect frame = bannerAd.bannerView.frame;
-                frame.size = bannerSize.size;
+                frame.size = bannerAd.adSize.size;
                 bannerAd.bannerView.frame = frame;
                 bannerAd.rootViewController = adConfiguration.topViewController;
 
@@ -100,35 +95,31 @@
               }];
 }
 
-- (PAGBannerAdSize)bannerSizeFormGADAdSize:(GADAdSize)gadAdSize error:(NSError **)error {
-  CGSize gadAdCGSize = CGSizeFromGADAdSize(gadAdSize);
-  GADAdSize banner50 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, kPAGBannerSize320x50.size.height));  // 320*50
-  GADAdSize banner90 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, kPAGBannerSize728x90.size.height));  // 728*90
-  GADAdSize banner250 = GADAdSizeFromCGSize(
-      CGSizeMake(gadAdCGSize.width, kPAGBannerSize300x250.size.height));  // 300*250
-  NSArray *potentials = @[
-    NSValueFromGADAdSize(banner50), NSValueFromGADAdSize(banner90), NSValueFromGADAdSize(banner250)
-  ];
++ (PAGBannerAdSize)bannerSizeFromGADAdSize:(GADAdSize)gadAdSize {
+  CGSize size = CGSizeFromGADAdSize(gadAdSize);
 
-  GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentials);
-  CGSize size = CGSizeFromGADAdSize(closestSize);
-  if (size.height == kPAGBannerSize320x50.size.height) {
-    return kPAGBannerSize320x50;
-  } else if (size.height == kPAGBannerSize728x90.size.height) {
-    return kPAGBannerSize728x90;
-  } else if (size.height == kPAGBannerSize300x250.size.height) {
-    return kPAGBannerSize300x250;
+  PAGBannerAdSize pagBanner50 = kPAGBannerSize320x50;
+  PAGBannerAdSize pagBanner90 = kPAGBannerSize728x90;
+  PAGBannerAdSize pagBanner250 = kPAGBannerSize300x250;
+
+  if (size.width == pagBanner50.size.width && size.height == pagBanner50.size.height) {
+    return pagBanner50;
+  } else if (size.width == pagBanner90.size.width && size.height == pagBanner90.size.height) {
+    return pagBanner90;
+  } else if (size.width == pagBanner250.size.width && size.height == pagBanner250.size.height) {
+    return pagBanner250;
   }
 
-  if (error) {
-    *error = GADMAdapterPangleErrorWithCodeAndDescription(
-        GADPangleErrorBannerSizeMismatch,
-        [NSString stringWithFormat:@"Invalid size for Pangle mediation adapter. Size: %@",
-                                   NSStringFromGADAdSize(gadAdSize)]);
+  PAGBannerAdSize pagAnchored =
+      PAGCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(size.width);
+  if (size.width == pagAnchored.size.width && size.height == pagAnchored.size.height) {
+    return pagAnchored;
   }
-  return (PAGBannerAdSize){CGSizeZero};
+
+  if (gadAdSize.size.height > 0) {
+    return PAGInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(size.width, size.height);
+  }
+  return PAGCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(size.width);
 }
 
 #pragma mark - GADMediationBannerAd

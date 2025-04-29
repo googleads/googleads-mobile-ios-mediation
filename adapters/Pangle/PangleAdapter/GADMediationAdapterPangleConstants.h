@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Pangle adapter version.
-static NSString *const GADMAdapterPangleVersion = @"6.5.0.9.0";
+static NSString *const GADMAdapterPangleVersion = @"7.1.1.0.0";
 
 /// Pangle adapter Pangle App ID parameter key.
 static NSString *const GADMAdapterPangleAppID = @"appid";
@@ -25,3 +25,6 @@ static NSString *const GADMAdapterPanglePlacementID = @"placementid";
 
 /// Pangle adapter error domain.
 static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pangle";
+
+/// the mediation ID.
+static NSString *const GADMAdapterPangleAdxID = @"207";
