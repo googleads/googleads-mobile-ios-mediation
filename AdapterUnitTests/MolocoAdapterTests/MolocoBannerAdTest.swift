@@ -11,6 +11,8 @@ final class MolocoBannerAdTest: XCTestCase {
   /// A bid response received by the adapter to load the ad.
   static let testBidResponse = "bid_response"
 
+  static let testWatermarkData = Data()
+
   @MainActor func testFakeBannerFactory() throws {
     let molocoBannerFactory = FakeMolocoBannerFactory()
     let adConfiguration = MediationBannerAdConfiguration()
@@ -19,7 +21,9 @@ final class MolocoBannerAdTest: XCTestCase {
     ) { ad, error in
       return nil
     }
-    let banner = molocoBannerFactory.createBanner(for: Self.testAdUnitID, delegate: bannerLoader)
+    let banner = molocoBannerFactory.createBanner(
+      for: Self.testAdUnitID, delegate: bannerLoader,
+      watermarkData: MolocoBannerAdTest.testWatermarkData)
     let fakeMolocoBanner = try XCTUnwrap(banner as? FakeMolocoBanner)
 
     XCTAssertEqual(molocoBannerFactory.adUnitIDUsedToCreateMolocoAd, Self.testAdUnitID)

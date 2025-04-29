@@ -6,7 +6,9 @@ public protocol MolocoInterstitialFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createInterstitial(for adUnit: String, delegate: MolocoInterstitialDelegate)
+  func createInterstitial(
+    for adUnit: String, delegate: MolocoInterstitialDelegate, watermarkData: Data?
+  )
     -> MolocoInterstitial?
 
 }

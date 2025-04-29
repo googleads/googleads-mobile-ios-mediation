@@ -70,7 +70,7 @@ final class InterstitialAdLoader: NSObject {
       guard let self else { return }
 
       self.interstitialAd = self.molocoInterstitialFactory.createInterstitial(
-        for: molocoAdUnitId, delegate: self)
+        for: molocoAdUnitId, delegate: self, watermarkData: adConfiguration.watermark)
       self.interstitialAd?.load(bidResponse: bidResponse)
     }
   }

@@ -46,7 +46,9 @@ final class FakeMolocoNativeFactory {
 // MARK: - MolocoNativeFactory
 
 extension FakeMolocoNativeFactory: MolocoNativeFactory {
-  func createNativeAd(for adUnit: String, delegate: any MolocoSDK.MolocoNativeAdDelegate) -> (
+  func createNativeAd(
+    for adUnit: String, delegate: any MolocoSDK.MolocoNativeAdDelegate, watermarkData: Data?
+  ) -> (
     any MolocoSDK.MolocoNativeAd
   )? {
     adUnitIDUsedToCreateMolocoAd = adUnit

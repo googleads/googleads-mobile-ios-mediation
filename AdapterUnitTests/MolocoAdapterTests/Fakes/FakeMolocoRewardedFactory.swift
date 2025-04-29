@@ -47,7 +47,9 @@ final class FakeMolocoRewardedFactory {
 
 extension FakeMolocoRewardedFactory: MolocoRewardedFactory {
 
-  func createRewarded(for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate) -> (
+  func createRewarded(
+    for adUnit: String, delegate: any MolocoSDK.MolocoRewardedDelegate, watermarkData: Data?
+  ) -> (
     any MolocoSDK.MolocoRewardedInterstitial
   )? {
     adUnitIDUsedToCreateMolocoAd = adUnit

@@ -46,7 +46,7 @@ final class FakeMolocoInterstitialFactory: MolocoInterstitialFactory {
   }
 
   func createInterstitial(
-    for adUnit: String, delegate: any MolocoSDK.MolocoInterstitialDelegate
+    for adUnit: String, delegate: any MolocoSDK.MolocoInterstitialDelegate, watermarkData: Data?
   ) -> (any MolocoInterstitial)? {
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoInterstitial = FakeMolocoInterstitial(

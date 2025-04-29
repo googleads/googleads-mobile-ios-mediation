@@ -35,10 +35,12 @@ class MolocoSdkImpl: MolocoInitializer {
 extension MolocoSdkImpl: MolocoInterstitialFactory {
 
   @available(iOS 13.0, *)
-  func createInterstitial(for adUnit: String, delegate: MolocoInterstitialDelegate)
+  func createInterstitial(
+    for adUnit: String, delegate: MolocoInterstitialDelegate, watermarkData: Data?
+  )
     -> MolocoInterstitial?
   {
-    Moloco.shared.createInterstitial(for: adUnit, delegate: delegate)
+    Moloco.shared.createInterstitial(for: adUnit, delegate: delegate, watermarkData: watermarkData)
   }
 
 }
@@ -49,10 +51,10 @@ extension MolocoSdkImpl: MolocoRewardedFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate)
+  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate, watermarkData: Data?)
     -> MolocoRewardedInterstitial?
   {
-    Moloco.shared.createRewarded(for: adUnit, delegate: delegate)
+    Moloco.shared.createRewarded(for: adUnit, delegate: delegate, watermarkData: watermarkData)
   }
 
 }
@@ -63,12 +65,15 @@ extension MolocoSdkImpl: MolocoBannerFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> (UIView & MolocoAd)? {
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )? {
     guard let rootViewController = MolocoUtils.keyWindow()?.rootViewController else {
       return nil
     }
     return Moloco.shared.createBanner(
-      for: adUnit, viewController: rootViewController, delegate: delegate)
+      for: adUnit, viewController: rootViewController, delegate: delegate,
+      watermarkData: watermarkData)
   }
 
 }
@@ -77,12 +82,15 @@ extension MolocoSdkImpl: MolocoNativeFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createNativeAd(for adUnit: String, delegate: MolocoNativeAdDelegate) -> MolocoNativeAd? {
+  func createNativeAd(for adUnit: String, delegate: MolocoNativeAdDelegate, watermarkData: Data?)
+    -> MolocoNativeAd?
+  {
     guard MolocoUtils.keyWindow()?.rootViewController != nil else {
       return nil
     }
 
-    return Moloco.shared.createNativeAd(for: adUnit, delegate: delegate)
+    return Moloco.shared.createNativeAd(
+      for: adUnit, delegate: delegate, watermarkData: watermarkData)
   }
 
 }

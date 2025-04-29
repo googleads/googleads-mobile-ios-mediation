@@ -13,7 +13,7 @@ public protocol MolocoNativeFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createNativeAd(for adUnit: String, delegate: MolocoNativeAdDelegate)
+  func createNativeAd(for adUnit: String, delegate: MolocoNativeAdDelegate, watermarkData: Data?)
     -> MolocoNativeAd?
 
 }

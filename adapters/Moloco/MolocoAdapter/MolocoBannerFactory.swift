@@ -21,6 +21,8 @@ public protocol MolocoBannerFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> (UIView & MolocoAd)?
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )?
 
 }

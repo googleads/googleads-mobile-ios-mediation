@@ -72,7 +72,7 @@ final class RewardedAdLoader: NSObject {
       guard let self else { return }
 
       self.rewardedAd = self.molocoRewardedFactory.createRewarded(
-        for: molocoAdUnitID, delegate: self)
+        for: molocoAdUnitID, delegate: self, watermarkData: adConfiguration.watermark)
       self.rewardedAd?.load(bidResponse: bidResponse)
     }
   }

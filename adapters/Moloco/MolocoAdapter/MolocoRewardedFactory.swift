@@ -20,7 +20,7 @@ public protocol MolocoRewardedFactory {
 
   @MainActor
   @available(iOS 13.0, *)
-  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate)
+  func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate, watermarkData: Data?)
     -> MolocoRewardedInterstitial?
 
 }

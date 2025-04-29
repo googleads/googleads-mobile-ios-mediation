@@ -70,7 +70,7 @@ final class NativeAdLoader: NSObject {
       guard let self else { return }
 
       self.nativeAd = self.molocoNativeFactory?.createNativeAd(
-        for: molocoAdUnitId, delegate: self)
+        for: molocoAdUnitId, delegate: self, watermarkData: adConfiguration.watermark)
       guard self.nativeAd != nil else {
         let error = MolocoUtils.error(code: .invalidAdUnitId, description: "Ad not loaded.")
         _ = loadCompletionHandler(nil, error)

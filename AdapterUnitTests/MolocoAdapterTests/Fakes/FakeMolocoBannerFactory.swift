@@ -50,7 +50,9 @@ final class FakeMolocoBannerFactory {
 
 extension FakeMolocoBannerFactory: MolocoBannerFactory {
 
-  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate) -> (UIView & MolocoAd)? {
+  func createBanner(for adUnit: String, delegate: MolocoBannerDelegate, watermarkData: Data?) -> (
+    UIView & MolocoAd
+  )? {
     adUnitIDUsedToCreateMolocoAd = adUnit
     fakeMolocoBanner = FakeMolocoBanner(
       bannerDelegate: delegate, loadError: loadError, shouldFailToShow: shouldFailToShow,
