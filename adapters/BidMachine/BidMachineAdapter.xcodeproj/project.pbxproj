@@ -42,10 +42,29 @@
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
 		ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		ADFB2A812DC346AF005EBC7F /* NaitveAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D42DA4906F007B3FA8 /* NaitveAdProxy.swift */; };
+		ADFB2A822DC346AF005EBC7F /* BidMachineAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* BidMachineAdapterError.swift */; };
+		ADFB2A832DC346AF005EBC7F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
+		ADFB2A842DC346AF005EBC7F /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
+		ADFB2A852DC346AF005EBC7F /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
+		ADFB2A862DC346AF005EBC7F /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		ADFB2A872DC346AF005EBC7F /* BidMachineAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* BidMachineAdapter.swift */; };
+		ADFB2A882DC346AF005EBC7F /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
+		ADFB2A892DC346AF005EBC7F /* BidMachineAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* BidMachineAdapterExtras.swift */; };
+		ADFB2A8A2DC346AF005EBC7F /* BidMachineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		ADFA849B2C176E2200A501AB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADFB2A8C2DC346AF005EBC7F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -77,6 +96,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BidMachineAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +108,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		ADFA84D12C17738E00A501AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADFB2A8B2DC346AF005EBC7F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -114,6 +141,7 @@
 			children = (
 				ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */,
 				ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */,
+				ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -192,6 +220,23 @@
 			productReference = ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		ADFB2A7F2DC346AF005EBC7F /* StaticGoogleBidMachineAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADFB2A8D2DC346AF005EBC7F /* Build configuration list for PBXNativeTarget "StaticGoogleBidMachineAdapter" */;
+			buildPhases = (
+				ADFB2A802DC346AF005EBC7F /* Sources */,
+				ADFB2A8B2DC346AF005EBC7F /* Frameworks */,
+				ADFB2A8C2DC346AF005EBC7F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StaticGoogleBidMachineAdapter;
+			productName = Adapter;
+			productReference = ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -230,6 +275,7 @@
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* BidMachineAdapterFramework */,
+				ADFB2A7F2DC346AF005EBC7F /* StaticGoogleBidMachineAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -303,6 +349,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADFB2A802DC346AF005EBC7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADFB2A812DC346AF005EBC7F /* NaitveAdProxy.swift in Sources */,
+				ADFB2A822DC346AF005EBC7F /* BidMachineAdapterError.swift in Sources */,
+				ADFB2A832DC346AF005EBC7F /* Util.swift in Sources */,
+				ADFB2A842DC346AF005EBC7F /* NativeAdLoader.swift in Sources */,
+				ADFB2A852DC346AF005EBC7F /* BannerAdLoader.swift in Sources */,
+				ADFB2A862DC346AF005EBC7F /* RewardedAdLoader.swift in Sources */,
+				ADFB2A872DC346AF005EBC7F /* BidMachineAdapter.swift in Sources */,
+				ADFB2A882DC346AF005EBC7F /* InterstitialAdLoader.swift in Sources */,
+				ADFB2A892DC346AF005EBC7F /* BidMachineAdapterExtras.swift in Sources */,
+				ADFB2A8A2DC346AF005EBC7F /* BidMachineClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,6 +803,163 @@
 			};
 			name = Release;
 		};
+		ADFB2A8E2DC346AF005EBC7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = BidMachine;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = BidMachineAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ADFB2A8F2DC346AF005EBC7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = BidMachine;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = BidMachineAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -784,6 +1004,15 @@
 			buildConfigurations = (
 				ADFA84D92C17738E00A501AB /* Debug */,
 				ADFA84DA2C17738E00A501AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADFB2A8D2DC346AF005EBC7F /* Build configuration list for PBXNativeTarget "StaticGoogleBidMachineAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADFB2A8E2DC346AF005EBC7F /* Debug */,
+				ADFB2A8F2DC346AF005EBC7F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

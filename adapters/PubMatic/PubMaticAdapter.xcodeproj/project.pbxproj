@@ -75,7 +75,7 @@
 
 /* Begin PBXFileReference section */
 		AD76A9772D93103400F40CD4 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		AD76A9DB2D9311C500F40CD4 /* libStaticPubmaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPubmaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWrapSDKClient.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapter.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 			children = (
 				ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */,
 				ADFA84D42C17738E00A501AB /* PubMaticAdapterFramework.framework */,
-				AD76A9DB2D9311C500F40CD4 /* libStaticPubmaticAdapter.a */,
+				AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,9 +182,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AD76A9CC2D9311C500F40CD4 /* StaticPubmaticAdapter */ = {
+		AD76A9CC2D9311C500F40CD4 /* StaticPubMaticAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD76A9D82D9311C500F40CD4 /* Build configuration list for PBXNativeTarget "StaticPubmaticAdapter" */;
+			buildConfigurationList = AD76A9D82D9311C500F40CD4 /* Build configuration list for PBXNativeTarget "StaticPubMaticAdapter" */;
 			buildPhases = (
 				AD76A9CD2D9311C500F40CD4 /* Sources */,
 				AD76A9D62D9311C500F40CD4 /* Frameworks */,
@@ -194,9 +194,9 @@
 			);
 			dependencies = (
 			);
-			name = StaticPubmaticAdapter;
+			name = StaticPubMaticAdapter;
 			productName = Adapter;
-			productReference = AD76A9DB2D9311C500F40CD4 /* libStaticPubmaticAdapter.a */;
+			productReference = AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -271,7 +271,7 @@
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* PubMaticAdapterFramework */,
-				AD76A9CC2D9311C500F40CD4 /* StaticPubmaticAdapter */,
+				AD76A9CC2D9311C500F40CD4 /* StaticPubMaticAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -443,7 +443,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIB_NAME = "${PRODUCT_NAME}";
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -522,7 +522,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIB_NAME = "${PRODUCT_NAME}";
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -974,7 +974,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD76A9D82D9311C500F40CD4 /* Build configuration list for PBXNativeTarget "StaticPubmaticAdapter" */ = {
+		AD76A9D82D9311C500F40CD4 /* Build configuration list for PBXNativeTarget "StaticPubMaticAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AD76A9D92D9311C500F40CD4 /* Debug */,
