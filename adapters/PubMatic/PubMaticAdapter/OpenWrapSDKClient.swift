@@ -51,7 +51,7 @@ protocol OpenWrapSDKClient: NSObject {
   )
 
   /// Collect signals for bidding.
-  func collectSignals(for adFormat: POBAdFormat) -> String
+  @MainActor func collectSignals(for adFormat: POBAdFormat) -> String
 
   /// Load a banner ad.
   @MainActor func loadRtbBannerView(
@@ -97,6 +97,7 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     OpenWrapSDK.setCoppaEnabled(enable)
   }
 
+  @MainActor
   func collectSignals(for adFormat: POBAdFormat) -> String {
     let config = POBSignalConfig(adFormat: adFormat)
     return POBSignalGenerator.generateSignal(for: .adMob, andConfig: config)

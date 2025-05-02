@@ -97,8 +97,11 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
             "Failed to collect signals because the request's format is not supported. Ad format: \(adFormat)"
         )
       }
-      completionHandler(
-        OpenWrapSDKClientFactory.createClient().collectSignals(for: clientAdFormat), nil)
+      nonisolated(unsafe) let completionHandler = completionHandler
+      DispatchQueue.main.async {
+        completionHandler(
+          OpenWrapSDKClientFactory.createClient().collectSignals(for: clientAdFormat), nil)
+      }
     } catch {
       completionHandler(nil, error.toNSError())
     }
