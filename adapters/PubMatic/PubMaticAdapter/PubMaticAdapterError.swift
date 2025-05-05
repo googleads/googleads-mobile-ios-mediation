@@ -32,6 +32,9 @@ public struct PubMaticAdapterError: Error {
 
     /// Failed to present an interstitial ad because the ad was not ready.
     case rewardedAdNotReadyForPresentation = 105
+
+    /// Failed to load one of the native ad image sources.
+    case failedToLoadNativeAdImageSource = 106
   }
 
   public static let domain = "com.google.mediation.pubmatic"

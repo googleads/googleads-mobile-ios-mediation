@@ -64,6 +64,10 @@ protocol OpenWrapSDKClient: NSObject {
   /// Load a rewarded ad.
   func loadRtbRewardedAd(bidResponse: String, delegate: POBRewardedAdDelegate, watermarkData: Data)
 
+  /// Load a native ad.
+  func loadRtbNativeAd(
+    bidResponse: String, delegate: POBNativeAdLoaderDelegate, watermarkData: Data)
+
   /// Present a POBInterstitial ad.
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError)
 
@@ -77,6 +81,7 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
   var bannerView: POBBannerView?
   var interstitial: POBInterstitial?
   var rewardedAd: POBRewardedAd?
+  var nativeAdLoader: POBNativeAdLoader?
 
   func version() -> String {
     return OpenWrapSDK.version()
@@ -131,6 +136,17 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     rewardedAd?.delegate = delegate
     rewardedAd?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     rewardedAd?.load(withResponse: bidResponse, for: .adMob)
+  }
+
+  func loadRtbNativeAd(
+    bidResponse: String,
+    delegate: POBNativeAdLoaderDelegate,
+    watermarkData: Data
+  ) {
+    nativeAdLoader = POBNativeAdLoader()
+    nativeAdLoader?.delegate = delegate
+    nativeAdLoader?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
+    nativeAdLoader?.loadAd(withResponse: bidResponse, for: .adMob)
   }
 
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {

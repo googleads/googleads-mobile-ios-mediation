@@ -30,6 +30,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   weak var bannerViewDelegate: POBBannerViewDelegate?
   weak var interstitialDelegate: POBInterstitialDelegate?
   weak var rewardedAdDelegate: POBRewardedAdDelegate?
+  weak var nativeAdLoaderDelegate: POBNativeAdLoaderDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -90,6 +91,21 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     } else {
       delegate.rewardedAd?(
         POBRewardedAd(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
+  func loadRtbNativeAd(
+    bidResponse: String,
+    delegate: any POBNativeAdLoaderDelegate,
+    watermarkData: Data
+  ) {
+    nativeAdLoaderDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.nativeAdLoader?(POBNativeAdLoader(), didReceive: FakeNativeAd())
+    } else {
+      delegate.nativeAdLoader?(
+        POBNativeAdLoader(),
         didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
     }
   }

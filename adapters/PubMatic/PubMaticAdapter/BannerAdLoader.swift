@@ -94,26 +94,9 @@ extension BannerAdLoader: @preconcurrency POBBannerViewDelegate {
       }
     }
 
-    var viewController: UIViewController?
     // If failed to find the closest view controller, then find the app's root
     // view controller
-    if #available(iOS 13.0, *) {
-      let activeScene =
-        UIApplication.shared.connectedScenes
-        .filter { $0.activationState == .foregroundActive }
-        .first(where: { $0 is UIWindowScene }) as? UIWindowScene
-
-      let keyWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
-      viewController = keyWindow?.rootViewController
-    } else {
-      viewController = UIApplication.shared.keyWindow?.rootViewController
-    }
-
-    if viewController == nil {
-      Util.log("Failed to find the view controller for the banner view presentation.")
-    }
-
-    return viewController ?? UIViewController()
+    return Util.rootViewController()
   }
 
   func bannerViewDidReceiveAd(_ bannerView: POBBannerView) {

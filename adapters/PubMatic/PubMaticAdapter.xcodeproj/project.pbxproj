@@ -50,6 +50,8 @@
 		ADFA84C22C17704300A501AB /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
 		ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
 		ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		ADFB32A72DC42970005EBC7F /* NativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */; };
+		ADFB32A82DC42970005EBC7F /* NativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +96,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* PubMaticAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PubMaticAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,7 @@
 		ADFA84AD2C17704300A501AB /* PubMaticAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */,
 				AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */,
 				AD76A9772D93103400F40CD4 /* Util.swift */,
 				ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */,
@@ -328,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFB32A82DC42970005EBC7F /* NativeAdProxy.swift in Sources */,
 				AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterError.swift in Sources */,
 				AD76A9CF2D9311C500F40CD4 /* NativeAdLoader.swift in Sources */,
 				AD76A9D02D9311C500F40CD4 /* BannerAdLoader.swift in Sources */,
@@ -344,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFB32A72DC42970005EBC7F /* NativeAdProxy.swift in Sources */,
 				ADFA84BE2C17704300A501AB /* PubMaticAdapterError.swift in Sources */,
 				ADFA84C32C17704300A501AB /* NativeAdLoader.swift in Sources */,
 				ADFA84C12C17704300A501AB /* BannerAdLoader.swift in Sources */,

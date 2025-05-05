@@ -103,4 +103,27 @@ struct Util {
     return adFormat
   }
 
+  /// Tries to retrieve the root view controller of current scene.
+  @MainActor
+  static func rootViewController() -> UIViewController {
+    var viewController: UIViewController?
+    if #available(iOS 13.0, *) {
+      let activeScene =
+        UIApplication.shared.connectedScenes
+        .filter { $0.activationState == .foregroundActive }
+        .first(where: { $0 is UIWindowScene }) as? UIWindowScene
+
+      let keyWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
+      viewController = keyWindow?.rootViewController
+    } else {
+      viewController = UIApplication.shared.keyWindow?.rootViewController
+    }
+
+    if viewController == nil {
+      Util.log("Failed to find the view controller for the banner view presentation.")
+    }
+
+    return viewController ?? UIViewController()
+  }
+
 }

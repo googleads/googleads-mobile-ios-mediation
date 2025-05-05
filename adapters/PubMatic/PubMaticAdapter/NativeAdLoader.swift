@@ -14,14 +14,12 @@
 
 import Foundation
 import GoogleMobileAds
+import OpenWrapSDK
 
 final class NativeAdLoader: NSObject {
 
   /// The native ad configuration.
   private let adConfiguration: MediationNativeAdConfiguration
-
-  /// The ad event delegate which is used to report native related information to the Google Mobile Ads SDK.
-  private weak var eventDelegate: MediationNativeAdEventDelegate?
 
   /// The completion handler that needs to be called upon finishing loading an ad.
   private var nativeAdLoadCompletionHandler: ((MediationNativeAd?, NSError?) -> Void)?
@@ -32,6 +30,11 @@ final class NativeAdLoader: NSObject {
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationNativeLoadCompletionHandler?
 
+  /// OpenWrapSDKClient used to manage a native ad.
+  private let client: OpenWrapSDKClient
+
+  private var nativeAdProxy: NativeAdProxy?
+
   init(
     adConfiguration: MediationNativeAdConfiguration,
     loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler
@@ -40,77 +43,67 @@ final class NativeAdLoader: NSObject {
     self.adLoadCompletionHandler = loadCompletionHandler
     self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationNativeAdLoadCompletionQueue")
+    self.client = OpenWrapSDKClientFactory.createClient()
     super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |nativeAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
+    else {
+      handleLoadedAd(
+        nil,
+        error: PubMaticAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is invalid."
+        ).toNSError())
+      return
+    }
+    client.loadRtbNativeAd(bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+  }
+
+  private func handleLoadedAd(_ ad: MediationNativeAd?, error: Error?) {
+    adLoadCompletionQueue.sync {
+      guard let adLoadCompletionHandler else { return }
+      let eventDelegate = adLoadCompletionHandler(ad, error)
+      nativeAdProxy?.eventDelegate = eventDelegate
+      self.adLoadCompletionHandler = nil
+    }
   }
 
 }
 
-// MARK: - GADMediationNativeAd
+// MARK: - POBNativeAdLoaderDelegate
+extension NativeAdLoader: @preconcurrency POBNativeAdLoaderDelegate {
 
-extension NativeAdLoader: MediationNativeAd {
-
-  // TODO: implement computed properties and methods below. Implement more optional methods from |GADMediationNativeAd|, if needed.
-
-  var headline: String? {
-    return nil
+  @MainActor
+  func viewControllerForPresentingModal() -> UIViewController {
+    return nativeAdProxy?.viewController ?? Util.rootViewController()
   }
 
-  var images: [NativeAdImage]? {
-    return nil
+  func nativeAdLoader(
+    _ adLoader: POBNativeAdLoader,
+    didReceive nativeAd: any POBNativeAd
+  ) {
+    // POBNativeAd's image assets come in string URLs. The adapter needs to
+    // download them before notifying Google Mobile Ads SDK.
+    nativeAdProxy = NativeAdProxyFactory.createProxy(with: nativeAd)
+    nativeAdProxy?.downLoadImageAssets(completionHandler: { [weak self] error in
+      guard let self else { return }
+
+      guard error == nil else {
+        self.handleLoadedAd(nil, error: error!.toNSError())
+        return
+      }
+
+      self.handleLoadedAd(self.nativeAdProxy, error: nil)
+    })
   }
 
-  var body: String? {
-    return nil
-  }
-
-  var icon: NativeAdImage? {
-    return nil
-  }
-
-  var callToAction: String? {
-    return nil
-  }
-
-  var starRating: NSDecimalNumber? {
-    return nil
-  }
-
-  var store: String? {
-    return nil
-  }
-
-  var price: String? {
-    return nil
-  }
-
-  var advertiser: String? {
-    return nil
-  }
-
-  var extraAssets: [String: Any]? {
-    return nil
-  }
-
-  var hasVideoContent: Bool {
-    // TODO: implement
-    return true
-  }
-
-  func handlesUserClicks() -> Bool {
-    // TODO: implement
-    return true
-  }
-
-  func handlesUserImpressions() -> Bool {
-    // TODO: implement
-    return true
+  func nativeAdLoader(
+    _ adLoader: POBNativeAdLoader,
+    didFailToReceiveAdWithError error: any Error
+  ) {
+    handleLoadedAd(nil, error: error as NSError)
   }
 
 }
-
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
