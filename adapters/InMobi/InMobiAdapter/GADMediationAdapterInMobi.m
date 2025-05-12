@@ -23,6 +23,7 @@
 #import "GADMAdapterInMobiUnifiedNativeAd.h"
 #import "GADMAdapterInMobiUtils.h"
 #import "GADMInMobiConsent.h"
+#import "GADMAdapterInMobiDelegateManager.h"
 
 @implementation GADMediationAdapterInMobi {
   /// InMobi rewarded ad wrapper.
@@ -44,6 +45,28 @@
 - (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
+  // An InMobi does not support multiple rewarded ad loads using the same
+  // placement ID. Signal collection should fail if a rewarded ad was previously
+  // loaded with this placement ID and has not yet been consumed.
+  GADMediationCredentials *credentials = params.configuration.credentials.firstObject;
+  if (credentials.format == GADAdFormatRewarded) {
+    NSNumber *placementID = @([credentials.settings[GADMAdapterInMobiPlacementID] longLongValue]);
+    NSError *error = GADMAdapterInMobiValidatePlacementIdentifier(placementID);
+    if (error) {
+      completionHandler(nil, error);
+      return;
+    }
+    GADMAdapterInMobiDelegateManager *delegateManager =
+        GADMAdapterInMobiDelegateManager.sharedInstance;
+    if ([delegateManager containsDelegateForPlacementIdentifier:placementID]) {
+      error = GADMAdapterInMobiErrorWithCodeAndDescription(
+          GADMAdapterInMobiErrorAdAlreadyLoaded, @"GADMediationAdapterInMobi - Error : cannot "
+                                                 @"request multiple ads using same placement ID.");
+      completionHandler(nil, error);
+      return;
+    }
+  }
+
   GADInMobiExtras *extras = params.extras;
   NSNumber *childDirectedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
