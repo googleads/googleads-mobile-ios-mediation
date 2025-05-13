@@ -131,8 +131,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
 - (void)requestNativeAd {
   long long placementId =
       [_nativeAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
-
-  if (placementId == 0) {
+  // Skip the placement ID checking for bidding.
+  if (!_nativeAdConfig.bidResponse && placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,
         @"GADMediationAdapterInMobi -  Error : Placement ID not specified.");

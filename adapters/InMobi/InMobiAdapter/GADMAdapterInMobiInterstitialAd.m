@@ -82,7 +82,8 @@
 - (void)requestInterstitialAd {
   long long placementId =
       [_interstitialAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
-  if (placementId == 0) {
+  // Skip the placement ID checking for bidding.
+  if (!_interstitialAdConfig.bidResponse && placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,
         @"GADMediationAdapterInMobi - Error : Placement ID not specified.");

@@ -82,7 +82,8 @@
   long long placementId =
       [_bannerAdConfig.credentials.settings[GADMAdapterInMobiPlacementID] longLongValue];
 
-  if (placementId == 0) {
+  // Skip the placement ID checking for bidding.
+  if (!_bannerAdConfig.bidResponse && placementId == 0) {
     NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
         GADMAdapterInMobiErrorInvalidServerParameters,
         @"GADMediationAdapterInMobi - Error : Placement ID not specified.");

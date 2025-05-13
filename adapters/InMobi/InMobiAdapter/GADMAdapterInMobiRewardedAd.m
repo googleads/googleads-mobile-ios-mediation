@@ -106,11 +106,15 @@
   // dictionary.
   _placementIdentifier = @(placement);
 
-  // Validates the placement identifier.
-  NSError *error = GADMAdapterInMobiValidatePlacementIdentifier(_placementIdentifier);
-  if (error) {
-    _renderCompletionHandler(nil, error);
-    return;
+  NSError *error = nil;
+  // Skip the placement ID checking for bidding.
+  if (!_adConfig.bidResponse) {
+    // Validates the placement identifier.
+    error = GADMAdapterInMobiValidatePlacementIdentifier(_placementIdentifier);
+    if (error) {
+      _renderCompletionHandler(nil, error);
+      return;
+    }
   }
 
   GADMAdapterInMobiDelegateManager *delegateManager =

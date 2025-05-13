@@ -4,6 +4,7 @@
 - Added support for rewarded interstitial ads.
 - Added a guard statement in bidding signals for rewarded ads such that it does not bid if a previously loaded rewarded ad for the placement ID was not used.
 - Removed banner ad size checking for bid request.
+- Removed placement ID checking for bid request.
 
 #### [Version 10.8.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.2.0.zip)
 - Verified compatibility with InMobi SDK 10.8.2.
