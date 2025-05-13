@@ -97,14 +97,17 @@
   }
 
   CGSize size = requestedAdSize.size;
-  if (size.width == 0 || size.height == 0) {
-    NSString *errorMessage =
-        [NSString stringWithFormat:@"The requested banner size: %@ is not supported by InMobi SDK.",
-                                   NSStringFromGADAdSize(requestedAdSize)];
-    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-        GADMAdapterInMobiErrorBannerSizeMismatch, errorMessage);
-    _bannerAdLoadCompletionHandler(nil, error);
-    return;
+  // Skip the size checking for bidding.
+  if (!_bannerAdConfig.bidResponse) {
+    if (size.width == 0 || size.height == 0) {
+      NSString *errorMessage =
+      [NSString stringWithFormat:@"The requested banner size: %@ is not supported by InMobi SDK.",
+       NSStringFromGADAdSize(requestedAdSize)];
+      NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
+                                                                    GADMAdapterInMobiErrorBannerSizeMismatch, errorMessage);
+      _bannerAdLoadCompletionHandler(nil, error);
+      return;
+    }
   }
 
   _adView = [[IMBanner alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)
