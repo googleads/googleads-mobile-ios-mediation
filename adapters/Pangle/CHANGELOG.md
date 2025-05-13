@@ -1,8 +1,15 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Next Version
-- Added adaptive banner style.
-- V71 SDK upgrade removes the CCPA flag. The CCPA flag is replaced by the new PA consent field in the current version.
+#### [Version 7.1.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.1.1.0.1.zip)
+- Updated the privacy APIs from the `GADMediationAdapterPangle` class:
+  - Removed the `+setCOPPA:` method.
+  - Renamed `+setDoNotSell:(NSInteger)` method to `+setPAConsent:(NSInteger)`.
+- Added support for adaptive banner ad sizes.
+- Verified compatibility with Pangle SDK version 7.1.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.3.0.
+- Pangle SDK version 7.1.1.0.
 
 #### [Version 6.5.0.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-6.5.0.9.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
