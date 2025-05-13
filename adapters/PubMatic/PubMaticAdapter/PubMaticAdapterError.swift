@@ -37,7 +37,7 @@ public struct PubMaticAdapterError: Error {
     case failedToLoadNativeAdImageSource = 106
   }
 
-  public static let domain = "com.google.mediation.pubmatic"
+  public static let domain = "com.google.ads.mediation.pubmatic"
 
   /// The error code of this error.
   public let errorCode: ErrorCode
