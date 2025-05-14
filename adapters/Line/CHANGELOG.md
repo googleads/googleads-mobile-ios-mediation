@@ -1,5 +1,8 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next Version
+- Now requires minimum iOS version 13.0.
+
 #### [Version 2.9.20241106.3](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20241106.3.zip)
 - Fixed an issue where `GADMediationAdapterLine.h` was not a public header.
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
