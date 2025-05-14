@@ -1,10 +1,17 @@
 ## InMobi iOS Mediation Adapter Changelog
 
 #### Next version
+- Removed the banner ad size compatibility check for banner bidding requests.
+- Removed placement ID checking for bidding requests.
+
+#### [Version 10.8.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.3.0.zip)
 - Added support for rewarded interstitial ads.
 - Added a guard statement in bidding signals for rewarded ads such that it does not bid if a previously loaded rewarded ad for the placement ID was not used.
-- Removed banner ad size checking for bid request.
-- Removed placement ID checking for bid request.
+- Verified compatibility with InMobi SDK 10.8.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.4.0.
+- InMobi SDK version 10.8.3.
 
 #### [Version 10.8.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.2.0.zip)
 - Verified compatibility with InMobi SDK 10.8.2.
