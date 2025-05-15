@@ -30,7 +30,7 @@ final class BidMachineClientFactory {
     #if DEBUG
       return debugClient ?? BidMachineClientImpl()
     #else
-      return ClientImpl()
+      return BidMachineClientImpl()
     #endif
   }
 
