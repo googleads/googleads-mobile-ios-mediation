@@ -1,6 +1,6 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 10.8.3.1 (In progress)
 - Removed the banner ad size compatibility check for banner bidding requests.
 - Removed placement ID checking for bidding requests.
 
