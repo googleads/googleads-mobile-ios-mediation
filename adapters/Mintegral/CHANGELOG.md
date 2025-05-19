@@ -1,6 +1,6 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 7.7.8.0 (In progress)
 - Enable -fobjc-arc and -fstack-protector-all.
 - Added support for COPPA flag.
 
