@@ -1,8 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
 #### [Version 7.7.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.8.0.zip)
-- Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
-- Added support for COPPA flag.
+- Added support for COPPA. The adapter now forwards the
+  `GADRequestConfiguration.tagForChildDirectedTreatment` flag to the Mintegral SDK.
 - Verified compatibility with Mintegral SDK version 7.7.8.
 
 Built and tested with:
