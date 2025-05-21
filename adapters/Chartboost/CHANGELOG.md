@@ -2,6 +2,7 @@
 
 #### Next version
 - Enable -fobjc-arc and -fstack-protector-all.
+- Now tries to initialize Chartboost SDK before each waterfall ad request.
 
 #### [Version 9.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.8.1.0.zip)
 - Verified compatibility with Chartboost SDK version 9.8.1.
