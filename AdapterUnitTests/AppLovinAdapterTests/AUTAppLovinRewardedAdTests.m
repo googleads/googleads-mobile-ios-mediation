@@ -30,9 +30,6 @@
 - (void)setUp {
   [super setUp];
   _adapter = [[GADMediationAdapterAppLovin alloc] init];
-  // AppLovin expects an SDK Key of 86 characters
-  NSString *sdkKey =
-      @"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
 
   _appLovinSdkMock = OCMClassMock([ALSdk class]);
   _rewardedAdMock = OCMClassMock([ALIncentivizedInterstitialAd class]);
@@ -42,6 +39,13 @@
   OCMStub([_rewardedAdMock initWithSdk:_appLovinSdkMock]).andReturn(_rewardedAdMock);
   OCMStub([_appLovinSdkMock adService]).andReturn(_serviceMock);
   OCMStub(ClassMethod([_appLovinSdkMock shared])).andReturn(_appLovinSdkMock);
+
+  OCMStub([_appLovinSdkMock initializeWithConfiguration:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(ALSdkConfiguration *configuration);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil);
+      });
 }
 
 - (void)tearDown {

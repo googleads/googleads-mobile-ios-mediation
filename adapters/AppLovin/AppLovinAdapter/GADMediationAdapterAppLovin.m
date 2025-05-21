@@ -176,10 +176,22 @@
     return;
   }
 
-  _rewardedRenderer =
-      [[GADMAdapterAppLovinRewardedRenderer alloc] initWithAdConfiguration:adConfiguration
-                                                         completionHandler:completionHandler];
-  [_rewardedRenderer requestRewardedAd];
+  __weak GADMediationAdapterAppLovin *weakSelf = self;
+  NSString *SDKKey =
+      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
+  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                     completionHandler:^(void) {
+                                       GADMediationAdapterAppLovin *strongSelf = weakSelf;
+                                       if (!strongSelf) {
+                                         return;
+                                       }
+
+                                       strongSelf->_rewardedRenderer =
+                                           [[GADMAdapterAppLovinRewardedRenderer alloc]
+                                               initWithAdConfiguration:adConfiguration
+                                                     completionHandler:completionHandler];
+                                       [strongSelf->_rewardedRenderer requestRewardedAd];
+                                     }];
 }
 
 @end

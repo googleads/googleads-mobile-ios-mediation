@@ -77,7 +77,16 @@
 #pragma mark - GADMAdNetworkAdapter Protocol Interstitial Methods
 
 - (void)getInterstitial {
+  NSString *SDKKey =
+      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:_connector.credentials];
+  __weak GADMAdapterAppLovin *weakSelf = self;
+  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                     completionHandler:^{
+                                       [weakSelf loadInterstitial];
+                                     }];
+}
 
+- (void)loadInterstitial {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
     [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
     return;
@@ -101,35 +110,33 @@
     return;
   }
 
-           [GADMAdapterAppLovinUtils
-               log:@"Requesting interstitial for zone: %@", self.zoneIdentifier];
+  [GADMAdapterAppLovinUtils log:@"Requesting interstitial for zone: %@", self.zoneIdentifier];
 
-           GADMAdapterAppLovinMediationManager *sharedManager =
-               GADMAdapterAppLovinMediationManager.sharedInstance;
-           if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
-             NSError *adAlreadyLoadedError = GADMAdapterAppLovinErrorWithCodeAndDescription(
-                 GADMAdapterAppLovinErrorAdAlreadyLoaded,
-                 @"Can't request a second ad for the same zone identifier without showing "
-                 @"the first ad.");
-             [_connector adapter:self didFailAd:adAlreadyLoadedError];
-             return;
-           }
+  GADMAdapterAppLovinMediationManager *sharedManager =
+      GADMAdapterAppLovinMediationManager.sharedInstance;
+  if ([sharedManager containsAndAddInterstitialZoneIdentifier:_zoneIdentifier]) {
+    NSError *adAlreadyLoadedError = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorAdAlreadyLoaded,
+        @"Can't request a second ad for the same zone identifier without showing "
+        @"the first ad.");
+    [_connector adapter:self didFailAd:adAlreadyLoadedError];
+    return;
+  }
 
-           _interstitialDelegate =
-               [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:self];
-           ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
-           _interstitial = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
-           _interstitial.adDisplayDelegate = _interstitialDelegate;
-           _interstitial.adVideoPlaybackDelegate = _interstitialDelegate;
-           _settings = _connector.credentials;
+  _interstitialDelegate =
+      [[GADMAdapterAppLovinInterstitialDelegate alloc] initWithParentRenderer:self];
+  ALSdk.shared.settings.muted = GADMobileAds.sharedInstance.applicationMuted;
+  _interstitial = [[ALInterstitialAd alloc] initWithSdk:ALSdk.shared];
+  _interstitial.adDisplayDelegate = _interstitialDelegate;
+  _interstitial.adVideoPlaybackDelegate = _interstitialDelegate;
+  _settings = _connector.credentials;
 
-           if (_zoneIdentifier.length > 0) {
-             [ALSdk.shared.adService loadNextAdForZoneIdentifier:_zoneIdentifier
-                                                       andNotify:_interstitialDelegate];
-           } else {
-             [ALSdk.shared.adService loadNextAd:ALAdSize.interstitial
-                                      andNotify:_interstitialDelegate];
-           }
+  if (_zoneIdentifier.length > 0) {
+    [ALSdk.shared.adService loadNextAdForZoneIdentifier:_zoneIdentifier
+                                              andNotify:_interstitialDelegate];
+  } else {
+    [ALSdk.shared.adService loadNextAd:ALAdSize.interstitial andNotify:_interstitialDelegate];
+  }
 }
 
 - (void)presentInterstitialFromRootViewController:(UIViewController *)rootViewController {
@@ -140,6 +147,16 @@
 #pragma mark - GADMAdNetworkAdapter Protocol Banner Methods
 
 - (void)getBannerWithSize:(GADAdSize)adSize {
+  NSString *SDKKey =
+      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:_connector.credentials];
+  __weak GADMAdapterAppLovin *weakSelf = self;
+  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                     completionHandler:^{
+                                       [weakSelf loadBannerWithSize:adSize];
+                                     }];
+}
+
+- (void)loadBannerWithSize:(GADAdSize)adSize {
   if ([GADMAdapterAppLovinUtils isChildUser]) {
     [_connector adapter:self didFailAd:GADMAdapterAppLovinChildUserError()];
     return;
