@@ -9,6 +9,7 @@
 
 #import "GADMediationAdapterLineConstants.h"
 #import "GADMediationAdapterLineExtras.h"
+#import "GADMediationAdapterLineUtils.h"
 
 @interface AUTLineRewardedAdTest : XCTestCase
 
@@ -26,6 +27,7 @@ static NSString *const AUTLineTestSlotID = @"12345";
 
 - (void)setUp {
   [super setUp];
+  GADMediationAdapterLineUnregisterFiveAd();
 
   _adapter = [[GADMediationAdapterLine alloc] init];
 

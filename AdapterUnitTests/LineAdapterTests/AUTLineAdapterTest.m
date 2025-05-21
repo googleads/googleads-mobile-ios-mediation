@@ -9,12 +9,18 @@
 
 #import "GADMediationAdapterLineConstants.h"
 #import "GADMediationAdapterLineExtras.h"
+#import "GADMediationAdapterLineUtils.h"
 
 @interface AUTLineAdapterTest : XCTestCase
 
 @end
 
 @implementation AUTLineAdapterTest
+
+-(void)setUp {
+  [super setUp];
+  GADMediationAdapterLineUnregisterFiveAd();
+}
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;

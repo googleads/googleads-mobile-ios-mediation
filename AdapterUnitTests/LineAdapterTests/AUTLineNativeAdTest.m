@@ -9,6 +9,7 @@
 
 #import "GADMediationAdapterLineConstants.h"
 #import "GADMediationAdapterLineExtras.h"
+#import "GADMediationAdapterLineUtils.h"
 
 @interface AUTLineNativeAdTest : XCTestCase
 @end
@@ -26,6 +27,7 @@ static CGFloat const AUTLineTestVideoWidth = 123;
 
 - (void)setUp {
   [super setUp];
+  GADMediationAdapterLineUnregisterFiveAd();
 
   _adapter = [[GADMediationAdapterLine alloc] init];
 

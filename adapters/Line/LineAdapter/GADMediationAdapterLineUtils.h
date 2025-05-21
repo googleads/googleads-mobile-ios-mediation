@@ -59,3 +59,9 @@ FADAdLoader *_Nullable GADMediationAdapterLineFADAdLoaderForRegisteredConfig(
 /// Watermark string from ad configuraiton.
 NSString *_Nullable GADMediationAdapterLineWatermarkStringFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfiguration);
+
+
+#ifdef DEBUG
+/// Unregister FiveAd setup in the adapter. This must be used only in test mode, if needed.
+void GADMediationAdapterLineUnregisterFiveAd(void);
+#endif

@@ -58,6 +58,10 @@ static FADAdLoader *_Nullable gAdLoader;
 
 NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
     NSArray<GADMediationCredentials *> *_Nonnull credentialsArray) {
+  if (gAdLoader) {
+    return nil;
+  }
+
   NSError *error = nil;
   NSString *applicationID = GADMediationAdapterLineApplicationID(credentialsArray, &error);
   if (error) {
@@ -90,6 +94,12 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
 
   return nil;
 }
+
+#ifdef DEBUG
+void GADMediationAdapterLineUnregisterFiveAd(void) {
+  gAdLoader = nil;
+}
+#endif
 
 FADAdLoader *_Nullable GADMediationAdapterLineFADAdLoaderForRegisteredConfig(
     NSError *_Nullable *_Nullable errorPtr) {

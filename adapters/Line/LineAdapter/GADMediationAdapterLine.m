@@ -148,6 +148,8 @@ static BOOL _isTestMode = NO;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  GADMediationAdapterLineRegisterFiveAd(@[adConfiguration.credentials]);
+
   _bannerAdLoader =
       [[GADMediationAdapterLineBannerAdLoader alloc] initWithAdConfiguration:adConfiguration
                                                        loadCompletionHandler:completionHandler];
@@ -158,6 +160,8 @@ static BOOL _isTestMode = NO;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  GADMediationAdapterLineRegisterFiveAd(@[adConfiguration.credentials]);
+
   _interstitialAdLoader = [[GADMediationAdapterLineInterstitialAdLoader alloc]
       initWithAdConfiguration:adConfiguration
         loadCompletionHandler:completionHandler];
@@ -167,6 +171,8 @@ static BOOL _isTestMode = NO;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
+  GADMediationAdapterLineRegisterFiveAd(@[adConfiguration.credentials]);
+
   _rewardedAdLoader =
       [[GADMediationAdapterLineRewardedAdLoader alloc] initWithAdConfiguration:adConfiguration
                                                          loadCompletionHandler:completionHandler];
@@ -175,6 +181,8 @@ static BOOL _isTestMode = NO;
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  GADMediationAdapterLineRegisterFiveAd(@[adConfiguration.credentials]);
+  
   _nativeAdLoader =
       [[GADMediationAdapterLineNativeAdLoader alloc] initWithAdConfiguration:adConfiguration
                                                        loadCompletionHandler:completionHandler];

@@ -9,6 +9,7 @@
 
 #import "GADMediationAdapterLineConstants.h"
 #import "GADMediationAdapterLineExtras.h"
+#import "GADMediationAdapterLineUtils.h"
 
 static NSString *const kTestSlotID = @"12345";
 
@@ -25,6 +26,7 @@ static NSString *const kTestSlotID = @"12345";
 
 - (void)setUp {
   [super setUp];
+  GADMediationAdapterLineUnregisterFiveAd();
 
   _adapter = [[GADMediationAdapterLine alloc] init];
 
