@@ -1,6 +1,6 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 13.3.0.0 (In progress)
 - Now tries to initialize AppLovin SDK before each waterfall ad request.
 
 #### [Version 13.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.2.0.0.zip)
