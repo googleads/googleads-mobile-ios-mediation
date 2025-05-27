@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 9.9.0.0 (In progress)
 - Enable -fobjc-arc and -fstack-protector-all.
 - Now tries to initialize Chartboost SDK before each waterfall ad request.
 
