@@ -85,7 +85,7 @@ final class BidMachineAdapterInitTests {
   }
 
   @Test("Set up succeeds with the test mode on and coppa undefined")
-  func setUp_succeeds_whenTestModeOnAndCOPPAUndefined() {
+  func setUp_succeeds_whenTestModeOnAndCOPPAUndefined() async {
     BidMachineAdapterExtras.isTestMode = true
 
     let credentials = AUTKMediationCredentials()
@@ -93,8 +93,11 @@ final class BidMachineAdapterInitTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    BidMachineAdapter.setUp(with: serverConfiguration) { error in
-      #expect(error == nil)
+    await confirmation("wait for the adpater set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
     }
     #expect(client.sourceId == "source_id")
     #expect(client.isTestMode == true)
@@ -102,7 +105,7 @@ final class BidMachineAdapterInitTests {
   }
 
   @Test("Set up succeeds with the test mode on and coppa is set to false")
-  func setUp_succeeds_whenTestModeOnAndCOPPAFalse() {
+  func setUp_succeeds_whenTestModeOnAndCOPPAFalse() async {
     BidMachineAdapterExtras.isTestMode = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
 
@@ -111,8 +114,11 @@ final class BidMachineAdapterInitTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    BidMachineAdapter.setUp(with: serverConfiguration) { error in
-      #expect(error == nil)
+    await confirmation("wait for the adpater set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
     }
     #expect(client.sourceId == "source_id")
     #expect(client.isTestMode == true)
@@ -120,7 +126,7 @@ final class BidMachineAdapterInitTests {
   }
 
   @Test("Set up succeeds with the test mode on and coppa is set to true")
-  func setUp_succeeds_whenTestModeOnAndCOPPATrue() {
+  func setUp_succeeds_whenTestModeOnAndCOPPATrue() async {
     BidMachineAdapterExtras.isTestMode = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
 
@@ -129,8 +135,11 @@ final class BidMachineAdapterInitTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    BidMachineAdapter.setUp(with: serverConfiguration) { error in
-      #expect(error == nil)
+    await confirmation("wait for the adpater set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
     }
     #expect(client.sourceId == "source_id")
     #expect(client.isTestMode == true)

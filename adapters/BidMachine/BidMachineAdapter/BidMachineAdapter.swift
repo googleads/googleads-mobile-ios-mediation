@@ -48,6 +48,7 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       }
       BidMachineClientFactory.createClient().initialize(
         with: sourceId, isTestMode: isTestMode, isCOPPA: isCOPPA)
+      completionHandler(nil)
     } catch {
       completionHandler(error.toNSError())
     }
