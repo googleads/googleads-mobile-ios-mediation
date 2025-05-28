@@ -93,7 +93,7 @@ static NSInteger _GDPRConsent = -1, _PAConsent = -1;
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
   config.GDPRConsent = _GDPRConsent;
-  config.PAConsent = _PAConsent;
+  config.PAConsent = _PAConsent == 1 ? PAGPAConsentTypeConsent : PAGPAConsentTypeNoConsent;
   config.adxID = GADMAdapterPangleAdxID;
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
