@@ -72,7 +72,15 @@ static BOOL _isTestMode = NO;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  [UnityAds getToken:^(NSString *_Nullable token) {
+  GADAdFormat adFormat = params.configuration.credentials.firstObject.format;
+  UnityAdsAdFormat format = UnityAdsAdFormatInterstitial;
+  if (adFormat == GADAdFormatBanner) {
+    format = UnityAdsAdFormatBanner;
+  } else if (adFormat == GADAdFormatRewarded) {
+    format = UnityAdsAdFormatRewarded;
+  }
+  UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat: format];
+  [UnityAds getTokenWith:config completion:^(NSString *_Nullable token) {
     NSString *unityToken = token ?: @"";
     completionHandler(unityToken, nil);
   }];
