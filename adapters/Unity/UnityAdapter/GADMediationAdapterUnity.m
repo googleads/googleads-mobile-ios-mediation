@@ -72,18 +72,17 @@ static BOOL _isTestMode = NO;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  GADAdFormat adFormat = params.configuration.credentials.firstObject.format;
-  UnityAdsAdFormat format = UnityAdsAdFormatInterstitial;
-  if (adFormat == GADAdFormatBanner) {
-    format = UnityAdsAdFormatBanner;
-  } else if (adFormat == GADAdFormatRewarded) {
-    format = UnityAdsAdFormatRewarded;
-  }
-  UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat: format];
-  [UnityAds getTokenWith:config completion:^(NSString *_Nullable token) {
+  void (^completion)(NSString *token) = ^(NSString *token) {
     NSString *unityToken = token ?: @"";
     completionHandler(unityToken, nil);
-  }];
+  };
+  
+  UnityAdsTokenConfiguration *configuration = [self tokenConfigurationWithRequestParameters:params];
+  if (configuration != nil) {
+    [UnityAds getTokenWith:configuration completion:completion];
+  } else {
+    [UnityAds getToken:completion];
+  }
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
@@ -214,6 +213,25 @@ static BOOL _isTestMode = NO;
 + (void)setTestMode:(BOOL)testMode {
   GADMUnityLog(@"Updating test mode flag to `%@`", (testMode ? @"YES" : @"NO"));
   _isTestMode = testMode;
+}
+
+
+- (UnityAdsTokenConfiguration*)tokenConfigurationWithRequestParameters:(GADRTBRequestParameters *)params {
+  GADMediationCredentials *credentials = params.configuration.credentials.firstObject;
+  if (credentials == nil) {
+    return nil;
+  }
+  
+  GADAdFormat adFormat = credentials.format;
+  UnityAdsTokenConfiguration *configuration;
+  if (adFormat == GADAdFormatBanner) {
+    configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatBanner];
+  } else if (adFormat == GADAdFormatRewarded || adFormat == GADAdFormatRewardedInterstitial) {
+    configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatRewarded];
+  } else if (adFormat == GADAdFormatInterstitial) {
+    configuration = [UnityAdsTokenConfiguration newWithAdFormat: UnityAdsAdFormatInterstitial];
+  }
+  return configuration;
 }
 
 #pragma mark GADMediationBannerAd
