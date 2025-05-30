@@ -72,10 +72,26 @@ static BOOL _isTestMode = NO;
 
 - (void)collectSignalsForRequestParameters:(GADRTBRequestParameters *)params
                          completionHandler:(GADRTBSignalCompletionHandler)completionHandler {
-  [UnityAds getToken:^(NSString *_Nullable token) {
-    NSString *unityToken = token ?: @"";
-    completionHandler(unityToken, nil);
-  }];
+  GADAdFormat adFormat = params.configuration.credentials.firstObject.format;
+  if (adFormat == GADAdFormatBanner || adFormat == GADAdFormatInterstitial ||
+      adFormat == GADAdFormatRewarded || adFormat == GADAdFormatRewardedInterstitial) {
+    UnityAdsAdFormat format = UnityAdsAdFormatInterstitial;
+    if (adFormat == GADAdFormatBanner) {
+      format = UnityAdsAdFormatBanner;
+    } else if (adFormat == GADAdFormatRewarded || adFormat == GADAdFormatRewardedInterstitial) {
+      format = UnityAdsAdFormatRewarded;
+    }
+    UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat:format];
+    [UnityAds getTokenWith:config
+                completion:^(NSString *_Nullable token) {
+                  NSString *unityToken = token ?: @"";
+                  completionHandler(unityToken, nil);
+                }];
+  } else {
+    completionHandler(
+        nil, GADMAdapterUnityErrorWithCodeAndDescription(GADMAdapterUnityErrorAdUnsupportedAdFormat,
+                                                         @"Unsupported ad format."));
+  }
 }
 
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration

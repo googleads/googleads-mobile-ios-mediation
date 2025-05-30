@@ -43,7 +43,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterUnityErrorCode) {
   /// Banner size mismatch.
   GADMAdapterUnityErrorSizeMismatch = 109,
   /// UnityAds returned an initialization error
-  GADMAdapterUnityErrorAdInitializationFailure = 110
+  GADMAdapterUnityErrorAdInitializationFailure = 110,
+  /// Unsupported ad format.
+  GADMAdapterUnityErrorAdUnsupportedAdFormat = 111
 };
 
 @interface GADMediationAdapterUnity : NSObject <GADRTBAdapter>

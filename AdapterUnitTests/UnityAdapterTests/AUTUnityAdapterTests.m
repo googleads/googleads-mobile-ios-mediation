@@ -44,19 +44,29 @@
   XCTAssertNil([GADMediationAdapterUnity networkExtrasClass]);
 }
 
-- (void)testSignalCollections {
+- (void)testSignalCollectionsBanner {
   id unityAdsMock = OCMClassMock([UnityAds class]);
-  OCMStub(ClassMethod([unityAdsMock getToken:OCMOCK_ANY])).andDo(^(NSInvocation *invocation) {
-    __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
-    [invocation getArgument:&completionHandler atIndex:2];
-    completionHandler(@"token");
-  });
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
 
   GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatBanner;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
   [adapter
-      collectSignalsForRequestParameters:OCMOCK_ANY
+      collectSignalsForRequestParameters:params
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
                          XCTAssertNil(error);
                          XCTAssertEqualObjects(signals, @"token");
@@ -65,19 +75,154 @@
   [self waitForExpectations:@[ expectation ]];
 }
 
+- (void)testSignalCollectionsInterstitial {
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatInterstitial;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(error);
+                         XCTAssertEqualObjects(signals, @"token");
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testSignalCollectionsRewarded {
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatRewarded;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(error);
+                         XCTAssertEqualObjects(signals, @"token");
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testSignalCollectionsRewardedInterstitial {
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatRewardedInterstitial;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(error);
+                         XCTAssertEqualObjects(signals, @"token");
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testSignalCollectionsFailureForUnsupportedAdFormat {
+  id unityAdsMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(@"token");
+      });
+
+  GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatNative;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
+  [adapter
+      collectSignalsForRequestParameters:params
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNotNil(error);
+                         XCTAssertEqual(error.code, GADMAdapterUnityErrorAdUnsupportedAdFormat);
+                         XCTAssertNil(signals);
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
 - (void)testNilSignalCollections {
   id unityAdsMock = OCMClassMock([UnityAds class]);
-  OCMStub(ClassMethod([unityAdsMock getToken:OCMOCK_ANY])).andDo(^(NSInvocation *invocation) {
-    __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
-    [invocation getArgument:&completionHandler atIndex:2];
-    completionHandler(nil);
-  });
+  OCMStub(ClassMethod([unityAdsMock getTokenWith:OCMOCK_ANY completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable token);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil);
+      });
 
   GADMediationAdapterUnity *adapter = [[GADMediationAdapterUnity alloc] init];
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Nil signal collection."];
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.format = GADAdFormatBanner;
+  AUTKRTBMediationSignalsConfiguration *config =
+      [[AUTKRTBMediationSignalsConfiguration alloc] init];
+  config.credentials = @[ credentials ];
+  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
+  params.configuration = config;
+
   [adapter
-      collectSignalsForRequestParameters:OCMOCK_ANY
+      collectSignalsForRequestParameters:params
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
                          XCTAssertNil(error);
                          XCTAssertEqualObjects(signals, @"");

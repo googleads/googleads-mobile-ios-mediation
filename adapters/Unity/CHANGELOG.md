@@ -1,5 +1,9 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Added `AdFormat` to `getToken` API.
+- Added a new error code `111`.
+
 #### [Version 4.14.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.14.2.0.zip)
 - Verified compatibility with Unity Ads SDK 4.14.2.
 
