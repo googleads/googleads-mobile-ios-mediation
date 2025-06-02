@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.3.7.0 (In progress)
 - Added bidding banner.
 - Added bidding interstitial.
 - Added bidding rewarded.
