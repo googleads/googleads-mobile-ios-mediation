@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next Version
+- Now requires minimum iOS version 13.0.
+
 #### Version 8.3.7.0 (In progress)
 - Added bidding banner.
 - Added bidding interstitial.
