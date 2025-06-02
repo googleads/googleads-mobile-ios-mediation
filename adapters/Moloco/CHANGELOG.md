@@ -1,5 +1,7 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Version 3.10.0.0 (In progress)
+
 #### [Version 3.9.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.9.1.0.zip)
 - Added watermark support for bidding ad formats.
 - Fixed an issue when loading MREC banner ads.
