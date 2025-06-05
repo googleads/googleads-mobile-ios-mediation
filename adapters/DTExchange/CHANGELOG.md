@@ -1,12 +1,13 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next Version
-- Now requires minimum iOS version 13.0.
+#### [Version 8.3.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.7.0.zip)
+- Now requires minimum iOS version `13.0`.
+- Added bidding support for banner, interstitial and rewarded ad formats.
+- Verified compatibility with DT Exchange SDK version 8.3.7.
 
-#### Version 8.3.7.0 (In progress)
-- Added bidding banner.
-- Added bidding interstitial.
-- Added bidding rewarded.
+Built and tested with:
+- Google Mobile Ads SDK version 12.5.0.
+- DT Exchange SDK version 8.3.7.
 
 #### [Version 8.3.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.6.0.zip)
 - Enabled `-fobjc-arc` and `-fstack-protector-all` flags.
