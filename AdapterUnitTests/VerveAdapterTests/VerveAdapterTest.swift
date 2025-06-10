@@ -6,6 +6,10 @@ import XCTest
 
 final class VerveAdapterTest: XCTestCase {
 
+  override func tearDown() {
+    VerveAdapterExtras.isTestMode = false
+  }
+
   func testAdapterVersion() {
     let version = VerveAdapter.adapterVersion()
 
@@ -26,6 +30,56 @@ final class VerveAdapterTest: XCTestCase {
     XCTAssertLessThanOrEqual(version.minorVersion, 99)
     XCTAssertGreaterThanOrEqual(version.patchVersion, 0)
     XCTAssertLessThanOrEqual(version.patchVersion, 9999)
+  }
+
+  func testAdapterSetUp_succeeds() {
+    HybidClientFactory.debugClient = FakeHyBidClient()
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["AppToken": "AppToken"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(VerveAdapter.self, serverConfiguration)
+  }
+
+  func testAdapterSetUp_fails_whenCOPPAIsTrue() {
+    HybidClientFactory.debugClient = nil
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["AppToken": "AppToken"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpFailureWithConfiguration(
+      VerveAdapter.self, serverConfiguration,
+      VerveAdapterError(errorCode: .childUser, description: "some error message").toNSError())
+  }
+
+  func testAdapterSetUp_fails_whenTFUAIsTrue() {
+    HybidClientFactory.debugClient = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["AppToken": "AppToken"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpFailureWithConfiguration(
+      VerveAdapter.self, serverConfiguration,
+      VerveAdapterError(errorCode: .childUser, description: "some error message").toNSError())
+  }
+
+  func testAdapterSetUp_fails_whenAppTokenIsMissing() {
+    HybidClientFactory.debugClient = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpFailureWithConfiguration(
+      VerveAdapter.self, serverConfiguration,
+      VerveAdapterError(
+        errorCode: .serverConfigurationMissingAppToken, description: "some error message"
+      ).toNSError())
   }
 
 }

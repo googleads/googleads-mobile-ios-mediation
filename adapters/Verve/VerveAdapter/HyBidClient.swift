@@ -40,12 +40,58 @@ protocol HybidClient: NSObject {
   /// Returns a version string of HyBid SDK.
   func version() -> String
 
+  /// Initializes the HyBid SDK. The completion handle is called without an error object if HyBid
+  /// SDK was initialized successfully.
+  func initialize(
+    with appToken: String, testMode: Bool, COPPA: Bool?, TFUA: Bool?,
+    completionHandler: @escaping (VerveAdapterError?) -> Void)
+
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
 
   func version() -> String {
     return HyBid.sdkVersion()
+  }
+
+  func initialize(
+    with appToken: String,
+    testMode: Bool,
+    COPPA: Bool?,
+    TFUA: Bool?,
+    completionHandler: @escaping (VerveAdapterError?) -> Void
+  ) {
+    if let COPPA {
+      guard !COPPA else {
+        HyBid.setCoppa(true)
+        completionHandler(
+          VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user."))
+        return
+      }
+      HyBid.setCoppa(false)
+    }
+
+    if let TFUA {
+      guard !TFUA else {
+        completionHandler(
+          VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user."))
+        return
+      }
+    }
+
+    if testMode {
+      HyBid.setTestMode(true)
+    }
+
+    HyBid.initWithAppToken(appToken) { success in
+      guard success else {
+        completionHandler(
+          VerveAdapterError(
+            errorCode: .failedToInitializeHyBidSDK, description: "Verve SDK failed to initialize."))
+        return
+      }
+      completionHandler(nil)
+    }
   }
 
 }

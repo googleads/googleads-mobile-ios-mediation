@@ -18,7 +18,7 @@ import GoogleMobileAds
 final class Util {
 
   private enum MediationConfigurationSettingKey: String {
-    case appToken = "app_token"
+    case appToken = "AppToken"
   }
 
   /// Prints the message with `VerveAdapter` prefix.

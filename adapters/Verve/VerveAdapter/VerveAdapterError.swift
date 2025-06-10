@@ -20,12 +20,11 @@ public final class VerveAdapterError: Error {
     /// Server configuration missing a required app token.
     case serverConfigurationMissingAppToken = 101
 
-    /// The bidding signal collection request failed because multiple formats, no format, or an
-    /// unsupported format was specified in the request parameters.
-    case invalidRTBRequestParameters = 102
+    /// User is a child.
+    case childUser = 102
 
-    /// Invalid ad configuration for loading an ad.
-    case invalidAdConfiguration = 103
+    /// HyBid SDK fails to initialize.
+    case failedToInitializeHyBidSDK = 103
   }
 
   public static let domain = "com.google.mediation.verve"

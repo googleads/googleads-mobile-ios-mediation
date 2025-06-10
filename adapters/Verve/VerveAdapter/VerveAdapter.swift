@@ -36,8 +36,26 @@ final class VerveAdapter: NSObject, RTBAdapter {
     with configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
-    // TODO: implement
-    completionHandler(nil)
+    do {
+      let sourceId = try Util.appToken(from: configuration)
+      let isTestMode = VerveAdapterExtras.isTestMode
+      var isCOPPA: Bool?
+      if let COPPA = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
+        isCOPPA = COPPA.boolValue
+      }
+      var isTFUA: Bool?
+      if let TFUA = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent {
+        isTFUA = TFUA.boolValue
+      }
+
+      HybidClientFactory.createClient().initialize(
+        with: sourceId, testMode: isTestMode, COPPA: isCOPPA, TFUA: isTFUA
+      ) { error in
+        completionHandler(error?.toNSError())
+      }
+    } catch {
+      completionHandler(error.toNSError())
+    }
   }
 
   @objc
