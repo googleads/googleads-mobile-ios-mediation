@@ -127,6 +127,8 @@
 		AD5B32302B9ACB560055FA17 /* ImobileSdkAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */; };
 		AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */; };
 		AD5E06602D5EDBB900380B70 /* AmazonAdapterRewardedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */; };
+		AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD677BB32DBAE0280012621D /* libVerveAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD677B992DBADFC10012621D /* libVerveAdapter.a */; };
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
@@ -180,6 +182,7 @@
 		ADFB34732DC472CA005EBC7F /* PubMaticNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB34722DC472C3005EBC7F /* PubMaticNativeAdTests.swift */; };
 		ADFB34752DC47ABF005EBC7F /* FakeNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB34742DC47ABC005EBC7F /* FakeNativeAd.swift */; };
 		ADFB34772DC47D7D005EBC7F /* FakeNativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB34762DC47D76005EBC7F /* FakeNativeAdProxy.swift */; };
+		ADFB286F2DC2A021005EBC7F /* VerveAdapterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB286E2DC299B7005EBC7F /* VerveAdapterTest.swift */; };
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
@@ -610,6 +613,34 @@
 			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
 			remoteInfo = Adapter;
 		};
+		AD677B982DBADFC10012621D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD677B9A2DBADFC10012621D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = VerveAdapterFramework;
+		};
+		AD677BA02DBADFCD0012621D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD677BB12DBAE0190012621D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
 		AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
@@ -905,6 +936,9 @@
 		AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ImobileSdkAds.xcframework; path = Pods/ImobileSdkAds/ImobileSdkAds.xcframework; sourceTree = "<group>"; };
 		AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterInterstitialTests.swift; sourceTree = "<group>"; };
 		AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmazonAdapterRewardedTests.swift; sourceTree = "<group>"; };
+		AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VerveAdapter.xcodeproj; path = ../adapters/VerveAdapter/VerveAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AD677BB02DBADFCD0012621D /* VerveAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VerveAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD677C682DBAE1660012621D /* VerveAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = VerveAdapterTests.xctestplan; sourceTree = "<group>"; };
 		AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdapterUnitTestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdapterUnitTestKit.h; sourceTree = "<group>"; };
 		AD6FA03E2A16BF98007335D2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -966,6 +1000,7 @@
 		ADFB34722DC472C3005EBC7F /* PubMaticNativeAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticNativeAdTests.swift; sourceTree = "<group>"; };
 		ADFB34742DC47ABC005EBC7F /* FakeNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNativeAd.swift; sourceTree = "<group>"; };
 		ADFB34762DC47D76005EBC7F /* FakeNativeAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNativeAdProxy.swift; sourceTree = "<group>"; };
+		ADFB286E2DC299B7005EBC7F /* VerveAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveAdapterTest.swift; sourceTree = "<group>"; };
 		ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticRewardedAdTests.swift; sourceTree = "<group>"; };
 		ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticBannerViewTests.swift; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
@@ -1082,6 +1117,15 @@
 			files = (
 				AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */,
 				AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD677BA92DBADFCD0012621D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD677BB32DBAE0280012621D /* libVerveAdapter.a in Frameworks */,
+				AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1446,6 +1490,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AD677B922DBADFC10012621D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD677B992DBADFC10012621D /* libVerveAdapter.a */,
+				AD677B9B2DBADFC10012621D /* VerveAdapterFramework.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD677C662DBAE0D40012621D /* VerveAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADFB286E2DC299B7005EBC7F /* VerveAdapterTest.swift */,
+				AD677C682DBAE1660012621D /* VerveAdapterTests.xctestplan */,
+			);
+			path = VerveAdapterTests;
+			sourceTree = "<group>";
+		};
 		AD6FA0292A16BEF3007335D2 = {
 			isa = PBXGroup;
 			children = (
@@ -1466,6 +1528,7 @@
 				ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */,
 				AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */,
 				AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */,
+				AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */,
 				AD6FA0372A16BF4A007335D2 /* AdapterUnitTestKit */,
 				AD8FE2B12D39E9CA00B4728A /* AmazonAdapterTests */,
 				44ACFB132AB129D000035A73 /* AppLovinAdapterTests */,
@@ -1487,6 +1550,7 @@
 				AD6FA0362A16BF4A007335D2 /* Products */,
 				AD76AA412D9313E400F40CD4 /* PubMaticTests */,
 				AD45ED342A78111F001B29D8 /* UnityAdapterTests */,
+				AD677C662DBAE0D40012621D /* VerveAdapterTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1511,6 +1575,7 @@
 				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
 				AD76A9EE2D93126D00F40CD4 /* PubMaticAdapterTests.xctest */,
 				ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */,
+				AD677BB02DBADFCD0012621D /* VerveAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1934,6 +1999,25 @@
 			productReference = AD45EDBE2A784A3A001B29D8 /* UnityAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD677B9C2DBADFCD0012621D /* VerveAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD677BAD2DBADFCD0012621D /* Build configuration list for PBXNativeTarget "VerveAdapterTests" */;
+			buildPhases = (
+				AD677BA12DBADFCD0012621D /* Sources */,
+				AD677BA92DBADFCD0012621D /* Frameworks */,
+				AD677BAC2DBADFCD0012621D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD677BB22DBAE0190012621D /* PBXTargetDependency */,
+				AD677B9F2DBADFCD0012621D /* PBXTargetDependency */,
+			);
+			name = VerveAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD677BB02DBADFCD0012621D /* VerveAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6FA03A2A16BF4A007335D2 /* Build configuration list for PBXNativeTarget "AdapterUnitTestKit" */;
@@ -2190,6 +2274,10 @@
 					ProductGroup = AD45ED3F2A78116C001B29D8 /* Products */;
 					ProjectRef = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
 				},
+				{
+					ProductGroup = AD677B922DBADFC10012621D /* Products */;
+					ProjectRef = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2211,6 +2299,7 @@
 				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
 				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
 				ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */,
+				AD677B9C2DBADFCD0012621D /* VerveAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2475,6 +2564,20 @@
 			remoteRef = AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AD677B992DBADFC10012621D /* libVerveAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libVerveAdapter.a;
+			remoteRef = AD677B982DBADFC10012621D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD677B9B2DBADFC10012621D /* VerveAdapterFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = VerveAdapterFramework.framework;
+			remoteRef = AD677B9A2DBADFC10012621D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2663,6 +2766,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD45EDBC2A784A3A001B29D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD677BAC2DBADFCD0012621D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2883,6 +2993,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD677BA12DBADFCD0012621D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADFB286F2DC2A021005EBC7F /* VerveAdapterTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD6FA0312A16BF4A007335D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3081,6 +3199,16 @@
 			isa = PBXTargetDependency;
 			name = Adapter;
 			targetProxy = AD45EDCA2A784AA1001B29D8 /* PBXContainerItemProxy */;
+		};
+		AD677B9F2DBADFCD0012621D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD677BA02DBADFCD0012621D /* PBXContainerItemProxy */;
+		};
+		AD677BB22DBAE0190012621D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD677BB12DBAE0190012621D /* PBXContainerItemProxy */;
 		};
 		AD76A9DF2D93126D00F40CD4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4897,6 +5025,154 @@
 			};
 			name = Release;
 		};
+		AD677BAE2DBADFCD0012621D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD677BAF2DBADFCD0012621D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75V7DX8D68;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		AD6FA02E2A16BEF3007335D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5910,6 +6186,15 @@
 			buildConfigurations = (
 				AD45EDC32A784A3A001B29D8 /* Debug */,
 				AD45EDC42A784A3A001B29D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD677BAD2DBADFCD0012621D /* Build configuration list for PBXNativeTarget "VerveAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD677BAE2DBADFCD0012621D /* Debug */,
+				AD677BAF2DBADFCD0012621D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

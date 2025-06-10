@@ -285,4 +285,19 @@ abstract_target 'Default' do
 
   end
 
+  # VerveAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('VerveAdapter')
+
+    pod 'GoogleMobileAdsMediationVerve', :path => '../adapters/Verve/CocoaPods/GoogleMobileAdsMediationVerve.podspec.json'
+
+    # Dependencies for Verve static library.
+    target 'Adapter' do
+      project '../adapters/Verve/VerveAdapter.xcodeproj'
+    end
+
+    target 'VerveAdapterTests' do
+    end
+
+  end
+
 end

@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "FD4000DD-8C54-4D1B-A9C9-71965916C6B3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD677B9C2DBADFCD0012621D",
+        "name" : "VerveAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}

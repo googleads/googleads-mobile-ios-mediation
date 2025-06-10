@@ -17,6 +17,8 @@ import GoogleMobileAds
 @objc(GADMediationAdapterVerve)
 final class VerveAdapter: NSObject, RTBAdapter {
 
+  private static let version = "3.2.0.0"
+
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
 
@@ -45,14 +47,33 @@ final class VerveAdapter: NSObject, RTBAdapter {
 
   @objc
   static func adapterVersion() -> VersionNumber {
-    // TODO: implement
-    return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    let adapterVersion = Self.version.components(separatedBy: ".").compactMap {
+      Int($0)
+    }
+    guard adapterVersion.count == 4 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adapterVersion[0],
+      minorVersion: adapterVersion[1],
+      patchVersion: adapterVersion[2] * 100 + adapterVersion[3]
+    )
   }
 
   @objc
   static func adSDKVersion() -> VersionNumber {
-    // TODO: implement
-    return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    let adSDKVersion = HybidClientFactory.createClient().version().components(
+      separatedBy: "."
+    )
+    .compactMap { Int($0) }
+    guard adSDKVersion.count == 3 else {
+      return VersionNumber(majorVersion: 0, minorVersion: 0, patchVersion: 0)
+    }
+    return VersionNumber(
+      majorVersion: adSDKVersion[0],
+      minorVersion: adSDKVersion[1],
+      patchVersion: adSDKVersion[2]
+    )
   }
 
   // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
