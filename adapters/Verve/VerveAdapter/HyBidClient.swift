@@ -58,11 +58,17 @@ protocol HybidClient: NSObject {
   func loadRTBBannerAd(with bidResponse: String, size: CGSize, delegate: HyBidAdViewDelegate)
     throws(VerveAdapterError)
 
+  /// Loads a RTB interstitial ad.
+  func loadRTBInterstitialAd(with bidResponse: String, delegate: HyBidInterstitialAdDelegate)
+
+  /// Presents the interstitial ad.
+  func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError)
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
 
   private var adView: HyBidAdView?
+  private var interstitialAd: HyBidInterstitialAd?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -159,6 +165,25 @@ final class HybidClientImpl: NSObject, HybidClient {
     adView?.autoShowOnLoad = true
     adView?.delegate = delegate
     adView?.renderAd(withContent: bidResponse, with: delegate)
+  }
+
+  func loadRTBInterstitialAd(
+    with bidResponse: String,
+    delegate: HyBidInterstitialAdDelegate
+  ) {
+    interstitialAd = HyBidInterstitialAd(delegate: delegate)
+    interstitialAd?.prepareAdWithContent(adContent: bidResponse)
+  }
+
+  func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError) {
+    guard let interstitialAd, interstitialAd.isReady else {
+      throw VerveAdapterError(
+        errorCode: .notReadyForPresentation,
+        description:
+          "The interstitial ad is not ready for presentation. isReady: \(String(describing: interstitialAd?.isReady))"
+      )
+    }
+    interstitialAd.show(from: viewController)
   }
 
 }

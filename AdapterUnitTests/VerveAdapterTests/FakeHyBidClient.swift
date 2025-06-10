@@ -9,6 +9,9 @@ final class FakeHyBidClient: NSObject, HybidClient {
   var shouldInitializationSucceed = true
   var shouldGetBannerSizeSucceed = true
   var shouldAdLoadSucceed = true
+  var shouldPresentationSucceed = true
+
+  var interstitialDelegate: HyBidInterstitialAdDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -52,6 +55,25 @@ final class FakeHyBidClient: NSObject, HybidClient {
       delegate.adView(
         HyBidAdView(size: .size_320x50),
         didFailWithError: NSError(domain: "com.test.verveadapter", code: 12345, userInfo: nil))
+    }
+  }
+
+  func loadRTBInterstitialAd(
+    with bidResponse: String,
+    delegate: any HyBidInterstitialAdDelegate
+  ) {
+    interstitialDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.interstitialDidLoad()
+    } else {
+      delegate.interstitialDidFailWithError(
+        NSError(domain: "com.test.verveadapter", code: 12345, userInfo: nil))
+    }
+  }
+
+  func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError) {
+    if !shouldPresentationSucceed {
+      throw VerveAdapterError(errorCode: .notReadyForPresentation, description: "")
     }
   }
 

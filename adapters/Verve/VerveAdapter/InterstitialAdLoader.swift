@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import HyBid
 
 final class InterstitialAdLoader: NSObject {
 
@@ -44,16 +45,16 @@ final class InterstitialAdLoader: NSObject {
   }
 
   func loadAd() {
-    // guard let bidResponse = adConfiguration.bidResponse else {
-    //   handleLoadedAd(
-    //     nil,
-    //     error: VerveAdapterError(
-    //       errorCode: .invalidAdConfiguration,
-    //       description: "The ad configuration is missing bid response."
-    //     ).toNSError())
-    //   return
-    // }
-    //    client.loadRtbInterstitial(bidResponse: bidResponse, delegate: self)
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: VerveAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+    client.loadRTBInterstitialAd(with: bidResponse, delegate: self)
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
@@ -71,11 +72,37 @@ final class InterstitialAdLoader: NSObject {
 extension InterstitialAdLoader: MediationInterstitialAd {
 
   func present(from viewController: UIViewController) {
-    do {
-      //      try client.presentInterstitial(from: viewController)
+    do throws(VerveAdapterError) {
+      eventDelegate?.willPresentFullScreenView()
+      try client.presentInterstitialAd(from: viewController)
     } catch let error {
-      //      eventDelegate?.didFailToPresentWithError(error.toNSError())
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
     }
+  }
+
+}
+
+// MARK: - HyBidInterstitialAdDelegate
+extension InterstitialAdLoader: HyBidInterstitialAdDelegate {
+
+  func interstitialDidLoad() {
+    handleLoadedAd(self, error: nil)
+  }
+
+  func interstitialDidFailWithError(_ error: (any Error)!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func interstitialDidTrackImpression() {
+    eventDelegate?.reportImpression()
+  }
+
+  func interstitialDidTrackClick() {
+    eventDelegate?.reportClick()
+  }
+
+  func interstitialDidDismiss() {
+    eventDelegate?.didDismissFullScreenView()
   }
 
 }

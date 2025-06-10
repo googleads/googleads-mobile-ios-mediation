@@ -31,6 +31,9 @@ public final class VerveAdapterError: Error {
 
     /// Unsupported banner size.
     case unsupportedBannerSize = 105
+
+    /// The full screen is not ready for presentation.
+    case notReadyForPresentation = 106
   }
 
   public static let domain = "com.google.mediation.verve"
