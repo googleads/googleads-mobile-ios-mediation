@@ -146,6 +146,15 @@ final class VerveAdapter: NSObject, RTBAdapter {
     rewardedAdLoader?.loadAd()
   }
 
+  @objc
+  func loadRewardedInterstitialAd(
+    for adConfiguration: MediationRewardedAdConfiguration,
+    completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
+  ) {
+    // Reuse rewarded ad.
+    loadRewardedAd(for: adConfiguration, completionHandler: completionHandler)
+  }
+
   // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
   @objc
   func loadNativeAd(
