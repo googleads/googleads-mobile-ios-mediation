@@ -69,6 +69,12 @@ protocol HybidClient: NSObject {
 
   /// Presents the rewarded ad.
   func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError)
+
+  /// Loads a RTB native ad.
+  func loadRTBNativeAd(with bidResponse: String, delegate: HyBidNativeAdLoaderDelegate)
+
+  /// Fetches assets for the provided native ad.
+  func fetchAssets(for nativeAd: HyBidNativeAd, delegate: HyBidNativeAdFetchDelegate)
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
@@ -76,6 +82,7 @@ final class HybidClientImpl: NSObject, HybidClient {
   private var adView: HyBidAdView?
   private var interstitialAd: HyBidInterstitialAd?
   private var rewardedAd: HyBidRewardedAd?
+  private var nativeAdLoader: HyBidNativeAdLoader?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -210,6 +217,22 @@ final class HybidClientImpl: NSObject, HybidClient {
       )
     }
     rewardedAd.show(from: viewController)
+  }
+
+  func loadRTBNativeAd(
+    with bidResponse: String,
+    delegate: any HyBidNativeAdLoaderDelegate
+  ) {
+    nativeAdLoader = HyBidNativeAdLoader()
+    nativeAdLoader?.stopAutoRefresh()
+    nativeAdLoader?.prepareNativeAd(with: delegate, withContent: bidResponse)
+  }
+
+  func fetchAssets(
+    for nativeAd: HyBidNativeAd,
+    delegate: HyBidNativeAdFetchDelegate
+  ) {
+    nativeAd.fetchAssets(with: delegate)
   }
 
 }

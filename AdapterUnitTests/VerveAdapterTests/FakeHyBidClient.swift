@@ -10,6 +10,7 @@ final class FakeHyBidClient: NSObject, HybidClient {
   var shouldGetBannerSizeSucceed = true
   var shouldAdLoadSucceed = true
   var shouldPresentationSucceed = true
+  var shouldNativeAssetFetchSucceed = true
 
   var interstitialDelegate: HyBidInterstitialAdDelegate?
   var rewardedAdDelegate: HyBidRewardedAdDelegate?
@@ -93,4 +94,28 @@ final class FakeHyBidClient: NSObject, HybidClient {
       throw VerveAdapterError(errorCode: .notReadyForPresentation, description: "")
     }
   }
+
+  func loadRTBNativeAd(with bidResponse: String, delegate: any HyBidNativeAdLoaderDelegate) {
+    if shouldAdLoadSucceed {
+      delegate.nativeLoaderDidLoad(with: HyBidNativeAd())
+    } else {
+      delegate.nativeLoaderDidFailWithError(
+        NSError(domain: "com.test.verveadapter", code: 12345, userInfo: nil))
+    }
+  }
+
+  func fetchAssets(
+    for nativeAd: HyBidNativeAd,
+    delegate: any HyBidNativeAdFetchDelegate
+  ) {
+    if shouldNativeAssetFetchSucceed {
+      delegate.nativeAdDidFinishFetching(nativeAd)
+    } else {
+      delegate.nativeAd(
+        nativeAd,
+        didFailFetchingWithError: NSError(
+          domain: "com.test.verveadapter", code: 12345, userInfo: nil))
+    }
+  }
+
 }

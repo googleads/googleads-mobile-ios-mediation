@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import HyBid
 
 final class NativeAdLoader: NSObject {
 
@@ -34,6 +35,8 @@ final class NativeAdLoader: NSObject {
 
   private let client: HybidClient
 
+  private var nativeAd: HyBidNativeAd?
+
   init(
     adConfiguration: MediationNativeAdConfiguration,
     loadCompletionHandler: @escaping GADMediationNativeLoadCompletionHandler
@@ -47,7 +50,16 @@ final class NativeAdLoader: NSObject {
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |nativeAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: VerveAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+    client.loadRTBNativeAd(with: bidResponse, delegate: self)
   }
 
   private func handleLoadedAd(_ ad: MediationNativeAd?, error: NSError?) {
@@ -64,64 +76,133 @@ final class NativeAdLoader: NSObject {
 
 extension NativeAdLoader: MediationNativeAd {
 
-  // TODO: implement computed properties and methods below. Implement more optional methods from |GADMediationNativeAd|, if needed.
-
   var headline: String? {
-    return nil
-  }
-
-  var images: [NativeAdImage]? {
-    return nil
+    return nativeAd?.title
   }
 
   var body: String? {
-    return nil
+    return nativeAd?.body
+  }
+
+  var images: [NativeAdImage]? {
+    guard let bannerImage = nativeAd?.bannerImage else {
+      return nil
+    }
+    return [NativeAdImage(image: bannerImage)]
   }
 
   var icon: NativeAdImage? {
-    return nil
+    guard let iconImage = nativeAd?.icon else { return nil }
+    return NativeAdImage(image: iconImage)
   }
 
   var callToAction: String? {
-    return nil
+    return nativeAd?.callToActionTitle
   }
 
   var starRating: NSDecimalNumber? {
-    return nil
+    guard let ratingNumber = nativeAd?.rating else {
+      return nil
+    }
+    return NSDecimalNumber(decimal: ratingNumber.decimalValue)
   }
 
+  var adChoicesView: UIView? {
+    return nativeAd?.contentInfo
+  }
+
+  // Not supported by HyBid.
   var store: String? {
     return nil
   }
 
+  // Not supported by HyBid.
   var price: String? {
     return nil
   }
 
+  // Not supported by HyBid.
   var advertiser: String? {
     return nil
   }
 
+  // Not supported by HyBid.
   var extraAssets: [String: Any]? {
     return nil
   }
 
   var hasVideoContent: Bool {
-    // TODO: implement
-    return true
+    return false
   }
 
   func handlesUserClicks() -> Bool {
-    // TODO: implement
     return true
   }
 
   func handlesUserImpressions() -> Bool {
-    // TODO: implement
     return true
+  }
+
+  func didRender(
+    in view: UIView,
+    clickableAssetViews: [GADNativeAssetIdentifier: UIView],
+    nonclickableAssetViews: [GADNativeAssetIdentifier: UIView],
+    viewController: UIViewController
+  ) {
+    nativeAd?.startTrackingView(view, with: self)
+  }
+
+  func didUntrackView(_ view: UIView?) {
+    nativeAd?.stopTracking()
   }
 
 }
 
-// MARK: - <OtherProtocol>
-// TODO: extend and implement any other protocol, if any.
+// MARK: - HyBidNativeAdLoaderDelegate
+
+extension NativeAdLoader: HyBidNativeAdLoaderDelegate {
+
+  func nativeLoaderDidLoad(with nativeAd: HyBidNativeAd!) {
+    self.nativeAd = nativeAd
+    client.fetchAssets(for: nativeAd, delegate: self)
+  }
+
+  func nativeLoaderDidFailWithError(_ error: (any Error)!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+}
+
+// MARK: - HyBidNativeAdFetchDelegate
+
+extension NativeAdLoader: HyBidNativeAdFetchDelegate {
+
+  func nativeAdDidFinishFetching(_ nativeAd: HyBidNativeAd!) {
+    handleLoadedAd(self, error: nil)
+  }
+
+  func nativeAd(
+    _ nativeAd: HyBidNativeAd!,
+    didFailFetchingWithError error: (any Error)!
+  ) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+}
+
+// MARK: - HyBidNativeAdDelegate
+
+extension NativeAdLoader: HyBidNativeAdDelegate {
+
+  func nativeAd(
+    _ nativeAd: HyBidNativeAd!,
+    impressionConfirmedWith view: UIView!
+  ) {
+    eventDelegate?.reportImpression()
+  }
+
+  func nativeAdDidClick(_ nativeAd: HyBidNativeAd!) {
+    eventDelegate?.reportClick()
+  }
+
+}

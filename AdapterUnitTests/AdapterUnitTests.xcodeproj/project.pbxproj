@@ -174,6 +174,7 @@
 		ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */; };
 		ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */; };
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
+		ADECFCD92DCD19EB0004EBBB /* VerveNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */; };
 		ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */; };
 		ADF28D692A4F7C870073F909 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF28D572A4F7C3D0073F909 /* libAdapter.a */; };
 		ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
@@ -997,6 +998,7 @@
 		ADD6B4B32A57804000F5D318 /* DTExchangeAdapterTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = DTExchangeAdapterTests.xctestplan; sourceTree = "<group>"; };
 		ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineBannerAdTest.m; sourceTree = "<group>"; };
 		ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRewardedAdTest.m; sourceTree = "<group>"; };
+		ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveNativeAdTests.swift; sourceTree = "<group>"; };
 		ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTExchangeAdapter.xcodeproj; path = ../adapters/DTExchangeAdapter/DTExchangeAdapter.xcodeproj; sourceTree = "<group>"; };
 		ADF28D5E2A4F7C6B0073F909 /* DTExchangeAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTExchangeAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeAdapterTests.m; sourceTree = "<group>"; };
@@ -1510,6 +1512,7 @@
 		AD677C662DBAE0D40012621D /* VerveAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */,
 				AD7D78532DCC19FE002C5511 /* VerveRewardedAdTests.swift */,
 				AD7D77F72DCC09CD002C5511 /* VerveInterstitialAdTests.swift */,
 				AD7D76C52DCBD9F0002C5511 /* VerveBannerAdTests.swift */,
@@ -3011,6 +3014,7 @@
 			files = (
 				ADFB29782DC2D97B005EBC7F /* FakeHyBidClient.swift in Sources */,
 				AD7D77F82DCC09D2002C5511 /* VerveInterstitialAdTests.swift in Sources */,
+				ADECFCD92DCD19EB0004EBBB /* VerveNativeAdTests.swift in Sources */,
 				AD7D76C62DCBD9F7002C5511 /* VerveBannerAdTests.swift in Sources */,
 				AD7D78542DCC1A03002C5511 /* VerveRewardedAdTests.swift in Sources */,
 				ADFB286F2DC2A021005EBC7F /* VerveAdapterTest.swift in Sources */,
