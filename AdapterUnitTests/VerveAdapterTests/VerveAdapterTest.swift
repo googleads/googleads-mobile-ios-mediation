@@ -8,6 +8,7 @@ final class VerveAdapterTest: XCTestCase {
 
   override func tearDown() {
     VerveAdapterExtras.isTestMode = false
+    HybidClientFactory.debugClient = nil
   }
 
   func testAdapterVersion() {
@@ -80,6 +81,20 @@ final class VerveAdapterTest: XCTestCase {
       VerveAdapterError(
         errorCode: .serverConfigurationMissingAppToken, description: "some error message"
       ).toNSError())
+  }
+
+  func testCollectSignals() {
+    HybidClientFactory.debugClient = FakeHyBidClient()
+
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+
+    adapter.collectSignals(for: AUTKRTBRequestParameters()) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
   }
 
 }

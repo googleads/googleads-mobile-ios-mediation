@@ -28,4 +28,8 @@ final class FakeHyBidClient: NSObject, HybidClient {
     }
   }
 
+  func collectSignals() -> String {
+    return "signals"
+  }
+
 }

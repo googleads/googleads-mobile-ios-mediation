@@ -94,12 +94,12 @@ final class VerveAdapter: NSObject, RTBAdapter {
     )
   }
 
-  // TODO: Implement if the adapter conforms to GADRTBAdapter. Otherwise, remove.
   @objc
   func collectSignals(
-    for params: RTBRequestParameters, completionHandler: @escaping GADRTBSignalCompletionHandler
+    for params: RTBRequestParameters,
+    completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    // TODO: implement
+    completionHandler(HybidClientFactory.createClient().collectSignals(), nil)
   }
 
   @objc

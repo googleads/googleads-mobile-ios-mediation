@@ -46,6 +46,9 @@ protocol HybidClient: NSObject {
     with appToken: String, testMode: Bool, COPPA: Bool?, TFUA: Bool?,
     completionHandler: @escaping (VerveAdapterError?) -> Void)
 
+  /// Collects the bidding signals.
+  func collectSignals() -> String
+
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
@@ -92,6 +95,10 @@ final class HybidClientImpl: NSObject, HybidClient {
       }
       completionHandler(nil)
     }
+  }
+
+  func collectSignals() -> String {
+    return HyBid.getCustomRequestSignalData("Admob") ?? ""
   }
 
 }
