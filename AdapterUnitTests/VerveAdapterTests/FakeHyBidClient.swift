@@ -12,6 +12,7 @@ final class FakeHyBidClient: NSObject, HybidClient {
   var shouldPresentationSucceed = true
 
   var interstitialDelegate: HyBidInterstitialAdDelegate?
+  var rewardedAdDelegate: HyBidRewardedAdDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -77,4 +78,19 @@ final class FakeHyBidClient: NSObject, HybidClient {
     }
   }
 
+  func loadRTBRewardedAd(with bidResponse: String, delegate: any HyBidRewardedAdDelegate) {
+    rewardedAdDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.rewardedDidLoad()
+    } else {
+      delegate.rewardedDidFailWithError(
+        NSError(domain: "com.test.verveadapter", code: 12345, userInfo: nil))
+    }
+  }
+
+  func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError) {
+    if !shouldPresentationSucceed {
+      throw VerveAdapterError(errorCode: .notReadyForPresentation, description: "")
+    }
+  }
 }

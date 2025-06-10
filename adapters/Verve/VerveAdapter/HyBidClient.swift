@@ -63,12 +63,19 @@ protocol HybidClient: NSObject {
 
   /// Presents the interstitial ad.
   func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError)
+
+  /// Loads a RTB rewarded ad.
+  func loadRTBRewardedAd(with bidResponse: String, delegate: HyBidRewardedAdDelegate)
+
+  /// Presents the rewarded ad.
+  func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError)
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
 
   private var adView: HyBidAdView?
   private var interstitialAd: HyBidInterstitialAd?
+  private var rewardedAd: HyBidRewardedAd?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -184,6 +191,25 @@ final class HybidClientImpl: NSObject, HybidClient {
       )
     }
     interstitialAd.show(from: viewController)
+  }
+
+  func loadRTBRewardedAd(
+    with bidResponse: String,
+    delegate: HyBidRewardedAdDelegate
+  ) {
+    rewardedAd = HyBidRewardedAd(delegate: delegate)
+    rewardedAd?.prepareAdWithContent(adContent: bidResponse)
+  }
+
+  func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError) {
+    guard let rewardedAd, rewardedAd.isReady else {
+      throw VerveAdapterError(
+        errorCode: .notReadyForPresentation,
+        description:
+          "The rewarded ad is not ready for presentation. isReady: \(String(describing: rewardedAd?.isReady))"
+      )
+    }
+    rewardedAd.show(from: viewController)
   }
 
 }

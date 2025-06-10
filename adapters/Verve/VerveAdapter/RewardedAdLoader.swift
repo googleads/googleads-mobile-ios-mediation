@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import HyBid
 
 final class RewardedAdLoader: NSObject {
 
@@ -47,16 +48,16 @@ final class RewardedAdLoader: NSObject {
   }
 
   func loadAd() {
-    // guard let bidResponse = adConfiguration.bidResponse else {
-    //   handleLoadedAd(
-    //     nil,
-    //     error: VerveAdapterError(
-    //       errorCode: .invalidAdConfiguration,
-    //       description: "The ad configuration is missing bid response."
-    //     ).toNSError())
-    //   return
-    // }
-    //    client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self)
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: VerveAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+    client.loadRTBRewardedAd(with: bidResponse, delegate: self)
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
@@ -74,11 +75,41 @@ final class RewardedAdLoader: NSObject {
 extension RewardedAdLoader: MediationRewardedAd {
 
   func present(from viewController: UIViewController) {
-    do {
-      //      try client.presentRewardedAd(from: viewController)
+    do throws(VerveAdapterError) {
+      eventDelegate?.willPresentFullScreenView()
+      try client.presentRewardedAd(from: viewController)
     } catch let error {
-      //      eventDelegate?.didFailToPresentWithError(error.toNSError())
+      eventDelegate?.didFailToPresentWithError(error.toNSError())
     }
+  }
+
+}
+
+// MARK: - HyBidRewardedAdDelegate
+extension RewardedAdLoader: HyBidRewardedAdDelegate {
+
+  func rewardedDidLoad() {
+    handleLoadedAd(self, error: nil)
+  }
+
+  func rewardedDidFailWithError(_ error: (any Error)!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func rewardedDidTrackImpression() {
+    eventDelegate?.reportImpression()
+  }
+
+  func rewardedDidTrackClick() {
+    eventDelegate?.reportClick()
+  }
+
+  func rewardedDidDismiss() {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func onReward() {
+    eventDelegate?.didRewardUser()
   }
 
 }
