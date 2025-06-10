@@ -14,6 +14,7 @@
 
 import Foundation
 import GoogleMobileAds
+import HyBid
 
 final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
@@ -51,16 +52,22 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   }
 
   func loadAd() {
-    // guard let bidResponse = adConfiguration.bidResponse else {
-    //   handleLoadedAd(
-    //     nil,
-    //     error: VerveAdapterError(
-    //       errorCode: .invalidAdConfiguration,
-    //       description: "The ad configuration is missing bid response."
-    //     ).toNSError())
-    //   return
-    // }
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: VerveAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
 
+    do throws(VerveAdapterError) {
+      try client.loadRTBBannerAd(
+        with: bidResponse, size: adConfiguration.adSize.size, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
@@ -69,6 +76,27 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       eventDelegate = adLoadCompletionHandler(ad, error)
       self.adLoadCompletionHandler = nil
     }
+  }
+
+}
+
+extension BannerAdLoader: HyBidAdViewDelegate {
+
+  func adViewDidLoad(_ adView: HyBidAdView!) {
+    view = adView
+    handleLoadedAd(self, error: nil)
+  }
+
+  func adView(_ adView: HyBidAdView!, didFailWithError error: (any Error)!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  func adViewDidTrackImpression(_ adView: HyBidAdView!) {
+    eventDelegate?.reportImpression()
+  }
+
+  func adViewDidTrackClick(_ adView: HyBidAdView!) {
+    eventDelegate?.reportClick()
   }
 
 }

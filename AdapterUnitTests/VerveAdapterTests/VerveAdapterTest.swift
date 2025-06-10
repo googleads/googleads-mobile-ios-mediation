@@ -83,15 +83,197 @@ final class VerveAdapterTest: XCTestCase {
       ).toNSError())
   }
 
-  func testCollectSignals() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
-
+  func testCollectionSignalsForBanner_succeeds_whenInvalidAdSize() {
     let adapter = VerveAdapter()
     let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSizeInvalid
 
-    adapter.collectSignals(for: AUTKRTBRequestParameters()) { signals, error in
+    adapter.collectSignals(for: params) { signals, error in
       XCTAssertNotNil(signals)
       XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs320x50() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 320, height: 50), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs300x250() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 300, height: 250), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs300x50() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 300, height: 50), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs320x480() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 320, height: 480), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs1024x768() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 1024, height: 768), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs768x1024() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 768, height: 1024), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs728x90() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 728, height: 90), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs160x600() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 160, height: 600), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs250x250() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 250, height: 250), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs300x600() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 300, height: 600), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs320x100() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 320, height: 100), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_succeeds_whenAdSizeIs480x320() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 480, height: 320), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNotNil(signals)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation])
+  }
+
+  func testCollectionSignalsForBanner_fail_whenAdSizeIsNotSupporteByHyBid() {
+    let adapter = VerveAdapter()
+    let expectation = expectation(description: "collect signals")
+    let params = AUTKRTBRequestParameters()
+    params.adSize = AdSize(size: CGSize(width: 123, height: 123), flags: 1)
+
+    adapter.collectSignals(for: params) { signals, error in
+      XCTAssertNil(signals)
+      XCTAssertNotNil(error)
       expectation.fulfill()
     }
     wait(for: [expectation])

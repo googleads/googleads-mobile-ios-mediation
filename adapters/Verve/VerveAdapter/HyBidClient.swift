@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import GoogleMobileAds
 import HyBid
 import UIKit
 
@@ -49,9 +50,19 @@ protocol HybidClient: NSObject {
   /// Collects the bidding signals.
   func collectSignals() -> String
 
+  /// Gets HyBidAdSize for the provided size. Throws an error if the size is not supported by HiBid SDK.
+  @discardableResult
+  func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize
+
+  /// Loads a RTB banner ad.
+  func loadRTBBannerAd(with bidResponse: String, size: CGSize, delegate: HyBidAdViewDelegate)
+    throws(VerveAdapterError)
+
 }
 
 final class HybidClientImpl: NSObject, HybidClient {
+
+  private var adView: HyBidAdView?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -99,6 +110,55 @@ final class HybidClientImpl: NSObject, HybidClient {
 
   func collectSignals() -> String {
     return HyBid.getCustomRequestSignalData("Admob") ?? ""
+  }
+
+  @discardableResult
+  func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize {
+    let width = size.width
+    let height = size.height
+
+    // For the full list of supported banner sizes, refer to HyBidAdSize.h.
+    if width == 320 && height == 50 {
+      return .size_320x50
+    } else if width == 300 && height == 250 {
+      return .size_300x250
+    } else if width == 300 && height == 50 {
+      return .size_300x50
+    } else if width == 320 && height == 480 {
+      return .size_320x480
+    } else if width == 1024 && height == 768 {
+      return .size_1024x768
+    } else if width == 768 && height == 1024 {
+      return .size_768x1024
+    } else if width == 728 && height == 90 {
+      return .size_728x90
+    } else if width == 160 && height == 600 {
+      return .size_160x600
+    } else if width == 250 && height == 250 {
+      return .size_250x250
+    } else if width == 300 && height == 600 {
+      return .size_300x600
+    } else if width == 320 && height == 100 {
+      return .size_320x100
+    } else if width == 480 && height == 320 {
+      return .size_480x320
+    } else {
+      throw VerveAdapterError(
+        errorCode: .unsupportedBannerSize,
+        description: "Unsupported banner size. Width: \(width) Height: \(height)")
+    }
+  }
+
+  func loadRTBBannerAd(
+    with bidResponse: String,
+    size: CGSize,
+    delegate: HyBidAdViewDelegate
+  ) throws(VerveAdapterError) {
+    adView = HyBidAdView(size: try getBannerSize(size))
+    adView?.stopAutoRefresh()
+    adView?.autoShowOnLoad = true
+    adView?.delegate = delegate
+    adView?.renderAd(withContent: bidResponse, with: delegate)
   }
 
 }

@@ -25,6 +25,12 @@ public final class VerveAdapterError: Error {
 
     /// HyBid SDK fails to initialize.
     case failedToInitializeHyBidSDK = 103
+
+    /// Invalid ad configuration for loading an ad.
+    case invalidAdConfiguration = 104
+
+    /// Unsupported banner size.
+    case unsupportedBannerSize = 105
   }
 
   public static let domain = "com.google.mediation.verve"
