@@ -59,6 +59,7 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
 
   public override init() {
     // Conform to MediationAdapter protocol.
+    super.init()
   }
 
   /// Initializer used only for testing purpose.
