@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 6.20.0.0 (In progress)
 - Enable -fobjc-arc and -fstack-protector-all.
 
 #### [Version 6.17.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.17.1.0.zip)
