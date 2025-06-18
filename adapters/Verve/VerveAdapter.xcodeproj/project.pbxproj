@@ -32,6 +32,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AD52F6ED2E0241AE002CFB64 /* VerveAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* VerveAdapterError.swift */; };
+		AD52F6EE2E0241AE002CFB64 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
+		AD52F6EF2E0241AE002CFB64 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
+		AD52F6F02E0241AE002CFB64 /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
+		AD52F6F12E0241AE002CFB64 /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		AD52F6F22E0241AE002CFB64 /* VerveAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* VerveAdapter.swift */; };
+		AD52F6F32E0241AE002CFB64 /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
+		AD52F6F42E0241AE002CFB64 /* VerveAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* VerveAdapterExtras.swift */; };
+		AD52F6F52E0241AE002CFB64 /* HyBidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD677D172DBC0BF70012621D /* HyBidClient.swift */; };
 		AD677D182DBC0BF80012621D /* HyBidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD677D172DBC0BF70012621D /* HyBidClient.swift */; };
 		ADA2F7CE2D9DBB7D005D9ECA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
 		ADFA84BD2C17704300A501AB /* VerveAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* VerveAdapter.swift */; };
@@ -44,6 +53,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		AD52F6F72E0241AE002CFB64 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA849B2C176E2200A501AB /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -56,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD677D172DBC0BF70012621D /* HyBidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidClient.swift; sourceTree = "<group>"; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +97,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AD52F6F62E0241AE002CFB64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA849A2C176E2200A501AB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -112,6 +138,7 @@
 			children = (
 				ADFA849D2C176E2200A501AB /* libVerveAdapter.a */,
 				ADFA84D42C17738E00A501AB /* VerveAdapterFramework.framework */,
+				AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +182,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AD52F6EB2E0241AE002CFB64 /* StaticVerveAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD52F6F82E0241AE002CFB64 /* Build configuration list for PBXNativeTarget "StaticVerveAdapter" */;
+			buildPhases = (
+				AD52F6EC2E0241AE002CFB64 /* Sources */,
+				AD52F6F62E0241AE002CFB64 /* Frameworks */,
+				AD52F6F72E0241AE002CFB64 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StaticVerveAdapter;
+			productName = Adapter;
+			productReference = AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADFA84A42C176E2200A501AB /* Build configuration list for PBXNativeTarget "Adapter" */;
@@ -227,6 +271,7 @@
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* VerveAdapterFramework */,
+				AD52F6EB2E0241AE002CFB64 /* StaticVerveAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -279,6 +324,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AD52F6EC2E0241AE002CFB64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD52F6ED2E0241AE002CFB64 /* VerveAdapterError.swift in Sources */,
+				AD52F6EE2E0241AE002CFB64 /* Util.swift in Sources */,
+				AD52F6EF2E0241AE002CFB64 /* NativeAdLoader.swift in Sources */,
+				AD52F6F02E0241AE002CFB64 /* BannerAdLoader.swift in Sources */,
+				AD52F6F12E0241AE002CFB64 /* RewardedAdLoader.swift in Sources */,
+				AD52F6F22E0241AE002CFB64 /* VerveAdapter.swift in Sources */,
+				AD52F6F32E0241AE002CFB64 /* InterstitialAdLoader.swift in Sources */,
+				AD52F6F42E0241AE002CFB64 /* VerveAdapterExtras.swift in Sources */,
+				AD52F6F52E0241AE002CFB64 /* HyBidClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA84992C176E2200A501AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -318,6 +379,163 @@
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "";
+			};
+			name = Release;
+		};
+		AD52F6F92E0241AE002CFB64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Verve;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = VerveAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD52F6FA2E0241AE002CFB64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Verve;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = VerveAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -740,6 +958,15 @@
 			buildConfigurations = (
 				AD2367322C176DB300997FF7 /* Debug */,
 				AD2367332C176DB300997FF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD52F6F82E0241AE002CFB64 /* Build configuration list for PBXNativeTarget "StaticVerveAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD52F6F92E0241AE002CFB64 /* Debug */,
+				AD52F6FA2E0241AE002CFB64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
