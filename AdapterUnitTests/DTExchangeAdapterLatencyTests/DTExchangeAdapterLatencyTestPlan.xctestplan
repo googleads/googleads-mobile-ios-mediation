@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "3589005C-A0CC-4024-8BE2-8892563F545C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD170BC72E13277700A64F30",
+        "name" : "DTExchangeAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

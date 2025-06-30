@@ -55,6 +55,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'DTExchangeAdapterLatencyTests' do
+    end
+
   end
 
   # UnityAdapter and its test target.
