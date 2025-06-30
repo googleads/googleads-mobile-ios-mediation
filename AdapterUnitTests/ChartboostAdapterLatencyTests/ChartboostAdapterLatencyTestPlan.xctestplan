@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "B50E6528-2BD8-43EC-B32C-3321E57ADA0E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD17089B2E12FFC400A64F30",
+        "name" : "ChartboostAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

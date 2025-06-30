@@ -143,6 +143,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'ChartboostAdapterLatencyTests' do
+    end
+
   end
 
   # IronSourceAdapter and its test target.
