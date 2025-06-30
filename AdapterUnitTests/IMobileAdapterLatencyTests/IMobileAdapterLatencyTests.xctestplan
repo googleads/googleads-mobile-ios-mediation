@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "65BB0AC5-DA2B-4325-939F-B2E8D4FDB3F6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADE56EC52E1334E8003FF591",
+        "name" : "IMobileAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

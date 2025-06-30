@@ -234,6 +234,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'IMobileAdapterLatencyTests' do
+    end
+
   end
 
   # MolocoAdapter and its test target.
