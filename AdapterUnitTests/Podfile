@@ -89,6 +89,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'AppLovinAdapterLatencyTests' do
+    end
+
   end
 
   # PangleAdapter and its test target.

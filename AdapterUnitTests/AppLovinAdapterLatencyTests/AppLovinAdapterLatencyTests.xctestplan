@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "00FD98C7-C2F4-40C6-8885-9C1C616C8EBD",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/..\/AdapterUnitTests\/AdapterUnitTests.xcodeproj",
+        "identifier" : "AD5A4EDA2E0F331D0078AFC1",
+        "name" : "AppLovinAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
