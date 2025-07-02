@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "60DEDAA9-4E9B-4AC1-BB17-9BC9C5A26CA6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADE575142E14AAE5003FF591",
+        "name" : "InMobiAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

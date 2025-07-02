@@ -191,6 +191,10 @@
 		ADE56ED22E1334E8003FF591 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADE56EDC2E1335D2003FF591 /* IMobileAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADE56EDB2E1335AE003FF591 /* IMobileAdapterLatencyTests.xctestplan */; };
 		ADE56EDD2E1335D6003FF591 /* IMobileAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE56EDA2E133533003FF591 /* IMobileAdapterLatencyTests.m */; };
+		ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		ADE575272E14AB0B003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE5750F2E14AABA003FF591 /* libAdapter.a */; };
+		ADE5752C2E14AB8E003FF591 /* InMobiAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE5752B2E14AB76003FF591 /* InMobiAdapterLatencyTests.m */; };
+		ADE5752E2E14AC09003FF591 /* InMobiAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADE5752D2E14AC08003FF591 /* InMobiAdapterLatencyTests.xctestplan */; };
 		ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */; };
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
 		ADECFCD92DCD19EB0004EBBB /* VerveNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */; };
@@ -889,6 +893,48 @@
 			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
 			remoteInfo = UnitTestHostApp;
 		};
+		ADE5750E2E14AABA003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7DFABB1D1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+		ADE575102E14AABA003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD00C4352B87C469007C85F3;
+			remoteInfo = InMobiAdapter;
+		};
+		ADE575122E14AABA003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADA6B9852CF1463F009C8FDA;
+			remoteInfo = StaticInMobiAdapter;
+		};
+		ADE575182E14AAE5003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		ADE5751A2E14AAE5003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
+		ADE575282E14AB20003FF591 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
 		ADF28D562A4F7C3D0073F909 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
@@ -1121,6 +1167,10 @@
 		ADE56ED82E1334E8003FF591 /* IMobileAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMobileAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE56EDA2E133533003FF591 /* IMobileAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMobileAdapterLatencyTests.m; sourceTree = "<group>"; };
 		ADE56EDB2E1335AE003FF591 /* IMobileAdapterLatencyTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IMobileAdapterLatencyTests.xctestplan; sourceTree = "<group>"; };
+		ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = InMobiAdapter.xcodeproj; path = ../adapters/InMobiAdapter/InMobiAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		ADE575262E14AAE5003FF591 /* InMobiAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InMobiAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE5752B2E14AB76003FF591 /* InMobiAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InMobiAdapterLatencyTests.m; sourceTree = "<group>"; };
+		ADE5752D2E14AC08003FF591 /* InMobiAdapterLatencyTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = InMobiAdapterLatencyTests.xctestplan; sourceTree = "<group>"; };
 		ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineBannerAdTest.m; sourceTree = "<group>"; };
 		ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineRewardedAdTest.m; sourceTree = "<group>"; };
 		ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveNativeAdTests.swift; sourceTree = "<group>"; };
@@ -1145,7 +1195,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
+		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1155,18 +1205,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = UnitTestHostApp;
-			sourceTree = "<group>";
-		};
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1374,6 +1413,15 @@
 				ADE56ED02E1334E8003FF591 /* ImobileSdkAds.xcframework in Frameworks */,
 				ADE56ED12E1334E8003FF591 /* libAdapter.a in Frameworks */,
 				ADE56ED22E1334E8003FF591 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE5751D2E14AAE5003FF591 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE575272E14AB0B003FF591 /* libAdapter.a in Frameworks */,
+				ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1754,6 +1802,7 @@
 				AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */,
 				ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */,
 				AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */,
+				ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */,
 				AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */,
 				AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */,
 				ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */,
@@ -1779,6 +1828,7 @@
 				AD6FA03D2A16BF98007335D2 /* Frameworks */,
 				AD0D73002AF81711002C0B60 /* IMobileAdapterTests */,
 				ADE56ED92E13350B003FF591 /* IMobileAdapterLatencyTests */,
+				ADE5752A2E14AB64003FF591 /* InMobiAdapterLatencyTests */,
 				AD0D6E932AF5917E002C0B60 /* IronSourceAdapterTests */,
 				AD0D6EEE2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
 				ADADDD412A32528C00FB60E1 /* LineAdapterTests */,
@@ -1823,6 +1873,7 @@
 				AD1708AD2E12FFC400A64F30 /* ChartboostAdapterLatencyTests.xctest */,
 				AD170BD82E13277700A64F30 /* DTExchangeAdapterLatencyTests.xctest */,
 				ADE56ED82E1334E8003FF591 /* IMobileAdapterLatencyTests.xctest */,
+				ADE575262E14AAE5003FF591 /* InMobiAdapterLatencyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1983,6 +2034,25 @@
 				ADE56EDB2E1335AE003FF591 /* IMobileAdapterLatencyTests.xctestplan */,
 			);
 			path = IMobileAdapterLatencyTests;
+			sourceTree = "<group>";
+		};
+		ADE575072E14AABA003FF591 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADE5750F2E14AABA003FF591 /* libAdapter.a */,
+				ADE575112E14AABA003FF591 /* InMobiAdapter.framework */,
+				ADE575132E14AABA003FF591 /* libStaticInMobiAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ADE5752A2E14AB64003FF591 /* InMobiAdapterLatencyTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADE5752B2E14AB76003FF591 /* InMobiAdapterLatencyTests.m */,
+				ADE5752D2E14AC08003FF591 /* InMobiAdapterLatencyTests.xctestplan */,
+			);
+			path = InMobiAdapterLatencyTests;
 			sourceTree = "<group>";
 		};
 		ADF28D512A4F7C3C0073F909 /* Products */ = {
@@ -2471,6 +2541,26 @@
 			productReference = ADE56ED82E1334E8003FF591 /* IMobileAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ADE575142E14AAE5003FF591 /* InMobiAdapterLatencyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADE575232E14AAE5003FF591 /* Build configuration list for PBXNativeTarget "InMobiAdapterLatencyTests" */;
+			buildPhases = (
+				ADE5751B2E14AAE5003FF591 /* Sources */,
+				ADE5751D2E14AAE5003FF591 /* Frameworks */,
+				ADE575212E14AAE5003FF591 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADE575292E14AB20003FF591 /* PBXTargetDependency */,
+				ADE575172E14AAE5003FF591 /* PBXTargetDependency */,
+				ADE575192E14AAE5003FF591 /* PBXTargetDependency */,
+			);
+			name = InMobiAdapterLatencyTests;
+			productName = IMobileAdapterTests;
+			productReference = ADE575262E14AAE5003FF591 /* InMobiAdapterLatencyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ADF28D5D2A4F7C6B0073F909 /* DTExchangeAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADF28D622A4F7C6B0073F909 /* Build configuration list for PBXNativeTarget "DTExchangeAdapterTests" */;
@@ -2605,6 +2695,10 @@
 					ProjectRef = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
 				},
 				{
+					ProductGroup = ADE575072E14AABA003FF591 /* Products */;
+					ProjectRef = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD0D6E772AF59116002C0B60 /* Products */;
 					ProjectRef = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
 				},
@@ -2664,6 +2758,7 @@
 				AD170BC72E13277700A64F30 /* DTExchangeAdapterLatencyTests */,
 				AD0D72FE2AF81711002C0B60 /* IMobileAdapterTests */,
 				ADE56EC52E1334E8003FF591 /* IMobileAdapterLatencyTests */,
+				ADE575142E14AAE5003FF591 /* InMobiAdapterLatencyTests */,
 				ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */,
 				AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */,
 				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
@@ -3048,6 +3143,27 @@
 			remoteRef = ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		ADE5750F2E14AABA003FF591 /* libAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapter.a;
+			remoteRef = ADE5750E2E14AABA003FF591 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADE575112E14AABA003FF591 /* InMobiAdapter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = InMobiAdapter.framework;
+			remoteRef = ADE575102E14AABA003FF591 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		ADE575132E14AABA003FF591 /* libStaticInMobiAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticInMobiAdapter.a;
+			remoteRef = ADE575122E14AABA003FF591 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADF28D572A4F7C3D0073F909 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3237,6 +3353,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE56EDC2E1335D2003FF591 /* IMobileAdapterLatencyTests.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADE575212E14AAE5003FF591 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE5752E2E14AC09003FF591 /* InMobiAdapterLatencyTests.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3541,6 +3665,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADE5751B2E14AAE5003FF591 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADE5752C2E14AB8E003FF591 /* InMobiAdapterLatencyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADF28D5A2A4F7C6B0073F909 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3774,6 +3906,21 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = ADE56FBE2E1336DD003FF591 /* PBXContainerItemProxy */;
+		};
+		ADE575172E14AAE5003FF591 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = ADE575182E14AAE5003FF591 /* PBXContainerItemProxy */;
+		};
+		ADE575192E14AAE5003FF591 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = ADE5751A2E14AAE5003FF591 /* PBXContainerItemProxy */;
+		};
+		ADE575292E14AB20003FF591 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = ADE575282E14AB20003FF591 /* PBXContainerItemProxy */;
 		};
 		ADF28D662A4F7C7F0073F909 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7215,6 +7362,152 @@
 			};
 			name = Release;
 		};
+		ADE575242E14AAE5003FF591 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/InMobiAdapter\"",
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/Public/Headers\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterLatencyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+			};
+			name = Debug;
+		};
+		ADE575252E14AAE5003FF591 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/InMobiAdpater\"",
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/Public/Headers\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterLatencyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		ADF28D632A4F7C6B0073F909 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -7572,6 +7865,15 @@
 			buildConfigurations = (
 				ADE56ED62E1334E8003FF591 /* Debug */,
 				ADE56ED72E1334E8003FF591 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADE575232E14AAE5003FF591 /* Build configuration list for PBXNativeTarget "InMobiAdapterLatencyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADE575242E14AAE5003FF591 /* Debug */,
+				ADE575252E14AAE5003FF591 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
