@@ -83,7 +83,7 @@
 
 + (GADVersionNumber)adSDKVersion {
   GADVersionNumber version = {0};
-  NSString *sdkVersion = [IronSource sdkVersion];
+  NSString *sdkVersion = [IronSourceAds sdkVersion];
   NSArray<NSString *> *components = [sdkVersion componentsSeparatedByString:@"."];
   if (components.count > 2) {
     version.majorVersion = components[0].integerValue;
