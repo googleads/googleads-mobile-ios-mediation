@@ -75,7 +75,7 @@ static NSString *const kAppKey2 = @"AppKey_2";
 }
 
 - (void)testAdSDKVersionWhenIronSouceVersionHasOnlyTwoComponents {
-  id ironSourceMock = OCMClassMock([IronSource class]);
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
   OCMStub([ironSourceMock sdkVersion]).andReturn(@"6.3");
 
   GADVersionNumber version = [GADMediationAdapterIronSource adSDKVersion];
@@ -86,7 +86,7 @@ static NSString *const kAppKey2 = @"AppKey_2";
 }
 
 - (void)testAdSDKVersionWhenIronSourceVersionHasOnlyOneComponent {
-  id ironSourceMock = OCMClassMock([IronSource class]);
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
   OCMStub([ironSourceMock sdkVersion]).andReturn(@"6");
 
   GADVersionNumber version = [GADMediationAdapterIronSource adSDKVersion];
