@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "B0DDDEE0-A633-4042-89C0-95D4D4539044",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "selectedTests" : [
+        "AUTIronSourceAdapterLatencyTests\/testAdSDKVersionLatency",
+        "AUTIronSourceAdapterLatencyTests\/testAdapterVersionLatency"
+      ],
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADE57EB52E15ECF1003FF591",
+        "name" : "IronSourceAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

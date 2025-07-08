@@ -166,6 +166,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'IronSourceAdapterLatencyTests' do
+    end
+
   end
 
   # LiftoffMonetizeAdapter and its test target.
