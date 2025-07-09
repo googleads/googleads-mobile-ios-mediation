@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "357DFC72-6AAA-40B3-9BC5-26B15559D7A6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADF488672E1F137E0019A33E",
+        "name" : "MaioAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
