@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -207,6 +207,10 @@
 		ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADF3B9B72AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3B9B62AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m */; };
 		ADF3B9B92AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3B9B82AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m */; };
+		ADF481D42E1EF43F0019A33E /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */; };
+		ADF481D52E1EF43F0019A33E /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		ADF482542E1EF65E0019A33E /* LiftoffAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF481DE2E1EF4F50019A33E /* LiftoffAdapterLatencyTests.m */; };
+		ADF486002E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */; };
 		ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */; };
 		ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADFAAF142A33F36500D92129 /* AUTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF132A33F36500D92129 /* AUTKConstants.m */; };
@@ -982,6 +986,34 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
+		ADF4814C2E1EF2E40019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
+		ADF481C52E1EF43F0019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+		ADF481C72E1EF43F0019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		ADF482552E1EF6790019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
 		ADFAAF0F2A33F20100D92129 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -1208,6 +1240,9 @@
 		ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTDTExchangeAdapterTests.m; sourceTree = "<group>"; };
 		ADF3B9B62AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinInterstitialAdTests.m; sourceTree = "<group>"; };
 		ADF3B9B82AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinRewardedAdTests.m; sourceTree = "<group>"; };
+		ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiftoffMonetizeAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADF481DE2E1EF4F50019A33E /* LiftoffAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiftoffAdapterLatencyTests.m; sourceTree = "<group>"; };
+		ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LiftoffAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
 		ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineAdapterTest.m; sourceTree = "<group>"; };
 		ADFAAF132A33F36500D92129 /* AUTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKConstants.m; sourceTree = "<group>"; };
 		ADFB286E2DC299B7005EBC7F /* VerveAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveAdapterTest.swift; sourceTree = "<group>"; };
@@ -1481,6 +1516,15 @@
 			files = (
 				ADF28D692A4F7C870073F909 /* libAdapter.a in Frameworks */,
 				ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADF481D32E1EF43F0019A33E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF481D42E1EF43F0019A33E /* libAdapter.a in Frameworks */,
+				ADF481D52E1EF43F0019A33E /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1882,6 +1926,7 @@
 				AD0D6E932AF5917E002C0B60 /* IronSourceAdapterTests */,
 				ADE57ED12E15ED14003FF591 /* IronSourceAdapterLatencyTests */,
 				AD0D6EEE2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
+				ADF481DD2E1EF4DF0019A33E /* LiftoffMonetizeAdapterLatencyTests */,
 				ADADDD412A32528C00FB60E1 /* LineAdapterTests */,
 				AD0D6F512AF6E23E002C0B60 /* MaioAdapterTests */,
 				AD01232E2ABCB0D8002BFE6D /* MintegralAdapterTests */,
@@ -1926,6 +1971,7 @@
 				ADE56ED82E1334E8003FF591 /* IMobileAdapterLatencyTests.xctest */,
 				ADE575262E14AAE5003FF591 /* InMobiAdapterLatencyTests.xctest */,
 				ADE57ED02E15ECF1003FF591 /* IronSourceAdapterLatencyTests.xctest */,
+				ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2138,6 +2184,15 @@
 			path = DTExchangeAdapterTests;
 			sourceTree = "<group>";
 		};
+		ADF481DD2E1EF4DF0019A33E /* LiftoffMonetizeAdapterLatencyTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADF481DE2E1EF4F50019A33E /* LiftoffAdapterLatencyTests.m */,
+				ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */,
+			);
+			path = LiftoffMonetizeAdapterLatencyTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2270,6 +2325,7 @@
 			dependencies = (
 				AD0D6E9C2AF591A4002C0B60 /* PBXTargetDependency */,
 				AD0D6E9A2AF5919D002C0B60 /* PBXTargetDependency */,
+				ADF4814D2E1EF2E40019A33E /* PBXTargetDependency */,
 			);
 			name = IronSourceAdapterTests;
 			productName = IronSourceAdapterTests;
@@ -2661,6 +2717,26 @@
 			productReference = ADF28D5E2A4F7C6B0073F909 /* DTExchangeAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ADF481C32E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADF481D82E1EF43F0019A33E /* Build configuration list for PBXNativeTarget "LiftoffMonetizeAdapterLatencyTests" */;
+			buildPhases = (
+				ADF481C82E1EF43F0019A33E /* Sources */,
+				ADF481D32E1EF43F0019A33E /* Frameworks */,
+				ADF481D62E1EF43F0019A33E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADF482562E1EF6790019A33E /* PBXTargetDependency */,
+				ADF481C42E1EF43F0019A33E /* PBXTargetDependency */,
+				ADF481C62E1EF43F0019A33E /* PBXTargetDependency */,
+			);
+			name = LiftoffMonetizeAdapterLatencyTests;
+			productName = LiftoffMonetizeAdapterTests;
+			productReference = ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2689,6 +2765,7 @@
 					};
 					AD0D6E912AF5917E002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
 					AD0D6EEC2AF5BD2E002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -2734,11 +2811,11 @@
 					ADE56EC52E1334E8003FF591 = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
-					ADE57EB52E15ECF1003FF591 = {
-						TestTargetID = AD1705DC2E0F5D2900A64F30;
-					};
 					ADF28D5D2A4F7C6B0073F909 = {
 						CreatedOnToolsVersion = 14.3.1;
+					};
+					ADF481C32E1EF43F0019A33E = {
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
 				};
 			};
@@ -2845,11 +2922,12 @@
 				ADE575142E14AAE5003FF591 /* InMobiAdapterLatencyTests */,
 				AD0D6E912AF5917E002C0B60 /* IronSourceAdapterTests */,
 				ADE57EB52E15ECF1003FF591 /* IronSourceAdapterLatencyTests */,
+				AD0D6EEC2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
+				ADF481C32E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests */,
 				ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */,
 				AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */,
 				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				AD01232C2ABCB0D8002BFE6D /* MintegralAdapterTests */,
-				AD0D6EEC2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
 				AD0D6F4F2AF6E23E002C0B60 /* MaioAdapterTests */,
 				AD0D6FF22AF7189D002C0B60 /* MyTargetAdapterTests */,
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
@@ -3464,6 +3542,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADF481D62E1EF43F0019A33E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF486002E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3785,6 +3871,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADF481C82E1EF43F0019A33E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF482542E1EF65E0019A33E /* LiftoffAdapterLatencyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4047,6 +4141,26 @@
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = ADF28D672A4F7C820073F909 /* PBXContainerItemProxy */;
+		};
+		ADF4814D2E1EF2E40019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = ADF4814C2E1EF2E40019A33E /* PBXContainerItemProxy */;
+		};
+		ADF481C42E1EF43F0019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = ADF481C52E1EF43F0019A33E /* PBXContainerItemProxy */;
+		};
+		ADF481C62E1EF43F0019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = ADF481C72E1EF43F0019A33E /* PBXContainerItemProxy */;
+		};
+		ADF482562E1EF6790019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = ADF482552E1EF6790019A33E /* PBXContainerItemProxy */;
 		};
 		ADFAAF102A33F20100D92129 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4892,6 +5006,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
 			name = Debug;
 		};
@@ -4958,6 +5073,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -5713,6 +5829,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -5754,6 +5871,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = google.UnitTestHostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5795,6 +5913,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -5829,6 +5948,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = google.UnitTestHostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -7695,7 +7815,6 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
 			name = Debug;
 		};
@@ -7763,7 +7882,6 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -7906,6 +8024,152 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ADF481D92E1EF43F0019A33E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LiftoffMonetizeAdapterLatencyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+			};
+			name = Debug;
+		};
+		ADF481DA2E1EF43F0019A33E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter\"",
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/LiftoffMonetizeAdapter/Bidding\"",
+					"\"$(SRCROOT)/../adapters/LiftoffMonetizeAdapter/Public/Headers\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LiftoffMonetizeAdapterLatencyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -8152,6 +8416,15 @@
 			buildConfigurations = (
 				ADF28D632A4F7C6B0073F909 /* Debug */,
 				ADF28D642A4F7C6B0073F909 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADF481D82E1EF43F0019A33E /* Build configuration list for PBXNativeTarget "LiftoffMonetizeAdapterLatencyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADF481D92E1EF43F0019A33E /* Debug */,
+				ADF481DA2E1EF43F0019A33E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

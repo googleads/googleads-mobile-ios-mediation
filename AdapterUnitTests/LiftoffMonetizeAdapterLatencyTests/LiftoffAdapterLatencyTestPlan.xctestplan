@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5A42FDFB-E17B-47BB-B802-92133400ADF0",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADF481C32E1EF43F0019A33E",
+        "name" : "LiftoffMonetizeAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
