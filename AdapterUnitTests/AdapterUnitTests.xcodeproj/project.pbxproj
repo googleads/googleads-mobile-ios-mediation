@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -211,6 +211,10 @@
 		ADF481D52E1EF43F0019A33E /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADF482542E1EF65E0019A33E /* LiftoffAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF481DE2E1EF4F50019A33E /* LiftoffAdapterLatencyTests.m */; };
 		ADF486002E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */; };
+		ADF486F82E1F0CDE0019A33E /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		ADF486F92E1F0CDE0019A33E /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
+		ADF487012E1F0E5C0019A33E /* LineAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF487002E1F0E300019A33E /* LineAdapterLatencyTests.m */; };
+		ADF4877A2E1F0F340019A33E /* LineAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADF487792E1F0F340019A33E /* LineAdapterLatencyTestPlan.xctestplan */; };
 		ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */; };
 		ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADFAAF142A33F36500D92129 /* AUTKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF132A33F36500D92129 /* AUTKConstants.m */; };
@@ -1014,6 +1018,27 @@
 			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
 			remoteInfo = UnitTestHostApp;
 		};
+		ADF486ED2E1F0CDE0019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		ADF486EF2E1F0CDE0019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
+			remoteInfo = Adapter;
+		};
+		ADF487F02E1F0FEC0019A33E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
 		ADFAAF0F2A33F20100D92129 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -1243,6 +1268,9 @@
 		ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiftoffMonetizeAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF481DE2E1EF4F50019A33E /* LiftoffAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiftoffAdapterLatencyTests.m; sourceTree = "<group>"; };
 		ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LiftoffAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
+		ADF486FE2E1F0CDE0019A33E /* LineAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADF487002E1F0E300019A33E /* LineAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineAdapterLatencyTests.m; sourceTree = "<group>"; };
+		ADF487792E1F0F340019A33E /* LineAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LineAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
 		ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLineAdapterTest.m; sourceTree = "<group>"; };
 		ADFAAF132A33F36500D92129 /* AUTKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKConstants.m; sourceTree = "<group>"; };
 		ADFB286E2DC299B7005EBC7F /* VerveAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerveAdapterTest.swift; sourceTree = "<group>"; };
@@ -1525,6 +1553,15 @@
 			files = (
 				ADF481D42E1EF43F0019A33E /* libAdapter.a in Frameworks */,
 				ADF481D52E1EF43F0019A33E /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADF486F72E1F0CDE0019A33E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF486F82E1F0CDE0019A33E /* AdapterUnitTestKit.framework in Frameworks */,
+				ADF486F92E1F0CDE0019A33E /* libAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1928,6 +1965,7 @@
 				AD0D6EEE2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
 				ADF481DD2E1EF4DF0019A33E /* LiftoffMonetizeAdapterLatencyTests */,
 				ADADDD412A32528C00FB60E1 /* LineAdapterTests */,
+				ADF486FF2E1F0D0A0019A33E /* LineAdapterLatencyTests */,
 				AD0D6F512AF6E23E002C0B60 /* MaioAdapterTests */,
 				AD01232E2ABCB0D8002BFE6D /* MintegralAdapterTests */,
 				7072CF622C41F9A1002BF6AE /* MolocoAdapterTests */,
@@ -1972,6 +2010,7 @@
 				ADE575262E14AAE5003FF591 /* InMobiAdapterLatencyTests.xctest */,
 				ADE57ED02E15ECF1003FF591 /* IronSourceAdapterLatencyTests.xctest */,
 				ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */,
+				ADF486FE2E1F0CDE0019A33E /* LineAdapterLatencyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2191,6 +2230,15 @@
 				ADF485FF2E1EFC0C0019A33E /* LiftoffAdapterLatencyTestPlan.xctestplan */,
 			);
 			path = LiftoffMonetizeAdapterLatencyTests;
+			sourceTree = "<group>";
+		};
+		ADF486FF2E1F0D0A0019A33E /* LineAdapterLatencyTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADF487792E1F0F340019A33E /* LineAdapterLatencyTestPlan.xctestplan */,
+				ADF487002E1F0E300019A33E /* LineAdapterLatencyTests.m */,
+			);
+			path = LineAdapterLatencyTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2737,6 +2785,26 @@
 			productReference = ADF481DB2E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		ADF486EB2E1F0CDE0019A33E /* LineAdapterLatencyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADF486FB2E1F0CDE0019A33E /* Build configuration list for PBXNativeTarget "LineAdapterLatencyTests" */;
+			buildPhases = (
+				ADF486F02E1F0CDE0019A33E /* Sources */,
+				ADF486F72E1F0CDE0019A33E /* Frameworks */,
+				ADF486FA2E1F0CDE0019A33E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ADF486EC2E1F0CDE0019A33E /* PBXTargetDependency */,
+				ADF486EE2E1F0CDE0019A33E /* PBXTargetDependency */,
+				ADF487F12E1F0FEC0019A33E /* PBXTargetDependency */,
+			);
+			name = LineAdapterLatencyTests;
+			productName = LineAdapterTests;
+			productReference = ADF486FE2E1F0CDE0019A33E /* LineAdapterLatencyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2815,6 +2883,9 @@
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					ADF481C32E1EF43F0019A33E = {
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
+					};
+					ADF486EB2E1F0CDE0019A33E = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
 				};
@@ -2925,6 +2996,7 @@
 				AD0D6EEC2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */,
 				ADF481C32E1EF43F0019A33E /* LiftoffMonetizeAdapterLatencyTests */,
 				ADADDD3F2A32528C00FB60E1 /* LineAdapterTests */,
+				ADF486EB2E1F0CDE0019A33E /* LineAdapterLatencyTests */,
 				AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */,
 				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				AD01232C2ABCB0D8002BFE6D /* MintegralAdapterTests */,
@@ -3550,6 +3622,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADF486FA2E1F0CDE0019A33E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF4877A2E1F0F340019A33E /* LineAdapterLatencyTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3879,6 +3959,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ADF486F02E1F0CDE0019A33E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF487012E1F0E5C0019A33E /* LineAdapterLatencyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4161,6 +4249,21 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = ADF482552E1EF6790019A33E /* PBXContainerItemProxy */;
+		};
+		ADF486EC2E1F0CDE0019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = ADF486ED2E1F0CDE0019A33E /* PBXContainerItemProxy */;
+		};
+		ADF486EE2E1F0CDE0019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = ADF486EF2E1F0CDE0019A33E /* PBXContainerItemProxy */;
+		};
+		ADF487F12E1F0FEC0019A33E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = ADF487F02E1F0FEC0019A33E /* PBXContainerItemProxy */;
 		};
 		ADFAAF102A33F20100D92129 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8174,6 +8277,159 @@
 			};
 			name = Release;
 		};
+		ADF486FC2E1F0CDE0019A33E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUserMessagingPlatform/Frameworks/Release\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleUserMessagingPlatform\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../adapters/LineAdapter/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LineAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+			};
+			name = Debug;
+		};
+		ADF486FD2E1F0CDE0019A33E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../adapters/LineAdapter/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.LineAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -8425,6 +8681,15 @@
 			buildConfigurations = (
 				ADF481D92E1EF43F0019A33E /* Debug */,
 				ADF481DA2E1EF43F0019A33E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADF486FB2E1F0CDE0019A33E /* Build configuration list for PBXNativeTarget "LineAdapterLatencyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADF486FC2E1F0CDE0019A33E /* Debug */,
+				ADF486FD2E1F0CDE0019A33E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

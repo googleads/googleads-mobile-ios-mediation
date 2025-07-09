@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "28ED5823-94F5-4629-9D7E-16E5F352D7A1",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "ADF486EB2E1F0CDE0019A33E",
+        "name" : "LineAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}

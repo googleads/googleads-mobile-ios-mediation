@@ -38,6 +38,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'LineAdapterLatencyTests' do
+    end
+
   end
 
   # DTExchangeAdapter and its test target.
