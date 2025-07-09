@@ -132,6 +132,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'MintegralAdapterLatencyTests' do
+    end
+
   end
 
   # ChartboostAdapter and its test target.
