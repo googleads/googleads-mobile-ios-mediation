@@ -78,6 +78,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'UnityAdapterLatencyTests' do
+    end
+
   end
 
   # AppLovinAdapter and its test target.
