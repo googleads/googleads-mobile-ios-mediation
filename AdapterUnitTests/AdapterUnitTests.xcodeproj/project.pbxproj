@@ -131,6 +131,10 @@
 		AD30D9F22E20666300FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30D9FB2E20673100FCEF73 /* AUTMyTargetAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD30D9FA2E2066F800FCEF73 /* AUTMyTargetAdapterLatencyTests.m */; };
 		AD30DA762E20685300FCEF73 /* MyTargetAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DA752E20685300FCEF73 /* MyTargetAdapterLatencyTests.xctestplan */; };
+		AD30DB6E2E206ABB00FCEF73 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701E237F2AAD8C8300BAB0B3 /* libAdapter.a */; };
+		AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD30DB772E206B5500FCEF73 /* AUTPangleAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */; };
+		AD30DB792E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */; };
 		AD317BFD2DA0713C007B3FA8 /* BidMachineBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */; };
 		AD317D012DA09C58007B3FA8 /* BidMachineInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D002DA09C4F007B3FA8 /* BidMachineInterstitialAdTests.swift */; };
 		AD317D582DA0A211007B3FA8 /* BidMachineRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */; };
@@ -246,7 +250,7 @@
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
-		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -766,6 +770,27 @@
 			remoteInfo = AdapterUnitTestKit;
 		};
 		AD30D9FC2E20673800FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
+		AD30DB632E206ABB00FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD30DB652E206ABB00FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BF5FE4F279B009F001EFB81;
+			remoteInfo = Adapter;
+		};
+		AD30DBEF2E206C2000FCEF73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
 			proxyType = 1;
@@ -1309,6 +1334,9 @@
 		AD30D9F82E20666300FCEF73 /* MyTargetAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyTargetAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD30D9FA2E2066F800FCEF73 /* AUTMyTargetAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetAdapterLatencyTests.m; sourceTree = "<group>"; };
 		AD30DA752E20685300FCEF73 /* MyTargetAdapterLatencyTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MyTargetAdapterLatencyTests.xctestplan; sourceTree = "<group>"; };
+		AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterLatencyTests.m; sourceTree = "<group>"; };
+		AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
 		AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineBannerAdTests.swift; sourceTree = "<group>"; };
 		AD317C552DA07B9A007B3FA8 /* BidMachineAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BidMachineAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		AD317D002DA09C4F007B3FA8 /* BidMachineInterstitialAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineInterstitialAdTests.swift; sourceTree = "<group>"; };
@@ -1434,7 +1462,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
+		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1444,18 +1472,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = UnitTestHostApp;
-			sourceTree = "<group>";
-		};
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1512,7 +1529,7 @@
 			files = (
 				AD0D6E9E2AF591C3002C0B60 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1610,6 +1627,15 @@
 			files = (
 				AD30D9F12E20666300FCEF73 /* libAdapter.a in Frameworks */,
 				AD30D9F22E20666300FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD30DB6D2E206ABB00FCEF73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DB6E2E206ABB00FCEF73 /* libAdapter.a in Frameworks */,
+				AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2086,6 +2112,15 @@
 			path = MyTargetAdapterLatencyTests;
 			sourceTree = "<group>";
 		};
+		AD30DB752E206AFD00FCEF73 /* PangleAdapterLatencyTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */,
+				AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */,
+			);
+			path = PangleAdapterLatencyTests;
+			sourceTree = "<group>";
+		};
 		AD45ED342A78111F001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2195,6 +2230,7 @@
 				AD30D9F92E2066D800FCEF73 /* MyTargetAdapterLatencyTests */,
 				AD0D70E92AF8043D002C0B60 /* NendAdapterTests */,
 				701E236A2AAD8ADD00BAB0B3 /* PangleAdapterTests */,
+				AD30DB752E206AFD00FCEF73 /* PangleAdapterLatencyTests */,
 				A9D6475042796F097447FCB2 /* Pods */,
 				AD6FA0362A16BF4A007335D2 /* Products */,
 				AD76AA412D9313E400F40CD4 /* PubMaticTests */,
@@ -2240,6 +2276,7 @@
 				AD30D1762E1F231600FCEF73 /* UnityAdapterLatencyTests.xctest */,
 				AD30D3752E1F314E00FCEF73 /* MolocoAdapterLatencyTests.xctest */,
 				AD30D9F82E20666300FCEF73 /* MyTargetAdapterLatencyTests.xctest */,
+				AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2841,6 +2878,26 @@
 			productReference = AD30D9F82E20666300FCEF73 /* MyTargetAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD30DB612E206ABB00FCEF73 /* PangleAdapterLatencyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD30DB712E206ABB00FCEF73 /* Build configuration list for PBXNativeTarget "PangleAdapterLatencyTests" */;
+			buildPhases = (
+				AD30DB662E206ABB00FCEF73 /* Sources */,
+				AD30DB6D2E206ABB00FCEF73 /* Frameworks */,
+				AD30DB702E206ABB00FCEF73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD30DB622E206ABB00FCEF73 /* PBXTargetDependency */,
+				AD30DB642E206ABB00FCEF73 /* PBXTargetDependency */,
+				AD30DBF02E206C2000FCEF73 /* PBXTargetDependency */,
+			);
+			name = PangleAdapterLatencyTests;
+			productName = PangleAdapterTests;
+			productReference = AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD45EDC22A784A3A001B29D8 /* Build configuration list for PBXNativeTarget "UnityAdapterTests" */;
@@ -3213,6 +3270,9 @@
 					AD30D9E52E20666300FCEF73 = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
+					AD30DB612E206ABB00FCEF73 = {
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
+					};
 					AD45EDBD2A784A3A001B29D8 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -3365,9 +3425,10 @@
 				AD30D3542E1F314E00FCEF73 /* MolocoAdapterLatencyTests */,
 				AD0D6FF22AF7189D002C0B60 /* MyTargetAdapterTests */,
 				AD30D9E52E20666300FCEF73 /* MyTargetAdapterLatencyTests */,
+				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
+				AD30DB612E206ABB00FCEF73 /* PangleAdapterLatencyTests */,
 				AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */,
 				AD30D1642E1F231600FCEF73 /* UnityAdapterLatencyTests */,
-				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
 				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
@@ -3914,6 +3975,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD30DB702E206ABB00FCEF73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DB792E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD45EDBC2A784A3A001B29D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4238,6 +4307,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD30D9FB2E20673100FCEF73 /* AUTMyTargetAdapterLatencyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD30DB662E206ABB00FCEF73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DB772E206B5500FCEF73 /* AUTPangleAdapterLatencyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4604,6 +4681,21 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = AD30D9FC2E20673800FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DB622E206ABB00FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD30DB632E206ABB00FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DB642E206ABB00FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD30DB652E206ABB00FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DBF02E206C2000FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = AD30DBEF2E206C2000FCEF73 /* PBXContainerItemProxy */;
 		};
 		AD45EDC92A784A9D001B29D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7324,6 +7416,186 @@
 			};
 			name = Release;
 		};
+		AD30DB722E206ABB00FCEF73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/OCMock/OCMock.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation_Global\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/AFNetworking/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/APM/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Foundation/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Gecko/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Header/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/NETWork/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/SDWebImage/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/YYModel/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/ZFPlayer/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Zip/Headers\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/PangleAdapter\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/PangleAdapter/Renderer\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+			};
+			name = Debug;
+		};
+		AD30DB732E206ABB00FCEF73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/OCMock/OCMock.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/BURelyFoundation_Global\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/AFNetworking/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/APM/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Foundation/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Gecko/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Header/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/NETWork/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/SDWebImage/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/YYModel/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/ZFPlayer/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/BURelyFoundation_Global/Zip/Headers\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/PangleAdapter\"",
+					"\"$(SRCROOT)/../adapters/PangleAdapter/PangleAdapter/Renderer\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PangleAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		AD45EDC32A784A3A001B29D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9853,6 +10125,15 @@
 			buildConfigurations = (
 				AD30D9F62E20666300FCEF73 /* Debug */,
 				AD30D9F72E20666300FCEF73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD30DB712E206ABB00FCEF73 /* Build configuration list for PBXNativeTarget "PangleAdapterLatencyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD30DB722E206ABB00FCEF73 /* Debug */,
+				AD30DB732E206ABB00FCEF73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

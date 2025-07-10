@@ -118,6 +118,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'PangleAdapterLatencyTests' do
+    end
+
   end
 
   # MintegralAdapter and its test target.
