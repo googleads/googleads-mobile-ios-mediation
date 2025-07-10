@@ -307,6 +307,9 @@ abstract_target 'Default' do
     target 'PubMaticAdapterTests' do
     end
 
+    target 'PubMaticAdapterLatencyTests' do
+    end
+
   end
 
   # BidMachine and its test target.

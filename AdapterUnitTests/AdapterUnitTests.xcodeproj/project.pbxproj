@@ -135,6 +135,10 @@
 		AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30DB772E206B5500FCEF73 /* AUTPangleAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */; };
 		AD30DB792E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */; };
+		AD30DD5F2E20725500FCEF73 /* libPubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */; };
+		AD30DD602E20725500FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD30DD692E2072FE00FCEF73 /* PubMaticAdapterLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30DD682E20729400FCEF73 /* PubMaticAdapterLatencyTests.swift */; };
+		AD30DDE22E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DDE12E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan */; };
 		AD317BFD2DA0713C007B3FA8 /* BidMachineBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */; };
 		AD317D012DA09C58007B3FA8 /* BidMachineInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D002DA09C4F007B3FA8 /* BidMachineInterstitialAdTests.swift */; };
 		AD317D582DA0A211007B3FA8 /* BidMachineRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */; };
@@ -250,7 +254,7 @@
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
-		B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
 		F090AA1C2D656413003DB8CC /* MolocoNativeAdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA1B2D656413003DB8CC /* MolocoNativeAdTest.swift */; };
@@ -797,6 +801,27 @@
 			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
 			remoteInfo = UnitTestHostApp;
 		};
+		AD30DD522E20725500FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD30DD542E20725500FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD30DD6A2E20731800FCEF73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
+		};
 		AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
@@ -1337,6 +1362,9 @@
 		AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterLatencyTests.m; sourceTree = "<group>"; };
 		AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PangleAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD30DD662E20725500FCEF73 /* PubMaticAdapterLatencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PubMaticAdapterLatencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD30DD682E20729400FCEF73 /* PubMaticAdapterLatencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterLatencyTests.swift; sourceTree = "<group>"; };
+		AD30DDE12E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PubMaticAdapterLatencyTestPlan.xctestplan; sourceTree = "<group>"; };
 		AD317BFC2DA07134007B3FA8 /* BidMachineBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineBannerAdTests.swift; sourceTree = "<group>"; };
 		AD317C552DA07B9A007B3FA8 /* BidMachineAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BidMachineAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		AD317D002DA09C4F007B3FA8 /* BidMachineInterstitialAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineInterstitialAdTests.swift; sourceTree = "<group>"; };
@@ -1462,7 +1490,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1472,7 +1500,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = UnitTestHostApp;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1529,7 +1568,7 @@
 			files = (
 				AD0D6E9E2AF591C3002C0B60 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1636,6 +1675,15 @@
 			files = (
 				AD30DB6E2E206ABB00FCEF73 /* libAdapter.a in Frameworks */,
 				AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD30DD5E2E20725500FCEF73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DD5F2E20725500FCEF73 /* libPubMaticAdapter.a in Frameworks */,
+				AD30DD602E20725500FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2121,6 +2169,15 @@
 			path = PangleAdapterLatencyTests;
 			sourceTree = "<group>";
 		};
+		AD30DD672E20727C00FCEF73 /* PubMaticAdapterLatencyTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD30DD682E20729400FCEF73 /* PubMaticAdapterLatencyTests.swift */,
+				AD30DDE12E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan */,
+			);
+			path = PubMaticAdapterLatencyTests;
+			sourceTree = "<group>";
+		};
 		AD45ED342A78111F001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2234,6 +2291,7 @@
 				A9D6475042796F097447FCB2 /* Pods */,
 				AD6FA0362A16BF4A007335D2 /* Products */,
 				AD76AA412D9313E400F40CD4 /* PubMaticTests */,
+				AD30DD672E20727C00FCEF73 /* PubMaticAdapterLatencyTests */,
 				AD45ED342A78111F001B29D8 /* UnityAdapterTests */,
 				AD30D1772E1F234D00FCEF73 /* UnityAdapterLatencyTests */,
 				AD677C662DBAE0D40012621D /* VerveAdapterTests */,
@@ -2277,6 +2335,7 @@
 				AD30D3752E1F314E00FCEF73 /* MolocoAdapterLatencyTests.xctest */,
 				AD30D9F82E20666300FCEF73 /* MyTargetAdapterLatencyTests.xctest */,
 				AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */,
+				AD30DD662E20725500FCEF73 /* PubMaticAdapterLatencyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2898,6 +2957,26 @@
 			productReference = AD30DB742E206ABB00FCEF73 /* PangleAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD30DD502E20725500FCEF73 /* PubMaticAdapterLatencyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD30DD632E20725500FCEF73 /* Build configuration list for PBXNativeTarget "PubMaticAdapterLatencyTests" */;
+			buildPhases = (
+				AD30DD552E20725500FCEF73 /* Sources */,
+				AD30DD5E2E20725500FCEF73 /* Frameworks */,
+				AD30DD612E20725500FCEF73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD30DD512E20725500FCEF73 /* PBXTargetDependency */,
+				AD30DD532E20725500FCEF73 /* PBXTargetDependency */,
+				AD30DD6B2E20731800FCEF73 /* PBXTargetDependency */,
+			);
+			name = PubMaticAdapterLatencyTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD30DD662E20725500FCEF73 /* PubMaticAdapterLatencyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD45EDC22A784A3A001B29D8 /* Build configuration list for PBXNativeTarget "UnityAdapterTests" */;
@@ -3273,6 +3352,9 @@
 					AD30DB612E206ABB00FCEF73 = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
+					AD30DD502E20725500FCEF73 = {
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
+					};
 					AD45EDBD2A784A3A001B29D8 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -3427,11 +3509,12 @@
 				AD30D9E52E20666300FCEF73 /* MyTargetAdapterLatencyTests */,
 				701E23682AAD8ADD00BAB0B3 /* PangleAdapterTests */,
 				AD30DB612E206ABB00FCEF73 /* PangleAdapterLatencyTests */,
+				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
+				AD30DD502E20725500FCEF73 /* PubMaticAdapterLatencyTests */,
 				AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */,
 				AD30D1642E1F231600FCEF73 /* UnityAdapterLatencyTests */,
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD8FE9162D3B314B00B4728A /* AmazonAdapterTests */,
-				AD76A9DC2D93126D00F40CD4 /* PubMaticAdapterTests */,
 				ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */,
 				AD677B9C2DBADFCD0012621D /* VerveAdapterTests */,
 				AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */,
@@ -3983,6 +4066,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD30DD612E20725500FCEF73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DDE22E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD45EDBC2A784A3A001B29D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4315,6 +4406,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD30DB772E206B5500FCEF73 /* AUTPangleAdapterLatencyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD30DD552E20725500FCEF73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD30DD692E2072FE00FCEF73 /* PubMaticAdapterLatencyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4696,6 +4795,21 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = AD30DBEF2E206C2000FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DD512E20725500FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD30DD522E20725500FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DD532E20725500FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD30DD542E20725500FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD30DD6B2E20731800FCEF73 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = AD30DD6A2E20731800FCEF73 /* PBXContainerItemProxy */;
 		};
 		AD45EDC92A784A9D001B29D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7596,6 +7710,156 @@
 			};
 			name = Release;
 		};
+		AD30DD642E20725500FCEF73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD30DD652E20725500FCEF73 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.PubmaticAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		AD45EDC32A784A3A001B29D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -8246,7 +8510,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 75V7DX8D68;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -8324,7 +8588,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 75V7DX8D68;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -10134,6 +10398,15 @@
 			buildConfigurations = (
 				AD30DB722E206ABB00FCEF73 /* Debug */,
 				AD30DB732E206ABB00FCEF73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD30DD632E20725500FCEF73 /* Build configuration list for PBXNativeTarget "PubMaticAdapterLatencyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD30DD642E20725500FCEF73 /* Debug */,
+				AD30DD652E20725500FCEF73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
