@@ -236,6 +236,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'MyTargetAdapterLatencyTests' do
+    end
+
   end
 
   # IMobileAdapter and its test target.

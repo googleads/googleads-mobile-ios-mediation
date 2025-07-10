@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5E515FF4-1A55-4113-9189-46A29EC9597A",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD30D9E52E20666300FCEF73",
+        "name" : "MyTargetAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
