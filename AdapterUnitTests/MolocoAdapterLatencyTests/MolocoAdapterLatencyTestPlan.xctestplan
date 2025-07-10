@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "CD0589C7-C9BD-4FB1-8D31-F140D679B5A1",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD30D3542E1F314E00FCEF73",
+        "name" : "MolocoAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
