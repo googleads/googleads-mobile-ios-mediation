@@ -341,6 +341,9 @@ abstract_target 'Default' do
     target 'VerveAdapterTests' do
     end
 
+    target 'VerveAdapterLatencyTests' do
+    end
+
   end
 
   # InMobi and its test target.

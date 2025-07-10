@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "1DB9F9CA-B056-4116-B8D3-459EE7DA4A1F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD30DECD2E20763300FCEF73",
+        "name" : "VerveAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
