@@ -326,6 +326,9 @@ abstract_target 'Default' do
       pod 'OCMock'
     end
 
+    target 'BidMachineAdapterLatencyTests' do
+    end
+
   end
 
   # VerveAdapter and its test target.

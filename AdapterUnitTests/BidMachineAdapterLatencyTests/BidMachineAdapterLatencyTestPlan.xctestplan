@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "3C63E912-F48F-4D28-AA71-CBAFAD80366B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD30E0472E207A1700FCEF73",
+        "name" : "BidMachineAdapterLatencyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
