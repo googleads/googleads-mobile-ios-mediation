@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#import "GADMAdapterFyberUtils.h"
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberExtras.h"
-#import "GADMAdapterFyberUtils.h"
 
 void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
                                            NSObject *_Nonnull object) {
@@ -56,7 +56,7 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 }
 
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
-    NSString *_Nonnull spotID, GADMediationRewardedAdConfiguration *_Nonnull adConfiguration) {
+    NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration) {
   GADMAdapterFyberExtras *extras = adConfiguration.extras;
 
   IASDKCore.sharedInstance.userData = extras.userData;
@@ -65,6 +65,21 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
     builder.useSecureConnections = NO;
     builder.spotID = spotID;
+    builder.timeout = 10;
+  }];
+
+  return request;
+}
+
+IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration) {
+  GADMAdapterFyberExtras *extras = adConfiguration.extras;
+
+  IASDKCore.sharedInstance.userData = extras.userData;
+  IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
+
+  IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
+    builder.useSecureConnections = NO;
     builder.timeout = 10;
   }];
 

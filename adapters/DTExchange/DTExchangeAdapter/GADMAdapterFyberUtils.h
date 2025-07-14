@@ -41,6 +41,10 @@ GADVersionNumber GADMAdapterFyberVersionFromString(NSString *_Nonnull versionStr
 IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
     NSString *_Nonnull spotID, GADMediationAdConfiguration *_Nonnull adConfiguration);
 
+/// Creates an ad request object for DT Exchange from a given configuration.
+IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithAdConfiguration(
+    GADMediationAdConfiguration *_Nonnull adConfiguration);
+
 /// Initialize the DT Exchange SDK with a given application ID and completion handler.
 void GADMAdapterFyberInitializeWithAppId(
     NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler);

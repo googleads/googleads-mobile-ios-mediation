@@ -185,7 +185,7 @@ static NSString *const kDTExchangeSpotID = @"67890";
         [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(YES, nil);
       });
-  OCMExpect([_IAAdRequestBuilderMock setSpotID:kDTExchangeSpotID]);
+  OCMReject([_IAAdRequestBuilderMock setSpotID:OCMOCK_ANY]);
   OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(
@@ -198,7 +198,6 @@ static NSString *const kDTExchangeSpotID = @"67890";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
     GADMAdapterFyberApplicationID : kDTExchangeAppID,
-    GADMAdapterFyberSpotID : kDTExchangeSpotID
   };
   AUTKMediationInterstitialAdConfiguration *configuration =
       [[AUTKMediationInterstitialAdConfiguration alloc] init];

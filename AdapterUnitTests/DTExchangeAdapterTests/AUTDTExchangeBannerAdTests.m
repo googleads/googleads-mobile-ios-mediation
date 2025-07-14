@@ -109,7 +109,7 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
       .andReturn(_IAViewUnitControllerMock);
 }
 
-- (AUTKMediationBannerAdEventDelegate *)loadWithBidResponse:(nullable NSString *)bidResponse {
+- (AUTKMediationBannerAdEventDelegate *)loadWaterfallBanner {
   OCMStub([_IASDKCoreMock initWithAppID:kDTExchangeAppID
                         completionBlock:OCMOCK_ANY
                         completionQueue:OCMOCK_ANY])
@@ -125,13 +125,6 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
     [invocation getArgument:&completionHandler atIndex:2];
     completionHandler(nil, nil, nil);
   });
-  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(
-            IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
-        [invocation getArgument:&completionHandler atIndex:3];
-        completionHandler(nil, nil, nil);
-      });
 
   GADMAdapterFyberExtras *extras = [[GADMAdapterFyberExtras alloc] init];
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
@@ -144,7 +137,6 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
   configuration.adSize =
       GADAdSizeFromCGSize(CGSizeMake(kDTExchangeTestViewWidth, kDTExchangeTestViewHeight));
   configuration.credentials = credentials;
-  configuration.bidResponse = bidResponse;
   configuration.extras = extras;
   configuration.topViewController = [[UIViewController alloc] init];
   AUTKMediationBannerAdEventDelegate *eventDelegate =
@@ -154,7 +146,7 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
 }
 
 - (void)testLoadingWaterfallBanner {
-  [self loadWithBidResponse:nil];
+  [self loadWaterfallBanner];
 }
 
 - (void)testLoadingWaterfallBannerFailureForSizeMismatch {
@@ -195,7 +187,39 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
 }
 
 - (void)testLoadingBiddingBanner {
-  [self loadWithBidResponse:@"test_response"];
+  OCMStub([_IASDKCoreMock initWithAppID:kDTExchangeAppID
+                        completionBlock:OCMOCK_ANY
+                        completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(YES, nil);
+      });
+  OCMExpect([_IAAdRequestBuilderMock setSpotID:kDTExchangeSpotID]);
+  OCMStub([_IAAdSpotMock loadAdWithMarkup:@"bidResposne" withCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(
+            IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil, nil, nil);
+      });
+
+  GADMAdapterFyberExtras *extras = [[GADMAdapterFyberExtras alloc] init];
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{
+    GADMAdapterFyberApplicationID : kDTExchangeAppID,
+  };
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  configuration.adSize =
+      GADAdSizeFromCGSize(CGSizeMake(kDTExchangeTestViewWidth, kDTExchangeTestViewHeight));
+  configuration.credentials = credentials;
+  configuration.extras = extras;
+  configuration.topViewController = [[UIViewController alloc] init];
+  configuration.bidResponse = @"bidResposne";
+  AUTKMediationBannerAdEventDelegate *eventDelegate =
+      AUTKWaitAndAssertLoadBannerAd(_adapter, configuration);
+  XCTAssertNotNil(eventDelegate);
 }
 
 - (void)testLoadingBiddingBannerFailure {
@@ -211,7 +235,7 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
         [invocation getArgument:&completionHandler atIndex:3];
         completionHandler(YES, nil);
       });
-  OCMExpect([_IAAdRequestBuilderMock setSpotID:kDTExchangeSpotID]);
+  OCMReject([_IAAdRequestBuilderMock setSpotID:OCMOCK_ANY]);
   OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(
@@ -224,7 +248,6 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{
     GADMAdapterFyberApplicationID : kDTExchangeAppID,
-    GADMAdapterFyberSpotID : kDTExchangeSpotID
   };
   AUTKMediationBannerAdConfiguration *configuration =
       [[AUTKMediationBannerAdConfiguration alloc] init];
@@ -236,19 +259,19 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
 }
 
 - (void)testBannerView {
-  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWithBidResponse:@"test_response"];
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWaterfallBanner];
   XCTAssertNotNil(eventDelegate.bannerAd.view);
 }
 
 - (void)testClick {
-  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWithBidResponse:@"test_response"];
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWaterfallBanner];
   id<IAUnitDelegate> delegate = (id<IAUnitDelegate>)eventDelegate.bannerAd;
   [delegate IAAdDidReceiveClick:_IAViewUnitControllerMock];
   XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1);
 }
 
 - (void)testImpression {
-  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWithBidResponse:@"test_response"];
+  AUTKMediationBannerAdEventDelegate *eventDelegate = [self loadWaterfallBanner];
   id<IAUnitDelegate> delegate = (id<IAUnitDelegate>)eventDelegate.bannerAd;
   [delegate IAAdWillLogImpression:_IAViewUnitControllerMock];
   XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1);

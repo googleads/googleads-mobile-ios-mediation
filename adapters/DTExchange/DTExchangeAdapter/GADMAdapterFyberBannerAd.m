@@ -95,15 +95,6 @@
 }
 
 - (void)loadBannerAd {
-  NSString *spotID = _adConfiguration.credentials.settings[GADMAdapterFyberSpotID];
-  if (!spotID.length) {
-    NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
-        GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
-    GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    _loadCompletionHandler(nil, error);
-    return;
-  }
-
   _MRAIDContentController =
       [IAMRAIDContentController build:^(id<IAMRAIDContentControllerBuilder> _Nonnull builder){
       }];
@@ -120,8 +111,25 @@
         [builder addSupportedContentController:strongSelf->_MRAIDContentController];
       }];
 
-  IAAdRequest *request =
-      GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+  NSString *bidResponse = _adConfiguration.bidResponse;
+  IAAdRequest *request;
+  if (!bidResponse) {
+    // Waterfall flow
+    NSString *spotID = _adConfiguration.credentials.settings[GADMAdapterFyberSpotID];
+    if (!spotID.length) {
+      NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
+          GADMAdapterFyberErrorInvalidServerParameters, @"Missing or Invalid Spot ID.");
+      GADMAdapterFyberLog(@"%@", error.localizedDescription);
+      _loadCompletionHandler(nil, error);
+      return;
+    }
+
+    request = GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(spotID, _adConfiguration);
+  } else {
+    // Bidding flow
+    request = GADMAdapterFyberBuildRequestWithAdConfiguration(_adConfiguration);
+  }
+
   IASDKCore.sharedInstance.mediationType = [[IAMediationAdMob alloc] init];
   _adSpot = [IAAdSpot build:^(id<IAAdSpotBuilder> _Nonnull builder) {
     builder.adRequest = request;
@@ -134,7 +142,6 @@
     [builder addSupportedUnitController:strongSelf->_viewUnitController];
   }];
 
-  NSString *bidResponse = _adConfiguration.bidResponse;
   IAAdSpotAdResponseBlock completionCallback = ^(
       IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error) {
     // Set constraints for rotations or banner expand support.
