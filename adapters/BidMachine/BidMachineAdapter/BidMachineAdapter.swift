@@ -91,13 +91,15 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    do throws(BidMachineAdapterError) {
+    do {
       let format = try Util.adFormat(from: params)
       try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
         completionHandler(signals, nil)
       }
-    } catch {
+    } catch let error as BidMachineAdapterError {
       completionHandler(nil, error.toNSError())
+    } catch {
+      completionHandler(nil, error as NSError)
     }
   }
 

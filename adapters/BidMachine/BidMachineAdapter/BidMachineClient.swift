@@ -45,17 +45,18 @@ protocol BidMachineClient: NSObject {
   func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?)
 
   /// Collects the signals  for the specified ad format.
-  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
-    throws(BidMachineAdapterError)
+  func collectSignals(
+    for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+    throws
 
   /// Loads a RTB banner ad.
   func loadRTBBannerAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 
   /// Loads a RTB interstitial ad.
   func loadRTBInterstitialAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 
   /// Presents the loaded interstitial ad.
@@ -64,7 +65,7 @@ protocol BidMachineClient: NSObject {
 
   /// Loads a RTB rewarded ad.
   func loadRTBRewardedAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 
   /// Presents the loaded rewarded ad.
@@ -73,11 +74,18 @@ protocol BidMachineClient: NSObject {
 
   /// Loads a RTB native ad.
   func loadRTBNativeAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 }
 
 final class BidMachineClientImpl: NSObject, BidMachineClient {
+
+  private static let watermarkExtraKey = "google_watermark"
+
+  private var bidMachineBanner: BidMachineBanner?
+  private var bidMachineInterstitial: BidMachineInterstitial?
+  private var bidMachineRewarded: BidMachineRewarded?
+  private var bidMachineNative: BidMachineNative?
 
   func version() -> String {
     return BidMachineSdk.sdkVersion
@@ -100,77 +108,65 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     BidMachineSdk.shared.initializeSdk(sourceId)
   }
 
-  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
-    throws(BidMachineAdapterError)
-  {
+  func collectSignals(
+    for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void
+  ) throws {
     let placementFormat = try adFormat.toPlacementFormat()
-    BidMachineSdk.shared.token(with: placementFormat) { signals in
-      completionHandler(signals)
+    let placement = try BidMachineSdk.shared.placement(from: placementFormat)
+    BidMachineSdk.shared.token(placement: placement) { token in
+      completionHandler(token)
     }
   }
 
   func loadRTBBannerAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String,
+    delegate: BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let config = try BidMachineSdk.shared.requestConfiguration(.banner)
-    config.populate {
-      $0.withPayload(bidResponse)
+    let placement = try BidMachineSdk.shared.placement(from: .banner)
+    let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
+      builder.withPayload(bidResponse)
     }
 
-    BidMachineSdk.shared.banner(config) { bidMachineBanner, error in
+    BidMachineSdk.shared.banner(request: request) { [weak self] bidMachineBanner, error in
       guard let bidMachineBanner, error == nil else {
-        completionHandler(error as? NSError)
+        let error = error as? NSError
+        completionHandler(error)
         return
       }
+      self?.bidMachineBanner = bidMachineBanner
 
-      completionHandler(nil)
-      nonisolated(unsafe) let delegate = delegate
+      bidMachineBanner.delegate = delegate
       DispatchQueue.main.async {
-        bidMachineBanner.delegate = delegate
         bidMachineBanner.controller = Util.rootViewController()
+        bidMachineBanner.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
         bidMachineBanner.loadAd()
       }
     }
   }
 
   func loadRTBInterstitialAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
+    with bidResponse: String,
+    delegate: BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let config = try BidMachineSdk.shared.requestConfiguration(.interstitial)
-    config.populate {
-      $0.withPayload(bidResponse)
+    let placement = try BidMachineSdk.shared.placement(from: .interstitial)
+    let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
+      builder.withPayload(bidResponse)
     }
 
-    BidMachineSdk.shared.interstitial(config) { interstitialAd, error in
+    BidMachineSdk.shared.interstitial(request: request) { [weak self] interstitialAd, error in
       guard let interstitialAd, error == nil else {
         completionHandler(error as? NSError)
         return
       }
+      self?.bidMachineInterstitial = interstitialAd
 
       interstitialAd.delegate = delegate
+      interstitialAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
       interstitialAd.loadAd()
-    }
-  }
-
-  func loadRTBRewardedAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate,
-    completionHandler: @escaping (NSError?) -> Void
-  ) throws {
-    let config = try BidMachineSdk.shared.requestConfiguration(.rewarded)
-    config.populate {
-      $0.withPayload(bidResponse)
-    }
-
-    BidMachineSdk.shared.rewarded(config) { rewardedAd, error in
-      guard let rewardedAd, error == nil else {
-        completionHandler(error as? NSError)
-        return
-      }
-
-      rewardedAd.delegate = delegate
-      rewardedAd.loadAd()
     }
   }
 
@@ -184,6 +180,30 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
     interstitialAd.controller = viewController
     interstitialAd.presentAd()
+  }
+
+  func loadRTBRewardedAd(
+    with bidResponse: String,
+    delegate: BidMachineAdDelegate,
+    watermark: String,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    let placement = try BidMachineSdk.shared.placement(from: .rewarded)
+    let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
+      builder.withPayload(bidResponse)
+    }
+
+    BidMachineSdk.shared.rewarded(request: request) { [weak self] rewardedAd, error in
+      guard let rewardedAd, error == nil else {
+        completionHandler(error as? NSError)
+        return
+      }
+      self?.bidMachineRewarded = rewardedAd
+
+      rewardedAd.delegate = delegate
+      rewardedAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
+      rewardedAd.loadAd()
+    }
   }
 
   func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
@@ -201,21 +221,24 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   func loadRTBNativeAd(
     with bidResponse: String,
     delegate: any BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let config = try BidMachineSdk.shared.requestConfiguration(.native)
-    config.populate {
-      $0.withPayload(bidResponse)
+    let placement = try BidMachineSdk.shared.placement(from: .native)
+    let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
+      builder.withPayload(bidResponse)
     }
 
-    BidMachineSdk.shared.native(config) { nativeAd, error in
+    BidMachineSdk.shared.native(request: request) { [weak self] nativeAd, error in
       guard let nativeAd, error == nil else {
         completionHandler(error as? NSError)
         return
       }
+      self?.bidMachineNative = nativeAd
 
       completionHandler(nil)
       nativeAd.delegate = delegate
+      nativeAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
       nativeAd.loadAd()
     }
   }

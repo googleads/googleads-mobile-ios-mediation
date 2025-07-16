@@ -58,8 +58,18 @@ final class InterstitialAdLoader: NSObject {
       return
     }
 
+    guard let watermark = adConfiguration.watermark?.base64EncodedString() else {
+      handleLoadedAd(
+        nil,
+        error: BidMachineAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing watermark."
+        ).toNSError())
+      return
+    }
+
     do {
-      try client.loadRTBInterstitialAd(with: bidResponse, delegate: self) {
+      try client.loadRTBInterstitialAd(with: bidResponse, delegate: self, watermark: watermark) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
