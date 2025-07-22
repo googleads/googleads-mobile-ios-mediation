@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.3.8.0 (In progress)
 - Fixed the bidding flow to ignore the spot ID checking.
 
 #### [Version 8.3.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.7.0.zip)
