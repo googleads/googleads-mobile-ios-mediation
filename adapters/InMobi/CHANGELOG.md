@@ -1,5 +1,7 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 10.8.6.0 (In progress)
+
 #### [Version 10.8.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.3.1.zip)
 - For banner bidding requests, removes a validation check that enforces the
   banner size to map to a standard InMobi ad size. If InMobi bidder bids on a
