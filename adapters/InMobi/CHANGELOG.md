@@ -1,6 +1,11 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 10.8.6.0 (In progress)
+#### [Version 10.8.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.6.0.zip)
+- Verified compatibility with InMobi SDK 10.8.6.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.7.0.
+- InMobi SDK version 10.8.6.
 
 #### [Version 10.8.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.3.1.zip)
 - For banner bidding requests, removes a validation check that enforces the
