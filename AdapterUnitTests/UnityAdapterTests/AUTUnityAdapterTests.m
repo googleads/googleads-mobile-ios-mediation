@@ -15,6 +15,18 @@
 @implementation AUTUnityAdapterTests
 
 - (void)testAdapterSetUp {
+  id unityAdClassMock = OCMClassMock([UnityAds class]);
+  OCMStub(ClassMethod([unityAdClassMock initialize:AUTUnityGameID
+                                          testMode:NO
+                            initializationDelegate:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained NSObject *initDelegate;
+        [invocation getArgument:&initDelegate atIndex:4];
+        if ([initDelegate respondsToSelector:@selector(initializationComplete)]) {
+          [initDelegate performSelector:@selector(initializationComplete)];
+        }
+      });
+
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterUnityGameID : AUTUnityGameID};
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterUnity class], credentials);
