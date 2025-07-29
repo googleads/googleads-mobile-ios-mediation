@@ -1,5 +1,7 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### Version 4.8.0.0 (In progress)
+
 #### [Version 4.7.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-4.7.0.0.zip)
 - Initial release.
 - Supports bidding for banner, interstitial, rewarded and native ad formats.

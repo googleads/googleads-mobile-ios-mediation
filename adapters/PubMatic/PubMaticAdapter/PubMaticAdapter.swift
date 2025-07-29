@@ -18,7 +18,7 @@ import OpenWrapSDK
 @objc(GADMediationAdapterPubMatic)
 final class PubMaticAdapter: NSObject, RTBAdapter {
 
-  private static let adapterVersionString = "4.7.0.0"
+  private static let adapterVersionString = "4.8.0.0"
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
