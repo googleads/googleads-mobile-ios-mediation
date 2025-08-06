@@ -1,6 +1,11 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 7.7.9.0 (In progress)
+#### [Version 7.7.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.9.0.zip)
+- Verified compatibility with Mintegral SDK version 7.7.9.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.8.0.
+- Mintegral SDK version 7.7.9.
 
 #### [Version 7.7.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.8.0.zip)
 - Added support for COPPA. The adapter now forwards the
