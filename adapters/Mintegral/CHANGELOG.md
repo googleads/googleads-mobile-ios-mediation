@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+- Removed size check from the adapter for banner RTB ads.
+
 #### [Version 7.7.9.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.9.0.zip)
 - Verified compatibility with Mintegral SDK version 7.7.9.
 

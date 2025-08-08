@@ -55,7 +55,6 @@ UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
 }
 
 /// Returns the closest valid banner size by comparing the provided ad size against the valid sizes.
-/// Returns CGSizeZero and sets |error| if the ad configuration contains an invalid ad size.
 + (CGSize)bannerSizeFromAdConfiguration:(nonnull GADMediationBannerAdConfiguration *)adConfiguration
                                   error:(NSError **)errorPtr {
   GADAdSize adSize320x50 = GADAdSizeFromCGSize(CGSizeMake(320, 50));
@@ -69,12 +68,20 @@ UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
   GADAdSize closestAdSize = GADClosestValidSizeForAdSizes(requestedSize, possibleSizes);
 
   if (GADAdSizeEqualToSize(closestAdSize, GADAdSizeInvalid)) {
-    NSString *errorMessage = [NSString
-        stringWithFormat:@"The requested banner size: %@ is not supported by Mintegral SDK.",
-                         NSStringFromGADAdSize(requestedSize)];
-    *errorPtr = GADMAdapterMintegralErrorWithCodeAndDescription(GADMintegtalErrorBannerSizeInValid,
-                                                                errorMessage);
-    return CGSizeZero;
+    if (adConfiguration.bidResponse) {
+      // In the case of RTB, if the closest ad size is invalid, just use the requested size and let
+      // Mintegral SDK render using that size.
+      return CGSizeMake(requestedSize.size.width, requestedSize.size.height);
+    } else {
+      // In the case of Waterfall, if the closest ad size is invalid, return CGSizeZero and set
+      // error so that GMA SDK goes to the next line item in the waterfall chain.
+      NSString *errorMessage = [NSString
+          stringWithFormat:@"The requested banner size: %@ is not supported by Mintegral SDK.",
+                           NSStringFromGADAdSize(requestedSize)];
+      *errorPtr = GADMAdapterMintegralErrorWithCodeAndDescription(
+          GADMintegtalErrorBannerSizeInValid, errorMessage);
+      return CGSizeZero;
+    }
   }
 
   return CGSizeMake(closestAdSize.size.width, closestAdSize.size.height);

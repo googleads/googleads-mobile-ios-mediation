@@ -159,20 +159,8 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
 }
 
-- (void)testLoadFailureWithInvalidBannerSize {
-  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
-  credentials.settings =
-      @{GADMAdapterMintegralPlacementID : kPlacementID, GADMAdapterMintegralAdUnitID : kUnitID};
-  AUTKMediationBannerAdConfiguration *configuration =
-      [[AUTKMediationBannerAdConfiguration alloc] init];
-  configuration.credentials = credentials;
-  configuration.bidResponse = kBidResponse;
-  configuration.adSize = GADAdSizeFromCGSize(CGSizeMake(0, 0));
-
-  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterMintegralErrorDomain
-                                                      code:GADMintegtalErrorBannerSizeInValid
-                                                  userInfo:nil];
-  AUTKWaitAndAssertLoadBannerAdFailure(_adapter, configuration, expectedError);
+- (void)testLoadBannerSuccessEvenWithNonStandardMintegralBannerSize {
+  [self loadAdWithSize:CGSizeMake(400, 350)];
 }
 
 @end
