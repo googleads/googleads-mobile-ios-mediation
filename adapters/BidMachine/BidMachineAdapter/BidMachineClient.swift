@@ -140,7 +140,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       bidMachineBanner.delegate = delegate
       DispatchQueue.main.async {
         bidMachineBanner.controller = Util.rootViewController()
-        bidMachineBanner.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
         bidMachineBanner.loadAd()
       }
     }
@@ -165,7 +164,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       self?.bidMachineInterstitial = interstitialAd
 
       interstitialAd.delegate = delegate
-      interstitialAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
       interstitialAd.loadAd()
     }
   }
@@ -201,7 +199,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       self?.bidMachineRewarded = rewardedAd
 
       rewardedAd.delegate = delegate
-      rewardedAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
       rewardedAd.loadAd()
     }
   }
@@ -238,7 +235,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
       completionHandler(nil)
       nativeAd.delegate = delegate
-      nativeAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
       nativeAd.loadAd()
     }
   }

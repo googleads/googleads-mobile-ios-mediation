@@ -35,6 +35,7 @@ final class BidMachineRTBNativeAdTests {
   func load_succeeds() async {
     let adConfig = AUTKMediationNativeAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in

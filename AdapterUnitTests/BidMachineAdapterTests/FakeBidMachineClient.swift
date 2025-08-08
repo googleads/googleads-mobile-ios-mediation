@@ -44,7 +44,7 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   }
 
   func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
-    throws(BidMachineAdapterError)
+    throws
   {
     if !Self.supportedFormats.contains(adFormat) {
       throw BidMachineAdapterError(
@@ -56,6 +56,7 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   func loadRTBBannerAd(
     with bidResponse: String,
     delegate: any BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
     if !shouldBidMachineSucceedCreatingRequestConfig {
@@ -78,7 +79,9 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   }
 
   func loadRTBInterstitialAd(
-    with bidResponse: String, delegate: any BidMachine.BidMachineAdDelegate,
+    with bidResponse: String,
+    delegate: any BidMachine.BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
     if !shouldBidMachineSucceedCreatingRequestConfig {
@@ -117,7 +120,9 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   }
 
   func loadRTBRewardedAd(
-    with bidResponse: String, delegate: any BidMachine.BidMachineAdDelegate,
+    with bidResponse: String,
+    delegate: any BidMachine.BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
     if !shouldBidMachineSucceedCreatingRequestConfig {
@@ -156,6 +161,7 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
   func loadRTBNativeAd(
     with bidResponse: String,
     delegate: any BidMachine.BidMachineAdDelegate,
+    watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
     if !shouldBidMachineSucceedCreatingRequestConfig {
@@ -194,6 +200,9 @@ final class MockView: UIView, BidMachineAdProtocol {
   var auctionInfo: any BidMachine.BidMachineAuctionResponseProtocol {
     return OCMockObject.mock(for: BidMachineAuctionResponseProtocol.self)
       as! BidMachineAuctionResponseProtocol
+  }
+  var auctionRequest: BidMachine.BidMachineAuctionRequest {
+    return OCMockObject.mock(for: BidMachineAuctionRequest.self) as! BidMachineAuctionRequest
   }
   var requestInfo: any BidMachine.BidMachineRequestInfoProtocol {
     return OCMockObject.mock(for: BidMachineRequestInfoProtocol.self)

@@ -32,6 +32,7 @@ final class BidMachineRTBBannerAdTests {
   func load_succeeds() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
@@ -123,6 +124,7 @@ final class BidMachineRTBBannerAdTests {
   func impreesion_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     var delegate: BidMachineAdDelegate?
@@ -147,6 +149,7 @@ final class BidMachineRTBBannerAdTests {
   func click_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     var delegate: BidMachineAdDelegate?

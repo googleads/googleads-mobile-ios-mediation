@@ -32,6 +32,7 @@ final class BidMachineRTBInterstitialAdTests {
   func load_succeeds() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
@@ -106,6 +107,7 @@ final class BidMachineRTBInterstitialAdTests {
 
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
@@ -123,6 +125,7 @@ final class BidMachineRTBInterstitialAdTests {
   func presentation_succeeds() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
     var delegate: BidMachineAdDelegate?
@@ -149,6 +152,7 @@ final class BidMachineRTBInterstitialAdTests {
 
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
     var delegate: BidMachineAdDelegate?
@@ -172,6 +176,7 @@ final class BidMachineRTBInterstitialAdTests {
   func impreesion_count() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
     var delegate: BidMachineAdDelegate?
@@ -196,6 +201,7 @@ final class BidMachineRTBInterstitialAdTests {
   func click_count() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     adConfig.bidResponse = "test response"
+    adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
     var delegate: BidMachineAdDelegate?
