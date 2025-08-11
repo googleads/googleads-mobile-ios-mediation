@@ -96,7 +96,7 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
         completionHandler(signals, nil)
       }
-    } catch let error as GoogleBidMachineAdapter.BidMachineAdapterError {
+    } catch let error as BidMachineAdapterError {
       completionHandler(nil, error.toNSError())
     } catch {
       completionHandler(nil, error as NSError)

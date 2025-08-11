@@ -40,12 +40,11 @@ final class Util {
 
   /// Retrieves a publisher ID from the provided mediation server configuration.
   ///
-  /// - Throws: GoogleBidMachineAdapter.BidMachineAdapterError.serverConfigurationMissingPublisherId if the configuration
+  /// - Throws: BidMachineAdapterError.serverConfigurationMissingPublisherId if the configuration
   /// contains no publisher ID.
   /// - Returns: A publisher ID from the configuration. If more than one ID was found, the it
   /// returns one random ID with printed warning message.
-  static func sourceId(from config: MediationServerConfiguration) throws(GoogleBidMachineAdapter
-    .BidMachineAdapterError)
+  static func sourceId(from config: MediationServerConfiguration) throws(BidMachineAdapterError)
     -> String
   {
     let sourceIdSet = Set<String>(
@@ -54,7 +53,7 @@ final class Util {
       })
 
     guard let sourceId = sourceIdSet.randomElement() else {
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .serverConfigurationMissingPublisherId,
         description: "The server configuration is missing an source ID.")
     }
@@ -68,15 +67,15 @@ final class Util {
 
   /// Retrieves an ad format from the provided RTB parameters.
   ///
-  /// - Throws: GoogleBidMachineAdapter.BidMachineAdapterError.invalidRTBRequestParameters if the parameters contain no ad format.
+  /// - Throws: BidMachineAdapterError.invalidRTBRequestParameters if the parameters contain no ad format.
   /// - Returns: An ad format from the configuration.
   static func adFormat(
     from params: RTBRequestParameters
-  ) throws(GoogleBidMachineAdapter.BidMachineAdapterError) -> AdFormat {
+  ) throws(BidMachineAdapterError) -> AdFormat {
     // Returns the first ad format found because the other crendentials should
     // have the same ad format.
     guard let adFormat = params.configuration.credentials.first?.format else {
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters,
         description:
           "Failed to collect signals because the configuration is missing the crendentials.")

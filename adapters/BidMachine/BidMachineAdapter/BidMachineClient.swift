@@ -61,7 +61,7 @@ protocol BidMachineClient: NSObject {
 
   /// Presents the loaded interstitial ad.
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
-    throws(GoogleBidMachineAdapter.BidMachineAdapterError)
+    throws(BidMachineAdapterError)
 
   /// Loads a RTB rewarded ad.
   func loadRTBRewardedAd(
@@ -70,7 +70,7 @@ protocol BidMachineClient: NSObject {
 
   /// Presents the loaded rewarded ad.
   func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
-    throws(GoogleBidMachineAdapter.BidMachineAdapterError)
+    throws(BidMachineAdapterError)
 
   /// Loads a RTB native ad.
   func loadRTBNativeAd(
@@ -169,10 +169,10 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
-    throws(GoogleBidMachineAdapter.BidMachineAdapterError)
+    throws(BidMachineAdapterError)
   {
     guard let interstitialAd, interstitialAd.canShow else {
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .adNotReadyForPresentation,
         description: "Interstitial ad is not ready for presentation.")
     }
@@ -204,10 +204,10 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
-    throws(GoogleBidMachineAdapter.BidMachineAdapterError)
+    throws(BidMachineAdapterError)
   {
     guard let rewardedAd, rewardedAd.canShow else {
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .adNotReadyForPresentation,
         description: "RTB rewarded ad is not ready for presentation.")
     }
@@ -243,16 +243,14 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
 extension AdFormat {
 
-  fileprivate func toPlacementFormat() throws(GoogleBidMachineAdapter.BidMachineAdapterError)
-    -> PlacementFormat
-  {
+  fileprivate func toPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
     switch self {
     case .banner: return .banner
     case .interstitial: return .interstitial
     case .rewarded: return .rewarded
     case .native: return .native
     default:
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters,
         description: "Unsupported ad format. Provided format: \(self).")
     }

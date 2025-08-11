@@ -28,7 +28,7 @@ final class NativeAdProxyFactory {
 
   static func createProxy(
     with ad: BidMachineAdProtocol
-  ) throws(GoogleBidMachineAdapter.BidMachineAdapterError) -> NativeAdProxy {
+  ) throws(BidMachineAdapterError) -> NativeAdProxy {
     #if DEBUG
       if let debugProxy {
         return debugProxy
@@ -47,8 +47,7 @@ final class NativeAdProxyFactory {
 protocol NativeAdProxy: NSObject, MediationNativeAd, BidMachineNativeAdRendering {
 
   /// Downloads all the image assets needed for the native ad this proxy represents.
-  func downLoadImageAssets(
-    completionHandler: @escaping (GoogleBidMachineAdapter.BidMachineAdapterError?) -> Void)
+  func downLoadImageAssets(completionHandler: @escaping (BidMachineAdapterError?) -> Void)
 
 }
 
@@ -165,11 +164,9 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
 
   // MARK: - NativeAdProxy
 
-  fileprivate init(nativeAd: BidMachineAdProtocol) throws(GoogleBidMachineAdapter
-    .BidMachineAdapterError)
-  {
+  fileprivate init(nativeAd: BidMachineAdProtocol) throws(BidMachineAdapterError) {
     guard let nativeAd = nativeAd as? BidMachineNative else {
-      throw GoogleBidMachineAdapter.BidMachineAdapterError(
+      throw BidMachineAdapterError(
         errorCode: .bidMachineReturnedNonNativeAd,
         description: "Received non-native ad in the native's didLoadAd delegate method.")
     }
@@ -177,13 +174,10 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
     self.nativeAd = nativeAd
   }
 
-  func downLoadImageAssets(
-    completionHandler: @escaping (GoogleBidMachineAdapter.BidMachineAdapterError?) -> Void
-  ) {
+  func downLoadImageAssets(completionHandler: @escaping (BidMachineAdapterError?) -> Void) {
     // Load an icon image.
     nonisolated(unsafe) var nativeAdIcon: NativeAdImage?
-    nonisolated(unsafe) var nativeAdIconDownloadError:
-      GoogleBidMachineAdapter.BidMachineAdapterError?
+    nonisolated(unsafe) var nativeAdIconDownloadError: BidMachineAdapterError?
     imageLoadDispatchGroup.enter()
     downloadImage(from: nativeAd.icon) { [weak self] image, error in
       nativeAdIconDownloadError = error
@@ -195,8 +189,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
 
     // Load a main image.
     nonisolated(unsafe) var nativeAdImage: NativeAdImage?
-    nonisolated(unsafe) var nativeAdImageDownloadError:
-      GoogleBidMachineAdapter.BidMachineAdapterError?
+    nonisolated(unsafe) var nativeAdImageDownloadError: BidMachineAdapterError?
     imageLoadDispatchGroup.enter()
     downloadImage(from: nativeAd.main) { [weak self] image, error in
       nativeAdImageDownloadError = error
@@ -232,9 +225,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
 
   private func downloadImage(
     from urlString: String?,
-    completionHandler: @Sendable @escaping (
-      UIImage?, GoogleBidMachineAdapter.BidMachineAdapterError?
-    ) -> Void
+    completionHandler: @Sendable @escaping (UIImage?, BidMachineAdapterError?) -> Void
   ) {
     guard let urlString else {
       // Not failure. An image does not exists for the loaded native ad.
@@ -245,7 +236,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
     guard let url = URL(string: urlString) else {
       completionHandler(
         nil,
-        GoogleBidMachineAdapter.BidMachineAdapterError(
+        BidMachineAdapterError(
           errorCode: .failedToLoadNativeAdImageSource,
           description: "Invalid image URL. URL: \(urlString)"))
       return
@@ -255,7 +246,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
       guard let data, error == nil else {
         completionHandler(
           nil,
-          GoogleBidMachineAdapter.BidMachineAdapterError(
+          BidMachineAdapterError(
             errorCode: .failedToLoadNativeAdImageSource,
             description: "Failed to load a native ad image source."))
         return
@@ -264,7 +255,7 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
       guard let image = UIImage(data: data) else {
         completionHandler(
           nil,
-          GoogleBidMachineAdapter.BidMachineAdapterError(
+          BidMachineAdapterError(
             errorCode: .failedToLoadNativeAdImageSource,
             description: "Downloaded asset is not an image."))
         return

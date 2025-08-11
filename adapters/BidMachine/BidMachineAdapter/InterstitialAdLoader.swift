@@ -51,7 +51,7 @@ final class InterstitialAdLoader: NSObject {
     guard let bidResponse = adConfiguration.bidResponse else {
       handleLoadedAd(
         nil,
-        error: GoogleBidMachineAdapter.BidMachineAdapterError(
+        error: BidMachineAdapterError(
           errorCode: .invalidAdConfiguration,
           description: "The ad configuration is missing bid response."
         ).toNSError())
@@ -61,7 +61,7 @@ final class InterstitialAdLoader: NSObject {
     guard let watermark = adConfiguration.watermark?.base64EncodedString() else {
       handleLoadedAd(
         nil,
-        error: GoogleBidMachineAdapter.BidMachineAdapterError(
+        error: BidMachineAdapterError(
           errorCode: .invalidAdConfiguration,
           description: "The ad configuration is missing watermark."
         ).toNSError())
