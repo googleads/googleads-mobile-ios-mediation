@@ -8,7 +8,7 @@ AD_NETWORK_NAME = BidMachine
 FRAMEWORK_NAME = $(AD_NETWORK_NAME)Adapter
 
 /// Xcode variables
-PRODUCT_NAME = BidMachineAdapter
+PRODUCT_NAME = GoogleBidMachineAdapter
 EXECUTABLE_PREFIX = lib
 
 /// User defined variables.
