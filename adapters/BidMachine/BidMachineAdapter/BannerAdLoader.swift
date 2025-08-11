@@ -56,7 +56,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     guard let bidResponse = adConfiguration.bidResponse else {
       handleLoadedAd(
         nil,
-        error: BidMachineAdapterError(
+        error: GoogleBidMachineAdapter.BidMachineAdapterError(
           errorCode: .invalidAdConfiguration,
           description: "The ad configuration is missing bid response."
         ).toNSError())
@@ -66,7 +66,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     guard let watermark = adConfiguration.watermark?.base64EncodedString() else {
       handleLoadedAd(
         nil,
-        error: BidMachineAdapterError(
+        error: GoogleBidMachineAdapter.BidMachineAdapterError(
           errorCode: .invalidAdConfiguration,
           description: "The ad configuration is missing watermark."
         ).toNSError())
@@ -107,7 +107,7 @@ extension BannerAdLoader: BidMachineAdDelegate {
       // Technically, should never get here.
       handleLoadedAd(
         nil,
-        error: BidMachineAdapterError(
+        error: GoogleBidMachineAdapter.BidMachineAdapterError(
           errorCode: .bidMachineReturnedNonBannerAd,
           description: "Received non-banner ad in the banner's didLoadAd delegate method."))
       return

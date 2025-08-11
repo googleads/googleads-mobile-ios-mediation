@@ -96,7 +96,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BidMachineAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFB2A902DC346AF005EBC7F /* libGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +141,7 @@
 			children = (
 				ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */,
 				ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */,
-				ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
+				ADFB2A902DC346AF005EBC7F /* libGoogleBidMachineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,7 +234,7 @@
 			);
 			name = StaticGoogleBidMachineAdapter;
 			productName = Adapter;
-			productReference = ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */;
+			productReference = ADFB2A902DC346AF005EBC7F /* libGoogleBidMachineAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -872,8 +872,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
-				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = GoogleBidMachineAdapter;
+				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -947,8 +947,8 @@
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
-				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = GoogleBidMachineAdapter;
+				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
