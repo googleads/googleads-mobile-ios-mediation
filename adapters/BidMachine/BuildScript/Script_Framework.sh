@@ -43,7 +43,7 @@ createFramework() {
 
   # Create Headers directory and copy BidMachineAdapter-Swift.h file
   mkdir -p "${TEMP_FRAMEWORK_LOCATION}/Headers/"
-  /bin/cp -a "${OBJROOT}/${1}/BidMachineAdapter.build/${CONFIGURATION}-${1}/Adapter.build/DerivedSources/BidMachineAdapter-Swift.h" "${TEMP_FRAMEWORK_LOCATION}/Headers/"
+  /bin/cp -a "${OBJROOT}/${1}/BidMachineAdapter.build/${CONFIGURATION}-${1}/Adapter.build/DerivedSources/GoogleBidMachineAdapter-Swift.h" "${TEMP_FRAMEWORK_LOCATION}/Headers/"
 
   # Static library does not automatically generate an Info.plist file. Create
   # a fake framework to generate the Info.plist and then copy it into the

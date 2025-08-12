@@ -5,7 +5,7 @@
 
 /// Third Party AD Network Name.
 AD_NETWORK_NAME = BidMachine
-FRAMEWORK_NAME = $(AD_NETWORK_NAME)Adapter
+FRAMEWORK_NAME = Google$(AD_NETWORK_NAME)Adapter
 
 /// Xcode variables
 PRODUCT_NAME = GoogleBidMachineAdapter

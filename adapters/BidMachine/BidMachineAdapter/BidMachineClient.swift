@@ -136,9 +136,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
         return
       }
       self?.bidMachineBanner = bidMachineBanner
-
-      bidMachineBanner.delegate = delegate
+      nonisolated(unsafe) let nonisolatedDelegate = delegate
       DispatchQueue.main.async {
+        bidMachineBanner.delegate = nonisolatedDelegate
         bidMachineBanner.controller = Util.rootViewController()
         bidMachineBanner.loadAd()
       }
