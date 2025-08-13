@@ -28,10 +28,12 @@ IPHONEOS_DEPLOYMENT_TARGET[arch=arm64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS
 IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)
 CURRENT_PROJECT_VERSION = 3400
 MARKETING_VERSION = 3.4.0
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/**"
+// For device builds
+FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "${SRCROOT}/Drop_Framework_And_Headers" "${SRCROOT}/Drop_Framework_And_Headers/BidMachine.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackProductPresentation.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackModules.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackRendering.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/OMSDK_Appodeal.xcframework/ios-arm64"
+// For simulator builds
+FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "${SRCROOT}/Drop_Framework_And_Headers" "${SRCROOT}/Drop_Framework_And_Headers/BidMachine.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/StackProductPresentation.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/StackModules.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/StackRendering.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/OMSDK_Appodeal.xcframework/ios-arm64_x86_64-simulator"
 LIBRARY_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/**"
 HEADER_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/**"
-SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 ONLY_ACTIVE_ARCH = NO
 VALID_ARCHS = arm64 x86_64

@@ -2529,7 +2529,7 @@
 			isa = PBXGroup;
 			children = (
 				ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */,
-				ADA2FAF82D9F776C005D9ECA /* BidMachineAdapterFramework.framework */,
+				ADA2FAF82D9F776C005D9ECA /* GoogleBidMachineAdapter.framework */,
 				ADFB31F92DC401D5005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
 			);
 			name = Products;
@@ -3991,10 +3991,10 @@
 			remoteRef = ADA2FAF52D9F776C005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ADA2FAF82D9F776C005D9ECA /* BidMachineAdapterFramework.framework */ = {
+		ADA2FAF82D9F776C005D9ECA /* GoogleBidMachineAdapter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = BidMachineAdapterFramework.framework;
+			path = GoogleBidMachineAdapter.framework;
 			remoteRef = ADA2FAF72D9F776C005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
