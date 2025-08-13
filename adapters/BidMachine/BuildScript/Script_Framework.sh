@@ -23,6 +23,13 @@ createFramework() {
   mkdir -p "${TEMP_FRAMEWORK_LOCATION}"
 
   # Build the static library for the specified sdk and architecture.
+  # Set framework search paths based on SDK to avoid architecture conflicts
+  if [[ "${1}" == "iphoneos" ]]; then
+    FRAMEWORK_PATHS="${SRCROOT}/Drop_Framework_And_Headers ${SRCROOT}/Drop_Framework_And_Headers/BidMachine.xcframework/ios-arm64 ${SRCROOT}/Drop_Framework_And_Headers/StackProductPresentation.xcframework/ios-arm64 ${SRCROOT}/Drop_Framework_And_Headers/StackModules.xcframework/ios-arm64 ${SRCROOT}/Drop_Framework_And_Headers/StackRendering.xcframework/ios-arm64 ${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64 ${SRCROOT}/Drop_Framework_And_Headers/OMSDK_Appodeal.xcframework/ios-arm64"
+  else
+    FRAMEWORK_PATHS="${SRCROOT}/Drop_Framework_And_Headers ${SRCROOT}/Drop_Framework_And_Headers/BidMachine.xcframework/ios-arm64_x86_64-simulator ${SRCROOT}/Drop_Framework_And_Headers/StackProductPresentation.xcframework/ios-arm64_x86_64-simulator ${SRCROOT}/Drop_Framework_And_Headers/StackModules.xcframework/ios-arm64_x86_64-simulator ${SRCROOT}/Drop_Framework_And_Headers/StackRendering.xcframework/ios-arm64_x86_64-simulator ${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator ${SRCROOT}/Drop_Framework_And_Headers/OMSDK_Appodeal.xcframework/ios-arm64_x86_64-simulator"
+  fi
+
   xcodebuild -target Adapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
@@ -32,6 +39,7 @@ createFramework() {
   OBJROOT="${OBJROOT}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${SYMROOT}" \
+  FRAMEWORK_SEARCH_PATHS="${FRAMEWORK_PATHS}" \
   "${ACTION}"
 
   # Create framework using lipo.
@@ -68,6 +76,7 @@ createFramework() {
   OBJROOT="${TEMP_FRAMEWORK_OBJROOT_DIR}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${TEMP_FRAMEWORK_SYMROOT_DIR}" \
+  FRAMEWORK_SEARCH_PATHS="${FRAMEWORK_PATHS}" \
   "build"
 
  install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"

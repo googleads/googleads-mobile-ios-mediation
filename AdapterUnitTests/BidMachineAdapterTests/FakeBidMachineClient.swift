@@ -189,11 +189,16 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
 
 final class MockView: UIView, BidMachineAdProtocol {
 
+  var rendererConfiguration: BidMachine.BidMachineRendererConfiguration
+
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
   init() {
+    rendererConfiguration =
+      OCMockObject.mock(for: BidMachineRendererConfiguration.self)
+      as! BidMachineRendererConfiguration
     super.init(frame: .zero)
   }
 
