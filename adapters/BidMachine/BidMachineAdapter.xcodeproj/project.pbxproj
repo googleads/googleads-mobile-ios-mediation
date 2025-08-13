@@ -95,7 +95,7 @@
 		ADFA84B72C17704300A501AB /* Script_Framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BidMachineAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -140,7 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */,
-				ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */,
+				ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */,
 				ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
 			);
 			name = Products;
@@ -203,9 +203,9 @@
 			productReference = ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		ADFA84D32C17738E00A501AB /* BidMachineAdapterFramework */ = {
+		ADFA84D32C17738E00A501AB /* GoogleBidMachineAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "BidMachineAdapterFramework" */;
+			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "GoogleBidMachineAdapter" */;
 			buildPhases = (
 				ADFA84D02C17738E00A501AB /* Sources */,
 				ADFA84D12C17738E00A501AB /* Frameworks */,
@@ -215,9 +215,9 @@
 			);
 			dependencies = (
 			);
-			name = BidMachineAdapterFramework;
+			name = GoogleBidMachineAdapter;
 			productName = BidMachineAdapter;
-			productReference = ADFA84D42C17738E00A501AB /* BidMachineAdapterFramework.framework */;
+			productReference = ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		ADFB2A7F2DC346AF005EBC7F /* StaticGoogleBidMachineAdapter */ = {
@@ -274,7 +274,7 @@
 				ADFA849C2C176E2200A501AB /* Adapter */,
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
-				ADFA84D32C17738E00A501AB /* BidMachineAdapterFramework */,
+				ADFA84D32C17738E00A501AB /* GoogleBidMachineAdapter */,
 				ADFB2A7F2DC346AF005EBC7F /* StaticGoogleBidMachineAdapter */,
 			);
 		};
@@ -437,6 +437,10 @@
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_NAME = GoogleBidMachineAdapter;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -453,7 +457,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIB_NAME = "${PRODUCT_NAME}";
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -519,6 +523,10 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_NAME = GoogleBidMachineAdapter;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -529,7 +537,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LIB_NAME = "${PRODUCT_NAME}";
+				LIB_NAME = "$(EXECUTABLE_PREFIX)$(PRODUCT_NAME)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MODULE_MAP_PATH = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -650,7 +658,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
+				FRAMEWORK_NAME = "Google$(AD_NETWORK_NAME)Adapter";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -674,7 +682,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIB_NAME = "$(AD_NETWORK_NAME)Adapter";
+				LIB_NAME = "Google$(AD_NETWORK_NAME)Adapter";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MIN_OS_MAJOR_VERSION = 12;
@@ -690,7 +698,7 @@
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.BidMachineAdapter;
 				PRODUCT_MODULE_NAME = Adapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -753,7 +761,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_NAME = "$(AD_NETWORK_NAME)Adapter";
+				FRAMEWORK_NAME = "Google$(AD_NETWORK_NAME)Adapter";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -771,7 +779,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIB_NAME = "$(AD_NETWORK_NAME)Adapter";
+				LIB_NAME = "Google$(AD_NETWORK_NAME)Adapter";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MIN_OS_MAJOR_VERSION = 12;
@@ -786,7 +794,7 @@
 				OUTPUT_FOLDER = "${PROJECT_DIR}/Library";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.BidMachineAdapter;
 				PRODUCT_MODULE_NAME = Adapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = GoogleBidMachineAdapter;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -997,7 +1005,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "BidMachineAdapterFramework" */ = {
+		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "GoogleBidMachineAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADFA84D92C17738E00A501AB /* Debug */,

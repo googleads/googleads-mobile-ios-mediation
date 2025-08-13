@@ -67,7 +67,7 @@ createFramework() {
   mkdir -p "${TEMP_FRAMEWORK_OBJROOT_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_SYMROOT_DIR}"
 
-  xcodebuild -target BidMachineAdapterFramework \
+  xcodebuild -target GoogleBidMachineAdapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \
@@ -76,7 +76,6 @@ createFramework() {
   OBJROOT="${TEMP_FRAMEWORK_OBJROOT_DIR}/${1}" \
   ONLY_ACTIVE_ARCH=NO \
   SYMROOT="${TEMP_FRAMEWORK_SYMROOT_DIR}" \
-  FRAMEWORK_SEARCH_PATHS="${FRAMEWORK_PATHS}" \
   "build"
 
  install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
