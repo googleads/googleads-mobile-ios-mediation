@@ -109,6 +109,19 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     }
   }
 
+  func loadWaterfallRewardedAd(
+    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: any POBRewardedAdDelegate
+  ) {
+    rewardedAdDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.rewardedAdDidReceive?(POBRewardedAd())
+    } else {
+      delegate.rewardedAd?(
+        POBRewardedAd(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
   func loadRtbNativeAd(
     bidResponse: String,
     delegate: any POBNativeAdLoaderDelegate,

@@ -33,8 +33,8 @@ final class PubMaticRewardedAdTests {
     OpenWrapSDKClientFactory.debugClient = nil
   }
 
-  @Test("RewardedAd ad load succeeds")
-  func loadRewardedAd_succeeds() {
+  @Test("RTB rewardedAd ad load succeeds")
+  func loadRTBRewardedAd_succeeds() {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "Test response"
     config.watermark = Data()
@@ -46,21 +46,8 @@ final class PubMaticRewardedAdTests {
     }
   }
 
-  @Test("RewardedAd ad load fails for missing a bid response")
-  func loadRewardedAd_fails_whenMissingBidResponse() {
-    let config = AUTKMediationRewardedAdConfiguration()
-    let adapter = PubMaticAdapter()
-    adapter.loadRewardedAd(for: config) { ad, error in
-      let error = error as NSError?
-      #expect(error != nil)
-      #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidAdConfiguration.rawValue)
-      #expect(ad == nil)
-      return AUTKMediationRewardedAdEventDelegate()
-    }
-  }
-
-  @Test("RewardedAd ad load fails for OpenWrapSDK error")
-  func loadRewardedAd_fails_whenOpenWrapSDKFailsToLoad() {
+  @Test("RTB rewardedAd ad load fails for OpenWrapSDK error")
+  func loadRTBRewardedAd_fails_whenOpenWrapSDKFailsToLoad() {
     debugClient.shouldAdLoadSucceed = false
 
     let config = AUTKMediationRewardedAdConfiguration()
@@ -69,6 +56,124 @@ final class PubMaticRewardedAdTests {
     adapter.loadRewardedAd(for: config) { ad, error in
       let error = error as NSError?
       #expect(error != nil)
+      #expect(ad == nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Waterfall Interstitial ad load succeeds")
+  func loadWaterfallRewarded_succeeds() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      #expect(error == nil)
+      #expect(ad != nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall interstitial ad load fails for OpenWrapSDK error")
+  func loadWaterfallRewarded_fails_whenOpenWrapSDKFailsToLoad() {
+    debugClient.shouldAdLoadSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(ad == nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall interstitial ad load fails for missing publisher ID")
+  func loadWaterfallRewarded_fails_whenAdConfigurationMissingPublisherID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingPublisherId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall interstitial ad load fails for missing profile ID")
+  func loadWaterfallRewarded_fails_whenAdConfigurationMissingProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall interstitial ad load fails for containing non-number profile ID")
+  func loadWaterfallRewarded_fails_whenAdConfigurationContainsNonNumberProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "a1234",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationRewardedAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall interstitial ad load fails for missing ad unit ID")
+  func loadWaterfallRewarded_fails_whenAdConfigurationMissingAdUnitID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+    ]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadRewardedAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingAdUnitId.rawValue)
       #expect(ad == nil)
       return AUTKMediationRewardedAdEventDelegate()
     }

@@ -2,6 +2,7 @@
 
 #### Next version
 - Supports waterfall interstitial ad format.
+- Supports waterfall rewarded ad format.
 
 #### Version 4.8.1.0 (In progress)
 

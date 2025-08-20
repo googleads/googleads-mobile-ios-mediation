@@ -49,6 +49,14 @@ final class RewardedAdLoader: NSObject {
   }
 
   func loadAd() {
+    if adConfiguration.bidResponse != nil {
+      loadRTBAd()
+    } else {
+      loadWaterfallAd()
+    }
+  }
+
+  private func loadRTBAd() {
     guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
     else {
       handleLoadedAd(
@@ -60,6 +68,18 @@ final class RewardedAdLoader: NSObject {
       return
     }
     client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+  }
+
+  private func loadWaterfallAd() {
+    do {
+      let publisherId = try Util.publisherId(from: adConfiguration)
+      let profileId = try Util.profileId(from: adConfiguration)
+      let adUnitId = try Util.adUnitId(from: adConfiguration)
+      client.loadWaterfallRewardedAd(
+        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
