@@ -72,6 +72,8 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
   init(nativeAd: POBNativeAd) {
     imageLoadDispatchGroup = DispatchGroup()
     self.nativeAd = nativeAd
+    super.init()
+    self.nativeAd.setAdDelegate(self)
   }
 
   // MARK: - MediationNativeAd
