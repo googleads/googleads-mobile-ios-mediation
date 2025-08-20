@@ -33,8 +33,8 @@ final class PubMaticBannerViewTests {
     OpenWrapSDKClientFactory.debugClient = nil
   }
 
-  @Test("Banner view load succeeds")
-  func loadBannerView_succeeds() async {
+  @Test("RTB banner view load succeeds")
+  func loadRTBBannerView_succeeds() async {
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = "Test response"
     config.watermark = Data()
@@ -50,24 +50,8 @@ final class PubMaticBannerViewTests {
     }
   }
 
-  @Test("Banner view load fails for missing a bid response")
-  func loadBannerView_fails_whenMissingBidResponse() async {
-    let config = AUTKMediationBannerAdConfiguration()
-    let adapter = PubMaticAdapter()
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: config) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidAdConfiguration.rawValue)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
-  }
-
-  @Test("Banner view load fails for OpenWrapSDK error")
-  func loadBannerView_fails_whenOpenWrapSDKFailsToLoad() async {
+  @Test("RTB banner view load fails for OpenWrapSDK error")
+  func loadRTBBannerView_fails_whenOpenWrapSDKFailsToLoad() async {
     debugClient.shouldAdLoadSucceed = false
 
     let config = AUTKMediationBannerAdConfiguration()
@@ -81,6 +65,124 @@ final class PubMaticBannerViewTests {
         continuation.resume()
         return AUTKMediationBannerAdEventDelegate()
       }
+    }
+  }
+
+  @Test("Waterfall Banner ad load succeeds")
+  func loadWaterfall_succeeds() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      #expect(error == nil)
+      #expect(ad != nil)
+      return AUTKMediationBannerAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Banner ad load fails for OpenWrapSDK error")
+  func loadWaterfallBanner_fails_whenOpenWrapSDKFailsToLoad() {
+    debugClient.shouldAdLoadSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(ad == nil)
+      return AUTKMediationBannerAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Banner ad load fails for missing publisher ID")
+  func loadWaterfallBanner_fails_whenAdConfigurationMissingPublisherID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingPublisherId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationBannerAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Banner ad load fails for missing profile ID")
+  func loadWaterfallBanner_fails_whenAdConfigurationMissingProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationBannerAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Banner ad load fails for containing non-number profile ID")
+  func loadWaterfallBanner_fails_whenAdConfigurationContainsNonNumberProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "a1234",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationBannerAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Banner ad load fails for missing ad unit ID")
+  func loadWaterfallBanner_fails_whenAdConfigurationMissingAdUnitID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+    ]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadBanner(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingAdUnitId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationBannerAdEventDelegate()
     }
   }
 

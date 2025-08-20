@@ -53,6 +53,14 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   }
 
   func loadAd() {
+    if adConfiguration.bidResponse != nil {
+      loadRTBAd()
+    } else {
+      loadWaterfallAd()
+    }
+  }
+
+  private func loadRTBAd() {
     guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
     else {
       handleLoadedAd(
@@ -68,6 +76,28 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       self.client.loadRtbBannerView(
         bidResponse: bidResponse, delegate: self, watermarkData: watermark)
     }
+  }
+
+  private func loadWaterfallAd() {
+    do throws(PubMaticAdapterError) {
+      guard let adSize = POBAdSize(cgSize: adConfiguration.adSize.size) else {
+        throw PubMaticAdapterError(
+          errorCode: .openWrapFailedToInstantiateAdSize,
+          description: "The OpenWrapSDK fails to instantiate an ad size instance.")
+      }
+      let publisherId = try Util.publisherId(from: adConfiguration)
+      let profileId = try Util.profileId(from: adConfiguration)
+      let adUnitId = try Util.adUnitId(from: adConfiguration)
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.client.loadWaterfallBannerView(
+          publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, adSize: adSize,
+          delegate: self)
+      }
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
+
   }
 
   private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {

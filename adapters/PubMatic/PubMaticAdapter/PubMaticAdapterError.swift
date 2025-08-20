@@ -47,6 +47,9 @@ public struct PubMaticAdapterError: Error {
 
     /// Ad configuration missing an ad unit ID.
     case adConfigurationMissingAdUnitId = 110
+
+    /// OpenWrapSDK fails to instantiate an ad size instance.
+    case openWrapFailedToInstantiateAdSize = 111
   }
 
   public static let domain = "com.google.ads.mediation.pubmatic"
