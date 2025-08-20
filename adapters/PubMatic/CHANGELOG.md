@@ -4,6 +4,7 @@
 - Supports waterfall interstitial ad format.
 - Supports waterfall rewarded ad format.
 - Supports waterfall banner ad format.
+- Supports waterfall native ad format.
 - Fixes a bug which native ad delegate was not correctly set.
 
 #### Version 4.8.1.0 (In progress)

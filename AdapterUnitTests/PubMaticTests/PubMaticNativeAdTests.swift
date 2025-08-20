@@ -39,8 +39,8 @@ final class PubMaticNativeAdTests {
     OpenWrapSDKClientFactory.debugClient = nil
   }
 
-  @Test("Native ad load succeeds")
-  func loadNativeAd_succeeds() async {
+  @Test("RTB native ad load succeeds")
+  func loadRTBNativeAd_succeeds() async {
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "Test response"
     config.watermark = Data()
@@ -58,23 +58,8 @@ final class PubMaticNativeAdTests {
     #expect(debugProxy.eventDelegate != nil)
   }
 
-  @Test("Native ad load fails for missing a bid response")
-  func loadNativeAd_fails_whenMissingBidResponse() {
-    let config = AUTKMediationNativeAdConfiguration()
-    let adapter = PubMaticAdapter()
-
-    adapter.loadNativeAd(for: config) { ad, error in
-      let error = error as NSError?
-      #expect(error != nil)
-      #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidAdConfiguration.rawValue)
-      #expect(ad == nil)
-      return AUTKMediationNativeAdEventDelegate()
-    }
-
-  }
-
-  @Test("Native ad load fails for OpenWrapSDK error")
-  func loadNativeAd_fails_whenOpenWrapSDKFailsToLoad() {
+  @Test("RTB native ad load fails for OpenWrapSDK error")
+  func loadRTBNativeAd_fails_whenOpenWrapSDKFailsToLoad() {
     debugClient.shouldAdLoadSucceed = false
 
     let config = AUTKMediationNativeAdConfiguration()
@@ -89,13 +74,134 @@ final class PubMaticNativeAdTests {
     }
   }
 
-  @Test("Native ad load fails for image download failure")
-  func loadNativeAd_fails_whenImageAssetsFailToDownload() {
+  @Test("RTB native ad load fails for image download failure")
+  func loadRTBNativeAd_fails_whenImageAssetsFailToDownload() {
     debugProxy.shouldDownloadSucceed = false
 
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "Test response"
     config.watermark = Data()
+    let adapter = PubMaticAdapter()
+
+    adapter.loadNativeAd(for: config) { ad, error in
+      #expect(error != nil)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Native ad load fails for OpenWrapSDK error")
+  func loadWaterfallNative_fails_whenOpenWrapSDKFailsToLoad() {
+    debugClient.shouldAdLoadSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadNativeAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Native ad load fails for missing publisher ID")
+  func loadWaterfallNative_fails_whenAdConfigurationMissingPublisherID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "profile_id": "12345",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadNativeAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingPublisherId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Native ad load fails for missing profile ID")
+  func loadWaterfallNative_fails_whenAdConfigurationMissingProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadNativeAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(
+        error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Native ad load fails for containing non-number profile ID")
+  func loadWaterfallNative_fails_whenAdConfigurationContainsNonNumberProfileID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "a1234",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadNativeAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.invalidProfileId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Watefall Native ad load fails for missing ad unit ID")
+  func loadWaterfallNative_fails_whenAdConfigurationMissingAdUnitID() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "12345",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    let adapter = PubMaticAdapter()
+    adapter.loadNativeAd(for: config) { ad, error in
+      let error = error as NSError?
+      #expect(error != nil)
+      #expect(error!.code == PubMaticAdapterError.ErrorCode.adConfigurationMissingAdUnitId.rawValue)
+      #expect(ad == nil)
+      return AUTKMediationNativeAdEventDelegate()
+    }
+  }
+
+  @Test("Waterfall native ad load fails for image download failure")
+  func loadWaterfallNativeAd_fails_whenImageAssetsFailToDownload() {
+    debugProxy.shouldDownloadSucceed = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = [
+      "publisher_id": "publisher_id",
+      "profile_id": "a1234",
+      "ad_unit_id": "ad_unit_id",
+    ]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
     let adapter = PubMaticAdapter()
 
     adapter.loadNativeAd(for: config) { ad, error in

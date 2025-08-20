@@ -77,9 +77,14 @@ protocol OpenWrapSDKClient: NSObject {
   func loadWaterfallRewardedAd(
     publisherId: String, profileId: NSNumber, adUnitId: String, delegate: any POBRewardedAdDelegate)
 
-  /// Load a native ad.
+  /// Load a RTB native ad.
   func loadRtbNativeAd(
     bidResponse: String, delegate: POBNativeAdLoaderDelegate, watermarkData: Data)
+
+  /// Load a waterfall native ad.
+  func loadWaterfallNativeAd(
+    publisherId: String, profileId: NSNumber, adUnitId: String,
+    delegate: any POBNativeAdLoaderDelegate)
 
   /// Present a POBInterstitial ad.
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError)
@@ -190,6 +195,16 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     nativeAdLoader?.delegate = delegate
     nativeAdLoader?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     nativeAdLoader?.loadAd(withResponse: bidResponse, for: .adMob)
+  }
+
+  func loadWaterfallNativeAd(
+    publisherId: String, profileId: NSNumber, adUnitId: String,
+    delegate: any POBNativeAdLoaderDelegate
+  ) {
+    nativeAdLoader = POBNativeAdLoader(
+      publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, templateType: .custom)
+    nativeAdLoader?.delegate = delegate
+    nativeAdLoader?.loadAd()
   }
 
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {

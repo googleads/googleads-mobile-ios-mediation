@@ -151,6 +151,20 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     }
   }
 
+  func loadWaterfallNativeAd(
+    publisherId: String, profileId: NSNumber, adUnitId: String,
+    delegate: any POBNativeAdLoaderDelegate
+  ) {
+    nativeAdLoaderDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.nativeAdLoader?(POBNativeAdLoader(), didReceive: FakeNativeAd())
+    } else {
+      delegate.nativeAdLoader?(
+        POBNativeAdLoader(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
   func presentInterstitial(from viewController: UIViewController) throws(PubMaticAdapterError) {
     if shouldPresentFullScreenAdSucceed {
       interstitialDelegate?.interstitialWillPresentAd?(POBInterstitial())
