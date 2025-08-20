@@ -20,6 +20,7 @@ struct Util {
   private enum MediationConfigurationSettingKey: String {
     case publisherId = "publisher_id"
     case profileId = "profile_id"
+    case adUnitId = "ad_unit_id"
   }
 
   /// Prints the message with `PubMaticAdapter` prefix.
@@ -54,11 +55,31 @@ struct Util {
     guard let appId = appIdSet.randomElement() else {
       throw PubMaticAdapterError(
         errorCode: .serverConfigurationMissingPublisherId,
-        description: "The server configuration is missing an app ID.")
+        description: "The server configuration is missing publisher ID.")
     }
 
     if appIdSet.count > 1 {
       log("Found more than one app ID in the server configuration. Using \(appId)")
+    }
+
+    return appId
+  }
+
+  /// Retrieves a publisher ID from the provided mediation ad configuration.
+  ///
+  /// - Throws: PubMaticAdapterError.adConfigurationMissingPublisherId if the configuration
+  /// contains no publisher ID.
+  /// - Returns: A publisher ID from the configuration.
+  static func publisherId(from config: MediationAdConfiguration) throws(PubMaticAdapterError)
+    -> String
+  {
+    guard
+      let appId = config.credentials.settings[MediationConfigurationSettingKey.publisherId.rawValue]
+        as? String
+    else {
+      throw PubMaticAdapterError(
+        errorCode: .adConfigurationMissingPublisherId,
+        description: "The ad configuration is missing an publisher ID.")
     }
 
     return appId
@@ -81,6 +102,51 @@ struct Util {
     }
 
     return profileIds
+  }
+
+  /// Retrieves a profile ID from the provided mediation ad configuration.
+  ///
+  /// - Throws: PubMaticAdapterError.adConfigurationMissingProfileId if the configuration contains no
+  /// profile ID.
+  /// - Returns: Profile ID from the configuration.
+  static func profileId(from config: MediationAdConfiguration) throws(PubMaticAdapterError)
+    -> NSNumber
+  {
+    guard
+      let profileIdString = config.credentials.settings[
+        MediationConfigurationSettingKey.profileId.rawValue] as? String
+    else {
+      throw PubMaticAdapterError(
+        errorCode: .adConfigurationMissingProfileId,
+        description: "The ad configuration is missing a profile ID.")
+    }
+
+    let formatter = NumberFormatter()
+    guard let profileIdNumber = formatter.number(from: profileIdString) else {
+      throw PubMaticAdapterError(
+        errorCode: .invalidProfileId,
+        description: "The ad configuration contains a non-number profile ID.")
+    }
+
+    return profileIdNumber
+  }
+
+  /// Retrieves an ad unit ID from the provided mediation ad configuration.
+  ///
+  /// - Throws: PubMaticAdapterError.adConfigurationMissingAdUnitId if the configuration contains no
+  /// ad unit ID.
+  /// - Returns: Ad unit ID from the configuration.
+  static func adUnitId(from config: MediationAdConfiguration) throws(PubMaticAdapterError) -> String
+  {
+    guard
+      let adUnitId = config.credentials.settings[MediationConfigurationSettingKey.adUnitId.rawValue]
+        as? String
+    else {
+      throw PubMaticAdapterError(
+        errorCode: .adConfigurationMissingAdUnitId,
+        description: "The ad configuration is missing an ad unit ID.")
+    }
+    return adUnitId
   }
 
   /// Retrieves an ad format from the provided mediation signals configuration.

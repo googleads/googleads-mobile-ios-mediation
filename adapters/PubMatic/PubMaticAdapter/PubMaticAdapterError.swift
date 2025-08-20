@@ -35,6 +35,18 @@ public struct PubMaticAdapterError: Error {
 
     /// Failed to load one of the native ad image sources.
     case failedToLoadNativeAdImageSource = 106
+
+    /// Ad configuration missing a required publisher ID.
+    case adConfigurationMissingPublisherId = 107
+
+    /// Ad configuration missing a required profile ID.
+    case adConfigurationMissingProfileId = 108
+
+    /// Ad configuration contains a non-number profile ID.
+    case invalidProfileId = 109
+
+    /// Ad configuration missing an ad unit ID.
+    case adConfigurationMissingAdUnitId = 110
   }
 
   public static let domain = "com.google.ads.mediation.pubmatic"

@@ -82,6 +82,20 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
     }
   }
 
+  func loadWaterfallInterstitial(
+    publisherId: String, profileId: NSNumber, adUnitId: String,
+    delegate: any POBInterstitialDelegate
+  ) {
+    interstitialDelegate = delegate
+    if shouldAdLoadSucceed {
+      delegate.interstitialDidReceiveAd?(POBInterstitial())
+    } else {
+      delegate.interstitial?(
+        POBInterstitial(),
+        didFailToReceiveAdWithError: NSError(domain: "test", code: 12345, userInfo: [:]))
+    }
+  }
+
   func loadRtbRewardedAd(
     bidResponse: String, delegate: any POBRewardedAdDelegate, watermarkData: Data
   ) {

@@ -46,7 +46,16 @@ final class InterstitialAdLoader: NSObject {
   }
 
   func loadAd() {
-    guard let bidResponse = adConfiguration.bidResponse, let watermark = adConfiguration.watermark
+    if adConfiguration.bidResponse != nil {
+      loadRTBAd()
+    } else {
+      loadWaterfallAd()
+    }
+  }
+
+  private func loadRTBAd() {
+    guard let bidResponse = adConfiguration.bidResponse,
+      let watermark = adConfiguration.watermark
     else {
       handleLoadedAd(
         nil,
@@ -58,6 +67,18 @@ final class InterstitialAdLoader: NSObject {
     }
     client.loadRtbInterstitial(
       bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+  }
+
+  private func loadWaterfallAd() {
+    do {
+      let publisherId = try Util.publisherId(from: adConfiguration)
+      let profileId = try Util.profileId(from: adConfiguration)
+      let adUnitId = try Util.adUnitId(from: adConfiguration)
+      client.loadWaterfallInterstitial(
+        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {

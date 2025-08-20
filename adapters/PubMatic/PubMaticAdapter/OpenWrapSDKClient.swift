@@ -57,9 +57,13 @@ protocol OpenWrapSDKClient: NSObject {
   @MainActor func loadRtbBannerView(
     bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data)
 
-  /// Load an interstitial ad.
+  /// Load a RTB interstitial ad.
   func loadRtbInterstitial(
     bidResponse: String, delegate: POBInterstitialDelegate, watermarkData: Data)
+
+  /// Load a waterfall interstitial ad.
+  func loadWaterfallInterstitial(
+    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: POBInterstitialDelegate)
 
   /// Load a rewarded ad.
   func loadRtbRewardedAd(bidResponse: String, delegate: POBRewardedAdDelegate, watermarkData: Data)
@@ -127,6 +131,16 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     interstitial?.delegate = delegate
     interstitial?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     interstitial?.loadAd(withResponse: bidResponse, for: .adMob)
+  }
+
+  func loadWaterfallInterstitial(
+    publisherId: String, profileId: NSNumber, adUnitId: String,
+    delegate: any POBInterstitialDelegate
+  ) {
+    interstitial = POBInterstitial(
+      publisherId: publisherId, profileId: profileId, adUnitId: adUnitId)
+    interstitial?.delegate = delegate
+    interstitial?.loadAd()
   }
 
   func loadRtbRewardedAd(
