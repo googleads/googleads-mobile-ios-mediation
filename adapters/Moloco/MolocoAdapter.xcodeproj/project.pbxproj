@@ -116,7 +116,7 @@
 		ADFA84B72C17704300A501AB /* Script_Framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		ADFA84D42C17738E00A501AB /* MolocoAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MolocoAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA84D42C17738E00A501AB /* MolocoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MolocoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoNativeFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,7 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				ADFA849D2C176E2200A501AB /* libMolocoAdapter.a */,
-				ADFA84D42C17738E00A501AB /* MolocoAdapterFramework.framework */,
+				ADFA84D42C17738E00A501AB /* MolocoAdapter.framework */,
 				ADA6BA5C2CF146FE009C8FDA /* libStaticMolocoAdapter.a */,
 			);
 			name = Products;
@@ -248,9 +248,9 @@
 			productReference = ADFA849D2C176E2200A501AB /* libMolocoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		ADFA84D32C17738E00A501AB /* MolocoAdapterFramework */ = {
+		ADFA84D32C17738E00A501AB /* MolocoAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "MolocoAdapterFramework" */;
+			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "MolocoAdapter" */;
 			buildPhases = (
 				ADFA84D02C17738E00A501AB /* Sources */,
 				ADFA84D12C17738E00A501AB /* Frameworks */,
@@ -260,9 +260,9 @@
 			);
 			dependencies = (
 			);
-			name = MolocoAdapterFramework;
+			name = MolocoAdapter;
 			productName = MolocoAdapter;
-			productReference = ADFA84D42C17738E00A501AB /* MolocoAdapterFramework.framework */;
+			productReference = ADFA84D42C17738E00A501AB /* MolocoAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -302,7 +302,7 @@
 				ADFA849C2C176E2200A501AB /* Adapter */,
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
-				ADFA84D32C17738E00A501AB /* MolocoAdapterFramework */,
+				ADFA84D32C17738E00A501AB /* MolocoAdapter */,
 				ADA6BA472CF146FE009C8FDA /* StaticMolocoAdapter */,
 			);
 		};
@@ -1048,7 +1048,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "MolocoAdapterFramework" */ = {
+		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "MolocoAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADFA84D92C17738E00A501AB /* Debug */,

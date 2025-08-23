@@ -6,6 +6,7 @@
 - Supports waterfall banner ad format.
 - Supports waterfall native ad format.
 - Fixes a bug which native ad delegate was not correctly set.
+- Includes Info.plist in the frameworks.
 
 #### [Version 4.8.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-4.8.1.0.zip)
 - Verified compatibility with PubMatic OpenWrap SDK version 4.8.1.

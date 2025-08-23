@@ -59,7 +59,7 @@ createFramework() {
   mkdir -p "${TEMP_FRAMEWORK_OBJROOT_DIR}"
   mkdir -p "${TEMP_FRAMEWORK_SYMROOT_DIR}"
 
-  xcodebuild -target PubMaticAdapterFramework \
+  xcodebuild -target PubMaticAdapter \
   -configuration "${CONFIGURATION}" \
   -sdk "${1}" \
   ARCHS="${2}" \

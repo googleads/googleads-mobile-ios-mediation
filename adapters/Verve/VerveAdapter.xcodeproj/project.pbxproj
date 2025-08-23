@@ -93,7 +93,7 @@
 		ADFA84B72C17704300A501AB /* Script_Framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Framework.sh; sourceTree = "<group>"; };
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		ADFA84D42C17738E00A501AB /* VerveAdapterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VerveAdapterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA84D42C17738E00A501AB /* VerveAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VerveAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				ADFA849D2C176E2200A501AB /* libVerveAdapter.a */,
-				ADFA84D42C17738E00A501AB /* VerveAdapterFramework.framework */,
+				ADFA84D42C17738E00A501AB /* VerveAdapter.framework */,
 				AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */,
 			);
 			name = Products;
@@ -216,9 +216,9 @@
 			productReference = ADFA849D2C176E2200A501AB /* libVerveAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		ADFA84D32C17738E00A501AB /* VerveAdapterFramework */ = {
+		ADFA84D32C17738E00A501AB /* VerveAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "VerveAdapterFramework" */;
+			buildConfigurationList = ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "VerveAdapter" */;
 			buildPhases = (
 				ADFA84D02C17738E00A501AB /* Sources */,
 				ADFA84D12C17738E00A501AB /* Frameworks */,
@@ -228,9 +228,9 @@
 			);
 			dependencies = (
 			);
-			name = VerveAdapterFramework;
+			name = VerveAdapter;
 			productName = VerveAdapter;
-			productReference = ADFA84D42C17738E00A501AB /* VerveAdapterFramework.framework */;
+			productReference = ADFA84D42C17738E00A501AB /* VerveAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -270,7 +270,7 @@
 				ADFA849C2C176E2200A501AB /* Adapter */,
 				ADFA84C52C17710C00A501AB /* Framework */,
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
-				ADFA84D32C17738E00A501AB /* VerveAdapterFramework */,
+				ADFA84D32C17738E00A501AB /* VerveAdapter */,
 				AD52F6EB2E0241AE002CFB64 /* StaticVerveAdapter */,
 			);
 		};
@@ -998,7 +998,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "VerveAdapterFramework" */ = {
+		ADFA84D82C17738E00A501AB /* Build configuration list for PBXNativeTarget "VerveAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADFA84D92C17738E00A501AB /* Debug */,
