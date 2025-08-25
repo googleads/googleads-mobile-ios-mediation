@@ -1,5 +1,7 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Version 2.9.20250825.0 (In progress)
+
 #### Version 2.9.20250805.0 (In progress)
 - Now tries to register FiveAd SDK before each ad request.
 
