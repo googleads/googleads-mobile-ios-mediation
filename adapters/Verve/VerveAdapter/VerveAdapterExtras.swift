@@ -23,6 +23,6 @@ public final class VerveAdapterExtras: NSObject, AdNetworkExtras {
   /// value is false.
   ///
   /// - Important: This must be set before initializing `GoogleMobileAds`.
-  nonisolated(unsafe) public static var isTestMode: Bool = false
+  @objc nonisolated(unsafe) public static var isTestMode: Bool = false
 
 }
