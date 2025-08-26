@@ -1,5 +1,8 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+- Make BidMachineAdapterExtras.isTestMode available to Objective-C.
+
 #### [Version 3.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.4.0.0.zip)
 - Initial release.
 - Added bidding support for banner, interstitial, rewarded and native ad formats.
