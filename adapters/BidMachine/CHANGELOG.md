@@ -1,7 +1,11 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next version
-- Make BidMachineAdapterExtras.isTestMode available to Objective-C.
+#### [Version 3.4.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.4.0.1.zip)
+- Test mode is now available in Objective-C through the `GADMediationAdapterBidMachineExtras.isTestMode` property.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.0.0.
+- BidMachine SDK version 3.4.0.
 
 #### [Version 3.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.4.0.0.zip)
 - Initial release.
