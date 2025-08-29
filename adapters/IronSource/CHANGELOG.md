@@ -1,7 +1,11 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Version 8.11.0.0.0 (In progress)
-- Replaced deprecated `[IronSource sdkVersion]` API with the new `IronSourceAds sdkVersion]` API.
+#### [Version 8.11.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.11.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 8.11.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.9.0.
+- IronSource SDK version 8.11.0.0.
 
 #### [Version 8.10.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-8.10.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 8.10.0.0.
