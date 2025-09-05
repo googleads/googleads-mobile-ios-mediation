@@ -46,23 +46,6 @@ final class BidMachineRTBRewardedAdTests {
     }
   }
 
-  @Test("RTB rewarded ad load fails for missing a bid response")
-  func load_fails_whenBidResponseIsMissing() async {
-    let adConfig = AUTKMediationRewardedAdConfiguration()
-    let adapter = BidMachineAdapter()
-
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadRewardedAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(error!.code == BidMachineAdapterError.ErrorCode.invalidAdConfiguration.rawValue)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationRewardedAdEventDelegate()
-      }
-    }
-  }
-
   @Test("RTB rewarded ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -226,6 +209,205 @@ final class BidMachineRTBRewardedAdTests {
     let adConfig = AUTKMediationRewardedAdConfiguration()
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
+    let adapter = BidMachineAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var delegate: BidMachineAdDelegate?
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        delegate = ad as? BidMachineAdDelegate
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    delegate?.didReceiveReward?(
+      OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
+
+    #expect(eventDelegate.didRewardUserInvokeCount == 1)
+  }
+
+}
+
+@Suite("BidMachine adapter waterfall rewarded")
+final class BidMachineWaterfallRewardedAdTests {
+
+  let client: FakeBidMachineClient
+
+  init() {
+    client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+  }
+
+  @Test("Waterfall rewarded ad load succeeds")
+  func load_succeeds() async {
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        continuation.resume()
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall rewarded ad load fails for failing to create a request config")
+  func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
+    client.shouldBidMachineSucceedCreatingRequestConfig = false
+
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall rewarded ad load fails for failing to create an ad")
+  func load_fails_whenBidMachineFailsToCreateAd() async {
+    client.shouldBidMachineSucceedCreatingAd = false
+
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall rewarded ad load fails for failing to return an ad")
+  func load_fails_whenBidMachineFailsToReturnAd() async {
+    client.shouldBidMachineSucceedLoadingAd = false
+
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    adConfig.bidResponse = "test response"
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationRewardedAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Presentation succeeds")
+  func presentation_succeeds() async {
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var delegate: BidMachineAdDelegate?
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        delegate = ad as? BidMachineAdDelegate
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    await (delegate as! MediationRewardedAd).present(from: UIViewController())
+
+    #expect(eventDelegate.willPresentFullScreenViewInvokeCount == 1)
+    #expect(eventDelegate.didDismissFullScreenViewInvokeCount == 1)
+  }
+
+  @Test("Presentation fails")
+  func presentation_fails() async {
+    client.shouldBidMachineSucceedPresenting = false
+
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var delegate: BidMachineAdDelegate?
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        delegate = ad as? BidMachineAdDelegate
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    await (delegate as! MediationRewardedAd).present(from: UIViewController())
+
+    #expect(eventDelegate.didFailToPresentError != nil)
+  }
+
+  @Test("Impression count")
+  func impreesion_count() async {
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var delegate: BidMachineAdDelegate?
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        delegate = ad as? BidMachineAdDelegate
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    delegate?.didTrackImpression?(
+      OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
+
+    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+  }
+
+  @Test("Click count")
+  func click_count() async {
+    let adConfig = AUTKMediationRewardedAdConfiguration()
+    let adapter = BidMachineAdapter()
+    let eventDelegate = AUTKMediationRewardedAdEventDelegate()
+    var delegate: BidMachineAdDelegate?
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadRewardedAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        delegate = ad as? BidMachineAdDelegate
+        continuation.resume()
+        return eventDelegate
+      }
+    }
+    delegate?.didTrackInteraction?(
+      OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
+
+    #expect(eventDelegate.reportClickInvokeCount == 1)
+  }
+
+  @Test("Reward count")
+  func reward_count() async {
+    let adConfig = AUTKMediationRewardedAdConfiguration()
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationRewardedAdEventDelegate()
     var delegate: BidMachineAdDelegate?

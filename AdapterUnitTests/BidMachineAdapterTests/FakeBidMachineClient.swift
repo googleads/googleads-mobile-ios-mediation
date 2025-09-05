@@ -147,6 +147,31 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     }
   }
 
+  func loadWaterfallRewardedAd(
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    if shouldBidMachineSucceedLoadingAd {
+      completionHandler(nil)
+      delegate.didLoadAd(OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
+      self.delegate = delegate
+    } else {
+      completionHandler(nil)
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
   func loadRTBRewardedAd(
     with bidResponse: String,
     delegate: any BidMachine.BidMachineAdDelegate,

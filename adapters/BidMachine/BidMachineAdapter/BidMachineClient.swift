@@ -67,6 +67,10 @@ protocol BidMachineClient: NSObject {
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
 
+  /// Loads a waterfall rewarded ad.
+  func loadWaterfallRewardedAd(
+    delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void) throws
+
   /// Loads a RTB rewarded ad.
   func loadRTBRewardedAd(
     with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
@@ -208,15 +212,36 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     interstitialAd.presentAd()
   }
 
+  func loadWaterfallRewardedAd(
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    try loadRewardedAd(
+      with: nil, delegate: delegate, watermark: nil, completionHandler: completionHandler)
+  }
+
   func loadRTBRewardedAd(
     with bidResponse: String,
     delegate: BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    try loadRewardedAd(
+      with: bidResponse, delegate: delegate, watermark: watermark,
+      completionHandler: completionHandler)
+  }
+
+  private func loadRewardedAd(
+    with bidResponse: String?,
+    delegate: BidMachineAdDelegate,
+    watermark: String?,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
     let placement = try BidMachineSdk.shared.placement(from: .rewarded)
     let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
-      builder.withPayload(bidResponse)
+      if let bidResponse {
+        builder.withPayload(bidResponse)
+      }
     }
 
     BidMachineSdk.shared.rewarded(request: request) { [weak self] rewardedAd, error in
@@ -227,6 +252,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       self?.bidMachineRewarded = rewardedAd
 
       rewardedAd.delegate = delegate
+      if let watermark {
+        rewardedAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
+      }
       rewardedAd.loadAd()
     }
   }
