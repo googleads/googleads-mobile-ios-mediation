@@ -59,6 +59,10 @@ protocol BidMachineClient: NSObject {
     with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 
+  /// Loads a waterfall interstitial ad.
+  func loadWaterfallInterstitialAd(
+    delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void) throws
+
   /// Presents the loaded interstitial ad.
   func present(_ interstitialAd: BidMachineInterstitial?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
@@ -145,15 +149,36 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
   }
 
+  func loadWaterfallInterstitialAd(
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    try loadInterstitialAd(
+      with: nil, delegate: delegate, watermark: nil, completionHandler: completionHandler)
+  }
+
   func loadRTBInterstitialAd(
     with bidResponse: String,
     delegate: BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    try loadInterstitialAd(
+      with: bidResponse, delegate: delegate, watermark: watermark,
+      completionHandler: completionHandler)
+  }
+
+  private func loadInterstitialAd(
+    with bidResponse: String?,
+    delegate: BidMachineAdDelegate,
+    watermark: String?,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
     let placement = try BidMachineSdk.shared.placement(from: .interstitial)
     let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
-      builder.withPayload(bidResponse)
+      if let bidResponse {
+        builder.withPayload(bidResponse)
+      }
     }
 
     BidMachineSdk.shared.interstitial(request: request) { [weak self] interstitialAd, error in
@@ -164,6 +189,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       self?.bidMachineInterstitial = interstitialAd
 
       interstitialAd.delegate = delegate
+      if let watermark {
+        interstitialAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
+      }
       interstitialAd.loadAd()
     }
   }

@@ -18,11 +18,13 @@ import UIKit
 
 @testable import GoogleBidMachineAdapter
 
-final class FakeBidMachineClient: NSObject, BidMachineClient {
+final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   private static let supportedFormats: [AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
+
+  private static let mockView = MockView()
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
@@ -70,10 +72,36 @@ final class FakeBidMachineClient: NSObject, BidMachineClient {
 
     completionHandler(nil)
     if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(MockView())
+      delegate.didLoadAd(Self.mockView)
     } else {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
+        NSError(domain: "com.test.domain", code: 12345))
+    }
+  }
+
+  func loadWaterfallInterstitialAd(
+    delegate: any BidMachine.BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    if !shouldBidMachineSucceedCreatingRequestConfig {
+      throw NSError(domain: "com.test.domain", code: 12345)
+    }
+
+    let fakeInterstitialAd =
+      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial
+
+    if !shouldBidMachineSucceedCreatingAd {
+      completionHandler(NSError(domain: "com.test.domain", code: 12345))
+      return
+    }
+
+    completionHandler(nil)
+    if shouldBidMachineSucceedLoadingAd {
+      delegate.didLoadAd(fakeInterstitialAd)
+      self.delegate = delegate
+    } else {
+      delegate.didFailLoadAd(
+        OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial,
         NSError(domain: "com.test.domain", code: 12345))
     }
   }
