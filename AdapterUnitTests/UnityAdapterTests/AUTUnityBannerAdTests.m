@@ -14,6 +14,11 @@
 
 @implementation AUTUnityBannerAdTests
 
+- (void)setUp {
+  [super setUp];
+  OCMStub(ClassMethod([self.unityAdsClassMock isInitialized])).andReturn(YES);
+}
+
 - (void)testLoadWaterfallBannerAd {
   UADSBannerView *bannerView =
       OCMPartialMock([[UADSBannerView alloc] initWithPlacementId:AUTUnityPlacementID

@@ -14,6 +14,11 @@
 
 @implementation AUTUnityInterstitialAdTests
 
+- (void)setUp {
+  [super setUp];
+  OCMStub(ClassMethod([self.unityAdsClassMock isInitialized])).andReturn(YES);
+}
+
 - (void)testLoadWaterfallInterstitialAd {
   OCMStub(OCMClassMethod([self.unityAdsClassMock load:AUTUnityPlacementID
                                               options:OCMOCK_ANY
