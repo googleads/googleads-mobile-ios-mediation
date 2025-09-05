@@ -49,6 +49,10 @@ protocol BidMachineClient: NSObject {
     for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
     throws
 
+  /// Loads a waterfall  banner ad.
+  func loadWaterfallBannerAd(
+    delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void) throws
+
   /// Loads a RTB banner ad.
   func loadRTBBannerAd(
     with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
@@ -126,15 +130,35 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     }
   }
 
+  func loadWaterfallBannerAd(
+    delegate: any BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    try loadBannerAd(
+      with: nil, delegate: delegate, watermark: nil, completionHandler: completionHandler)
+  }
+
   func loadRTBBannerAd(
     with bidResponse: String,
     delegate: BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    try loadBannerAd(
+      with: bidResponse, delegate: delegate, watermark: watermark,
+      completionHandler: completionHandler)
+  }
+
+  private func loadBannerAd(
+    with bidResponse: String?,
+    delegate: BidMachineAdDelegate,
+    watermark: String?,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
     let placement = try BidMachineSdk.shared.placement(from: .banner)
     let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
-      builder.withPayload(bidResponse)
+      if let bidResponse {
+        builder.withPayload(bidResponse)
+      }
     }
 
     BidMachineSdk.shared.banner(request: request) { [weak self] bidMachineBanner, error in
@@ -147,6 +171,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       nonisolated(unsafe) let nonisolatedDelegate = delegate
       DispatchQueue.main.async {
         bidMachineBanner.delegate = nonisolatedDelegate
+        if let watermark {
+          bidMachineBanner.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
+        }
         bidMachineBanner.controller = Util.rootViewController()
         bidMachineBanner.loadAd()
       }
