@@ -84,6 +84,10 @@ protocol BidMachineClient: NSObject {
   func present(_ rewardedAd: BidMachineRewarded?, from viewController: UIViewController)
     throws(BidMachineAdapterError)
 
+  /// Loads a waterfall native ad.
+  func loadWaterfallNativeAd(
+    delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void) throws
+
   /// Loads a RTB native ad.
   func loadRTBNativeAd(
     with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
@@ -298,15 +302,37 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     rewardedAd.presentAd()
   }
 
+  func loadWaterfallNativeAd(
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
+  ) throws {
+    try loadNativeAd(
+      with: nil, delegate: delegate, watermark: nil, completionHandler: completionHandler)
+  }
+
   func loadRTBNativeAd(
     with bidResponse: String,
     delegate: any BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    try loadNativeAd(
+      with: bidResponse, delegate: delegate, watermark: watermark,
+      completionHandler: completionHandler)
+  }
+
+  private func loadNativeAd(
+    with bidResponse: String?,
+    delegate: any BidMachineAdDelegate,
+    watermark: String?,
+    completionHandler: @escaping (NSError?) -> Void
+
+  ) throws {
     let placement = try BidMachineSdk.shared.placement(from: .native)
     let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
-      builder.withPayload(bidResponse)
+      if let bidResponse {
+        builder.withPayload(bidResponse)
+      }
     }
 
     BidMachineSdk.shared.native(request: request) { [weak self] nativeAd, error in
@@ -318,6 +344,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
       completionHandler(nil)
       nativeAd.delegate = delegate
+      if let watermark {
+        nativeAd.rendererConfiguration.extras[Self.watermarkExtraKey] = watermark
+      }
       nativeAd.loadAd()
     }
   }

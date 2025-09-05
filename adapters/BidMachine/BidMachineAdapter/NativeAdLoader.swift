@@ -51,16 +51,29 @@ final class NativeAdLoader: NSObject {
   }
 
   func loadAd() {
-    guard let bidResponse = adConfiguration.bidResponse else {
-      handleLoadedAd(
-        nil,
-        error: BidMachineAdapterError(
-          errorCode: .invalidAdConfiguration,
-          description: "The ad configuration is missing bid response."
-        ).toNSError())
-      return
+    if let bidResponse = adConfiguration.bidResponse {
+      loadRTBAd(with: bidResponse)
+    } else {
+      loadWaterfallAd()
     }
+  }
 
+  private func loadWaterfallAd() {
+    do {
+      try client.loadWaterfallNativeAd(delegate: self) {
+        [weak self] error in
+        guard let self else { return }
+        guard error == nil else {
+          self.handleLoadedAd(nil, error: error)
+          return
+        }
+      }
+    } catch {
+      handleLoadedAd(nil, error: error as NSError)
+    }
+  }
+
+  private func loadRTBAd(with bidResponse: String) {
     guard let watermark = adConfiguration.watermark?.base64EncodedString() else {
       handleLoadedAd(
         nil,

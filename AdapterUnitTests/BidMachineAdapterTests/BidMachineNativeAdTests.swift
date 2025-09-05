@@ -49,23 +49,6 @@ final class BidMachineRTBNativeAdTests {
     }
   }
 
-  @Test("RTB native ad load fails when bid response is missing")
-  func load_fails_whenBidResponseIsMissing() async {
-    let adConfig = AUTKMediationNativeAdConfiguration()
-    let adapter = BidMachineAdapter()
-
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(error!.code == BidMachineAdapterError.ErrorCode.invalidAdConfiguration.rawValue)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
-  }
-
   @Test("RTB native ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
@@ -129,6 +112,109 @@ final class BidMachineRTBNativeAdTests {
 
     let adConfig = AUTKMediationNativeAdConfiguration()
     adConfig.bidResponse = "test response"
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadNativeAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationNativeAdEventDelegate()
+      }
+    }
+  }
+
+}
+
+@Suite("BidMachine adapter Waterfall native")
+final class BidMachineWaterfallNativeAdTests {
+
+  let client: FakeBidMachineClient
+  let nativeAdProxy: FakeNativeAdProxy
+
+  init() {
+    client = FakeBidMachineClient()
+    nativeAdProxy = FakeNativeAdProxy()
+    BidMachineClientFactory.debugClient = client
+    NativeAdProxyFactory.debugProxy = nativeAdProxy
+  }
+
+  @Test("Waterfall native ad load succeeds")
+  func load_succeeds() async {
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadNativeAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        continuation.resume()
+        return AUTKMediationNativeAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall native ad load fails for failing to create a request config")
+  func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
+    client.shouldBidMachineSucceedCreatingRequestConfig = false
+
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadNativeAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationNativeAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall native ad load fails for failing to create an ad")
+  func load_fails_whenBidMachineFailsToCreateAd() async {
+    client.shouldBidMachineSucceedCreatingAd = false
+
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadNativeAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationNativeAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall native ad load fails for failing to return an ad")
+  func load_fails_whenBidMachineFailsToReturnAd() async {
+    client.shouldBidMachineSucceedLoadingAd = false
+
+    let adConfig = AUTKMediationNativeAdConfiguration()
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadNativeAd(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        continuation.resume()
+        return AUTKMediationNativeAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall native ad load fails for failing to download image assets")
+  func load_fails_whenImageAssetDownloadFails() async {
+    nativeAdProxy.shouldDownloadSucceed = false
+
+    let adConfig = AUTKMediationNativeAdConfiguration()
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
