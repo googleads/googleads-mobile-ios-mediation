@@ -1,6 +1,6 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 13.4.0.0 (In progress)
 - Removed 300x250 banner size support.
 
 #### [Version 13.3.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.3.1.0.zip)
