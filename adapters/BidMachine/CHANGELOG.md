@@ -5,6 +5,7 @@
 - Add support for waterfall rewarded ads in the BidMachine adapter.
 - Add support for waterfall banner ads in the BidMachine adapter.
 - Add support for waterfall native ads in the BidMachine adapter.
+- Removed the `isTestMode` static property from BidMachineAdapterExtras.
 
 #### [Version 3.4.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.4.0.1.zip)
 - Test mode is now available in Objective-C through the `GADMediationAdapterBidMachineExtras.isTestMode` property.

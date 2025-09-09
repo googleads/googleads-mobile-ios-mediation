@@ -44,7 +44,7 @@ protocol HybidClient: NSObject {
   /// Initializes the HyBid SDK. The completion handle is called without an error object if HyBid
   /// SDK was initialized successfully.
   func initialize(
-    with appToken: String, testMode: Bool, COPPA: Bool?, TFUA: Bool?,
+    with appToken: String, COPPA: Bool?, TFUA: Bool?,
     completionHandler: @escaping (VerveAdapterError?) -> Void)
 
   /// Collects the bidding signals.
@@ -90,7 +90,6 @@ final class HybidClientImpl: NSObject, HybidClient {
 
   func initialize(
     with appToken: String,
-    testMode: Bool,
     COPPA: Bool?,
     TFUA: Bool?,
     completionHandler: @escaping (VerveAdapterError?) -> Void
@@ -111,10 +110,6 @@ final class HybidClientImpl: NSObject, HybidClient {
           VerveAdapterError(errorCode: .childUser, description: "Verve does not serve child user."))
         return
       }
-    }
-
-    if testMode {
-      HyBid.setTestMode(true)
     }
 
     HyBid.initWithAppToken(appToken) { success in

@@ -42,7 +42,7 @@ protocol BidMachineClient: NSObject {
   func version() -> String
 
   /// Initializes the BidMachine SDK.
-  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?)
+  func initialize(with sourceId: String, isCOPPA: Bool?)
 
   /// Collects the signals  for the specified ad format.
   func collectSignals(
@@ -108,13 +108,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?) {
-    BidMachineSdk.shared.populate {
-      $0.withTestMode(isTestMode)
-        .withBidLoggingMode(isTestMode)
-        .withEventLoggingMode(isTestMode)
-        .withLoggingMode(isTestMode)
-    }
-
     if let isCOPPA {
       BidMachineSdk.shared.regulationInfo.populate {
         $0.withCOPPA(isCOPPA)

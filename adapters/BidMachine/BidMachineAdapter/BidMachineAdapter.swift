@@ -41,13 +41,11 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
   ) {
     do {
       let sourceId = try Util.sourceId(from: configuration)
-      let isTestMode = BidMachineAdapterExtras.isTestMode
       var isCOPPA: Bool?
       if let coppa = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
         isCOPPA = coppa.boolValue
       }
-      BidMachineClientFactory.createClient().initialize(
-        with: sourceId, isTestMode: isTestMode, isCOPPA: isCOPPA)
+      BidMachineClientFactory.createClient().initialize(with: sourceId, isCOPPA: isCOPPA)
       completionHandler(nil)
     } catch {
       completionHandler(error.toNSError())

@@ -28,7 +28,6 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
-  var isTestMode: Bool?
   var isCOPPA: Bool?
   var shouldBidMachineSucceedCreatingRequestConfig = true
   var shouldBidMachineSucceedCreatingAd = true
@@ -39,9 +38,8 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     return BidMachineSdk.sdkVersion
   }
 
-  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?) {
+  func initialize(with sourceId: String, isCOPPA: Bool?) {
     self.sourceId = sourceId
-    self.isTestMode = isTestMode
     self.isCOPPA = isCOPPA
   }
 

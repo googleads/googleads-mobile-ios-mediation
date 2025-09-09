@@ -18,11 +18,4 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBidMachineExtras)
 public final class BidMachineAdapterExtras: NSObject, AdNetworkExtras {
 
-  /// Indicates whether BidMachine SDK needs to be initialized with the test mode configuration. When
-  /// set `isTestMode` to true, enable its test mode along with all the logging modes to true. Default value
-  /// is false.
-  ///
-  /// - Important: This must be set before initializing `GoogleMobileAds`.
-  @objc nonisolated(unsafe) public static var isTestMode: Bool = false
-
 }

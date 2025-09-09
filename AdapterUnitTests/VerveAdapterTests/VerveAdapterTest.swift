@@ -7,7 +7,6 @@ import XCTest
 final class VerveAdapterTest: XCTestCase {
 
   override func tearDown() {
-    VerveAdapterExtras.isTestMode = false
     HybidClientFactory.debugClient = nil
   }
 
