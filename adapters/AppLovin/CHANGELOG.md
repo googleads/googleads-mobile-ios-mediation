@@ -1,7 +1,12 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Version 13.4.0.0 (In progress)
-- Removed 300x250 banner size support.
+#### [Version 13.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.4.0.0.zip)
+- Verified compatibility with AppLovin SDK 13.4.0.
+- Removed support for the Medium Rectangle (300x250) ad size for banner ad formats.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.11.0.
+- AppLovin SDK version 13.4.0.
 
 #### [Version 13.3.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.3.1.0.zip)
 - Verified compatibility with AppLovin SDK 13.3.1.
