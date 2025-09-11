@@ -1,6 +1,6 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 4.8.1.1 (In progress)
 - Supports waterfall interstitial ad format.
 - Supports waterfall rewarded ad format.
 - Supports waterfall banner ad format.
