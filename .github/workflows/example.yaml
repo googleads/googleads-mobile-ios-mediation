@@ -1,0 +1,44 @@
+name: example
+
+# Step 1: Build on pull-requests or pushes to main
+on:
+  pull_request:
+    paths:
+      - "example/**"
+      - ".github/workflows/example.yaml"
+  push:
+    branches: [ "main" ]
+
+
+# Step 2: Build example app
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+
+      # Available Xcode versions:
+      # https://github.com/actions/runner-images/blob/main/images/macos/toolsets/toolset-15.json
+      - name: Select Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+          echo "Selected Xcode version:"
+          /usr/bin/xcodebuild -version
+
+      - name: Update & Install Pods for Mediation Example
+        run: |
+          cd ./example
+          pod repo update
+          pod install
+
+      - name: Install xcpretty
+        run: sudo gem install xcpretty
+
+      - name: Build Mediation MediationExample Project Scheme
+        run: |
+          cd ./example
+          ls
+          xcodebuild clean build analyze -workspace MediationExample.xcworkspace -scheme "MediationExample" -sdk iphonesimulator -arch x86_64 | xcpretty && exit ${PIPESTATUS[0]}
