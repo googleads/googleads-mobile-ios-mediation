@@ -66,6 +66,89 @@ NSError *_Nonnull GADMAdapterUnitySDKErrorWithUnityAdsLoadErrorAndMessage(
   return error;
 }
 
+GADMAdapterUnityConsentResult GADMAdapterUnityHasACConsent(int vendorId) {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+  NSInteger gdprApplies = [userDefaults integerForKey:@"IABTCF_gdprApplies"];
+  if (gdprApplies != 1) {
+    return GADMAdapterUnityConsentResultUnknown;
+  }
+
+  NSString *additionalConsentString = [userDefaults stringForKey:@"IABTCF_AddtlConsent"];
+  if (!additionalConsentString.length) {
+    GADMUnityLog(
+        @"Could not parse IABTCF_AddtlConsent as a string. Did your CMP write it correctly?");
+    return GADMAdapterUnityConsentResultUnknown;
+  }
+
+  NSString *vendorIdString = @(vendorId).stringValue;
+  NSArray<NSString *> *additionalConsentParts =
+      [additionalConsentString componentsSeparatedByString:@"~"];
+
+  NSInteger version = additionalConsentParts[0].integerValue;
+  // Spec version 1
+  if (version == 1) {
+    GADMUnityLog("The IABTCF_AddtlConsent string uses version 1 of Google’s Additional Consent "
+                 "spec. Version 1 does not report vendors to whom the user denied consent. To "
+                 "detect vendors that the user denied consent, upgrade to a CMP that supports "
+                 "version 2 of Google's Additional Consent technical specification.");
+
+    // No consented vendor.
+    if (additionalConsentParts.count == 1) {
+      return GADMAdapterUnityConsentResultUnknown;
+    } else if (additionalConsentParts.count == 2) {
+      NSArray<NSString *> *consentedIds =
+          [additionalConsentParts[1] componentsSeparatedByString:(@".")];
+      if ([consentedIds containsObject:vendorIdString]) {
+        return GADMAdapterUnityConsentResultTrue;
+      }
+    } else {
+      NSString *errorMessage =
+          [NSString stringWithFormat:
+                        @"Could not parse the IABTCF_AddtlConsent string: \"%@\". String had more "
+                        @"parts than expected. Did your CMP write IABTCF_AddtlConsent correctly?",
+                        additionalConsentString];
+      GADMUnityLog(@"%@", errorMessage);
+      return GADMAdapterUnityConsentResultUnknown;
+    }
+  }
+  // Spec version 2
+  else if (version >= 2 && additionalConsentParts.count >= 3) {
+    NSArray<NSString *> *disclosedIds =
+        [additionalConsentParts[2] componentsSeparatedByString:(@".")];
+    if (![disclosedIds[0] isEqualToString:@"dv"]) {
+      NSString *errorMessage = [NSString
+          stringWithFormat:
+              @"Could not parse the IABTCF_AddtlConsent string: \"%@\". Expected disclosed vendors "
+              @"part to have the string \"dv.\". Did your CMP write IABTCF_AddtlConsent correctly?",
+              additionalConsentString];
+      GADMUnityLog(@"%@", errorMessage);
+      return GADMAdapterUnityConsentResultUnknown;
+    }
+
+    NSArray<NSString *> *consentedIds =
+        [additionalConsentParts[1] componentsSeparatedByString:(@".")];
+    if ([consentedIds containsObject:vendorIdString]) {
+      return GADMAdapterUnityConsentResultTrue;
+    }
+
+    if ([disclosedIds containsObject:vendorIdString]) {
+      return GADMAdapterUnityConsentResultFalse;
+    }
+  }
+  // Unknown spec version
+  else {
+    NSString *errorMessage = [NSString
+        stringWithFormat:@"Could not parse the IABTCF_AddtlConsent string: \"%@\". Spec version "
+                         @"was unexpected. Did your CMP write IABTCF_AddtlConsent correctly?",
+                         additionalConsentString];
+    GADMUnityLog(@"%@", errorMessage);
+    return GADMAdapterUnityConsentResultUnknown;
+  }
+
+  return GADMAdapterUnityConsentResultUnknown;
+}
+
 GADVersionNumber extractVersionFromString(NSString *_Nonnull string) {
   GADVersionNumber version = {0};
   NSArray<NSString *> *components = [string componentsSeparatedByString:@"."];
