@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "A3506DA4-E8E8-46C5-99B0-42119CCDD95B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AdapterUnitTests.xcodeproj",
+        "identifier" : "AD3623B62E7B5AD700E442E6",
+        "name" : "BigoAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
