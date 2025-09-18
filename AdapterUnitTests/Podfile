@@ -364,4 +364,20 @@ abstract_target 'Default' do
 
   end
 
+  # BigoAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('BigoAdapter')
+
+    pod 'GoogleMobileAdsMediationBigo', :path => '../adapters/Bigo/CocoaPods/GoogleMobileAdsMediationBigo.podspec.json'
+
+    # Dependencies for BigoAdapter static library.
+    target 'Adapter' do
+      project '../adapters/Bigo/BigoAdapter.xcodeproj'
+    end
+
+    target 'BigoAdapterTests' do
+      project '../adapters/Bigo/BigoAdapter.xcodeproj'
+    end
+
+  end
+
 end
