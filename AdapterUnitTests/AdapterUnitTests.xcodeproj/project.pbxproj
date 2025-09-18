@@ -147,6 +147,11 @@
 		AD317D582DA0A211007B3FA8 /* BidMachineRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */; };
 		AD3181D72DA49D40007B3FA8 /* BidMachineNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D62DA49D3C007B3FA8 /* BidMachineNativeAdTests.swift */; };
 		AD3181D92DA4A2A0007B3FA8 /* FakeNativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D82DA4A293007B3FA8 /* FakeNativeAdProxy.swift */; };
+		AD3623C62E7B5AD700E442E6 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */; };
+		AD3624972E7B681600E442E6 /* BigoAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */; };
+		AD3624982E7B681F00E442E6 /* BigoAdapterUnitTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */; };
+		AD3626822E7B7CE300E442E6 /* FakeBigoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3626812E7B7CE000E442E6 /* FakeBigoClient.swift */; };
 		AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */; };
 		AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; platformFilter = ios; };
 		AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD45ED452A78116C001B29D8 /* libAdapter.a */; };
@@ -866,6 +871,41 @@
 			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
 			remoteInfo = UnitTestHostApp;
 		};
+		AD3623BA2E7B5AD700E442E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		AD3623D62E7B5B2300E442E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD3623D82E7B5B2300E442E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
+			remoteInfo = BigoAdapter;
+		};
+		AD3623DA2E7B5B2E00E442E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
+			remoteInfo = Adapter;
+		};
+		AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD3623EE2E7B5B4A00E442E6;
+			remoteInfo = StaticBigoAdapter;
+		};
 		AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
@@ -1416,6 +1456,11 @@
 		AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineRewardedAdTests.swift; sourceTree = "<group>"; };
 		AD3181D62DA49D3C007B3FA8 /* BidMachineNativeAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineNativeAdTests.swift; sourceTree = "<group>"; };
 		AD3181D82DA4A293007B3FA8 /* FakeNativeAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNativeAdProxy.swift; sourceTree = "<group>"; };
+		AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigoAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BigoAdapter.xcodeproj; path = ../adapters/BigoAdapter/BigoAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BigoAdapterUnitTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoAdapterTests.swift; sourceTree = "<group>"; };
+		AD3626812E7B7CE000E442E6 /* FakeBigoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeBigoClient.swift; sourceTree = "<group>"; };
 		AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityAdapterTests.m; sourceTree = "<group>"; };
 		AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UnityAdapter.xcodeproj; path = ../adapters/UnityAdapter/UnityAdapter.xcodeproj; sourceTree = "<group>"; };
 		AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnityAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -1749,6 +1794,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD3623C42E7B5AD700E442E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */,
+				AD3623C62E7B5AD700E442E6 /* AdapterUnitTestKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD45EDBB2A784A3A001B29D8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1965,7 +2019,7 @@
 			isa = PBXGroup;
 			children = (
 				7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */,
-				7072CF5C2C41F8BD002BF6AE /* MolocoAdapterFramework.framework */,
+				7072CF5C2C41F8BD002BF6AE /* MolocoAdapter.framework */,
 				7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */,
 			);
 			name = Products;
@@ -2245,6 +2299,26 @@
 			path = BidMachineAdapterLatencyTests;
 			sourceTree = "<group>";
 		};
+		AD3623D02E7B5B2200E442E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */,
+				AD3623D92E7B5B2300E442E6 /* BigoAdapter.framework */,
+				AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD3626812E7B7CE000E442E6 /* FakeBigoClient.swift */,
+				AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */,
+				AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */,
+			);
+			path = BigoAdapterUnitTests;
+			sourceTree = "<group>";
+		};
 		AD45ED342A78111F001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2282,7 +2356,7 @@
 			isa = PBXGroup;
 			children = (
 				AD677B992DBADFC10012621D /* libVerveAdapter.a */,
-				AD677B9B2DBADFC10012621D /* VerveAdapterFramework.framework */,
+				AD677B9B2DBADFC10012621D /* VerveAdapter.framework */,
 				AD5A4ED12E0F20CE0078AFC1 /* libStaticVerveAdapter.a */,
 			);
 			name = Products;
@@ -2308,6 +2382,7 @@
 				AD8FE2802D39E8C900B4728A /* AmazonAdapter.xcodeproj */,
 				44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */,
 				ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */,
+				AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */,
 				AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */,
 				ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */,
 				AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */,
@@ -2330,6 +2405,7 @@
 				AD5A4EF22E0F33500078AFC1 /* AppLovinAdapterLatencyTests */,
 				ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */,
 				AD30E05C2E207A4200FCEF73 /* BidMachineAdapterLatencyTests */,
+				AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				AD1708AE2E12FFF400A64F30 /* ChartboostAdapterLatencyTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
@@ -2406,6 +2482,7 @@
 				AD30DD662E20725500FCEF73 /* PubMaticAdapterLatencyTests.xctest */,
 				AD30DEE02E20763300FCEF73 /* VerveAdapterLatencyTests.xctest */,
 				AD30E05B2E207A1700FCEF73 /* BidMachineAdapterLatencyTests.xctest */,
+				AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2454,7 +2531,7 @@
 			isa = PBXGroup;
 			children = (
 				AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */,
-				AD76A9CB2D93117B00F40CD4 /* PubMaticAdapterFramework.framework */,
+				AD76A9CB2D93117B00F40CD4 /* PubMaticAdapter.framework */,
 				AD76A9F12D93126D00F40CD4 /* libStaticPubMaticAdapter.a */,
 			);
 			name = Products;
@@ -2503,7 +2580,7 @@
 			isa = PBXGroup;
 			children = (
 				ADA2FAD62D9F770B005D9ECA /* libPubMaticAdapter.a */,
-				ADA2FAD82D9F770B005D9ECA /* PubMaticAdapterFramework.framework */,
+				ADA2FAD82D9F770B005D9ECA /* PubMaticAdapter.framework */,
 				ADA2FADA2D9F770B005D9ECA /* libStaticPubMaticAdapter.a */,
 			);
 			name = Products;
@@ -3087,6 +3164,25 @@
 			productReference = AD30E05B2E207A1700FCEF73 /* BidMachineAdapterLatencyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AD3623B62E7B5AD700E442E6 /* BigoAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD3623C92E7B5AD700E442E6 /* Build configuration list for PBXNativeTarget "BigoAdapterTests" */;
+			buildPhases = (
+				AD3623BB2E7B5AD700E442E6 /* Sources */,
+				AD3623C42E7B5AD700E442E6 /* Frameworks */,
+				AD3623C72E7B5AD700E442E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD3623DB2E7B5B2E00E442E6 /* PBXTargetDependency */,
+				AD3623B92E7B5AD700E442E6 /* PBXTargetDependency */,
+			);
+			name = BigoAdapterTests;
+			productName = AmazonAdapterTests_dup;
+			productReference = AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD45EDBD2A784A3A001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD45EDC22A784A3A001B29D8 /* Build configuration list for PBXNativeTarget "UnityAdapterTests" */;
@@ -3533,6 +3629,10 @@
 					ProjectRef = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
 				},
 				{
+					ProductGroup = AD3623D02E7B5B2200E442E6 /* Products */;
+					ProjectRef = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+				},
+				{
 					ProductGroup = AD0D6E002AF56C36002C0B60 /* Products */;
 					ProjectRef = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
 				},
@@ -3605,6 +3705,7 @@
 				AD5A4EDA2E0F331D0078AFC1 /* AppLovinAdapterLatencyTests */,
 				ADA2FADB2D9F7715005D9ECA /* BidMachineAdapterTests */,
 				AD30E0472E207A1700FCEF73 /* BidMachineAdapterLatencyTests */,
+				AD3623B62E7B5AD700E442E6 /* BigoAdapterTests */,
 				AD0D6E182AF56C4C002C0B60 /* ChartboostAdapterTests */,
 				AD17089B2E12FFC400A64F30 /* ChartboostAdapterLatencyTests */,
 				ADF28D5D2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
@@ -3753,10 +3854,10 @@
 			remoteRef = 7072CF592C41F8BD002BF6AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7072CF5C2C41F8BD002BF6AE /* MolocoAdapterFramework.framework */ = {
+		7072CF5C2C41F8BD002BF6AE /* MolocoAdapter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = MolocoAdapterFramework.framework;
+			path = MolocoAdapter.framework;
 			remoteRef = 7072CF5B2C41F8BD002BF6AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -3893,6 +3994,27 @@
 			remoteRef = AD0D72E32AF81700002C0B60 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBigoAdapter.a;
+			remoteRef = AD3623D62E7B5B2300E442E6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD3623D92E7B5B2300E442E6 /* BigoAdapter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BigoAdapter.framework;
+			remoteRef = AD3623D82E7B5B2300E442E6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticBigoAdapter.a;
+			remoteRef = AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AD45ED452A78116C001B29D8 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -3914,10 +4036,10 @@
 			remoteRef = AD677B982DBADFC10012621D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD677B9B2DBADFC10012621D /* VerveAdapterFramework.framework */ = {
+		AD677B9B2DBADFC10012621D /* VerveAdapter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = VerveAdapterFramework.framework;
+			path = VerveAdapter.framework;
 			remoteRef = AD677B9A2DBADFC10012621D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -3928,10 +4050,10 @@
 			remoteRef = AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD76A9CB2D93117B00F40CD4 /* PubMaticAdapterFramework.framework */ = {
+		AD76A9CB2D93117B00F40CD4 /* PubMaticAdapter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = PubMaticAdapterFramework.framework;
+			path = PubMaticAdapter.framework;
 			remoteRef = AD76A9CA2D93117B00F40CD4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -3970,10 +4092,10 @@
 			remoteRef = ADA2FAD52D9F770B005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ADA2FAD82D9F770B005D9ECA /* PubMaticAdapterFramework.framework */ = {
+		ADA2FAD82D9F770B005D9ECA /* PubMaticAdapter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = PubMaticAdapterFramework.framework;
+			path = PubMaticAdapter.framework;
 			remoteRef = ADA2FAD72D9F770B005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4204,6 +4326,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD30E0D72E207B8600FCEF73 /* BidMachineAdapterLatencyTestPlan.xctestplan in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD3623C72E7B5AD700E442E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD3624982E7B681F00E442E6 /* BigoAdapterUnitTestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4558,6 +4688,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD30E05E2E207A9D00FCEF73 /* BidMachineAdapterLatencyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD3623BB2E7B5AD700E442E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD3626822E7B7CE300E442E6 /* FakeBigoClient.swift in Sources */,
+				AD3624972E7B681600E442E6 /* BigoAdapterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4984,6 +5123,16 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = AD30E05F2E207AA100FCEF73 /* PBXContainerItemProxy */;
+		};
+		AD3623B92E7B5AD700E442E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = AD3623BA2E7B5AD700E442E6 /* PBXContainerItemProxy */;
+		};
+		AD3623DB2E7B5B2E00E442E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Adapter;
+			targetProxy = AD3623DA2E7B5B2E00E442E6 /* PBXContainerItemProxy */;
 		};
 		AD45EDC92A784A9D001B29D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -8332,6 +8481,154 @@
 			};
 			name = Release;
 		};
+		AD3623CA2E7B5AD700E442E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.BigoAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		AD3623CB2E7B5AD700E442E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.BigoAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
 		AD45EDC32A784A3A001B29D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -10897,6 +11194,15 @@
 			buildConfigurations = (
 				AD30E0592E207A1700FCEF73 /* Debug */,
 				AD30E05A2E207A1700FCEF73 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD3623C92E7B5AD700E442E6 /* Build configuration list for PBXNativeTarget "BigoAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD3623CA2E7B5AD700E442E6 /* Debug */,
+				AD3623CB2E7B5AD700E442E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
