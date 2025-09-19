@@ -1,0 +1,149 @@
+// Copyright 2025 Google LLC.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import BigoADS
+import Foundation
+import GoogleMobileAds
+
+final class InterstitialAdLoader: NSObject {
+
+  /// The interstitial ad configuration.
+  private let adConfiguration: MediationInterstitialAdConfiguration
+
+  /// The ad event delegate which is used to report interstitial related information to the Google Mobile Ads SDK.
+  private weak var eventDelegate: MediationInterstitialAdEventDelegate?
+
+  /// The queue for processing an ad load completion.
+  private let adLoadCompletionQueue: DispatchQueue
+
+  /// The ad load completion handler the must be run after ad load completion.
+  private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
+
+  private let client: BigoClient
+
+  private var interstitialAd: BigoInterstitialAd?
+
+  init(
+    adConfiguration: MediationInterstitialAdConfiguration,
+    loadCompletionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
+  ) {
+    self.adConfiguration = adConfiguration
+    self.adLoadCompletionHandler = loadCompletionHandler
+    self.adLoadCompletionQueue = DispatchQueue(
+      label: "com.google.mediationInterstitialAdLoadCompletionQueue")
+    self.client = BigoClientFactory.createClient()
+    super.init()
+  }
+
+  func loadAd() {
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+
+    do {
+      let slotId = try Util.slotId(from: adConfiguration)
+      client.loadRTBInterstitialAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
+  }
+
+  private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
+    adLoadCompletionQueue.sync {
+      guard let adLoadCompletionHandler else { return }
+      eventDelegate = adLoadCompletionHandler(ad, error)
+      self.adLoadCompletionHandler = nil
+    }
+  }
+
+}
+
+// MARK: - BigoInterstitialAdLoaderDelegate
+
+extension InterstitialAdLoader: BigoInterstitialAdLoaderDelegate {
+
+  func onInterstitialAdLoaded(_ ad: BigoInterstitialAd) {
+    interstitialAd = ad
+    handleLoadedAd(self, error: nil)
+  }
+
+  func onInterstitialAdLoadError(_ error: BigoAdError) {
+    handleLoadedAd(nil, error: Util.NSError(from: error))
+  }
+
+}
+
+// MARK: - BigoAdInteractionDelegate
+
+extension InterstitialAdLoader: BigoAdInteractionDelegate {
+
+  func onAd(_ ad: BigoAd, error: BigoAdError) {
+    // Google does not have equivalent callback function.
+    Util.log(
+      "Encountered an issue for the interstitial ad with error code: \(error.errorCode) with following message: \(error.errorMsg)"
+    )
+  }
+
+  func onAdImpression(_ ad: BigoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func onAdClicked(_ ad: BigoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func onAdOpened(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The interstitial ad has been opened.")
+  }
+
+  func onAdClosed(_ ad: BigoAd) {
+    eventDelegate?.didDismissFullScreenView()
+    interstitialAd?.destroy()
+    interstitialAd = nil
+  }
+
+}
+
+// MARK: - GADMediationInterstitialAd
+
+extension InterstitialAdLoader: MediationInterstitialAd {
+
+  func present(from viewController: UIViewController) {
+    guard let interstitialAd else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Interstial ad is not available."))
+      return
+    }
+
+    guard !interstitialAd.isExpired() else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Interstial ad has been expired."))
+      return
+    }
+
+    eventDelegate?.willPresentFullScreenView()
+    client.presentInterstitialAd(
+      interstitialAd, viewController: viewController, interactionDelegate: self)
+  }
+
+}
