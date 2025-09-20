@@ -31,6 +31,7 @@ jobs:
       - name: Update & Install Pods for Mediation Example
         run: |
           cd ./example
+          export BUILD_SNIPPETS=1
           pod repo update
           pod install
 
