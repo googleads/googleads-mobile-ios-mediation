@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.2.0.0 (In progress)
 - Enable -fobjc-arc and -fstack-protector-all.
 
 #### [Version 2.1.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.1.6.1.zip)
