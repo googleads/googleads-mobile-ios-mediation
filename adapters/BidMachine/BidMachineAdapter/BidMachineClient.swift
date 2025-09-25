@@ -107,7 +107,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     return BidMachineSdk.sdkVersion
   }
 
-  func initialize(with sourceId: String, isTestMode: Bool, isCOPPA: Bool?) {
+  func initialize(with sourceId: String, isCOPPA: Bool?) {
     if let isCOPPA {
       BidMachineSdk.shared.regulationInfo.populate {
         $0.withCOPPA(isCOPPA)
