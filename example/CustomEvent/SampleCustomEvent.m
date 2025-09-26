@@ -15,6 +15,7 @@
 #import "SampleCustomEvent.h"
 #import <Foundation/Foundation.h>
 #import <SampleAdSDK/SampleAdSDK.h>
+#import "SampleCustomEventAppOpen.h"
 #import "SampleCustomEventBanner.h"
 #import "SampleCustomEventConstants.h"
 #import "SampleCustomEventInterstitial.h"
@@ -22,13 +23,11 @@
 #import "SampleCustomEventRewarded.h"
 
 @implementation SampleCustomEvent {
-  SampleCustomEventRewarded *sampleRewarded;
-
+  SampleCustomEventAppOpen *sampleAppOpen;
   SampleCustomEventBanner *sampleBanner;
-
-  SampleCustomEventNativeAd *sampleNative;
-
   SampleCustomEventInterstitial *sampleInterstitial;
+  SampleCustomEventRewarded *sampleRewarded;
+  SampleCustomEventNativeAd *sampleNative;
 }
 
 #pragma mark GADMediationAdapter implementation
@@ -65,6 +64,23 @@
   // This is where you you will initialize the SDK that this custom event is built for.
   // Upon finishing the SDK initialization, call the completion handler with success.
   completionHandler(nil);
+}
+
+- (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  sampleAppOpen = [[SampleCustomEventAppOpen alloc] init];
+  [sampleAppOpen loadAppOpenAdForAdConfiguration:adConfiguration
+                               completionHandler:completionHandler];
+}
+
+- (void)loadRewardedInterstitialAdForAdConfiguration:
+            (GADMediationRewardedAdConfiguration *)adConfiguration
+                                   completionHandler:(GADMediationRewardedLoadCompletionHandler)
+                                                         completionHandler {
+  // The Sample SDK does not distinguish between rewarded and rewarded interstitial ads.
+  // Load a rewarded ad instead.
+  [self loadRewardedAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration

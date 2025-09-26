@@ -20,13 +20,13 @@ import Foundation
 import GoogleMobileAds
 import SampleAdSDK
 
-class SampleCustomEventInterstitialSwift: NSObject, GADMediationInterstitialAd {
+class SampleCustomEventInterstitialSwift: NSObject, MediationInterstitialAd {
 
   /// The Sample Ad Network interstitial.
   var interstitial: SampleInterstitial?
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  var delegate: GADMediationInterstitialAdEventDelegate?
+  var delegate: MediationInterstitialAdEventDelegate?
 
   var completionHandler: GADMediationInterstitialLoadCompletionHandler?
 
@@ -35,7 +35,7 @@ class SampleCustomEventInterstitialSwift: NSObject, GADMediationInterstitialAd {
   }
 
   func loadInterstitial(
-    for adConfiguration: GADMediationInterstitialAdConfiguration,
+    for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
     interstitial = SampleInterstitial.init(

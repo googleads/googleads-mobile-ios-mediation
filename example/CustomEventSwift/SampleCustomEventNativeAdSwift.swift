@@ -20,20 +20,20 @@ import Foundation
 import GoogleMobileAds
 import SampleAdSDK
 
-class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
+class SampleCustomEventNativeAdSwift: NSObject, MediationNativeAd {
   var nativeAd: SampleNativeAd?
 
   var headline: String? {
     return nativeAd?.headline
   }
 
-  var images: [GADNativeAdImage]?
+  var images: [NativeAdImage]?
 
   var body: String? {
     return nativeAd?.body
   }
 
-  var icon: GADNativeAdImage?
+  var icon: NativeAdImage?
 
   var callToAction: String? {
     return nativeAd?.callToAction
@@ -68,7 +68,7 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
   }
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  var delegate: GADMediationNativeAdEventDelegate?
+  var delegate: MediationNativeAdEventDelegate?
 
   /// Completion handler called after ad load
   var completionHandler: GADMediationNativeLoadCompletionHandler?
@@ -78,7 +78,7 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
   }
 
   func loadNativeAd(
-    for adConfiguration: GADMediationNativeAdConfiguration,
+    for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     let adLoader = SampleNativeAdLoader()
@@ -96,16 +96,16 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
     sampleRequest.shouldRequestMultipleImages = false
     let options = adConfiguration.options
     for loaderOptions: GADAdLoaderOptions in options {
-      if let imageOptions = loaderOptions as? GADNativeAdImageAdLoaderOptions {
+      if let imageOptions = loaderOptions as? NativeAdImageAdLoaderOptions {
         sampleRequest.shouldRequestMultipleImages = imageOptions.shouldRequestMultipleImages
         // If the GADNativeAdImageAdLoaderOptions' disableImageLoading property is
         // YES, the adapter should send just the URLs for the images.
-        sampleRequest.shouldDownloadImages = !imageOptions.disableImageLoading
-      } else if let mediaOptions = loaderOptions as? GADNativeAdMediaAdLoaderOptions {
+        sampleRequest.shouldDownloadImages = !imageOptions.isImageLoadingDisabled
+      } else if let mediaOptions = loaderOptions as? NativeAdMediaAdLoaderOptions {
         switch mediaOptions.mediaAspectRatio {
-        case GADMediaAspectRatio.landscape:
+        case MediaAspectRatio.landscape:
           sampleRequest.preferredImageOrientation = NativeAdImageOrientation.landscape
-        case GADMediaAspectRatio.portrait:
+        case MediaAspectRatio.portrait:
           sampleRequest.preferredImageOrientation = NativeAdImageOrientation.portrait
         default: sampleRequest.preferredImageOrientation = NativeAdImageOrientation.any
         }
@@ -132,16 +132,16 @@ class SampleCustomEventNativeAdSwift: NSObject, GADMediationNativeAd {
 extension SampleCustomEventNativeAdSwift: SampleNativeAdLoaderDelegate {
   func adLoader(_ adLoader: SampleNativeAdLoader, didReceive nativeAd: SampleNativeAd) {
     if let image = nativeAd.image {
-      images = [GADNativeAdImage(image: image)]
+      images = [NativeAdImage(image: image)]
     } else {
       let imageUrl = URL(fileURLWithPath: nativeAd.imageURL)
-      images = [GADNativeAdImage(url: imageUrl, scale: nativeAd.imageScale)]
+      images = [NativeAdImage(url: imageUrl, scale: nativeAd.imageScale)]
     }
     if let mappedIcon = nativeAd.icon {
-      icon = GADNativeAdImage(image: mappedIcon)
+      icon = NativeAdImage(image: mappedIcon)
     } else {
       let iconURL = URL(fileURLWithPath: nativeAd.iconURL)
-      icon = GADNativeAdImage(url: iconURL, scale: nativeAd.iconScale)
+      icon = NativeAdImage(url: iconURL, scale: nativeAd.iconScale)
     }
 
     adChoicesView = SampleAdInfoView()

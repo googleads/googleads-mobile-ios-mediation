@@ -21,13 +21,13 @@ import GoogleMobileAds
 import SampleAdSDK
 import UIKit
 
-@objc class SampleCustomEventBannerSwift: NSObject, GADMediationBannerAd {
+@objc class SampleCustomEventBannerSwift: NSObject, MediationBannerAd {
 
   /// The Sample Ad Network banner.
   var bannerAd: SampleBanner?
 
   /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  var delegate: GADMediationBannerAdEventDelegate?
+  var delegate: MediationBannerAdEventDelegate?
 
   /// Completion handler called after ad load
   var completionHandler: GADMediationBannerLoadCompletionHandler?
@@ -42,7 +42,7 @@ import UIKit
   }
 
   func loadBanner(
-    for adConfiguration: GADMediationBannerAdConfiguration,
+    for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
     // Create the bannerView with the appropriate size.

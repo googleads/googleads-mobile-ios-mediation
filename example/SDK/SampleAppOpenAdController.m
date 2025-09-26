@@ -1,5 +1,4 @@
-//
-// Copyright 2019 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-#import "SampleRewardedAdController.h"
+#import "SampleAppOpenAdController.h"
 
-@interface SampleRewardedAdController () {
+@interface SampleAppOpenAdController () {
   /// Clock label to show count.
   UILabel *_clockLabel;
 
@@ -26,18 +24,18 @@
   /// Count down counter for timer.
   int _counter;
 
-  /// Sample rewarded ad.
-  SampleRewardedAd *_rewardedAd;
+  /// Sample app open ad.
+  SampleAppOpenAd *_appOpenAd;
 }
 
 @end
 
-@implementation SampleRewardedAdController
+@implementation SampleAppOpenAdController
 
-- (instancetype)initWithRewardedAd:(SampleRewardedAd *)rewardedAd {
+- (nonnull instancetype)initWithAppOpenAd:(nonnull SampleAppOpenAd *)appOpenAd {
   self = [super initWithNibName:nil bundle:nil];
   if (self) {
-    _rewardedAd = rewardedAd;
+    _appOpenAd = appOpenAd;
   }
 
   return self;
@@ -95,15 +93,15 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardedAdDidPresent:)]) {
-    [strongDelegate rewardedAdDidPresent:_rewardedAd];
+  id<SampleAppOpenAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(appOpenAdDidPresent:)]) {
+    [strongDelegate appOpenAdDidPresent:_appOpenAd];
   }
 }
 
-/// Starts the count down timer with 10 seconds.
+/// Starts the count down timer with 5 seconds.
 - (void)startCountdown {
-  _counter = 10;
+  _counter = 5;
   [NSTimer scheduledTimerWithTimeInterval:1
                                    target:self
                                  selector:@selector(countdownTimer:)
@@ -111,36 +109,34 @@
                                   repeats:YES];
 }
 
-/// Timer Count down for 10 seconds. Once the counter reaches to 0, then the timer invalidates and
+/// Timer Count down for 5 seconds. Once the counter reaches to 0, then the timer invalidates and
 /// calls the handleCountdownFinished method.
 - (void)countdownTimer:(NSTimer *)timer {
   _counter--;
   _clockLabel.text = [NSString stringWithFormat:@"%d", _counter];
+  if (_counter <= 3) {
+    _closeButton.hidden = NO;
+  }
   if (_counter <= 0) {
     [timer invalidate];
-    _closeButton.hidden = NO;
     [self handleCountdownFinished];
   }
 }
 
-/// On completion (video ad), tells the delegate that user gets reward amount/coins.
+/// On completion, enable clicks.
 - (void)handleCountdownFinished {
-  _clockLabel.text = [NSString
-      stringWithFormat:@"Rewarded with reward amount %lu", (unsigned long)_rewardedAd.reward];
-  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardedAd:userDidEarnReward:)]) {
-    [strongDelegate rewardedAd:_rewardedAd userDidEarnReward:_rewardedAd.reward];
-  }
+  _clockLabel.text = [NSString stringWithFormat:@"You may now close the ad."];
+
   UITapGestureRecognizer *tapGestureRecognizer =
       [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
   [self.view addGestureRecognizer:tapGestureRecognizer];
 }
 
-/// Closes the ad and tells the delegate that reward-based video ad closed.
+/// Closes the ad and tells the delegate that the app open ad is closed.
 - (void)closeAd:(id)sender {
-  id<SampleRewardedAdDelegate> strongDelegate = self.delegate;
-  if ([strongDelegate respondsToSelector:@selector(rewardedAdDidDismiss:)]) {
-    [strongDelegate rewardedAdDidDismiss:_rewardedAd];
+  id<SampleAppOpenAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(appOpenAdDidDismiss:)]) {
+    [strongDelegate appOpenAdDidDismiss:_appOpenAd];
   }
 
   [self dismissViewControllerAnimated:YES completion:nil];
@@ -148,6 +144,11 @@
 
 /// Handles the tap on ad, and tells the delegate that ad gets clicked.
 - (void)handleTap:(UITapGestureRecognizer *)recognizer {
+  id<SampleAppOpenAdDelegate> strongDelegate = self.delegate;
+  if ([strongDelegate respondsToSelector:@selector(appOpenAdDidDismiss:)]) {
+    [strongDelegate appOpenWillLeaveApplication:_appOpenAd];
+  }
+
   [UIApplication.sharedApplication openURL:[NSURL URLWithString:@"https://www.google.com"]
                                    options:@{}
                          completionHandler:nil];

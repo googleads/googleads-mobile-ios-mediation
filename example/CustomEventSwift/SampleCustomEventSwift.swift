@@ -16,7 +16,7 @@ import Foundation
 import GoogleMobileAds
 import SampleAdSDK
 
-@objc class SampleCustomEventSwift: NSObject, GADMediationAdapter {
+@objc class SampleCustomEventSwift: NSObject, MediationAdapter {
 
   fileprivate var bannerAd: SampleCustomEventBannerSwift?
 
@@ -24,7 +24,7 @@ import SampleAdSDK
 
   fileprivate var nativeAd: SampleCustomEventNativeAdSwift?
 
-  static func adSDKVersion() -> GADVersionNumber {
+  static func adSDKVersion() -> VersionNumber {
     let versionComponents = String(SampleSDKVersion).components(
       separatedBy: ".")
 
@@ -33,31 +33,32 @@ import SampleAdSDK
       let minorVersion = Int(versionComponents[1]) ?? 0
       let patchVersion = Int(versionComponents[2]) ?? 0
 
-      return GADVersionNumber(
+      return VersionNumber(
         majorVersion: majorVersion, minorVersion: minorVersion, patchVersion: patchVersion)
     }
 
-    return GADVersionNumber()
+    return VersionNumber()
   }
 
-  static func adapterVersion() -> GADVersionNumber {
+  static func adapterVersion() -> VersionNumber {
     let versionComponents = String(SampleAdSDK.SampleAdSDKVersionNumber).components(
       separatedBy: ".")
-    var version = GADVersionNumber()
+    var version = VersionNumber()
     if versionComponents.count == 4 {
       version.majorVersion = Int(versionComponents[0]) ?? 0
       version.minorVersion = Int(versionComponents[1]) ?? 0
-      version.patchVersion = (Int(versionComponents[2]) ?? 0) * 100 + (Int(versionComponents[3]) ?? 0)
+      version.patchVersion =
+        (Int(versionComponents[2]) ?? 0) * 100 + (Int(versionComponents[3]) ?? 0)
     }
     return version
   }
 
-  static func networkExtrasClass() -> GADAdNetworkExtras.Type? {
+  static func networkExtrasClass() -> AdNetworkExtras.Type? {
     return nil
   }
 
   static func setUpWith(
-    _ configuration: GADMediationServerConfiguration,
+    _ configuration: MediationServerConfiguration,
     completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock
   ) {
     // This is where you you will initialize the SDK that this custom event is built for.
@@ -70,7 +71,7 @@ import SampleAdSDK
   }
 
   func loadBanner(
-    for adConfiguration: GADMediationBannerAdConfiguration,
+    for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
     self.bannerAd = SampleCustomEventBannerSwift()
@@ -78,7 +79,7 @@ import SampleAdSDK
   }
 
   func loadInterstitial(
-    for adConfiguration: GADMediationInterstitialAdConfiguration,
+    for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
     self.interstitialAd = SampleCustomEventInterstitialSwift()
@@ -87,7 +88,7 @@ import SampleAdSDK
   }
 
   func loadNativeAd(
-    for adConfiguration: GADMediationNativeAdConfiguration,
+    for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
     self.nativeAd = SampleCustomEventNativeAdSwift()

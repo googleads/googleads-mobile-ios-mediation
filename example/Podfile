@@ -3,7 +3,7 @@ workspace 'MediationExample.xcworkspace'
 
 target 'SampleAdSDK' do
   project 'SampleAdSDK/SampleAdSDK.xcodeproj'
-  pod 'Google-Mobile-Ads-SDK', '~> 11.12'
+  pod 'Google-Mobile-Ads-SDK', '~> 12.9'
 
   target 'MediationExample' do
     project 'MediationExample.xcodeproj'

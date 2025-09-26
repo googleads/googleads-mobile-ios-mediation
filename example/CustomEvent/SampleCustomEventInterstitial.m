@@ -86,7 +86,7 @@
         SampleCustomEventErrorAdNotLoaded,
         [NSString stringWithFormat:
                       @"The interstitial ad failed to present because the ad was not loaded."]);
-    _adEventDelegate = _loadCompletionHandler(self, error);
+    [_adEventDelegate didFailToPresentWithError:error];
   }
 }
 

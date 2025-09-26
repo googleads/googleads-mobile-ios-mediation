@@ -1,8 +1,4 @@
-//
-// Copyright (C) 2015 Google, Inc.
-//
-// AppDelegate.h
-// Mediation Example
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <SampleAdSDK/SampleAdSDK.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface SampleCustomEventAppOpen : NSObject
 
-@property(nonatomic, strong) UIWindow *window;
+- (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:(GADMediationAppOpenLoadCompletionHandler)completionHandler;
 
 @end

@@ -24,30 +24,41 @@
 
 #import "ExampleNativeAdView.h"
 
-@interface ViewController () <GADFullScreenContentDelegate,
-                              GADNativeAdLoaderDelegate>
+@interface ViewController () <GADFullScreenContentDelegate, GADNativeAdLoaderDelegate>
 
 @property(nonatomic, strong) AdSourceConfig *config;
 
 @property(nonatomic, weak) IBOutlet GADBannerView *bannerAdView;
 
+@property(weak, nonatomic) IBOutlet UIButton *appOpenButton;
+
 @property(nonatomic, weak) IBOutlet UIButton *interstitialButton;
 
 @property(nonatomic, weak) IBOutlet UIButton *rewardedButton;
 
+@property(weak, nonatomic) IBOutlet UIButton *rewardedInterstitialButton;
+
 @property(nonatomic, weak) IBOutlet UIView *nativeAdPlaceholder;
+
+@property(nonatomic, strong) GADAppOpenAd *appOpenAd;
 
 @property(nonatomic, strong) GADInterstitialAd *interstitial;
 
 @property(nonatomic, strong) GADRewardedAd *rewardedAd;
 
+@property(nonatomic, strong) GADRewardedInterstitialAd *rewardedInterstitialAd;
+
 /// You must keep a strong reference to the GADAdLoader during the ad loading process.
 @property(nonatomic, strong) GADAdLoader *adLoader;
 
-/// Shows the most recently loaded interstitial in response to a button tap.
+/// Shows the most recently loaded interstitial ad in response to a button tap.
 - (IBAction)showInterstitial:(UIButton *)sender;
 
+/// Shows the most recently loaded rewarded ad in response to a button tap.
 - (IBAction)showRewarded:(UIButton *)sender;
+
+/// Shows the most recently loaded rewarded interstitial ad in response to a button tap.
+- (IBAction)showRewardedInterstitial:(UIButton *)sender;
 
 @end
 
@@ -80,22 +91,50 @@
   self.bannerAdView.rootViewController = self;
   [self.bannerAdView loadRequest:[GADRequest request]];
 
+  [self requestAppOpen];
   [self requestInterstitial];
   [self requestRewarded];
+  [self requestRewardedInterstitial];
   [self refreshNativeAd:nil];
 }
 
+- (void)requestAppOpen {
+  [GADAppOpenAd
+       loadWithAdUnitID:self.config.appOpenAdUnitID
+                request:[GADRequest request]
+      completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
+        if (error) {
+          NSLog(@"Failed to load an app open ad with error: %@", error.localizedDescription);
+          return;
+        }
+        NSLog(@"App Open ad loaded.");
+        self.appOpenAd = appOpenAd;
+        self.appOpenAd.fullScreenContentDelegate = self;
+      }];
+}
+
+- (IBAction)showAppOpen:(UIButton *)sender {
+  if (self.appOpenAd) {
+    [self.appOpenAd presentFromRootViewController:self];
+  } else {
+    NSLog(@"Ad wasn't ready");
+    [self requestAppOpen];
+  }
+}
+
 - (void)requestInterstitial {
-  [GADInterstitialAd loadWithAdUnitID:self.config.interstitialAdUnitID
-                              request:[GADRequest request]
-                    completionHandler:^(GADInterstitialAd *ad, NSError *error) {
-    if (error) {
-      NSLog(@"Failed to load an interstitial ad with error: %@", error.localizedDescription);
-      return;
-    }
-    self.interstitial = ad;
-    self.interstitial.fullScreenContentDelegate = self;
-  }];
+  [GADInterstitialAd
+       loadWithAdUnitID:self.config.interstitialAdUnitID
+                request:[GADRequest request]
+      completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+        if (error) {
+          NSLog(@"Failed to load an interstitial ad with error: %@", error.localizedDescription);
+          return;
+        }
+        NSLog(@"Interstitial ad loaded.");
+        self.interstitial = ad;
+        self.interstitial.fullScreenContentDelegate = self;
+      }];
 }
 
 - (IBAction)showInterstitial:(UIButton *)sender {
@@ -109,35 +148,71 @@
 
 - (void)requestRewarded {
   GADRequest *request = [GADRequest request];
-  [GADRewardedAd
-   loadWithAdUnitID:self.config.rewardedAdUnitID
-   request:request
-   completionHandler:^(GADRewardedAd *ad, NSError *error) {
-    if (error) {
-      // Handle ad failed to load case.
-      NSLog(@"Rewarded ad failed to load with error: %@", error.localizedDescription);
-      return;
-    }
-    // Ad successfully loaded.
-    NSLog(@"Rewarded ad loaded.");
-    self.rewardedAd = ad;
-    self.rewardedAd.fullScreenContentDelegate = self;
-  }];
+  [GADRewardedAd loadWithAdUnitID:self.config.rewardedAdUnitID
+                          request:request
+                completionHandler:^(GADRewardedAd *ad, NSError *error) {
+                  if (error) {
+                    // Handle ad failed to load case.
+                    NSLog(@"Rewarded ad failed to load with error: %@", error.localizedDescription);
+                    return;
+                  }
+                  // Ad successfully loaded.
+                  NSLog(@"Rewarded ad loaded.");
+                  self.rewardedAd = ad;
+                  self.rewardedAd.fullScreenContentDelegate = self;
+                }];
 }
 
 - (IBAction)showRewarded:(UIButton *)sender {
   if (self.rewardedAd) {
     [self.rewardedAd presentFromRootViewController:self
                           userDidEarnRewardHandler:^{
-      GADAdReward *reward = self.rewardedAd.adReward;
-      NSString *rewardMessage =
-          [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf", reward.type,
-                                     [reward.amount doubleValue]];
-      NSLog(@"%@", rewardMessage);
-    }];
+                            GADAdReward *reward = self.rewardedAd.adReward;
+                            NSString *rewardMessage = [NSString
+                                stringWithFormat:@"Reward received with currency %@ , amount %lf",
+                                                 reward.type, [reward.amount doubleValue]];
+                            NSLog(@"%@", rewardMessage);
+                          }];
   } else {
     NSLog(@"Ad wasn't ready");
     [self requestRewarded];
+  }
+}
+
+- (void)requestRewardedInterstitial {
+  GADRequest *request = [GADRequest request];
+  [GADRewardedInterstitialAd
+       loadWithAdUnitID:self.config.rewardedInterstitialAdUnitID
+                request:request
+      completionHandler:^(GADRewardedInterstitialAd *_Nullable rewardedInterstitialAd,
+                          NSError *_Nullable error) {
+        if (error) {
+          // Handle ad failed to load case.
+          NSLog(@"Rewarded interstitial ad failed to load with error: %@",
+                error.localizedDescription);
+          return;
+        }
+        // Ad successfully loaded.
+        NSLog(@"Rewarded Interstitial ad loaded.");
+        self.rewardedInterstitialAd = rewardedInterstitialAd;
+        self.rewardedInterstitialAd.fullScreenContentDelegate = self;
+      }];
+}
+
+- (IBAction)showRewardedInterstitial:(UIButton *)sender {
+  if (self.rewardedInterstitialAd) {
+    [self.rewardedInterstitialAd
+        presentFromRootViewController:self
+             userDidEarnRewardHandler:^{
+               GADAdReward *reward = self.rewardedInterstitialAd.adReward;
+               NSString *rewardMessage =
+                   [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf",
+                                              reward.type, [reward.amount doubleValue]];
+               NSLog(@"%@", rewardMessage);
+             }];
+  } else {
+    NSLog(@"Ad wasn't ready");
+    [self requestRewardedInterstitial];
   }
 }
 
@@ -180,10 +255,9 @@
 #pragma mark GADFullScreenContentDelegate implementation
 
 - (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad
-didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
+    didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
   NSString *fullScreenAdType = [self getFullScreenAdType:ad];
-  NSLog(@"%@ failed to present full screen content with error: %@.",
-        fullScreenAdType,
+  NSLog(@"%@ failed to present full screen content with error: %@.", fullScreenAdType,
         error.localizedDescription);
 }
 
@@ -230,8 +304,7 @@ didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
 
   // Create and place ad in view hierarchy.
   ExampleNativeAdView *nativeAdView =
-      [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeAdView" owner:nil options:nil]
-          .firstObject;
+      [[NSBundle mainBundle] loadNibNamed:@"ExampleNativeAdView" owner:nil options:nil].firstObject;
 
   nativeAdView.nativeAd = nativeAd;
   UIView *placeholder = self.nativeAdPlaceholder;

@@ -21,14 +21,20 @@
 #import "../CustomEvent/SampleCustomEventConstants.h"
 #import "MediationExample-Swift.h"
 
+NSString *const kCustomEventAppOpenAdUnitID = @"ca-app-pub-3940256099942544/9565801779";
 NSString *const kCustomEventBannerAdUnitID = @"ca-app-pub-3940256099942544/2493674513";
 NSString *const kCustomEventInterstitialAdUnitID = @"ca-app-pub-3940256099942544/3970407716";
-NSString *const kCustomEventNativeAdUnitID = @"ca-app-pub-3940256099942544/2099734914";
 NSString *const kCustomEventRewardedAdUnitID = @"ca-app-pub-3940256099942544/7193106110";
+NSString *const kCustomEventRewardedInterstitialAdUnitID =
+    @"ca-app-pub-3940256099942544/4447671619";
+NSString *const kCustomEventNativeAdUnitID = @"ca-app-pub-3940256099942544/2099734914";
+NSString *const kCustomEventSwiftAppOpenAdUnitID = @"ca-app-pub-3940256099942544/5813720025";
 NSString *const kCustomEventSwiftBannerAdUnitID = @"ca-app-pub-3940256099942544/5878320677";
 NSString *const kCustomEventSwiftInterstitialAdUnitID = @"ca-app-pub-3940256099942544/6597517739";
-NSString *const kCustomEventSwiftNativeAdUnitID = @"ca-app-pub-3940256099942544/1645833135";
 NSString *const kCustomEventSwiftRewardedAdUnitID = @"ca-app-pub-3940256099942544/4906631573";
+NSString *const kCustomEventSwiftRewardedInterstitialAdUnitID =
+    @"ca-app-pub-3940256099942544/8877607887";
+NSString *const kCustomEventSwiftNativeAdUnitID = @"ca-app-pub-3940256099942544/1645833135";
 
 @implementation AdSourceConfig
 
@@ -42,6 +48,15 @@ NSString *const kCustomEventSwiftRewardedAdUnitID = @"ca-app-pub-394025609994254
     _adSourceType = adSourceType;
   }
   return self;
+}
+
+- (NSString *)appOpenAdUnitID {
+  switch (self.adSourceType) {
+    case AdSourceTypeCustomEventObjC:
+      return kCustomEventAppOpenAdUnitID;
+    case AdSourceTypeCustomEventSwift:
+      return kCustomEventSwiftAppOpenAdUnitID;
+  }
 }
 
 - (NSString *)bannerAdUnitID {
@@ -77,6 +92,15 @@ NSString *const kCustomEventSwiftRewardedAdUnitID = @"ca-app-pub-394025609994254
       return kCustomEventRewardedAdUnitID;
     case AdSourceTypeCustomEventSwift:
       return kCustomEventSwiftRewardedAdUnitID;
+  }
+}
+
+- (NSString *)rewardedInterstitialAdUnitID {
+  switch (self.adSourceType) {
+    case AdSourceTypeCustomEventObjC:
+      return kCustomEventRewardedInterstitialAdUnitID;
+    case AdSourceTypeCustomEventSwift:
+      return kCustomEventSwiftRewardedInterstitialAdUnitID;
   }
 }
 
