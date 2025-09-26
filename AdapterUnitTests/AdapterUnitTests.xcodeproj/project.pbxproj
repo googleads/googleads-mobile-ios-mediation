@@ -190,6 +190,9 @@
 		AD8FE9BB2D3B337900B4728A /* AmazonAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE3472D39F93E00B4728A /* AmazonAdapterTests.swift */; };
 		AD8FE9BC2D3B337E00B4728A /* FakeApsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */; };
 		AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */; };
+		AD953EC72E7E074800000337 /* BigoRewardedInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD953EC62E7E073E00000337 /* BigoRewardedInterstitialAdTests.swift */; };
+		AD953F442E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD953F422E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD953F452E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD953F432E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */; };
 		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
 		AD98A5B92A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1506,6 +1509,9 @@
 		AD8FE4B12D3B03DA00B4728A /* FakeApsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeApsClient.swift; sourceTree = "<group>"; };
 		AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmazonAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD91F0792B605EA90095A061 /* AUTAppLovinUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinUtilsTests.m; sourceTree = "<group>"; };
+		AD953EC62E7E073E00000337 /* BigoRewardedInterstitialAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoRewardedInterstitialAdTests.swift; sourceTree = "<group>"; };
+		AD953F422E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUTKMediationRewardedInterstitialAdLoadAssertions.h; sourceTree = "<group>"; };
+		AD953F432E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedInterstitialAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
 		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
 		AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdapterSetUpAssertions.h; sourceTree = "<group>"; };
@@ -2317,6 +2323,7 @@
 			isa = PBXGroup;
 			children = (
 				AD3629622E7DD50400E442E6 /* BigoRewardedAdTests.swift */,
+				AD953EC62E7E073E00000337 /* BigoRewardedInterstitialAdTests.swift */,
 				AD36286C2E7CBC5000E442E6 /* BigoInterstitialAdTests.swift */,
 				AD3626812E7B7CE000E442E6 /* FakeBigoClient.swift */,
 				AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */,
@@ -2517,6 +2524,8 @@
 				AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */,
 				AD98A5BE2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h */,
 				AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */,
+				AD953F422E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */,
+				AD953F432E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */,
 			);
 			path = AdapterUnitTestKit;
 			sourceTree = "<group>";
@@ -2753,6 +2762,7 @@
 				AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */,
 				AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */,
 				AD1E87EC2AC6527300FAF1B7 /* AUTKMediationAppOpenAdLoadAssertions.h in Headers */,
+				AD953F442E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h in Headers */,
 				AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */,
 				AD5A4ED62E0F23F00078AFC1 /* AUTKLatencyTests.h in Headers */,
 			);
@@ -4692,6 +4702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD953EC72E7E074800000337 /* BigoRewardedInterstitialAdTests.swift in Sources */,
 				AD3633462E7E05F400E442E6 /* BigoRewardedAdTests.swift in Sources */,
 				AD3633472E7E05F400E442E6 /* BigoInterstitialAdTests.swift in Sources */,
 				AD3633482E7E05F400E442E6 /* FakeBigoClient.swift in Sources */,
@@ -4745,6 +4756,7 @@
 				AD1E87FA2AC6528500FAF1B7 /* AUTKMediationAppOpenAdLoadAssertions.m in Sources */,
 				AD98A5CB2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m in Sources */,
 				AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */,
+				AD953F452E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m in Sources */,
 				AD5A4ED82E0F25130078AFC1 /* AUTKLatencyTests.m in Sources */,
 				AD98A5BA2A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m in Sources */,
 			);

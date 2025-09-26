@@ -32,6 +32,9 @@ final class BigoAdapter: NSObject, RTBAdapter {
   /// The rewarded ad loader.
   private var rewardedAdLoader: RewardedAdLoader?
 
+  /// The rewarded interstitial ad loader, which is identical to RewardedAd.
+  private var rewardedInterstitialAdLoader: RewardedAdLoader?
+
   /// The native ad loader.
   private var nativeAdLoader: NativeAdLoader?
 
@@ -154,6 +157,18 @@ final class BigoAdapter: NSObject, RTBAdapter {
     rewardedAdLoader = RewardedAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     rewardedAdLoader?.loadAd()
+  }
+
+  @objc
+  func loadRewardedInterstitialAd(
+    for adConfiguration: MediationRewardedAdConfiguration,
+    completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
+  ) {
+    Util.log("Start loading rewarded interstitial ad")
+    // Reuse rewarded ad.
+    rewardedInterstitialAdLoader = RewardedAdLoader(
+      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+    rewardedInterstitialAdLoader?.loadAd()
   }
 
   // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.

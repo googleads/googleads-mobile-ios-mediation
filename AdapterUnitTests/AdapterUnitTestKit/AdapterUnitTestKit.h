@@ -8,4 +8,4 @@
 #import <AdapterUnitTestKit/AUTKMediationInterstitialAdLoadAssertions.h>
 #import <AdapterUnitTestKit/AUTKMediationNativeAdLoadAssertions.h>
 #import <AdapterUnitTestKit/AUTKMediationRewardedAdLoadAssertions.h>
-
+#import <AdapterUnitTestKit/AUTKMediationRewardedInterstitialAdLoadAssertions.h>
