@@ -173,7 +173,6 @@ final class BigoAdapter: NSObject, RTBAdapter {
     rewardedInterstitialAdLoader?.loadAd()
   }
 
-  // TODO: Remove if not needed. If removed, then remove the |NativeAdLoader| class as well.
   @objc
   func loadNativeAd(
     for adConfiguration: MediationNativeAdConfiguration,

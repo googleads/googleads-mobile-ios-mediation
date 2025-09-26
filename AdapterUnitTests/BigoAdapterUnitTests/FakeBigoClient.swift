@@ -144,4 +144,17 @@ final class FakeBigoClient: NSObject, BigoClient {
     }
   }
 
+  func loadRTBNativeAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoNativeAdLoaderDelegate
+  ) {
+    if shouldAdLoadSucceed {
+      delegate.onNativeAdLoaded(BigoNativeAd())
+    } else {
+      delegate.onNativeAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
 }

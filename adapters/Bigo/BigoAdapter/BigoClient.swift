@@ -73,6 +73,9 @@ protocol BigoClient: NSObject {
   func loadRTBBannerAd(
     for slotId: String, bidPayLoad: String, adSize: BigoAdSize, delegate: BigoBannerAdLoaderDelegate
   )
+
+  /// Loads a RTB native ad from BigoADS.
+  func loadRTBNativeAd(for slotId: String, bidPayLoad: String, delegate: BigoNativeAdLoaderDelegate)
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
@@ -81,6 +84,7 @@ final class BigoClientImpl: NSObject, BigoClient {
   private var rewardVideoAdLoader: BigoRewardVideoAdLoader?
   private var splashAdLoader: BigoSplashAdLoader?
   private var bannerAdLoader: BigoBannerAdLoader?
+  private var nativeAdLoader: BigoNativeAdLoader?
 
   func initialize(
     with applicationId: String,
@@ -165,6 +169,17 @@ final class BigoClientImpl: NSObject, BigoClient {
     request.setServerBidPayload(bidPayLoad)
     bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
     bannerAdLoader?.loadAd(request)
+  }
+
+  func loadRTBNativeAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoNativeAdLoaderDelegate
+  ) {
+    let request = BigoNativeAdRequest(slotId: slotId)
+    request.setServerBidPayload(bidPayLoad)
+    nativeAdLoader = BigoNativeAdLoader(nativeAdLoaderDelegate: delegate)
+    nativeAdLoader?.loadAd(request)
   }
 
 }
