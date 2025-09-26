@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import BigoADS
+import GoogleMobileAds
 import UIKit
 
 /// Factory that creates Bigo client.
@@ -80,6 +81,23 @@ protocol BigoClient: NSObject {
 
 final class BigoClientImpl: NSObject, BigoClient {
 
+  static let extString: String = {
+    let extDict = [
+      "mediationName": "GoogleBigoAdapter",
+      "mediationVersion": "\(MobileAds.version())",
+      "adapterVersion": BigoAdapter.adapterVersionString,
+    ]
+
+    guard let jsonData = try? JSONSerialization.data(withJSONObject: extDict),
+      let jsonString = String(data: jsonData, encoding: .utf8)
+    else {
+      Util.log("Failed to serialize extension dictionary.")
+      return ""
+    }
+
+    return jsonString
+  }()
+
   private var interstitialAdLoader: BigoInterstitialAdLoader?
   private var rewardVideoAdLoader: BigoRewardVideoAdLoader?
   private var splashAdLoader: BigoSplashAdLoader?
@@ -108,6 +126,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoInterstitialAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
     interstitialAdLoader = BigoInterstitialAdLoader(interstitialAdLoaderDelegate: delegate)
+    interstitialAdLoader?.ext = Self.extString
     interstitialAdLoader?.loadAd(request)
   }
 
@@ -127,6 +146,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoRewardVideoAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
     rewardVideoAdLoader = BigoRewardVideoAdLoader(rewardVideoAdLoaderDelegate: delegate)
+    rewardVideoAdLoader?.ext = Self.extString
     rewardVideoAdLoader?.loadAd(request)
   }
 
@@ -147,6 +167,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoSplashAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
     splashAdLoader = BigoSplashAdLoader(splashAdLoaderDelegate: delegate)
+    splashAdLoader?.ext = Self.extString
     splashAdLoader?.loadAd(request)
   }
 
@@ -168,6 +189,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoBannerAdRequest(slotId: slotId, adSizes: [adSize])
     request.setServerBidPayload(bidPayLoad)
     bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
+    bannerAdLoader?.ext = Self.extString
     bannerAdLoader?.loadAd(request)
   }
 
@@ -179,6 +201,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     let request = BigoNativeAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
     nativeAdLoader = BigoNativeAdLoader(nativeAdLoaderDelegate: delegate)
+    nativeAdLoader?.ext = Self.extString
     nativeAdLoader?.loadAd(request)
   }
 

@@ -246,10 +246,10 @@ extension NativeAdLoader: MediationNativeAd {
       }
     }
 
-    var optionsView: BigoAdOptionsView?
-    if let iconImageView {
-      optionsView = BigoAdOptionsView(frame: iconImageView.frame)
-    }
+    let nativeAdViewWidth = view.bounds.width
+    let optionsView = BigoAdOptionsView(frame: CGRectMake(nativeAdViewWidth - 20, 0, 20, 20))
+    optionsView.bigoNativeAdViewTag = .option
+    view.addSubview(optionsView)
 
     nativeAd?.registerView(
       forInteraction: view,

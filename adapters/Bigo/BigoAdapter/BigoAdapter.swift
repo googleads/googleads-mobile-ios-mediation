@@ -18,7 +18,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBigo)
 final class BigoAdapter: NSObject, RTBAdapter {
 
-  private static let adapterVersionString = "4.9.3.0"
+  static let adapterVersionString = "4.9.3.0"
 
   /// The app open ad loader.
   private var appOpenAdLoader: AppOpenAdLoader?
