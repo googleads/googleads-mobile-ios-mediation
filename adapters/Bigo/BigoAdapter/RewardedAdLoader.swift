@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BigoADS
 import Foundation
 import GoogleMobileAds
 
@@ -33,6 +34,8 @@ final class RewardedAdLoader: NSObject {
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
 
   private let client: BigoClient
+
+  private var rewardAd: BigoRewardVideoAd?
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
@@ -56,7 +59,13 @@ final class RewardedAdLoader: NSObject {
         ).toNSError())
       return
     }
-    //    client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self)
+
+    do {
+      let slotId = try Util.slotId(from: adConfiguration)
+      client.loadRTBRewardVideoAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
@@ -69,12 +78,79 @@ final class RewardedAdLoader: NSObject {
 
 }
 
-// MARK: - GADMediationRewardedAd
+// MARK: - BigoRewardVideoAdLoaderDelegate
+
+extension RewardedAdLoader: BigoRewardVideoAdLoaderDelegate {
+
+  func onRewardVideoAdLoaded(_ ad: BigoRewardVideoAd) {
+    rewardAd = ad
+    handleLoadedAd(self, error: nil)
+  }
+
+  func onRewardVideoAdLoadError(_ error: BigoAdError) {
+    handleLoadedAd(nil, error: Util.NSError(from: error))
+  }
+
+}
+
+// MARK: - BigoRewardVideoAdInteractionDelegate
+
+extension RewardedAdLoader: BigoRewardVideoAdInteractionDelegate {
+
+  func onAd(_ ad: BigoAd, error: BigoAdError) {
+    Util.log(
+      "Encountered an issue for the rewarded ad with error code: \(error.errorCode) with following message: \(error.errorMsg)"
+    )
+    eventDelegate?.didFailToPresentWithError(Util.NSError(from: error))
+  }
+
+  func onAdImpression(_ ad: BigoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func onAdClicked(_ ad: BigoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func onAdOpened(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The rewarded ad has been opened.")
+  }
+
+  func onAdClosed(_ ad: BigoAd) {
+    eventDelegate?.didDismissFullScreenView()
+    rewardAd?.destroy()
+    rewardAd = nil
+  }
+
+  func onAdRewarded(_ ad: BigoRewardVideoAd) {
+    eventDelegate?.didRewardUser()
+  }
+
+}
+
+// MARK: - GADMediationRewardAd
 
 extension RewardedAdLoader: MediationRewardedAd {
 
   func present(from viewController: UIViewController) {
-    // TODO
+    guard let rewardAd else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Rewarded ad is not available."))
+      return
+    }
+
+    guard !rewardAd.isExpired() else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Rewarded ad has been expired."))
+      return
+    }
+
+    eventDelegate?.willPresentFullScreenView()
+    client.presentRewardVideoAd(
+      rewardAd, viewController: viewController, interactionDelegate: self)
   }
 
 }

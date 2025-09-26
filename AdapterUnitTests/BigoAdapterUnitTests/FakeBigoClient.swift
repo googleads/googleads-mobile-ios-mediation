@@ -69,4 +69,35 @@ final class FakeBigoClient: NSObject, BigoClient {
     }
   }
 
+  func loadRTBRewardVideoAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoRewardVideoAdLoaderDelegate
+  ) {
+    if shouldAdLoadSucceed {
+      delegate.onRewardVideoAdLoaded(BigoRewardVideoAd())
+    } else {
+      delegate.onRewardVideoAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func presentRewardVideoAd(
+    _ ad: BigoRewardVideoAd,
+    viewController: UIViewController,
+    interactionDelegate: any BigoRewardVideoAdInteractionDelegate
+  ) {
+    if shouldAdShowSucceed {
+      interactionDelegate.onAdOpened?(ad)
+      interactionDelegate.onAdImpression?(ad)
+      interactionDelegate.onAdClicked?(ad)
+      interactionDelegate.onAdClosed?(ad)
+      interactionDelegate.onAdRewarded?(ad)
+    } else {
+      interactionDelegate.onAd?(
+        ad,
+        error: BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to show."))
+    }
+  }
+
 }

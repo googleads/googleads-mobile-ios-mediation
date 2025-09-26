@@ -139,7 +139,7 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
-    Util.log("Start to load interstitial ad")
+    Util.log("Start loading interstitial ad")
     interstitialAdLoader = InterstitialAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     interstitialAdLoader?.loadAd()
@@ -150,6 +150,7 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
+    Util.log("Start loading rewarded ad")
     rewardedAdLoader = RewardedAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     rewardedAdLoader?.loadAd()

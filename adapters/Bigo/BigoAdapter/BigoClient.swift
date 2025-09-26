@@ -52,11 +52,21 @@ protocol BigoClient: NSObject {
     _ ad: BigoInterstitialAd, viewController: UIViewController,
     interactionDelegate: BigoAdInteractionDelegate)
 
+  /// Loads a RTB reward ad from BigoADS.
+  func loadRTBRewardVideoAd(
+    for slotId: String, bidPayLoad: String, delegate: BigoRewardVideoAdLoaderDelegate)
+
+  /// Presents the Bigo reward video ad.
+  func presentRewardVideoAd(
+    _ ad: BigoRewardVideoAd, viewController: UIViewController,
+    interactionDelegate: BigoRewardVideoAdInteractionDelegate)
+
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
 
   private var interstitialAdLoader: BigoInterstitialAdLoader?
+  private var rewardVideoAdLoader: BigoRewardVideoAdLoader?
 
   func initialize(
     with applicationId: String,
@@ -88,6 +98,26 @@ final class BigoClientImpl: NSObject, BigoClient {
     interactionDelegate: BigoAdInteractionDelegate
   ) {
     ad.setAdInteractionDelegate(interactionDelegate)
+    ad.show(viewController)
+  }
+
+  func loadRTBRewardVideoAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoRewardVideoAdLoaderDelegate
+  ) {
+    let request = BigoRewardVideoAdRequest(slotId: slotId)
+    request.setServerBidPayload(bidPayLoad)
+    rewardVideoAdLoader = BigoRewardVideoAdLoader(rewardVideoAdLoaderDelegate: delegate)
+    rewardVideoAdLoader?.loadAd(request)
+  }
+
+  func presentRewardVideoAd(
+    _ ad: BigoRewardVideoAd,
+    viewController: UIViewController,
+    interactionDelegate: any BigoRewardVideoAdInteractionDelegate
+  ) {
+    ad.setRewardVideoAdInteractionDelegate(interactionDelegate)
     ad.show(viewController)
   }
 
