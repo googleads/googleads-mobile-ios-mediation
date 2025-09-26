@@ -104,7 +104,9 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-
+    Util.log("Collecting signals.")
+    let token = BigoClientFactory.createClient().getBidderToken()
+    completionHandler(token, nil)
   }
 
   @objc

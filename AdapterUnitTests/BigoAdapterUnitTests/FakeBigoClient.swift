@@ -33,4 +33,8 @@ final class FakeBigoClient: NSObject, BigoClient {
     completion()
   }
 
+  func getBidderToken() -> String? {
+    return "token"
+  }
+
 }

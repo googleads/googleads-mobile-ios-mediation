@@ -5,6 +5,14 @@ import XCTest
 
 final class BigoAdapterTest: XCTestCase {
 
+  var fakeClient: FakeBigoClient!
+
+  override func setUp() {
+    super.setUp()
+    fakeClient = FakeBigoClient()
+    BigoClientFactory.debugClient = fakeClient
+  }
+
   override func tearDown() {
     BigoClientFactory.debugClient = nil
     BigoAdapterExtras.testMode = false
@@ -34,8 +42,6 @@ final class BigoAdapterTest: XCTestCase {
   }
 
   func testSetUp_succeeds_withTestModeOn() throws {
-    let fakeClient = FakeBigoClient()
-    BigoClientFactory.debugClient = fakeClient
     BigoAdapterExtras.testMode = true
 
     let credentials = AUTKMediationCredentials()
@@ -51,8 +57,6 @@ final class BigoAdapterTest: XCTestCase {
   }
 
   func testSetUp_succeeds_withTestModeOff() throws {
-    let fakeClient = FakeBigoClient()
-    BigoClientFactory.debugClient = fakeClient
     BigoAdapterExtras.testMode = false
 
     let credentials = AUTKMediationCredentials()
@@ -68,8 +72,6 @@ final class BigoAdapterTest: XCTestCase {
   }
 
   func testSetUp_fails_whenMissingApplicationId() throws {
-    let fakeClient = FakeBigoClient()
-    BigoClientFactory.debugClient = fakeClient
     BigoAdapterExtras.testMode = false
 
     let credentials = AUTKMediationCredentials()
@@ -82,6 +84,18 @@ final class BigoAdapterTest: XCTestCase {
 
     XCTAssertNil(fakeClient.applicationId)
     XCTAssertNil(fakeClient.testMode)
+  }
+
+  func testCollectingSignals() {
+    let adapter = BigoAdapter()
+    let expectation = self.expectation(description: "signal collection")
+
+    adapter.collectSignals(for: AUTKRTBRequestParameters()) { token, error in
+      XCTAssertNotNil(token)
+      XCTAssertNil(error)
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
   }
 
 }
