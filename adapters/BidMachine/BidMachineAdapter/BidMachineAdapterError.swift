@@ -40,6 +40,9 @@ public final class BidMachineAdapterError: Error {
 
     /// Failed to load one of the native ad image sources.
     case failedToLoadNativeAdImageSource = 107
+
+    /// BidMachine does not support this banner ad size.
+    case unsupportedBannerSize = 108
   }
 
   public static let domain = "com.google.mediation.bidmachine"

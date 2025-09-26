@@ -54,8 +54,20 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   func loadWaterfallBannerAd(
-    delegate: any BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void
+    size: AdSize, delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    let closestAdSize = closestValidSizeForAdSizes(
+      original: size,
+      possibleAdSizes: [
+        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
+        nsValue(for: AdSizeLeaderboard),
+      ])
+    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeInvalid) {
+      throw BidMachineAdapterError(
+        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+    }
+
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }

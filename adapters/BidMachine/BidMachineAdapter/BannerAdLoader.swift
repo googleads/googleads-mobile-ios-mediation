@@ -58,12 +58,11 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     } else {
       loadWaterfallAd()
     }
-
   }
 
   private func loadWaterfallAd() {
     do {
-      try client.loadWaterfallBannerAd(delegate: self) {
+      try client.loadWaterfallBannerAd(size: adConfiguration.adSize, delegate: self) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {
@@ -71,6 +70,8 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
           return
         }
       }
+    } catch let error as BidMachineAdapterError {
+      handleLoadedAd(nil, error: error.toNSError())
     } catch {
       handleLoadedAd(nil, error: error)
     }
@@ -88,7 +89,9 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     }
 
     do {
-      try client.loadRTBBannerAd(with: bidResponse, delegate: self, watermark: watermark) {
+      try client.loadRTBBannerAd(
+        with: bidResponse, delegate: self, watermark: watermark
+      ) {
         [weak self] error in
         guard let self else { return }
         guard error == nil else {

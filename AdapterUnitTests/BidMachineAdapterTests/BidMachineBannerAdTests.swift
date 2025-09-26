@@ -165,9 +165,44 @@ final class BidMachineWaterfallBannerAdTests {
     BidMachineClientFactory.debugClient = client
   }
 
-  @Test("RTB banner ad load succeeds")
-  func load_succeeds() async {
+  @Test("Waterfall banner ad load succeeds for banner size")
+  func load_succeeds_forBanner() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeBanner
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadBanner(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall banner ad load succeeds for medium rectangle")
+  func load_succeeds_forMREC() async {
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeMediumRectangle
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadBanner(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error == nil)
+        #expect(ad != nil)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
+    }
+  }
+
+  @Test("Waterfall banner ad load succeeds for leaderboard")
+  func load_succeeds_forLeaderboard() async {
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeLeaderboard
     let adapter = BidMachineAdapter()
 
     await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
@@ -217,9 +252,28 @@ final class BidMachineWaterfallBannerAdTests {
     }
   }
 
+  @Test("Waterfall banner ad load fails for unsupported size")
+  func load_fails_whenSizeIsNotSupported() async {
+    let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeSkyscraper
+    let adapter = BidMachineAdapter()
+
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      adapter.loadBanner(for: adConfig) { ad, error in
+        let error = error as NSError?
+        #expect(error != nil)
+        #expect(ad == nil)
+        #expect(error?.code == BidMachineAdapterError.ErrorCode.unsupportedBannerSize.rawValue)
+        continuation.resume()
+        return AUTKMediationBannerAdEventDelegate()
+      }
+    }
+  }
+
   @Test("Impression count")
   func impreesion_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     var delegate: BidMachineAdDelegate?
@@ -243,6 +297,7 @@ final class BidMachineWaterfallBannerAdTests {
   @Test("Click count")
   func click_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
+    adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
     let eventDelegate = AUTKMediationBannerAdEventDelegate()
     var delegate: BidMachineAdDelegate?

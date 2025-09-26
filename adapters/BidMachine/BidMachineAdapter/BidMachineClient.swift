@@ -51,7 +51,8 @@ protocol BidMachineClient: NSObject {
 
   /// Loads a waterfall  banner ad.
   func loadWaterfallBannerAd(
-    delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void) throws
+    size: AdSize, delegate: BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void)
+    throws
 
   /// Loads a RTB banner ad.
   func loadRTBBannerAd(
@@ -128,10 +129,31 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func loadWaterfallBannerAd(
-    delegate: any BidMachineAdDelegate, completionHandler: @escaping (NSError?) -> Void
+    size: AdSize,
+    delegate: any BidMachineAdDelegate,
+    completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    let closestAdSize = closestValidSizeForAdSizes(
+      original: size,
+      possibleAdSizes: [
+        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
+        nsValue(for: AdSizeLeaderboard),
+      ])
+    let bannerFormat: PlacementFormat
+    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeBanner) {
+      bannerFormat = .banner320x50
+    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeMediumRectangle) {
+      bannerFormat = .banner300x250
+    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeLeaderboard) {
+      bannerFormat = .banner728x90
+    } else {
+      throw BidMachineAdapterError(
+        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+    }
+
     try loadBannerAd(
-      with: nil, delegate: delegate, watermark: nil, completionHandler: completionHandler)
+      with: nil, placementFormat: bannerFormat, delegate: delegate, watermark: nil,
+      completionHandler: completionHandler)
   }
 
   func loadRTBBannerAd(
@@ -141,17 +163,18 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
     try loadBannerAd(
-      with: bidResponse, delegate: delegate, watermark: watermark,
+      with: bidResponse, placementFormat: .banner, delegate: delegate, watermark: watermark,
       completionHandler: completionHandler)
   }
 
   private func loadBannerAd(
     with bidResponse: String?,
+    placementFormat: PlacementFormat,
     delegate: BidMachineAdDelegate,
     watermark: String?,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let placement = try BidMachineSdk.shared.placement(from: .banner)
+    let placement = try BidMachineSdk.shared.placement(from: placementFormat)
     let request = BidMachineSdk.shared.auctionRequest(placement: placement) { builder in
       if let bidResponse {
         builder.withPayload(bidResponse)
@@ -176,7 +199,6 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
       }
     }
   }
-
   func loadWaterfallInterstitialAd(
     delegate: any BidMachineAdDelegate,
     completionHandler: @escaping (NSError?) -> Void
