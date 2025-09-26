@@ -194,6 +194,7 @@
 		AD953F442E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD953F422E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD953F452E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD953F432E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */; };
 		AD95403B2E7E10F400000337 /* BigoAppOpenAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95403A2E7E10E800000337 /* BigoAppOpenAdTests.swift */; };
+		AD9541A22E7E253B00000337 /* BigoBannerAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9541A12E7E253500000337 /* BigoBannerAdTests.swift */; };
 		AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD98A5B62A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */; };
 		AD98A5B92A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1514,6 +1515,7 @@
 		AD953F422E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUTKMediationRewardedInterstitialAdLoadAssertions.h; sourceTree = "<group>"; };
 		AD953F432E7E080A00000337 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedInterstitialAdLoadAssertions.m; sourceTree = "<group>"; };
 		AD95403A2E7E10E800000337 /* BigoAppOpenAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoAppOpenAdTests.swift; sourceTree = "<group>"; };
+		AD9541A12E7E253500000337 /* BigoBannerAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoBannerAdTests.swift; sourceTree = "<group>"; };
 		AD98A5B32A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKMediationAdEventDelegate.h; sourceTree = "<group>"; };
 		AD98A5B42A1D4B8900017B8D /* AUTKMediationAdEventDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationAdEventDelegate.m; sourceTree = "<group>"; };
 		AD98A5B72A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUTKAdapterSetUpAssertions.h; sourceTree = "<group>"; };
@@ -2324,6 +2326,7 @@
 		AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				AD9541A12E7E253500000337 /* BigoBannerAdTests.swift */,
 				AD95403A2E7E10E800000337 /* BigoAppOpenAdTests.swift */,
 				AD3629622E7DD50400E442E6 /* BigoRewardedAdTests.swift */,
 				AD953EC62E7E073E00000337 /* BigoRewardedInterstitialAdTests.swift */,
@@ -4706,6 +4709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD953EC72E7E074800000337 /* BigoRewardedInterstitialAdTests.swift in Sources */,
+				AD9541A22E7E253B00000337 /* BigoBannerAdTests.swift in Sources */,
 				AD3633462E7E05F400E442E6 /* BigoRewardedAdTests.swift in Sources */,
 				AD3633472E7E05F400E442E6 /* BigoInterstitialAdTests.swift in Sources */,
 				AD95403B2E7E10F400000337 /* BigoAppOpenAdTests.swift in Sources */,

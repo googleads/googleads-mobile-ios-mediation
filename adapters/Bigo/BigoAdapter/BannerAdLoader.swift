@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BigoADS
 import Foundation
 import GoogleMobileAds
 
@@ -33,6 +34,8 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
 
   private let client: BigoClient
+
+  private var bannerAd: BigoBannerAd?
 
   var view: UIView
 
@@ -61,6 +64,14 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       return
     }
 
+    do {
+      let slotId = try Util.slotId(from: adConfiguration)
+      let bannerAdSize = try Util.adSize(for: adConfiguration.adSize)
+      client.loadRTBBannerAd(
+        for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
@@ -69,6 +80,62 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       eventDelegate = adLoadCompletionHandler(ad, error)
       self.adLoadCompletionHandler = nil
     }
+  }
+
+}
+
+// MARK: - BigoBannerAdLoaderDelegate
+
+extension BannerAdLoader: BigoBannerAdLoaderDelegate {
+
+  func onBannerAdLoaded(_ ad: BigoBannerAd) {
+    guard let adView = ad.adView() else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .bannerAdViewUnavailable,
+          description: "Bigo successfully loaded the banner ad but it is missing an ad view."))
+      return
+    }
+    view = adView
+    bannerAd = ad
+    bannerAd?.setAdInteractionDelegate(self)
+    handleLoadedAd(self, error: nil)
+  }
+
+  func onBannerAdLoadError(_ error: BigoAdError) {
+    handleLoadedAd(nil, error: Util.NSError(from: error))
+  }
+
+}
+
+// MARK: - BigoAdInteractionDelegate
+
+extension BannerAdLoader: BigoAdInteractionDelegate {
+
+  func onAd(_ ad: BigoAd, error: BigoAdError) {
+    // Google does not have equivalent callback function.
+    Util.log(
+      "Encountered an issue for the banner ad with error code: \(error.errorCode) with following message: \(error.errorMsg)"
+    )
+  }
+
+  func onAdImpression(_ ad: BigoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func onAdClicked(_ ad: BigoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func onAdOpened(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The banner ad has been opened.")
+  }
+
+  func onAdClosed(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The banner ad has been closed.")
   }
 
 }

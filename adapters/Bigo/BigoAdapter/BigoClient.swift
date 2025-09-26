@@ -68,6 +68,11 @@ protocol BigoClient: NSObject {
   func presentSplashAd(
     _ ad: BigoSplashAd, viewController: UIViewController,
     interactionDelegate: BigoSplashAdInteractionDelegate)
+
+  /// Loads a RTB banner ad from BigoADS.
+  func loadRTBBannerAd(
+    for slotId: String, bidPayLoad: String, adSize: BigoAdSize, delegate: BigoBannerAdLoaderDelegate
+  )
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
@@ -75,6 +80,7 @@ final class BigoClientImpl: NSObject, BigoClient {
   private var interstitialAdLoader: BigoInterstitialAdLoader?
   private var rewardVideoAdLoader: BigoRewardVideoAdLoader?
   private var splashAdLoader: BigoSplashAdLoader?
+  private var bannerAdLoader: BigoBannerAdLoader?
 
   func initialize(
     with applicationId: String,
@@ -147,6 +153,18 @@ final class BigoClientImpl: NSObject, BigoClient {
   ) {
     ad.setSplashAdInteractionDelegate(interactionDelegate)
     ad.show(viewController)
+  }
+
+  func loadRTBBannerAd(
+    for slotId: String,
+    bidPayLoad: String,
+    adSize: BigoAdSize,
+    delegate: any BigoBannerAdLoaderDelegate
+  ) {
+    let request = BigoBannerAdRequest(slotId: slotId, adSizes: [adSize])
+    request.setServerBidPayload(bidPayLoad)
+    bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
+    bannerAdLoader?.loadAd(request)
   }
 
 }

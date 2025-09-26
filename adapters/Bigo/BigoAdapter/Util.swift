@@ -84,4 +84,24 @@ final class Util {
       description: error.errorMsg)
   }
 
+  static func adSize(for adSize: AdSize) throws(BigoAdapterError) -> BigoAdSize {
+    if isAdSizeEqualToSize(size1: adSize, size2: AdSizeBanner) {
+      return BigoAdSize.banner()
+    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeMediumRectangle) {
+      return BigoAdSize.medium_RECTANGLE()
+    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeLargeBanner) {
+      return BigoAdSize.mobile_LARGE_LEADERBOARD()
+    } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeLeaderboard) {
+      return BigoAdSize.leaderboard()
+    } else if adSize.size.height == 0 {
+      return BigoAdSize.getAdaptiveAdSize(withWidth: adSize.size.width)
+    }
+
+    throw BigoAdapterError(
+      errorCode: .unsupportedBannerSize,
+      description:
+        "Unsupported banner size. Requested banner ad size width: \(adSize.size.width) height: \(adSize.size.height)"
+    )
+  }
+
 }

@@ -128,6 +128,7 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
+    Util.log("Start loading banner ad")
     nonisolated(unsafe) let adConfiguration = adConfiguration
     nonisolated(unsafe) let completionHandler = completionHandler
     nonisolated(unsafe) let nonisolatedSelf = self

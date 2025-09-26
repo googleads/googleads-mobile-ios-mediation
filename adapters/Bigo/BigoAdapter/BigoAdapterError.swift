@@ -25,6 +25,12 @@ public final class BigoAdapterError: Error {
 
     /// Ad presentation failure.
     case adIsNotReadyForPresentation = 103
+
+    /// Unsupported banner size.
+    case unsupportedBannerSize = 104
+
+    /// Bigo loaded a banner ad successfully but missing an ad view.
+    case bannerAdViewUnavailable = 105
   }
 
   public static let domain = "com.google.mediation.bigoadapter"
