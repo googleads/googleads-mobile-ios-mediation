@@ -375,7 +375,6 @@ abstract_target 'Default' do
     end
 
     target 'BigoAdapterTests' do
-      project '../adapters/Bigo/BigoAdapter.xcodeproj'
     end
 
   end

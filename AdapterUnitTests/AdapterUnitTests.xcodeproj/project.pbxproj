@@ -147,9 +147,11 @@
 		AD317D582DA0A211007B3FA8 /* BidMachineRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */; };
 		AD3181D72DA49D40007B3FA8 /* BidMachineNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D62DA49D3C007B3FA8 /* BidMachineNativeAdTests.swift */; };
 		AD3181D92DA4A2A0007B3FA8 /* FakeNativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D82DA4A293007B3FA8 /* FakeNativeAdProxy.swift */; };
-		AD3623DC2E7B5B4100E442E6 /* libBigoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */; };
-		AD362A552E7DDF6B00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = AD362A542E7DDF5F00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */; };
-		AD362A582E7DDF9C00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = AD362A572E7DDF9800E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */; };
+		AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */; };
+		AD362A552E7DDF6B00E442E6 /* (null) in Headers */ = {isa = PBXBuildFile; };
+		AD362A582E7DDF9C00E442E6 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		AD362FE72E7E040100E442E6 /* BigoAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */; };
+		AD362FE82E7E040100E442E6 /* BigoAdapterUnitTestPlan.xctestplan in Sources */ = {isa = PBXBuildFile; fileRef = AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */; };
 		AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */; };
 		AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; platformFilter = ios; };
 		AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD45ED452A78116C001B29D8 /* libAdapter.a */; };
@@ -897,7 +899,7 @@
 			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
 			remoteInfo = Adapter;
 		};
-		AD362B072E7DFF5E00E442E6 /* PBXContainerItemProxy */ = {
+		AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
 			proxyType = 2;
@@ -1456,8 +1458,8 @@
 		AD3181D82DA4A293007B3FA8 /* FakeNativeAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNativeAdProxy.swift; sourceTree = "<group>"; };
 		AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigoAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BigoAdapter.xcodeproj; path = ../adapters/BigoAdapter/BigoAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
-		AD362A542E7DDF5F00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUTKMediationRewardedInterstitialAdLoadAssertions.h; sourceTree = "<group>"; };
-		AD362A572E7DDF9800E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTKMediationRewardedInterstitialAdLoadAssertions.m; sourceTree = "<group>"; };
+		AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BigoAdapterUnitTestPlan.xctestplan; sourceTree = "<group>"; };
+		AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoAdapterTests.swift; sourceTree = "<group>"; };
 		AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityAdapterTests.m; sourceTree = "<group>"; };
 		AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UnityAdapter.xcodeproj; path = ../adapters/UnityAdapter/UnityAdapter.xcodeproj; sourceTree = "<group>"; };
 		AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnityAdapterTests.xctestplan; sourceTree = "<group>"; };
@@ -1644,6 +1646,8 @@
 				AD0D6E9E2AF591C3002C0B60 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1784,7 +1788,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD3623DC2E7B5B4100E442E6 /* libBigoAdapter.a in Frameworks */,
+				AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2289,9 +2293,18 @@
 			children = (
 				AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */,
 				AD3623D92E7B5B2300E442E6 /* BigoAdapter.framework */,
-				AD362B082E7DFF5E00E442E6 /* libStaticBigoAdapter.a */,
+				AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				AD3624962E7B674D00E442E6 /* BigoAdapterTests.swift */,
+				AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */,
+			);
+			path = BigoAdapterUnitTests;
 			sourceTree = "<group>";
 		};
 		AD45ED342A78111F001B29D8 /* UnityAdapterTests */ = {
@@ -2380,6 +2393,7 @@
 				AD5A4EF22E0F33500078AFC1 /* AppLovinAdapterLatencyTests */,
 				ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */,
 				AD30E05C2E207A4200FCEF73 /* BidMachineAdapterLatencyTests */,
+				AD3624942E7B66C400E442E6 /* BigoAdapterUnitTests */,
 				AD0D6E1A2AF56C4D002C0B60 /* ChartboostAdapterTests */,
 				AD1708AE2E12FFF400A64F30 /* ChartboostAdapterLatencyTests */,
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
@@ -2485,8 +2499,6 @@
 				AD98A5C22A1D5C3F00017B8D /* AUTKMediationNativeAdLoadAssertions.m */,
 				AD98A5BE2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h */,
 				AD98A5C32A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m */,
-				AD362A542E7DDF5F00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h */,
-				AD362A572E7DDF9800E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m */,
 			);
 			path = AdapterUnitTestKit;
 			sourceTree = "<group>";
@@ -2720,7 +2732,7 @@
 				AD98A5C62A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.h in Headers */,
 				AD98A5C52A1D5C3F00017B8D /* AUTKMediationInterstitialAdLoadAssertions.h in Headers */,
 				AD98A5BC2A1D5C3500017B8D /* AUTKConstants.h in Headers */,
-				AD362A552E7DDF6B00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.h in Headers */,
+				AD362A552E7DDF6B00E442E6 /* (null) in Headers */,
 				AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */,
 				AD98A5B52A1D4B8900017B8D /* AUTKMediationAdEventDelegate.h in Headers */,
 				AD1E87EC2AC6527300FAF1B7 /* AUTKMediationAppOpenAdLoadAssertions.h in Headers */,
@@ -3145,6 +3157,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD3623C92E7B5AD700E442E6 /* Build configuration list for PBXNativeTarget "BigoAdapterTests" */;
 			buildPhases = (
+				AD362FE62E7E03E300E442E6 /* Sources */,
 				AD3623C42E7B5AD700E442E6 /* Frameworks */,
 			);
 			buildRules = (
@@ -3983,11 +3996,11 @@
 			remoteRef = AD3623D82E7B5B2300E442E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD362B082E7DFF5E00E442E6 /* libStaticBigoAdapter.a */ = {
+		AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libStaticBigoAdapter.a;
-			remoteRef = AD362B072E7DFF5E00E442E6 /* PBXContainerItemProxy */;
+			remoteRef = AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AD45ED452A78116C001B29D8 /* libAdapter.a */ = {
@@ -4658,6 +4671,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD362FE62E7E03E300E442E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD362FE72E7E040100E442E6 /* BigoAdapterTests.swift in Sources */,
+				AD362FE82E7E040100E442E6 /* BigoAdapterUnitTestPlan.xctestplan in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD45EDBA2A784A3A001B29D8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4703,7 +4725,7 @@
 				AD1E87FA2AC6528500FAF1B7 /* AUTKMediationAppOpenAdLoadAssertions.m in Sources */,
 				AD98A5CB2A1D5C3F00017B8D /* AUTKMediationRewardedAdLoadAssertions.m in Sources */,
 				AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */,
-				AD362A582E7DDF9C00E442E6 /* AUTKMediationRewardedInterstitialAdLoadAssertions.m in Sources */,
+				AD362A582E7DDF9C00E442E6 /* (null) in Sources */,
 				AD5A4ED82E0F25130078AFC1 /* AUTKLatencyTests.m in Sources */,
 				AD98A5BA2A1D5C2D00017B8D /* AUTKAdapterSetUpAssertions.m in Sources */,
 			);
