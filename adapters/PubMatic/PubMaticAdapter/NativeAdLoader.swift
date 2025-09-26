@@ -66,7 +66,9 @@ final class NativeAdLoader: NSObject {
         ).toNSError())
       return
     }
-    client.loadRtbNativeAd(bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+    client.loadRtbNativeAd(
+      bidResponse: bidResponse, testMode: Util.testMode(from: adConfiguration), delegate: self,
+      watermarkData: watermark)
   }
 
   private func loadWaterfallAd() {
@@ -75,7 +77,8 @@ final class NativeAdLoader: NSObject {
       let profileId = try Util.profileId(from: adConfiguration)
       let adUnitId = try Util.adUnitId(from: adConfiguration)
       client.loadWaterfallNativeAd(
-        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, delegate: self)
+        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId,
+        testMode: Util.testMode(from: adConfiguration), delegate: self)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }

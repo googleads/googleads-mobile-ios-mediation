@@ -57,7 +57,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   @MainActor func loadRtbBannerView(
-    bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data
+    bidResponse: String, testMode: Bool, delegate: POBBannerViewDelegate, watermarkData: Data
   ) {
     bannerViewDelegate = delegate
     if shouldAdLoadSucceed {
@@ -70,7 +70,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   @MainActor func loadWaterfallBannerView(
-    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize,
+    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize, testMode: Bool,
     delegate: any POBBannerViewDelegate
   ) {
     bannerViewDelegate = delegate
@@ -84,7 +84,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   func loadRtbInterstitial(
-    bidResponse: String, delegate: any POBInterstitialDelegate, watermarkData: Data
+    bidResponse: String, testMode: Bool, delegate: any POBInterstitialDelegate, watermarkData: Data
   ) {
     interstitialDelegate = delegate
     if shouldAdLoadSucceed {
@@ -97,7 +97,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   func loadWaterfallInterstitial(
-    publisherId: String, profileId: NSNumber, adUnitId: String,
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
     delegate: any POBInterstitialDelegate
   ) {
     interstitialDelegate = delegate
@@ -111,7 +111,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   func loadRtbRewardedAd(
-    bidResponse: String, delegate: any POBRewardedAdDelegate, watermarkData: Data
+    bidResponse: String, testMode: Bool, delegate: any POBRewardedAdDelegate, watermarkData: Data
   ) {
     rewardedAdDelegate = delegate
     if shouldAdLoadSucceed {
@@ -124,7 +124,8 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   func loadWaterfallRewardedAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: any POBRewardedAdDelegate
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
+    delegate: any POBRewardedAdDelegate
   ) {
     rewardedAdDelegate = delegate
     if shouldAdLoadSucceed {
@@ -138,6 +139,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
 
   func loadRtbNativeAd(
     bidResponse: String,
+    testMode: Bool,
     delegate: any POBNativeAdLoaderDelegate,
     watermarkData: Data
   ) {
@@ -152,7 +154,7 @@ final class FakeOpenWrapSDKClient: NSObject, OpenWrapSDKClient {
   }
 
   func loadWaterfallNativeAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String,
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
     delegate: any POBNativeAdLoaderDelegate
   ) {
     nativeAdLoaderDelegate = delegate

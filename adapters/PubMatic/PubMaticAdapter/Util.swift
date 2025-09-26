@@ -192,4 +192,12 @@ struct Util {
     return viewController ?? UIViewController()
   }
 
+  /// Returns test mode set in the extras. If extras wasn't set then return false.
+  static func testMode(from config: MediationAdConfiguration) -> Bool {
+    guard let extras = config.extras as? PubMaticAdapterExtras else {
+      return false
+    }
+    return extras.testModeEnabled
+  }
+
 }

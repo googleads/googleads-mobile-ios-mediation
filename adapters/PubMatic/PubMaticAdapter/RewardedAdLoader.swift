@@ -67,7 +67,9 @@ final class RewardedAdLoader: NSObject {
         ).toNSError())
       return
     }
-    client.loadRtbRewardedAd(bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+    client.loadRtbRewardedAd(
+      bidResponse: bidResponse, testMode: Util.testMode(from: adConfiguration), delegate: self,
+      watermarkData: watermark)
   }
 
   private func loadWaterfallAd() {
@@ -76,7 +78,8 @@ final class RewardedAdLoader: NSObject {
       let profileId = try Util.profileId(from: adConfiguration)
       let adUnitId = try Util.adUnitId(from: adConfiguration)
       client.loadWaterfallRewardedAd(
-        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, delegate: self)
+        publisherId: publisherId, profileId: profileId, adUnitId: adUnitId,
+        testMode: Util.testMode(from: adConfiguration), delegate: self)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }

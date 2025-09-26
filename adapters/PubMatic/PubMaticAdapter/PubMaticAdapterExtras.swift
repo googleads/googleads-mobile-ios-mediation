@@ -17,5 +17,11 @@ import GoogleMobileAds
 
 @objc(GADMediationAdapterPubMaticExtras)
 public final class PubMaticAdapterExtras: NSObject, AdNetworkExtras {
-  // TODO: add properties and methods, if needed.
+
+  @objc public let testModeEnabled: Bool
+
+  @objc public init(testModeEnabled: Bool) {
+    self.testModeEnabled = testModeEnabled
+  }
+
 }

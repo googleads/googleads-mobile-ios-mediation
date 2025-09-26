@@ -55,35 +55,38 @@ protocol OpenWrapSDKClient: NSObject {
 
   /// Load a RTB banner ad.
   @MainActor func loadRtbBannerView(
-    bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data)
+    bidResponse: String, testMode: Bool, delegate: POBBannerViewDelegate, watermarkData: Data)
 
   /// Load a waterfall banner ad.
   @MainActor func loadWaterfallBannerView(
-    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize,
+    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize, testMode: Bool,
     delegate: POBBannerViewDelegate)
 
   /// Load a RTB interstitial ad.
   func loadRtbInterstitial(
-    bidResponse: String, delegate: POBInterstitialDelegate, watermarkData: Data)
+    bidResponse: String, testMode: Bool, delegate: POBInterstitialDelegate, watermarkData: Data)
 
   /// Load a waterfall interstitial ad.
   func loadWaterfallInterstitial(
-    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: POBInterstitialDelegate)
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
+    delegate: POBInterstitialDelegate)
 
   /// Load a RTB rewarded ad.
-  func loadRtbRewardedAd(bidResponse: String, delegate: POBRewardedAdDelegate, watermarkData: Data)
+  func loadRtbRewardedAd(
+    bidResponse: String, testMode: Bool, delegate: POBRewardedAdDelegate, watermarkData: Data)
 
   /// Load a waterfall rewarded ad.
   func loadWaterfallRewardedAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: any POBRewardedAdDelegate)
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
+    delegate: any POBRewardedAdDelegate)
 
   /// Load a RTB native ad.
   func loadRtbNativeAd(
-    bidResponse: String, delegate: POBNativeAdLoaderDelegate, watermarkData: Data)
+    bidResponse: String, testMode: Bool, delegate: POBNativeAdLoaderDelegate, watermarkData: Data)
 
   /// Load a waterfall native ad.
   func loadWaterfallNativeAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String,
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
     delegate: any POBNativeAdLoaderDelegate)
 
   /// Present a POBInterstitial ad.
@@ -127,9 +130,11 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
   }
 
   @MainActor
-  func loadRtbBannerView(bidResponse: String, delegate: POBBannerViewDelegate, watermarkData: Data)
-  {
+  func loadRtbBannerView(
+    bidResponse: String, testMode: Bool, delegate: POBBannerViewDelegate, watermarkData: Data
+  ) {
     bannerView = POBBannerView()
+    bannerView?.request.testModeEnabled = testMode
     bannerView?.delegate = delegate
     bannerView?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     bannerView?.pauseAutoRefresh()
@@ -138,11 +143,12 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
 
   @MainActor
   func loadWaterfallBannerView(
-    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize,
+    publisherId: String, profileId: NSNumber, adUnitId: String, adSize: POBAdSize, testMode: Bool,
     delegate: POBBannerViewDelegate
   ) {
     bannerView = POBBannerView(
       publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, adSizes: [adSize])
+    bannerView?.request.testModeEnabled = testMode
     bannerView?.delegate = delegate
     bannerView?.pauseAutoRefresh()
     bannerView?.loadAd()
@@ -150,59 +156,68 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
 
   func loadRtbInterstitial(
     bidResponse: String,
+    testMode: Bool,
     delegate: any POBInterstitialDelegate,
     watermarkData: Data
   ) {
     interstitial = POBInterstitial()
+    interstitial?.request.testModeEnabled = testMode
     interstitial?.delegate = delegate
     interstitial?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     interstitial?.loadAd(withResponse: bidResponse, for: .adMob)
   }
 
   func loadWaterfallInterstitial(
-    publisherId: String, profileId: NSNumber, adUnitId: String,
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
     delegate: any POBInterstitialDelegate
   ) {
     interstitial = POBInterstitial(
       publisherId: publisherId, profileId: profileId, adUnitId: adUnitId)
+    interstitial?.request.testModeEnabled = testMode
     interstitial?.delegate = delegate
     interstitial?.loadAd()
   }
 
   func loadRtbRewardedAd(
-    bidResponse: String, delegate: any POBRewardedAdDelegate, watermarkData: Data
+    bidResponse: String, testMode: Bool, delegate: any POBRewardedAdDelegate, watermarkData: Data
   ) {
     rewardedAd = POBRewardedAd()
+    rewardedAd?.request.testModeEnabled = testMode
     rewardedAd?.delegate = delegate
     rewardedAd?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     rewardedAd?.load(withResponse: bidResponse, for: .adMob)
   }
 
   func loadWaterfallRewardedAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String, delegate: any POBRewardedAdDelegate
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
+    delegate: any POBRewardedAdDelegate
   ) {
     rewardedAd = POBRewardedAd(publisherId: publisherId, profileId: profileId, adUnitId: adUnitId)
+    rewardedAd?.request.testModeEnabled = testMode
     rewardedAd?.delegate = delegate
     rewardedAd?.loadAd()
   }
 
   func loadRtbNativeAd(
     bidResponse: String,
+    testMode: Bool,
     delegate: POBNativeAdLoaderDelegate,
     watermarkData: Data
   ) {
     nativeAdLoader = POBNativeAdLoader()
+    nativeAdLoader?.request.testModeEnabled = testMode
     nativeAdLoader?.delegate = delegate
     nativeAdLoader?.addExtraInfo(withKey: kPOBAdMobWatermarkKey, andValue: watermarkData)
     nativeAdLoader?.loadAd(withResponse: bidResponse, for: .adMob)
   }
 
   func loadWaterfallNativeAd(
-    publisherId: String, profileId: NSNumber, adUnitId: String,
+    publisherId: String, profileId: NSNumber, adUnitId: String, testMode: Bool,
     delegate: any POBNativeAdLoaderDelegate
   ) {
     nativeAdLoader = POBNativeAdLoader(
       publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, templateType: .custom)
+    nativeAdLoader?.request.testModeEnabled = testMode
     nativeAdLoader?.delegate = delegate
     nativeAdLoader?.loadAd()
   }

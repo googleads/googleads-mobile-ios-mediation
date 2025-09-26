@@ -74,7 +74,8 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     DispatchQueue.main.async { [weak self] in
       guard let self else { return }
       self.client.loadRtbBannerView(
-        bidResponse: bidResponse, delegate: self, watermarkData: watermark)
+        bidResponse: bidResponse, testMode: Util.testMode(from: adConfiguration), delegate: self,
+        watermarkData: watermark)
     }
   }
 
@@ -92,6 +93,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
         guard let self else { return }
         self.client.loadWaterfallBannerView(
           publisherId: publisherId, profileId: profileId, adUnitId: adUnitId, adSize: adSize,
+          testMode: Util.testMode(from: adConfiguration),
           delegate: self)
       }
     } catch {
