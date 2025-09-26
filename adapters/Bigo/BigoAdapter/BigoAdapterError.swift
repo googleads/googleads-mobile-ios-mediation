@@ -20,11 +20,14 @@ public final class BigoAdapterError: Error {
     /// Server configuration missing a required application ID.
     case serverConfigurationMissingApplicationID = 101
 
-    ///Invalid ad configuration.
+    /// Invalid ad configuration.
     case invalidAdConfiguration = 102
+
+    /// Ad presentation failure.
+    case adIsNotReadyForPresentation = 103
   }
 
-  public static let domain = "com.google.mediation.bigo"
+  public static let domain = "com.google.mediation.bigoadapter"
 
   /// The error code of this error.
   public let errorCode: ErrorCode

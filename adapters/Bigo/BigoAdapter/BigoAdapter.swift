@@ -139,6 +139,7 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
+    Util.log("Start to load interstitial ad")
     interstitialAdLoader = InterstitialAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     interstitialAdLoader?.loadAd()

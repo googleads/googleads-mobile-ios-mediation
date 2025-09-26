@@ -20,6 +20,9 @@ import UIKit
 
 final class FakeBigoClient: NSObject, BigoClient {
 
+  var shouldAdLoadSucceed: Bool = true
+  var shouldAdShowSucceed: Bool = true
+
   var applicationId: String?
   var testMode: Bool?
 
@@ -35,6 +38,35 @@ final class FakeBigoClient: NSObject, BigoClient {
 
   func getBidderToken() -> String? {
     return "token"
+  }
+
+  func loadRTBInterstitialAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoInterstitialAdLoaderDelegate
+  ) {
+    if shouldAdLoadSucceed {
+      delegate.onInterstitialAdLoaded(BigoInterstitialAd())
+    } else {
+      delegate.onInterstitialAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func presentInterstitialAd(
+    _ ad: BigoInterstitialAd, viewController: UIViewController,
+    interactionDelegate: BigoAdInteractionDelegate
+  ) {
+    if shouldAdShowSucceed {
+      interactionDelegate.onAdOpened?(ad)
+      interactionDelegate.onAdImpression?(ad)
+      interactionDelegate.onAdClicked?(ad)
+      interactionDelegate.onAdClosed?(ad)
+    } else {
+      interactionDelegate.onAd?(
+        ad,
+        error: BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to show."))
+    }
   }
 
 }

@@ -43,9 +43,20 @@ protocol BigoClient: NSObject {
   /// Gets a bidder token from BigoADS.
   func getBidderToken() -> String?
 
+  /// Loads a RTB interstitial ad from BigoADS.
+  func loadRTBInterstitialAd(
+    for slotId: String, bidPayLoad: String, delegate: BigoInterstitialAdLoaderDelegate)
+
+  /// Presents the Bigo interstitial ad.
+  func presentInterstitialAd(
+    _ ad: BigoInterstitialAd, viewController: UIViewController,
+    interactionDelegate: BigoAdInteractionDelegate)
+
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
+
+  private var interstitialAdLoader: BigoInterstitialAdLoader?
 
   func initialize(
     with applicationId: String,
@@ -61,6 +72,23 @@ final class BigoClientImpl: NSObject, BigoClient {
 
   func getBidderToken() -> String? {
     return BigoAdSdk.sharedInstance().getBidderToken()
+  }
+
+  func loadRTBInterstitialAd(
+    for slotId: String, bidPayLoad: String, delegate: BigoInterstitialAdLoaderDelegate
+  ) {
+    let request = BigoInterstitialAdRequest(slotId: slotId)
+    request.setServerBidPayload(bidPayLoad)
+    interstitialAdLoader = BigoInterstitialAdLoader(interstitialAdLoaderDelegate: delegate)
+    interstitialAdLoader?.loadAd(request)
+  }
+
+  func presentInterstitialAd(
+    _ ad: BigoInterstitialAd, viewController: UIViewController,
+    interactionDelegate: BigoAdInteractionDelegate
+  ) {
+    ad.setAdInteractionDelegate(interactionDelegate)
+    ad.show(viewController)
   }
 
 }

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BigoADS
 import Foundation
 import GoogleMobileAds
 
@@ -30,6 +31,8 @@ final class InterstitialAdLoader: NSObject {
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
 
   private let client: BigoClient
+
+  private var interstitialAd: BigoInterstitialAd?
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
@@ -53,6 +56,13 @@ final class InterstitialAdLoader: NSObject {
         ).toNSError())
       return
     }
+
+    do {
+      let slotId = try Util.slotId(from: adConfiguration)
+      client.loadRTBInterstitialAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
@@ -65,12 +75,75 @@ final class InterstitialAdLoader: NSObject {
 
 }
 
+// MARK: - BigoInterstitialAdLoaderDelegate
+
+extension InterstitialAdLoader: BigoInterstitialAdLoaderDelegate {
+
+  func onInterstitialAdLoaded(_ ad: BigoInterstitialAd) {
+    interstitialAd = ad
+    handleLoadedAd(self, error: nil)
+  }
+
+  func onInterstitialAdLoadError(_ error: BigoAdError) {
+    handleLoadedAd(nil, error: Util.NSError(from: error))
+  }
+
+}
+
+// MARK: - BigoAdInteractionDelegate
+
+extension InterstitialAdLoader: BigoAdInteractionDelegate {
+
+  func onAd(_ ad: BigoAd, error: BigoAdError) {
+    Util.log(
+      "Encountered an issue for the interstitial ad with error code: \(error.errorCode) with following message: \(error.errorMsg)"
+    )
+    eventDelegate?.didFailToPresentWithError(Util.NSError(from: error))
+  }
+
+  func onAdImpression(_ ad: BigoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func onAdClicked(_ ad: BigoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func onAdOpened(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The interstitial ad has been opened.")
+  }
+
+  func onAdClosed(_ ad: BigoAd) {
+    eventDelegate?.didDismissFullScreenView()
+    interstitialAd?.destroy()
+    interstitialAd = nil
+  }
+
+}
+
 // MARK: - GADMediationInterstitialAd
 
 extension InterstitialAdLoader: MediationInterstitialAd {
 
   func present(from viewController: UIViewController) {
-    // TODO
+    guard let interstitialAd else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Interstial ad is not available."))
+      return
+    }
+
+    guard !interstitialAd.isExpired() else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Interstial ad has been expired."))
+      return
+    }
+
+    eventDelegate?.willPresentFullScreenView()
+    client.presentInterstitialAd(
+      interstitialAd, viewController: viewController, interactionDelegate: self)
   }
 
 }

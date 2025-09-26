@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BigoADS
 import Foundation
 import GoogleMobileAds
 
@@ -19,6 +20,7 @@ final class Util {
 
   private enum MediationConfigurationSettingKey: String {
     case applicationId = "application_id"
+    case slotId = "slot_id"
   }
 
   /// Prints the message with `BigoAdapter` prefix.
@@ -28,8 +30,9 @@ final class Util {
 
   /// Returns a NSError object with the provided information.
   static func error(withDomain domain: String, code: Int, description: String) -> NSError {
-    return NSError(
-      domain: domain, code: code,
+    return Foundation.NSError(
+      domain: domain,
+      code: code,
       userInfo: [
         NSLocalizedDescriptionKey: description,
         NSLocalizedFailureReasonErrorKey: description,
@@ -61,6 +64,24 @@ final class Util {
     }
 
     return appId
+  }
+
+  static func slotId(from config: MediationAdConfiguration) throws(BigoAdapterError) -> String {
+    guard
+      let slotId = config.credentials.settings[MediationConfigurationSettingKey.slotId.rawValue]
+        as? String
+    else {
+      throw BigoAdapterError(
+        errorCode: .invalidAdConfiguration,
+        description: "The ad configuration is missing a slot ID.")
+    }
+    return slotId
+  }
+
+  static func NSError(from error: BigoAdError) -> NSError {
+    return Self.error(
+      withDomain: "com.google.mediation.bigo", code: Int(error.errorCode),
+      description: error.errorMsg)
   }
 
 }
