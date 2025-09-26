@@ -100,4 +100,34 @@ final class FakeBigoClient: NSObject, BigoClient {
     }
   }
 
+  func loadRTBSplashAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoSplashAdLoaderDelegate
+  ) {
+    if shouldAdLoadSucceed {
+      delegate.onSplashAdLoaded(BigoSplashAd())
+    } else {
+      delegate.onSplashAdLoadError?(
+        BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to load."))
+    }
+  }
+
+  func presentSplashAd(
+    _ ad: BigoSplashAd,
+    viewController: UIViewController,
+    interactionDelegate: any BigoSplashAdInteractionDelegate
+  ) {
+    if shouldAdShowSucceed {
+      interactionDelegate.onAdOpened?(ad)
+      interactionDelegate.onAdImpression?(ad)
+      interactionDelegate.onAdClicked?(ad)
+      interactionDelegate.onAdClosed?(ad)
+    } else {
+      interactionDelegate.onAd?(
+        ad,
+        error: BigoAdError(errorCode: 12345, subErrorCode: 67890, errorMsg: "Ad failed to show."))
+    }
+  }
+
 }

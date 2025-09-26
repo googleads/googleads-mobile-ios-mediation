@@ -61,12 +61,20 @@ protocol BigoClient: NSObject {
     _ ad: BigoRewardVideoAd, viewController: UIViewController,
     interactionDelegate: BigoRewardVideoAdInteractionDelegate)
 
+  /// Loads a RTB app splash ad from BigoADS.
+  func loadRTBSplashAd(for slotId: String, bidPayLoad: String, delegate: BigoSplashAdLoaderDelegate)
+
+  /// Presents the Bigo splash ad.
+  func presentSplashAd(
+    _ ad: BigoSplashAd, viewController: UIViewController,
+    interactionDelegate: BigoSplashAdInteractionDelegate)
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
 
   private var interstitialAdLoader: BigoInterstitialAdLoader?
   private var rewardVideoAdLoader: BigoRewardVideoAdLoader?
+  private var splashAdLoader: BigoSplashAdLoader?
 
   func initialize(
     with applicationId: String,
@@ -118,6 +126,26 @@ final class BigoClientImpl: NSObject, BigoClient {
     interactionDelegate: any BigoRewardVideoAdInteractionDelegate
   ) {
     ad.setRewardVideoAdInteractionDelegate(interactionDelegate)
+    ad.show(viewController)
+  }
+
+  func loadRTBSplashAd(
+    for slotId: String,
+    bidPayLoad: String,
+    delegate: any BigoSplashAdLoaderDelegate
+  ) {
+    let request = BigoSplashAdRequest(slotId: slotId)
+    request.setServerBidPayload(bidPayLoad)
+    splashAdLoader = BigoSplashAdLoader(splashAdLoaderDelegate: delegate)
+    splashAdLoader?.loadAd(request)
+  }
+
+  func presentSplashAd(
+    _ ad: BigoSplashAd,
+    viewController: UIViewController,
+    interactionDelegate: any BigoSplashAdInteractionDelegate
+  ) {
+    ad.setSplashAdInteractionDelegate(interactionDelegate)
     ad.show(viewController)
   }
 

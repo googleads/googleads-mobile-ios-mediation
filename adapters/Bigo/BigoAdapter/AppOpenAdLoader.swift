@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import BigoADS
 import Foundation
 import GoogleMobileAds
 
@@ -23,32 +24,110 @@ final class AppOpenAdLoader: NSObject {
   /// The ad event delegate which is used to report app open related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: MediationAppOpenAdEventDelegate?
 
+  /// The queue for processing an ad load completion.
+  private let adLoadCompletionQueue: DispatchQueue
+
   /// The completion handler that needs to be called upon finishing loading an ad.
-  private var appOpenAdLoadCompletionHandler: ((MediationAppOpenAd?, NSError?) -> Void)?
+  private var adLoadCompletionHandler: GADMediationAppOpenLoadCompletionHandler?
+
+  private let client: BigoClient
+
+  private var splashAd: BigoSplashAd?
 
   init(
     adConfiguration: GADMediationAppOpenAdConfiguration,
     loadCompletionHandler: @escaping GADMediationAppOpenLoadCompletionHandler
   ) {
     self.adConfiguration = adConfiguration
-    super.init()
-
-    // Ensure completion handler gets called only once at any situation.
-    let adLoadcompletionQueue = DispatchQueue(
+    self.adLoadCompletionHandler = loadCompletionHandler
+    self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationAppOpenAdLoadCompletionQueue")
-    var originaLoadCompletionHandler: GADMediationAppOpenLoadCompletionHandler? =
-      loadCompletionHandler
-    appOpenAdLoadCompletionHandler = { [weak self] ad, error in
-      adLoadcompletionQueue.sync {
-        guard let self, originaLoadCompletionHandler != nil else { return }
-        self.eventDelegate = originaLoadCompletionHandler?(ad, error)
-        originaLoadCompletionHandler = nil
-      }
-    }
+    self.client = BigoClientFactory.createClient()
+    super.init()
   }
 
   func loadAd() {
-    // TODO: implement and make sure to call |appOpenAdLoadCompletionHandler| after loading an ad.
+    guard let bidResponse = adConfiguration.bidResponse else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing bid response."
+        ).toNSError())
+      return
+    }
+
+    do {
+      let slotId = try Util.slotId(from: adConfiguration)
+      client.loadRTBSplashAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+    } catch {
+      handleLoadedAd(nil, error: error.toNSError())
+    }
+  }
+
+  private func handleLoadedAd(_ ad: MediationAppOpenAd?, error: NSError?) {
+    adLoadCompletionQueue.sync {
+      guard let adLoadCompletionHandler else { return }
+      eventDelegate = adLoadCompletionHandler(ad, error)
+      self.adLoadCompletionHandler = nil
+    }
+  }
+
+}
+
+// MARK: - BigoSplashAdLoaderDelegate
+
+extension AppOpenAdLoader: BigoSplashAdLoaderDelegate {
+
+  func onSplashAdLoaded(_ ad: BigoSplashAd) {
+    splashAd = ad
+    handleLoadedAd(self, error: nil)
+  }
+
+  func onSplashAdLoadError(_ error: BigoAdError) {
+    handleLoadedAd(nil, error: Util.NSError(from: error))
+  }
+
+}
+
+// MARK: - BigoSplashAdInteractionDelegate
+
+extension AppOpenAdLoader: BigoSplashAdInteractionDelegate {
+
+  func onAd(_ ad: BigoAd, error: BigoAdError) {
+    Util.log(
+      "Encountered an issue for the splash ad with error code: \(error.errorCode) with following message: \(error.errorMsg)"
+    )
+    eventDelegate?.didFailToPresentWithError(Util.NSError(from: error))
+  }
+
+  func onAdImpression(_ ad: BigoAd) {
+    eventDelegate?.reportImpression()
+  }
+
+  func onAdClicked(_ ad: BigoAd) {
+    eventDelegate?.reportClick()
+  }
+
+  func onAdSkipped(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The splash ad has been skipped.")
+  }
+
+  func onAdFinished(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The splash ad has been finished.")
+  }
+
+  func onAdOpened(_ ad: BigoAd) {
+    // Google does not have equivalent callback function.
+    Util.log("The splash ad has been opened.")
+  }
+
+  func onAdClosed(_ ad: BigoAd) {
+    eventDelegate?.didDismissFullScreenView()
+    splashAd?.destroy()
+    splashAd = nil
   }
 
 }
@@ -58,11 +137,22 @@ final class AppOpenAdLoader: NSObject {
 extension AppOpenAdLoader: MediationAppOpenAd {
 
   func present(from viewController: UIViewController) {
+    guard let splashAd else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Splash ad is not available."))
+      return
+    }
+
+    guard !splashAd.isExpired() else {
+      eventDelegate?.didFailToPresentWithError(
+        BigoAdapterError(
+          errorCode: .adIsNotReadyForPresentation, description: "Splash ad has been expired."))
+      return
+    }
+
     eventDelegate?.willPresentFullScreenView()
-    // TODO: implement
+    client.presentSplashAd(splashAd, viewController: viewController, interactionDelegate: self)
   }
 
 }
-
-// MARK: - <Other protocols>
-// TODO: extend and implement any other protocol, if any.

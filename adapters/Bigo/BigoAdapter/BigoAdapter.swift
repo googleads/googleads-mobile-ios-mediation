@@ -117,6 +117,7 @@ final class BigoAdapter: NSObject, RTBAdapter {
     for adConfiguration: GADMediationAppOpenAdConfiguration,
     completionHandler: @escaping GADMediationAppOpenLoadCompletionHandler
   ) {
+    Util.log("Start loading app open ad")
     appOpenAdLoader = AppOpenAdLoader(
       adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
     appOpenAdLoader?.loadAd()
