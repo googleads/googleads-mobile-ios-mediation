@@ -1,6 +1,3 @@
-import BigoADS
-import UIKit
-
 // Copyright 2025 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +11,9 @@ import UIKit
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+import BigoADS
+import UIKit
 
 /// Factory that creates Bigo client.
 final class BigoClientFactory {
@@ -37,8 +37,23 @@ final class BigoClientFactory {
 
 protocol BigoClient: NSObject {
 
+  /// Initializes the BigoADS SDK.
+  func initialize(with applicationId: String, testMode: Bool, completion: @escaping () -> Void)
+
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
+
+  func initialize(
+    with applicationId: String,
+    testMode: Bool,
+    completion: @escaping () -> Void
+  ) {
+    let adConfig = BigoAdConfig(appId: applicationId)
+    adConfig.testMode = testMode
+    BigoAdSdk.sharedInstance().initializeSdk(with: adConfig) {
+      completion()
+    }
+  }
 
 }

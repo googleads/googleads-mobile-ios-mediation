@@ -12,14 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import Foundation
+import BigoADS
 import GoogleMobileAds
+import UIKit
 
-@objc(GADMediationAdapterBigoExtras)
-public final class BigoAdapterExtras: NSObject, AdNetworkExtras {
+@testable import BigoAdapter
 
-  /// A property which will be used to initialize the BigoADS SDK. This must be set to true prior to
-  /// initializing the GoogleMobileAds SDK to take effect.
-  @objc public nonisolated(unsafe) static var testMode: Bool = false
+final class FakeBigoClient: NSObject, BigoClient {
+
+  var applicationId: String?
+  var testMode: Bool?
+
+  func initialize(
+    with applicationId: String,
+    testMode: Bool,
+    completion: @escaping () -> Void
+  ) {
+    self.applicationId = applicationId
+    self.testMode = testMode
+    completion()
+  }
 
 }
