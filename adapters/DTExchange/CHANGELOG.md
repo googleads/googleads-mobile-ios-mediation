@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next version
+- Added watermark for bidding ads.
+
 #### [Version 8.3.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.3.8.0.zip)
 - Fixed bidding ad requests to no longer check for the Spot ID.
 - Verified compatibility with DT Exchange SDK version 8.3.8.
