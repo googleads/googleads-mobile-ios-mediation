@@ -16,9 +16,10 @@ import Foundation
 
 /// Constants used in Moloco adapter.
 public enum MolocoConstants {
+  public static let mediationName = "AdMob"
   public static let appIDKey = "app_key"
   public static let adUnitIdKey = "ad_unit_id"
   public static let adapterErrorDomain = "com.google.ads.mediation.moloco"
   public static let molocoTestAdUnitName = "moloco_test_placement"
-  public static let adapterVersion = "3.13.0.0"
+  public static let adapterVersion = "4.0.0.0"
 }

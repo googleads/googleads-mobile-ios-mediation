@@ -22,11 +22,11 @@ class MolocoSdkImpl: MolocoInitializer {
   func initialize(
     initParams: MolocoInitParams, completion: ((Bool, Error?) -> Void)?
   ) {
-    Moloco.shared.initialize(initParams: initParams, completion: completion)
+    Moloco.shared.initialize(params: initParams, completion: completion)
   }
 
   func isInitialized() -> Bool {
-    return Moloco.shared.state.isInitialized
+    return Moloco.shared.isInitialized
   }
 }
 
@@ -40,7 +40,9 @@ extension MolocoSdkImpl: MolocoInterstitialFactory {
   )
     -> MolocoInterstitial?
   {
-    Moloco.shared.createInterstitial(for: adUnit, delegate: delegate, watermarkData: watermarkData)
+    Moloco.shared.createInterstitial(
+      params: MolocoCreateAdParams(
+        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData))
   }
 
 }
@@ -54,7 +56,9 @@ extension MolocoSdkImpl: MolocoRewardedFactory {
   func createRewarded(for adUnit: String, delegate: MolocoRewardedDelegate, watermarkData: Data?)
     -> MolocoRewardedInterstitial?
   {
-    Moloco.shared.createRewarded(for: adUnit, delegate: delegate, watermarkData: watermarkData)
+    Moloco.shared.createRewarded(
+      params: MolocoCreateAdParams(
+        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData))
   }
 
 }
@@ -72,8 +76,9 @@ extension MolocoSdkImpl: MolocoBannerFactory {
       return nil
     }
     return Moloco.shared.createBanner(
-      for: adUnit, viewController: rootViewController, delegate: delegate,
-      watermarkData: watermarkData)
+      params: MolocoCreateAdParams(
+        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData),
+      viewController: rootViewController)
   }
 
   @MainActor
@@ -85,8 +90,9 @@ extension MolocoSdkImpl: MolocoBannerFactory {
       return nil
     }
     return Moloco.shared.createMREC(
-      for: adUnit, viewController: rootViewController, delegate: delegate,
-      watermarkData: watermarkData)
+      params: MolocoCreateAdParams(
+        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData),
+      viewController: rootViewController)
   }
 
 }
@@ -101,9 +107,9 @@ extension MolocoSdkImpl: MolocoNativeFactory {
     guard MolocoUtils.keyWindow()?.rootViewController != nil else {
       return nil
     }
-
     return Moloco.shared.createNativeAd(
-      for: adUnit, delegate: delegate, watermarkData: watermarkData)
+      params: MolocoCreateAdParams(
+        adUnit: adUnit, mediation: MolocoConstants.mediationName, watermarkData: watermarkData))
   }
 
 }
@@ -112,7 +118,8 @@ extension MolocoSdkImpl: MolocoNativeFactory {
 extension MolocoSdkImpl: MolocoBidTokenGetter {
 
   func getBidToken(completion: @escaping (String?, (any Error)?) -> Void) {
-    Moloco.shared.getBidToken(completion: completion)
+    Moloco.shared.getBidToken(
+      params: MolocoParams(mediation: MolocoConstants.mediationName), completion: completion)
   }
 }
 

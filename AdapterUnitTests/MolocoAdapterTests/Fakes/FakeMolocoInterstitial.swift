@@ -17,7 +17,7 @@ import GoogleMobileAds
 import MolocoSDK
 
 /// A fake implementation of MolocoInterstitial.
-final class FakeMolocoInterstitial: MolocoSDK.MolocoInterstitial {
+final class FakeMolocoInterstitial: NSObject, MolocoSDK.MolocoInterstitial {
 
   let loadError: NSError?
 

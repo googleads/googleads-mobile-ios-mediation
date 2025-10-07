@@ -17,7 +17,7 @@ import GoogleMobileAds
 import MolocoSDK
 
 /// A fake implementation of MolocoNativeAd.
-final class FakeMolocoNativeAd {
+final class FakeMolocoNativeAd: NSObject {
 
   /// The load error that occured.
   let loadError: Error?

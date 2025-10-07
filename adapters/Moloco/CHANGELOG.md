@@ -1,5 +1,7 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Version 4.0.0.0 (In progress)
+
 #### [Version 3.13.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-3.13.0.0.zip)
 - Includes `Info.plist` inside the frameworks.
 - Verified compatibility with Moloco SDK version 3.13.0.
