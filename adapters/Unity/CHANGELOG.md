@@ -1,7 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
 #### Version 4.16.2.0 (In progress)
-- Fix a race condition bug in the adapter initialization.
+- Updates the ad loading methods to ensure they wait for the Unity Ads SDK to be fully initialized before attempting to load an ad.
+- Resolves a race condition where completion callbacks could be dropped if the initialization method was called multiple times in a short window. The problem occurred when a second call was made while the first initialization was in progress. If the first operation completed and cleared the callback queue before the second call could register its own callback, the second callback would never be executed.
 
 #### [Version 4.16.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.1.0.zip)
 - Verified compatibility with Unity Ads SDK 4.16.1.

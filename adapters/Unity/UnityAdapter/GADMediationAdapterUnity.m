@@ -105,7 +105,20 @@ static BOOL _isTestMode = NO;
   self.adapterProxy = [[GADMUnityRewardedMediationAdapterProxy alloc] initWithAd:self
                                                                completionHandler:completionHandler];
 
-  [self loadAdWithConfiguration:adConfiguration];
+  GADMediationAdapterUnity *__weak weakself = self;
+  [self initializeWithConfiguration:adConfiguration
+                  completionHandler:^(NSError *_Nullable error) {
+                    GADMediationAdapterUnity *strongSelf = weakself;
+                    if (!strongSelf) {
+                      return;
+                    }
+                    if (error) {
+                      completionHandler(nil, error);
+                      return;
+                    }
+
+                    [strongSelf loadAdWithConfiguration:adConfiguration];
+                  }];
 }
 
 - (void)loadInterstitialForAdConfiguration:
@@ -121,12 +134,23 @@ static BOOL _isTestMode = NO;
       [[GADMUnityInterstitialMediationAdapterProxy alloc] initWithAd:self
                                                    completionHandler:completionHandler];
 
-  [self loadAdWithConfiguration:adConfiguration];
+  GADMediationAdapterUnity *__weak weakself = self;
+  [self initializeWithConfiguration:adConfiguration
+                  completionHandler:^(NSError *_Nullable error) {
+                    GADMediationAdapterUnity *strongSelf = weakself;
+                    if (!strongSelf) {
+                      return;
+                    }
+                    if (error) {
+                      completionHandler(nil, error);
+                      return;
+                    }
+
+                    [strongSelf loadAdWithConfiguration:adConfiguration];
+                  }];
 }
 
 - (void)loadAdWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
-  [self initializeWithConfiguration:adConfiguration];
-
   self.placementId = adConfiguration.placementId;
   self.objectId = [NSUUID UUID].UUIDString;
   self.watermarkForFullScreenAd = adConfiguration.watermark;
@@ -146,28 +170,41 @@ static BOOL _isTestMode = NO;
                     ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
                           .integerValue
                     : -1)];
-  [self initializeWithConfiguration:adConfiguration];
+  GADMediationAdapterUnity *__weak weakself = self;
+  [self initializeWithConfiguration:adConfiguration
+                  completionHandler:^(NSError *_Nullable error) {
+                    GADMediationAdapterUnity *strongSelf = weakself;
+                    if (!strongSelf) {
+                      return;
+                    }
+                    if (error) {
+                      completionHandler(nil, error);
+                      return;
+                    }
 
-  self.placementId = adConfiguration.placementId;
-  self.adapterProxy =
-      [[GADMUnityBannerMediationAdapterProxy alloc] initWithAd:self
-                                               requestedAdSize:adConfiguration.adSize
-                                                    forBidding:adConfiguration.bidResponse != nil
-                                             completionHandler:completionHandler];
-  self.bannerView = [[UADSBannerView alloc] initWithPlacementId:self.placementId
-                                                           size:adConfiguration.adSize.size];
-  self.bannerView.delegate = self.adapterProxy;
-  UADSLoadOptions *loadOptions = [UADSLoadOptions new];
-  NSData *watermark = adConfiguration.watermark;
-  if (watermark != nil) {
-    NSString *watermarkString = [watermark base64EncodedStringWithOptions:0];
-    [loadOptions.dictionary setValue:watermarkString forKey:GADMAdapterUnityWatermarkKey];
-  }
-  if (adConfiguration.bidResponse) {
-    loadOptions.adMarkup = adConfiguration.bidResponse;
-  }
+                    strongSelf.placementId = adConfiguration.placementId;
+                    strongSelf.adapterProxy = [[GADMUnityBannerMediationAdapterProxy alloc]
+                               initWithAd:strongSelf
+                          requestedAdSize:adConfiguration.adSize
+                               forBidding:adConfiguration.bidResponse != nil
+                        completionHandler:completionHandler];
+                    strongSelf.bannerView =
+                        [[UADSBannerView alloc] initWithPlacementId:strongSelf.placementId
+                                                               size:adConfiguration.adSize.size];
+                    strongSelf.bannerView.delegate = strongSelf.adapterProxy;
+                    UADSLoadOptions *loadOptions = [UADSLoadOptions new];
+                    NSData *watermark = adConfiguration.watermark;
+                    if (watermark != nil) {
+                      NSString *watermarkString = [watermark base64EncodedStringWithOptions:0];
+                      [loadOptions.dictionary setValue:watermarkString
+                                                forKey:GADMAdapterUnityWatermarkKey];
+                    }
+                    if (adConfiguration.bidResponse) {
+                      loadOptions.adMarkup = adConfiguration.bidResponse;
+                    }
 
-  [self.bannerView loadWithOptions:loadOptions];
+                    [strongSelf.bannerView loadWithOptions:loadOptions];
+                  }];
 }
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
@@ -185,9 +222,10 @@ static BOOL _isTestMode = NO;
       showDelegate:self.adapterProxy];
 }
 
-- (void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration {
+- (void)initializeWithConfiguration:(GADMediationAdConfiguration *)adConfiguration
+                  completionHandler:(void (^)(NSError *_Nullable error))completion {
   [[GADUnityRouter sharedRouter] sdkInitializeWithGameId:adConfiguration.gameId
-                                   withCompletionHandler:nil];
+                                   withCompletionHandler:completion];
 }
 
 #pragma mark Utility Methods
