@@ -283,17 +283,20 @@ static CGFloat const DefaultIconScale = 1.0;
   return @"";
 }
 
+- (nullable NSArray<GADNativeAdImage *> *)images {
+  return nil;
+}
+
+- (nullable NSDictionary<NSString *, id> *)extraAssets {
+  return nil;
+}
+
 - (nullable UIView *)mediaView {
     return _native.getMediaView;
 }
 
 - (BOOL)hasVideoContent {
   return _native.isVideoAd;
-}
-
-- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
-                                 view:(nonnull UIView *)view
-                       viewController:(nonnull UIViewController *)viewController {
 }
 
 - (void)didRenderInView:(nonnull UIView *)view
@@ -372,4 +375,4 @@ static CGFloat const DefaultIconScale = 1.0;
 
 - (void)didUntrackView:(nullable UIView *)view { }
 
-@en
+@end
