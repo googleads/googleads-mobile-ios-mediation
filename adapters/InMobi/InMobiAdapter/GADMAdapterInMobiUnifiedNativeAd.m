@@ -186,7 +186,11 @@ static CGFloat const DefaultIconScale = 1.0;
     if (!nativeAdEventDelegate) {
       return;
     }
-    [nativeAdEventDelegate didPlayVideo];
+    
+    if ([self hasVideoContent]) {
+        [nativeAdEventDelegate didPlayVideo];
+    }
+    
     [nativeAdEventDelegate reportImpression];
 }
 
