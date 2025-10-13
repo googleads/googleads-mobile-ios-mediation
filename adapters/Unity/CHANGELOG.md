@@ -1,5 +1,7 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Version 4.16.3.0 (In progress)
+
 #### [Version 4.16.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.2.0.zip)
 - Updated ad loading methods to wait for the Unity Ads SDK to be fully initialized before attempting to load an ad.
 - Resolved a race condition where completion callbacks could potentially be dropped if multiple initializations are in progress.
