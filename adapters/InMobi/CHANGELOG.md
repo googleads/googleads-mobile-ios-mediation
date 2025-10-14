@@ -1,7 +1,5 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 11.0.0.0 (In progress)
-
 #### [Version 10.8.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-10.8.8.0.zip)
 - Verified compatibility with InMobi SDK 10.8.8.
 
