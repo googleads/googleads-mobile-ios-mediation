@@ -32,6 +32,8 @@
 		70A1FA3B2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA3A2CC371C200BC54D0 /* FakeMolocoBidTokenGetter.swift */; };
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
+		70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		70D175092E9ED04700DD91A0 /* libAdapterForTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterForTests.a */; };
 		70D2CBC22B0B41EE00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */; };
 		70D2CC7D2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */; };
 		70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */; };
@@ -436,6 +438,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
 			remoteInfo = Adapter;
+		};
+		70BE1B162E9EA9BD00EE7584 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
+			remoteInfo = AdapterUnitTestKit;
+		};
+		70D175052E9ED01600DD91A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 70D175032E9ECFF900DD91A0;
+			remoteInfo = AdapterForTests;
+		};
+		70D175072E9ED03000DD91A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 70D174DE2E9ECFF900DD91A0;
+			remoteInfo = AdapterForTests;
+		};
+		70D179BA2E9F04D100DD91A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
+			remoteInfo = UnitTestHostApp;
 		};
 		AD00C4D52B88225F007C85F3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1359,6 +1389,7 @@
 		70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeWaterfallRewardedAdTests.m; sourceTree = "<group>"; };
 		70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:9T245VHMPL:Moloco, Inc."; lastKnownFileType = wrapper.xcframework; name = MolocoSDK.xcframework; path = Pods/MolocoSDKiOS/MolocoSDK.xcframework; sourceTree = "<group>"; };
 		70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; name = GoogleMobileAds.xcframework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework"; sourceTree = "<group>"; };
+		70E24C502E9EA2CA00D07FCD /* InMobiAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InMobiAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70E380AF2C46FB8E004CCB92 /* MolocoMediationAdapterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapterTest.swift; sourceTree = "<group>"; };
 		8526681D2C755D15000BBD3A /* FakeMolocoRewardedFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewardedFactory.swift; sourceTree = "<group>"; };
 		856602EC2C642DE70068D786 /* FakeMolocoRewarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoRewarded.swift; sourceTree = "<group>"; };
@@ -1604,6 +1635,17 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = InMobiAdapterTests;
+			sourceTree = "<group>";
+		};
 		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -1645,6 +1687,15 @@
 				70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */,
 				7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */,
 				7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70E24C4D2E9EA2CA00D07FCD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D175092E9ED04700DD91A0 /* libAdapterForTests.a in Frameworks */,
+				70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2433,6 +2484,7 @@
 				ADF28D5F2A4F7C6B0073F909 /* DTExchangeAdapterTests */,
 				AD170BC62E13275B00A64F30 /* DTExchangeAdapterLatencyTests */,
 				AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */,
+				70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */,
 				AD6FA03D2A16BF98007335D2 /* Frameworks */,
 				AD0D73002AF81711002C0B60 /* IMobileAdapterTests */,
 				ADE56ED92E13350B003FF591 /* IMobileAdapterLatencyTests */,
@@ -2505,6 +2557,7 @@
 				AD30DEE02E20763300FCEF73 /* VerveAdapterLatencyTests.xctest */,
 				AD30E05B2E207A1700FCEF73 /* BidMachineAdapterLatencyTests.xctest */,
 				AD3623CC2E7B5AD700E442E6 /* BigoAdapterTests.xctest */,
+				70E24C502E9EA2CA00D07FCD /* InMobiAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2675,6 +2728,7 @@
 				ADE5750F2E14AABA003FF591 /* libAdapter.a */,
 				ADE575112E14AABA003FF591 /* InMobiAdapter.framework */,
 				ADE575132E14AABA003FF591 /* libStaticInMobiAdapter.a */,
+				70D175062E9ED01600DD91A0 /* libAdapterForTests.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2835,6 +2889,29 @@
 			name = MolocoAdapterTests;
 			productName = MolocoAdapterTests;
 			productReference = 7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		70E24C4F2E9EA2CA00D07FCD /* InMobiAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70E24C542E9EA2CB00D07FCD /* Build configuration list for PBXNativeTarget "InMobiAdapterTests" */;
+			buildPhases = (
+				70E24C4C2E9EA2CA00D07FCD /* Sources */,
+				70E24C4D2E9EA2CA00D07FCD /* Frameworks */,
+				70E24C4E2E9EA2CA00D07FCD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70D175082E9ED03000DD91A0 /* PBXTargetDependency */,
+				70BE1B172E9EA9BD00EE7584 /* PBXTargetDependency */,
+				70D179BB2E9F04D100DD91A0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */,
+			);
+			name = InMobiAdapterTests;
+			productName = InMobiAdapterTests;
+			productReference = 70E24C502E9EA2CA00D07FCD /* InMobiAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AD01232C2ABCB0D8002BFE6D /* MintegralAdapterTests */ = {
@@ -3539,6 +3616,10 @@
 						CreatedOnToolsVersion = 15.4;
 						LastSwiftMigration = 1540;
 					};
+					70E24C4F2E9EA2CA00D07FCD = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = AD1705DC2E0F5D2900A64F30;
+					};
 					AD01232C2ABCB0D8002BFE6D = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -3761,6 +3842,7 @@
 				AD30DECD2E20763300FCEF73 /* VerveAdapterLatencyTests */,
 				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */,
+				70E24C4F2E9EA2CA00D07FCD /* InMobiAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3883,6 +3965,13 @@
 			fileType = wrapper.framework;
 			path = MolocoAdapter.framework;
 			remoteRef = 7072CF5B2C41F8BD002BF6AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		70D175062E9ED01600DD91A0 /* libAdapterForTests.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterForTests.a;
+			remoteRef = 70D175052E9ED01600DD91A0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AD00C4D62B88225F007C85F3 /* AppLovinAdapter.framework */ = {
@@ -4211,6 +4300,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70E24C4E2E9EA2CA00D07FCD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD01232B2ABCB0D8002BFE6D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4523,6 +4619,13 @@
 				85A57D712CA4B65E009FC260 /* FakeMolocoBanner.swift in Sources */,
 				8595C0C42C59A82B00B46FD2 /* MolocoRewardedAdTest.swift in Sources */,
 				85A57D6F2CA4B640009FC260 /* MolocoBannerAdTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70E24C4C2E9EA2CA00D07FCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4927,6 +5030,21 @@
 			isa = PBXTargetDependency;
 			name = Adapter;
 			targetProxy = 7072CF6A2C41FB3A002BF6AE /* PBXContainerItemProxy */;
+		};
+		70BE1B172E9EA9BD00EE7584 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
+			targetProxy = 70BE1B162E9EA9BD00EE7584 /* PBXContainerItemProxy */;
+		};
+		70D175082E9ED03000DD91A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterForTests;
+			targetProxy = 70D175072E9ED03000DD91A0 /* PBXContainerItemProxy */;
+		};
+		70D179BB2E9F04D100DD91A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
+			targetProxy = 70D179BA2E9F04D100DD91A0 /* PBXContainerItemProxy */;
 		};
 		AD0123352ABCB103002BFE6D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5829,6 +5947,156 @@
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		70E24C552E9EA2CB00D07FCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/InMobiAdapter\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
+			};
+			name = Debug;
+		};
+		70E24C562E9EA2CB00D07FCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/InMobiAdapter/InMobiAdapter\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -11056,6 +11324,15 @@
 			buildConfigurations = (
 				7072CF662C41F9A1002BF6AE /* Debug */,
 				7072CF672C41F9A1002BF6AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70E24C542E9EA2CB00D07FCD /* Build configuration list for PBXNativeTarget "InMobiAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70E24C552E9EA2CB00D07FCD /* Debug */,
+				70E24C562E9EA2CB00D07FCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

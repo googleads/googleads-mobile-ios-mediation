@@ -354,9 +354,13 @@ abstract_target 'Default' do
 
     pod 'GoogleMobileAdsMediationInMobi', :path => '../adapters/InMobiAdapter/CocoaPods/GoogleMobileAdsMediationInMobi.podspec.json'
 
-    # Dependencies for Verve static library.
-    target 'Adapter' do
+    # Dependencies for InMobi static library.
+    target 'AdapterForTests' do
       project '../adapters/InMobiAdapter/InMobiAdapter.xcodeproj'
+    end
+
+    target 'InMobiAdapterTests' do
+      pod 'OCMock'
     end
 
     target 'InMobiAdapterLatencyTests' do

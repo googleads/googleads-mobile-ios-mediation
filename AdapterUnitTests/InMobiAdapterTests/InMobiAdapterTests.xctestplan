@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "EC6F23B7-6D90-46E4-8C37-77EA2DB81E23",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/..\/..\/AdapterUnitTests\/AdapterUnitTests.xcodeproj",
+        "identifier" : "70E24C4F2E9EA2CA00D07FCD",
+        "name" : "InMobiAdapterTests"
+      }
+    }
+  ],
+  "version" : 1
+}
