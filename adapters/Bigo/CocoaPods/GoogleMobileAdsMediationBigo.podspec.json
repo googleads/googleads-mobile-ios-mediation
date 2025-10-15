@@ -1,6 +1,6 @@
 {
   "name": "GoogleMobileAdsMediationBigo",
-  "version": "4.9.3.0",
+  "version": "5.0.0.0",
   "summary": "Bigo adapter used for mediation with the Google Mobile Ads SDK",
   "description": "The Google Mobile Ads SDK is the latest generation in Google mobile advertising featuring refined ad formats and streamlined APIs for access to mobile ad networks and advertising solutions. Google Mobile Ads Mediation helps maximize your fill rate and increase your monetization by sending ad requests to multiple networks to ensure you find the best available network to serve ads. This adapter enables you to use Google Mobile Ads Mediation to request ads from Bigo.",
   "homepage": "https://developers.google.com/admob/ios/mediation/Bigo",
@@ -13,18 +13,18 @@
     "ios": "12.0"
   },
   "vendored_frameworks": [
-    "BigoAdapter-4.9.3.0/BigoAdapter.xcframework"
+    "BigoAdapter-5.0.0.0/BigoAdapter.xcframework"
   ],
   "dependencies": {
     "Google-Mobile-Ads-SDK": "~> 12.0",
-    "BigoADS": "4.9.3"
+    "BigoADS": "5.0.0"
   },
   "preserve_paths": [
-    "BigoAdapter-4.9.3.0/README.md"
+    "BigoAdapter-5.0.0.0/README.md"
   ],
   "requires_arc": true,
   "source": {
-    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Bigo/BigoAdapter-4.9.3.0.zip"
+    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Bigo/BigoAdapter-5.0.0.0.zip"
   },
   "static_framework": true
 }

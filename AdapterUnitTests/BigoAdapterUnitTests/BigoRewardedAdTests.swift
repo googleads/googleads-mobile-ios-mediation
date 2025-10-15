@@ -26,6 +26,7 @@ final class BigoRewardedAdTests: XCTestCase {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadRewardedAd(adapter, config)
   }
@@ -38,6 +39,7 @@ final class BigoRewardedAdTests: XCTestCase {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = NSError(domain: "com.google.mediation.bigo", code: 12345, userInfo: [:])
 
     AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError)
@@ -49,6 +51,7 @@ final class BigoRewardedAdTests: XCTestCase {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -60,6 +63,19 @@ final class BigoRewardedAdTests: XCTestCase {
     credentials.settings = ["slot_id": "test"]
     let config = AUTKMediationRewardedAdConfiguration()
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+    let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
+      .toNSError()
+
+    AUTKWaitAndAssertLoadRewardedAdFailure(adapter, config, expectedError)
+  }
+
+  func testLoadRtbRewardedAd_fails_whenWatermarkIsMissing() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationRewardedAdConfiguration()
+    config.credentials = credentials
+    config.bidResponse = "test"
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -72,6 +88,7 @@ final class BigoRewardedAdTests: XCTestCase {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let delegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
     let rewardedAd = delegate.rewardedAd! as MediationRewardedAd
@@ -92,6 +109,7 @@ final class BigoRewardedAdTests: XCTestCase {
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let delegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
     let rewardedAd = delegate.rewardedAd! as MediationRewardedAd

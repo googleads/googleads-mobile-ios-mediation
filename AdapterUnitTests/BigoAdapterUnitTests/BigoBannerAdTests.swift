@@ -28,6 +28,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
@@ -39,6 +40,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeMediumRectangle
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
@@ -50,6 +52,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeLargeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
@@ -61,6 +64,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeLeaderboard
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
@@ -72,6 +76,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = currentOrientationInlineAdaptiveBanner(width: 320)
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadBannerAd(adapter, config)
   }
@@ -82,6 +87,20 @@ final class BigoBannerAdTests: XCTestCase {
     let config = AUTKMediationBannerAdConfiguration()
     config.adSize = AdSizeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+    let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
+      .toNSError()
+
+    AUTKWaitAndAssertLoadBannerAdFailure(adapter, config, expectedError)
+  }
+
+  func testLoadBannerAd_fails_whenWatermarkIsMissing() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationBannerAdConfiguration()
+    config.adSize = AdSizeBanner
+    config.credentials = credentials
+    config.bidResponse = "test"
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -94,6 +113,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -107,6 +127,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeSkyscraper
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = BigoAdapterError(errorCode: .unsupportedBannerSize, description: "")
       .toNSError()
 
@@ -122,6 +143,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = NSError(domain: "com.google.mediation.bigo", code: 12345, userInfo: [:])
 
     AUTKWaitAndAssertLoadBannerAdFailure(adapter, config, expectedError)
@@ -134,6 +156,7 @@ final class BigoBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSizeBanner
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, config)
     XCTAssertNotNil(eventDelegate.bannerAd)

@@ -62,9 +62,20 @@ final class NativeAdLoader: NSObject {
       return
     }
 
+    guard let watermark = adConfiguration.watermark else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing watermark."
+        ).toNSError())
+      return
+    }
+
     do {
       let slotId = try Util.slotId(from: adConfiguration)
-      client.loadRTBNativeAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+      client.loadRTBNativeAd(
+        for: slotId, bidPayLoad: bidResponse, watermark: watermark, delegate: self)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }
