@@ -170,8 +170,9 @@
 }
 
 - (BOOL)hasVideoContent {
-    // we have found, that in order for the method: `- (UIView *)mediaView` to always return the `mediaView`
-    // (which DTExchange SDK requires for both Image and Video types), this method should always return `YES`:
+    // we have found, that in order for the method: `- (UIView *)mediaView` to always be called
+    // and hence return the `mediaView`, which DTExchange SDK requires for both Image and Video types,
+    // this method should always return `YES`:
     return YES;
     
     // theoretically correct solution, but not working in practice,
