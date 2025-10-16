@@ -29,7 +29,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationLine', :path => '../adapters/Line/CocoaPods/GoogleMobileAdsMediationLine.podspec.json'
 
     # Dependencies for LineAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Line/LineAdapter.xcodeproj'
     end
 
@@ -49,7 +49,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationFyber', :path => '../adapters/DTExchange/CocoaPods/GoogleMobileAdsMediationFyber.podspec.json'
 
     # Dependencies for DTExchangeAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/DTExchange/DTExchangeAdapter.xcodeproj'
     end
 
@@ -69,7 +69,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationUnity', :path => '../adapters/Unity/CocoaPods/GoogleMobileAdsMediationUnity.podspec.json'
 
     # Dependencies for DTExchangeAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Unity/UnityAdapter.xcodeproj'
     end
 
@@ -89,7 +89,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationAppLovin', :path => '../adapters/AppLovin/CocoaPods/GoogleMobileAdsMediationAppLovin.podspec.json'
 
     # Dependencies for AppLovinAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/AppLovin/AppLovinAdapter.xcodeproj'
     end
 
@@ -109,7 +109,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationPangle', :path => '../adapters/Pangle/CocoaPods/GoogleMobileAdsMediationPangle.podspec.json'
 
     # Dependencies for PangleAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Pangle/PangleAdapter.xcodeproj'
     end
 
@@ -129,7 +129,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationMintegral', :path => '../adapters/Mintegral/CocoaPods/GoogleMobileAdsMediationMintegral.podspec.json'
 
     # Dependencies for MintegralAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Mintegral/MintegralAdapter.xcodeproj'
     end
 
@@ -149,7 +149,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationChartboost', :path => '../adapters/Chartboost/CocoaPods/GoogleMobileAdsMediationChartboost.podspec.json'
 
     # Dependencies for ChartboostAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Chartboost/ChartboostAdapter.xcodeproj'
     end
 
@@ -169,7 +169,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationIronSource', :path => '../adapters/IronSource/CocoaPods/GoogleMobileAdsMediationIronSource.podspec.json'
 
     # Dependencies for IronSourceAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/IronSource/IronSourceAdapter.xcodeproj'
     end
 
@@ -189,7 +189,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationVungle', :path => '../adapters/LiftoffMonetize/CocoaPods/GoogleMobileAdsMediationVungle.podspec.json'
 
     # Dependencies for LiftoffMonetizeAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/LiftoffMonetize/LiftoffMonetizeAdapter.xcodeproj'
     end
 
@@ -210,7 +210,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationMaio', :path => '../adapters/Maio/CocoaPods/GoogleMobileAdsMediationMaio.podspec.json'
 
     # Dependencies for MaioAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Maio/MaioAdapter.xcodeproj'
     end
 
@@ -230,7 +230,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationMyTarget', :path => '../adapters/MyTarget/CocoaPods/GoogleMobileAdsMediationMyTarget.podspec.json'
 
     # Dependencies for MyTargetAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/MyTarget/MyTargetAdapter.xcodeproj'
     end
 
@@ -250,7 +250,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationIMobile', :path => '../adapters/I-Mobile/CocoaPods/GoogleMobileAdsMediationIMobile.podspec.json'
 
     # Dependencies for IMobileAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/I-Mobile/IMobileAdapter.xcodeproj'
     end
 
@@ -270,7 +270,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationMoloco', :path => '../adapters/Moloco/CocoaPods/GoogleMobileAdsMediationMoloco.podspec.json'
 
     # Dependencies for MolocoAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Moloco/MolocoAdapter.xcodeproj'
     end
 
@@ -300,7 +300,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationPubMatic', :path => '../adapters/PubMatic/CocoaPods/GoogleMobileAdsMediationPubMatic.podspec.json'
 
     # Dependencies for PubMaticAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/PubMatic/PubMaticAdapter.xcodeproj'
     end
 
@@ -318,7 +318,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationBidMachine', :path => '../adapters/BidMachine/CocoaPods/GoogleMobileAdsMediationBidMachine.podspec.json'
 
     # Dependencies for BidMachine static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/BidMachine/BidMachineAdapter.xcodeproj'
     end
 
@@ -337,7 +337,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationVerve', :path => '../adapters/Verve/CocoaPods/GoogleMobileAdsMediationVerve.podspec.json'
 
     # Dependencies for Verve static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Verve/VerveAdapter.xcodeproj'
     end
 
@@ -355,7 +355,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationInMobi', :path => '../adapters/InMobiAdapter/CocoaPods/GoogleMobileAdsMediationInMobi.podspec.json'
 
     # Dependencies for InMobi static library.
-    target 'AdapterForTests' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/InMobiAdapter/InMobiAdapter.xcodeproj'
     end
 
@@ -374,7 +374,7 @@ abstract_target 'Default' do
     pod 'GoogleMobileAdsMediationBigo', :path => '../adapters/Bigo/CocoaPods/GoogleMobileAdsMediationBigo.podspec.json'
 
     # Dependencies for BigoAdapter static library.
-    target 'Adapter' do
+    target 'AdapterWithoutValidationScript' do
       project '../adapters/Bigo/BigoAdapter.xcodeproj'
     end
 

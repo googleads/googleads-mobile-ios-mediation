@@ -11,11 +11,9 @@
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
 		44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */; };
-		44B303462AB232D700652006 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ACFB072AB11D4B00035A73 /* libAdapter.a */; };
 		44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7003A94A2B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003A9492B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m */; };
 		701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		701E23872AAD8CB100BAB0B3 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701E237F2AAD8C8300BAB0B3 /* libAdapter.a */; };
 		701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */; };
 		703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */; };
 		70387DD42D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD32D08B7D4000C09EE /* FakeMolocoAgeRestrictedSetter.swift */; };
@@ -23,7 +21,6 @@
 		70608B502C51C64300896E93 /* FakeMolocoInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B4F2C51C64300896E93 /* FakeMolocoInterstitial.swift */; };
 		70608B522C51C65900896E93 /* FakeMolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70608B512C51C65900896E93 /* FakeMolocoInterstitialFactory.swift */; };
 		7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */; };
 		707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */; };
 		707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */; };
 		707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */; };
@@ -33,7 +30,7 @@
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		70D175092E9ED04700DD91A0 /* libAdapterForTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterForTests.a */; };
+		70D175092E9ED04700DD91A0 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */; };
 		70D2CBC22B0B41EE00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */; };
 		70D2CC7D2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */; };
 		70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */; };
@@ -46,11 +43,9 @@
 		85A57D712CA4B65E009FC260 /* FakeMolocoBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A57D702CA4B65E009FC260 /* FakeMolocoBanner.swift */; };
 		85A57D732CA4B663009FC260 /* FakeMolocoBannerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A57D722CA4B663009FC260 /* FakeMolocoBannerFactory.swift */; };
 		AD0123302ABCB0D8002BFE6D /* AUTMintegralAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD01232F2ABCB0D8002BFE6D /* AUTMintegralAdapterTests.m */; };
-		AD0123362ABCB10B002BFE6D /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0123242ABCB0AE002BFE6D /* libAdapter.a */; };
 		AD0123392ABCB115002BFE6D /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD0D6D622AF450DB002C0B60 /* AppLovinAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD0D6D552AF450DB002C0B60 /* AppLovinAdapterTests.xctestplan */; };
 		AD0D6E242AF56C66002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD0D6E252AF56C69002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6E0A2AF56C37002C0B60 /* libAdapter.a */; };
 		AD0D6E272AF574A8002C0B60 /* AUTChartboostAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E262AF574A8002C0B60 /* AUTChartboostAdapterTests.m */; };
 		AD0D6E292AF57507002C0B60 /* AUTChartboostRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E282AF57507002C0B60 /* AUTChartboostRewardedAdTests.m */; };
 		AD0D6E442AF57ADB002C0B60 /* ChartboostAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD0D6E332AF57ADB002C0B60 /* ChartboostAdapterTests.xctestplan */; };
@@ -58,21 +53,18 @@
 		AD0D6E612AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E602AF5885D002C0B60 /* AUTDTExchangeInterstitialAdTests.m */; };
 		AD0D6E632AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6E622AF5889A002C0B60 /* AUTDTExchangeRewardedAdTests.m */; };
 		AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD0D6E9E2AF591C3002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6E852AF59116002C0B60 /* libAdapter.a */; };
 		AD0D6EAA2AF59517002C0B60 /* AUTIronSourceAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EA92AF59517002C0B60 /* AUTIronSourceAdapterTests.m */; };
 		AD0D6EBE2AF596A3002C0B60 /* AUTIronSourceBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EBD2AF596A3002C0B60 /* AUTIronSourceBannerTests.m */; };
 		AD0D6EC02AF597EE002C0B60 /* AUTIronSourceInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EBF2AF597EE002C0B60 /* AUTIronSourceInterstitialTests.m */; };
 		AD0D6EC22AF5985B002C0B60 /* AUTIronSourceRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EC12AF5985B002C0B60 /* AUTIronSourceRewardedAdTests.m */; };
 		AD0D6EC42AF59944002C0B60 /* IronSourceAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD0D6EC32AF59944002C0B60 /* IronSourceAdapterTests.xctestplan */; };
 		AD0D6EF82AF5BD7B002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD0D6EF92AF5BD7E002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */; };
 		AD0D6EFB2AF5BE4B002C0B60 /* AUTLiftoffMonetizeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EFA2AF5BE4B002C0B60 /* AUTLiftoffMonetizeAdapterTests.m */; };
 		AD0D6EFD2AF5BF08002C0B60 /* AUTLiftoffMonetizeBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EFC2AF5BF08002C0B60 /* AUTLiftoffMonetizeBannerAdTests.m */; };
 		AD0D6EFF2AF5BF3C002C0B60 /* AUTLiftoffMonetizeInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6EFE2AF5BF3C002C0B60 /* AUTLiftoffMonetizeInterstitialAdTests.m */; };
 		AD0D6F032AF5BFA4002C0B60 /* AUTLiftoffMonetizeNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6F022AF5BFA4002C0B60 /* AUTLiftoffMonetizeNativeAdTests.m */; };
 		AD0D6F242AF5C17C002C0B60 /* LiftoffMonetizeAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD0D6F232AF5C17C002C0B60 /* LiftoffMonetizeAdapterTests.xctestplan */; };
 		AD0D6F5B2AF6E256002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD0D6F5C2AF6E25E002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6F452AF6E222002C0B60 /* libAdapter.a */; };
 		AD0D6F5E2AF6E903002C0B60 /* AUTMaioAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6F5D2AF6E903002C0B60 /* AUTMaioAdapterTests.m */; };
 		AD0D6F602AF6F63F002C0B60 /* AUTMaioInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6F5F2AF6F63F002C0B60 /* AUTMaioInterstitialAdTests.m */; };
 		AD0D6F622AF6F671002C0B60 /* AUTMaioRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D6F612AF6F671002C0B60 /* AUTMaioRewardedAdTests.m */; };
@@ -88,16 +80,13 @@
 		AD0D6FFE2AF71903002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD0D70012AF71950002C0B60 /* AUTMyTargetAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D70002AF71950002C0B60 /* AUTMyTargetAdapterTests.m */; };
 		AD0D70032AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D70022AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m */; };
-		AD0D70362AF71DC6002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6FEA2AF71844002C0B60 /* libAdapter.a */; };
 		AD0D70B62AF8005B002C0B60 /* MyTargetAdapterTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD0D709D2AF8005B002C0B60 /* MyTargetAdapterTests.xctestplan */; };
-		AD0D70F32AF8045C002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD0D71A82AF80CB6002C0B60 /* AUTPangleBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D71A72AF80CB6002C0B60 /* AUTPangleBannerAdTests.m */; };
 		AD0D71C42AF80D01002C0B60 /* AUTPangleAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D71C32AF80D01002C0B60 /* AUTPangleAppOpenAdTests.m */; };
 		AD0D71C62AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D71C52AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m */; };
 		AD0D71C82AF80D81002C0B60 /* AUTPangleRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D71C72AF80D81002C0B60 /* AUTPangleRewardedAdTests.m */; };
 		AD0D71CA2AF80DA6002C0B60 /* AUTPangleNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D71C92AF80DA6002C0B60 /* AUTPangleNativeAdTests.m */; };
 		AD0D730A2AF81740002C0B60 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD0D730B2AF81748002C0B60 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D72E42AF81700002C0B60 /* libAdapter.a */; };
 		AD0D730D2AF81796002C0B60 /* AUTIMobileAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D730C2AF81796002C0B60 /* AUTIMobileAdapterTests.m */; };
 		AD0D730F2AF817C9002C0B60 /* AUTIMobileBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D730E2AF817C9002C0B60 /* AUTIMobileBannerTests.m */; };
 		AD0D73112AF817EC002C0B60 /* AUTIMobileInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D73102AF817EC002C0B60 /* AUTIMobileInterstitialAdTests.m */; };
@@ -149,7 +138,6 @@
 		AD317D582DA0A211007B3FA8 /* BidMachineRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD317D572DA0A209007B3FA8 /* BidMachineRewardedAdTests.swift */; };
 		AD3181D72DA49D40007B3FA8 /* BidMachineNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D62DA49D3C007B3FA8 /* BidMachineNativeAdTests.swift */; };
 		AD3181D92DA4A2A0007B3FA8 /* FakeNativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3181D82DA4A293007B3FA8 /* FakeNativeAdProxy.swift */; };
-		AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */; };
 		AD3633462E7E05F400E442E6 /* BigoRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3629622E7DD50400E442E6 /* BigoRewardedAdTests.swift */; };
 		AD3633472E7E05F400E442E6 /* BigoInterstitialAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD36286C2E7CBC5000E442E6 /* BigoInterstitialAdTests.swift */; };
 		AD3633482E7E05F400E442E6 /* FakeBigoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3626812E7B7CE000E442E6 /* FakeBigoClient.swift */; };
@@ -157,7 +145,6 @@
 		AD36334A2E7E05F400E442E6 /* BigoAdapterUnitTestPlan.xctestplan in Sources */ = {isa = PBXBuildFile; fileRef = AD3624952E7B66F900E442E6 /* BigoAdapterUnitTestPlan.xctestplan */; };
 		AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */; };
 		AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; platformFilter = ios; };
-		AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD45ED452A78116C001B29D8 /* libAdapter.a */; };
 		AD45EDEA2A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45EDE92A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m */; };
 		AD45EDFD2A7AB66A001B29D8 /* AUTUnityTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45EDFC2A7AB66A001B29D8 /* AUTUnityTestCase.m */; };
 		AD45EECA2A7D7679001B29D8 /* AUTUnityRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD45EEC92A7D7679001B29D8 /* AUTUnityRewardedAdTests.m */; };
@@ -173,13 +160,29 @@
 		AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */; };
 		AD5E06602D5EDBB900380B70 /* AmazonAdapterRewardedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */; };
 		AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD677BB32DBAE0280012621D /* libVerveAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD677B992DBADFC10012621D /* libVerveAdapter.a */; };
+		AD6E3B082EA16B4500818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B0B2EA16B6600818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B0E2EA16B7700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B112EA16B9600818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B142EA16BA500818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B172EA16BB700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B1A2EA16BDA00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B1D2EA16C2300818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B202EA16C3700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B232EA16C4F00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B262EA16C8100818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B292EA16C9700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B2C2EA16CAF00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B312EA16CD800818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B342EA16CFD00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B372EA16D2B00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B3A2EA16D3C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B3B2EA16D5C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
 		AD6FA0452A16C6BE007335D2 /* AUTKAdConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0432A16C6BE007335D2 /* AUTKAdConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD76A9F42D9312C300F40CD4 /* libPubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */; };
 		AD76AAD92D931E5400F40CD4 /* PubMaticAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76AA422D9313F800F40CD4 /* PubMaticAdapterTests.swift */; };
 		AD76AADB2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD76AADA2D9352CE00F40CD4 /* PubMaticAdapterTestPlan.xctestplan */; };
 		AD76AC022D93C61700F40CD4 /* FakeOpenWrapSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76AC012D93C60D00F40CD4 /* FakeOpenWrapSDKClient.swift */; };
@@ -215,12 +218,10 @@
 		ADA1AFCF2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */; };
 		ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */; };
 		ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		ADA2FAFB2D9F777D005D9ECA /* libGoogleBidMachineAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */; };
 		ADA2FBFF2D9F8DC8005D9ECA /* FakeBidMachineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2FBFD2D9F8C5A005D9ECA /* FakeBidMachineClient.swift */; };
 		ADA2FC002D9F8DC8005D9ECA /* BidMachineAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */; };
 		ADA4F5BB2A43C71E00B2236A /* AUTLineNativeAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */; };
 		ADAB37C12D23444400D407AB /* MolocoTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAB37C02D23444000D407AB /* MolocoTestUtils.swift */; };
-		ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */; };
 		ADCDB9DD2D41BA0B00795B3A /* AmazonAdapterBannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCDB9DC2D41BA0000795B3A /* AmazonAdapterBannerTests.swift */; };
 		ADE56ED02E1334E8003FF591 /* ImobileSdkAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B322F2B9ACB560055FA17 /* ImobileSdkAds.xcframework */; };
 		ADE56ED12E1334E8003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D72E42AF81700002C0B60 /* libAdapter.a */; };
@@ -228,7 +229,6 @@
 		ADE56EDC2E1335D2003FF591 /* IMobileAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADE56EDB2E1335AE003FF591 /* IMobileAdapterLatencyTests.xctestplan */; };
 		ADE56EDD2E1335D6003FF591 /* IMobileAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE56EDA2E133533003FF591 /* IMobileAdapterLatencyTests.m */; };
 		ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		ADE575272E14AB0B003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE5750F2E14AABA003FF591 /* libAdapter.a */; };
 		ADE5752C2E14AB8E003FF591 /* InMobiAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE5752B2E14AB76003FF591 /* InMobiAdapterLatencyTests.m */; };
 		ADE5752E2E14AC09003FF591 /* InMobiAdapterLatencyTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = ADE5752D2E14AC08003FF591 /* InMobiAdapterLatencyTests.xctestplan */; };
 		ADE57EC62E15ECF1003FF591 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6E852AF59116002C0B60 /* libAdapter.a */; };
@@ -239,7 +239,6 @@
 		ADEAFA632A37D7200036464A /* AUTLineRewardedAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA622A37D7200036464A /* AUTLineRewardedAdTest.m */; };
 		ADECFCD92DCD19EB0004EBBB /* VerveNativeAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADECFCD82DCD19E40004EBBB /* VerveNativeAdTests.swift */; };
 		ADF28D612A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF28D602A4F7C6B0073F909 /* AUTDTExchangeAdapterTests.m */; };
-		ADF28D692A4F7C870073F909 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF28D572A4F7C3D0073F909 /* libAdapter.a */; };
 		ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		ADF3B9B72AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3B9B62AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m */; };
 		ADF3B9B92AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3B9B82AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m */; };
@@ -285,13 +284,6 @@
 			remoteGlobalIDString = 7DFABB1D1DA8682C00322E02;
 			remoteInfo = Adapter;
 		};
-		44ACFB192AB12A3E00035A73 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
 		44ACFB1B2AB12A6500035A73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -304,13 +296,6 @@
 			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2BF5FE50279B009F001EFB81;
-			remoteInfo = Adapter;
-		};
-		701E23822AAD8C8E00BAB0B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2BF5FE4F279B009F001EFB81;
 			remoteInfo = Adapter;
 		};
 		701E23842AAD8C9200BAB0B3 /* PBXContainerItemProxy */ = {
@@ -432,13 +417,6 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
-		7072CF6A2C41FB3A002BF6AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
-			remoteInfo = Adapter;
-		};
 		70BE1B162E9EA9BD00EE7584 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -558,13 +536,6 @@
 			remoteGlobalIDString = 2B60DF082761885700AB5537;
 			remoteInfo = Adapter;
 		};
-		AD0123342ABCB103002BFE6D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2B60DF072761885700AB5537;
-			remoteInfo = Adapter;
-		};
 		AD0123372ABCB112002BFE6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -586,13 +557,6 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
-		AD0D6E222AF56C61002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
 		AD0D6E842AF59116002C0B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
@@ -606,13 +570,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
-		};
-		AD0D6E9B2AF591A4002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
 		};
 		AD0D6EDF2AF5BCDE002C0B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -628,13 +585,6 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
-		AD0D6EF62AF5BD6A002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
 		AD0D6F442AF6E222002C0B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
@@ -649,13 +599,6 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
-		AD0D6F592AF6E250002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
 		AD0D6FE92AF71844002C0B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
@@ -664,20 +607,6 @@
 			remoteInfo = Adapter;
 		};
 		AD0D6FFA2AF718F3002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
-			remoteInfo = AdapterUnitTestKit;
-		};
-		AD0D6FFC2AF718F8002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
-		AD0D70EF2AF80443002C0B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
 			proxyType = 1;
@@ -697,13 +626,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
-		};
-		AD0D73082AF8173C002C0B60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 45E634ED222F1503006EB5A1;
-			remoteInfo = Adapter;
 		};
 		AD1707B92E12F82300A64F30 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -929,13 +851,6 @@
 			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
 			remoteInfo = BigoAdapter;
 		};
-		AD3623DA2E7B5B2E00E442E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
-			remoteInfo = Adapter;
-		};
 		AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
@@ -956,13 +871,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
-		};
-		AD45EDCA2A784AA1001B29D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
 		};
 		AD5A4ED02E0F20CE0078AFC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1006,12 +914,250 @@
 			remoteGlobalIDString = AD6FA0342A16BF4A007335D2;
 			remoteInfo = AdapterUnitTestKit;
 		};
-		AD677BB12DBAE0190012621D /* PBXContainerItemProxy */ = {
+		AD6E388E2EA1664B00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E388C2EA1662400818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E38912EA1664B00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E38742EA165F600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E38942EA1664B00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E38532EA165DC00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3A962EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E3A432EA1680000818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3A9D2EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E3A1B2EA167F700818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AA42EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E3A032EA167E600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AAB2EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39EB2EA167D100818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AB22EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39D22EA167C600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AB92EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39B92EA1676800818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AC42EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E399E2EA1674800818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3ACB2EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39772EA1673900818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AD22EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E394F2EA1671C00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AD92EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39352EA1670F00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AE02EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E39192EA1670400818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AE72EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E38F22EA166A500818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AEE2EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E38D32EA1666D00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3AF52EA16B3400818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD6E38B22EA1665B00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B062EA16B3B00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E3A1C2EA1680000818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B092EA16B5300818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E3A082EA167F700818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B0C2EA16B7000818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD3623CD2E7B5B2200E442E6 /* BigoAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39F02EA167E600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B0F2EA16B8E00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6DFF2AF56C36002C0B60 /* ChartboostAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39D32EA167D100818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B122EA16B9E00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39BA2EA167C600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B152EA16BAF00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D72D52AF81700002C0B60 /* IMobileAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E399F2EA1676800818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B182EA16BD300818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 70D174DE2E9ECFF900DD91A0;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B1B2EA16C1500818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39782EA1674800818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B1E2EA16C2F00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6ECF2AF5BCDD002C0B60 /* LiftoffMonetizeAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39542EA1673900818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B212EA16C4300818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E39362EA1671C00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B242EA16C7800818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6F302AF6E221002C0B60 /* MaioAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E391A2EA1670F00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B272EA16C9000818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0123172ABCB0AD002BFE6D /* MintegralAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38F32EA1670400818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B2A2EA16CA200818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38D82EA166A500818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B2F2EA16CC900818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38B32EA1666D00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B322EA16CED00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38962EA1665B00818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B352EA16D1D00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38792EA1662400818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B382EA16D3300818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD6E38542EA165F600818296;
+			remoteInfo = AdapterWithoutValidationScript;
+		};
+		AD6E3B3C2EA16D6600818296 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
-			remoteInfo = Adapter;
+			remoteGlobalIDString = AD6E38412EA165DC00818296;
+			remoteInfo = AdapterWithoutValidationScript;
 		};
 		AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1040,13 +1186,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = AD76A9DB2D9311C500F40CD4;
 			remoteInfo = StaticPubmaticAdapter;
-		};
-		AD76A9F22D9312A100F40CD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
-			remoteInfo = Adapter;
 		};
 		AD8FE28A2D39E8C900B4728A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1083,27 +1222,6 @@
 			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
 			remoteInfo = Adapter;
 		};
-		ADA2FAD52D9F770B005D9ECA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ADFA849D2C176E2200A501AB;
-			remoteInfo = Adapter;
-		};
-		ADA2FAD72D9F770B005D9ECA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
-			remoteInfo = PubMaticAdapterFramework;
-		};
-		ADA2FAD92D9F770B005D9ECA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AD76A9DB2D9311C500F40CD4;
-			remoteInfo = StaticPubmaticAdapter;
-		};
 		ADA2FADF2D9F7715005D9ECA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -1125,25 +1243,11 @@
 			remoteGlobalIDString = ADFA84D42C17738E00A501AB;
 			remoteInfo = BidMachineAdapterFramework;
 		};
-		ADA2FAF92D9F7776005D9ECA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA849C2C176E2200A501AB;
-			remoteInfo = Adapter;
-		};
 		ADADDD4E2A3252CE00FB60E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = ADADDD4A2A3252CE00FB60E1;
-			remoteInfo = Adapter;
-		};
-		ADADDD502A3252E200FB60E1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADADDD472A3252CE00FB60E1 /* LineAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
 			remoteInfo = Adapter;
 		};
 		ADE56EC72E1334E8003FF591 /* PBXContainerItemProxy */ = {
@@ -1202,13 +1306,6 @@
 			remoteGlobalIDString = AD1705DC2E0F5D2900A64F30;
 			remoteInfo = UnitTestHostApp;
 		};
-		ADE575282E14AB20003FF591 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADE575042E14AABA003FF591 /* InMobiAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7DFABB1C1DA8682C00322E02;
-			remoteInfo = Adapter;
-		};
 		ADE57EB72E15ECF1003FF591 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0D6E762AF59116002C0B60 /* IronSourceAdapter.xcodeproj */;
@@ -1235,13 +1332,6 @@
 			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4512777B207D92C100D85E57;
-			remoteInfo = Adapter;
-		};
-		ADF28D652A4F7C7F0073F909 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ADF28D502A4F7C3C0073F909 /* DTExchangeAdapter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4512777A207D92C100D85E57;
 			remoteInfo = Adapter;
 		};
 		ADF28D672A4F7C820073F909 /* PBXContainerItemProxy */ = {
@@ -1442,7 +1532,6 @@
 		AD0D70002AF71950002C0B60 /* AUTMyTargetAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetAdapterTests.m; sourceTree = "<group>"; };
 		AD0D70022AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetRewardedAdTests.m; sourceTree = "<group>"; };
 		AD0D709D2AF8005B002C0B60 /* MyTargetAdapterTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MyTargetAdapterTests.xctestplan; sourceTree = "<group>"; };
-		AD0D70E82AF8043D002C0B60 /* NendAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NendAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0D71A72AF80CB6002C0B60 /* AUTPangleBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleBannerAdTests.m; sourceTree = "<group>"; };
 		AD0D71C32AF80D01002C0B60 /* AUTPangleAppOpenAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAppOpenAdTests.m; sourceTree = "<group>"; };
 		AD0D71C52AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleInterstitialAdTests.m; sourceTree = "<group>"; };
@@ -1566,7 +1655,6 @@
 		ADA1AF632B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostInterstitialAdTests.m; sourceTree = "<group>"; };
 		ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostBannerAdTests.m; sourceTree = "<group>"; };
 		ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetInterstitialAdTests.m; sourceTree = "<group>"; };
-		ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PubMaticAdapter.xcodeproj; path = ../adapters/PubMaticAdapter/PubMaticAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ADA2FAEA2D9F7715005D9ECA /* BidMachineAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BidMachineAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA2FAEC2D9F776B005D9ECA /* BidMachineAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BidMachineAdapter.xcodeproj; path = ../adapters/BidMachineAdapter/BidMachineAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		ADA2FBFC2D9F8C23005D9ECA /* BidMachineAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineAdapterTests.swift; sourceTree = "<group>"; };
@@ -1665,8 +1753,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6E3B082EA16B4500818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */,
-				44B303462AB232D700652006 /* libAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1674,7 +1762,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				701E23872AAD8CB100BAB0B3 /* libAdapter.a in Frameworks */,
+				AD6E3B342EA16CFD00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1683,10 +1771,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6E3B2C2EA16CAF00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				70E0D7752C47A8C900241981 /* GoogleMobileAds.xcframework in Frameworks */,
 				70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */,
 				7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */,
-				7072CF6D2C41FBB7002BF6AE /* libMolocoAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1694,7 +1782,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70D175092E9ED04700DD91A0 /* libAdapterForTests.a in Frameworks */,
+				70D175092E9ED04700DD91A0 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1703,8 +1791,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6E3B292EA16C9700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0123392ABCB115002BFE6D /* AdapterUnitTestKit.framework in Frameworks */,
-				AD0123362ABCB10B002BFE6D /* libAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1712,7 +1800,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0D6E252AF56C69002C0B60 /* libAdapter.a in Frameworks */,
+				AD6E3B112EA16B9600818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0D6E242AF56C66002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1721,7 +1809,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0D6E9E2AF591C3002C0B60 /* libAdapter.a in Frameworks */,
+				AD6E3B1D2EA16C2300818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
@@ -1733,7 +1821,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0D6EF92AF5BD7E002C0B60 /* libAdapter.a in Frameworks */,
+				AD6E3B202EA16C3700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0D6EF82AF5BD7B002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1742,7 +1830,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0D6F5C2AF6E25E002C0B60 /* libAdapter.a in Frameworks */,
+				AD6E3B262EA16C8100818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0D6F5B2AF6E256002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1751,16 +1839,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD0D70362AF71DC6002C0B60 /* libAdapter.a in Frameworks */,
+				AD6E3B312EA16CD800818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD0D6FFE2AF71903002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AD0D70E52AF8043D002C0B60 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AD0D70F32AF8045C002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1768,8 +1848,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6E3B172EA16BB700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD5B32302B9ACB560055FA17 /* ImobileSdkAds.xcframework in Frameworks */,
-				AD0D730B2AF81748002C0B60 /* libAdapter.a in Frameworks */,
 				AD0D730A2AF81740002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1866,7 +1946,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD3624932E7B664800E442E6 /* libBigoAdapter.a in Frameworks */,
+				AD6E3B0E2EA16B7700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1874,7 +1954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD45EDCD2A784AAC001B29D8 /* libAdapter.a in Frameworks */,
+				AD6E3B3A2EA16D3C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1892,7 +1972,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD677BB32DBAE0280012621D /* libVerveAdapter.a in Frameworks */,
+				AD6E3B3B2EA16D5C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1909,7 +1989,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD76A9F42D9312C300F40CD4 /* libPubMaticAdapter.a in Frameworks */,
+				AD6E3B372EA16D2B00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1927,7 +2007,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADA2FAFB2D9F777D005D9ECA /* libGoogleBidMachineAdapter.a in Frameworks */,
+				AD6E3B0B2EA16B6600818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1936,8 +2016,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6E3B232EA16C4F00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */,
-				ADADDD522A3252EF00FB60E1 /* libAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1955,7 +2035,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADE575272E14AB0B003FF591 /* libAdapter.a in Frameworks */,
+				AD6E3B1A2EA16BDA00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1973,7 +2053,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADF28D692A4F7C870073F909 /* libAdapter.a in Frameworks */,
+				AD6E3B142EA16BA500818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
 				ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2023,6 +2103,7 @@
 				44ACFB072AB11D4B00035A73 /* libAdapter.a */,
 				AD00C4D62B88225F007C85F3 /* AppLovinAdapter.framework */,
 				703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */,
+				AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2059,6 +2140,7 @@
 				701E237F2AAD8C8300BAB0B3 /* libAdapter.a */,
 				AD00C50D2B88225F007C85F3 /* PangleAdapter.framework */,
 				703877882CF65449000C09EE /* libStaticPangleAdapter.a */,
+				AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2088,6 +2170,7 @@
 				7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */,
 				7072CF5C2C41F8BD002BF6AE /* MolocoAdapter.framework */,
 				7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */,
+				AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2119,6 +2202,7 @@
 				AD0123242ABCB0AE002BFE6D /* libAdapter.a */,
 				AD00C4FE2B88225F007C85F3 /* MintegralAdapter.framework */,
 				703877762CF65449000C09EE /* libStaticMintegralAdapter.a */,
+				AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2148,6 +2232,7 @@
 				AD0D6E0A2AF56C37002C0B60 /* libAdapter.a */,
 				AD00C4DB2B88225F007C85F3 /* ChartboostAdapter.framework */,
 				7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */,
+				AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2170,6 +2255,7 @@
 				AD0D6E852AF59116002C0B60 /* libAdapter.a */,
 				AD00C4EA2B88225F007C85F3 /* IronSourceAdapter.framework */,
 				7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */,
+				AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2197,6 +2283,7 @@
 				AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */,
 				AD00C4EF2B88225F007C85F3 /* LiftoffMonetizeAdapter.framework */,
 				703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */,
+				AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2225,6 +2312,7 @@
 				AD0D6F452AF6E222002C0B60 /* libAdapter.a */,
 				AD00C4F92B88225F007C85F3 /* MaioAdapter.framework */,
 				703877702CF65449000C09EE /* libStaticMaioAdapter.a */,
+				AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2246,6 +2334,7 @@
 				AD0D6FEA2AF71844002C0B60 /* libAdapter.a */,
 				AD00C5032B88225F007C85F3 /* MyTargetAdapter.framework */,
 				703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */,
+				AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2269,6 +2358,7 @@
 				AD0D72E42AF81700002C0B60 /* libAdapter.a */,
 				AD00C4E52B88225F007C85F3 /* IMobileAdapter.framework */,
 				703877582CF65449000C09EE /* libStaticIMobileAdapter.a */,
+				AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2372,6 +2462,7 @@
 				AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */,
 				AD3623D92E7B5B2300E442E6 /* BigoAdapter.framework */,
 				AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */,
+				AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2412,6 +2503,7 @@
 				AD45ED452A78116C001B29D8 /* libAdapter.a */,
 				AD00C5172B88225F007C85F3 /* UnityAdapter.framework */,
 				7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */,
+				AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2431,6 +2523,7 @@
 				AD677B992DBADFC10012621D /* libVerveAdapter.a */,
 				AD677B9B2DBADFC10012621D /* VerveAdapter.framework */,
 				AD5A4ED12E0F20CE0078AFC1 /* libStaticVerveAdapter.a */,
+				AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2468,7 +2561,6 @@
 				7072CF522C41F8BD002BF6AE /* MolocoAdapter.xcodeproj */,
 				AD0D6FD12AF71843002C0B60 /* MyTargetAdapter.xcodeproj */,
 				701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */,
-				ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */,
 				AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */,
 				AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */,
 				AD677B8F2DBADFC10012621D /* VerveAdapter.xcodeproj */,
@@ -2531,7 +2623,6 @@
 				AD0D6EED2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests.xctest */,
 				AD0D6F502AF6E23E002C0B60 /* MaioAdapterTests.xctest */,
 				AD0D6FF32AF7189D002C0B60 /* MyTargetAdapterTests.xctest */,
-				AD0D70E82AF8043D002C0B60 /* NendAdapterTests.xctest */,
 				AD0D72FF2AF81711002C0B60 /* IMobileAdapterTests.xctest */,
 				7072CF612C41F9A1002BF6AE /* MolocoAdapterTests.xctest */,
 				AD8FE9172D3B314B00B4728A /* AmazonAdapterTests.xctest */,
@@ -2610,6 +2701,7 @@
 				AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */,
 				AD76A9CB2D93117B00F40CD4 /* PubMaticAdapter.framework */,
 				AD76A9F12D93126D00F40CD4 /* libStaticPubMaticAdapter.a */,
+				AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2653,16 +2745,6 @@
 			path = AmazonAdapterTests;
 			sourceTree = "<group>";
 		};
-		ADA2FACE2D9F770A005D9ECA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ADA2FAD62D9F770B005D9ECA /* libPubMaticAdapter.a */,
-				ADA2FAD82D9F770B005D9ECA /* PubMaticAdapter.framework */,
-				ADA2FADA2D9F770B005D9ECA /* libStaticPubMaticAdapter.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ADA2FAEB2D9F7725005D9ECA /* BidMachineAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2685,6 +2767,7 @@
 				ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */,
 				ADA2FAF82D9F776C005D9ECA /* GoogleBidMachineAdapter.framework */,
 				ADFB31F92DC401D5005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
+				AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2709,6 +2792,7 @@
 				ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */,
 				AD00C4F42B88225F007C85F3 /* LineAdapter.framework */,
 				7038776A2CF65449000C09EE /* libStaticLineAdapter.a */,
+				AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2728,7 +2812,7 @@
 				ADE5750F2E14AABA003FF591 /* libAdapter.a */,
 				ADE575112E14AABA003FF591 /* InMobiAdapter.framework */,
 				ADE575132E14AABA003FF591 /* libStaticInMobiAdapter.a */,
-				70D175062E9ED01600DD91A0 /* libAdapterForTests.a */,
+				70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2757,6 +2841,7 @@
 				ADF28D572A4F7C3D0073F909 /* libAdapter.a */,
 				AD00C4E02B88225F007C85F3 /* DTExchangeAdapter.framework */,
 				703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */,
+				AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2845,7 +2930,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				44ACFB1A2AB12A3E00035A73 /* PBXTargetDependency */,
+				AD6E3B072EA16B3B00818296 /* PBXTargetDependency */,
 				44ACFB1C2AB12A6500035A73 /* PBXTargetDependency */,
 			);
 			name = AppLovinAdapterTests;
@@ -2864,8 +2949,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E3B332EA16CED00818296 /* PBXTargetDependency */,
 				701E23852AAD8C9200BAB0B3 /* PBXTargetDependency */,
-				701E23832AAD8C8E00BAB0B3 /* PBXTargetDependency */,
 			);
 			name = PangleAdapterTests;
 			productName = PangleAdapterTests;
@@ -2883,8 +2968,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E3B2B2EA16CA200818296 /* PBXTargetDependency */,
 				7072CF692C41FB3A002BF6AE /* PBXTargetDependency */,
-				7072CF6B2C41FB3A002BF6AE /* PBXTargetDependency */,
 			);
 			name = MolocoAdapterTests;
 			productName = MolocoAdapterTests;
@@ -2925,8 +3010,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E3B282EA16C9000818296 /* PBXTargetDependency */,
 				AD0123382ABCB112002BFE6D /* PBXTargetDependency */,
-				AD0123352ABCB103002BFE6D /* PBXTargetDependency */,
 			);
 			name = MintegralAdapterTests;
 			productName = MintegralAdapterTests;
@@ -2944,7 +3029,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D6E232AF56C61002C0B60 /* PBXTargetDependency */,
+				AD6E3B102EA16B8E00818296 /* PBXTargetDependency */,
 				AD0D6E212AF56C5A002C0B60 /* PBXTargetDependency */,
 			);
 			name = ChartboostAdapterTests;
@@ -2963,7 +3048,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D6E9C2AF591A4002C0B60 /* PBXTargetDependency */,
+				AD6E3B1C2EA16C1500818296 /* PBXTargetDependency */,
 				AD0D6E9A2AF5919D002C0B60 /* PBXTargetDependency */,
 				ADF4814D2E1EF2E40019A33E /* PBXTargetDependency */,
 			);
@@ -2983,7 +3068,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D6EF72AF5BD6A002C0B60 /* PBXTargetDependency */,
+				AD6E3B1F2EA16C2F00818296 /* PBXTargetDependency */,
 				AD0D6EF52AF5BD62002C0B60 /* PBXTargetDependency */,
 			);
 			name = LiftoffMonetizeAdapterTests;
@@ -3002,7 +3087,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D6F5A2AF6E250002C0B60 /* PBXTargetDependency */,
+				AD6E3B252EA16C7800818296 /* PBXTargetDependency */,
 				AD0D6F582AF6E24A002C0B60 /* PBXTargetDependency */,
 			);
 			name = MaioAdapterTests;
@@ -3021,30 +3106,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D6FFD2AF718F8002C0B60 /* PBXTargetDependency */,
+				AD6E3B302EA16CC900818296 /* PBXTargetDependency */,
 				AD0D6FFB2AF718F3002C0B60 /* PBXTargetDependency */,
 			);
 			name = MyTargetAdapterTests;
 			productName = MyTargetAdapterTests;
 			productReference = AD0D6FF32AF7189D002C0B60 /* MyTargetAdapterTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		AD0D70E72AF8043D002C0B60 /* NendAdapterTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AD0D70EC2AF8043D002C0B60 /* Build configuration list for PBXNativeTarget "NendAdapterTests" */;
-			buildPhases = (
-				AD0D70E42AF8043D002C0B60 /* Sources */,
-				AD0D70E52AF8043D002C0B60 /* Frameworks */,
-				AD0D70E62AF8043D002C0B60 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AD0D70F02AF80443002C0B60 /* PBXTargetDependency */,
-			);
-			name = NendAdapterTests;
-			productName = NendAdapterTests;
-			productReference = AD0D70E82AF8043D002C0B60 /* NendAdapterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AD0D72FE2AF81711002C0B60 /* IMobileAdapterTests */ = {
@@ -3058,7 +3125,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD0D73092AF8173C002C0B60 /* PBXTargetDependency */,
+				AD6E3B162EA16BAF00818296 /* PBXTargetDependency */,
 				AD0D73072AF81731002C0B60 /* PBXTargetDependency */,
 			);
 			name = IMobileAdapterTests;
@@ -3276,7 +3343,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD3623DB2E7B5B2E00E442E6 /* PBXTargetDependency */,
+				AD6E3B0D2EA16B7000818296 /* PBXTargetDependency */,
 				AD3623B92E7B5AD700E442E6 /* PBXTargetDependency */,
 			);
 			name = BigoAdapterTests;
@@ -3295,7 +3362,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD45EDCB2A784AA1001B29D8 /* PBXTargetDependency */,
+				AD6E3B392EA16D3300818296 /* PBXTargetDependency */,
 				AD45EDC92A784A9D001B29D8 /* PBXTargetDependency */,
 				AD30D2692E1F2B0600FCEF73 /* PBXTargetDependency */,
 			);
@@ -3335,7 +3402,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD677BB22DBAE0190012621D /* PBXTargetDependency */,
+				AD6E3B3D2EA16D6600818296 /* PBXTargetDependency */,
 				AD677B9F2DBADFCD0012621D /* PBXTargetDependency */,
 			);
 			name = VerveAdapterTests;
@@ -3372,7 +3439,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD76A9F32D9312A100F40CD4 /* PBXTargetDependency */,
+				AD6E3B362EA16D1D00818296 /* PBXTargetDependency */,
 				AD76A9DF2D93126D00F40CD4 /* PBXTargetDependency */,
 			);
 			name = PubMaticAdapterTests;
@@ -3410,7 +3477,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA2FAFA2D9F7776005D9ECA /* PBXTargetDependency */,
+				AD6E3B0A2EA16B5300818296 /* PBXTargetDependency */,
 				ADA2FADE2D9F7715005D9ECA /* PBXTargetDependency */,
 			);
 			name = BidMachineAdapterTests;
@@ -3429,8 +3496,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E3B222EA16C4300818296 /* PBXTargetDependency */,
 				ADFAAF102A33F20100D92129 /* PBXTargetDependency */,
-				ADADDD512A3252E200FB60E1 /* PBXTargetDependency */,
 			);
 			name = LineAdapterTests;
 			productName = LineAdapterTests;
@@ -3468,7 +3535,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADE575292E14AB20003FF591 /* PBXTargetDependency */,
+				AD6E3B192EA16BD300818296 /* PBXTargetDependency */,
 				ADE575172E14AAE5003FF591 /* PBXTargetDependency */,
 				ADE575192E14AAE5003FF591 /* PBXTargetDependency */,
 			);
@@ -3508,8 +3575,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E3B132EA16B9E00818296 /* PBXTargetDependency */,
 				ADF28D682A4F7C820073F909 /* PBXTargetDependency */,
-				ADF28D662A4F7C7F0073F909 /* PBXTargetDependency */,
 			);
 			name = DTExchangeAdapterTests;
 			productName = DTExchangeAdapterTests;
@@ -3637,9 +3704,6 @@
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					AD0D6FF22AF7189D002C0B60 = {
-						CreatedOnToolsVersion = 14.3.1;
-					};
-					AD0D70E72AF8043D002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					AD0D72FE2AF81711002C0B60 = {
@@ -3790,10 +3854,6 @@
 					ProjectRef = AD76A9792D93116400F40CD4 /* PubMaticAdapter.xcodeproj */;
 				},
 				{
-					ProductGroup = ADA2FACE2D9F770A005D9ECA /* Products */;
-					ProjectRef = ADA2F8BE2D9DF688005D9ECA /* PubMaticAdapter.xcodeproj */;
-				},
-				{
 					ProductGroup = AD45ED3F2A78116C001B29D8 /* Products */;
 					ProjectRef = AD45ED3E2A78116C001B29D8 /* UnityAdapter.xcodeproj */;
 				},
@@ -3817,6 +3877,7 @@
 				AD170BC72E13277700A64F30 /* DTExchangeAdapterLatencyTests */,
 				AD0D72FE2AF81711002C0B60 /* IMobileAdapterTests */,
 				ADE56EC52E1334E8003FF591 /* IMobileAdapterLatencyTests */,
+				70E24C4F2E9EA2CA00D07FCD /* InMobiAdapterTests */,
 				ADE575142E14AAE5003FF591 /* InMobiAdapterLatencyTests */,
 				AD0D6E912AF5917E002C0B60 /* IronSourceAdapterTests */,
 				ADE57EB52E15ECF1003FF591 /* IronSourceAdapterLatencyTests */,
@@ -3840,9 +3901,7 @@
 				AD30D1642E1F231600FCEF73 /* UnityAdapterLatencyTests */,
 				AD677B9C2DBADFCD0012621D /* VerveAdapterTests */,
 				AD30DECD2E20763300FCEF73 /* VerveAdapterLatencyTests */,
-				AD0D70E72AF8043D002C0B60 /* NendAdapterTests */,
 				AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */,
-				70E24C4F2E9EA2CA00D07FCD /* InMobiAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3967,10 +4026,10 @@
 			remoteRef = 7072CF5B2C41F8BD002BF6AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		70D175062E9ED01600DD91A0 /* libAdapterForTests.a */ = {
+		70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterForTests.a;
+			path = libAdapterWithoutValidationScript.a;
 			remoteRef = 70D175052E9ED01600DD91A0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4156,6 +4215,125 @@
 			remoteRef = AD677B9A2DBADFC10012621D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E388E2EA1664B00818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E38912EA1664B00818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E38942EA1664B00818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3A962EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3A9D2EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AA42EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AAB2EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AB22EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AB92EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AC42EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3ACB2EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AD22EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AD92EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AE02EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AE72EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AEE2EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAdapterWithoutValidationScript.a;
+			remoteRef = AD6E3AF52EA16B3400818296 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -4196,27 +4374,6 @@
 			fileType = archive.ar;
 			path = libStaticAmazonAdapter.a;
 			remoteRef = AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ADA2FAD62D9F770B005D9ECA /* libPubMaticAdapter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libPubMaticAdapter.a;
-			remoteRef = ADA2FAD52D9F770B005D9ECA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ADA2FAD82D9F770B005D9ECA /* PubMaticAdapter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PubMaticAdapter.framework;
-			remoteRef = ADA2FAD72D9F770B005D9ECA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ADA2FADA2D9F770B005D9ECA /* libStaticPubMaticAdapter.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libStaticPubMaticAdapter.a;
-			remoteRef = ADA2FAD92D9F770B005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */ = {
@@ -4352,13 +4509,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0D70B62AF8005B002C0B60 /* MyTargetAdapterTests.xctestplan in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AD0D70E62AF8043D002C0B60 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4713,13 +4863,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD0D70E42AF8043D002C0B60 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AD0D72FB2AF81711002C0B60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5001,20 +5144,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		44ACFB1A2AB12A3E00035A73 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = 44ACFB192AB12A3E00035A73 /* PBXContainerItemProxy */;
-		};
 		44ACFB1C2AB12A6500035A73 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = 44ACFB1B2AB12A6500035A73 /* PBXContainerItemProxy */;
-		};
-		701E23832AAD8C8E00BAB0B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = 701E23822AAD8C8E00BAB0B3 /* PBXContainerItemProxy */;
 		};
 		701E23852AAD8C9200BAB0B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5025,11 +5158,6 @@
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = 7072CF682C41FB3A002BF6AE /* PBXContainerItemProxy */;
-		};
-		7072CF6B2C41FB3A002BF6AE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = 7072CF6A2C41FB3A002BF6AE /* PBXContainerItemProxy */;
 		};
 		70BE1B172E9EA9BD00EE7584 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5046,11 +5174,6 @@
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = 70D179BA2E9F04D100DD91A0 /* PBXContainerItemProxy */;
 		};
-		AD0123352ABCB103002BFE6D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0123342ABCB103002BFE6D /* PBXContainerItemProxy */;
-		};
 		AD0123382ABCB112002BFE6D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
@@ -5061,65 +5184,30 @@
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D6E202AF56C5A002C0B60 /* PBXContainerItemProxy */;
 		};
-		AD0D6E232AF56C61002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D6E222AF56C61002C0B60 /* PBXContainerItemProxy */;
-		};
 		AD0D6E9A2AF5919D002C0B60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D6E992AF5919D002C0B60 /* PBXContainerItemProxy */;
-		};
-		AD0D6E9C2AF591A4002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D6E9B2AF591A4002C0B60 /* PBXContainerItemProxy */;
 		};
 		AD0D6EF52AF5BD62002C0B60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D6EF42AF5BD62002C0B60 /* PBXContainerItemProxy */;
 		};
-		AD0D6EF72AF5BD6A002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D6EF62AF5BD6A002C0B60 /* PBXContainerItemProxy */;
-		};
 		AD0D6F582AF6E24A002C0B60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D6F572AF6E24A002C0B60 /* PBXContainerItemProxy */;
-		};
-		AD0D6F5A2AF6E250002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D6F592AF6E250002C0B60 /* PBXContainerItemProxy */;
 		};
 		AD0D6FFB2AF718F3002C0B60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D6FFA2AF718F3002C0B60 /* PBXContainerItemProxy */;
 		};
-		AD0D6FFD2AF718F8002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D6FFC2AF718F8002C0B60 /* PBXContainerItemProxy */;
-		};
-		AD0D70F02AF80443002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
-			targetProxy = AD0D70EF2AF80443002C0B60 /* PBXContainerItemProxy */;
-		};
 		AD0D73072AF81731002C0B60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD0D73062AF81731002C0B60 /* PBXContainerItemProxy */;
-		};
-		AD0D73092AF8173C002C0B60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD0D73082AF8173C002C0B60 /* PBXContainerItemProxy */;
 		};
 		AD1707BA2E12F82300A64F30 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5271,20 +5359,10 @@
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD3623BA2E7B5AD700E442E6 /* PBXContainerItemProxy */;
 		};
-		AD3623DB2E7B5B2E00E442E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD3623DA2E7B5B2E00E442E6 /* PBXContainerItemProxy */;
-		};
 		AD45EDC92A784A9D001B29D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD45EDC82A784A9D001B29D8 /* PBXContainerItemProxy */;
-		};
-		AD45EDCB2A784AA1001B29D8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD45EDCA2A784AA1001B29D8 /* PBXContainerItemProxy */;
 		};
 		AD5A4EDB2E0F331D0078AFC1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5301,20 +5379,100 @@
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD677BA02DBADFCD0012621D /* PBXContainerItemProxy */;
 		};
-		AD677BB22DBAE0190012621D /* PBXTargetDependency */ = {
+		AD6E3B072EA16B3B00818296 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD677BB12DBAE0190012621D /* PBXContainerItemProxy */;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B062EA16B3B00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B0A2EA16B5300818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B092EA16B5300818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B0D2EA16B7000818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B0C2EA16B7000818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B102EA16B8E00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B0F2EA16B8E00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B132EA16B9E00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B122EA16B9E00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B162EA16BAF00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B152EA16BAF00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B192EA16BD300818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B182EA16BD300818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B1C2EA16C1500818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B1B2EA16C1500818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B1F2EA16C2F00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B1E2EA16C2F00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B222EA16C4300818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B212EA16C4300818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B252EA16C7800818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B242EA16C7800818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B282EA16C9000818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B272EA16C9000818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B2B2EA16CA200818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B2A2EA16CA200818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B302EA16CC900818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B2F2EA16CC900818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B332EA16CED00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B322EA16CED00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B362EA16D1D00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B352EA16D1D00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B392EA16D3300818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B382EA16D3300818296 /* PBXContainerItemProxy */;
+		};
+		AD6E3B3D2EA16D6600818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdapterWithoutValidationScript;
+			targetProxy = AD6E3B3C2EA16D6600818296 /* PBXContainerItemProxy */;
 		};
 		AD76A9DF2D93126D00F40CD4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = AD76A9E02D93126D00F40CD4 /* PBXContainerItemProxy */;
-		};
-		AD76A9F32D9312A100F40CD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = AD76A9F22D9312A100F40CD4 /* PBXContainerItemProxy */;
 		};
 		AD8FE91F2D3B316300B4728A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5330,16 +5488,6 @@
 			isa = PBXTargetDependency;
 			target = AD6FA0342A16BF4A007335D2 /* AdapterUnitTestKit */;
 			targetProxy = ADA2FADF2D9F7715005D9ECA /* PBXContainerItemProxy */;
-		};
-		ADA2FAFA2D9F7776005D9ECA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = ADA2FAF92D9F7776005D9ECA /* PBXContainerItemProxy */;
-		};
-		ADADDD512A3252E200FB60E1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = ADADDD502A3252E200FB60E1 /* PBXContainerItemProxy */;
 		};
 		ADE56EC62E1334E8003FF591 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5366,11 +5514,6 @@
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = ADE5751A2E14AAE5003FF591 /* PBXContainerItemProxy */;
 		};
-		ADE575292E14AB20003FF591 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = ADE575282E14AB20003FF591 /* PBXContainerItemProxy */;
-		};
 		ADE57EB62E15ECF1003FF591 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Adapter;
@@ -5385,11 +5528,6 @@
 			isa = PBXTargetDependency;
 			target = AD1705DC2E0F5D2900A64F30 /* UnitTestHostApp */;
 			targetProxy = ADE57FC22E15EF2B003FF591 /* PBXContainerItemProxy */;
-		};
-		ADF28D662A4F7C7F0073F909 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Adapter;
-			targetProxy = ADF28D652A4F7C7F0073F909 /* PBXContainerItemProxy */;
 		};
 		ADF28D682A4F7C820073F909 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6940,148 +7078,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = google.MyTargetAdapterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		AD0D70ED2AF8043D002C0B60 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../adapters/NendAdapter/NendAdapter\"",
-					"\"$(SRCROOT)/../adapters/NendAdapter/NendAdapter/nativeads\"",
-					"\"$(SRCROOT)/../adapters/NendAdapter/Public/Headers\"",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = google.NendAdapterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		AD0D70EE2AF8043D002C0B60 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../adapters/NendAdapter/NendAdapter\"",
-					"\"$(SRCROOT)/../adapters/NendAdapter/NendAdapter/nativeads\"",
-					"\"$(SRCROOT)/../adapters/NendAdapter/Public/Headers\"",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = google.NendAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -11387,15 +11383,6 @@
 			buildConfigurations = (
 				AD0D6FF82AF7189D002C0B60 /* Debug */,
 				AD0D6FF92AF7189D002C0B60 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AD0D70EC2AF8043D002C0B60 /* Build configuration list for PBXNativeTarget "NendAdapterTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AD0D70ED2AF8043D002C0B60 /* Debug */,
-				AD0D70EE2AF8043D002C0B60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -42,6 +42,16 @@
 		AD3623E62E7B5B4A00E442E6 /* BigoAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* BigoAdapterExtras.swift */; };
 		AD3623E72E7B5B4A00E442E6 /* BigoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BigoClient.swift */; };
 		AD3623E82E7B5B4A00E442E6 /* AppOpenAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A82C17704300A501AB /* AppOpenAdLoader.swift */; };
+		AD6E39F42EA167E600818296 /* BigoAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* BigoAdapterError.swift */; };
+		AD6E39F52EA167E600818296 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
+		AD6E39F62EA167E600818296 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
+		AD6E39F72EA167E600818296 /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
+		AD6E39F82EA167E600818296 /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		AD6E39F92EA167E600818296 /* BigoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* BigoAdapter.swift */; };
+		AD6E39FA2EA167E600818296 /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
+		AD6E39FB2EA167E600818296 /* BigoAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* BigoAdapterExtras.swift */; };
+		AD6E39FC2EA167E600818296 /* BigoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BigoClient.swift */; };
+		AD6E39FD2EA167E600818296 /* AppOpenAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A82C17704300A501AB /* AppOpenAdLoader.swift */; };
 		ADA2F7CE2D9DBB7D005D9ECA /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */; };
 		ADA2F7D32D9DBF0C005D9ECA /* BigoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2F7D22D9DBF0A005D9ECA /* BigoClient.swift */; };
 		ADFA84BD2C17704300A501AB /* BigoAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* BigoAdapter.swift */; };
@@ -54,8 +64,34 @@
 		ADFA84C42C17704300A501AB /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AD6E39EC2EA167DD00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
+			remoteInfo = ValidateSourceCode;
+		};
+		AD6E39EE2EA167E200818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		AD3623EA2E7B5B4A00E442E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39FF2EA167E600818296 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -77,6 +113,7 @@
 
 /* Begin PBXFileReference section */
 		AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E3A032EA167E600818296 /* libBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADA2F7D22D9DBF0A005D9ECA /* BigoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoClient.swift; sourceTree = "<group>"; };
 		ADFA849D2C176E2200A501AB /* libBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +138,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		AD3623E92E7B5B4A00E442E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39FE2EA167E600818296 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -142,6 +186,7 @@
 				ADFA849D2C176E2200A501AB /* libBigoAdapter.a */,
 				ADFA84D42C17738E00A501AB /* BigoAdapter.framework */,
 				AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */,
+				AD6E3A032EA167E600818296 /* libBigoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,10 +242,28 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E39EF2EA167E200818296 /* PBXTargetDependency */,
 			);
 			name = StaticBigoAdapter;
 			productName = Adapter;
 			productReference = AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AD6E39F02EA167E600818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E3A002EA167E600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E39F32EA167E600818296 /* Sources */,
+				AD6E39FE2EA167E600818296 /* Frameworks */,
+				AD6E39FF2EA167E600818296 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E3A032EA167E600818296 /* libBigoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -214,6 +277,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E39ED2EA167DD00818296 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -276,6 +340,7 @@
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* BigoAdapter */,
 				AD3623DD2E7B5B4A00E442E6 /* StaticBigoAdapter */,
+				AD6E39F02EA167E600818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -345,6 +410,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E39F32EA167E600818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E39F42EA167E600818296 /* BigoAdapterError.swift in Sources */,
+				AD6E39F52EA167E600818296 /* Util.swift in Sources */,
+				AD6E39F62EA167E600818296 /* NativeAdLoader.swift in Sources */,
+				AD6E39F72EA167E600818296 /* BannerAdLoader.swift in Sources */,
+				AD6E39F82EA167E600818296 /* RewardedAdLoader.swift in Sources */,
+				AD6E39F92EA167E600818296 /* BigoAdapter.swift in Sources */,
+				AD6E39FA2EA167E600818296 /* InterstitialAdLoader.swift in Sources */,
+				AD6E39FB2EA167E600818296 /* BigoAdapterExtras.swift in Sources */,
+				AD6E39FC2EA167E600818296 /* BigoClient.swift in Sources */,
+				AD6E39FD2EA167E600818296 /* AppOpenAdLoader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADFA84992C176E2200A501AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,6 +452,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AD6E39ED2EA167DD00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
+			targetProxy = AD6E39EC2EA167DD00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E39EF2EA167E200818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
+			targetProxy = AD6E39EE2EA167E200818296 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AD2367322C176DB300997FF7 /* Debug */ = {
@@ -534,6 +629,163 @@
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD6E3A012EA167E600818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Bigo;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = BigoAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD6E3A022EA167E600818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Bigo;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = BigoAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -973,6 +1225,15 @@
 			buildConfigurations = (
 				AD3623EC2E7B5B4A00E442E6 /* Debug */,
 				AD3623ED2E7B5B4A00E442E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E3A002EA167E600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E3A012EA167E600818296 /* Debug */,
+				AD6E3A022EA167E600818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

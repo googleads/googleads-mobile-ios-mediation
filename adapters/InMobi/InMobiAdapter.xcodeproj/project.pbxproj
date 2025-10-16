@@ -113,13 +113,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		70D174DC2E9ECFF500DD91A0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD265C22F10A6C0039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
 		ADA6B9642CF1463F009C8FDA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
@@ -179,7 +172,7 @@
 		4588B2F0224AC20600868387 /* GADMAdapterInMobiConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterInMobiConstants.h; sourceTree = "<group>"; };
 		56C0258A1F31208500B57D6B /* InMobiAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InMobiAdapter.h; sourceTree = "<group>"; };
 		56C0258C1F3120A300B57D6B /* GADInMobiExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInMobiExtras.h; sourceTree = "<group>"; };
-		70D175032E9ECFF900DD91A0 /* libAdapterForTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapterForTests.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		70D175032E9ECFF900DD91A0 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D264FF01DDD1B4E00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FF21DDD1B9400027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D46CFDF1DB6B7CC0050F612 /* Adapter.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Adapter.xcconfig; sourceTree = "<group>"; };
@@ -322,7 +315,7 @@
 				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
 				AD00C4352B87C469007C85F3 /* InMobiAdapter.framework */,
 				ADA6B9852CF1463F009C8FDA /* libStaticInMobiAdapter.a */,
-				70D175032E9ECFF900DD91A0 /* libAdapterForTests.a */,
+				70D175032E9ECFF900DD91A0 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -403,9 +396,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		70D174DE2E9ECFF900DD91A0 /* AdapterForTests */ = {
+		70D174DE2E9ECFF900DD91A0 /* AdapterWithoutValidationScript */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70D175002E9ECFF900DD91A0 /* Build configuration list for PBXNativeTarget "AdapterForTests" */;
+			buildConfigurationList = 70D175002E9ECFF900DD91A0 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
 				70D174E22E9ECFF900DD91A0 /* Sources */,
 				70D174EE2E9ECFF900DD91A0 /* Frameworks */,
@@ -416,9 +409,9 @@
 			);
 			dependencies = (
 			);
-			name = AdapterForTests;
+			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = 70D175032E9ECFF900DD91A0 /* libAdapterForTests.a */;
+			productReference = 70D175032E9ECFF900DD91A0 /* libAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		7DFABB1C1DA8682C00322E02 /* Adapter */ = {
@@ -433,7 +426,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				70D174DD2E9ECFF500DD91A0 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -516,7 +508,7 @@
 				00DD265C22F10A6C0039C1D4 /* ValidateSourceCode */,
 				AD00C4342B87C469007C85F3 /* InMobiAdapter */,
 				ADA6B9622CF1463F009C8FDA /* StaticInMobiAdapter */,
-				70D174DE2E9ECFF900DD91A0 /* AdapterForTests */,
+				70D174DE2E9ECFF900DD91A0 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -627,11 +619,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		70D174DD2E9ECFF500DD91A0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD265C22F10A6C0039C1D4 /* ValidateSourceCode */;
-			targetProxy = 70D174DC2E9ECFF500DD91A0 /* PBXContainerItemProxy */;
-		};
 		ADA6B9632CF1463F009C8FDA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00DD265C22F10A6C0039C1D4 /* ValidateSourceCode */;
@@ -659,7 +646,7 @@
 		70D175012E9ECFF900DD91A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
@@ -668,7 +655,7 @@
 		70D175022E9ECFF900DD91A0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
@@ -773,6 +760,7 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
@@ -781,6 +769,7 @@
 		7DFABB281DA8682C00322E02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(VALID_ARCHS)";
 			};
@@ -929,7 +918,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70D175002E9ECFF900DD91A0 /* Build configuration list for PBXNativeTarget "AdapterForTests" */ = {
+		70D175002E9ECFF900DD91A0 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70D175012E9ECFF900DD91A0 /* Debug */,

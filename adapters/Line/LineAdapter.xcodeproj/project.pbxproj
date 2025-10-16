@@ -32,6 +32,23 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AD6E39382EA1671C00818296 /* GADMediationAdapterLineExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5B02A43C43A00B2236A /* GADMediationAdapterLineExtras.m */; };
+		AD6E39392EA1671C00818296 /* GADMediationAdapterLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF0A2A33E64500D92129 /* GADMediationAdapterLineUtils.m */; };
+		AD6E393A2EA1671C00818296 /* GADMediationAdapterLine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */; };
+		AD6E393B2EA1671C00818296 /* GADMediationAdapterLineBannerAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA482A36A3420036464A /* GADMediationAdapterLineBannerAdLoader.m */; };
+		AD6E393C2EA1671C00818296 /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF422A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m */; };
+		AD6E393D2EA1671C00818296 /* GADMediationAdapterLineNativeAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA4F5AE2A43C40C00B2236A /* GADMediationAdapterLineNativeAdLoader.m */; };
+		AD6E393E2EA1671C00818296 /* GADMediationAdapterLineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF012A33C14300D92129 /* GADMediationAdapterLineConstants.m */; };
+		AD6E393F2EA1671C00818296 /* GADMediationAdapterLineRewardedAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEAFA5A2A37B5F80036464A /* GADMediationAdapterLineRewardedAdLoader.m */; };
+		AD6E39432EA1671C00818296 /* GADMediationAdapterLineUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF092A33E51200D92129 /* GADMediationAdapterLineUtils.h */; };
+		AD6E39442EA1671C00818296 /* GADMediationAdapterLineExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = ADA4F5AA2A43C3B200B2236A /* GADMediationAdapterLineExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E39452EA1671C00818296 /* GADMediationAdapterLineNativeAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADA4F5AC2A43C3F100B2236A /* GADMediationAdapterLineNativeAdLoader.h */; };
+		AD6E39462EA1671C00818296 /* LineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E39472EA1671C00818296 /* GADMediationAdapterLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAEFF2A33C0ED00D92129 /* GADMediationAdapterLineConstants.h */; };
+		AD6E39482EA1671C00818296 /* GADMediationAdapterLineRewardedAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA5C2A37B6260036464A /* GADMediationAdapterLineRewardedAdLoader.h */; };
+		AD6E39492EA1671C00818296 /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADFAAF402A35141400D92129 /* GADMediationAdapterLineInterstitialAdLoader.h */; };
+		AD6E394A2EA1671C00818296 /* GADMediationAdapterLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */; };
+		AD6E394B2EA1671C00818296 /* GADMediationAdapterLineBannerAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEAFA462A36A2890036464A /* GADMediationAdapterLineBannerAdLoader.h */; };
 		AD98A64B2A216B1200017B8D /* GADMediationAdapterLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A64A2A216B1200017B8D /* GADMediationAdapterLine.h */; };
 		AD98A64D2A216BC500017B8D /* GADMediationAdapterLine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD98A64C2A216BC500017B8D /* GADMediationAdapterLine.m */; };
 		AD98A6502A2171DD00017B8D /* LineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD98A6422A2164BD00017B8D /* LineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,8 +87,34 @@
 		ADFAAF432A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFAAF422A3514D700D92129 /* GADMediationAdapterLineInterstitialAdLoader.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AD6E39502EA1672800818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
+			remoteInfo = ValidateSourceCode;
+		};
+		AD6E39522EA1672C00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39412EA1671C00818296 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -95,6 +138,7 @@
 
 /* Begin PBXFileReference section */
 		AD00C3F82B8691E2007C85F3 /* LineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E394F2EA1671C00818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD98A6322A2163E000017B8D /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		AD98A6332A2163E000017B8D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AD98A6352A21644C00017B8D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -140,6 +184,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E39402EA1671C00818296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6B9D72CF146CD009C8FDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,6 +213,7 @@
 				ADC499962B07E9DC003BC0CD /* libAdapter.a */,
 				AD00C3F82B8691E2007C85F3 /* LineAdapter.framework */,
 				ADA6B9E62CF146CD009C8FDA /* libStaticLineAdapter.a */,
+				AD6E394F2EA1671C00818296 /* libAdapter.a */,
 			);
 			sourceTree = "<group>";
 		};
@@ -251,6 +303,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E39422EA1671C00818296 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E39432EA1671C00818296 /* GADMediationAdapterLineUtils.h in Headers */,
+				AD6E39442EA1671C00818296 /* GADMediationAdapterLineExtras.h in Headers */,
+				AD6E39452EA1671C00818296 /* GADMediationAdapterLineNativeAdLoader.h in Headers */,
+				AD6E39462EA1671C00818296 /* LineAdapter.h in Headers */,
+				AD6E39472EA1671C00818296 /* GADMediationAdapterLineConstants.h in Headers */,
+				AD6E39482EA1671C00818296 /* GADMediationAdapterLineRewardedAdLoader.h in Headers */,
+				AD6E39492EA1671C00818296 /* GADMediationAdapterLineInterstitialAdLoader.h in Headers */,
+				AD6E394A2EA1671C00818296 /* GADMediationAdapterLine.h in Headers */,
+				AD6E394B2EA1671C00818296 /* GADMediationAdapterLineBannerAdLoader.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6B9D92CF146CD009C8FDA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -282,6 +350,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E39512EA1672800818296 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -306,6 +375,24 @@
 			productReference = AD00C3F82B8691E2007C85F3 /* LineAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD6E39362EA1671C00818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E394C2EA1671C00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E39372EA1671C00818296 /* Sources */,
+				AD6E39402EA1671C00818296 /* Frameworks */,
+				AD6E39412EA1671C00818296 /* CopyFiles */,
+				AD6E39422EA1671C00818296 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E394F2EA1671C00818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		ADA6B9CD2CF146CD009C8FDA /* StaticLineAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADA6B9E32CF146CD009C8FDA /* Build configuration list for PBXNativeTarget "StaticLineAdapter" */;
@@ -318,6 +405,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E39532EA1672C00818296 /* PBXTargetDependency */,
 			);
 			name = StaticLineAdapter;
 			productName = Adapter;
@@ -367,6 +455,7 @@
 				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 				AD00C3F72B8691E2007C85F3 /* LineAdapter */,
 				ADA6B9CD2CF146CD009C8FDA /* StaticLineAdapter */,
+				AD6E39362EA1671C00818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -439,6 +528,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E39372EA1671C00818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E39382EA1671C00818296 /* GADMediationAdapterLineExtras.m in Sources */,
+				AD6E39392EA1671C00818296 /* GADMediationAdapterLineUtils.m in Sources */,
+				AD6E393A2EA1671C00818296 /* GADMediationAdapterLine.m in Sources */,
+				AD6E393B2EA1671C00818296 /* GADMediationAdapterLineBannerAdLoader.m in Sources */,
+				AD6E393C2EA1671C00818296 /* GADMediationAdapterLineInterstitialAdLoader.m in Sources */,
+				AD6E393D2EA1671C00818296 /* GADMediationAdapterLineNativeAdLoader.m in Sources */,
+				AD6E393E2EA1671C00818296 /* GADMediationAdapterLineConstants.m in Sources */,
+				AD6E393F2EA1671C00818296 /* GADMediationAdapterLineRewardedAdLoader.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6B9CE2CF146CD009C8FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,6 +559,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AD6E39512EA1672800818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
+			targetProxy = AD6E39502EA1672800818296 /* PBXContainerItemProxy */;
+		};
+		AD6E39532EA1672C00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
+			targetProxy = AD6E39522EA1672C00818296 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5AD983D122EFAE79000FCD2F /* Debug */ = {
@@ -714,6 +831,22 @@
 			};
 			name = Release;
 		};
+		AD6E394D2EA1671C00818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AD6E394E2EA1671C00818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		ADA6B9E42CF146CD009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -774,6 +907,15 @@
 			buildConfigurations = (
 				AD00C3FC2B8691E2007C85F3 /* Debug */,
 				AD00C3FD2B8691E2007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E394C2EA1671C00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E394D2EA1671C00818296 /* Debug */,
+				AD6E394E2EA1671C00818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

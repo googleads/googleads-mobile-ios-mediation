@@ -43,6 +43,23 @@
 		70E380EA2C472410004CCB92 /* MolocoSdkImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */; };
 		8566027F2C63F6FF0068D786 /* MolocoRewardedFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */; };
 		85AD79622CA5D967007358CE /* MolocoBannerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */; };
+		AD6E38DC2EA166A500818296 /* MolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */; };
+		AD6E38DD2EA166A500818296 /* MolocoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */; };
+		AD6E38DE2EA166A500818296 /* MolocoInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380E72C4723FD004CCB92 /* MolocoInitializer.swift */; };
+		AD6E38DF2EA166A500818296 /* MolocoRewardedFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */; };
+		AD6E38E02EA166A500818296 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
+		AD6E38E12EA166A500818296 /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
+		AD6E38E22EA166A500818296 /* MolocoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE72C409510002BF6AE /* MolocoUtils.swift */; };
+		AD6E38E32EA166A500818296 /* MolocoSdkImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */; };
+		AD6E38E42EA166A500818296 /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		AD6E38E52EA166A500818296 /* MolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */; };
+		AD6E38E62EA166A500818296 /* MolocoBannerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */; };
+		AD6E38E72EA166A500818296 /* MolocoBidTokenGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A1FA362CC343D300BC54D0 /* MolocoBidTokenGetter.swift */; };
+		AD6E38E82EA166A500818296 /* MolocoMediationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* MolocoMediationAdapter.swift */; };
+		AD6E38E92EA166A500818296 /* MolocoSdkVersionProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */; };
+		AD6E38EA2EA166A500818296 /* MolocoAdapterErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E380432C45E862004CCB92 /* MolocoAdapterErrorCode.swift */; };
+		AD6E38EB2EA166A500818296 /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
+		AD6E38EC2EA166A500818296 /* MolocoInterstitialFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706083C62C47CDB100896E93 /* MolocoInterstitialFactory.swift */; };
 		AD7CC39A2D1DE51700DC9B90 /* MolocoSdkVersionProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703876C82CF52724000C09EE /* MolocoSdkVersionProviding.swift */; };
 		AD7CC39B2D1DE51700DC9B90 /* MolocoAgeRestrictedSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70387DD12D08B56A000C09EE /* MolocoAgeRestrictedSetter.swift */; };
 		ADA6BA492CF146FE009C8FDA /* MolocoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7072CDE92C40A03B002BF6AE /* MolocoConstants.swift */; };
@@ -68,7 +85,33 @@
 		F04223742D494E59005D2513 /* MolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04223722D494E4A005D2513 /* MolocoNativeFactory.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AD6E38D42EA1669F00818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
+			remoteInfo = ValidateSourceCode;
+		};
+		AD6E38D62EA166A300818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		AD6E38EE2EA166A500818296 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6BA582CF146FE009C8FDA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,6 +144,7 @@
 		70E380E92C472410004CCB92 /* MolocoSdkImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoSdkImpl.swift; sourceTree = "<group>"; };
 		8566027E2C63F6FF0068D786 /* MolocoRewardedFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MolocoRewardedFactory.swift; sourceTree = "<group>"; };
 		85AD79612CA5D967007358CE /* MolocoBannerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MolocoBannerFactory.swift; sourceTree = "<group>"; };
+		AD6E38F22EA166A500818296 /* libMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMolocoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BA5C2CF146FE009C8FDA /* libStaticMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMolocoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA849D2C176E2200A501AB /* libMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMolocoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* MolocoMediationAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MolocoMediationAdapter.swift; sourceTree = "<group>"; };
@@ -121,6 +165,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AD6E38ED2EA166A500818296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6BA572CF146FE009C8FDA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,6 +214,7 @@
 				ADFA849D2C176E2200A501AB /* libMolocoAdapter.a */,
 				ADFA84D42C17738E00A501AB /* MolocoAdapter.framework */,
 				ADA6BA5C2CF146FE009C8FDA /* libStaticMolocoAdapter.a */,
+				AD6E38F22EA166A500818296 /* libMolocoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +266,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AD6E38D82EA166A500818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E38EF2EA166A500818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E38DB2EA166A500818296 /* Sources */,
+				AD6E38ED2EA166A500818296 /* Frameworks */,
+				AD6E38EE2EA166A500818296 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E38F22EA166A500818296 /* libMolocoAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		ADA6BA472CF146FE009C8FDA /* StaticMolocoAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADA6BA592CF146FE009C8FDA /* Build configuration list for PBXNativeTarget "StaticMolocoAdapter" */;
@@ -225,6 +294,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E38D72EA166A300818296 /* PBXTargetDependency */,
 			);
 			name = StaticMolocoAdapter;
 			productName = Adapter;
@@ -242,6 +312,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E38D52EA1669F00818296 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
@@ -304,6 +375,7 @@
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* MolocoAdapter */,
 				ADA6BA472CF146FE009C8FDA /* StaticMolocoAdapter */,
+				AD6E38D82EA166A500818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -356,6 +428,30 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AD6E38DB2EA166A500818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E38DC2EA166A500818296 /* MolocoAgeRestrictedSetter.swift in Sources */,
+				AD6E38DD2EA166A500818296 /* MolocoConstants.swift in Sources */,
+				AD6E38DE2EA166A500818296 /* MolocoInitializer.swift in Sources */,
+				AD6E38DF2EA166A500818296 /* MolocoRewardedFactory.swift in Sources */,
+				AD6E38E02EA166A500818296 /* NativeAdLoader.swift in Sources */,
+				AD6E38E12EA166A500818296 /* BannerAdLoader.swift in Sources */,
+				AD6E38E22EA166A500818296 /* MolocoUtils.swift in Sources */,
+				AD6E38E32EA166A500818296 /* MolocoSdkImpl.swift in Sources */,
+				AD6E38E42EA166A500818296 /* RewardedAdLoader.swift in Sources */,
+				AD6E38E52EA166A500818296 /* MolocoNativeFactory.swift in Sources */,
+				AD6E38E62EA166A500818296 /* MolocoBannerFactory.swift in Sources */,
+				AD6E38E72EA166A500818296 /* MolocoBidTokenGetter.swift in Sources */,
+				AD6E38E82EA166A500818296 /* MolocoMediationAdapter.swift in Sources */,
+				AD6E38E92EA166A500818296 /* MolocoSdkVersionProviding.swift in Sources */,
+				AD6E38EA2EA166A500818296 /* MolocoAdapterErrorCode.swift in Sources */,
+				AD6E38EB2EA166A500818296 /* InterstitialAdLoader.swift in Sources */,
+				AD6E38EC2EA166A500818296 /* MolocoInterstitialFactory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6BA482CF146FE009C8FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -413,6 +509,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AD6E38D52EA1669F00818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
+			targetProxy = AD6E38D42EA1669F00818296 /* PBXContainerItemProxy */;
+		};
+		AD6E38D72EA166A300818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
+			targetProxy = AD6E38D62EA166A300818296 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		AD2367322C176DB300997FF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -429,6 +538,163 @@
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				MODULE_MAP_PATH = "";
+			};
+			name = Release;
+		};
+		AD6E38F02EA166A500818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Moloco;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = MolocoAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD6E38F12EA166A500818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = Moloco;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = MolocoAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1008,6 +1274,15 @@
 			buildConfigurations = (
 				AD2367322C176DB300997FF7 /* Debug */,
 				AD2367332C176DB300997FF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E38EF2EA166A500818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E38F02EA166A500818296 /* Debug */,
+				AD6E38F12EA166A500818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

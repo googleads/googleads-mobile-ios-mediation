@@ -46,6 +46,20 @@
 		23A55E2628EF7559000BBD8A /* GADMAdapterFyberUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */; };
 		23A55E2728EF7559000BBD8A /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */; };
 		23A55E2828EF7559000BBD8A /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */; };
+		AD6E39BE2EA167C600818296 /* GADMAdapterFyberRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1828EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m */; };
+		AD6E39BF2EA167C600818296 /* GADMAdapterFyberExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1428EF7559000BBD8A /* GADMAdapterFyberExtras.m */; };
+		AD6E39C02EA167C600818296 /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */; };
+		AD6E39C12EA167C600818296 /* GADMAdapterFyberInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1628EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m */; };
+		AD6E39C22EA167C600818296 /* GADMAdapterFyberUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */; };
+		AD6E39C32EA167C600818296 /* GADMAdapterFyberBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1228EF7559000BBD8A /* GADMAdapterFyberBannerAd.m */; };
+		AD6E39C72EA167C600818296 /* GADMAdapterFyberUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1928EF7559000BBD8A /* GADMAdapterFyberUtils.h */; };
+		AD6E39C82EA167C600818296 /* DTExchangeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E39C92EA167C600818296 /* GADMAdapterFyberConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1328EF7559000BBD8A /* GADMAdapterFyberConstants.h */; };
+		AD6E39CA2EA167C600818296 /* GADMAdapterFyberInterstitialAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1528EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h */; };
+		AD6E39CB2EA167C600818296 /* GADMAdapterFyberBannerAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1128EF7559000BBD8A /* GADMAdapterFyberBannerAd.h */; };
+		AD6E39CC2EA167C600818296 /* GADMAdapterFyberRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1728EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h */; };
+		AD6E39CD2EA167C600818296 /* GADMAdapterFyberExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E39CE2EA167C600818296 /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */; };
 		ADA6B9322CF14624009C8FDA /* GADMAdapterFyberRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1828EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m */; };
 		ADA6B9332CF14624009C8FDA /* GADMAdapterFyberExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1428EF7559000BBD8A /* GADMAdapterFyberExtras.m */; };
 		ADA6B9342CF14624009C8FDA /* GADMediationAdapterFyber.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */; };
@@ -83,6 +97,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		45127779207D92C100D85E57 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39C52EA167C600818296 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -130,6 +153,7 @@
 		451277A7207DA0F700D85E57 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		451277A9207DA3D100D85E57 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		AD00C41D2B8719C7007C85F3 /* DTExchangeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTExchangeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E39D22EA167C600818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6B9462CF14624009C8FDA /* libStaticDTExchangeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticDTExchangeAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -142,6 +166,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD00C41A2B8719C7007C85F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39C42EA167C600818296 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -196,6 +227,7 @@
 				4512777B207D92C100D85E57 /* libAdapter.a */,
 				AD00C41D2B8719C7007C85F3 /* DTExchangeAdapter.framework */,
 				ADA6B9462CF14624009C8FDA /* libStaticDTExchangeAdapter.a */,
+				AD6E39D22EA167C600818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +295,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E39C62EA167C600818296 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E39C72EA167C600818296 /* GADMAdapterFyberUtils.h in Headers */,
+				AD6E39C82EA167C600818296 /* DTExchangeAdapter.h in Headers */,
+				AD6E39C92EA167C600818296 /* GADMAdapterFyberConstants.h in Headers */,
+				AD6E39CA2EA167C600818296 /* GADMAdapterFyberInterstitialAd.h in Headers */,
+				AD6E39CB2EA167C600818296 /* GADMAdapterFyberBannerAd.h in Headers */,
+				AD6E39CC2EA167C600818296 /* GADMAdapterFyberRewardedAd.h in Headers */,
+				AD6E39CD2EA167C600818296 /* GADMAdapterFyberExtras.h in Headers */,
+				AD6E39CE2EA167C600818296 /* GADMediationAdapterFyber.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6B93A2CF14624009C8FDA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,6 +364,24 @@
 			productName = DTExchangeAdapter;
 			productReference = AD00C41D2B8719C7007C85F3 /* DTExchangeAdapter.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		AD6E39BA2EA167C600818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E39CF2EA167C600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E39BD2EA167C600818296 /* Sources */,
+				AD6E39C42EA167C600818296 /* Frameworks */,
+				AD6E39C52EA167C600818296 /* CopyFiles */,
+				AD6E39C62EA167C600818296 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = DTExchangeAdapter;
+			productReference = AD6E39D22EA167C600818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		ADA6B92E2CF14624009C8FDA /* StaticDTExchangeAdapter */ = {
 			isa = PBXNativeTarget;
@@ -380,6 +445,7 @@
 				00DD264922F1097C0039C1D4 /* ValidateSourceCode */,
 				AD00C41C2B8719C7007C85F3 /* DTExchangeAdapter */,
 				ADA6B92E2CF14624009C8FDA /* StaticDTExchangeAdapter */,
+				AD6E39BA2EA167C600818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -443,6 +509,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E39BD2EA167C600818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E39BE2EA167C600818296 /* GADMAdapterFyberRewardedAd.m in Sources */,
+				AD6E39BF2EA167C600818296 /* GADMAdapterFyberExtras.m in Sources */,
+				AD6E39C02EA167C600818296 /* GADMediationAdapterFyber.m in Sources */,
+				AD6E39C12EA167C600818296 /* GADMAdapterFyberInterstitialAd.m in Sources */,
+				AD6E39C22EA167C600818296 /* GADMAdapterFyberUtils.m in Sources */,
+				AD6E39C32EA167C600818296 /* GADMAdapterFyberBannerAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +797,24 @@
 			};
 			name = Release;
 		};
+		AD6E39D02EA167C600818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD6E39D12EA167C600818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		ADA6B9442CF14624009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -780,6 +877,15 @@
 			buildConfigurations = (
 				AD00C4212B8719C7007C85F3 /* Debug */,
 				AD00C4222B8719C7007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E39CF2EA167C600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E39D02EA167C600818296 /* Debug */,
+				AD6E39D12EA167C600818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

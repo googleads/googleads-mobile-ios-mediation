@@ -54,6 +54,28 @@
 		419E44D6251BFD60004DD07C /* GADMediationAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */; };
 		419E44D8251BFD60004DD07C /* GADMediationAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */; };
 		7DA782681DDA681E000C088E /* UnityAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA7825A1DDA681E000C088E /* UnityAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E38582EA165F600818296 /* GADMUnityRewardedMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397666027725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m */; };
+		AD6E38592EA165F600818296 /* GADUnityRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 236B3F6A276AC52300337A5E /* GADUnityRouter.m */; };
+		AD6E385A2EA165F600818296 /* GADMediationConfigurationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665227725BCA00B6E431 /* GADMediationConfigurationSettings.m */; };
+		AD6E385B2EA165F600818296 /* GADMAdapterUnityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C4251BFD60004DD07C /* GADMAdapterUnityUtils.m */; };
+		AD6E385C2EA165F600818296 /* NSErrorUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665327725BCA00B6E431 /* NSErrorUnity.m */; };
+		AD6E385D2EA165F600818296 /* GADMUnityInterstitialMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665E27725C3A00B6E431 /* GADMUnityInterstitialMediationAdapterProxy.m */; };
+		AD6E385E2EA165F600818296 /* GADMediationAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 419E44C9251BFD60004DD07C /* GADMediationAdapterUnity.m */; };
+		AD6E385F2EA165F600818296 /* GADUnityBaseMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665F27725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.m */; };
+		AD6E38602EA165F600818296 /* GADMUnityBannerMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665A27725C3A00B6E431 /* GADMUnityBannerMediationAdapterProxy.m */; };
+		AD6E38612EA165F600818296 /* GADMAdapterUnity.m in Sources */ = {isa = PBXBuildFile; fileRef = 00DF0F6A256593E7006A9764 /* GADMAdapterUnity.m */; };
+		AD6E38652EA165F600818296 /* GADMediationConfigurationSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665127725BCA00B6E431 /* GADMediationConfigurationSettings.h */; };
+		AD6E38662EA165F600818296 /* GADMUnityBannerMediationAdapterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665927725C3A00B6E431 /* GADMUnityBannerMediationAdapterProxy.h */; };
+		AD6E38672EA165F600818296 /* GADUnityBaseMediationAdapterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665D27725C3A00B6E431 /* GADUnityBaseMediationAdapterProxy.h */; };
+		AD6E38682EA165F600818296 /* GADUnityRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 236B3F69276AC52300337A5E /* GADUnityRouter.h */; };
+		AD6E38692EA165F600818296 /* GADMediationAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C7251BFD60004DD07C /* GADMediationAdapterUnity.h */; };
+		AD6E386A2EA165F600818296 /* GADMAdapterUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 00DF0F6B256593E7006A9764 /* GADMAdapterUnity.h */; };
+		AD6E386B2EA165F600818296 /* NSErrorUnity.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665027725BCA00B6E431 /* NSErrorUnity.h */; };
+		AD6E386C2EA165F600818296 /* GADMAdapterUnityConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44C5251BFD60004DD07C /* GADMAdapterUnityConstants.h */; };
+		AD6E386D2EA165F600818296 /* GADMUnityRewardedMediationAdapterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665B27725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.h */; };
+		AD6E386E2EA165F600818296 /* GADMUnityInterstitialMediationAdapterProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2397665C27725C3A00B6E431 /* GADMUnityInterstitialMediationAdapterProxy.h */; };
+		AD6E386F2EA165F600818296 /* UnityAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DA7825A1DDA681E000C088E /* UnityAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E38702EA165F600818296 /* GADMAdapterUnityUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419E44BC251BFD60004DD07C /* GADMAdapterUnityUtils.h */; };
 		ADA6BA9F2CF1471F009C8FDA /* GADMUnityRewardedMediationAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397666027725C3A00B6E431 /* GADMUnityRewardedMediationAdapterProxy.m */; };
 		ADA6BAA02CF1471F009C8FDA /* GADUnityRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 236B3F6A276AC52300337A5E /* GADUnityRouter.m */; };
 		ADA6BAA12CF1471F009C8FDA /* GADMediationConfigurationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397665227725BCA00B6E431 /* GADMediationConfigurationSettings.m */; };
@@ -97,6 +119,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38632EA165F600818296 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -150,6 +181,7 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UnityAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E38742EA165F600818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BABB2CF1471F009C8FDA /* libStaticUnityAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticUnityAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -162,6 +194,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD00C4AA2B87E8B3007C85F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38622EA165F600818296 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -278,6 +317,7 @@
 				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
 				AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */,
 				ADA6BABB2CF1471F009C8FDA /* libStaticUnityAdapter.a */,
+				AD6E38742EA165F600818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -308,6 +348,25 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38642EA165F600818296 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E38652EA165F600818296 /* GADMediationConfigurationSettings.h in Headers */,
+				AD6E38662EA165F600818296 /* GADMUnityBannerMediationAdapterProxy.h in Headers */,
+				AD6E38672EA165F600818296 /* GADUnityBaseMediationAdapterProxy.h in Headers */,
+				AD6E38682EA165F600818296 /* GADUnityRouter.h in Headers */,
+				AD6E38692EA165F600818296 /* GADMediationAdapterUnity.h in Headers */,
+				AD6E386A2EA165F600818296 /* GADMAdapterUnity.h in Headers */,
+				AD6E386B2EA165F600818296 /* NSErrorUnity.h in Headers */,
+				AD6E386C2EA165F600818296 /* GADMAdapterUnityConstants.h in Headers */,
+				AD6E386D2EA165F600818296 /* GADMUnityRewardedMediationAdapterProxy.h in Headers */,
+				AD6E386E2EA165F600818296 /* GADMUnityInterstitialMediationAdapterProxy.h in Headers */,
+				AD6E386F2EA165F600818296 /* UnityAdapter.h in Headers */,
+				AD6E38702EA165F600818296 /* GADMAdapterUnityUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +429,24 @@
 			productReference = AD00C4AD2B87E8B3007C85F3 /* UnityAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD6E38542EA165F600818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E38712EA165F600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E38572EA165F600818296 /* Sources */,
+				AD6E38622EA165F600818296 /* Frameworks */,
+				AD6E38632EA165F600818296 /* CopyFiles */,
+				AD6E38642EA165F600818296 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E38742EA165F600818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		ADA6BA9B2CF1471F009C8FDA /* StaticUnityAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADA6BAB82CF1471F009C8FDA /* Build configuration list for PBXNativeTarget "StaticUnityAdapter" */;
@@ -428,6 +505,7 @@
 				00DD269422F10D0C0039C1D4 /* ValidateSourceCode */,
 				AD00C4AC2B87E8B3007C85F3 /* UnityAdapter */,
 				ADA6BA9B2CF1471F009C8FDA /* StaticUnityAdapter */,
+				AD6E38542EA165F600818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -495,6 +573,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38572EA165F600818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E38582EA165F600818296 /* GADMUnityRewardedMediationAdapterProxy.m in Sources */,
+				AD6E38592EA165F600818296 /* GADUnityRouter.m in Sources */,
+				AD6E385A2EA165F600818296 /* GADMediationConfigurationSettings.m in Sources */,
+				AD6E385B2EA165F600818296 /* GADMAdapterUnityUtils.m in Sources */,
+				AD6E385C2EA165F600818296 /* NSErrorUnity.m in Sources */,
+				AD6E385D2EA165F600818296 /* GADMUnityInterstitialMediationAdapterProxy.m in Sources */,
+				AD6E385E2EA165F600818296 /* GADMediationAdapterUnity.m in Sources */,
+				AD6E385F2EA165F600818296 /* GADUnityBaseMediationAdapterProxy.m in Sources */,
+				AD6E38602EA165F600818296 /* GADMUnityBannerMediationAdapterProxy.m in Sources */,
+				AD6E38612EA165F600818296 /* GADMAdapterUnity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,6 +859,22 @@
 			};
 			name = Release;
 		};
+		AD6E38722EA165F600818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AD6E38732EA165F600818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		ADA6BAB92CF1471F009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -824,6 +935,15 @@
 			buildConfigurations = (
 				AD00C4B12B87E8B3007C85F3 /* Debug */,
 				AD00C4B22B87E8B3007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E38712EA165F600818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E38722EA165F600818296 /* Debug */,
+				AD6E38732EA165F600818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
