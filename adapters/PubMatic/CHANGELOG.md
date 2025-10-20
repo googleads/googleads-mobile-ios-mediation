@@ -1,5 +1,7 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### Version 4.10.0.0 (In progress)
+
 #### [Version 4.9.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-4.9.0.0.zip)
 - Added waterfall support for banner, interstitial, rewarded and native ad formats.
 - Fixed a bug where native ad delegates were not correctly set.
