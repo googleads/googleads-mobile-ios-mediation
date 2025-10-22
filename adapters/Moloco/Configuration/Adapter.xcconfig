@@ -9,7 +9,7 @@ FRAMEWORK_NAME = $(AD_NETWORK_NAME)Adapter
 
 /// Xcode variables
 PRODUCT_NAME = MolocoAdapter
-EXECUTABLE_PREFIX = lib
+EXECUTABLE_PREFIX =
 
 /// User defined variables.
 LIB_NAME = $(EXECUTABLE_PREFIX)$(PRODUCT_NAME)
