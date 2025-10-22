@@ -112,11 +112,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD6E3A032EA167E600818296 /* libBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD3623EE2E7B5B4A00E442E6 /* StaticBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E3A032EA167E600818296 /* BigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = BigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADA2F7D22D9DBF0A005D9ECA /* BigoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigoClient.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libBigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA849D2C176E2200A501AB /* BigoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = BigoAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* BigoAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigoAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* BigoAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigoAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* BigoAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigoAdapterExtras.swift; sourceTree = "<group>"; };
@@ -183,10 +183,10 @@
 		ADFA849E2C176E2200A501AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADFA849D2C176E2200A501AB /* libBigoAdapter.a */,
+				ADFA849D2C176E2200A501AB /* BigoAdapter.a */,
 				ADFA84D42C17738E00A501AB /* BigoAdapter.framework */,
-				AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */,
-				AD6E3A032EA167E600818296 /* libBigoAdapter.a */,
+				AD3623EE2E7B5B4A00E442E6 /* StaticBigoAdapter.a */,
+				AD6E3A032EA167E600818296 /* BigoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,7 +246,7 @@
 			);
 			name = StaticBigoAdapter;
 			productName = Adapter;
-			productReference = AD3623EE2E7B5B4A00E442E6 /* libStaticBigoAdapter.a */;
+			productReference = AD3623EE2E7B5B4A00E442E6 /* StaticBigoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		AD6E39F02EA167E600818296 /* AdapterWithoutValidationScript */ = {
@@ -263,7 +263,7 @@
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = AD6E3A032EA167E600818296 /* libBigoAdapter.a */;
+			productReference = AD6E3A032EA167E600818296 /* BigoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -281,7 +281,7 @@
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADFA849D2C176E2200A501AB /* libBigoAdapter.a */;
+			productReference = ADFA849D2C176E2200A501AB /* BigoAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA84D32C17738E00A501AB /* BigoAdapter */ = {
