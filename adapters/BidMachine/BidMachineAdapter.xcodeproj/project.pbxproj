@@ -113,10 +113,10 @@
 
 /* Begin PBXFileReference section */
 		AD3181D42DA4906F007B3FA8 /* NaitveAdProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaitveAdProxy.swift; sourceTree = "<group>"; };
-		AD6E3A1B2EA167F700818296 /* libGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E3A1B2EA167F700818296 /* GoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = GoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ADA2F7D22D9DBF0A005D9ECA /* BidMachineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidMachineClient.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA849D2C176E2200A501AB /* GoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = GoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* BidMachineAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BidMachineAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* BidMachineAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BidMachineAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* BidMachineAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BidMachineAdapterExtras.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		ADFA84B82C17704300A501AB /* Script_Validate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Script_Validate.sh; sourceTree = "<group>"; };
 		ADFA84BC2C17704300A501AB /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFB2A902DC346AF005EBC7F /* StaticGoogleBidMachineAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticGoogleBidMachineAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,10 +183,10 @@
 		ADFA849E2C176E2200A501AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */,
+				ADFA849D2C176E2200A501AB /* GoogleBidMachineAdapter.a */,
 				ADFA84D42C17738E00A501AB /* GoogleBidMachineAdapter.framework */,
-				ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
-				AD6E3A1B2EA167F700818296 /* libGoogleBidMachineAdapter.a */,
+				ADFB2A902DC346AF005EBC7F /* StaticGoogleBidMachineAdapter.a */,
+				AD6E3A1B2EA167F700818296 /* GoogleBidMachineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = AD6E3A1B2EA167F700818296 /* libGoogleBidMachineAdapter.a */;
+			productReference = AD6E3A1B2EA167F700818296 /* GoogleBidMachineAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -263,7 +263,7 @@
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADFA849D2C176E2200A501AB /* libGoogleBidMachineAdapter.a */;
+			productReference = ADFA849D2C176E2200A501AB /* GoogleBidMachineAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA84D32C17738E00A501AB /* GoogleBidMachineAdapter */ = {
@@ -298,7 +298,7 @@
 			);
 			name = StaticGoogleBidMachineAdapter;
 			productName = Adapter;
-			productReference = ADFB2A902DC346AF005EBC7F /* libStaticGoogleBidMachineAdapter.a */;
+			productReference = ADFB2A902DC346AF005EBC7F /* StaticGoogleBidMachineAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
