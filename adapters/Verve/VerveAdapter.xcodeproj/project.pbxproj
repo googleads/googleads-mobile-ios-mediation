@@ -109,11 +109,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD52F6FB2E0241AE002CFB64 /* StaticVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD677D172DBC0BF70012621D /* HyBidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidClient.swift; sourceTree = "<group>"; };
-		AD6E38532EA165DC00818296 /* libVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E38532EA165DC00818296 /* VerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = VerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA2F7CD2D9DBB7B005D9ECA /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libVerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA849D2C176E2200A501AB /* VerveAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = VerveAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* VerveAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerveAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* VerveAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerveAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* VerveAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerveAdapterExtras.swift; sourceTree = "<group>"; };
@@ -179,10 +179,10 @@
 		ADFA849E2C176E2200A501AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADFA849D2C176E2200A501AB /* libVerveAdapter.a */,
+				ADFA849D2C176E2200A501AB /* VerveAdapter.a */,
 				ADFA84D42C17738E00A501AB /* VerveAdapter.framework */,
-				AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */,
-				AD6E38532EA165DC00818296 /* libVerveAdapter.a */,
+				AD52F6FB2E0241AE002CFB64 /* StaticVerveAdapter.a */,
+				AD6E38532EA165DC00818296 /* VerveAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,7 +241,7 @@
 			);
 			name = StaticVerveAdapter;
 			productName = Adapter;
-			productReference = AD52F6FB2E0241AE002CFB64 /* libStaticVerveAdapter.a */;
+			productReference = AD52F6FB2E0241AE002CFB64 /* StaticVerveAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		AD6E38412EA165DC00818296 /* AdapterWithoutValidationScript */ = {
@@ -258,7 +258,7 @@
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = AD6E38532EA165DC00818296 /* libVerveAdapter.a */;
+			productReference = AD6E38532EA165DC00818296 /* VerveAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -276,7 +276,7 @@
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADFA849D2C176E2200A501AB /* libVerveAdapter.a */;
+			productReference = ADFA849D2C176E2200A501AB /* VerveAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA84D32C17738E00A501AB /* VerveAdapter */ = {
