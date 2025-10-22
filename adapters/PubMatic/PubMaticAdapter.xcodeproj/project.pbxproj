@@ -112,11 +112,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AD6E388C2EA1662400818296 /* libPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6E388C2EA1662400818296 /* PubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = PubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76A9772D93103400F40CD4 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWrapSDKClient.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = PubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterExtras.swift; sourceTree = "<group>"; };
@@ -183,10 +183,10 @@
 		ADFA849E2C176E2200A501AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */,
+				ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */,
 				ADFA84D42C17738E00A501AB /* PubMaticAdapter.framework */,
-				AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */,
-				AD6E388C2EA1662400818296 /* libPubMaticAdapter.a */,
+				AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */,
+				AD6E388C2EA1662400818296 /* PubMaticAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 			);
 			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = AD6E388C2EA1662400818296 /* libPubMaticAdapter.a */;
+			productReference = AD6E388C2EA1662400818296 /* PubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		AD76A9CC2D9311C500F40CD4 /* StaticPubMaticAdapter */ = {
@@ -263,7 +263,7 @@
 			);
 			name = StaticPubMaticAdapter;
 			productName = Adapter;
-			productReference = AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */;
+			productReference = AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -281,7 +281,7 @@
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */;
+			productReference = ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA84D32C17738E00A501AB /* PubMaticAdapter */ = {
