@@ -746,6 +746,31 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"\"${SRCROOT}/Drop_Framework_And_Headers\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/MyTargetSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/MyTrackerSDK.xcframework/ios-arm64\"",
+				);
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"\"${SRCROOT}/Drop_Framework_And_Headers\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/StackModules/release/Static/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/StackModules/release/Static/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator\"",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -754,6 +779,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**\"",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
