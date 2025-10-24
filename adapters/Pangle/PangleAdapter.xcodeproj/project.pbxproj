@@ -99,13 +99,6 @@
 			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
 			remoteInfo = ValidateSourceCode;
 		};
-		ADA6BA802CF14715009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B3B8D0A277A77AA005BB25B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2BF5FE5E279B0218001EFB81;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -431,7 +424,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6BA7F2CF14715009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticPangleAdapter;
 			productName = Adapter;
@@ -593,11 +585,6 @@
 			isa = PBXTargetDependency;
 			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
 			targetProxy = 236ED88027DAC5C20049657C /* PBXContainerItemProxy */;
-		};
-		ADA6BA7F2CF14715009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2BF5FE5E279B0218001EFB81 /* ValidateSourceCode */;
-			targetProxy = ADA6BA802CF14715009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

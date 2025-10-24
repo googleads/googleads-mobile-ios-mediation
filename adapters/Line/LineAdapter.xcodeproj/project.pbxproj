@@ -95,13 +95,6 @@
 			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
 			remoteInfo = ValidateSourceCode;
 		};
-		AD6E39522EA1672C00818296 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5AD983D022EFAE79000FCD2F;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -405,7 +398,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD6E39532EA1672C00818296 /* PBXTargetDependency */,
 			);
 			name = StaticLineAdapter;
 			productName = Adapter;
@@ -565,11 +557,6 @@
 			isa = PBXTargetDependency;
 			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
 			targetProxy = AD6E39502EA1672800818296 /* PBXContainerItemProxy */;
-		};
-		AD6E39532EA1672C00818296 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5AD983D022EFAE79000FCD2F /* ValidateSourceCode */;
-			targetProxy = AD6E39522EA1672C00818296 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

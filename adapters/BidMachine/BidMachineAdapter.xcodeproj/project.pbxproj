@@ -72,13 +72,6 @@
 			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
 			remoteInfo = ValidateSourceCode;
 		};
-		AD6E3A062EA167F400818296 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -294,7 +287,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD6E3A072EA167F400818296 /* PBXTargetDependency */,
 			);
 			name = StaticGoogleBidMachineAdapter;
 			productName = Adapter;
@@ -458,11 +450,6 @@
 			isa = PBXTargetDependency;
 			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
 			targetProxy = AD6E3A042EA167F000818296 /* PBXContainerItemProxy */;
-		};
-		AD6E3A072EA167F400818296 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
-			targetProxy = AD6E3A062EA167F400818296 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

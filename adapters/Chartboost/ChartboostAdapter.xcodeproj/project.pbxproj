@@ -84,13 +84,6 @@
 			remoteGlobalIDString = 00DD262322F107B10039C1D4;
 			remoteInfo = ValidateSourceCode;
 		};
-		ADA6B9172CF14610009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD262322F107B10039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -390,7 +383,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6B9162CF14610009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticChartboostAdapter;
 			productName = Adapter;
@@ -539,11 +531,6 @@
 			isa = PBXTargetDependency;
 			target = 00DD262322F107B10039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DD262822F107EE0039C1D4 /* PBXContainerItemProxy */;
-		};
-		ADA6B9162CF14610009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD262322F107B10039C1D4 /* ValidateSourceCode */;
-			targetProxy = ADA6B9172CF14610009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -112,16 +112,6 @@
 		F8A5808C1ECEE8690068E9FA /* NativeAdKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = F8A580871ECEE8690068E9FA /* NativeAdKeys.h */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		ADA6B9642CF1463F009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD265C22F10A6C0039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		70D174F02E9ECFF900DD91A0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -462,7 +452,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6B9632CF1463F009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticInMobiAdapter;
 			productName = Adapter;
@@ -617,14 +606,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		ADA6B9632CF1463F009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD265C22F10A6C0039C1D4 /* ValidateSourceCode */;
-			targetProxy = ADA6B9642CF1463F009C8FDA /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		00DD265F22F10A6C0039C1D4 /* Debug */ = {

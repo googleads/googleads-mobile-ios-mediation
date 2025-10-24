@@ -119,13 +119,6 @@
 			remoteGlobalIDString = 00DD26AC22F10DDC0039C1D4;
 			remoteInfo = ValidateSourceCode;
 		};
-		ADA6B9AB2CF14655009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD26AC22F10DDC0039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -476,7 +469,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6B9AA2CF14655009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticLiftoffMonetizeAdapter;
 			productName = Adapter;
@@ -637,11 +629,6 @@
 			isa = PBXTargetDependency;
 			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
 			targetProxy = 458F73512385E0A4006738A0 /* PBXContainerItemProxy */;
-		};
-		ADA6B9AA2CF14655009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD26AC22F10DDC0039C1D4 /* ValidateSourceCode */;
-			targetProxy = ADA6B9AB2CF14655009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

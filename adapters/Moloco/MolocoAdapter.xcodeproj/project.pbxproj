@@ -93,13 +93,6 @@
 			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
 			remoteInfo = ValidateSourceCode;
 		};
-		AD6E38D62EA166A300818296 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -294,7 +287,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD6E38D72EA166A300818296 /* PBXTargetDependency */,
 			);
 			name = StaticMolocoAdapter;
 			productName = Adapter;
@@ -514,11 +506,6 @@
 			isa = PBXTargetDependency;
 			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
 			targetProxy = AD6E38D42EA1669F00818296 /* PBXContainerItemProxy */;
-		};
-		AD6E38D72EA166A300818296 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
-			targetProxy = AD6E38D62EA166A300818296 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

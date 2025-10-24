@@ -131,13 +131,6 @@
 			remoteGlobalIDString = 00DD266422F10AC60039C1D4;
 			remoteInfo = ValidateSourceCode;
 		};
-		ADA6B9882CF14649009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD266422F10AC60039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -489,7 +482,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6B9872CF14649009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticIronSourceAdapter;
 			productName = Adapter;
@@ -659,11 +651,6 @@
 			isa = PBXTargetDependency;
 			target = 00DD266422F10AC60039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DD266922F10ADF0039C1D4 /* PBXContainerItemProxy */;
-		};
-		ADA6B9872CF14649009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD266422F10AC60039C1D4 /* ValidateSourceCode */;
-			targetProxy = ADA6B9882CF14649009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
