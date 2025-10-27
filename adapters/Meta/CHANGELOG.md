@@ -2,6 +2,7 @@
 
 #### Version 6.21.0.0 (In progress)
 - Add a support for the app open ad format.
+- Now requires minimum iOS version 13.0.
 
 #### [Version 6.20.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.20.1.0.zip)
 - Verified compatibility with Meta Audience Network SDK 6.20.1.
