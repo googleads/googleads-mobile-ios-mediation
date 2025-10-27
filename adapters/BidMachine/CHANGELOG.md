@@ -1,5 +1,7 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Version 3.5.0.0 (In progress)
+
 #### [Version 3.4.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.4.0.2.zip)
 - Added waterfall support for banner, interstitial, rewarded and native ad formats.
 - Removed the `isTestMode` static property from `BidMachineAdapterExtras`.
