@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 6.21.0.0 (In progress)
 - Add a support for the app open ad format.
 
 #### [Version 6.20.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.20.1.0.zip)
