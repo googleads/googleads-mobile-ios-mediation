@@ -52,6 +52,10 @@
 		7DC8682E1DDA8D4400F0F1C4 /* MetaAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681C1DDA8D4400F0F1C4 /* MetaAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC8682F1DDA8D4400F0F1C4 /* GADFBExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681D1DDA8D4400F0F1C4 /* GADFBExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DC8681E1DDA8D4400F0F1C4 /* GADFBNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD7BB6B72E5F714B001DA0EC /* GADFBAppOpenRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */; };
+		AD7BB6B82E5F714B001DA0EC /* GADFBAppOpenRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */; };
+		AD7BB6BC2E5F719B001DA0EC /* GADFBAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */; };
+		AD7BB6BD2E5F719B001DA0EC /* GADFBAppOpenRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */; };
 		ADA6BA052CF146E5009C8FDA /* GADFBExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD412837196A001FA761 /* GADFBExtraAssets.m */; };
 		ADA6BA062CF146E5009C8FDA /* GADFBUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD4C2837196A001FA761 /* GADFBUtils.m */; };
 		ADA6BA072CF146E5009C8FDA /* GADFBNetworkExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 234AFD482837196A001FA761 /* GADFBNetworkExtras.m */; };
@@ -133,6 +137,8 @@
 		7DE821BF1DB04B5000AA08CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7DFABB1D1DA8682C00322E02 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBAppOpenRenderer.h; sourceTree = "<group>"; };
+		AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBAppOpenRenderer.m; sourceTree = "<group>"; };
 		ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMetaAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -179,6 +185,8 @@
 		234AFD322837196A001FA761 /* Bidding */ = {
 			isa = PBXGroup;
 			children = (
+				AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */,
+				AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */,
 				234AFD332837196A001FA761 /* GADFBBannerRenderer.h */,
 				234AFD342837196A001FA761 /* GADFBBannerRenderer.m */,
 				234AFD352837196A001FA761 /* GADFBInterstitialRenderer.h */,
@@ -265,6 +273,7 @@
 				234AFD6F2837196A001FA761 /* GADMediationAdapterFacebook.h in Headers */,
 				234AFD6E2837196A001FA761 /* GADMAdapterFacebookConstants.h in Headers */,
 				7DC868301DDA8D4400F0F1C4 /* GADFBNetworkExtras.h in Headers */,
+				AD7BB6B72E5F714B001DA0EC /* GADFBAppOpenRenderer.h in Headers */,
 				234AFD522837196A001FA761 /* GADFBBannerRenderer.h in Headers */,
 				234AFD582837196A001FA761 /* GADFBRewardedInterstitialRenderer.h in Headers */,
 				234AFD542837196A001FA761 /* GADFBInterstitialRenderer.h in Headers */,
@@ -297,6 +306,7 @@
 				ADA6BA182CF146E5009C8FDA /* GADFBRewardedRenderer.h in Headers */,
 				ADA6BA192CF146E5009C8FDA /* GADFBExtraAssets.h in Headers */,
 				ADA6BA1A2CF146E5009C8FDA /* MetaAdapter.h in Headers */,
+				AD7BB6B82E5F714B001DA0EC /* GADFBAppOpenRenderer.h in Headers */,
 				ADA6BA1B2CF146E5009C8FDA /* GADFBNativeRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,6 +470,7 @@
 				234AFD672837196A001FA761 /* GADFBNetworkExtras.m in Sources */,
 				234AFD5B2837196A001FA761 /* GADFBRewardedRenderer.m in Sources */,
 				234AFD532837196A001FA761 /* GADFBBannerRenderer.m in Sources */,
+				AD7BB6BC2E5F719B001DA0EC /* GADFBAppOpenRenderer.m in Sources */,
 				234AFD572837196A001FA761 /* GADFBNativeRenderer.m in Sources */,
 				234AFD592837196A001FA761 /* GADFBRewardedInterstitialRenderer.m in Sources */,
 				234AFD702837196A001FA761 /* GADMediationAdapterFacebook.m in Sources */,
@@ -483,6 +494,7 @@
 				ADA6BA072CF146E5009C8FDA /* GADFBNetworkExtras.m in Sources */,
 				ADA6BA082CF146E5009C8FDA /* GADFBRewardedRenderer.m in Sources */,
 				ADA6BA092CF146E5009C8FDA /* GADFBBannerRenderer.m in Sources */,
+				AD7BB6BD2E5F719B001DA0EC /* GADFBAppOpenRenderer.m in Sources */,
 				ADA6BA0A2CF146E5009C8FDA /* GADFBNativeRenderer.m in Sources */,
 				ADA6BA0B2CF146E5009C8FDA /* GADFBRewardedInterstitialRenderer.m in Sources */,
 				ADA6BA0C2CF146E5009C8FDA /* GADMediationAdapterFacebook.m in Sources */,

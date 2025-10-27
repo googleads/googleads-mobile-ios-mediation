@@ -13,7 +13,10 @@
 // limitations under the License.
 
 #import "GADMediationAdapterFacebook.h"
+
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+
+#import "GADFBAppOpenRenderer.h"
 #import "GADFBBannerRenderer.h"
 #import "GADFBInterstitialRenderer.h"
 #import "GADFBNativeRenderer.h"
@@ -24,6 +27,8 @@
 #import "GADMAdapterFacebookConstants.h"
 
 @implementation GADMediationAdapterFacebook {
+  /// Meta Audience Network app open ad.
+  GADFBAppOpenRenderer *_appOpenAd;
   /// Meta Audience Network rewarded ad wrapper.
   GADFBRewardedRenderer *_rewardedAd;
   /// Meta Audience Network native ad wrapper.
@@ -109,6 +114,18 @@
                          completionHandler:
                              (nonnull GADRTBSignalCompletionHandler)completionHandler {
   completionHandler([FBAdSettings bidderToken], nil);
+}
+
+- (void)loadAppOpenAdForAdConfiguration:(GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  if (GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment) {
+    GADMAdapterFacebookSetMixedAudience(
+        GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
+  }
+
+  _appOpenAd = [[GADFBAppOpenRenderer alloc] init];
+  [_appOpenAd renderAppOpenForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
