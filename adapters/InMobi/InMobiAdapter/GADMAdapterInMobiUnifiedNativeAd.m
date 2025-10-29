@@ -244,7 +244,7 @@ static CGFloat const DefaultIconScale = 1.0;
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (nullable NSString *)advertiser {
-  return nil;
+  return _native.advertiserName;
 }
 
 - (nullable NSString *)headline {
