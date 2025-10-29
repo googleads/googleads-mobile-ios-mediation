@@ -42,39 +42,12 @@ static CGFloat const DefaultIconScale = 1.0;
 
   /// InMobi native ad object.
   IMNative *_native;
-
-  /// Indicates whether native ad images should be downloaded.
-  BOOL _shouldDownloadImages;
-
-  /// Aspect ratio of the Native ad obtained from InMobi.
-  CGFloat _aspectRatio;
-
-  /// Icon image sent to Google Mobile Ads SDK.
-  GADNativeAdImage *_mappedIcon;
-
-  /// Array of GADNativeAdImage objects sent to Google Mobile Ads SDK.
-  NSArray<GADNativeAdImage *> *_mappedImages;
-
-  /// A dictionary of asset names and object pairs for assets that are not handled by
-  /// properties of the GADMediatedUnifiedNativeAd.
-  NSDictionary<NSString *, id> *_extras;
-
-  /// Contains the assests of the InMobi native ad.
-  NSDictionary<NSString *, id> *_nativeAdContentDictionary;
-}
-
-static NSCache *imageCache;
-
-__attribute__((constructor)) static void initialize_imageCache() {
-  imageCache = [[NSCache alloc] init];
 }
 
 - (nonnull instancetype)init {
-  if (self = [super init]) {
-    _shouldDownloadImages = YES;
-  }
   return self;
 }
+
 
 - (void)loadNativeAdForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:
@@ -113,19 +86,8 @@ __attribute__((constructor)) static void initialize_imageCache() {
                 return;
               }
 
-              [strongSelf requestNativeAdWithOptions:strongSelf->_nativeAdConfig.options];
+              [strongSelf requestNativeAd];
             }];
-}
-
-- (void)requestNativeAdWithOptions:(nullable NSArray<GADAdLoaderOptions *> *)options {
-  for (GADNativeAdImageAdLoaderOptions *imageOptions in options) {
-    if (![imageOptions isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
-      continue;
-    }
-    _shouldDownloadImages = !imageOptions.disableImageLoading;
-  }
-
-  [self requestNativeAd];
 }
 
 - (void)requestNativeAd {
@@ -177,21 +139,15 @@ __attribute__((constructor)) static void initialize_imageCache() {
   return YES;
 }
 
+- (BOOL) handlesUserClicks {
+    return YES;
+}
+
 #pragma mark - IMNativeDelegate
 
 - (void)nativeDidFinishLoading:(nonnull IMNative *)native {
   GADMAdapterInMobiLog(@"InMobi SDK loaded a native ad successfully.");
-  NSData *data = [_native.customAdContent dataUsingEncoding:NSUTF8StringEncoding];
-  __weak GADMAdapterInMobiUnifiedNativeAd *weakSelf = self;
-  [self setupWithData:data
-      shouldDownloadImage:_shouldDownloadImages
-               imageCache:imageCache
-                completed:^{
-                  GADMAdapterInMobiUnifiedNativeAd *strongSelf = weakSelf;
-                  if (strongSelf) {
-                    [strongSelf notifyCompletion];
-                  }
-                }];
+    [self notifyCompletion];
 }
 
 - (void)native:(nonnull IMNative *)native didFailToLoadWithError:(nonnull IMRequestStatus *)error {
@@ -223,15 +179,21 @@ __attribute__((constructor)) static void initialize_imageCache() {
       @"InMobi SDK will cause the user to leave the application from a native ad.");
 }
 
-- (void)nativeAdImpressed:(nonnull IMNative *)native {
-  GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from a native ad.");
-  id<GADMediationNativeAdEventDelegate> nativeAdEventDelegate = _nativeAdEventDelegate;
-  if (!nativeAdEventDelegate) {
-    return;
-  }
-  [nativeAdEventDelegate didPlayVideo];
-  [nativeAdEventDelegate reportImpression];
+
+- (void)nativeAdImpressed:(IMNative *)native {
+    GADMAdapterInMobiLog(@"InMobi SDK recorded an impression from a native ad.");
+    id<GADMediationNativeAdEventDelegate> nativeAdEventDelegate = _nativeAdEventDelegate;
+    if (!nativeAdEventDelegate) {
+      return;
+    }
+    
+    if ([self hasVideoContent]) {
+        [nativeAdEventDelegate didPlayVideo];
+    }
+    
+    [nativeAdEventDelegate reportImpression];
 }
+
 
 - (void)native:(nonnull IMNative *)native
     didInteractWithParams:(nullable NSDictionary<NSString *, id> *)params {
@@ -263,95 +225,9 @@ __attribute__((constructor)) static void initialize_imageCache() {
   }
 }
 
-#pragma mark - Setup Data
-
-- (void)setupWithData:(nullable NSData *)data
-    shouldDownloadImage:(BOOL)shouldDownloadImage
-             imageCache:(nonnull NSCache *)imageCache
-              completed:(void (^)(void))completed {
-  if (!data) {
-    completed();
-    return;
-  }
-
-  _nativeAdContentDictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                               options:kNilOptions
-                                                                 error:nil];
-  NSDictionary<NSString *, NSString *> *iconDictionary = _nativeAdContentDictionary[ICON];
-
-  if (!iconDictionary) {
-    completed();
-    return;
-  }
-
-  NSString *iconStringURL = iconDictionary[URL];
-  if (![self isValidWithNativeAd:_native imageURL:iconStringURL]) {
-    completed();
-    return;
-  }
-
-  NSString *landingURL = _nativeAdContentDictionary[LANDING_URL];
-  if (landingURL) {
-    _extras = @{LANDING_URL : landingURL};
-  }
-  NSURL *iconURL = [NSURL URLWithString:iconStringURL];
-
-  // Pass a blank image since we are using only mediaview.
-  UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
-  UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-
-  _mappedImages = @[ [[GADNativeAdImage alloc] initWithImage:img] ];
-
-  if (shouldDownloadImage) {
-    [self loadImageWithURL:iconURL
-                imageCache:imageCache
-                  callback:^(UIImage *image) {
-                    self->_mappedIcon = [[GADNativeAdImage alloc] initWithImage:image];
-                    completed();
-                  }];
-    return;
-  }
-
-  _mappedIcon = [[GADNativeAdImage alloc] initWithURL:iconURL scale:DefaultIconScale];
-  completed();
-}
-
-#pragma mark - Async Image
-
-- (void)loadImageWithURL:(nonnull NSURL *)url
-              imageCache:(nonnull NSCache *)imageCache
-                callback:(void (^)(UIImage *))callback {
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-    NSString *cacheKey = [url.absoluteString
-        stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
-                                                               URLHostAllowedCharacterSet]];
-    UIImage *cachedImage = [imageCache objectForKey:cacheKey];
-    if (!cachedImage) {
-      NSData *imageData = [NSData dataWithContentsOfURL:url];
-      UIImage *image = [UIImage imageWithData:imageData];
-      if (image) {
-        cachedImage = image;
-        GADMAdapterInMobiCacheSetObjectForKey(imageCache, cacheKey, cachedImage);
-      }
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-      callback(cachedImage);
-    });
-  });
-}
-
 #pragma mark - Completion
 
 - (void)notifyCompletion {
-  if (!_mappedIcon || !_mappedImages) {
-    NSError *error = GADMAdapterInMobiErrorWithCodeAndDescription(
-        GADMAdapterInMobiErrorMissingNativeAssets,
-        @"InMobi returned an ad without image or icon assets.");
-    _nativeRenderCompletionHandler(nil, error);
-    return;
-  }
-
   _nativeAdEventDelegate = _nativeRenderCompletionHandler(self, nil);
 }
 
@@ -368,7 +244,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 #pragma mark - GADMediatedUnifiedNativeAd
 
 - (nullable NSString *)advertiser {
-  return nil;
+  return _native.advertiserName;
 }
 
 - (nullable NSString *)headline {
@@ -380,7 +256,11 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (nullable GADNativeAdImage *)icon {
-  return _mappedIcon;
+    if (_native.adIcon.imageview.image == nil) {
+        return nil;
+    }
+    GADNativeAdImage *iconImage = [[GADNativeAdImage alloc] initWithImage:_native.adIcon.imageview.image];
+    return iconImage;
 }
 
 - (nullable NSString *)callToAction {
@@ -388,7 +268,7 @@ __attribute__((constructor)) static void initialize_imageCache() {
 }
 
 - (nullable NSDecimalNumber *)starRating {
-  if (_native) {
+  if (_native.adRating != nil) {
     return (NSDecimalNumber *)_native.adRating;
   }
   return 0;
@@ -396,65 +276,31 @@ __attribute__((constructor)) static void initialize_imageCache() {
 
 /// InMobi SDK doesn't have an AdChoices view.
 - (nullable UIView *)adChoicesView {
-  return nil;
+    return nil;
 }
 
 - (nullable NSString *)store {
-  NSString *landingURL = (NSString *)(_native.adLandingPageUrl.absoluteString);
-  if (!landingURL.length) {
-    return @"";
-  }
-
-  NSRange searchedRange = NSMakeRange(0, landingURL.length);
-  NSError *error = nil;
-  NSRegularExpression *regex =
-      [NSRegularExpression regularExpressionWithPattern:@"\\S*:\\/\\/itunes\\.apple\\.com\\S*"
-                                                options:0
-                                                  error:&error];
-  NSUInteger numberOfMatches = [regex numberOfMatchesInString:landingURL
-                                                      options:0
-                                                        range:searchedRange];
-  if (numberOfMatches == 0) {
-    return @"Others";
-  }
-  return @"iTunes";
+  return nil;
 }
 
 - (nullable NSString *)price {
-  if ([_nativeAdContentDictionary[PRICE] length]) {
-    return _nativeAdContentDictionary[PRICE];
-  }
   return @"";
 }
 
 - (nullable NSArray<GADNativeAdImage *> *)images {
-  return _mappedImages;
+  return nil;
 }
 
 - (nullable NSDictionary<NSString *, id> *)extraAssets {
-  return _extras;
+  return nil;
 }
 
 - (nullable UIView *)mediaView {
-  UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectZero];
-  placeHolderView.userInteractionEnabled = NO;
-  return placeHolderView;
+    return _native.getMediaView;
 }
 
 - (BOOL)hasVideoContent {
-  return true;
-}
-
-- (CGFloat)mediaContentAspectRatio {
-  return _aspectRatio;
-}
-
-- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
-                                 view:(nonnull UIView *)view
-                       viewController:(nonnull UIViewController *)viewController {
-  if (_native) {
-    [_native reportAdClickAndOpenLandingPage];
-  }
+  return _native.isVideoAd;
 }
 
 - (void)didRenderInView:(nonnull UIView *)view
@@ -463,16 +309,74 @@ __attribute__((constructor)) static void initialize_imageCache() {
     nonclickableAssetViews:
         (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController {
-  GADNativeAdView *adView = (GADNativeAdView *)view;
-  GADMediaView *mediaView = adView.mediaView;
-  UIView *primaryView = [_native primaryViewOfWidth:mediaView.frame.size.width];
-  [mediaView addSubview:primaryView];
 
-  _aspectRatio = primaryView.frame.size.width / primaryView.frame.size.height;
+    // 1) Validate that 'view' really is a GADNativeAdView
+    if (![view isKindOfClass:[GADNativeAdView class]] || !_native) {
+        // Either it's not the expected type, or our InMobi native object is missing
+        return;
+    }
+    GADNativeAdView *adView = (GADNativeAdView *)view;
+
+    // 2) Layout the InMobi media view inside the Google MediaView (if both exist)
+    GADMediaView *googleMediaView = adView.mediaView;
+    UIView *inMobiMediaView = _native.getMediaView;  // assuming 'mediaView' is the correct property
+    if (googleMediaView && inMobiMediaView) {
+        // Disable autoresizing mask, so Auto Layout constraints work
+        inMobiMediaView.translatesAutoresizingMaskIntoConstraints = NO;
+        [googleMediaView addSubview:inMobiMediaView];
+
+        [NSLayoutConstraint activateConstraints:@[
+            [inMobiMediaView.topAnchor constraintEqualToAnchor:googleMediaView.topAnchor],
+            [inMobiMediaView.bottomAnchor constraintEqualToAnchor:googleMediaView.bottomAnchor],
+            [inMobiMediaView.leadingAnchor constraintEqualToAnchor:googleMediaView.leadingAnchor],
+            [inMobiMediaView.trailingAnchor constraintEqualToAnchor:googleMediaView.trailingAnchor]
+        ]];
+    }
+
+    // 3) Build the IMNativeViewData with only the non-nil asset views
+    IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView:view];
+
+    // ⭐️ Headline
+    UIView *headlineView = clickableAssetViews[GADNativeHeadlineAsset];
+    if (headlineView) {
+        [builder setDescriptionView:headlineView];
+    }
+
+    // ⭐️ Call To Action
+    UIView *callToActionView = clickableAssetViews[GADNativeCallToActionAsset];
+    if (callToActionView) {
+        [builder setCTAView:callToActionView];
+    }
+
+    // ⭐️ Icon
+    UIView *iconView = clickableAssetViews[GADNativeIconAsset];
+    if (iconView && [iconView isKindOfClass:[UIImageView class]]) {
+        [builder setIconView:(UIImageView *)iconView];
+    }
+    
+    // Collect remaining “extra” asset views into an array
+    NSMutableArray<UIView *> *extraViews = [NSMutableArray array];
+    UIView *bodyView       = clickableAssetViews[GADNativeBodyAsset];
+    UIView *storeView      = clickableAssetViews[GADNativeStoreAsset];
+    UIView *priceView      = clickableAssetViews[GADNativePriceAsset];
+    UIView *imageView      = clickableAssetViews[GADNativeImageAsset];
+    UIView *starRatingView = clickableAssetViews[GADNativeStarRatingAsset];
+
+    if (bodyView)       [extraViews addObject:bodyView];
+    if (storeView)      [extraViews addObject:storeView];
+    if (priceView)      [extraViews addObject:priceView];
+    if (imageView)      [extraViews addObject:imageView];
+    if (starRatingView) [extraViews addObject:starRatingView];
+
+    if (extraViews.count > 0) {
+        [builder setExtraViews:extraViews];
+    }
+
+    // 4) Finally, build and register for tracking
+    IMNativeViewData *viewData = [builder build];
+    [_native registerViewForTracking:viewData];
 }
 
-- (void)didUntrackView:(nullable UIView *)view {
-  [_native recyclePrimaryView];
-}
+- (void)didUntrackView:(nullable UIView *)view { }
 
 @end
