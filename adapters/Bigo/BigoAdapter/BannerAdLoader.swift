@@ -64,11 +64,22 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       return
     }
 
+    guard let watermark = adConfiguration.watermark else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing watermark."
+        ).toNSError())
+      return
+    }
+
     do {
       let slotId = try Util.slotId(from: adConfiguration)
       let bannerAdSize = try Util.adSize(for: adConfiguration.adSize)
       client.loadRTBBannerAd(
-        for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, delegate: self)
+        for: slotId, bidPayLoad: bidResponse, adSize: bannerAdSize, watermark: watermark,
+        delegate: self)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }

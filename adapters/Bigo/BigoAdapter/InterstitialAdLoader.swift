@@ -57,9 +57,20 @@ final class InterstitialAdLoader: NSObject {
       return
     }
 
+    guard let watermark = adConfiguration.watermark else {
+      handleLoadedAd(
+        nil,
+        error: BigoAdapterError(
+          errorCode: .invalidAdConfiguration,
+          description: "The ad configuration is missing watermark."
+        ).toNSError())
+      return
+    }
+
     do {
       let slotId = try Util.slotId(from: adConfiguration)
-      client.loadRTBInterstitialAd(for: slotId, bidPayLoad: bidResponse, delegate: self)
+      client.loadRTBInterstitialAd(
+        for: slotId, bidPayLoad: bidResponse, watermark: watermark, delegate: self)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }

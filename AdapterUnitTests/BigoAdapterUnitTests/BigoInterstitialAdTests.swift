@@ -26,6 +26,7 @@ final class BigoInterstitialAdTests: XCTestCase {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
   }
@@ -38,6 +39,7 @@ final class BigoInterstitialAdTests: XCTestCase {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = NSError(domain: "com.google.mediation.bigo", code: 12345, userInfo: [:])
 
     AUTKWaitAndAssertLoadInterstitialAdFailure(adapter, config, expectedError)
@@ -49,6 +51,7 @@ final class BigoInterstitialAdTests: XCTestCase {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -59,6 +62,19 @@ final class BigoInterstitialAdTests: XCTestCase {
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["slot_id": "test"]
     let config = AUTKMediationInterstitialAdConfiguration()
+    config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+    let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
+      .toNSError()
+
+    AUTKWaitAndAssertLoadInterstitialAdFailure(adapter, config, expectedError)
+  }
+
+  func testLoadRtbInterstitialAd_fails_whenWatermarkIsMissing() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationInterstitialAdConfiguration()
+    config.bidResponse = "test"
     config.credentials = credentials
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
@@ -72,6 +88,7 @@ final class BigoInterstitialAdTests: XCTestCase {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let delegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
     let interstitialAd = delegate.interstitialAd! as MediationInterstitialAd
@@ -91,6 +108,7 @@ final class BigoInterstitialAdTests: XCTestCase {
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let delegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
     let interstitialAd = delegate.interstitialAd! as MediationInterstitialAd

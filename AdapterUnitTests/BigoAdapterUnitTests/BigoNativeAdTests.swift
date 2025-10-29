@@ -27,6 +27,7 @@ final class BigoNativeAdTests: XCTestCase {
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     AUTKWaitAndAssertLoadNativeAd(adapter, config)
   }
@@ -39,6 +40,7 @@ final class BigoNativeAdTests: XCTestCase {
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = NSError(domain: "com.google.mediation.bigo", code: 12345, userInfo: [:])
 
     AUTKWaitAndAssertLoadNativeAdFailure(adapter, config, expectedError)
@@ -50,6 +52,7 @@ final class BigoNativeAdTests: XCTestCase {
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -61,6 +64,19 @@ final class BigoNativeAdTests: XCTestCase {
     credentials.settings = ["slot_id": "test"]
     let config = AUTKMediationNativeAdConfiguration()
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
+    let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
+      .toNSError()
+
+    AUTKWaitAndAssertLoadNativeAdFailure(adapter, config, expectedError)
+  }
+
+  func testLoadRtbNativeAd_fails_whenWatermarkIsMissing() {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["slot_id": "test"]
+    let config = AUTKMediationNativeAdConfiguration()
+    config.credentials = credentials
+    config.bidResponse = "test"
     let expectedError = BigoAdapterError(errorCode: .invalidAdConfiguration, description: "")
       .toNSError()
 
@@ -73,6 +89,7 @@ final class BigoNativeAdTests: XCTestCase {
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
     config.credentials = credentials
+    config.watermark = Data(repeating: 1, count: 1)
 
     let delegate = AUTKWaitAndAssertLoadNativeAd(adapter, config)
     let interactionDelegate = delegate.nativeAd as! BigoAdInteractionDelegate

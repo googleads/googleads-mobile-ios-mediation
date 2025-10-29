@@ -46,7 +46,7 @@ protocol BidMachineClient: NSObject {
 
   /// Collects the signals  for the specified ad format.
   func collectSignals(
-    for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void)
     throws
 
   /// Loads a waterfall  banner ad.
@@ -119,7 +119,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func collectSignals(
-    for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void
+    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
   ) throws {
     let placementFormat = try adFormat.toPlacementFormat()
     let placement = try BidMachineSdk.shared.placement(from: placementFormat)
@@ -368,7 +368,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
 }
 
-extension AdFormat {
+extension GoogleMobileAds.AdFormat {
 
   fileprivate func toPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
     switch self {

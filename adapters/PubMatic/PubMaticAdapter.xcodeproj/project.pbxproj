@@ -32,6 +32,16 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		AD6E387D2EA1662400818296 /* NativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */; };
+		AD6E387E2EA1662400818296 /* PubMaticAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */; };
+		AD6E387F2EA1662400818296 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
+		AD6E38802EA1662400818296 /* BannerAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A92C17704300A501AB /* BannerAdLoader.swift */; };
+		AD6E38812EA1662400818296 /* OpenWrapSDKClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */; };
+		AD6E38822EA1662400818296 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76A9772D93103400F40CD4 /* Util.swift */; };
+		AD6E38832EA1662400818296 /* RewardedAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AC2C17704300A501AB /* RewardedAdLoader.swift */; };
+		AD6E38842EA1662400818296 /* PubMaticAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */; };
+		AD6E38852EA1662400818296 /* InterstitialAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AA2C17704300A501AB /* InterstitialAdLoader.swift */; };
+		AD6E38862EA1662400818296 /* PubMaticAdapterExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */; };
 		AD76A9782D93104000F40CD4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76A9772D93103400F40CD4 /* Util.swift */; };
 		AD76A9CE2D9311C500F40CD4 /* PubMaticAdapterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */; };
 		AD76A9CF2D9311C500F40CD4 /* NativeAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFA84AB2C17704300A501AB /* NativeAdLoader.swift */; };
@@ -54,7 +64,26 @@
 		ADFB32A82DC42970005EBC7F /* NativeAdProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB32A62DC4296B005EBC7F /* NativeAdProxy.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AD6E38752EA1660200818296 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD23672E2C176DB300997FF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADFA84CA2C17722500A501AB;
+			remoteInfo = ValidateSourceCode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		AD6E38882EA1662400818296 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD76A9D72D9311C500F40CD4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,10 +105,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD6E388C2EA1662400818296 /* PubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = PubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76A9772D93103400F40CD4 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = StaticPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD76ABFE2D93BCBF00F40CD4 /* OpenWrapSDKClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWrapSDKClient.swift; sourceTree = "<group>"; };
-		ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = PubMaticAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADFA84A52C17704300A501AB /* PubMaticAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapter.swift; sourceTree = "<group>"; };
 		ADFA84A62C17704300A501AB /* PubMaticAdapterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterError.swift; sourceTree = "<group>"; };
 		ADFA84A72C17704300A501AB /* PubMaticAdapterExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PubMaticAdapterExtras.swift; sourceTree = "<group>"; };
@@ -100,6 +130,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AD6E38872EA1662400818296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD76A9D62D9311C500F40CD4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,9 +176,10 @@
 		ADFA849E2C176E2200A501AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */,
+				ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */,
 				ADFA84D42C17738E00A501AB /* PubMaticAdapter.framework */,
-				AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */,
+				AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */,
+				AD6E388C2EA1662400818296 /* PubMaticAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +224,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AD6E38792EA1662400818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E38892EA1662400818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E387C2EA1662400818296 /* Sources */,
+				AD6E38872EA1662400818296 /* Frameworks */,
+				AD6E38882EA1662400818296 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E388C2EA1662400818296 /* PubMaticAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		AD76A9CC2D9311C500F40CD4 /* StaticPubMaticAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD76A9D82D9311C500F40CD4 /* Build configuration list for PBXNativeTarget "StaticPubMaticAdapter" */;
@@ -200,7 +255,7 @@
 			);
 			name = StaticPubMaticAdapter;
 			productName = Adapter;
-			productReference = AD76A9DB2D9311C500F40CD4 /* libStaticPubMaticAdapter.a */;
+			productReference = AD76A9DB2D9311C500F40CD4 /* StaticPubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA849C2C176E2200A501AB /* Adapter */ = {
@@ -214,10 +269,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD6E38762EA1660200818296 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = Adapter;
-			productReference = ADFA849D2C176E2200A501AB /* libPubMaticAdapter.a */;
+			productReference = ADFA849D2C176E2200A501AB /* PubMaticAdapter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		ADFA84D32C17738E00A501AB /* PubMaticAdapter */ = {
@@ -276,6 +332,7 @@
 				ADFA84CA2C17722500A501AB /* ValidateSourceCode */,
 				ADFA84D32C17738E00A501AB /* PubMaticAdapter */,
 				AD76A9CC2D9311C500F40CD4 /* StaticPubMaticAdapter */,
+				AD6E38792EA1662400818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -328,6 +385,23 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AD6E387C2EA1662400818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E387D2EA1662400818296 /* NativeAdProxy.swift in Sources */,
+				AD6E387E2EA1662400818296 /* PubMaticAdapterError.swift in Sources */,
+				AD6E387F2EA1662400818296 /* NativeAdLoader.swift in Sources */,
+				AD6E38802EA1662400818296 /* BannerAdLoader.swift in Sources */,
+				AD6E38812EA1662400818296 /* OpenWrapSDKClient.swift in Sources */,
+				AD6E38822EA1662400818296 /* Util.swift in Sources */,
+				AD6E38832EA1662400818296 /* RewardedAdLoader.swift in Sources */,
+				AD6E38842EA1662400818296 /* PubMaticAdapter.swift in Sources */,
+				AD6E38852EA1662400818296 /* InterstitialAdLoader.swift in Sources */,
+				AD6E38862EA1662400818296 /* PubMaticAdapterExtras.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD76A9CD2D9311C500F40CD4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,6 +445,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AD6E38762EA1660200818296 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADFA84CA2C17722500A501AB /* ValidateSourceCode */;
+			targetProxy = AD6E38752EA1660200818296 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		AD2367322C176DB300997FF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -385,6 +467,169 @@
 			baseConfigurationReference = ADFA84B22C17704300A501AB /* Adapter.xcconfig */;
 			buildSettings = {
 				MODULE_MAP_PATH = "";
+			};
+			name = Release;
+		};
+		AD6E388A2EA1662400818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = PubMatic;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = PubMaticAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"c++\"",
+				);
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD6E388B2EA1662400818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AD_NETWORK_NAME = PubMatic;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_NAME = PubMaticAdapter;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = "same-as-input";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LIB_NAME = "${PRODUCT_NAME}";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
+				MODULE_MAP_PATH = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-l\"c++\"",
+				);
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
+				PRODUCT_MODULE_NAME = "${PRODUCT_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME)-Swift.h";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -976,6 +1221,15 @@
 			buildConfigurations = (
 				AD2367322C176DB300997FF7 /* Debug */,
 				AD2367332C176DB300997FF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E38892EA1662400818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E388A2EA1662400818296 /* Debug */,
+				AD6E388B2EA1662400818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

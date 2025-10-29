@@ -52,6 +52,28 @@
 		89DF94441F7E43230027A171 /* GADMAdapterMyTargetNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */; };
 		89DF94451F7E43230027A171 /* GADMAdapterMyTargetNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */; };
 		AD56E09C2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */; };
+		AD6E38B72EA1666D00818296 /* GADMAdapterMyTargetInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */; };
+		AD6E38B82EA1666D00818296 /* GADMAdapterMyTargetExtraAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 892785161F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.m */; };
+		AD6E38B92EA1666D00818296 /* GADMAdapterMyTargetNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF94431F7E43230027A171 /* GADMAdapterMyTargetNative.m */; };
+		AD6E38BA2EA1666D00818296 /* GADMAdapterMyTargetRewardedAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D672FE223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.m */; };
+		AD6E38BB2EA1666D00818296 /* GADMediationAdapterMyTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D672FA223AEE8400323EC6 /* GADMediationAdapterMyTarget.m */; };
+		AD6E38BC2EA1666D00818296 /* GADMAdapterMyTargetRewarded.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF943F1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.m */; };
+		AD6E38BD2EA1666D00818296 /* GADMAdapterMyTargetUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF93EA1F7D179F0027A171 /* GADMAdapterMyTargetUtils.m */; };
+		AD6E38BE2EA1666D00818296 /* GADMAdapterMyTargetNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37C2B339C54002952E2 /* GADMAdapterMyTargetNativeAd.m */; };
+		AD6E38BF2EA1666D00818296 /* GADMAdapterMyTargetConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 890FE1142582138400816721 /* GADMAdapterMyTargetConstants.m */; };
+		AD6E38C02EA1666D00818296 /* GADMAdapterMyTargetExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D573201F851B7500BC8D1C /* GADMAdapterMyTargetExtras.m */; };
+		AD6E38C12EA1666D00818296 /* GADMAdapterMyTargetBannerAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */; };
+		AD6E38C22EA1666D00818296 /* GADMAdapterMyTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DF93ED1F7D17A00027A171 /* GADMAdapterMyTarget.m */; };
+		AD6E38C62EA1666D00818296 /* GADMAdapterMyTargetConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93EC1F7D17A00027A171 /* GADMAdapterMyTargetConstants.h */; };
+		AD6E38C72EA1666D00818296 /* GADMAdapterMyTargetExtraAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 892785151F9A26FC00BE9005 /* GADMAdapterMyTargetExtraAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E38C82EA1666D00818296 /* GADMAdapterMyTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93E91F7D179F0027A171 /* GADMAdapterMyTarget.h */; };
+		AD6E38C92EA1666D00818296 /* GADMAdapterMyTargetRewarded.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF943E1F7E3B950027A171 /* GADMAdapterMyTargetRewarded.h */; };
+		AD6E38CA2EA1666D00818296 /* GADMAdapterMyTargetNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF94421F7E43230027A171 /* GADMAdapterMyTargetNative.h */; };
+		AD6E38CB2EA1666D00818296 /* GADMAdapterMyTargetRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D672FD223AEF5B00323EC6 /* GADMAdapterMyTargetRewardedAd.h */; };
+		AD6E38CC2EA1666D00818296 /* GADMediationAdapterMyTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D672F9223AEE8400323EC6 /* GADMediationAdapterMyTarget.h */; };
+		AD6E38CD2EA1666D00818296 /* GADMAdapterMyTargetUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 89DF93EB1F7D179F0027A171 /* GADMAdapterMyTargetUtils.h */; };
+		AD6E38CE2EA1666D00818296 /* MyTargetAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D233F401DC407F400762177 /* MyTargetAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD6E38CF2EA1666D00818296 /* GADMAdapterMyTargetExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 89D5731F1F851B7500BC8D1C /* GADMAdapterMyTargetExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD89C37D2B339C54002952E2 /* GADMAdapterMyTargetNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = AD89C37C2B339C54002952E2 /* GADMAdapterMyTargetNativeAd.m */; };
 		ADA1B1C12B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */; };
 		ADA6BA612CF14709009C8FDA /* GADMAdapterMyTargetInterstitialAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA1B1C02B30D82000CA4FC8 /* GADMAdapterMyTargetInterstitialAd.m */; };
@@ -89,17 +111,19 @@
 			remoteGlobalIDString = 00DD268422F10C5D0039C1D4;
 			remoteInfo = ValidateSourceCode;
 		};
-		ADA6BA5F2CF14709009C8FDA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7DFABB151DA8682C00322E02 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 00DD268422F10C5D0039C1D4;
-			remoteInfo = ValidateSourceCode;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7DFABB1B1DA8682C00322E02 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38C42EA1666D00818296 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -155,6 +179,7 @@
 		AD00C47D2B87DC46007C85F3 /* MyTargetAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MyTargetAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD56E09A2B321B2600F7C166 /* GADMAdapterMyTargetBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetBannerAd.h; sourceTree = "<group>"; };
 		AD56E09B2B321C2E00F7C166 /* GADMAdapterMyTargetBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetBannerAd.m; sourceTree = "<group>"; };
+		AD6E38D32EA1666D00818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD89C37B2B339C40002952E2 /* GADMAdapterMyTargetNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetNativeAd.h; sourceTree = "<group>"; };
 		AD89C37C2B339C54002952E2 /* GADMAdapterMyTargetNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterMyTargetNativeAd.m; sourceTree = "<group>"; };
 		ADA1B1BF2B30D7D400CA4FC8 /* GADMAdapterMyTargetInterstitialAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterMyTargetInterstitialAd.h; sourceTree = "<group>"; };
@@ -171,6 +196,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD00C47A2B87DC46007C85F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38C32EA1666D00818296 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -274,6 +306,7 @@
 				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
 				AD00C47D2B87DC46007C85F3 /* MyTargetAdapter.framework */,
 				ADA6BA7D2CF14709009C8FDA /* libStaticMyTargetAdapter.a */,
+				AD6E38D32EA1666D00818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -302,6 +335,23 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD6E38C52EA1666D00818296 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E38C62EA1666D00818296 /* GADMAdapterMyTargetConstants.h in Headers */,
+				AD6E38C72EA1666D00818296 /* GADMAdapterMyTargetExtraAssets.h in Headers */,
+				AD6E38C82EA1666D00818296 /* GADMAdapterMyTarget.h in Headers */,
+				AD6E38C92EA1666D00818296 /* GADMAdapterMyTargetRewarded.h in Headers */,
+				AD6E38CA2EA1666D00818296 /* GADMAdapterMyTargetNative.h in Headers */,
+				AD6E38CB2EA1666D00818296 /* GADMAdapterMyTargetRewardedAd.h in Headers */,
+				AD6E38CC2EA1666D00818296 /* GADMediationAdapterMyTarget.h in Headers */,
+				AD6E38CD2EA1666D00818296 /* GADMAdapterMyTargetUtils.h in Headers */,
+				AD6E38CE2EA1666D00818296 /* MyTargetAdapter.h in Headers */,
+				AD6E38CF2EA1666D00818296 /* GADMAdapterMyTargetExtras.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +412,24 @@
 			productReference = AD00C47D2B87DC46007C85F3 /* MyTargetAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AD6E38B32EA1666D00818296 /* AdapterWithoutValidationScript */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6E38D02EA1666D00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
+			buildPhases = (
+				AD6E38B62EA1666D00818296 /* Sources */,
+				AD6E38C32EA1666D00818296 /* Frameworks */,
+				AD6E38C42EA1666D00818296 /* CopyFiles */,
+				AD6E38C52EA1666D00818296 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdapterWithoutValidationScript;
+			productName = Adapter;
+			productReference = AD6E38D32EA1666D00818296 /* libAdapter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		ADA6BA5D2CF14709009C8FDA /* StaticMyTargetAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADA6BA7A2CF14709009C8FDA /* Build configuration list for PBXNativeTarget "StaticMyTargetAdapter" */;
@@ -374,7 +442,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA6BA5E2CF14709009C8FDA /* PBXTargetDependency */,
 			);
 			name = StaticMyTargetAdapter;
 			productName = Adapter;
@@ -419,6 +486,7 @@
 				00DD268422F10C5D0039C1D4 /* ValidateSourceCode */,
 				AD00C47C2B87DC46007C85F3 /* MyTargetAdapter */,
 				ADA6BA5D2CF14709009C8FDA /* StaticMyTargetAdapter */,
+				AD6E38B32EA1666D00818296 /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -491,6 +559,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AD6E38B62EA1666D00818296 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6E38B72EA1666D00818296 /* GADMAdapterMyTargetInterstitialAd.m in Sources */,
+				AD6E38B82EA1666D00818296 /* GADMAdapterMyTargetExtraAssets.m in Sources */,
+				AD6E38B92EA1666D00818296 /* GADMAdapterMyTargetNative.m in Sources */,
+				AD6E38BA2EA1666D00818296 /* GADMAdapterMyTargetRewardedAd.m in Sources */,
+				AD6E38BB2EA1666D00818296 /* GADMediationAdapterMyTarget.m in Sources */,
+				AD6E38BC2EA1666D00818296 /* GADMAdapterMyTargetRewarded.m in Sources */,
+				AD6E38BD2EA1666D00818296 /* GADMAdapterMyTargetUtils.m in Sources */,
+				AD6E38BE2EA1666D00818296 /* GADMAdapterMyTargetNativeAd.m in Sources */,
+				AD6E38BF2EA1666D00818296 /* GADMAdapterMyTargetConstants.m in Sources */,
+				AD6E38C02EA1666D00818296 /* GADMAdapterMyTargetExtras.m in Sources */,
+				AD6E38C12EA1666D00818296 /* GADMAdapterMyTargetBannerAd.m in Sources */,
+				AD6E38C22EA1666D00818296 /* GADMAdapterMyTarget.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ADA6BA602CF14709009C8FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,11 +604,6 @@
 			isa = PBXTargetDependency;
 			target = 00DD268422F10C5D0039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DD268922F10C7B0039C1D4 /* PBXContainerItemProxy */;
-		};
-		ADA6BA5E2CF14709009C8FDA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 00DD268422F10C5D0039C1D4 /* ValidateSourceCode */;
-			targetProxy = ADA6BA5F2CF14709009C8FDA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -651,6 +733,31 @@
 		7DFABB271DA8682C00322E02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(inherited)",
+					"\"${SRCROOT}/Drop_Framework_And_Headers\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/MyTargetSDK.xcframework/ios-arm64\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/MyTrackerSDK.xcframework/ios-arm64\"",
+				);
+				"FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"\"${SRCROOT}/Drop_Framework_And_Headers\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/StackModules/release/Static/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator\"",
+					"\"${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/StackModules/release/Static/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator\"",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -659,6 +766,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**\"",
+					"\"$(SRCROOT)/Drop_Framework_And_Headers/**\"",
+				);
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -762,6 +874,23 @@
 			};
 			name = Release;
 		};
+		AD6E38D12EA1666D00818296 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		AD6E38D22EA1666D00818296 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D6A68A41DB7ED310001E48B /* Release.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		ADA6BA7B2CF14709009C8FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -822,6 +951,15 @@
 			buildConfigurations = (
 				AD00C4812B87DC47007C85F3 /* Debug */,
 				AD00C4822B87DC47007C85F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6E38D02EA1666D00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6E38D12EA1666D00818296 /* Debug */,
+				AD6E38D22EA1666D00818296 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
