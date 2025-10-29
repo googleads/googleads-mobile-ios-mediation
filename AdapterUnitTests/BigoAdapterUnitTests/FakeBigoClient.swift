@@ -43,6 +43,7 @@ final class FakeBigoClient: NSObject, BigoClient {
   func loadRTBInterstitialAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoInterstitialAdLoaderDelegate
   ) {
     if shouldAdLoadSucceed {
@@ -72,6 +73,7 @@ final class FakeBigoClient: NSObject, BigoClient {
   func loadRTBRewardVideoAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoRewardVideoAdLoaderDelegate
   ) {
     if shouldAdLoadSucceed {
@@ -103,6 +105,7 @@ final class FakeBigoClient: NSObject, BigoClient {
   func loadRTBSplashAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoSplashAdLoaderDelegate
   ) {
     if shouldAdLoadSucceed {
@@ -134,6 +137,7 @@ final class FakeBigoClient: NSObject, BigoClient {
     for slotId: String,
     bidPayLoad: String,
     adSize: BigoAdSize,
+    watermark: Data,
     delegate: any BigoBannerAdLoaderDelegate
   ) {
     if shouldAdLoadSucceed {
@@ -147,6 +151,7 @@ final class FakeBigoClient: NSObject, BigoClient {
   func loadRTBNativeAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoNativeAdLoaderDelegate
   ) {
     if shouldAdLoadSucceed {

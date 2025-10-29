@@ -124,7 +124,7 @@ final class HybidClientImpl: NSObject, HybidClient {
   }
 
   func collectSignals() -> String {
-    return HyBid.getCustomRequestSignalData("Admob") ?? ""
+    return HyBid.getEncodedCustomRequestSignalData("Admob") ?? ""
   }
 
   @discardableResult

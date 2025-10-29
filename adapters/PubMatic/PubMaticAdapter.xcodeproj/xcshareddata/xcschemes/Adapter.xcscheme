@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ADFA849C2C176E2200A501AB"
-               BuildableName = "libPubMaticAdapter.a"
+               BuildableName = "PubMaticAdapter.a"
                BlueprintName = "Adapter"
                ReferencedContainer = "container:PubMaticAdapter.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ADFA849C2C176E2200A501AB"
-            BuildableName = "libPubMaticAdapter.a"
+            BuildableName = "PubMaticAdapter.a"
             BlueprintName = "Adapter"
             ReferencedContainer = "container:PubMaticAdapter.xcodeproj">
          </BuildableReference>

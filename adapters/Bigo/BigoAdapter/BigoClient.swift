@@ -46,7 +46,8 @@ protocol BigoClient: NSObject {
 
   /// Loads a RTB interstitial ad from BigoADS.
   func loadRTBInterstitialAd(
-    for slotId: String, bidPayLoad: String, delegate: BigoInterstitialAdLoaderDelegate)
+    for slotId: String, bidPayLoad: String, watermark: Data,
+    delegate: BigoInterstitialAdLoaderDelegate)
 
   /// Presents the Bigo interstitial ad.
   func presentInterstitialAd(
@@ -55,7 +56,8 @@ protocol BigoClient: NSObject {
 
   /// Loads a RTB reward ad from BigoADS.
   func loadRTBRewardVideoAd(
-    for slotId: String, bidPayLoad: String, delegate: BigoRewardVideoAdLoaderDelegate)
+    for slotId: String, bidPayLoad: String, watermark: Data,
+    delegate: BigoRewardVideoAdLoaderDelegate)
 
   /// Presents the Bigo reward video ad.
   func presentRewardVideoAd(
@@ -63,7 +65,8 @@ protocol BigoClient: NSObject {
     interactionDelegate: BigoRewardVideoAdInteractionDelegate)
 
   /// Loads a RTB app splash ad from BigoADS.
-  func loadRTBSplashAd(for slotId: String, bidPayLoad: String, delegate: BigoSplashAdLoaderDelegate)
+  func loadRTBSplashAd(
+    for slotId: String, bidPayLoad: String, watermark: Data, delegate: BigoSplashAdLoaderDelegate)
 
   /// Presents the Bigo splash ad.
   func presentSplashAd(
@@ -72,11 +75,14 @@ protocol BigoClient: NSObject {
 
   /// Loads a RTB banner ad from BigoADS.
   func loadRTBBannerAd(
-    for slotId: String, bidPayLoad: String, adSize: BigoAdSize, delegate: BigoBannerAdLoaderDelegate
+    for slotId: String, bidPayLoad: String, adSize: BigoAdSize, watermark: Data,
+    delegate: BigoBannerAdLoaderDelegate
   )
 
   /// Loads a RTB native ad from BigoADS.
-  func loadRTBNativeAd(for slotId: String, bidPayLoad: String, delegate: BigoNativeAdLoaderDelegate)
+  func loadRTBNativeAd(
+    for slotId: String, bidPayLoad: String, watermark: Data, delegate: BigoNativeAdLoaderDelegate)
+
 }
 
 final class BigoClientImpl: NSObject, BigoClient {
@@ -121,10 +127,14 @@ final class BigoClientImpl: NSObject, BigoClient {
   }
 
   func loadRTBInterstitialAd(
-    for slotId: String, bidPayLoad: String, delegate: BigoInterstitialAdLoaderDelegate
+    for slotId: String,
+    bidPayLoad: String,
+    watermark: Data,
+    delegate: BigoInterstitialAdLoaderDelegate
   ) {
     let request = BigoInterstitialAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
+    request.encodedImageData = watermark
     interstitialAdLoader = BigoInterstitialAdLoader(interstitialAdLoaderDelegate: delegate)
     interstitialAdLoader?.ext = Self.extString
     interstitialAdLoader?.loadAd(request)
@@ -141,10 +151,12 @@ final class BigoClientImpl: NSObject, BigoClient {
   func loadRTBRewardVideoAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoRewardVideoAdLoaderDelegate
   ) {
     let request = BigoRewardVideoAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
+    request.encodedImageData = watermark
     rewardVideoAdLoader = BigoRewardVideoAdLoader(rewardVideoAdLoaderDelegate: delegate)
     rewardVideoAdLoader?.ext = Self.extString
     rewardVideoAdLoader?.loadAd(request)
@@ -162,10 +174,12 @@ final class BigoClientImpl: NSObject, BigoClient {
   func loadRTBSplashAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoSplashAdLoaderDelegate
   ) {
     let request = BigoSplashAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
+    request.encodedImageData = watermark
     splashAdLoader = BigoSplashAdLoader(splashAdLoaderDelegate: delegate)
     splashAdLoader?.ext = Self.extString
     splashAdLoader?.loadAd(request)
@@ -184,10 +198,12 @@ final class BigoClientImpl: NSObject, BigoClient {
     for slotId: String,
     bidPayLoad: String,
     adSize: BigoAdSize,
+    watermark: Data,
     delegate: any BigoBannerAdLoaderDelegate
   ) {
     let request = BigoBannerAdRequest(slotId: slotId, adSizes: [adSize])
     request.setServerBidPayload(bidPayLoad)
+    request.encodedImageData = watermark
     bannerAdLoader = BigoBannerAdLoader(bannerAdLoaderDelegate: delegate)
     bannerAdLoader?.ext = Self.extString
     bannerAdLoader?.loadAd(request)
@@ -196,10 +212,12 @@ final class BigoClientImpl: NSObject, BigoClient {
   func loadRTBNativeAd(
     for slotId: String,
     bidPayLoad: String,
+    watermark: Data,
     delegate: any BigoNativeAdLoaderDelegate
   ) {
     let request = BigoNativeAdRequest(slotId: slotId)
     request.setServerBidPayload(bidPayLoad)
+    request.encodedImageData = watermark
     nativeAdLoader = BigoNativeAdLoader(nativeAdLoaderDelegate: delegate)
     nativeAdLoader?.ext = Self.extString
     nativeAdLoader?.loadAd(request)

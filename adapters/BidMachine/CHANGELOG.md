@@ -1,6 +1,6 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.4.0.2 (In progress)
 - Add support for waterfall interstitial ads in the BidMachine adapter.
 - Add support for waterfall rewarded ads in the BidMachine adapter.
 - Add support for waterfall banner ads in the BidMachine adapter.

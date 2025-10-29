@@ -9,7 +9,7 @@ FRAMEWORK_NAME = Google$(AD_NETWORK_NAME)Adapter
 
 /// Xcode variables
 PRODUCT_NAME = GoogleBidMachineAdapter
-EXECUTABLE_PREFIX = lib
+EXECUTABLE_PREFIX =
 
 /// User defined variables.
 LIB_NAME = $(EXECUTABLE_PREFIX)$(PRODUCT_NAME)
@@ -26,7 +26,7 @@ MIN_OS_MINOR_VERSION_64_BIT = 0
 IPHONEOS_DEPLOYMENT_TARGET = $(MIN_OS_MAJOR_VERSION).$(MIN_OS_MINOR_VERSION)
 IPHONEOS_DEPLOYMENT_TARGET[arch=arm64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)
 IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_OS_MINOR_VERSION_64_BIT)
-CURRENT_PROJECT_VERSION = 3401
+CURRENT_PROJECT_VERSION = 3402
 MARKETING_VERSION = 3.4.0
 // For device builds
 FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "${SRCROOT}/Drop_Framework_And_Headers" "${SRCROOT}/Drop_Framework_And_Headers/BidMachine.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackProductPresentation.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackModules.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/StackRendering.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/OMSDK_Appodeal.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/BidMachine/release/Static/BidMachine.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/OMSDK_Appodeal/OMSDK_Appodeal.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/StackModules.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/StackProductPresentation.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/StackModules/release/Static/StackRendering.xcframework/ios-arm64"
