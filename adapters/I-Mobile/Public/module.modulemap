@@ -1,5 +1,5 @@
-framework module InMobiAdapter {
-  umbrella header "InMobiAdapter.h"
+framework module IMobileAdapter {
+  umbrella header "IMobileAdapter.h"
 
   export *
   module * { export * }

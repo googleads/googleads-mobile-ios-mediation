@@ -2,6 +2,7 @@
 
 #### Next version
 - Enable -fobjc-arc and -fstack-protector-all.
+- Correct framework and umbrella header names in IMobileAdapter modulemap.
 
 #### [Version 2.3.4.2](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.2.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
