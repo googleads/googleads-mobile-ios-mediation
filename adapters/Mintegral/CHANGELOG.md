@@ -1,5 +1,7 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Version 8.0.1.0 (In progress)
+
 #### [Version 7.7.9.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-7.7.9.1.zip)
 - Removed banner ad size checks from the adapter for bidding banner ads.
 
