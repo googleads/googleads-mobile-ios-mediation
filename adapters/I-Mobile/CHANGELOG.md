@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.3.4.3 (In progress)
 - Enable -fobjc-arc and -fstack-protector-all.
 - Correct framework and umbrella header names in IMobileAdapter modulemap.
 
