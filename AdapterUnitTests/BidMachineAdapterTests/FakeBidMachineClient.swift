@@ -20,7 +20,7 @@ import UIKit
 
 final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
-  private static let supportedFormats: [AdFormat] = [
+  private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
 
@@ -43,7 +43,9 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     self.isCOPPA = isCOPPA
   }
 
-  func collectSignals(for adFormat: AdFormat, completionHandler: @escaping (String?) -> Void)
+  func collectSignals(
+    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
+  )
     throws
   {
     if !Self.supportedFormats.contains(adFormat) {

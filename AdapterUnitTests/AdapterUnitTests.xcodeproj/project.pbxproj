@@ -30,7 +30,7 @@
 		70AA2A472B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2A462B1E8FF400589F6A /* AUTIronSourceRewardedInterstitialAdTest.m */; };
 		70AA2B192B1FCAA600589F6A /* AUTIronSourceUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AA2B182B1FCAA600589F6A /* AUTIronSourceUtilsTests.m */; };
 		70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		70D175092E9ED04700DD91A0 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */; };
+		70D175092E9ED04700DD91A0 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapter.a */; };
 		70D2CBC22B0B41EE00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */; };
 		70D2CC7D2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2CC7C2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m */; };
 		70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */; };
@@ -110,7 +110,7 @@
 		AD30D1792E1F23DA00FCEF73 /* AUTUnityAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD30D1782E1F23B200FCEF73 /* AUTUnityAdapterLatencyTests.m */; };
 		AD30D1F02E1F2ABF00FCEF73 /* UnityAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30D1EF2E1F2ABF00FCEF73 /* UnityAdapterLatencyTestPlan.xctestplan */; };
 		AD30D36F2E1F314E00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD30D3702E1F314E00FCEF73 /* libMolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */; };
+		AD30D3702E1F314E00FCEF73 /* MolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7072CF5A2C41F8BD002BF6AE /* MolocoAdapter.a */; };
 		AD30D37A2E1F31CB00FCEF73 /* MolocoAdapterLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30D3782E1F318C00FCEF73 /* MolocoAdapterLatencyTests.swift */; };
 		AD30D4DB2E1F32C500FCEF73 /* MolocoAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30D4DA2E1F32C500FCEF73 /* MolocoAdapterLatencyTestPlan.xctestplan */; };
 		AD30D9F12E20666300FCEF73 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0D6FEA2AF71844002C0B60 /* libAdapter.a */; };
@@ -121,15 +121,15 @@
 		AD30DB6F2E206ABB00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30DB772E206B5500FCEF73 /* AUTPangleAdapterLatencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AD30DB762E206B1700FCEF73 /* AUTPangleAdapterLatencyTests.m */; };
 		AD30DB792E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DB782E206B8800FCEF73 /* PangleAdapterLatencyTestPlan.xctestplan */; };
-		AD30DD5F2E20725500FCEF73 /* libPubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */; };
+		AD30DD5F2E20725500FCEF73 /* PubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD76A9C92D93117B00F40CD4 /* PubMaticAdapter.a */; };
 		AD30DD602E20725500FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30DD692E2072FE00FCEF73 /* PubMaticAdapterLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30DD682E20729400FCEF73 /* PubMaticAdapterLatencyTests.swift */; };
 		AD30DDE22E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DDE12E2073CC00FCEF73 /* PubMaticAdapterLatencyTestPlan.xctestplan */; };
-		AD30DEDA2E20763300FCEF73 /* libVerveAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD677B992DBADFC10012621D /* libVerveAdapter.a */; };
+		AD30DEDA2E20763300FCEF73 /* VerveAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD677B992DBADFC10012621D /* VerveAdapter.a */; };
 		AD30DEDB2E20763300FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30DEE32E2076E800FCEF73 /* VerveAdapterLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30DEE22E2076B100FCEF73 /* VerveAdapterLatencyTests.swift */; };
 		AD30DF5A2E20778B00FCEF73 /* VerveAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30DF592E20778B00FCEF73 /* VerveAdapterLatencyTestPlan.xctestplan */; };
-		AD30E0552E207A1700FCEF73 /* libGoogleBidMachineAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */; };
+		AD30E0552E207A1700FCEF73 /* GoogleBidMachineAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2FAF62D9F776C005D9ECA /* GoogleBidMachineAdapter.a */; };
 		AD30E0562E207A1700FCEF73 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		AD30E05E2E207A9D00FCEF73 /* BidMachineAdapterLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30E05D2E207A5200FCEF73 /* BidMachineAdapterLatencyTests.swift */; };
 		AD30E0D72E207B8600FCEF73 /* BidMachineAdapterLatencyTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = AD30E0D62E207B8600FCEF73 /* BidMachineAdapterLatencyTestPlan.xctestplan */; };
@@ -160,24 +160,24 @@
 		AD5E05B62D5EC9F200380B70 /* AmazonAdapterInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E05B52D5EC9E800380B70 /* AmazonAdapterInterstitialTests.swift */; };
 		AD5E06602D5EDBB900380B70 /* AmazonAdapterRewardedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E065F2D5EDBB100380B70 /* AmazonAdapterRewardedTests.swift */; };
 		AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
-		AD6E3B082EA16B4500818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B0B2EA16B6600818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B0E2EA16B7700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B112EA16B9600818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B142EA16BA500818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B172EA16BB700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B1A2EA16BDA00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B1D2EA16C2300818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B202EA16C3700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B232EA16C4F00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B262EA16C8100818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B292EA16C9700818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B2C2EA16CAF00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B312EA16CD800818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B342EA16CFD00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B372EA16D2B00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B3A2EA16D3C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
-		AD6E3B3B2EA16D5C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */; };
+		AD6E3B082EA16B4500818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A972EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B0B2EA16B6600818296 /* GoogleBidMachineAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3A9E2EA16B3400818296 /* GoogleBidMachineAdapter.a */; };
+		AD6E3B0E2EA16B7700818296 /* BigoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AA52EA16B3400818296 /* BigoAdapter.a */; };
+		AD6E3B112EA16B9600818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AAC2EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B142EA16BA500818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AB32EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B172EA16BB700818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ABA2EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B1A2EA16BDA00818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D175062E9ED01600DD91A0 /* libAdapter.a */; };
+		AD6E3B1D2EA16C2300818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AC52EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B202EA16C3700818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ACC2EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B232EA16C4F00818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AD32EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B262EA16C8100818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3ADA2EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B292EA16C9700818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE12EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B2C2EA16CAF00818296 /* MolocoAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AE82EA16B3400818296 /* MolocoAdapter.a */; };
+		AD6E3B312EA16CD800818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AEF2EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B342EA16CFD00818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E3AF62EA16B3400818296 /* libAdapter.a */; };
+		AD6E3B372EA16D2B00818296 /* PubMaticAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E388F2EA1664B00818296 /* PubMaticAdapter.a */; };
+		AD6E3B3A2EA16D3C00818296 /* libAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38922EA1664B00818296 /* libAdapter.a */; };
+		AD6E3B3B2EA16D5C00818296 /* VerveAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6E38952EA1664B00818296 /* VerveAdapter.a */; };
 		AD6FA0392A16BF4A007335D2 /* AdapterUnitTestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FA0382A16BF4A007335D2 /* AdapterUnitTestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6FA03F2A16BF98007335D2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA03E2A16BF98007335D2 /* XCTest.framework */; };
 		AD6FA0442A16C6BE007335D2 /* AUTKAdConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA0422A16C6BE007335D2 /* AUTKAdConfiguration.m */; };
@@ -1753,7 +1753,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B082EA16B4500818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B082EA16B4500818296 /* libAdapter.a in Frameworks */,
 				44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1762,7 +1762,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B342EA16CFD00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B342EA16CFD00818296 /* libAdapter.a in Frameworks */,
 				701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1771,7 +1771,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B2C2EA16CAF00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B2C2EA16CAF00818296 /* MolocoAdapter.a in Frameworks */,
 				70E0D7752C47A8C900241981 /* GoogleMobileAds.xcframework in Frameworks */,
 				70E0D7732C47A8AF00241981 /* MolocoSDK.xcframework in Frameworks */,
 				7072CF6C2C41FBB7002BF6AE /* AdapterUnitTestKit.framework in Frameworks */,
@@ -1782,7 +1782,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70D175092E9ED04700DD91A0 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				70D175092E9ED04700DD91A0 /* libAdapter.a in Frameworks */,
 				70BE1B192E9EA9EC00EE7584 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1791,7 +1791,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B292EA16C9700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B292EA16C9700818296 /* libAdapter.a in Frameworks */,
 				AD0123392ABCB115002BFE6D /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1800,7 +1800,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B112EA16B9600818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B112EA16B9600818296 /* libAdapter.a in Frameworks */,
 				AD0D6E242AF56C66002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1809,7 +1809,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B1D2EA16C2300818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B1D2EA16C2300818296 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
@@ -1821,7 +1821,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B202EA16C3700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B202EA16C3700818296 /* libAdapter.a in Frameworks */,
 				AD0D6EF82AF5BD7B002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1830,7 +1830,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B262EA16C8100818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B262EA16C8100818296 /* libAdapter.a in Frameworks */,
 				AD0D6F5B2AF6E256002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1839,7 +1839,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B312EA16CD800818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B312EA16CD800818296 /* libAdapter.a in Frameworks */,
 				AD0D6FFE2AF71903002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1848,7 +1848,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B172EA16BB700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B172EA16BB700818296 /* libAdapter.a in Frameworks */,
 				AD5B32302B9ACB560055FA17 /* ImobileSdkAds.xcframework in Frameworks */,
 				AD0D730A2AF81740002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -1893,7 +1893,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD30D36F2E1F314E00FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
-				AD30D3702E1F314E00FCEF73 /* libMolocoAdapter.a in Frameworks */,
+				AD30D3702E1F314E00FCEF73 /* MolocoAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1919,7 +1919,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD30DD5F2E20725500FCEF73 /* libPubMaticAdapter.a in Frameworks */,
+				AD30DD5F2E20725500FCEF73 /* PubMaticAdapter.a in Frameworks */,
 				AD30DD602E20725500FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1928,7 +1928,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD30DEDA2E20763300FCEF73 /* libVerveAdapter.a in Frameworks */,
+				AD30DEDA2E20763300FCEF73 /* VerveAdapter.a in Frameworks */,
 				AD30DEDB2E20763300FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1937,7 +1937,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD30E0552E207A1700FCEF73 /* libGoogleBidMachineAdapter.a in Frameworks */,
+				AD30E0552E207A1700FCEF73 /* GoogleBidMachineAdapter.a in Frameworks */,
 				AD30E0562E207A1700FCEF73 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1946,7 +1946,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B0E2EA16B7700818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B0E2EA16B7700818296 /* BigoAdapter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1954,7 +1954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B3A2EA16D3C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B3A2EA16D3C00818296 /* libAdapter.a in Frameworks */,
 				AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1972,7 +1972,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B3B2EA16D5C00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B3B2EA16D5C00818296 /* VerveAdapter.a in Frameworks */,
 				AD677BAB2DBADFCD0012621D /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1989,7 +1989,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B372EA16D2B00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B372EA16D2B00818296 /* PubMaticAdapter.a in Frameworks */,
 				AD76A9E92D93126D00F40CD4 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2007,7 +2007,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B0B2EA16B6600818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B0B2EA16B6600818296 /* GoogleBidMachineAdapter.a in Frameworks */,
 				ADA2FAE42D9F7715005D9ECA /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2016,7 +2016,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B232EA16C4F00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B232EA16C4F00818296 /* libAdapter.a in Frameworks */,
 				ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2035,7 +2035,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B1A2EA16BDA00818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B1A2EA16BDA00818296 /* libAdapter.a in Frameworks */,
 				ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2053,7 +2053,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD6E3B142EA16BA500818296 /* libAdapterWithoutValidationScript.a in Frameworks */,
+				AD6E3B142EA16BA500818296 /* libAdapter.a in Frameworks */,
 				ADF28D6A2A4F7C910073F909 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2103,7 +2103,7 @@
 				44ACFB072AB11D4B00035A73 /* libAdapter.a */,
 				AD00C4D62B88225F007C85F3 /* AppLovinAdapter.framework */,
 				703877462CF65449000C09EE /* libStaticAppLovinAdapter.a */,
-				AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3A972EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2140,7 +2140,7 @@
 				701E237F2AAD8C8300BAB0B3 /* libAdapter.a */,
 				AD00C50D2B88225F007C85F3 /* PangleAdapter.framework */,
 				703877882CF65449000C09EE /* libStaticPangleAdapter.a */,
-				AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AF62EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2167,10 +2167,10 @@
 		7072CF532C41F8BD002BF6AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */,
+				7072CF5A2C41F8BD002BF6AE /* MolocoAdapter.a */,
 				7072CF5C2C41F8BD002BF6AE /* MolocoAdapter.framework */,
-				7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */,
-				AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				7038777C2CF65449000C09EE /* StaticMolocoAdapter.a */,
+				AD6E3AE82EA16B3400818296 /* MolocoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2202,7 +2202,7 @@
 				AD0123242ABCB0AE002BFE6D /* libAdapter.a */,
 				AD00C4FE2B88225F007C85F3 /* MintegralAdapter.framework */,
 				703877762CF65449000C09EE /* libStaticMintegralAdapter.a */,
-				AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AE12EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2232,7 +2232,7 @@
 				AD0D6E0A2AF56C37002C0B60 /* libAdapter.a */,
 				AD00C4DB2B88225F007C85F3 /* ChartboostAdapter.framework */,
 				7038774C2CF65449000C09EE /* libStaticChartboostAdapter.a */,
-				AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AAC2EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2255,7 +2255,7 @@
 				AD0D6E852AF59116002C0B60 /* libAdapter.a */,
 				AD00C4EA2B88225F007C85F3 /* IronSourceAdapter.framework */,
 				7038775E2CF65449000C09EE /* libStaticIronSourceAdapter.a */,
-				AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AC52EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2283,7 +2283,7 @@
 				AD0D6EE02AF5BCDE002C0B60 /* libAdapter.a */,
 				AD00C4EF2B88225F007C85F3 /* LiftoffMonetizeAdapter.framework */,
 				703877642CF65449000C09EE /* libStaticLiftoffMonetizeAdapter.a */,
-				AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3ACC2EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2312,7 +2312,7 @@
 				AD0D6F452AF6E222002C0B60 /* libAdapter.a */,
 				AD00C4F92B88225F007C85F3 /* MaioAdapter.framework */,
 				703877702CF65449000C09EE /* libStaticMaioAdapter.a */,
-				AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3ADA2EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2334,7 +2334,7 @@
 				AD0D6FEA2AF71844002C0B60 /* libAdapter.a */,
 				AD00C5032B88225F007C85F3 /* MyTargetAdapter.framework */,
 				703877822CF65449000C09EE /* libStaticMyTargetAdapter.a */,
-				AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AEF2EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2358,7 +2358,7 @@
 				AD0D72E42AF81700002C0B60 /* libAdapter.a */,
 				AD00C4E52B88225F007C85F3 /* IMobileAdapter.framework */,
 				703877582CF65449000C09EE /* libStaticIMobileAdapter.a */,
-				AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3ABA2EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2459,10 +2459,10 @@
 		AD3623D02E7B5B2200E442E6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */,
+				AD3623D72E7B5B2300E442E6 /* BigoAdapter.a */,
 				AD3623D92E7B5B2300E442E6 /* BigoAdapter.framework */,
-				AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */,
-				AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD36243C2E7B636900E442E6 /* StaticBigoAdapter.a */,
+				AD6E3AA52EA16B3400818296 /* BigoAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2503,7 +2503,7 @@
 				AD45ED452A78116C001B29D8 /* libAdapter.a */,
 				AD00C5172B88225F007C85F3 /* UnityAdapter.framework */,
 				7038778E2CF65449000C09EE /* libStaticUnityAdapter.a */,
-				AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E38922EA1664B00818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2520,10 +2520,10 @@
 		AD677B922DBADFC10012621D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AD677B992DBADFC10012621D /* libVerveAdapter.a */,
+				AD677B992DBADFC10012621D /* VerveAdapter.a */,
 				AD677B9B2DBADFC10012621D /* VerveAdapter.framework */,
-				AD5A4ED12E0F20CE0078AFC1 /* libStaticVerveAdapter.a */,
-				AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
+				AD5A4ED12E0F20CE0078AFC1 /* StaticVerveAdapter.a */,
+				AD6E38952EA1664B00818296 /* VerveAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2698,10 +2698,10 @@
 		AD76A9C22D93117B00F40CD4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */,
+				AD76A9C92D93117B00F40CD4 /* PubMaticAdapter.a */,
 				AD76A9CB2D93117B00F40CD4 /* PubMaticAdapter.framework */,
-				AD76A9F12D93126D00F40CD4 /* libStaticPubMaticAdapter.a */,
-				AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */,
+				AD76A9F12D93126D00F40CD4 /* StaticPubMaticAdapter.a */,
+				AD6E388F2EA1664B00818296 /* PubMaticAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2764,10 +2764,10 @@
 		ADA2FAEF2D9F776C005D9ECA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */,
+				ADA2FAF62D9F776C005D9ECA /* GoogleBidMachineAdapter.a */,
 				ADA2FAF82D9F776C005D9ECA /* GoogleBidMachineAdapter.framework */,
-				ADFB31F92DC401D5005EBC7F /* libStaticGoogleBidMachineAdapter.a */,
-				AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				ADFB31F92DC401D5005EBC7F /* StaticGoogleBidMachineAdapter.a */,
+				AD6E3A9E2EA16B3400818296 /* GoogleBidMachineAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2792,7 +2792,7 @@
 				ADADDD4F2A3252CE00FB60E1 /* libAdapter.a */,
 				AD00C4F42B88225F007C85F3 /* LineAdapter.framework */,
 				7038776A2CF65449000C09EE /* libStaticLineAdapter.a */,
-				AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AD32EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2812,7 +2812,7 @@
 				ADE5750F2E14AABA003FF591 /* libAdapter.a */,
 				ADE575112E14AABA003FF591 /* InMobiAdapter.framework */,
 				ADE575132E14AABA003FF591 /* libStaticInMobiAdapter.a */,
-				70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */,
+				70D175062E9ED01600DD91A0 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2841,7 +2841,7 @@
 				ADF28D572A4F7C3D0073F909 /* libAdapter.a */,
 				AD00C4E02B88225F007C85F3 /* DTExchangeAdapter.framework */,
 				703877522CF65449000C09EE /* libStaticDTExchangeAdapter.a */,
-				AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */,
+				AD6E3AB32EA16B3400818296 /* libAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3984,10 +3984,10 @@
 			remoteRef = 703877752CF65449000C09EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7038777C2CF65449000C09EE /* libStaticMolocoAdapter.a */ = {
+		7038777C2CF65449000C09EE /* StaticMolocoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libStaticMolocoAdapter.a;
+			path = StaticMolocoAdapter.a;
 			remoteRef = 7038777B2CF65449000C09EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4012,10 +4012,10 @@
 			remoteRef = 7038778D2CF65449000C09EE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7072CF5A2C41F8BD002BF6AE /* libMolocoAdapter.a */ = {
+		7072CF5A2C41F8BD002BF6AE /* MolocoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMolocoAdapter.a;
+			path = MolocoAdapter.a;
 			remoteRef = 7072CF592C41F8BD002BF6AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4026,10 +4026,10 @@
 			remoteRef = 7072CF5B2C41F8BD002BF6AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		70D175062E9ED01600DD91A0 /* libAdapterWithoutValidationScript.a */ = {
+		70D175062E9ED01600DD91A0 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = 70D175052E9ED01600DD91A0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4166,10 +4166,10 @@
 			remoteRef = AD0D72E32AF81700002C0B60 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD3623D72E7B5B2300E442E6 /* libBigoAdapter.a */ = {
+		AD3623D72E7B5B2300E442E6 /* BigoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libBigoAdapter.a;
+			path = BigoAdapter.a;
 			remoteRef = AD3623D62E7B5B2300E442E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4180,10 +4180,10 @@
 			remoteRef = AD3623D82E7B5B2300E442E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD36243C2E7B636900E442E6 /* libStaticBigoAdapter.a */ = {
+		AD36243C2E7B636900E442E6 /* StaticBigoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libStaticBigoAdapter.a;
+			path = StaticBigoAdapter.a;
 			remoteRef = AD36243B2E7B636900E442E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4194,17 +4194,17 @@
 			remoteRef = AD45ED442A78116C001B29D8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD5A4ED12E0F20CE0078AFC1 /* libStaticVerveAdapter.a */ = {
+		AD5A4ED12E0F20CE0078AFC1 /* StaticVerveAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libStaticVerveAdapter.a;
+			path = StaticVerveAdapter.a;
 			remoteRef = AD5A4ED02E0F20CE0078AFC1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD677B992DBADFC10012621D /* libVerveAdapter.a */ = {
+		AD677B992DBADFC10012621D /* VerveAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libVerveAdapter.a;
+			path = VerveAdapter.a;
 			remoteRef = AD677B982DBADFC10012621D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4215,129 +4215,129 @@
 			remoteRef = AD677B9A2DBADFC10012621D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E388F2EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E388F2EA1664B00818296 /* PubMaticAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = PubMaticAdapter.a;
 			remoteRef = AD6E388E2EA1664B00818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E38922EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E38922EA1664B00818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E38912EA1664B00818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E38952EA1664B00818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E38952EA1664B00818296 /* VerveAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = VerveAdapter.a;
 			remoteRef = AD6E38942EA1664B00818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3A972EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3A972EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3A962EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3A9E2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3A9E2EA16B3400818296 /* GoogleBidMachineAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = GoogleBidMachineAdapter.a;
 			remoteRef = AD6E3A9D2EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AA52EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AA52EA16B3400818296 /* BigoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = BigoAdapter.a;
 			remoteRef = AD6E3AA42EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AAC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AAC2EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AAB2EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AB32EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AB32EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AB22EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3ABA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3ABA2EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AB92EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AC52EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AC52EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AC42EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3ACC2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3ACC2EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3ACB2EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AD32EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AD32EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AD22EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3ADA2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3ADA2EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AD92EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AE12EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AE12EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AE02EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AE82EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AE82EA16B3400818296 /* MolocoAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = MolocoAdapter.a;
 			remoteRef = AD6E3AE72EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AEF2EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AEF2EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AEE2EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD6E3AF62EA16B3400818296 /* libAdapterWithoutValidationScript.a */ = {
+		AD6E3AF62EA16B3400818296 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAdapterWithoutValidationScript.a;
+			path = libAdapter.a;
 			remoteRef = AD6E3AF52EA16B3400818296 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD76A9C92D93117B00F40CD4 /* libPubMaticAdapter.a */ = {
+		AD76A9C92D93117B00F40CD4 /* PubMaticAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libPubMaticAdapter.a;
+			path = PubMaticAdapter.a;
 			remoteRef = AD76A9C82D93117B00F40CD4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4348,10 +4348,10 @@
 			remoteRef = AD76A9CA2D93117B00F40CD4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AD76A9F12D93126D00F40CD4 /* libStaticPubMaticAdapter.a */ = {
+		AD76A9F12D93126D00F40CD4 /* StaticPubMaticAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libStaticPubMaticAdapter.a;
+			path = StaticPubMaticAdapter.a;
 			remoteRef = AD76A9F02D93126D00F40CD4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4376,10 +4376,10 @@
 			remoteRef = AD8FE28E2D39E8C900B4728A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ADA2FAF62D9F776C005D9ECA /* libGoogleBidMachineAdapter.a */ = {
+		ADA2FAF62D9F776C005D9ECA /* GoogleBidMachineAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libGoogleBidMachineAdapter.a;
+			path = GoogleBidMachineAdapter.a;
 			remoteRef = ADA2FAF52D9F776C005D9ECA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4425,10 +4425,10 @@
 			remoteRef = ADF28D562A4F7C3D0073F909 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		ADFB31F92DC401D5005EBC7F /* libStaticGoogleBidMachineAdapter.a */ = {
+		ADFB31F92DC401D5005EBC7F /* StaticGoogleBidMachineAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libStaticGoogleBidMachineAdapter.a;
+			path = StaticGoogleBidMachineAdapter.a;
 			remoteRef = ADFB31F82DC401D5005EBC7F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
