@@ -99,6 +99,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 /// Load native ad for given parameters.
 - (void)loadNativeAdSuccessfullyForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)
                                                        adConfiguration {
+  // Mock successful ad loading with ad content.
   OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
     id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
     [delegate nativeDidFinishLoading:_nativeMock];

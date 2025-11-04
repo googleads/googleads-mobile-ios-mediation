@@ -410,7 +410,7 @@ GADMediationServerConfiguration *_Nonnull AUTDefaultMediationServerConfiguration
 
   // Mock IMNative.
   IMNative *native = (IMNative *)nativeMock;
-  OCMStub([native customAdContent])
+  OCMStub([native getCustomAdContent])
       .andReturn(
           AUTNativeAdContentString(@"https://google.com/", @"https://google.com/", @"12345"));
   OCMStub([native adTitle]).andReturn(@"adTitle");
