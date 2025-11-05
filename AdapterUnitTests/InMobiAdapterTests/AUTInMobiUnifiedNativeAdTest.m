@@ -54,6 +54,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   NSURL *_adLandingPageURL;
   NSURL *_iconURL;
   UIImage *_testImage;
+  NSString *_advertiserName;
   id<GADMediationNativeAdEventDelegate> _nativeAdEventDelegate;
 }
 
@@ -71,6 +72,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   _nativeImage = [[GADNativeAdImage alloc] init];
   _adLandingPageURL = [[NSURL alloc] initWithString:@"https://www.google.com/"];
   _iconURL = [[NSURL alloc] initWithString:@"https://www.google.com/"];
+  _advertiserName = @"advName";
   _testImage = [[UIImage alloc] init];
   _nativeAdEventDelegate = OCMProtocolMock(@protocol(GADMediationNativeAdEventDelegate));
 
@@ -88,20 +90,16 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   OCMStub([_nativeMock adDescription]).andReturn(_description);
   OCMStub([_nativeMock adCtaText]).andReturn(_callToAction);
   OCMStub([_nativeMock adRating]).andReturn(_rating);
-  OCMStub([_nativeMock adIcon]).andReturn(_nativeImage);
-  OCMStub([_nativeMock adLandingPageUrl]).andReturn(_adLandingPageURL);
-
-  // Mock native ad image fetching.
-  id imageMock = OCMClassMock([UIImage class]);
-  OCMStub(OCMClassMethod([imageMock imageWithData:OCMOCK_ANY])).andReturn(_testImage);
+  UIView *primaryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+  OCMStub([_nativeMock getMediaView]).andReturn(primaryView);
+  OCMStub([_nativeMock isVideoAd]).andReturn(true);
+  OCMStub([_nativeMock advertiserName]).andReturn(_advertiserName);
 }
 
 /// Load native ad for given parameters.
-- (void)loadNativeAdSuccessfullyForCustomAdContent:(nonnull NSString *)customAdContent
-                                   adConfiguration:(nonnull GADMediationNativeAdConfiguration *)
+- (void)loadNativeAdSuccessfullyForAdConfiguration:(nonnull GADMediationNativeAdConfiguration *)
                                                        adConfiguration {
   // Mock successful ad loading with ad content.
-  OCMStub([_nativeMock customAdContent]).andReturn(customAdContent);
   OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
     id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
     [delegate nativeDidFinishLoading:_nativeMock];
@@ -150,9 +148,6 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testLoadNativeAdForAdConfiguration {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-
   GADMediationNativeAdConfiguration *configuration =
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
@@ -160,22 +155,18 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent adConfiguration:configuration];
+  [self loadNativeAdSuccessfullyForAdConfiguration:configuration];
 
   // Verify that the loaded native ad properties have the expected values.
-  XCTAssertNil(_nativeAd.advertiser);
   XCTAssertNil(_nativeAd.adChoicesView);
-  XCTAssertNotNil(_nativeAd.images);
   XCTAssertNotNil(_nativeAd.mediaView);
   XCTAssertTrue(_nativeAd.hasVideoContent);
   XCTAssertEqualObjects(_nativeAd.headline, _title);
   XCTAssertEqualObjects(_nativeAd.body, _description);
-  XCTAssertEqualObjects(_nativeAd.icon.image, _testImage);
   XCTAssertEqualObjects(_nativeAd.callToAction, _callToAction);
   XCTAssertEqualObjects(_nativeAd.starRating, _rating);
-  XCTAssertEqualObjects(_nativeAd.extraAssets, @{LANDING_URL : _adLandingPageURL.absoluteString});
-  XCTAssertEqualObjects(_nativeAd.price, _price);
-  XCTAssertEqualObjects(_nativeAd.store, @"Others");
+  XCTAssertEqualObjects(_nativeAd.advertiser, _advertiserName);
+  XCTAssertNil(_nativeAd.extraAssets);
 }
 
 - (void)testLoadRTBNativeAdForAdConfiguration {
@@ -210,10 +201,6 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
     [delegate nativeDidFinishLoading:_nativeMock];
   });
 
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  OCMStub([_nativeMock customAdContent]).andReturn(adContent);
-
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Completion handler ran."];
   GADMediationNativeLoadCompletionHandler completionHandler =
@@ -230,19 +217,16 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   OCMVerifyAll(_nativeMock);
 
   // Verify that the loaded native ad properties have the expected values.
-  XCTAssertNil(_nativeAd.advertiser);
   XCTAssertNil(_nativeAd.adChoicesView);
-  XCTAssertNotNil(_nativeAd.images);
+  XCTAssertNil(_nativeAd.images);
   XCTAssertNotNil(_nativeAd.mediaView);
   XCTAssertTrue(_nativeAd.hasVideoContent);
   XCTAssertEqualObjects(_nativeAd.headline, _title);
   XCTAssertEqualObjects(_nativeAd.body, _description);
-  XCTAssertEqualObjects(_nativeAd.icon.image, _testImage);
   XCTAssertEqualObjects(_nativeAd.callToAction, _callToAction);
   XCTAssertEqualObjects(_nativeAd.starRating, _rating);
-  XCTAssertEqualObjects(_nativeAd.extraAssets, @{LANDING_URL : _adLandingPageURL.absoluteString});
-  XCTAssertEqualObjects(_nativeAd.price, _price);
-  XCTAssertEqualObjects(_nativeAd.store, @"Others");
+  XCTAssertEqualObjects(_nativeAd.advertiser, _advertiserName);
+  XCTAssertNil(_nativeAd.extraAssets);
 }
 
 - (void)testLoadRTBNativeAdWithoutPlacementID {
@@ -277,10 +261,6 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
     [delegate nativeDidFinishLoading:_nativeMock];
   });
 
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  OCMStub([_nativeMock customAdContent]).andReturn(adContent);
-
   XCTestExpectation *expectation =
       [[XCTestExpectation alloc] initWithDescription:@"Completion handler ran."];
   GADMediationNativeLoadCompletionHandler completionHandler =
@@ -297,24 +277,19 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   OCMVerifyAll(_nativeMock);
 
   // Verify that the loaded native ad properties have the expected values.
-  XCTAssertNil(_nativeAd.advertiser);
   XCTAssertNil(_nativeAd.adChoicesView);
-  XCTAssertNotNil(_nativeAd.images);
+  XCTAssertNil(_nativeAd.images);
+  XCTAssertNil(_nativeAd.extraAssets);
   XCTAssertNotNil(_nativeAd.mediaView);
   XCTAssertTrue(_nativeAd.hasVideoContent);
   XCTAssertEqualObjects(_nativeAd.headline, _title);
   XCTAssertEqualObjects(_nativeAd.body, _description);
-  XCTAssertEqualObjects(_nativeAd.icon.image, _testImage);
   XCTAssertEqualObjects(_nativeAd.callToAction, _callToAction);
   XCTAssertEqualObjects(_nativeAd.starRating, _rating);
-  XCTAssertEqualObjects(_nativeAd.extraAssets, @{LANDING_URL : _adLandingPageURL.absoluteString});
-  XCTAssertEqualObjects(_nativeAd.price, _price);
-  XCTAssertEqualObjects(_nativeAd.store, @"Others");
+  XCTAssertEqualObjects(_nativeAd.advertiser, _advertiserName);
 }
 
 - (void)testLoadNativeAdForAdConfigurationWithImageLoadDisabled {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
   GADMediationCredentials *credentials =
       [[GADMediationCredentials alloc] initWithAdFormat:GADAdFormatNative
                                             credentials:@{
@@ -330,27 +305,23 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
                                                      credentials:credentials
                                                           extras:nil];
 
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent adConfiguration:adConfiguration];
+  [self loadNativeAdSuccessfullyForAdConfiguration:adConfiguration];
 
   // Verify the loaded native ad properties to have the expected values.
-  XCTAssertNil(_nativeAd.advertiser);
   XCTAssertNil(_nativeAd.adChoicesView);
-  XCTAssertNil(_nativeAd.icon.image);
-  XCTAssertNotNil(_nativeAd.images);
+  XCTAssertNil(_nativeAd.extraAssets);
+  XCTAssertNil(_nativeAd.store);
+  XCTAssertNil(_nativeAd.images);
   XCTAssertNotNil(_nativeAd.mediaView);
   XCTAssertTrue(_nativeAd.hasVideoContent);
   XCTAssertEqualObjects(_nativeAd.headline, _title);
   XCTAssertEqualObjects(_nativeAd.body, _description);
   XCTAssertEqualObjects(_nativeAd.callToAction, _callToAction);
   XCTAssertEqualObjects(_nativeAd.starRating, _rating);
-  XCTAssertEqualObjects(_nativeAd.extraAssets, @{LANDING_URL : _adLandingPageURL.absoluteString});
-  XCTAssertEqualObjects(_nativeAd.price, _price);
-  XCTAssertEqualObjects(_nativeAd.store, @"Others");
+  XCTAssertEqualObjects(_nativeAd.advertiser, _advertiserName);
 }
 
 - (void)testLoadNativeAdForAdConfigurationWithoutLandingPageURL {
-  NSString *validAdContent = AUTNativeAdContentString(nil, _iconURL.absoluteString, _price);
-  OCMStub([_nativeMock customAdContent]).andReturn(validAdContent);
   OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
     id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
     [delegate nativeDidFinishLoading:_nativeMock];
@@ -403,61 +374,8 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   [self waitForExpectations:@[ expectation ] timeout:AUTExpectationTimeout];
 }
 
-- (void)testLoadNativeAdForAdConfigurationFailureWithNilAdData {
-  // Mock IMSDK to return nil custom ad content.
-  OCMStub([_nativeMock customAdContent]).andReturn(nil);
-  OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
-    id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
-    [delegate nativeDidFinishLoading:_nativeMock];
-  });
-
-  XCTestExpectation *expectation =
-      [[XCTestExpectation alloc] initWithDescription:@"Completion handler ran."];
-  GADMediationNativeLoadCompletionHandler completionHandler =
-      ^(id<GADMediationNativeAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqual(error.code, GADMAdapterInMobiErrorMissingNativeAssets);
-        [expectation fulfill];
-        return _nativeAdEventDelegate;
-      };
-
-  [_nativeAd loadNativeAdForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()
-                          completionHandler:completionHandler];
-
-  [self waitForExpectations:@[ expectation ] timeout:AUTExpectationTimeout];
-}
-
-- (void)testLoadNativeAdForAdConfigurationFailureWithNilIconURL {
-  NSString *adContentWithoutIcon =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, nil, _price);
-  OCMStub([_nativeMock customAdContent]).andReturn(adContentWithoutIcon);
-  OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
-    id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
-    [delegate nativeDidFinishLoading:_nativeMock];
-  });
-
-  XCTestExpectation *expectation =
-      [[XCTestExpectation alloc] initWithDescription:@"Completion handler ran."];
-  GADMediationNativeLoadCompletionHandler completionHandler =
-      ^(id<GADMediationNativeAd> _Nullable ad, NSError *_Nullable error) {
-        XCTAssertNil(ad);
-        XCTAssertEqual(error.code, GADMAdapterInMobiErrorMissingNativeAssets);
-        [expectation fulfill];
-        return _nativeAdEventDelegate;
-      };
-
-  [_nativeAd loadNativeAdForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()
-                          completionHandler:completionHandler];
-
-  [self waitForExpectations:@[ expectation ] timeout:AUTExpectationTimeout];
-}
-
 - (void)testLoadNativeAdFailureWithError {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-
   IMRequestStatus *expectedError = OCMClassMock([IMRequestStatus class]);
-  OCMStub([_nativeMock customAdContent]).andReturn(adContent);
   OCMStub([_nativeMock load]).andDo(^(NSInvocation *invocation) {
     id<IMNativeDelegate> delegate = (id<IMNativeDelegate>)_nativeAd;
     [delegate native:_nativeMock didFailToLoadWithError:expectedError];
@@ -480,10 +398,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdPresentationPresent {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate willPresentFullScreenView]);
   id<IMNativeDelegate> nativeDelegate = (id<IMNativeDelegate>)_nativeAd;
@@ -492,10 +407,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdPresentationDismiss {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate willDismissFullScreenView]);
   OCMExpect([_nativeAdEventDelegate didDismissFullScreenView]);
@@ -506,10 +418,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdImpression {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate didPlayVideo]);
   OCMExpect([_nativeAdEventDelegate reportImpression]);
@@ -519,10 +428,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdClick {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate reportClick]);
   id<IMNativeDelegate> nativeDelegate = (id<IMNativeDelegate>)_nativeAd;
@@ -531,10 +437,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdMediaEndVideo {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate didEndVideo]);
   id<IMNativeDelegate> nativeDelegate = (id<IMNativeDelegate>)_nativeAd;
@@ -543,10 +446,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
 }
 
 - (void)testNativeAdMediaStateChange {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
 
   OCMExpect([_nativeAdEventDelegate didMuteVideo]);
   id<IMNativeDelegate> nativeDelegate = (id<IMNativeDelegate>)_nativeAd;
@@ -558,44 +458,8 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   OCMVerifyAll(_nativeAdEventDelegate);
 }
 
-- (void)testRenderInView {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
-
-  GADNativeAdView *adView = [[GADNativeAdView alloc] initWithFrame:CGRectInfinite];
-  GADMediaView *mediaView = [[GADMediaView alloc] initWithFrame:CGRectInfinite];
-  [adView setMediaView:mediaView];
-  UIView *primaryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-  OCMStub([_nativeMock primaryViewOfWidth:mediaView.frame.size.width]).andReturn(primaryView);
-  [_nativeAd didRenderInView:adView
-         clickableAssetViews:@{}
-      nonclickableAssetViews:@{}
-              viewController:[[UIViewController alloc] init]];
-  XCTAssertEqual([_nativeAd mediaContentAspectRatio], 1.0);
-}
-
-- (void)testDidRecordClickOnAsset {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
-
-  OCMExpect([_nativeMock reportAdClickAndOpenLandingPage]);
-  [_nativeAd didRecordClickOnAssetWithName:@""
-                                      view:[[UIView alloc] init]
-                            viewController:[[UIViewController alloc] init]];
-  OCMVerifyAll(_nativeMock);
-}
-
 - (void)testDidUntrackView {
-  NSString *adContent =
-      AUTNativeAdContentString(_adLandingPageURL.absoluteString, _iconURL.absoluteString, _price);
-  [self loadNativeAdSuccessfullyForCustomAdContent:adContent
-                                   adConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
-
-  OCMExpect([_nativeMock recyclePrimaryView]);
+  [self loadNativeAdSuccessfullyForAdConfiguration:AUTGADMediationNativeAdConfigurationForInMobi()];
   [_nativeAd didUntrackView:[[UIView alloc] init]];
   OCMVerifyAll(_nativeMock);
 }
