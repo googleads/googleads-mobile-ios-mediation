@@ -1,8 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Version 2.3.4.3 (In progress)
-- Enable -fobjc-arc and -fstack-protector-all.
-- Correct framework and umbrella header names in IMobileAdapter modulemap.
+#### [Version 2.3.4.3](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.3.zip)
+- Corrected the framework and umbrella header names in the `IMobileAdapter` modulemap.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.12.0.
+- i-mobile SDK version 2.3.4.
 
 #### [Version 2.3.4.2](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.2.zip)
 - Now requires Google Mobile Ads SDK version 12.0.0 or higher.
