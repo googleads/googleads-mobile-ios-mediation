@@ -20,8 +20,12 @@
 #import "GADMAdapterAppLovinRewardedRenderer.h"
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
+#import "GADMWaterfallAppLovinAppOpenRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
+  /// AppLovin app open ad wrapper.
+  GADMWaterfallAppLovinAppOpenRenderer *_waterfallAppOpenRenderer;
+
   /// AppLovin interstitial ad wrapper.
   GADMRTBAdapterAppLovinInterstitialRenderer *_interstitialRenderer;
 
@@ -151,6 +155,39 @@
 }
 
 #pragma mark - GADMediationAdapter load Ad
+
+- (void)loadAppOpenAdForAdConfiguration:
+            (nonnull GADMediationAppOpenAdConfiguration *)adConfiguration
+                      completionHandler:
+                          (nonnull GADMediationAppOpenLoadCompletionHandler)completionHandler {
+  if ([GADMAdapterAppLovinUtils isChildUser]) {
+    completionHandler(nil, GADMAdapterAppLovinChildUserError());
+    return;
+  }
+
+  NSString *SDKKey =
+      [GADMAdapterAppLovinUtils retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
+  if (!SDKKey) {
+    NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+        GADMAdapterAppLovinErrorMissingSDKKey, @"AppLovin SDK Key is missing.");
+    completionHandler(nil, error);
+    return;
+  }
+  __weak GADMediationAdapterAppLovin *weakSelf = self;
+  [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                     completionHandler:^(void) {
+                                       GADMediationAdapterAppLovin *strongSelf = weakSelf;
+                                       if (!strongSelf) {
+                                         return;
+                                       }
+
+                                       strongSelf->_waterfallAppOpenRenderer =
+                                           [[GADMWaterfallAppLovinAppOpenRenderer alloc]
+                                               initWithAdConfiguration:adConfiguration
+                                                     completionHandler:completionHandler];
+                                       [strongSelf->_waterfallAppOpenRenderer loadAd];
+                                     }];
+}
 
 - (void)loadInterstitialForAdConfiguration:
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration

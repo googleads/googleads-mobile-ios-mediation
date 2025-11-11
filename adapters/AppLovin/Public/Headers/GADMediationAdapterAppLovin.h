@@ -52,7 +52,13 @@ typedef NS_ENUM(NSInteger, GADMAdapterAppLovinErrorCode) {
   GADMAdapterAppLovinErrorAppLovinSDKNotInitialized = 113,
 
   /// AppLovin SDK fails to return bid token with an error message.
-  GADMAdapterAppLovinErrorFailedToReturnBidToken = 114
+  GADMAdapterAppLovinErrorFailedToReturnBidToken = 114,
+
+  /// Ad unit ID is missing. Cannot load ad.
+  GADMAdapterAppLovinErrorMissingAdUnitID = 115,
+
+  /// Ad is not ready. Cannot display the ad.
+  GADMAdapterAppLovinErrorAdNotReady = 116
 };
 
 @interface GADMediationAdapterAppLovin : NSObject <GADRTBAdapter>

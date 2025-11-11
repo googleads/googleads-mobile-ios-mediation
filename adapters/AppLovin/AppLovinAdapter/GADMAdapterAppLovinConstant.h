@@ -29,6 +29,9 @@ extern NSString *_Nonnull const GADMAdapterAppLovinSDKKey;
 /// AppLovin zone identifier parameter key.
 extern NSString *_Nonnull const GADMAdapterAppLovinZoneIdentifierKey;
 
+/// AppLovin ad unit ID parameter key.
+extern NSString *_Nonnull const GADMAdapterAppLovinAdUnitID;
+
 /// AppLovin bundle identifier parameter key.
 extern NSString *_Nonnull const GADMAdapterAppLovinBundleIdentifierKey;
 

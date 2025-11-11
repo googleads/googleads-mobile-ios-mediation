@@ -24,6 +24,8 @@ NSString *const GADMAdapterAppLovinSDKKey = @"sdkKey";
 
 NSString *const GADMAdapterAppLovinZoneIdentifierKey = @"zone_id";
 
+NSString *const GADMAdapterAppLovinAdUnitID = @"ad_unit_id";
+
 NSString *const GADMAdapterAppLovinBundleIdentifierKey = @"bundleId";
 
 NSString *const GADMAdapterAppLovinDefaultZoneIdentifier = @"";
