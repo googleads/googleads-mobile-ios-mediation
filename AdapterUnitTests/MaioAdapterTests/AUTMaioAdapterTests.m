@@ -44,20 +44,4 @@
   XCTAssertNil([GADMediationAdapterMaio networkExtrasClass]);
 }
 
-- (void)testCollectSignals {
-  XCTestExpectation *expectation = [[XCTestExpectation alloc]
-      initWithDescription:@"Expect empty signal as Maio dropped bidding support."];
-  GADMediationAdapterMaio *adapter = [[GADMediationAdapterMaio alloc] init];
-  AUTKRTBRequestParameters *params = [[AUTKRTBRequestParameters alloc] init];
-
-  [adapter
-      collectSignalsForRequestParameters:params
-                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
-                         XCTAssertNil(error);
-                         XCTAssertEqualObjects(signals, @"");
-                         [expectation fulfill];
-                       }];
-  [self waitForExpectations:@[ expectation ]];
-}
-
 @end

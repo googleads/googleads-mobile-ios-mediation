@@ -20,21 +20,13 @@
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
 #import "GADMMaioConstants.h"
-#import "GADRTBMaioInterstitialAd.h"
-#import "GADRTBMaioRewardedAd.h"
 
 @interface GADMediationAdapterMaio ()
 @end
 
 @implementation GADMediationAdapterMaio {
-  // maio bidding interstitial ad wrapper.
-  GADRTBMaioInterstitialAd *_interstitialRTBAd;
-
   // maio waterfall interstitial ad wrapper.
   GADMAdapterMaioInterstitialAd *_interstitialAd;
-
-  // maio bidding rewarded ad wrapper.
-  GADRTBMaioRewardedAd *_rewardedRTBAd;
 
   // maio waterfall rewarded ad wrapper.
   GADMAdapterMaioRewardedAd *_rewardedAd;
@@ -75,23 +67,15 @@
   return version;
 }
 
-- (void)collectSignalsForRequestParameters:(nonnull GADRTBRequestParameters *)params
-                         completionHandler:
-                             (nonnull GADRTBSignalCompletionHandler)completionHandler {
-  // Maio does not send any kind of signal, so we send an empty NSString instead.
-  completionHandler(@"", nil);
+- (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                   completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  // TODO: implement banner.
 }
 
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
-  if (adConfiguration.bidResponse) {
-    _rewardedRTBAd = [[GADRTBMaioRewardedAd alloc] initWithAdConfiguration:adConfiguration];
-    [_rewardedRTBAd loadRewardedAdWithCompletionHandler:completionHandler];
-    return;
-  }
-
   _rewardedAd = [[GADMAdapterMaioRewardedAd alloc] init];
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
@@ -101,12 +85,6 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
-  if (adConfiguration.bidResponse) {
-    _interstitialRTBAd = [[GADRTBMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration];
-    [_interstitialRTBAd loadInterstitialWithCompletionHandler:completionHandler];
-    return;
-  }
-
   _interstitialAd =
       [[GADMAdapterMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration
                                                    completionHandler:completionHandler];
