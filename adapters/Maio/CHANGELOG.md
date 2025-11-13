@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.2.0.1 (In progress)
 - Clean up bidding implementation since Maio does not support a bidding integration
 - Update the adapter to use the GADMediationAdapter protocol.
 
