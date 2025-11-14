@@ -29,9 +29,12 @@ IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_O
 CURRENT_PROJECT_VERSION = 11100
 MARKETING_VERSION = 11.1.0
 MODULE_MAP_PATH = $(SRCROOT)/Public
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**"
-LIBRARY_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**"
-HEADER_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**"
+FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
+LIBRARY_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
+HEADER_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+HEADER_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
 SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 ONLY_ACTIVE_ARCH = NO

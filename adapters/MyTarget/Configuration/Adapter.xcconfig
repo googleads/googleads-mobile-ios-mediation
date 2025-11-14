@@ -30,12 +30,12 @@ IPHONEOS_DEPLOYMENT_TARGET[arch=x86_64] = $(MIN_OS_MAJOR_VERSION_64_BIT).$(MIN_O
 CURRENT_PROJECT_VERSION = 53710
 MARKETING_VERSION = 5.37.1
 MODULE_MAP_PATH = $(SRCROOT)/Public
-// For device builds
-FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "${SRCROOT}/Drop_Framework_And_Headers" "${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/UserMessagingPlatform.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/myTargetSDK/MyTargetSDK.xcframework/ios-arm64" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos/myTrackerSDK/MyTrackerSDK.xcframework/ios-arm64"
-// For simulator builds
-FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "${SRCROOT}/Drop_Framework_And_Headers" "${SRCROOT}/Drop_Framework_And_Headers/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/UserMessagingPlatform.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework/GoogleMobileAds.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/GoogleUserMessagingPlatform/Frameworks/Release/UserMessagingPlatform.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/myTargetSDK/MyTargetSDK.xcframework/ios-arm64_x86_64-simulator" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator/myTrackerSDK/MyTrackerSDK.xcframework/ios-arm64_x86_64-simulator"
-LIBRARY_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**"
-HEADER_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/$(PLATFORM_NAME)/**"
+FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
+LIBRARY_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
+HEADER_SEARCH_PATHS[sdk=iphoneos*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphoneos/**"
+HEADER_SEARCH_PATHS[sdk=iphonesimulator*] = $(inherited) "$(SRCROOT)/Drop_Framework_And_Headers/iphonesimulator/**"
 SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 ONLY_ACTIVE_ARCH = NO

@@ -14,7 +14,6 @@
 				2B60DF2727618F5E00AB5537 /* ShellScript */,
 			);
 			dependencies = (
-				2B60DF2627618F5200AB5537 /* PBXTargetDependency */,
 			);
 			name = Framework;
 			productName = Framework;
@@ -123,14 +122,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2B60DF2527618F5200AB5537 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2B60DF072761885700AB5537;
-			remoteInfo = Adapter;
-		};
-		AD6E3A442EA1683400818296 /* PBXContainerItemProxy */ = {
+		AD2B54E22EC7D3E000572B87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2B338D3926D95DDF00192709 /* Project object */;
 			proxyType = 1;
@@ -450,7 +442,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AD6E3A452EA1683400818296 /* PBXTargetDependency */,
+				AD2B54E32EC7D3E000572B87 /* PBXTargetDependency */,
 			);
 			name = Adapter;
 			productName = MintegralAdapter;
@@ -675,15 +667,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2B60DF2627618F5200AB5537 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2B60DF072761885700AB5537 /* Adapter */;
-			targetProxy = 2B60DF2527618F5200AB5537 /* PBXContainerItemProxy */;
-		};
-		AD6E3A452EA1683400818296 /* PBXTargetDependency */ = {
+		AD2B54E32EC7D3E000572B87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2B60DF1527618CCE00AB5537 /* ValidateSourceCode */;
-			targetProxy = AD6E3A442EA1683400818296 /* PBXContainerItemProxy */;
+			targetProxy = AD2B54E22EC7D3E000572B87 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

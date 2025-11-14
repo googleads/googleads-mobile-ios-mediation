@@ -698,6 +698,7 @@
 		};
 		AD00C4212B8719C7007C85F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 451277A5207D9F6400D85E57 /* Adapter.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

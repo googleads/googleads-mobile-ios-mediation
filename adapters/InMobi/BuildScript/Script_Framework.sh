@@ -75,20 +75,24 @@ createFramework() {
  install -m 0444 "${TEMP_FRAMEWORK_BUILD_DIR}/${CONFIGURATION}-$1/${FRAMEWORK_NAME}.framework/Info.plist" "${TEMP_FRAMEWORK_LOCATION}/Info.plist"
 }
 
-# Remove the device and simulator directories if they already exist.
-if [ -d "${SRCROOT}/Drop_Framework_And_Headers/iphoneos" ]; then rm -rf "${SRCROOT}/Drop_Framework_And_Headers/iphoneos"; fi
-if [ -d "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator" ]; then rm -rf "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator"; fi
-
-# Copy the libraries to the corresponding device and simulator directories.
-echo "Copying all device libraries from ${SRCROOT}/Drop_Framework_And_Headers/ to ${SRCROOT}/Drop_Framework_And_Headers/iphoneos"
-rsync -av --exclude="*simulator*" \
-  "${SRCROOT}/Drop_Framework_And_Headers/" "${SRCROOT}/Drop_Framework_And_Headers/iphoneos"
-echo "Copying all device libraries from ${SRCROOT}/Drop_Framework_And_Headers/ to ${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator"
-rsync -av --include="*/" \
-  --include="*simulator*/**" \
-  --exclude="*" \
-  --prune-empty-dirs \
-  "${SRCROOT}/Drop_Framework_And_Headers/" "${SRCROOT}/Drop_Framework_And_Headers/iphonesimulator"
+# Separate the framework based on platforms.
+# Copy all the iphoneos frameworks to iphoneos sub directory.
+# Copy all the iphonesimulator frameworks to iphonesimulator sub directory.
+rm -r "./Drop_Framework_And_Headers/iphoneos"
+rm -r "./Drop_Framework_And_Headers/iphonesimulator"
+mkdir -p "./Drop_Framework_And_Headers/iphoneos"
+mkdir -p "./Drop_Framework_And_Headers/iphonesimulator"
+find "./Drop_Framework_And_Headers" \
+  -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
+  -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
+  -name "*ios-arm64_x86_64-simulator*" \
+  -exec cp -R {} "./Drop_Framework_And_Headers/iphonesimulator/" \;
+find "./Drop_Framework_And_Headers" \
+  -path "./Drop_Framework_And_Headers/iphoneos" -prune -o \
+  -path "./Drop_Framework_And_Headers/iphonesimulator" -prune -o \
+  -name "*ios-arm64*" \
+  -not -name "*ios-arm64_x86_64-simulator*" \
+  -exec cp -R {} "./Drop_Framework_And_Headers/iphoneos/" \;
 
 createFramework "iphoneos" "arm64"
 createFramework "iphonesimulator" "arm64 x86_64"
