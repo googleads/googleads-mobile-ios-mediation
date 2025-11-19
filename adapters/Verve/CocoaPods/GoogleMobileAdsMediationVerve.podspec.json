@@ -6,7 +6,7 @@
   "homepage": "https://developers.google.com/admob/ios/mediation/Verve",
   "license": {
     "type": "Apache 2.0",
-    "text": "Copyright 2024 Google LLC"
+    "text": "Copyright 2025 Google LLC"
   },
   "authors": "Google LLC",
   "platforms": {
@@ -26,5 +26,7 @@
   "source": {
     "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Verve/VerveAdapter-3.7.1.0.zip"
   },
-  "static_framework": true
+  "static_framework": true,
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
 }
