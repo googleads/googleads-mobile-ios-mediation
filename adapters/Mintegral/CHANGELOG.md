@@ -1,6 +1,11 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 8.0.3.0 (In progress)
+#### [Version 8.0.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.3.0.zip)
+- Verified compatibility with Mintegral SDK version 8.0.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.13.0.
+- Mintegral SDK version 8.0.3.
 
 #### [Version 8.0.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.2.0.zip)
 - Verified compatibility with Mintegral SDK version 8.0.2.
