@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Unity Ads SDK if GDPR applies.
+
 #### [Version 4.16.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.4.0.zip)
 - Verified compatibility with Unity Ads SDK 4.16.4.
 
