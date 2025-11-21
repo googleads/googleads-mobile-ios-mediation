@@ -162,15 +162,13 @@ private class HybidClientImpl: NSObject, HybidClient {
   ) throws(VerveAdapterError) {
     guard let delegate = delegate as? HyBidAdViewDelegate else { return }
 
-    let view = HyBidAdView(size: try getBannerSize(size))
-    view?.delegate = delegate
+    let adView = HyBidAdView(size: try getBannerSize(size))
+    self.adView = adView
 
-    if let wrapper = view as? HyBidAdViewWrapper {
-      wrapper.stopAutoRefresh()
-      wrapper.autoShowOnLoad = true
-      wrapper.renderAd(withContent: bidResponse, with: delegate)
-    }
-    self.adView = view
+    adView?.stopAutoRefresh()
+    adView?.autoShowOnLoad = true
+    adView?.delegate = delegate
+    adView?.renderAd(withContent: bidResponse, with: delegate)
   }
 
   func loadRTBInterstitialAd(
@@ -178,20 +176,20 @@ private class HybidClientImpl: NSObject, HybidClient {
     delegate: Any
   ) {
     guard let delegate = delegate as? HyBidInterstitialAdDelegate else { return }
-    let ad = HyBidInterstitialAd(delegate: delegate)
-    (ad as? HyBidAdWrapper)?.prepareAdWithContent(adContent: bidResponse)
-    self.interstitialAd = ad
+    let interstitialAd = HyBidInterstitialAd(delegate: delegate)
+    self.interstitialAd = interstitialAd
+    interstitialAd.prepareAdWithContent(adContent: bidResponse)
   }
 
   func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let wrapper = interstitialAd as? HyBidAdWrapper, wrapper.isReady else {
+    guard let interstitialAd = interstitialAd as? HyBidInterstitialAd, interstitialAd.isReady else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
-          "The interstitial ad is not ready for presentation. isReady: \(String(describing: (interstitialAd as? HyBidAdWrapper)?.isReady))"
+          "The interstitial ad is not ready for presentation."
       )
     }
-    wrapper.show(from: viewController)
+    interstitialAd.show(from: viewController)
   }
 
   func loadRTBRewardedAd(
@@ -200,19 +198,19 @@ private class HybidClientImpl: NSObject, HybidClient {
   ) {
     guard let delegate = delegate as? HyBidRewardedAdDelegate else { return }
     let ad = HyBidRewardedAd(delegate: delegate)
-    (ad as? HyBidAdWrapper)?.prepareAdWithContent(adContent: bidResponse)
     self.rewardedAd = ad
+    ad.prepareAdWithContent(adContent: bidResponse)
   }
 
   func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let wrapper = rewardedAd as? HyBidAdWrapper, wrapper.isReady else {
+    guard let rewardedAd = rewardedAd as? HyBidRewardedAd, rewardedAd.isReady else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
-          "The rewarded ad is not ready for presentation. isReady: \(String(describing: (rewardedAd as? HyBidAdWrapper)?.isReady))"
+          "The rewarded ad is not ready for presentation."
       )
     }
-    wrapper.show(from: viewController)
+    rewardedAd.show(from: viewController)
   }
 
   func loadRTBNativeAd(
@@ -221,43 +219,21 @@ private class HybidClientImpl: NSObject, HybidClient {
   ) {
     guard let delegate = delegate as? HyBidNativeAdLoaderDelegate else { return }
     let loader = HyBidNativeAdLoader()
-
-    if let wrapper = loader as? HyBidNativeLoaderWrapper {
-      wrapper.stopAutoRefresh()
-      wrapper.prepareNativeAd(with: delegate, withContent: bidResponse)
-    }
     self.nativeAdLoader = loader
+    loader.stopAutoRefresh()
+    loader.prepareNativeAd(with: delegate, withContent: bidResponse)
   }
 
   func fetchAssets(
     for nativeAd: Any,
     delegate: Any
   ) {
-    (nativeAd as? HyBidNativeAdWrapper)?.fetchAssets(with: delegate)
+    guard let nativeAd = nativeAd as? HyBidNativeAd,
+      let delegate = delegate as? HyBidNativeAdFetchDelegate
+    else {
+      return
+    }
+    nativeAd.fetchAssets(with: delegate)
   }
-}
 
-// MARK: - Dynamic Dispatch Wrappers
-
-// These local @objc protocols force the Swift compiler to use objc_msgSend. This bypasses "Dispatch Thunk" linker errors caused by linking a stable Swift binary (Distribution=YES) against the raw HyBid source code provided by CocoaPods.
-
-@objc private protocol HyBidAdWrapper {
-  var isReady: Bool { get }
-  func prepareAdWithContent(adContent: String)
-  func show(from: UIViewController)
-}
-
-@objc private protocol HyBidAdViewWrapper {
-  func renderAd(withContent: String, with: Any)
-  func stopAutoRefresh()
-  var autoShowOnLoad: Bool { get set }
-}
-
-@objc private protocol HyBidNativeLoaderWrapper {
-  func prepareNativeAd(with: Any, withContent: String)
-  func stopAutoRefresh()
-}
-
-@objc private protocol HyBidNativeAdWrapper {
-  func fetchAssets(with: Any)
 }
