@@ -75,35 +75,38 @@ final class VerveInterstitialAdTests: XCTestCase {
   }
 
   func testImpression() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
-    (eventDelegate.interstitialAd as! HyBidInterstitialAdDelegate).interstitialDidTrackImpression()
+    fakeClient.interstitialDelegate?.interstitialDidTrackImpression()
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   func testClick() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
-    (eventDelegate.interstitialAd as! HyBidInterstitialAdDelegate).interstitialDidTrackClick()
+    fakeClient.interstitialDelegate?.interstitialDidTrackClick()
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
   func testDismiss() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationInterstitialAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, config)
-    (eventDelegate.interstitialAd as! HyBidInterstitialAdDelegate).interstitialDidDismiss()
+    fakeClient.interstitialDelegate?.interstitialDidDismiss()
     XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1)
   }
 

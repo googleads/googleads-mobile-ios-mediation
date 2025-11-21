@@ -51,24 +51,26 @@ final class VerveBannerAdTests: XCTestCase {
   }
 
   func testImpression() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = "test"
     config.adSize = AdSize(size: CGSize(width: 320, height: 50), flags: 1)
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, config)
-    (eventDelegate.bannerAd as! HyBidAdViewDelegate).adViewDidTrackImpression(nil)
+    fakeClient.bannerDelegate?.adViewDidTrackImpression(nil)
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   func testClick() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationBannerAdConfiguration()
     config.bidResponse = "test"
     config.adSize = AdSize(size: CGSize(width: 320, height: 50), flags: 1)
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, config)
-    (eventDelegate.bannerAd as! HyBidAdViewDelegate).adViewDidTrackClick(nil)
+    fakeClient.bannerDelegate?.adViewDidTrackClick(nil)
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 

@@ -13,8 +13,9 @@
 // limitations under the License.
 
 import GoogleMobileAds
-import HyBid
 import UIKit
+
+@_implementationOnly import HyBid
 
 /// Factory that creates Client.
 final class HybidClientFactory {
@@ -50,39 +51,38 @@ protocol HybidClient: NSObject {
   /// Collects the bidding signals.
   func collectSignals() -> String
 
-  /// Gets HyBidAdSize for the provided size. Throws an error if the size is not supported by HiBid SDK.
-  @discardableResult
-  func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize
+  /// Verifies the given banner size.
+  func isValidBannerSize(_ size: CGSize) -> Bool
 
   /// Loads a RTB banner ad.
-  func loadRTBBannerAd(with bidResponse: String, size: CGSize, delegate: HyBidAdViewDelegate)
+  func loadRTBBannerAd(with bidResponse: String, size: CGSize, delegate: Any)
     throws(VerveAdapterError)
 
   /// Loads a RTB interstitial ad.
-  func loadRTBInterstitialAd(with bidResponse: String, delegate: HyBidInterstitialAdDelegate)
+  func loadRTBInterstitialAd(with bidResponse: String, delegate: Any)
 
   /// Presents the interstitial ad.
   func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError)
 
   /// Loads a RTB rewarded ad.
-  func loadRTBRewardedAd(with bidResponse: String, delegate: HyBidRewardedAdDelegate)
+  func loadRTBRewardedAd(with bidResponse: String, delegate: Any)
 
   /// Presents the rewarded ad.
   func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError)
 
   /// Loads a RTB native ad.
-  func loadRTBNativeAd(with bidResponse: String, delegate: HyBidNativeAdLoaderDelegate)
+  func loadRTBNativeAd(with bidResponse: String, delegate: Any)
 
   /// Fetches assets for the provided native ad.
-  func fetchAssets(for nativeAd: HyBidNativeAd, delegate: HyBidNativeAdFetchDelegate)
+  func fetchAssets(for nativeAd: Any, delegate: Any)
 }
 
-final class HybidClientImpl: NSObject, HybidClient {
+private class HybidClientImpl: NSObject, HybidClient {
 
-  private var adView: HyBidAdView?
-  private var interstitialAd: HyBidInterstitialAd?
-  private var rewardedAd: HyBidRewardedAd?
-  private var nativeAdLoader: HyBidNativeAdLoader?
+  private var adView: Any?
+  private var interstitialAd: Any?
+  private var rewardedAd: Any?
+  private var nativeAdLoader: Any?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -127,37 +127,28 @@ final class HybidClientImpl: NSObject, HybidClient {
     return HyBid.getEncodedCustomRequestSignalData("Admob") ?? ""
   }
 
-  @discardableResult
-  func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize {
+  func isValidBannerSize(_ size: CGSize) -> Bool {
+    return (try? getBannerSize(size)) != nil
+  }
+
+  private func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize {
     let width = size.width
     let height = size.height
 
-    // For the full list of supported banner sizes, refer to HyBidAdSize.h.
-    if width == 320 && height == 50 {
-      return .size_320x50
-    } else if width == 300 && height == 250 {
-      return .size_300x250
-    } else if width == 300 && height == 50 {
-      return .size_300x50
-    } else if width == 320 && height == 480 {
-      return .size_320x480
-    } else if width == 1024 && height == 768 {
-      return .size_1024x768
-    } else if width == 768 && height == 1024 {
-      return .size_768x1024
-    } else if width == 728 && height == 90 {
-      return .size_728x90
-    } else if width == 160 && height == 600 {
-      return .size_160x600
-    } else if width == 250 && height == 250 {
-      return .size_250x250
-    } else if width == 300 && height == 600 {
-      return .size_300x600
-    } else if width == 320 && height == 100 {
-      return .size_320x100
-    } else if width == 480 && height == 320 {
-      return .size_480x320
-    } else {
+    switch (width, height) {
+    case (320, 50): return .size_320x50
+    case (300, 250): return .size_300x250
+    case (300, 50): return .size_300x50
+    case (320, 480): return .size_320x480
+    case (1024, 768): return .size_1024x768
+    case (768, 1024): return .size_768x1024
+    case (728, 90): return .size_728x90
+    case (160, 600): return .size_160x600
+    case (250, 250): return .size_250x250
+    case (300, 600): return .size_300x600
+    case (320, 100): return .size_320x100
+    case (480, 320): return .size_480x320
+    default:
       throw VerveAdapterError(
         errorCode: .unsupportedBannerSize,
         description: "Unsupported banner size. Width: \(width) Height: \(height)")
@@ -167,67 +158,106 @@ final class HybidClientImpl: NSObject, HybidClient {
   func loadRTBBannerAd(
     with bidResponse: String,
     size: CGSize,
-    delegate: HyBidAdViewDelegate
+    delegate: Any
   ) throws(VerveAdapterError) {
-    adView = HyBidAdView(size: try getBannerSize(size))
-    adView?.stopAutoRefresh()
-    adView?.autoShowOnLoad = true
-    adView?.delegate = delegate
-    adView?.renderAd(withContent: bidResponse, with: delegate)
+    guard let delegate = delegate as? HyBidAdViewDelegate else { return }
+
+    let view = HyBidAdView(size: try getBannerSize(size))
+    view?.delegate = delegate
+
+    if let wrapper = view as? HyBidAdViewWrapper {
+      wrapper.stopAutoRefresh()
+      wrapper.autoShowOnLoad = true
+      wrapper.renderAd(withContent: bidResponse, with: delegate)
+    }
+    self.adView = view
   }
 
   func loadRTBInterstitialAd(
     with bidResponse: String,
-    delegate: HyBidInterstitialAdDelegate
+    delegate: Any
   ) {
-    interstitialAd = HyBidInterstitialAd(delegate: delegate)
-    interstitialAd?.prepareAdWithContent(adContent: bidResponse)
+    guard let delegate = delegate as? HyBidInterstitialAdDelegate else { return }
+    let ad = HyBidInterstitialAd(delegate: delegate)
+    (ad as? HyBidAdWrapper)?.prepareAdWithContent(adContent: bidResponse)
+    self.interstitialAd = ad
   }
 
   func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let interstitialAd, interstitialAd.isReady else {
+    guard let wrapper = interstitialAd as? HyBidAdWrapper, wrapper.isReady else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
-          "The interstitial ad is not ready for presentation. isReady: \(String(describing: interstitialAd?.isReady))"
+          "The interstitial ad is not ready for presentation. isReady: \(String(describing: (interstitialAd as? HyBidAdWrapper)?.isReady))"
       )
     }
-    interstitialAd.show(from: viewController)
+    wrapper.show(from: viewController)
   }
 
   func loadRTBRewardedAd(
     with bidResponse: String,
-    delegate: HyBidRewardedAdDelegate
+    delegate: Any
   ) {
-    rewardedAd = HyBidRewardedAd(delegate: delegate)
-    rewardedAd?.prepareAdWithContent(adContent: bidResponse)
+    guard let delegate = delegate as? HyBidRewardedAdDelegate else { return }
+    let ad = HyBidRewardedAd(delegate: delegate)
+    (ad as? HyBidAdWrapper)?.prepareAdWithContent(adContent: bidResponse)
+    self.rewardedAd = ad
   }
 
   func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let rewardedAd, rewardedAd.isReady else {
+    guard let wrapper = rewardedAd as? HyBidAdWrapper, wrapper.isReady else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
-          "The rewarded ad is not ready for presentation. isReady: \(String(describing: rewardedAd?.isReady))"
+          "The rewarded ad is not ready for presentation. isReady: \(String(describing: (rewardedAd as? HyBidAdWrapper)?.isReady))"
       )
     }
-    rewardedAd.show(from: viewController)
+    wrapper.show(from: viewController)
   }
 
   func loadRTBNativeAd(
     with bidResponse: String,
-    delegate: any HyBidNativeAdLoaderDelegate
+    delegate: Any
   ) {
-    nativeAdLoader = HyBidNativeAdLoader()
-    nativeAdLoader?.stopAutoRefresh()
-    nativeAdLoader?.prepareNativeAd(with: delegate, withContent: bidResponse)
+    guard let delegate = delegate as? HyBidNativeAdLoaderDelegate else { return }
+    let loader = HyBidNativeAdLoader()
+
+    if let wrapper = loader as? HyBidNativeLoaderWrapper {
+      wrapper.stopAutoRefresh()
+      wrapper.prepareNativeAd(with: delegate, withContent: bidResponse)
+    }
+    self.nativeAdLoader = loader
   }
 
   func fetchAssets(
-    for nativeAd: HyBidNativeAd,
-    delegate: HyBidNativeAdFetchDelegate
+    for nativeAd: Any,
+    delegate: Any
   ) {
-    nativeAd.fetchAssets(with: delegate)
+    (nativeAd as? HyBidNativeAdWrapper)?.fetchAssets(with: delegate)
   }
+}
 
+// MARK: - Dynamic Dispatch Wrappers
+
+// These local @objc protocols force the Swift compiler to use objc_msgSend. This bypasses "Dispatch Thunk" linker errors caused by linking a stable Swift binary (Distribution=YES) against the raw HyBid source code provided by CocoaPods.
+
+@objc private protocol HyBidAdWrapper {
+  var isReady: Bool { get }
+  func prepareAdWithContent(adContent: String)
+  func show(from: UIViewController)
+}
+
+@objc private protocol HyBidAdViewWrapper {
+  func renderAd(withContent: String, with: Any)
+  func stopAutoRefresh()
+  var autoShowOnLoad: Bool { get set }
+}
+
+@objc private protocol HyBidNativeLoaderWrapper {
+  func prepareNativeAd(with: Any, withContent: String)
+  func stopAutoRefresh()
+}
+
+@objc private protocol HyBidNativeAdWrapper {
+  func fetchAssets(with: Any)
 }

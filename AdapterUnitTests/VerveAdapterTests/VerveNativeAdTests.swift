@@ -61,25 +61,27 @@ final class VerveNativeAdTests: XCTestCase {
   }
 
   func testImpression() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadNativeAd(adapter, config)
-    (eventDelegate.nativeAd as! HyBidNativeAdDelegate).nativeAd(
+    fakeClient.nativeDelegate?.nativeAd(
       HyBidNativeAd(), impressionConfirmedWith: UIView())
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   func testClick() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationNativeAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadNativeAd(adapter, config)
-    (eventDelegate.nativeAd as! HyBidNativeAdDelegate).nativeAdDidClick(HyBidNativeAd())
+    fakeClient.nativeDelegate?.nativeAdDidClick(HyBidNativeAd())
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 

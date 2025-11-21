@@ -14,7 +14,8 @@
 
 import Foundation
 import GoogleMobileAds
-import HyBid
+
+@_implementationOnly import HyBid
 
 final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
@@ -36,6 +37,13 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   private let client: HybidClient
 
   var view: UIView
+
+  /// An object that conforms to `HyBidAdViewDelegate`.
+  ///
+  /// Type is `Any` because HyBid is distributed as source code (no stable ABI).
+  /// Since this adapter is built with `BUILD_LIBRARY_FOR_DISTRIBUTION=YES`,
+  /// we must erase the type to prevent "Dispatch Thunk" linker errors.
+  private var delegateImpl: Any?
 
   @MainActor
   init(
@@ -62,9 +70,15 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
       return
     }
 
+    let impl = HyBidAdViewDelegateImpl(parent: self)
+    self.delegateImpl = impl
+
     do throws(VerveAdapterError) {
       try client.loadRTBBannerAd(
-        with: bidResponse, size: adConfiguration.adSize.size, delegate: self)
+        with: bidResponse,
+        size: adConfiguration.adSize.size,
+        delegate: impl
+      )
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }
@@ -78,25 +92,51 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     }
   }
 
-}
+  // MARK: - Fileprivate Handlers
 
-extension BannerAdLoader: HyBidAdViewDelegate {
-
-  func adViewDidLoad(_ adView: HyBidAdView!) {
-    view = adView
+  fileprivate func handleAdViewDidLoad(_ adView: HyBidAdView!) {
+    self.view = adView
     handleLoadedAd(self, error: nil)
   }
 
-  func adView(_ adView: HyBidAdView!, didFailWithError error: (any Error)!) {
+  fileprivate func handleAdViewDidFail(_ error: Error!) {
     handleLoadedAd(nil, error: error as NSError)
   }
 
-  func adViewDidTrackImpression(_ adView: HyBidAdView!) {
+  fileprivate func handleImpression() {
     eventDelegate?.reportImpression()
   }
 
-  func adViewDidTrackClick(_ adView: HyBidAdView!) {
+  fileprivate func handleClick() {
     eventDelegate?.reportClick()
+  }
+
+}
+
+// MARK: - HyBidAdViewDelegateImpl
+
+private class HyBidAdViewDelegateImpl: NSObject, HyBidAdViewDelegate {
+
+  weak var parent: BannerAdLoader?
+
+  init(parent: BannerAdLoader) {
+    self.parent = parent
+  }
+
+  func adViewDidLoad(_ adView: HyBidAdView!) {
+    parent?.handleAdViewDidLoad(adView)
+  }
+
+  func adView(_ adView: HyBidAdView!, didFailWithError error: Error!) {
+    parent?.handleAdViewDidFail(error)
+  }
+
+  func adViewDidTrackImpression(_ adView: HyBidAdView!) {
+    parent?.handleImpression()
+  }
+
+  func adViewDidTrackClick(_ adView: HyBidAdView!) {
+    parent?.handleClick()
   }
 
 }

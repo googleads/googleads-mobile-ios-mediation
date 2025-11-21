@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterVerve)
 final class VerveAdapter: NSObject, RTBAdapter {
 
-  private static let version = "3.7.1.0"
+  private static let version = "3.7.1.1"
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
@@ -99,12 +99,19 @@ final class VerveAdapter: NSObject, RTBAdapter {
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
     do throws(VerveAdapterError) {
+      let client = HybidClientFactory.createClient()
       // The ad size is GADAdSizeInvalid for non-banner requests. If banner,
       // then check whether the request size is supported by HyBid SDK.
-      if !isAdSizeEqualToSize(size1: params.adSize, size2: AdSizeInvalid) {
-        try HybidClientFactory.createClient().getBannerSize(params.adSize.size)
+      if !isAdSizeEqualToSize(size1: params.adSize, size2: AdSizeInvalid)
+        && !client.isValidBannerSize(params.adSize.size)
+      {
+        throw VerveAdapterError(
+          errorCode: .unsupportedBannerSize,
+          description:
+            "Unsupported banner size. Width: \(params.adSize.size.width) Height: \(params.adSize.size.height)"
+        )
       }
-      completionHandler(HybidClientFactory.createClient().collectSignals(), nil)
+      completionHandler(client.collectSignals(), nil)
     } catch {
       completionHandler(nil, error.toNSError())
     }

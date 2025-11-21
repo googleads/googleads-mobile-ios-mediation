@@ -14,9 +14,10 @@
 
 import Foundation
 import GoogleMobileAds
-import HyBid
 
-final class NativeAdLoader: NSObject {
+@_implementationOnly import HyBid
+
+final class NativeAdLoader: NSObject, @unchecked Sendable {
 
   /// The native ad configuration.
   private let adConfiguration: MediationNativeAdConfiguration
@@ -35,7 +36,9 @@ final class NativeAdLoader: NSObject {
 
   private let client: HybidClient
 
-  private var nativeAd: HyBidNativeAd?
+  private var nativeAd: Any?
+
+  private var delegateImpl: Any?
 
   init(
     adConfiguration: MediationNativeAdConfiguration,
@@ -59,7 +62,10 @@ final class NativeAdLoader: NSObject {
         ).toNSError())
       return
     }
-    client.loadRTBNativeAd(with: bidResponse, delegate: self)
+
+    let impl = HyBidNativeAdDelegateImpl(parent: self)
+    self.delegateImpl = impl
+    client.loadRTBNativeAd(with: bidResponse, delegate: impl)
   }
 
   private func handleLoadedAd(_ ad: MediationNativeAd?, error: NSError?) {
@@ -70,45 +76,74 @@ final class NativeAdLoader: NSObject {
     }
   }
 
+  // MARK: - Fileprivate Handlers
+
+  fileprivate func handleNativeLoaderDidLoad(_ nativeAd: HyBidNativeAd!) {
+    self.nativeAd = nativeAd
+
+    guard let impl = delegateImpl as? HyBidNativeAdFetchDelegate else { return }
+    client.fetchAssets(for: nativeAd, delegate: impl)
+  }
+
+  fileprivate func handleNativeLoaderDidFail(_ error: Error!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  fileprivate func handleFetchFinished() {
+    handleLoadedAd(self, error: nil)
+  }
+
+  fileprivate func handleImpression() {
+    eventDelegate?.reportImpression()
+  }
+
+  fileprivate func handleClick() {
+    eventDelegate?.reportClick()
+  }
+
 }
 
 // MARK: - GADMediationNativeAd
 
 extension NativeAdLoader: MediationNativeAd {
 
+  private var hybidAd: HyBidNativeAd? {
+    return nativeAd as? HyBidNativeAd
+  }
+
   var headline: String? {
-    return nativeAd?.title
+    return hybidAd?.title
   }
 
   var body: String? {
-    return nativeAd?.body
+    return hybidAd?.body
   }
 
   var images: [NativeAdImage]? {
-    guard let bannerImage = nativeAd?.bannerImage else {
+    guard let bannerImage = hybidAd?.bannerImage else {
       return nil
     }
     return [NativeAdImage(image: bannerImage)]
   }
 
   var icon: NativeAdImage? {
-    guard let iconImage = nativeAd?.icon else { return nil }
+    guard let iconImage = hybidAd?.icon else { return nil }
     return NativeAdImage(image: iconImage)
   }
 
   var callToAction: String? {
-    return nativeAd?.callToActionTitle
+    return hybidAd?.callToActionTitle
   }
 
   var starRating: NSDecimalNumber? {
-    guard let ratingNumber = nativeAd?.rating else {
+    guard let ratingNumber = hybidAd?.rating else {
       return nil
     }
     return NSDecimalNumber(decimal: ratingNumber.decimalValue)
   }
 
   var adChoicesView: UIView? {
-    return nativeAd?.contentInfo
+    return hybidAd?.contentInfo
   }
 
   // Not supported by HyBid.
@@ -149,60 +184,54 @@ extension NativeAdLoader: MediationNativeAd {
     nonclickableAssetViews: [GADNativeAssetIdentifier: UIView],
     viewController: UIViewController
   ) {
-    nativeAd?.startTrackingView(view, with: self)
+    guard let ad = hybidAd,
+      let delegate = delegateImpl as? HyBidNativeAdDelegate
+    else { return }
+    ad.startTrackingView(view, with: delegate)
   }
 
   func didUntrackView(_ view: UIView?) {
-    nativeAd?.stopTracking()
+    hybidAd?.stopTracking()
   }
 
 }
 
-// MARK: - HyBidNativeAdLoaderDelegate
+// MARK: - HyBidNativeAdDelegateImpl
 
-extension NativeAdLoader: HyBidNativeAdLoaderDelegate {
+private class HyBidNativeAdDelegateImpl: NSObject,
+  HyBidNativeAdLoaderDelegate,
+  HyBidNativeAdFetchDelegate,
+  HyBidNativeAdDelegate
+{
+
+  weak var parent: NativeAdLoader?
+
+  init(parent: NativeAdLoader) {
+    self.parent = parent
+  }
 
   func nativeLoaderDidLoad(with nativeAd: HyBidNativeAd!) {
-    self.nativeAd = nativeAd
-    client.fetchAssets(for: nativeAd, delegate: self)
+    parent?.handleNativeLoaderDidLoad(nativeAd)
   }
 
   func nativeLoaderDidFailWithError(_ error: (any Error)!) {
-    handleLoadedAd(nil, error: error as NSError)
+    parent?.handleNativeLoaderDidFail(error)
   }
-
-}
-
-// MARK: - HyBidNativeAdFetchDelegate
-
-extension NativeAdLoader: HyBidNativeAdFetchDelegate {
 
   func nativeAdDidFinishFetching(_ nativeAd: HyBidNativeAd!) {
-    handleLoadedAd(self, error: nil)
+    parent?.handleFetchFinished()
   }
 
-  func nativeAd(
-    _ nativeAd: HyBidNativeAd!,
-    didFailFetchingWithError error: (any Error)!
-  ) {
-    handleLoadedAd(nil, error: error as NSError)
+  func nativeAd(_ nativeAd: HyBidNativeAd!, didFailFetchingWithError error: (any Error)!) {
+    parent?.handleNativeLoaderDidFail(error)
   }
 
-}
-
-// MARK: - HyBidNativeAdDelegate
-
-extension NativeAdLoader: HyBidNativeAdDelegate {
-
-  func nativeAd(
-    _ nativeAd: HyBidNativeAd!,
-    impressionConfirmedWith view: UIView!
-  ) {
-    eventDelegate?.reportImpression()
+  func nativeAd(_ nativeAd: HyBidNativeAd!, impressionConfirmedWith view: UIView!) {
+    parent?.handleImpression()
   }
 
   func nativeAdDidClick(_ nativeAd: HyBidNativeAd!) {
-    eventDelegate?.reportClick()
+    parent?.handleClick()
   }
 
 }

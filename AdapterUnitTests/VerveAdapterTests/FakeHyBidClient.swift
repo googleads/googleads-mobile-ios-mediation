@@ -12,8 +12,10 @@ final class FakeHyBidClient: NSObject, HybidClient {
   var shouldPresentationSucceed = true
   var shouldNativeAssetFetchSucceed = true
 
+  var bannerDelegate: HyBidAdViewDelegate?
   var interstitialDelegate: HyBidInterstitialAdDelegate?
   var rewardedAdDelegate: HyBidRewardedAdDelegate?
+  var nativeDelegate: HyBidNativeAdDelegate?
 
   func version() -> String {
     return "1.2.3"
@@ -38,18 +40,18 @@ final class FakeHyBidClient: NSObject, HybidClient {
     return "signals"
   }
 
-  func getBannerSize(_ size: CGSize) throws(VerveAdapterError) -> HyBidAdSize {
-    if shouldGetBannerSizeSucceed {
-      return .size_320x100
-    }
-    throw VerveAdapterError(errorCode: .unsupportedBannerSize, description: "")
+  func isValidBannerSize(_ size: CGSize) -> Bool {
+    return shouldGetBannerSizeSucceed
   }
 
   func loadRTBBannerAd(
     with bidResponse: String,
     size: CGSize,
-    delegate: any HyBidAdViewDelegate
+    delegate: Any
   ) throws(VerveAdapterError) {
+    guard let delegate = delegate as? HyBidAdViewDelegate else { return }
+    bannerDelegate = delegate
+
     if shouldAdLoadSucceed {
       delegate.adViewDidLoad(HyBidAdView(size: .size_320x50))
     } else {
@@ -61,9 +63,11 @@ final class FakeHyBidClient: NSObject, HybidClient {
 
   func loadRTBInterstitialAd(
     with bidResponse: String,
-    delegate: any HyBidInterstitialAdDelegate
+    delegate: Any
   ) {
+    guard let delegate = delegate as? HyBidInterstitialAdDelegate else { return }
     interstitialDelegate = delegate
+
     if shouldAdLoadSucceed {
       delegate.interstitialDidLoad()
     } else {
@@ -78,8 +82,10 @@ final class FakeHyBidClient: NSObject, HybidClient {
     }
   }
 
-  func loadRTBRewardedAd(with bidResponse: String, delegate: any HyBidRewardedAdDelegate) {
+  func loadRTBRewardedAd(with bidResponse: String, delegate: Any) {
+    guard let delegate = delegate as? HyBidRewardedAdDelegate else { return }
     rewardedAdDelegate = delegate
+
     if shouldAdLoadSucceed {
       delegate.rewardedDidLoad()
     } else {
@@ -94,7 +100,10 @@ final class FakeHyBidClient: NSObject, HybidClient {
     }
   }
 
-  func loadRTBNativeAd(with bidResponse: String, delegate: any HyBidNativeAdLoaderDelegate) {
+  func loadRTBNativeAd(with bidResponse: String, delegate: Any) {
+    guard let delegate = delegate as? HyBidNativeAdLoaderDelegate else { return }
+    nativeDelegate = delegate as? HyBidNativeAdDelegate
+
     if shouldAdLoadSucceed {
       delegate.nativeLoaderDidLoad(with: HyBidNativeAd())
     } else {
@@ -104,9 +113,13 @@ final class FakeHyBidClient: NSObject, HybidClient {
   }
 
   func fetchAssets(
-    for nativeAd: HyBidNativeAd,
-    delegate: any HyBidNativeAdFetchDelegate
+    for nativeAd: Any,
+    delegate: Any
   ) {
+    guard let nativeAd = nativeAd as? HyBidNativeAd,
+      let delegate = delegate as? HyBidNativeAdFetchDelegate
+    else { return }
+
     if shouldNativeAssetFetchSucceed {
       delegate.nativeAdDidFinishFetching(nativeAd)
     } else {

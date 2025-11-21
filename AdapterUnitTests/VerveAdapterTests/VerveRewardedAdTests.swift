@@ -75,46 +75,50 @@ final class VerveRewardedAdTests: XCTestCase {
   }
 
   func testImpression() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
-    (eventDelegate.rewardedAd as! HyBidRewardedAdDelegate).rewardedDidTrackImpression()
+    fakeClient.rewardedAdDelegate?.rewardedDidTrackImpression()
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   func testClick() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
-    (eventDelegate.rewardedAd as! HyBidRewardedAdDelegate).rewardedDidTrackClick()
+    fakeClient.rewardedAdDelegate?.rewardedDidTrackClick()
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
   func testDismiss() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
-    (eventDelegate.rewardedAd as! HyBidRewardedAdDelegate).rewardedDidDismiss()
+    fakeClient.rewardedAdDelegate?.rewardedDidDismiss()
     XCTAssertEqual(eventDelegate.didDismissFullScreenViewInvokeCount, 1)
   }
 
   func testReward() {
-    HybidClientFactory.debugClient = FakeHyBidClient()
+    let fakeClient = FakeHyBidClient()
+    HybidClientFactory.debugClient = fakeClient
 
     let config = AUTKMediationRewardedAdConfiguration()
     config.bidResponse = "test"
 
     let eventDelegate = AUTKWaitAndAssertLoadRewardedAd(adapter, config)
-    (eventDelegate.rewardedAd as! HyBidRewardedAdDelegate).onReward()
+    fakeClient.rewardedAdDelegate?.onReward()
     XCTAssertEqual(eventDelegate.didRewardUserInvokeCount, 1)
   }
 

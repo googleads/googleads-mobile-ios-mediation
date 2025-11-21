@@ -14,9 +14,10 @@
 
 import Foundation
 import GoogleMobileAds
-import HyBid
 
-final class RewardedAdLoader: NSObject {
+@_implementationOnly import HyBid
+
+final class RewardedAdLoader: NSObject, @unchecked Sendable {
 
   /// The rewarded ad configuration.
   private let adConfiguration: MediationRewardedAdConfiguration
@@ -34,6 +35,8 @@ final class RewardedAdLoader: NSObject {
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
 
   private let client: HybidClient
+
+  private var delegateImpl: Any?
 
   init(
     adConfiguration: MediationRewardedAdConfiguration,
@@ -57,7 +60,10 @@ final class RewardedAdLoader: NSObject {
         ).toNSError())
       return
     }
-    client.loadRTBRewardedAd(with: bidResponse, delegate: self)
+
+    let impl = HyBidRewardedAdDelegateImpl(parent: self)
+    self.delegateImpl = impl
+    client.loadRTBRewardedAd(with: bidResponse, delegate: impl)
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
@@ -66,6 +72,32 @@ final class RewardedAdLoader: NSObject {
       eventDelegate = adLoadCompletionHandler(ad, error)
       self.adLoadCompletionHandler = nil
     }
+  }
+
+  // MARK: - Fileprivate Handlers
+
+  fileprivate func handleRewardedDidLoad() {
+    handleLoadedAd(self, error: nil)
+  }
+
+  fileprivate func handleRewardedDidFail(_ error: Error!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  fileprivate func handleImpression() {
+    eventDelegate?.reportImpression()
+  }
+
+  fileprivate func handleClick() {
+    eventDelegate?.reportClick()
+  }
+
+  fileprivate func handleDismiss() {
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  fileprivate func handleReward() {
+    eventDelegate?.didRewardUser()
   }
 
 }
@@ -85,31 +117,38 @@ extension RewardedAdLoader: MediationRewardedAd {
 
 }
 
-// MARK: - HyBidRewardedAdDelegate
-extension RewardedAdLoader: HyBidRewardedAdDelegate {
+// MARK: - HyBidRewardedAdDelegateImpl
+
+private class HyBidRewardedAdDelegateImpl: NSObject, HyBidRewardedAdDelegate {
+
+  weak var parent: RewardedAdLoader?
+
+  init(parent: RewardedAdLoader) {
+    self.parent = parent
+  }
 
   func rewardedDidLoad() {
-    handleLoadedAd(self, error: nil)
+    parent?.handleRewardedDidLoad()
   }
 
   func rewardedDidFailWithError(_ error: (any Error)!) {
-    handleLoadedAd(nil, error: error as NSError)
+    parent?.handleRewardedDidFail(error)
   }
 
   func rewardedDidTrackImpression() {
-    eventDelegate?.reportImpression()
+    parent?.handleImpression()
   }
 
   func rewardedDidTrackClick() {
-    eventDelegate?.reportClick()
+    parent?.handleClick()
   }
 
   func rewardedDidDismiss() {
-    eventDelegate?.didDismissFullScreenView()
+    parent?.handleDismiss()
   }
 
   func onReward() {
-    eventDelegate?.didRewardUser()
+    parent?.handleReward()
   }
 
 }

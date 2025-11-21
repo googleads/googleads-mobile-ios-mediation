@@ -14,9 +14,10 @@
 
 import Foundation
 import GoogleMobileAds
-import HyBid
 
-final class InterstitialAdLoader: NSObject {
+@_implementationOnly import HyBid
+
+final class InterstitialAdLoader: NSObject, @unchecked Sendable {
 
   /// The interstitial ad configuration.
   private let adConfiguration: MediationInterstitialAdConfiguration
@@ -31,6 +32,13 @@ final class InterstitialAdLoader: NSObject {
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
 
   private let client: HybidClient
+
+  /// An object that conforms to `HyBidInterstitialAdDelegate`.
+  ///
+  /// Type is `Any` because HyBid is distributed as source code (no stable ABI).
+  /// Since this adapter is built with `BUILD_LIBRARY_FOR_DISTRIBUTION=YES`,
+  /// we must erase the type to prevent "Dispatch Thunk" linker errors.
+  private var delegateImpl: Any?
 
   init(
     adConfiguration: MediationInterstitialAdConfiguration,
@@ -54,7 +62,11 @@ final class InterstitialAdLoader: NSObject {
         ).toNSError())
       return
     }
-    client.loadRTBInterstitialAd(with: bidResponse, delegate: self)
+
+    let impl = HyBidInterstitialAdDelegateImpl(parent: self)
+    self.delegateImpl = impl
+
+    client.loadRTBInterstitialAd(with: bidResponse, delegate: impl)
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
@@ -63,6 +75,28 @@ final class InterstitialAdLoader: NSObject {
       eventDelegate = adLoadCompletionHandler(ad, error)
       self.adLoadCompletionHandler = nil
     }
+  }
+
+  // MARK: - Fileprivate Handlers
+
+  fileprivate func handleInterstitialDidLoad() {
+    handleLoadedAd(self, error: nil)
+  }
+
+  fileprivate func handleInterstitialDidFail(_ error: Error!) {
+    handleLoadedAd(nil, error: error as NSError)
+  }
+
+  fileprivate func handleImpression() {
+    eventDelegate?.reportImpression()
+  }
+
+  fileprivate func handleClick() {
+    eventDelegate?.reportClick()
+  }
+
+  fileprivate func handleDismiss() {
+    eventDelegate?.didDismissFullScreenView()
   }
 
 }
@@ -82,27 +116,34 @@ extension InterstitialAdLoader: MediationInterstitialAd {
 
 }
 
-// MARK: - HyBidInterstitialAdDelegate
-extension InterstitialAdLoader: HyBidInterstitialAdDelegate {
+// MARK: - HyBidInterstitialAdDelegateImpl
+
+private class HyBidInterstitialAdDelegateImpl: NSObject, HyBidInterstitialAdDelegate {
+
+  weak var parent: InterstitialAdLoader?
+
+  init(parent: InterstitialAdLoader) {
+    self.parent = parent
+  }
 
   func interstitialDidLoad() {
-    handleLoadedAd(self, error: nil)
+    parent?.handleInterstitialDidLoad()
   }
 
   func interstitialDidFailWithError(_ error: (any Error)!) {
-    handleLoadedAd(nil, error: error as NSError)
+    parent?.handleInterstitialDidFail(error)
   }
 
   func interstitialDidTrackImpression() {
-    eventDelegate?.reportImpression()
+    parent?.handleImpression()
   }
 
   func interstitialDidTrackClick() {
-    eventDelegate?.reportClick()
+    parent?.handleClick()
   }
 
   func interstitialDidDismiss() {
-    eventDelegate?.didDismissFullScreenView()
+    parent?.handleDismiss()
   }
 
 }
