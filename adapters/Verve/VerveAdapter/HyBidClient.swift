@@ -79,10 +79,10 @@ protocol HybidClient: NSObject {
 
 private class HybidClientImpl: NSObject, HybidClient {
 
-  private var adView: Any?
-  private var interstitialAd: Any?
-  private var rewardedAd: Any?
-  private var nativeAdLoader: Any?
+  private var adView: NSObject?
+  private var interstitialAd: NSObject?
+  private var rewardedAd: NSObject?
+  private var nativeAdLoader: NSObject?
 
   func version() -> String {
     return HyBid.sdkVersion()
@@ -162,13 +162,20 @@ private class HybidClientImpl: NSObject, HybidClient {
   ) throws(VerveAdapterError) {
     guard let delegate = delegate as? HyBidAdViewDelegate else { return }
 
-    let adView = HyBidAdView(size: try getBannerSize(size))
+    let adView: NSObject = HyBidAdView(size: try getBannerSize(size))
     self.adView = adView
 
-    adView?.stopAutoRefresh()
-    adView?.autoShowOnLoad = true
-    adView?.delegate = delegate
-    adView?.renderAd(withContent: bidResponse, with: delegate)
+    let stopAutoRefreshSelector = Selector("stopAutoRefresh")
+    let setAutoShowOnLoadSelector = Selector("setAutoShowOnLoad:")
+    let renderAdWithContentSelector = Selector("renderAdWithContent:withDelegate:")
+    if adView.responds(to: stopAutoRefreshSelector)
+      && adView.responds(to: setAutoShowOnLoadSelector)
+      && adView.responds(to: renderAdWithContentSelector)
+    {
+      adView.perform(stopAutoRefreshSelector)
+      adView.setValue(true, forKey: "autoShowOnLoad")
+      adView.perform(renderAdWithContentSelector, with: bidResponse, with: delegate)
+    }
   }
 
   func loadRTBInterstitialAd(
@@ -176,20 +183,33 @@ private class HybidClientImpl: NSObject, HybidClient {
     delegate: Any
   ) {
     guard let delegate = delegate as? HyBidInterstitialAdDelegate else { return }
-    let interstitialAd = HyBidInterstitialAd(delegate: delegate)
+
+    let interstitialAd: NSObject = HyBidInterstitialAd(delegate: delegate)
     self.interstitialAd = interstitialAd
-    interstitialAd.prepareAdWithContent(adContent: bidResponse)
+
+    let prepareAdWithContentSelector = Selector("prepareAdWithContent:")
+    if interstitialAd.responds(to: prepareAdWithContentSelector) {
+      interstitialAd.perform(prepareAdWithContentSelector, with: bidResponse)
+    }
   }
 
   func presentInterstitialAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let interstitialAd = interstitialAd as? HyBidInterstitialAd, interstitialAd.isReady else {
+    guard let interstitialAd,
+      interstitialAd.responds(to: Selector("isReady")),
+      let isReady = interstitialAd.value(forKey: "isReady") as? Bool,
+      isReady
+    else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
           "The interstitial ad is not ready for presentation."
       )
     }
-    interstitialAd.show(from: viewController)
+
+    let showFromViewControllerSelector = Selector("showFromViewController:")
+    if interstitialAd.responds(to: showFromViewControllerSelector) {
+      interstitialAd.perform(showFromViewControllerSelector, with: viewController)
+    }
   }
 
   func loadRTBRewardedAd(
@@ -197,20 +217,33 @@ private class HybidClientImpl: NSObject, HybidClient {
     delegate: Any
   ) {
     guard let delegate = delegate as? HyBidRewardedAdDelegate else { return }
-    let ad = HyBidRewardedAd(delegate: delegate)
-    self.rewardedAd = ad
-    ad.prepareAdWithContent(adContent: bidResponse)
+
+    let rewardedAd: NSObject = HyBidRewardedAd(delegate: delegate)
+    self.rewardedAd = rewardedAd
+
+    let prepareAdWithContentSelector = Selector("prepareAdWithContent:")
+    if rewardedAd.responds(to: prepareAdWithContentSelector) {
+      rewardedAd.perform(prepareAdWithContentSelector, with: bidResponse)
+    }
   }
 
   func presentRewardedAd(from viewController: UIViewController) throws(VerveAdapterError) {
-    guard let rewardedAd = rewardedAd as? HyBidRewardedAd, rewardedAd.isReady else {
+    guard let rewardedAd,
+      rewardedAd.responds(to: Selector("isReady")),
+      let isReady = rewardedAd.value(forKey: "isReady") as? Bool,
+      isReady
+    else {
       throw VerveAdapterError(
         errorCode: .notReadyForPresentation,
         description:
           "The rewarded ad is not ready for presentation."
       )
     }
-    rewardedAd.show(from: viewController)
+
+    let showFromViewControllerSelector = Selector("showFromViewController:")
+    if rewardedAd.responds(to: showFromViewControllerSelector) {
+      rewardedAd.perform(showFromViewControllerSelector, with: viewController)
+    }
   }
 
   func loadRTBNativeAd(
@@ -218,22 +251,34 @@ private class HybidClientImpl: NSObject, HybidClient {
     delegate: Any
   ) {
     guard let delegate = delegate as? HyBidNativeAdLoaderDelegate else { return }
-    let loader = HyBidNativeAdLoader()
-    self.nativeAdLoader = loader
-    loader.stopAutoRefresh()
-    loader.prepareNativeAd(with: delegate, withContent: bidResponse)
+
+    let nativeAdLoader: NSObject = HyBidNativeAdLoader()
+    self.nativeAdLoader = nativeAdLoader
+
+    let stopAutoRefreshSelector = Selector("stopAutoRefresh")
+    let prepareNativeAdWithDelegateSelector = Selector("prepareNativeAdWithDelegate:withContent:")
+    if nativeAdLoader.responds(to: stopAutoRefreshSelector)
+      && nativeAdLoader.responds(to: prepareNativeAdWithDelegateSelector)
+    {
+      nativeAdLoader.perform(stopAutoRefreshSelector)
+      nativeAdLoader.perform(prepareNativeAdWithDelegateSelector, with: delegate, with: bidResponse)
+    }
   }
 
   func fetchAssets(
     for nativeAd: Any,
     delegate: Any
   ) {
-    guard let nativeAd = nativeAd as? HyBidNativeAd,
-      let delegate = delegate as? HyBidNativeAdFetchDelegate
+    guard let nativeAd = nativeAd as? NSObject,
+      let delegate = delegate as? NSObject
     else {
       return
     }
-    nativeAd.fetchAssets(with: delegate)
+
+    let fetchNativeAdAssetsWithDelegateSelector = Selector("fetchNativeAdAssetsWithDelegate:")
+    if nativeAd.responds(to: fetchNativeAdAssetsWithDelegateSelector) {
+      nativeAd.perform(fetchNativeAdAssetsWithDelegateSelector, with: delegate)
+    }
   }
 
 }
