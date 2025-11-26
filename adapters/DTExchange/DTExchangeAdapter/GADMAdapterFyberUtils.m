@@ -63,7 +63,6 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithSpotIDAndAdConfiguration(
   IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
 
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
-    builder.useSecureConnections = NO;
     builder.spotID = spotID;
     builder.timeout = 10;
   }];
@@ -79,7 +78,6 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithAdConfiguration(
   IASDKCore.sharedInstance.muteAudio = extras.muteAudio;
 
   IAAdRequest *request = [IAAdRequest build:^(id<IAAdRequestBuilder> _Nonnull builder) {
-    builder.useSecureConnections = NO;
     builder.timeout = 10;
   }];
 
