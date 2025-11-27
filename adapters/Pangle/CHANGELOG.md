@@ -1,6 +1,11 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### Version 7.8.0.3.0 (In progress)
+#### [Version 7.8.0.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.8.0.3.0.zip)
+- Verified compatibility with Pangle SDK version 7.8.0.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- Pangle SDK version 7.8.0.3.
 
 #### [Version 7.7.0.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.7.0.7.0.zip)
 - Verified compatibility with Pangle SDK version 7.7.0.7.
