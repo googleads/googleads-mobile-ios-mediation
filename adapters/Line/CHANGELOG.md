@@ -1,6 +1,11 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Version 2.9.20251119.0 (In progress)
+#### [Version 2.9.20251119.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20251119.0.zip)
+- Verified compatibility with FiveAd SDK version 2.9.20251119.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- FiveAd SDK version 2.9.20251119.
 
 #### [Version 2.9.20250930.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20250930.0.zip)
 - Verified compatibility with FiveAd SDK version 2.9.20250930.
