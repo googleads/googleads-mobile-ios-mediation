@@ -15,6 +15,7 @@
 #import "GADFBNativeRenderer.h"
 #import <AdSupport/AdSupport.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #include <stdatomic.h>
 #import "GADFBExtraAssets.h"
@@ -52,6 +53,9 @@
 
   /// Meta Audience Network media view.
   FBMediaView *_mediaView;
+
+  /// The native ad configuration.
+  GADMediationNativeAdConfiguration *_adConfiguration;
 }
 
 - (void)renderNativeAdForAdConfiguration:
@@ -83,6 +87,8 @@
     return;
   }
 
+  _adConfiguration = adConfiguration;
+
   _nativeAd = [FBNativeAdBase nativeAdWithPlacementId:placementID
                                            bidPayload:adConfiguration.bidResponse
                                                 error:nil];
@@ -96,6 +102,19 @@
   FBAdExtraHint *watermarkHint = [[FBAdExtraHint alloc] init];
   watermarkHint.mediationData = [adConfiguration.watermark base64EncodedStringWithOptions:0];
   _nativeAd.extraHint = watermarkHint;
+
+  // Set video configuration.
+  for (GADNativeAdViewAdOptions *option in _adConfiguration.options) {
+    if ([option isKindOfClass:[GADVideoOptions class]]) {
+      GADVideoOptions *videoOptions = (GADVideoOptions*)option;
+      bool startMuted = videoOptions.startMuted;
+      // TODO: set Meta's `setUnMuteVolume`
+      bool clickToExpandRequested = videoOptions.clickToExpandRequested;
+      // TODO: set Meta's `setDisableFullScreen`
+      bool hideMediaControl = videoOptions.customControlsRequested;
+      // TODO: set Meta's `setHideMediaControls`. But this feature is limited. For more info, https://developers.google.com/admob/ios/native/options#custom_playback_controls
+    }
+  }
 
   // Load ad.
   [_nativeAd loadAdWithBidPayload:adConfiguration.bidResponse];
@@ -176,6 +195,19 @@
     iconView = (UIImageView *)clickableAssetViews[GADNativeIconAsset];
   }
 
+  for (GADNativeAdViewAdOptions *option in _adConfiguration.options) {
+    if ([option isKindOfClass:[GADNativeAdImageAdLoaderOptions class]]) {
+      GADNativeAdImageAdLoaderOptions *imageOptions = (GADNativeAdImageAdLoaderOptions *)option;
+      // do stuff if any...
+    } else if ([option isKindOfClass:[GADNativeAdViewAdOptions class]]) {
+      GADNativeAdViewAdOptions *adViewOptions = (GADNativeAdViewAdOptions *)option;
+      // Set (FBNativeAd *)_nativeAd.preferredAdOptionsViewPosition based on
+      // adViewOptions.preferredAdChoicesPosition.
+    } else if ([option isKindOfClass:[GADNativeAdMediaAdLoaderOptions class]]) {
+        // do stuff if any...
+    }
+  }
+
   if ([_nativeAd isKindOfClass:[FBNativeAd class]]) {
     [(FBNativeAd *)_nativeAd registerViewForInteraction:view
                                               mediaView:_mediaView
@@ -200,6 +232,7 @@
 /// content.
 - (BOOL)hasVideoContent {
   return YES;
+  // Return _mediaView.isVideoContent();
 }
 
 #pragma mark - FBNativeAdDelegate
