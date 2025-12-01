@@ -18,6 +18,7 @@
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberExtras.h"
 #import "GADMAdapterFyberInterstitialAd.h"
+#import "GADMAdapterFyberNativeAd.h"
 #import "GADMAdapterFyberRewardedAd.h"
 #import "GADMAdapterFyberUtils.h"
 
@@ -30,6 +31,9 @@
 
   /// DT Exchange rewarded ad wrapper.
   GADMAdapterFyberRewardedAd *_rewardedAd;
+
+  /// DT Exchange native ad wrapper.
+  GADMAdapterFyberNativeAd *_nativeAd;
 }
 
 #pragma mark - GADMediationAdapter
@@ -111,4 +115,10 @@
   [_rewardedAd loadRewardedAdWithCompletionHandler:completionHandler];
 }
 
+- (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
+                     completionHandler:
+                         (nonnull GADMediationNativeLoadCompletionHandler)completionHandler {
+  _nativeAd = [[GADMAdapterFyberNativeAd alloc] initWithAdConfiguration:adConfiguration];
+  [_nativeAd loadNativeAdWithCompletionHandler:completionHandler];
+}
 @end

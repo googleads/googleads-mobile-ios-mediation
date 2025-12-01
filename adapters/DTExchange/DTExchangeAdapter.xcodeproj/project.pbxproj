@@ -76,6 +76,12 @@
 		ADA6B9422CF14624009C8FDA /* GADMediationAdapterFyber.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */; };
 		ADD347C52D2B414C0019419D /* DTExchangeAdapter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2375639C2915C2CF005DDACE /* DTExchangeAdapter.h */; };
 		ADD347C62D2B414C0019419D /* GADMAdapterFyberExtras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2376C4DB251044740098BE51 /* GADMAdapterFyberExtras.h */; };
+		ADE9FA9B2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE9FA992EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h */; };
+		ADE9FA9C2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9FA9A2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m */; };
+		ADE9FA9D2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9FA9A2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m */; };
+		ADE9FA9E2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE9FA992EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h */; };
+		ADE9FA9F2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE9FA992EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h */; };
+		ADE9FAA02EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9FA9A2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +154,8 @@
 		AD00C41D2B8719C7007C85F3 /* DTExchangeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DTExchangeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E39D22EA167C600818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6B9462CF14624009C8FDA /* libStaticDTExchangeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticDTExchangeAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE9FA992EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMAdapterFyberNativeAd.h; sourceTree = "<group>"; };
+		ADE9FA9A2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterFyberNativeAd.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +205,8 @@
 				23A55E1A28EF7559000BBD8A /* GADMAdapterFyberUtils.m */,
 				23A55E1B28EF7559000BBD8A /* GADMediationAdapterFyber.h */,
 				23A55E1C28EF7559000BBD8A /* GADMediationAdapterFyber.m */,
+				ADE9FA992EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h */,
+				ADE9FA9A2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m */,
 			);
 			path = DTExchangeAdapter;
 			sourceTree = "<group>";
@@ -275,6 +285,7 @@
 				23A55E1F28EF7559000BBD8A /* GADMAdapterFyberConstants.h in Headers */,
 				23A55E2128EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.h in Headers */,
 				23A55E1D28EF7559000BBD8A /* GADMAdapterFyberBannerAd.h in Headers */,
+				ADE9FA9E2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */,
 				23A55E2328EF7559000BBD8A /* GADMAdapterFyberRewardedAd.h in Headers */,
 				2376C4DC251044740098BE51 /* GADMAdapterFyberExtras.h in Headers */,
 				23A55E2728EF7559000BBD8A /* GADMediationAdapterFyber.h in Headers */,
@@ -297,6 +308,7 @@
 				AD6E39C92EA167C600818296 /* GADMAdapterFyberConstants.h in Headers */,
 				AD6E39CA2EA167C600818296 /* GADMAdapterFyberInterstitialAd.h in Headers */,
 				AD6E39CB2EA167C600818296 /* GADMAdapterFyberBannerAd.h in Headers */,
+				ADE9FA9F2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */,
 				AD6E39CC2EA167C600818296 /* GADMAdapterFyberRewardedAd.h in Headers */,
 				AD6E39CD2EA167C600818296 /* GADMAdapterFyberExtras.h in Headers */,
 				AD6E39CE2EA167C600818296 /* GADMediationAdapterFyber.h in Headers */,
@@ -312,6 +324,7 @@
 				ADA6B93D2CF14624009C8FDA /* GADMAdapterFyberConstants.h in Headers */,
 				ADA6B93E2CF14624009C8FDA /* GADMAdapterFyberInterstitialAd.h in Headers */,
 				ADA6B93F2CF14624009C8FDA /* GADMAdapterFyberBannerAd.h in Headers */,
+				ADE9FA9B2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.h in Headers */,
 				ADA6B9402CF14624009C8FDA /* GADMAdapterFyberRewardedAd.h in Headers */,
 				ADA6B9412CF14624009C8FDA /* GADMAdapterFyberExtras.h in Headers */,
 				ADA6B9422CF14624009C8FDA /* GADMediationAdapterFyber.h in Headers */,
@@ -491,6 +504,7 @@
 				23A55E2428EF7559000BBD8A /* GADMAdapterFyberRewardedAd.m in Sources */,
 				23A55E2028EF7559000BBD8A /* GADMAdapterFyberExtras.m in Sources */,
 				23A55E2828EF7559000BBD8A /* GADMediationAdapterFyber.m in Sources */,
+				ADE9FA9D2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */,
 				23A55E2228EF7559000BBD8A /* GADMAdapterFyberInterstitialAd.m in Sources */,
 				23A55E2628EF7559000BBD8A /* GADMAdapterFyberUtils.m in Sources */,
 				23A55E1E28EF7559000BBD8A /* GADMAdapterFyberBannerAd.m in Sources */,
@@ -511,6 +525,7 @@
 				AD6E39BE2EA167C600818296 /* GADMAdapterFyberRewardedAd.m in Sources */,
 				AD6E39BF2EA167C600818296 /* GADMAdapterFyberExtras.m in Sources */,
 				AD6E39C02EA167C600818296 /* GADMediationAdapterFyber.m in Sources */,
+				ADE9FAA02EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */,
 				AD6E39C12EA167C600818296 /* GADMAdapterFyberInterstitialAd.m in Sources */,
 				AD6E39C22EA167C600818296 /* GADMAdapterFyberUtils.m in Sources */,
 				AD6E39C32EA167C600818296 /* GADMAdapterFyberBannerAd.m in Sources */,
@@ -524,6 +539,7 @@
 				ADA6B9322CF14624009C8FDA /* GADMAdapterFyberRewardedAd.m in Sources */,
 				ADA6B9332CF14624009C8FDA /* GADMAdapterFyberExtras.m in Sources */,
 				ADA6B9342CF14624009C8FDA /* GADMediationAdapterFyber.m in Sources */,
+				ADE9FA9C2EDE12A500AA2F1B /* GADMAdapterFyberNativeAd.m in Sources */,
 				ADA6B9352CF14624009C8FDA /* GADMAdapterFyberInterstitialAd.m in Sources */,
 				ADA6B9362CF14624009C8FDA /* GADMAdapterFyberUtils.m in Sources */,
 				ADA6B9372CF14624009C8FDA /* GADMAdapterFyberBannerAd.m in Sources */,
