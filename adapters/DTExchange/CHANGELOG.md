@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.4.2.1 (In progress)
 - Implemented DTExchange SDK Native Ads Adapter.
 
 #### [Version 8.4.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.2.0.zip)
