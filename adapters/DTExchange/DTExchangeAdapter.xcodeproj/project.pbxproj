@@ -92,6 +92,13 @@
 			remoteGlobalIDString = 00DD264922F1097C0039C1D4;
 			remoteInfo = ValidateSourceCode;
 		};
+		ADA02FA42EE0B124008F3B47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45127773207D92C100D85E57 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00DD264922F1097C0039C1D4;
+			remoteInfo = ValidateSourceCode;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -401,6 +408,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				ADA02FA52EE0B124008F3B47 /* PBXTargetDependency */,
 			);
 			name = StaticDTExchangeAdapter;
 			productName = DTExchangeAdapter;
@@ -553,6 +561,11 @@
 			isa = PBXTargetDependency;
 			target = 00DD264922F1097C0039C1D4 /* ValidateSourceCode */;
 			targetProxy = 00DE7014237F7CBB007EB8CA /* PBXContainerItemProxy */;
+		};
+		ADA02FA52EE0B124008F3B47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00DD264922F1097C0039C1D4 /* ValidateSourceCode */;
+			targetProxy = ADA02FA42EE0B124008F3B47 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

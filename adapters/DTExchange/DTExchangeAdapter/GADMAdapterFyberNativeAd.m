@@ -256,7 +256,7 @@
         iconView = assetView;
         break;
       default:
-        [otherClickableViews addObject:assetView];
+        GADMAdapterFyberMutableArrayAddObject(otherClickableViews, assetView);
     }
   }];
 
