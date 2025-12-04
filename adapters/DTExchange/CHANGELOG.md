@@ -1,7 +1,11 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Version 8.4.2.1 (In progress)
-- Implemented DTExchange SDK Native Ads Adapter.
+#### [Version 8.4.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.2.1.zip)
+- Added support for bidding native ads.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- DT Exchange SDK version 8.4.2.
 
 #### [Version 8.4.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.2.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.4.2.
