@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0093D9702E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -1450,6 +1451,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityAdapterUtilsTest.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -2491,6 +2493,7 @@
 			children = (
 				AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */,
 				AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */,
+				0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */,
 				AD45EDE92A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m */,
 				AD45EDF52A7AB579001B29D8 /* AUTUnityTestCase.h */,
 				AD45EDFC2A7AB66A001B29D8 /* AUTUnityTestCase.m */,
@@ -4981,6 +4984,7 @@
 				AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */,
 				AD45EECA2A7D7679001B29D8 /* AUTUnityRewardedAdTests.m in Sources */,
 				AD45EDFD2A7AB66A001B29D8 /* AUTUnityTestCase.m in Sources */,
+				0093D9702E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m in Sources */,
 				AD45EDEA2A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

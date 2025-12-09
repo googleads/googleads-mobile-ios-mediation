@@ -31,6 +31,10 @@ static NSString *const GADMAdapterUnityPlacementID = @"zoneId";
 /// Ad mediation network adapter version.
 static NSString *const GADMAdapterUnityVersion = @"4.16.4.0";
 
+/// Unity Ads ad technology provider ID from
+/// https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+static int GADMAdapterUnityAdTechnologyProviderID = 3234;
+
 /// Ad mediation network name.
 static NSString *const GADMAdapterUnityMediationNetworkName = @"AdMob";
 
