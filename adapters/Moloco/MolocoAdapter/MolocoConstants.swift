@@ -21,5 +21,5 @@ public enum MolocoConstants {
   public static let adUnitIdKey = "ad_unit_id"
   public static let adapterErrorDomain = "com.google.ads.mediation.moloco"
   public static let molocoTestAdUnitName = "moloco_test_placement"
-  public static let adapterVersion = "4.1.0.0"
+  public static let adapterVersion = "4.1.2.0"
 }
