@@ -123,33 +123,45 @@ extension InterstitialAdLoader: MediationInterstitialAd {
 
 extension InterstitialAdLoader: BidMachineAdDelegate {
 
-  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+  func didLoadAd(_ ad: any BidMachineAdProtocol) {
     interstitialAd = ad as? BidMachineInterstitial
     handleLoadedAd(self, error: nil)
   }
 
-  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
     handleLoadedAd(nil, error: error as NSError)
   }
 
-  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportImpression()
-  }
-
-  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.reportClick()
-  }
-
-  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+  func didPresentAd(_ ad: any BidMachineAdProtocol) {
     eventDelegate?.willPresentFullScreenView()
-  }
-
-  func didDismissAd(_ ad: any BidMachineAdProtocol) {
-    eventDelegate?.didDismissFullScreenView()
   }
 
   func didFailPresentAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
+  func didDismissAd(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
+
+  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+    // NO-OP
+  }
+
+  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
+    // NO-OP
+  }
+
+  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportClick()
+  }
+
+  func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    // Is called only on first click. If you need to track every click use didUserInteraction instead
+  }
+
+  func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.reportImpression()
+  }
 }
