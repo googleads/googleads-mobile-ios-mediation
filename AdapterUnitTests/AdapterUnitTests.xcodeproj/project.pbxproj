@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005A79ED2EF4BFEF006890CF /* AUTChartboostAdapterUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 005A79EC2EF4BFEE006890CF /* AUTChartboostAdapterUtilsTest.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -1450,6 +1451,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		005A79EC2EF4BFEE006890CF /* AUTChartboostAdapterUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTChartboostAdapterUtilsTest.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -2248,6 +2250,7 @@
 				AD0D6E282AF57507002C0B60 /* AUTChartboostRewardedAdTests.m */,
 				ADA1AF632B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m */,
 				ADA1AFCE2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m */,
+				005A79EC2EF4BFEE006890CF /* AUTChartboostAdapterUtilsTest.m */,
 			);
 			path = ChartboostAdapterTests;
 			sourceTree = "<group>";
@@ -4806,6 +4809,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA1AFCF2B2A6A1400CA4FC8 /* AUTChartboostBannerAdTests.m in Sources */,
+				005A79ED2EF4BFEF006890CF /* AUTChartboostAdapterUtilsTest.m in Sources */,
 				ADA1AF642B2A3AF500CA4FC8 /* AUTChartboostInterstitialAdTests.m in Sources */,
 				AD0D6E292AF57507002C0B60 /* AUTChartboostRewardedAdTests.m in Sources */,
 				AD0D6E272AF574A8002C0B60 /* AUTChartboostAdapterTests.m in Sources */,

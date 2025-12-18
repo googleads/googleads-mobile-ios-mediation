@@ -31,3 +31,7 @@ static NSString *const GADMAdapterChartboostErrorDomain = @"com.google.mediation
 
 /// Minimum OS version.
 static NSString *const GADMAdapterChartboostMinimumOSVersion = @"11.0";
+
+/// Chartboost ad technology provider ID from
+/// https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+static int GADMAdapterChartboostAdTechnologyProviderID = 2898;

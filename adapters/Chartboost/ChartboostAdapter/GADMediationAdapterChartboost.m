@@ -56,6 +56,14 @@
     return;
   }
 
+  GADMAdapterChartboostConsentResult consentResult =
+      GADMAdapterChartboostHasACConsent(GADMAdapterChartboostAdTechnologyProviderID);
+  if (consentResult == GADMAdapterChartboostConsentResultTrue) {
+    [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentBehavioral]];
+  } else if (consentResult == GADMAdapterChartboostConsentResultFalse) {
+    [Chartboost addDataUseConsent:[CHBGDPRDataUseConsent gdprConsent:CHBGDPRConsentNonBehavioral]];
+  }
+
   NSMutableDictionary *credentials = [[NSMutableDictionary alloc] init];
 
   for (GADMediationCredentials *cred in credentialsArray) {
@@ -75,15 +83,16 @@
     return;
   }
 
-  NSString *appID = credentials.allKeys.firstObject;
-  NSString *appSignature = credentials[appID];
   if (credentials.count > 1) {
     NSLog(@"Found multiple app IDs: %@. "
           @"Please remove any app IDs you are not using from the AdMob UI.",
           credentials.allKeys);
-    NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
-          appSignature);
   }
+
+  NSString *appID = credentials.allKeys.firstObject;
+  NSString *appSignature = credentials[appID];
+  NSLog(@"Initializing Chartboost SDK with the app ID: %@ and app signature: %@", appID,
+        appSignature);
 
   [Chartboost startWithAppID:appID
                 appSignature:appSignature

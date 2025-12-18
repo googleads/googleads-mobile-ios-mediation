@@ -74,6 +74,7 @@
 		ADA6B9272CF14610009C8FDA /* GADMediationAdapterChartboost.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67C22F4B7A6008D000B /* GADMediationAdapterChartboost.h */; };
 		ADA6B9282CF14610009C8FDA /* GADMAdapterChartboostRewardedAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67722F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.h */; };
 		ADA6B9292CF14610009C8FDA /* GADMAdapterChartboostConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 458DB67E22F4B7A7008D000B /* GADMAdapterChartboostConstants.h */; };
+		EC01FB8B8EFAB81E5C1E2EF6 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB22D6192CC7F50062DDEBB /* Pods_Default_AdapterWithoutValidationScript.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B1F60A88D2831B46D067189 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; sourceTree = "<group>"; };
 		458DB67422F4B7A3008D000B /* GADMChartboostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMChartboostError.m; sourceTree = "<group>"; };
 		458DB67622F4B7A4008D000B /* GADMAdapterChartboostUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostUtils.h; sourceTree = "<group>"; };
 		458DB67722F4B7A5008D000B /* GADMAdapterChartboostRewardedAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostRewardedAd.h; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		458DB67E22F4B7A7008D000B /* GADMAdapterChartboostConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterChartboostConstants.h; sourceTree = "<group>"; };
 		458DB67F22F4B7A7008D000B /* GADMChartboostError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMChartboostError.h; sourceTree = "<group>"; };
 		458DB68122F4B7A8008D000B /* GADMediationAdapterChartboost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterChartboost.m; sourceTree = "<group>"; };
+		5EB22D6192CC7F50062DDEBB /* Pods_Default_AdapterWithoutValidationScript.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Default_AdapterWithoutValidationScript.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D264FEC1DDCFF7C00027720 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		7D264FEE1DDCFF9100027720 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D386A641DDA4BD500744A5F /* ChartboostAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartboostAdapter.h; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 		ADA1AF982B2A46DF00CA4FC8 /* GADMediationAdapterChartboostBannerAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADMediationAdapterChartboostBannerAd.h; sourceTree = "<group>"; };
 		ADA1AF992B2A471200CA4FC8 /* GADMediationAdapterChartboostBannerAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADMediationAdapterChartboostBannerAd.m; sourceTree = "<group>"; };
 		ADA6B92D2CF14610009C8FDA /* libStaticChartboostAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticChartboostAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA3D42D86012D3E6DD47C9A8 /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC01FB8B8EFAB81E5C1E2EF6 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +184,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17BFF101C73917289C416C6F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5EB22D6192CC7F50062DDEBB /* Pods_Default_AdapterWithoutValidationScript.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7D386A551DDA4BD500744A5F /* ChartboostAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +260,8 @@
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
 				7D386A611DDA4BD500744A5F /* Public */,
+				CBB1C5BD6E279B8F1CB55E8A /* Pods */,
+				17BFF101C73917289C416C6F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,6 +274,16 @@
 				AD6E39EB2EA167D100818296 /* libAdapter.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CBB1C5BD6E279B8F1CB55E8A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA3D42D86012D3E6DD47C9A8 /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */,
+				0B1F60A88D2831B46D067189 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../AdapterUnitTests/Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,6 +382,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E39E82EA167D100818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
+				322759FC67D87A66EA6E620F /* [CP] Check Pods Manifest.lock */,
 				AD6E39D62EA167D100818296 /* Sources */,
 				AD6E39DE2EA167D100818296 /* Frameworks */,
 				AD6E39DF2EA167D100818296 /* CopyFiles */,
@@ -457,6 +483,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -o errexit\nset -o nounset\nset -o xtrace\n\nbash \"${SRCROOT}/BuildScript/Script_Validate.sh\"\n";
+		};
+		322759FC67D87A66EA6E620F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Default-AdapterWithoutValidationScript-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		7D1B6CA61DC2AD7700D8CABF /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -770,6 +818,7 @@
 		};
 		AD6E39E92EA167D100818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA3D42D86012D3E6DD47C9A8 /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -778,6 +827,7 @@
 		};
 		AD6E39EA2EA167D100818296 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0B1F60A88D2831B46D067189 /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
