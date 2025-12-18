@@ -1,5 +1,8 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
+#### Next version
+- Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Chartboost SDK if GDPR applies.
+
 #### [Version 9.11.0.3](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.11.0.3.zip)
 - Updated Google Mobile Ads SDK dependency to version 13.0.0.
 
