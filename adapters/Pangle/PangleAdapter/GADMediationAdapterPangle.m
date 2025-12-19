@@ -23,8 +23,6 @@
 #import "GADPangleNetworkExtras.h"
 #import "GADPangleRewardedRenderer.h"
 
-static NSInteger _GDPRConsent = -1;
-
 @implementation GADMediationAdapterPangle {
   /// Pangle app open ad wrapper.
   GADPangleAppOpenRenderer *_appOpenAdRenderer;
@@ -69,6 +67,7 @@ static NSInteger _GDPRConsent = -1;
     completionHandler(GADMAdapterPangleChildUserError());
     return;
   }
+
   NSMutableSet *appIds = [[NSMutableSet alloc] init];
   for (GADMediationCredentials *cred in configuration.credentials) {
     NSString *appId = cred.settings[GADMAdapterPangleAppID];
@@ -90,10 +89,19 @@ static NSInteger _GDPRConsent = -1;
         appIds);
   }
 
+  NSInteger gdprConsent = -1;
+  GADMAdapterPangleConsentResult consentResult =
+      GADMAdapterPangleHasACConsent(GADMAdapterPangleAdTechnologyProviderID);
+  if (consentResult == GADMAdapterPangleConsentResultTrue) {
+    gdprConsent = PAGPAConsentTypeConsent;
+  } else if (consentResult == GADMAdapterPangleConsentResultFalse) {
+    gdprConsent = PAGPAConsentTypeNoConsent;
+  }
+
   GADMPangleLog(@"Configuring Pangle SDK with the app ID: %@", appID);
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
-  config.GDPRConsent = _GDPRConsent;
+  config.GDPRConsent = gdprConsent;
   config.adxID = GADMAdapterPangleAdxID;
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
@@ -196,18 +204,6 @@ static NSInteger _GDPRConsent = -1;
   _appOpenAdRenderer = [[GADPangleAppOpenRenderer alloc] init];
   [_appOpenAdRenderer renderAppOpenAdForAdConfiguration:adConfiguration
                                       completionHandler:completionHandler];
-}
-
-+ (void)setGDPRConsent:(NSInteger)GDPRConsent {
-  if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
-    GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
-    return;
-  }
-  if (PAGSdk.initializationState == PAGSDKInitializationStateReady &&
-      ![GADMAdapterPangleUtils isChildUser]) {
-    PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
-  }
-  _GDPRConsent = GDPRConsent;
 }
 
 + (void)setPAConsent:(NSInteger)PAConsent {

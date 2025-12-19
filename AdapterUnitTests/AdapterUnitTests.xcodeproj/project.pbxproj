@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00257A3E2EF5FF9700984FFB /* AUTPangleAdapterUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00257A3D2EF5FF9700984FFB /* AUTPangleAdapterUtilsTests.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -1450,6 +1451,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00257A3D2EF5FF9700984FFB /* AUTPangleAdapterUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterUtilsTests.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -2128,6 +2130,7 @@
 			children = (
 				70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */,
 				701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */,
+				00257A3D2EF5FF9700984FFB /* AUTPangleAdapterUtilsTests.m */,
 				AD0D71A72AF80CB6002C0B60 /* AUTPangleBannerAdTests.m */,
 				AD0D71C32AF80D01002C0B60 /* AUTPangleAppOpenAdTests.m */,
 				AD0D71C52AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m */,
@@ -4744,6 +4747,7 @@
 			files = (
 				AD0D71A82AF80CB6002C0B60 /* AUTPangleBannerAdTests.m in Sources */,
 				AD0D71CA2AF80DA6002C0B60 /* AUTPangleNativeAdTests.m in Sources */,
+				00257A3E2EF5FF9700984FFB /* AUTPangleAdapterUtilsTests.m in Sources */,
 				701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */,
 				AD0D71C62AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m in Sources */,
 				AD0D71C42AF80D01002C0B60 /* AUTPangleAppOpenAdTests.m in Sources */,

@@ -31,15 +31,17 @@ typedef NS_ENUM(NSInteger, GADPangleErrorCode) {
   GADPangleErrorChildUser = 104,
 };
 
-@interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
+/// Represents the result of a consent check for advertising purposes.
+typedef NS_ENUM(NSInteger, GADMAdapterPangleConsentResult) {
+  /// The consent status could not be determined, or consent does not apply.
+  GADMAdapterPangleConsentResultUnknown,
+  /// The user has explicitly consented.
+  GADMAdapterPangleConsentResultTrue,
+  /// The user has explicitly declined consent.
+  GADMAdapterPangleConsentResultFalse
+};
 
-/// Set the GDPR setting in Pangle SDK.
-///
-/// @param GDPRConsent An integer value that indicates whether the user consents the use of personal
-/// data to serve ads under GDPR. See <a
-/// href="https://www.pangleglobal.com/integration/ios-initialize-pangle-sdk">
-/// Pangle's documentation</a> for more information about what values may be provided.
-+ (void)setGDPRConsent:(NSInteger)GDPRConsent;
+@interface GADMediationAdapterPangle : NSObject <GADRTBAdapter>
 
 /// Set whether the user consents to be served Personalized Ads.
 + (void)setPAConsent:(NSInteger)PAConsent;
