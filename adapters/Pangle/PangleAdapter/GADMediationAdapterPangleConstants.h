@@ -28,3 +28,7 @@ static NSString *const GADMAdapterPangleErrorDomain = @"com.google.mediation.pan
 
 /// the mediation ID.
 static NSString *const GADMAdapterPangleAdxID = @"207";
+
+/// Pangle ad technology provider ID from
+/// https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+static int GADMAdapterPangleAdTechnologyProviderID = 3100;
