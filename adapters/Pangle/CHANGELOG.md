@@ -1,5 +1,9 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next version
+- Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the Pangle SDK if GDPR applies.
+  - The `setGDPRConsent()` method has been from the `GADMediationAdapterPangle` class.
+
 #### [Version 7.8.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.8.0.6.0.zip)
 - Verified compatibility with Pangle SDK version 7.8.0.6.
 

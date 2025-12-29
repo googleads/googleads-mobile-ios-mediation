@@ -23,6 +23,20 @@ NSError *_Nonnull GADMAdapterPangleChildUserError(void);
 
 void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
+/// Checks whether the user provided consent to a Google Ad Tech Provider (ATP) in Google’s
+/// Additional Consent technical specification. For more details, see [Google’s Additional Consent
+/// technical specification](https://support.google.com/admob/answer/9681920).
+///
+/// Returns `GADMAdapterPangleConsentResultUnknown` if GDPR does not apply or if positive or
+/// negative consent was not explicitly detected.
+///
+/// Parameters
+/// - `vendorId`: a Google Ad Tech Provider (ATP) ID from [Additional Consent
+/// Providers](https://storage.googleapis.com/tcfac/additional-consent-providers.csv).
+///
+/// Returns: A `GADMAdapterPangleConsentResult` indicating consent for the given ATP.
+GADMAdapterPangleConsentResult GADMAdapterPangleHasACConsent(NSInteger vendorId);
+
 @interface GADMAdapterPangleUtils : NSObject
 
 + (BOOL)isChildUser;
