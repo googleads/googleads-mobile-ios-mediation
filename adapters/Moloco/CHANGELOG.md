@@ -1,5 +1,7 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Version 4.2.0.0 (In progress)
+
 #### [Version 4.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.1.2.0.zip)
 - Verified compatibility with Moloco SDK version 4.1.2.
 
