@@ -14,26 +14,29 @@
 //  limitations under the License.
 //
 
-import AppLovinSDK
+import FBAudienceNetwork
 import GoogleMobileAds
+import MetaAdapter
 
 /*
  * Swift code snippets for
- * https://developers.google.com/admob/ios/mediation/applovin and
- * https://developers.google.com/ad-manager/mobile-ads-sdk/ios/mediation/applovin
+ * https://developers.google.com/admob/ios/mediation/meta and
+ * https://developers.google.com/ad-manager/mobile-ads-sdk/ios/mediation/meta
  */
-private class AppLovinMediationSwiftSnippets {
+private class MetaMediationSwiftSnippets {
 
-  private func setUserConsent() {
-    // [START set_user_consent]
-    ALPrivacySettings.setHasUserConsent(true)
-    // [END set_user_consent]
+  private func setAdvertiserTracking() {
+    // [START set_advertiser_tracking]
+    // Set the flag as true.
+    FBAdSettings.setAdvertiserTrackingEnabled(true)
+    // [END set_advertiser_tracking]
   }
 
-  private func setDoNotSell() {
-    // [START set_do_not_sell]
-    ALPrivacySettings.setDoNotSell(true)
-    // [END set_do_not_sell]
+  private func socialContext(from nativeAd: NativeAd) -> String? {
+    // [START get_social_context]
+    let socialContext = nativeAd.extraAssets?[GADFBSocialContext] as? String
+    // [END get_social_context]
+    return socialContext
   }
 
 }
