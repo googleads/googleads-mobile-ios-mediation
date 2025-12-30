@@ -30,4 +30,10 @@ private class AppLovinMediationSwiftSnippets {
     // [END set_user_consent]
   }
 
+  private func setDoNotSell() {
+    // [START set_do_not_sell]
+    ALPrivacySettings.setDoNotSell(true)
+    // [END set_do_not_sell]
+  }
+
 }

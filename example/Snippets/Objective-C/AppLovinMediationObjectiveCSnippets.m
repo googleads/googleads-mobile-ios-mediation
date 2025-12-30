@@ -33,4 +33,11 @@
     [ALPrivacySettings setHasUserConsent:YES];
     // [END set_user_consent]
 }
+
+- (void)setDoNotSell {
+    // [START set_do_not_sell]
+    [ALPrivacySettings setDoNotSell:YES];
+    // [END set_do_not_sell]
+}
+
 @end
