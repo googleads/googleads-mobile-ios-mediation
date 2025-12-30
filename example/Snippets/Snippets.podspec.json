@@ -16,8 +16,9 @@
     "static_framework": true,
     "swift_version": "5.0",
     "dependencies": {
-        "Google-Mobile-Ads-SDK": "~> 11.12",
-        "GoogleMobileAdsMediationAppLovin": []
+        "Google-Mobile-Ads-SDK": [],
+        "GoogleMobileAdsMediationAppLovin": [],
+        "GoogleMobileAdsMediationFacebook": []
     },
     "source": {
       "http": "https://github.com/googleads/googleads-mobile-ios-mediation/"
