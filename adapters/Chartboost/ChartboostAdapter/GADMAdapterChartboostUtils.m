@@ -127,3 +127,16 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
   CHBBannerSize chartboostSize = {0};
   return chartboostSize;
 }
+
+#pragma mark - Privacy Methods
+
+void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  if (!tagForChildDirectedTreatment) {
+    [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:true]];
+    return;
+  }
+
+  [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:false]];
+}

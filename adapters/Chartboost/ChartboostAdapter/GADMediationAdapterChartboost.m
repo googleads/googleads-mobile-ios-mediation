@@ -85,6 +85,8 @@
           appSignature);
   }
 
+  GADMAdapterChartboostSetCOPPAUsingRequestConfiguration();
+
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
                   completion:^(CHBStartError *cbError) {
