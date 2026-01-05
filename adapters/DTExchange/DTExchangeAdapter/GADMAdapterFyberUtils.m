@@ -16,6 +16,8 @@
 #import "GADMAdapterFyberConstants.h"
 #import "GADMAdapterFyberExtras.h"
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+
 void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
                                            NSObject *_Nonnull object) {
   if (object) {
@@ -87,7 +89,7 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithAdConfiguration(
 void GADMAdapterFyberInitializeWithAppId(
     NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler) {
   if (IASDKCore.sharedInstance.isInitialised) {
-    completionHandler(nil);
+    completionHandler(YES, nil);
     return;
   }
 
@@ -95,14 +97,29 @@ void GADMAdapterFyberInitializeWithAppId(
     NSError *error = GADMAdapterFyberErrorWithCodeAndDescription(
         GADMAdapterFyberErrorInvalidServerParameters, @"Missing or invalid Application ID.");
     GADMAdapterFyberLog(@"%@", error.localizedDescription);
-    completionHandler(error);
+    completionHandler(NO, error);
     return;
   }
 
   GADMAdapterFyberLog(@"Initializing DT Exchange SDK with application ID: %@", appID);
   [IASDKCore.sharedInstance initWithAppID:appID
                           completionBlock:^(BOOL success, NSError *_Nullable error) {
-                            completionHandler(error);
+                            completionHandler(success, error);
                           }
                           completionQueue:nil];
+}
+
+void GADMAdapterFyberSetCOPPA(void) {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    IASDKCore.sharedInstance.coppaApplies = IACoppaAppliesTypeGiven;
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    IASDKCore.sharedInstance.coppaApplies = IACoppaAppliesTypeDenied;
+  } else {
+    IASDKCore.sharedInstance.coppaApplies = IACoppaAppliesTypeUnknown;
+  }
 }
