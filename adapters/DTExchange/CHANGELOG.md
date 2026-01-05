@@ -1,5 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
+#### Next version
+- Implemented COPPA handling.
+
 #### Version 8.4.3.0 (In progress)
 
 #### [Version 8.4.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.2.1.zip)
