@@ -189,6 +189,19 @@
       [[[ISAInitRequestBuilder alloc] initWithAppKey:appKey] withLegacyAdFormats:adunitToInit];
   ISAInitRequest *request = [requestBuilder build];
 
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent) {
+    if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+      [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"YES"];
+    } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
+                [tagForUnderAgeOfConsent isEqual:@NO])) {
+      [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"NO"];
+    }
+  }
+
   [IronSourceAds
       initWithRequest:request
            completion:^(BOOL success, NSError *_Nullable error) {
