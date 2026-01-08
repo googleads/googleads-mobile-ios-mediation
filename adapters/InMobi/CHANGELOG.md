@@ -1,6 +1,6 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 11.1.0.1 (In progress)
 - Update COPPA implementation to respect the tag for under age consent.
 
 #### [Version 11.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.1.0.0.zip)
