@@ -127,3 +127,17 @@ CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
   CHBBannerSize chartboostSize = {0};
   return chartboostSize;
 }
+
+#pragma mark - Privacy Methods
+
+void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:true]];
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:false]];
+  }
+}

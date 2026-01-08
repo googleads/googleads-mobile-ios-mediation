@@ -16,6 +16,12 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
 @implementation AUTChartboostAdapterTests
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
+
 - (void)testAdapterVersion {
   GADVersionNumber version = [GADMediationAdapterChartboost adapterVersion];
 
@@ -61,6 +67,7 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 }
 
 - (void)testSetUpCredentialsSuccess {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   id mockChartboost = OCMClassMock([Chartboost class]);
   OCMExpect(ClassMethod([mockChartboost
       startWithAppID:@"app_id"
@@ -78,6 +85,11 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials ];
 
+  OCMExpect(
+      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == NO;
+                      }]]);
+
   XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
   [GADMediationAdapterChartboost setUpWithConfiguration:configuration
                                       completionHandler:^(NSError *_Nullable error) {
@@ -87,9 +99,12 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   [self waitForExpectations:@[ setUpExpectation ]];
   OCMVerifyAll(mockChartboost);
+
+  [mockChartboost stopMocking];
 }
 
 - (void)testSetUpWithMultipleCredentialsSuccess {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   id mockChartboost = OCMClassMock([Chartboost class]);
   OCMExpect(ClassMethod([mockChartboost
       startWithAppID:@"app_id"
@@ -121,6 +136,11 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials1, credentials2, credentials3, credentials4 ];
 
+  OCMExpect(
+      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == YES;
+                      }]]);
+
   XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
   [GADMediationAdapterChartboost setUpWithConfiguration:configuration
                                       completionHandler:^(NSError *_Nullable error) {
@@ -130,6 +150,8 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 
   [self waitForExpectations:@[ setUpExpectation ]];
   OCMVerifyAll(mockChartboost);
+
+  [mockChartboost stopMocking];
 }
 
 - (void)testSetUpCredentialsChartboostFailure {

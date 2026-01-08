@@ -61,3 +61,7 @@ NSError *_Nonnull GADMAdapterChartboostErrorWithCodeAndDescription(
 /// Returns the closest CHBBannerSize size from the requested GADAdSize.
 CHBBannerSize GADMAdapterChartboostBannerSizeFromAdSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);
+
+/// Set Chartboost COPPA configuration using
+/// GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.
+void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void);
