@@ -26,8 +26,6 @@
 /// Sets up additional InMobi targeting information from the specified |extras|.
 void GADMAdapterInMobiSetTargetingFromExtras(GADInMobiExtras *_Nullable extras);
 
-void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted);
-
 #pragma mark - Public Utility Methods
 
 void GADMAdapterInMobiMutableArrayAddObject(NSMutableArray *_Nullable array,
@@ -153,20 +151,22 @@ void GADMAdapterInMobiLog(NSString *_Nonnull format, ...) {
 void GADMAdapterInMobiSetTargetingFromAdConfiguration(
     GADMediationAdConfiguration *_Nonnull adConfig) {
   GADMAdapterInMobiSetTargetingFromExtras(adConfig.extras);
-  GADMAdapterInMobiSetIsAgeRestricted(
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
-}
 
-void GADMAdapterInMobiSetIsAgeRestricted(NSNumber *_Nullable isRestricted) {
-  if ([isRestricted isEqual:@1]) {
-    [IMSdk setIsAgeRestricted:true];
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent) {
+    BOOL isChild = tagForChildDirectedTreatment.boolValue;
+    BOOL isUnderAge = tagForUnderAgeOfConsent.boolValue;
+    [IMSdk setIsAgeRestricted:(isChild || isUnderAge)];
   }
 }
 
 NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
     GADInMobiExtras *_Nullable extras,
     GADMAdapterInMobiRequestParametersMediationType _Nonnull mediationType,
-    NSNumber *_Nullable childDirectedTreatment) {
+    NSNumber *_Nullable childDirectedTreatment, NSNumber *_Nullable underAgeOfConsent) {
   NSMutableDictionary<NSString *, id> *requestParameters = [[NSMutableDictionary alloc] init];
 
   if (extras && extras.additionalParameters) {
@@ -184,10 +184,14 @@ NSDictionary<NSString *, id> *_Nonnull GADMAdapterInMobiRequestParameters(
   GADMAdapterInMobiMutableDictionarySetObjectForKey(
       requestParameters, GADMAdapterInMobiRequestParametersSDKVersionKey, versionString);
 
-  if (childDirectedTreatment) {
-    NSString *coppaString = [childDirectedTreatment integerValue] ? @"1" : @"0";
-    GADMAdapterInMobiMutableDictionarySetObjectForKey(
-        requestParameters, GADMAdapterInMobiRequestParametersCOPPAKey, coppaString);
+  if (childDirectedTreatment || underAgeOfConsent) {
+    if ([childDirectedTreatment isEqual:@YES] || [underAgeOfConsent isEqual:@YES]) {
+      GADMAdapterInMobiMutableDictionarySetObjectForKey(
+          requestParameters, GADMAdapterInMobiRequestParametersCOPPAKey, @"1");
+    } else if ([childDirectedTreatment isEqual:@NO] || [underAgeOfConsent isEqual:@NO]) {
+      GADMAdapterInMobiMutableDictionarySetObjectForKey(
+          requestParameters, GADMAdapterInMobiRequestParametersCOPPAKey, @"0");
+    }
   }
 
   return requestParameters;

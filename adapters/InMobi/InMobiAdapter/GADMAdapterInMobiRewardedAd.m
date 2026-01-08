@@ -153,7 +153,8 @@
                       : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, mediationType,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
   [_rewardedAd setExtras:requestParameters];
 
   if (bidResponseData) {

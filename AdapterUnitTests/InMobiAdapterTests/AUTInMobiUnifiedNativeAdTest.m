@@ -152,7 +152,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   [self loadNativeAdSuccessfullyForAdConfiguration:configuration];
@@ -191,7 +191,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
@@ -251,7 +251,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];

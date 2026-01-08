@@ -42,6 +42,7 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [NSUserDefaults.standardUserDefaults removeObjectForKey:@"IABUSPrivacy_String"];
   [super tearDown];
 }
@@ -167,8 +168,197 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
                                                        credentials:OCMOCK_ANY
                                                             extras:extras];
 
-  // childDirectedTreatment is readonly and cannot be set; hence, mock to return true.
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMReject([IMSDKMock setIsAgeRestricted:YES]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForChildIsTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:YES]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForChildIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:NO]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:YES]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForUnderAgeIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:NO]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForChildIsTrueAndUnderAgeIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:YES]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForChildIsFalseAndUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  id IMSDKMock = OCMClassMock([IMSdk class]);
+  OCMExpect([IMSDKMock setLocation:extras.location]);
+  OCMExpect([IMSDKMock setPostalCode:extras.postalCode]);
+  OCMExpect([IMSDKMock setAreaCode:extras.areaCode]);
+  OCMExpect([IMSDKMock setInterests:extras.interests]);
+  OCMExpect([IMSDKMock setAge:extras.age]);
+  OCMExpect([IMSDKMock setYearOfBirth:extras.yearOfBirth]);
+  OCMExpect([IMSDKMock setLanguage:extras.language]);
+  OCMExpect([IMSDKMock setEducation:extras.educationType]);
+  OCMExpect([IMSDKMock setAgeGroup:extras.ageGroup]);
+  OCMExpect([IMSDKMock setIsAgeRestricted:YES]);
+
+  GADMAdapterInMobiSetTargetingFromAdConfiguration(configuration);
+
+  OCMVerifyAll(IMSDKMock);
+}
+
+- (void)testTargetingFromAdConfiguration_WhenTagForChildIsTrueAndUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
 
   id IMSDKMock = OCMClassMock([IMSdk class]);
   OCMExpect([IMSDKMock setLocation:extras.location]);
@@ -196,7 +386,9 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
                                                             extras:extras];
 
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall, @1);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
   NSString *versionString =
       [NSString stringWithFormat:@"afma-sdk-i-v%ld.%ld.%ld",
                                  GADMobileAds.sharedInstance.versionNumber.majorVersion,
@@ -206,7 +398,7 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
   XCTAssertEqualObjects([requestParameters valueForKey:kTestKey], kTestObject);
   XCTAssertEqualObjects([requestParameters valueForKey:@"tp"], @"c_admob");
   XCTAssertEqualObjects([requestParameters valueForKey:@"tp-ver"], versionString);
-  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
+  XCTAssertNil([requestParameters valueForKey:@"coppa"]);
 }
 
 - (void)testCreateRequestParametersForRTBMediation {
@@ -218,7 +410,9 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
                                                             extras:extras];
 
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB, @0);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
   NSString *versionString =
       [NSString stringWithFormat:@"afma-sdk-i-v%ld.%ld.%ld",
                                  GADMobileAds.sharedInstance.versionNumber.majorVersion,
@@ -228,7 +422,136 @@ GADInMobiExtras *_Nonnull AUTGADInMobiExtras() {
   XCTAssertEqualObjects([requestParameters valueForKey:kTestKey], kTestObject);
   XCTAssertEqualObjects([requestParameters valueForKey:@"tp"], @"c_google");
   XCTAssertEqualObjects([requestParameters valueForKey:@"tp-ver"], versionString);
+  XCTAssertNil([requestParameters valueForKey:@"coppa"]);
+}
+
+- (void)testRequestParameters_WhenTagForChildIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
+}
+
+- (void)testRequestParameters_WhenTagForChildIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
   XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"0");
+}
+
+- (void)testRequestParameters_WhenTagForUnderageIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
+}
+
+- (void)testRequestParameters_WhenTagForUnderageIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"0");
+}
+
+- (void)testRequestParameters_WhenTagForChildIsTrueAndTagForUnderAgeIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
+}
+
+- (void)testRequestParameters_WhenTagForChildIsFalseAndTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
+}
+
+- (void)testRequestParameters_WhenTagForChildIsTrueAndTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  GADInMobiExtras *extras = AUTGADInMobiExtras();
+  GADMediationAdConfiguration *configuration =
+      [[GADMediationAdConfiguration alloc] initWithAdConfiguration:nil
+                                                         targeting:nil
+                                                       credentials:OCMOCK_ANY
+                                                            extras:extras];
+
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+
+  XCTAssertEqualObjects([requestParameters valueForKey:@"coppa"], @"1");
 }
 
 - (void)testUSPrivacyCompliance {
