@@ -33,6 +33,12 @@ static NSString *const kAppKey2 = @"AppKey_2";
   _ironSourceMock = OCMClassMock([IronSource class]);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
+
 - (void)testCollectSignals {
   NSString *expectedIronSourceSignal = @"ironSourceSignal";
 
@@ -96,7 +102,7 @@ static NSString *const kAppKey2 = @"AppKey_2";
   XCTAssertEqual(version.patchVersion, 0);
 }
 
-- (void)testSetUpInitializesIronSourceSdk {
+- (void)testInitIronSourceSDK {
   AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
   // At least one of the credentials needs to contain an app key.
   interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
@@ -105,24 +111,420 @@ static NSString *const kAppKey2 = @"AppKey_2";
   rewardedCredentials.format = GADAdFormatRewarded;
   AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
   bannerCredentials.format = GADAdFormatBanner;
-  GADMediationAdapterSetUpCompletionBlock completionBlock =
-      [OCMArg invokeBlockWithArgs:[NSNull null], nil];
-  OCMExpect([_adapter initIronSourceSDKWithAppKey:kAppKey1
-                                       forAdUnits:[OCMArg checkWithBlock:^(id value) {
-                                         NSSet *set = (NSSet *)value;
-                                         return (BOOL)([set count] == 3 &&
-                                                       [set containsObject:IS_INTERSTITIAL] &&
-                                                       [set containsObject:IS_REWARDED_VIDEO] &&
-                                                       [set containsObject:IS_BANNER]);
-                                       }]
-                                completionHandler:completionBlock])
-      .andDo(nil);
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMReject([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:OCMOCK_ANY]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
 
   AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
       [GADMediationAdapterIronSource class],
       @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
   OCMVerifyAll(_adapter);
-  OCMVerify([_ironSourceMock setMediationType:[OCMArg any]]);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForChildIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"YES"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForChildIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"NO"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"YES"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForUnderAgeIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"NO"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForChildIsTrueAndTagForUnderAgeIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"YES"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForChildIsFalseAndTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"YES"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
+}
+
+- (void)testInitIronSourceSDKWhenTagForChildIsTrueAndTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  AUTKMediationCredentials *interstitialCredentials = [[AUTKMediationCredentials alloc] init];
+  // At least one of the credentials needs to contain an app key.
+  interstitialCredentials.settings = @{GADMAdapterIronSourceAppKey : kAppKey1};
+  interstitialCredentials.format = GADAdFormatInterstitial;
+  AUTKMediationCredentials *rewardedCredentials = [[AUTKMediationCredentials alloc] init];
+  rewardedCredentials.format = GADAdFormatRewarded;
+  AUTKMediationCredentials *bannerCredentials = [[AUTKMediationCredentials alloc] init];
+  bannerCredentials.format = GADAdFormatBanner;
+
+  id levelPlayMock = OCMClassMock([LevelPlay class]);
+  OCMExpect([levelPlayMock setMetaDataWithKey:@"is_child_directed" value:@"YES"]);
+
+  id ironSourceMock = OCMClassMock([IronSourceAds class]);
+
+  OCMExpect(ClassMethod([ironSourceMock initWithRequest:[OCMArg checkWithBlock:^(id value) {
+                                          ISAInitRequest *request = (ISAInitRequest *)value;
+                                          if (![request.appKey isEqualToString:kAppKey1]) {
+                                            return NO;
+                                          }
+
+                                          NSMutableSet *foundTypes = [NSMutableSet set];
+                                          for (ISAAdFormat *format in request.legacyAdFormats) {
+                                            [foundTypes addObject:@(format.adFormatType)];
+                                          }
+
+                                          NSMutableSet<NSNumber *> *expectedTypes =
+                                              [[NSMutableSet alloc] init];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeInterstitial)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeRewarded)];
+                                          [expectedTypes addObject:@(ISAAdFormatTypeBanner)];
+
+                                          return [foundTypes isEqualToSet:expectedTypes];
+                                        }]
+                                             completion:OCMOCK_ANY]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^completionBlock)(BOOL, NSError *);
+        [invocation getArgument:&completionBlock atIndex:3];
+        if (completionBlock) {
+          completionBlock(YES, nil);
+        }
+      });
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentialsArray(
+      [GADMediationAdapterIronSource class],
+      @[ interstitialCredentials, rewardedCredentials, bannerCredentials ]);
+  OCMVerifyAll(_adapter);
+  OCMVerifyAll(levelPlayMock);
+  OCMVerifyAll(ironSourceMock);
 }
 
 - (void)testSetUpInitializesWithAnyOneAppKeyWhenThereAreMultipleAppKeys {
