@@ -1,5 +1,8 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the `nonbehavioral` logic to respect Google Mobile Ads' tag for under age consent as well.
+
 #### [Version 4.16.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.5.0.zip)
 - Verified compatibility with Unity Ads SDK 4.16.5.
 
