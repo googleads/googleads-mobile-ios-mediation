@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 9.11.0.1 (In progress)
 - Maps GMA SDK Child flag to Chartboost Consent Status.
 
 #### [Version 9.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.11.0.0.zip)
