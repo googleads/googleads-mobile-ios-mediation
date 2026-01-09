@@ -25,9 +25,6 @@ final class NativeAdLoader: NSObject {
   /// Ads SDK.
   private weak var eventDelegate: MediationNativeAdEventDelegate?
 
-  /// The completion handler that needs to be called upon finishing loading an ad.
-  private var nativeAdLoadCompletionHandler: ((MediationNativeAd?, NSError?) -> Void)?
-
   /// The queue for processing an ad load completion.
   private let adLoadCompletionQueue: DispatchQueue
 
@@ -112,7 +109,7 @@ final class NativeAdLoader: NSObject {
 
 extension NativeAdLoader: BidMachineAdDelegate {
 
-  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+  func didLoadAd(_ ad: any BidMachineAdProtocol) {
     // BidMachine native ad's image assets come in string URLs. The adapter
     // needs to download them before notifying Google Mobile Ads SDK.
     do {
@@ -132,7 +129,7 @@ extension NativeAdLoader: BidMachineAdDelegate {
     }
   }
 
-  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
     handleLoadedAd(nil, error: error as NSError)
   }
 
@@ -141,6 +138,10 @@ extension NativeAdLoader: BidMachineAdDelegate {
   }
 
   func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    // Is called only on first click. If you need to track every click use didUserInteraction instead
+  }
+
+  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
     eventDelegate?.reportClick()
   }
 
@@ -148,4 +149,12 @@ extension NativeAdLoader: BidMachineAdDelegate {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
+  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
 }
