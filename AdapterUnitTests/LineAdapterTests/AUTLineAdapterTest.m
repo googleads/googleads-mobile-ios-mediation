@@ -24,6 +24,7 @@
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -100,6 +101,154 @@
 
 - (void)testSetUpWithChildTreatmentFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentFalse);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithUnderAgeOfConsentTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithUnderAgeOfConsentFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentFalse);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithChildDirectedTrueAndUnderAgeTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithChildDirectedTrueAndUnderAgeFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithChildDirectedFalseAndUnderAgeTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+
+  NSString *applicationID = @"12345";
+
+  // Mock FiveAd SDK.
+  id adLoaderClassMock = OCMClassMock([FADAdLoader class]);
+  OCMExpect(ClassMethod([adLoaderClassMock
+      adLoaderForConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FADConfig *config = (FADConfig *)obj;
+        XCTAssertEqual(config.needChildDirectedTreatment, kFADNeedChildDirectedTreatmentTrue);
+        XCTAssertTrue([config.appId isEqualToString:applicationID]);
+        return YES;
+      }]
+               outError:[OCMArg anyObjectRef]]));
+
+  // Test.
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMediationAdapterLineCredentialKeyApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterLine class], credentials);
+
+  OCMVerifyAll(adLoaderClassMock);
+}
+
+- (void)testSetUpWithChildDirectedFalseAndUnderAgeFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
 
   NSString *applicationID = @"12345";
 

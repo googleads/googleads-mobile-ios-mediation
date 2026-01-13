@@ -75,14 +75,12 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
   [config setIsTest:GADMediationAdapterLine.testMode];
 
   NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
-  FADNeedChildDirectedTreatment needChildDirectedTreatment =
-      kFADNeedChildDirectedTreatmentUnspecified;
-  if (childDirectedTreatment != nil) {
-    needChildDirectedTreatment = childDirectedTreatment.boolValue
-                                     ? kFADNeedChildDirectedTreatmentTrue
-                                     : kFADNeedChildDirectedTreatmentFalse;
+  NSNumber *tagForUnderAgeOfConsent = mobileAds.requestConfiguration.tagForUnderAgeOfConsent;
+  if ([childDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [config setNeedChildDirectedTreatment:kFADNeedChildDirectedTreatmentTrue];
+  } else if ([childDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [config setNeedChildDirectedTreatment:kFADNeedChildDirectedTreatmentFalse];
   }
-  [config setNeedChildDirectedTreatment:needChildDirectedTreatment];
 
   FADAdLoader *adLoader = [FADAdLoader adLoaderForConfig:config outError:&error];
   if (error) {
