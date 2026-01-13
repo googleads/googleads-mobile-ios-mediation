@@ -36,6 +36,12 @@ static NSString *const kUserId = @"UserId";
   OCMStub([_rewardedMock alloc]).andReturn(_rewardedMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
+
 - (void)testLoadRewardedSetsCoppaYesWhenChildDirected {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment =
       [NSNumber numberWithInt:1];
@@ -46,6 +52,8 @@ static NSString *const kUserId = @"UserId";
         return [[AUTKMediationRewardedAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [_adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -62,6 +70,44 @@ static NSString *const kUserId = @"UserId";
         return [[AUTKMediationRewardedAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
+
+  [_adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:NO]);
+}
+
+- (void)testLoadRewardedSetsCoppaYesWhenTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent =
+      [NSNumber numberWithInt:1];
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  GADMediationRewardedLoadCompletionHandler completionHandler =
+      ^(id<GADMediationRewardedAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationRewardedAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
+
+  [_adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:YES]);
+}
+
+- (void)testLoadRewardedSetsCoppaNoWhenTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent =
+      [NSNumber numberWithInt:0];
+  AUTKMediationRewardedAdConfiguration *configuration =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  GADMediationRewardedLoadCompletionHandler completionHandler =
+      ^(id<GADMediationRewardedAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationRewardedAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [_adapter loadRewardedAdForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -117,8 +163,11 @@ static NSString *const kUserId = @"UserId";
       @{GADMAdapterVunglePlacementID : kPlacementID, GADMAdapterVungleApplicationID : kAppID};
   VungleAdNetworkExtras *extras = [[VungleAdNetworkExtras alloc] init];
   extras.userId = kUserId;
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [self loadRewardedAndAssertLoadSuccessWithCredentials:credentials andExtras:extras];
+
   OCMVerifyAll(vungleRouterMock);
 }
 

@@ -41,10 +41,28 @@
     [delegate initialized:YES error:nil];
     return;
   }
+
+  // Liftoff Monetize requires COPPA status to be set before initializing the SDK.
+  // https://support.vungle.com/hc/en-us/articles/360048572411-Advanced-Settings#h_01JV5D5KQRJR1C6EJ59X4914E6
+  [self updateVungleCOPPAStatusIfNeeded];
   [VungleAds initWithAppId:appId
                 completion:^(NSError *_Nullable error) {
                   [delegate initialized:error == nil error:error];
                 }];
+}
+
+/// Updates |VunglePrivacySettings| using Google Mobile Ads tag for child treatment and tag for
+/// under age consent.
+- (void)updateVungleCOPPAStatusIfNeeded {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [VunglePrivacySettings setCOPPAStatus:YES];
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [VunglePrivacySettings setCOPPAStatus:NO];
+  }
 }
 
 @end
