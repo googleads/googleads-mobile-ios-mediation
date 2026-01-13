@@ -1,5 +1,8 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+- Mapped the GMA SDK underage flag to BidMachine SDK COPPA method.
+
 #### [Version 3.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.5.1.0.zip)
 - Verified compatibility with BidMachine SDK version 3.5.1.
 

@@ -41,10 +41,20 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
   ) {
     do {
       let sourceId = try Util.sourceId(from: configuration)
+
+      // Sets COPPA compliance based on MobileAds configuration.
+      // - If either tag is true, treat as COPPA-compliant (true).
+      // - If either tag is false (and neither is true), treat as not COPPA-compliant (false).
+      // - Otherwise, leave as nil.
+      let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
+      let isUnderAge = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent?.boolValue
       var isCOPPA: Bool?
-      if let coppa = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
-        isCOPPA = coppa.boolValue
+      if isChild == true || isUnderAge == true {
+        isCOPPA = true
+      } else if isChild == false || isUnderAge == false {
+        isCOPPA = false
       }
+
       BidMachineClientFactory.createClient().initialize(with: sourceId, isCOPPA: isCOPPA)
       completionHandler(nil)
     } catch {
