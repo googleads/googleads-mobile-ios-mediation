@@ -1,6 +1,6 @@
 ## Chartboost iOS Mediation Adapter Changelog
 
-####[Version 9.11.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.11.0.0.zip)
+#### [Version 9.11.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/chartboost/ChartboostAdapter-9.11.0.0.zip)
 - The Google Mobile Ads child directed treatment flag will now be forwarded to Chartboost's consent status.
 
 Built and tested with:
