@@ -31,7 +31,8 @@ static NSString *const kAppID = @"AppId";
 }
 
 - (void)testInitInvokesDelegateWithInitilizedAsYesIfLiftoffSdkIsAlreadyInitialized {
-  OCMStub([_vungleAdsClassMock isInitialized]).andReturn(YES);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(YES);
 
   [_vungleRouter initWithAppId:kAppID delegate:_vungleDelegate];
 
@@ -39,7 +40,6 @@ static NSString *const kAppID = @"AppId";
 }
 
 - (void)testInitInvokesInitOnLiftoffSdk {
-  OCMStub([_vungleAdsClassMock isInitialized]).andReturn(NO);
   [_vungleRouter initWithAppId:kAppID delegate:_vungleDelegate];
 
   OCMVerify([_vungleAdsClassMock initWithAppId:kAppID completion:[OCMArg any]]);
