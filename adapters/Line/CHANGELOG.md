@@ -1,6 +1,7 @@
 ## LINE iOS Mediation Adapter Changelog
 
-#### Next release
+#### Version 2.9.20251119.1 (In progress)
+
 - Updated LineAdapter to respect tagForUnderAgeOfConsent.
 
 #### [Version 2.9.20251119.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20251119.0.zip)
