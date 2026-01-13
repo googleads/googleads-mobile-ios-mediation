@@ -34,6 +34,5 @@ void GADFBConfigureMediationService(void);
 /// Adds |object| to |set| if |object| is not nil.
 void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object);
 
-/// Sets the mixed audience configuration in the Meta Audience Network SDK if either Google's tag
-/// for child-directed treatment or the tag for under age of consent is set
-void GADMAdapterFacebookSetMixedAudienceIfNeeded(void);
+/// Set the mixed audience configuration in the Meta Audience Network SDK.
+void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment);

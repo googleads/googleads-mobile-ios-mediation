@@ -45,17 +45,6 @@ void GADMAdapterFacebookMutableSetAddObject(NSMutableSet *_Nullable set,
   }
 }
 
-void GADMAdapterFacebookSetMixedAudienceIfNeeded(void) {
-  NSNumber *tagForChildDirectedTreatment =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
-  NSNumber *tagForUnderAgeOfConsent =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent) {
-    if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
-      [FBAdSettings setMixedAudience:YES];
-    } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
-                [tagForUnderAgeOfConsent isEqual:@NO])) {
-      [FBAdSettings setMixedAudience:NO];
-    }
-  }
+void GADMAdapterFacebookSetMixedAudience(NSNumber *_Nonnull childDirectedTreatment) {
+  [FBAdSettings setMixedAudience:childDirectedTreatment.boolValue];
 }

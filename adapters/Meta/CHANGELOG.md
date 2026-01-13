@@ -1,8 +1,5 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated adapter to pass tagForUnderAgeOfConsent to Meta's setMixedAudience API.
-
 #### [Version 6.21.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.21.0.0.zip)
 - Now requires minimum iOS version `13.0`.
 - Verified compatibility with Meta Audience Network SDK 6.21.0.
