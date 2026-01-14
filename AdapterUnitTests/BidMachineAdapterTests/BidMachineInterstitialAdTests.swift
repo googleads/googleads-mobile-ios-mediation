@@ -174,7 +174,7 @@ final class BidMachineRTBInterstitialAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)
@@ -327,7 +327,7 @@ final class BidMachineWaterfallInterstitialAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)

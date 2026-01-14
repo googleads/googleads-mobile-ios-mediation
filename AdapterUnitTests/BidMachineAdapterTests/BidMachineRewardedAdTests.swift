@@ -198,7 +198,7 @@ final class BidMachineRTBRewardedAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)
@@ -399,7 +399,7 @@ final class BidMachineWaterfallRewardedAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)

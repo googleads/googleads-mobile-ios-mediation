@@ -1,5 +1,8 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+- BidMachineAdDelegate conformance sections were modified to align with BidMachine SDK callback behavior.
+
 #### [Version 3.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.5.1.0.zip)
 - Verified compatibility with BidMachine SDK version 3.5.1.
 
