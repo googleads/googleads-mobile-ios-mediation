@@ -44,15 +44,6 @@ final class BigoAdapter: NSObject, RTBAdapter {
   ) {
     Util.log("Start setting up BigoAdapter")
 
-    if let coppa = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment {
-      // For Bigo, a value of "YES" indicates that the user is not a child
-      // under 13 years old, and a value of "NO" indicates that the user is a
-      // child under 13 years old.
-      let isChildUser = !coppa.boolValue
-      Util.log("Setting BigoConsentOptionsCOPPA to \(isChildUser)")
-      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: isChildUser)
-    }
-
     if BigoAdSdk.sharedInstance().isInitialized() {
       Util.log("BigoAdSdk is already initialized")
       completionHandler(nil)
@@ -61,7 +52,12 @@ final class BigoAdapter: NSObject, RTBAdapter {
 
     do {
       let applicationId = try Util.applicationId(from: configuration)
-      BigoClientFactory.createClient().initialize(
+      let client = BigoClientFactory.createClient()
+      let requestConfiguration = MobileAds.shared.requestConfiguration
+      client.setUserConsent(
+        with: requestConfiguration.tagForChildDirectedTreatment,
+        tagForUnderAgeOfConsent: requestConfiguration.tagForUnderAgeOfConsent)
+      client.initialize(
         with: applicationId, testMode: BigoAdapterExtras.testMode
       ) {
         Util.log("Successfully initialized BigoAdSdk")
