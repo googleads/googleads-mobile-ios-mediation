@@ -35,15 +35,27 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMStub([_appOpenMock alloc]).andReturn(_appOpenMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
+
 - (void)testLoadAppOpenAdSetsCoppaYesWhenChildDirected {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @(YES);
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"application_id" : @"12345", @"placementID" : @"67890"};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
   GADMediationAppOpenLoadCompletionHandler completionHandler =
       ^(id<GADMediationAppOpenAd> _Nullable ad, NSError *_Nullable error) {
         return [[AUTKMediationAppOpenAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAds = OCMClassMock([VungleAds class]);
+  OCMStub(ClassMethod([vungleAds isInitialized])).andReturn(NO);
 
   [_adapter loadAppOpenAdForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -52,13 +64,61 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)testLoadAppOpenAdSetsCoppaNoWhenNotChildDirected {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @(NO);
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"application_id" : @"12345", @"placementID" : @"67890"};
   AUTKMediationAppOpenAdConfiguration *configuration =
       [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
   GADMediationAppOpenLoadCompletionHandler completionHandler =
       ^(id<GADMediationAppOpenAd> _Nullable ad, NSError *_Nullable error) {
         return [[AUTKMediationAppOpenAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAds = OCMClassMock([VungleAds class]);
+  OCMStub(ClassMethod([vungleAds isInitialized])).andReturn(NO);
+
+  [_adapter loadAppOpenAdForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:NO]);
+}
+
+- (void)testLoadAppOpenAdSetsCoppaYesWhenTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @(YES);
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"application_id" : @"12345", @"placementID" : @"67890"};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  GADMediationAppOpenLoadCompletionHandler completionHandler =
+      ^(id<GADMediationAppOpenAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationAppOpenAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAds = OCMClassMock([VungleAds class]);
+  OCMStub(ClassMethod([vungleAds isInitialized])).andReturn(NO);
+
+  [_adapter loadAppOpenAdForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:YES]);
+}
+
+- (void)testLoadAppOpenAdSetsCoppaNoWhenTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @(NO);
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{@"application_id" : @"12345", @"placementID" : @"67890"};
+  AUTKMediationAppOpenAdConfiguration *configuration =
+      [[AUTKMediationAppOpenAdConfiguration alloc] init];
+  configuration.credentials = credentials;
+
+  GADMediationAppOpenLoadCompletionHandler completionHandler =
+      ^(id<GADMediationAppOpenAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationAppOpenAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAds = OCMClassMock([VungleAds class]);
+  OCMStub(ClassMethod([vungleAds isInitialized])).andReturn(NO);
 
   [_adapter loadAppOpenAdForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -111,8 +171,11 @@ static NSString *const kBidResponse = @"bidResponse";
         [invocation getArgument:&initDelegate atIndex:3];
         [initDelegate initialized:YES error:nil];
       });
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [self loadAppOpenAdAndAssertLoadSuccess];
+
   OCMVerifyAll(vungleRouterMock);
 }
 
@@ -228,6 +291,8 @@ static NSString *const kBidResponse = @"bidResponse";
 - (void)testLoadAppOpenAdFailureIfLiftoffInitializationFails {
   id vungleRouterMock = OCMClassMock([GADMAdapterVungleRouter class]);
   OCMStub([vungleRouterMock sharedInstance]).andReturn(vungleRouterMock);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
   __block id<GADMAdapterVungleDelegate> initDelegate = nil;
   NSError *liftoffInitError =
       [NSError errorWithDomain:@"liftoff.domain"

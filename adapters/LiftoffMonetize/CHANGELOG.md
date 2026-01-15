@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version
+- Centralized Liftoff Monetize COPPA setting in the router.
+
 #### [Version 7.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.6.3.0.zip)
 - Verified compatibility with Vungle SDK 7.6.3.
 

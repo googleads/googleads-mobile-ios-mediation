@@ -34,4 +34,7 @@ void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject 
 + (nonnull NSString *)findAppID:(nullable NSDictionary *)serverParameters;
 + (nonnull NSString *)findPlacement:(nullable NSDictionary *)serverParameters;
 
+/// Updates the Vungle COPPA status if needed.
++ (void)updateVungleCOPPAStatusIfNeeded;
+
 @end

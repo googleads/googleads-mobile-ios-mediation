@@ -15,6 +15,8 @@
 #import "GADMAdapterVungleUtils.h"
 #import "GADMAdapterVungleConstants.h"
 
+#import <VungleAdsSDK/VungleAdsSDK.h>
+
 NSError *_Nonnull GADMAdapterVungleErrorWithCodeAndDescription(GADMAdapterVungleErrorCode code,
                                                                NSString *_Nonnull description) {
   NSDictionary<NSString *, NSString *> *userInfo =
@@ -45,6 +47,18 @@ VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
 + (nonnull NSString *)findPlacement:(nullable NSDictionary *)serverParameters {
   NSString *placementId = serverParameters[GADMAdapterVunglePlacementID];
   return placementId ? placementId : @"";
+}
+
++ (void)updateVungleCOPPAStatusIfNeeded {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [VunglePrivacySettings setCOPPAStatus:YES];
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [VunglePrivacySettings setCOPPAStatus:NO];
+  }
 }
 
 #pragma mark - Safe Collection utility methods.
