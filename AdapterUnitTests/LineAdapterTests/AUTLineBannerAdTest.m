@@ -59,11 +59,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
     [invocation getArgument:&loadDelegate atIndex:2];
     XCTAssertTrue([loadDelegate conformsToProtocol:@protocol(FADLoadDelegate)]);
   });
-  OCMStub([_bannerMock setAdViewEventListener:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<FADAdViewEventListener> eventListener = nil;
-    [invocation getArgument:&eventListener atIndex:2];
-    XCTAssertTrue([eventListener conformsToProtocol:@protocol(FADAdViewEventListener)]);
-  });
   GADAdSize requestedAdSize = GADAdSizeBanner;
   OCMExpect([_bannerMock loadAdAsync]).andDo(^(NSInvocation *invocation) {
     id loadedBannerAd = [[UIView alloc]
@@ -112,11 +107,6 @@ static NSString *const AUTLineTestSlotID = @"12345";
   OCMStub([_bannerMock setLoadDelegate:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
     XCTAssertTrue([loadDelegate conformsToProtocol:@protocol(FADLoadDelegate)]);
-  });
-  OCMStub([_bannerMock setAdViewEventListener:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<FADAdViewEventListener> eventListener = nil;
-    [invocation getArgument:&eventListener atIndex:2];
-    XCTAssertTrue([eventListener conformsToProtocol:@protocol(FADAdViewEventListener)]);
   });
 
   NSString *bidResponse = @"bidResponse";

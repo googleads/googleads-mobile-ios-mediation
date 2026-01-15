@@ -35,10 +35,8 @@
   XCTAssertLessThanOrEqual(version.majorVersion, 99);
   XCTAssertGreaterThanOrEqual(version.minorVersion, 0);
   XCTAssertLessThanOrEqual(version.minorVersion, 99);
-  // Five SDK's patch version has a format of YYYYMMdd. The adapter version appends 2 more digits
-  // for the adapter's patch version at the end.
-  XCTAssertGreaterThanOrEqual(version.patchVersion, 2000000000);
-  XCTAssertLessThanOrEqual(version.patchVersion, 3000000000);
+  XCTAssertGreaterThanOrEqual(version.patchVersion, 0);
+  XCTAssertLessThanOrEqual(version.patchVersion, 99);
 }
 
 - (void)testAdSDKVersion {
@@ -48,9 +46,8 @@
   XCTAssertLessThanOrEqual(version.majorVersion, 99);
   XCTAssertGreaterThanOrEqual(version.minorVersion, 0);
   XCTAssertLessThanOrEqual(version.minorVersion, 99);
-  // Five SDK's patch version has a format of YYYYMMdd.
-  XCTAssertGreaterThanOrEqual(version.patchVersion, 20000000);
-  XCTAssertLessThanOrEqual(version.patchVersion, 30000000);
+  XCTAssertGreaterThanOrEqual(version.patchVersion, 0);
+  XCTAssertLessThanOrEqual(version.patchVersion, 99);
 }
 
 - (void)testSetUp {
