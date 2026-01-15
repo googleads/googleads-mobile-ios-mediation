@@ -71,6 +71,7 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -125,7 +126,7 @@ static NSString *const kBidResponse = @"bidResponse";
   XCTAssertNil([_adLoader extraAssets]);
 }
 
-- (void)testLoadAdWithCOPPAEnabled {
+- (void)testLoadAdWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
@@ -151,8 +152,60 @@ static NSString *const kBidResponse = @"bidResponse";
   XCTAssertNil([_adLoader extraAssets]);
 }
 
-- (void)testLoadAdWithCOPPADisabled {
+- (void)testLoadAdWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  // TODO(b/310973545): This crashes because MTGCampaign is not key-value compliant for the key
+  // "star". Need to consult with the adapter team on whether this is a real issue.
+  // XCTAssertNil([_adLoader starRating]);
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithTagForUnderAgeIsYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  // TODO(b/310973545): This crashes because MTGCampaign is not key-value compliant for the key
+  // "star". Need to consult with the adapter team on whether this is a real issue.
+  // XCTAssertNil([_adLoader starRating]);
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithTagForUnderAgeisNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 

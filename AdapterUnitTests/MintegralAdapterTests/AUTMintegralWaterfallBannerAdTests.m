@@ -53,6 +53,7 @@ static NSString *const kUnitID = @"67890";
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -88,14 +89,26 @@ static NSString *const kUnitID = @"67890";
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testLoadBannerSuccessWithCOPPAEnabled {
+- (void)testLoadBannerSuccessWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadAdWithSize:CGSizeMake(320, 50)];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadBannerSuccessWithCOPPADisabled {
+- (void)testLoadBannerSuccessWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAdWithSize:CGSizeMake(320, 50)];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+}
+
+- (void)testLoadBannerSuccessWithTagForUnderAgeIsYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadAdWithSize:CGSizeMake(320, 50)];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadBannerSuccessWithTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadAdWithSize:CGSizeMake(320, 50)];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }

@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next version
+ - Mapped the GMA SDK underage flag to Mintegral SDK COPPA method.
+
 #### [Version 8.0.5.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.0.zip)
 - Verified compatibility with Mintegral SDK version 8.0.5.
 

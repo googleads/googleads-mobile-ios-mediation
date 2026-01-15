@@ -121,13 +121,16 @@ UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
 + (void)setCoppaUsingRequestConfiguration {
   NSNumber *tagForChildDirectedTreatment =
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
-  if (!tagForChildDirectedTreatment) {
-    [[MTGSDK sharedInstance] setCoppa:MTGBoolUnknown];
-    return;
-  }
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
 
-  [[MTGSDK sharedInstance]
-      setCoppa:tagForChildDirectedTreatment.boolValue ? MTGBoolYes : MTGBoolNo];
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [[MTGSDK sharedInstance] setCoppa:MTGBoolYes];
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [[MTGSDK sharedInstance] setCoppa:MTGBoolNo];
+  } else {
+    [[MTGSDK sharedInstance] setCoppa:MTGBoolUnknown];
+  }
 }
 
 @end

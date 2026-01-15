@@ -41,6 +41,7 @@ static NSString *const kUnitID = @"67890";
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -68,14 +69,26 @@ static NSString *const kUnitID = @"67890";
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testLoadWaterfallAppOpenAdWithCOPPAEnabled {
+- (void)testLoadRTBAppOpenAdWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadWaterfallAppOpenAdWithCOPPADisabled {
+- (void)testLoadRTBAppOpenAdWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+}
+
+- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadWaterfallAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadWaterfallAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }

@@ -73,6 +73,7 @@ static NSString *const kUnitID = @"67890";
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -116,7 +117,7 @@ static NSString *const kUnitID = @"67890";
   XCTAssertNil([_adLoader extraAssets]);
 }
 
-- (void)testLoadAdWithCOPPAEnabled {
+- (void)testLoadAdWithTagForChildIsTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
@@ -138,8 +139,52 @@ static NSString *const kUnitID = @"67890";
   XCTAssertNil([_adLoader extraAssets]);
 }
 
-- (void)testLoadAdWithCOPPADisabled {
+- (void)testLoadAdWithTagForChildIsFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithTagForUnderAgeisFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 
