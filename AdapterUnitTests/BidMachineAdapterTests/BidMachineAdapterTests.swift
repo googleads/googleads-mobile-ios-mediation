@@ -59,24 +59,28 @@ final class BidMachineAdapterInitTests {
 
   deinit {
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
   }
 
   @Test("Set up succeeds with coppa undefined")
-  func setUp_succeeds_whenTestModeOffAndCOPPAUndefined() {
+  func setUp_succeeds() async {
     let credentials = AUTKMediationCredentials()
     credentials.settings = ["source_id": "source_id"]
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    BidMachineAdapter.setUp(with: serverConfiguration) { error in
-      #expect(error == nil)
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
     }
     #expect(client.sourceId == "source_id")
     #expect(client.isCOPPA == nil)
   }
 
-  @Test("Set up succeeds with coppa is set to false")
-  func setUp_succeeds_whenTestModeOnAndCOPPAFalse() async {
+  @Test("Set up succeeds with coppa is set to false when tag for child is false")
+  func setUp_succeedsWithTagForChildFalse() async {
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
 
     let credentials = AUTKMediationCredentials()
@@ -84,7 +88,7 @@ final class BidMachineAdapterInitTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater set up") { setUpCompletion in
+    await confirmation("wait for the adapter set up") { setUpCompletion in
       BidMachineAdapter.setUp(with: serverConfiguration) { error in
         #expect(error == nil)
         setUpCompletion()
@@ -94,8 +98,8 @@ final class BidMachineAdapterInitTests {
     #expect(client.isCOPPA == false)
   }
 
-  @Test("Set up succeeds with coppa is set to true")
-  func setUp_succeeds_whenTestModeOnAndCOPPATrue() async {
+  @Test("Set up succeeds with coppa is set to true when tag for child is true")
+  func setUp_succeedsWithTagForChildTrue() async {
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
 
     let credentials = AUTKMediationCredentials()
@@ -103,7 +107,125 @@ final class BidMachineAdapterInitTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater set up") { setUpCompletion in
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == true)
+  }
+
+  @Test("Set up succeeds with coppa is set to false when tag for under age is false")
+  func setUp_succeedsWithTagForUnderAgeFalse() async {
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == false)
+  }
+
+  @Test("Set up succeeds with coppa is set to true when tag for under age is true")
+  func setUp_succeedsWithTagForUnderAgeTrue() async {
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == true)
+  }
+
+  @Test("Set up succeeds with coppa true when tag for child is true and under age is false")
+  func setUp_succeedsWithChildTrueAndUnderAgeFalse() async {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == true)
+  }
+
+  @Test("Set up succeeds with coppa true when tag for child is false and under age is true")
+  func setUp_succeedsWithChildFalseAndUnderAgeTrue() async {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == true)
+  }
+
+  @Test("Set up succeeds with coppa false when both tags are false")
+  func setUp_succeedsWithBothTagsFalse() async {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
+      BidMachineAdapter.setUp(with: serverConfiguration) { error in
+        #expect(error == nil)
+        setUpCompletion()
+      }
+    }
+    #expect(client.sourceId == "source_id")
+    #expect(client.isCOPPA == false)
+  }
+
+  @Test("Set up succeeds with coppa true when both tags are true")
+  func setUp_succeedsWithBothTagsTrue() async {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["source_id": "source_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter set up") { setUpCompletion in
       BidMachineAdapter.setUp(with: serverConfiguration) { error in
         #expect(error == nil)
         setUpCompletion()
