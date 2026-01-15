@@ -1,6 +1,6 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.5.1.1 (In progress)
 - BidMachineAdDelegate conformance sections were modified to align with BidMachine SDK callback behavior.
 - Mapped the GMA SDK underage flag to BidMachine SDK COPPA method.
 
