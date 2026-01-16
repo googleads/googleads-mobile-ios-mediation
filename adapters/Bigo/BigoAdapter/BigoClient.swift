@@ -38,6 +38,10 @@ final class BigoClientFactory {
 
 protocol BigoClient: NSObject {
 
+  /// Sets BIGO COPPA consent.
+  func setUserConsent(
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?)
+
   /// Initializes the BigoADS SDK.
   func initialize(with applicationId: String, testMode: Bool, completion: @escaping () -> Void)
 
@@ -221,6 +225,25 @@ final class BigoClientImpl: NSObject, BigoClient {
     nativeAdLoader = BigoNativeAdLoader(nativeAdLoaderDelegate: delegate)
     nativeAdLoader?.ext = Self.extString
     nativeAdLoader?.loadAd(request)
+  }
+
+  func setUserConsent(
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?
+  ) {
+    let isChild = tagForChildDirectedTreatment?.boolValue
+    let isUnderAge = tagForUnderAgeOfConsent?.boolValue
+
+    // https://www.bigossp.com/guide/sdk/ios/document#pass-mediation-sdk-info
+    // A value of "YES" indicates that the user is not a child under 13 years
+    // old, and a value of "NO" indicates that the user is a child under 13
+    // years old.
+    if isChild == true || isUnderAge == true {
+      Util.log("Setting BigoConsentOptionsCOPPA to false")
+      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
+    } else if isChild == false || isUnderAge == false {
+      Util.log("Setting BigoConsentOptionsCOPPA to true")
+      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: true)
+    }
   }
 
 }

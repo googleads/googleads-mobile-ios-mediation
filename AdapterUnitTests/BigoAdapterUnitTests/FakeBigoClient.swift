@@ -23,6 +23,8 @@ final class FakeBigoClient: NSObject, BigoClient {
   var shouldAdLoadSucceed: Bool = true
   var shouldAdShowSucceed: Bool = true
 
+  var bigoConsentOptionsCOPPA: Bool?
+
   var applicationId: String?
   var testMode: Bool?
 
@@ -162,4 +164,21 @@ final class FakeBigoClient: NSObject, BigoClient {
     }
   }
 
+  func setUserConsent(
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?
+  ) {
+    let isChild = tagForChildDirectedTreatment?.boolValue
+    let isUnderAge = tagForUnderAgeOfConsent?.boolValue
+
+    // https://www.bigossp.com/guide/sdk/ios/document#pass-mediation-sdk-info
+    // A value of "YES" indicates that the user is not a child under 13 years
+    // old, and a value of "NO" indicates that the user is a child under 13
+    // years old.
+    if isChild == true || isUnderAge == true {
+      BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
+      bigoConsentOptionsCOPPA = false
+    } else if isChild == false || isUnderAge == false {
+      bigoConsentOptionsCOPPA = true
+    }
+  }
 }
