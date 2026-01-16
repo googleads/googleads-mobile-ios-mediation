@@ -1,6 +1,6 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 4.11.0.1 (In progress)
 - Updated PubMatic adapter to respect tagForUnderAgeOfConsent for COPPA.
 
 #### [Version 4.11.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-4.11.0.0.zip)
