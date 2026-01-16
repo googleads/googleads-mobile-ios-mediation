@@ -38,8 +38,19 @@ final class PubMaticAdapter: NSObject, RTBAdapter {
   ) {
     do {
       let client = OpenWrapSDKClientFactory.createClient()
-      client.enableCOPPA(
-        MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue ?? false)
+
+      // Sets COPPA compliance based on MobileAds configuration.
+      // - If either tag is true, treat as COPPA-compliant (true).
+      // - If either tag is false (and neither is true), treat as not COPPA-compliant (false).
+      // - Otherwise, leave as nil.
+      let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
+      let isUnderAge = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent?.boolValue
+      if isChild == true || isUnderAge == true {
+        client.enableCOPPA(true)
+      } else if isChild == false || isUnderAge == false {
+        client.enableCOPPA(false)
+      }
+
       client.setUp(
         publisherId: try Util.publisherId(from: configuration),
         profileIds: Util.profileIds(from: configuration)

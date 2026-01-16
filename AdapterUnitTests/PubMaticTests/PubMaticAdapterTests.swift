@@ -67,6 +67,7 @@ final class PubMaticAdapterSetUpTests {
   deinit {
     OpenWrapSDKClientFactory.debugClient = nil
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
   }
 
   @Test("Adapter set up successfully")
@@ -78,7 +79,7 @@ final class PubMaticAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
       await withCheckedContinuation { continuation in
         PubMaticAdapter.setUp(with: serverConfiguration) { error in
           #expect(error == nil)
@@ -92,8 +93,8 @@ final class PubMaticAdapterSetUpTests {
     #expect(client.COPPAEnabled == false)
   }
 
-  @Test("Adapter set up successfully with COPPA disabled ")
-  func setUp_succeedsWithCOPPADisabled() async {
+  @Test("Adapter set up successfully with COPPA disabled when tag for child is false")
+  func setUp_succeedsWithTagForChildFalse() async {
     debugClient.shouldSetUpSucceed = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
 
@@ -102,7 +103,7 @@ final class PubMaticAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
       await withCheckedContinuation { continuation in
         PubMaticAdapter.setUp(with: serverConfiguration) { error in
           #expect(error == nil)
@@ -116,8 +117,8 @@ final class PubMaticAdapterSetUpTests {
     #expect(client.COPPAEnabled == false)
   }
 
-  @Test("Adapter set up successfully with COPPA enabled")
-  func setUp_succeedsWithCOPPAEnabled() async {
+  @Test("Adapter set up successfully with COPPA enabled when tag for child is true")
+  func setUp_succeedsWithTagForChildTrue() async {
     debugClient.shouldSetUpSucceed = true
     MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
 
@@ -126,7 +127,159 @@ final class PubMaticAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test("Adapter set up successfully with COPPA disabled when tag for under age is false")
+  func setUp_succeedsWithTagForUnderAgeFalse() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == false)
+  }
+
+  @Test("Adapter set up successfully with COPPA enabled when tag for under age is true")
+  func setUp_succeedsWithTagForUnderAgeTrue() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test(
+    "Adapter set up successfully with COPPA enabled when tag for child is true and under age is false"
+  )
+  func setUp_succeedsWithChildTrueAndUnderAgeFalse() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test(
+    "Adapter set up successfully with COPPA enabled when tag for child is false and under age is true"
+  )
+  func setUp_succeedsWithChildFalseAndUnderAgeTrue() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == true)
+  }
+
+  @Test("Adapter set up successfully with COPPA disabled when both tags are false")
+  func setUp_succeedsWithBothTagsFalse() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
+      await withCheckedContinuation { continuation in
+        PubMaticAdapter.setUp(with: serverConfiguration) { error in
+          #expect(error == nil)
+          continuation.resume()
+        }
+      }
+      adapterSetUpCompleted()
+    }
+
+    let client = OpenWrapSDKClientFactory.debugClient as! FakeOpenWrapSDKClient
+    #expect(client.COPPAEnabled == false)
+  }
+
+  @Test("Adapter set up successfully with COPPA enabled when both tags are true")
+  func setUp_succeedsWithBothTagsTrue() async {
+    debugClient.shouldSetUpSucceed = true
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["publisher_id": "test_publisher_id", "profile_id": "123"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
       await withCheckedContinuation { continuation in
         PubMaticAdapter.setUp(with: serverConfiguration) { error in
           #expect(error == nil)
@@ -149,7 +302,7 @@ final class PubMaticAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
       await withCheckedContinuation { continuation in
         PubMaticAdapter.setUp(with: serverConfiguration) { error in
           let error = error as? NSError
@@ -173,7 +326,7 @@ final class PubMaticAdapterSetUpTests {
     let serverConfiguration = AUTKMediationServerConfiguration()
     serverConfiguration.credentials = [credentials]
 
-    await confirmation("wait for the adpater setup") { adapterSetUpCompleted in
+    await confirmation("wait for the adapter setup") { adapterSetUpCompleted in
       await withCheckedContinuation { continuation in
         PubMaticAdapter.setUp(with: serverConfiguration) { error in
           #expect(error != nil)
@@ -203,7 +356,7 @@ final class PubMaticAdapterSignalCollectionTests {
     requestParams.configuration = configurations
 
     let adapter = PubMaticAdapter()
-    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+    await confirmation("wait for the adapter collect signals") { signalsCollectionCompleted in
       await withCheckedContinuation { continuation in
         adapter.collectSignals(for: requestParams) { signals, error in
           #expect(error == nil)
@@ -225,7 +378,7 @@ final class PubMaticAdapterSignalCollectionTests {
     requestParams.configuration = configurations
 
     let adapter = PubMaticAdapter()
-    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+    await confirmation("wait for the adapter collect signals") { signalsCollectionCompleted in
       await withCheckedContinuation { continuation in
         adapter.collectSignals(for: requestParams) { signals, error in
           #expect(error == nil)
