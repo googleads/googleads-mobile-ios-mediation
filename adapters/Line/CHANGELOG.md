@@ -1,5 +1,7 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Version 3.0.0.0 (In progress)
+
 #### [Version 2.9.20251119.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20251119.1.zip)
 - The Google Mobile Ads child directed treatment flag will now be forwarded to the FiveAd SDK.
 
