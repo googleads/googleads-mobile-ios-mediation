@@ -335,7 +335,7 @@ static CGFloat const DefaultIconScale = 1.0;
     }
 
     // 3) Build the IMNativeViewData with only the non-nil asset views
-    IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithParentView:view];
+    IMNativeViewDataBuilder *builder = [[IMNativeViewDataBuilder alloc] initWithAdParentView:view];
 
     // ⭐️ Headline
     UIView *headlineView = clickableAssetViews[GADNativeHeadlineAsset];
