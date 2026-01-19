@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <Maio/Maio-Swift.h>
 #import "GADMediationAdapterMaio.h"
 
 /// Adds |object| to |set| if |object| is not nil.
@@ -33,3 +35,10 @@ void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 /// NSLocalizedFailureReasonErrorKey values set to |description|.
 NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorCode code,
                                                              NSString *_Nonnull description);
+
+@interface GADMAdapterMaioUtils : NSObject
+
+// maio Util methods.
++ (nullable MaioBannerSize *)maioAdSizeFromRequestedSize:(GADAdSize)size;
+
+@end
