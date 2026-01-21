@@ -10,7 +10,7 @@
   },
   "authors": "Google LLC",
   "platforms": {
-    "ios": "12.4"
+    "ios": "13.0"
   },
   "vendored_frameworks": [
     "MyTargetAdapter-5.39.0.0/MyTargetAdapter.xcframework"
