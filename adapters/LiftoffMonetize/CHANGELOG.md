@@ -1,7 +1,11 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Version 7.6.3.1 (In progress)
-- Centralized Liftoff Monetize COPPA setting in the router.
+#### [Version 7.6.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.6.3.1.zip)
+- Added support for forwarding the `tagForChildDirectedTreatment` and `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameters to the Vungle SDK.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- Vungle SDK version 7.6.3.
 
 #### [Version 7.6.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.6.3.0.zip)
 - Verified compatibility with Vungle SDK 7.6.3.
