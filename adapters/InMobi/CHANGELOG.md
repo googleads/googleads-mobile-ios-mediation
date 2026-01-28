@@ -1,7 +1,11 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Version 11.1.0.1 (In progress)
-- Update COPPA implementation to respect the tag for under age consent.
+#### [Version 11.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.1.0.1.zip)
+- Added support for forwarding the `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameter to the InMobi SDK.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- InMobi SDK version 11.1.0.
 
 #### [Version 11.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.1.0.0.zip)
 - Verified compatibility with InMobi SDK 11.1.0.
