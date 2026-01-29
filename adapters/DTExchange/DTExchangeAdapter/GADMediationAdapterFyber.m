@@ -82,7 +82,11 @@
     GADMAdapterFyberLog(@"Configuring DT Exchange SDK with application ID: %@.", applicationID);
   }
 
-  GADMAdapterFyberInitializeWithAppId(applicationID, ^(NSError *_Nullable error) {
+  GADMAdapterFyberInitializeWithAppId(applicationID, ^(BOOL success, NSError *_Nullable error) {
+    if (success) {
+      // DTExchange requires to set COPPA after every successful initialization.
+      GADMAdapterFyberSetCOPPA();
+    }
     completionHandler(error);
   });
 }
