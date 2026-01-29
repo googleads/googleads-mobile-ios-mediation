@@ -19,6 +19,7 @@
 
 @interface GADMediationVungleNativeAd () <GADMediationNativeAd,
                                           VungleNativeDelegate,
+                                          MediaViewDelegate,
                                           GADMAdapterVungleDelegate>
 
 @end
@@ -99,6 +100,13 @@
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
   [_nativeAd setWithExtras:extras];
   VungleAdNetworkExtras *networkExtras = _adConfiguration.extras;
+  for (GADAdLoaderOptions *option in _adConfiguration.options) {
+    if ([option isKindOfClass:[GADVideoOptions class]]) {
+      GADVideoOptions *videoOptions = (GADVideoOptions *)option;
+      [_nativeAd.videoOptions setStartMuted:videoOptions.startMuted];
+      break;
+    }
+  }
   switch (networkExtras.nativeAdOptionPosition) {
     case GADAdChoicesPositionTopRightCorner:
       _nativeAd.adOptionsPosition = NativeAdOptionsPositionTopRight;
@@ -196,6 +204,7 @@
   if ([clickableAssetViews[GADNativeIconAsset] isKindOfClass:[UIImageView class]]) {
     iconView = (UIImageView *)clickableAssetViews[GADNativeIconAsset];
   }
+  _mediaView.delegate = self;
   [_nativeAd registerViewForInteractionWithView:view
                                       mediaView:_mediaView
                                   iconImageView:iconView
@@ -241,6 +250,28 @@
 
 - (void)nativeAdDidTrackImpression:(nonnull VungleNative *)nativeAd {
   [_delegate reportImpression];
+}
+
+#pragma mark - MediaViewDelegate
+
+- (void)mediaViewVideoDidPlay:(MediaView *)mediaView {
+  [_delegate didPlayVideo];
+}
+
+- (void)mediaViewVideoDidPause:(MediaView *)mediaView {
+  [_delegate didPauseVideo];
+}
+
+- (void)mediaViewVideoDidEnd:(MediaView *)mediaView {
+  [_delegate didEndVideo];
+}
+
+- (void)mediaViewVideoDidUnmute:(MediaView *)mediaView {
+  [_delegate didUnmuteVideo];
+}
+
+- (void)mediaViewVideoDidMute:(MediaView *)mediaView {
+  [_delegate didMuteVideo];
 }
 
 #pragma mark - GADMAdapterVungleDelegate
