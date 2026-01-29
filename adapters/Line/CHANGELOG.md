@@ -8,7 +8,7 @@ Built and tested with:
 - FiveAd SDK version 3.0.0.
 
 #### [Version 2.9.20251119.1](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-2.9.20251119.1.zip)
-- The Google Mobile Ads child directed treatment flag will now be forwarded to the FiveAd SDK.
+- Added support for forwarding the tagForUnderAgeOfConsent Google Mobile Ads SDK parameters to the FiveAd SDK.
 
 Built and tested with:
 - Google Mobile Ads SDK version 12.14.0.

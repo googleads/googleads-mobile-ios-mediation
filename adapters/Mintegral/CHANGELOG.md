@@ -1,7 +1,7 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
 #### [Version 8.0.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.1.zip)
-- The Google Mobile Ads child directed treatment flag will now be forwarded to the Mintegral SDK's COPPA API.
+- Added support for forwarding the tagForUnderAgeOfConsent Google Mobile Ads SDK parameters to the Mintegral SDK.
 
 Built and tested with:
 - Google Mobile Ads SDK version 12.14.0.
