@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Version 11.1.1.0
+- Verified compatibility with InMobi SDK 11.1.1.
+
 #### [Version 11.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.1.0.1.zip)
 - Added support for forwarding the `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameter to the InMobi SDK.
 
