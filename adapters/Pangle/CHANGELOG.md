@@ -1,5 +1,7 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Version 7.9.0.4.0 (In progress)
+
 #### 7.8.5.8.2 (In progress)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.
 
