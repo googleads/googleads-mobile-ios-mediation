@@ -1,5 +1,7 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Version 5.39.1.0 (In progress)
+
 #### Version 5.39.0.0 (In progress)
 - Now requires minimum iOS version 13.0.
 
