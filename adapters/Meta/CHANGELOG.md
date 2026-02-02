@@ -1,5 +1,8 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
+#### Next version
+- Added support for forwarding the tagForUnderAgeOfConsent Google Mobile Ads SDK parameter to the FBAudienceNetwork SDK.
+
 #### [Version 6.21.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.21.0.0.zip)
 - Now requires minimum iOS version `13.0`.
 - Verified compatibility with Meta Audience Network SDK 6.21.0.
