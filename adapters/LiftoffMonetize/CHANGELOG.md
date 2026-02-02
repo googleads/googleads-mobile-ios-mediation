@@ -1,5 +1,7 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Version 7.7.0.0 (In progress)
+
 #### [Version 7.6.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.6.3.1.zip)
 - Added support for forwarding the `tagForChildDirectedTreatment` and `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameters to the Vungle SDK.
 
