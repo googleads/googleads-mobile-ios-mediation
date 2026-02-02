@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 #import <MetaAdapter/GADFBExtraAssets.h>
 #import <MetaAdapter/GADFBNetworkExtras.h>
+#import <MetaAdapter/GADMediationAdapterFacebook.h>
+#import <UIKit/UIKit.h>
