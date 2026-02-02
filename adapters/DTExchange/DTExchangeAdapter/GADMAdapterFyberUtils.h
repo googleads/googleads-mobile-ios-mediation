@@ -20,7 +20,7 @@
 #define GADMAdapterFyberLog(format, args...) NSLog(@"DTExchangeAdapter: " format, ##args)
 
 // DT Exchange adapter initialization completion handler.
-typedef void (^GADMAdapterFyberInitCompletionHandler)(NSError *_Nullable error);
+typedef void (^GADMAdapterFyberInitCompletionHandler)(BOOL success, NSError *_Nullable error);
 
 /// Safely adds |object| to |array| if |object| is not nil.
 void GADMAdapterFyberMutableArrayAddObject(NSMutableArray *_Nullable array,
@@ -48,3 +48,6 @@ IAAdRequest *_Nonnull GADMAdapterFyberBuildRequestWithAdConfiguration(
 /// Initialize the DT Exchange SDK with a given application ID and completion handler.
 void GADMAdapterFyberInitializeWithAppId(
     NSString *_Nonnull appID, GADMAdapterFyberInitCompletionHandler _Nonnull completionHandler);
+
+/// Sets DTExchange COPPA setting by using the Google Mobile Ads settings.
+void GADMAdapterFyberSetCOPPA(void);

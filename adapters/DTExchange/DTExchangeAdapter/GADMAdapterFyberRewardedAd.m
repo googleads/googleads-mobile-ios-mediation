@@ -92,10 +92,15 @@
   GADMAdapterFyberRewardedAd *__weak weakSelf = self;
   GADMAdapterFyberInitializeWithAppId(
       _adConfiguration.credentials.settings[GADMAdapterFyberApplicationID],
-      ^(NSError *_Nullable error) {
+      ^(BOOL success, NSError *_Nullable error) {
         GADMAdapterFyberRewardedAd *strongSelf = weakSelf;
         if (!strongSelf) {
           return;
+        }
+
+        if (success) {
+          // DTExchange requires to set COPPA after every successful initialization.
+          GADMAdapterFyberSetCOPPA();
         }
 
         if (error) {
