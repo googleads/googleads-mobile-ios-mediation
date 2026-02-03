@@ -1,5 +1,8 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13.0.
+
 #### Version 9.2.0.0.1 (In progress)
 - Add `is_child_directed` logic.
 
