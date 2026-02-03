@@ -1,5 +1,8 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13
+
 #### [Version 5.0.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.0.6.0.zip)
 - Initial release!
 - Added bidding support for app open, banner (includes MREC), interstitial, rewarded and native ad formats.
