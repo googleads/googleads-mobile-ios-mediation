@@ -1,5 +1,8 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13
+
 #### Version 3.5.1.1 (In progress)
 - BidMachineAdDelegate conformance sections were modified to align with BidMachine SDK callback behavior.
 - Added support for forwarding the tagForUnderAgeOfConsent Google Mobile Ads SDK parameter to the BidMachine SDK.
