@@ -1,5 +1,8 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13.0.
+
 #### Version 11.1.1.0
 - Verified compatibility with InMobi SDK 11.1.1.
 
