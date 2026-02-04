@@ -1,5 +1,8 @@
 ## Verve iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13.0.
+
 #### [Version 3.7.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.7.1.1.zip)
 - Initial Release!
 - Supports bidding banner, interstitial, rewarded, rewarded interstitial and native ad formats.
