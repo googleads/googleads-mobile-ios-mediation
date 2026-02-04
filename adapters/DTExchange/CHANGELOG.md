@@ -1,7 +1,12 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Version 8.4.4.0 (In progress)
-- Added support for forwarding the tagForChildDirectedTreatment and tagForUnderAgeOfConsent Google Mobile Ads SDK parameters to the IASDKCore SDK.
+#### [Version 8.4.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.4.0.zip)
+- Verified compatibility with DT Exchange SDK version 8.4.4.
+- Added support for forwarding the `tagForChildDirectedTreatment` and `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameters to the DT Exchange SDK.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- DT Exchange SDK version 8.4.4.
 
 #### [Version 8.4.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.3.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.4.3.
