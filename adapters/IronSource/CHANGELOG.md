@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 9.2.0.0.2 (In progress)
 - Updated the minimum iOS version to 13.0.
 
 #### Version 9.2.0.0.1 (In progress)
