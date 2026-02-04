@@ -1,5 +1,8 @@
 ## Pangle iOS Mediation Adapter Changelog
 
+#### Next version
+- Updated the minimum iOS version to 13.0.
+
 #### [Version 7.8.5.8.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.8.5.8.0.zip)
 - Verified compatibility with Pangle SDK version 7.8.5.8.
 
