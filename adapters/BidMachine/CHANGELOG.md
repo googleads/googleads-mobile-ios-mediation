@@ -1,6 +1,6 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.5.1.2 (In progress)
 - Updated the minimum iOS version to 13
 
 #### Version 3.5.1.1 (In progress)
