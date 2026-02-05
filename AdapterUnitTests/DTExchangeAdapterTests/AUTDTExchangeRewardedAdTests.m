@@ -187,11 +187,13 @@ static NSString *const kDTExchangeSpotID = @"67890";
         completionHandler(YES, nil);
       });
   OCMReject([_IAAdRequestBuilderMock setSpotID:OCMOCK_ANY]);
-  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
+  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse
+                            watermarkData:OCMOCK_ANY
+                           withCompletion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(
             IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
-        [invocation getArgument:&completionHandler atIndex:3];
+        [invocation getArgument:&completionHandler atIndex:4];
         completionHandler(nil, nil, nil);
       });
 

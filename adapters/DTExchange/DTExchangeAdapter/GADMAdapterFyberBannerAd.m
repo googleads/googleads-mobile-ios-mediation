@@ -227,7 +227,9 @@
   };
 
   if (bidResponse) {
-    [_adSpot loadAdWithMarkup:bidResponse withCompletion:completionCallback];
+    [_adSpot loadAdWithMarkup:bidResponse
+                watermarkData:_adConfiguration.watermark
+               withCompletion:completionCallback];
   } else {
     [_adSpot fetchAdWithCompletion:completionCallback];
   }

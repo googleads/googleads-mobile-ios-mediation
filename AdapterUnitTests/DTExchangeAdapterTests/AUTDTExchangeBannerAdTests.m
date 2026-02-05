@@ -196,11 +196,13 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
         completionHandler(YES, nil);
       });
   OCMExpect([_IAAdRequestBuilderMock setSpotID:kDTExchangeSpotID]);
-  OCMStub([_IAAdSpotMock loadAdWithMarkup:@"bidResposne" withCompletion:OCMOCK_ANY])
+  OCMStub([_IAAdSpotMock loadAdWithMarkup:@"bidResposne"
+                            watermarkData:OCMOCK_ANY
+                           withCompletion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(
             IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
-        [invocation getArgument:&completionHandler atIndex:3];
+        [invocation getArgument:&completionHandler atIndex:4];
         completionHandler(nil, nil, nil);
       });
 
@@ -236,11 +238,13 @@ static CGFloat const kDTExchangeTestViewHeight = 1;
         completionHandler(YES, nil);
       });
   OCMReject([_IAAdRequestBuilderMock setSpotID:OCMOCK_ANY]);
-  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse withCompletion:OCMOCK_ANY])
+  OCMStub([_IAAdSpotMock loadAdWithMarkup:bidResponse
+                            watermarkData:OCMOCK_ANY
+                           withCompletion:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(
             IAAdSpot *_Nullable adSpot, IAAdModel *_Nullable adModel, NSError *_Nullable error);
-        [invocation getArgument:&completionHandler atIndex:3];
+        [invocation getArgument:&completionHandler atIndex:4];
         completionHandler(nil, nil, expectedError);
       });
 
