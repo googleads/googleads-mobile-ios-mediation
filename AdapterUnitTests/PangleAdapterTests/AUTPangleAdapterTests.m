@@ -75,7 +75,6 @@ static NSString *const kApplicationID = @"12345";
 - (void)testSetUpWithConfiguration {
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setAppID:kApplicationID]);
-  OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -100,7 +99,6 @@ static NSString *const kApplicationID = @"12345";
                          return [kApplicationID isEqualToString:value] ||
                                 [applicationID2 isEqualToString:value];
                        }]]);
-  OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -146,11 +144,11 @@ static NSString *const kApplicationID = @"12345";
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setUserDataString:expectedUserDataString]);
   NSString *expectedToken = @"";
-  OCMStub([_sdkMock getBiddingToken:OCMOCK_ANY completion:OCMOCK_ANY])
+  OCMStub(ClassMethod([_sdkMock getBiddingTokenWithRequest:OCMOCK_ANY completionHandler:OCMOCK_ANY]))
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(NSString *bidderToken);
+        __unsafe_unretained void (^completionHandler)(NSString * _Nullable biddingToken, NSError * _Nullable error);
         [invocation getArgument:&completionHandler atIndex:3];
-        completionHandler(expectedToken);
+        completionHandler(expectedToken, nil);
       });
 
   XCTestExpectation *expectation =
