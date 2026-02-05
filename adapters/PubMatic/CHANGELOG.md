@@ -1,6 +1,6 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 4.11.0.2 (In progress)
 - Updated the minimum iOS version to 13.0.
 
 #### [Version 4.11.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-4.11.0.1.zip)
