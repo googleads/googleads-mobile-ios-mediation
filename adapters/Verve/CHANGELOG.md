@@ -1,6 +1,6 @@
 ## Verve iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.7.1.2 (In progress)
 - Updated the minimum iOS version to 13.0.
 
 #### [Version 3.7.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.7.1.1.zip)
