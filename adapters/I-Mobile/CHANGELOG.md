@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.3.4.4 (In progress)
 - Updated the minimum iOS version to 13.0.
 
 #### [Version 2.3.4.3](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.3.zip)
