@@ -144,7 +144,7 @@ static NSString *const kApplicationID = @"12345";
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setUserDataString:expectedUserDataString]);
   NSString *expectedToken = @"";
-  OCMStub(ClassMethod([_sdkMock getBiddingTokenWithRequest:OCMOCK_ANY completionHandler:OCMOCK_ANY]))
+  OCMStub([_sdkMock getBiddingTokenWithRequest:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         __unsafe_unretained void (^completionHandler)(NSString * _Nullable biddingToken, NSError * _Nullable error);
         [invocation getArgument:&completionHandler atIndex:3];
