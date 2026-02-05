@@ -1,6 +1,6 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.0.5.2 (In progress)
 - Updated the minimum iOS version to 13.0.
 
 #### [Version 8.0.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.1.zip)
