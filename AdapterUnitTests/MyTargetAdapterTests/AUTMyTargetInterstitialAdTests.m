@@ -76,13 +76,66 @@ void AUTFailToLoadInterstitialAd(MTRGInterstitialAd *_Nonnull interstitialAd) {
 @interface AUTMyTargetInterstitialAdTests : XCTestCase
 @end
 
-@implementation AUTMyTargetInterstitialAdTests
+@implementation AUTMyTargetInterstitialAdTests {
+  id _mockPrivacy;
+}
+
+- (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+}
+
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
 
 - (void)testOnLoadWithInterstitialAd {
   MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
+
   AUTLoadInterstitialAd(interstitialAd);
+  OCMVerifyAll(_mockPrivacy);
 }
 
+- (void)testOnLoadWithInterstitialAdWithTagForChildYes {
+  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadInterstitialAd(interstitialAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithInterstitialAdWithTagForChildNo {
+  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTLoadInterstitialAd(interstitialAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithInterstitialAdWithTagForUnderAgeYes {
+  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadInterstitialAd(interstitialAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithInterstitialAdWithTagForUnderAgeNo {
+  MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTLoadInterstitialAd(interstitialAd);
+  OCMVerifyAll(_mockPrivacy);
+}
 - (void)testMyFyberLoadFailure {
   MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:AUTSlotID];
   AUTFailToLoadInterstitialAd(interstitialAd);

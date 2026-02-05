@@ -22,6 +22,7 @@
 #import "GADMAdapterMyTargetInterstitialAd.h"
 #import "GADMAdapterMyTargetNativeAd.h"
 #import "GADMAdapterMyTargetRewardedAd.h"
+#import "GADMAdapterMyTargetUtils.h"
 
 @interface GADMediationAdapterMyTarget ()
 
@@ -44,6 +45,7 @@
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
              completionHandler:(nonnull GADMediationAdapterSetUpCompletionBlock)completionHandler {
   // INFO: MyTarget SDK doesn't have any initialization API.
+  GADMAdapterMyTargetSetUserConsentIfNeeded();
   completionHandler(nil);
 }
 
@@ -79,6 +81,8 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  GADMAdapterMyTargetSetUserConsentIfNeeded();
+
   _bannerAd = [[GADMAdapterMyTargetBannerAd alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];
   [_bannerAd loadBannerAd];
@@ -88,6 +92,8 @@
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  GADMAdapterMyTargetSetUserConsentIfNeeded();
+
   _rewardedAd = [[GADMAdapterMyTargetRewardedAd alloc] initWithAdConfiguration:adConfiguration
                                                              completionHandler:completionHandler];
   [_rewardedAd loadRewardedAd];
@@ -97,6 +103,8 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  GADMAdapterMyTargetSetUserConsentIfNeeded();
+
   _interstitialAd =
       [[GADMAdapterMyTargetInterstitialAd alloc] initWithAdConfiguration:adConfiguration
                                                        completionHandler:completionHandler];
@@ -105,6 +113,8 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  GADMAdapterMyTargetSetUserConsentIfNeeded();
+
   _nativeAd = [[GADMAdapterMyTargetNativeAd alloc] initWithAdConfiguration:adConfiguration
                                                          completionHandler:completionHandler];
   [_nativeAd loadNativeAd];
