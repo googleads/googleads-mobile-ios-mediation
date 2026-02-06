@@ -1,7 +1,8 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 8.4.4.1 (In progress)
 - Added watermark for bidding ads.
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
 
 #### [Version 8.4.4.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.4.0.zip)
 - Verified compatibility with DT Exchange SDK version 8.4.4.
