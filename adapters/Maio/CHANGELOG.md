@@ -1,5 +1,9 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Version 2.2.0.3 (In progress)
+- Added support for banner ads
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
+
 #### [Version 2.2.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.0.2.zip)
 - Updated the CocoaPods minimum iOS version to `13.0`.
 
