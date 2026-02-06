@@ -1,7 +1,8 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
-- Updated the minimum iOS version to 13
+#### Version 13.5.1.1
+- Updated the minimum iOS version to 13.
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
 
 #### Version 13.5.1.0 (In progress)
 
