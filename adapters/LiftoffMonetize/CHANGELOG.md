@@ -1,7 +1,13 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Version 7.7.0.0 (In progress)
+- Updated the Liftoff Monetize SDK dependency to version 7.7.0.
+- Updated the Google Mobile Ads SDK dependency to version 13.0 and up.
+- Increased the minimum iOS deployment target to 13.0.
+- Added support for native video options and media view delegate callbacks.
+
 #### Version 7.6.3.2 (In progress)
-- Updated the minimum iOS version to 13.0.
+- Updated the Cocoapods minimum iOS version to 13.0.
 
 #### [Version 7.6.3.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.6.3.1.zip)
 - Added support for forwarding the `tagForChildDirectedTreatment` and `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameters to the Vungle SDK.
