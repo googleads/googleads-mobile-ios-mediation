@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Version 8.0.5.3 (In progress)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
+
 #### [Version 8.0.5.2](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.2.zip)
 - Updated the CocoaPods minimum iOS version to `13.0`.
 
