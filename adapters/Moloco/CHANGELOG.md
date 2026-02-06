@@ -1,5 +1,8 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### 4.3.0.2 (In progress)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
+
 #### [Version 4.3.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.3.0.1.zip)
 - Updated the CocoaPods minimum iOS version to `13.0`.
 
