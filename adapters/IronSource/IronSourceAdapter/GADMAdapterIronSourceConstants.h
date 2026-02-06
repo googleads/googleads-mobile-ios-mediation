@@ -15,7 +15,7 @@
 // IronSource internal reporting const.
 static NSString *const GADMAdapterIronSourceMediationName = @"AdMob";
 
-static NSString *const GADMAdapterIronSourceAdapterVersion = @"9.3.0.0.0";
+static NSString *const GADMAdapterIronSourceAdapterVersion = @"9.3.0.0.1";
 
 static NSString *const GADMIronSourceDefaultNonRtbInstanceId = @"0";
 static NSString *const GADMIronSourceDefaultRtbInstanceId = @"";
