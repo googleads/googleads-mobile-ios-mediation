@@ -1,7 +1,11 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Version 2.2.0.2 (In progress)
-- Updated the minimum iOS version to 13.0.
+#### [Version 2.2.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.0.2.zip)
+- Updated the CocoaPods minimum iOS version to `13.0`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.0.0.
+- Maio SDK version 2.2.0.
 
 #### [Version 2.2.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.0.1.zip)
 - Removed bidding implementation since Maio no longer supports bidding.
