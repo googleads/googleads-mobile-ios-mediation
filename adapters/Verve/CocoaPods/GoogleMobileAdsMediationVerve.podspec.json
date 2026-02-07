@@ -1,6 +1,6 @@
 {
   "name": "GoogleMobileAdsMediationVerve",
-  "version": "3.7.1.2",
+  "version": "3.7.1.3",
   "summary": "Verve adapter used for mediation with the Google Mobile Ads SDK",
   "description": "The Google Mobile Ads SDK is the latest generation in Google mobile advertising featuring refined ad formats and streamlined APIs for access to mobile ad networks and advertising solutions. Google Mobile Ads Mediation helps maximize your fill rate and increase your monetization by sending ad requests to multiple networks to ensure you find the best available network to serve ads. This adapter enables you to use Google Mobile Ads Mediation to request ads from Verve.",
   "homepage": "https://developers.google.com/admob/ios/mediation/Verve",
@@ -13,18 +13,18 @@
     "ios": "13.0"
   },
   "vendored_frameworks": [
-    "VerveAdapter-3.7.1.2/VerveAdapter.xcframework"
+    "VerveAdapter-3.7.1.3/VerveAdapter.xcframework"
   ],
   "dependencies": {
-    "Google-Mobile-Ads-SDK": "~> 12.0",
+    "Google-Mobile-Ads-SDK": "~> 13.0",
     "HyBid": "3.7.1"
   },
   "preserve_paths": [
-    "VerveAdapter-3.7.1.2/README.md"
+    "VerveAdapter-3.7.1.3/README.md"
   ],
   "requires_arc": true,
   "source": {
-    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Verve/VerveAdapter-3.7.1.2.zip"
+    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/Verve/VerveAdapter-3.7.1.3.zip"
   },
   "static_framework": true,
   "swift_versions": "5.0",
