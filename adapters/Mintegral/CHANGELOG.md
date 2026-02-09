@@ -1,5 +1,7 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Version 8.0.7.0 (In progress)
+
 #### Version 8.0.5.3 (In progress)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.
 
