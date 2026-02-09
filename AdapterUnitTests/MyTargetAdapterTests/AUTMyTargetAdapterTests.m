@@ -13,7 +13,22 @@
 
 @end
 
-@implementation AUTMyTargetAdapterTests
+@implementation AUTMyTargetAdapterTests {
+  id _mockPrivacy;
+}
+
+- (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+}
+
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
 
 - (void)testAdapterVersion {
   GADVersionNumber version = [GADMediationAdapterMyTarget adapterVersion];
@@ -39,7 +54,46 @@
 
 - (void)testSetUp {
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
+
   AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithChildDirectedSetToYes {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithChildDirectedSetToNo {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithTagForUnderAgeYES {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testSetUpWithTagForUnderAgeNo {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMyTarget class], credentials);
+  OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testNetworkExtrasClass {

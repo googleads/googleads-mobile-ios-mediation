@@ -70,11 +70,65 @@ void AUTFailToLoadRewardedAd(MTRGRewardedAd *_Nonnull rewardedAd) {
 
 @end
 
-@implementation AUTMyTargetRewardedAdTests
+@implementation AUTMyTargetRewardedAdTests {
+  id _mockPrivacy;
+}
+
+- (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
+}
+
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
 
 - (void)testOnLoadWithRewardedAd {
   MTRGRewardedAd *rewardedAd = [[MTRGRewardedAd alloc] initWithSlotId:AUTSlotID];
+  OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
+
   AUTLoadRewardedAd(rewardedAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithRewardedAdWithTagForChildYes {
+  MTRGRewardedAd *rewardedAd = [[MTRGRewardedAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadRewardedAd(rewardedAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithRewardedAdWithTagForChildNo {
+  MTRGRewardedAd *rewardedAd = [[MTRGRewardedAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTLoadRewardedAd(rewardedAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithRewardedAdWithTagForUnderAgeYes {
+  MTRGRewardedAd *rewardedAd = [[MTRGRewardedAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadRewardedAd(rewardedAd);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithRewardedAdWithTagForUnderAgeNo {
+  MTRGRewardedAd *rewardedAd = [[MTRGRewardedAd alloc] initWithSlotId:AUTSlotID];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTLoadRewardedAd(rewardedAd);
+  OCMVerifyAll(_mockPrivacy);
 }
 
 - (void)testOnNoAdWithReason {
