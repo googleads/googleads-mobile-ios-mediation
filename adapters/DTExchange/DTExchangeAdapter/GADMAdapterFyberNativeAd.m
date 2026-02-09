@@ -116,6 +116,7 @@
   }];
 
   [_nativeAdSpot loadAdWithMarkup:bidResponse
+                withWatermarkData:_adConfiguration.watermark
                    withCompletion:^(IANativeAdAssets *nativeAdAssets, NSError *error) {
                      GADMAdapterFyberNativeAd *strongSelf = weakSelf;
                      if (!strongSelf) {

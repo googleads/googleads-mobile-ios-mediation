@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,15 +13,11 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-/// DT Exchange mediation adapter version.
-static NSString* const _Nonnull GADMAdapterFyberVersion = @"8.4.4.1";
+@interface GADMAdapterMaioBannerAd : NSObject <GADMediationBannerAd>
 
-/// DT Exchange mediation adapter app ID key.
-static NSString* const _Nonnull GADMAdapterFyberApplicationID = @"applicationId";
+- (void)loadBannerAdForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
+                     completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler;
 
-/// DT Exchange mediation adapter spot ID key.
-static NSString* const _Nonnull GADMAdapterFyberSpotID = @"spotId";
-
-/// DT Exchange mediation adapter error domain.
-static NSString* const _Nonnull GADMAdapterFyberErrorDomain = @"com.google.mediation.fyber";
+@end

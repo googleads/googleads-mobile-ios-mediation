@@ -1,10 +1,17 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
-#### Version 8.0.5.2 (In progress)
-- Updated the minimum iOS version to 13.0.
+#### Version 8.0.5.3 (In progress)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.
+
+#### [Version 8.0.5.2](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.2.zip)
+- Updated the CocoaPods minimum iOS version to `13.0`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.0.0.
+- Mintegral SDK version 8.0.5.
 
 #### [Version 8.0.5.1](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.0.5.1.zip)
-- Added support for forwarding the tagForUnderAgeOfConsent Google Mobile Ads SDK parameters to the Mintegral SDK.
+- Added support for forwarding the `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameter to the Mintegral SDK.
 
 Built and tested with:
 - Google Mobile Ads SDK version 12.14.0.

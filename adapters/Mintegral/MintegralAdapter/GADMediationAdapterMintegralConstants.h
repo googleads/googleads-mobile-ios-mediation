@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 
 /// Mintegral mediation adapter version.
-static NSString *const GADMAdapterMintegralVersion = @"8.0.5.2";
+static NSString *const GADMAdapterMintegralVersion = @"8.0.5.3";
 
 /// Mintegral mediation adapter Mintegral App ID parameter key.
 static NSString *const GADMAdapterMintegralAppID = @"app_id";
