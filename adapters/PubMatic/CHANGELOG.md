@@ -1,5 +1,7 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### Version 4.12.0.0 (In progress)
+
 #### Version 4.11.0.3 (In progress)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.
 
