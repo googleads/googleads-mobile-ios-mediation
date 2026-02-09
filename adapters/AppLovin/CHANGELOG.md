@@ -1,6 +1,6 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 13.5.1.1 (In progress)
 - Updated the minimum iOS version to 13
 
 #### Version 13.5.1.0 (In progress)
