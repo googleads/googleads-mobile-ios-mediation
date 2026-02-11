@@ -28,7 +28,7 @@
   ],
   "requires_arc": true,
   "source": {
-    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.0.zip"
+    "http": "https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.0.0.zip"
   },
   "static_framework": true,
   "swift_versions": "5.0",
