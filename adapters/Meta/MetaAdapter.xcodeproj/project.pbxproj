@@ -141,7 +141,8 @@
 		AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7BB6B62E5F713E001DA0EC /* GADFBAppOpenRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADFBAppOpenRenderer.h; sourceTree = "<group>"; };
 		AD7BB6BB2E5F7199001DA0EC /* GADFBAppOpenRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADFBAppOpenRenderer.m; sourceTree = "<group>"; };
-		ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticMetaAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapterWithoutValidationScript.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD949C5B2F3BF59B00B7CA8F /* FBAudienceNetwork.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:V9WTTPBFK9:Meta Platforms, Inc."; lastKnownFileType = wrapper.xcframework; name = FBAudienceNetwork.xcframework; path = ../../AdapterUnitTests/Pods/FBAudienceNetwork/Static/FBAudienceNetwork.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +253,7 @@
 				7DE821BD1DB04B5000AA08CF /* BuildScript */,
 				7D46CFDE1DB6B76E0050F612 /* Configuration */,
 				7DFABB1E1DA8682C00322E02 /* Products */,
+				B3E798F627282266EF3A4B55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -260,9 +262,17 @@
 			children = (
 				7DFABB1D1DA8682C00322E02 /* libAdapter.a */,
 				AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */,
-				ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */,
+				ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B3E798F627282266EF3A4B55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD949C5B2F3BF59B00B7CA8F /* FBAudienceNetwork.xcframework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,9 +362,9 @@
 			productReference = AD00C4652B87D61A007C85F3 /* MetaAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		ADA6BA032CF146E5009C8FDA /* StaticMetaAdapter */ = {
+		ADA6BA032CF146E5009C8FDA /* AdapterWithoutValidationScript */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "StaticMetaAdapter" */;
+			buildConfigurationList = ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
 				ADA6BA042CF146E5009C8FDA /* Sources */,
 				ADA6BA0E2CF146E5009C8FDA /* Frameworks */,
@@ -365,9 +375,9 @@
 			);
 			dependencies = (
 			);
-			name = StaticMetaAdapter;
+			name = AdapterWithoutValidationScript;
 			productName = Adapter;
-			productReference = ADA6BA1F2CF146E5009C8FDA /* libStaticMetaAdapter.a */;
+			productReference = ADA6BA1F2CF146E5009C8FDA /* libAdapterWithoutValidationScript.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -412,7 +422,7 @@
 				7D1B6CA21DC2ACF900D8CABF /* Framework */,
 				5AD983D022EFAE79000FCD2F /* ValidateSourceCode */,
 				AD00C4642B87D61A007C85F3 /* MetaAdapter */,
-				ADA6BA032CF146E5009C8FDA /* StaticMetaAdapter */,
+				ADA6BA032CF146E5009C8FDA /* AdapterWithoutValidationScript */,
 			);
 		};
 /* End PBXProject section */
@@ -816,7 +826,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "StaticMetaAdapter" */ = {
+		ADA6BA1C2CF146E5009C8FDA /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADA6BA1D2CF146E5009C8FDA /* Debug */,

@@ -23,6 +23,24 @@ abstract_target 'Default' do
   target 'AdapterUnitTestKit' do
   end
 
+  # MetaAdapter and its test target.
+  if adapter_targets.empty? || adapter_targets.include?('MetaAdapter')
+
+    pod 'GoogleMobileAdsMediationFacebook', :path => '../adapters/MetaAdapter/CocoaPods/GoogleMobileAdsMediationFacebook.podspec.json'
+
+    # Dependencies for MetaAdapter static library.
+    target 'AdapterWithoutValidationScript' do
+      project '../adapters/MetaAdapter/MetaAdapter.xcodeproj'
+    end
+
+    # Dependencies for MetaAdapter unit tests.
+    target 'MetaAdapterTests' do
+      pod 'OCMock'
+    end
+
+  end
+
+
   # LineAdapter and its test target.
   if adapter_targets.empty? || adapter_targets.include?('LineAdapter')
 
