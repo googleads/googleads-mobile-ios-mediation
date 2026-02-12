@@ -1,7 +1,11 @@
 ## Pangle iOS Mediation Adapter Changelog
 
-#### 7.8.5.8.2 (In progress)
-- Updated the Google Mobile Ads SDK dependency to version 13.0.
+#### [Version 7.8.5.8.2](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.8.5.8.2.zip)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.0.0.
+- Pangle SDK version 7.8.5.8.
 
 #### [Version 7.8.5.8.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pangle/PangleAdapter-7.8.5.8.1.zip)
 - Updated the CocoaPods minimum iOS version to `13.0`.
