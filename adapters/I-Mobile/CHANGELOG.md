@@ -1,7 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Version 2.3.4.5 (In progress)
-- Updated the Google Mobile Ads SDK dependency to version 13.0.
+#### [Version 2.3.4.5](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.5.zip)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.10.0.
+- i-mobile SDK version 2.3.4.
 
 #### [Version 2.3.4.4](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.4.zip)
 - Updated the CocoaPods minimum iOS version to `13.0`.
