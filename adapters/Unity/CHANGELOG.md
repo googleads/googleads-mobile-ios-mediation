@@ -1,5 +1,7 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Version 4.16.6.1 (In progress)
+
 #### [Version 4.16.6.0](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.6.0.zip)
 - Verified compatibility with Unity Ads SDK 4.16.6.
 - Added support for forwarding the `tagForUnderAgeOfConsent` Google Mobile Ads SDK parameter to the Unity Ads SDK.
