@@ -28,6 +28,9 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 }
 
 - (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   _adapter = [[GADMediationAdapterMaio alloc] init];
   _requestMock = OCMClassMock([MaioRequest class]);
   OCMStub([_requestMock alloc]).andReturn(_requestMock);
@@ -35,8 +38,11 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 }
 
 - (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   OCMVerifyAll(_requestMock);
   OCMVerifyAll(_interstitialMock);
+  [super tearDown];
 }
 
 - (AUTKMediationInterstitialAdEventDelegate *)loadAd {
@@ -94,8 +100,49 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
 }
 
-- (void)testLoadAd {
+- (void)loadInterstitialAdFailureForChildUser {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMMaioAdapterZoneIdKey : @"zoneID"};
+  AUTKMediationInterstitialAdConfiguration *config =
+      [[AUTKMediationInterstitialAdConfiguration alloc] init];
+  config.credentials = credentials;
+  config.isTestRequest = YES;
+
+  NSString *errorDescription = @"The request had age-restricted treatment, but maio SDK "
+                               @"cannot receive age-restricted signals.";
+  NSDictionary *errorUserInfo = @{
+    NSLocalizedDescriptionKey : errorDescription,
+    NSLocalizedFailureReasonErrorKey : errorDescription
+  };
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMMaioErrorDomain
+                                                      code:GADMAdapterMaioErrorChildUser
+                                                  userInfo:errorUserInfo];
+
+  AUTKWaitAndAssertLoadInterstitialAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadInterstitialAdSucceeds {
   [self loadAd];
+}
+
+- (void)testLoadInterstitialAdSucceedsWhenTagForChildDirectedTreatmentIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+}
+
+- (void)testLoadInterstitialAdSucceedsWhenTagForUnderAgeOfConsentIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  [self loadAd];
+}
+
+- (void)testLoadInterstitialAdFailsWhenTagForChildDirectedTreatmentIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadInterstitialAdFailureForChildUser];
+}
+
+- (void)testLoadInterstitialAdFailsWhenTagForUnderAgeOfConsentIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadInterstitialAdFailureForChildUser];
 }
 
 - (void)testMaioAdLoadFailure {

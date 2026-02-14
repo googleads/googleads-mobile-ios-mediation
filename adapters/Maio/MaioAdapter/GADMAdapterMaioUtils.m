@@ -51,6 +51,12 @@ NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErro
   return error;
 }
 
+BOOL GADMAdapterMaioIsChildUser(void) {
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+         [requestConfiguration.tagForUnderAgeOfConsent boolValue];
+}
+
 @implementation GADMAdapterMaioUtils
 
 + (nullable MaioBannerSize *)maioAdSizeFromRequestedSize:(GADAdSize)size {

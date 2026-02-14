@@ -36,6 +36,9 @@ void GADMAdapterMaioMapTableSetObjectForKey(NSMapTable *_Nonnull mapTable,
 NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErrorCode code,
                                                              NSString *_Nonnull description);
 
+/// Returns whether the user is a child user.
+BOOL GADMAdapterMaioIsChildUser(void);
+
 @interface GADMAdapterMaioUtils : NSObject
 
 // maio Util methods.
