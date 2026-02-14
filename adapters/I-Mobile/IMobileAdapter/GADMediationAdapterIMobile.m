@@ -68,12 +68,25 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  // i-Mobile SDK doesn't have any initialization API.
+  if (GADMAdapterIMobileIsChildUser()) {
+    completionHandler(GADMAdapterIMobileErrorWithCodeAndDescription(
+        GADMAdapterIMobileErrorChildUser,
+        @"The adapter cannot be setup, because the session has age-restricted treatment and "
+        @"ImobileSdkAds SDK cannot receive age-restricted signals."));
+    return;
+  }
   completionHandler(nil);
 }
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (GADMAdapterIMobileIsChildUser()) {
+    completionHandler(nil, GADMAdapterIMobileErrorWithCodeAndDescription(
+                               GADMAdapterIMobileErrorChildUser,
+                               @"The request had age-restricted treatment, but ImobileSdkAds SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
   _bannerAd = [[GADMAdapterIMobileBannerAd alloc] initWithAdConfiguration:adConfiguration];
   [_bannerAd loadBannerAdWithCompletionHandler:completionHandler];
 }
@@ -82,6 +95,14 @@
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  if (GADMAdapterIMobileIsChildUser()) {
+    completionHandler(nil, GADMAdapterIMobileErrorWithCodeAndDescription(
+                               GADMAdapterIMobileErrorChildUser,
+                               @"The request had age-restricted treatment, but ImobileSdkAds SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
+  GADMAdapterIMobileIsChildUser();
   _interstitialAd =
       [[GADMAdapterIMobileInterstitialAd alloc] initWithAdConfiguration:adConfiguration];
   [_interstitialAd loadInterstitialAdWithCompletionHandler:completionHandler];
@@ -89,6 +110,14 @@
 
 - (void)loadNativeAdForAdConfiguration:(GADMediationNativeAdConfiguration *)adConfiguration
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
+  if (GADMAdapterIMobileIsChildUser()) {
+    completionHandler(nil, GADMAdapterIMobileErrorWithCodeAndDescription(
+                               GADMAdapterIMobileErrorChildUser,
+                               @"The request had age-restricted treatment, but ImobileSdkAds SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
+  GADMAdapterIMobileIsChildUser();
   _unifiedNativeAd =
       [[GADMAdapterIMobileUnifiedNativeAd alloc] initWithAdConfiguration:adConfiguration];
   [_unifiedNativeAd loadNativeAdWithCompletionHandler:completionHandler];
