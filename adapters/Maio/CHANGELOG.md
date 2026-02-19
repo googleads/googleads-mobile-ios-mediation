@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Next version
+- Filter age-restricted requests for maio SDK because it cannot receive age-restricted signals.
+
 #### [Version 2.2.0.3](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.0.3.zip)
 - Added support for waterfall banner ads.
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
