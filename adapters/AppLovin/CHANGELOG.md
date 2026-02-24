@@ -1,5 +1,7 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 13.6.0.0 (In progress)
+
 #### [Version 13.5.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.5.1.0.zip)
 - Verified compatibility with AppLovin SDK 13.5.1.
 - Added waterfall support for app open ad format.
