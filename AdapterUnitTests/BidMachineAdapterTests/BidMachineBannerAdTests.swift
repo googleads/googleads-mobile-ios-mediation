@@ -147,7 +147,7 @@ final class BidMachineRTBBannerAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)
@@ -312,7 +312,7 @@ final class BidMachineWaterfallBannerAdTests {
         return eventDelegate
       }
     }
-    delegate?.didTrackInteraction?(
+    delegate?.didUserInteraction?(
       OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
 
     #expect(eventDelegate.reportClickInvokeCount == 1)

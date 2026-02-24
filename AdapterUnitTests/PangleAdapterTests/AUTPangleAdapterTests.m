@@ -18,6 +18,11 @@
 
 static NSString *const kApplicationID = @"12345";
 
+static NSString *const kPangleSdkErrorDomain = @"com.pangle.sdk";
+
+// A fake error code for Pangle's bidding token collection failure.
+static int kPangleBiddingTokenFailureCode = 1005;
+
 @implementation AUTPangleAdapterTests {
   /// Mock for PAGConfig.
   id _configMock;
@@ -75,7 +80,6 @@ static NSString *const kApplicationID = @"12345";
 - (void)testSetUpWithConfiguration {
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setAppID:kApplicationID]);
-  OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -100,7 +104,6 @@ static NSString *const kApplicationID = @"12345";
                          return [kApplicationID isEqualToString:value] ||
                                 [applicationID2 isEqualToString:value];
                        }]]);
-  OCMExpect([_configMock setGDPRConsent:PAGGDPRConsentTypeDefault]);
   NSString *expectedUserDataString =
       [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":"
                                  @"\"adapter_version\",\"value\":\"%@\"}]",
@@ -136,7 +139,7 @@ static NSString *const kApplicationID = @"12345";
       conformsToProtocol:@protocol(GADAdNetworkExtras)]);
 }
 
-- (void)testCollectSignals {
+- (void)testCollectSignalsSuccess {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   NSString *expectedUserDataString = @"userString";
   GADPangleNetworkExtras *extras = [[GADPangleNetworkExtras alloc] init];
@@ -145,12 +148,13 @@ static NSString *const kApplicationID = @"12345";
   [parameters setValue:extras forKey:@"extras"];
   OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
   OCMExpect([_configMock setUserDataString:expectedUserDataString]);
-  NSString *expectedToken = @"";
-  OCMStub([_sdkMock getBiddingToken:OCMOCK_ANY completion:OCMOCK_ANY])
+  NSString *expectedToken = @"pangle_token";
+  OCMStub([_sdkMock getBiddingTokenWithRequest:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        __unsafe_unretained void (^completionHandler)(NSString *bidderToken);
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable biddingToken,
+                                                      NSError *_Nullable error);
         [invocation getArgument:&completionHandler atIndex:3];
-        completionHandler(expectedToken);
+        completionHandler(expectedToken, nil);
       });
 
   XCTestExpectation *expectation =
@@ -160,6 +164,40 @@ static NSString *const kApplicationID = @"12345";
       collectSignalsForRequestParameters:parameters
                        completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
                          XCTAssertEqualObjects(signals, expectedToken);
+                         [expectation fulfill];
+                       }];
+  [self waitForExpectations:@[ expectation ]];
+}
+
+- (void)testCollectSignalsFailure {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  NSString *expectedUserDataString = @"userString";
+  GADPangleNetworkExtras *extras = [[GADPangleNetworkExtras alloc] init];
+  [extras setUserDataString:expectedUserDataString];
+  GADRTBRequestParameters *parameters = [[GADRTBRequestParameters alloc] init];
+  [parameters setValue:extras forKey:@"extras"];
+  OCMStub(ClassMethod([_configMock shareConfig])).andReturn(_configMock);
+  OCMExpect([_configMock setUserDataString:expectedUserDataString]);
+  NSError *expectedError = [[NSError alloc] initWithDomain:kPangleSdkErrorDomain
+                                                      code:kPangleBiddingTokenFailureCode
+                                                  userInfo:nil];
+  OCMStub([_sdkMock getBiddingTokenWithRequest:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionHandler)(NSString *_Nullable biddingToken,
+                                                      NSError *_Nullable error);
+        [invocation getArgument:&completionHandler atIndex:3];
+        completionHandler(nil, expectedError);
+      });
+
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Token returned."];
+  GADMediationAdapterPangle *adapter = [[GADMediationAdapterPangle alloc] init];
+  [adapter
+      collectSignalsForRequestParameters:parameters
+                       completionHandler:^(NSString *_Nullable signals, NSError *_Nullable error) {
+                         XCTAssertNil(signals);
+                         XCTAssertEqual(error.code, kPangleBiddingTokenFailureCode);
+                         XCTAssertEqual(error.domain, kPangleSdkErrorDomain);
                          [expectation fulfill];
                        }];
   [self waitForExpectations:@[ expectation ]];

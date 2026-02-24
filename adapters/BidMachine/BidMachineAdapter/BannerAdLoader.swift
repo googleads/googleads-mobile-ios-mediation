@@ -25,9 +25,6 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
   /// Ads SDK.
   private weak var eventDelegate: MediationBannerAdEventDelegate?
 
-  /// The completion handler that needs to be called upon finishing loading an ad.
-  private var bannerAdLoadCompletionHandler: ((MediationBannerAd?, NSError?) -> Void)?
-
   /// The queue for processing an ad load completion.
   private let adLoadCompletionQueue: DispatchQueue
 
@@ -118,7 +115,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
 extension BannerAdLoader: BidMachineAdDelegate {
 
-  func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+  func didLoadAd(_ ad: any BidMachineAdProtocol) {
     guard let bannerAd = ad as? UIView else {
       // Technically, should never get here.
       handleLoadedAd(
@@ -133,7 +130,7 @@ extension BannerAdLoader: BidMachineAdDelegate {
     handleLoadedAd(self, error: nil)
   }
 
-  func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+  func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
     handleLoadedAd(nil, error: error)
   }
 
@@ -142,6 +139,10 @@ extension BannerAdLoader: BidMachineAdDelegate {
   }
 
   func didTrackInteraction(_ ad: any BidMachineAdProtocol) {
+    // Is called only on first click. If you need to track every click use didUserInteraction instead
+  }
+
+  func didUserInteraction(_ ad: any BidMachineAdProtocol) {
     eventDelegate?.reportClick()
   }
 
@@ -149,4 +150,12 @@ extension BannerAdLoader: BidMachineAdDelegate {
     eventDelegate?.didFailToPresentWithError(error)
   }
 
+  func willPresentScreen(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willPresentFullScreenView()
+  }
+
+  func didDismissScreen(_ ad: any BidMachineAdProtocol) {
+    eventDelegate?.willDismissFullScreenView()
+    eventDelegate?.didDismissFullScreenView()
+  }
 }

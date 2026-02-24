@@ -15,7 +15,12 @@
 
 @implementation AUTDTExchangeAdapterTests
 
-- (void)testAdapterSetUp {
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+}
+
+- (void)testAdapterSetUpWithoutTFCDAndTFUA {
   NSString *applicationID = @"123";
 
   // Mock IASDK
@@ -30,6 +35,99 @@
         [invocation getArgument:&completionBlock atIndex:3];
         completionBlock(YES, nil);
       });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeUnknown]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterFyber class], credentials);
+}
+
+- (void)testAdapterSetUpWithTFCDSetToYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  NSString *applicationID = @"123";
+
+  // Mock IASDK
+  id sharedInstanceMock = OCMClassMock([IASDKCore class]);
+  OCMStub(ClassMethod([sharedInstanceMock sharedInstance])).andReturn(sharedInstanceMock);
+  OCMStub([sharedInstanceMock isInitialised]).andReturn(NO);
+  OCMStub([sharedInstanceMock initWithAppID:applicationID
+                            completionBlock:OCMOCK_ANY
+                            completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionBlock)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:3];
+        completionBlock(YES, nil);
+      });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeGiven]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterFyber class], credentials);
+}
+
+- (void)testAdapterSetUpWithTFCDSetToNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  NSString *applicationID = @"123";
+
+  // Mock IASDK
+  id sharedInstanceMock = OCMClassMock([IASDKCore class]);
+  OCMStub(ClassMethod([sharedInstanceMock sharedInstance])).andReturn(sharedInstanceMock);
+  OCMStub([sharedInstanceMock isInitialised]).andReturn(NO);
+  OCMStub([sharedInstanceMock initWithAppID:applicationID
+                            completionBlock:OCMOCK_ANY
+                            completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionBlock)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:3];
+        completionBlock(YES, nil);
+      });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeDenied]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterFyber class], credentials);
+}
+
+- (void)testAdapterSetUpWithTFUASetToYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  NSString *applicationID = @"123";
+
+  // Mock IASDK
+  id sharedInstanceMock = OCMClassMock([IASDKCore class]);
+  OCMStub(ClassMethod([sharedInstanceMock sharedInstance])).andReturn(sharedInstanceMock);
+  OCMStub([sharedInstanceMock isInitialised]).andReturn(NO);
+  OCMStub([sharedInstanceMock initWithAppID:applicationID
+                            completionBlock:OCMOCK_ANY
+                            completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionBlock)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:3];
+        completionBlock(YES, nil);
+      });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeGiven]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterFyber class], credentials);
+}
+
+- (void)testAdapterSetUpWithTFUASetToNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  NSString *applicationID = @"123";
+
+  // Mock IASDK
+  id sharedInstanceMock = OCMClassMock([IASDKCore class]);
+  OCMStub(ClassMethod([sharedInstanceMock sharedInstance])).andReturn(sharedInstanceMock);
+  OCMStub([sharedInstanceMock isInitialised]).andReturn(NO);
+  OCMStub([sharedInstanceMock initWithAppID:applicationID
+                            completionBlock:OCMOCK_ANY
+                            completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionBlock)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:3];
+        completionBlock(YES, nil);
+      });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeDenied]);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};

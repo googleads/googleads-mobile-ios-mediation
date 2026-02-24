@@ -1,5 +1,27 @@
 ## IronSource iOS Mediation Adapter Changelog
 
+#### [Version 9.3.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-9.3.0.0.1.zip)
+- Updated the Google Mobile Ads SDK dependency to version 13.0.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.0.0.
+- IronSource SDK version 9.3.0.0.
+
+#### [Version 9.3.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-9.3.0.0.0.zip)
+- Verified compatibility with IronSource SDK version 9.3.0.0.
+- Updated the CocoaPods minimum iOS version to `13.0`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.0.0.
+- IronSource SDK version 9.3.0.0.
+
+#### [Version 9.2.0.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-9.2.0.0.1.zip)
+- Added support for forwarding the `tagForChildDirectedTreatment` Google Mobile Ads SDK parameter to the ironSource SDK.
+
+Built and tested with:
+- Google Mobile Ads SDK version 12.14.0.
+- IronSource SDK version 9.2.0.0.
+
 #### [Version 9.2.0.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-9.2.0.0.0.zip)
 - Verified compatibility with IronSource SDK version 9.2.0.0.
 

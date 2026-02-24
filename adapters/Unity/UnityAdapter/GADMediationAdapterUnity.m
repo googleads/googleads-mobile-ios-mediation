@@ -97,11 +97,7 @@ static BOOL _isTestMode = NO;
 - (void)loadRewardedAdForAdConfiguration:(GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (GADMediationRewardedLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity
-      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                          .integerValue
-                    : -1)];
+  [GADMediationAdapterUnity updatePrivacyPreferences];
   self.adapterProxy = [[GADMUnityRewardedMediationAdapterProxy alloc] initWithAd:self
                                                                completionHandler:completionHandler];
 
@@ -125,11 +121,7 @@ static BOOL _isTestMode = NO;
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
                              (GADMediationInterstitialLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity
-      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                          .integerValue
-                    : -1)];
+  [GADMediationAdapterUnity updatePrivacyPreferences];
   self.adapterProxy =
       [[GADMUnityInterstitialMediationAdapterProxy alloc] initWithAd:self
                                                    completionHandler:completionHandler];
@@ -165,11 +157,7 @@ static BOOL _isTestMode = NO;
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  [GADMediationAdapterUnity
-      setCOPPA:(GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                    ? GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment
-                          .integerValue
-                    : -1)];
+  [GADMediationAdapterUnity updatePrivacyPreferences];
   GADMediationAdapterUnity *__weak weakself = self;
   [self initializeWithConfiguration:adConfiguration
                   completionHandler:^(NSError *_Nullable error) {
@@ -230,27 +218,33 @@ static BOOL _isTestMode = NO;
 
 #pragma mark Utility Methods
 
-/// Set the COPPA setting in Unity Ads SDK.
-///
-/// @param COPPA An integer value that indicates whether the app should be treated as
-/// child-directed for purposes of the COPPA.  0 means false. 1 means true. -1 means
-/// unspecified.
-+ (void)setCOPPA:(NSInteger)COPPA {
+/// Updates the UADSMetaData's |user.nonbehavioral| based on Google Mobile Ads'
+/// tagForChildDirectedTreatment and tagForUnderAgeOfConsent.
++ (void)updatePrivacyPreferences {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+
   UADSMetaData *userMetaData = [[UADSMetaData alloc] init];
-  if (COPPA == 1 || COPPA == -1) {
-    /// Unity Ads will default to treating users as children when a user-level COPPA designation is
-    /// absent.
-    [userMetaData set:@"user.nonbehavioral" value:@YES];
-    [userMetaData commit];
-    return;
-  } else if (COPPA == 0) {
+
+  BOOL isChildDirected = [tagForChildDirectedTreatment isEqual:@YES];
+  BOOL isUnderAge = [tagForUnderAgeOfConsent isEqual:@YES];
+  BOOL isNotChildDirected = [tagForChildDirectedTreatment isEqual:@NO];
+  BOOL isNotUnderAge = [tagForUnderAgeOfConsent isEqual:@NO];
+
+  // If at least one signal indicates adult, and other api does not signal child, we are adult for
+  // this session
+  if (!isChildDirected && !isUnderAge && (isNotChildDirected || isNotUnderAge)) {
     [userMetaData set:@"user.nonbehavioral" value:@NO];
-    [userMetaData commit];
-    return;
-  } else {
-    GADMUnityLog(@"Invalid COPPA value.");
-    return;
   }
+  // If there is any child signal, conflicts between api's, or both unspecified, we treat them as
+  // a child.
+  else {
+    [userMetaData set:@"user.nonbehavioral" value:@YES];
+  }
+
+  [userMetaData commit];
 }
 
 + (BOOL)testMode {

@@ -38,6 +38,7 @@ static NSString *const kBidResponse = @"bidResponse";
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
 }
 
 - (void)testLoadBannerSetsCoppaYesWhenChildDirected {
@@ -50,6 +51,8 @@ static NSString *const kBidResponse = @"bidResponse";
         return [[AUTKMediationBannerAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [_adapter loadBannerForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -66,6 +69,44 @@ static NSString *const kBidResponse = @"bidResponse";
         return [[AUTKMediationBannerAdEventDelegate alloc] init];
       };
   id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
+
+  [_adapter loadBannerForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:NO]);
+}
+
+- (void)testLoadBannerSetsCoppaYesWhenTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent =
+      [NSNumber numberWithInt:1];
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  GADMediationBannerLoadCompletionHandler completionHandler =
+      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationBannerAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
+
+  [_adapter loadBannerForAdConfiguration:configuration completionHandler:completionHandler];
+
+  OCMVerify([vunglePrivacySettingsMock setCOPPAStatus:YES]);
+}
+
+- (void)testLoadBannerSetsCoppaNoWhenTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent =
+      [NSNumber numberWithInt:0];
+  AUTKMediationBannerAdConfiguration *configuration =
+      [[AUTKMediationBannerAdConfiguration alloc] init];
+  GADMediationBannerLoadCompletionHandler completionHandler =
+      ^(id<GADMediationBannerAd> _Nullable ad, NSError *_Nullable error) {
+        return [[AUTKMediationBannerAdEventDelegate alloc] init];
+      };
+  id vunglePrivacySettingsMock = OCMClassMock([VunglePrivacySettings class]);
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [_adapter loadBannerForAdConfiguration:configuration completionHandler:completionHandler];
 
@@ -125,6 +166,8 @@ static NSString *const kBidResponse = @"bidResponse";
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings =
       @{GADMAdapterVunglePlacementID : kPlacementID, GADMAdapterVungleApplicationID : kAppID};
+  id vungleAdsClassMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsClassMock isInitialized]).andReturn(NO);
 
   [self loadBannerAndAssertLoadSuccessWithCredentials:credentials andExtras:nil];
   OCMVerifyAll(vungleRouterMock);

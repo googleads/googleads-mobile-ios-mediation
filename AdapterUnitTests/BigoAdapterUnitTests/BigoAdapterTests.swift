@@ -16,6 +16,8 @@ final class BigoAdapterTest: XCTestCase {
   override func tearDown() {
     BigoClientFactory.debugClient = nil
     BigoAdapterExtras.testMode = false
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = nil
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = nil
     super.tearDown()
   }
 
@@ -39,6 +41,152 @@ final class BigoAdapterTest: XCTestCase {
     XCTAssertLessThanOrEqual(version.minorVersion, 99)
     XCTAssertGreaterThanOrEqual(version.patchVersion, 0)
     XCTAssertLessThanOrEqual(version.patchVersion, 9999)
+  }
+
+  func testSetUp_succeeds() throws {
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertNil(coppaConsent)
+  }
+
+  func testSetUp_succeeds_withTagForChildTrue() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == false)
+  }
+
+  func testSetUp_succeeds_withTagForChildFalse() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == true)
+  }
+
+  func testSetUp_succeeds_withTagForUnderAgeTrue() throws {
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == false)
+  }
+
+  func testSetUp_succeeds_withTagForUnderAgeFalse() throws {
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == true)
+  }
+
+  func testSetUp_succeeds_withTagForChildTrueAndUnderAgeFalse() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == false)
+  }
+
+  func testSetUp_succeeds_withTagForChildFalseAndUnderAgeTrue() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == false)
+  }
+
+  func testSetUp_succeeds_withTagForChildFalseAndUnderAgeFalse() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = false
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = false
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == true)
+  }
+
+  func testSetUp_succeeds_withTagForChildTrueAndUnderAgeTrue() throws {
+    MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment = true
+    MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent = true
+
+    let credentials = AUTKMediationCredentials()
+    credentials.settings = ["application_id": "test_id"]
+    let serverConfiguration = AUTKMediationServerConfiguration()
+    serverConfiguration.credentials = [credentials]
+    AUTKWaitAndAssertAdapterSetUpWithConfiguration(BigoAdapter.self, serverConfiguration)
+
+    let applicationId = try XCTUnwrap(fakeClient.applicationId)
+    let coppaConsent = fakeClient.bigoConsentOptionsCOPPA
+
+    XCTAssertEqual(applicationId, "test_id")
+    XCTAssertTrue(coppaConsent == false)
   }
 
   func testSetUp_succeeds_withTestModeOn() throws {

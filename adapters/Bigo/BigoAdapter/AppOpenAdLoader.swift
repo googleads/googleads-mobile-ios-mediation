@@ -19,7 +19,7 @@ import GoogleMobileAds
 final class AppOpenAdLoader: NSObject {
 
   /// The app open ad configuration.
-  private let adConfiguration: GADMediationAppOpenAdConfiguration
+  private let adConfiguration: MediationAppOpenAdConfiguration
 
   /// The ad event delegate which is used to report app open related information to the Google Mobile Ads SDK.
   private weak var eventDelegate: MediationAppOpenAdEventDelegate?
@@ -35,7 +35,7 @@ final class AppOpenAdLoader: NSObject {
   private var splashAd: BigoSplashAd?
 
   init(
-    adConfiguration: GADMediationAppOpenAdConfiguration,
+    adConfiguration: MediationAppOpenAdConfiguration,
     loadCompletionHandler: @escaping GADMediationAppOpenLoadCompletionHandler
   ) {
     self.adConfiguration = adConfiguration

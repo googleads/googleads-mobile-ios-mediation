@@ -68,6 +68,10 @@ GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
 MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);
 
+/// Sets user consent in myTarget SDK if Google Mobile Ads SDK has tagForChildDirectedTreatment or
+/// tagForUnderAgeOfConsent set in Google Mobile Ads SDK.
+void GADMAdapterMyTargetSetUserConsentIfNeeded(void);
+
 @interface GADMAdapterMyTargetUtils : NSObject
 
 /// Indicates whether debug logs are enabled for the myTarget adapter.

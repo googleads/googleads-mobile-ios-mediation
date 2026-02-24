@@ -80,10 +80,15 @@
   GADMAdapterFyberInterstitialAd *__weak weakSelf = self;
   GADMAdapterFyberInitializeWithAppId(
       _adConfiguration.credentials.settings[GADMAdapterFyberApplicationID],
-      ^(NSError *_Nullable error) {
+      ^(BOOL success, NSError *_Nullable error) {
         GADMAdapterFyberInterstitialAd *strongSelf = weakSelf;
         if (!strongSelf) {
           return;
+        }
+
+        if (success) {
+          // DTExchange requires to set COPPA after every successful initialization.
+          GADMAdapterFyberSetCOPPA();
         }
 
         if (error) {
@@ -166,7 +171,9 @@
       };
 
   if (bidResponse) {
-    [_adSpot loadAdWithMarkup:bidResponse withCompletion:completionCallback];
+    [_adSpot loadAdWithMarkup:bidResponse
+                watermarkData:_adConfiguration.watermark
+               withCompletion:completionCallback];
   } else {
     [_adSpot fetchAdWithCompletion:completionCallback];
   }

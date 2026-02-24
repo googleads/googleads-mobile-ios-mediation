@@ -238,7 +238,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   {
     let fakeAd = OCMockObject.mock(for: BidMachineRewarded.self) as! BidMachineRewarded
     if shouldBidMachineSucceedPresenting {
-      delegate?.willPresentScreen?(fakeAd)
+      delegate?.didPresentAd?(fakeAd)
       delegate?.didDismissAd?(fakeAd)
     } else {
       delegate?.didFailPresentAd?(fakeAd, NSError(domain: "com.test.domain", code: 12345))

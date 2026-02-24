@@ -9,4 +9,5 @@ framework module MetaAdapter {
 
   header "GADFBExtraAssets.h"
   header "GADFBNetworkExtras.h"
+  header "GADMediationAdapterFacebook.h"
 }

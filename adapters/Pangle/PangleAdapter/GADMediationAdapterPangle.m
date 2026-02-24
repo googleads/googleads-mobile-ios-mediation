@@ -23,7 +23,6 @@
 #import "GADPangleNetworkExtras.h"
 #import "GADPangleRewardedRenderer.h"
 
-static NSInteger _GDPRConsent = -1;
 
 @implementation GADMediationAdapterPangle {
   /// Pangle app open ad wrapper.
@@ -58,9 +57,9 @@ static NSInteger _GDPRConsent = -1;
     request.bannerSize = [GADPangleBannerRenderer bannerSizeFromGADAdSize:params.adSize];
   }
   [PAGSdk getBiddingTokenWithRequest:request
-                          completion:^(NSString *_Nonnull biddingToken) {
-                            completionHandler(biddingToken, nil);
-                          }];
+                   completionHandler:^(NSString *_Nullable biddingToken, NSError *_Nullable error) {
+                     completionHandler(biddingToken, error);
+                   }];
 }
 
 + (void)setUpWithConfiguration:(nonnull GADMediationServerConfiguration *)configuration
@@ -93,7 +92,6 @@ static NSInteger _GDPRConsent = -1;
   GADMPangleLog(@"Configuring Pangle SDK with the app ID: %@", appID);
   PAGConfig *config = [PAGConfig shareConfig];
   config.appID = appID;
-  config.GDPRConsent = _GDPRConsent;
   config.adxID = GADMAdapterPangleAdxID;
   config.userDataString = [NSString stringWithFormat:@"[{\"name\":\"mediation\",\"value\":\"google\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]",GADMAdapterPangleVersion];
   [PAGSdk startWithConfig:config
@@ -199,15 +197,8 @@ static NSInteger _GDPRConsent = -1;
 }
 
 + (void)setGDPRConsent:(NSInteger)GDPRConsent {
-  if (GDPRConsent != 0 && GDPRConsent != 1 && GDPRConsent != -1) {
-    GADMPangleLog(@"Invalid GDPR value. Pangle SDK only accepts -1, 0 or 1.");
-    return;
-  }
-  if (PAGSdk.initializationState == PAGSDKInitializationStateReady &&
-      ![GADMAdapterPangleUtils isChildUser]) {
-    PAGConfig.shareConfig.GDPRConsent = GDPRConsent;
-  }
-  _GDPRConsent = GDPRConsent;
+  // Manual configuration of GDPR information is no longer supported. Pangle will automatically read
+  // the settings from the CMP.
 }
 
 + (void)setPAConsent:(NSInteger)PAConsent {

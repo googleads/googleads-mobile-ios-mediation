@@ -145,6 +145,19 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
   return nil;
 }
 
+void GADMAdapterMyTargetSetUserConsentIfNeeded(void) {
+  NSNumber *tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
+  NSNumber *tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [MTRGPrivacy setUserAgeRestricted:YES];
+  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+    [MTRGPrivacy setUserAgeRestricted:NO];
+  }
+}
+
 @implementation GADMAdapterMyTargetUtils
 
 static BOOL _isLogEnabled = YES;

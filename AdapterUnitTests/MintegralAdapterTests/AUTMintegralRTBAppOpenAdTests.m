@@ -41,9 +41,9 @@ static NSString *const kBidResponse = @"bidResponse";
 }
 
 - (void)tearDown {
-  // Reset _adLoader after each test.
   _adLoader = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   [super tearDown];
 }
 
@@ -79,14 +79,26 @@ static NSString *const kBidResponse = @"bidResponse";
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
 }
 
-- (void)testLoadRTBAppOpenAdWithCOPPAEnabled {
+- (void)testLoadRTBAppOpenAdWithTagForChildIsYes {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   [self loadRTBAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 }
 
-- (void)testLoadRTBAppOpenAdWithCOPPADisabled {
+- (void)testLoadRTBAppOpenAdWithTagForChildIsNo {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+}
+
+- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsYes {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadRTBAppOpenAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
+}
+
+- (void)testLoadRTBAppOpenAdWithTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadRTBAppOpenAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
 }

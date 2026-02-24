@@ -27,6 +27,12 @@
   OCMStub(ClassMethod([_mintegralMock sharedInstance])).andReturn(_mintegralMock);
 }
 
+- (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  [super tearDown];
+}
+
 - (void)testExtras {
   XCTAssertEqual([GADMediationAdapterMintegral networkExtrasClass],
                  [GADMAdapterMintegralExtras class]);
@@ -36,6 +42,64 @@
   NSString *appID = @"123";
   NSString *APIKey = @"456";
   OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolUnknown);
+}
+
+- (void)testSetUpWithTagForChildIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolYes]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+}
+
+- (void)testSetUpWithTagForChildIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolNo]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+}
+
+- (void)testSetUpWithTagForUnderAgeIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolYes]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+}
+
+- (void)testSetUpWithTagForUnderAgeIsNo {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolNo]);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};

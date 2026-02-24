@@ -41,6 +41,10 @@
     [delegate initialized:YES error:nil];
     return;
   }
+
+  // Liftoff Monetize requires COPPA status to be set before initializing the SDK.
+  // https://support.vungle.com/hc/en-us/articles/360048572411-Advanced-Settings#h_01JV5D5KQRJR1C6EJ59X4914E6
+  [GADMAdapterVungleUtils updateVungleCOPPAStatusIfNeeded];
   [VungleAds initWithAppId:appId
                 completion:^(NSError *_Nullable error) {
                   [delegate initialized:error == nil error:error];

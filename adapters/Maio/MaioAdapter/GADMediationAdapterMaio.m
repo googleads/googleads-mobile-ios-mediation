@@ -16,6 +16,7 @@
 
 #import <Maio/Maio-Swift.h>
 
+#import "GADMAdapterMaioBannerAd.h"
 #import "GADMAdapterMaioInterstitialAd.h"
 #import "GADMAdapterMaioRewardedAd.h"
 #import "GADMAdapterMaioUtils.h"
@@ -30,6 +31,9 @@
 
   // maio waterfall rewarded ad wrapper.
   GADMAdapterMaioRewardedAd *_rewardedAd;
+
+  // maio waterfall banner ad wrapper.
+  GADMAdapterMaioBannerAd *_bannerAd;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
@@ -69,7 +73,9 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-  // TODO: implement banner.
+  _bannerAd = [[GADMAdapterMaioBannerAd alloc] init];
+  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration
+                          completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:

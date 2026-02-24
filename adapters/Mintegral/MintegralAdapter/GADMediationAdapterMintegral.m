@@ -106,6 +106,7 @@
 
   // Initialize the Mintergral SDK.
   [GADMediationAdapterMintegral setAdmobChannel];
+  [GADMAdapterMintegralUtils setCoppaUsingRequestConfiguration];
   [[MTGSDK sharedInstance] setAppID:appId ApiKey:appKey];
   if (completionHandler) {
     completionHandler(nil);
