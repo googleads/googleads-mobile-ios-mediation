@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		006BB5532F84595400F64FDA /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006BB5522F84595400F64FDA /* placeholder.swift */; };
 		006BB5A72F845AAF00F64FDA /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
+		00DB8E272F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -1552,6 +1553,7 @@
 /* Begin PBXFileReference section */
 		006BB5522F84595400F64FDA /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		006BB5A62F84595600F64FDA /* ChartboostAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChartboostAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetUtilsTests.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -2562,6 +2564,7 @@
 				ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */,
 				AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */,
 				AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */,
+				00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */,
 				CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */,
 			);
 			path = MyTargetAdapterTests;
@@ -5250,6 +5253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0D70032AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m in Sources */,
+				00DB8E272F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m in Sources */,
 				AD0D70012AF71950002C0B60 /* AUTMyTargetAdapterTests.m in Sources */,
 				AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */,
 				CD770AA02F7B39DD00345679 /* placeholder.swift in Sources */,
