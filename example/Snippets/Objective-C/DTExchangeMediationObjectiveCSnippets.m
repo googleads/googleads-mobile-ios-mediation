@@ -29,7 +29,7 @@
 @implementation DTExchangeMediationObjectiveCSnippets
 
 /// Placeholder value for a user's US privacy string.
-NSString *const kUSPrivacyString = @"TODO: Obtain US_PRIVACY_STRING from your CMP";
+static NSString *const kUSPrivacyString = @"TODO: Obtain US_PRIVACY_STRING from your CMP";
 
 - (void)setCCPAString {
   // [START set_ccpa_string]

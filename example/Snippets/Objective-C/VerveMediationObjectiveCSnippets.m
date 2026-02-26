@@ -27,7 +27,7 @@
 @implementation VerveMediationObjectiveCSnippets
 
 /// Placeholder value for a user's US privacy string.
-NSString *const kUSPrivacyString = @"TODO: Obtain US_PRIVACY_STRING from your CMP";
+static NSString *const kUSPrivacyString = @"TODO: Obtain US_PRIVACY_STRING from your CMP";
 
 - (void)setIABUSPrivacyString {
     // [START set_iab_us_privacy_string]
