@@ -28,6 +28,9 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 }
 
 - (void)setUp {
+  [super setUp];
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   _adapter = [[GADMediationAdapterMaio alloc] init];
   _requestMock = OCMClassMock([MaioRequest class]);
   OCMStub([_requestMock alloc]).andReturn(_requestMock);
@@ -35,8 +38,11 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 }
 
 - (void)tearDown {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
   OCMVerifyAll(_requestMock);
   OCMVerifyAll(_rewardedMock);
+  [super tearDown];
 }
 
 - (AUTKMediationRewardedAdEventDelegate *)loadAd {
@@ -92,8 +98,49 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
   AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
 }
 
-- (void)testLoadAd {
+- (void)loadRewardedAdFailureForChildUser {
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMMaioAdapterZoneIdKey : @"zoneID"};
+  AUTKMediationRewardedAdConfiguration *config =
+      [[AUTKMediationRewardedAdConfiguration alloc] init];
+  config.credentials = credentials;
+  config.isTestRequest = YES;
+
+  NSString *errorDescription = @"The request had age-restricted treatment, but maio SDK "
+                               @"cannot receive age-restricted signals.";
+  NSDictionary *errorUserInfo = @{
+    NSLocalizedDescriptionKey : errorDescription,
+    NSLocalizedFailureReasonErrorKey : errorDescription
+  };
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMMaioErrorDomain
+                                                      code:GADMAdapterMaioErrorChildUser
+                                                  userInfo:errorUserInfo];
+
+  AUTKWaitAndAssertLoadRewardedAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadRewardedAdSucceeds {
   [self loadAd];
+}
+
+- (void)testLoadRewardedAdSucceedsWhenTagForChildDirectedTreatmentIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAd];
+}
+
+- (void)testLoadRewardedAdSucceedsWhenTagForUnderAgeOfConsentIsFalse {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  [self loadAd];
+}
+
+- (void)testLoadRewardedAdFailsWhenTagForChildDirectedTreatmentIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
+  [self loadRewardedAdFailureForChildUser];
+}
+
+- (void)testLoadRewardedAdFailsWhenTagForUnderAgeOfConsentIsTrue {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  [self loadRewardedAdFailureForChildUser];
 }
 
 - (void)testMaioAdLoadFailure {
@@ -173,4 +220,3 @@ static const NSInteger kMaioUnknownFailureErroCode = 99999;
 }
 
 @end
-
