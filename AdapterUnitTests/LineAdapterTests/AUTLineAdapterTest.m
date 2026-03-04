@@ -36,7 +36,8 @@
   XCTAssertGreaterThanOrEqual(version.minorVersion, 0);
   XCTAssertLessThanOrEqual(version.minorVersion, 99);
   XCTAssertGreaterThanOrEqual(version.patchVersion, 0);
-  XCTAssertLessThanOrEqual(version.patchVersion, 99);
+  // Adapter's version string has 4 parts. So patch version can be up to 9999.
+  XCTAssertLessThanOrEqual(version.patchVersion, 9999);
 }
 
 - (void)testAdSDKVersion {
