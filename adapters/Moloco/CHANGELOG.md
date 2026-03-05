@@ -1,6 +1,11 @@
 ## Moloco iOS Mediation Adapter Changelog
 
-#### Version 4.4.0.0 (In progress)
+#### [Version 4.4.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.4.0.0.zip)
+- Verified compatibility with Moloco SDK version 4.4.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.1.0.
+- Moloco SDK version 4.4.0.
 
 #### [Version 4.3.0.2](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.3.0.2.zip)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
