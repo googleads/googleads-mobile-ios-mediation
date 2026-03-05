@@ -1,6 +1,11 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Version 2.2.1.0 (In progress)
+#### [Version 2.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.1.0.zip)
+- Verified compatibility with maio SDK version 2.2.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.1.0.
+- Maio SDK version 2.2.1.
 
 #### [Version 2.2.0.3](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.0.3.zip)
 - Added support for waterfall banner ads.
