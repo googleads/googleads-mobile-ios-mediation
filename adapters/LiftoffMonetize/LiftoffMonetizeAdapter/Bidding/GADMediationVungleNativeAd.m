@@ -96,6 +96,7 @@
 - (void)loadAd {
   _nativeAd = [[VungleNative alloc] initWithPlacementId:self.desiredPlacement];
   _nativeAd.delegate = self;
+  _nativeAd.adapterAdFormat = NSStringFromClass(self.class);
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
   [_nativeAd setWithExtras:extras];

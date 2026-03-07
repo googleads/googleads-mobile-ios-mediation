@@ -126,6 +126,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_interstitialMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_interstitialMock setAdapterAdFormat:@"GADMediationVungleInterstitial"]);
   OCMExpect([_interstitialMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate interstitialAdDidLoad:self->_interstitialMock];
   });
