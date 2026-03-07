@@ -140,6 +140,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_appOpenMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_appOpenMock setAdapterAdFormat:@"GADMediationVungleAppOpenAd"]);
   OCMExpect([_appOpenMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate interstitialAdDidLoad:self->_appOpenMock];
   });
@@ -195,6 +196,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_appOpenMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_appOpenMock setAdapterAdFormat:@"GADMediationVungleAppOpenAd"]);
   OCMExpect([_appOpenMock load:nil]).andDo(^(NSInvocation *invocation) {
     [loadDelegate interstitialAdDidLoad:self->_appOpenMock];
   });

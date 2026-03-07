@@ -33,6 +33,9 @@ void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject 
 
 + (nonnull NSString *)findAppID:(nullable NSDictionary *)serverParameters;
 + (nonnull NSString *)findPlacement:(nullable NSDictionary *)serverParameters;
++ (void)logCustomSizeForBannerPlacement:(NSString *_Nonnull)placementId
+                                 adSize:(GADAdSize)adSize
+                           bannerViewAd:(VungleBannerView *_Nullable)adViewAd;
 
 /// Updates the Vungle COPPA status if needed.
 + (void)updateVungleCOPPAStatusIfNeeded;
