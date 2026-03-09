@@ -1,5 +1,7 @@
 ## Unity Ads iOS Mediation Adapter Changelog
 
+#### Version 4.17.0.0 (In progress)
+
 #### [Version 4.16.6.1](https://dl.google.com/googleadmobadssdk/mediation/ios/unity/UnityAdapter-4.16.6.1.zip)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
 - Fixed an issue in version 4.16.6.0 where the podspec incorrectly pointed to the 4.16.5.0 binary.
