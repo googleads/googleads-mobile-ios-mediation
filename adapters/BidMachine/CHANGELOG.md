@@ -1,5 +1,8 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
+#### Next version
+- Refactored BidMachine banner ad loading and native ad image handling.
+
 #### [Version 3.5.1.2](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.5.1.2.zip)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
 

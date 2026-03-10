@@ -16,7 +16,7 @@ import BidMachine
 import Foundation
 import GoogleMobileAds
 
-final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
+final class BannerAdLoader {
 
   /// The banner ad configuration.
   private let adConfiguration: MediationBannerAdConfiguration
@@ -33,9 +33,8 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 
   private let client: BidMachineClient
 
-  var view: UIView
+  private var bannerAd: MediationBannerAd?
 
-  @MainActor
   init(
     adConfiguration: MediationBannerAdConfiguration,
     loadCompletionHandler: @escaping GADMediationBannerLoadCompletionHandler
@@ -44,9 +43,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
     self.adLoadCompletionHandler = loadCompletionHandler
     self.adLoadCompletionQueue = DispatchQueue(
       label: "com.google.mediationBannerAdLoadCompletionQueue")
-    self.view = UIView()
     self.client = BidMachineClientFactory.createClient()
-    super.init()
   }
 
   func loadAd() {
@@ -116,7 +113,7 @@ final class BannerAdLoader: NSObject, MediationBannerAd, @unchecked Sendable {
 extension BannerAdLoader: BidMachineAdDelegate {
 
   func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    guard let bannerAd = ad as? UIView else {
+    guard let bidMachineBannerAd = ad as? UIView else {
       // Technically, should never get here.
       handleLoadedAd(
         nil,
@@ -126,8 +123,9 @@ extension BannerAdLoader: BidMachineAdDelegate {
       return
     }
 
-    view = bannerAd
-    handleLoadedAd(self, error: nil)
+    let bannerAd = BannerAd(bannerView: bidMachineBannerAd)
+    self.bannerAd = bannerAd
+    handleLoadedAd(bannerAd, error: nil)
   }
 
   func didFailLoadAd(_ ad: any BidMachineAdProtocol, _ error: any Error) {
@@ -157,5 +155,15 @@ extension BannerAdLoader: BidMachineAdDelegate {
   func didDismissScreen(_ ad: any BidMachineAdProtocol) {
     eventDelegate?.willDismissFullScreenView()
     eventDelegate?.didDismissFullScreenView()
+  }
+}
+
+// MARK: - MediationBannerAd
+
+final class BannerAd: NSObject, MediationBannerAd {
+  var view: UIView
+
+  init(bannerView: UIView) {
+    view = bannerView
   }
 }

@@ -210,22 +210,4 @@ final class BidMachineWaterfallNativeAdTests {
     }
   }
 
-  @Test("Waterfall native ad load fails for failing to download image assets")
-  func load_fails_whenImageAssetDownloadFails() async {
-    nativeAdProxy.shouldDownloadSucceed = false
-
-    let adConfig = AUTKMediationNativeAdConfiguration()
-    let adapter = BidMachineAdapter()
-
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
-  }
-
 }

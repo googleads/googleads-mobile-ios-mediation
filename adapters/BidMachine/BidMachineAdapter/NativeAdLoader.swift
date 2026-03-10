@@ -110,20 +110,9 @@ final class NativeAdLoader: NSObject {
 extension NativeAdLoader: BidMachineAdDelegate {
 
   func didLoadAd(_ ad: any BidMachineAdProtocol) {
-    // BidMachine native ad's image assets come in string URLs. The adapter
-    // needs to download them before notifying Google Mobile Ads SDK.
     do {
       nativeAdProxy = try NativeAdProxyFactory.createProxy(with: ad)
-      nativeAdProxy?.downLoadImageAssets(completionHandler: { [weak self] error in
-        guard let self else { return }
-
-        guard error == nil else {
-          self.handleLoadedAd(nil, error: error!.toNSError())
-          return
-        }
-
-        self.handleLoadedAd(self.nativeAdProxy, error: nil)
-      })
+      handleLoadedAd(nativeAdProxy, error: nil)
     } catch {
       handleLoadedAd(nil, error: error.toNSError())
     }

@@ -24,16 +24,16 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
   ]
 
   /// The banner ad loader.
-  private var bannerAdLoader: BannerAdLoader?
+  var bannerAdLoader: BannerAdLoader?
 
   /// The interstitial ad loader.
-  private var interstitialAdLoader: InterstitialAdLoader?
+  var interstitialAdLoader: InterstitialAdLoader?
 
   /// The rewarded ad loader.
-  private var rewardedAdLoader: RewardedAdLoader?
+  var rewardedAdLoader: RewardedAdLoader?
 
   /// The native ad loader.
-  private var nativeAdLoader: NativeAdLoader?
+  var nativeAdLoader: NativeAdLoader?
 
   @objc static func setUp(
     with configuration: MediationServerConfiguration,
@@ -116,14 +116,9 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
-    nonisolated(unsafe) let adConfiguration = adConfiguration
-    nonisolated(unsafe) let completionHandler = completionHandler
-    nonisolated(unsafe) let nonisolatedSelf = self
-    DispatchQueue.main.async {
-      nonisolatedSelf.bannerAdLoader = BannerAdLoader(
-        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-      nonisolatedSelf.bannerAdLoader?.loadAd()
-    }
+    bannerAdLoader = BannerAdLoader(
+      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+    bannerAdLoader?.loadAd()
   }
 
   @objc

@@ -18,6 +18,7 @@ import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter RTB banner")
 final class BidMachineRTBBannerAdTests {
 
@@ -104,28 +105,20 @@ final class BidMachineRTBBannerAdTests {
   }
 
   @Test("Impression count")
-  func impreesion_count() async {
+  func impression_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didTrackImpression?(
-      OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
+    let delegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
 
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+
+    adDelegate?.didTrackImpression?(mockBanner)
+
+    #expect(delegate.reportImpressionInvokeCount == 1)
   }
 
   @Test("Click count")
@@ -134,27 +127,20 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didUserInteraction?(
-      OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
+    let delegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
 
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+
+    adDelegate?.didUserInteraction?(mockBanner)
+
+    #expect(delegate.reportClickInvokeCount == 1)
   }
 
 }
 
+@MainActor
 @Suite("BidMachine adapter waterll banner")
 final class BidMachineWaterfallBannerAdTests {
 
@@ -271,27 +257,18 @@ final class BidMachineWaterfallBannerAdTests {
   }
 
   @Test("Impression count")
-  func impreesion_count() async {
+  func impression_count() async {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didTrackImpression?(
-      OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
+    let delegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
 
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+    adDelegate?.didTrackImpression?(mockBanner)
+
+    #expect(delegate.reportImpressionInvokeCount == 1)
   }
 
   @Test("Click count")
@@ -299,23 +276,15 @@ final class BidMachineWaterfallBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didUserInteraction?(
-      OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner)
+    let delegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
 
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+
+    adDelegate?.didUserInteraction?(mockBanner)
+
+    #expect(delegate.reportClickInvokeCount == 1)
   }
 
 }

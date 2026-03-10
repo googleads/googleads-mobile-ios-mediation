@@ -45,13 +45,9 @@ final class NativeAdProxyFactory {
 /// It also handles downloading images from string URLs because BidMachineNative does not provide
 /// images as UIImage.
 protocol NativeAdProxy: NSObject, MediationNativeAd, BidMachineNativeAdRendering {
-
-  /// Downloads all the image assets needed for the native ad this proxy represents.
-  func downLoadImageAssets(completionHandler: @escaping (BidMachineAdapterError?) -> Void)
-
 }
 
-final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
+final class NativeAdProxyImpl: NSObject, NativeAdProxy {
 
   private let nativeAd: BidMachineNative
   private let imageLoadDispatchGroup: DispatchGroup
@@ -75,8 +71,23 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
   var headline: String? { nativeAd.title }
   var body: String? { nativeAd.description }
   var callToAction: String? { nativeAd.cta }
-  private(set) var icon: NativeAdImage?
-  private(set) var images: [NativeAdImage]?
+  var icon: NativeAdImage? {
+    guard let urlString = nativeAd.icon,
+      let url = URL(string: urlString)
+    else {
+      return nil
+    }
+    return NativeAdImage(url: url, scale: 1.0)
+  }
+
+  var images: [NativeAdImage]? {
+    guard let urlString = nativeAd.main,
+      let url = URL(string: urlString)
+    else {
+      return nil
+    }
+    return [NativeAdImage(url: url, scale: 1.0)]
+  }
 
   var starRating: NSDecimalNumber?  // Not supported by BidMachine
   var advertiser: String?  // Not supported by BidMachine
@@ -172,96 +183,6 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
     }
     imageLoadDispatchGroup = DispatchGroup()
     self.nativeAd = nativeAd
-  }
-
-  func downLoadImageAssets(completionHandler: @escaping (BidMachineAdapterError?) -> Void) {
-    // Load an icon image.
-    nonisolated(unsafe) var nativeAdIcon: NativeAdImage?
-    nonisolated(unsafe) var nativeAdIconDownloadError: BidMachineAdapterError?
-    imageLoadDispatchGroup.enter()
-    downloadImage(from: nativeAd.icon) { [weak self] image, error in
-      nativeAdIconDownloadError = error
-      if let image {
-        nativeAdIcon = NativeAdImage(image: image)
-      }
-      self?.imageLoadDispatchGroup.leave()
-    }
-
-    // Load a main image.
-    nonisolated(unsafe) var nativeAdImage: NativeAdImage?
-    nonisolated(unsafe) var nativeAdImageDownloadError: BidMachineAdapterError?
-    imageLoadDispatchGroup.enter()
-    downloadImage(from: nativeAd.main) { [weak self] image, error in
-      nativeAdImageDownloadError = error
-      if let image {
-        nativeAdImage = NativeAdImage(image: image)
-      }
-      self?.imageLoadDispatchGroup.leave()
-    }
-
-    // Upon completing the image loads, calls the completion handler.
-    imageLoadDispatchGroup.notify(queue: .main) { [weak self] in
-      guard let self else { return }
-
-      guard nativeAdIconDownloadError == nil else {
-        completionHandler(nativeAdIconDownloadError!)
-        return
-      }
-
-      guard nativeAdImageDownloadError == nil else {
-        completionHandler(nativeAdImageDownloadError!)
-        return
-      }
-
-      // Set the downloaded image assets.
-      self.icon = nativeAdIcon
-      if let nativeAdImage {
-        self.images = [nativeAdImage]
-      }
-      completionHandler(nil)
-    }
-
-  }
-
-  private func downloadImage(
-    from urlString: String?,
-    completionHandler: @Sendable @escaping (UIImage?, BidMachineAdapterError?) -> Void
-  ) {
-    guard let urlString else {
-      // Not failure. An image does not exists for the loaded native ad.
-      completionHandler(nil, nil)
-      return
-    }
-
-    guard let url = URL(string: urlString) else {
-      completionHandler(
-        nil,
-        BidMachineAdapterError(
-          errorCode: .failedToLoadNativeAdImageSource,
-          description: "Invalid image URL. URL: \(urlString)"))
-      return
-    }
-
-    URLSession.shared.dataTask(with: url) { data, _, error in
-      guard let data, error == nil else {
-        completionHandler(
-          nil,
-          BidMachineAdapterError(
-            errorCode: .failedToLoadNativeAdImageSource,
-            description: "Failed to load a native ad image source."))
-        return
-      }
-
-      guard let image = UIImage(data: data) else {
-        completionHandler(
-          nil,
-          BidMachineAdapterError(
-            errorCode: .failedToLoadNativeAdImageSource,
-            description: "Downloaded asset is not an image."))
-        return
-      }
-      completionHandler(image, nil)
-    }.resume()
   }
 
 }
