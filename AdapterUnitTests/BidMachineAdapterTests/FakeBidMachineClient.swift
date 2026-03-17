@@ -321,9 +321,8 @@ final class MockView: UIView, BidMachineAdProtocol {
   var auctionRequest: BidMachine.BidMachineAuctionRequest {
     return OCMockObject.mock(for: BidMachineAuctionRequest.self) as! BidMachineAuctionRequest
   }
-  var requestInfo: any BidMachine.BidMachineRequestInfoProtocol {
-    return OCMockObject.mock(for: BidMachineRequestInfoProtocol.self)
-      as! BidMachineRequestInfoProtocol
+  var requestInfo: BidMachine.BidMachineAuctionRequest {
+    return OCMockObject.mock(for: BidMachineAuctionRequest.self) as! BidMachineAuctionRequest
   }
   var controller: UIViewController?
   var delegate: (any BidMachine.BidMachineAdDelegate)?
