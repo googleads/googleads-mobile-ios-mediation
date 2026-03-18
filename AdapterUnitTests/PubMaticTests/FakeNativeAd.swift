@@ -20,6 +20,7 @@ import UIKit
 final class FakeNativeAd: NSObject, POBNativeAd {
 
   weak var delegate: POBNativeAdDelegate!
+  weak var videoDelegate: POBNativeAdVideoDelegate!
   var registeredInteractionView: UIView?
   var registeredClickableViews: [UIView]?
 
@@ -112,6 +113,18 @@ final class FakeNativeAd: NSObject, POBNativeAd {
   func registerView(forInteractions adView: UIView, clickableViews: [UIView]) {
     registeredInteractionView = adView
     registeredClickableViews = clickableViews
+  }
+
+  func setVideoDelegate(_ delegate: any POBNativeAdVideoDelegate) {
+    self.videoDelegate = delegate
+  }
+
+  func mediaView() -> UIView {
+    return UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+  }
+
+  func mediaAspectRatio() -> CGFloat {
+    return 0.0
   }
 
 }

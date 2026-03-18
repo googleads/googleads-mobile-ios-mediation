@@ -221,18 +221,18 @@ final class OpenWrapSDKClientImpl: NSObject, OpenWrapSDKClient {
     // Defined based on https://support.google.com/admanager/answer/7031536?hl=en#:~:text=The%20secondary%20body%20text%20(for,%E2%80%A0.
     // the text length and the image dimensions were selected arbitraliry. Adjust them if needed.
     nativeAdLoader?.assetList = [
-      POBNativeRequestTitleAsset(id: Int.random(in: 0...Int.max), required: true, length: 100),
-      POBNativeRequestDataAsset(id: Int.random(in: 0...Int.max), required: true, type: .ctaText),
+      POBNativeRequestTitleAsset(length: 100, required: true),
+      POBNativeRequestDataAsset(type: .ctaText, required: true),
       POBNativeRequestImageAsset(
-        id: Int.random(in: 0...Int.max), required: false, type: .icon, minimumWidth: 30,
+        type: .icon, required: false, minimumWidth: 30,
         minimumHeight: 30),
       POBNativeRequestImageAsset(
-        id: Int.random(in: 0...Int.max), required: false, type: .main, minimumWidth: 100,
+        type: .main, required: false, minimumWidth: 100,
         minimumHeight: 100),
       POBNativeRequestDataAsset(
-        id: Int.random(in: 0...Int.max), required: false, type: .description),
-      POBNativeRequestDataAsset(id: Int.random(in: 0...Int.max), required: false, type: .price),
-      POBNativeRequestDataAsset(id: Int.random(in: 0...Int.max), required: false, type: .rating),
+        type: .description, required: false),
+      POBNativeRequestDataAsset(type: .price, required: false),
+      POBNativeRequestDataAsset(type: .rating, required: false),
     ]
 
     nativeAdLoader?.request.testModeEnabled = testMode
