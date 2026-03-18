@@ -21,13 +21,16 @@
 #import "GADMAdapterAppLovinUtils.h"
 #import "GADMRTBAdapterAppLovinInterstitialRenderer.h"
 #import "GADMWaterfallAppLovinAppOpenRenderer.h"
+#import "GADMWaterfallAppLovinInterstitialRenderer.h"
 
 @implementation GADMediationAdapterAppLovin {
   /// AppLovin app open ad wrapper.
   GADMWaterfallAppLovinAppOpenRenderer *_waterfallAppOpenRenderer;
 
   /// AppLovin interstitial ad wrapper.
-  GADMRTBAdapterAppLovinInterstitialRenderer *_interstitialRenderer;
+  GADMRTBAdapterAppLovinInterstitialRenderer *_rtbInterstitialRenderer;
+
+  GADMWaterfallAppLovinInterstitialRenderer *_waterfallInterstitialRenderer;
 
   /// AppLovin rewarded ad wrapper.
   GADMAdapterAppLovinRewardedRenderer *_rewardedRenderer;
@@ -198,10 +201,36 @@
     return;
   }
 
-  _interstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
-      initWithAdConfiguration:adConfiguration
-            completionHandler:completionHandler];
-  [_interstitialRenderer loadAd];
+  if (adConfiguration.bidResponse != nil) {
+    _rtbInterstitialRenderer = [[GADMRTBAdapterAppLovinInterstitialRenderer alloc]
+        initWithAdConfiguration:adConfiguration
+              completionHandler:completionHandler];
+    [_rtbInterstitialRenderer loadAd];
+  } else {
+    // In the case of waterfall, initialize Applovin SDK before loading.
+    NSString *SDKKey = [GADMAdapterAppLovinUtils
+        retrieveSDKKeyFromCredentials:adConfiguration.credentials.settings];
+    if (!SDKKey) {
+      NSError *error = GADMAdapterAppLovinErrorWithCodeAndDescription(
+          GADMAdapterAppLovinErrorMissingSDKKey, @"AppLovin SDK Key is missing.");
+      completionHandler(nil, error);
+      return;
+    }
+    __weak GADMediationAdapterAppLovin *weakSelf = self;
+    [GADMAdapterAppLovinInitializer initializeWithSDKKey:SDKKey
+                                       completionHandler:^(void) {
+                                         GADMediationAdapterAppLovin *strongSelf = weakSelf;
+                                         if (!strongSelf) {
+                                           return;
+                                         }
+
+                                         strongSelf->_waterfallInterstitialRenderer =
+                                             [[GADMWaterfallAppLovinInterstitialRenderer alloc]
+                                                 initWithAdConfiguration:adConfiguration
+                                                       completionHandler:completionHandler];
+                                         [strongSelf->_waterfallInterstitialRenderer loadAd];
+                                       }];
+  }
 }
 
 - (void)loadRewardedAdForAdConfiguration:
