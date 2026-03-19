@@ -93,15 +93,10 @@ final class Util {
       return BigoAdSize.mobile_LARGE_LEADERBOARD()
     } else if isAdSizeEqualToSize(size1: adSize, size2: AdSizeLeaderboard) {
       return BigoAdSize.leaderboard()
-    } else if adSize.size.height == 0 {
+    } else {
+      // Fall back to adaptive size if size doesn't match any standard size.
       return BigoAdSize.getAdaptiveAdSize(withWidth: adSize.size.width)
     }
-
-    throw BigoAdapterError(
-      errorCode: .unsupportedBannerSize,
-      description:
-        "Unsupported banner size. Requested banner ad size width: \(adSize.size.width) height: \(adSize.size.height)"
-    )
   }
 
 }

@@ -120,20 +120,6 @@ final class BigoBannerAdTests: XCTestCase {
     AUTKWaitAndAssertLoadBannerAdFailure(adapter, config, expectedError)
   }
 
-  func testLoadBannerAd_fails_withUnsupportedSize() {
-    let credentials = AUTKMediationCredentials()
-    credentials.settings = ["slot_id": "test"]
-    let config = AUTKMediationBannerAdConfiguration()
-    config.bidResponse = "test"
-    config.adSize = AdSizeSkyscraper
-    config.credentials = credentials
-    config.watermark = Data(repeating: 1, count: 1)
-    let expectedError = BigoAdapterError(errorCode: .unsupportedBannerSize, description: "")
-      .toNSError()
-
-    AUTKWaitAndAssertLoadBannerAdFailure(adapter, config, expectedError)
-  }
-
   func testLoadBannerAd_fails_whenBigoADSFailsToLoad() {
     fakeClient.shouldAdLoadSucceed = false
 
