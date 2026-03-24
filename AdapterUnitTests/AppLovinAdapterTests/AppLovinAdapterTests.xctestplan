@@ -9,15 +9,7 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:..\/adapters\/AppLovinAdapter\/AppLovinAdapter.xcodeproj",
-          "identifier" : "7DFABB1C1DA8682C00322E02",
-          "name" : "Adapter"
-        }
-      ]
-    }
+
   },
   "testTargets" : [
     {

@@ -13,6 +13,7 @@
 		44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */; };
 		44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7003A94A2B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003A9492B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m */; };
+		7007D79F2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */; };
 		701E23862AAD8CA800BAB0B3 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */; };
 		703877332CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703877322CF54DC2000C09EE /* FakeMolocoSdkVersionProvider.swift */; };
@@ -1497,6 +1498,7 @@
 		44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLovinAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinAdapterTests.m; sourceTree = "<group>"; };
 		7003A9492B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTLiftoffMonetizeAppOpenAdTests.m; sourceTree = "<group>"; };
+		7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinWaterfallInterstitialAdTests.m; sourceTree = "<group>"; };
 		701E23692AAD8ADD00BAB0B3 /* PangleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PangleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E23742AAD8C8300BAB0B3 /* PangleAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PangleAdapter.xcodeproj; path = ../adapters/PangleAdapter/PangleAdapter.xcodeproj; sourceTree = "<group>"; };
 		701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTPangleAdapterTests.m; sourceTree = "<group>"; };
@@ -2199,6 +2201,7 @@
 				706F990A2EBCEB910044229E /* AUTAppLovinAppOpenAdTests.m */,
 				CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */,
 				CD73B2BA2F69E62A00E86C91 /* placeholder.swift */,
+				7007D79E2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m */,
 			);
 			path = AppLovinAdapterTests;
 			sourceTree = "<group>";
@@ -4887,6 +4890,7 @@
 			files = (
 				ADF3B9B92AF3015E00B665AB /* AUTAppLovinRewardedAdTests.m in Sources */,
 				CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */,
+				7007D79F2F6B5C4000712CFD /* AUTAppLovinWaterfallInterstitialAdTests.m in Sources */,
 				AD91F07A2B605EA90095A061 /* AUTAppLovinUtilsTests.m in Sources */,
 				ADF3B9B72AF2FE1E00B665AB /* AUTAppLovinInterstitialAdTests.m in Sources */,
 				44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */,
@@ -5842,6 +5846,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -5913,6 +5918,7 @@
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Bidding\"",
 					"\"$(SRCROOT)/../adapters/AppLovinAdapter/Public/Headers\"",
+					"\"$(SRCROOT)/../adapters/AppLovinAdapter/AppLovinAdapter/Waterfall\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
