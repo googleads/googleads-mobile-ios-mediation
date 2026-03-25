@@ -274,6 +274,7 @@
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
+		CD92208F2F71EF4600F4655A /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD92203C2F71EF3D00F4655A /* placeholder.swift */; };
 		CD949C5A2F3BF29B00B7CA8F /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1D4DB72F3BE5DB009A7681 /* libAdapterWithoutValidationScript.a */; };
 		E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
@@ -1752,6 +1753,8 @@
 		CD1D4D9B2F3BE224009A7681 /* MetaAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1D4DA82F3BE5DB009A7681 /* MetaAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetaAdapter.xcodeproj; path = ../adapters/MetaAdapter/MetaAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		CD73B2BA2F69E62A00E86C91 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD92203C2F71EF3D00F4655A /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD9220902F71EF4800F4655A /* PangleAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PangleAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovinAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioBannerAdTests.m; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
@@ -2165,6 +2168,7 @@
 		701E236A2AAD8ADD00BAB0B3 /* PangleAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD92203C2F71EF3D00F4655A /* placeholder.swift */,
 				70B709F12AB27C2300348FE7 /* PangleAdapterTests.xctestplan */,
 				701E23882AAE109400BAB0B3 /* AUTPangleAdapterTests.m */,
 				AD0D71A72AF80CB6002C0B60 /* AUTPangleBannerAdTests.m */,
@@ -2172,6 +2176,7 @@
 				AD0D71C52AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m */,
 				AD0D71C72AF80D81002C0B60 /* AUTPangleRewardedAdTests.m */,
 				AD0D71C92AF80DA6002C0B60 /* AUTPangleNativeAdTests.m */,
+				CD9220902F71EF4800F4655A /* PangleAdapterTests-Bridging-Header.h */,
 			);
 			path = PangleAdapterTests;
 			sourceTree = "<group>";
@@ -3759,6 +3764,7 @@
 					};
 					701E23682AAD8ADD00BAB0B3 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 2620;
 					};
 					7072CF602C41F9A1002BF6AE = {
 						CreatedOnToolsVersion = 15.4;
@@ -4858,6 +4864,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0D71A82AF80CB6002C0B60 /* AUTPangleBannerAdTests.m in Sources */,
+				CD92208F2F71EF4600F4655A /* placeholder.swift in Sources */,
 				AD0D71CA2AF80DA6002C0B60 /* AUTPangleNativeAdTests.m in Sources */,
 				701E23892AAE109400BAB0B3 /* AUTPangleAdapterTests.m in Sources */,
 				AD0D71C62AF80D5E002C0B60 /* AUTPangleInterstitialAdTests.m in Sources */,
@@ -5978,6 +5985,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "PangleAdapterTests/PangleAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6062,6 +6072,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "PangleAdapterTests/PangleAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
