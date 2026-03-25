@@ -98,23 +98,8 @@ final class VerveAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    do throws(VerveAdapterError) {
-      let client = HybidClientFactory.createClient()
-      // The ad size is GADAdSizeInvalid for non-banner requests. If banner,
-      // then check whether the request size is supported by HyBid SDK.
-      if !isAdSizeEqualToSize(size1: params.adSize, size2: AdSizeInvalid)
-        && !client.isValidBannerSize(params.adSize.size)
-      {
-        throw VerveAdapterError(
-          errorCode: .unsupportedBannerSize,
-          description:
-            "Unsupported banner size. Width: \(params.adSize.size.width) Height: \(params.adSize.size.height)"
-        )
-      }
-      completionHandler(client.collectSignals(), nil)
-    } catch {
-      completionHandler(nil, error.toNSError())
-    }
+    let client = HybidClientFactory.createClient()
+    completionHandler(client.collectSignals(), nil)
   }
 
   @objc

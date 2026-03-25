@@ -29,8 +29,7 @@ public final class VerveAdapterError: Error {
     /// Invalid ad configuration for loading an ad.
     case invalidAdConfiguration = 104
 
-    /// Unsupported banner size.
-    case unsupportedBannerSize = 105
+    // Older versions of the adapter logged error code 105 for unsupportedBannerSize. Please don't use 105 for a new error code.
 
     /// The full screen is not ready for presentation.
     case notReadyForPresentation = 106

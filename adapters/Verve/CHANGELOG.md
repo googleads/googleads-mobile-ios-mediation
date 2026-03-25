@@ -1,5 +1,10 @@
 ## Verve iOS Mediation Adapter Changelog
 
+#### Next version
+
+- Removed banner size check from the adapter to resolve signal collection
+  failures and ad load failures.
+
 #### [Version 3.7.1.3](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.7.1.3.zip)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
 

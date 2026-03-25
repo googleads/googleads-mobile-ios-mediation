@@ -264,18 +264,4 @@ final class VerveAdapterTest: XCTestCase {
     wait(for: [expectation])
   }
 
-  func testCollectionSignalsForBanner_fail_whenAdSizeIsNotSupporteByHyBid() {
-    let adapter = VerveAdapter()
-    let expectation = expectation(description: "collect signals")
-    let params = AUTKRTBRequestParameters()
-    params.adSize = AdSize(size: CGSize(width: 123, height: 123), flags: 1)
-
-    adapter.collectSignals(for: params) { signals, error in
-      XCTAssertNil(signals)
-      XCTAssertNotNil(error)
-      expectation.fulfill()
-    }
-    wait(for: [expectation])
-  }
-
 }

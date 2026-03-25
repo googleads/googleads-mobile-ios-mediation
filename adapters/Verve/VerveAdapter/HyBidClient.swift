@@ -148,10 +148,8 @@ private class HybidClientImpl: NSObject, HybidClient {
     case (300, 600): return .size_300x600
     case (320, 100): return .size_320x100
     case (480, 320): return .size_480x320
-    default:
-      throw VerveAdapterError(
-        errorCode: .unsupportedBannerSize,
-        description: "Unsupported banner size. Width: \(width) Height: \(height)")
+    // Fall back to regular banner if the requested size doesn't map to any of Verve's predefined banner sizes.
+    default: return .size_320x50
     }
   }
 
