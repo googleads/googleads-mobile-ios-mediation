@@ -1,4 +1,4 @@
-// Copyright 2016 Google Inc.
+// Copyright 2026 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
-/// Represents the result of a consent check for advertising purposes.
-typedef NS_ENUM(NSInteger, GADMAdapterChartboostConsentResult) {
-  /// The consent status could not be determined, or consent does not apply.
-  GADMAdapterChartboostConsentResultUnknown,
-  /// The user has explicitly consented.
-  GADMAdapterChartboostConsentResultTrue,
-  /// The user has explicitly declined consent.
-  GADMAdapterChartboostConsentResultFalse
-};
+// Use this file to import your target's public headers that you would like to
+// expose to Swift.
