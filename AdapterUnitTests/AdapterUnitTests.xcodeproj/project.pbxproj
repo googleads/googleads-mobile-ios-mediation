@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0093D9702E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -270,7 +271,7 @@
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
-		B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
@@ -1491,6 +1492,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTUnityAdapterUtilsTest.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -1764,7 +1766,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1774,10 +1776,51 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InMobiAdapterTests; sourceTree = "<group>"; };
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
-		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTests; sourceTree = "<group>"; };
-		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTeststemp; sourceTree = "<group>"; };
+		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = InMobiAdapterTests;
+			sourceTree = "<group>";
+		};
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = UnitTestHostApp;
+			sourceTree = "<group>";
+		};
+		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTests;
+			sourceTree = "<group>";
+		};
+		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTeststemp;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1844,9 +1887,9 @@
 			files = (
 				AD6E3B1D2EA16C2300818296 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2536,6 +2579,7 @@
 			children = (
 				AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */,
 				AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */,
+				0093D96F2E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m */,
 				AD45EDE92A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m */,
 				AD45EDF52A7AB579001B29D8 /* AUTUnityTestCase.h */,
 				AD45EDFC2A7AB66A001B29D8 /* AUTUnityTestCase.m */,
@@ -5104,6 +5148,7 @@
 				AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */,
 				AD45EECA2A7D7679001B29D8 /* AUTUnityRewardedAdTests.m in Sources */,
 				AD45EDFD2A7AB66A001B29D8 /* AUTUnityTestCase.m in Sources */,
+				0093D9702E8DE7CC00F40357 /* AUTUnityAdapterUtilsTest.m in Sources */,
 				AD45EDEA2A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
