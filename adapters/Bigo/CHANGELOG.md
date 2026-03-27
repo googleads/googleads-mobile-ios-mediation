@@ -1,8 +1,11 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
-#### Version 5.1.0.1 (In progress)
+#### [Version 5.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.0.0.zip)
+- Updated the adapter to prevent ad request failures when a banner ad is loaded with an unsupported ad size.
 
-- Updated the adapter to not fail banner ad load with unsupported size error.
+Built and tested with:
+- Google Mobile Ads SDK version 13.1.0.
+- BIGO Ads SDK version 5.1.0.
 
 #### [Version 5.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.0.0.zip)
 - Verified compatibility with BIGO Ads SDK version 5.1.0.
