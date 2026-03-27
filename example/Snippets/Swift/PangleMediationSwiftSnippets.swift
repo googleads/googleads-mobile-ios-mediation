@@ -24,12 +24,6 @@ import PangleAdapter
  */
 private class PangleMediationSwiftSnippets {
 
-  private func setGDPRConsent() {
-    // [START set_gdpr_consent]
-    GADMediationAdapterPangle.setGDPRConsent(PAGGDPRConsentType.consent.rawValue)
-    // [END set_gdpr_consent]
-  }
-
   private func setPAConsent() {
     // [START set_pa_consent]
     GADMediationAdapterPangle.setPAConsent(PAGPAConsentType.consent.rawValue)

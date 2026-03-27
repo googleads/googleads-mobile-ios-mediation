@@ -27,12 +27,6 @@
  */
 @implementation PangleMediationObjectiveCSnippets
 
-- (void)setGDPRConsent {
-  // [START set_gdpr_consent]
-  [GADMediationAdapterPangle setGDPRConsent:PAGGDPRConsentTypeConsent];
-  // [END set_gdpr_consent]
-}
-
 - (void)setPAConsent {
   // [START set_pa_consent]
   [GADMediationAdapterPangle setPAConsent:PAGPAConsentTypeConsent];
