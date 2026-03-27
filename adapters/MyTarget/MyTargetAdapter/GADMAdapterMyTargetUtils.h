@@ -68,6 +68,20 @@ GADNativeAdImage *_Nullable GADMAdapterMyTargetNativeAdImageWithImageData(
 MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
     GADAdSize gadAdSize, NSError *_Nullable __autoreleasing *_Nullable error);
 
+/// Checks whether the user provided consent to a Google Ad Tech Provider (ATP) in Google’s
+/// Additional Consent technical specification. For more details, see [Google’s Additional Consent
+/// technical specification](https://support.google.com/admob/answer/9681920).
+///
+/// Returns `GADMAdapterMyTargetConsentResultUnknown` if GDPR does not apply or if positive or
+/// negative consent was not explicitly detected.
+///
+/// Parameters
+/// - `vendorId`: a Google Ad Tech Provider (ATP) ID from [Additional Consent
+/// Providers](https://storage.googleapis.com/tcfac/additional-consent-providers.csv).
+///
+/// Returns: A `GADMAdapterMyTargetConsentResult` indicating consent for the given ATP.
+GADMAdapterMyTargetConsentResult GADMAdapterMyTargetHasACConsent(NSInteger vendorId);
+
 /// Sets user consent in myTarget SDK if Google Mobile Ads SDK has tagForChildDirectedTreatment or
 /// tagForUnderAgeOfConsent set in Google Mobile Ads SDK.
 void GADMAdapterMyTargetSetUserConsentIfNeeded(void);

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000AD1062F75DCE600D499F9 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000AD1052F75DCE600D499F9 /* Placeholder.swift */; };
+		000AD1072F75DD0800D499F9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
+		00DB8E272F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */; };
 		15AA9EC82C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */; };
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
@@ -270,7 +273,7 @@
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
-		B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
@@ -1491,6 +1494,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		000AD0AE2F75DC0E00D499F9 /* MyTargetAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTargetAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		000AD1052F75DCE600D499F9 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
+		00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMyTargetUtilsTests.m; sourceTree = "<group>"; };
 		15AA9EC72C87070E000F577E /* AUTIronSourceRtbRewardedAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbRewardedAdTests.m; sourceTree = "<group>"; };
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
@@ -1764,7 +1770,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1774,10 +1780,51 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InMobiAdapterTests; sourceTree = "<group>"; };
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
-		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTests; sourceTree = "<group>"; };
-		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTeststemp; sourceTree = "<group>"; };
+		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = InMobiAdapterTests;
+			sourceTree = "<group>";
+		};
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = UnitTestHostApp;
+			sourceTree = "<group>";
+		};
+		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTests;
+			sourceTree = "<group>";
+		};
+		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTeststemp;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1844,9 +1891,9 @@
 			files = (
 				AD6E3B1D2EA16C2300818296 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1872,6 +1919,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000AD1072F75DD0800D499F9 /* libc++.tbd in Frameworks */,
 				AD6E3B312EA16CD800818296 /* libAdapter.a in Frameworks */,
 				AD0D6FFE2AF71903002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -2396,6 +2444,9 @@
 				ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */,
 				AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */,
 				AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */,
+				00DB8E262F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m */,
+				000AD1052F75DCE600D499F9 /* Placeholder.swift */,
+				000AD0AE2F75DC0E00D499F9 /* MyTargetAdapterTests-Bridging-Header.h */,
 			);
 			path = MyTargetAdapterTests;
 			sourceTree = "<group>";
@@ -3792,6 +3843,7 @@
 					};
 					AD0D6FF22AF7189D002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 2620;
 					};
 					AD0D72FE2AF81711002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -4983,10 +5035,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0D70032AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m in Sources */,
+				00DB8E272F4FBC6800EBA659 /* AUTMyTargetUtilsTests.m in Sources */,
 				AD0D70012AF71950002C0B60 /* AUTMyTargetAdapterTests.m in Sources */,
 				AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */,
 				AD56E0AE2B32259400F7C166 /* AUTMyTargetBannerAdTests.m in Sources */,
 				ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */,
+				000AD1062F75DCE600D499F9 /* Placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7172,6 +7226,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyTargetAdapterTests/MyTargetAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -7238,6 +7295,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyTargetAdapterTests/MyTargetAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
