@@ -128,6 +128,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_nativeMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_nativeMock setAdapterAdFormat:@"GADMediationVungleNativeAd"]);
   OCMExpect([_nativeMock setAdOptionsPosition:expectedNativeAdPosition]);
   OCMExpect([_nativeMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate nativeAdDidLoad:self->_nativeMock];
