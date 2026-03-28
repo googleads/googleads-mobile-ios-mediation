@@ -51,3 +51,9 @@ GADAdSize GADMAdapterIMobileAdSizeFromGADAdSize(GADAdSize gadAdSize) {
   GADAdSize closestSize = GADClosestValidSizeForAdSizes(gadAdSize, potentialSizes);
   return closestSize;
 }
+
+BOOL GADMAdapterIMobileIsChildUser(void) {
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+         [requestConfiguration.tagForUnderAgeOfConsent boolValue];
+}
