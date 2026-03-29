@@ -96,6 +96,8 @@
                                        vungleAdSize:GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
                                                         _bannerSize, self.desiredPlacement)];
   _bannerAdView.delegate = self;
+  _bannerAdView.adapterAdFormat = NSStringFromClass(self.class);
+  [GADMAdapterVungleUtils logCustomSizeForBannerPlacement:self.desiredPlacement adSize:_bannerSize bannerViewAd:_bannerAdView];
   VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
   [extras setWithWatermark:[_adConfiguration.watermark base64EncodedStringWithOptions:0]];
   [_bannerAdView setWithExtras:extras];

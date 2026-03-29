@@ -90,6 +90,7 @@
 - (void)loadAd {
   _appOpenAd = [[VungleInterstitial alloc] initWithPlacementId:self.desiredPlacement];
   _appOpenAd.delegate = self;
+  _appOpenAd.adapterAdFormat = NSStringFromClass(self.class);
   if (_adConfiguration.bidResponse) {
     // If bid response is present, then it is an RTB ad.
     VungleAdsExtras *extras = [[VungleAdsExtras alloc] init];
