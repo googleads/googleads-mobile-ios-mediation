@@ -270,12 +270,13 @@
 		ADFB3AD52D9B931E0048B197 /* PubMaticInterstitialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA0289D2D9B8DB000AE181B /* PubMaticInterstitialTests.swift */; };
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
-		B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
+		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
 		CD92208F2F71EF4600F4655A /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD92203C2F71EF3D00F4655A /* placeholder.swift */; };
 		CD949C5A2F3BF29B00B7CA8F /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1D4DB72F3BE5DB009A7681 /* libAdapterWithoutValidationScript.a */; };
+		CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD221592F7B301300ED9C43 /* libc++.1.tbd */; };
 		E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */; };
 		F090AA192D6563F4003DB8CC /* FakeMolocoNativeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */; };
 		F090AA1A2D6563F4003DB8CC /* FakeMolocoNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */; };
@@ -1756,6 +1757,7 @@
 		CD92203C2F71EF3D00F4655A /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD9220902F71EF4800F4655A /* PangleAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PangleAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovinAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		CDD221592F7B301300ED9C43 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTMaioBannerAdTests.m; sourceTree = "<group>"; };
 		F090AA172D6563F4003DB8CC /* FakeMolocoNativeAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeAd.swift; sourceTree = "<group>"; };
 		F090AA182D6563F4003DB8CC /* FakeMolocoNativeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeMolocoNativeFactory.swift; sourceTree = "<group>"; };
@@ -1764,7 +1766,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -1774,10 +1776,51 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InMobiAdapterTests; sourceTree = "<group>"; };
-		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AD1705F32E0F5D2B00A64F30 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = UnitTestHostApp; sourceTree = "<group>"; };
-		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTests; sourceTree = "<group>"; };
-		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MetaAdapterTeststemp; sourceTree = "<group>"; };
+		70E24C512E9EA2CA00D07FCD /* InMobiAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = InMobiAdapterTests;
+			sourceTree = "<group>";
+		};
+		AD1705DE2E0F5D2900A64F30 /* UnitTestHostApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AD1705F32E0F5D2B00A64F30 /* Exceptions for "UnitTestHostApp" folder in "UnitTestHostApp" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = UnitTestHostApp;
+			sourceTree = "<group>";
+		};
+		CD1D4D9C2F3BE224009A7681 /* MetaAdapterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTests;
+			sourceTree = "<group>";
+		};
+		CD949C522F3BF24500B7CA8F /* MetaAdapterTeststemp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = MetaAdapterTeststemp;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1844,9 +1887,9 @@
 			files = (
 				AD6E3B1D2EA16C2300818296 /* libAdapter.a in Frameworks */,
 				AD0D6E9D2AF591B0002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
-				B891FDAA1B21EEFFBD263E69 /* (null) in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
+				B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2068,6 +2111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */,
 				AD6E3B1A2EA16BDA00818296 /* libAdapter.a in Frameworks */,
 				ADE575202E14AAE5003FF591 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -2738,6 +2782,7 @@
 		AD6FA03D2A16BF98007335D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDD221592F7B301300ED9C43 /* libc++.1.tbd */,
 				CD0083F12F68CCAB009BAEC3 /* libc++.tbd */,
 				70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */,
 				70E0D76D2C47A87300241981 /* MolocoSDK.xcframework */,
@@ -3772,6 +3817,7 @@
 					};
 					70E24C4F2E9EA2CA00D07FCD = {
 						CreatedOnToolsVersion = 16.3;
+						LastSwiftMigration = 2620;
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
 					};
 					AD01232C2ABCB0D8002BFE6D = {
@@ -6316,6 +6362,9 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "InMobiAdapterTests/InMobiAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 			};
@@ -6387,6 +6436,8 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "InMobiAdapterTests/InMobiAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestHostApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestHostApp";
 				VALIDATE_PRODUCT = YES;
@@ -10489,6 +10540,64 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"sqlite3.0\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"InMobiSDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"libc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterLatencyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -10558,6 +10667,64 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"sqlite3.0\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"InMobiSDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"WebKit\"",
+					"libc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.InMobiAdapterLatencyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
