@@ -273,6 +273,8 @@
 		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
+		CD1E36C22F7B4A74008DFBF6 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */; };
+		CD1E36C42F7B4A9B008DFBF6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
 		CD85689F2F7B443400200808 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD8568F32F7B444700200808 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8568F22F7B443F00200808 /* placeholder.swift */; };
@@ -1757,6 +1759,8 @@
 		CD0083F12F68CCAB009BAEC3 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		CD1D4D9B2F3BE224009A7681 /* MetaAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1D4DA82F3BE5DB009A7681 /* MetaAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetaAdapter.xcodeproj; path = ../adapters/MetaAdapter/MetaAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD1E36C32F7B4A76008DFBF6 /* MintegralAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MintegralAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD73B2BA2F69E62A00E86C91 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770A4D2F7B39D700345679 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTargetAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1875,6 +1879,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1E36C42F7B4A9B008DFBF6 /* libc++.tbd in Frameworks */,
 				AD6E3B292EA16C9700818296 /* libAdapter.a in Frameworks */,
 				AD0123392ABCB115002BFE6D /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -2311,6 +2316,7 @@
 		AD01232E2ABCB0D8002BFE6D /* MintegralAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */,
 				AD2750B02ABCFD320065166C /* MintegralAdapterTests.xctestplan */,
 				AD01232F2ABCB0D8002BFE6D /* AUTMintegralAdapterTests.m */,
 				AD1E88382AC65B5200FAF1B7 /* AUTMintegralRTBAppOpenAdTests.m */,
@@ -2323,6 +2329,7 @@
 				AD0D6FAF2AF70E3D002C0B60 /* AUTMintegralWaterfallInterstitialAdTests.m */,
 				AD0D6FB72AF70F22002C0B60 /* AUTMintegralWaterfallNativeAdTests.m */,
 				AD0D6FB32AF70EAD002C0B60 /* AUTMintegralWaterfallRewardedAdTests.m */,
+				CD1E36C32F7B4A76008DFBF6 /* MintegralAdapterTests-Bridging-Header.h */,
 			);
 			path = MintegralAdapterTests;
 			sourceTree = "<group>";
@@ -3836,6 +3843,7 @@
 					};
 					AD01232C2ABCB0D8002BFE6D = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 2620;
 					};
 					AD0D6E182AF56C4C002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -4974,6 +4982,7 @@
 				AD0D6FAC2AF70DD1002C0B60 /* AUTMintegralRTBBannerAdTests.m in Sources */,
 				AD0D6FB82AF70F22002C0B60 /* AUTMintegralWaterfallNativeAdTests.m in Sources */,
 				AD0D6F942AF70D80002C0B60 /* AUTMintegralWaterfallBannerAdTests.m in Sources */,
+				CD1E36C22F7B4A74008DFBF6 /* placeholder.swift in Sources */,
 				AD0D6FB42AF70EAE002C0B60 /* AUTMintegralWaterfallRewardedAdTests.m in Sources */,
 				AD0D6FAE2AF70DF9002C0B60 /* AUTMintegralRTBInterstitialAdTests.m in Sources */,
 				AD1E88392AC65B5200FAF1B7 /* AUTMintegralRTBAppOpenAdTests.m in Sources */,
@@ -6533,6 +6542,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MintegralAdapterTests/MintegralAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6601,6 +6613,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MintegralAdapterTests/MintegralAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
