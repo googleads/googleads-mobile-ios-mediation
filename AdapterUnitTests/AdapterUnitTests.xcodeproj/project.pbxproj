@@ -271,9 +271,11 @@
 		ADFB3BB82D9C6E0C0048B197 /* PubMaticRewardedAdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */; };
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
 		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
-		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
+		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
+		CD770AA02F7B39DD00345679 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD770A4D2F7B39D700345679 /* placeholder.swift */; };
+		CD770AA22F7B39F700345679 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD92208F2F71EF4600F4655A /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD92203C2F71EF3D00F4655A /* placeholder.swift */; };
 		CD949C5A2F3BF29B00B7CA8F /* libAdapterWithoutValidationScript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1D4DB72F3BE5DB009A7681 /* libAdapterWithoutValidationScript.a */; };
 		CDD2215A2F7B301300ED9C43 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD221592F7B301300ED9C43 /* libc++.1.tbd */; };
@@ -1754,6 +1756,8 @@
 		CD1D4D9B2F3BE224009A7681 /* MetaAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1D4DA82F3BE5DB009A7681 /* MetaAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetaAdapter.xcodeproj; path = ../adapters/MetaAdapter/MetaAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		CD73B2BA2F69E62A00E86C91 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD770A4D2F7B39D700345679 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTargetAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD92203C2F71EF3D00F4655A /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD9220902F71EF4800F4655A /* PangleAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PangleAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD97F91F2F69D10E008A3EB5 /* AppLovinAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppLovinAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1915,6 +1919,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD770AA22F7B39F700345679 /* libc++.tbd in Frameworks */,
 				AD6E3B312EA16CD800818296 /* libAdapter.a in Frameworks */,
 				AD0D6FFE2AF71903002C0B60 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -2434,12 +2439,14 @@
 		AD0D6FF42AF7189D002C0B60 /* MyTargetAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD770A4D2F7B39D700345679 /* placeholder.swift */,
 				AD0D709D2AF8005B002C0B60 /* MyTargetAdapterTests.xctestplan */,
 				AD0D70002AF71950002C0B60 /* AUTMyTargetAdapterTests.m */,
 				AD0D70022AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m */,
 				ADA1B1E52B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m */,
 				AD56E0AD2B32259400F7C166 /* AUTMyTargetBannerAdTests.m */,
 				AD89C37E2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m */,
+				CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */,
 			);
 			path = MyTargetAdapterTests;
 			sourceTree = "<group>";
@@ -3838,6 +3845,7 @@
 					};
 					AD0D6FF22AF7189D002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 2620;
 					};
 					AD0D72FE2AF81711002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -5031,6 +5039,7 @@
 				AD0D70032AF719A6002C0B60 /* AUTMyTargetRewardedAdTests.m in Sources */,
 				AD0D70012AF71950002C0B60 /* AUTMyTargetAdapterTests.m in Sources */,
 				AD89C37F2B339D3D002952E2 /* AUTMyTargetNativeAdTests.m in Sources */,
+				CD770AA02F7B39DD00345679 /* placeholder.swift in Sources */,
 				AD56E0AE2B32259400F7C166 /* AUTMyTargetBannerAdTests.m in Sources */,
 				ADA1B1E62B31036400CA4FC8 /* AUTMyTargetInterstitialAdTests.m in Sources */,
 			);
@@ -7216,6 +7225,80 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"MyTargetSDK\"",
+					"-framework",
+					"\"MyTrackerSDK\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"OCMock\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"XCTest\"",
+					"-weak_framework",
+					"\"AdServices\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.MyTargetAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -7223,6 +7306,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyTargetAdapterTests/MyTargetAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -7282,6 +7368,80 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreData\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreVideo\"",
+					"-framework",
+					"\"GoogleMobileAds\"",
+					"-framework",
+					"\"Google_Mobile_Ads_SDK\"",
+					"-framework",
+					"\"JavaScriptCore\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"MyTargetSDK\"",
+					"-framework",
+					"\"MyTrackerSDK\"",
+					"-framework",
+					"\"Network\"",
+					"-framework",
+					"\"OCMock\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UserMessagingPlatform\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"XCTest\"",
+					"-weak_framework",
+					"\"AdServices\"",
+					"-weak_framework",
+					"\"AdSupport\"",
+					"-weak_framework",
+					"\"JavaScriptCore\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = google.MyTargetAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -7289,6 +7449,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyTargetAdapterTests/MyTargetAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
