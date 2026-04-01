@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import AdapterUnitTestKit
+@preconcurrency import AdapterUnitTestKit
 import Testing
 
 @testable import GoogleBidMachineAdapter
 
 @Suite("BidMachine adapter information")
+@MainActor
 final class BidMachineAdapterTests {
 
   init() {
@@ -48,6 +49,7 @@ final class BidMachineAdapterTests {
 }
 
 @Suite("BidMachine adapter set up")
+@MainActor
 final class BidMachineAdapterInitTests {
 
   let client: FakeBidMachineClient
@@ -237,6 +239,7 @@ final class BidMachineAdapterInitTests {
 }
 
 @Suite("BidMachine adapter signals collection")
+@MainActor
 final class BidMachineAdapterSignalsCollectionTests {
 
   init() {

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
+@preconcurrency import BidMachine
 import Foundation
 import GoogleMobileAds
 
+@MainActor
 final class InterstitialAdLoader: NSObject {
 
   /// The interstitial ad configuration.
@@ -24,9 +25,6 @@ final class InterstitialAdLoader: NSObject {
   /// The ad event delegate which is used to report interstitial related information to the
   /// Google Mobile Ads SDK.
   private weak var eventDelegate: MediationInterstitialAdEventDelegate?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
 
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationInterstitialLoadCompletionHandler?
@@ -41,8 +39,6 @@ final class InterstitialAdLoader: NSObject {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationInterstitialAdLoadCompletionQueue")
     self.client = BidMachineClientFactory.createClient()
     super.init()
   }
@@ -96,11 +92,9 @@ final class InterstitialAdLoader: NSObject {
   }
 
   private func handleLoadedAd(_ ad: MediationInterstitialAd?, error: NSError?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
+    guard let adLoadCompletionHandler else { return }
+    eventDelegate = adLoadCompletionHandler(ad, error)
+    self.adLoadCompletionHandler = nil
   }
 
 }

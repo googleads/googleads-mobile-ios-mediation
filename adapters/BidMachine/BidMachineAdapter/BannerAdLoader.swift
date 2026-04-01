@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
+@preconcurrency import BidMachine
 import Foundation
 import GoogleMobileAds
 
+@MainActor
 final class BannerAdLoader {
 
   /// The banner ad configuration.
@@ -24,9 +25,6 @@ final class BannerAdLoader {
   /// The ad event delegate which is used to report banner related information to the Google Mobile
   /// Ads SDK.
   private weak var eventDelegate: MediationBannerAdEventDelegate?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
 
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationBannerLoadCompletionHandler?
@@ -41,8 +39,6 @@ final class BannerAdLoader {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationBannerAdLoadCompletionQueue")
     self.client = BidMachineClientFactory.createClient()
   }
 
@@ -99,11 +95,9 @@ final class BannerAdLoader {
   }
 
   private func handleLoadedAd(_ ad: MediationBannerAd?, error: Error?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
+    guard let adLoadCompletionHandler else { return }
+    eventDelegate = adLoadCompletionHandler(ad, error)
+    self.adLoadCompletionHandler = nil
   }
 
 }

@@ -12,19 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
-import GoogleMobileAds
+@preconcurrency import BidMachine
+@preconcurrency import GoogleMobileAds
 import UIKit
 
 @testable import GoogleBidMachineAdapter
 
-final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
+@MainActor
+final class FakeBidMachineClient: NSObject, BidMachineClient {
+
+  nonisolated override init() {
+    super.init()
+  }
 
   private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
 
-  private static let mockView = MockView()
+  @MainActor private static let mockView = MockView()
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
@@ -34,7 +39,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   var shouldBidMachineSucceedLoadingAd = true
   var shouldBidMachineSucceedPresenting = true
 
-  func version() -> String {
+  nonisolated func version() -> String {
     return BidMachineSdk.sdkVersion
   }
 
@@ -299,7 +304,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
 }
 
-final class MockView: UIView, BidMachineAdProtocol {
+final class MockView: UIView {
 
   var rendererConfiguration: BidMachine.BidMachineRendererConfiguration
 
@@ -329,4 +334,7 @@ final class MockView: UIView, BidMachineAdProtocol {
   var canShow: Bool = true
   func loadAd() {
   }
+}
+
+extension MockView: @preconcurrency BidMachineAdProtocol {
 }
