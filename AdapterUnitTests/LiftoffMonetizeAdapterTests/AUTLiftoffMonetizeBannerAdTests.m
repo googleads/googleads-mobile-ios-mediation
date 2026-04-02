@@ -128,6 +128,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_bannerMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_bannerMock setAdapterAdFormat:@"GADMediationVungleBanner"]);
   OCMExpect([_bannerMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate bannerAdDidLoad:self->_bannerMock];
   });
