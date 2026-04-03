@@ -71,7 +71,7 @@ final class Util {
   /// - Returns: An ad format from the configuration.
   static func adFormat(
     from params: RTBRequestParameters
-  ) throws(BidMachineAdapterError) -> AdFormat {
+  ) throws(BidMachineAdapterError) -> GoogleMobileAds.AdFormat {
     // Returns the first ad format found because the other crendentials should
     // have the same ad format.
     guard let adFormat = params.configuration.credentials.first?.format else {
@@ -105,4 +105,13 @@ final class Util {
     return viewController
   }
 
+}
+
+extension Error {
+  func toNSError() -> NSError {
+    if let adapterError = self as? BidMachineAdapterError {
+      return adapterError.toNSError()
+    }
+    return self as NSError
+  }
 }

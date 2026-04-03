@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import AdapterUnitTestKit
-import BidMachine
+@preconcurrency import AdapterUnitTestKit
+@preconcurrency import BidMachine
 import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter RTB rewarded")
 final class BidMachineRTBRewardedAdTests {
 
@@ -231,6 +232,7 @@ final class BidMachineRTBRewardedAdTests {
 
 }
 
+@MainActor
 @Suite("BidMachine adapter waterfall rewarded")
 final class BidMachineWaterfallRewardedAdTests {
 

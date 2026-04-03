@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import GoogleMobileAds
+@preconcurrency import BidMachine
+@preconcurrency import GoogleMobileAds
 
+@MainActor
 @objc(GADMediationAdapterBidMachine)
 final class BidMachineAdapter: NSObject, RTBAdapter {
 
   private static let adapterVersionString = "3.6.1.0"
 
-  private static let supportedFormats: [AdFormat] = [
+  private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
 
@@ -66,7 +68,7 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     return BidMachineAdapterExtras.self
   }
 
-  @objc static func adapterVersion() -> VersionNumber {
+  @objc nonisolated static func adapterVersion() -> VersionNumber {
     let adapterVersion = Self.adapterVersionString.components(separatedBy: ".").compactMap {
       Int($0)
     }
@@ -80,7 +82,7 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     )
   }
 
-  @objc static func adSDKVersion() -> VersionNumber {
+  @objc nonisolated static func adSDKVersion() -> VersionNumber {
     let adSDKVersion = BidMachineClientFactory.createClient().version().components(
       separatedBy: "."
     )

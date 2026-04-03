@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
+@preconcurrency import BidMachine
 import GoogleMobileAds
 import UIKit
 
@@ -36,10 +36,11 @@ final class BidMachineClientFactory {
 
 }
 
+@MainActor
 protocol BidMachineClient: NSObject {
 
   /// Returns a version string of BidMachine SDK.
-  func version() -> String
+  nonisolated func version() -> String
 
   /// Initializes the BidMachine SDK.
   func initialize(with sourceId: String, isCOPPA: Bool?)
@@ -95,7 +96,12 @@ protocol BidMachineClient: NSObject {
     completionHandler: @escaping (NSError?) -> Void) throws
 }
 
+@MainActor
 final class BidMachineClientImpl: NSObject, BidMachineClient {
+
+  nonisolated override init() {
+    super.init()
+  }
 
   private static let watermarkExtraKey = "google_watermark"
 
@@ -104,7 +110,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   private var bidMachineRewarded: BidMachineRewarded?
   private var bidMachineNative: BidMachineNative?
 
-  func version() -> String {
+  nonisolated func version() -> String {
     return BidMachineSdk.sdkVersion
   }
 

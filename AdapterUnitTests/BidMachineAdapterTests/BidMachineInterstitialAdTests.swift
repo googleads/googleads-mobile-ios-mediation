@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import AdapterUnitTestKit
-import BidMachine
+@preconcurrency import AdapterUnitTestKit
+@preconcurrency import BidMachine
 import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter RTB interstitial")
 final class BidMachineRTBInterstitialAdTests {
 
@@ -182,6 +183,7 @@ final class BidMachineRTBInterstitialAdTests {
 
 }
 
+@MainActor
 @Suite("BidMachine adapter waterfall interstitial")
 final class BidMachineWaterfallInterstitialAdTests {
 
@@ -192,7 +194,6 @@ final class BidMachineWaterfallInterstitialAdTests {
     BidMachineClientFactory.debugClient = client
   }
 
-  @MainActor
   @Test("Waterfall interstitial ad load succeeds")
   func loadInterstitial_succeeds() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()

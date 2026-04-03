@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
-import GoogleMobileAds
+@preconcurrency import BidMachine
+@preconcurrency import GoogleMobileAds
 import UIKit
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 final class FakeNativeAdProxy: NSObject, NativeAdProxy {
 
   var titleLabel: UILabel?
@@ -66,3 +67,6 @@ final class FakeNativeAdProxy: NSObject, NativeAdProxy {
     }
   }
 }
+
+extension FakeNativeAdProxy: @preconcurrency BidMachineNativeAdRendering {}
+extension FakeNativeAdProxy: @preconcurrency MediatedUnifiedNativeAd {}
