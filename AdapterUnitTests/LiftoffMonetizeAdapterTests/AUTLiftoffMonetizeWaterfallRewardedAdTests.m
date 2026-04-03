@@ -126,6 +126,7 @@ static NSString *const kUserId = @"UserId";
   OCMExpect([_rewardedMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_rewardedMock setAdapterAdFormat:@"GADMAdapterVungleRewardBasedVideoAd"]);
   OCMExpect([_rewardedMock setUserIdWithUserId:kUserId]);
   OCMExpect([_rewardedMock load:nil]).andDo(^(NSInvocation *invocation) {
     [loadDelegate rewardedAdDidLoad:self->_rewardedMock];
