@@ -1,8 +1,8 @@
-#import "GADMediationAdapterVungle.h"
-#import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleRewardBasedVideoAd.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMediationAdapterVungle.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationRewardedAdLoadAssertions.h>
@@ -126,6 +126,7 @@ static NSString *const kUserId = @"UserId";
   OCMExpect([_rewardedMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_rewardedMock setAdapterAdFormat:@"GADMAdapterVungleRewardBasedVideoAd"]);
   OCMExpect([_rewardedMock setUserIdWithUserId:kUserId]);
   OCMExpect([_rewardedMock load:nil]).andDo(^(NSInvocation *invocation) {
     [loadDelegate rewardedAdDidLoad:self->_rewardedMock];

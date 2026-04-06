@@ -61,6 +61,27 @@ VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
   }
 }
 
++ (void)logCustomSizeForBannerPlacement:(NSString *_Nonnull)placementId
+                                 adSize:(GADAdSize)adSize
+                           bannerViewAd:(VungleBannerView *_Nullable)adViewAd {
+  // Size not supported for non-inline placements — may include GADAdSizeLargeBanner (320x100),
+  // GADAdSizeFullBanner (468x60), GADAdSizeSkyscraper (120x600), GADAdSizeFluid,
+  // GADAdSizeInvalid, or a custom size.
+  if (![VungleAds isInLine:placementId] &&
+      !GADAdSizeEqualToSize(adSize, GADAdSizeBanner) &&           // 320x50
+      !GADAdSizeEqualToSize(adSize, GADAdSizeMediumRectangle) &&  // 300x250
+      !GADAdSizeEqualToSize(adSize, GADAdSizeLeaderboard)) {      // 728x90
+    adViewAd.adapterAdFormat = [adViewAd.adapterAdFormat stringByAppendingString:@"-custom"];
+    NSString *customSizeMismatchMessage =
+        [NSString stringWithFormat:@"CustomBannerSizeMismatch:w-%.0f|h-%.0f", adSize.size.width,
+                                   adSize.size.height];
+    [VungleMediationLogger logErrorForAd:adViewAd message:customSizeMismatchMessage];
+    NSLog(@"Banner size is unsupported for non-inline Liftoff placements. "
+          @"Use a Liftoff inline placement ID to serve this banner size: placementId=%@ adSize=%@",
+          placementId, NSStringFromGADAdSize(adSize));
+  }
+}
+
 #pragma mark - Safe Collection utility methods.
 
 void GADMAdapterVungleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject *_Nonnull object) {

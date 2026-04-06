@@ -1,7 +1,10 @@
-#import "GADMAdapterVungleUtils.h"
 #import "GADMAdapterVungleConstants.h"
+#import "GADMAdapterVungleUtils.h"
 
+#import <OCMock/OCMock.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
 
 static NSString* const kPlacementID = @"12345";
 
@@ -14,42 +17,42 @@ static NSString* const kPlacementID = @"12345";
 @implementation AUTLiftoffMonetizeUtilsTests
 
 - (void)testLiftoffSizeForMediumRectangleSize {
-    VungleAdSize* vungleAdSize =
-        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeMediumRectangle, kPlacementID);
+  VungleAdSize* vungleAdSize =
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeMediumRectangle, kPlacementID);
 
-    XCTAssertNotNil(vungleAdSize);
-    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeMREC.size.width);
-    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeMREC.size.height);
+  XCTAssertNotNil(vungleAdSize);
+  XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeMREC.size.width);
+  XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeMREC.size.height);
 }
 
 - (void)testLiftoffSizeForLeaderboardSize {
-    VungleAdSize* vungleAdSize =
-        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeLeaderboard, kPlacementID);
+  VungleAdSize* vungleAdSize =
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeLeaderboard, kPlacementID);
 
-    XCTAssertNotNil(vungleAdSize);
-    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeLeaderboard.size.width);
-    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeLeaderboard.size.height);
+  XCTAssertNotNil(vungleAdSize);
+  XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeLeaderboard.size.width);
+  XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeLeaderboard.size.height);
 }
 
 - (void)testLiftoffSizeForStandardBannerSize {
-    VungleAdSize* vungleAdSize =
-        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeBanner, kPlacementID);
+  VungleAdSize* vungleAdSize =
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(GADAdSizeBanner, kPlacementID);
 
-    XCTAssertNotNil(vungleAdSize);
-    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerRegular.size.width);
-    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerRegular.size.height);
+  XCTAssertNotNil(vungleAdSize);
+  XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerRegular.size.width);
+  XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerRegular.size.height);
 }
 
 - (void)testLiftoffSizeForShortBannerSize {
   const CGSize shortBannerCGSize = {300, 50};
   GADAdSize shortBannerSize = GADAdSizeFromCGSize(shortBannerCGSize);
-    
-    VungleAdSize* vungleAdSize =
-        GADMAdapterVungleConvertGADAdSizeToVungleAdSize(shortBannerSize, kPlacementID);
 
-    XCTAssertNotNil(vungleAdSize);
-    XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerShort.size.width);
-    XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerShort.size.height);
+  VungleAdSize* vungleAdSize =
+      GADMAdapterVungleConvertGADAdSizeToVungleAdSize(shortBannerSize, kPlacementID);
+
+  XCTAssertNotNil(vungleAdSize);
+  XCTAssertEqual(vungleAdSize.size.width, VungleAdSize.VungleAdSizeBannerShort.size.width);
+  XCTAssertEqual(vungleAdSize.size.height, VungleAdSize.VungleAdSizeBannerShort.size.height);
 }
 
 - (void)testLiftoffReturnsCustomSizeForNonStandardGoogleBannerSize {
@@ -59,6 +62,33 @@ static NSString* const kPlacementID = @"12345";
   XCTAssertNotNil(vungleAdSize);
   XCTAssertEqual(vungleAdSize.size.width, GADAdSizeSkyscraper.size.width);
   XCTAssertEqual(vungleAdSize.size.height, GADAdSizeSkyscraper.size.height);
+}
+
+- (void)testLogCustomSizeAppendsCustomSuffixForNonInlineNonStandardSize {
+  // Mock VungleAds isInLine: to return NO.
+  id vungleAdsMock = OCMClassMock([VungleAds class]);
+  OCMStub([vungleAdsMock isInLine:kPlacementID]).andReturn(NO);
+
+  // Swizzle VungleMediationLogger (Swift class, cannot be mocked by OCMock) to a no-op.
+  Method logMethod =
+      class_getClassMethod([VungleMediationLogger class], @selector(logErrorForAd:message:));
+  IMP originalIMP = method_getImplementation(logMethod);
+  method_setImplementation(logMethod, imp_implementationWithBlock(^(id self, id ad, NSString* msg){
+                                      }));
+
+  id bannerViewMock = OCMClassMock([VungleBannerView class]);
+  OCMStub([bannerViewMock adapterAdFormat]).andReturn(@"GADMediationVungleBanner");
+
+  GADAdSize customSize = GADAdSizeFromCGSize(CGSizeMake(400, 100));
+  [GADMAdapterVungleUtils logCustomSizeForBannerPlacement:kPlacementID
+                                                   adSize:customSize
+                                             bannerViewAd:bannerViewMock];
+
+  OCMVerify([bannerViewMock setAdapterAdFormat:@"GADMediationVungleBanner-custom"]);
+
+  // Restore original implementation.
+  method_setImplementation(logMethod, originalIMP);
+  [vungleAdsMock stopMocking];
 }
 
 @end
