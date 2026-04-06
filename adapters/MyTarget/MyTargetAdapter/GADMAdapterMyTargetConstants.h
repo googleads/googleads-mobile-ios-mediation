@@ -18,6 +18,10 @@
 /// myTarget mediation network adapter version.
 extern NSString *const _Nonnull GADMAdapterMyTargetVersion;
 
+/// Mail.ru ad technology provider ID from
+/// https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+extern NSInteger const GADMAdapterMyTargetAdTechnologyProviderID;
+
 /// myTarget mediation network adapter slot ID server parameter key.
 extern NSString *const _Nonnull GADMAdapterMyTargetSlotIdKey;
 

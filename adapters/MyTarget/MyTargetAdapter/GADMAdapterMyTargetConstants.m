@@ -18,6 +18,8 @@ NSString *const _Nonnull GADMAdapterMyTargetVersion = @"5.41.0.0";
 
 NSString *const _Nonnull GADMAdapterMyTargetSlotIdKey = @"slotId";
 
+NSInteger const GADMAdapterMyTargetAdTechnologyProviderID = 1067;
+
 NSString *const _Nonnull GADMAdapterMyTargetAdapterErrorDomain =
     @"com.google.mediation.mytarget";
 
