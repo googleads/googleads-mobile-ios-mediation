@@ -18,6 +18,7 @@ import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter RTB interstitial")
 final class BidMachineRTBInterstitialAdTests {
 
@@ -182,6 +183,7 @@ final class BidMachineRTBInterstitialAdTests {
 
 }
 
+@MainActor
 @Suite("BidMachine adapter waterfall interstitial")
 final class BidMachineWaterfallInterstitialAdTests {
 

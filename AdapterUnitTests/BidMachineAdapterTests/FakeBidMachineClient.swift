@@ -18,13 +18,14 @@ import UIKit
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
 
-  private static let mockView = MockView()
+  @MainActor private static let mockView = MockView()
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
@@ -299,7 +300,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
 }
 
-final class MockView: UIView, BidMachineAdProtocol {
+final class MockView: UIView, @preconcurrency BidMachineAdProtocol {
 
   var rendererConfiguration: BidMachine.BidMachineRendererConfiguration
 
