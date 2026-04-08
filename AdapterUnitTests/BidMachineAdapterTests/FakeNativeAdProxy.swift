@@ -18,7 +18,8 @@ import UIKit
 
 @testable import GoogleBidMachineAdapter
 
-final class FakeNativeAdProxy: NSObject, NativeAdProxy {
+@MainActor
+final class FakeNativeAdProxy: NSObject, @preconcurrency NativeAdProxy {
 
   var titleLabel: UILabel?
 

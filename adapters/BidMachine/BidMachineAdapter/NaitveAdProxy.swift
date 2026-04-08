@@ -17,6 +17,7 @@ import GoogleMobileAds
 import UIKit
 
 /// A factory class that creates a NativeAdProxy.
+@MainActor
 final class NativeAdProxyFactory {
 
   private init() {}
@@ -47,7 +48,8 @@ final class NativeAdProxyFactory {
 protocol NativeAdProxy: NSObject, MediationNativeAd, BidMachineNativeAdRendering {
 }
 
-final class NativeAdProxyImpl: NSObject, NativeAdProxy {
+@MainActor
+final class NativeAdProxyImpl: NSObject, @preconcurrency NativeAdProxy {
 
   private let nativeAd: BidMachineNative
   private let imageLoadDispatchGroup: DispatchGroup

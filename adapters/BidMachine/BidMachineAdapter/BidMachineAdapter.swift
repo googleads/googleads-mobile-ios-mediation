@@ -14,6 +14,7 @@
 
 import GoogleMobileAds
 
+@MainActor
 @objc(GADMediationAdapterBidMachine)
 final class BidMachineAdapter: NSObject, RTBAdapter {
 

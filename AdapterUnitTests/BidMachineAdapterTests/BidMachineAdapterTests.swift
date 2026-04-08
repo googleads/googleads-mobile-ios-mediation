@@ -17,6 +17,7 @@ import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter information")
 final class BidMachineAdapterTests {
 
@@ -47,6 +48,7 @@ final class BidMachineAdapterTests {
 
 }
 
+@MainActor
 @Suite("BidMachine adapter set up")
 final class BidMachineAdapterInitTests {
 
@@ -236,6 +238,7 @@ final class BidMachineAdapterInitTests {
   }
 }
 
+@MainActor
 @Suite("BidMachine adapter signals collection")
 final class BidMachineAdapterSignalsCollectionTests {
 
