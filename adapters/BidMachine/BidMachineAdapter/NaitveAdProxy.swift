@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import BidMachine
-import GoogleMobileAds
+@preconcurrency import BidMachine
+@preconcurrency import GoogleMobileAds
 import UIKit
 
 /// A factory class that creates a NativeAdProxy.
+@MainActor
 final class NativeAdProxyFactory {
 
   private init() {}
@@ -44,9 +45,11 @@ final class NativeAdProxyFactory {
 /// A proxy object that translates BidMachineNative properties to MediationNativeAd properties.
 /// It also handles downloading images from string URLs because BidMachineNative does not provide
 /// images as UIImage.
-protocol NativeAdProxy: NSObject, MediationNativeAd, BidMachineNativeAdRendering {
+@MainActor
+protocol NativeAdProxy: NSObject, MediationNativeAd {
 }
 
+@MainActor
 final class NativeAdProxyImpl: NSObject, NativeAdProxy {
 
   private let nativeAd: BidMachineNative
@@ -186,3 +189,6 @@ final class NativeAdProxyImpl: NSObject, NativeAdProxy {
   }
 
 }
+
+extension NativeAdProxyImpl: @preconcurrency BidMachineNativeAdRendering {}
+extension NativeAdProxyImpl: @preconcurrency MediatedUnifiedNativeAd {}
