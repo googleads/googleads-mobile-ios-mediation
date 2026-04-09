@@ -113,7 +113,7 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
   }
     
   var mediaView: UIView? {
-        return nativeAd.mediaView()
+    return nativeAd.mediaView()
   }
 
   var hasVideoContent: Bool {
