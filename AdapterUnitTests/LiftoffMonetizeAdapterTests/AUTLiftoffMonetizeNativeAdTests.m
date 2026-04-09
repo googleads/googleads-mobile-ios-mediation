@@ -1,13 +1,13 @@
-#import "GADMediationAdapterVungle.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMediationAdapterVungle.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationNativeAdLoadAssertions.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <VungleAdsSDK/VungleAdsSDK.h>
 #import <OCMock/OCMock.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import <XCTest/XCTest.h>
 
 static NSString *const kPlacementID = @"12345";
@@ -128,6 +128,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_nativeMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_nativeMock setAdapterAdFormat:@"GADMediationVungleNativeAd"]);
   OCMExpect([_nativeMock setAdOptionsPosition:expectedNativeAdPosition]);
   OCMExpect([_nativeMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate nativeAdDidLoad:self->_nativeMock];

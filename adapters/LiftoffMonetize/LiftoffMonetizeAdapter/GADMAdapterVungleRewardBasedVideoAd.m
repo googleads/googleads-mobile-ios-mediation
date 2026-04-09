@@ -95,6 +95,7 @@
 - (void)loadRewardedAd {
   _rewardedAd = [[VungleRewarded alloc] initWithPlacementId:self.desiredPlacement];
   _rewardedAd.delegate = self;
+  _rewardedAd.adapterAdFormat = NSStringFromClass(self.class);
   if ([_adConfiguration extras] &&
       [[_adConfiguration extras] isKindOfClass:[VungleAdNetworkExtras class]]) {
     VungleAdNetworkExtras *extras = (VungleAdNetworkExtras *)[_adConfiguration extras];

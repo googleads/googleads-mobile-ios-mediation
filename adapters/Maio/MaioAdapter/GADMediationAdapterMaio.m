@@ -38,7 +38,12 @@
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-  // maio SDK does not have any initialization process.
+  if (GADMAdapterMaioIsChildUser()) {
+    completionHandler(GADMAdapterMaioErrorWithCodeAndDescription(
+        GADMAdapterMaioErrorChildUser, @"The request had age-restricted treatment, but maio SDK "
+                                       @"cannot receive age-restricted signals."));
+    return;
+  }
   completionHandler(nil);
 }
 
@@ -73,15 +78,28 @@
 
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
+  if (GADMAdapterMaioIsChildUser()) {
+    completionHandler(nil, GADMAdapterMaioErrorWithCodeAndDescription(
+                               GADMAdapterMaioErrorChildUser,
+                               @"The request had age-restricted treatment, but maio SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
   _bannerAd = [[GADMAdapterMaioBannerAd alloc] init];
-  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration
-                          completionHandler:completionHandler];
+  [_bannerAd loadBannerAdForAdConfiguration:adConfiguration completionHandler:completionHandler];
 }
 
 - (void)loadRewardedAdForAdConfiguration:
             (nonnull GADMediationRewardedAdConfiguration *)adConfiguration
                        completionHandler:
                            (nonnull GADMediationRewardedLoadCompletionHandler)completionHandler {
+  if (GADMAdapterMaioIsChildUser()) {
+    completionHandler(nil, GADMAdapterMaioErrorWithCodeAndDescription(
+                               GADMAdapterMaioErrorChildUser,
+                               @"The request had age-restricted treatment, but maio SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
   _rewardedAd = [[GADMAdapterMaioRewardedAd alloc] init];
   [_rewardedAd loadRewardedAdForAdConfiguration:adConfiguration
                               completionHandler:completionHandler];
@@ -91,6 +109,13 @@
             (nonnull GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:(nonnull GADMediationInterstitialLoadCompletionHandler)
                                                completionHandler {
+  if (GADMAdapterMaioIsChildUser()) {
+    completionHandler(nil, GADMAdapterMaioErrorWithCodeAndDescription(
+                               GADMAdapterMaioErrorChildUser,
+                               @"The request had age-restricted treatment, but maio SDK "
+                               @"cannot receive age-restricted signals."));
+    return;
+  }
   _interstitialAd =
       [[GADMAdapterMaioInterstitialAd alloc] initWithAdConfiguration:adConfiguration
                                                    completionHandler:completionHandler];

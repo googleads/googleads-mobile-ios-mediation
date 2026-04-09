@@ -1,5 +1,9 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next version
+
+- Added new adapter API implementation for waterfall interstitial ad.
+
 #### Version 13.6.2.0 (In progress)
 
 #### [Version 13.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/applovin/AppLovinAdapter-13.6.1.0.zip)

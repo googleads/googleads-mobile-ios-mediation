@@ -1,5 +1,9 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next version (In progress)
+- logging adaptive banner size mismatch through VungleMediationLogger introduced in 7.7.1.
+- setting adapterAdFormat property in basePublicAd introduced in 7.7.1.
+
 #### [Version 7.7.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.1.0.zip)
 - Verified compatibility with Vungle SDK 7.7.1.
 

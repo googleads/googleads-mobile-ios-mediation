@@ -23,7 +23,9 @@ typedef NS_ENUM(NSInteger, GADMAdapterMaioErrorCode) {
   /// The maio adapter does not support the ad format being requested.
   GADMAdapterMaioErrorAdFormatNotSupported = 103,
   /// An ad is already loaded for this network configuration.
-  GADMAdapterMaioErrorAdAlreadyLoaded = 104
+  GADMAdapterMaioErrorAdAlreadyLoaded = 104,
+  /// Filter age-restricted requests for maio SDK because it cannot receive age-restricted signals
+  GADMAdapterMaioErrorChildUser = 105
 };
 
 @interface GADMediationAdapterMaio : NSObject <GADMediationAdapter>

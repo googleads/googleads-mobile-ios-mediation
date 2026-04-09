@@ -1,7 +1,7 @@
-#import "GADMediationAdapterVungle.h"
 #import "GADMAdapterVungleConstants.h"
 #import "GADMAdapterVungleRouter.h"
 #import "GADMAdapterVungleUtils.h"
+#import "GADMediationAdapterVungle.h"
 
 #import <AdapterUnitTestKit/AUTKAdConfiguration.h>
 #import <AdapterUnitTestKit/AUTKMediationRewardedAdLoadAssertions.h>
@@ -130,6 +130,7 @@ static NSString *const kBidResponse = @"bidResponse";
   OCMExpect([_rewardedMock setDelegate:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&loadDelegate atIndex:2];
   });
+  OCMExpect([_rewardedMock setAdapterAdFormat:@"GADMediationVungleRewardedAd"]);
   OCMExpect([_rewardedMock load:kBidResponse]).andDo(^(NSInvocation *invocation) {
     [loadDelegate rewardedAdDidLoad:self->_rewardedMock];
   });
