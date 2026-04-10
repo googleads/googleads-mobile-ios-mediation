@@ -16,6 +16,7 @@ import BidMachine
 import Foundation
 import GoogleMobileAds
 
+@MainActor
 final class RewardedAdLoader: NSObject {
 
   /// The rewarded ad configuration.
@@ -24,9 +25,6 @@ final class RewardedAdLoader: NSObject {
   /// The ad event delegate which is used to report rewarded related information to the Google
   /// Mobile Ads SDK.
   private weak var eventDelegate: MediationRewardedAdEventDelegate?
-
-  /// The queue for processing an ad load completion.
-  private let adLoadCompletionQueue: DispatchQueue
 
   /// The ad load completion handler the must be run after ad load completion.
   private var adLoadCompletionHandler: GADMediationRewardedLoadCompletionHandler?
@@ -41,8 +39,6 @@ final class RewardedAdLoader: NSObject {
   ) {
     self.adConfiguration = adConfiguration
     self.adLoadCompletionHandler = loadCompletionHandler
-    self.adLoadCompletionQueue = DispatchQueue(
-      label: "com.google.mediationRewardedAdLoadCompletionQueue")
     self.client = BidMachineClientFactory.createClient()
     super.init()
   }
@@ -96,11 +92,9 @@ final class RewardedAdLoader: NSObject {
   }
 
   private func handleLoadedAd(_ ad: MediationRewardedAd?, error: Error?) {
-    adLoadCompletionQueue.sync {
-      guard let adLoadCompletionHandler else { return }
-      eventDelegate = adLoadCompletionHandler(ad, error)
-      self.adLoadCompletionHandler = nil
-    }
+    guard let adLoadCompletionHandler else { return }
+    eventDelegate = adLoadCompletionHandler(ad, error)
+    self.adLoadCompletionHandler = nil
   }
 
 }
