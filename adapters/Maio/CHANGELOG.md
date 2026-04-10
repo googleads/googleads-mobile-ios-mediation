@@ -1,6 +1,6 @@
 ## maio iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.2.1.1 (In progress)
 - Filter age-restricted requests for maio SDK because it cannot receive age-restricted signals.
 
 #### [Version 2.2.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.1.0.zip)
