@@ -1,6 +1,6 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 2.3.4.6 (In progress)
 - Filter age-restricted requests for i-mobile SDK because it cannot receive age-restricted signals.
 
 #### [Version 2.3.4.5](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.5.zip)
