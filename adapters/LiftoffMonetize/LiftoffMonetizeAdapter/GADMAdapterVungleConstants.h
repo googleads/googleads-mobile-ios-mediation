@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const _Nonnull GADMAdapterVungleVersion = @"7.7.1.0";
+static NSString *const _Nonnull GADMAdapterVungleVersion = @"7.7.2.0";
 static NSString *const _Nonnull GADMAdapterVungleApplicationID = @"application_id";
 static NSString *const _Nonnull GADMAdapterVunglePlacementID = @"placementID";
 static NSString *const _Nonnull GADMAdapterVungleErrorDomain = @"com.google.mediation.vungle";
