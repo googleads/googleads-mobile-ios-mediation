@@ -15,6 +15,7 @@
 import AdapterUnitTestKit
 import BidMachine
 import Testing
+import XCTest
 
 @testable import GoogleBidMachineAdapter
 
@@ -38,15 +39,7 @@ final class BidMachineRTBNativeAdTests {
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
   }
 
   @Test("RTB native ad load fails for failing to create a request config")
@@ -57,15 +50,8 @@ final class BidMachineRTBNativeAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB native ad load fails for failing to create an ad")
@@ -76,15 +62,8 @@ final class BidMachineRTBNativeAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB native ad load fails for failing to return an ad")
@@ -95,15 +74,8 @@ final class BidMachineRTBNativeAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB native ad load fails for failing to download image assets")
@@ -114,15 +86,8 @@ final class BidMachineRTBNativeAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
 }
@@ -145,15 +110,7 @@ final class BidMachineWaterfallNativeAdTests {
     let adConfig = AUTKMediationNativeAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAd(adapter, adConfig)
   }
 
   @Test("Waterfall native ad load fails for failing to create a request config")
@@ -163,15 +120,8 @@ final class BidMachineWaterfallNativeAdTests {
     let adConfig = AUTKMediationNativeAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall native ad load fails for failing to create an ad")
@@ -181,15 +131,8 @@ final class BidMachineWaterfallNativeAdTests {
     let adConfig = AUTKMediationNativeAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall native ad load fails for failing to return an ad")
@@ -199,15 +142,8 @@ final class BidMachineWaterfallNativeAdTests {
     let adConfig = AUTKMediationNativeAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadNativeAd(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationNativeAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadNativeAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
 }
