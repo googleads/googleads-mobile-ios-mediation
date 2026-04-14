@@ -24,7 +24,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     .banner, .interstitial, .rewarded, .native,
   ]
 
-  private static let mockView = MockView()
+  let mockView = MockView()
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
@@ -81,7 +81,8 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
     completionHandler(nil)
     if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(Self.mockView)
+      self.delegate = delegate
+      delegate.didLoadAd(self.mockView)
     } else {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
@@ -106,7 +107,8 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
     completionHandler(nil)
     if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(Self.mockView)
+      self.delegate = delegate
+      delegate.didLoadAd(self.mockView)
     } else {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
