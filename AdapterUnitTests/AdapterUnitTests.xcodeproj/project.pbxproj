@@ -13,6 +13,7 @@
 		15AA9ECC2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */; };
 		15CC4C632CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */; };
 		4405955F2F897C36004F5DA4 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4405955E2F897C36004F5DA4 /* placeholder.swift */; };
+		44414CF02F89A1ED0085DF0B /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44414CEF2F89A1ED0085DF0B /* placeholder.swift */; };
 		44ACFB152AB129D000035A73 /* AUTAppLovinAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */; };
 		44B303472AB232DF00652006 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		7003A94A2B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003A9492B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m */; };
@@ -1513,6 +1514,8 @@
 		15AA9ECB2C8707EC000F577E /* AUTIronSourceRtbInterstitialAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbInterstitialAdTests.m; sourceTree = "<group>"; };
 		15CC4C622CF5DED100567229 /* AUTIronSourceRtbBannerAdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTIronSourceRtbBannerAdTests.m; sourceTree = "<group>"; };
 		4405955E2F897C36004F5DA4 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		44414C9C2F89A1ED0085DF0B /* MaioAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MaioAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		44414CEF2F89A1ED0085DF0B /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		44ACFB002AB11D4B00035A73 /* AppLovinAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppLovinAdapter.xcodeproj; path = ../adapters/AppLovinAdapter/AppLovinAdapter.xcodeproj; sourceTree = "<group>"; };
 		44ACFB122AB129D000035A73 /* AppLovinAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppLovinAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44ACFB142AB129D000035A73 /* AUTAppLovinAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AUTAppLovinAdapterTests.m; sourceTree = "<group>"; };
@@ -2416,6 +2419,8 @@
 				E2E2719C2F3308DA00143B5D /* AUTMaioBannerAdTests.m */,
 				AD0D6F5F2AF6F63F002C0B60 /* AUTMaioInterstitialAdTests.m */,
 				AD0D6F612AF6F671002C0B60 /* AUTMaioRewardedAdTests.m */,
+				44414CEF2F89A1ED0085DF0B /* placeholder.swift */,
+				44414C9C2F89A1ED0085DF0B /* MaioAdapterTests-Bridging-Header.h */,
 			);
 			path = MaioAdapterTests;
 			sourceTree = "<group>";
@@ -3845,6 +3850,7 @@
 					};
 					AD0D6F4F2AF6E23E002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 2610;
 					};
 					AD0D6FF22AF7189D002C0B60 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -5037,6 +5043,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0D6F602AF6F63F002C0B60 /* AUTMaioInterstitialAdTests.m in Sources */,
+				44414CF02F89A1ED0085DF0B /* placeholder.swift in Sources */,
 				AD0D6F622AF6F671002C0B60 /* AUTMaioRewardedAdTests.m in Sources */,
 				AD0D6F5E2AF6E903002C0B60 /* AUTMaioAdapterTests.m in Sources */,
 				E2E2719D2F3308DA00143B5D /* AUTMaioBannerAdTests.m in Sources */,
@@ -7126,6 +7133,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MaioAdapterTests/MaioAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -7193,6 +7203,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "MaioAdapterTests/MaioAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
