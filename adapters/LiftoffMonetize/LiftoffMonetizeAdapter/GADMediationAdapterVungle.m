@@ -65,10 +65,12 @@
 
   NSString *applicationID = [applicationIDs anyObject];
   if (applicationIDs.count > 1) {
-    NSLog(@"Found the following application IDs: %@. "
-          @"Please remove any application IDs you are not using from the AdMob UI.",
-          applicationIDs);
-    NSLog(@"Configuring Vungle SDK with the application ID %@.", applicationID);
+    NSString *logMessage = [NSString stringWithFormat:
+                            @"Multiple application ID entries found: %@. Using '%@' to initialize the Vungle SDK.",
+                            applicationIDs, applicationID];
+    NSLog(@"%@", logMessage);
+    NSLog(@"Please remove any application IDs you are not using from the AdMob UI.");
+    [VungleMediationLogger logErrorForAd:nil message:logMessage];
   }
 
   [GADMAdapterVungleRouter.sharedInstance initWithAppId:applicationID delegate:nil];
