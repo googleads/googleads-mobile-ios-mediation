@@ -1,6 +1,11 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
-#### Version 5.1.2.0 (In progress)
+#### [Version 5.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.2.0.zip)
+- Verified compatibility with BIGO Ads SDK version 5.1.2.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.2.0.
+- BIGO Ads SDK version 5.1.2.
 
 #### [Version 5.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.1.0.zip)
 - Verified compatibility with BIGO Ads SDK version 5.1.1.
