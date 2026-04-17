@@ -461,6 +461,7 @@
 				MODULE_MAP_PATH = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GoogleBidMachineAdapter;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -471,6 +472,7 @@
 				MODULE_MAP_PATH = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GoogleBidMachineAdapter;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};

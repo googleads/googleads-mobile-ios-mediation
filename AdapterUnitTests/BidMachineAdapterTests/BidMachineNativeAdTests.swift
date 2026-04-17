@@ -18,6 +18,7 @@ import Testing
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 @Suite("BidMachine adapter RTB native")
 final class BidMachineRTBNativeAdTests {
 
@@ -127,6 +128,7 @@ final class BidMachineRTBNativeAdTests {
 
 }
 
+@MainActor
 @Suite("BidMachine adapter Waterfall native")
 final class BidMachineWaterfallNativeAdTests {
 
