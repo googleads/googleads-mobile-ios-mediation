@@ -1,6 +1,6 @@
 ## Verve iOS Mediation Adapter Changelog
 
-#### Next version
+#### Version 3.8.0.0 (In progress)
 
 - Removed banner size check from the adapter to resolve signal collection
   failures and ad load failures.
