@@ -58,7 +58,7 @@ final class VerveBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSize(size: CGSize(width: 320, height: 50), flags: 1)
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, config)
-    fakeClient.bannerDelegate?.adViewDidTrackImpression(nil)
+    fakeClient.bannerDelegate?.adViewDidTrackImpression(HyBidAdView())
     XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
@@ -70,7 +70,7 @@ final class VerveBannerAdTests: XCTestCase {
     config.bidResponse = "test"
     config.adSize = AdSize(size: CGSize(width: 320, height: 50), flags: 1)
     let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, config)
-    fakeClient.bannerDelegate?.adViewDidTrackClick(nil)
+    fakeClient.bannerDelegate?.adViewDidTrackClick(HyBidAdView())
     XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
