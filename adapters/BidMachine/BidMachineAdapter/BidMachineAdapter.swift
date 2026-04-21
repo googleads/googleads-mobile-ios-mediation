@@ -99,15 +99,23 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for params: RTBRequestParameters,
     completionHandler: @escaping GADRTBSignalCompletionHandler
   ) {
-    do {
-      let format = try Util.adFormat(from: params)
-      try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
-        completionHandler(signals, nil)
+    Task {
+      do {
+        let format = try Util.adFormat(from: params)
+        try BidMachineClientFactory.createClient().collectSignals(for: format) { signals in
+          Task { @MainActor in
+            completionHandler(signals, nil)
+          }
+        }
+      } catch let error as BidMachineAdapterError {
+        Task { @MainActor in
+          completionHandler(nil, error.toNSError())
+        }
+      } catch {
+        Task { @MainActor in
+          completionHandler(nil, error as NSError)
+        }
       }
-    } catch let error as BidMachineAdapterError {
-      completionHandler(nil, error.toNSError())
-    } catch {
-      completionHandler(nil, error as NSError)
     }
   }
 
@@ -116,9 +124,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationBannerAdConfiguration,
     completionHandler: @escaping GADMediationBannerLoadCompletionHandler
   ) {
-    bannerAdLoader = BannerAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    bannerAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.bannerAdLoader = BannerAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.bannerAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -126,9 +137,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationInterstitialAdConfiguration,
     completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler
   ) {
-    interstitialAdLoader = InterstitialAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    interstitialAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.interstitialAdLoader = InterstitialAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.interstitialAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -136,9 +150,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationRewardedAdConfiguration,
     completionHandler: @escaping GADMediationRewardedLoadCompletionHandler
   ) {
-    rewardedAdLoader = RewardedAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    rewardedAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.rewardedAdLoader = RewardedAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.rewardedAdLoader?.loadAd()
+    }
   }
 
   @objc
@@ -146,9 +163,12 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
     for adConfiguration: MediationNativeAdConfiguration,
     completionHandler: @escaping GADMediationNativeLoadCompletionHandler
   ) {
-    nativeAdLoader = NativeAdLoader(
-      adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
-    nativeAdLoader?.loadAd()
+    Task {
+      @MainActor in
+      self.nativeAdLoader = NativeAdLoader(
+        adConfiguration: adConfiguration, loadCompletionHandler: completionHandler)
+      self.nativeAdLoader?.loadAd()
+    }
   }
 
 }

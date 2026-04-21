@@ -18,13 +18,14 @@ import UIKit
 
 @testable import GoogleBidMachineAdapter
 
+@MainActor
 final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
-  private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
+  nonisolated private static let supportedFormats: [GoogleMobileAds.AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
   ]
 
-  private static let mockView = MockView()
+  private let mockView = MockView()
 
   var delegate: BidMachineAdDelegate?
   var sourceId: String?
@@ -34,7 +35,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   var shouldBidMachineSucceedLoadingAd = true
   var shouldBidMachineSucceedPresenting = true
 
-  func version() -> String {
+  nonisolated func version() -> String {
     return BidMachineSdk.sdkVersion
   }
 
@@ -43,12 +44,12 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
     self.isCOPPA = isCOPPA
   }
 
-  func collectSignals(
+  nonisolated func collectSignals(
     for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
   )
     throws
   {
-    if !Self.supportedFormats.contains(adFormat) {
+    if !FakeBidMachineClient.supportedFormats.contains(adFormat) {
       throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters, description: "test description.")
     }
@@ -81,7 +82,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
     completionHandler(nil)
     if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(Self.mockView)
+      delegate.didLoadAd(self.mockView)
     } else {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
@@ -106,7 +107,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
     completionHandler(nil)
     if shouldBidMachineSucceedLoadingAd {
-      delegate.didLoadAd(Self.mockView)
+      delegate.didLoadAd(self.mockView)
     } else {
       delegate.didFailLoadAd(
         OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner,
@@ -299,7 +300,8 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
 }
 
-final class MockView: UIView, BidMachineAdProtocol {
+@MainActor
+final class MockView: UIView, @preconcurrency BidMachineAdProtocol {
 
   var rendererConfiguration: BidMachine.BidMachineRendererConfiguration
 
