@@ -15,6 +15,7 @@
 import AdapterUnitTestKit
 import BidMachine
 import Testing
+import XCTest
 
 @testable import GoogleBidMachineAdapter
 
@@ -36,15 +37,7 @@ final class BidMachineRTBBannerAdTests {
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
   @Test("RTB banner ad load fails for failing to create a request config")
@@ -55,15 +48,8 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB banner ad load fails for failing to create an ad")
@@ -74,15 +60,8 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB banner ad load fails for failing to return an ad")
@@ -93,15 +72,8 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Impression count")
@@ -110,23 +82,12 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var adDelegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-
-    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
-    adDelegate?.didTrackImpression?(mockBanner)
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.bannerAd)
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+    adDelegate?.didTrackImpression?(client.mockView)
+    XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   @Test("Click count")
@@ -135,23 +96,12 @@ final class BidMachineRTBBannerAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var adDelegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-
-    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
-    adDelegate?.didUserInteraction?(mockBanner)
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.bannerAd)
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+    adDelegate?.didUserInteraction?(client.mockView)
+    XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
 }
@@ -173,15 +123,7 @@ final class BidMachineWaterfallBannerAdTests {
     adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
   @Test("Waterfall banner ad load succeeds for medium rectangle")
@@ -190,15 +132,7 @@ final class BidMachineWaterfallBannerAdTests {
     adConfig.adSize = AdSizeMediumRectangle
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
   @Test("Waterfall banner ad load succeeds for leaderboard")
@@ -207,15 +141,7 @@ final class BidMachineWaterfallBannerAdTests {
     adConfig.adSize = AdSizeLeaderboard
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
   @Test("Waterfall banner ad load fails for failing to create a request config")
@@ -225,15 +151,8 @@ final class BidMachineWaterfallBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall banner ad load fails for failing to create an ad")
@@ -243,15 +162,8 @@ final class BidMachineWaterfallBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadBannerAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall banner ad load fails for unsupported size")
@@ -260,16 +172,11 @@ final class BidMachineWaterfallBannerAdTests {
     adConfig.adSize = AdSizeSkyscraper
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        #expect(error?.code == BidMachineAdapterError.ErrorCode.unsupportedBannerSize.rawValue)
-        continuation.resume()
-        return AUTKMediationBannerAdEventDelegate()
-      }
-    }
+    let expectedError = BidMachineAdapterError(
+      errorCode: .unsupportedBannerSize,
+      description: "Unsupported banner size."
+    ).toNSError()
+    AUTKWaitAndAssertLoadBannerAdFailure(adapter, adConfig, expectedError)
   }
 
   @Test("Impression count")
@@ -277,23 +184,12 @@ final class BidMachineWaterfallBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var adDelegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-
-    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
-    adDelegate?.didTrackImpression?(mockBanner)
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.bannerAd)
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+    adDelegate?.didTrackImpression?(client.mockView)
+    XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   @Test("Click count")
@@ -301,23 +197,12 @@ final class BidMachineWaterfallBannerAdTests {
     let adConfig = AUTKMediationBannerAdConfiguration()
     adConfig.adSize = AdSizeBanner
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationBannerAdEventDelegate()
-    var adDelegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadBanner(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-
-    let mockBanner = OCMockObject.mock(for: BidMachineBanner.self) as! BidMachineBanner
-    adDelegate?.didUserInteraction?(mockBanner)
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    let eventDelegate = AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.bannerAd)
+    let adDelegate = adapter.bannerAdLoader as? BidMachineAdDelegate
+    adDelegate?.didUserInteraction?(client.mockView)
+    XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
 }

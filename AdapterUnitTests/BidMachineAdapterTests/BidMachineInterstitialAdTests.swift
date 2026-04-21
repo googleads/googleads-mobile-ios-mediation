@@ -15,6 +15,7 @@
 import AdapterUnitTestKit
 import BidMachine
 import Testing
+import XCTest
 
 @testable import GoogleBidMachineAdapter
 
@@ -36,15 +37,7 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
   }
 
   @Test("RTB interstitial ad load fails for failing to create a request config")
@@ -55,15 +48,8 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB interstitial ad load fails for failing to create an ad")
@@ -74,15 +60,8 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.bidResponse = "test response"
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("RTB interstitial ad load fails for failing to return an ad")
@@ -94,15 +73,8 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Presentation fails")
@@ -113,22 +85,12 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    await (delegate as! MediationInterstitialAd).present(from: UIViewController())
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    eventDelegate.interstitialAd?.present(from: UIViewController())
 
-    #expect(eventDelegate.didFailToPresentError != nil)
+    XCTAssertNotNil(eventDelegate.didFailToPresentError)
   }
 
   @Test("Impression count")
@@ -137,23 +99,13 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didTrackImpression?(
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
+    adDelegate?.didTrackImpression?(client.mockView)
 
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
   }
 
   @Test("Click count")
@@ -162,23 +114,13 @@ final class BidMachineRTBInterstitialAdTests {
     adConfig.bidResponse = "test response"
     adConfig.watermark = "test watermark".data(using: .utf8)
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didUserInteraction?(
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
+    adDelegate?.didUserInteraction?(client.mockView)
 
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
 }
@@ -199,15 +141,7 @@ final class BidMachineWaterfallInterstitialAdTests {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
   }
 
   @Test("Waterfall interstitial ad load fails for failing to create a request config")
@@ -217,15 +151,8 @@ final class BidMachineWaterfallInterstitialAdTests {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall interstitial ad load fails for failing to create an ad")
@@ -235,15 +162,8 @@ final class BidMachineWaterfallInterstitialAdTests {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Waterfall interstitial ad load fails for failing to return an ad")
@@ -253,15 +173,8 @@ final class BidMachineWaterfallInterstitialAdTests {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error != nil)
-        #expect(ad == nil)
-        continuation.resume()
-        return AUTKMediationInterstitialAdEventDelegate()
-      }
-    }
+    AUTKWaitAndAssertLoadInterstitialAdFailure(
+      adapter, adConfig, NSError(domain: "com.test.domain", code: 12345))
   }
 
   @Test("Presentation fails")
@@ -270,68 +183,39 @@ final class BidMachineWaterfallInterstitialAdTests {
 
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    await (delegate as! MediationInterstitialAd).present(from: UIViewController())
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    eventDelegate.interstitialAd?.present(from: UIViewController())
 
-    #expect(eventDelegate.didFailToPresentError != nil)
+    XCTAssertNotNil(eventDelegate.didFailToPresentError)
   }
 
   @Test("Impression count")
   func impreesion_count() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didTrackImpression?(
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
+    adDelegate?.didTrackImpression?(client.mockView)
 
-    #expect(eventDelegate.reportImpressionInvokeCount == 1)
+    XCTAssertEqual(eventDelegate.reportImpressionInvokeCount, 1)
+
   }
 
   @Test("Click count")
   func click_count() async {
     let adConfig = AUTKMediationInterstitialAdConfiguration()
     let adapter = BidMachineAdapter()
-    let eventDelegate = AUTKMediationInterstitialAdEventDelegate()
-    var delegate: BidMachineAdDelegate?
 
-    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-      adapter.loadInterstitial(for: adConfig) { ad, error in
-        let error = error as NSError?
-        #expect(error == nil)
-        #expect(ad != nil)
-        delegate = ad as? BidMachineAdDelegate
-        continuation.resume()
-        return eventDelegate
-      }
-    }
-    delegate?.didUserInteraction?(
-      OCMockObject.mock(for: BidMachineInterstitial.self) as! BidMachineInterstitial)
+    let eventDelegate = AUTKWaitAndAssertLoadInterstitialAd(adapter, adConfig)
+    XCTAssertNotNil(eventDelegate.interstitialAd)
+    let adDelegate = adapter.interstitialAdLoader as? BidMachineAdDelegate
+    adDelegate?.didUserInteraction?(client.mockView)
 
-    #expect(eventDelegate.reportClickInvokeCount == 1)
+    XCTAssertEqual(eventDelegate.reportClickInvokeCount, 1)
   }
 
 }
