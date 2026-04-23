@@ -1,6 +1,6 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.1.2.1 (In progress)
 - Maps `ageRestrictedTreatment` to Bigo's COPPA API.
 
 #### [Version 5.1.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.2.0.zip)
