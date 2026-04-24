@@ -1,9 +1,12 @@
 ## Verve iOS Mediation Adapter Changelog
 
-#### Version 3.8.0.0 (In progress)
+#### [Version 3.8.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.8.0.0.zip)
+- Removed banner size check from the adapter to resolve signal collection failures and ad load failures.
+- Verified compatibility with HyBid SDK version 3.8.0.
 
-- Removed banner size check from the adapter to resolve signal collection
-  failures and ad load failures.
+Built and tested with:
+- Google Mobile Ads SDK version 13.2.0.
+- HyBid SDK version 3.8.0.
 
 #### [Version 3.7.1.3](https://dl.google.com/googleadmobadssdk/mediation/ios/verve/VerveAdapter-3.7.1.3.zip)
 - Updated the Google Mobile Ads SDK dependency to version 13.0.0.
