@@ -50,7 +50,7 @@ protocol NativeAdProxy: NSObject, MediationNativeAd, POBNativeAdDelegate {
   var eventDelegate: MediationNativeAdEventDelegate? { get set }
 
   /// Downloads all the image assets needed for the native ad this proxy represents.
-  func downLoadImageAssets(completionHandler: @escaping (PubMaticAdapterError?) -> Void)
+  func downLoadImageAsset(completionHandler: @escaping (PubMaticAdapterError?) -> Void)
 
 }
 
@@ -111,9 +111,13 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
     guard rating != NSDecimalNumber.notANumber else { return nil }
     return rating
   }
+    
+  var mediaView: UIView? {
+    return nativeAd.mediaView()
+  }
 
   var hasVideoContent: Bool {
-    return false
+    return true
   }
 
   func handlesUserClicks() -> Bool {
@@ -130,6 +134,10 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
   // POBNativeAd does not have an equivalent property.
   var store: String?
 
+  var mediaContentAspectRatio: CGFloat {
+    return nativeAd.mediaAspectRatio()
+  }
+    
   func didRender(
     in view: UIView,
     clickableAssetViews: [GADNativeAssetIdentifier: UIView],
@@ -160,55 +168,26 @@ class NativeAdProxyImpl: NSObject, NativeAdProxy, @unchecked Sendable {
 
   // MARK: - NativeAdProxy
 
-  func downLoadImageAssets(
+  func downLoadImageAsset(
     completionHandler: @escaping (PubMaticAdapterError?) -> Void
   ) {
     // Load an icon image
     nonisolated(unsafe) var nativeAdIcon: NativeAdImage?
-    nonisolated(unsafe) var nativeAdIconDownloadError: PubMaticAdapterError?
-    imageLoadDispatchGroup.enter()
     downloadImage(from: nativeAd.iconAsset().imageURL) { [weak self] image, error in
-      nativeAdIconDownloadError = error
-      if let image {
-        nativeAdIcon = NativeAdImage(image: image)
-      }
-      self?.imageLoadDispatchGroup.leave()
-    }
-
-    // Load a main image.
-    nonisolated(unsafe) var nativeAdImage: NativeAdImage?
-    nonisolated(unsafe) var nativeAdImageDownloadError: PubMaticAdapterError?
-    imageLoadDispatchGroup.enter()
-    downloadImage(from: nativeAd.mainImageAsset().imageURL) { [weak self] image, error in
-      nativeAdImageDownloadError = error
-      if let image {
-        nativeAdImage = NativeAdImage(image: image)
-      }
-      self?.imageLoadDispatchGroup.leave()
-    }
-
-    // Upon completing the image loads, calls the completion handler.
-    imageLoadDispatchGroup.notify(queue: .main) { [weak self] in
       guard let self else { return }
+      guard error == nil else {
+        completionHandler(error!)
+          return
+        }
 
-      guard nativeAdIconDownloadError == nil else {
-        completionHandler(nativeAdIconDownloadError!)
-        return
-      }
-
-      guard nativeAdImageDownloadError == nil else {
-        completionHandler(nativeAdImageDownloadError!)
-        return
-      }
-
-      // Set the downloaded image assets.
-      self.icon = nativeAdIcon
-      if let nativeAdImage {
-        self.images = [nativeAdImage]
+        if let image {
+          nativeAdIcon = NativeAdImage(image: image)
+            
+          // Set the downloaded image assets.
+          self.icon = nativeAdIcon
       }
       completionHandler(nil)
     }
-
   }
 
   private func downloadImage(
