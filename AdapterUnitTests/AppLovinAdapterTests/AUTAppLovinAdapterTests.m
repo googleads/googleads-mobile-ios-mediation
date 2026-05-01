@@ -19,6 +19,8 @@
   // Reset child-directed and under-age tags.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   [super tearDown];
 }
@@ -138,6 +140,18 @@
 
 - (void)testSetUpFailureIfUserIsTaggedAsUnderAge {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertAdapterSetUpFailureWithCredentials([GADMediationAdapterAppLovin class],
+                                                      credentials, expectedError);
+}
+
+- (void)testSetUpFailureIfUserIsTaggedAsChildWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
 
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain

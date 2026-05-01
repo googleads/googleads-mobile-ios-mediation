@@ -64,6 +64,8 @@ static NSString *const kSDKKey =
   // Reset child-directed and under-age tags.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   [super tearDown];
 }
@@ -109,6 +111,17 @@ static NSString *const kSDKKey =
 
 - (void)testLoadFailureIfUserIsTaggedAsUnderAge {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  AUTKMediationAppOpenAdConfiguration *config = [[AUTKMediationAppOpenAdConfiguration alloc] init];
+
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
+                                                      code:GADMAdapterAppLovinErrorChildUser
+                                                  userInfo:nil];
+  AUTKWaitAndAssertLoadAppOpenAdFailure(_adapter, config, expectedError);
+}
+
+- (void)testLoadFailureIfUserIsTaggedAsUnderAgeWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   AUTKMediationAppOpenAdConfiguration *config = [[AUTKMediationAppOpenAdConfiguration alloc] init];
 
   NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterAppLovinErrorDomain
