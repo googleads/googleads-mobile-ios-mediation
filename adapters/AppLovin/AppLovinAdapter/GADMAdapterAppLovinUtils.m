@@ -190,7 +190,8 @@ BOOL GADMAdapterAppLovinIsMultipleAdsLoadingEnabled() { return true; }
 
 + (BOOL)isChildUser {
   GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
-  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+  return requestConfiguration.ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+         [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
          [requestConfiguration.tagForUnderAgeOfConsent boolValue];
 }
 
