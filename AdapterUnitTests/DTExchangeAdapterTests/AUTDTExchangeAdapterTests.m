@@ -18,9 +18,12 @@
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  [super tearDown];
 }
 
-- (void)testAdapterSetUpWithoutTFCDAndTFUA {
+- (void)testAdapterSetUpWithoutTFCDOrTFUAAndAgeRestrictedTreatmentUnspecified {
   NSString *applicationID = @"123";
 
   // Mock IASDK
@@ -128,6 +131,30 @@
         completionBlock(YES, nil);
       });
   OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeDenied]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterFyber class], credentials);
+}
+
+- (void)testAdapterSetUpWithAgeRestrictedTreatmentSetToChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  NSString *applicationID = @"123";
+
+  // Mock IASDK
+  id sharedInstanceMock = OCMClassMock([IASDKCore class]);
+  OCMStub(ClassMethod([sharedInstanceMock sharedInstance])).andReturn(sharedInstanceMock);
+  OCMStub([sharedInstanceMock isInitialised]).andReturn(NO);
+  OCMStub([sharedInstanceMock initWithAppID:applicationID
+                            completionBlock:OCMOCK_ANY
+                            completionQueue:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        __unsafe_unretained void (^completionBlock)(BOOL success, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:3];
+        completionBlock(YES, nil);
+      });
+  OCMExpect([sharedInstanceMock setCoppaApplies:IACoppaAppliesTypeGiven]);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterFyberApplicationID : applicationID};

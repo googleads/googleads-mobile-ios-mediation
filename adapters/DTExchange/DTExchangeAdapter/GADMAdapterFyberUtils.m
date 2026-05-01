@@ -114,8 +114,11 @@ void GADMAdapterFyberSetCOPPA(void) {
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  if (ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+      [tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
     IASDKCore.sharedInstance.coppaApplies = IACoppaAppliesTypeGiven;
   } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     IASDKCore.sharedInstance.coppaApplies = IACoppaAppliesTypeDenied;
