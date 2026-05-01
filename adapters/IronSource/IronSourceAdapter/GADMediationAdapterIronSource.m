@@ -193,13 +193,14 @@
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent) {
-    if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
-      [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"YES"];
-    } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
-                [tagForUnderAgeOfConsent isEqual:@NO])) {
-      [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"NO"];
-    }
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
+    [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"YES"];
+  } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
+              [tagForUnderAgeOfConsent isEqual:@NO])) {
+    [LevelPlay setMetaDataWithKey:@"is_child_directed" value:@"NO"];
   }
 
   [IronSourceAds
