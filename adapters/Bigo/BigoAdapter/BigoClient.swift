@@ -40,7 +40,9 @@ protocol BigoClient: NSObject {
 
   /// Sets BIGO COPPA consent.
   func setUserConsent(
-    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?)
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?,
+    ageRestrictedTreatment: AgeRestrictedTreatment
+  )
 
   /// Initializes the BigoADS SDK.
   func initialize(with applicationId: String, testMode: Bool, completion: @escaping () -> Void)
@@ -228,7 +230,8 @@ final class BigoClientImpl: NSObject, BigoClient {
   }
 
   func setUserConsent(
-    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?,
+    ageRestrictedTreatment: AgeRestrictedTreatment
   ) {
     let isChild = tagForChildDirectedTreatment?.boolValue
     let isUnderAge = tagForUnderAgeOfConsent?.boolValue
@@ -237,7 +240,7 @@ final class BigoClientImpl: NSObject, BigoClient {
     // A value of "YES" indicates that the user is not a child under 13 years
     // old, and a value of "NO" indicates that the user is a child under 13
     // years old.
-    if isChild == true || isUnderAge == true {
+    if ageRestrictedTreatment == .child || isChild == true || isUnderAge == true {
       Util.log("Setting BigoConsentOptionsCOPPA to false")
       BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
     } else if isChild == false || isUnderAge == false {
