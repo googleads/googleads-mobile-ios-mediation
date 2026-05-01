@@ -19,6 +19,8 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -135,6 +137,44 @@ typedef void (^AUTChartboostSetUpCompletionBlock)(CHBStartError *);
   // and 4th is ignored because 3 was already valid.
   AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
   configuration.credentials = @[ credentials1, credentials2, credentials3, credentials4 ];
+
+  OCMExpect(
+      [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
+                        return obj.isChildDirected == YES;
+                      }]]);
+
+  XCTestExpectation *setUpExpectation = [[XCTestExpectation alloc] init];
+  [GADMediationAdapterChartboost setUpWithConfiguration:configuration
+                                      completionHandler:^(NSError *_Nullable error) {
+                                        XCTAssertNil(error);
+                                        [setUpExpectation fulfill];
+                                      }];
+
+  [self waitForExpectations:@[ setUpExpectation ]];
+  OCMVerifyAll(mockChartboost);
+
+  [mockChartboost stopMocking];
+}
+
+- (void)testSetUpCredentialsSuccessWithAgeRestrictedTreatment {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  id mockChartboost = OCMClassMock([Chartboost class]);
+  OCMExpect(ClassMethod([mockChartboost
+      startWithAppID:@"app_id"
+        appSignature:@"signature"
+          completion:[OCMArg
+                         checkWithBlock:^BOOL(AUTChartboostSetUpCompletionBlock completionBlock) {
+                           completionBlock(nil);
+                           return YES;
+                         }]]));
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings =
+      @{GADMAdapterChartboostAppID : @"app_id", GADMAdapterChartboostAppSignature : @"signature"};
+
+  AUTKMediationServerConfiguration *configuration = [[AUTKMediationServerConfiguration alloc] init];
+  configuration.credentials = @[ credentials ];
 
   OCMExpect(
       [mockChartboost addDataUseConsent:[OCMArg checkWithBlock:^BOOL(CHBCOPPADataUseConsent *obj) {
