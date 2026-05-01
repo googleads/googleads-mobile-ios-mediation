@@ -72,9 +72,11 @@
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *underAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  NSDictionary<NSString *, id> *requestParameters =
-      GADMAdapterInMobiRequestParameters(extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-                                         childDirectedTreatment, underAgeOfConsent);
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
+      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB, childDirectedTreatment,
+      underAgeOfConsent, ageRestrictedTreatment);
   NSString *keywords = nil;
   if (extras && extras.keywords) {
     keywords = extras.keywords;

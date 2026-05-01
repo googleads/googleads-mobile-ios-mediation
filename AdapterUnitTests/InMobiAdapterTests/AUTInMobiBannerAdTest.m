@@ -58,6 +58,9 @@ GADMediationBannerAdConfiguration *_Nonnull AUTGADMediationBannerAdConfiguration
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -129,7 +132,8 @@ GADMediationBannerAdConfiguration *_Nonnull AUTGADMediationBannerAdConfiguration
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent,
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment);
 
   XCTAssertNil(requestParameters[@"coppa"]);
 
@@ -179,7 +183,8 @@ GADMediationBannerAdConfiguration *_Nonnull AUTGADMediationBannerAdConfiguration
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent,
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment);
   IMBanner *mockBanner = (IMBanner *)[OCMockObject mockForClass:[IMBanner class]];
   OCMExpect([mockBanner shouldAutoRefresh:NO]);
   OCMExpect([mockBanner setTransitionAnimation:UIViewAnimationTransitionNone]);
@@ -237,7 +242,8 @@ GADMediationBannerAdConfiguration *_Nonnull AUTGADMediationBannerAdConfiguration
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent,
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment);
   IMBanner *mockBanner = (IMBanner *)[OCMockObject mockForClass:[IMBanner class]];
   OCMExpect([mockBanner shouldAutoRefresh:NO]);
   OCMExpect([mockBanner setTransitionAnimation:UIViewAnimationTransitionNone]);
