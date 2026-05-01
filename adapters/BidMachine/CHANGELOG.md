@@ -2,6 +2,7 @@
 
 #### Next Version
 - Upgrade BidMachine adapter and unit tests to Swift 6.
+- Maps `ageRestrictedTreatment` to BidMachine's COPPA API.
 
 #### [Version 3.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.6.1.0.zip)
 - Verified compatibility with BidMachine SDK version 3.6.1.
