@@ -126,7 +126,8 @@ static CGFloat const DefaultIconScale = 1.0;
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, mediationType,
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent,
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment);
   [_native setExtras:requestParameters];
 
   if (bidResponseData) {

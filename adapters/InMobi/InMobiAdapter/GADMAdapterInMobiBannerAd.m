@@ -140,7 +140,8 @@
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
       extras, mediationType,
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent,
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment);
   [_adView setExtras:requestParameters];
 
   if (bidResponseData) {
