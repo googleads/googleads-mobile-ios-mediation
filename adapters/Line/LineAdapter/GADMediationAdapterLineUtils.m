@@ -76,7 +76,10 @@ NSError *_Nullable GADMediationAdapterLineRegisterFiveAd(
 
   NSNumber *childDirectedTreatment = mobileAds.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent = mobileAds.requestConfiguration.tagForUnderAgeOfConsent;
-  if ([childDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  if ([childDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
     [config setNeedChildDirectedTreatment:kFADNeedChildDirectedTreatmentTrue];
   } else if ([childDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [config setNeedChildDirectedTreatment:kFADNeedChildDirectedTreatmentFalse];
