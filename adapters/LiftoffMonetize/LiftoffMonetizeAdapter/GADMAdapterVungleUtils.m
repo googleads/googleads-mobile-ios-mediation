@@ -54,7 +54,10 @@ VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
     [VunglePrivacySettings setCOPPAStatus:YES];
   } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [VunglePrivacySettings setCOPPAStatus:NO];
