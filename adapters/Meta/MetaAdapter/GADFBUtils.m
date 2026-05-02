@@ -50,12 +50,13 @@ void GADMAdapterFacebookSetMixedAudienceIfNeeded(void) {
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent) {
-    if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
-      [FBAdSettings setMixedAudience:YES];
-    } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
-                [tagForUnderAgeOfConsent isEqual:@NO])) {
-      [FBAdSettings setMixedAudience:NO];
-    }
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  if (ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+      [tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+    [FBAdSettings setMixedAudience:YES];
+  } else if (([tagForChildDirectedTreatment isEqual:@NO] ||
+              [tagForUnderAgeOfConsent isEqual:@NO])) {
+    [FBAdSettings setMixedAudience:NO];
   }
 }

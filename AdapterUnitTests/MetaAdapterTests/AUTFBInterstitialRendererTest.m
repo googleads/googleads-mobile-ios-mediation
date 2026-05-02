@@ -65,6 +65,8 @@ AUTKMediationInterstitialAdConfiguration *_Nonnull AUTGADMediationInterstitialAd
   // Reset the GMA SDK state to ensure test isolation.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   [_fbAdSettingsMock stopMocking];
   [super tearDown];
@@ -251,6 +253,31 @@ AUTKMediationInterstitialAdConfiguration *_Nonnull AUTGADMediationInterstitialAd
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
+- (void)testLoadInterstitialAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBInterstitialAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKInterstitialWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMStub([(FBInterstitialAd *)_mockFBInterstitialAdClass
+              loadAdWithBidPayload:AUTKInterstitialBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBInterstitialAd *ad = (FBInterstitialAd *)invocation.target;
+        [self->_interstitialAdDelegate interstitialAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadInterstitialAd(_adapter, AUTGADMediationInterstitialAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
 - (void)testLoadInterstitialAdWhenChildDirectedIsTrueAndUnderAgeIsFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
@@ -301,9 +328,11 @@ AUTKMediationInterstitialAdConfiguration *_Nonnull AUTGADMediationInterstitialAd
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
-- (void)testLoadInterstitialAdWhenBothAreTrue {
+- (void)testLoadInterstitialAdWhenBothAreTrueAndAgeRestrictedTreatmentIsChild {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
 
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
@@ -389,6 +418,31 @@ AUTKMediationInterstitialAdConfiguration *_Nonnull AUTGADMediationInterstitialAd
       }]]);
   OCMStub(
       [(FBInterstitialAd *)_mockFBInterstitialAdClass loadAdWithBidPayload:AUTKInterstitialBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBInterstitialAd *ad = (FBInterstitialAd *)invocation.target;
+        [self->_interstitialAdDelegate interstitialAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadInterstitialAd(_adapter, AUTGADMediationInterstitialAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
+- (void)testLoadInterstitialAdWhenAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBInterstitialAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKInterstitialWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMStub([(FBInterstitialAd *)_mockFBInterstitialAdClass
+              loadAdWithBidPayload:AUTKInterstitialBidResponse])
       .andDo(^(NSInvocation *invocation) {
         FBInterstitialAd *ad = (FBInterstitialAd *)invocation.target;
         [self->_interstitialAdDelegate interstitialAdDidLoad:ad];

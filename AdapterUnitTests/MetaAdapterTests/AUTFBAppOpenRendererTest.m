@@ -62,6 +62,8 @@ AUTKMediationAppOpenAdConfiguration *_Nonnull AUTGADMediationAppOpenAdConfigurat
   // Reset the GMA SDK state to ensure test isolation.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   [_fbAdSettingsMock stopMocking];
   [super tearDown];
@@ -251,6 +253,31 @@ AUTKMediationAppOpenAdConfiguration *_Nonnull AUTGADMediationAppOpenAdConfigurat
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
+- (void)testLoadAppOpenAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBInterstitialAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKAppOpenWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMStub(
+      [(FBInterstitialAd *)_mockFBInterstitialAdClass loadAdWithBidPayload:AUTKAppOpenBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBInterstitialAd *ad = (FBInterstitialAd *)invocation.target;
+        [self->_interstitialAdDelegate interstitialAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadAppOpenAd(_adapter, AUTGADMediationAppOpenAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
 - (void)testLoadAppOpenAdWhenChildDirectedIsTrueAndUnderAgeIsFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
@@ -326,9 +353,11 @@ AUTKMediationAppOpenAdConfiguration *_Nonnull AUTGADMediationAppOpenAdConfigurat
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
-- (void)testLoadAppOpenAdWhenBothAreFalse {
+- (void)testLoadAppOpenAdWhenBothAreFalseAndAgeRestrictedTreatmentIsUnspecified {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
 
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
@@ -377,6 +406,31 @@ AUTKMediationAppOpenAdConfiguration *_Nonnull AUTGADMediationAppOpenAdConfigurat
 
 - (void)testLoadAppOpenAdWhenUnderAgeIsFalseAndChildDirectedIsNil {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBInterstitialAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKAppOpenWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMStub(
+      [(FBInterstitialAd *)_mockFBInterstitialAdClass loadAdWithBidPayload:AUTKAppOpenBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBInterstitialAd *ad = (FBInterstitialAd *)invocation.target;
+        [self->_interstitialAdDelegate interstitialAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadAppOpenAd(_adapter, AUTGADMediationAppOpenAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
+- (void)testLoadAppOpenAdWhenAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
   OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
 
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
