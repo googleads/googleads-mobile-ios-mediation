@@ -61,6 +61,8 @@ AUTKMediationRewardedAdConfiguration *_Nonnull AUTGADMediationRewardedAdConfigur
   // Reset the GMA SDK state to ensure test isolation.
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 
   [_fbAdSettingsMock stopMocking];
   [super tearDown];
@@ -292,6 +294,36 @@ AUTKMediationRewardedAdConfiguration *_Nonnull AUTGADMediationRewardedAdConfigur
   OCMVerifyAll(_fbAdSettingsMock);
 }
 
+- (void)testLoadRewardedAdWhenAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBRewardedVideoAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKRewardedWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMExpect([_mockFBRewardedVideoAdClass
+      setAdExperienceConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExperienceConfig *config = (FBAdExperienceConfig *)obj;
+        return [config.adExperienceType isEqualToString:FBAdExperienceTypeRewarded];
+      }]]);
+  OCMStub([(FBRewardedVideoAd *)_mockFBRewardedVideoAdClass
+              loadAdWithBidPayload:AUTKRewardedBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBRewardedVideoAd *ad = (FBRewardedVideoAd *)invocation.target;
+        [self->_rewardedVideoAdDelegate rewardedVideoAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadRewardedAd(_adapter, AUTGADMediationRewardedAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
 - (void)testLoadRewardedAdWhenChildDirectedIsTrueAndUnderAgeIsFalse {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
@@ -355,6 +387,8 @@ AUTKMediationRewardedAdConfiguration *_Nonnull AUTGADMediationRewardedAdConfigur
 - (void)testLoadRewardedAdWhenBothAreTrue {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @YES;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
   OCMExpect([_fbAdSettingsMock setMixedAudience:YES]);
 
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
@@ -443,6 +477,36 @@ AUTKMediationRewardedAdConfiguration *_Nonnull AUTGADMediationRewardedAdConfigur
 
 - (void)testLoadRewardedAdWhenUnderAgeIsFalseAndChildDirectedIsNil {
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
+
+  GADMAdapterFacebookSetMixedAudienceIfNeeded();
+  OCMExpect([_mockFBRewardedVideoAdClass
+      setExtraHint:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExtraHint *hint = (FBAdExtraHint *)obj;
+        NSData *watermarkData = [AUTKRewardedWatermark dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *watermarkString = [watermarkData base64EncodedStringWithOptions:0];
+        return [hint.mediationData isEqualToString:watermarkString];
+      }]]);
+  OCMExpect([_mockFBRewardedVideoAdClass
+      setAdExperienceConfig:[OCMArg checkWithBlock:^BOOL(id obj) {
+        FBAdExperienceConfig *config = (FBAdExperienceConfig *)obj;
+        return [config.adExperienceType isEqualToString:FBAdExperienceTypeRewarded];
+      }]]);
+  OCMStub([(FBRewardedVideoAd *)_mockFBRewardedVideoAdClass
+              loadAdWithBidPayload:AUTKRewardedBidResponse])
+      .andDo(^(NSInvocation *invocation) {
+        FBRewardedVideoAd *ad = (FBRewardedVideoAd *)invocation.target;
+        [self->_rewardedVideoAdDelegate rewardedVideoAdDidLoad:ad];
+      });
+
+  AUTKWaitAndAssertLoadRewardedAd(_adapter, AUTGADMediationRewardedAdConfiguration());
+
+  OCMVerifyAll(_fbAdSettingsMock);
+}
+
+- (void)testLoadRewardedAdWhenAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
   OCMExpect([_fbAdSettingsMock setMixedAudience:NO]);
 
   GADMAdapterFacebookSetMixedAudienceIfNeeded();
