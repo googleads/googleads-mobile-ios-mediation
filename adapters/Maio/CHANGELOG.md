@@ -1,5 +1,8 @@
 ## maio iOS Mediation Adapter Changelog
 
+#### Next Version
+- Filter age-restricted requests for maio SDK when new ageRestrictedTreatment is set to GADAgeRestrictedTreatmentChild.
+
 #### [Version 2.2.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/maio/MaioAdapter-2.2.1.1.zip)
 - Filter age-restricted requests for maio SDK because it cannot receive age-restricted signals.
 
