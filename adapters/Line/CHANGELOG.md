@@ -1,5 +1,8 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Next Version
+- Maps `ageRestrictedTreatment` to Line's COPPA API.
+
 #### [Version 3.0.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/line/LineAdapter-3.0.1.0.zip)
 - Verified compatibility with FiveAd SDK version 3.0.1.
 
