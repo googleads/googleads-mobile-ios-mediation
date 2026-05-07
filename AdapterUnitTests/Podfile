@@ -418,3 +418,23 @@ abstract_target 'Default' do
   end
 
 end
+
+post_install do |installer|
+  installer.aggregate_targets.each do |target|
+    target.user_project.targets.each do |user_target|
+      if user_target.name == 'UnityAdapterTests'
+        user_target.build_configurations.each do |config|
+          ldflags = config.build_settings['OTHER_LDFLAGS']
+          if ldflags.is_a?(String)
+            config.build_settings['OTHER_LDFLAGS'] += ' -lc++'
+          elsif ldflags.is_a?(Array)
+            config.build_settings['OTHER_LDFLAGS'] << '-lc++'
+          else
+            config.build_settings['OTHER_LDFLAGS'] = '$(inherited) -lc++'
+          end
+        end
+      end
+    end
+    target.user_project.save
+  end
+end
