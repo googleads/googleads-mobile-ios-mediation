@@ -46,7 +46,7 @@ protocol BidMachineClient: NSObject {
 
   /// Collects the signals  for the specified ad format.
   func collectSignals(
-    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void)
+    for adFormat: GoogleMobileAds.AdFormat, size: AdSize?, completionHandler: @escaping (String?) -> Void)
     throws
 
   /// Loads a waterfall  banner ad.
@@ -56,7 +56,7 @@ protocol BidMachineClient: NSObject {
 
   /// Loads a RTB banner ad.
   func loadRTBBannerAd(
-    with bidResponse: String, delegate: BidMachineAdDelegate, watermark: String,
+    with bidResponse: String, size: AdSize, delegate: BidMachineAdDelegate, watermark: String,
     completionHandler: @escaping (NSError?) -> Void) throws
 
   /// Loads a RTB interstitial ad.
@@ -119,9 +119,9 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
   }
 
   func collectSignals(
-    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
+    for adFormat: GoogleMobileAds.AdFormat, size: AdSize?, completionHandler: @escaping (String?) -> Void
   ) throws {
-    let placementFormat = try adFormat.toPlacementFormat()
+    let placementFormat = try adFormat.toPlacementFormat(size: size)
     let placement = try BidMachineSdk.shared.placement(from: placementFormat)
     BidMachineSdk.shared.token(placement: placement) { token in
       completionHandler(token)
@@ -133,24 +133,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     delegate: any BidMachineAdDelegate,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let closestAdSize = closestValidSizeForAdSizes(
-      original: size,
-      possibleAdSizes: [
-        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
-        nsValue(for: AdSizeLeaderboard),
-      ])
-    let bannerFormat: PlacementFormat
-    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeBanner) {
-      bannerFormat = .banner320x50
-    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeMediumRectangle) {
-      bannerFormat = .banner300x250
-    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeLeaderboard) {
-      bannerFormat = .banner728x90
-    } else {
-      throw BidMachineAdapterError(
-        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
-    }
-
+    let bannerFormat = try size.toPlacementFormat()
     try loadBannerAd(
       with: nil, placementFormat: bannerFormat, delegate: delegate, watermark: nil,
       completionHandler: completionHandler)
@@ -158,12 +141,14 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
   func loadRTBBannerAd(
     with bidResponse: String,
+    size: AdSize,
     delegate: BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    let bannerFormat = try size.toPlacementFormat()
     try loadBannerAd(
-      with: bidResponse, placementFormat: .banner, delegate: delegate, watermark: watermark,
+      with: bidResponse, placementFormat: bannerFormat, delegate: delegate, watermark: watermark,
       completionHandler: completionHandler)
   }
 
@@ -370,9 +355,15 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
 
 extension GoogleMobileAds.AdFormat {
 
-  fileprivate func toPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
+  fileprivate func toPlacementFormat(size: AdSize?) throws(BidMachineAdapterError) -> PlacementFormat {
     switch self {
-    case .banner: return .banner
+    case .banner:
+      guard let size else {
+        throw BidMachineAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description: "Banner ad format requires ad size.")
+      }
+      return try size.toPlacementFormat()
     case .interstitial: return .interstitial
     case .rewarded: return .rewarded
     case .native: return .native
@@ -383,4 +374,27 @@ extension GoogleMobileAds.AdFormat {
     }
   }
 
+}
+
+extension GoogleMobileAds.AdSize {
+
+  fileprivate func toPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
+    let closestAdSize = closestValidSizeForAdSizes(
+      original: self,
+      possibleAdSizes: [
+        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
+        nsValue(for: AdSizeLeaderboard),
+      ])
+
+    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeBanner) {
+      return .banner320x50
+    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeMediumRectangle) {
+      return .banner300x250
+    } else if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeLeaderboard) {
+      return .banner728x90
+    } else {
+      throw BidMachineAdapterError(
+        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+    }
+  }
 }

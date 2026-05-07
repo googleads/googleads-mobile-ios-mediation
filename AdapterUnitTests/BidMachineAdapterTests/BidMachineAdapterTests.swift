@@ -254,6 +254,7 @@ final class BidMachineAdapterSignalsCollectionTests {
     configurations.credentials = [credentials]
     let requestParams = AUTKRTBRequestParameters()
     requestParams.configuration = configurations
+    requestParams.adSize = AdSizeBanner
 
     let adapter = BidMachineAdapter()
     await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
@@ -261,6 +262,79 @@ final class BidMachineAdapterSignalsCollectionTests {
         adapter.collectSignals(for: requestParams) { signals, error in
           #expect(error == nil)
           #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter collects signals for an MREC banner ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsBannerMREC() async {
+    let client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    requestParams.adSize = AdSizeMediumRectangle
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter collects signals for a leaderboard banner ad request successfully.")
+  func signalCollection_succeeds_whenRequestFormatIsBannerLeaderboard() async {
+    let client = FakeBidMachineClient()
+    BidMachineClientFactory.debugClient = client
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    requestParams.adSize = AdSizeLeaderboard
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error == nil)
+          #expect(signals != nil)
+          continuation.resume()
+        }
+      }
+      signalsCollectionCompleted()
+    }
+  }
+
+  @Test("The adapter fails to collect signals for a banner ad request without ad size.")
+  func signalCollection_fails_whenBannerRequestHasInvalidSize() async {
+    let credentials = AUTKMediationCredentials()
+    credentials.format = .banner
+    let configurations = AUTKRTBMediationSignalsConfiguration()
+    configurations.credentials = [credentials]
+    let requestParams = AUTKRTBRequestParameters()
+    requestParams.configuration = configurations
+    // adSize stays AdSizeInvalid by default → adapter must not pass nil to BM.
+
+    let adapter = BidMachineAdapter()
+    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
+      await withCheckedContinuation { continuation in
+        adapter.collectSignals(for: requestParams) { signals, error in
+          #expect(error != nil)
+          #expect(signals == nil)
           continuation.resume()
         }
       }

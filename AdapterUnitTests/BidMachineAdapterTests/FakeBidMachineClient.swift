@@ -35,6 +35,7 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   var shouldBidMachineSucceedLoadingAd = true
   var shouldBidMachineSucceedPresenting = true
 
+
   nonisolated func version() -> String {
     return BidMachineSdk.sdkVersion
   }
@@ -45,13 +46,32 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
   }
 
   nonisolated func collectSignals(
-    for adFormat: GoogleMobileAds.AdFormat, completionHandler: @escaping (String?) -> Void
+    for adFormat: GoogleMobileAds.AdFormat,
+    size: AdSize?,
+    completionHandler: @escaping (String?) -> Void
   )
     throws
   {
     if !FakeBidMachineClient.supportedFormats.contains(adFormat) {
       throw BidMachineAdapterError(
         errorCode: .invalidRTBRequestParameters, description: "test description.")
+    }
+    if adFormat == .banner {
+      guard let size else {
+        throw BidMachineAdapterError(
+          errorCode: .invalidRTBRequestParameters,
+          description: "Banner ad format requires ad size.")
+      }
+      let closestAdSize = closestValidSizeForAdSizes(
+        original: size,
+        possibleAdSizes: [
+          nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
+          nsValue(for: AdSizeLeaderboard),
+        ])
+      if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeInvalid) {
+        throw BidMachineAdapterError(
+          errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+      }
     }
     completionHandler("Test signals")
   }
@@ -93,10 +113,22 @@ final class FakeBidMachineClient: NSObject, @preconcurrency BidMachineClient {
 
   func loadRTBBannerAd(
     with bidResponse: String,
+    size: AdSize,
     delegate: any BidMachineAdDelegate,
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
+    let closestAdSize = closestValidSizeForAdSizes(
+      original: size,
+      possibleAdSizes: [
+        nsValue(for: AdSizeBanner), nsValue(for: AdSizeMediumRectangle),
+        nsValue(for: AdSizeLeaderboard),
+      ])
+    if isAdSizeEqualToSize(size1: closestAdSize, size2: AdSizeInvalid) {
+      throw BidMachineAdapterError(
+        errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+    }
+
     if !shouldBidMachineSucceedCreatingRequestConfig {
       throw NSError(domain: "com.test.domain", code: 12345)
     }
