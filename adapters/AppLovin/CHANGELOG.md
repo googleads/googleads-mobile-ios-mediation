@@ -1,6 +1,11 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Next version
+
+- Added new adapter API implementation for waterfall banner ad format.
+
 #### Version 13.6.2.1 (In progress)
+
 - Added new adapter API implementation for waterfall interstitial ad format.
 - Filter age-restricted requests for AppLovin SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
 
