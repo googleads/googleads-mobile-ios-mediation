@@ -56,7 +56,8 @@ final class BigoAdapter: NSObject, RTBAdapter {
       let requestConfiguration = MobileAds.shared.requestConfiguration
       client.setUserConsent(
         with: requestConfiguration.tagForChildDirectedTreatment,
-        tagForUnderAgeOfConsent: requestConfiguration.tagForUnderAgeOfConsent)
+        tagForUnderAgeOfConsent: requestConfiguration.tagForUnderAgeOfConsent,
+        ageRestrictedTreatment: requestConfiguration.ageRestrictedTreatment)
       client.initialize(
         with: applicationId, testMode: BigoAdapterExtras.testMode
       ) {

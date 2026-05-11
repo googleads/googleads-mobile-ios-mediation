@@ -165,7 +165,8 @@ final class FakeBigoClient: NSObject, BigoClient {
   }
 
   func setUserConsent(
-    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?
+    with tagForChildDirectedTreatment: NSNumber?, tagForUnderAgeOfConsent: NSNumber?,
+    ageRestrictedTreatment: AgeRestrictedTreatment
   ) {
     let isChild = tagForChildDirectedTreatment?.boolValue
     let isUnderAge = tagForUnderAgeOfConsent?.boolValue
@@ -174,7 +175,7 @@ final class FakeBigoClient: NSObject, BigoClient {
     // A value of "YES" indicates that the user is not a child under 13 years
     // old, and a value of "NO" indicates that the user is a child under 13
     // years old.
-    if isChild == true || isUnderAge == true {
+    if ageRestrictedTreatment == .child || isChild == true || isUnderAge == true {
       BigoAdSdk.setUserConsentWithOption(BigoConsentOptionsCOPPA, consent: false)
       bigoConsentOptionsCOPPA = false
     } else if isChild == false || isUnderAge == false {
