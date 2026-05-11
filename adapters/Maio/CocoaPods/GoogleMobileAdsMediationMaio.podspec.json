@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "MaioSDK-v2": "2.2.1",
-    "Google-Mobile-Ads-SDK": "~> 13.0"
+    "Google-Mobile-Ads-SDK": "~> 13.3.0"
   },
   "pod_target_xcconfig": {
     "VALID_ARCHS[sdk=iphonesimulator*]": "arm64 x86_64",
