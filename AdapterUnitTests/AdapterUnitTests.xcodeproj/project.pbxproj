@@ -278,6 +278,8 @@
 		ADFB3C502D9C8F120048B197 /* PubMaticBannerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */; };
 		B891FDAA1B21EEFFBD263E69 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CD0084442F68CCAC009BAEC3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
+		CD00AE352FB25C0200F2F45B /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD00ADDC2FB25BFB00F2F45B /* placeholder.swift */; };
+		CD00AE382FB25CC300F2F45B /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD00AE372FB25CC300F2F45B /* libc++.tbd */; };
 		CD1D4DA72F3BE2B5009A7681 /* AdapterUnitTestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6FA0352A16BF4A007335D2 /* AdapterUnitTestKit.framework */; };
 		CD1E36C22F7B4A74008DFBF6 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */; };
 		CD1E36C42F7B4A9B008DFBF6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
@@ -1473,6 +1475,13 @@
 			remoteGlobalIDString = ADFB2A902DC346AF005EBC7F;
 			remoteInfo = StaticGoogleBidMachineAdapter;
 		};
+		CD00AE132FB25BFC00F2F45B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDC302D92F994E440071A719 /* MaxAdapter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CDD345432FABCDD000E1E567;
+			remoteInfo = StaticMaxAdapter;
+		};
 		CD1D4DA42F3BE27B009A7681 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD6FA02A2A16BEF3007335D2 /* Project object */;
@@ -1806,6 +1815,9 @@
 		ADFB3BB72D9C6E000048B197 /* PubMaticRewardedAdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticRewardedAdTests.swift; sourceTree = "<group>"; };
 		ADFB3C4F2D9C8F090048B197 /* PubMaticBannerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubMaticBannerViewTests.swift; sourceTree = "<group>"; };
 		CD0083F12F68CCAB009BAEC3 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.2.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		CD00ADDC2FB25BFB00F2F45B /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD00AE362FB25C0400F2F45B /* UnityAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnityAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD00AE372FB25CC300F2F45B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		CD1D4D9B2F3BE224009A7681 /* MetaAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetaAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1D4DA82F3BE5DB009A7681 /* MetaAdapter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MetaAdapter.xcodeproj; path = ../adapters/MetaAdapter/MetaAdapter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
@@ -2111,6 +2123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD00AE382FB25CC300F2F45B /* libc++.tbd in Frameworks */,
 				AD6E3B3A2EA16D3C00818296 /* libAdapter.a in Frameworks */,
 				AD45EDCC2A784AA8001B29D8 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -2683,6 +2696,7 @@
 		AD45ED342A78111F001B29D8 /* UnityAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD00ADDC2FB25BFB00F2F45B /* placeholder.swift */,
 				AD45ED6A2A783779001B29D8 /* UnityAdapterTests.xctestplan */,
 				AD45ED352A78111F001B29D8 /* AUTUnityAdapterTests.m */,
 				AD45EDE92A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m */,
@@ -2690,6 +2704,7 @@
 				AD45EDFC2A7AB66A001B29D8 /* AUTUnityTestCase.m */,
 				AD45EEC92A7D7679001B29D8 /* AUTUnityRewardedAdTests.m */,
 				AD45EED52A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m */,
+				CD00AE362FB25C0400F2F45B /* UnityAdapterTests-Bridging-Header.h */,
 			);
 			path = UnityAdapterTests;
 			sourceTree = "<group>";
@@ -2890,6 +2905,7 @@
 		AD6FA03D2A16BF98007335D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD00AE372FB25CC300F2F45B /* libc++.tbd */,
 				CDD221592F7B301300ED9C43 /* libc++.1.tbd */,
 				CD0083F12F68CCAB009BAEC3 /* libc++.tbd */,
 				70E0D7742C47A8C900241981 /* GoogleMobileAds.xcframework */,
@@ -3117,6 +3133,7 @@
 			children = (
 				CDC303352F994E450071A719 /* libMaxAdapter.a */,
 				CDC303372F994E450071A719 /* MaxAdapterFramework.framework */,
+				CD00AE142FB25BFC00F2F45B /* libStaticMaxAdapter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4019,6 +4036,7 @@
 					};
 					AD45EDBD2A784A3A001B29D8 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 2640;
 					};
 					AD5A4EDA2E0F331D0078AFC1 = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
@@ -4730,6 +4748,13 @@
 			remoteRef = ADFB31F82DC401D5005EBC7F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CD00AE142FB25BFC00F2F45B /* libStaticMaxAdapter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libStaticMaxAdapter.a;
+			remoteRef = CD00AE132FB25BFC00F2F45B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CD1D4DB32F3BE5DB009A7681 /* libAdapter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -5337,6 +5362,7 @@
 				AD45EED62A7D7DEA001B29D8 /* AUTUnityBannerAdTests.m in Sources */,
 				AD45EDC52A784A81001B29D8 /* AUTUnityAdapterTests.m in Sources */,
 				AD45EECA2A7D7679001B29D8 /* AUTUnityRewardedAdTests.m in Sources */,
+				CD00AE352FB25C0200F2F45B /* placeholder.swift in Sources */,
 				AD45EDFD2A7AB66A001B29D8 /* AUTUnityTestCase.m in Sources */,
 				AD45EDEA2A79BE23001B29D8 /* AUTUnityInterstitialAdTests.m in Sources */,
 			);
@@ -9583,6 +9609,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "UnityAdapterTests/UnityAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9650,6 +9679,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "UnityAdapterTests/UnityAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
