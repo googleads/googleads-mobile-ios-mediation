@@ -1,6 +1,6 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 3.6.1.1 (In progress)
 - Upgrade BidMachine adapter and unit tests to Swift 6.
 - Maps `ageRestrictedTreatment` to BidMachine's COPPA API.
 
