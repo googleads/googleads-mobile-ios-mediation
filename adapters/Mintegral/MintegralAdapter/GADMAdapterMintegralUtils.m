@@ -123,8 +123,11 @@ UIWindow *_Nullable GADMAdapterMintegralKeyWindow(void) {
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
 
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  if (ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+      [tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
     [[MTGSDK sharedInstance] setCoppa:MTGBoolYes];
   } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [[MTGSDK sharedInstance] setCoppa:MTGBoolNo];

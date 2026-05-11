@@ -1,5 +1,8 @@
 ## Mintegral iOS Mediation Adapter Changelog
 
+#### Next Version
+- Maps `ageRestrictedTreatment` to Mintegral's COPPA API.
+
 #### [Version 8.1.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mintegral/MintegralAdapter-8.1.3.0.zip)
 - Verified compatibility with Mintegral SDK version 8.1.3.
 
