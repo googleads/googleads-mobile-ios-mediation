@@ -1,5 +1,8 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
+#### Next Version
+- Maps `ageRestrictedTreatment` to Liftoff Monetize's COPPA API.
+
 #### [Version 7.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.2.0.zip)
 - Added a log message when an unsupported banner ad size is requested.
 - Added setting of `adapterAdFormat` property introduced in Vungle SDK version 7.7.1.
