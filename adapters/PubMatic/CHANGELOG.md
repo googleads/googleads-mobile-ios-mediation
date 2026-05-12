@@ -1,6 +1,6 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 5.1.0.1 (In progress)
 - Maps `ageRestrictedTreatment` to PubMatic's COPPA API.
 
 #### [Version 5.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.0.0.zip)
