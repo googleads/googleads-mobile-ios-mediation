@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "MolocoSDKiOS": "4.6.1",
-    "Google-Mobile-Ads-SDK": "~> 13.0"
+    "Google-Mobile-Ads-SDK": "~> 13.3.0"
   },
   "preserve_paths": [
     "MolocoAdapter-4.6.1.0/README.md"

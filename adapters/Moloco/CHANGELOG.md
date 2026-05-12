@@ -1,5 +1,8 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Next Version
+- Maps `ageRestrictedTreatment` to Moloco's COPPA API.
+
 #### Version 4.6.1.0 (In progress)
 
 #### [Version 4.6.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.6.0.0.zip)
