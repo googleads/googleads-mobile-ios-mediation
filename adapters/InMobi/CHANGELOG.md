@@ -1,6 +1,6 @@
 ## InMobi iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 11.2.0.1 (In progress)
 - Maps `ageRestrictedTreatment` to InMobi's COPPA API.
 
 #### [Version 11.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.2.0.0.zip)
