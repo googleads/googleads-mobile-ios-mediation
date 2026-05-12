@@ -1,6 +1,6 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 7.7.2.1 (In progress)
 - Maps `ageRestrictedTreatment` to Liftoff Monetize's COPPA API.
 
 #### [Version 7.7.2.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.2.0.zip)

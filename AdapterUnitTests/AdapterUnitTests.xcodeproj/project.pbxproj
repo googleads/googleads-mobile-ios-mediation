@@ -284,6 +284,7 @@
 		CD1E36C22F7B4A74008DFBF6 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1E366F2F7B4A6D008DFBF6 /* placeholder.swift */; };
 		CD1E36C42F7B4A9B008DFBF6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD2338A32F85C1D1009A7D50 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2338502F85C1CB009A7D50 /* placeholder.swift */; };
+		CD29B2802FB3D30A0008BF47 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD29B27F2FB3D3030008BF47 /* placeholder.swift */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
 		CD770AA02F7B39DD00345679 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD770A4D2F7B39D700345679 /* placeholder.swift */; };
 		CD770AA22F7B39F700345679 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
@@ -1824,6 +1825,8 @@
 		CD1E36C32F7B4A76008DFBF6 /* MintegralAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MintegralAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD2338502F85C1CB009A7D50 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD2338A42F85C29D009A7D50 /* IronSourceAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IronSourceAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD29B27F2FB3D3030008BF47 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD29B2812FB3D3310008BF47 /* LiftoffMonetizeAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiftoffMonetizeAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD73B2BA2F69E62A00E86C91 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770A4D2F7B39D700345679 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTargetAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2494,6 +2497,8 @@
 		AD0D6EEE2AF5BD2E002C0B60 /* LiftoffMonetizeAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD29B2812FB3D3310008BF47 /* LiftoffMonetizeAdapterTests-Bridging-Header.h */,
+				CD29B27F2FB3D3030008BF47 /* placeholder.swift */,
 				707FFDC52B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m */,
 				70D2CBA12B0B41ED00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m */,
 				AD0D6F232AF5C17C002C0B60 /* LiftoffMonetizeAdapterTests.xctestplan */,
@@ -5212,6 +5217,7 @@
 				707FFE702B1458CC006A1283 /* AUTLiftoffMonetizeRouterTests.m in Sources */,
 				70D2CBC22B0B41EE00E94792 /* AUTLiftoffMonetizeRTBRewardedAdTests.m in Sources */,
 				707FFDE62B1331FB006A1283 /* AUTLiftoffMonetizeRewardedInterstitialAdTest.m in Sources */,
+				CD29B2802FB3D30A0008BF47 /* placeholder.swift in Sources */,
 				AD0D6EFB2AF5BE4B002C0B60 /* AUTLiftoffMonetizeAdapterTests.m in Sources */,
 				70D2CC7D2B0C4B5600E94792 /* AUTLiftoffMonetizeWaterfallRewardedAdTests.m in Sources */,
 				7003A94A2B965BBB0082A2F3 /* AUTLiftoffMonetizeAppOpenAdTests.m in Sources */,
