@@ -1,6 +1,6 @@
 ## DT Exchange iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 8.4.7.1 (In progress)
 - Maps `ageRestrictedTreatment` to DTExchange's COPPA API.
 
 #### [Version 8.4.7.0](https://dl.google.com/googleadmobadssdk/mediation/ios/dtexchange/DTExchangeAdapter-8.4.7.0.zip)
