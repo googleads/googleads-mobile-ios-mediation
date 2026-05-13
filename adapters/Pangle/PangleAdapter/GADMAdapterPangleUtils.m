@@ -43,7 +43,8 @@ void GADMAdapterPangleMutableSetAddObject(NSMutableSet *_Nullable set, NSObject 
 + (BOOL)isChildUser {
   GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
   return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
-         [requestConfiguration.tagForUnderAgeOfConsent boolValue];
+         [requestConfiguration.tagForUnderAgeOfConsent boolValue] ||
+         requestConfiguration.ageRestrictedTreatment == GADAgeRestrictedTreatmentChild;
 }
 
 @end
