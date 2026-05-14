@@ -1,8 +1,12 @@
 ## BidMachine iOS Mediation Adapter Changelog
 
-#### Version 3.6.1.1 (In progress)
+#### [Version 3.6.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.6.1.1.zip)
+- Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to BidMachine SDK's COPPA API.
 - Upgrade BidMachine adapter and unit tests to Swift 6.
-- Maps `ageRestrictedTreatment` to BidMachine's COPPA API.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+- BidMachine SDK version 3.6.1.
 
 #### [Version 3.6.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/bidmachine/BidMachineAdapter-3.6.1.0.zip)
 - Verified compatibility with BidMachine SDK version 3.6.1.
