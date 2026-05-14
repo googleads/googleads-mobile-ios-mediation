@@ -79,12 +79,16 @@ void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
   [super setUp];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
 }
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -127,6 +131,36 @@ void AUTFailToLoadBannerAd(MTRGAdView *_Nonnull bannerAd, GADAdSize adSize,
   MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  AUTLoadBannerAd(adView);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentChild {
+  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadBannerAd(adView);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentTeen {
+  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  AUTLoadBannerAd(adView);
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithBannerAdWithAgeRestrictedTreatmentUnspecified {
+  MTRGAdView *adView = [MTRGAdView adViewWithSlotId:AUTSlotID shouldRefreshAd:NO];
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
   AUTLoadBannerAd(adView);
   OCMVerifyAll(_mockPrivacy);
