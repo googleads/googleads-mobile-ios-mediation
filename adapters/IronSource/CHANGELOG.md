@@ -1,6 +1,6 @@
 ## IronSource iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 9.4.1.0.1 (In progress)
 - Maps `ageRestrictedTreatment` to ironSource's COPPA API.
 
 #### [Version 9.4.1.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/ironsource/IronSourceAdapter-9.4.1.0.0.zip)
