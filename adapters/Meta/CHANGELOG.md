@@ -1,6 +1,6 @@
 ## Meta Audience Network iOS Mediation Adapter Changelog
 
-#### Next Version
+#### Version 6.21.1.1 (In progress)
 - Maps `ageRestrictedTreatment` to Meta's COPPA API.
 
 #### [Version 6.21.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/meta/MetaAdapter-6.21.1.0.zip)
