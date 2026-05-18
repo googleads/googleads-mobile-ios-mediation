@@ -1,5 +1,7 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Version 5.43.0.0 (In progress)
+
 #### Version 5.42.1.1 (In progress)
 - Maps `ageRestrictedTreatment` to myTarget's COPPA API.
 
