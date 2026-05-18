@@ -48,3 +48,5 @@ static GADMAdapterInMobiRequestParametersMediationType const
 /// InMobi RTB mediation type.
 static GADMAdapterInMobiRequestParametersMediationType const
     GADMAdapterInMobiRequestParametersMediationTypeRTB = @"c_google";
+
+
