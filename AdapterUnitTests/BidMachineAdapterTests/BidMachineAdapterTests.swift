@@ -319,29 +319,6 @@ final class BidMachineAdapterSignalsCollectionTests {
     }
   }
 
-  @Test("The adapter fails to collect signals for a banner ad request without ad size.")
-  func signalCollection_fails_whenBannerRequestHasInvalidSize() async {
-    let credentials = AUTKMediationCredentials()
-    credentials.format = .banner
-    let configurations = AUTKRTBMediationSignalsConfiguration()
-    configurations.credentials = [credentials]
-    let requestParams = AUTKRTBRequestParameters()
-    requestParams.configuration = configurations
-    // adSize stays AdSizeInvalid by default → adapter must not pass nil to BM.
-
-    let adapter = BidMachineAdapter()
-    await confirmation("wait for the adpater collect signals") { signalsCollectionCompleted in
-      await withCheckedContinuation { continuation in
-        adapter.collectSignals(for: requestParams) { signals, error in
-          #expect(error != nil)
-          #expect(signals == nil)
-          continuation.resume()
-        }
-      }
-      signalsCollectionCompleted()
-    }
-  }
-
   @Test("The adapter collects signals for an interstitial ad request successfully.")
   func signalCollection_succeeds_whenRequestFormatIsInterstitial() async {
     let credentials = AUTKMediationCredentials()

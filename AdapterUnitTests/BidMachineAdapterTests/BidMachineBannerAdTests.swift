@@ -63,21 +63,6 @@ final class BidMachineRTBBannerAdTests {
     AUTKWaitAndAssertLoadBannerAd(adapter, adConfig)
   }
 
-  @Test("RTB banner ad load fails for unsupported size")
-  func load_fails_whenSizeIsNotSupported() async {
-    let adConfig = AUTKMediationBannerAdConfiguration()
-    adConfig.bidResponse = "test response"
-    adConfig.watermark = "test watermark".data(using: .utf8)
-    adConfig.adSize = AdSizeSkyscraper
-    let adapter = BidMachineAdapter()
-
-    let expectedError = BidMachineAdapterError(
-      errorCode: .unsupportedBannerSize,
-      description: "Unsupported banner size."
-    ).toNSError()
-    AUTKWaitAndAssertLoadBannerAdFailure(adapter, adConfig, expectedError)
-  }
-
   @Test("RTB banner ad load fails for failing to create a request config")
   func load_fails_whenBidMachineFailsToCreateRequestConfig() async {
     client.shouldBidMachineSucceedCreatingRequestConfig = false
