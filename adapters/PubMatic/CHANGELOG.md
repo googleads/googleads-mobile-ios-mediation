@@ -1,5 +1,12 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
+#### [Version 5.1.0.3](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.0.3.zip)
+- Verified compatibility with PubMatic SDK version 5.1.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+- PubMatic SDK version 5.1.0.
+
 #### [Version 5.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.0.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to PutMatic OpenWrap SDK's COPPA API.
 

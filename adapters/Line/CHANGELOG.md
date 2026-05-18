@@ -1,5 +1,11 @@
 ## LINE iOS Mediation Adapter Changelog
 
+#### Version 3.0.1.3
+- Verified compatibility with Google Mobile Ads SDK version 13.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+
 #### Version 3.0.1.1 (In progress)
 - Maps `ageRestrictedTreatment` to Line's COPPA API.
 

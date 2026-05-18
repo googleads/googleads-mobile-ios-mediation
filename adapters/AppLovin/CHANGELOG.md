@@ -1,5 +1,11 @@
 ## AppLovin iOS Mediation Adapter Changelog
 
+#### Version 13.6.2.3
+- Verified compatibility with Google Mobile Ads SDK version 13.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+
 #### Next version
 
 - Added new adapter API implementation for waterfall banner ad format.

@@ -1,5 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
+#### Version 2.3.4.8
+- Verified compatibility with Google Mobile Ads SDK version 13.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+
 #### [Version 2.3.4.6](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.6.zip)
 - Filter age-restricted requests for i-mobile SDK because it cannot receive age-restricted signals.
 

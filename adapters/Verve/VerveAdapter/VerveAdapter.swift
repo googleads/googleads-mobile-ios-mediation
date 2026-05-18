@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterVerve)
 final class VerveAdapter: NSObject, RTBAdapter {
 
-  private static let version = "3.8.1.0"
+  private static let version = "3.8.1.1"
 
   /// The banner ad loader.
   private var bannerAdLoader: BannerAdLoader?
