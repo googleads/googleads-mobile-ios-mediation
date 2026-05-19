@@ -280,7 +280,13 @@ static CGFloat const AUTLineTestVideoWidth = 123;
   // Mock FiveAdSDK.
   [self mockFiveAdNativeAdLoadWithVideoWidth:AUTLineTestVideoWidth];
   UIImage *expectedIconImage = [[UIImage alloc] init];
-  UIImage *expectedAdChoiceImage = [[UIImage alloc] init];
+
+  // Create a 100x50 mock image for the information icon.
+  CGSize expectedAdChoiceImageSize = CGSizeMake(100, 50);
+  UIGraphicsBeginImageContextWithOptions(expectedAdChoiceImageSize, NO, 0.0);
+  UIImage *expectedAdChoiceImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
   [self mockFiveAdImageAssetsLoadWithIconImage:expectedIconImage
                           informationIconImage:expectedAdChoiceImage];
   // In addition to mocking the FiveAd loading methods, mock other native ad assets.
@@ -304,7 +310,9 @@ static CGFloat const AUTLineTestVideoWidth = 123;
   XCTAssertEqualObjects(nativeAd.icon.image, expectedIconImage);
   XCTAssertEqual([nativeAd.adChoicesView class], [UIImageView class]);
   UIImageView *adChoiceImageView = (UIImageView *)nativeAd.adChoicesView;
-  XCTAssertEqualObjects(adChoiceImageView.image, expectedAdChoiceImage);
+  XCTAssertNotNil(adChoiceImageView.image);
+  XCTAssertEqual(adChoiceImageView.image.size.width, 40.0);
+  XCTAssertEqual(adChoiceImageView.image.size.height, 20.0);
   XCTAssertEqualObjects(nativeAd.headline, expectedHeadline);
   XCTAssertEqualObjects(nativeAd.body, expectedBody);
   XCTAssertEqualObjects(nativeAd.callToAction, expectedCallToAction);

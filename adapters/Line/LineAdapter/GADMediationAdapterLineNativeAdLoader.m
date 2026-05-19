@@ -217,9 +217,23 @@ static NSUInteger GADMediationAdapterLineImageAssetLoadingTimeoutInSeconds = 10;
 
     if (informationIconImage) {
       GADMediationAdapterLineLog(@"Finished loading the information icon image.");
-      UIImageView *informationIconImageView =
-          [[UIImageView alloc] initWithImage:informationIconImage];
-      informationIconImageView.contentMode = UIViewContentModeScaleAspectFill;
+
+      // Resize the image to an explicit target height of 20.0 points while scaling the width
+      // proportionally to accommodate information icons of varying aspect ratios or widths.
+      CGFloat originalWidth = informationIconImage.size.width;
+      CGFloat originalHeight = informationIconImage.size.height;
+      CGFloat targetHeight = 20.0;
+      CGFloat targetWidth =
+          (originalHeight > 0.0) ? (originalWidth * targetHeight / originalHeight) : 20.0;
+
+      CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
+      UIGraphicsBeginImageContextWithOptions(targetSize, NO, 0.0);
+      [informationIconImage drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
+      UIImage *resizedIconImage = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+
+      UIImageView *informationIconImageView = [[UIImageView alloc] initWithImage:resizedIconImage];
+      informationIconImageView.contentMode = UIViewContentModeScaleAspectFit;
       strongSelf->_informationIconImageView = informationIconImageView;
     } else {
       GADMediationAdapterLineLog(@"The information icon image couldn't be loaded.");
