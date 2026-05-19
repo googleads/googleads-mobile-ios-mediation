@@ -135,7 +135,11 @@ void GADMAdapterChartboostSetCOPPAUsingRequestConfiguration(void) {
       GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   NSNumber *tagForUnderAgeOfConsent =
       GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+
+  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES] ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
     [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:true]];
   } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
     [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:false]];
