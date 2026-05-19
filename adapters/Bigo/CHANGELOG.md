@@ -1,5 +1,7 @@
 ## BIGO Ads iOS Mediation Adapter Changelog
 
+#### Version 5.2.0.0 (In progress)
+
 #### [Version 5.1.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/bigo/BigoAdapter-5.1.2.0.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to BIGO Ads SDK's COPPA API.
 
