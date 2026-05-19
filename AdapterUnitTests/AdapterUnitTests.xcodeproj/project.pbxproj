@@ -285,6 +285,8 @@
 		CD1E36C42F7B4A9B008DFBF6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
 		CD2338A32F85C1D1009A7D50 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2338502F85C1CB009A7D50 /* placeholder.swift */; };
 		CD29B2802FB3D30A0008BF47 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD29B27F2FB3D3030008BF47 /* placeholder.swift */; };
+		CD381A822FBBBE0400117DB2 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD00AE372FB25CC300F2F45B /* libc++.tbd */; };
+		CD381ADB2FBBBE7A00117DB2 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD381ADA2FBBBE7400117DB2 /* placeholder.swift */; };
 		CD73B2BB2F69E62A00E86C91 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73B2BA2F69E62A00E86C91 /* placeholder.swift */; };
 		CD770AA02F7B39DD00345679 /* placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD770A4D2F7B39D700345679 /* placeholder.swift */; };
 		CD770AA22F7B39F700345679 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0083F12F68CCAB009BAEC3 /* libc++.tbd */; };
@@ -1827,6 +1829,8 @@
 		CD2338A42F85C29D009A7D50 /* IronSourceAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IronSourceAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD29B27F2FB3D3030008BF47 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD29B2812FB3D3310008BF47 /* LiftoffMonetizeAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiftoffMonetizeAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD381ADA2FBBBE7400117DB2 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
+		CD381ADC2FBBBE7C00117DB2 /* LineAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LineAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD73B2BA2F69E62A00E86C91 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770A4D2F7B39D700345679 /* placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholder.swift; sourceTree = "<group>"; };
 		CD770AA12F7B39DE00345679 /* MyTargetAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTargetAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2189,6 +2193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD381A822FBBBE0400117DB2 /* libc++.tbd in Frameworks */,
 				AD6E3B232EA16C4F00818296 /* libAdapter.a in Frameworks */,
 				ADFAAF0E2A33F1F600D92129 /* AdapterUnitTestKit.framework in Frameworks */,
 			);
@@ -3002,6 +3007,7 @@
 		ADADDD412A32528C00FB60E1 /* LineAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				CD381ADA2FBBBE7400117DB2 /* placeholder.swift */,
 				ADD6B4AE2A577FFC00F5D318 /* LineAdapterTests.xctestplan */,
 				ADFAAF032A33C35800D92129 /* AUTLineAdapterTest.m */,
 				ADEAFA4D2A3768AC0036464A /* AUTLineBannerAdTest.m */,
@@ -3009,6 +3015,7 @@
 				ADA4F5BA2A43C71E00B2236A /* AUTLineNativeAdTest.m */,
 				707EE0092CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m */,
 				707EE00D2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m */,
+				CD381ADC2FBBBE7C00117DB2 /* LineAdapterTests-Bridging-Header.h */,
 			);
 			path = LineAdapterTests;
 			sourceTree = "<group>";
@@ -4056,6 +4063,7 @@
 					};
 					ADADDD3F2A32528C00FB60E1 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 2640;
 					};
 					ADE56EC52E1334E8003FF591 = {
 						TestTargetID = AD1705DC2E0F5D2900A64F30;
@@ -5459,6 +5467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				707EE00E2CEEB4CB009DFA7F /* AUTLineRTBInterstitialAdTest.m in Sources */,
+				CD381ADB2FBBBE7A00117DB2 /* placeholder.swift in Sources */,
 				707EE00A2CEEB412009DFA7F /* AUTLineWaterfallInterstitialAdTest.m in Sources */,
 				ADFAAF042A33C35800D92129 /* AUTLineAdapterTest.m in Sources */,
 				ADEAFA4E2A3768AC0036464A /* AUTLineBannerAdTest.m in Sources */,
@@ -10682,6 +10691,9 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "LineAdapterTests/LineAdapterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -10745,6 +10757,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "LineAdapterTests/LineAdapterTests-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
