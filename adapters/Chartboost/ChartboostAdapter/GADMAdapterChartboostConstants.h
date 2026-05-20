@@ -14,6 +14,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <UIKit/UIKit.h>
+
 /// Chartboost mediation network adapter version.
 static NSString *const GADMAdapterChartboostVersion = @"9.12.0.1";
 
@@ -31,3 +33,7 @@ static NSString *const GADMAdapterChartboostErrorDomain = @"com.google.mediation
 
 /// Minimum OS version.
 static NSString *const GADMAdapterChartboostMinimumOSVersion = @"11.0";
+
+#define SYSTEM_VERSION_LESS_THAN(v) \
+  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+

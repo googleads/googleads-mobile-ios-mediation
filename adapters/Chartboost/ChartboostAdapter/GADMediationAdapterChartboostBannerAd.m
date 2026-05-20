@@ -23,8 +23,8 @@
 #include <stdatomic.h>
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
+#import "ChartboostAdapter-Swift.h"
 
 @interface GADMediationAdapterChartboostBannerAd () <CHBBannerDelegate>
 @end
@@ -76,9 +76,8 @@
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+                                                   description:@"App ID and/or App Signature cannot be nil."];
     _completionHandler(nil, error);
     return;
   }
@@ -88,8 +87,7 @@
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             GADMAdapterChartboostMinimumOSVersion];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion description:logMessage];
     _completionHandler(nil, error);
     return;
   }
@@ -97,13 +95,13 @@
   // Convert requested size to Chartboost Ad Size.
   NSError *error = nil;
   CHBBannerSize chartboostAdSize =
-      GADMAdapterChartboostBannerSizeFromAdSize(_adConfig.adSize, &error);
+      [GADMAdapterChartboostUtils bannerSizeFrom:_adConfig.adSize error:&error];
   if (error) {
     _completionHandler(nil, error);
     return;
   }
 
-  NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
+  NSString *adLocation = [GADMAdapterChartboostUtils locationFromAdConfiguration:_adConfig];
   GADMediationAdapterChartboostBannerAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
@@ -119,7 +117,7 @@
                       return;
                     }
 
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    CHBMediation *mediation = [GADMAdapterChartboostUtils mediation];
                     strongSelf->_banner = [[CHBBanner alloc] initWithSize:chartboostAdSize
                                                                  location:adLocation
                                                                 mediation:mediation

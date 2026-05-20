@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "GADMChartboostError.h"
-#import "GADMAdapterChartboostUtils.h"
+#import "ChartboostAdapter-Swift.h"
 
 NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
   NSString *suffix = [NSString stringWithFormat:@"code %lu", (unsigned long)error.code];
@@ -46,7 +46,7 @@ NSError *GADMChartboostErrorForCHBCacheError(CHBCacheError *error) {
 
   NSString *description =
       [NSString stringWithFormat:@"Chartboost SDK returned a cache error: %@", suffix];
-  return GADMAdapterChartboostErrorWithCodeAndDescription(200 + error.code, description);
+  return [GADMAdapterChartboostUtils errorWithCode:200 + error.code description:description];
 }
 
 NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
@@ -73,7 +73,7 @@ NSError *GADMChartboostErrorForCHBShowError(CHBShowError *error) {
   }
   NSString *description =
       [NSString stringWithFormat:@"Chartboost SDK returned a show error: %@", suffix];
-  return GADMAdapterChartboostErrorWithCodeAndDescription(300 + error.code, description);
+  return [GADMAdapterChartboostUtils errorWithCode:300 + error.code description:description];
 }
 
 NSError *GADMChartboostErrorForCHBClickError(CHBClickError *error) {
@@ -92,5 +92,5 @@ NSError *GADMChartboostErrorForCHBClickError(CHBClickError *error) {
   }
   NSString *description =
       [NSString stringWithFormat:@"Chartboost SDK returned a click error: %@", suffix];
-  return GADMAdapterChartboostErrorWithCodeAndDescription(400 + error.code, description);
+  return [GADMAdapterChartboostUtils errorWithCode:400 + error.code description:description];
 }

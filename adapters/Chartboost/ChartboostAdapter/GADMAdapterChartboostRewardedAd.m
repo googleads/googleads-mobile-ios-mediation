@@ -23,8 +23,8 @@
 #include <stdatomic.h>
 
 #import "GADMAdapterChartboostConstants.h"
-#import "GADMAdapterChartboostUtils.h"
 #import "GADMChartboostError.h"
+#import "ChartboostAdapter-Swift.h"
 
 @interface GADMAdapterChartboostRewardedAd () <CHBRewardedDelegate>
 @end
@@ -76,9 +76,8 @@
       stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 
   if (!appID.length || !appSignature.length) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorInvalidServerParameters,
-        @"App ID and/or App Signature cannot be nil.");
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorInvalidServerParameters
+                                                   description:@"App ID and/or App Signature cannot be nil."];
     _completionHandler(nil, error);
     return;
   }
@@ -88,13 +87,12 @@
         stringWithFormat:
             @"Chartboost minimum supported OS version is iOS %@. Requested action is a no-op.",
             GADMAdapterChartboostMinimumOSVersion];
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorMinimumOSVersion, logMessage);
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorMinimumOSVersion description:logMessage];
     _completionHandler(nil, error);
     return;
   }
 
-  NSString *adLocation = GADMAdapterChartboostLocationFromAdConfiguration(_adConfig);
+  NSString *adLocation = [GADMAdapterChartboostUtils locationFromAdConfiguration:_adConfig];
   GADMAdapterChartboostRewardedAd *weakSelf = self;
   [Chartboost startWithAppID:appID
                 appSignature:appSignature
@@ -110,7 +108,7 @@
                       return;
                     }
 
-                    CHBMediation *mediation = GADMAdapterChartboostMediation();
+                    CHBMediation *mediation = [GADMAdapterChartboostUtils mediation];
                     strongSelf->_rewardedAd = [[CHBRewarded alloc] initWithLocation:adLocation
                                                                           mediation:mediation
                                                                            delegate:strongSelf];
@@ -120,8 +118,7 @@
 
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
   if (!_rewardedAd.isCached) {
-    NSError *error = GADMAdapterChartboostErrorWithCodeAndDescription(
-        GADMAdapterChartboostErrorAdNotCached, @"Rewarded ad not cached.");
+    NSError *error = [GADMAdapterChartboostUtils errorWithCode:GADMAdapterChartboostErrorAdNotCached description:@"Rewarded ad not cached."];
     [_adEventDelegate didFailToPresentWithError:error];
     return;
   }
