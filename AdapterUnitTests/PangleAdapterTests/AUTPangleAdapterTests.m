@@ -40,6 +40,9 @@ static int kPangleBiddingTokenFailureCode = 1005;
   OCMVerifyAll(_configMock);
   OCMVerifyAll(_sdkMock);
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 }
 
 - (void)testAdSdkVersionIfPangleVersionHasFourPartsReturnsTheVersion {

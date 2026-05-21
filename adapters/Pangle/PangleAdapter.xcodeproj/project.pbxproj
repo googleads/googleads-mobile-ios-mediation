@@ -50,6 +50,7 @@
 		2BF5FE7B279B0DA2001EFB81 /* GADPangleBannerRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6E279B0C46001EFB81 /* GADPangleBannerRenderer.m */; };
 		2BF5FE7C279B0DA6001EFB81 /* GADPangleRewardedRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */; };
 		2BF5FE7D279B0DAE001EFB81 /* GADPangleInterstitialRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5FE6A279B0C46001EFB81 /* GADPangleInterstitialRenderer.m */; };
+		827ED9E74C1E4A3A77160AC3 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5233FF9B7670ECB47378AF /* Pods_Default_AdapterWithoutValidationScript.framework */; };
 		AD6E389A2EA1665B00818296 /* PangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B3B8D49277A81E7005BB25B /* PangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6E389B2EA1665B00818296 /* GADPangleNetworkExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BBF274A28B34599005D689F /* GADPangleNetworkExtras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6E389C2EA1665B00818296 /* GADPangleAppOpenRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BD310D22A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.h */; };
@@ -163,9 +164,12 @@
 		2BF5FE71279B0C46001EFB81 /* GADPangleRewardedRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GADPangleRewardedRenderer.m; sourceTree = "<group>"; };
 		2BF5FE72279B0C60001EFB81 /* GADMAdapterPangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdapterPangleUtils.h; sourceTree = "<group>"; };
 		2BF5FE73279B0C61001EFB81 /* GADMAdapterPangleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GADMAdapterPangleUtils.m; sourceTree = "<group>"; };
+		4A5233FF9B7670ECB47378AF /* Pods_Default_AdapterWithoutValidationScript.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Default_AdapterWithoutValidationScript.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75E77611CF005B44031A1C0A /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.release.xcconfig"; sourceTree = "<group>"; };
 		AD00C4952B87E246007C85F3 /* PangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6E38B22EA1665B00818296 /* libAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA6BA9A2CF14715009C8FDA /* libStaticPangleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticPangleAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E26926555F9C8905BA6B6C8C /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; path = "Target Support Files/Pods-Default-AdapterWithoutValidationScript/Pods-Default-AdapterWithoutValidationScript.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827ED9E74C1E4A3A77160AC3 /* Pods_Default_AdapterWithoutValidationScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +215,8 @@
 				2B3B8D31277A796F005BB25B /* Configuration */,
 				2B3B8D2E277A7870005BB25B /* BuildScript */,
 				2B3B8D13277A77AA005BB25B /* Products */,
+				7E775B4EA20F3B0ED2B6D992 /* Pods */,
+				A160CE21A0D0B054227E4D06 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -291,6 +298,24 @@
 				2BD310D32A04D5DA000BD7B9 /* GADPangleAppOpenRenderer.m */,
 			);
 			path = Renderer;
+			sourceTree = "<group>";
+		};
+		7E775B4EA20F3B0ED2B6D992 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E26926555F9C8905BA6B6C8C /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */,
+				75E77611CF005B44031A1C0A /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../AdapterUnitTests/Pods;
+			sourceTree = "<group>";
+		};
+		A160CE21A0D0B054227E4D06 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A5233FF9B7670ECB47378AF /* Pods_Default_AdapterWithoutValidationScript.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,6 +423,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6E38AF2EA1665B00818296 /* Build configuration list for PBXNativeTarget "AdapterWithoutValidationScript" */;
 			buildPhases = (
+				1C0CE85E9B47B83D3227C6A3 /* [CP] Check Pods Manifest.lock */,
 				AD6E38992EA1665B00818296 /* Headers */,
 				AD6E38A42EA1665B00818296 /* Sources */,
 				AD6E38AD2EA1665B00818296 /* Frameworks */,
@@ -487,6 +513,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1C0CE85E9B47B83D3227C6A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Default-AdapterWithoutValidationScript-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2BF5FE5D279B01D1001EFB81 /* Framework Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -847,6 +895,7 @@
 		};
 		AD6E38B02EA1665B00818296 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E26926555F9C8905BA6B6C8C /* Pods-Default-AdapterWithoutValidationScript.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -859,6 +908,7 @@
 		};
 		AD6E38B12EA1665B00818296 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 75E77611CF005B44031A1C0A /* Pods-Default-AdapterWithoutValidationScript.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;

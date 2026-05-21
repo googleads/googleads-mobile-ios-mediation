@@ -53,7 +53,8 @@ NSError *_Nonnull GADMAdapterMaioErrorWithCodeAndDescription(GADMAdapterMaioErro
 
 BOOL GADMAdapterMaioIsChildUser(void) {
   GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
-  return [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
+  return requestConfiguration.ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+         [requestConfiguration.tagForChildDirectedTreatment boolValue] ||
          [requestConfiguration.tagForUnderAgeOfConsent boolValue];
 }
 

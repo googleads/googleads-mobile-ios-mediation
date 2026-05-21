@@ -47,6 +47,9 @@
   OCMVerifyAll(_request);
   OCMVerifyAll(_ad);
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
 }
 
 - (nonnull AUTKMediationRewardedAdEventDelegate *)loadAdWithPlacementID:
@@ -119,6 +122,40 @@
 
 - (void)testLoadAdForNonChildAudience {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @NO;
+  [self loadAdWithPlacementID:@"ID"];
+}
+
+- (void)testLoadAdForUnderAgeOfConsent {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @YES;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+}
+
+- (void)testLoadAdForNonUnderAgeOfConsent {
+  GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
+  [self loadAdWithPlacementID:@"ID"];
+}
+
+- (void)testLoadAdForAgeRestrictedChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  NSError *expectedError = [[NSError alloc] initWithDomain:GADMAdapterPangleErrorDomain
+                                                      code:GADPangleErrorChildUser
+                                                  userInfo:nil];
+  [self loadAdFailureWithPlacementID:@"ID" expectedError:expectedError];
+}
+
+- (void)testLoadAdForAgeRestrictedTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  [self loadAdWithPlacementID:@"ID"];
+}
+
+- (void)testLoadAdForAgeRestrictedUnspecified {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [self loadAdWithPlacementID:@"ID"];
 }
 

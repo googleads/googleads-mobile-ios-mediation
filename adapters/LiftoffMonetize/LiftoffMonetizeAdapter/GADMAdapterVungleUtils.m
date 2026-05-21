@@ -50,13 +50,16 @@ VungleAdSize *_Nonnull GADMAdapterVungleConvertGADAdSizeToVungleAdSize(
 }
 
 + (void)updateVungleCOPPAStatusIfNeeded {
-  NSNumber *tagForChildDirectedTreatment =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
-  NSNumber *tagForUnderAgeOfConsent =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  BOOL tagForChildDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment.boolValue;
+  BOOL tagForUnderAgeOfConsent =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent.boolValue;
+  GADAgeRestrictedTreatment *ageRestrictedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment;
+  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild) {
     [VunglePrivacySettings setCOPPAStatus:YES];
-  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+  } else if (!tagForChildDirectedTreatment || !tagForUnderAgeOfConsent) {
     [VunglePrivacySettings setCOPPAStatus:NO];
   }
 }

@@ -30,6 +30,8 @@
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -100,6 +102,36 @@
   NSString *APIKey = @"456";
   OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
   OCMExpect([_mintegralMock setCoppa:MTGBoolNo]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+}
+
+- (void)testSetUpWithAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolYes]);
+
+  AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
+  credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
+
+  AUTKWaitAndAssertAdapterSetUpWithCredentials([GADMediationAdapterMintegral class], credentials);
+  OCMVerifyAll(_mintegralMock);
+}
+
+- (void)testSetUpWithAgeRestrictedTreatmentIsTeen {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  NSString *appID = @"123";
+  NSString *APIKey = @"456";
+  OCMExpect([_mintegralMock setAppID:appID ApiKey:APIKey]);
+  OCMExpect([_mintegralMock setCoppa:MTGBoolUnknown]);
 
   AUTKMediationCredentials *credentials = [[AUTKMediationCredentials alloc] init];
   credentials.settings = @{GADMAdapterMintegralAppID : appID, GADMAdapterMintegralAppKey : APIKey};
