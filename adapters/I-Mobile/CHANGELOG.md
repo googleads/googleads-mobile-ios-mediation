@@ -1,7 +1,11 @@
 ## i-mobile iOS Mediation Adapter Changelog
 
-#### Version 2.3.4.7 (In progress)
+#### [Version 2.3.4.7](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.7.zip)
 - Filter age-restricted requests for i-mobile SDK when new `ageRestrictedTreatment` is set to `GADAgeRestrictedTreatmentChild`.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- i-mobile SDK version 2.3.4.
 
 #### [Version 2.3.4.6](https://dl.google.com/googleadmobadssdk/mediation/ios/imobile/IMobileAdapter-2.3.4.6.zip)
 - Filter age-restricted requests for i-mobile SDK because it cannot receive age-restricted signals.
