@@ -414,7 +414,11 @@ extension GoogleMobileAds.AdSize {
       } else if (self.size.width >= 300 && self.size.height >= 250) {
           return .banner300x250
       // Small banners (320x50) might be used for smaller container sizes, including adaptive inline
-      // The smallest available sizes are 212x50 and 292x41
+      // The smallest available sizes are 212x50 and 292x41.
+      // BidMachine is using ad sizes passed from the bid request,
+      // and the SDK will rely on actual creative size that will respond to the bid request passed value.
+      // This legacy implementation with SDK-level passing ad size for bidding integration
+      // is only used on the BidMachine's backend for additional size validation
       } else if (self.size.height == 0 && self.size.width >= 200) ||
                     (self.size.height >= 40 && self.size.width >= 200) {
           return .banner320x50
