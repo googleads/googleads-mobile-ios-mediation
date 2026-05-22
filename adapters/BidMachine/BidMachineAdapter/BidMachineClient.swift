@@ -146,7 +146,7 @@ final class BidMachineClientImpl: NSObject, BidMachineClient {
     watermark: String,
     completionHandler: @escaping (NSError?) -> Void
   ) throws {
-    let bannerFormat = size.toBiddingPlacementFormat()
+    let bannerFormat = try size.toBiddingPlacementFormat()
     try loadBannerAd(
       with: bidResponse, placementFormat: bannerFormat, delegate: delegate, watermark: watermark,
       completionHandler: completionHandler)
@@ -363,7 +363,7 @@ extension GoogleMobileAds.AdFormat {
           errorCode: .invalidRTBRequestParameters,
           description: "Banner ad format requires ad size.")
       }
-      return size.toBiddingPlacementFormat()
+      return try size.toBiddingPlacementFormat()
     case .interstitial: return .interstitial
     case .rewarded: return .rewarded
     case .native: return .native
@@ -402,9 +402,25 @@ extension GoogleMobileAds.AdSize {
 
   /// Maps an ad size to a BidMachine placement format for bidding requests.
   /// Always returns one of the three supported placements based on dimensions.
-  fileprivate func toBiddingPlacementFormat() -> PlacementFormat {
-    if self.size.height >= 200 { return .banner300x250 }
-    if self.size.width >= 600 { return .banner728x90 }
-    return .banner320x50
+  fileprivate func toBiddingPlacementFormat() throws(BidMachineAdapterError) -> PlacementFormat {
+      // if the requested size is inline adaptive with no height restriction,
+      // the height will be specified as 0.
+      // Leaderboard size (728x90) might be used for large inline adaptive banners
+      // and fixed size leaderboard banner
+      if (self.size.height == 0 || self.size.height >= 90) && self.size.width >= 728 {
+          return .banner728x90
+      // MREC ad size (300x250) can'not be used for inline adaptive banners,
+      // only fixed MREC size is allowed
+      } else if (self.size.width >= 300 && self.size.height >= 250) {
+          return .banner300x250
+      // Small banners (320x50) might be used for smaller container sizes, including adaptive inline
+      // The smallest available sizes are 212x50 and 292x41
+      } else if (self.size.height == 0 && self.size.width >= 200) ||
+                    (self.size.height >= 40 && self.size.width >= 200) {
+          return .banner320x50
+      } else {
+          throw BidMachineAdapterError(
+            errorCode: .unsupportedBannerSize, description: "Unsupported banner size.")
+      }
   }
 }
