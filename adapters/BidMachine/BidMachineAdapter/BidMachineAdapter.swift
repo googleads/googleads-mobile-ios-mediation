@@ -17,7 +17,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBidMachine)
 final class BidMachineAdapter: NSObject, RTBAdapter {
 
-  private static let adapterVersionString = "3.6.1.0"
+  private static let adapterVersionString = "3.7.0.0"
 
   private static let supportedFormats: [AdFormat] = [
     .banner, .interstitial, .rewarded, .native,
@@ -43,13 +43,15 @@ final class BidMachineAdapter: NSObject, RTBAdapter {
       let sourceId = try Util.sourceId(from: configuration)
 
       // Sets COPPA compliance based on MobileAds configuration.
-      // - If either tag is true, treat as COPPA-compliant (true).
-      // - If either tag is false (and neither is true), treat as not COPPA-compliant (false).
+      // - If ageRestrictedTreatment is set to .child, treat as COPPA-compliant (true).
+      // - If either tag (TFCD or TFUA) is true, treat as COPPA-compliant (true).
+      // - If either tag (TFCD or TFUA) is false (and neither is true), treat as not COPPA-compliant (false).
       // - Otherwise, leave as nil.
+      let ageRestrictedTreatment = MobileAds.shared.requestConfiguration.ageRestrictedTreatment
       let isChild = MobileAds.shared.requestConfiguration.tagForChildDirectedTreatment?.boolValue
       let isUnderAge = MobileAds.shared.requestConfiguration.tagForUnderAgeOfConsent?.boolValue
       var isCOPPA: Bool?
-      if isChild == true || isUnderAge == true {
+      if isChild == true || isUnderAge == true || ageRestrictedTreatment == .child {
         isCOPPA = true
       } else if isChild == false || isUnderAge == false {
         isCOPPA = false

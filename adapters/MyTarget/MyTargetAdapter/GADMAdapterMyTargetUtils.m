@@ -146,14 +146,16 @@ MTRGAdSize *_Nullable GADMAdapterMyTargetSizeFromRequestedSize(
 }
 
 void GADMAdapterMyTargetSetUserConsentIfNeeded(void) {
-  NSNumber *tagForChildDirectedTreatment =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
-  NSNumber *tagForUnderAgeOfConsent =
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent;
+  GADRequestConfiguration *requestConfiguration = GADMobileAds.sharedInstance.requestConfiguration;
+  BOOL tagForChildDirectedTreatment = [requestConfiguration.tagForChildDirectedTreatment boolValue];
+  BOOL tagForUnderAgeOfConsent = [requestConfiguration.tagForUnderAgeOfConsent boolValue];
+  GADAgeRestrictedTreatment *ageRestrictedTreatment = requestConfiguration.ageRestrictedTreatment;
 
-  if ([tagForChildDirectedTreatment isEqual:@YES] || [tagForUnderAgeOfConsent isEqual:@YES]) {
+  if (tagForChildDirectedTreatment || tagForUnderAgeOfConsent ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentChild ||
+      ageRestrictedTreatment == GADAgeRestrictedTreatmentTeen) {
     [MTRGPrivacy setUserAgeRestricted:YES];
-  } else if ([tagForChildDirectedTreatment isEqual:@NO] || [tagForUnderAgeOfConsent isEqual:@NO]) {
+  } else if (!tagForChildDirectedTreatment || !tagForUnderAgeOfConsent) {
     [MTRGPrivacy setUserAgeRestricted:NO];
   }
 }

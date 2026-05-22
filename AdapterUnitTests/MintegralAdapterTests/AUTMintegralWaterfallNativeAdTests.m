@@ -74,6 +74,8 @@ static NSString *const kUnitID = @"67890";
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -187,6 +189,29 @@ static NSString *const kUnitID = @"67890";
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   [self loadAd];
   XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolNo);
+
+  XCTAssertEqualObjects([_adLoader headline], @"test app");
+  XCTAssertEqualObjects([_adLoader body], @"app desc");
+  XCTAssertEqualObjects([_adLoader callToAction], @"ad call");
+
+  XCTAssertEqual([_adLoader adChoicesView], _adChoicesViewMock);
+
+  XCTAssertTrue([_adLoader hasVideoContent]);
+  XCTAssertTrue([_adLoader handlesUserImpressions]);
+  XCTAssertTrue([_adLoader handlesUserClicks]);
+
+  XCTAssertNil([_adLoader images]);
+  XCTAssertNil([_adLoader store]);
+  XCTAssertNil([_adLoader price]);
+  XCTAssertNil([_adLoader advertiser]);
+  XCTAssertNil([_adLoader extraAssets]);
+}
+
+- (void)testLoadAdWithAgeRestrictedTreatmentIsChild {
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  [self loadAd];
+  XCTAssertEqual([[MTGSDK sharedInstance] coppa], MTGBoolYes);
 
   XCTAssertEqualObjects([_adLoader headline], @"test app");
   XCTAssertEqualObjects([_adLoader body], @"app desc");

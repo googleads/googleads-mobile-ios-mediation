@@ -33,12 +33,16 @@ static NSUInteger AUTSlotID = 12345;
   [super setUp];
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   _mockPrivacy = OCMClassMock([MTRGPrivacy class]);
 }
 
 - (void)tearDown {
   GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = nil;
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = nil;
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
   [super tearDown];
 }
 
@@ -226,6 +230,57 @@ static NSUInteger AUTSlotID = 12345;
   OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
   GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @NO;
   OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:NO]));
+
+  [self loadNativeAdWithPromoBanner:promoBanner
+                           nativeAd:nativeAd
+                    shouldLoadImage:YES
+                          imageData:imageDataMock];
+
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithNativeAdWithImageWithAgeRestrictedTreatmentChild {
+  MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
+  OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentChild;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  [self loadNativeAdWithPromoBanner:promoBanner
+                           nativeAd:nativeAd
+                    shouldLoadImage:YES
+                          imageData:imageDataMock];
+
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithNativeAdWithImageWithAgeRestrictedTreatmentTeen {
+  MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
+  OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentTeen;
+  OCMExpect(ClassMethod([_mockPrivacy setUserAgeRestricted:YES]));
+
+  [self loadNativeAdWithPromoBanner:promoBanner
+                           nativeAd:nativeAd
+                    shouldLoadImage:YES
+                          imageData:imageDataMock];
+
+  OCMVerifyAll(_mockPrivacy);
+}
+
+- (void)testOnLoadWithNativeAdWithImageWithAgeRestrictedTreatmentUnspecified {
+  MTRGNativePromoBanner *promoBanner = [[MTRGNativePromoBanner alloc] init];
+  MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:AUTSlotID];
+  MTRGImageData *imageDataMock = OCMPartialMock([[MTRGImageData alloc] init]);
+  OCMStub([imageDataMock image]).andReturn([[UIImage alloc] init]);
+  GADMobileAds.sharedInstance.requestConfiguration.ageRestrictedTreatment =
+      GADAgeRestrictedTreatmentUnspecified;
+  OCMReject(ClassMethod([_mockPrivacy setUserAgeRestricted:OCMOCK_ANY]));
 
   [self loadNativeAdWithPromoBanner:promoBanner
                            nativeAd:nativeAd

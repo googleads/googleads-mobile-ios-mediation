@@ -18,7 +18,7 @@ import GoogleMobileAds
 @objc(GADMediationAdapterBigo)
 final class BigoAdapter: NSObject, RTBAdapter {
 
-  static let adapterVersionString = "5.1.2.0"
+  static let adapterVersionString = "5.2.0.0"
 
   /// The app open ad loader.
   private var appOpenAdLoader: AppOpenAdLoader?
@@ -56,7 +56,8 @@ final class BigoAdapter: NSObject, RTBAdapter {
       let requestConfiguration = MobileAds.shared.requestConfiguration
       client.setUserConsent(
         with: requestConfiguration.tagForChildDirectedTreatment,
-        tagForUnderAgeOfConsent: requestConfiguration.tagForUnderAgeOfConsent)
+        tagForUnderAgeOfConsent: requestConfiguration.tagForUnderAgeOfConsent,
+        ageRestrictedTreatment: requestConfiguration.ageRestrictedTreatment)
       client.initialize(
         with: applicationId, testMode: BigoAdapterExtras.testMode
       ) {

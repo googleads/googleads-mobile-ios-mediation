@@ -123,10 +123,8 @@ static CGFloat const DefaultIconScale = 1.0;
   GADMAdapterInMobiRequestParametersMediationType mediationType =
       bidResponseData ? GADMAdapterInMobiRequestParametersMediationTypeRTB
                       : GADMAdapterInMobiRequestParametersMediationTypeWaterfall;
-  NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, mediationType,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent);
+  NSDictionary<NSString *, id> *requestParameters =
+      GADMAdapterInMobiRequestParameters(extras, mediationType);
   [_native setExtras:requestParameters];
 
   if (bidResponseData) {

@@ -160,6 +160,10 @@ public final class MolocoMediationAdapter: NSObject, RTBAdapter {
 
   /// Returns a boolean indicating whether the user is age-restricted or not. nil if not known.
   static func isAgeRestrictedUser() -> Bool? {
+    let ageRestrictedTreatment = MobileAds.shared.requestConfiguration.ageRestrictedTreatment
+    if ageRestrictedTreatment == .child {
+      return true
+    }
     let tagForChildDirectedTreatment = MobileAds.shared.requestConfiguration
       .tagForChildDirectedTreatment
     let tagForUnderAgeOfConsent = MobileAds.shared.requestConfiguration

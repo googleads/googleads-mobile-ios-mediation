@@ -1,5 +1,19 @@
 ## InMobi iOS Mediation Adapter Changelog
 
+#### [Version 11.3.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.3.0.0.zip)
+- Verified compatibility with InMobi SDK 11.3.0.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+- InMobi SDK version 11.3.0.
+
+#### [Version 11.2.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.2.0.1.zip)
+- Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to InMobi SDK's COPPA API.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+- InMobi SDK version 11.2.0.
+
 #### [Version 11.2.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/inmobi/InMobiAdapter-11.2.0.0.zip)
 - Verified compatibility with InMobi SDK 11.2.0.
 

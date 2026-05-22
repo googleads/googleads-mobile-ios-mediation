@@ -54,8 +54,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
 
@@ -95,8 +94,7 @@ GADMediationInterstitialAdConfiguration
                       credentials:credentials
                            extras:extras];
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
   OCMStub([_interstialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
@@ -153,8 +151,7 @@ GADMediationInterstitialAdConfiguration
                       credentials:credentials
                            extras:extras];
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
   OCMStub([_interstialMock load:bidResponseData]).andDo(^(NSInvocation *invocation) {
@@ -220,8 +217,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   // Mock unsuccessful ad loading.
   IMRequestStatus *expectedError = OCMClassMock([IMRequestStatus class]);
@@ -277,8 +273,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
@@ -307,8 +302,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
@@ -337,8 +331,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
@@ -361,8 +354,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
@@ -382,8 +374,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =
@@ -402,8 +393,7 @@ GADMediationInterstitialAdConfiguration
   GADMediationInterstitialAdConfiguration *configuration =
       AUTGADMediationInterstitialAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   [self mockIMInterstitialWithRequestParameters:requestParameters];
   [self mockSuccessfulAdLoading];
   id<GADMediationInterstitialAdEventDelegate> interstitalAdEventDelegate =

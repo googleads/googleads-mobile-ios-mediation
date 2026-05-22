@@ -151,8 +151,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   GADMediationNativeAdConfiguration *configuration =
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeWaterfall);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   [self loadNativeAdSuccessfullyForAdConfiguration:configuration];
@@ -190,8 +189,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   GADMediationNativeAdConfiguration *configuration =
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
@@ -250,8 +248,7 @@ static GADMediationNativeAdConfiguration *_Nonnull AUTGADMediationNativeAdConfig
   GADMediationNativeAdConfiguration *configuration =
       AUTGADMediationNativeAdConfigurationForInMobi();
   NSDictionary<NSString *, id> *requestParameters = GADMAdapterInMobiRequestParameters(
-      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB,
-      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment, nil);
+      configuration.extras, GADMAdapterInMobiRequestParametersMediationTypeRTB);
   OCMExpect([_nativeMock setExtras:requestParameters]);
 
   NSData *bidResponseData = [bidResponse dataUsingEncoding:NSUTF8StringEncoding];
