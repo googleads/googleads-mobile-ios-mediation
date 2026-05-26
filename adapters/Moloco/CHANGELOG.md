@@ -1,5 +1,12 @@
 ## Moloco iOS Mediation Adapter Changelog
 
+#### Version 4.8.1.0 (In progress)
+- Verified compatibility with Moloco SDK version 4.8.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.3.0.
+- Moloco SDK version 4.8.1.
+
 #### [Version 4.6.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/moloco/MolocoAdapter-4.6.1.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to Moloco SDK's COPPA API.
 
