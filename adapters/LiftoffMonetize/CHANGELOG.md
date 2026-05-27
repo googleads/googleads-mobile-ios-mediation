@@ -1,6 +1,11 @@
 ## Liftoff Monetize iOS Mediation Adapter Changelog
 
-#### Version 7.7.3.0 (In progress)
+#### [Version 7.7.3.0](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.3.0.zip)
+- Verified compatibility with Vungle SDK 7.7.3.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- Vungle SDK version 7.7.3.
 
 #### [Version 7.7.2.1](https://dl.google.com/googleadmobadssdk/mediation/ios/liftoffmonetize/LiftoffMonetizeAdapter-7.7.2.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to Vungle SDK's COPPA API.
