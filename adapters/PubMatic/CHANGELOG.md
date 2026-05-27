@@ -1,13 +1,18 @@
 ## PubMatic iOS Mediation Adapter Changelog
 
-#### [Version 5.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.1.1.zip)
+#### [Version 5.1.1.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.1.1.zip)
 - Added support for video asset in native ads using mediaView API.
 
 Built and tested with:
 - Google Mobile Ads SDK version 13.4.0.
 - PubMatic OpenWrap SDK version 5.1.1.
 
-#### Version 5.1.1.0 (In progress)
+#### [Version 5.1.1.0](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.1.0.zip)
+- Verified compatibility with PubMatic OpenWrap SDK version 5.1.1.
+
+Built and tested with:
+- Google Mobile Ads SDK version 13.4.0.
+- PubMatic OpenWrap SDK version 5.1.1.
 
 #### [Version 5.1.0.1](https://dl.google.com/googleadmobadssdk/mediation/ios/pubmatic/PubMaticAdapter-5.1.0.1.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to PutMatic OpenWrap SDK's COPPA API.
