@@ -1,5 +1,8 @@
 ## myTarget iOS Mediation Adapter Changelog
 
+#### Next version
+- Adapter now automatically forwards GDPR consent found inside `IABTCF_AddtlConsent` to the myTarget SDK if GDPR applies.
+
 #### [Version 5.43.0.0](https://dl.google.com/googleadmobadssdk/mediation/ios/mytarget/MyTargetAdapter-5.43.0.0.zip)
 - Adapter now forwards the `ageRestrictedTreatment` Google Mobile Ads SDK flag to myTarget SDK's COPPA API.
 
